@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import plistlib
 import subprocess
 import sys
 import tempfile
@@ -57,6 +58,26 @@ class StatusTest(Fixture):
         self.write_heartbeat()
         result = self.status()
         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+
+    def test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs(self):
+        dead = subprocess.Popen(["/usr/bin/true"])
+        dead.wait(timeout=2)
+        self.write_heartbeat(end=None, exit_code=None, owner_pid=dead.pid, rclone_pid=dead.pid)
+        self.assert_bad("stale")
+        for owner, child in [(os.getpid(), dead.pid), (dead.pid, os.getpid()), (os.getpid(), None)]:
+            with self.subTest(owner=owner, child=child):
+                self.write_heartbeat(end=None, exit_code=None, owner_pid=owner, rclone_pid=child)
+                result = self.status()
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("incomplete", result.stdout)
+                self.assertNotIn("stale", result.stdout)
+
+    def test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success(self):
+        for message in ["Skipped copy as --dry-run is set", "Skipped delete", "Skipping move"]:
+            with self.subTest(message=message):
+                self.write_heartbeat(rclone_exit_code=0)
+                self.run_log.write_text(json.dumps({"level":"notice", "msg":message, "object":"tiny.txt"})+"\n")
+                self.assert_bad("skipped")
 
     def test_stale_and_exact_thirteen_hour_boundary(self):
         for age in [13, 14]:
@@ -141,7 +162,8 @@ class HeartbeatTest(Fixture):
 
     def fake_rclone(self, body):
         path = self.base / "fake-rclone"
-        path.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo "rclone-test"; exit 0; fi\n'+body)
+        path.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo "rclone-test"; exit 0; fi\n'
+                        'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n'+body)
         path.chmod(0o700)
         return str(path)
 
@@ -173,9 +195,15 @@ class HeartbeatTest(Fixture):
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         self.addCleanup(proc.communicate, timeout=4)
         deadline = time.monotonic()+2
-        while not (self.base/"lock/rclone.pid").exists() and proc.poll() is None and time.monotonic()<deadline:
+        while proc.poll() is None and time.monotonic()<deadline:
+            if ((self.base/"lock/rclone.pid").exists() and self.heartbeat.exists() and
+                    json.loads(self.heartbeat.read_text()).get("rclone_pid")):
+                break
             time.sleep(0.01)
         self.assertTrue(self.heartbeat.exists(), "start heartbeat must precede dispatch")
+        value = json.loads(self.heartbeat.read_text())
+        self.assertEqual(value.get("owner_pid"), proc.pid)
+        self.assertEqual(value.get("rclone_pid"), int((self.base/"lock/rclone.pid").read_text()))
         self.assert_bad("incomplete")
         output = proc.communicate(timeout=4)
         self.assertEqual(proc.returncode, 0, output)
@@ -207,39 +235,152 @@ class HeartbeatTest(Fixture):
                 finally:
                     self.heartbeat.parent.chmod(0o700)
 
+    def test_child_pid_publication_failure_reaps_child_and_preserves_raw_failure(self):
+        fake = self.fake_rclone('/bin/chmod 555 "'+str(self.heartbeat.parent)+'"\n/bin/sleep 0.2\nexit 23\n')
+        try:
+            result = self.backup(BACKUP_RCLONE=fake)
+            self.assertEqual(result.returncode, 23, result.stderr)
+            self.assertFalse((self.base/"lock").exists(), "a reaped child permits owned-lock cleanup")
+            self.assertIn("HEARTBEAT-FAILED", result.stderr)
+        finally:
+            self.heartbeat.parent.chmod(0o700)
+
     def test_terminal_publication_cannot_mask_a_newer_active_run(self):
-        entered, release = self.base/"terminal-entered", self.base/"terminal-release"
-        writer = self.base/"paused-python"
-        writer.write_text('#!/bin/bash\ncase "$*" in *" --phase end "*)\n'
-                          'touch "'+str(entered)+'"\n'
-                          'for i in {1..300}; do [ -f "'+str(release)+'" ] && break; /bin/sleep 0.01; done\n'
-                          ';; esac\nexec /usr/bin/python3 "$@"\n')
-        writer.chmod(0o700)
-        first = subprocess.Popen(["/bin/bash", str(BACKUP)], env=dict(self.env, BACKUP_PYTHON=str(writer)),
+        first_entered, first_release = self.base/"first-dispatched", self.base/"first-release"
+        fake = self.fake_rclone('touch "'+str(first_entered)+'"\n'
+                               'for i in {1..500}; do [ -f "'+str(first_release)+'" ] && break; /bin/sleep 0.01; done\n')
+        first = subprocess.Popen(["/bin/bash", str(BACKUP)], env=dict(self.env, BACKUP_RCLONE=fake),
                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        self.addCleanup(first.communicate, timeout=5)
+        self.addCleanup(first.communicate, timeout=8)
+        self.addCleanup(first_release.touch)
         deadline = time.monotonic()+3
-        while not entered.exists() and first.poll() is None and time.monotonic()<deadline:
+        while not first_entered.exists() and first.poll() is None and time.monotonic()<deadline:
             time.sleep(0.01)
-        self.assertTrue(entered.exists(), "positive control: first terminal publication is paused")
+        self.assertTrue(first_entered.exists(), "positive control: A owns the lock and is syncing")
+        paused, resume = self.base/"second-before-lock", self.base/"second-resume"
         dispatched = self.base/"second-dispatched"
-        fake = self.fake_rclone('touch "'+str(dispatched)+'"\n/bin/sleep 1.5\n')
-        second = subprocess.Popen(["/bin/bash", str(BACKUP)], env=dict(self.env, BACKUP_RCLONE=fake),
+        second_release = self.base/"second-release"
+        second_fake = self.base/"second-rclone"
+        second_fake.write_text(Path(fake).read_text().replace(str(first_entered), str(dispatched))
+                               .replace(str(first_release), str(second_release)))
+        second_fake.chmod(0o700)
+        # Pause the actual shell before mkdir, after the old pre-lock publication.
+        # The corrected wrapper reaches this same boundary before publishing start.
+        command = r'''
+pause_lock() {
+  case "$1" in '/bin/mkdir "$LOCK"')
+    trap - DEBUG
+    touch "$PAUSED"
+    for i in {1..500}; do [ -f "$RESUME" ] && break; /bin/sleep 0.01; done
+    ;;
+  esac
+}
+set -T
+trap 'pause_lock "$BASH_COMMAND"' DEBUG
+source "$1"
+'''
+        second = subprocess.Popen(["/bin/bash", "-c", command, str(BACKUP), str(BACKUP)],
+                                  env=dict(self.env, BACKUP_RCLONE=str(second_fake), PAUSED=str(paused), RESUME=str(resume)),
                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        self.addCleanup(second.communicate, timeout=5)
-        deadline = time.monotonic()+2
-        while second.poll() is None and not dispatched.exists() and time.monotonic()<deadline:
+        self.addCleanup(second.communicate, timeout=8)
+        self.addCleanup(second_release.touch)
+        self.addCleanup(resume.touch)
+        deadline = time.monotonic()+3
+        while second.poll() is None and not paused.exists() and time.monotonic()<deadline:
             time.sleep(0.01)
-        release.touch()
+        self.assertTrue(paused.exists(), "positive control: B paused before lock acquisition")
+        self.assertFalse(dispatched.exists())
+        first_release.touch()
         output = first.communicate(timeout=5)
         self.assertEqual(first.returncode, 0, output)
-        if second.poll() is None:
-            result = self.status()
-            self.assertNotEqual(result.returncode, 0, "older terminal success must not mask a newer active sync: "+result.stdout)
-        else:
-            output = second.communicate(timeout=5)
-            self.assertNotEqual(second.returncode, 0, "newer sync must be held until terminal publication finishes")
-            self.assertIn("lock", output[1].lower())
+        self.assertFalse((self.base/"lock").exists(), "A must finish and release ownership before resuming B")
+        resume.touch()
+        deadline = time.monotonic()+3
+        while second.poll() is None and not dispatched.exists() and time.monotonic()<deadline:
+            time.sleep(0.01)
+        self.assertTrue(dispatched.exists(), "B must be admitted and dispatch; a refused contender is not this schedule")
+        self.assertIsNone(second.poll(), "B must still be syncing while status is inspected")
+        result = self.status()
+        self.assertNotEqual(result.returncode, 0, "older terminal success must not mask an admitted newer sync: "+result.stdout)
+        self.assertIn("incomplete", result.stdout)
+
+    def test_held_lock_refusal_cannot_overwrite_owner_heartbeat(self):
+        entered, release = self.base/"owner-dispatched", self.base/"owner-release"
+        fake = self.fake_rclone('touch "'+str(entered)+'"\n'
+                               'for i in {1..500}; do [ -f "'+str(release)+'" ] && break; /bin/sleep 0.01; done\n')
+        owner = subprocess.Popen(["/bin/bash", str(BACKUP)], env=dict(self.env, BACKUP_RCLONE=fake),
+                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        self.addCleanup(owner.communicate, timeout=8)
+        self.addCleanup(release.touch)
+        deadline = time.monotonic()+3
+        while not entered.exists() and owner.poll() is None and time.monotonic()<deadline:
+            time.sleep(0.01)
+        self.assertTrue(entered.exists())
+        time.sleep(0.1)  # Wait for the child PID publication as well as dispatch.
+        previous = self.heartbeat.read_bytes()
+        result = self.backup()
+        self.assertEqual(result.returncode, 75, result.stderr)
+        self.assertEqual(self.heartbeat.read_bytes(), previous, "a non-owner cannot publish over the active owner")
+        refusals = list((self.heartbeat.parent/"refusals").glob("*.json"))
+        self.assertEqual(len(refusals), 1, "a refused schedule needs its own receipt")
+        value = json.loads(refusals[0].read_text())
+        self.assertEqual(value["exit_code"], 75)
+        self.assertEqual(value["bytes_transferred"], 0)
+        self.assert_bad("incomplete")
+
+    def test_behavior_changing_rclone_environment_refuses_without_dispatch(self):
+        dispatched = self.base/"unexpected-dispatch"
+        fake = self.fake_rclone('touch "'+str(dispatched)+'"\n')
+        for name in ["RCLONE_DRY_RUN", "RCLONE_IGNORE_ERRORS", "RCLONE_DELETE_EXCLUDED",
+                     "RCLONE_IGNORE_EXISTING", "RCLONE_FILTER", "RCLONE_CONFIG_FIXTURE_GLOBAL_DRY_RUN"]:
+            with self.subTest(name=name):
+                result = self.backup(BACKUP_RCLONE=fake, **{name:"true"})
+                self.assertNotEqual(result.returncode, 0, result.stderr)
+                self.assertFalse(dispatched.exists(), "unsafe inherited settings must refuse before sync")
+                self.assertIn(name, result.stderr)
+                self.assert_bad("failed")
+
+    def test_remote_global_overrides_refuse_without_dispatch(self):
+        config = self.base/"rclone.conf"
+        dispatched = self.base/"unexpected-dispatch"
+        fake = self.fake_rclone('touch "'+str(dispatched)+'"\nexec '+RCLONE+' "$@"\n')
+        for setting in ["global.dry_run", "global.ignore_errors", "global.delete_excluded", "override.low_level_retries"]:
+            with self.subTest(setting=setting):
+                config.write_text('[fixture]\ntype = local\n'+setting+' = true\n')
+                result = self.backup(BACKUP_RCLONE=fake, RCLONE_CONFIG=str(config),
+                                     BACKUP_DEST="fixture:"+str(self.base/"mirror"))
+                self.assertNotEqual(result.returncode, 0, result.stderr)
+                self.assertFalse(dispatched.exists(), "config overrides must refuse before sync")
+                self.assertIn(setting, result.stderr)
+                self.assert_bad("failed")
+
+    def test_remote_connection_overrides_refuse_without_dispatch(self):
+        dispatched = self.base/"unexpected-dispatch"
+        fake = self.fake_rclone('touch "'+str(dispatched)+'"\n')
+        result = self.backup(BACKUP_RCLONE=fake, BACKUP_DEST=":local,global.dry_run=true:"+str(self.base/"mirror"))
+        self.assertNotEqual(result.returncode, 0, result.stderr)
+        self.assertFalse(dispatched.exists())
+
+    def test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries(self):
+        args = self.base/"sync-args"
+        fake = self.fake_rclone('printf "%s\\n" "$@" > "'+str(args)+'"\nexec '+RCLONE+' "$@"\n')
+        result = self.backup(BACKUP_RCLONE=fake)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        actual = args.read_text().splitlines()
+        for flag in ["--dry-run=false", "--ignore-errors=false", "--delete-excluded=false", "--interactive=false"]:
+            self.assertIn(flag, actual)
+        self.assertEqual(actual[actual.index("--retries")+1], "1")
+        self.assertGreater(int(actual[actual.index("--low-level-retries")+1]), 1)
+
+    def test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night(self):
+        args = self.base/"timetable-args"
+        fake = self.fake_rclone('printf "%s\\n" "$@" > "'+str(args)+'"\nexec '+RCLONE+' "$@"\n')
+        result = self.backup(BACKUP_RCLONE=fake)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        actual = args.read_text().splitlines()
+        self.assertIn("--bwlimit", actual, "D-C10r-rulings-15 requires the operator's upload timetable")
+        self.assertEqual(actual[actual.index("--bwlimit")+1], "08:00,512k 23:00,off")
+        self.assertEqual((self.base/"mirror/tiny.txt").read_bytes(), b"eight!!!")
 
     def test_lock_cleanup_failure_records_failed_outcome(self):
         fake = self.fake_rclone('touch "$BACKUP_LOCK_DIR/unexpected"\n')
@@ -250,8 +391,9 @@ class HeartbeatTest(Fixture):
 
     def log_rclone(self, records, exit_code=1):
         script = self.base/"logged-rclone"
-        script.write_text('#!/usr/bin/python3\nimport json,sys\nfrom pathlib import Path\n'
+        script.write_text('#!/usr/bin/python3\nimport json,sys,subprocess\nfrom pathlib import Path\n'
                           'if sys.argv[1] == "version":\n print("rclone fixture");sys.exit(0)\n'
+                          'if sys.argv[1] == "config":\n sys.exit(subprocess.call(['+repr(RCLONE)+',*sys.argv[1:]]))\n'
                           'path=Path(sys.argv[sys.argv.index("--log-file")+1])\n'
                           'records='+repr(records)+'\n'
                           'path.write_text("".join(json.dumps(record)+"\\n" if not isinstance(record,str) else record+"\\n" for record in records))\n'
@@ -485,6 +627,24 @@ class HeartbeatTest(Fixture):
         value=json.loads(self.heartbeat.read_text())
         self.assertEqual(value["rclone_exit_code"],1)
         self.assertEqual(value["warnings"].count({"kind":"source_vanished","object":"lost.bin"}),1)
+        # Exact Astra negative input: remove both first-attempt suppression records.
+        for removed in [(1, 2), (1,), (2,), (5, 6), (5,), (6,)]:
+            with self.subTest(removed=removed):
+                negative = [item for index, item in enumerate(records) if index not in removed]
+                result = self.backup(BACKUP_RCLONE=self.log_rclone(negative))
+                self.assertEqual(result.returncode, 1, "each attempt boundary needs both suppression records: "+result.stderr)
+                self.assertIn("FATAL", result.stderr)
+                self.assert_bad("failed")
+
+    def test_zero_exit_dry_run_or_skipped_operations_cannot_be_success(self):
+        for message in ["Skipped copy as --dry-run is set", "Skipped delete", "Skipping move"]:
+            with self.subTest(message=message):
+                records = [{"level":"notice", "msg":message, "object":"tiny.txt", "size":8},
+                           {"level":"notice", "stats":{"bytes":8,"errors":0,"fatalError":False}}]
+                result = self.backup(BACKUP_RCLONE=self.log_rclone(records, 0))
+                self.assertEqual(result.returncode, 1, result.stderr)
+                self.assertIn("FATAL", result.stderr)
+                self.assert_bad("failed")
 
     def test_stats_before_final_attempt_do_not_prove_completion(self):
         records=self.vanished_records()
@@ -512,6 +672,71 @@ class HeartbeatTest(Fixture):
         result=self.backup(BACKUP_RCLONE=self.log_rclone(records))
         self.assertEqual(result.returncode,1,result.stderr)
         self.assertIn("FATAL",result.stderr)
+
+
+class LauncherTest(Fixture):
+    def osa_result(self, result, command):
+        output = result.stdout+result.stderr
+        if result.returncode and any(reason in output.lower() for reason in
+                                      ["operation not permitted", "not authorized", "permission denied", "sandbox"]):
+            self.skipTest("UNVERIFIED: "+command+" exit "+str(result.returncode)+": "+output.strip())
+        if result.returncode and any(code in output for code in ["(-2740)", "(-2741)"]):
+            # Check the missing Standard Additions service independently of our source.
+            control = run_process(["/usr/bin/osascript", "-e", '«event sysoexec» "/usr/bin/true"'], timeout=5)
+            if (control.returncode and "com.apple.hiservices-xpcservice" in control.stderr and
+                    "Connection invalid" in control.stderr):
+                self.skipTest("UNVERIFIED: "+command+" exit "+str(result.returncode)+": "+output.strip()+
+                              "; Standard Additions control exit "+str(control.returncode)+": "+control.stderr.strip())
+        self.assertEqual(result.returncode, 0, command+": "+output)
+
+    def test_launchd_waits_for_background_applet(self):
+        with (ROOT/"tools/launchd/com.rhu.memit-gdrive-backup.plist").open("rb") as stream:
+            value = plistlib.load(stream)
+        self.assertEqual(value["ProgramArguments"],
+                         ["/usr/bin/open", "-W", "-g", "/Users/robertrhu/Applications/MemitGdriveBackup.app"])
+        self.assertEqual(value["StartInterval"], 21600)
+        self.assertIs(value["RunAtLoad"], False)
+
+    def test_nonzero_shell_script_is_caught_promptly_without_dialog(self):
+        source = ROOT/"tools/launchd/MemitGdriveBackup.applescript"
+        self.assertTrue(source.is_file(), "no-dialog applet source must exist")
+        marker = self.base/"failing-script-invoked"
+        stub = self.base/"failing-backup.sh"
+        stub.write_text('#!/bin/bash\nprintf invoked > "'+str(marker)+'"\nexit 1\n')
+        variant = self.base/"failure.applescript"
+        text = source.read_text()
+        variant_text = text.replace("/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh", str(stub))
+        self.assertNotEqual(variant_text, text, "variant must actually invoke the exit-1 stub")
+        variant.write_text(variant_text)
+        compiled = self.base/"failure.scpt"
+        result = run_process(["/usr/bin/osacompile", "-o", str(compiled), str(variant)], timeout=10)
+        self.osa_result(result, "osacompile failure variant")
+        self.assertTrue(compiled.is_file())
+        start = time.monotonic()
+        result = run_process(["/usr/bin/osascript", str(compiled)], timeout=5)
+        self.osa_result(result, "osascript exit-1 variant")
+        self.assertLess(time.monotonic()-start, 5)
+        self.assertTrue(marker.is_file(), "positive control: the failing shell script was run")
+
+    def test_builder_compiles_applet_and_prints_complete_sha256_manifest(self):
+        script = ROOT/"tools/launchd/build_gdrive_applet.sh"
+        self.assertTrue(script.is_file(), "applet builder must exist")
+        app = self.base/"test backup.app"
+        result = run_process(["/bin/bash", str(script), str(app)], timeout=15)
+        self.osa_result(result, "build_gdrive_applet.sh")
+        self.assertTrue((app/"Contents/MacOS/applet").is_file())
+        files = {str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in app.rglob("*") if path.is_file()}
+        manifest = {}
+        for line in result.stdout.splitlines():
+            digest, path = line.split("  ", 1)
+            self.assertEqual(len(digest), 64)
+            self.assertNotIn(path, manifest)
+            manifest[path] = digest
+        self.assertEqual(manifest, files)
+        previous = manifest.copy()
+        refused = run_process(["/bin/bash", str(script), str(app)], timeout=10)
+        self.assertNotEqual(refused.returncode, 0, "builder must not overwrite an existing app bundle")
+        self.assertEqual({str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in app.rglob("*") if path.is_file()}, previous)
 
 
 class ArchiveTest(Fixture):

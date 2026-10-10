@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-10T07:49:29.195612+00:00",
+  "command": "LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum tools.test_backup_gdrive -v",
+  "exit_code": 0,
+  "total": 63,
+  "passed": 61,
+  "skipped_unverified": 2,
+  "failures": 0,
+  "errors": 0,
+  "duration_s": 44.607,
+  "receipt": "green_second.txt",
+  "unverified": [
+    "LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest",
+    "LauncherTest.test_nonzero_shell_script_is_caught_promptly_without_dialog"
+  ],
+  "new_tests_with_red": 13,
+  "tightened_tests_with_red": 3,
+  "no_drive_calls": true
+}

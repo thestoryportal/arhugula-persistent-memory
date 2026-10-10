@@ -1,0 +1,42 @@
+{
+  "EXPERIMENT_RUNBOOK.md": {
+    "snapshot": "32c7da4332612b5b0bfc7b86c4cb08e02e6b5973734f8566746aee59c6d81fc3",
+    "current": "efef630f43e95f433a1beaa741c1609361b87bbc7ca0de8e3cd24d722272e41e"
+  },
+  "README.md": {
+    "snapshot": "0f6e0f37d16e7d3771aa68e1e485f8e8b86574d3979c18e8b51a0edacc449e55",
+    "current": "1fb06b3eed11ee6cf4abe99eb2dad8913230e6a6583ab61cbe87651a75e919f7"
+  },
+  "SESSION_BOOTSTRAP.md": {
+    "snapshot": "c8c652469e012c1b4f88e81566f82f200b026f228a909f55fe13a05163631fed",
+    "current": "20dec3f012eda8a20af64a40609ae0a848e72a790ca8ee3e6657e476672e8880"
+  },
+  "SESSION_CHECKPOINT.md": {
+    "snapshot": "e288afcd21cc08119477e38618955c09a4f8fc642d5f25ea74a63093b9123d22",
+    "current": "4430c5be11ade290fb0a780e222df29d4fcaa57ff126950daf2b109c85de58f7"
+  },
+  "docs/program_state.json": {
+    "snapshot": "c1eee40fe5d60f45205af8e8180ef2c13c63f4836ad9d32397c0c6fb16de3037",
+    "current": "79dda77f49b263d79a997966b34c662d7ce4bd2fa1b4d541ea3db8106bb8b25d"
+  },
+  "tools/dashboard_live.py": {
+    "snapshot": "adab10516a889bee1227706597869693a113b7e56af5b2b6757771fd44ecb96b",
+    "current": "413e6b80a435b9581073aa9f51574c34583ecbd98a0b5692a1586ea8e539094e"
+  },
+  "tools/dashboard_report.py": {
+    "snapshot": "cceab82ff4a098b7928d5fd025593f56dfdb8667b6e47727c5056cc2b8610fb9",
+    "current": "997a36f9c93499428c6686cdbaf78adc45c4cce1185d209f3f5b9d405833e398"
+  },
+  "tools/dashboard_subagents.py": {
+    "snapshot": "135de656c1f3d1d7adb14df5c222c9c23728568140b92c8ef048ee22462fbd59",
+    "current": "0238681be5d9c8f699e038f248d641ec39155c7ff5959914c12a1085bdd524c2"
+  },
+  "tools/team_dashboard.sh": {
+    "snapshot": "8e4b441fb58f752ec07cc5c0005b94fc9cffedca7976a1a08a49580185e35fb3",
+    "current": "05d454a2f3cc468b82cb17a8c2211084912334612bf20b3ef55a19bfa5ceeb6f"
+  },
+  "tools/test_dashboard_mathlab.py": {
+    "snapshot": "e45cc86e973fda251f43384f1483ba367c8113582464fdd2af560d1305bfafea",
+    "current": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e"
+  }
+}

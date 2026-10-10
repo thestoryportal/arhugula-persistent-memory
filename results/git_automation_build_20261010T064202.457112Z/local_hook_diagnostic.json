@@ -1,0 +1,33 @@
+{
+  "git_version": "git version 2.54.0 (Apple Git-157)",
+  "reviewed_sha": "3f6a477a1d0921f69256598b1917a1a5431256c2",
+  "delete_exit": 0,
+  "stdout": "Deleted branch merged (was 3f6a477).\n",
+  "stderr": "",
+  "transactions": [
+    {
+      "state": "preparing",
+      "input": "0000000000000000000000000000000000000000 0000000000000000000000000000000000000000 refs/heads/merged\n",
+      "actual_sha": "3f6a477a1d0921f69256598b1917a1a5431256c2",
+      "exit": 0
+    },
+    {
+      "state": "aborted",
+      "input": "0000000000000000000000000000000000000000 0000000000000000000000000000000000000000 refs/heads/merged\n",
+      "actual_sha": "3f6a477a1d0921f69256598b1917a1a5431256c2",
+      "exit": 0
+    },
+    {
+      "state": "prepared",
+      "input": "0000000000000000000000000000000000000000 0000000000000000000000000000000000000000 refs/heads/merged\n",
+      "actual_sha": "3f6a477a1d0921f69256598b1917a1a5431256c2",
+      "exit": 0
+    },
+    {
+      "state": "committed",
+      "input": "0000000000000000000000000000000000000000 0000000000000000000000000000000000000000 refs/heads/merged\n",
+      "actual_sha": "",
+      "exit": 128
+    }
+  ]
+}

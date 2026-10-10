@@ -19,11 +19,13 @@ HEARTBEAT="${BACKUP_HEARTBEAT:-$HOME/Library/Logs/memit-gdrive-backup/last_run.j
 START="$(/bin/date -u +%Y-%m-%dT%H:%M:%SZ)"
 RUN_LOG="$(/usr/bin/dirname "$HEARTBEAT")/runs/$STAMP.jsonl"
 RCLONE_VERSION=""
+RCLONE_PID=0
 LOCK_OWNED=0
 SYNC_ACTIVE=0
 SYNC_STARTED=0
 RCLONE_EXIT_CODE=0
 SYNC_OUTCOME=""
+CHILD_PUBLICATION_FAILED=0
 
 log() {
   local message="backup_gdrive: $STAMP $*"
@@ -35,21 +37,23 @@ log() {
 }
 die() { log "FATAL: $*"; exit 1; }
 write_heartbeat() {
-  "$PYTHON" "$STATUS_TOOL" record --heartbeat "$HEARTBEAT" --phase "$1" \
+  local target="$HEARTBEAT"
+  [ "$LOCK_OWNED" = 1 ] || target="$(/usr/bin/dirname "$HEARTBEAT")/refusals/$STAMP.json"
+  "$PYTHON" "$STATUS_TOOL" record --heartbeat "$target" --phase "$1" \
     --run-id "$STAMP" --start "$START" --exit-code "${2:-0}" \
     --rclone-version "$RCLONE_VERSION" --log "$LOG" --run-log "$RUN_LOG" \
     --sync-started "$SYNC_STARTED" --rclone-exit-code "$RCLONE_EXIT_CODE" \
-    --outcome-json "$SYNC_OUTCOME"
+    --outcome-json "$SYNC_OUTCOME" --owner-pid "$$" --rclone-pid "$RCLONE_PID"
 }
 finish() {
   local status=$?
   trap - EXIT
   # Publish while still holding ownership: an older success must not mask a new run.
-  if ! write_heartbeat end "$status"; then
-    log "HEARTBEAT-FAILED: terminal publication failed; last-run health must refuse"
-    [ "$status" != 0 ] || status=1
-  fi
   if [ "$LOCK_OWNED" = 1 ]; then
+    if ! write_heartbeat end "$status"; then
+      log "HEARTBEAT-FAILED: terminal publication failed; last-run health must refuse"
+      [ "$status" != 0 ] || status=1
+    fi
     if [ "$SYNC_ACTIVE" = 1 ]; then
       log "Lock retained after interruption: a sync child may still be running; inspect $LOCK/rclone.pid before stale-lock recovery."
     elif ! /bin/rm -f "$LOCK/owner" "$LOCK/rclone.pid" || ! /bin/rmdir "$LOCK"; then
@@ -59,6 +63,9 @@ finish() {
         log "HEARTBEAT-FAILED: lock-cleanup failure could not be published"
       fi
     fi
+  elif ! write_heartbeat end "$status"; then
+    log "REFUSAL-RECORD-FAILED: cannot record non-owner refusal"
+    [ "$status" != 0 ] || status=1
   fi
   exit "$status"
 }
@@ -66,19 +73,27 @@ trap finish EXIT
 trap 'log "Interrupted (INT); refusing to unlock an active sync"; exit 130' INT
 trap 'log "Interrupted (TERM/HUP); refusing to unlock an active sync"; exit 143' TERM HUP
 /bin/mkdir -p "$(/usr/bin/dirname "$LOG")" || die "cannot create log directory"
-if [ -x "$RCLONE" ]; then
-  if VERSION_OUTPUT=$("$RCLONE" version); then
-    RCLONE_VERSION="${VERSION_OUTPUT%%$'\n'*}"
-  else
-    die "rclone version probe failed"
-  fi
+/bin/mkdir -p "$(/usr/bin/dirname "$LOCK")" || die "cannot create lock parent"
+if ! /bin/mkdir "$LOCK"; then
+  log "REFUSED: lock held or stale at $LOCK; no sync started. Verify owner/rclone.pid are no longer running before manually removing this lock. Never expire it by age."
+  exit 75
 fi
+LOCK_OWNED=1
+printf '%s\n' "$$ $STAMP" > "$LOCK/owner"
 if ! write_heartbeat start; then
   log "HEARTBEAT-FAILED: start publication failed; no sync dispatched"
   exit 1
 fi
-
 [ -x "$RCLONE" ] || die "rclone missing: $RCLONE"
+if ! "$PYTHON" "$STATUS_TOOL" preflight --rclone "$RCLONE" --source "$SRC" --destination "$DEST"; then
+  die "unsafe or unverified rclone configuration; no sync dispatched"
+fi
+if VERSION_OUTPUT=$("$RCLONE" version); then
+  RCLONE_VERSION="${VERSION_OUTPUT%%$'\n'*}"
+else
+  die "rclone version probe failed"
+fi
+
 [ -f "$EXCLUDES" ] || die "exclude list missing: $EXCLUDES"
 MOUNTS=$(/sbin/mount) || die "cannot inspect mounted volumes"
 case "$MOUNTS" in
@@ -96,34 +111,38 @@ case "$DEST" in
   */?*) ;;
   *) die "DEST must name a directory below its backup parent: $DEST" ;;
 esac
-/bin/mkdir -p "$(/usr/bin/dirname "$LOCK")" || die "cannot create lock parent"
-if ! /bin/mkdir "$LOCK"; then
-  log "REFUSED: lock held or stale at $LOCK; no sync started. Verify owner/rclone.pid are no longer running before manually removing this lock. Never expire it by age."
-  exit 75
-fi
-
-LOCK_OWNED=1
-printf '%s\n' "$$ $STAMP" > "$LOCK/owner"
 log "start $SRC/ -> $DEST/; archive=$DELETED_DIR/; rclone-log=$RUN_LOG"
 /bin/mkdir -p "$(/usr/bin/dirname "$RUN_LOG")" || die "cannot create per-run log directory"
 : > "$RUN_LOG"
 
 # --links preserves rsync -a's symlink intent without traversing symlink targets.
-# No --delete-excluded or --ignore-errors: excluded/history paths stay protected.
+# Explicit false flags preserve exclusions and the IO-error deletion barrier.
 SYNC_ACTIVE=1
 SYNC_STARTED=1
 "$RCLONE" sync "$SRC/" "$DEST/" --backup-dir "$DELETED_DIR/" \
   --exclude-from "$EXCLUDES" --links --log-file "$RUN_LOG" --log-level INFO --use-json-log \
   --exclude '**/.git/objects/**/tmp_obj_*' --exclude '**/.git/objects/tmp_obj_*' \
   --exclude '/.git/objects/**/tmp_obj_*' --exclude '/.git/objects/tmp_obj_*' \
+  --retries 1 --low-level-retries 10 --dry-run=false --interactive=false \
+  --ignore-errors=false --delete-excluded=false --delete-after \
+  --bwlimit '08:00,512k 23:00,off' \
   --stats 1m --stats-log-level NOTICE &
 RCLONE_PID=$!
 printf '%s\n' "$RCLONE_PID" > "$LOCK/rclone.pid"
+if ! write_heartbeat start; then
+  log "HEARTBEAT-FAILED: child PID publication failed; sync child may still be running"
+  CHILD_PUBLICATION_FAILED=1
+fi
 if wait "$RCLONE_PID"; then
   SYNC_ACTIVE=0
 else
   RCLONE_EXIT_CODE=$?
   SYNC_ACTIVE=0
+fi
+if [ "$CHILD_PUBLICATION_FAILED" = 1 ]; then
+  STATUS="$RCLONE_EXIT_CODE"
+  [ "$STATUS" != 0 ] || STATUS=1
+  exit "$STATUS"
 fi
 if SYNC_OUTCOME=$("$PYTHON" "$STATUS_TOOL" classify --source "$SRC" --run-log "$RUN_LOG" --rclone-exit-code "$RCLONE_EXIT_CODE"); then
   [ -n "$SYNC_OUTCOME" ] || die "classification produced no outcome; raw rclone exit $RCLONE_EXIT_CODE; see $RUN_LOG"

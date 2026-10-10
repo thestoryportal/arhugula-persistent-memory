@@ -1,0 +1,12 @@
+{
+  "EXPERIMENT_RUNBOOK.md": "efef630f43e95f433a1beaa741c1609361b87bbc7ca0de8e3cd24d722272e41e",
+  "README.md": "1fb06b3eed11ee6cf4abe99eb2dad8913230e6a6583ab61cbe87651a75e919f7",
+  "SESSION_BOOTSTRAP.md": "20dec3f012eda8a20af64a40609ae0a848e72a790ca8ee3e6657e476672e8880",
+  "SESSION_CHECKPOINT.md": "4430c5be11ade290fb0a780e222df29d4fcaa57ff126950daf2b109c85de58f7",
+  "docs/program_state.json": "79dda77f49b263d79a997966b34c662d7ce4bd2fa1b4d541ea3db8106bb8b25d",
+  "tools/dashboard_live.py": "413e6b80a435b9581073aa9f51574c34583ecbd98a0b5692a1586ea8e539094e",
+  "tools/dashboard_report.py": "997a36f9c93499428c6686cdbaf78adc45c4cce1185d209f3f5b9d405833e398",
+  "tools/dashboard_subagents.py": "0238681be5d9c8f699e038f248d641ec39155c7ff5959914c12a1085bdd524c2",
+  "tools/team_dashboard.sh": "05d454a2f3cc468b82cb17a8c2211084912334612bf20b3ef55a19bfa5ceeb6f",
+  "tools/test_dashboard_mathlab.py": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e"
+}

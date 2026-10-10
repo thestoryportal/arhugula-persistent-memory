@@ -1,0 +1,21 @@
+test_child_pid_publication_failure_reaps_child_and_preserves_raw_failure (tools.test_backup_gdrive_addendum.HeartbeatTest.test_child_pid_publication_failure_reaps_child_and_preserves_raw_failure) ... FAIL
+
+======================================================================
+FAIL: test_child_pid_publication_failure_reaps_child_and_preserves_raw_failure (tools.test_backup_gdrive_addendum.HeartbeatTest.test_child_pid_publication_failure_reaps_child_and_preserves_raw_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 242, in test_child_pid_publication_failure_reaps_child_and_preserves_raw_failure
+    self.assertEqual(result.returncode, 23, result.stderr)
+AssertionError: 1 != 23 : backup_gdrive: 20261010T074120Z-54245 start /private/tmp/gdrive_addendum_1qcuzr2j/source/ -> /private/tmp/gdrive_addendum_1qcuzr2j/mirror/; archive=/private/tmp/gdrive_addendum_1qcuzr2j/.deleted/20261010T074120Z-54245/; rclone-log=/private/tmp/gdrive_addendum_1qcuzr2j/heartbeat/runs/20261010T074120Z-54245.jsonl
+backup_gdrive_status: heartbeat publication failed: [Errno 13] Permission denied: '/private/tmp/gdrive_addendum_1qcuzr2j/heartbeat/.last_run.fay88e2a'
+backup_gdrive: 20261010T074120Z-54245 HEARTBEAT-FAILED: child PID publication failed; sync child may still be running
+backup_gdrive_status: no rclone stats; transferred bytes unknown
+backup_gdrive_status: heartbeat publication failed: [Errno 13] Permission denied: '/private/tmp/gdrive_addendum_1qcuzr2j/heartbeat/.last_run.gg_t71fi'
+backup_gdrive: 20261010T074120Z-54245 HEARTBEAT-FAILED: terminal publication failed; last-run health must refuse
+backup_gdrive: 20261010T074120Z-54245 Lock retained after interruption: a sync child may still be running; inspect /private/tmp/gdrive_addendum_1qcuzr2j/lock/rclone.pid before stale-lock recovery.
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.612s
+
+FAILED (failures=1)

@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_git_automation.py",
+    "-k",
+    "no_checks",
+    "-v"
+  ],
+  "exit_code": 1,
+  "wall_s": 0.04971333313733339,
+  "source_before": {
+    "tools/git_hygiene.py": "35b1e26cc79b0de0163e5eea86fc3c5a647f6fe24af94371e96cefc00a8de0c1",
+    "tools/git_merge_gate.py": "66937de841dce936e97bc3cda47fcb86c24853cd9ffcb94fe448b2fe12fea018",
+    ".github/workflows/ci.yml": "de1295b9f98cdfa52626d250b760ea26f81778518d416b8cfb4ba610522e0c87"
+  },
+  "source_after": {
+    "tools/git_hygiene.py": "35b1e26cc79b0de0163e5eea86fc3c5a647f6fe24af94371e96cefc00a8de0c1",
+    "tools/git_merge_gate.py": "66937de841dce936e97bc3cda47fcb86c24853cd9ffcb94fe448b2fe12fea018",
+    ".github/workflows/ci.yml": "de1295b9f98cdfa52626d250b760ea26f81778518d416b8cfb4ba610522e0c87"
+  }
+}

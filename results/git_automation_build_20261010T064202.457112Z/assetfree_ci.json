@@ -1,0 +1,105 @@
+{
+  "python": "3.11.16 (main, Sep  1 2026, 14:08:22) [Clang 22.1.3 ]",
+  "steps": [
+    {
+      "command": [
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+        "-B",
+        "-S",
+        "tools/render_state.py",
+        "--check"
+      ],
+      "root": "/private/tmp/git_automation_assetfree_oo3c97bs",
+      "site_packages_disabled": true,
+      "assets_absent": [
+        "hf_cache",
+        "covariance_caches",
+        "model",
+        ".venv",
+        "results"
+      ],
+      "exit_code": 0,
+      "wall_s": 0.02046858286485076,
+      "test_summary": [],
+      "log": "assetfree_ci_0.log"
+    },
+    {
+      "command": [
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_git_automation.py",
+        "-v"
+      ],
+      "root": "/private/tmp/git_automation_assetfree_oo3c97bs",
+      "site_packages_disabled": true,
+      "assets_absent": [
+        "hf_cache",
+        "covariance_caches",
+        "model",
+        ".venv",
+        "results"
+      ],
+      "exit_code": 0,
+      "wall_s": 45.60610033292323,
+      "test_summary": [
+        [
+          "56",
+          "45.549"
+        ]
+      ],
+      "log": "assetfree_ci_1.log"
+    },
+    {
+      "command": [
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "-v",
+        "tools.test_c10w_p2_gate",
+        "tools.test_dashboard_live",
+        "tools.test_dashboard_gpu_detector"
+      ],
+      "root": "/private/tmp/git_automation_assetfree_oo3c97bs",
+      "site_packages_disabled": true,
+      "assets_absent": [
+        "hf_cache",
+        "covariance_caches",
+        "model",
+        ".venv",
+        "results"
+      ],
+      "exit_code": 0,
+      "wall_s": 1.8111010410357267,
+      "test_summary": [
+        [
+          "80",
+          "1.704"
+        ]
+      ],
+      "log": "assetfree_ci_2.log"
+    }
+  ],
+  "total_wall_s": 47.437825000146404,
+  "hashes": {
+    "tools/git_hygiene.py": "2f54d6e062ce077897bb231526b635df5645acda7e34714e3470c4263d70821c",
+    "tools/git_merge_gate.py": "c0abaa33a17d7db6c01f5723a6669a60e9bd57bd57b00a673cd09f62161f2984",
+    "tests/test_git_automation.py": "d658df4ca7469e1a78f1752059f493c9757177faa7477beae4af58d7db8873e1",
+    ".github/workflows/ci.yml": "d5998af13b0cd9e0617455b12fdaf681c05429e0969f6593d9e829f5dabff33f"
+  },
+  "snapshot_owned_hashes": {
+    "tools/git_hygiene.py": "2f54d6e062ce077897bb231526b635df5645acda7e34714e3470c4263d70821c",
+    "tools/git_merge_gate.py": "c0abaa33a17d7db6c01f5723a6669a60e9bd57bd57b00a673cd09f62161f2984",
+    "tests/test_git_automation.py": "d658df4ca7469e1a78f1752059f493c9757177faa7477beae4af58d7db8873e1",
+    ".github/workflows/ci.yml": "d5998af13b0cd9e0617455b12fdaf681c05429e0969f6593d9e829f5dabff33f"
+  },
+  "source_manifest": "assetfree_manifest.json"
+}

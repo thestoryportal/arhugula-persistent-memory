@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import re
+import subprocess
 import sys
 import tempfile
 
@@ -13,12 +14,50 @@ DEFAULT = Path.home()/"Library/Logs/memit-gdrive-backup/last_run.json"
 AUTH_ERROR = re.compile(r"invalid_grant|invalid_client|unauthori[sz]ed|authentication failed|"
                         r"cannot fetch token|token.*(?:expired|invalid|revoked)|"
                         r"insufficient authentication scopes|invalid authentication credentials", re.I)
+SKIPPED_OPERATION = re.compile(r"--dry-run\b|\bdry run\b|^\s*skipp(?:ed|ing)\b", re.I)
+
+
+def skipped_operations(text):
+    for line in text.splitlines():
+        try:
+            message = json.loads(line).get("msg", "")
+        except (ValueError, AttributeError):
+            message = line
+        if isinstance(message, str) and SKIPPED_OPERATION.search(message):
+            return True
+    return False
+
+
+def preflight(rclone, source, destination):
+    # RCLONE_CONFIG selects credentials; all other RCLONE_* settings need review.
+    settings = sorted(name for name in os.environ if name.startswith("RCLONE_") and name != "RCLONE_CONFIG")
+    if settings:
+        raise ValueError("unapproved environment settings: " + ", ".join(settings))
+    for path in (source, destination):
+        if not os.path.isabs(path) and (path.startswith(":") or "," in path.split(":", 1)[0]):
+            raise ValueError("remote connection-string overrides are not admitted")
+    result = subprocess.run([rclone, "config", "dump"], capture_output=True, text=True, timeout=30)
+    if result.returncode or not result.stdout.strip():
+        raise ValueError("rclone config probe failed (exit %s); no sync dispatched" % result.returncode)
+    try:
+        config = json.loads(result.stdout)
+    except ValueError as exc:
+        raise ValueError("rclone config probe returned malformed JSON") from exc
+    if (not isinstance(config, dict) or any(not isinstance(section, dict) or
+            any(not isinstance(key, str) or not isinstance(value, str) for key, value in section.items())
+            for section in config.values())):
+        raise ValueError("rclone config probe returned an invalid configuration")
+    overrides = sorted(section + "." + key for section, fields in config.items() for key in fields
+                       if key.lower().startswith(("global.", "override.")))
+    if overrides:
+        # Never print configuration values: the same dump contains OAuth secrets.
+        raise ValueError("unapproved remote global overrides: " + ", ".join(overrides))
 
 
 def classify(source, run_log, raw_exit):
     """Normalize only a complete, independently checked local-source ENOENT run."""
     value = {"rclone_exit_code": raw_exit, "warnings": [], "source_vanish_only": False,
-             "bytes_transferred": None, "stats_status": "missing"}
+             "bytes_transferred": None, "stats_status": "missing", "operations_skipped": False}
 
     def unique_fields(pairs):
         result = {}
@@ -33,6 +72,7 @@ def classify(source, run_log, raw_exit):
 
     try:
         text = Path(run_log).read_text()
+        value["operations_skipped"] = skipped_operations(text)
         items = [json.loads(line, object_pairs_hook=unique_fields, parse_constant=invalid_constant) for line in text.splitlines()]
         if any(not isinstance(item, dict) or not isinstance(item.get("level"), str) or
                ("msg" in item and not isinstance(item["msg"], str)) for item in items):
@@ -75,7 +115,7 @@ def classify(source, run_log, raw_exit):
             return None
         return None
 
-    valid = bool(items) and text.endswith("\n") and not AUTH_ERROR.search(text)
+    valid = bool(items) and text.endswith("\n") and not AUTH_ERROR.search(text) and not value["operations_skipped"]
     pending = []
     suppressed = set()
     last_attempt = None
@@ -117,7 +157,7 @@ def classify(source, run_log, raw_exit):
                 number, total, errors = map(int, attempt.groups()[:3])
                 if (number != attempt_number+1 or number > total or
                         (attempts_total is not None and total != attempts_total) or
-                        errors != len(pending) or not pending or attempt[4] not in pending):
+                        errors != len(pending) or not pending or attempt[4] not in pending or len(suppressed) != 2):
                     valid = False
                 last_attempt = (errors, set(pending), set(suppressed))
                 attempt_number, attempts_total = number, total
@@ -164,6 +204,7 @@ def record(args):
              "wrapper_log": str(log), "wrapper_log_offset": stat.st_size if stat else 0,
              "wrapper_log_identity": [stat.st_dev, stat.st_ino] if stat else None,
              "rclone_exit_code": args.rclone_exit_code if args.phase == "end" and args.sync_started else None,
+             "owner_pid": args.owner_pid, "rclone_pid": args.rclone_pid or None,
              "warnings": []}
     if args.phase == "end" and args.sync_started:
         outcome = json.loads(args.outcome_json) if args.outcome_json else {}
@@ -198,12 +239,30 @@ def health(path):
         if not isinstance(value, dict) or not required.issubset(value) or value["schema"] != 1:
             return False, "malformed heartbeat"
         if value["end"] is None or value["exit_code"] is None:
+            owner, child = value.get("owner_pid"), value.get("rclone_pid")
+            if type(owner) is int and owner > 0 and (child is None or type(child) is int and child > 0):
+                def alive(pid):
+                    if pid is None:
+                        return False
+                    try:
+                        os.kill(pid, 0)
+                        return True
+                    except ProcessLookupError:
+                        return False
+                    except PermissionError:
+                        return True
+                if not alive(owner) and not alive(child):
+                    return False, "stale incomplete backup: owner and rclone PIDs are dead"
             return False, "incomplete backup run"
         if type(value["exit_code"]) is not int:
             return False, "malformed exit code"
         run_log = Path(value["log_path"])
-        if run_log.exists() and AUTH_ERROR.search(run_log.read_text()):
-            return False, "token/auth error detected in last run log"
+        if run_log.exists():
+            text = run_log.read_text()
+            if AUTH_ERROR.search(text):
+                return False, "token/auth error detected in last run log"
+            if skipped_operations(text):
+                return False, "failed/unverified backup: dry-run or skipped operations in last run log"
         if value["exit_code"] != 0:
             return False, "failed backup (exit %s)" % value["exit_code"]
         start, end = (dt.datetime.fromisoformat(value[key].replace("Z", "+00:00")) for key in ("start", "end"))
@@ -258,6 +317,17 @@ def health(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--heartbeat", default=str(DEFAULT))
+    if sys.argv[1:2] == ["preflight"]:
+        parser.add_argument("--rclone", required=True)
+        parser.add_argument("--source", required=True)
+        parser.add_argument("--destination", required=True)
+        args = parser.parse_args(sys.argv[2:])
+        try:
+            preflight(args.rclone, args.source, args.destination)
+            return 0
+        except (OSError, ValueError, subprocess.TimeoutExpired) as exc:
+            print("backup_gdrive_status: preflight refused: " + str(exc), file=sys.stderr)
+            return 1
     if sys.argv[1:2] == ["classify"]:
         parser.add_argument("--source", required=True)
         parser.add_argument("--run-log", required=True)
@@ -265,6 +335,8 @@ def main():
         args = parser.parse_args(sys.argv[2:])
         outcome = classify(args.source, args.run_log, args.rclone_exit_code)
         print(json.dumps(outcome, sort_keys=True))
+        if outcome["operations_skipped"]:
+            return args.rclone_exit_code or 1
         return 0 if args.rclone_exit_code == 0 or outcome["source_vanish_only"] else args.rclone_exit_code
     if sys.argv[1:2] == ["record"]:
         parser.add_argument("--phase", choices=("start", "end"), required=True)
@@ -277,6 +349,8 @@ def main():
         parser.add_argument("--sync-started", type=int, choices=(0, 1), default=0)
         parser.add_argument("--rclone-exit-code", type=int)
         parser.add_argument("--outcome-json", default="")
+        parser.add_argument("--owner-pid", type=int)
+        parser.add_argument("--rclone-pid", type=int, default=0)
         args = parser.parse_args(sys.argv[2:])
         try:
             record(args)

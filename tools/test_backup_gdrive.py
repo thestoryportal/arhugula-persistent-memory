@@ -82,6 +82,51 @@ class BackupTest(unittest.TestCase):
         self.assertEqual([p.read_text() for p in archived.glob("*/gone.txt")], ["deleted version"])
         self.assertFalse(self.lock.exists())
 
+    def test_changing_source_between_sync_attempts_cannot_overwrite_archived_history(self):
+        # Native whole-sync retries reuse --backup-dir and would replace v0 with v1.
+        (self.src / "keep.txt").unlink()
+        current = self.src / "a.bin"
+        v0, v1, v2 = b"old version", b"1" * (128 << 10), b"2" * (144 << 10)
+        current.write_bytes(v1)
+        lost = self.src / "z_lost.bin"
+        lost.write_bytes(b"queued then vanished")
+        self.dest.mkdir()
+        (self.dest / "a.bin").write_bytes(v0)
+        controlled = self.base / "controlled-rclone"
+        controlled.write_text('#!/bin/bash\nif [ "$1" != sync ]; then exec /opt/homebrew/bin/rclone "$@"; fi\n'
+                              'exec /opt/homebrew/bin/rclone "$@" --disable Copy --bwlimit 128k '
+                              '--transfers 1 --check-first --order-by name --retries-sleep 600ms\n')
+        controlled.chmod(0o700)
+        proc = subprocess.Popen(["/bin/bash", str(SCRIPT)], env=dict(self.env, BACKUP_RCLONE=str(controlled)),
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        self.addCleanup(proc.communicate, timeout=10)
+        deadline = time.monotonic() + 4
+        while not list((self.base / ".deleted").glob("*/a.bin")) and time.monotonic() < deadline and proc.poll() is None:
+            time.sleep(0.005)
+        self.assertTrue(list((self.base / ".deleted").glob("*/a.bin")),
+                        "positive control: first replacement transfer started")
+        lost.unlink()
+        changed = False
+        deadline = time.monotonic() + 5
+        while time.monotonic() < deadline:
+            logs = list((self.base / "runs").glob("*.jsonl"))
+            if logs and "Attempt 1/" in logs[0].read_text():
+                self.assertEqual((self.dest / "a.bin").read_bytes(), v1,
+                                 "first attempt must upload v1 before source changes to v2")
+                current.write_bytes(v2)
+                changed = True
+                break
+            if proc.poll() is not None:
+                break
+            time.sleep(0.005)
+        self.assertTrue(changed, "positive control: source changed at the native retry boundary")
+        output = proc.communicate(timeout=10)
+        self.assertEqual(proc.returncode, 0, output)
+        archived = list((self.base / ".deleted").glob("*/a.bin"))
+        self.assertEqual(len(archived), 1)
+        self.assertTrue(archived[0].read_bytes() == v0, "a retry must never replace the oldest archived version")
+        self.assertEqual((self.dest / "a.bin").read_bytes(), v1, "a second whole-sync attempt must not run")
+
     def test_held_lock_refuses_and_logs_without_changing_destination(self):
         self.lock.mkdir()
         (self.lock / "owner").write_text(str(os.getpid()))
@@ -117,7 +162,8 @@ class BackupTest(unittest.TestCase):
     def test_interruption_retains_lock_while_child_may_still_run(self):
         # A controlled slow external process makes the shell's signal window reproducible.
         slow = self.base / "slow-rclone"
-        slow.write_text("#!/bin/bash\nif [ \"$1\" = version ]; then echo rclone-test; exit 0; fi\nexec /bin/sleep 2\n")
+        slow.write_text("#!/bin/bash\nif [ \"$1\" = version ]; then echo rclone-test; exit 0; fi\n"
+                        "if [ \"$1\" = config ]; then exec /opt/homebrew/bin/rclone \"$@\"; fi\nexec /bin/sleep 2\n")
         slow.chmod(0o700)
         proc = subprocess.Popen(["/bin/bash", str(SCRIPT)], env=dict(self.env, BACKUP_RCLONE=str(slow)),
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -138,7 +184,9 @@ class BackupTest(unittest.TestCase):
         # Killing only Bash leaves its child writing and its capture pipes open.
         slow = self.base / "slow-rclone"
         heartbeat = self.base / "heartbeat"
-        slow.write_text("#!/bin/bash\nif [ \"$1\" = version ]; then echo rclone-test; exit 0; fi\nfor i in {1..150}; do printf x >> '" + str(heartbeat) + "'; /bin/sleep 0.02; done\n")
+        slow.write_text("#!/bin/bash\nif [ \"$1\" = version ]; then echo rclone-test; exit 0; fi\n"
+                        "if [ \"$1\" = config ]; then exec /opt/homebrew/bin/rclone \"$@\"; fi\n"
+                        "for i in {1..150}; do printf x >> '" + str(heartbeat) + "'; /bin/sleep 0.02; done\n")
         slow.chmod(0o700)
         start = time.monotonic()
         with self.assertRaises(subprocess.TimeoutExpired):

@@ -1,0 +1,7 @@
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.HeartbeatTest.test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night -v
+test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night (tools.test_backup_gdrive_addendum.HeartbeatTest.test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.536s
+
+OK

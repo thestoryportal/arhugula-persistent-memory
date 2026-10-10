@@ -1,0 +1,63 @@
+[
+  {
+    "args": [
+      "/bin/bash",
+      "-n",
+      "tools/backup_gdrive.sh"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/bin/bash",
+      "-n",
+      "tools/launchd/build_gdrive_applet.sh"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/plutil",
+      "-lint",
+      "tools/launchd/com.rhu.memit-gdrive-backup.plist"
+    ],
+    "exit_code": 0,
+    "stdout": "tools/launchd/com.rhu.memit-gdrive-backup.plist: OK\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "git",
+      "diff",
+      "--check",
+      "--",
+      "tools/backup_gdrive.sh",
+      "tools/backup_gdrive_status.py",
+      "tools/launchd/com.rhu.memit-gdrive-backup.plist",
+      "tools/test_backup_gdrive.py",
+      "tools/test_backup_gdrive_addendum.py",
+      "tools/launchd/MemitGdriveBackup.applescript",
+      "tools/launchd/build_gdrive_applet.sh",
+      "results/backup_gdrive_build_report.md"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "python_ast": "tools/backup_gdrive_status.py",
+    "status": "PASS"
+  },
+  {
+    "python_ast": "tools/test_backup_gdrive.py",
+    "status": "PASS"
+  },
+  {
+    "python_ast": "tools/test_backup_gdrive_addendum.py",
+    "status": "PASS"
+  }
+]

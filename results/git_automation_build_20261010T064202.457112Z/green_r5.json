@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_git_automation.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "wall_s": 44.49559941585176,
+  "hashes_before": {
+    "tools/git_hygiene.py": "2f54d6e062ce077897bb231526b635df5645acda7e34714e3470c4263d70821c",
+    "tools/git_merge_gate.py": "c0abaa33a17d7db6c01f5723a6669a60e9bd57bd57b00a673cd09f62161f2984",
+    "tests/test_git_automation.py": "d658df4ca7469e1a78f1752059f493c9757177faa7477beae4af58d7db8873e1",
+    ".github/workflows/ci.yml": "08fba2e105bc6284fd2b150b9e88a4ab7c91bdffbbe118f06b3f54b2da63a6b4"
+  },
+  "hashes_after": {
+    "tools/git_hygiene.py": "2f54d6e062ce077897bb231526b635df5645acda7e34714e3470c4263d70821c",
+    "tools/git_merge_gate.py": "c0abaa33a17d7db6c01f5723a6669a60e9bd57bd57b00a673cd09f62161f2984",
+    "tests/test_git_automation.py": "d658df4ca7469e1a78f1752059f493c9757177faa7477beae4af58d7db8873e1",
+    ".github/workflows/ci.yml": "08fba2e105bc6284fd2b150b9e88a4ab7c91bdffbbe118f06b3f54b2da63a6b4"
+  },
+  "python": "3.11.16 (main, Sep  1 2026, 14:08:22) [Clang 22.1.3 ]"
+}

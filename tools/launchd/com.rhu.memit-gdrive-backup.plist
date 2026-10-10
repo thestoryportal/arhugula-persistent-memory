@@ -4,13 +4,15 @@
 <dict>
     <key>Label</key>
     <string>com.rhu.memit-gdrive-backup</string>
-    <!-- Install only after review. This direct bash launcher needs macOS access
-         to Removable Volumes; the old MemitBackup.app's grant does not transfer.
-         Deploy the reviewed script to this main-checkout path before activation. -->
+    <!-- Install only after review and the operator's Removable Volumes grant.
+         Deploy the reviewed wrapper to the main checkout and build the applet
+         before activation. Backup health comes from the wrapper's heartbeat. -->
     <key>ProgramArguments</key>
     <array>
-        <string>/bin/bash</string>
-        <string>/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh</string>
+        <string>/usr/bin/open</string>
+        <string>-W</string>
+        <string>-g</string>
+        <string>/Users/robertrhu/Applications/MemitGdriveBackup.app</string>
     </array>
     <key>StartInterval</key>
     <integer>21600</integer>
