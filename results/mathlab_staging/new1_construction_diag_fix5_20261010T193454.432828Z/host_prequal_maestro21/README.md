@@ -12,3 +12,8 @@ Commands are `build_report.md:106–108`, chained with `&&` so the batch stops o
 | `shasum -c candidate_sha256.txt` after | 14/14 OK |
 
 Step 3 is complete: 20/20 solo, 3/3 full. Step 4 (`fix5_inherited_mask_launch_01`, one run) still needs new operator authorization. The 100 solo + 10 full host bar is not yet earned.
+
+## Step 4 — `fix5_inherited_mask_launch_01` (operator-authorized once via AskUserQuestion, 2026-10-10 ~20:09Z)
+
+One run, 20:09:30Z, rc 0, quiet host (after the Drive suite finished). Receipts are in `../fix5_inherited_mask_launch_01/`.
+Before exec: mask `[2,14]`, pending `[2,14]`. The fresh interpreter entered with the same mask and pending set and never reset the mask. Construction main refused at preflight with `INVALID-ENFORCEMENT: caller blocks SIGALRM or SIGINT`, Python return 2 and native exit 2. It made no calls, took no ownership and produced no output files. Mask, pending set, handlers and timer were identical before and after. Parent time was 0.000228 s (bar < 0.3 s). The loaded source hashes `744f0633…` / `919b3a11…` match the candidate. PASS.
