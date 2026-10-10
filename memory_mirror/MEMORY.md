@@ -132,3 +132,4 @@
 - [Trim builder reading lists](trim-builder-reading-lists.md) — MB23's 4-item reading pass cost 36% context before any edit; give line ranges or split read/build
 - [Codex hook-trust prompt at launch](codex-hook-trust-prompt-at-launch.md) — fresh builder may stall on hook trust; check pane ~20 s, send 3 (no new trust)
 - [Read handoff before launching successor](read-handoff-before-launching-successor.md) — a 40%-stop may be a finished build; verify, do not relaunch
+- [Dry admission probe before one-shot](dry-admission-probe-before-one-shot.md) — read-only probe('cpu') first so a refusal can't burn a single authorized attempt
