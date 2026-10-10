@@ -39,7 +39,7 @@
 - [Dashboard live derivation](dashboard-live-derivation.md) — Write 'awaiting operator' in the §5.2 status cell to surface a pending ruling
 - [gdrive rclone remote](gdrive-rclone-remote.md) — gdrive: is the archive tier; after publishing OAuth app run config reconnect
 - [InfraNodus is a lens](infranodus-discourse-lens-not-coverage-tool.md) — For coverage questions enumerate, triage, read; use InfraNodus only to rank gaps
-- [Interim SSD mirror (MemitBackup)](backup-via-memitbackup-app.md) — On 'Operation not permitted' check the app's Removable Volumes grant, never FDA
+- [Interim SSD mirror (MemitBackup)](backup-via-memitbackup-app.md) — Removable Volumes grant, never FDA; applet error dialogs hang launchd silently (exit 0) — try-wrap, judge by heartbeat
 - [Memory paths + mirror sync](memory-paths-and-mirror-discipline.md) — Keep LIVE memory and memory_mirror identical; never cp a thin dir over MEMORY.md
 - [Model and compute allocation](model-and-compute-allocation.md) — Sonnet subagents; Codex builders in tmux on gpt-6.1-sol max, not codex exec
 - [NotebookLM via Browser Harness](notebooklm-via-browser-harness.md) — CLI is broken; use Browser Harness in signed-in Chrome; answers are advisory
