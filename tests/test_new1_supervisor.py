@@ -1443,4 +1443,238 @@ send({'type':'complete','path':'geometry.json'})
         self.assertEqual(reaped,[123])
 
 
+    @contextlib.contextmanager
+    def resource_release_fixture(self,f,boundary,error):
+        released=[]; path_open=Path.open
+        class Selector:
+            __exit__=self.S.selectors.BaseSelector.__exit__
+            def __enter__(handle): return f.selector
+            def close(handle):
+                released.append('selector')
+                if boundary=='selector': raise error
+        class Log:
+            def __init__(handle,stream,label): handle.stream=stream; handle.label=label
+            def __enter__(handle): return handle.stream.__enter__()
+            def __exit__(handle,*args): handle.close()
+            def close(handle):
+                released.append(handle.label); handle.stream.close()
+                if boundary==handle.label: raise error
+        def open_log(path,*args,**kwargs):
+            stream=path_open(path,*args,**kwargs)
+            for label in ('stdout','stderr'):
+                if path==self.run/('worker_'+label+'.log'): return Log(stream,label)
+            return stream
+        f.parent.close.side_effect=lambda:released.append('parent')
+        f.child.close.side_effect=lambda:released.append('child')
+        with mock.patch.object(self.S.selectors,'DefaultSelector',return_value=Selector()),\
+             mock.patch.object(Path,'open',open_log):
+            yield released
+
+    @contextlib.contextmanager
+    def interrupted_reap_fixture(self,f,internal_poll,expected):
+        import sys
+        reaped=[]; interrupted=[]
+        f.process._waitpid_lock.acquire.return_value=True
+        f.process._handle_exitstatus.side_effect=lambda status:setattr(f.process,'returncode',0)
+        def waitpid(pid,flags):
+            self.assertEqual((pid,flags),(123,os.WNOHANG)); reaped.append(pid)
+            return pid,0
+        def trace(frame,event,arg):
+            if (frame.f_code is internal_poll.__code__ and event=='line'
+                    and frame.f_locals.get('pid')==123 and not interrupted):
+                self.assertEqual(reaped,[123]); interrupted.append(f.process.returncode)
+                signal.raise_signal(signal.SIGINT)
+            return trace
+        f.process.poll.side_effect=lambda:internal_poll(f.process,_waitpid=waitpid)
+        def wait(*,timeout): f.process.returncode=0; return 0
+        f.process.wait.side_effect=wait
+        previous_handler=signal.getsignal(signal.SIGINT); previous_trace=sys.gettrace()
+        def interrupt(signum,frame): raise expected
+        try:
+            signal.signal(signal.SIGINT,interrupt); sys.settrace(trace)
+            yield SimpleNamespace(reaped=reaped,interrupted=interrupted)
+        finally:
+            sys.settrace(previous_trace); signal.signal(signal.SIGINT,previous_handler)
+
+    def assert_resource_releases(self,released):
+        for name in ('selector','stdout','stderr','parent','child'):
+            self.assertIn(name,released,'release error prevented a remaining resource release')
+        for name in ('selector','stdout','stderr'): self.assertEqual(released.count(name),1)
+
+    def test_resource_release_preserves_control_after_interrupted_poll(self):
+        internal_poll=subprocess.Popen._internal_poll
+        for boundary in ('selector','stdout','stderr'):
+            for expected in (KeyboardInterrupt(),SystemExit(17)):
+                with self.subTest(boundary=boundary,control=type(expected).__name__):
+                    self.run=self.root/(boundary+type(expected).__name__); self.run.mkdir()
+                    caught=None; outcome=None; failure=OSError('fixture '+boundary+' close failed')
+                    with self.reap_fixture() as f:
+                        f.kill_group.side_effect=PermissionError('fixture group signal denied')
+                        with self.resource_release_fixture(f,boundary,failure) as released,\
+                             self.interrupted_reap_fixture(f,internal_poll,expected) as replay:
+                            try: outcome=self.supervise_reap_fixture()
+                            except BaseException as error: caught=error
+                    self.assertEqual(replay.reaped,[123]); self.assertEqual(replay.interrupted,[None])
+                    f.kill_pid.assert_not_called(); f.process.wait.assert_called_once_with(timeout=5)
+                    self.assert_resource_releases(released)
+                    self.assertIs(caught,expected,
+                        f'{boundary} release lost original control after waitpid; returned {outcome!r}')
+                    self.assertTrue(any(str(failure) in note for note in expected.__notes__))
+                    if isinstance(expected,SystemExit): self.assertEqual(expected.code,17)
+
+    def test_resource_release_preserves_control_from_heartbeat_cleanup(self):
+        for boundary in ('selector','stdout','stderr'):
+            for expected in (KeyboardInterrupt(),SystemExit(17)):
+                with self.subTest(boundary=boundary,control=type(expected).__name__):
+                    self.run=self.root/(boundary+type(expected).__name__); self.run.mkdir()
+                    caught=None; outcome=None; failure=OSError('fixture '+boundary+' close failed')
+                    with self.reap_fixture() as f:
+                        def heartbeat(timeout):
+                            with mock.patch.object(f.controller,'observe',
+                                    side_effect=self.S.Stop('STOPPED-RESOURCE','fixture heartbeat stop')):
+                                f.heartbeat()
+                        f.selector.select.side_effect=heartbeat
+                        f.kill_group.side_effect=PermissionError('fixture group signal denied')
+                        f.kill_pid.side_effect=[expected,None]
+                        with self.resource_release_fixture(f,boundary,failure) as released:
+                            try: outcome=self.supervise_reap_fixture()
+                            except BaseException as error: caught=error
+                    f.process.wait.assert_called_once_with(timeout=5)
+                    self.assert_resource_releases(released)
+                    self.assertIs(caught,expected,
+                        f'{boundary} release lost heartbeat cleanup control; returned {outcome!r}')
+                    self.assertTrue(any(str(failure) in note for note in expected.__notes__))
+                    if isinstance(expected,SystemExit): self.assertEqual(expected.code,17)
+
+    def test_resource_release_precedence_and_unmasked_release_error(self):
+        for boundary in ('selector','stdout','stderr'):
+            for failure in (OSError('fixture ordinary close failed'),KeyboardInterrupt(),SystemExit(23)):
+                with self.subTest(boundary=boundary,release=type(failure).__name__):
+                    self.run=self.root/(boundary+type(failure).__name__); self.run.mkdir()
+                    original=self.S.Stop('STOPPED-RESOURCE','fixture ordinary stop'); caught=None; outcome=None
+                    with self.reap_fixture() as f:
+                        f.selector.select.side_effect=original
+                        with self.resource_release_fixture(f,boundary,failure) as released:
+                            try: outcome=self.supervise_reap_fixture()
+                            except BaseException as error: caught=error
+                    f.process.wait.assert_called_once_with(timeout=5); self.assert_resource_releases(released)
+                    if isinstance(failure,(KeyboardInterrupt,SystemExit)): self.assertIs(caught,failure)
+                    else:
+                        self.assertEqual(outcome,'STOPPED-RESOURCE','ordinary release replaced original Stop')
+                        self.assertTrue(any(str(failure) in note for note in original.__notes__))
+        for boundary in ('selector','stdout','stderr'):
+            for original,failure in ((KeyboardInterrupt(),SystemExit(23)),(SystemExit(17),KeyboardInterrupt())):
+                with self.subTest(boundary=boundary,original=type(original).__name__,release=type(failure).__name__):
+                    self.run=self.root/(boundary+'original'+type(original).__name__); self.run.mkdir()
+                    caught=None
+                    with self.reap_fixture() as f:
+                        f.selector.select.side_effect=original
+                        with self.resource_release_fixture(f,boundary,failure) as released:
+                            try: self.supervise_reap_fixture()
+                            except BaseException as error: caught=error
+                    f.process.wait.assert_called_once_with(timeout=5); self.assert_resource_releases(released)
+                    self.assertIs(caught,original,'release control replaced the original control exception')
+                    if isinstance(original,SystemExit): self.assertEqual(original.code,17)
+        self.run=self.root/'root-close'; self.run.mkdir()
+        failure=OSError('fixture unmasked socket close failed')
+        with self.reap_fixture() as f:
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture already handled stop')
+            f.parent.close.side_effect=failure
+            caught=None
+            try: self.supervise_reap_fixture()
+            except BaseException as error: caught=error
+        self.assertIs(caught,failure,'release error with no in-flight exception was suppressed')
+        f.process.wait.assert_called_once_with(timeout=5); f.child.close.assert_called()
+
+    def supervise_ownership_audit(self,source):
+        import ast
+        tree=ast.parse(source); function=tree.body[0]; inspected=[]; problems=[]
+        def tag(node):
+            if isinstance(node,ast.Name): return node.id
+            if isinstance(node,ast.Attribute):
+                base=tag(node.value) if isinstance(node.value,(ast.Name,ast.Attribute)) else 'expression'
+                return base+'.'+node.attr
+            if (isinstance(node,ast.BoolOp) and isinstance(node.values[0],ast.Name)
+                    and node.values[0].id=='admission'): return 'admission callback'
+            return ast.unparse(node)
+        safe_calls={
+            'Path','Controller','ResourceOwner','ValueError','getattr','str','dict','isinstance','set','Stop',
+            'emit','receipt','cpu_admission','admission callback','datetime.now','timedelta','os.getpid',
+            'controller.remaining','controller.check','controller.observe','controller.handle_cell',
+            'child.fileno','parent.setblocking','parent.recv','parent.sendall',
+            'selector.register','selector.unregister','selector.select','buffer.split','message.pop','data.get','result.get',
+            'run_dir.mkdir','run_dir.resolve','expression.exists','expression.resolve','expression.glob',
+            'expression.isoformat','expression.encode','path.is_relative_to','path.read_text',
+            'strict_json','json.dumps','sha_file','len','list','min','time.sleep','time.monotonic','any','predictions.values',
+            'publish_predictions','durable_json','terminal.committed_outcome','sys.exc_info',
+            'kill_worker','poll_worker','terminate','preferred_exception','report_error','error.add_note',
+            'process.wait','subprocess.TimeoutExpired','subprocess.Popen.__new__','subprocess.Popen.__init__',
+            'resources.scope','resources.context','resources.acquire_many','resources.release','resources.close'
+        }
+        for node in ast.walk(function):
+            if isinstance(node,(ast.With,ast.AsyncWith)):
+                for item in node.items:
+                    label=ast.unparse(item.context_expr); inspected.append(('with',node.lineno,label))
+                    if (not isinstance(item.context_expr,ast.Call)
+                            or tag(item.context_expr.func)!='resources.scope'):
+                        problems.append(('unowned with',node.lineno,label))
+            if isinstance(node,ast.Call):
+                label=tag(node.func); inspected.append(('call',node.lineno,label))
+                if label not in safe_calls: problems.append(('unreviewed call/acquisition',node.lineno,label))
+                if label in ('resources.context','resources.acquire_many'):
+                    inspected.append(('owned acquisition',node.lineno,ast.unparse(node.args[0])))
+        main_scopes=[node for node in ast.walk(function) if isinstance(node,ast.With)
+            and node.body and isinstance(node.body[0],ast.Expr)
+            and isinstance(node.body[0].value,ast.Call)
+            and tag(node.body[0].value.func)=='resources.context'
+            and isinstance(node.body[0].value.args[0],ast.Name)
+            and node.body[0].value.args[0].id=='worker_lifetime']
+        allocations=[node for node in ast.walk(function) if isinstance(node,ast.Assign)
+            and isinstance(node.value,ast.Call) and tag(node.value.func)=='subprocess.Popen.__new__']
+        if len(main_scopes)!=1 or len(allocations)!=1:
+            problems.append(('unowned worker allocation',function.lineno,'lifetime registration/preallocation'))
+        elif (not any(node is allocations[0] for node in ast.walk(main_scopes[0]))
+                or [ast.unparse(target) for target in allocations[0].targets]!=['process']):
+            problems.append(('unowned worker allocation',allocations[0].lineno,'preallocated handle escaped lifetime'))
+        constructors=[node for node in ast.walk(function) if isinstance(node,ast.With) and node.body
+            and isinstance(node.body[0],ast.Expr) and isinstance(node.body[0].value,ast.Call)
+            and tag(node.body[0].value.func)=='resources.context'
+            and isinstance(node.body[0].value.args[0],ast.Name)
+            and node.body[0].value.args[0].id=='constructor_ownership']
+        if len(constructors)!=1: problems.append(('unowned constructor',function.lineno,'constructor signal context'))
+        initializers=[node for node in ast.walk(function) if isinstance(node,ast.Call)
+            and tag(node.func)=='subprocess.Popen.__init__']
+        if (len(initializers)!=1 or len(constructors)!=1 or not initializers[0].args
+                or ast.unparse(initializers[0].args[0])!='process'
+                or not any(node is initializers[0] for node in ast.walk(constructors[0]))):
+            problems.append(('unowned initializer',function.lineno,'worker init escaped constructor owner scope'))
+        owners=[node for node in ast.walk(function) if isinstance(node,ast.Assign)
+            and isinstance(node.value,ast.Call) and tag(node.value.func)=='ResourceOwner']
+        if len(owners)!=1 or [ast.unparse(target) for target in owners[0].targets]!=['resources']:
+            problems.append(('multiple/misplaced owners',function.lineno,'exactly one resources owner required'))
+        roots=[node for node in function.body if isinstance(node,ast.Try) and node.finalbody]
+        if len(roots)!=1 or not any(isinstance(node,ast.Call) and tag(node.func)=='resources.close'
+                for statement in roots[0].finalbody for node in ast.walk(statement)):
+            problems.append(('unowned root release',function.lineno,'socket owner final drain'))
+        return inspected,problems
+
+    def test_supervise_resource_acquisitions_share_precedence_owner(self):
+        import inspect,textwrap
+        self.maxDiff=None
+        source=textwrap.dedent(inspect.getsource(self.S.supervise))
+        inspected,problems=self.supervise_ownership_audit(source)
+        for kind,lineno,label in inspected:
+            print(f'OWNERSHIP_AST {kind} tools/new1_supervisor.py:{self.S.supervise.__code__.co_firstlineno+lineno-1} {label}')
+        self.assertEqual(problems,[],'supervise has a cleanup boundary/acquisition outside the single owner')
+        for addition in ('\n    with arbitrary_factory():\n        pass\n',
+                '\n    escaped=arbitrary_factory()\n',
+                '\n    escaped=(run_dir/"extra.log").open("xb")\n',
+                '\n    parent.close()\n',
+                '\n    resources=ResourceOwner()\n',
+                '\n    subprocess.Popen.__init__(process,command)\n'):
+            with self.subTest(mutant=addition.strip()):
+                _,mutant_problems=self.supervise_ownership_audit(source+addition)
+                self.assertTrue(mutant_problems,'structural guard accepted an unmanaged boundary/acquisition')
+
+
 if __name__=='__main__': unittest.main()
