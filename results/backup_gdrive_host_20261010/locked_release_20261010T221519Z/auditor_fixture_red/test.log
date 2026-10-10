@@ -1,0 +1,78 @@
+test_final_audit_excludes_runner_pid (__main__.ClearanceAuditorTest) ... ERROR
+test_final_audit_rechecks_group_after_child_moves (__main__.ClearanceAuditorTest) ... ERROR
+test_genuinely_leaked_owned_child_is_reported (__main__.ClearanceAuditorTest) ... ERROR
+test_live_pid_outside_owned_group_is_not_observed (__main__.ClearanceAuditorTest) ... FAIL
+test_runner_pid_is_not_an_observed_child (__main__.ClearanceAuditorTest) ... FAIL
+
+======================================================================
+ERROR: test_final_audit_excludes_runner_pid (__main__.ClearanceAuditorTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/before/run_suite.py", line 128, in stopTest
+    raise AssertionError("test left owned processes alive: "+repr(leaked))
+AssertionError: test left owned processes alive: [{'pid': 16729, 'pgid': 16730, 'test': '<lambda>', 'alive_after_test': True}]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 94, in test_final_audit_excludes_runner_pid
+    self.assertEqual(self.audit()["leaks"], [])
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 74, in audit
+    self.result.stopTest(self.case)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/before/run_suite.py", line 130, in stopTest
+    self.addFailure(test, sys.exc_info())
+NameError: name 'sys' is not defined
+
+======================================================================
+ERROR: test_final_audit_rechecks_group_after_child_moves (__main__.ClearanceAuditorTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/before/run_suite.py", line 128, in stopTest
+    raise AssertionError("test left owned processes alive: "+repr(leaked))
+AssertionError: test left owned processes alive: [{'pid': 16732, 'owner_pid': 16731, 'pgid': 16731, 'test': '<lambda>', 'source': '/private/tmp/mb34_auditor_y56dpa2v/heartbeat.json', 'role': 'owned fixture rclone child', 'alive_after_test': True}]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 111, in test_final_audit_rechecks_group_after_child_moves
+    self.assertEqual(self.audit()["leaks"], [])
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 74, in audit
+    self.result.stopTest(self.case)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/before/run_suite.py", line 130, in stopTest
+    self.addFailure(test, sys.exc_info())
+NameError: name 'sys' is not defined
+
+======================================================================
+ERROR: test_genuinely_leaked_owned_child_is_reported (__main__.ClearanceAuditorTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 120, in test_genuinely_leaked_owned_child_is_reported
+    clearance = self.audit()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 74, in audit
+    self.result.stopTest(self.case)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/before/run_suite.py", line 113, in stopTest
+    record["group_alive_after_cleanup"] = group_alive(record["pgid"])
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/before/run_suite.py", line 80, in group_alive
+    os.killpg(pgid, 0)
+PermissionError: [Errno 1] Operation not permitted
+
+======================================================================
+FAIL: test_live_pid_outside_owned_group_is_not_observed (__main__.ClearanceAuditorTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 87, in test_live_pid_outside_owned_group_is_not_observed
+    self.assertNotIn(outsider.pid, self.scope["observed_children"])
+AssertionError: 16741 unexpectedly found in {16741: {'pid': 16741, 'owner_pid': 16740, 'pgid': 16740, 'test': '<lambda>', 'source': '/private/tmp/mb34_auditor_c9hpgupb/heartbeat.json', 'role': 'owned fixture rclone child'}}
+
+======================================================================
+FAIL: test_runner_pid_is_not_an_observed_child (__main__.ClearanceAuditorTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 80, in test_runner_pid_is_not_an_observed_child
+    self.assertNotIn(os.getpid(), self.scope["observed_children"])
+AssertionError: 16729 unexpectedly found in {16729: {'pid': 16729, 'owner_pid': 16743, 'pgid': 16743, 'test': '<lambda>', 'source': '/private/tmp/mb34_auditor_ay_7pbuj/heartbeat.json', 'role': 'owned fixture rclone child'}}
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.551s
+
+FAILED (failures=2, errors=3)

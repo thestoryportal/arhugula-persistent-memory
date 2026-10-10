@@ -1,0 +1,14 @@
+test_existing_release_id_refused_without_overwrite (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+
+======================================================================
+FAIL: test_existing_release_id_refused_without_overwrite (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2298, in test_existing_release_id_refused_without_overwrite
+    self.assertIn("existing release", result.stderr.lower())
+AssertionError: 'existing release' not found in 'usage: /private/tmp/gdrive_addendum_4jyarooz/checkout/tools/launchd/build_gdrive_applet.sh <output.app>\n'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.062s
+
+FAILED (failures=1)

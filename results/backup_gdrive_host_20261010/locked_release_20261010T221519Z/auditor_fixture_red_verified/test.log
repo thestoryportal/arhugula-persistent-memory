@@ -1,0 +1,70 @@
+test_final_audit_excludes_runner_pid (__main__.ClearanceAuditorTest) ... FAIL
+test_final_audit_rechecks_group_after_child_moves (__main__.ClearanceAuditorTest) ... FAIL
+test_genuinely_leaked_owned_child_is_reported (__main__.ClearanceAuditorTest) ... FAIL
+test_live_pid_outside_owned_group_is_not_observed (__main__.ClearanceAuditorTest) ... FAIL
+test_runner_pid_is_not_an_observed_child (__main__.ClearanceAuditorTest) ... FAIL
+
+======================================================================
+FAIL: test_final_audit_excludes_runner_pid (__main__.ClearanceAuditorTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 94, in test_final_audit_excludes_runner_pid
+    self.assertEqual(self.audit()["leaks"], [])
+AssertionError: Lists differ: [{'pid': 17695, 'pgid': 17706, 'test': '<lambda>', 'alive_after_test': True}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'pid': 17695, 'pgid': 17706, 'test': '<lambda>', 'alive_after_test': True}
+
+- [{'alive_after_test': True, 'pgid': 17706, 'pid': 17695, 'test': '<lambda>'}]
++ []
+
+======================================================================
+FAIL: test_final_audit_rechecks_group_after_child_moves (__main__.ClearanceAuditorTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 111, in test_final_audit_rechecks_group_after_child_moves
+    self.assertEqual(self.audit()["leaks"], [])
+AssertionError: Lists differ: [{'pid': 17708, 'owner_pid': 17707, 'pgid'[151 chars]rue}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'pid': 17708, 'owner_pid': 17707, 'pgid': 17707, 'test': '<lambda>', 'source': '/private/tmp/mb34_auditor_jbfmzxi9/heartbeat.json', 'role': 'owned fixture rclone child', 'alive_after_test': True}
+
++ []
+- [{'alive_after_test': True,
+-   'owner_pid': 17707,
+-   'pgid': 17707,
+-   'pid': 17708,
+-   'role': 'owned fixture rclone child',
+-   'source': '/private/tmp/mb34_auditor_jbfmzxi9/heartbeat.json',
+-   'test': '<lambda>'}]
+
+======================================================================
+FAIL: test_genuinely_leaked_owned_child_is_reported (__main__.ClearanceAuditorTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 130, in test_genuinely_leaked_owned_child_is_reported
+    self.assertIn(child.pid, [record["pid"] for record in clearance["leaks"]])
+AssertionError: 17712 not found in [17711]
+
+======================================================================
+FAIL: test_live_pid_outside_owned_group_is_not_observed (__main__.ClearanceAuditorTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 87, in test_live_pid_outside_owned_group_is_not_observed
+    self.assertNotIn(outsider.pid, self.scope["observed_children"])
+AssertionError: 17717 unexpectedly found in {17717: {'pid': 17717, 'owner_pid': 17716, 'pgid': 17716, 'test': '<lambda>', 'source': '/private/tmp/mb34_auditor_tcwvt03e/heartbeat.json', 'role': 'owned fixture rclone child'}}
+
+======================================================================
+FAIL: test_runner_pid_is_not_an_observed_child (__main__.ClearanceAuditorTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py", line 80, in test_runner_pid_is_not_an_observed_child
+    self.assertNotIn(os.getpid(), self.scope["observed_children"])
+AssertionError: 17695 unexpectedly found in {17695: {'pid': 17695, 'owner_pid': 17718, 'pgid': 17718, 'test': '<lambda>', 'source': '/private/tmp/mb34_auditor_vod6v2em/heartbeat.json', 'role': 'owned fixture rclone child'}}
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.544s
+
+FAILED (failures=5)

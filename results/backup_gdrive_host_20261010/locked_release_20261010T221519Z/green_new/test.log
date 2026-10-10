@@ -1,0 +1,172 @@
+test_changed_excludes_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_changed_manifest_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_changed_status_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_changed_wrapper_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_checkout_pull_cannot_change_dispatch (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_compiled_app_dispatches_release_after_checkout_change (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_compiled_app_full_source_equals_saved_source (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_dirty_checkout_stages_commit_bytes (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_existing_release_id_refused_without_overwrite (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_extra_file_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_good_release_dispatches_release_path (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_missing_file_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_release_inside_another_checkout_refused (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_rendered_source_stamps_release_and_all_four_hashes (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+
+======================================================================
+FAIL: test_changed_excludes_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2263, in test_changed_excludes_byte_refuses
+    self.change_byte("backup_mirror.excludes")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2237, in change_byte
+    self.ready()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2211, in ready
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 255 != 0 : missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_changed_manifest_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2266, in test_changed_manifest_byte_refuses
+    self.change_byte("MANIFEST")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2237, in change_byte
+    self.ready()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2211, in ready
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 255 != 0 : missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_changed_status_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2260, in test_changed_status_byte_refuses
+    self.change_byte("backup_gdrive_status.py")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2237, in change_byte
+    self.ready()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2211, in ready
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 255 != 0 : missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_changed_wrapper_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2257, in test_changed_wrapper_byte_refuses
+    self.change_byte("backup_gdrive.sh")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2237, in change_byte
+    self.ready()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2211, in ready
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 255 != 0 : missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_checkout_pull_cannot_change_dispatch (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2284, in test_checkout_pull_cannot_change_dispatch
+    self.ready()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2211, in ready
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 255 != 0 : missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_compiled_app_dispatches_release_after_checkout_change (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2356, in test_compiled_app_dispatches_release_after_checkout_change
+    app = self.build_native()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2345, in build_native
+    LauncherTest.osa_result(self, result, "locked release build")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2377, in osa_result
+    self.assertEqual(result.returncode, 0, command+": "+output)
+AssertionError: 255 != 0 : locked release build: missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_compiled_app_full_source_equals_saved_source (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2349, in test_compiled_app_full_source_equals_saved_source
+    app = self.build_native()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2345, in build_native
+    LauncherTest.osa_result(self, result, "locked release build")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2377, in osa_result
+    self.assertEqual(result.returncode, 0, command+": "+output)
+AssertionError: 255 != 0 : locked release build: missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_dirty_checkout_stages_commit_bytes (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2306, in test_dirty_checkout_stages_commit_bytes
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 255 != 0 : missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_existing_release_id_refused_without_overwrite (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2293, in test_existing_release_id_refused_without_overwrite
+    self.ready()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2211, in ready
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 255 != 0 : missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_extra_file_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2277, in test_extra_file_refuses
+    self.ready()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2211, in ready
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 255 != 0 : missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_good_release_dispatches_release_path (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2246, in test_good_release_dispatches_release_path
+    self.ready()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2211, in ready
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 255 != 0 : missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_missing_file_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2269, in test_missing_file_refuses
+    self.ready()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2211, in ready
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 255 != 0 : missing or duplicate wrapper stamp
+
+
+======================================================================
+FAIL: test_rendered_source_stamps_release_and_all_four_hashes (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2321, in test_rendered_source_stamps_release_and_all_four_hashes
+    self.ready()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2211, in ready
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 255 != 0 : missing or duplicate wrapper stamp
+
+
+----------------------------------------------------------------------
+Ran 14 tests in 2.368s
+
+FAILED (failures=13)

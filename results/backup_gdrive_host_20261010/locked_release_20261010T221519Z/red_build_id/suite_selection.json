@@ -1,0 +1,6 @@
+{
+  "native_tests_enabled": true,
+  "real_rclone_disabled": true,
+  "selector": "LockedReleaseTest.test_existing_release_id_refused_without_overwrite",
+  "test_count": 1
+}

@@ -1,0 +1,601 @@
+{
+  "authority": "astra_r10_verdict.md item 1 paragraph 3 and item 5; MB32 operator brief",
+  "builder": "MB32",
+  "changed_files": {
+    "tools/launchd/MemitGdriveBackup.applescript": {
+      "after_sha256": "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428",
+      "before_sha256": "80c7b7126bb0bc2822e71d25dd44174cdf92e18a5a9fa4076764140ce035384c"
+    },
+    "tools/launchd/build_gdrive_applet.sh": {
+      "after_sha256": "d467ef24968d512152f2e5d8ba5cc946ff1809acd8bfefeab850ba0cc8685076",
+      "before_sha256": "f7ca5a5b7928faa1bc24d12ac38cdd8c6ee21ad1684e9bc7579ac8cd1260189b"
+    },
+    "tools/launchd/stage_gdrive_release.sh": {
+      "after_sha256": "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e",
+      "before_sha256": null
+    },
+    "tools/test_backup_gdrive_addendum.py": {
+      "after_sha256": "6eba5860e1fbb0c562af9a4241f8acf6f50d966d05b3d0e8ac66ec35e14e7d2c",
+      "before_sha256": "b764938802edf101be01493d24012a586076ca9f00bbfba2193c70336e54fdf1"
+    }
+  },
+  "context_handoff": {
+    "context_compacted": true,
+    "new_implementation_or_testing_after_stop": false,
+    "operator_context_percent_left": 38,
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/README.md",
+    "report_writer_sha256": "199b61717f4fdc990522349640792d87c4b5d0f6f79a38f3ac6a68b527a2356d"
+  },
+  "created_utc": "2026-10-10T22:38:52.134586+00:00",
+  "dispatch": "MAESTRO26",
+  "final": {
+    "errors": 0,
+    "exit_code": 1,
+    "failures": 1,
+    "passed": 132,
+    "run": "green_final",
+    "skipped": 18,
+    "tests": 151
+  },
+  "forbidden_actions_performed": [],
+  "generation_choice": "reserve before checking, for ordered failure receipts and unresolved generation evidence",
+  "native_claims": "UNVERIFIED; no compiled production app or activation produced",
+  "new_tests": [
+    {
+      "evidence": "release wrapper path; generation; receipt; exact four-file layout; read-only files/directory",
+      "requirement": "1, 3, 5a",
+      "test": "LockedReleaseTest.test_good_release_dispatches_release_path"
+    },
+    {
+      "evidence": "no dispatch; file and expected/actual SHA-256 in receipt",
+      "requirement": "3, 5b",
+      "test": "LockedReleaseTest.test_changed_wrapper_byte_refuses"
+    },
+    {
+      "evidence": "no dispatch; file and expected/actual SHA-256 in receipt",
+      "requirement": "3, 5b",
+      "test": "LockedReleaseTest.test_changed_status_byte_refuses"
+    },
+    {
+      "evidence": "no dispatch; file and expected/actual SHA-256 in receipt",
+      "requirement": "3, 5b",
+      "test": "LockedReleaseTest.test_changed_excludes_byte_refuses"
+    },
+    {
+      "evidence": "MANIFEST itself is also checked against a compiled stamp",
+      "requirement": "3",
+      "test": "LockedReleaseTest.test_changed_manifest_byte_refuses"
+    },
+    {
+      "evidence": "receipt has expected digest and MISSING; generation reserved; no dispatch",
+      "requirement": "3, 5c",
+      "test": "LockedReleaseTest.test_missing_file_refuses"
+    },
+    {
+      "evidence": "receipt has ABSENT and the extra file digest; no dispatch",
+      "requirement": "3, 5c",
+      "test": "LockedReleaseTest.test_extra_file_refuses"
+    },
+    {
+      "evidence": "change fixture checkout after staging; release bytes still dispatch",
+      "requirement": "2, 5d",
+      "test": "LockedReleaseTest.test_checkout_pull_cannot_change_dispatch"
+    },
+    {
+      "evidence": "build refuses existing id before compiling; all original release bytes preserved",
+      "requirement": "2, 5e",
+      "test": "LockedReleaseTest.test_existing_release_id_refused_without_overwrite"
+    },
+    {
+      "evidence": "dirty all three fixture files; git-show commit bytes are staged",
+      "requirement": "2, 5e",
+      "test": "LockedReleaseTest.test_dirty_checkout_stages_commit_bytes"
+    },
+    {
+      "evidence": "even an unrelated git checkout is refused",
+      "requirement": "1",
+      "test": "LockedReleaseTest.test_release_inside_another_checkout_refused"
+    },
+    {
+      "evidence": "rendered wrapper path and all four hashes are stamped",
+      "requirement": "2, 3",
+      "test": "LockedReleaseTest.test_rendered_source_stamps_release_and_all_four_hashes"
+    },
+    {
+      "evidence": "full byte equality with compiled main.scpt source; UNVERIFIED in sandbox",
+      "requirement": "2, 5f",
+      "test": "LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "evidence": "osascript loads compiled main.scpt after checkout change; UNVERIFIED in sandbox",
+      "requirement": "5a, 5d",
+      "test": "LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    }
+  ],
+  "previous_green": {
+    "exit_code": 0,
+    "passed": 133,
+    "run": "green_full",
+    "skipped": 18,
+    "tests": 151
+  },
+  "process_clearance": {
+    "all_observed_owned_children_exited": false,
+    "all_owned_groups_exited": true,
+    "auditor_false_positive": [
+      {
+        "alive_after_test": true,
+        "owner_pid": 86212,
+        "pgid": 86212,
+        "pid": 63963,
+        "role": "owned fixture rclone child",
+        "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/green_final/fixtures/gdrive_addendum_k7ziqxtg/heartbeat/last_run.json",
+        "test": "tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs"
+      }
+    ],
+    "final_direct_process_count": 1914,
+    "observed_child_count": 57,
+    "operator_pids_untouched": [
+      32906,
+      32913,
+      32914,
+      36233,
+      36258,
+      36259,
+      37109,
+      65807
+    ],
+    "ps": "UNAVAILABLE: sandbox-denied",
+    "record": "green_final/process_clearance.json"
+  },
+  "protected_files": {
+    "tools/backup_gdrive.sh": {
+      "after_sha256": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+      "before_sha256": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8"
+    },
+    "tools/backup_gdrive_status.py": {
+      "after_sha256": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+      "before_sha256": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46"
+    },
+    "tools/backup_mirror.excludes": {
+      "after_sha256": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+      "before_sha256": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f"
+    }
+  },
+  "python": {
+    "invoked": "/usr/bin/python3",
+    "resolved_executable": "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "version": "3.9.6"
+  },
+  "receipt_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z",
+  "red": {
+    "errors": 0,
+    "exit_code": 1,
+    "failures": 14,
+    "run": "red_verified_original",
+    "skipped": 0,
+    "tests": 14
+  },
+  "release_layout": {
+    "default": "$HOME/Library/Application Support/memit-gdrive-backup/releases/<release-id>/",
+    "directory_mode": "0555",
+    "expected_hashes": "compiled AppleScript stamps; MANIFEST never supplies runtime expectations",
+    "file_mode": "0444",
+    "files": [
+      "backup_gdrive.sh",
+      "backup_gdrive_status.py",
+      "backup_mirror.excludes",
+      "MANIFEST"
+    ]
+  },
+  "runs": {
+    "green_final": {
+      "all_owned_groups_exited": true,
+      "direct_process_count": 1914,
+      "error_tests": [],
+      "errors": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs"
+      ],
+      "failures": 1,
+      "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+      "skipped": 18,
+      "skips": [
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_corrupt_remote_download_check_does_not_create_receipt"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_differing_remote_is_immutable_and_preserves_prior_manifest"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_manifest_write_failure_is_loud"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_real_copy_download_check_and_sha_receipt_never_delete_source"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_source_drift_after_check_does_not_create_receipt"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_exit_publication_failure_is_loud_and_preserves_original_failure"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_native_nonregular_skip_is_recorded_as_warning"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_real_queued_source_vanish_is_warning_and_keeps_raw_exit"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_real_sync_publishes_actual_bytes_and_completed_success"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_start_publication_failure_invalidates_previous_success"
+        },
+        {
+          "reason": "UNVERIFIED: build_gdrive_applet.sh exit 1: /private/tmp/gdrive_addendum_ieqazu36/test backup.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:33:29.736 osascript[84256:191236557] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:33:29.736 osascript[84256:191236555] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+          "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest"
+        },
+        {
+          "reason": "UNVERIFIED: osacompile failure variant exit 1: /private/tmp/gdrive_addendum_6rzzd6pb/failure.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:33:30.031 osascript[84267:191236594] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:33:30.031 osascript[84267:191236593] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+          "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_nonzero_shell_script_is_caught_promptly_without_dialog"
+        },
+        {
+          "reason": "UNVERIFIED: locked release build exit 1: /private/tmp/gdrive_addendum_0pot6wk4/locked fixture.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:33:31.561 osascript[84526:191237162] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:33:31.561 osascript[84526:191237161] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+          "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+        },
+        {
+          "reason": "UNVERIFIED: locked release build exit 1: /private/tmp/gdrive_addendum_ykmc7q5l/locked fixture.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:33:32.036 osascript[84669:191237508] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:33:32.036 osascript[84669:191237456] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+          "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+        }
+      ],
+      "success": false,
+      "testsRun": 151
+    },
+    "green_full": {
+      "all_owned_groups_exited": true,
+      "direct_process_count": 1914,
+      "error_tests": [],
+      "errors": 0,
+      "exit_code": 0,
+      "failure_tests": [],
+      "failures": 0,
+      "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+      "skipped": 18,
+      "skips": [
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_corrupt_remote_download_check_does_not_create_receipt"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_differing_remote_is_immutable_and_preserves_prior_manifest"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_manifest_write_failure_is_loud"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_real_copy_download_check_and_sha_receipt_never_delete_source"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_source_drift_after_check_does_not_create_receipt"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_exit_publication_failure_is_loud_and_preserves_original_failure"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_native_nonregular_skip_is_recorded_as_warning"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_real_queued_source_vanish_is_warning_and_keeps_raw_exit"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_real_sync_publishes_actual_bytes_and_completed_success"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch"
+        },
+        {
+          "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+          "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_start_publication_failure_invalidates_previous_success"
+        },
+        {
+          "reason": "UNVERIFIED: build_gdrive_applet.sh exit 1: /private/tmp/gdrive_addendum_cae3of45/test backup.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:27:56.198 osascript[59942:191176767] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:27:56.198 osascript[59942:191176766] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+          "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest"
+        },
+        {
+          "reason": "UNVERIFIED: osacompile failure variant exit 1: /private/tmp/gdrive_addendum_h6i8_gyx/failure.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:27:56.510 osascript[59965:191176844] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:27:56.510 osascript[59965:191176842] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+          "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_nonzero_shell_script_is_caught_promptly_without_dialog"
+        },
+        {
+          "reason": "UNVERIFIED: locked release build exit 1: /private/tmp/gdrive_addendum_hfm6xb3g/locked fixture.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:27:58.038 osascript[60235:191177443] Error received in message reply handler: Connection invalid\n2026-10-10 16:27:58.038 osascript[60235:191177445] Connection Invalid error for service com.apple.hiservices-xpcservice.\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+          "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+        },
+        {
+          "reason": "UNVERIFIED: locked release build exit 1: /private/tmp/gdrive_addendum_eeg5uwba/locked fixture.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:27:58.515 osascript[60296:191177581] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:27:58.515 osascript[60296:191177580] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+          "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+        }
+      ],
+      "success": true,
+      "testsRun": 151
+    },
+    "green_new": {
+      "all_owned_groups_exited": true,
+      "direct_process_count": 71,
+      "error_tests": [],
+      "errors": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_excludes_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_manifest_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_status_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_wrapper_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_checkout_pull_cannot_change_dispatch",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_dirty_checkout_stages_commit_bytes",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_extra_file_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_good_release_dispatches_release_path",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_missing_file_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_rendered_source_stamps_release_and_all_four_hashes"
+      ],
+      "failures": 13,
+      "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+      "skipped": 0,
+      "skips": [],
+      "success": false,
+      "testsRun": 14
+    },
+    "green_new_final": {
+      "all_owned_groups_exited": true,
+      "direct_process_count": 82,
+      "error_tests": [],
+      "errors": 0,
+      "exit_code": 0,
+      "failure_tests": [],
+      "failures": 0,
+      "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+      "skipped": 2,
+      "skips": [
+        {
+          "reason": "UNVERIFIED: locked release build exit 1: /private/tmp/gdrive_addendum_rskuj8gz/locked fixture.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:23:02.862 osascript[37415:191122306] Error received in message reply handler: Connection invalid\n2026-10-10 16:23:02.862 osascript[37415:191122307] Connection Invalid error for service com.apple.hiservices-xpcservice.\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+          "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+        },
+        {
+          "reason": "UNVERIFIED: locked release build exit 1: /private/tmp/gdrive_addendum_jqof2912/locked fixture.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:23:03.328 osascript[37465:191122419] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:23:03.328 osascript[37465:191122418] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+          "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+        }
+      ],
+      "success": true,
+      "testsRun": 14
+    },
+    "red_build_id": {
+      "all_owned_groups_exited": true,
+      "direct_process_count": 5,
+      "error_tests": [],
+      "errors": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite"
+      ],
+      "failures": 1,
+      "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+      "skipped": 0,
+      "skips": [],
+      "success": false,
+      "testsRun": 1
+    },
+    "red_final": {
+      "all_owned_groups_exited": true,
+      "direct_process_count": 65,
+      "error_tests": [],
+      "errors": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_excludes_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_manifest_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_status_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_wrapper_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_checkout_pull_cannot_change_dispatch",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_dirty_checkout_stages_commit_bytes",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_extra_file_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_good_release_dispatches_release_path",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_missing_file_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_release_inside_another_checkout_refused",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_rendered_source_stamps_release_and_all_four_hashes"
+      ],
+      "failures": 14,
+      "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+      "skipped": 0,
+      "skips": [],
+      "success": false,
+      "testsRun": 14
+    },
+    "red_new": {
+      "all_owned_groups_exited": true,
+      "direct_process_count": 65,
+      "error_tests": [],
+      "errors": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_excludes_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_manifest_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_status_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_wrapper_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_checkout_pull_cannot_change_dispatch",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_dirty_checkout_stages_commit_bytes",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_extra_file_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_good_release_dispatches_release_path",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_missing_file_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_release_inside_another_checkout_refused",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_rendered_source_stamps_release_and_all_four_hashes"
+      ],
+      "failures": 14,
+      "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+      "skipped": 0,
+      "skips": [],
+      "success": false,
+      "testsRun": 14
+    },
+    "red_verified_original": {
+      "all_owned_groups_exited": true,
+      "direct_process_count": 66,
+      "error_tests": [],
+      "errors": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_excludes_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_manifest_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_status_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_wrapper_byte_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_checkout_pull_cannot_change_dispatch",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_dirty_checkout_stages_commit_bytes",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_extra_file_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_good_release_dispatches_release_path",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_missing_file_refuses",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_release_inside_another_checkout_refused",
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_rendered_source_stamps_release_and_all_four_hashes"
+      ],
+      "failures": 14,
+      "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+      "skipped": 0,
+      "skips": [],
+      "success": false,
+      "testsRun": 14
+    }
+  },
+  "schema": 1,
+  "skips": [
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_corrupt_remote_download_check_does_not_create_receipt"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_differing_remote_is_immutable_and_preserves_prior_manifest"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_manifest_write_failure_is_loud"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_real_copy_download_check_and_sha_receipt_never_delete_source"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_source_drift_after_check_does_not_create_receipt"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_exit_publication_failure_is_loud_and_preserves_original_failure"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_native_nonregular_skip_is_recorded_as_warning"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_real_queued_source_vanish_is_warning_and_keeps_raw_exit"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_real_sync_publishes_actual_bytes_and_completed_success"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch"
+    },
+    {
+      "reason": "HOST-PENDING: real rclone forbidden by MB14 brief",
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_start_publication_failure_invalidates_previous_success"
+    },
+    {
+      "reason": "UNVERIFIED: build_gdrive_applet.sh exit 1: /private/tmp/gdrive_addendum_ieqazu36/test backup.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:33:29.736 osascript[84256:191236557] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:33:29.736 osascript[84256:191236555] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest"
+    },
+    {
+      "reason": "UNVERIFIED: osacompile failure variant exit 1: /private/tmp/gdrive_addendum_6rzzd6pb/failure.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:33:30.031 osascript[84267:191236594] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:33:30.031 osascript[84267:191236593] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_nonzero_shell_script_is_caught_promptly_without_dialog"
+    },
+    {
+      "reason": "UNVERIFIED: locked release build exit 1: /private/tmp/gdrive_addendum_0pot6wk4/locked fixture.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:33:31.561 osascript[84526:191237162] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:33:31.561 osascript[84526:191237161] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "reason": "UNVERIFIED: locked release build exit 1: /private/tmp/gdrive_addendum_ykmc7q5l/locked fixture.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:33:32.036 osascript[84669:191237508] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:33:32.036 osascript[84669:191237456] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    }
+  ],
+  "source_commit_at_start": "57d51f3e2c1db9982c367612a8e55d98592dd2dd",
+  "status": "STOPPED at operator context gate; final process-auditor false positive remains unfixed",
+  "test_budget": "small fixtures and evidence only; no bulk backup data"
+}

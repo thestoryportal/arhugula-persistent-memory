@@ -1,0 +1,28 @@
+{
+  "all_owned_groups_exited": true,
+  "direct_process_count": 71,
+  "error_tests": [],
+  "errors": 0,
+  "exit_code": 1,
+  "failure_tests": [
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_excludes_byte_refuses",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_manifest_byte_refuses",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_status_byte_refuses",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_wrapper_byte_refuses",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_checkout_pull_cannot_change_dispatch",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_dirty_checkout_stages_commit_bytes",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_extra_file_refuses",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_good_release_dispatches_release_path",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_missing_file_refuses",
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_rendered_source_stamps_release_and_all_four_hashes"
+  ],
+  "failures": 13,
+  "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+  "skipped": 0,
+  "skips": [],
+  "success": false,
+  "testsRun": 14
+}

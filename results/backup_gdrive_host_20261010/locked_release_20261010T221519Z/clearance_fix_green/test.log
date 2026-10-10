@@ -1,0 +1,6 @@
+test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.446s
+
+OK

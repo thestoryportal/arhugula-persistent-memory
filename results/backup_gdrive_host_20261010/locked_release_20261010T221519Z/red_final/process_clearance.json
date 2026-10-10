@@ -1,0 +1,1155 @@
+{
+  "all_owned_groups_exited": true,
+  "operator_pids_not_touched": [
+    32906,
+    32913,
+    32914,
+    36233,
+    36258,
+    36259,
+    37109,
+    65807
+  ],
+  "records": [
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_7ekpgonk/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31217,
+      "pid": 31217,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.229457+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_excludes_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_7ekpgonk/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31218,
+      "pid": 31218,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.241116+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_excludes_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_7ekpgonk/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31219,
+      "pid": 31219,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.251568+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_excludes_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_7ekpgonk/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31223,
+      "pid": 31223,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.267592+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_excludes_byte_refuses"
+    },
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "set -eu\ngeneration=$(/usr/bin/perl -MJSON::PP -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\nmake_path($dir);\nopen my $lock, \">>\", \"$dir/counter.lock\" or die \"generation lock: $!\";\nflock($lock, LOCK_EX) or die \"generation lock: $!\";\nopen my $input, \"<\", \"$dir/counter\" or die \"missing generation counter: $!\";\nmy $text = do { local $/; <$input> };\nclose $input or die \"counter read: $!\";\ndie \"invalid or exhausted generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ && $text < 2147483647;\nmy $previous = int($text);\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($completed, $refused) = (0, 0);\nfor my $file (\"$ENV{HOME}/Library/Logs/memit-gdrive-backup/last_run.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup/launch_receipt.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl\") {\n    next unless -e $file;\n    open my $evidence, \"<\", $file or die \"generation evidence read: $!\";\n    my @records;\n    if ($file =~ /jsonl\\z/) { @records = <$evidence>; }\n    else { @records = (do { local $/; <$evidence> }); }\n    close $evidence or die \"generation evidence read: $!\";\n    die \"empty generation evidence\" unless @records;\n    for my $line (@records) {\n        my $value = decode_json($line);\n        die \"malformed generation evidence\" unless ref($value) eq \"HASH\";\n        my $generation = $value->{launch_generation};\n        if (!defined $generation && $file =~ /last_run\\.json\\z/ &&\n                (!exists $value->{launch_mode} || $value->{launch_mode} eq \"manual\")) { next; }\n        die \"ambiguous or non-increasing launch generation\" unless defined $generation &&\n            !ref($generation) && encode_json($generation) =~ /\\A[1-9][0-9]{0,9}\\z/ && $generation <= $previous;\n        if ($file =~ /last_run\\.json\\z/ && defined $value->{end} && defined $value->{exit_code} &&\n                ($value->{launch_mode} // \"applet\") eq \"applet\" &&\n                encode_json($value->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $value->{exit_code} <= 255) {\n            $completed = $generation;\n        }\n        if ($file =~ /launch_receipt\\.json\\z/ &&\n                ((defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                 (defined $value->{error_number} && $value->{error_number} == 75))) { $refused = $generation; }\n\n    }\n}\nmy $state = read_state($dir, $previous, $completed);\nresolve_state($state, $completed, $refused);\nmy $generation = $previous + 1;\n$state->{issued_generation} = $generation;\nif (@{$state->{unresolved}} && $state->{unresolved}[-1][1] == $previous) {\n    $state->{unresolved}[-1][1] = $generation;\n} else { push @{$state->{unresolved}}, [$generation, $generation]; }\n# Publish issued evidence first: interruption between renames refuses allocation.\npublish_state($dir, $state);\nmy ($out, $temporary) = tempfile(\".counter.XXXXXX\", DIR => $dir, UNLINK => 1);\nprint {$out} \"$generation\\n\" or die \"counter write: $!\";\nclose $out or die \"counter close: $!\";\nrename $temporary, \"$dir/counter\" or die \"counter publish: $!\";\nprint \"$generation\\n\";\n')\nprintf '%s\\n' \"$generation\"\nwrapper=$1\ngeneration=${generation:-${2:-}}\nif BACKUP_LAUNCH_GENERATION=\"$generation\" /bin/bash \"$wrapper\"; then\n    exit_code=0\nelse\n    exit_code=$?\nfi\nset -- \"$wrapper\" \"$exit_code\" \"\" \"$generation\"\nset -eu\nwrapper=$1\nexit_code=${2:-}\nerror_number=${3:-}\ngeneration=${4:-${generation:-}}\n/usr/bin/perl -MJSON::PP -MTime::HiRes=gettimeofday -MPOSIX=strftime -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($sec, $micro) = gettimeofday();\nmy $generation = $ARGV[3] =~ /\\A[1-9][0-9]{0,9}\\z/ && $ARGV[3] <= 2147483647 ? int($ARGV[3]) : undef;\nmy $value = {schema => 1, launch_generation => $generation,\n    utc => strftime(\"%Y-%m-%dT%H:%M:%S\", gmtime($sec)) . sprintf(\".%06dZ\", $micro),\n    wrapper_path => $ARGV[0], exit_code => length($ARGV[1]) ? int($ARGV[1]) : undef,\n    error_number => length($ARGV[2]) ? int($ARGV[2]) : undef};\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup\";\nmy $failed = !defined $generation ||\n    (defined $value->{exit_code} && $value->{exit_code} != 0 && $value->{exit_code} != 75) ||\n    (defined $value->{error_number} && $value->{error_number} != 75);\nmy $state_lock;\nmy $published = eval {\n    make_path(\"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\");\n    open $state_lock, \">>\", \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state/counter.lock\"\n        or die \"receipt generation lock: $!\";\n    flock($state_lock, LOCK_EX) or die \"receipt generation lock: $!\";\n    if (defined $generation) {\n        my $state_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\n        open my $counter, \"<\", \"$state_dir/counter\" or die \"receipt counter read: $!\";\n        my $text = do { local $/; <$counter> };\n        close $counter or die \"receipt counter read: $!\";\n        die \"invalid receipt generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ &&\n            $text <= 2147483647 && $generation <= $text;\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (ref($last) eq \"HASH\" && defined $last->{end} && defined $last->{exit_code} &&\n                    state_integer($last->{launch_generation}, 0) &&\n                    ($last->{launch_mode} // \"applet\") eq \"applet\" &&\n                    encode_json($last->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $last->{exit_code} <= 255) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        my $state = read_state($state_dir, int($text), $completed);\n        my $refused = (defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                      (defined $value->{error_number} && $value->{error_number} == 75);\n        resolve_state($state, $completed, $refused ? $generation : 0);\n        publish_state($state_dir, $state);\n\n    }\n    my $keep_failure = 0;\n    if (defined $generation && -e \"$dir/launch_receipt.json\") {\n        open my $input, \"<\", \"$dir/launch_receipt.json\" or die \"receipt read: $!\";\n        my $old = decode_json(do { local $/; <$input> });\n        close $input or die \"receipt read: $!\";\n        my $old_generation = $old->{launch_generation};\n        my $old_failed = (defined $old->{exit_code} && $old->{exit_code} != 0 && $old->{exit_code} != 75) ||\n                         (defined $old->{error_number} && $old->{error_number} != 75);\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (defined $last->{end} && defined $last->{exit_code} && defined $last->{launch_generation} &&\n                    encode_json($last->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        # Journal loss cannot let a success/refusal receipt erase an unresolved failure.\n        $keep_failure = $old_failed && defined $old_generation && $old_generation > $completed &&\n                        (!$failed || $generation <= $old_generation);\n    }\n    if (!$keep_failure) {\n        make_path($dir);\n        my ($out, $temporary) = tempfile(\".launch-receipt.XXXXXX\", DIR => $dir, UNLINK => 1);\n        print {$out} encode_json($value), \"\\n\" or die \"receipt write: $!\";\n        close $out or die \"receipt close: $!\";\n        rename $temporary, \"$dir/launch_receipt.json\" or die \"receipt publish: $!\";\n    }\n    1;\n};\nmy $publication_error = $@;\nif (!$published || $failed) {\n    my $journaled = eval {\n        my $journal_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal\";\n        make_path($journal_dir);\n        open my $lock, \">>\", \"$journal_dir/journal.lock\" or die \"journal lock: $!\";\n        flock($lock, LOCK_EX) or die \"journal lock: $!\";\n        my $file = \"$journal_dir/failures.jsonl\";\n        my @markers;\n        if (-e $file) {\n            open my $input, \"<\", $file or die \"journal read: $!\";\n            @markers = map { decode_json($_) } <$input>;\n            close $input or die \"journal close: $!\";\n            die \"malformed journal\" if !@markers || @markers > 64 || -s $file > 65536;\n            for my $marker (@markers) {\n                die \"malformed journal\" unless ref($marker) eq \"HASH\" && $marker->{schema} == 1 &&\n                    defined $marker->{reason} && length($marker->{reason}) <= 256 &&\n                    (!defined $marker->{launch_generation} ||\n                     (!ref($marker->{launch_generation}) && encode_json($marker->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/ &&\n                      $marker->{launch_generation} <= 2147483647));\n            }\n        }\n        push @markers, {schema => 1, launch_generation => $generation, utc => $value->{utc},\n            reason => !$published ? \"receipt publication failed\" : \"failed launch\"};\n        # Retain the greatest failed generations and any ambiguous marker.\n        @markers = sort { ($a->{launch_generation} // 2147483648) <=> ($b->{launch_generation} // 2147483648) } @markers;\n        splice @markers, 0, @markers - 64 if @markers > 64;\n        my ($out, $temporary) = tempfile(\".journal.XXXXXX\", DIR => $journal_dir, UNLINK => 1);\n        for my $marker (@markers) { print {$out} encode_json($marker), \"\\n\" or die \"journal write: $!\"; }\n        close $out or die \"journal close: $!\";\n        rename $temporary, $file or die \"journal publish: $!\";\n        1;\n    };\n    warn \"launch journal failed: $@\" unless $journaled;\n}\nwarn \"launch receipt failed: $publication_error\" unless $published;\nexit($published ? 0 : 1);\n' \"$wrapper\" \"$exit_code\" \"$error_number\" \"$generation\"\n",
+        "backup-launch",
+        "/private/tmp/gdrive_addendum_7ekpgonk/checkout/tools/backup_gdrive.sh"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31224,
+      "pid": 31224,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.277141+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_excludes_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_gljorso8/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31228,
+      "pid": 31228,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.336140+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_manifest_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_gljorso8/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31229,
+      "pid": 31229,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.347956+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_manifest_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_gljorso8/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31230,
+      "pid": 31230,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.358697+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_manifest_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_gljorso8/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31233,
+      "pid": 31233,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.374356+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_manifest_byte_refuses"
+    },
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "set -eu\ngeneration=$(/usr/bin/perl -MJSON::PP -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\nmake_path($dir);\nopen my $lock, \">>\", \"$dir/counter.lock\" or die \"generation lock: $!\";\nflock($lock, LOCK_EX) or die \"generation lock: $!\";\nopen my $input, \"<\", \"$dir/counter\" or die \"missing generation counter: $!\";\nmy $text = do { local $/; <$input> };\nclose $input or die \"counter read: $!\";\ndie \"invalid or exhausted generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ && $text < 2147483647;\nmy $previous = int($text);\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($completed, $refused) = (0, 0);\nfor my $file (\"$ENV{HOME}/Library/Logs/memit-gdrive-backup/last_run.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup/launch_receipt.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl\") {\n    next unless -e $file;\n    open my $evidence, \"<\", $file or die \"generation evidence read: $!\";\n    my @records;\n    if ($file =~ /jsonl\\z/) { @records = <$evidence>; }\n    else { @records = (do { local $/; <$evidence> }); }\n    close $evidence or die \"generation evidence read: $!\";\n    die \"empty generation evidence\" unless @records;\n    for my $line (@records) {\n        my $value = decode_json($line);\n        die \"malformed generation evidence\" unless ref($value) eq \"HASH\";\n        my $generation = $value->{launch_generation};\n        if (!defined $generation && $file =~ /last_run\\.json\\z/ &&\n                (!exists $value->{launch_mode} || $value->{launch_mode} eq \"manual\")) { next; }\n        die \"ambiguous or non-increasing launch generation\" unless defined $generation &&\n            !ref($generation) && encode_json($generation) =~ /\\A[1-9][0-9]{0,9}\\z/ && $generation <= $previous;\n        if ($file =~ /last_run\\.json\\z/ && defined $value->{end} && defined $value->{exit_code} &&\n                ($value->{launch_mode} // \"applet\") eq \"applet\" &&\n                encode_json($value->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $value->{exit_code} <= 255) {\n            $completed = $generation;\n        }\n        if ($file =~ /launch_receipt\\.json\\z/ &&\n                ((defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                 (defined $value->{error_number} && $value->{error_number} == 75))) { $refused = $generation; }\n\n    }\n}\nmy $state = read_state($dir, $previous, $completed);\nresolve_state($state, $completed, $refused);\nmy $generation = $previous + 1;\n$state->{issued_generation} = $generation;\nif (@{$state->{unresolved}} && $state->{unresolved}[-1][1] == $previous) {\n    $state->{unresolved}[-1][1] = $generation;\n} else { push @{$state->{unresolved}}, [$generation, $generation]; }\n# Publish issued evidence first: interruption between renames refuses allocation.\npublish_state($dir, $state);\nmy ($out, $temporary) = tempfile(\".counter.XXXXXX\", DIR => $dir, UNLINK => 1);\nprint {$out} \"$generation\\n\" or die \"counter write: $!\";\nclose $out or die \"counter close: $!\";\nrename $temporary, \"$dir/counter\" or die \"counter publish: $!\";\nprint \"$generation\\n\";\n')\nprintf '%s\\n' \"$generation\"\nwrapper=$1\ngeneration=${generation:-${2:-}}\nif BACKUP_LAUNCH_GENERATION=\"$generation\" /bin/bash \"$wrapper\"; then\n    exit_code=0\nelse\n    exit_code=$?\nfi\nset -- \"$wrapper\" \"$exit_code\" \"\" \"$generation\"\nset -eu\nwrapper=$1\nexit_code=${2:-}\nerror_number=${3:-}\ngeneration=${4:-${generation:-}}\n/usr/bin/perl -MJSON::PP -MTime::HiRes=gettimeofday -MPOSIX=strftime -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($sec, $micro) = gettimeofday();\nmy $generation = $ARGV[3] =~ /\\A[1-9][0-9]{0,9}\\z/ && $ARGV[3] <= 2147483647 ? int($ARGV[3]) : undef;\nmy $value = {schema => 1, launch_generation => $generation,\n    utc => strftime(\"%Y-%m-%dT%H:%M:%S\", gmtime($sec)) . sprintf(\".%06dZ\", $micro),\n    wrapper_path => $ARGV[0], exit_code => length($ARGV[1]) ? int($ARGV[1]) : undef,\n    error_number => length($ARGV[2]) ? int($ARGV[2]) : undef};\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup\";\nmy $failed = !defined $generation ||\n    (defined $value->{exit_code} && $value->{exit_code} != 0 && $value->{exit_code} != 75) ||\n    (defined $value->{error_number} && $value->{error_number} != 75);\nmy $state_lock;\nmy $published = eval {\n    make_path(\"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\");\n    open $state_lock, \">>\", \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state/counter.lock\"\n        or die \"receipt generation lock: $!\";\n    flock($state_lock, LOCK_EX) or die \"receipt generation lock: $!\";\n    if (defined $generation) {\n        my $state_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\n        open my $counter, \"<\", \"$state_dir/counter\" or die \"receipt counter read: $!\";\n        my $text = do { local $/; <$counter> };\n        close $counter or die \"receipt counter read: $!\";\n        die \"invalid receipt generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ &&\n            $text <= 2147483647 && $generation <= $text;\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (ref($last) eq \"HASH\" && defined $last->{end} && defined $last->{exit_code} &&\n                    state_integer($last->{launch_generation}, 0) &&\n                    ($last->{launch_mode} // \"applet\") eq \"applet\" &&\n                    encode_json($last->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $last->{exit_code} <= 255) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        my $state = read_state($state_dir, int($text), $completed);\n        my $refused = (defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                      (defined $value->{error_number} && $value->{error_number} == 75);\n        resolve_state($state, $completed, $refused ? $generation : 0);\n        publish_state($state_dir, $state);\n\n    }\n    my $keep_failure = 0;\n    if (defined $generation && -e \"$dir/launch_receipt.json\") {\n        open my $input, \"<\", \"$dir/launch_receipt.json\" or die \"receipt read: $!\";\n        my $old = decode_json(do { local $/; <$input> });\n        close $input or die \"receipt read: $!\";\n        my $old_generation = $old->{launch_generation};\n        my $old_failed = (defined $old->{exit_code} && $old->{exit_code} != 0 && $old->{exit_code} != 75) ||\n                         (defined $old->{error_number} && $old->{error_number} != 75);\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (defined $last->{end} && defined $last->{exit_code} && defined $last->{launch_generation} &&\n                    encode_json($last->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        # Journal loss cannot let a success/refusal receipt erase an unresolved failure.\n        $keep_failure = $old_failed && defined $old_generation && $old_generation > $completed &&\n                        (!$failed || $generation <= $old_generation);\n    }\n    if (!$keep_failure) {\n        make_path($dir);\n        my ($out, $temporary) = tempfile(\".launch-receipt.XXXXXX\", DIR => $dir, UNLINK => 1);\n        print {$out} encode_json($value), \"\\n\" or die \"receipt write: $!\";\n        close $out or die \"receipt close: $!\";\n        rename $temporary, \"$dir/launch_receipt.json\" or die \"receipt publish: $!\";\n    }\n    1;\n};\nmy $publication_error = $@;\nif (!$published || $failed) {\n    my $journaled = eval {\n        my $journal_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal\";\n        make_path($journal_dir);\n        open my $lock, \">>\", \"$journal_dir/journal.lock\" or die \"journal lock: $!\";\n        flock($lock, LOCK_EX) or die \"journal lock: $!\";\n        my $file = \"$journal_dir/failures.jsonl\";\n        my @markers;\n        if (-e $file) {\n            open my $input, \"<\", $file or die \"journal read: $!\";\n            @markers = map { decode_json($_) } <$input>;\n            close $input or die \"journal close: $!\";\n            die \"malformed journal\" if !@markers || @markers > 64 || -s $file > 65536;\n            for my $marker (@markers) {\n                die \"malformed journal\" unless ref($marker) eq \"HASH\" && $marker->{schema} == 1 &&\n                    defined $marker->{reason} && length($marker->{reason}) <= 256 &&\n                    (!defined $marker->{launch_generation} ||\n                     (!ref($marker->{launch_generation}) && encode_json($marker->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/ &&\n                      $marker->{launch_generation} <= 2147483647));\n            }\n        }\n        push @markers, {schema => 1, launch_generation => $generation, utc => $value->{utc},\n            reason => !$published ? \"receipt publication failed\" : \"failed launch\"};\n        # Retain the greatest failed generations and any ambiguous marker.\n        @markers = sort { ($a->{launch_generation} // 2147483648) <=> ($b->{launch_generation} // 2147483648) } @markers;\n        splice @markers, 0, @markers - 64 if @markers > 64;\n        my ($out, $temporary) = tempfile(\".journal.XXXXXX\", DIR => $journal_dir, UNLINK => 1);\n        for my $marker (@markers) { print {$out} encode_json($marker), \"\\n\" or die \"journal write: $!\"; }\n        close $out or die \"journal close: $!\";\n        rename $temporary, $file or die \"journal publish: $!\";\n        1;\n    };\n    warn \"launch journal failed: $@\" unless $journaled;\n}\nwarn \"launch receipt failed: $publication_error\" unless $published;\nexit($published ? 0 : 1);\n' \"$wrapper\" \"$exit_code\" \"$error_number\" \"$generation\"\n",
+        "backup-launch",
+        "/private/tmp/gdrive_addendum_gljorso8/checkout/tools/backup_gdrive.sh"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31234,
+      "pid": 31234,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.383469+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_manifest_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_206q0mtm/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31239,
+      "pid": 31239,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.439677+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_status_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_206q0mtm/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31240,
+      "pid": 31240,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.452048+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_status_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_206q0mtm/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31241,
+      "pid": 31241,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.462720+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_status_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_206q0mtm/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31244,
+      "pid": 31244,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.478351+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_status_byte_refuses"
+    },
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "set -eu\ngeneration=$(/usr/bin/perl -MJSON::PP -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\nmake_path($dir);\nopen my $lock, \">>\", \"$dir/counter.lock\" or die \"generation lock: $!\";\nflock($lock, LOCK_EX) or die \"generation lock: $!\";\nopen my $input, \"<\", \"$dir/counter\" or die \"missing generation counter: $!\";\nmy $text = do { local $/; <$input> };\nclose $input or die \"counter read: $!\";\ndie \"invalid or exhausted generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ && $text < 2147483647;\nmy $previous = int($text);\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($completed, $refused) = (0, 0);\nfor my $file (\"$ENV{HOME}/Library/Logs/memit-gdrive-backup/last_run.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup/launch_receipt.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl\") {\n    next unless -e $file;\n    open my $evidence, \"<\", $file or die \"generation evidence read: $!\";\n    my @records;\n    if ($file =~ /jsonl\\z/) { @records = <$evidence>; }\n    else { @records = (do { local $/; <$evidence> }); }\n    close $evidence or die \"generation evidence read: $!\";\n    die \"empty generation evidence\" unless @records;\n    for my $line (@records) {\n        my $value = decode_json($line);\n        die \"malformed generation evidence\" unless ref($value) eq \"HASH\";\n        my $generation = $value->{launch_generation};\n        if (!defined $generation && $file =~ /last_run\\.json\\z/ &&\n                (!exists $value->{launch_mode} || $value->{launch_mode} eq \"manual\")) { next; }\n        die \"ambiguous or non-increasing launch generation\" unless defined $generation &&\n            !ref($generation) && encode_json($generation) =~ /\\A[1-9][0-9]{0,9}\\z/ && $generation <= $previous;\n        if ($file =~ /last_run\\.json\\z/ && defined $value->{end} && defined $value->{exit_code} &&\n                ($value->{launch_mode} // \"applet\") eq \"applet\" &&\n                encode_json($value->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $value->{exit_code} <= 255) {\n            $completed = $generation;\n        }\n        if ($file =~ /launch_receipt\\.json\\z/ &&\n                ((defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                 (defined $value->{error_number} && $value->{error_number} == 75))) { $refused = $generation; }\n\n    }\n}\nmy $state = read_state($dir, $previous, $completed);\nresolve_state($state, $completed, $refused);\nmy $generation = $previous + 1;\n$state->{issued_generation} = $generation;\nif (@{$state->{unresolved}} && $state->{unresolved}[-1][1] == $previous) {\n    $state->{unresolved}[-1][1] = $generation;\n} else { push @{$state->{unresolved}}, [$generation, $generation]; }\n# Publish issued evidence first: interruption between renames refuses allocation.\npublish_state($dir, $state);\nmy ($out, $temporary) = tempfile(\".counter.XXXXXX\", DIR => $dir, UNLINK => 1);\nprint {$out} \"$generation\\n\" or die \"counter write: $!\";\nclose $out or die \"counter close: $!\";\nrename $temporary, \"$dir/counter\" or die \"counter publish: $!\";\nprint \"$generation\\n\";\n')\nprintf '%s\\n' \"$generation\"\nwrapper=$1\ngeneration=${generation:-${2:-}}\nif BACKUP_LAUNCH_GENERATION=\"$generation\" /bin/bash \"$wrapper\"; then\n    exit_code=0\nelse\n    exit_code=$?\nfi\nset -- \"$wrapper\" \"$exit_code\" \"\" \"$generation\"\nset -eu\nwrapper=$1\nexit_code=${2:-}\nerror_number=${3:-}\ngeneration=${4:-${generation:-}}\n/usr/bin/perl -MJSON::PP -MTime::HiRes=gettimeofday -MPOSIX=strftime -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($sec, $micro) = gettimeofday();\nmy $generation = $ARGV[3] =~ /\\A[1-9][0-9]{0,9}\\z/ && $ARGV[3] <= 2147483647 ? int($ARGV[3]) : undef;\nmy $value = {schema => 1, launch_generation => $generation,\n    utc => strftime(\"%Y-%m-%dT%H:%M:%S\", gmtime($sec)) . sprintf(\".%06dZ\", $micro),\n    wrapper_path => $ARGV[0], exit_code => length($ARGV[1]) ? int($ARGV[1]) : undef,\n    error_number => length($ARGV[2]) ? int($ARGV[2]) : undef};\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup\";\nmy $failed = !defined $generation ||\n    (defined $value->{exit_code} && $value->{exit_code} != 0 && $value->{exit_code} != 75) ||\n    (defined $value->{error_number} && $value->{error_number} != 75);\nmy $state_lock;\nmy $published = eval {\n    make_path(\"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\");\n    open $state_lock, \">>\", \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state/counter.lock\"\n        or die \"receipt generation lock: $!\";\n    flock($state_lock, LOCK_EX) or die \"receipt generation lock: $!\";\n    if (defined $generation) {\n        my $state_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\n        open my $counter, \"<\", \"$state_dir/counter\" or die \"receipt counter read: $!\";\n        my $text = do { local $/; <$counter> };\n        close $counter or die \"receipt counter read: $!\";\n        die \"invalid receipt generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ &&\n            $text <= 2147483647 && $generation <= $text;\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (ref($last) eq \"HASH\" && defined $last->{end} && defined $last->{exit_code} &&\n                    state_integer($last->{launch_generation}, 0) &&\n                    ($last->{launch_mode} // \"applet\") eq \"applet\" &&\n                    encode_json($last->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $last->{exit_code} <= 255) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        my $state = read_state($state_dir, int($text), $completed);\n        my $refused = (defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                      (defined $value->{error_number} && $value->{error_number} == 75);\n        resolve_state($state, $completed, $refused ? $generation : 0);\n        publish_state($state_dir, $state);\n\n    }\n    my $keep_failure = 0;\n    if (defined $generation && -e \"$dir/launch_receipt.json\") {\n        open my $input, \"<\", \"$dir/launch_receipt.json\" or die \"receipt read: $!\";\n        my $old = decode_json(do { local $/; <$input> });\n        close $input or die \"receipt read: $!\";\n        my $old_generation = $old->{launch_generation};\n        my $old_failed = (defined $old->{exit_code} && $old->{exit_code} != 0 && $old->{exit_code} != 75) ||\n                         (defined $old->{error_number} && $old->{error_number} != 75);\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (defined $last->{end} && defined $last->{exit_code} && defined $last->{launch_generation} &&\n                    encode_json($last->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        # Journal loss cannot let a success/refusal receipt erase an unresolved failure.\n        $keep_failure = $old_failed && defined $old_generation && $old_generation > $completed &&\n                        (!$failed || $generation <= $old_generation);\n    }\n    if (!$keep_failure) {\n        make_path($dir);\n        my ($out, $temporary) = tempfile(\".launch-receipt.XXXXXX\", DIR => $dir, UNLINK => 1);\n        print {$out} encode_json($value), \"\\n\" or die \"receipt write: $!\";\n        close $out or die \"receipt close: $!\";\n        rename $temporary, \"$dir/launch_receipt.json\" or die \"receipt publish: $!\";\n    }\n    1;\n};\nmy $publication_error = $@;\nif (!$published || $failed) {\n    my $journaled = eval {\n        my $journal_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal\";\n        make_path($journal_dir);\n        open my $lock, \">>\", \"$journal_dir/journal.lock\" or die \"journal lock: $!\";\n        flock($lock, LOCK_EX) or die \"journal lock: $!\";\n        my $file = \"$journal_dir/failures.jsonl\";\n        my @markers;\n        if (-e $file) {\n            open my $input, \"<\", $file or die \"journal read: $!\";\n            @markers = map { decode_json($_) } <$input>;\n            close $input or die \"journal close: $!\";\n            die \"malformed journal\" if !@markers || @markers > 64 || -s $file > 65536;\n            for my $marker (@markers) {\n                die \"malformed journal\" unless ref($marker) eq \"HASH\" && $marker->{schema} == 1 &&\n                    defined $marker->{reason} && length($marker->{reason}) <= 256 &&\n                    (!defined $marker->{launch_generation} ||\n                     (!ref($marker->{launch_generation}) && encode_json($marker->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/ &&\n                      $marker->{launch_generation} <= 2147483647));\n            }\n        }\n        push @markers, {schema => 1, launch_generation => $generation, utc => $value->{utc},\n            reason => !$published ? \"receipt publication failed\" : \"failed launch\"};\n        # Retain the greatest failed generations and any ambiguous marker.\n        @markers = sort { ($a->{launch_generation} // 2147483648) <=> ($b->{launch_generation} // 2147483648) } @markers;\n        splice @markers, 0, @markers - 64 if @markers > 64;\n        my ($out, $temporary) = tempfile(\".journal.XXXXXX\", DIR => $journal_dir, UNLINK => 1);\n        for my $marker (@markers) { print {$out} encode_json($marker), \"\\n\" or die \"journal write: $!\"; }\n        close $out or die \"journal close: $!\";\n        rename $temporary, $file or die \"journal publish: $!\";\n        1;\n    };\n    warn \"launch journal failed: $@\" unless $journaled;\n}\nwarn \"launch receipt failed: $publication_error\" unless $published;\nexit($published ? 0 : 1);\n' \"$wrapper\" \"$exit_code\" \"$error_number\" \"$generation\"\n",
+        "backup-launch",
+        "/private/tmp/gdrive_addendum_206q0mtm/checkout/tools/backup_gdrive.sh"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31245,
+      "pid": 31245,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.487536+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_status_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_gzdg62wy/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31249,
+      "pid": 31249,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.543616+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_wrapper_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_gzdg62wy/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31250,
+      "pid": 31250,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.556133+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_wrapper_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_gzdg62wy/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31251,
+      "pid": 31251,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.567010+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_wrapper_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_gzdg62wy/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31254,
+      "pid": 31254,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.583016+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_wrapper_byte_refuses"
+    },
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "set -eu\ngeneration=$(/usr/bin/perl -MJSON::PP -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\nmake_path($dir);\nopen my $lock, \">>\", \"$dir/counter.lock\" or die \"generation lock: $!\";\nflock($lock, LOCK_EX) or die \"generation lock: $!\";\nopen my $input, \"<\", \"$dir/counter\" or die \"missing generation counter: $!\";\nmy $text = do { local $/; <$input> };\nclose $input or die \"counter read: $!\";\ndie \"invalid or exhausted generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ && $text < 2147483647;\nmy $previous = int($text);\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($completed, $refused) = (0, 0);\nfor my $file (\"$ENV{HOME}/Library/Logs/memit-gdrive-backup/last_run.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup/launch_receipt.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl\") {\n    next unless -e $file;\n    open my $evidence, \"<\", $file or die \"generation evidence read: $!\";\n    my @records;\n    if ($file =~ /jsonl\\z/) { @records = <$evidence>; }\n    else { @records = (do { local $/; <$evidence> }); }\n    close $evidence or die \"generation evidence read: $!\";\n    die \"empty generation evidence\" unless @records;\n    for my $line (@records) {\n        my $value = decode_json($line);\n        die \"malformed generation evidence\" unless ref($value) eq \"HASH\";\n        my $generation = $value->{launch_generation};\n        if (!defined $generation && $file =~ /last_run\\.json\\z/ &&\n                (!exists $value->{launch_mode} || $value->{launch_mode} eq \"manual\")) { next; }\n        die \"ambiguous or non-increasing launch generation\" unless defined $generation &&\n            !ref($generation) && encode_json($generation) =~ /\\A[1-9][0-9]{0,9}\\z/ && $generation <= $previous;\n        if ($file =~ /last_run\\.json\\z/ && defined $value->{end} && defined $value->{exit_code} &&\n                ($value->{launch_mode} // \"applet\") eq \"applet\" &&\n                encode_json($value->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $value->{exit_code} <= 255) {\n            $completed = $generation;\n        }\n        if ($file =~ /launch_receipt\\.json\\z/ &&\n                ((defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                 (defined $value->{error_number} && $value->{error_number} == 75))) { $refused = $generation; }\n\n    }\n}\nmy $state = read_state($dir, $previous, $completed);\nresolve_state($state, $completed, $refused);\nmy $generation = $previous + 1;\n$state->{issued_generation} = $generation;\nif (@{$state->{unresolved}} && $state->{unresolved}[-1][1] == $previous) {\n    $state->{unresolved}[-1][1] = $generation;\n} else { push @{$state->{unresolved}}, [$generation, $generation]; }\n# Publish issued evidence first: interruption between renames refuses allocation.\npublish_state($dir, $state);\nmy ($out, $temporary) = tempfile(\".counter.XXXXXX\", DIR => $dir, UNLINK => 1);\nprint {$out} \"$generation\\n\" or die \"counter write: $!\";\nclose $out or die \"counter close: $!\";\nrename $temporary, \"$dir/counter\" or die \"counter publish: $!\";\nprint \"$generation\\n\";\n')\nprintf '%s\\n' \"$generation\"\nwrapper=$1\ngeneration=${generation:-${2:-}}\nif BACKUP_LAUNCH_GENERATION=\"$generation\" /bin/bash \"$wrapper\"; then\n    exit_code=0\nelse\n    exit_code=$?\nfi\nset -- \"$wrapper\" \"$exit_code\" \"\" \"$generation\"\nset -eu\nwrapper=$1\nexit_code=${2:-}\nerror_number=${3:-}\ngeneration=${4:-${generation:-}}\n/usr/bin/perl -MJSON::PP -MTime::HiRes=gettimeofday -MPOSIX=strftime -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($sec, $micro) = gettimeofday();\nmy $generation = $ARGV[3] =~ /\\A[1-9][0-9]{0,9}\\z/ && $ARGV[3] <= 2147483647 ? int($ARGV[3]) : undef;\nmy $value = {schema => 1, launch_generation => $generation,\n    utc => strftime(\"%Y-%m-%dT%H:%M:%S\", gmtime($sec)) . sprintf(\".%06dZ\", $micro),\n    wrapper_path => $ARGV[0], exit_code => length($ARGV[1]) ? int($ARGV[1]) : undef,\n    error_number => length($ARGV[2]) ? int($ARGV[2]) : undef};\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup\";\nmy $failed = !defined $generation ||\n    (defined $value->{exit_code} && $value->{exit_code} != 0 && $value->{exit_code} != 75) ||\n    (defined $value->{error_number} && $value->{error_number} != 75);\nmy $state_lock;\nmy $published = eval {\n    make_path(\"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\");\n    open $state_lock, \">>\", \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state/counter.lock\"\n        or die \"receipt generation lock: $!\";\n    flock($state_lock, LOCK_EX) or die \"receipt generation lock: $!\";\n    if (defined $generation) {\n        my $state_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\n        open my $counter, \"<\", \"$state_dir/counter\" or die \"receipt counter read: $!\";\n        my $text = do { local $/; <$counter> };\n        close $counter or die \"receipt counter read: $!\";\n        die \"invalid receipt generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ &&\n            $text <= 2147483647 && $generation <= $text;\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (ref($last) eq \"HASH\" && defined $last->{end} && defined $last->{exit_code} &&\n                    state_integer($last->{launch_generation}, 0) &&\n                    ($last->{launch_mode} // \"applet\") eq \"applet\" &&\n                    encode_json($last->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $last->{exit_code} <= 255) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        my $state = read_state($state_dir, int($text), $completed);\n        my $refused = (defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                      (defined $value->{error_number} && $value->{error_number} == 75);\n        resolve_state($state, $completed, $refused ? $generation : 0);\n        publish_state($state_dir, $state);\n\n    }\n    my $keep_failure = 0;\n    if (defined $generation && -e \"$dir/launch_receipt.json\") {\n        open my $input, \"<\", \"$dir/launch_receipt.json\" or die \"receipt read: $!\";\n        my $old = decode_json(do { local $/; <$input> });\n        close $input or die \"receipt read: $!\";\n        my $old_generation = $old->{launch_generation};\n        my $old_failed = (defined $old->{exit_code} && $old->{exit_code} != 0 && $old->{exit_code} != 75) ||\n                         (defined $old->{error_number} && $old->{error_number} != 75);\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (defined $last->{end} && defined $last->{exit_code} && defined $last->{launch_generation} &&\n                    encode_json($last->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        # Journal loss cannot let a success/refusal receipt erase an unresolved failure.\n        $keep_failure = $old_failed && defined $old_generation && $old_generation > $completed &&\n                        (!$failed || $generation <= $old_generation);\n    }\n    if (!$keep_failure) {\n        make_path($dir);\n        my ($out, $temporary) = tempfile(\".launch-receipt.XXXXXX\", DIR => $dir, UNLINK => 1);\n        print {$out} encode_json($value), \"\\n\" or die \"receipt write: $!\";\n        close $out or die \"receipt close: $!\";\n        rename $temporary, \"$dir/launch_receipt.json\" or die \"receipt publish: $!\";\n    }\n    1;\n};\nmy $publication_error = $@;\nif (!$published || $failed) {\n    my $journaled = eval {\n        my $journal_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal\";\n        make_path($journal_dir);\n        open my $lock, \">>\", \"$journal_dir/journal.lock\" or die \"journal lock: $!\";\n        flock($lock, LOCK_EX) or die \"journal lock: $!\";\n        my $file = \"$journal_dir/failures.jsonl\";\n        my @markers;\n        if (-e $file) {\n            open my $input, \"<\", $file or die \"journal read: $!\";\n            @markers = map { decode_json($_) } <$input>;\n            close $input or die \"journal close: $!\";\n            die \"malformed journal\" if !@markers || @markers > 64 || -s $file > 65536;\n            for my $marker (@markers) {\n                die \"malformed journal\" unless ref($marker) eq \"HASH\" && $marker->{schema} == 1 &&\n                    defined $marker->{reason} && length($marker->{reason}) <= 256 &&\n                    (!defined $marker->{launch_generation} ||\n                     (!ref($marker->{launch_generation}) && encode_json($marker->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/ &&\n                      $marker->{launch_generation} <= 2147483647));\n            }\n        }\n        push @markers, {schema => 1, launch_generation => $generation, utc => $value->{utc},\n            reason => !$published ? \"receipt publication failed\" : \"failed launch\"};\n        # Retain the greatest failed generations and any ambiguous marker.\n        @markers = sort { ($a->{launch_generation} // 2147483648) <=> ($b->{launch_generation} // 2147483648) } @markers;\n        splice @markers, 0, @markers - 64 if @markers > 64;\n        my ($out, $temporary) = tempfile(\".journal.XXXXXX\", DIR => $journal_dir, UNLINK => 1);\n        for my $marker (@markers) { print {$out} encode_json($marker), \"\\n\" or die \"journal write: $!\"; }\n        close $out or die \"journal close: $!\";\n        rename $temporary, $file or die \"journal publish: $!\";\n        1;\n    };\n    warn \"launch journal failed: $@\" unless $journaled;\n}\nwarn \"launch receipt failed: $publication_error\" unless $published;\nexit($published ? 0 : 1);\n' \"$wrapper\" \"$exit_code\" \"$error_number\" \"$generation\"\n",
+        "backup-launch",
+        "/private/tmp/gdrive_addendum_gzdg62wy/checkout/tools/backup_gdrive.sh"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31255,
+      "pid": 31255,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.592321+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_changed_wrapper_byte_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_sqz4ze1s/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31261,
+      "pid": 31261,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.648646+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_checkout_pull_cannot_change_dispatch"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_sqz4ze1s/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31263,
+      "pid": 31263,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.661207+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_checkout_pull_cannot_change_dispatch"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_sqz4ze1s/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31265,
+      "pid": 31265,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.672260+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_checkout_pull_cannot_change_dispatch"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_sqz4ze1s/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31268,
+      "pid": 31268,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.688683+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_checkout_pull_cannot_change_dispatch"
+    },
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "set -eu\ngeneration=$(/usr/bin/perl -MJSON::PP -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\nmake_path($dir);\nopen my $lock, \">>\", \"$dir/counter.lock\" or die \"generation lock: $!\";\nflock($lock, LOCK_EX) or die \"generation lock: $!\";\nopen my $input, \"<\", \"$dir/counter\" or die \"missing generation counter: $!\";\nmy $text = do { local $/; <$input> };\nclose $input or die \"counter read: $!\";\ndie \"invalid or exhausted generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ && $text < 2147483647;\nmy $previous = int($text);\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($completed, $refused) = (0, 0);\nfor my $file (\"$ENV{HOME}/Library/Logs/memit-gdrive-backup/last_run.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup/launch_receipt.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl\") {\n    next unless -e $file;\n    open my $evidence, \"<\", $file or die \"generation evidence read: $!\";\n    my @records;\n    if ($file =~ /jsonl\\z/) { @records = <$evidence>; }\n    else { @records = (do { local $/; <$evidence> }); }\n    close $evidence or die \"generation evidence read: $!\";\n    die \"empty generation evidence\" unless @records;\n    for my $line (@records) {\n        my $value = decode_json($line);\n        die \"malformed generation evidence\" unless ref($value) eq \"HASH\";\n        my $generation = $value->{launch_generation};\n        if (!defined $generation && $file =~ /last_run\\.json\\z/ &&\n                (!exists $value->{launch_mode} || $value->{launch_mode} eq \"manual\")) { next; }\n        die \"ambiguous or non-increasing launch generation\" unless defined $generation &&\n            !ref($generation) && encode_json($generation) =~ /\\A[1-9][0-9]{0,9}\\z/ && $generation <= $previous;\n        if ($file =~ /last_run\\.json\\z/ && defined $value->{end} && defined $value->{exit_code} &&\n                ($value->{launch_mode} // \"applet\") eq \"applet\" &&\n                encode_json($value->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $value->{exit_code} <= 255) {\n            $completed = $generation;\n        }\n        if ($file =~ /launch_receipt\\.json\\z/ &&\n                ((defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                 (defined $value->{error_number} && $value->{error_number} == 75))) { $refused = $generation; }\n\n    }\n}\nmy $state = read_state($dir, $previous, $completed);\nresolve_state($state, $completed, $refused);\nmy $generation = $previous + 1;\n$state->{issued_generation} = $generation;\nif (@{$state->{unresolved}} && $state->{unresolved}[-1][1] == $previous) {\n    $state->{unresolved}[-1][1] = $generation;\n} else { push @{$state->{unresolved}}, [$generation, $generation]; }\n# Publish issued evidence first: interruption between renames refuses allocation.\npublish_state($dir, $state);\nmy ($out, $temporary) = tempfile(\".counter.XXXXXX\", DIR => $dir, UNLINK => 1);\nprint {$out} \"$generation\\n\" or die \"counter write: $!\";\nclose $out or die \"counter close: $!\";\nrename $temporary, \"$dir/counter\" or die \"counter publish: $!\";\nprint \"$generation\\n\";\n')\nprintf '%s\\n' \"$generation\"\nwrapper=$1\ngeneration=${generation:-${2:-}}\nif BACKUP_LAUNCH_GENERATION=\"$generation\" /bin/bash \"$wrapper\"; then\n    exit_code=0\nelse\n    exit_code=$?\nfi\nset -- \"$wrapper\" \"$exit_code\" \"\" \"$generation\"\nset -eu\nwrapper=$1\nexit_code=${2:-}\nerror_number=${3:-}\ngeneration=${4:-${generation:-}}\n/usr/bin/perl -MJSON::PP -MTime::HiRes=gettimeofday -MPOSIX=strftime -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($sec, $micro) = gettimeofday();\nmy $generation = $ARGV[3] =~ /\\A[1-9][0-9]{0,9}\\z/ && $ARGV[3] <= 2147483647 ? int($ARGV[3]) : undef;\nmy $value = {schema => 1, launch_generation => $generation,\n    utc => strftime(\"%Y-%m-%dT%H:%M:%S\", gmtime($sec)) . sprintf(\".%06dZ\", $micro),\n    wrapper_path => $ARGV[0], exit_code => length($ARGV[1]) ? int($ARGV[1]) : undef,\n    error_number => length($ARGV[2]) ? int($ARGV[2]) : undef};\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup\";\nmy $failed = !defined $generation ||\n    (defined $value->{exit_code} && $value->{exit_code} != 0 && $value->{exit_code} != 75) ||\n    (defined $value->{error_number} && $value->{error_number} != 75);\nmy $state_lock;\nmy $published = eval {\n    make_path(\"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\");\n    open $state_lock, \">>\", \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state/counter.lock\"\n        or die \"receipt generation lock: $!\";\n    flock($state_lock, LOCK_EX) or die \"receipt generation lock: $!\";\n    if (defined $generation) {\n        my $state_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\n        open my $counter, \"<\", \"$state_dir/counter\" or die \"receipt counter read: $!\";\n        my $text = do { local $/; <$counter> };\n        close $counter or die \"receipt counter read: $!\";\n        die \"invalid receipt generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ &&\n            $text <= 2147483647 && $generation <= $text;\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (ref($last) eq \"HASH\" && defined $last->{end} && defined $last->{exit_code} &&\n                    state_integer($last->{launch_generation}, 0) &&\n                    ($last->{launch_mode} // \"applet\") eq \"applet\" &&\n                    encode_json($last->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $last->{exit_code} <= 255) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        my $state = read_state($state_dir, int($text), $completed);\n        my $refused = (defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                      (defined $value->{error_number} && $value->{error_number} == 75);\n        resolve_state($state, $completed, $refused ? $generation : 0);\n        publish_state($state_dir, $state);\n\n    }\n    my $keep_failure = 0;\n    if (defined $generation && -e \"$dir/launch_receipt.json\") {\n        open my $input, \"<\", \"$dir/launch_receipt.json\" or die \"receipt read: $!\";\n        my $old = decode_json(do { local $/; <$input> });\n        close $input or die \"receipt read: $!\";\n        my $old_generation = $old->{launch_generation};\n        my $old_failed = (defined $old->{exit_code} && $old->{exit_code} != 0 && $old->{exit_code} != 75) ||\n                         (defined $old->{error_number} && $old->{error_number} != 75);\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (defined $last->{end} && defined $last->{exit_code} && defined $last->{launch_generation} &&\n                    encode_json($last->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        # Journal loss cannot let a success/refusal receipt erase an unresolved failure.\n        $keep_failure = $old_failed && defined $old_generation && $old_generation > $completed &&\n                        (!$failed || $generation <= $old_generation);\n    }\n    if (!$keep_failure) {\n        make_path($dir);\n        my ($out, $temporary) = tempfile(\".launch-receipt.XXXXXX\", DIR => $dir, UNLINK => 1);\n        print {$out} encode_json($value), \"\\n\" or die \"receipt write: $!\";\n        close $out or die \"receipt close: $!\";\n        rename $temporary, \"$dir/launch_receipt.json\" or die \"receipt publish: $!\";\n    }\n    1;\n};\nmy $publication_error = $@;\nif (!$published || $failed) {\n    my $journaled = eval {\n        my $journal_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal\";\n        make_path($journal_dir);\n        open my $lock, \">>\", \"$journal_dir/journal.lock\" or die \"journal lock: $!\";\n        flock($lock, LOCK_EX) or die \"journal lock: $!\";\n        my $file = \"$journal_dir/failures.jsonl\";\n        my @markers;\n        if (-e $file) {\n            open my $input, \"<\", $file or die \"journal read: $!\";\n            @markers = map { decode_json($_) } <$input>;\n            close $input or die \"journal close: $!\";\n            die \"malformed journal\" if !@markers || @markers > 64 || -s $file > 65536;\n            for my $marker (@markers) {\n                die \"malformed journal\" unless ref($marker) eq \"HASH\" && $marker->{schema} == 1 &&\n                    defined $marker->{reason} && length($marker->{reason}) <= 256 &&\n                    (!defined $marker->{launch_generation} ||\n                     (!ref($marker->{launch_generation}) && encode_json($marker->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/ &&\n                      $marker->{launch_generation} <= 2147483647));\n            }\n        }\n        push @markers, {schema => 1, launch_generation => $generation, utc => $value->{utc},\n            reason => !$published ? \"receipt publication failed\" : \"failed launch\"};\n        # Retain the greatest failed generations and any ambiguous marker.\n        @markers = sort { ($a->{launch_generation} // 2147483648) <=> ($b->{launch_generation} // 2147483648) } @markers;\n        splice @markers, 0, @markers - 64 if @markers > 64;\n        my ($out, $temporary) = tempfile(\".journal.XXXXXX\", DIR => $journal_dir, UNLINK => 1);\n        for my $marker (@markers) { print {$out} encode_json($marker), \"\\n\" or die \"journal write: $!\"; }\n        close $out or die \"journal close: $!\";\n        rename $temporary, $file or die \"journal publish: $!\";\n        1;\n    };\n    warn \"launch journal failed: $@\" unless $journaled;\n}\nwarn \"launch receipt failed: $publication_error\" unless $published;\nexit($published ? 0 : 1);\n' \"$wrapper\" \"$exit_code\" \"$error_number\" \"$generation\"\n",
+        "backup-launch",
+        "/private/tmp/gdrive_addendum_sqz4ze1s/checkout/tools/backup_gdrive.sh"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31269,
+      "pid": 31269,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.698427+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_checkout_pull_cannot_change_dispatch"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_ofm97shs/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31273,
+      "pid": 31273,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.755743+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_ofm97shs/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31274,
+      "pid": 31274,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.767893+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_ofm97shs/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31275,
+      "pid": 31275,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.778785+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_ofm97shs/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31278,
+      "pid": 31278,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.795438+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_yk5vb1fh/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31279,
+      "pid": 31279,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.810191+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_yk5vb1fh/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31280,
+      "pid": 31280,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.822047+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_yk5vb1fh/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31281,
+      "pid": 31281,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.832897+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_yk5vb1fh/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31284,
+      "pid": 31284,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.848468+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_in8f4v1s/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31285,
+      "pid": 31285,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.862897+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_dirty_checkout_stages_commit_bytes"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_in8f4v1s/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31286,
+      "pid": 31286,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.874143+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_dirty_checkout_stages_commit_bytes"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_in8f4v1s/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31287,
+      "pid": 31287,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.884713+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_dirty_checkout_stages_commit_bytes"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_in8f4v1s/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31290,
+      "pid": 31290,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.900464+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_dirty_checkout_stages_commit_bytes"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_0h21cgkh/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31291,
+      "pid": 31291,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.914993+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_0h21cgkh/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31292,
+      "pid": 31292,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.926504+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_0h21cgkh/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31293,
+      "pid": 31293,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.936964+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_0h21cgkh/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31296,
+      "pid": 31296,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.952967+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_n0r1ezup/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31297,
+      "pid": 31297,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.968546+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_extra_file_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_n0r1ezup/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31298,
+      "pid": 31298,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.979705+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_extra_file_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_n0r1ezup/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31299,
+      "pid": 31299,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:46.990271+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_extra_file_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_n0r1ezup/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31302,
+      "pid": 31302,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.005793+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_extra_file_refuses"
+    },
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "set -eu\ngeneration=$(/usr/bin/perl -MJSON::PP -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\nmake_path($dir);\nopen my $lock, \">>\", \"$dir/counter.lock\" or die \"generation lock: $!\";\nflock($lock, LOCK_EX) or die \"generation lock: $!\";\nopen my $input, \"<\", \"$dir/counter\" or die \"missing generation counter: $!\";\nmy $text = do { local $/; <$input> };\nclose $input or die \"counter read: $!\";\ndie \"invalid or exhausted generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ && $text < 2147483647;\nmy $previous = int($text);\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($completed, $refused) = (0, 0);\nfor my $file (\"$ENV{HOME}/Library/Logs/memit-gdrive-backup/last_run.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup/launch_receipt.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl\") {\n    next unless -e $file;\n    open my $evidence, \"<\", $file or die \"generation evidence read: $!\";\n    my @records;\n    if ($file =~ /jsonl\\z/) { @records = <$evidence>; }\n    else { @records = (do { local $/; <$evidence> }); }\n    close $evidence or die \"generation evidence read: $!\";\n    die \"empty generation evidence\" unless @records;\n    for my $line (@records) {\n        my $value = decode_json($line);\n        die \"malformed generation evidence\" unless ref($value) eq \"HASH\";\n        my $generation = $value->{launch_generation};\n        if (!defined $generation && $file =~ /last_run\\.json\\z/ &&\n                (!exists $value->{launch_mode} || $value->{launch_mode} eq \"manual\")) { next; }\n        die \"ambiguous or non-increasing launch generation\" unless defined $generation &&\n            !ref($generation) && encode_json($generation) =~ /\\A[1-9][0-9]{0,9}\\z/ && $generation <= $previous;\n        if ($file =~ /last_run\\.json\\z/ && defined $value->{end} && defined $value->{exit_code} &&\n                ($value->{launch_mode} // \"applet\") eq \"applet\" &&\n                encode_json($value->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $value->{exit_code} <= 255) {\n            $completed = $generation;\n        }\n        if ($file =~ /launch_receipt\\.json\\z/ &&\n                ((defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                 (defined $value->{error_number} && $value->{error_number} == 75))) { $refused = $generation; }\n\n    }\n}\nmy $state = read_state($dir, $previous, $completed);\nresolve_state($state, $completed, $refused);\nmy $generation = $previous + 1;\n$state->{issued_generation} = $generation;\nif (@{$state->{unresolved}} && $state->{unresolved}[-1][1] == $previous) {\n    $state->{unresolved}[-1][1] = $generation;\n} else { push @{$state->{unresolved}}, [$generation, $generation]; }\n# Publish issued evidence first: interruption between renames refuses allocation.\npublish_state($dir, $state);\nmy ($out, $temporary) = tempfile(\".counter.XXXXXX\", DIR => $dir, UNLINK => 1);\nprint {$out} \"$generation\\n\" or die \"counter write: $!\";\nclose $out or die \"counter close: $!\";\nrename $temporary, \"$dir/counter\" or die \"counter publish: $!\";\nprint \"$generation\\n\";\n')\nprintf '%s\\n' \"$generation\"\nwrapper=$1\ngeneration=${generation:-${2:-}}\nif BACKUP_LAUNCH_GENERATION=\"$generation\" /bin/bash \"$wrapper\"; then\n    exit_code=0\nelse\n    exit_code=$?\nfi\nset -- \"$wrapper\" \"$exit_code\" \"\" \"$generation\"\nset -eu\nwrapper=$1\nexit_code=${2:-}\nerror_number=${3:-}\ngeneration=${4:-${generation:-}}\n/usr/bin/perl -MJSON::PP -MTime::HiRes=gettimeofday -MPOSIX=strftime -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($sec, $micro) = gettimeofday();\nmy $generation = $ARGV[3] =~ /\\A[1-9][0-9]{0,9}\\z/ && $ARGV[3] <= 2147483647 ? int($ARGV[3]) : undef;\nmy $value = {schema => 1, launch_generation => $generation,\n    utc => strftime(\"%Y-%m-%dT%H:%M:%S\", gmtime($sec)) . sprintf(\".%06dZ\", $micro),\n    wrapper_path => $ARGV[0], exit_code => length($ARGV[1]) ? int($ARGV[1]) : undef,\n    error_number => length($ARGV[2]) ? int($ARGV[2]) : undef};\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup\";\nmy $failed = !defined $generation ||\n    (defined $value->{exit_code} && $value->{exit_code} != 0 && $value->{exit_code} != 75) ||\n    (defined $value->{error_number} && $value->{error_number} != 75);\nmy $state_lock;\nmy $published = eval {\n    make_path(\"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\");\n    open $state_lock, \">>\", \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state/counter.lock\"\n        or die \"receipt generation lock: $!\";\n    flock($state_lock, LOCK_EX) or die \"receipt generation lock: $!\";\n    if (defined $generation) {\n        my $state_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\n        open my $counter, \"<\", \"$state_dir/counter\" or die \"receipt counter read: $!\";\n        my $text = do { local $/; <$counter> };\n        close $counter or die \"receipt counter read: $!\";\n        die \"invalid receipt generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ &&\n            $text <= 2147483647 && $generation <= $text;\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (ref($last) eq \"HASH\" && defined $last->{end} && defined $last->{exit_code} &&\n                    state_integer($last->{launch_generation}, 0) &&\n                    ($last->{launch_mode} // \"applet\") eq \"applet\" &&\n                    encode_json($last->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $last->{exit_code} <= 255) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        my $state = read_state($state_dir, int($text), $completed);\n        my $refused = (defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                      (defined $value->{error_number} && $value->{error_number} == 75);\n        resolve_state($state, $completed, $refused ? $generation : 0);\n        publish_state($state_dir, $state);\n\n    }\n    my $keep_failure = 0;\n    if (defined $generation && -e \"$dir/launch_receipt.json\") {\n        open my $input, \"<\", \"$dir/launch_receipt.json\" or die \"receipt read: $!\";\n        my $old = decode_json(do { local $/; <$input> });\n        close $input or die \"receipt read: $!\";\n        my $old_generation = $old->{launch_generation};\n        my $old_failed = (defined $old->{exit_code} && $old->{exit_code} != 0 && $old->{exit_code} != 75) ||\n                         (defined $old->{error_number} && $old->{error_number} != 75);\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (defined $last->{end} && defined $last->{exit_code} && defined $last->{launch_generation} &&\n                    encode_json($last->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        # Journal loss cannot let a success/refusal receipt erase an unresolved failure.\n        $keep_failure = $old_failed && defined $old_generation && $old_generation > $completed &&\n                        (!$failed || $generation <= $old_generation);\n    }\n    if (!$keep_failure) {\n        make_path($dir);\n        my ($out, $temporary) = tempfile(\".launch-receipt.XXXXXX\", DIR => $dir, UNLINK => 1);\n        print {$out} encode_json($value), \"\\n\" or die \"receipt write: $!\";\n        close $out or die \"receipt close: $!\";\n        rename $temporary, \"$dir/launch_receipt.json\" or die \"receipt publish: $!\";\n    }\n    1;\n};\nmy $publication_error = $@;\nif (!$published || $failed) {\n    my $journaled = eval {\n        my $journal_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal\";\n        make_path($journal_dir);\n        open my $lock, \">>\", \"$journal_dir/journal.lock\" or die \"journal lock: $!\";\n        flock($lock, LOCK_EX) or die \"journal lock: $!\";\n        my $file = \"$journal_dir/failures.jsonl\";\n        my @markers;\n        if (-e $file) {\n            open my $input, \"<\", $file or die \"journal read: $!\";\n            @markers = map { decode_json($_) } <$input>;\n            close $input or die \"journal close: $!\";\n            die \"malformed journal\" if !@markers || @markers > 64 || -s $file > 65536;\n            for my $marker (@markers) {\n                die \"malformed journal\" unless ref($marker) eq \"HASH\" && $marker->{schema} == 1 &&\n                    defined $marker->{reason} && length($marker->{reason}) <= 256 &&\n                    (!defined $marker->{launch_generation} ||\n                     (!ref($marker->{launch_generation}) && encode_json($marker->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/ &&\n                      $marker->{launch_generation} <= 2147483647));\n            }\n        }\n        push @markers, {schema => 1, launch_generation => $generation, utc => $value->{utc},\n            reason => !$published ? \"receipt publication failed\" : \"failed launch\"};\n        # Retain the greatest failed generations and any ambiguous marker.\n        @markers = sort { ($a->{launch_generation} // 2147483648) <=> ($b->{launch_generation} // 2147483648) } @markers;\n        splice @markers, 0, @markers - 64 if @markers > 64;\n        my ($out, $temporary) = tempfile(\".journal.XXXXXX\", DIR => $journal_dir, UNLINK => 1);\n        for my $marker (@markers) { print {$out} encode_json($marker), \"\\n\" or die \"journal write: $!\"; }\n        close $out or die \"journal close: $!\";\n        rename $temporary, $file or die \"journal publish: $!\";\n        1;\n    };\n    warn \"launch journal failed: $@\" unless $journaled;\n}\nwarn \"launch receipt failed: $publication_error\" unless $published;\nexit($published ? 0 : 1);\n' \"$wrapper\" \"$exit_code\" \"$error_number\" \"$generation\"\n",
+        "backup-launch",
+        "/private/tmp/gdrive_addendum_n0r1ezup/checkout/tools/backup_gdrive.sh"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31303,
+      "pid": 31303,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.014927+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_extra_file_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_vozx1d7v/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31307,
+      "pid": 31307,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.071041+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_good_release_dispatches_release_path"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_vozx1d7v/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31308,
+      "pid": 31308,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.082944+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_good_release_dispatches_release_path"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_vozx1d7v/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31309,
+      "pid": 31309,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.094028+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_good_release_dispatches_release_path"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_vozx1d7v/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31312,
+      "pid": 31312,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.109941+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_good_release_dispatches_release_path"
+    },
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "set -eu\ngeneration=$(/usr/bin/perl -MJSON::PP -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\nmake_path($dir);\nopen my $lock, \">>\", \"$dir/counter.lock\" or die \"generation lock: $!\";\nflock($lock, LOCK_EX) or die \"generation lock: $!\";\nopen my $input, \"<\", \"$dir/counter\" or die \"missing generation counter: $!\";\nmy $text = do { local $/; <$input> };\nclose $input or die \"counter read: $!\";\ndie \"invalid or exhausted generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ && $text < 2147483647;\nmy $previous = int($text);\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($completed, $refused) = (0, 0);\nfor my $file (\"$ENV{HOME}/Library/Logs/memit-gdrive-backup/last_run.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup/launch_receipt.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl\") {\n    next unless -e $file;\n    open my $evidence, \"<\", $file or die \"generation evidence read: $!\";\n    my @records;\n    if ($file =~ /jsonl\\z/) { @records = <$evidence>; }\n    else { @records = (do { local $/; <$evidence> }); }\n    close $evidence or die \"generation evidence read: $!\";\n    die \"empty generation evidence\" unless @records;\n    for my $line (@records) {\n        my $value = decode_json($line);\n        die \"malformed generation evidence\" unless ref($value) eq \"HASH\";\n        my $generation = $value->{launch_generation};\n        if (!defined $generation && $file =~ /last_run\\.json\\z/ &&\n                (!exists $value->{launch_mode} || $value->{launch_mode} eq \"manual\")) { next; }\n        die \"ambiguous or non-increasing launch generation\" unless defined $generation &&\n            !ref($generation) && encode_json($generation) =~ /\\A[1-9][0-9]{0,9}\\z/ && $generation <= $previous;\n        if ($file =~ /last_run\\.json\\z/ && defined $value->{end} && defined $value->{exit_code} &&\n                ($value->{launch_mode} // \"applet\") eq \"applet\" &&\n                encode_json($value->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $value->{exit_code} <= 255) {\n            $completed = $generation;\n        }\n        if ($file =~ /launch_receipt\\.json\\z/ &&\n                ((defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                 (defined $value->{error_number} && $value->{error_number} == 75))) { $refused = $generation; }\n\n    }\n}\nmy $state = read_state($dir, $previous, $completed);\nresolve_state($state, $completed, $refused);\nmy $generation = $previous + 1;\n$state->{issued_generation} = $generation;\nif (@{$state->{unresolved}} && $state->{unresolved}[-1][1] == $previous) {\n    $state->{unresolved}[-1][1] = $generation;\n} else { push @{$state->{unresolved}}, [$generation, $generation]; }\n# Publish issued evidence first: interruption between renames refuses allocation.\npublish_state($dir, $state);\nmy ($out, $temporary) = tempfile(\".counter.XXXXXX\", DIR => $dir, UNLINK => 1);\nprint {$out} \"$generation\\n\" or die \"counter write: $!\";\nclose $out or die \"counter close: $!\";\nrename $temporary, \"$dir/counter\" or die \"counter publish: $!\";\nprint \"$generation\\n\";\n')\nprintf '%s\\n' \"$generation\"\nwrapper=$1\ngeneration=${generation:-${2:-}}\nif BACKUP_LAUNCH_GENERATION=\"$generation\" /bin/bash \"$wrapper\"; then\n    exit_code=0\nelse\n    exit_code=$?\nfi\nset -- \"$wrapper\" \"$exit_code\" \"\" \"$generation\"\nset -eu\nwrapper=$1\nexit_code=${2:-}\nerror_number=${3:-}\ngeneration=${4:-${generation:-}}\n/usr/bin/perl -MJSON::PP -MTime::HiRes=gettimeofday -MPOSIX=strftime -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($sec, $micro) = gettimeofday();\nmy $generation = $ARGV[3] =~ /\\A[1-9][0-9]{0,9}\\z/ && $ARGV[3] <= 2147483647 ? int($ARGV[3]) : undef;\nmy $value = {schema => 1, launch_generation => $generation,\n    utc => strftime(\"%Y-%m-%dT%H:%M:%S\", gmtime($sec)) . sprintf(\".%06dZ\", $micro),\n    wrapper_path => $ARGV[0], exit_code => length($ARGV[1]) ? int($ARGV[1]) : undef,\n    error_number => length($ARGV[2]) ? int($ARGV[2]) : undef};\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup\";\nmy $failed = !defined $generation ||\n    (defined $value->{exit_code} && $value->{exit_code} != 0 && $value->{exit_code} != 75) ||\n    (defined $value->{error_number} && $value->{error_number} != 75);\nmy $state_lock;\nmy $published = eval {\n    make_path(\"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\");\n    open $state_lock, \">>\", \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state/counter.lock\"\n        or die \"receipt generation lock: $!\";\n    flock($state_lock, LOCK_EX) or die \"receipt generation lock: $!\";\n    if (defined $generation) {\n        my $state_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\n        open my $counter, \"<\", \"$state_dir/counter\" or die \"receipt counter read: $!\";\n        my $text = do { local $/; <$counter> };\n        close $counter or die \"receipt counter read: $!\";\n        die \"invalid receipt generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ &&\n            $text <= 2147483647 && $generation <= $text;\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (ref($last) eq \"HASH\" && defined $last->{end} && defined $last->{exit_code} &&\n                    state_integer($last->{launch_generation}, 0) &&\n                    ($last->{launch_mode} // \"applet\") eq \"applet\" &&\n                    encode_json($last->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $last->{exit_code} <= 255) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        my $state = read_state($state_dir, int($text), $completed);\n        my $refused = (defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                      (defined $value->{error_number} && $value->{error_number} == 75);\n        resolve_state($state, $completed, $refused ? $generation : 0);\n        publish_state($state_dir, $state);\n\n    }\n    my $keep_failure = 0;\n    if (defined $generation && -e \"$dir/launch_receipt.json\") {\n        open my $input, \"<\", \"$dir/launch_receipt.json\" or die \"receipt read: $!\";\n        my $old = decode_json(do { local $/; <$input> });\n        close $input or die \"receipt read: $!\";\n        my $old_generation = $old->{launch_generation};\n        my $old_failed = (defined $old->{exit_code} && $old->{exit_code} != 0 && $old->{exit_code} != 75) ||\n                         (defined $old->{error_number} && $old->{error_number} != 75);\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (defined $last->{end} && defined $last->{exit_code} && defined $last->{launch_generation} &&\n                    encode_json($last->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        # Journal loss cannot let a success/refusal receipt erase an unresolved failure.\n        $keep_failure = $old_failed && defined $old_generation && $old_generation > $completed &&\n                        (!$failed || $generation <= $old_generation);\n    }\n    if (!$keep_failure) {\n        make_path($dir);\n        my ($out, $temporary) = tempfile(\".launch-receipt.XXXXXX\", DIR => $dir, UNLINK => 1);\n        print {$out} encode_json($value), \"\\n\" or die \"receipt write: $!\";\n        close $out or die \"receipt close: $!\";\n        rename $temporary, \"$dir/launch_receipt.json\" or die \"receipt publish: $!\";\n    }\n    1;\n};\nmy $publication_error = $@;\nif (!$published || $failed) {\n    my $journaled = eval {\n        my $journal_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal\";\n        make_path($journal_dir);\n        open my $lock, \">>\", \"$journal_dir/journal.lock\" or die \"journal lock: $!\";\n        flock($lock, LOCK_EX) or die \"journal lock: $!\";\n        my $file = \"$journal_dir/failures.jsonl\";\n        my @markers;\n        if (-e $file) {\n            open my $input, \"<\", $file or die \"journal read: $!\";\n            @markers = map { decode_json($_) } <$input>;\n            close $input or die \"journal close: $!\";\n            die \"malformed journal\" if !@markers || @markers > 64 || -s $file > 65536;\n            for my $marker (@markers) {\n                die \"malformed journal\" unless ref($marker) eq \"HASH\" && $marker->{schema} == 1 &&\n                    defined $marker->{reason} && length($marker->{reason}) <= 256 &&\n                    (!defined $marker->{launch_generation} ||\n                     (!ref($marker->{launch_generation}) && encode_json($marker->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/ &&\n                      $marker->{launch_generation} <= 2147483647));\n            }\n        }\n        push @markers, {schema => 1, launch_generation => $generation, utc => $value->{utc},\n            reason => !$published ? \"receipt publication failed\" : \"failed launch\"};\n        # Retain the greatest failed generations and any ambiguous marker.\n        @markers = sort { ($a->{launch_generation} // 2147483648) <=> ($b->{launch_generation} // 2147483648) } @markers;\n        splice @markers, 0, @markers - 64 if @markers > 64;\n        my ($out, $temporary) = tempfile(\".journal.XXXXXX\", DIR => $journal_dir, UNLINK => 1);\n        for my $marker (@markers) { print {$out} encode_json($marker), \"\\n\" or die \"journal write: $!\"; }\n        close $out or die \"journal close: $!\";\n        rename $temporary, $file or die \"journal publish: $!\";\n        1;\n    };\n    warn \"launch journal failed: $@\" unless $journaled;\n}\nwarn \"launch receipt failed: $publication_error\" unless $published;\nexit($published ? 0 : 1);\n' \"$wrapper\" \"$exit_code\" \"$error_number\" \"$generation\"\n",
+        "backup-launch",
+        "/private/tmp/gdrive_addendum_vozx1d7v/checkout/tools/backup_gdrive.sh"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31314,
+      "pid": 31314,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.119233+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_good_release_dispatches_release_path"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum__zqhsvvu/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31318,
+      "pid": 31318,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.176057+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_missing_file_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum__zqhsvvu/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31319,
+      "pid": 31319,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.188126+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_missing_file_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum__zqhsvvu/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31320,
+      "pid": 31320,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.198761+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_missing_file_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum__zqhsvvu/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31323,
+      "pid": 31323,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.214334+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_missing_file_refuses"
+    },
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "set -eu\ngeneration=$(/usr/bin/perl -MJSON::PP -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\nmake_path($dir);\nopen my $lock, \">>\", \"$dir/counter.lock\" or die \"generation lock: $!\";\nflock($lock, LOCK_EX) or die \"generation lock: $!\";\nopen my $input, \"<\", \"$dir/counter\" or die \"missing generation counter: $!\";\nmy $text = do { local $/; <$input> };\nclose $input or die \"counter read: $!\";\ndie \"invalid or exhausted generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ && $text < 2147483647;\nmy $previous = int($text);\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($completed, $refused) = (0, 0);\nfor my $file (\"$ENV{HOME}/Library/Logs/memit-gdrive-backup/last_run.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup/launch_receipt.json\",\n              \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl\") {\n    next unless -e $file;\n    open my $evidence, \"<\", $file or die \"generation evidence read: $!\";\n    my @records;\n    if ($file =~ /jsonl\\z/) { @records = <$evidence>; }\n    else { @records = (do { local $/; <$evidence> }); }\n    close $evidence or die \"generation evidence read: $!\";\n    die \"empty generation evidence\" unless @records;\n    for my $line (@records) {\n        my $value = decode_json($line);\n        die \"malformed generation evidence\" unless ref($value) eq \"HASH\";\n        my $generation = $value->{launch_generation};\n        if (!defined $generation && $file =~ /last_run\\.json\\z/ &&\n                (!exists $value->{launch_mode} || $value->{launch_mode} eq \"manual\")) { next; }\n        die \"ambiguous or non-increasing launch generation\" unless defined $generation &&\n            !ref($generation) && encode_json($generation) =~ /\\A[1-9][0-9]{0,9}\\z/ && $generation <= $previous;\n        if ($file =~ /last_run\\.json\\z/ && defined $value->{end} && defined $value->{exit_code} &&\n                ($value->{launch_mode} // \"applet\") eq \"applet\" &&\n                encode_json($value->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $value->{exit_code} <= 255) {\n            $completed = $generation;\n        }\n        if ($file =~ /launch_receipt\\.json\\z/ &&\n                ((defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                 (defined $value->{error_number} && $value->{error_number} == 75))) { $refused = $generation; }\n\n    }\n}\nmy $state = read_state($dir, $previous, $completed);\nresolve_state($state, $completed, $refused);\nmy $generation = $previous + 1;\n$state->{issued_generation} = $generation;\nif (@{$state->{unresolved}} && $state->{unresolved}[-1][1] == $previous) {\n    $state->{unresolved}[-1][1] = $generation;\n} else { push @{$state->{unresolved}}, [$generation, $generation]; }\n# Publish issued evidence first: interruption between renames refuses allocation.\npublish_state($dir, $state);\nmy ($out, $temporary) = tempfile(\".counter.XXXXXX\", DIR => $dir, UNLINK => 1);\nprint {$out} \"$generation\\n\" or die \"counter write: $!\";\nclose $out or die \"counter close: $!\";\nrename $temporary, \"$dir/counter\" or die \"counter publish: $!\";\nprint \"$generation\\n\";\n')\nprintf '%s\\n' \"$generation\"\nwrapper=$1\ngeneration=${generation:-${2:-}}\nif BACKUP_LAUNCH_GENERATION=\"$generation\" /bin/bash \"$wrapper\"; then\n    exit_code=0\nelse\n    exit_code=$?\nfi\nset -- \"$wrapper\" \"$exit_code\" \"\" \"$generation\"\nset -eu\nwrapper=$1\nexit_code=${2:-}\nerror_number=${3:-}\ngeneration=${4:-${generation:-}}\n/usr/bin/perl -MJSON::PP -MTime::HiRes=gettimeofday -MPOSIX=strftime -MFcntl=:flock -MFile::Path=make_path -MFile::Temp=tempfile -e '\n\nsub state_integer {\n    my ($value, $zero) = @_;\n    return defined $value && !ref($value) &&\n        encode_json($value) =~ ($zero ? qr/\\A(?:0|[1-9][0-9]{0,9})\\z/ : qr/\\A[1-9][0-9]{0,9}\\z/) &&\n        $value <= 2147483647;\n}\nsub read_state {\n    my ($dir, $previous, $completed) = @_;\n    if (!-e \"$dir/unresolved.json\") {\n        return {schema => 1, issued_generation => $previous,\n            unresolved => $previous > $completed ? [[$completed + 1, $previous]] : [],\n            recovery_barrier => undef, compaction_barrier => undef};\n    }\n    open my $input, \"<\", \"$dir/unresolved.json\" or die \"unresolved generations read: $!\";\n    my $state = decode_json(do { local $/; <$input> });\n    close $input or die \"unresolved generations read: $!\";\n    die \"malformed unresolved generation state\" unless ref($state) eq \"HASH\" &&\n        state_integer($state->{schema}, 0) && $state->{schema} == 1 &&\n        state_integer($state->{issued_generation}, 1) && $state->{issued_generation} == $previous &&\n        ref($state->{unresolved}) eq \"ARRAY\" && exists $state->{recovery_barrier} &&\n        (!defined $state->{recovery_barrier} ||\n            (state_integer($state->{recovery_barrier}, 0) && $state->{recovery_barrier} <= $previous)) &&\n        (!defined $state->{compaction_barrier} ||\n            (state_integer($state->{compaction_barrier}, 0) && $state->{compaction_barrier} <= $previous));\n    my $last = 0;\n    for my $range (@{$state->{unresolved}}) {\n        die \"malformed unresolved generation set\" unless ref($range) eq \"ARRAY\" && @$range == 2 &&\n            state_integer($range->[0], 0) && state_integer($range->[1], 0) &&\n            $range->[0] > $last && $range->[0] <= $range->[1] && $range->[1] <= $previous;\n        $last = $range->[1];\n    }\n    return $state;\n}\nsub resolve_state {\n    my ($state, $completed, $refused) = @_;\n    my @pending;\n    for my $range (@{$state->{unresolved}}) {\n        my ($low, $high) = @$range;\n        next if $high <= $completed;\n        $low = $completed + 1 if $low <= $completed;\n        if ($refused && $low <= $refused && $refused <= $high) {\n            push @pending, [$low, $refused - 1] if $low < $refused;\n            push @pending, [$refused + 1, $high] if $refused < $high;\n        } else { push @pending, [$low, $high]; }\n    }\n    $state->{unresolved} = \\@pending;\n    $state->{recovery_barrier} = undef if defined $state->{recovery_barrier} && $completed > $state->{recovery_barrier};\n    $state->{compaction_barrier} = undef if defined $state->{compaction_barrier} && $completed > $state->{compaction_barrier};\n}\nsub compact_state {\n    my ($state) = @_;\n    $state->{compaction_barrier} = undef unless exists $state->{compaction_barrier};\n    # A refusal removes only itself; overflow retains all issued history as a barrier.\n    if (@{$state->{unresolved}} > 64 || length(encode_json($state)) + 1 > 2048) {\n        %$state = (schema => 1, issued_generation => $state->{issued_generation}, unresolved => [],\n                   recovery_barrier => $state->{recovery_barrier}, compaction_barrier => $state->{issued_generation});\n    }\n}\nsub publish_state {\n    my ($dir, $state) = @_;\n    compact_state($state);\n    my ($out, $temporary) = tempfile(\".unresolved.XXXXXX\", DIR => $dir, UNLINK => 1);\n    print {$out} encode_json($state), \"\\n\" or die \"unresolved generations write: $!\";\n    close $out or die \"unresolved generations close: $!\";\n    rename $temporary, \"$dir/unresolved.json\" or die \"unresolved generations publish: $!\";\n}\n\nmy ($sec, $micro) = gettimeofday();\nmy $generation = $ARGV[3] =~ /\\A[1-9][0-9]{0,9}\\z/ && $ARGV[3] <= 2147483647 ? int($ARGV[3]) : undef;\nmy $value = {schema => 1, launch_generation => $generation,\n    utc => strftime(\"%Y-%m-%dT%H:%M:%S\", gmtime($sec)) . sprintf(\".%06dZ\", $micro),\n    wrapper_path => $ARGV[0], exit_code => length($ARGV[1]) ? int($ARGV[1]) : undef,\n    error_number => length($ARGV[2]) ? int($ARGV[2]) : undef};\nmy $dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup\";\nmy $failed = !defined $generation ||\n    (defined $value->{exit_code} && $value->{exit_code} != 0 && $value->{exit_code} != 75) ||\n    (defined $value->{error_number} && $value->{error_number} != 75);\nmy $state_lock;\nmy $published = eval {\n    make_path(\"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\");\n    open $state_lock, \">>\", \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state/counter.lock\"\n        or die \"receipt generation lock: $!\";\n    flock($state_lock, LOCK_EX) or die \"receipt generation lock: $!\";\n    if (defined $generation) {\n        my $state_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-state\";\n        open my $counter, \"<\", \"$state_dir/counter\" or die \"receipt counter read: $!\";\n        my $text = do { local $/; <$counter> };\n        close $counter or die \"receipt counter read: $!\";\n        die \"invalid receipt generation counter\" unless $text =~ /\\A(?:0|[1-9][0-9]{0,9})\\n?\\z/ &&\n            $text <= 2147483647 && $generation <= $text;\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (ref($last) eq \"HASH\" && defined $last->{end} && defined $last->{exit_code} &&\n                    state_integer($last->{launch_generation}, 0) &&\n                    ($last->{launch_mode} // \"applet\") eq \"applet\" &&\n                    encode_json($last->{exit_code}) =~ /\\A(?:0|[1-9][0-9]{0,2})\\z/ && $last->{exit_code} <= 255) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        my $state = read_state($state_dir, int($text), $completed);\n        my $refused = (defined $value->{exit_code} && $value->{exit_code} == 75) ||\n                      (defined $value->{error_number} && $value->{error_number} == 75);\n        resolve_state($state, $completed, $refused ? $generation : 0);\n        publish_state($state_dir, $state);\n\n    }\n    my $keep_failure = 0;\n    if (defined $generation && -e \"$dir/launch_receipt.json\") {\n        open my $input, \"<\", \"$dir/launch_receipt.json\" or die \"receipt read: $!\";\n        my $old = decode_json(do { local $/; <$input> });\n        close $input or die \"receipt read: $!\";\n        my $old_generation = $old->{launch_generation};\n        my $old_failed = (defined $old->{exit_code} && $old->{exit_code} != 0 && $old->{exit_code} != 75) ||\n                         (defined $old->{error_number} && $old->{error_number} != 75);\n        my $completed = 0;\n        if (-e \"$dir/last_run.json\") {\n            open my $heartbeat, \"<\", \"$dir/last_run.json\" or die \"heartbeat read: $!\";\n            my $last = decode_json(do { local $/; <$heartbeat> });\n            close $heartbeat or die \"heartbeat read: $!\";\n            if (defined $last->{end} && defined $last->{exit_code} && defined $last->{launch_generation} &&\n                    encode_json($last->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/) {\n                $completed = $last->{launch_generation};\n            }\n        }\n        # Journal loss cannot let a success/refusal receipt erase an unresolved failure.\n        $keep_failure = $old_failed && defined $old_generation && $old_generation > $completed &&\n                        (!$failed || $generation <= $old_generation);\n    }\n    if (!$keep_failure) {\n        make_path($dir);\n        my ($out, $temporary) = tempfile(\".launch-receipt.XXXXXX\", DIR => $dir, UNLINK => 1);\n        print {$out} encode_json($value), \"\\n\" or die \"receipt write: $!\";\n        close $out or die \"receipt close: $!\";\n        rename $temporary, \"$dir/launch_receipt.json\" or die \"receipt publish: $!\";\n    }\n    1;\n};\nmy $publication_error = $@;\nif (!$published || $failed) {\n    my $journaled = eval {\n        my $journal_dir = \"$ENV{HOME}/Library/Logs/memit-gdrive-backup-launch-journal\";\n        make_path($journal_dir);\n        open my $lock, \">>\", \"$journal_dir/journal.lock\" or die \"journal lock: $!\";\n        flock($lock, LOCK_EX) or die \"journal lock: $!\";\n        my $file = \"$journal_dir/failures.jsonl\";\n        my @markers;\n        if (-e $file) {\n            open my $input, \"<\", $file or die \"journal read: $!\";\n            @markers = map { decode_json($_) } <$input>;\n            close $input or die \"journal close: $!\";\n            die \"malformed journal\" if !@markers || @markers > 64 || -s $file > 65536;\n            for my $marker (@markers) {\n                die \"malformed journal\" unless ref($marker) eq \"HASH\" && $marker->{schema} == 1 &&\n                    defined $marker->{reason} && length($marker->{reason}) <= 256 &&\n                    (!defined $marker->{launch_generation} ||\n                     (!ref($marker->{launch_generation}) && encode_json($marker->{launch_generation}) =~ /\\A[1-9][0-9]{0,9}\\z/ &&\n                      $marker->{launch_generation} <= 2147483647));\n            }\n        }\n        push @markers, {schema => 1, launch_generation => $generation, utc => $value->{utc},\n            reason => !$published ? \"receipt publication failed\" : \"failed launch\"};\n        # Retain the greatest failed generations and any ambiguous marker.\n        @markers = sort { ($a->{launch_generation} // 2147483648) <=> ($b->{launch_generation} // 2147483648) } @markers;\n        splice @markers, 0, @markers - 64 if @markers > 64;\n        my ($out, $temporary) = tempfile(\".journal.XXXXXX\", DIR => $journal_dir, UNLINK => 1);\n        for my $marker (@markers) { print {$out} encode_json($marker), \"\\n\" or die \"journal write: $!\"; }\n        close $out or die \"journal close: $!\";\n        rename $temporary, $file or die \"journal publish: $!\";\n        1;\n    };\n    warn \"launch journal failed: $@\" unless $journaled;\n}\nwarn \"launch receipt failed: $publication_error\" unless $published;\nexit($published ? 0 : 1);\n' \"$wrapper\" \"$exit_code\" \"$error_number\" \"$generation\"\n",
+        "backup-launch",
+        "/private/tmp/gdrive_addendum__zqhsvvu/checkout/tools/backup_gdrive.sh"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31324,
+      "pid": 31324,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.223368+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_missing_file_refuses"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_ucw8ku4z/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31328,
+      "pid": 31328,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.277579+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_release_inside_another_checkout_refused"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_ucw8ku4z/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31329,
+      "pid": 31329,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.290083+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_release_inside_another_checkout_refused"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_ucw8ku4z/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31330,
+      "pid": 31330,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.301027+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_release_inside_another_checkout_refused"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_ucw8ku4z/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31334,
+      "pid": 31334,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.316745+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_release_inside_another_checkout_refused"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "init",
+        "-q",
+        "/private/tmp/gdrive_addendum_ucw8ku4z/other checkout"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31337,
+      "pid": 31337,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.324651+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_release_inside_another_checkout_refused"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_94n1wsou/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31338,
+      "pid": 31338,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.344693+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_rendered_source_stamps_release_and_all_four_hashes"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_94n1wsou/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31339,
+      "pid": 31339,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.355705+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_rendered_source_stamps_release_and_all_four_hashes"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_94n1wsou/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31340,
+      "pid": 31340,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.366278+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_rendered_source_stamps_release_and_all_four_hashes"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_94n1wsou/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 31343,
+      "pid": 31343,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:19:47.381262+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_rendered_source_stamps_release_and_all_four_hashes"
+    }
+  ],
+  "runner_expected_exit": 1,
+  "runner_pid": 31216,
+  "scope": "direct Popen processes and their complete session groups; no detached/native open launches"
+}

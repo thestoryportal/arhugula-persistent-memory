@@ -2142,7 +2142,233 @@ class GenerationWrapperTest(Fixture):
         self.assertFalse(self.heartbeat.exists())
 
 
+class LockedReleaseTest(Fixture):
+    """MB32: removing the release gate must dispatch corrupted fixture bytes."""
+    FILES = ("backup_gdrive.sh", "backup_gdrive_status.py", "backup_mirror.excludes")
+
+    def setUp(self):
+        # A receipt-dir HOME is itself in a checkout; release fixtures must be outside it.
+        temporary_root = mock.patch.dict(os.environ, BACKUP_TEST_RECEIPTS="/private/tmp")
+        temporary_root.start()
+        self.addCleanup(temporary_root.stop)
+        super().setUp()
+        self.checkout = self.base/"checkout"
+        launchd = self.checkout/"tools/launchd"
+        launchd.mkdir(parents=True)
+        self.original = {
+            "backup_gdrive.sh": b'#!/bin/sh\nprintf "%s\\n" "$0" > "$HOME/dispatched-wrapper"\nprintf "%s\\n" "$BACKUP_LAUNCH_GENERATION" > "$HOME/dispatched-generation"\n',
+            "backup_gdrive_status.py": b'# committed fixture status\n',
+            "backup_mirror.excludes": b'# committed fixture excludes\n',
+        }
+        for name, content in self.original.items():
+            (self.checkout/"tools"/name).write_bytes(content)
+        for name in ("MemitGdriveBackup.applescript", "build_gdrive_applet.sh", "stage_gdrive_release.sh"):
+            source = ROOT/"tools/launchd"/name
+            if source.exists():
+                shutil.copyfile(source, launchd/name)
+        self.git("init", "-q")
+        self.git("add", "tools")
+        self.git("-c", "user.name=MB32 Fixture", "-c", "user.email=fixture@invalid",
+                 "-c", "core.hooksPath=/dev/null", "commit", "-qm", "locked release fixture")
+        self.commit = self.git("rev-parse", "HEAD").stdout.strip()
+        self.release_root = self.home/"Library/Application Support/memit-gdrive-backup/releases"
+        self.release = self.release_root/"fixture-r1"
+        self.rendered = self.base/"rendered source.applescript"
+        self.counter = self.home/"Library/Logs/memit-gdrive-backup-launch-state/counter"
+        self.counter.parent.mkdir(parents=True)
+        self.counter.write_text("0\n")
+        self.receipt = self.home/"Library/Logs/memit-gdrive-backup/launch_receipt.json"
+        self.marker = self.home/"dispatched-wrapper"
+
+    def git(self, *args):
+        result = run_process(["/usr/bin/git", "-C", str(self.checkout), *args], timeout=10)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        return result
+
+    def stage(self, *, baseline=True, root=None, rendered=None):
+        script = self.checkout/"tools/launchd/stage_gdrive_release.sh"
+        if not script.exists() and baseline:
+            # Safely exercise the old dispatch: its checkout path is a tiny stub.
+            self.release.mkdir(parents=True)
+            for name, content in self.original.items():
+                (self.release/name).write_bytes(content)
+            manifest = "".join(hashlib.sha256(self.original[n]).hexdigest()+"  "+n+"\n" for n in self.FILES)
+            (self.release/"MANIFEST").write_text(manifest)
+            source = (self.checkout/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+            source = re.sub(r'^property wrapperPath : .*$',
+                            lambda m: 'property wrapperPath : '+json.dumps(str(self.checkout/"tools/backup_gdrive.sh")),
+                            source, flags=re.M)
+            self.rendered.write_text(source)
+            return subprocess.CompletedProcess([], 0, "", "")
+        self.assertTrue(script.is_file(), "commit-only release staging entrypoint is missing")
+        args = ["/bin/bash", str(script), self.commit, "fixture-r1", str(rendered or self.rendered)]
+        if root is not None:
+            args.append(str(root))
+        return run_process(args, timeout=10)
+
+    def ready(self):
+        result = self.stage()
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+
+    def dispatch(self):
+        source = self.rendered.read_text()
+        literals = {name: json.loads(literal) for name, literal in
+                    re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', source, re.M)}
+        # Same ordered shell literals and stamped wrapperPath as the applet.
+        composition = re.search(r'quoted form of \(([^)]+)\).*" backup-launch "', source)
+        self.assertIsNotNone(composition, "applet dispatch composition must be exercised")
+        body = literals["generationShell"]+"".join(literals[name.strip()] for name in composition[1].split("&"))
+        return run_process(["/bin/sh", "-c", body, "backup-launch", literals["wrapperPath"]], timeout=5)
+
+    def refused(self, name, expected, actual):
+        result = self.dispatch()
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertFalse(self.marker.exists(), "integrity failure dispatched the wrapper")
+        self.assertTrue(self.receipt.is_file(), "integrity refusal needs the existing receipt sink")
+        value = json.loads(self.receipt.read_text())
+        self.assertEqual(value["launch_generation"], 1)
+        self.assertNotEqual(value["exit_code"], 0)
+        failure = next((f for f in value.get("integrity_failures", []) if f["file"] == name), None)
+        self.assertIsNotNone(failure, "failure receipt must name "+name)
+        self.assertEqual(failure["expected_sha256"], expected)
+        self.assertEqual(failure["actual_sha256"], actual)
+        self.assertEqual(self.counter.read_text(), "1\n", "reserve before checking to sequence refusals")
+
+    def change_byte(self, name):
+        self.ready()
+        path = self.release/name
+        previous = path.read_bytes()
+        changed = bytes([previous[0] ^ 1])+previous[1:]
+        path.chmod(0o600)
+        path.write_bytes(changed)
+        self.refused(name, hashlib.sha256(previous).hexdigest(), hashlib.sha256(changed).hexdigest())
+
+    def test_good_release_dispatches_release_path(self):
+        self.ready()
+        result = self.dispatch()
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual(self.marker.read_text().strip(), str(self.release/"backup_gdrive.sh"))
+        self.assertEqual((self.home/"dispatched-generation").read_text(), "1\n")
+        self.assertEqual(json.loads(self.receipt.read_text())["wrapper_path"], str(self.release/"backup_gdrive.sh"))
+        self.assertEqual({p.name for p in self.release.iterdir()}, set(self.FILES)|{"MANIFEST"})
+        for path in [self.release, *self.release.iterdir()]:
+            self.assertEqual(path.stat().st_mode & 0o222, 0, str(path)+" must be read-only")
+
+    def test_changed_wrapper_byte_refuses(self):
+        self.change_byte("backup_gdrive.sh")
+
+    def test_changed_status_byte_refuses(self):
+        self.change_byte("backup_gdrive_status.py")
+
+    def test_changed_excludes_byte_refuses(self):
+        self.change_byte("backup_mirror.excludes")
+
+    def test_changed_manifest_byte_refuses(self):
+        self.change_byte("MANIFEST")
+
+    def test_missing_file_refuses(self):
+        self.ready()
+        self.release.chmod(0o700)
+        path = self.release/"backup_gdrive_status.py"
+        previous = path.read_bytes()
+        path.unlink()
+        self.refused(path.name, hashlib.sha256(previous).hexdigest(), "MISSING")
+
+    def test_extra_file_refuses(self):
+        self.ready()
+        self.release.chmod(0o700)
+        path = self.release/"unexpected file"
+        path.write_bytes(b"unapproved")
+        self.refused(path.name, "ABSENT", hashlib.sha256(b"unapproved").hexdigest())
+
+    def test_checkout_pull_cannot_change_dispatch(self):
+        self.ready()
+        (self.checkout/"tools/backup_gdrive.sh").write_text("#!/bin/sh\nexit 99\n")
+        result = self.dispatch()
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertTrue(self.marker.is_file(), "pull changed what the applet dispatches")
+        self.assertEqual(self.marker.read_text().strip(), str(self.release/"backup_gdrive.sh"))
+        self.assertEqual((self.release/"backup_gdrive.sh").read_bytes(), self.original["backup_gdrive.sh"])
+
+    def test_existing_release_id_refused_without_overwrite(self):
+        self.ready()
+        before = {p.name: p.read_bytes() for p in self.release.iterdir()}
+        result = run_process(["/bin/bash", str(self.checkout/"tools/launchd/build_gdrive_applet.sh"),
+                              self.commit, "fixture-r1", str(self.base/"second.app")], timeout=10)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("existing release", result.stderr.lower())
+        self.assertEqual({p.name: p.read_bytes() for p in self.release.iterdir()}, before)
+        self.assertFalse((self.base/"second.app.applescript").exists())
+
+    def test_dirty_checkout_stages_commit_bytes(self):
+        for name in self.FILES:
+            (self.checkout/"tools"/name).write_bytes(b"dirty working tree\n")
+        result = self.stage(baseline=False)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        for name in self.FILES:
+            self.assertEqual((self.release/name).read_bytes(), self.original[name])
+
+    def test_release_inside_another_checkout_refused(self):
+        other = self.base/"other checkout"
+        other.mkdir()
+        result = run_process(["/usr/bin/git", "init", "-q", str(other)], timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        result = self.stage(baseline=False, root=other/"releases")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("git checkout", result.stderr.lower())
+        self.assertFalse((other/"releases/fixture-r1").exists())
+
+    def test_rendered_source_stamps_release_and_all_four_hashes(self):
+        self.ready()
+        source = self.rendered.read_text()
+        literals = {name: json.loads(literal) for name, literal in
+                    re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', source, re.M)}
+        self.assertEqual(literals["wrapperPath"], str(self.release/"backup_gdrive.sh"))
+        for path in self.release.iterdir():
+            self.assertIn(hashlib.sha256(path.read_bytes()).hexdigest(), source)
+
+    def build_native(self):
+        self.assertTrue((self.checkout/"tools/launchd/stage_gdrive_release.sh").is_file(),
+                        "locked release build entrypoint is missing")
+        # Standard Additions does not inherit subprocess HOME; embed the fixture HOME.
+        template = self.checkout/"tools/launchd/MemitGdriveBackup.applescript"
+        def isolate(match):
+            name, literal = match.groups()
+            body = json.loads(literal)
+            if name in {"generationShell", "integrityShell", "receiptShell"}:
+                body = "HOME="+shlex.quote(str(self.home))+"\nexport HOME\n"+body
+            return "property "+name+" : "+json.dumps(body)
+        template.write_text(re.sub(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', isolate,
+                                   template.read_text(), flags=re.M))
+        app = self.base/"locked fixture.app"
+        result = run_process(["/bin/bash", str(self.checkout/"tools/launchd/build_gdrive_applet.sh"),
+                              self.commit, "fixture-r1", str(app)], timeout=20)
+        LauncherTest.osa_result(self, result, "locked release build")
+        return app
+
+    def test_compiled_app_full_source_equals_saved_source(self):
+        app = self.build_native()
+        result = run_process(["/usr/bin/osadecompile", str(app/"Contents/Resources/Scripts/main.scpt")], timeout=10)
+        LauncherTest.osa_result(self, result, "osadecompile locked app")
+        self.assertEqual(result.stdout.encode(), Path(str(app)+".applescript").read_bytes())
+        self.assertEqual(result.stdout.encode(), Path(str(app)+".decompiled.applescript").read_bytes())
+
+    def test_compiled_app_dispatches_release_after_checkout_change(self):
+        app = self.build_native()
+        (self.checkout/"tools/backup_gdrive.sh").write_text("#!/bin/sh\nexit 99\n")
+        result = run_process(["/usr/bin/osascript", str(app/"Contents/Resources/Scripts/main.scpt")], timeout=5)
+        LauncherTest.osa_result(self, result, "osascript locked app")
+        self.assertEqual(self.marker.read_text().strip(), str(self.release/"backup_gdrive.sh"))
+        self.assertEqual(json.loads(self.receipt.read_text())["exit_code"], 0)
+
+
 class LauncherTest(Fixture):
+    def setUp(self):
+        temporary_root = mock.patch.dict(os.environ, BACKUP_TEST_RECEIPTS="/private/tmp")
+        temporary_root.start()
+        self.addCleanup(temporary_root.stop)
+        super().setUp()
+
     def osa_result(self, result, command):
         output = result.stdout+result.stderr
         if result.returncode and any(reason in output.lower() for reason in
@@ -2173,7 +2399,11 @@ class LauncherTest(Fixture):
         stub.write_text('#!/bin/bash\nprintf invoked > "'+str(marker)+'"\nexit 1\n')
         variant = self.base/"failure.applescript"
         text = source.read_text()
-        variant_text = text.replace("/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh", str(stub))
+        variant_text = re.sub(r'^property wrapperPath : .*$',
+                              lambda m: 'property wrapperPath : '+json.dumps(str(stub)), text, flags=re.M)
+        # This existing smoke tests the caught wrapper error; release checks have their own tests.
+        variant_text = re.sub(r'^property integrityShell : .*$', 'property integrityShell : ""',
+                              variant_text, flags=re.M)
         self.assertNotEqual(variant_text, text, "variant must actually invoke the exit-1 stub")
         home = self.base/"applet-home"
         counter = home/"Library/Logs/memit-gdrive-backup-launch-state/counter"
@@ -2201,7 +2431,9 @@ class LauncherTest(Fixture):
         script = ROOT/"tools/launchd/build_gdrive_applet.sh"
         self.assertTrue(script.is_file(), "applet builder must exist")
         app = self.base/"test backup.app"
-        result = run_process(["/bin/bash", str(script), str(app)], timeout=15)
+        commit = run_process(["/usr/bin/git", "-C", str(ROOT), "rev-parse", "HEAD"], timeout=5)
+        self.assertEqual(commit.returncode, 0, commit.stderr)
+        result = run_process(["/bin/bash", str(script), commit.stdout.strip(), "native-builder", str(app)], timeout=20)
         self.osa_result(result, "build_gdrive_applet.sh")
         self.assertTrue((app/"Contents/MacOS/applet").is_file())
         files = {str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in app.rglob("*") if path.is_file()}
@@ -2213,7 +2445,7 @@ class LauncherTest(Fixture):
             manifest[path] = digest
         self.assertEqual(manifest, files)
         previous = manifest.copy()
-        refused = run_process(["/bin/bash", str(script), str(app)], timeout=10)
+        refused = run_process(["/bin/bash", str(script), commit.stdout.strip(), "native-builder", str(app)], timeout=10)
         self.assertNotEqual(refused.returncode, 0, "builder must not overwrite an existing app bundle")
         self.assertEqual({str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in app.rglob("*") if path.is_file()}, previous)
 

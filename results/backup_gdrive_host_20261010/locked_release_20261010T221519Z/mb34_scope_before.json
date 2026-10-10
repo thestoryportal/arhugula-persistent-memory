@@ -1,0 +1,696 @@
+{
+  "branch": "worktree-c10k-route-a",
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "existing_files": {
+    "README.md": {
+      "sha256": "32c7f1d7fc8c9c88a3e3e33c04eb48a70fd2996c92d52eae18e422ae452b518d",
+      "size": 19490
+    },
+    "after_sha256.json": {
+      "sha256": "4a4f13a0728614389bc4e4d309d24b2a3e25ec30abee5d148da16ba94c62aca6",
+      "size": 451
+    },
+    "before/tools/launchd/MemitGdriveBackup.applescript": {
+      "sha256": "80c7b7126bb0bc2822e71d25dd44174cdf92e18a5a9fa4076764140ce035384c",
+      "size": 18648
+    },
+    "before/tools/launchd/build_gdrive_applet.sh": {
+      "sha256": "f7ca5a5b7928faa1bc24d12ac38cdd8c6ee21ad1684e9bc7579ac8cd1260189b",
+      "size": 507
+    },
+    "before/tools/launchd/stage_gdrive_release.sh.ABSENT": {
+      "sha256": "272c2adc76c0fe7ceb131eb38af2469de24b5b5396f1ac5bb29a0cf67d546c7b",
+      "size": 32
+    },
+    "before/tools/test_backup_gdrive_addendum.py": {
+      "sha256": "b764938802edf101be01493d24012a586076ca9f00bbfba2193c70336e54fdf1",
+      "size": 132473
+    },
+    "before_sha256.json": {
+      "sha256": "abc135712f0b58023dd045a99e97567160ddf0f7fe129d34e7b79f43990068ea",
+      "size": 641
+    },
+    "context_saved.md": {
+      "sha256": "f0297f4d321c7f5aaf308f6c1f1c369c70fb2209e194fdaf5f1bf855551593df",
+      "size": 1512
+    },
+    "evidence.json": {
+      "sha256": "75b6fa2ae28c4c8edbce674c51a948271364d0c57597caca0ab62331d51df4f0",
+      "size": 36026
+    },
+    "green_final/command.json": {
+      "sha256": "de61583689faf22ae71c72815d02d54194955ccc12744f81d04febc22c66f2ac",
+      "size": 1106
+    },
+    "green_final/fixture_artifacts/test_changed_excludes_byte_refuses/counter": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_changed_excludes_byte_refuses/launch_receipt.json": {
+      "sha256": "091217389987f5b6f39efdf4bb97c513fe9e4e90025e9e73814263d7e25c8d4c",
+      "size": 476
+    },
+    "green_final/fixture_artifacts/test_changed_excludes_byte_refuses/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_changed_excludes_byte_refuses/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_changed_excludes_byte_refuses/release/backup_gdrive_status.py": {
+      "sha256": "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_changed_excludes_byte_refuses/release/backup_mirror.excludes": {
+      "sha256": "1fc06e2bcdc38bab043d3ef8184693e9786ac49cf6047ba9d6ef31b73af326a9",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_changed_excludes_byte_refuses/rendered source.applescript": {
+      "sha256": "974dd0eea8cb4543c66d8676bcb86589dfce4583f9f6639c8e60cf283d448707",
+      "size": 21326
+    },
+    "green_final/fixture_artifacts/test_changed_manifest_byte_refuses/counter": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_changed_manifest_byte_refuses/launch_receipt.json": {
+      "sha256": "31ec6dffaecb085507d8700cd28f2d7210722728c640936f125254173973b384",
+      "size": 462
+    },
+    "green_final/fixture_artifacts/test_changed_manifest_byte_refuses/release/MANIFEST": {
+      "sha256": "2488a75a1783744b66e41abff5a6b7af78bb05e12e520133fb713d154be75041",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_changed_manifest_byte_refuses/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_changed_manifest_byte_refuses/release/backup_gdrive_status.py": {
+      "sha256": "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_changed_manifest_byte_refuses/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_changed_manifest_byte_refuses/rendered source.applescript": {
+      "sha256": "41cc17d30857c0763626c0824e6f31d38de73aa07da0e1d79c8e5fc5f82c2e05",
+      "size": 21326
+    },
+    "green_final/fixture_artifacts/test_changed_status_byte_refuses/counter": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_changed_status_byte_refuses/launch_receipt.json": {
+      "sha256": "ae6aef1cda36a04710aaaa6fbb70b20f14b03ebc4c69b34d245e5c9783db757c",
+      "size": 477
+    },
+    "green_final/fixture_artifacts/test_changed_status_byte_refuses/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_changed_status_byte_refuses/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_changed_status_byte_refuses/release/backup_gdrive_status.py": {
+      "sha256": "30a6f88a261fdacfae9b6bd99eae481f1d54decc4564fcd4f610b7fe3f530f5f",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_changed_status_byte_refuses/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_changed_status_byte_refuses/rendered source.applescript": {
+      "sha256": "3923b8533003678aaea1c8a15a6918d71f0534013bb3c0f2fceba10809b3b596",
+      "size": 21326
+    },
+    "green_final/fixture_artifacts/test_changed_wrapper_byte_refuses/counter": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_changed_wrapper_byte_refuses/launch_receipt.json": {
+      "sha256": "ae3870a4aaf507a60fde8e8a0615b8485c0381ea17742e3254eed1904bc3ef55",
+      "size": 470
+    },
+    "green_final/fixture_artifacts/test_changed_wrapper_byte_refuses/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_changed_wrapper_byte_refuses/release/backup_gdrive.sh": {
+      "sha256": "089ac1e929b894ccfb9d2360b79a179909fd4be0248c977d7615df5aa146b914",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_changed_wrapper_byte_refuses/release/backup_gdrive_status.py": {
+      "sha256": "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_changed_wrapper_byte_refuses/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_changed_wrapper_byte_refuses/rendered source.applescript": {
+      "sha256": "96e9c0a297aced3a16c2c874aa83011d72f784fc42050d160c8d67bf6d7dcd07",
+      "size": 21326
+    },
+    "green_final/fixture_artifacts/test_checkout_pull_cannot_change_dispatch/counter": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_checkout_pull_cannot_change_dispatch/dispatched-wrapper": {
+      "sha256": "0b5f435a074549bcb0e7cff3be3310b30846acc45e34847570a08a81f264c052",
+      "size": 128
+    },
+    "green_final/fixture_artifacts/test_checkout_pull_cannot_change_dispatch/launch_receipt.json": {
+      "sha256": "11027ca4779b8c86f44aa885366ab60c6f82f080dfee2aecf5e28752999e865d",
+      "size": 250
+    },
+    "green_final/fixture_artifacts/test_checkout_pull_cannot_change_dispatch/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_checkout_pull_cannot_change_dispatch/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_checkout_pull_cannot_change_dispatch/release/backup_gdrive_status.py": {
+      "sha256": "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_checkout_pull_cannot_change_dispatch/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_checkout_pull_cannot_change_dispatch/rendered source.applescript": {
+      "sha256": "75aac17767648f47fd2f2bf13e42c5d2e1c5ee60f9185a90774a2596b39d879d",
+      "size": 21326
+    },
+    "green_final/fixture_artifacts/test_compiled_app_dispatches_release_after_checkout_change/counter": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_compiled_app_dispatches_release_after_checkout_change/locked fixture.app.applescript": {
+      "sha256": "c9067b745839d47be05d3a2b7bb433dfcf692d7094aa621bc61c2426b3760c0b",
+      "size": 21512
+    },
+    "green_final/fixture_artifacts/test_compiled_app_dispatches_release_after_checkout_change/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_compiled_app_dispatches_release_after_checkout_change/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_compiled_app_dispatches_release_after_checkout_change/release/backup_gdrive_status.py": {
+      "sha256": "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_compiled_app_dispatches_release_after_checkout_change/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_compiled_app_full_source_equals_saved_source/counter": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_compiled_app_full_source_equals_saved_source/locked fixture.app.applescript": {
+      "sha256": "30567bd4845b56553c695c1ad25f03fec2fcc968d5e4243c8f24a55d10775aa5",
+      "size": 21512
+    },
+    "green_final/fixture_artifacts/test_compiled_app_full_source_equals_saved_source/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_compiled_app_full_source_equals_saved_source/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_compiled_app_full_source_equals_saved_source/release/backup_gdrive_status.py": {
+      "sha256": "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_compiled_app_full_source_equals_saved_source/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_dirty_checkout_stages_commit_bytes/counter": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_dirty_checkout_stages_commit_bytes/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_dirty_checkout_stages_commit_bytes/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_dirty_checkout_stages_commit_bytes/release/backup_gdrive_status.py": {
+      "sha256": "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_dirty_checkout_stages_commit_bytes/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_dirty_checkout_stages_commit_bytes/rendered source.applescript": {
+      "sha256": "58289e5599307d650d757527d70a0c0460898a29d84ba0e1c125f7fc8ed23881",
+      "size": 21326
+    },
+    "green_final/fixture_artifacts/test_existing_release_id_refused_without_overwrite/counter": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_existing_release_id_refused_without_overwrite/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_existing_release_id_refused_without_overwrite/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_existing_release_id_refused_without_overwrite/release/backup_gdrive_status.py": {
+      "sha256": "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_existing_release_id_refused_without_overwrite/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_existing_release_id_refused_without_overwrite/rendered source.applescript": {
+      "sha256": "6d7390178f7a68cf857426ea4c12a18dca545eecc11dac0e55cb530ef60f3b4a",
+      "size": 21326
+    },
+    "green_final/fixture_artifacts/test_extra_file_refuses/counter": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_extra_file_refuses/launch_receipt.json": {
+      "sha256": "bfc27b311fa9d360578a2257422c08b01909521740859f8f9c0dcef885f44913",
+      "size": 411
+    },
+    "green_final/fixture_artifacts/test_extra_file_refuses/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_extra_file_refuses/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_extra_file_refuses/release/backup_gdrive_status.py": {
+      "sha256": "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_extra_file_refuses/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_extra_file_refuses/release/unexpected file": {
+      "sha256": "78ecf09f8df372e1a33305e6a64792b433ea5d39c33e29d182834f9cc3201d1e",
+      "size": 10
+    },
+    "green_final/fixture_artifacts/test_extra_file_refuses/rendered source.applescript": {
+      "sha256": "5a031eaa09c0e1adfdde9a7aa250ec7caea102d063c79d589c44d81a9e802961",
+      "size": 21326
+    },
+    "green_final/fixture_artifacts/test_good_release_dispatches_release_path/counter": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_good_release_dispatches_release_path/dispatched-wrapper": {
+      "sha256": "b99db282a9a1f68c50cf5cee40e338cd785d6ee53e02f820db5e3811d6873dee",
+      "size": 128
+    },
+    "green_final/fixture_artifacts/test_good_release_dispatches_release_path/launch_receipt.json": {
+      "sha256": "4da9c6f8f6323938c923cc92faca0f1dd13a7b15e1dff09b08f593727ebf5a7d",
+      "size": 250
+    },
+    "green_final/fixture_artifacts/test_good_release_dispatches_release_path/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_good_release_dispatches_release_path/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_good_release_dispatches_release_path/release/backup_gdrive_status.py": {
+      "sha256": "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_good_release_dispatches_release_path/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_good_release_dispatches_release_path/rendered source.applescript": {
+      "sha256": "8531988c1d58c63863f0c48f0c56d23677b3aa8494bf7d2acd414c62c26ccf75",
+      "size": 21326
+    },
+    "green_final/fixture_artifacts/test_missing_file_refuses/counter": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_missing_file_refuses/launch_receipt.json": {
+      "sha256": "ba1f51cb453862f366153ff5e19315c1b1003183dd959a485cf9e3eee2027eb8",
+      "size": 420
+    },
+    "green_final/fixture_artifacts/test_missing_file_refuses/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_missing_file_refuses/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_missing_file_refuses/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_missing_file_refuses/rendered source.applescript": {
+      "sha256": "1bdf321d45a65258214bc652fde39ede43a07e9c5fa78f716bf7a6d9ca2ff89e",
+      "size": 21326
+    },
+    "green_final/fixture_artifacts/test_release_inside_another_checkout_refused/counter": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_rendered_source_stamps_release_and_all_four_hashes/counter": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "green_final/fixture_artifacts/test_rendered_source_stamps_release_and_all_four_hashes/release/MANIFEST": {
+      "sha256": "9dc1b3015b5e09cfe43bd32f0667b240e11284ffe5e043e9978ed6b3948a57e8",
+      "size": 262
+    },
+    "green_final/fixture_artifacts/test_rendered_source_stamps_release_and_all_four_hashes/release/backup_gdrive.sh": {
+      "sha256": "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "size": 132
+    },
+    "green_final/fixture_artifacts/test_rendered_source_stamps_release_and_all_four_hashes/release/backup_gdrive_status.py": {
+      "sha256": "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3",
+      "size": 27
+    },
+    "green_final/fixture_artifacts/test_rendered_source_stamps_release_and_all_four_hashes/release/backup_mirror.excludes": {
+      "sha256": "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3",
+      "size": 29
+    },
+    "green_final/fixture_artifacts/test_rendered_source_stamps_release_and_all_four_hashes/rendered source.applescript": {
+      "sha256": "574360c936d00a5dd5454d5c52573df02f9921817ae8f7afec9b1cb29398a80a",
+      "size": 21326
+    },
+    "green_final/process_clearance.json": {
+      "sha256": "fb4d51ec51f9265883f413c5e2cb48f9a1ee0c11a29e37dd59333d72e8fc32a0",
+      "size": 6289204
+    },
+    "green_final/process_clearance.jsonl": {
+      "sha256": "fa30011535fafcf45e9690bf823bc5ac6587301ba189634fdb8cfe5bd25bd135",
+      "size": 6129514
+    },
+    "green_final/result.json": {
+      "sha256": "5386f71bc4616c21373308f771f87e6df2ece8f421de4d9f5c5e94b97f47e79c",
+      "size": 6184
+    },
+    "green_final/run_suite_snapshot.py": {
+      "sha256": "268af4e2907ea54b289da7c2936aac0edac5245efae0bb57d85ca3a157454623",
+      "size": 8334
+    },
+    "green_final/source_sha256.json": {
+      "sha256": "4a4f13a0728614389bc4e4d309d24b2a3e25ec30abee5d148da16ba94c62aca6",
+      "size": 451
+    },
+    "green_final/started_processes.jsonl": {
+      "sha256": "834d1d77ce42217f821ed48eba3a9aa7c4fab92ad3d20b1cec34fd53c0b448b6",
+      "size": 5907726
+    },
+    "green_final/suite_selection.json": {
+      "sha256": "00d94b6eb3fd2244b109374b1150d127f8b1efd8de12095b93c5f5c22a02562b",
+      "size": 109
+    },
+    "green_final/test.log": {
+      "sha256": "1b99bc19d3757418cb0f98db9d4299c0fac29996dc02555cda72c33f82a5b8d0",
+      "size": 22105
+    },
+    "green_final/tool_completion.json": {
+      "sha256": "93750f6e758be8da03755e562ceba92d95f708ccb6cd3736400ece7ce9fab0b6",
+      "size": 65
+    },
+    "green_full/command.json": {
+      "sha256": "51c6aeb6de0baf83331d95c07b848eebcdc8ec0e9993a15eaab2228c1a7fc3dc",
+      "size": 1103
+    },
+    "green_full/process_clearance.json": {
+      "sha256": "e7715b2d8c469a0c16bcd40533688d0b761ca18fc26aeeb9ebccaa15e5ea7b97",
+      "size": 6258233
+    },
+    "green_full/process_clearance.jsonl": {
+      "sha256": "02a3d7ed6052093b2f87d727c457bf52444730f7a38c4b9310b8ccc1e6d842d0",
+      "size": 6097317
+    },
+    "green_full/result.json": {
+      "sha256": "38e9b978cc27e464a1092f411c22b74e21c39c7f587008b1664e55c473b1581a",
+      "size": 6054
+    },
+    "green_full/started_processes.jsonl": {
+      "sha256": "0ca897d4a63b959f1a7a540eeff1805636dd142cb57e52fa62c3e47d0231237a",
+      "size": 5907241
+    },
+    "green_full/suite_selection.json": {
+      "sha256": "00d94b6eb3fd2244b109374b1150d127f8b1efd8de12095b93c5f5c22a02562b",
+      "size": 109
+    },
+    "green_full/test.log": {
+      "sha256": "5f2cabe2345ea39de7f9564735363c4effff8ce4a0f273fd495ac2d09da6cb27",
+      "size": 20949
+    },
+    "green_full/tool_completion.json": {
+      "sha256": "902b543a1a49fc47f4f49f4f590fda45b06365fa06a57f9377ac15b22d72ef38",
+      "size": 66
+    },
+    "green_new/command.json": {
+      "sha256": "455e5c117d7423fc98a1f20860a8a189367858e486253d8350964f7e7194497d",
+      "size": 1114
+    },
+    "green_new/process_clearance.json": {
+      "sha256": "b53704304d841171ac2bacd686c101580d915cb9edc7b1b5a8f08a0f22068e65",
+      "size": 38790
+    },
+    "green_new/process_clearance.jsonl": {
+      "sha256": "5e53c5113b20deba102791169ccdcfaa31b1f4013a3ec0f2b9bdc814d8b3ad4e",
+      "size": 32001
+    },
+    "green_new/result.json": {
+      "sha256": "0eabd0513ddf0e589c752136d20512e4c862512c5b20b227d8d4be331531f5d2",
+      "size": 1575
+    },
+    "green_new/started_processes.jsonl": {
+      "sha256": "f75e549404549062b15196c3de3e6b0921204d89fd610813725dda15c1f5a0cf",
+      "size": 23938
+    },
+    "green_new/suite_selection.json": {
+      "sha256": "c09721b36b51316fdd0dfa9f0842abddce9eb1c04f7cd6af498c9f36bcb0668b",
+      "size": 122
+    },
+    "green_new/test.log": {
+      "sha256": "478c2534ae3bba951997d2d26350ca3800aa4ac76f4c8816374cbbe5908a59d7",
+      "size": 13085
+    },
+    "green_new/tool_completion.json": {
+      "sha256": "a0d45b11f10ea757c5a6485e8bf6e73d047710f06feaf29e68f573b388c80c3c",
+      "size": 66
+    },
+    "green_new_final/command.json": {
+      "sha256": "6009d50b6dca1dce5d41f9933252303bad8ba964918e5224fb58ab9269e6b7bb",
+      "size": 1132
+    },
+    "green_new_final/process_clearance.json": {
+      "sha256": "599c47635c4c691e424949b6ed6f9de37f54ed2573038719b0b5a266305e6335",
+      "size": 206814
+    },
+    "green_new_final/process_clearance.jsonl": {
+      "sha256": "5cccb72c8023d89f933e2b40dcc5a62a6aad21861297acc15b33e44c8bbf08fb",
+      "size": 198891
+    },
+    "green_new_final/result.json": {
+      "sha256": "3a247683eda0a5bc52d2c002ba2ee70a17d42c4032baae48f97bc4c98a369483",
+      "size": 1722
+    },
+    "green_new_final/started_processes.jsonl": {
+      "sha256": "b53b8cf169515df4c2507f74f1803a68ebfd1ffaca13ddb79caed51f3d460a94",
+      "size": 189897
+    },
+    "green_new_final/suite_selection.json": {
+      "sha256": "c09721b36b51316fdd0dfa9f0842abddce9eb1c04f7cd6af498c9f36bcb0668b",
+      "size": 122
+    },
+    "green_new_final/test.log": {
+      "sha256": "962cc7ac0331fe2d610532b827a524d4d9d5c5a3ed2b558822b2e2d85907700e",
+      "size": 2647
+    },
+    "green_new_final/tool_completion.json": {
+      "sha256": "5f2357986f31390016056e38c3d9caba62c93b01d0aae112dc2a8496cca6576c",
+      "size": 66
+    },
+    "make_report.py": {
+      "sha256": "199b61717f4fdc990522349640792d87c4b5d0f6f79a38f3ac6a68b527a2356d",
+      "size": 21393
+    },
+    "preflight_checks.json": {
+      "sha256": "b75a48a242ff34507d148615a56c7b5d7fc5f54aff3387305e82b0b40eae1e85",
+      "size": 1005
+    },
+    "red_build_id/command.json": {
+      "sha256": "4c732a89cef2db55bcd920db42eafcfcc5499c5b341b35e5c761bc1ea509ccd3",
+      "size": 1174
+    },
+    "red_build_id/process_clearance.json": {
+      "sha256": "f15f4d9ce90e2f3cd086661fc7059bacb0a613684efbf1a7c3a6e7e8e1220f66",
+      "size": 3080
+    },
+    "red_build_id/process_clearance.jsonl": {
+      "sha256": "1042c5c2097d2c2cc84df54d6cb3cf6aac541c5791127efc1be79ca86d655586",
+      "size": 2298
+    },
+    "red_build_id/result.json": {
+      "sha256": "ae98651e6d0f027f584bbf2f7d0c31a5461d43bfa7db4bee6ea2852e92112965",
+      "size": 388
+    },
+    "red_build_id/started_processes.jsonl": {
+      "sha256": "358ca2f0fb8a2f714dcaf0bcd17c9c7d60478127be253723f3a536112259b4be",
+      "size": 1719
+    },
+    "red_build_id/suite_selection.json": {
+      "sha256": "7e42468e3a205f5d913ee79a70577936401fede0dcea3cb06bacfeed7edd754a",
+      "size": 172
+    },
+    "red_build_id/test.log": {
+      "sha256": "e54851c12a73ceb34f4412c9420ce05fe9c3bb67159b6935f19147bcba614d33",
+      "size": 943
+    },
+    "red_build_id/tool_completion.json": {
+      "sha256": "80ad58882915061b1c8e8c2eae65dee2f802a71e73880083d7d0148cbdd688ae",
+      "size": 65
+    },
+    "red_final/command.json": {
+      "sha256": "9bf91e027a0f32c7450890a17906326055fc06878af59c401368222f53ab3be0",
+      "size": 1114
+    },
+    "red_final/process_clearance.json": {
+      "sha256": "bfd14edb216a1ed92540da2a50c173380a539de6a2cd46658a01257464c9b95a",
+      "size": 175400
+    },
+    "red_final/process_clearance.jsonl": {
+      "sha256": "39cb4db71f9a642681a68ab9e1f0a4e64856eaa77fa4209194a6c46d91bcf5c5",
+      "size": 169255
+    },
+    "red_final/result.json": {
+      "sha256": "a641a72ffd3a9ad6a86509c4ccc526f3ad79eecad00baf003eccaea9d9d18c66",
+      "size": 1679
+    },
+    "red_final/source_sha256.json": {
+      "sha256": "abc135712f0b58023dd045a99e97567160ddf0f7fe129d34e7b79f43990068ea",
+      "size": 641
+    },
+    "red_final/started_processes.jsonl": {
+      "sha256": "d3111750c4cb1ca9e2ab7729dd73a6f9f24e58277cd8710fd54f7037f06dfca7",
+      "size": 161740
+    },
+    "red_final/suite_selection.json": {
+      "sha256": "c09721b36b51316fdd0dfa9f0842abddce9eb1c04f7cd6af498c9f36bcb0668b",
+      "size": 122
+    },
+    "red_final/test.log": {
+      "sha256": "1cd21703fcba992d1c7ce93b49afa52473090dd2b4145e4bff9c58812c35ff50",
+      "size": 14621
+    },
+    "red_final/tool_completion.json": {
+      "sha256": "a03378bf2bfa73318052bec4a3ceae493e533953b2a444c297a524d39a29d37c",
+      "size": 66
+    },
+    "red_new/command.json": {
+      "sha256": "be65fca017d223b749162c208981bfd500f7b2852f1eba27123eae2097108ede",
+      "size": 1108
+    },
+    "red_new/process_clearance.json": {
+      "sha256": "4d612d5ff68747e9eeb0f1da84e697adec9ade90cd32209998e32bf903bf8690",
+      "size": 186385
+    },
+    "red_new/process_clearance.jsonl": {
+      "sha256": "7338e97fb4b7526e2a03902c618ccc59d4285bd8533920fb6528e0cbe07ac496",
+      "size": 180240
+    },
+    "red_new/result.json": {
+      "sha256": "a641a72ffd3a9ad6a86509c4ccc526f3ad79eecad00baf003eccaea9d9d18c66",
+      "size": 1679
+    },
+    "red_new/started_processes.jsonl": {
+      "sha256": "6101b459ca2700d31d98c2cf5d87801dd70dd94d577241123ecf1730db9525b8",
+      "size": 172725
+    },
+    "red_new/suite_selection.json": {
+      "sha256": "c09721b36b51316fdd0dfa9f0842abddce9eb1c04f7cd6af498c9f36bcb0668b",
+      "size": 122
+    },
+    "red_new/test.log": {
+      "sha256": "8a5212d5594b7f9a3443379bd857d0b4825a818a7d7e149871e4b21babe91366",
+      "size": 14351
+    },
+    "red_new/tool_completion.json": {
+      "sha256": "473b88a08c129b4f509898e29b0d8e78743fb2cb9d20963ea5004c4ed6d52c47",
+      "size": 66
+    },
+    "red_verified_original/command.json": {
+      "sha256": "0dde57c0180b871d479afbe5d4caea4b8bff911db0051aebf12f96d85807883a",
+      "size": 1177
+    },
+    "red_verified_original/process_clearance.json": {
+      "sha256": "af556a659639ffc8a80cb616807e0a8ec7f665648bb60d1c16dfc4905b32c891",
+      "size": 176009
+    },
+    "red_verified_original/process_clearance.jsonl": {
+      "sha256": "162114deca0c48c45be1e79db994fa816ba64b87d59a23b9797124c600170c7f",
+      "size": 169758
+    },
+    "red_verified_original/result.json": {
+      "sha256": "ad5f9fef0ef6be735e8314e6ca217a22f3feeba1ed39aa73b1de1814edc94e11",
+      "size": 1679
+    },
+    "red_verified_original/started_processes.jsonl": {
+      "sha256": "5fa62dbb5d627ae5e4147ac30fecf874967b1d17d086c9363bd12ea05b1149a6",
+      "size": 162155
+    },
+    "red_verified_original/suite_selection.json": {
+      "sha256": "c09721b36b51316fdd0dfa9f0842abddce9eb1c04f7cd6af498c9f36bcb0668b",
+      "size": 122
+    },
+    "red_verified_original/test.log": {
+      "sha256": "8ad0720cf87c7eed34a0029db7f3c3ba2232d56e6617c05ecb28cfe8b4f25d2a",
+      "size": 14416
+    },
+    "red_verified_original/tool_completion.json": {
+      "sha256": "cc0520f1571b49c3b0d0b9b3a5bdd5765dc2189334de3e4ead135645b43a8fb0",
+      "size": 66
+    },
+    "run_suite.py": {
+      "sha256": "268af4e2907ea54b289da7c2936aac0edac5245efae0bb57d85ca3a157454623",
+      "size": 8334
+    },
+    "tested_addendum_snapshot.py": {
+      "sha256": "6eba5860e1fbb0c562af9a4241f8acf6f50d966d05b3d0e8ac66ec35e14e7d2c",
+      "size": 145520
+    },
+    "write_applet.py": {
+      "sha256": "8d8a55e4f630fcb4fc0966de73494bb345787d21019d115cb5e4d819d2b37818",
+      "size": 3828
+    }
+  },
+  "source_sha256": {
+    "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/run_suite.py": "268af4e2907ea54b289da7c2936aac0edac5245efae0bb57d85ca3a157454623",
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+    "tools/backup_gdrive_status.py": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+    "tools/launchd/MemitGdriveBackup.applescript": "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428",
+    "tools/launchd/build_gdrive_applet.sh": "d467ef24968d512152f2e5d8ba5cc946ff1809acd8bfefeab850ba0cc8685076",
+    "tools/launchd/stage_gdrive_release.sh": "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e",
+    "tools/test_backup_gdrive_addendum.py": "6eba5860e1fbb0c562af9a4241f8acf6f50d966d05b3d0e8ac66ec35e14e7d2c"
+  }
+}
