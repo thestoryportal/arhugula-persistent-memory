@@ -4,7 +4,7 @@ coordinator outcome, Codex builds that are working, running helper agents, and t
 hand-written report text. Also: panes reload themselves when dashboard code changes, and the team tab is rebuilt
 when team sessions start or end. Pure functions first; gather() and the effects at the bottom.
 """
-import glob, json, math, os, re, shlex, subprocess, sys, time
+import collections, functools, glob, json, math, os, re, shlex, subprocess, sys, time, unicodedata
 from datetime import datetime
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
@@ -387,6 +387,28 @@ def team_sessions(names):
     return {n for n in names if n not in NOT_TEAM and not n.startswith("view-")}
 
 
+Pane = collections.namedtuple("Pane", "session created command path start")
+PANE_FORMAT = "#{session_name}\t#{session_created}\t#{pane_current_command}\t#{pane_current_path}\t#{pane_start_command}"
+# Claude Code names its process after its version (seen: "2.1.295"); its start command, when tmux launched it, is `claude …`.
+CLAUDE_COMMAND = re.compile(r"^(claude|\d+\.\d+\.\d+)$")
+CLAUDE_START = re.compile(r'^"?(?:\S*/)?claude(?:[\s"]|$)')
+
+
+def parse_panes(text):
+    """`tmux list-panes -a -F PANE_FORMAT` output as Panes."""
+    return [Pane(s, int(c), cmd, path, start) for s, c, cmd, path, start in (l.split("\t", 4) for l in text.splitlines() if l)]
+
+
+def lead_session(override, panes, repo):
+    """The lead Claude session's tmux name: `override` (the LEAD variable) when set; otherwise the newest team session
+    that has a Claude Code pane working inside `repo` (the main checkout, so its worktrees count); None when none does.
+    Names change with each orchestrator generation (program, maestro2, ...), so the name is found, never written down."""
+    leads = [(p.created, p.session) for p in panes
+             if team_sessions([p.session]) and (CLAUDE_COMMAND.match(p.command) or CLAUDE_START.match(p.start))
+             and (p.path == repo or p.path.startswith(repo + "/"))]
+    return override or max(leads, default=(0, None))[1]
+
+
 class TeamSupervisor:
     """Says when to rebuild the team tab: the session set must differ from the tiles and stay the same for
     debounce_s, and rebuilds are at least min_gap_s apart."""
@@ -509,25 +531,40 @@ def gpu_state():
 
 
 SCREEN_TTL_S = 15
-_screens = {"at": 0.0, "screens": {}, "titles": {}}
+_screens = {"at": 0.0, "screens": {}, "titles": {}, "lead": None}
+
+
+@functools.lru_cache(maxsize=None)
+def repo_root():
+    """The main checkout of this repo (its worktrees live inside it), as git reports it."""
+    common = subprocess.run(["git", "-C", TOOLS, "rev-parse", "--path-format=absolute", "--git-common-dir"],
+                            stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
+    return os.path.dirname(common)
+
+
+def read_lead():
+    """lead_session() over the live tmux panes; LEAD in the environment overrides. A failed tmux or git read raises."""
+    panes = subprocess.run(["tmux", "list-panes", "-a", "-F", PANE_FORMAT], stdout=subprocess.PIPE, text=True, check=True).stdout
+    return lead_session(os.environ.get("LEAD", ""), parse_panes(panes), repo_root())
 
 
 def team_screens():
-    """Screens and pane titles of the team sessions, read from tmux at most every SCREEN_TTL_S seconds (tmux is shared
-    by every session; a flood of reads helped hang its server on 2026-10-08)."""
+    """Screens and pane titles of the team sessions, and the lead session's name, read from tmux at most every
+    SCREEN_TTL_S seconds (tmux is shared by every session; a flood of reads helped hang its server on 2026-10-08)."""
     if time.time() - _screens["at"] >= SCREEN_TTL_S:
         names = team_sessions(sh("tmux", "list-sessions", "-F", "#{session_name}").split())
         _screens["screens"] = {n: sh("tmux", "capture-pane", "-p", "-t", n) for n in names}
         _screens["titles"] = {n: sh("tmux", "display", "-p", "-t", n, "#{pane_title}") for n in names if n.startswith("codex")}
+        _screens["lead"] = read_lead()
         _screens["at"] = time.time()
-    return _screens["screens"], _screens["titles"]
+    return _screens["screens"], _screens["titles"], _screens["lead"]
 
 
 def build_state():
     from dashboard_active import label
     from dashboard_tile import status
     out = []
-    screens, titles = team_screens()
+    screens, titles, _ = team_screens()
     for n, screen in sorted(screens.items()):
         if not n.startswith("codex"):
             continue
@@ -556,7 +593,8 @@ def gather():
         runbook = open(os.path.join(ROOT, "EXPERIMENT_RUNBOOK.md"), errors="replace").read()
     except OSError:
         runbook = ""
-    screens = {n: s for n, s in team_screens()[0].items() if n != "program"}
+    screens, _, lead = team_screens()
+    screens = {n: s for n, s in screens.items() if n != lead}   # the lead's own state is not an alert for the lead
     return {"rulings": awaiting_rulings(runbook), "alerts": session_alerts(screens, _alert_memory, time.time()),
             "gpu": gpu_state(), "builds": build_state(), "helpers": running_helpers()}
 
@@ -586,17 +624,33 @@ def supervise_team():
                          stdout=log, stderr=log, stdin=subprocess.DEVNULL, start_new_session=True)
 
 
+def cell_width(ch):
+    """Terminal cells one character takes: wide characters (East Asian W/F, such as ✅) two, combining marks none,
+    everything else one - tmux draws the ambiguous-width glyphs ━ ■ · — ┃ █ ░ in a single cell (measured 2026-10-10)."""
+    return 0 if unicodedata.combining(ch) else 2 if unicodedata.east_asian_width(ch) in "WF" else 1
+
+
+def cells(text):
+    """Terminal cells a line takes on screen, ANSI codes excluded."""
+    return sum(cell_width(ch) for ch in re.sub(r"\033\[[0-9;]*[A-Za-z]", "", text))
+
+
 def clip(line, width):
-    """A line cut to `width` visible characters (ANSI codes kept, not counted), so a pane never wraps or scrolls."""
-    out, seen = [], 0
+    """A line cut to `width` terminal cells (ANSI codes kept, not counted), so a pane never wraps or scrolls. Codes
+    after the cut are kept too, so a trailing reset still ends the line's colours."""
+    out, seen, full = [], 0, False
     for token in re.findall(r"\033\[[0-9;]*[A-Za-z]|.", line, re.S):
         if token.startswith("\033"):
             out.append(token)
-        elif seen < width:
+        elif not full and seen + cell_width(token) <= width:
             out.append(token)
-            seen += 1
+            seen += cell_width(token)
+        else:
+            full = True   # the first character that does not fit ends the text; a narrower one after it stays cut
     return "".join(out)
 
 
 if __name__ == '__main__' and sys.argv[1:] == ['--gpu-summary']:
     print(gpu_summary(gpu_state()))
+if __name__ == '__main__' and sys.argv[1:] == ['--lead']:   # for team_dashboard.sh: the name, or nothing when none is found
+    print(read_lead() or "")

@@ -4,16 +4,19 @@
 # other team session in rows of up to five below, each with a coloured header and live status
 # (tools/dashboard_tile.py), and a status bar with the GPU job and status counts (tools/dashboard_bar.sh).
 # Nothing attaches to the agents' sessions. Re-running rebuilds it in place for anyone watching.
-# Tabs: 1 team · 2 active (busy agents) · 3 experiment (GPU run, live) · 4 mathlab · 5 helpers (+ one ⚙ tab per running helper agent).
-# Switch: Ctrl-b then 1-5, or Ctrl-b n / p for next / previous.
-# Usage: bash tools/team_dashboard.sh  (or ~/.local/bin/teamdash [team|active|exp|mathlab])   Leave: Ctrl-b d   Close: tmux kill-session -t dashboard
+# Tabs: 1 team · 2 active (busy agents) · 3 experiment (GPU run, live) · 4 mathlab · 5 helpers · 6 science (the Science Report
+# full width) (+ one ⚙ tab per running helper agent). Switch: Ctrl-b then 1-6, or Ctrl-b n / p for next / previous.
+# The lead session is LEAD if set, else found: the newest tmux session with a Claude Code pane working in this repo
+# (dashboard_live.lead_session). Usage: [LEAD=<session>] bash tools/team_dashboard.sh
+# (or ~/.local/bin/teamdash [team|active|exp|mathlab|science])   Leave: Ctrl-b d   Close: tmux kill-session -t dashboard
 T=$(cd "$(dirname "$0")" && pwd)
-D=dashboard NEW=dashboard_new LEAD=program PER_ROW=5
+D=dashboard NEW=dashboard_new PER_ROW=5
+LEAD=$(/usr/bin/python3 "$T/dashboard_live.py" --lead) || { echo "team_dashboard: finding the lead session failed (see above)" >&2; exit 1; }
 COLORS=(30 64 130 96 24 166 61 100 131 67 136 72)
 
 label() {
   case $1 in
-    program) echo "LEAD · program session" ;;
+    "$LEAD") echo "LEAD · $LEAD session" ;;
     codex)   echo "Codex A · reviews" ;;
     codexb)  echo "Codex B · step-4 build" ;;
     codexh)  echo "Codex H · step-5 build" ;;
@@ -33,17 +36,17 @@ label() {
   esac
 }
 tile() { printf "/usr/bin/python3 '%s/dashboard_tile.py' '%s' '%s' '%s'" "$T" "$1" "$(label "$1")" "$2"; }
+no_lead() { echo "printf '\\n  LEAD · no lead session found: no tmux session has a Claude Code pane working in this repo.\\n  Start one, or set LEAD=<session>, and re-run tools/team_dashboard.sh.\\n'; exec tail -f /dev/null"; }
 
 others=()
 for s in $(tmux list-sessions -F '#{session_name}'); do
   case $s in "$D"|"$NEW"|"$LEAD"|helpers|view-*) ;; *) others+=("$s") ;; esac
 done
-tmux has-session -t "$LEAD" 2>/dev/null || { echo "no '$LEAD' session"; exit 1; }
 size=$(tmux list-clients -F '#{client_width} #{client_height}' 2>/dev/null | sort -n -r | head -1)   # build at the largest viewer's size
 read -r W H <<<"${size:-300 80}"
 tmux has-session -t "$NEW" 2>/dev/null && tmux kill-session -t "$NEW"
 
-lead=$(tmux new-session -d -P -F '#{pane_id}' -s "$NEW" -x "$W" -y "$H" "$(tile "$LEAD" 25)")
+lead=$(tmux new-session -d -P -F '#{pane_id}' -s "$NEW" -x "$W" -y "$H" -e "LEAD=$LEAD" "$([ -n "$LEAD" ] && tile "$LEAD" 25 || no_lead)")
 n=${#others[@]}
 if (( n > 0 )); then
   rows=$(( (n + PER_ROW - 1) / PER_ROW ))
@@ -80,6 +83,7 @@ tmux new-window -d -t "$NEW" -n active "/usr/bin/python3 '$T/dashboard_active.py
 tmux new-window -d -t "$NEW" -n experiment "/usr/bin/python3 '$T/dashboard_experiment.py'"
 tmux new-window -d -t "$NEW" -n mathlab "/usr/bin/python3 '$T/dashboard_mathlab.py'"
 tmux new-window -d -t "$NEW" -n helpers "/usr/bin/python3 '$T/dashboard_subagents.py' manager"   # opens/closes a tab per running helper agent
+bash "$T/dashboard_science_tab.sh" "$NEW" >/dev/null || exit 1   # the Science Report alone, full width (its message goes to stderr on failure)
 tmux set-option -t "$NEW" window-status-format "#[fg=colour250] #I #W " >/dev/null
 tmux set-option -t "$NEW" window-status-current-format "#[bg=colour214,fg=colour16,bold] #I #W " >/dev/null
 

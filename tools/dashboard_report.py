@@ -1,9 +1,10 @@
-"""Team-dashboard Science Report tile, view-only. Redraws every 2 s. NOW is derived live (dashboard_live: rulings
-awaited, GPU job or last coordinator outcome, working builds, helpers); the brief, results and queue come from
-docs/c10_scoreboard.json (the program session's plain-words judgement), with a warning when events are newer than it.
+"""Team-dashboard Science Report: the tile beside the lead and the 'science' tab, view-only. Redraws every 5 s, and
+clears the pane (history too) when its size changes. NOW is derived live (dashboard_live: rulings awaited, GPU job or
+last coordinator outcome, working builds, helpers); the brief, results and queue come from docs/c10_scoreboard.json
+(the program session's plain-words judgement), with a warning when events are newer than it.
 Usage: python3 dashboard_report.py [--once COLS ROWS]
 """
-import glob, json, os, re, shutil, subprocess, sys, textwrap, time
+import glob, json, os, re, shutil, subprocess, sys, time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dashboard_live as live  # noqa: E402
@@ -17,11 +18,29 @@ KIND = {"write": 39, "injection": 141, "candidate": 214, "inconclusive": 244, "s
 
 
 def fit(t, w):
-    return t if len(t) <= w else t[: max(w - 1, 0)] + "…"
+    """`t` in at most w cells, ending in … when cut."""
+    return t if live.cells(t) <= w else live.clip(t, max(w - 1, 0)) + "…"
 
 
-def section(title, color, cols):
-    return f"{BOLD}{FG(231)}{BG(color)} {title} {RESET}{FG(color)}{'━' * max(cols - len(title) - 2, 0)}{RESET}"
+def col(t, w):
+    """`t` fitted and padded to exactly w cells: a table column."""
+    t = fit(t, w)
+    return t + " " * (w - live.cells(t))
+
+
+def wrap(text, w):
+    """Words filled into lines of at most w cells (a single word wider than that is cut by render's final clip)."""
+    lines = []
+    for word in text.split():
+        if lines and live.cells(lines[-1] + " " + word) <= w:
+            lines[-1] += " " + word
+        else:
+            lines.append(word)
+    return lines
+
+
+def section(title, color, w):
+    return f"{BOLD}{FG(231)}{BG(color)} {title} {RESET}{FG(color)}{'━' * max(w - len(title) - 2, 0)}{RESET}"
 
 
 def gpu_line():
@@ -51,40 +70,58 @@ def bar(best, goal, out_of, width):
 
 
 def render(cols, rows):
+    """At most `rows` lines, none wider than cols - 1 cells: the last column stays empty, so no line can wrap."""
+    w = cols - 1
     try:
         b = json.load(open(BOARD))
     except (OSError, ValueError) as e:
-        return [f"{FG(196)}Science report: cannot read {BOARD}: {e}{RESET}"]
+        return [live.clip(f"{FG(196)}Science report: cannot read {BOARD}: {e}{RESET}", w)]
     goal, out_of = b.get("goal", 61), b.get("out_of", 72)
-    out = [f"{BOLD}{FG(231)}{BG(25)}{fit(' ■ SCIENCE REPORT · teaching the model made-up names', max(cols - 26, 8)).ljust(max(cols - 26, 8))}"
+    out = [f"{BOLD}{FG(231)}{BG(25)}{col(' ■ SCIENCE REPORT · teaching the model made-up names', max(w - 25, 8))}"
            f"{BG(238)} updated {b.get('updated', '?')[-15:]:<15} {RESET}"]
-    out.append(f" {ITAL}Goal: {goal} of {out_of} reworded questions right · ordinary facts already get ~69 · bar ┃ marks the goal{RESET}")
+    out.append(f" {ITAL}{fit(f'Goal: {goal} of {out_of} reworded questions right · ordinary facts already get ~69 · bar ┃ marks the goal', w - 1)}{RESET}")
     behind = live.newer_events(live.board_epoch(b.get("updated")), live.events())
     if behind:
-        out.append(f"{BOLD}{FG(231)}{BG(124)}{fit(' ⚠ The text below predates: ' + '; '.join(behind[-3:]) + ' (the program updates it)', cols).ljust(cols)}{RESET}")
-    out.append(section("WHAT IT MEANS", 30, cols))
-    brief = textwrap.wrap(b.get("brief", ""), max(cols - 2, 10))
+        out.append(f"{BOLD}{FG(231)}{BG(124)}{col(' ⚠ The text below predates: ' + '; '.join(behind[-3:]) + ' (the program updates it)', w)}{RESET}")
+    out.append(section("WHAT IT MEANS", 30, w))
+    brief = wrap(b.get("brief", ""), w - 1)
+    more = "  (more: docs/c10_scoreboard.json)"
     if len(brief) > 7:   # the pane cannot scroll: say so instead of cutting mid-sentence
-        brief = brief[:6] + [fit(brief[6], max(cols - 30, 10)) + "  (more: docs/c10_scoreboard.json)"]
+        brief = brief[:6] + [fit(brief[6], max(w - 1 - len(more), 1)) + more]
     for line in brief:
         out.append(f" {BOLD}{line}{RESET}")
-    out.append(section("NOW", 28, cols))
+    out.append(section("NOW", 28, w))
     for line in live.now_lines(live.gather(), time.time()):
         color = {"!": 196, "▲": 208, "▸": 40, "»": 214, "◦": 141}.get(line[0], 244)
-        out.append(f" {BOLD if line[0] in '!▲▸' else ''}{FG(color)}{fit(line, cols - 2)}{RESET}")
-    out.append(section("RESULTS SO FAR (newest first)", 24, cols))
+        out.append(f" {BOLD if line[0] in '!▲▸' else ''}{FG(color)}{fit(line, w - 1)}{RESET}")
+    out.append(section("RESULTS SO FAR (newest first)", 24, w))
     bw = 18
     queue = b.get("queue", [])
     room = rows - len(out) - 1 - min(len(queue), 6) - 1
     for r in list(reversed(b.get("results", [])))[: max(room, 0)]:
         kc = KIND.get(r.get("kind"), 252)
-        head = f" {FG(245)}{r['date'][5:]}{RESET} {bar(r.get('best'), goal, out_of, bw)} {BOLD}{FG(kc)}{fit(r['score'], 26):<26}{RESET} "
-        rest = cols - 7 - bw - 28
-        out.append(head + fit(f"{r['name']} — {r['verdict']}", max(rest, 10)))
-    out.append(section("QUEUE (in order)", 96, cols))
+        head = f" {FG(245)}{r['date'][5:]}{RESET} {bar(r.get('best'), goal, out_of, bw)} {BOLD}{FG(kc)}{col(r['score'], 26)}{RESET} "
+        out.append(head + fit(f"{r['name']} — {r['verdict']}", max(w - 7 - bw - 28, 10)))
+    out.append(section("QUEUE (in order)", 96, w))
     for i, q in enumerate(queue[: max(rows - len(out) - 1, 0)], 1):
-        out.append(f" {BOLD}{FG(141)}{i:>2}.{RESET} {fit(q['name'], max(cols - 45, 8)):<{max(cols - 45, 8)}} {FG(214)}{fit(q['status'], 26):<26}{RESET} {FG(245)}{fit(q.get('time', ''), 12)}{RESET}")
-    return out[:rows]
+        out.append(f" {BOLD}{FG(141)}{i:>2}.{RESET} {col(q['name'], max(w - 45, 8))} {FG(214)}{col(q['status'], 26)}{RESET} {FG(245)}{fit(q.get('time', ''), 12)}{RESET}")
+    # [LAW:single-enforcer] the one place the pane width is enforced; fit/col/wrap only lay the lines out to it
+    return [live.clip(line, w) for line in out[:rows]]
+
+
+def screen(cols, rows):
+    """The report, or - when it cannot be drawn this time - one red line saying why; the next redraw tries again."""
+    try:
+        return render(cols, rows)
+    except Exception as e:   # [LAW:no-silent-failure] shown in the pane in place of the report, never swallowed
+        return [live.clip(f"{BOLD}{FG(196)} ✖ {type(e).__name__}: {e} · the Science Report retries every 5 s{RESET}", cols - 1)]
+
+
+CLEAR_ALL = "\033[2J\033[3J"   # screen and history: tmux re-wraps old frames into fragments when a pane is resized
+
+
+def frame(lines, clear):
+    return clear + "\033[H" + "".join(l + "\033[K\n" for l in lines[:-1]) + lines[-1] + "\033[K\033[J"
 
 
 def main():
@@ -93,13 +130,14 @@ def main():
         print("\n".join(render(int(sys.argv[i + 1]), int(sys.argv[i + 2]))))
         return
     stamp = live.source_stamp(live.TOOLS)
+    drawn = None
     while True:
         live.maybe_reload(stamp)
         # live.supervise_team() is off: a rebuild that moves several differently sized viewers at once hung the tmux server (2026-10-08 02:15)
-        cols, rows = os.get_terminal_size(sys.stdout.fileno())   # the live pane size; ignores a stale inherited $COLUMNS
-        lines = [live.clip(l, cols - 2) for l in render(cols, rows)]   # never wrap: a wrapped line scrolls the top away
-        sys.stdout.write("\033[H" + "".join(l + "\033[K\n" for l in lines[:-1]) + lines[-1] + "\033[K\033[J")
+        size = os.get_terminal_size(sys.stdout.fileno())   # the live pane size; ignores a stale inherited $COLUMNS
+        sys.stdout.write(frame(screen(size.columns, size.lines), CLEAR_ALL if size != drawn else ""))
         sys.stdout.flush()
+        drawn = size
         time.sleep(5)
 
 

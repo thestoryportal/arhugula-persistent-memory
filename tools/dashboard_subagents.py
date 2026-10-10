@@ -135,9 +135,15 @@ def view_lines(path, cols, rows):
 def recent_agents():
     now, found = time.time(), []
     for p in glob.glob(os.path.join(PROJECTS, "*", "*", "subagents", "agent-*.jsonl")):
-        if now - os.path.getmtime(p) < RECENT_S:
-            found.append(p)
-    return sorted(found, key=os.path.getmtime, reverse=True)
+        try:
+            mtime = os.path.getmtime(p)   # stat once: the sort below reuses it instead of racing a second stat
+        except FileNotFoundError:
+            # [LAW:no-silent-failure] exception: a transcript deleted between the listing and this stat (any project's
+            # session may clean up at any moment) simply is not recent any more; every other stat error still raises.
+            continue
+        if now - mtime < RECENT_S:
+            found.append((mtime, p))
+    return [p for _, p in sorted(found, reverse=True)]
 
 
 def manage(agents):
