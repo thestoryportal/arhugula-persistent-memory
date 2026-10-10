@@ -53,3 +53,4 @@
 
 - [ASTRA stage-1 UNDERFIT terminal scope](c10z-stage1-underfit-terminal.md) — D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ **DONE — UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1** (inconclusive under this solve budget; terminal under current authorization), Astra CONFIRM → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
 - [LLMDB_ROOT points at main checkout](llmdb-root-points-at-main-checkout.md) — in a worktree prefix LLMDB_ROOT=$PWD or tools check main
+- [gdrive rclone remote](gdrive-rclone-remote.md) — `gdrive:` setup (project 543404640214, published, drive.file) + phone OAuth traps; durability = launchd job + heartbeat, not this note
