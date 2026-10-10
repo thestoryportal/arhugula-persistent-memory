@@ -3,13 +3,23 @@
 ## ⭐ BINDING — context management for MAESTRO and every orchestrated session (operator, 2026-10-09; must survive every handoff)
 "Do not forget to manage context usage for yours and every team session you are orchestrating. Memento provides some tools to assist with this." — "This context directive must be made durable through any and all handoffs." MAESTRO: Memento `ceiling show` (250k ceiling, Stop-hook enforced) + `finalize-session` handoff at every finished unit, `--reset` only when the hook fires. Codex: watch `Context N% left`; ≤~20% (or ≤~30% before a big task) → handoff note + fresh successor; close idle finished sessions. Every handoff (checkpoint, successor prompt, finalize-session message) restates this block. Full rule: memory `context-management-every-session.md`; Codex rule: AGENTS.md top section.
 
+## 🔄 LIVE HANDOFF — 2026-10-10 ~00:50Z (MAESTRO2 orchestrating; supersedes the 12:45 MDT block below)
+
+Source: `~/.claude/memento/handoffs/maestro2_takeover_20261010.md`. Old MAESTRO (tmux `program`, pane 1.1) is IDLE and must stay alive until ASTRA attempt-4 process 1 exits (pid 26092 is its child); then the operator may terminate it.
+
+**Binding directives (restate in every handoff):** (1) context management for MAESTRO and every Codex session — the memento plugin is NOT enabled, so its ceiling hook never fires; MAESTRO resets itself at clean boundaries with `finalize-session --reset clear '<handoff>'`; Codex at ~20% left → handoff + fresh successor, retire only after `tmux ls`. (2) Never idle: Monitor watcher armed and re-armed at expiry. (3) Push after every commit; never merge; unpushed = 0. (4) The team decides: GPT-6-Astra high reviews. (5) Disk: free ≥ projected writes + 20 GiB before any dispatch; every scope states a disk budget; the internal SSD is not an archive tier (runbook §3.3a). (6) GPU gate refuses on any `.venv` python: poll `check_gpu()` until clear twice, then launch.
+
+**Live:** ASTRA attempt-4 process 1 RUNNING since 23:57:38Z in `results/c10z_astra_attempt4/` (go record 850988a5; stage01 ceiling 9,900 s). Read its outcome per `docs/C10Z_ASTRA_PREREG.md` §12 + Astra; process 2 (`tools/run_c10z_stage.sh 3`) only on a clean K2 survivor requesting stage 3; another V7 failure = HALTED-V7, search ends. NEW-1 (D-NEW1-1, build accepted 22dd8c5) is launched by a waiter (pid 91194) when process 1 exits; fallback command in `results/mathlab_staging/new1_v2_build_report.md:63-72`. C10Y pre-cast (D-C10y-precast) INCONCLUSIVE (timeout) → after attempt 4: run `results/c10y_precast_diag/measure_controls.py`, finish the budget amendment with a disk budget (>200 GB full run), Astra, fresh-namespace rerun. Math lab STOPPED (D-ML-4).
+
+**Operator asks pending:** (a) `rm -rf ~/Backups/memit_offload/c10y_precast_20261009T225619Z` (approved; permission layer refuses it for MAESTRO; hashes in git); (b) one-time `rclone config` Google Drive OAuth (remote `gdrive`) → replace the 6-hourly internal-SSD mirror with a Drive backup; (c) enable the memento plugin via `/plugin`.
+
 ## 🔄 LIVE HANDOFF — 2026-10-09 MathLab calibration stop fold (MAESTRO reviews and commits)
 
 D-ML-1 ⟨D-ML-1@46230e48⟩: **STOPPED — calibration FAIL** on harvest 2, Astra CONFIRM. Harvest-2 step 2 PASS 61/61 (gate 2b OPERANDS-ONLY). D-ML-4 ⟨D-ML-4@46230e48⟩: lab stops under frozen §8; step 4 **SHELVED / NOT FROZEN / NOT RUN**. MATH-PROXY only; F1 unchanged. NEW-1 adapter geometry continues separately under its own gates. Full detail: CORPUS/60_MATHLAB_HARVEST_REPLAY.md#2026-10-09-addendum--harvest-2-calibration-fail-lab-stopped-d-ml-1--d-ml-4.
 
 **Context directive (binding):** watch `Context N% left`; before about 20%, stop starting new work, write a precise handoff into the task report and tell MAESTRO to start a fresh successor. Every handoff restates this rule. Codex Z3 retains attempt-4 outcome standby; that request takes priority if MAESTRO interrupts.
 
-## 🔄 LIVE HANDOFF — 2026-10-09 ~12:45 MDT (MAESTRO orchestrating; operator awake)
+## 🔄 (SUPERSEDED by the 2026-10-10 block above) HANDOFF — 2026-10-09 ~12:45 MDT
 
 **Commits today:** 27c6adb C10Y record fix · 36ad0d7 memory · 3ce2965 V7 brief addendum · de56195 D-ML-2 · e23c05e ASTRA terminal record · 8daf9ba math-lab dashboard (teamdash tab live) · e1127d9 V7 build · 36b275a V7 result · reading CONFIRM.
 
