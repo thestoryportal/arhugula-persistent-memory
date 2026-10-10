@@ -130,3 +130,5 @@
 - [Parallel builders: name each other's files](parallel-builders-name-each-others-files.md) — two builders in one worktree; each brief lists the other's authorized files or a hash check false-STOPs
 - [Count running duplicates before launch](check-for-running-duplicate-before-launch.md) — a prior chain may already run the same check; `pgrep -f … | wc -l` first
 - [Trim builder reading lists](trim-builder-reading-lists.md) — MB23's 4-item reading pass cost 36% context before any edit; give line ranges or split read/build
+- [Codex hook-trust prompt at launch](codex-hook-trust-prompt-at-launch.md) — fresh builder may stall on hook trust; check pane ~20 s, send 3 (no new trust)
+- [Read handoff before launching successor](read-handoff-before-launching-successor.md) — a 40%-stop may be a finished build; verify, do not relaunch
