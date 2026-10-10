@@ -1,0 +1,6 @@
+{"utc": "2026-10-10T20:31:01.002627+00:00", "kind": "started", "deadline_s": 600, "rss_cap_gib": 11.0, "parent_pid": 65535, "parent_nice": 10}
+{"utc": "2026-10-10T20:31:01.017366+00:00", "kind": "resource", "rss_gib": 0.0313873291015625, "process_count": 2}
+{"utc": "2026-10-10T20:31:02.147331+00:00", "kind": "admission", "decision": {"tier": "MATH-PROXY", "kind": "cpu", "allowed": true, "reasons": [], "checks": {"fingerprint": {"ok": true, "rc": 0, "output": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)"}, "gpu": {"ok": true, "blocking_processes": [], "blocking_tmux": []}, "memory_gib": 28.590682983398438}}}
+{"utc": "2026-10-10T20:31:02.149684+00:00", "kind": "worker", "pid": 65622}
+{"utc": "2026-10-10T20:31:02.163263+00:00", "kind": "resource", "rss_gib": 0.0512847900390625, "process_count": 4}
+{"utc": "2026-10-10T20:32:32.461817+00:00", "kind": "terminal", "status": "MEASURED", "result_sha256": "7e03238c2f6d135d5f1409b1a10f5b4e92dcdb394bcd8a129a11ba58c007d7a7"}
