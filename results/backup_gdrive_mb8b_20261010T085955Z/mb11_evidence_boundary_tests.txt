@@ -1,0 +1,4 @@
+    def test_json_null_launch_receipt_cannot_be_ignored(self):
+        (self.heartbeat.parent/"launch_receipt.json").write_text("null\n")
+        self.assert_bad("launch")
+

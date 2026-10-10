@@ -194,9 +194,14 @@ def classify(source, run_log, raw_exit):
 
 
 def record(args):
+    text = args.launch_generation
+    if text and (not re.fullmatch(r"[1-9][0-9]{0,9}", text) or int(text) > 2147483647):
+        raise ValueError("invalid launch generation; no heartbeat published")
+    generation = int(text) if text else None
     log = Path(args.log)
     stat = log.stat() if log.exists() else None
     value = {"schema": 1, "run_id": args.run_id, "start": args.start,
+             "launch_generation": generation, "launch_mode": "applet" if generation is not None else "manual",
              "end": dt.datetime.now(dt.timezone.utc).isoformat() if args.phase == "end" else None,
              "exit_code": args.exit_code if args.phase == "end" else None,
              "bytes_transferred": 0 if not args.sync_started else None,
@@ -229,43 +234,101 @@ def record(args):
             os.unlink(name)
 
 
-def launch_failure(path, heartbeat_time):
-    """The applet's internal-disk receipt is evidence, never an owner heartbeat."""
+def valid_generation(value):
+    return type(value) is int and 0 < value <= 2147483647
+
+
+def launch_failure(path, heartbeat):
+    """Only a completed generation can acknowledge launch evidence."""
+    heartbeat = heartbeat or {}
+    generation = heartbeat.get("launch_generation")
+    mode = heartbeat.get("launch_mode", "manual" if generation is None else "applet")
+    if ((generation is not None and not valid_generation(generation)) or
+            mode != ("manual" if generation is None else "applet")):
+        return "malformed heartbeat launch generation"
+    completed = generation if heartbeat.get("end") is not None and heartbeat.get("exit_code") is not None else None
+    counter_path = path.parent.parent/"memit-gdrive-backup-launch-state/counter"
+    try:
+        text = counter_path.read_text()
+        if not re.fullmatch(r"(?:0|[1-9][0-9]{0,9})\n?", text) or int(text) > 2147483647:
+            return "malformed launch generation counter"
+        counter = int(text)
+    except FileNotFoundError:
+        counter = None
+    except OSError as exc:
+        return "unavailable launch generation counter: " + str(exc).replace("\n", " ")
+    journal = path.parent.parent/"memit-gdrive-backup-launch-journal/failures.jsonl"
+    markers = []
+    try:
+        lines = journal.read_text().splitlines()
+        if not 0 < len(lines) <= 64 or journal.stat().st_size > 65536:
+            return "malformed launch failure journal"
+        for line in lines:
+            marker = json.loads(line)
+            if (not isinstance(marker, dict) or type(marker.get("schema")) is not int or marker["schema"] != 1 or
+                    not valid_generation(marker.get("launch_generation")) or
+                    not isinstance(marker.get("reason"), str) or not marker["reason"]):
+                return "ambiguous launch generation in failure journal"
+            if counter is None or marker["launch_generation"] > counter:
+                return "failure journal generation exceeds or lacks its counter"
+            markers.append(marker)
+    except FileNotFoundError:
+        pass
+    except (OSError, ValueError) as exc:
+        return "malformed or unavailable launch failure journal: " + str(exc).replace("\n", " ")
+    receipt = None
     try:
         receipt = json.loads((path.parent/"launch_receipt.json").read_text())
+        if not isinstance(receipt, dict):
+            return "malformed launch receipt"
     except FileNotFoundError:
-        return None
+        pass
     except (OSError, ValueError) as exc:
         return "malformed or unavailable launch receipt: " + str(exc).replace("\n", " ")
-    try:
+    if receipt is not None:
         required = {"schema", "utc", "wrapper_path", "exit_code", "error_number"}
         if (not isinstance(receipt, dict) or not required.issubset(receipt) or
                 type(receipt["schema"]) is not int or receipt["schema"] != 1 or
                 not isinstance(receipt["wrapper_path"], str) or not receipt["wrapper_path"]):
             return "malformed launch receipt"
+        if not valid_generation(receipt.get("launch_generation")):
+            return "missing or malformed launch receipt generation"
         exit_code, error_number = receipt["exit_code"], receipt["error_number"]
         if ((exit_code is None) == (error_number is None) or
                 (exit_code is not None and (type(exit_code) is not int or not 0 <= exit_code <= 255)) or
                 (error_number is not None and (type(error_number) is not int or error_number == 0))):
             return "malformed launch receipt outcome"
-        stamp = dt.datetime.fromisoformat(receipt["utc"].replace("Z", "+00:00"))
+        try:
+            stamp = dt.datetime.fromisoformat(receipt["utc"].replace("Z", "+00:00"))
+        except (ValueError, TypeError, AttributeError, OverflowError):
+            return "malformed launch receipt timestamp"
         if stamp.tzinfo is None or stamp > dt.datetime.now(dt.timezone.utc):
             return "malformed or future launch receipt timestamp"
-        # A refused contender cannot change the active owner's health.
-        if exit_code in (0, 75) or error_number == 75:
+        if counter is None:
+            return "missing launch generation counter"
+        if receipt["launch_generation"] > counter:
+            return "non-increasing launch generation counter below receipt"
+    if generation is not None and (counter is None or counter < generation):
+        return "missing or non-increasing launch generation counter below heartbeat"
+    manual = "; manual/unsequenced heartbeat cannot acknowledge applet evidence" if generation is None else ""
+    if any(marker["launch_generation"] > (completed or 0) for marker in markers):
+        return "failed backup launch: unacknowledged failure journal generation" + manual
+    if receipt is not None:
+        exit_code, error_number = receipt["exit_code"], receipt["error_number"]
+        if exit_code not in (0, 75) and error_number != 75 and receipt["launch_generation"] > (completed or 0):
+            outcome = "exit %s" % exit_code if exit_code is not None else "error %s" % error_number
+            wrapper = receipt["wrapper_path"].replace("\r", "\\r").replace("\n", "\\n")
+            return "failed backup launch (%s), generation %s: %s; at %s%s" % (
+                outcome, receipt["launch_generation"], wrapper, receipt["utc"], manual)
+    if counter is not None and counter > (completed or 0):
+        # A contender is not an owner; it cannot make the live owner's run fail.
+        refused = receipt is not None and (receipt["exit_code"] == 75 or receipt["error_number"] == 75)
+        if refused and receipt["launch_generation"] == counter:
             return None
-        if heartbeat_time is not None:
-            latest = dt.datetime.fromisoformat(heartbeat_time.replace("Z", "+00:00"))
-            if latest.tzinfo is None:
-                return "malformed heartbeat timestamp for launch receipt"
-            if stamp <= latest:
-                return None
-        outcome = "exit %s" % exit_code if exit_code is not None else "error %s" % error_number
-        wrapper = receipt["wrapper_path"].replace("\r", "\\r").replace("\n", "\\n")
-        return "failed backup launch (%s): %s; at %s" % (outcome, wrapper, receipt["utc"])
-    except (ValueError, TypeError, AttributeError, OverflowError) as exc:
-        return "malformed launch receipt: " + str(exc).replace("\n", " ")
-
+        if heartbeat and (heartbeat.get("end") is None or heartbeat.get("exit_code") is None):
+            return None  # health() will report the owner's incomplete run.
+        return "unacknowledged launch generation %s: no completed heartbeat%s" % (counter, manual)
+    return None
 
 def health(path):
     try:
@@ -276,7 +339,7 @@ def health(path):
                     "log_path", "wrapper_log", "wrapper_log_identity", "wrapper_log_offset"}
         if not isinstance(value, dict) or not required.issubset(value) or value["schema"] != 1:
             return False, "malformed heartbeat"
-        failure = launch_failure(path, value["end"] or value["start"])
+        failure = launch_failure(path, value)
         if failure:
             return False, failure
         if value["end"] is None or value["exit_code"] is None:
@@ -345,12 +408,13 @@ def health(path):
             return False, "malformed heartbeat rclone exit code"
         if raw_exit == 1 and not {"source_vanished", "destination_deletions_suppressed"}.issubset({w["kind"] for w in warnings}):
             return False, "malformed source-vanish outcome"
+        sequencing = "; manual/unsequenced heartbeat" if value.get("launch_generation") is None else "; launch generation %s" % value["launch_generation"]
         if warnings:
             summary = "; ".join(("deletions suppressed" if w["kind"] == "destination_deletions_suppressed" else
                                   w["kind"].replace("_", " ") + ": " + str(w.get("message", w.get("object", "log")))) for w in warnings)
             summary = summary.replace("\r", "\\r").replace("\n", "\\n")
-            return True, "fresh backup with warnings (rclone exit %s): %s; finished %s" % (raw_exit, summary, value["end"])
-        return True, "fresh successful backup; finished " + value["end"]
+            return True, "fresh backup with warnings (rclone exit %s): %s; finished %s" % (raw_exit, summary, value["end"]) + sequencing
+        return True, "fresh successful backup; finished " + value["end"] + sequencing
     except (OSError, ValueError, TypeError, AttributeError, OverflowError) as exc:
         return False, "malformed heartbeat or unavailable log: " + str(exc).replace("\n", " ")
 
@@ -381,6 +445,7 @@ def main():
         return 0 if args.rclone_exit_code == 0 or outcome["source_vanish_only"] else args.rclone_exit_code
     if sys.argv[1:2] == ["record"]:
         parser.add_argument("--phase", choices=("start", "end"), required=True)
+        parser.add_argument("--launch-generation", default=os.environ.get("BACKUP_LAUNCH_GENERATION", ""))
         parser.add_argument("--run-id", required=True)
         parser.add_argument("--start", required=True)
         parser.add_argument("--exit-code", type=int, default=0)

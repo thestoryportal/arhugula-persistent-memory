@@ -1,0 +1,17 @@
+test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers (tools.test_backup_gdrive_addendum.StatusTest.test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers) ... FAIL
+
+======================================================================
+FAIL: test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers (tools.test_backup_gdrive_addendum.StatusTest.test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 128, in test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:36.155630+00:00
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.079s
+
+FAILED (failures=1)

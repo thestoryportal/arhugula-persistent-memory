@@ -1,0 +1,17 @@
+test_journal_failure_needs_completed_generation (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_journal_failure_needs_completed_generation) ... FAIL
+
+======================================================================
+FAIL: test_journal_failure_needs_completed_generation (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_journal_failure_needs_completed_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1002, in test_journal_failure_needs_completed_generation
+    self.assert_bad("journal")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.241732+00:00
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.027s
+
+FAILED (failures=1)

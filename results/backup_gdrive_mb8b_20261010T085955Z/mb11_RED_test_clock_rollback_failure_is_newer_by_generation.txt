@@ -1,0 +1,17 @@
+test_clock_rollback_failure_is_newer_by_generation (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_clock_rollback_failure_is_newer_by_generation) ... FAIL
+
+======================================================================
+FAIL: test_clock_rollback_failure_is_newer_by_generation (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_clock_rollback_failure_is_newer_by_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 937, in test_clock_rollback_failure_is_newer_by_generation
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.081336+00:00
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.053s
+
+FAILED (failures=1)

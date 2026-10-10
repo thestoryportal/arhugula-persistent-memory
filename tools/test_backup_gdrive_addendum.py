@@ -112,18 +112,24 @@ class StatusTest(Fixture):
         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
 
     def test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers(self):
-        self.write_heartbeat()
+        counter = self.heartbeat.parent.parent/"memit-gdrive-backup-launch-state/counter"
+        counter.parent.mkdir()
+        counter.write_text("10\n")
+        self.write_heartbeat(launch_generation=10, launch_mode="applet")
         self.assertEqual(self.status().returncode, 0, "positive control: previous backup is fresh")
         previous = self.heartbeat.read_bytes()
-        receipt = self.write_launch_receipt()
+        receipt = self.write_launch_receipt(launch_generation=11)
+        counter.write_text("11\n")
         self.assert_bad("launch")
         self.assertEqual(self.heartbeat.read_bytes(), previous, "status must only read the owner's heartbeat")
         stamp = json.loads(receipt.read_text())["utc"]
         for end in [stamp, (dt.datetime.fromisoformat(stamp)+dt.timedelta(microseconds=1)).isoformat()]:
-            self.write_heartbeat(end=end)
-            self.assertEqual(self.status().returncode, 0, "only a strictly newer launch failure takes precedence")
-        self.write_launch_receipt(exit_code=0)
-        self.write_heartbeat(exit_code=23)
+            self.write_heartbeat(end=end, launch_generation=10, launch_mode="applet")
+            self.assert_bad("launch")
+        self.write_heartbeat(end=stamp, launch_generation=11, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0, "only a completed equal or later generation clears the failure")
+        self.write_launch_receipt(exit_code=0, launch_generation=11)
+        self.write_heartbeat(exit_code=23, launch_generation=11, launch_mode="applet")
         self.assert_bad("failed")
 
     def test_malformed_launch_receipts_fail_closed_without_changing_heartbeat(self):
@@ -787,6 +793,9 @@ class LaunchReceiptTest(Fixture):
         self.home = self.base/"home"
         self.heartbeat = self.home/"Library/Logs/memit-gdrive-backup/last_run.json"
         self.heartbeat.parent.mkdir(parents=True)
+        counter = self.home/"Library/Logs/memit-gdrive-backup-launch-state/counter"
+        counter.parent.mkdir(parents=True)
+        counter.write_text("0\n")
 
     def launch(self, wrapper, *, error_number=None, env=None):
         text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
@@ -795,9 +804,9 @@ class LaunchReceiptTest(Fixture):
         if "launchShell" in literals:
             # Execute the same literal composition passed to /bin/sh by the applet.
             if error_number is None:
-                body, args = literals["launchShell"]+literals["receiptShell"], [str(wrapper)]
+                body, args = literals.get("generationShell", "")+literals["launchShell"]+literals["receiptShell"], [str(wrapper)]
             else:
-                body, args = literals["receiptShell"], [str(wrapper), "", str(error_number)]
+                body, args = literals.get("generationShell", "")+literals["receiptShell"], [str(wrapper), "", str(error_number)]
         else:
             # Execute MB6's original shell command for its behavioral RED baseline.
             command = next(line.strip()[len("do shell script "):] for line in text.splitlines()
@@ -897,6 +906,320 @@ class LaunchReceiptTest(Fixture):
             receipt.parent.chmod(0o700)
 
 
+class GenerationStatusTest(Fixture):
+    def setUp(self):
+        super().setUp()
+        self.counter = self.heartbeat.parent.parent/"memit-gdrive-backup-launch-state/counter"
+        self.counter.parent.mkdir()
+        self.counter.write_text("10\n")
+        self.journal = self.heartbeat.parent.parent/"memit-gdrive-backup-launch-journal/failures.jsonl"
+        self.ordered_heartbeat()
+
+    def ordered_heartbeat(self, generation=10, **changes):
+        self.write_heartbeat(launch_generation=generation, launch_mode="applet" if generation else "manual", **changes)
+
+    def ordered_receipt(self, generation=11, **changes):
+        self.counter.write_text(str(generation)+"\n")
+        return self.write_launch_receipt(launch_generation=generation, **changes)
+
+    def marker(self, generation=11, **changes):
+        self.counter.write_text(str(generation)+"\n")
+        self.journal.parent.mkdir(exist_ok=True)
+        value = {"schema": 1, "launch_generation": generation, "reason": "receipt publication failed"}
+        value.update(changes)
+        self.journal.write_text(json.dumps(value)+"\n")
+
+    def test_clock_rollback_failure_is_newer_by_generation(self):
+        self.assertEqual(self.status().returncode, 0)
+        end = json.loads(self.heartbeat.read_text())["end"]
+        earlier = (dt.datetime.fromisoformat(end)-dt.timedelta(seconds=1)).isoformat()
+        self.ordered_receipt(utc=earlier)
+        self.assert_bad("launch")
+
+    def test_equal_timestamp_failure_needs_equal_or_later_completed_generation(self):
+        end = json.loads(self.heartbeat.read_text())["end"]
+        self.ordered_receipt(utc=end)
+        self.assert_bad("launch")
+        self.ordered_heartbeat(11, end=end)
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_later_wall_time_cannot_clear_failure(self):
+        end = json.loads(self.heartbeat.read_text())["end"]
+        self.ordered_receipt(utc=end)
+        self.ordered_heartbeat(10)
+        self.assert_bad("launch")
+
+    def test_incomplete_equal_generation_does_not_acknowledge_failure(self):
+        self.ordered_receipt()
+        self.ordered_heartbeat(11, start=dt.datetime.now(dt.timezone.utc).isoformat(),
+                               end=None, exit_code=None, owner_pid=os.getpid())
+        self.assert_bad("launch")
+        self.ordered_heartbeat(11)
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_missing_or_malformed_receipt_generation_is_ambiguous(self):
+        end = json.loads(self.heartbeat.read_text())["end"]
+        for generation in [None, True, "11", 0, -1, 2147483648]:
+            with self.subTest(generation=generation):
+                self.write_launch_receipt(launch_generation=generation, utc=end, exit_code=0)
+                self.assert_bad("generation")
+        path = self.write_launch_receipt(utc=end, exit_code=0)
+        self.assertNotIn("launch_generation", json.loads(path.read_text()))
+        self.assert_bad("generation")
+
+    def test_malformed_heartbeat_generation_is_ambiguous(self):
+        for generation in [True, "10", 0, -1, 2147483648]:
+            with self.subTest(generation=generation):
+                self.ordered_heartbeat(generation)
+                self.assert_bad("generation")
+
+    def test_missing_corrupt_or_decreasing_counter_is_unhealthy(self):
+        self.assertEqual(self.status().returncode, 0)
+        self.counter.unlink()
+        self.assert_bad("counter")
+        for content in ["torn\n", "0\n", "9\n", "10.0\n", "2147483648\n"]:
+            with self.subTest(content=content):
+                self.counter.write_text(content)
+                self.assert_bad("counter")
+
+    def test_issued_launch_without_receipt_is_unhealthy(self):
+        self.counter.write_text("11\n")
+        self.assert_bad("generation")
+
+    def test_manual_heartbeat_is_explicit_and_cannot_clear_applet_failure(self):
+        self.counter.unlink()
+        self.ordered_heartbeat(None)
+        result = self.status()
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertIn("manual/unsequenced", result.stdout)
+        self.ordered_receipt()
+        self.assert_bad("manual/unsequenced")
+        self.ordered_heartbeat(11)
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_journal_failure_needs_completed_generation(self):
+        self.ordered_receipt(10, exit_code=0)
+        self.marker()
+        self.assert_bad("journal")
+        self.ordered_heartbeat(11, end=None, exit_code=None, owner_pid=os.getpid())
+        self.assert_bad("journal")
+        self.ordered_heartbeat(11)
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_malformed_journal_cannot_report_success(self):
+        self.journal.parent.mkdir()
+        for content in ["", "{torn\n", "{}\n", "[]\n",
+                        json.dumps({"schema": 1, "launch_generation": None, "reason": "failed"})+"\n",
+                        json.dumps({"schema": 1, "launch_generation": 11, "reason": "failed"})+"\n"]:
+            with self.subTest(content=content):
+                self.journal.write_text(content)
+                self.assert_bad("journal")
+
+    def test_refused_contender_does_not_acknowledge_journal_failure(self):
+        self.marker()
+        self.ordered_receipt(12, exit_code=75)
+        self.assert_bad("journal")
+
+
+    def test_json_null_launch_receipt_cannot_be_ignored(self):
+        (self.heartbeat.parent/"launch_receipt.json").write_text("null\n")
+        self.assert_bad("launch")
+
+
+class GenerationLaunchTest(Fixture):
+    launch = LaunchReceiptTest.launch
+
+    def setUp(self):
+        super().setUp()
+        self.home = self.base/"home"
+        self.heartbeat = self.home/"Library/Logs/memit-gdrive-backup/last_run.json"
+        self.heartbeat.parent.mkdir(parents=True)
+        self.counter = self.home/"Library/Logs/memit-gdrive-backup-launch-state/counter"
+        self.counter.parent.mkdir()
+        self.counter.write_text("0\n")
+        self.journal = self.home/"Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl"
+
+    def success_baseline(self):
+        self.counter.write_text("10\n")
+        self.write_heartbeat(launch_generation=10, launch_mode="applet")
+        self.write_launch_receipt(launch_generation=10, exit_code=0)
+        self.assertEqual(self.status().returncode, 0, "positive control: fresh completed generation 10")
+
+    def test_generation_is_incremented_and_passed_to_wrapper_and_receipt(self):
+        marker = self.base/"generations"
+        wrapper = self.base/"stub.sh"
+        wrapper.write_text('#!/bin/sh\nprintf "%s\\n" "${BACKUP_LAUNCH_GENERATION:-missing}" >> '+shlex.quote(str(marker))+'\n')
+        for generation in (1, 2):
+            result = self.launch(wrapper)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(marker.read_text().splitlines()[-1], str(generation))
+            self.assertEqual(self.counter.read_text().strip(), str(generation))
+            self.assertEqual(json.loads((self.heartbeat.parent/"launch_receipt.json").read_text())["launch_generation"], generation)
+
+    def test_missing_corrupt_or_rolled_back_counter_refuses_wrapper(self):
+        self.success_baseline()
+        marker = self.base/"must-not-dispatch"
+        wrapper = self.base/"stub.sh"
+        wrapper.write_text('#!/bin/sh\nprintf ran > '+shlex.quote(str(marker))+'\n')
+        for content in [None, "broken\n", "9\n", "2147483647\n"]:
+            with self.subTest(content=content):
+                if self.counter.exists():
+                    self.counter.unlink()
+                if content is not None:
+                    self.counter.write_text(content)
+                self.launch(wrapper)
+                self.assertFalse(marker.exists(), "ambiguous allocation must refuse dispatch")
+                self.assert_bad("generation")
+
+    def test_concurrent_launches_allocate_unique_generations(self):
+        marker = self.base/"generations"
+        wrapper = self.base/"stub.sh"
+        wrapper.write_text('#!/bin/sh\nprintf "%s\\n" "${BACKUP_LAUNCH_GENERATION:-0}" >> '+shlex.quote(str(marker))+'\n')
+        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        literals = {name: json.loads(literal) for name, literal in re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', text, re.M)}
+        body = literals.get("generationShell", "")+literals["launchShell"]+literals["receiptShell"]
+        procs = [subprocess.Popen(["/bin/sh", "-c", body, "backup-launch", str(wrapper)],
+                                 env=dict(os.environ, HOME=str(self.home)), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                 for _ in range(12)]
+        for proc in procs:
+            stdout, stderr = proc.communicate(timeout=5)
+            self.assertEqual(proc.returncode, 0, stdout+stderr)
+        self.assertEqual(sorted(map(int, marker.read_text().splitlines())), list(range(1, 13)))
+        self.assertEqual(self.counter.read_text().strip(), "12")
+
+    def test_absent_wrapper_and_0555_receipt_directory_publish_independent_journal(self):
+        self.success_baseline()
+        receipt = self.heartbeat.parent/"launch_receipt.json"
+        prior, heartbeat = receipt.read_bytes(), self.heartbeat.read_bytes()
+        receipt.parent.chmod(0o555)
+        try:
+            result = self.launch(self.base/"absent-volume/backup_gdrive.sh")
+            self.assertNotEqual(result.returncode, 0)
+            self.assert_bad("journal")
+            self.assertEqual(receipt.read_bytes(), prior)
+            self.assertEqual(self.heartbeat.read_bytes(), heartbeat)
+            value = json.loads(self.journal.read_text().splitlines()[-1])
+            self.assertEqual(value["launch_generation"], 11)
+            self.assertIn("publication", value["reason"])
+            self.assertNotEqual(self.journal.parent, receipt.parent)
+        finally:
+            receipt.parent.chmod(0o700)
+
+    def test_both_failure_sinks_unwritable_leave_unacknowledged_generation(self):
+        self.success_baseline()
+        self.journal.parent.mkdir()
+        self.journal.parent.chmod(0o555)
+        self.heartbeat.parent.chmod(0o555)
+        try:
+            self.launch(self.base/"absent/backup_gdrive.sh")
+            self.assert_bad("generation")
+            self.assertEqual(self.counter.read_text().strip(), "11")
+            self.assertFalse(self.journal.exists())
+        finally:
+            self.heartbeat.parent.chmod(0o700)
+            self.journal.parent.chmod(0o700)
+
+    def test_failure_journal_is_bounded_and_keeps_newest_generation(self):
+        self.success_baseline()
+        self.heartbeat.parent.chmod(0o555)
+        try:
+            for _ in range(80):
+                self.launch(self.base/"absent/backup_gdrive.sh")
+            self.assertTrue(self.journal.is_file(), "failure journal must exist independently")
+            markers = [json.loads(line) for line in self.journal.read_text().splitlines()]
+            self.assertLessEqual(len(markers), 64)
+            self.assertEqual(max(value["launch_generation"] for value in markers), 90)
+            self.assertLessEqual(self.journal.stat().st_size, 65536)
+            self.assert_bad("journal")
+        finally:
+            self.heartbeat.parent.chmod(0o700)
+
+    def test_success_receipt_alone_does_not_clear_prior_failure(self):
+        self.write_heartbeat(launch_generation=None, launch_mode="manual")
+        self.launch(self.base/"absent/backup_gdrive.sh")
+        wrapper = self.base/"success.sh"
+        wrapper.write_text("#!/bin/sh\nexit 0\n")
+        self.launch(wrapper)
+        self.assert_bad("journal")
+        self.write_heartbeat(launch_generation=2, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_allocator_refuses_string_generation_evidence(self):
+        self.success_baseline()
+        marker = self.base/"must-not-dispatch"
+        wrapper = self.base/"stub.sh"
+        wrapper.write_text('#!/bin/sh\nprintf ran > '+shlex.quote(str(marker))+'\n')
+        self.write_launch_receipt(launch_generation="10", exit_code=0)
+        self.launch(wrapper)
+        self.assertFalse(marker.exists(), "JSON strings are not integer generations")
+        self.assert_bad("generation")
+
+    def test_unwritable_journal_refusal_cannot_hide_uncompleted_failure(self):
+        self.success_baseline()
+        self.journal.parent.mkdir()
+        self.journal.parent.chmod(0o555)
+        try:
+            self.launch(self.base/"absent/backup_gdrive.sh")
+            self.assert_bad("launch")
+            failed = (self.heartbeat.parent/"launch_receipt.json").read_bytes()
+            wrapper = self.base/"refused.sh"
+            wrapper.write_text("#!/bin/sh\nexit 75\n")
+            self.launch(wrapper)
+            self.assert_bad("launch")
+            self.assertEqual((self.heartbeat.parent/"launch_receipt.json").read_bytes(), failed)
+            self.write_heartbeat(launch_generation=12, launch_mode="applet")
+            self.assertEqual(self.status().returncode, 0)
+        finally:
+            self.journal.parent.chmod(0o700)
+
+
+class GenerationWrapperTest(Fixture):
+    def wrapper_records(self, generation):
+        trace = self.base/"heartbeats.jsonl"
+        shim = self.base/"record-python"
+        shim.write_text('#!/bin/sh\n'+shlex.quote(sys.executable)+' -B "$@"\ncode=$?\n'
+                        'if [ -f '+shlex.quote(str(self.heartbeat))+' ]; then /bin/cat '+shlex.quote(str(self.heartbeat))+' >> '+shlex.quote(str(trace))+'; fi\nexit "$code"\n')
+        shim.chmod(0o700)
+        env = dict(os.environ, BACKUP_PYTHON=str(shim), BACKUP_LOG=str(self.log),
+                   BACKUP_HEARTBEAT=str(self.heartbeat), BACKUP_LOCK_DIR=str(self.base/"lock"),
+                   BACKUP_RCLONE=str(self.base/"nonexistent-rclone"))
+        env.pop("BACKUP_LAUNCH_GENERATION", None)
+        if generation is not None:
+            env["BACKUP_LAUNCH_GENERATION"] = generation
+        result = run_process(["/bin/bash", str(BACKUP)], env=env, timeout=5)
+        self.assertNotEqual(result.returncode, 0)
+        return [json.loads(line) for line in trace.read_text().splitlines()]
+
+    def test_wrapper_start_and_end_record_applet_generation(self):
+        records = self.wrapper_records("7")
+        self.assertEqual(len(records), 2)
+        self.assertIsNone(records[0]["end"])
+        self.assertIsNotNone(records[1]["end"])
+        for value in records:
+            self.assertEqual(value.get("launch_generation"), 7)
+            self.assertEqual(value.get("launch_mode"), "applet")
+
+    def test_manual_wrapper_records_explicit_unsequenced_mode(self):
+        records = self.wrapper_records(None)
+        for value in records:
+            self.assertIn("launch_generation", value)
+            self.assertIsNone(value["launch_generation"])
+            self.assertEqual(value.get("launch_mode"), "manual")
+
+    def test_invalid_wrapper_generation_refuses_before_any_rclone_dispatch(self):
+        marker = self.base/"must-not-dispatch"
+        rclone = self.base/"stub-rclone"
+        rclone.write_text('#!/bin/sh\nprintf ran > '+shlex.quote(str(marker))+'\nexit 1\n')
+        rclone.chmod(0o700)
+        env = dict(os.environ, BACKUP_PYTHON=sys.executable, BACKUP_LOG=str(self.log),
+                   BACKUP_HEARTBEAT=str(self.heartbeat), BACKUP_LOCK_DIR=str(self.base/"lock"),
+                   BACKUP_RCLONE=str(rclone), BACKUP_LAUNCH_GENERATION="broken")
+        result = run_process(["/bin/bash", str(BACKUP)], env=env, timeout=5)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(marker.exists(), "invalid generation must fail before preflight")
+        self.assertFalse(self.heartbeat.exists())
+
+
 class LauncherTest(Fixture):
     def osa_result(self, result, command):
         output = result.stdout+result.stderr
@@ -930,6 +1253,17 @@ class LauncherTest(Fixture):
         text = source.read_text()
         variant_text = text.replace("/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh", str(stub))
         self.assertNotEqual(variant_text, text, "variant must actually invoke the exit-1 stub")
+        home = self.base/"applet-home"
+        counter = home/"Library/Logs/memit-gdrive-backup-launch-state/counter"
+        counter.parent.mkdir(parents=True)
+        counter.write_text("0\n")
+        def isolate(match):
+            name, literal = match.groups()
+            body = json.loads(literal)
+            if name in {"generationShell", "receiptShell"}:
+                body = "HOME="+shlex.quote(str(home))+"\n"+body
+            return "property "+name+" : "+json.dumps(body)
+        variant_text = re.sub(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', isolate, variant_text, flags=re.M)
         variant.write_text(variant_text)
         compiled = self.base/"failure.scpt"
         result = run_process(["/usr/bin/osacompile", "-o", str(compiled), str(variant)], timeout=10)

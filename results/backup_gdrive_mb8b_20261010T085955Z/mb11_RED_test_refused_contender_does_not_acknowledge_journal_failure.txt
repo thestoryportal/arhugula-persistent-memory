@@ -1,0 +1,17 @@
+test_refused_contender_does_not_acknowledge_journal_failure (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_refused_contender_does_not_acknowledge_journal_failure) ... FAIL
+
+======================================================================
+FAIL: test_refused_contender_does_not_acknowledge_journal_failure (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_refused_contender_does_not_acknowledge_journal_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1020, in test_refused_contender_does_not_acknowledge_journal_failure
+    self.assert_bad("journal")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.839610+00:00
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.027s
+
+FAILED (failures=1)

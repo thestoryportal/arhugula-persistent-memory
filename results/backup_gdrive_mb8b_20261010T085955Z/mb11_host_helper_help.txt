@@ -1,0 +1,11 @@
+usage: host_launcher_checks_mb11.py [-h]
+                                    {absent-0555,clock-rollback,equal-time,writefail,both-unwritable}
+
+MAESTRO6 host only: Task 2 fixtures through real open -W -g, no
+rclone/network.
+
+positional arguments:
+  {absent-0555,clock-rollback,equal-time,writefail,both-unwritable}
+
+options:
+  -h, --help            show this help message and exit

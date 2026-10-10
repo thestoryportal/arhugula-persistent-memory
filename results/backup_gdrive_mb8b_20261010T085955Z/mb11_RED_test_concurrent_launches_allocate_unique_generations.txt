@@ -1,0 +1,21 @@
+test_concurrent_launches_allocate_unique_generations (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_concurrent_launches_allocate_unique_generations) ... FAIL
+
+======================================================================
+FAIL: test_concurrent_launches_allocate_unique_generations (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_concurrent_launches_allocate_unique_generations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1081, in test_concurrent_launches_allocate_unique_generations
+    self.assertEqual(sorted(map(int, marker.read_text().splitlines())), list(range(1, 13)))
+AssertionError: Lists differ: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] != [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+First differing element 0:
+0
+1
+
+- [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
++ [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+----------------------------------------------------------------------
+Ran 1 test in 0.048s
+
+FAILED (failures=1)

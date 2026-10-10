@@ -1,0 +1,17 @@
+test_missing_corrupt_or_decreasing_counter_is_unhealthy (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_missing_corrupt_or_decreasing_counter_is_unhealthy) ... FAIL
+
+======================================================================
+FAIL: test_missing_corrupt_or_decreasing_counter_is_unhealthy (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_missing_corrupt_or_decreasing_counter_is_unhealthy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 978, in test_missing_corrupt_or_decreasing_counter_is_unhealthy
+    self.assert_bad("counter")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.603417+00:00
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.053s
+
+FAILED (failures=1)

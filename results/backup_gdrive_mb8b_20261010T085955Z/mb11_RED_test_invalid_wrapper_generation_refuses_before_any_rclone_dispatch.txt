@@ -1,0 +1,14 @@
+test_invalid_wrapper_generation_refuses_before_any_rclone_dispatch (tools.test_backup_gdrive_addendum.GenerationWrapperTest.test_invalid_wrapper_generation_refuses_before_any_rclone_dispatch) ... FAIL
+
+======================================================================
+FAIL: test_invalid_wrapper_generation_refuses_before_any_rclone_dispatch (tools.test_backup_gdrive_addendum.GenerationWrapperTest.test_invalid_wrapper_generation_refuses_before_any_rclone_dispatch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1185, in test_invalid_wrapper_generation_refuses_before_any_rclone_dispatch
+    self.assertFalse(marker.exists(), "invalid generation must fail before preflight")
+AssertionError: True is not false : invalid generation must fail before preflight
+
+----------------------------------------------------------------------
+Ran 1 test in 0.412s
+
+FAILED (failures=1)

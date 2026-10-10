@@ -325,3 +325,141 @@ The report's final SHA-256 is recorded externally in `SHA256SUMS.txt` and `audit
 Done: local P1/P2 corrections, exact acceptance, eight REDs, bounded-storage evidence, syntax/scope/hash audit and prepared host commands. In flight: none. Next: MAESTRO5 runs the host list and submits these exact hashes/evidence to Astra r3; activation remains host-owned. `context_saved.md` preserves decisions and this handoff within the authorized receipt namespace. Learning for the successor: pre-wrapper failure evidence must live off the source volume, and refusal history must not become an unbounded per-launch sink.
 
 **BINDING context directive:** Watch this session and every orchestrated team's Context N% left. At approximately 20% remaining, stop starting work; write done/in-flight work, exact paths, next steps and risks into the task report; notify MAESTRO5 to use a fresh successor. Restate this directive in every handoff; never approach full-window compaction.
+
+
+## MB8 Task 2 context handoff to MAESTRO6 — 2026-10-10T09:05:47.978337+00:00
+
+**STOPPED at the explicit context gate; Task 2 is NOT built.** Before compaction, MB8 read `/Users/robertrhu/.claude/jobs/8ac4cacf/tmp/codexmb8_task2_prompt.txt`, the full `results/backup_gdrive_host_20261010/astra_r3_verdict.md`, and `results/backup_gdrive_mb8_20261010T082434Z/host_maestro5_verification.md`; inspected the implementation/tests and prior host helper; considered generation/journal designs in analysis; and created the preparation artifacts below. Baseline branch/HEAD: `worktree-c10k-route-a` / `5200f6301a5bab2c265d5477c53f93703613a615`.
+
+After compaction, MB8 reread the Task 2 prompt and relevant source/test spans and verified worktree/branch. After the explicit stop, only state/hash verification and this documentation were performed. The first handoff writer hit a shell/Python quoting error before writing; the corrected writer verified that all baseline files were still unchanged. All seven code/test/launcher files match `baseline.json`; the report matched its saved pre-handoff bytes. **No implementation or tests were started; no changes are half-applied; no process is in flight.** No Task 2 test, Drive/network/model/GPU run, Git mutation, installation or launchd action occurred.
+
+**Saved Task 2 REDs: none.** No Task 2 regression was written or executed. Existing `results/backup_gdrive_mb8_20261010T082434Z/red_launch_status.txt` and `results/backup_gdrive_mb8_20261010T082434Z/red_refusal_stress.txt` are historical Task 1 evidence, not R3 REDs. The progress announcement that REDs were next did not mean they had been saved.
+
+Every file created for Task 2 so far, with exact SHA-256:
+
+| Exact workspace-relative path | SHA-256 | State |
+|---|---|---|
+| `results/backup_gdrive_mb8b_20261010T085955Z/baseline.json` | `e47e718a70d99de076f4ce60a77310a9f71a978d71684b75906ed80c0ba6a122` | Complete preparation artifact |
+| `results/backup_gdrive_mb8b_20261010T085955Z/before/results/backup_gdrive_build_report.md` | `97f8218ba173ece5e7923fc92a854da5400ca246ef6bd646114b63476c137c62` | Complete preparation artifact |
+| `results/backup_gdrive_mb8b_20261010T085955Z/before/tools/backup_gdrive.sh` | `506ce31845bcbe812261ce128f2119f247cfe270e69b8af08e9a612207aed9ce` | Complete preparation artifact |
+| `results/backup_gdrive_mb8b_20261010T085955Z/before/tools/backup_gdrive_status.py` | `f5c98ad6adb3530ac215befbfcedc94a63368a9d153186864f67823db7c40b25` | Complete preparation artifact |
+| `results/backup_gdrive_mb8b_20261010T085955Z/before/tools/launchd/MemitGdriveBackup.applescript` | `ebafee3ad82a4376ec5dda0fbc823f2170c795cddd56d62f5ede730d6d5c3bab` | Complete preparation artifact |
+| `results/backup_gdrive_mb8b_20261010T085955Z/before/tools/launchd/build_gdrive_applet.sh` | `f7ca5a5b7928faa1bc24d12ac38cdd8c6ee21ad1684e9bc7579ac8cd1260189b` | Complete preparation artifact |
+| `results/backup_gdrive_mb8b_20261010T085955Z/before/tools/launchd/com.rhu.memit-gdrive-backup.plist` | `702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce` | Complete preparation artifact |
+| `results/backup_gdrive_mb8b_20261010T085955Z/before/tools/test_backup_gdrive.py` | `3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5` | Complete preparation artifact |
+| `results/backup_gdrive_mb8b_20261010T085955Z/before/tools/test_backup_gdrive_addendum.py` | `efa0c4e8047279bafe4dd04cfabb2b7839ff68ea012618f93b53cfd44785d985` | Complete preparation artifact |
+| `results/backup_gdrive_mb8b_20261010T085955Z/git_status_before.txt` | `81e9429d99ebdd0d066a5c6d62f2b7c626b051ce8cf851ab2d2ce943495af5f9` | Complete preparation artifact |
+| `results/backup_gdrive_mb8b_20261010T085955Z/prompt.txt` | `a580ef3a640b8a8f9f26654c28f86743cd86eafaa5ff71013f0ee2673e6168b4` | Complete preparation artifact |
+
+The only modified preexisting file is `results/backup_gdrive_build_report.md`: this appended handoff is complete documentation, not a partial implementation. Its complete post-append SHA-256 is recorded externally in `results/backup_gdrive_mb8b_20261010T085955Z/handoff_SHA256SUMS.txt`, alongside every preparation-file digest. This checksum metadata excludes itself to avoid self-reference. Pre-handoff report SHA-256: `97f8218ba173ece5e7923fc92a854da5400ca246ef6bd646114b63476c137c62`.
+
+**Concrete next step:** start a fresh builder session; read AGENTS.md Team mode/Context management and the Task 2 packet/verdict. First write and save REDs for finding 2: 10:00:00 success followed by 09:59:59 failure, equal timestamps with different generations, missing/corrupt/non-increasing counter, and manual execution without an applet generation. Then implement atomic internal-disk generation allocation/propagation and generation-only ordering; document the manual-run rule and the narrowly authorized change to the equal-timestamp-success assertion at `tools/test_backup_gdrive_addendum.py:120–122`. Next save REDs for finding 1's fresh success + receipt directory 0555 + absent wrapper, then implement the independent bounded journal and nested no-dialog catch. Verify/document both failure sinks unwritable. A separate generation directory to detect issued-but-unacknowledged launches was considered but is unimplemented and unverified.
+
+Prepare a new host helper in fresh receipts for actual `open -W -g` combined absent+0555 and clock-independent ordering; revisit the old writefail healthy expectation. Native Task 2 applet/app-bundle execution remains **UNVERIFIED**. Run the packet's exact acceptance in the foreground, save every new RED and final GREEN/hash/scope evidence, append the completion report, and use `GDRIVE R3 FIX BUILD DONE` only when complete. Findings 3–5 stay closed; preserve their paths and all original scope/Do-NOT rules. No activation approval is inferred.
+
+**BINDING context directive:** Watch your own and every orchestrated team's Context N% left. At approximately 20% remaining, stop starting work; write done/in-flight work, exact paths, next steps and risks into the task report; and notify the orchestrator to start a fresh successor. Restate this directive in every handoff; never approach full-window compaction. This session was compacted and explicitly stopped by MAESTRO6; do not resume implementation in it.
+
+
+## MB11 Task 2 R3 findings 1–2 build and verification — 2026-10-10T09:26:59.752036+00:00
+
+**Implementation is built; full acceptance is pending the explicit rclone constraint clarification.** This section supersedes MB8's unimplemented Task 2 handoff, without modifying prior sections or historical RED receipts. Worktree/branch verified as `worktree-c10k-route-a`; all seven MB8-listed code/test/launcher SHA-256 values and the post-handoff report hash matched at takeover. No half-applied code was found; MB11 chose to continue unchanged code, with no restore from HEAD. Evidence: `results/backup_gdrive_mb8b_20261010T085955Z/mb11_takeover.json`.
+
+### Ordering and publication rules
+
+Finding 2: the applet allocates a positive integer launch generation, atomically replacing `$HOME/Library/Logs/memit-gdrive-backup-launch-state/counter` while holding a separate Perl `flock` lock. Allocation precedes wrapper execution, compares the counter with receipt/heartbeat/journal evidence, and refuses missing, corrupt, exhausted, non-increasing or ambiguous state. It propagates `BACKUP_LAUNCH_GENERATION` to the wrapper. Start and end heartbeat records include `launch_generation` and `launch_mode`; launch receipts include the generation. Status uses generations for ordering. A failure is acknowledged only by an equal or later **completed** heartbeat; timestamps remain display/staleness and malformed/future validation data. A successful launch receipt alone cannot clear a failed launch. Issued generations without completion remain unhealthy, independently of receipt publication.
+
+Counter bootstrap is intentionally explicit and fail-closed: the initial counter must be provisioned as `0` exactly once in a new state directory before applet activation. **Never reset an existing counter or initialize over existing applet evidence.** Missing or ambiguous state requires operator-reviewed recovery. The host helper seeds only its own isolated fixture counter at generation 10; MB11 made no activation or installation change.
+
+Manual-run rule: absent `BACKUP_LAUNCH_GENERATION` still runs normally and publishes `launch_generation: null`, `launch_mode: manual`. Status labels a completed manual/legacy heartbeat `manual/unsequenced`. Without applet evidence it can be healthy; it cannot acknowledge unresolved applet generations or failures. An exit-75 contender continues to preserve the owner's heartbeat and incomplete status; it never acknowledges journal failures.
+
+The existing assertion at the former `tools/test_backup_gdrive_addendum.py:120–122` changed narrowly: equal or later wall-clock timestamps with completed generation 10 remain unhealthy against failed generation 11. Completing generation 11 clears the failure, including at the exact same timestamp. Added fixture counter/generation fields support this ordering check; timestamps no longer determine recovery.
+
+Finding 1: receipt-publication failure appends a generation-bearing marker to `$HOME/Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl`, in a directory independent of receipts and counter state. Normal failed launch outcomes also enter this journal, preventing a later success/refusal receipt from hiding them without completion. Publication is atomic under a separate journal lock. The journal retains at most 64 markers, prioritizing the greatest failed generations and preserving ambiguous markers; writer reasons are bounded. Status refuses malformed/empty/unavailable journals and markers not acknowledged by completed generations. Embedded launch/receipt/journal code uses only `/bin` and `/usr/bin` programs and core Perl modules. The nested AppleScript catch remains; failures inside the handler are caught without dialogs.
+
+When **both receipt and journal directories are 0555**, the launch counter still advances. The old heartbeat/receipt stay unchanged, the journal cannot publish, and status reports `unacknowledged launch generation 11: no completed heartbeat`. This closes the remaining two-sink case through independent issued-generation evidence; no false-green expectation is accepted. The old host `writefail` healthy-status expectation is replaced by an unhealthy journal expectation, even when its wrapper stub returns 0. A wrapper completion of generation 11 subsequently clears the fixture failure. Persistence against power loss is not claimed by these atomic-rename tests.
+
+### Test-first receipts and verification
+
+`mb11_red_index_final.json` maps **all 24 new tests plus the revised equality test (25 cases)** to saved behavioral RED logs. These were saved before each corresponding implementation change. One initial incomplete-generation schedule unexpectedly passed the old timestamp implementation; it was strengthened so the incomplete start timestamp follows the failed receipt. Its `_v2` RED is authoritative; the initial log was retained. MB8's Task 1 REDs were never replaced or re-saved.
+
+- `mb11_GREEN_generation_round1.txt`: 23 tests passed before the final malformed-evidence boundary cases.
+- `mb11_GREEN_no_rclone.txt`: **45 tests ran; 43 passed, 2 skipped, 0 failures/errors**. Includes all 25 RED-mapped cases, status regressions, shell-literal launch behavior, wrapper generation recording, 12 concurrent allocations, 80 failed-publication attempts, combined absent-wrapper/0555, and both sinks unwritable. No real rclone or network call occurred. Wrapper recording tests intentionally fail before rclone, or use a fixture stub.
+- The two native AppleScript tests skipped after an independent Standard Additions positive-control probe failed with `com.apple.hiservices-xpcservice` / `Connection invalid`. The compiler's `-2741` observation does **not** prove source validity or a source defect here; native compilation and real `open -W -g` execution remain **UNVERIFIED** for MAESTRO6's host checks.
+- Python AST parsing and `/bin/bash -n tools/backup_gdrive.sh` passed; `host_launcher_checks_mb11.py --help` passed. Static syntax and shell-literal evidence do not substitute for native host runs.
+
+Exact acceptance remains pending because its existing tests execute `/opt/homebrew/bin/rclone` on temporary local fixtures, while MB11's current prompt explicitly prohibits running rclone. An asynchronous clarification requested permission for fixture-only rclone calls, with no Drive/network. No dependent acceptance run has occurred without that permission.
+
+```sh
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum tools.test_backup_gdrive -v
+```
+
+### MAESTRO6 host commands — prepared, not executed by MB11
+
+The new helper preserves fixture/app-bundle evidence under `/private/tmp` and command/stdout/stderr/manifest/summary receipts under this receipt directory. It never installs, loads launchd, runs rclone/network, or deletes fixtures. Each case verifies healthy generation 10, performs a real `open -W -g` launch, verifies the failure and unchanged owner heartbeat, then verifies recovery only after completed generation 11. Rollback/equality cases force the emitted receipt time without changing the host clock.
+
+```sh
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py absent-0555
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py clock-rollback
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py equal-time
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py writefail
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py both-unwritable
+```
+
+### Final code/helper SHA-256
+
+| Changed path | SHA-256 |
+|---|---|
+| `tools/backup_gdrive.sh` | `36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8` |
+| `tools/backup_gdrive_status.py` | `614a5edb074c8427e98f4a5374ab60dac52ca68c3e9a336b3cf91c4240f03ef3` |
+| `tools/launchd/MemitGdriveBackup.applescript` | `2c7b6ee22b9283d17c897a6107c4d210e42684fdf567bb1872fd41f7681afc8b` |
+| `tools/test_backup_gdrive_addendum.py` | `fb0af721b29cefc07c795267655050520f249b3371eb3462757e4a0886e8fd19` |
+| `results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py` | `7c3e113860a9efc2b99d6007f9ffc8ab51fdb529904a827c0b03b8fbef41a58f` |
+
+The report's complete post-append SHA-256 and all new receipt hashes are saved in `results/backup_gdrive_mb8b_20261010T085955Z/mb11_SHA256SUMS.txt`; the report cannot embed its own complete digest. `tools/test_backup_gdrive.py`, `tools/launchd/build_gdrive_applet.sh`, and the plist remain byte-identical to MB8's baseline. No commit/push/merge, installation, launchd mutation, model/GPU run, network operation, or deletion of preexisting files occurred. `tools/test_dashboard_mathlab.py`, NEW-1 and git-automation files were left to their owners. Host verification and Astra review remain MAESTRO6's next external steps.
+
+**BINDING context directive:** Watch "Context N% left" for this and every orchestrated team session. At **40% left or less**, stop starting work; append a handoff at the end of this report containing what is done, what is half-applied, exact paths and SHA-256 of changed files, and the next step; reply exactly `CONTEXT HANDOFF WRITTEN`. If "Context compacted" appears, do the same immediately. Restate this directive in every handoff; never continue to a mid-change compaction.
+
+
+## MB11 Task 2 context handoff to MAESTRO6 — 2026-10-10T09:36:11.985528+00:00
+
+**STOPPED at the binding context handoff gate. Do not start more build work in this session. Task 2 completion is NOT claimed:** the code and host helper are built, but exact acceptance is pending the operator's fixture-rclone clarification, and native host checks remain UNVERIFIED. No process is in flight. No code/test change is half-applied. This handoff's hashes and counts supersede the provisional MB11 section above.
+
+**Done:** atomic, flock-serialized internal-disk generation allocation; wrapper start/end propagation; generation-only receipt/journal ordering; explicit manual/unsequenced heartbeat mode; fail-closed missing/corrupt/non-increasing/ambiguous counter handling; independent bounded 64-marker failure journal; nested no-dialog catches; combined absent-wrapper + 0555 regression and both-sinks-unwritable regression; native host helper and its command list. No commit, push, merge, installation, launchd mutation, real rclone, network or model/GPU run occurred.
+
+A final inspection found one additional false-green: when the journal is unwritable, a failed generation 11 receipt could be replaced by a later exit-75 receipt at generation 12 without any completed heartbeat. MB11 saved a RED (`mb11_RED_test_unwritable_journal_refusal_cannot_hide_uncompleted_failure.txt`), then serialized receipt publication with allocation and preserved the unresolved failed receipt until an equal/later completed heartbeat acknowledges it. This preserves ordinary active-owner exit-75 behavior while preventing refusal receipts from clearing prior failures.
+
+**Verification:** `mb11_red_index_final.json` now maps **25 new tests plus the revised equality regression (26 cases)** to saved REDs. `mb11_GREEN_no_rclone_final.txt` is the latest GREEN: **46 tests ran; 44 passed, 2 skipped, 0 failures/errors**. Every mapped case passed. The two native AppleScript tests skipped after the independent Standard Additions positive control also failed with `Connection invalid`; native compilation and actual `open -W -g` behavior are still UNVERIFIED. All MB8 receipts and earlier MB11 logs are retained. Do not re-save or overwrite RED logs. Do not rerun the historical construction scripts `mb11_write_applet.py` or `mb11_append_report.py`; they target earlier source/report states.
+
+**Complete changed files, exact SHA-256:**
+
+| Exact workspace-relative path | SHA-256 | State |
+|---|---|---|
+| `tools/backup_gdrive.sh` | `36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8` | Complete |
+| `tools/backup_gdrive_status.py` | `614a5edb074c8427e98f4a5374ab60dac52ca68c3e9a336b3cf91c4240f03ef3` | Complete |
+| `tools/launchd/MemitGdriveBackup.applescript` | `446d35a6fc83c0fc84018d2fec9d2edf285588ec2fccd4fbc6d19a33f28534d1` | Complete |
+| `tools/test_backup_gdrive_addendum.py` | `f19e0db1461bbfbe4e5f34300b473edd88aeb4a10d4b7e4af05f67c09a67be80` | Complete |
+| `results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py` | `7c3e113860a9efc2b99d6007f9ffc8ab51fdb529904a827c0b03b8fbef41a58f` | Complete |
+
+`results/backup_gdrive_build_report.md` contains only complete appended documentation. Its final post-handoff SHA-256 is saved externally in `results/backup_gdrive_mb8b_20261010T085955Z/mb11_handoff_SHA256SUMS.txt` (self-hash excluded). The complete receipt inventory, including report and changed-source hashes, is in `mb11_SHA256SUMS.txt`. The three remaining MB8 allowed files (`tools/test_backup_gdrive.py`, applet builder, plist) still match MB8's baseline SHA-256 exactly. Other builders' dashboard/NEW-1/git-automation work was left untouched.
+
+**Concrete next step:** in a fresh session, verify the hashes above before editing and continue the built code; do not restore it to Task 1/HEAD. Resolve the pending asynchronous question: the user forbids rclone but the exact required acceptance suite invokes `/opt/homebrew/bin/rclone` on temporary local fixtures. No reply/authorization arrived in this session. Only after explicit authorization for those fixture-only calls, execute and save the exact acceptance command in the foreground:
+
+```sh
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum tools.test_backup_gdrive -v
+```
+
+Then append acceptance counts, final hashes and native limitations. Use `GDRIVE R3 FIX BUILD DONE` with test counts only after required acceptance passes. Continue receipts in `results/backup_gdrive_mb8b_20261010T085955Z/`; preserve all historical REDs. MAESTRO6 verifies, GPT-6-Astra reviews, MAESTRO6 commits.
+
+**MAESTRO6 host-check commands (prepared, not executed by MB11):**
+
+```sh
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py absent-0555
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py clock-rollback
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py equal-time
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py writefail
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb8b_20261010T085955Z/host_launcher_checks_mb11.py both-unwritable
+```
+
+**Open risks/boundaries:** explicit first-activation counter provisioning is required (`0` in a fresh state directory only; never reset over applet evidence). No activation approval is inferred. Receipt/journal/boundedness proofs are shell/CPU fixtures, not native applet evidence or power-loss durability proof. Both unwritable failure sinks remain unhealthy through the independently issued counter; an exit-75 receipt cannot clear an unresolved failed receipt when journal publication fails. Full rclone-dependent acceptance and all real host helper cases remain unrun.
+
+**BINDING context directive:** Watch "Context N% left" for your own and every orchestrated team session. At **40% left or less**, stop starting work; append a handoff at the end of this report with what is done, what is half-applied, exact paths and SHA-256 of changed files, and the next step. Reply exactly `CONTEXT HANDOFF WRITTEN`. If "Context compacted" appears, do the same immediately. Restate this directive in every handoff; do not take the tempting one-more-edit step into mid-change compaction.

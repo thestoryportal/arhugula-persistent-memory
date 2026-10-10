@@ -1,0 +1,14 @@
+test_manual_wrapper_records_explicit_unsequenced_mode (tools.test_backup_gdrive_addendum.GenerationWrapperTest.test_manual_wrapper_records_explicit_unsequenced_mode) ... FAIL
+
+======================================================================
+FAIL: test_manual_wrapper_records_explicit_unsequenced_mode (tools.test_backup_gdrive_addendum.GenerationWrapperTest.test_manual_wrapper_records_explicit_unsequenced_mode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1171, in test_manual_wrapper_records_explicit_unsequenced_mode
+    self.assertIn("launch_generation", value)
+AssertionError: 'launch_generation' not found in {'bytes_transferred': 0, 'end': None, 'exit_code': None, 'log_path': '/private/tmp/gdrive_addendum_j6l5i28x/heartbeat/runs/20261010T091535Z-75977.jsonl', 'owner_pid': 75977, 'rclone_exit_code': None, 'rclone_pid': None, 'rclone_version': None, 'run_id': '20261010T091535Z-75977', 'schema': 1, 'start': '2026-10-10T09:15:35Z', 'warnings': [], 'wrapper_log': '/private/tmp/gdrive_addendum_j6l5i28x/wrapper.log', 'wrapper_log_identity': [16777234, 41065352], 'wrapper_log_offset': 0}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.352s
+
+FAILED (failures=1)

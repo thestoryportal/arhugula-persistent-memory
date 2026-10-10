@@ -1,0 +1,6 @@
+test_incomplete_equal_generation_does_not_acknowledge_failure (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_incomplete_equal_generation_does_not_acknowledge_failure) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.052s
+
+OK

@@ -1,0 +1,55 @@
+{
+  "utc": "2026-10-10T09:11:49.915479+00:00",
+  "checks": [
+    {
+      "path": "tools/backup_gdrive.sh",
+      "expected": "506ce31845bcbe812261ce128f2119f247cfe270e69b8af08e9a612207aed9ce",
+      "actual": "506ce31845bcbe812261ce128f2119f247cfe270e69b8af08e9a612207aed9ce",
+      "matches": true
+    },
+    {
+      "path": "tools/backup_gdrive_status.py",
+      "expected": "f5c98ad6adb3530ac215befbfcedc94a63368a9d153186864f67823db7c40b25",
+      "actual": "f5c98ad6adb3530ac215befbfcedc94a63368a9d153186864f67823db7c40b25",
+      "matches": true
+    },
+    {
+      "path": "tools/launchd/MemitGdriveBackup.applescript",
+      "expected": "ebafee3ad82a4376ec5dda0fbc823f2170c795cddd56d62f5ede730d6d5c3bab",
+      "actual": "ebafee3ad82a4376ec5dda0fbc823f2170c795cddd56d62f5ede730d6d5c3bab",
+      "matches": true
+    },
+    {
+      "path": "tools/launchd/build_gdrive_applet.sh",
+      "expected": "f7ca5a5b7928faa1bc24d12ac38cdd8c6ee21ad1684e9bc7579ac8cd1260189b",
+      "actual": "f7ca5a5b7928faa1bc24d12ac38cdd8c6ee21ad1684e9bc7579ac8cd1260189b",
+      "matches": true
+    },
+    {
+      "path": "tools/launchd/com.rhu.memit-gdrive-backup.plist",
+      "expected": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce",
+      "actual": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce",
+      "matches": true
+    },
+    {
+      "path": "tools/test_backup_gdrive.py",
+      "expected": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+      "actual": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+      "matches": true
+    },
+    {
+      "path": "tools/test_backup_gdrive_addendum.py",
+      "expected": "efa0c4e8047279bafe4dd04cfabb2b7839ff68ea012618f93b53cfd44785d985",
+      "actual": "efa0c4e8047279bafe4dd04cfabb2b7839ff68ea012618f93b53cfd44785d985",
+      "matches": true
+    },
+    {
+      "path": "results/backup_gdrive_build_report.md",
+      "expected": "cae2c5f179053fd2a97fd32c974e15d879443131341e551fe4ba931d7e85824d",
+      "actual": "cae2c5f179053fd2a97fd32c974e15d879443131341e551fe4ba931d7e85824d",
+      "matches": true
+    }
+  ],
+  "decision": "All baseline hashes match. Continue from unchanged implementation; no restore required.",
+  "context_directive": "At 40 percent left or less, or any Context compacted notice, stop starting work, append a handoff with done and half-applied work, exact paths and SHA-256, and next step; reply CONTEXT HANDOFF WRITTEN."
+}

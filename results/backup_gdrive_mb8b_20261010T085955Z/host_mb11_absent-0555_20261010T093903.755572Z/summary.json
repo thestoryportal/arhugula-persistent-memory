@@ -1,0 +1,10 @@
+{
+  "case": "absent-0555",
+  "status": "PASS",
+  "fixture": "/private/tmp/mb11-host-absent-0555-7he17bu_",
+  "source": "/private/tmp/mb11-host-absent-0555-7he17bu_/MemitGdriveBackup.applescript",
+  "applet_source_sha256": "446d35a6fc83c0fc84018d2fec9d2edf285588ec2fccd4fbc6d19a33f28534d1",
+  "open_wall_s": 0.5551907499320805,
+  "unhealthy_observation": "backup_gdrive_status: failed backup launch: unacknowledged failure journal generation",
+  "recovered_generation": 11
+}

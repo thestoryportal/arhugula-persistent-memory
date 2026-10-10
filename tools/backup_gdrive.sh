@@ -17,6 +17,7 @@ STAMP="$(/bin/date -u +%Y%m%dT%H%M%SZ)-$$"
 DELETED_DIR="${DEST%/*}/.deleted/$STAMP"
 HEARTBEAT="${BACKUP_HEARTBEAT:-$HOME/Library/Logs/memit-gdrive-backup/last_run.json}"
 START="$(/bin/date -u +%Y-%m-%dT%H:%M:%SZ)"
+LAUNCH_GENERATION="${BACKUP_LAUNCH_GENERATION:-}"
 RUN_LOG="$(/usr/bin/dirname "$HEARTBEAT")/runs/$STAMP.jsonl"
 RCLONE_VERSION=""
 RCLONE_PID=0
@@ -40,7 +41,7 @@ write_heartbeat() {
   local target="$HEARTBEAT"
   [ "$LOCK_OWNED" = 1 ] || target="$(/usr/bin/dirname "$HEARTBEAT")/refusals/latest-refusal.json"
   "$PYTHON" "$STATUS_TOOL" record --heartbeat "$target" --phase "$1" \
-    --run-id "$STAMP" --start "$START" --exit-code "${2:-0}" \
+    --run-id "$STAMP" --start "$START" --exit-code "${2:-0}" --launch-generation "$LAUNCH_GENERATION" \
     --rclone-version "$RCLONE_VERSION" --log "$LOG" --run-log "$RUN_LOG" \
     --sync-started "$SYNC_STARTED" --rclone-exit-code "$RCLONE_EXIT_CODE" \
     --outcome-json "$SYNC_OUTCOME" --owner-pid "$$" --rclone-pid "$RCLONE_PID"

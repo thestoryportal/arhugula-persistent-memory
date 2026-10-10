@@ -1,0 +1,14 @@
+test_allocator_refuses_string_generation_evidence (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_allocator_refuses_string_generation_evidence) ... FAIL
+
+======================================================================
+FAIL: test_allocator_refuses_string_generation_evidence (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_allocator_refuses_string_generation_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1154, in test_allocator_refuses_string_generation_evidence
+    self.assertFalse(marker.exists(), "JSON strings are not integer generations")
+AssertionError: True is not false : JSON strings are not integer generations
+
+----------------------------------------------------------------------
+Ran 1 test in 0.079s
+
+FAILED (failures=1)

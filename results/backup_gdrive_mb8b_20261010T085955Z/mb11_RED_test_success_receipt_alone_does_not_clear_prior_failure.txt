@@ -1,0 +1,17 @@
+test_success_receipt_alone_does_not_clear_prior_failure (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_success_receipt_alone_does_not_clear_prior_failure) ... FAIL
+
+======================================================================
+FAIL: test_success_receipt_alone_does_not_clear_prior_failure (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_success_receipt_alone_does_not_clear_prior_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1137, in test_success_receipt_alone_does_not_clear_prior_failure
+    self.assert_bad("journal")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:35.035320+00:00
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.082s
+
+FAILED (failures=1)

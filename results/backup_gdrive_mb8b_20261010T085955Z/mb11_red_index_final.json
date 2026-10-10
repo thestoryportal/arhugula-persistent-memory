@@ -1,0 +1,236 @@
+[
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_clock_rollback_failure_is_newer_by_generation",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_clock_rollback_failure_is_newer_by_generation.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_equal_timestamp_failure_needs_equal_or_later_completed_generation",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_equal_timestamp_failure_needs_equal_or_later_completed_generation.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_incomplete_equal_generation_does_not_acknowledge_failure",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_incomplete_equal_generation_does_not_acknowledge_failure_v2.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_issued_launch_without_receipt_is_unhealthy",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_issued_launch_without_receipt_is_unhealthy.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_journal_failure_needs_completed_generation",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_journal_failure_needs_completed_generation.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_later_wall_time_cannot_clear_failure",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_later_wall_time_cannot_clear_failure.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_heartbeat_generation_is_ambiguous",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_malformed_heartbeat_generation_is_ambiguous.txt",
+    "tests": 1,
+    "failures": 5,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_malformed_journal_cannot_report_success.txt",
+    "tests": 1,
+    "failures": 6,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_manual_heartbeat_is_explicit_and_cannot_clear_applet_failure",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_manual_heartbeat_is_explicit_and_cannot_clear_applet_failure.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_missing_corrupt_or_decreasing_counter_is_unhealthy",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_missing_corrupt_or_decreasing_counter_is_unhealthy.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_missing_or_malformed_receipt_generation_is_ambiguous",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_missing_or_malformed_receipt_generation_is_ambiguous.txt",
+    "tests": 1,
+    "failures": 7,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_refused_contender_does_not_acknowledge_journal_failure",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_refused_contender_does_not_acknowledge_journal_failure.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_absent_wrapper_and_0555_receipt_directory_publish_independent_journal",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_absent_wrapper_and_0555_receipt_directory_publish_independent_journal.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_both_failure_sinks_unwritable_leave_unacknowledged_generation",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_both_failure_sinks_unwritable_leave_unacknowledged_generation.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_concurrent_launches_allocate_unique_generations",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_concurrent_launches_allocate_unique_generations.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_failure_journal_is_bounded_and_keeps_newest_generation",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_failure_journal_is_bounded_and_keeps_newest_generation.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_generation_is_incremented_and_passed_to_wrapper_and_receipt",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_generation_is_incremented_and_passed_to_wrapper_and_receipt.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_missing_corrupt_or_rolled_back_counter_refuses_wrapper",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_missing_corrupt_or_rolled_back_counter_refuses_wrapper.txt",
+    "tests": 1,
+    "failures": 4,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_success_receipt_alone_does_not_clear_prior_failure",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_success_receipt_alone_does_not_clear_prior_failure.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationWrapperTest.test_invalid_wrapper_generation_refuses_before_any_rclone_dispatch",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_invalid_wrapper_generation_refuses_before_any_rclone_dispatch.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationWrapperTest.test_manual_wrapper_records_explicit_unsequenced_mode",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_manual_wrapper_records_explicit_unsequenced_mode.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationWrapperTest.test_wrapper_start_and_end_record_applet_generation",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_wrapper_start_and_end_record_applet_generation.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.StatusTest.test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationStatusTest.test_json_null_launch_receipt_cannot_be_ignored",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_json_null_launch_receipt_cannot_be_ignored.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_allocator_refuses_string_generation_evidence",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_allocator_refuses_string_generation_evidence.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_unwritable_journal_refusal_cannot_hide_uncompleted_failure",
+    "red_log": "results/backup_gdrive_mb8b_20261010T085955Z/mb11_RED_test_unwritable_journal_refusal_cannot_hide_uncompleted_failure.txt",
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "red": true
+  }
+]
