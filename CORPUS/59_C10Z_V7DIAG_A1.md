@@ -60,3 +60,7 @@ At this cutoff results/c10z_astra_attempt4/ does not exist: **attempt 4 PENDING,
 
 **Decision and FORK.** D-C10z-a1pop: FROZEN; named benchmark #3 ADMITTED; approved go bytes present at live path; attempt 4 PENDING. Candidate success, locality, deployment, MPS equivalence and F1 implications remain UNVERIFIED. This closes only the recorded preparation milestone after MAESTRO's tracker fold-in, not the future attempt.
 <!-- END D-C10z-a1pop -->
+
+## 2026-10-10 — Current continuation status superseded
+
+D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩: preparation/admission preserved; current continuation CLOSED by D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md. Historical preparation snapshot and both fingerprinted spans above remain unchanged.

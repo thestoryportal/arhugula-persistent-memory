@@ -258,7 +258,7 @@
     "script": "experiments/track_c/c10z_astra_benchmark.py",
     "result": "results/c10z_astra_benchmark/20261009T202713Z_drift3_a1/benchmark.json",
     "corpus": "CORPUS/59_C10Z_V7DIAG_A1.md",
-    "status": "FROZEN/ADMITTED preparation — approved go bytes at live path; attempt 4 PENDING",
+    "status": "FROZEN/ADMITTED preparation; continuation CLOSED under D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md",
     "decision_id": "D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩",
     "script_exists": true,
     "result_exists": true
@@ -308,6 +308,18 @@
     "corpus": "CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
     "status": "STOPPED — calibration FAIL; step 4 SHELVED/NOT FROZEN/NOT RUN; NEW-1 separate",
     "decision_id": "D-ML-4 ⟨D-ML-4@46230e48⟩",
+    "script_exists": true,
+    "result_exists": true
+  },
+  {
+    "id": "C10z-a4",
+    "track": "track_c",
+    "hypothesis": "Frozen exact-R1000 ASTRA A7 advancement test",
+    "script": "experiments/track_c/c10z_astra_arms.py",
+    "result": "results/c10z_astra_attempt4/pass_p1.json",
+    "corpus": "CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md",
+    "status": "DONE — UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1; inconclusive under this solve budget; terminal under current authorization",
+    "decision_id": "D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩",
     "script_exists": true,
     "result_exists": true
   }

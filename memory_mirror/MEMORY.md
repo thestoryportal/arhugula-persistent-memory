@@ -50,3 +50,5 @@
 - [MathLab calibration stop scope](mathlab-calibration-stop-scope.md) — D-ML-1 ⟨D-ML-1@46230e48⟩ STOPPED/calibration FAIL; D-ML-4 ⟨D-ML-4@46230e48⟩ step 4 SHELVED; NEW-1 separate → CORPUS/60_MATHLAB_HARVEST_REPLAY.md (2026-10-09 addendum).
 - [Disk budget before dispatch](disk-budget-before-dispatch.md) — 110 GB pre-cast operands filled memit; disk checks/budgets; Drive archive policy (§3.3a)
 - [Approved deletes: ask, then rmtree](approved-deletes-ask-then-rmtree.md) — Bash deletes are deny-listed; AskUserQuestion per path, then python3 shutil.rmtree + verify
+
+- [ASTRA stage-1 UNDERFIT terminal scope](c10z-stage1-underfit-terminal.md) — D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ **DONE — UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1** (inconclusive under this solve budget; terminal under current authorization), Astra CONFIRM → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.

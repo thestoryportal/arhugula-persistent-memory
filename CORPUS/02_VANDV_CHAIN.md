@@ -259,3 +259,9 @@ D-ML-1 ⟨D-ML-1@12c5548b⟩ harvest/admission milestones; D-ML-2 ⟨D-ML-2@99a9
 ## 2026-10-09 — MathLab calibration stop (supersedes the interim milestone status)
 
 D-ML-1 ⟨D-ML-1@46230e48⟩ **STOPPED — calibration FAIL**; D-ML-4 ⟨D-ML-4@46230e48⟩ step 4 **SHELVED**; NEW-1 adapter geometry continues separately under its own gates. MATH-PROXY only; F1 unchanged → CORPUS/60_MATHLAB_HARVEST_REPLAY.md#2026-10-09-addendum--harvest-2-calibration-fail-lab-stopped-d-ml-1--d-ml-4.
+
+## 2026-10-10 — ASTRA attempt-4 final disposition
+
+D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ **DONE — UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1** (inconclusive under this solve budget; terminal under current authorization), Astra CONFIRM → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
+
+D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩: preparation/admission preserved; current continuation CLOSED by D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.

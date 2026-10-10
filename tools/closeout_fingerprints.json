@@ -145,7 +145,7 @@
   "source": "CORPUS/59_C10Z_V7DIAG_A1.md",
   "anchor_start": "<!-- BEGIN D-C10z-a1pop -->",
   "anchor_end": "<!-- END D-C10z-a1pop -->",
-  "what": "Frozen exact R1000 continuation; benchmark #3 ADMITTED; go bytes present; attempt 4 pending"
+  "what": "Historical frozen R1000 preparation/admission; attempt-4 pending status superseded by D-C10z-a4"
  },
  "D-ML-1": {
   "source": "CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
@@ -170,5 +170,11 @@
   "anchor_start": "<!-- BEGIN MATHLAB CALIBRATION STOP 2026-10-09 -->",
   "anchor_end": "<!-- END MATHLAB CALIBRATION STOP 2026-10-09 -->",
   "what": "Harvest-2 step-2 PASS 61/61; valid step-3 calibration FAIL; lab STOPPED and step 4 SHELVED; NEW-1 separate"
+ },
+ "D-C10z-a4": {
+  "source": "CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md",
+  "anchor_start": "<!-- BEGIN D-C10z-a4 -->",
+  "anchor_end": "<!-- END D-C10z-a4 -->",
+  "what": "Frozen attempt-4 stage-1 UNDERFIT; Astra CONFIRM; terminal under current authorization"
  }
 }
