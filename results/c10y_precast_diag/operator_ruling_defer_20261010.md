@@ -1,5 +1,7 @@
 # D-C10r-rulings-16 — C10Y is DEFERRED, not removed (operator, 2026-10-10 ~23:40Z)
 
+> **ID correction (MAESTRO28, 2026-10-10 ~23:55Z):** this ruling's Decision ID is **D-C10r-rulings-17**. `D-C10r-rulings-16` was already assigned to the operator's 09:50Z Drive go-live ruling (EXPERIMENT_RUNBOOK.md §5.3, §13; commit b6564de) and is cited by D-C10r-gitmerge-1. Commit 6fb1e49 reused it in error; the text below is unchanged.
+
 Operator, verbatim (chat with MAESTRO27): "C10Y should be defered, not completely taken out of the possible
 experiments. We first need to complete the drive backup to ensure enough space is made available for it."
 
