@@ -134,3 +134,4 @@
 - [Read handoff before launching successor](read-handoff-before-launching-successor.md) — a 40%-stop may be a finished build; verify, do not relaunch
 - [Dry admission probe before one-shot](dry-admission-probe-before-one-shot.md) — read-only probe('cpu') first so a refusal can't burn a single authorized attempt
 - [Record provenance per test run](record-provenance-per-test-run.md) — RED/GREEN logs need command + source/test SHA-256 or they cannot be cited; use a mktemp copy for old-source RED
+- [C10Y deferred behind Drive backup](c10y-deferred-behind-drive-backup.md) — operator: C10Y DEFERRED not shelved; unblocks when the Drive backup frees ~273 GiB
