@@ -1,0 +1,7 @@
+{
+  "status": "INVALID",
+  "error": "nice 10 required",
+  "worker_pid": null,
+  "elapsed_s": 0.03342695883475244,
+  "observed_peak_family_rss_gib": 0.0349578857421875
+}
