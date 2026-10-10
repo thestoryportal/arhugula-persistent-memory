@@ -1,20 +1,17 @@
 ---
 name: memory-paths-and-mirror-discipline
-description: "Two memory dirs (harness-live -workspace/memory vs durable git-tracked /workspace/memory_mirror); pod restart wipes the live one; never cp a thin live dir over the mirror's full MEMORY.md index"
-metadata: 
-  node_type: memory
+description: "Memory lives twice: harness-live ~/.claude/projects/<hash>/memory and git-tracked memory_mirror/; sync one way, never cp a thin dir over MEMORY.md"
+metadata:
   type: reference
-  originSessionId: 7e49dca7-c684-465a-936b-1c2ce4852502
 ---
 
 Memory lives in TWO places and they can desync:
-- **Harness-live:** `/root/.claude/projects/-workspace/memory/` (what recall reads this session; the system-reminder names this path). On `/root` — **a pod restart can wipe it** (it was down to ~6 files this session while the archive had 34).
-- **Durable archive:** `/workspace/memory_mirror/` — git-tracked, on the persistent volume, the **canonical full set + MEMORY.md index** (40+ lines). This is the recovery source.
-- (A stale third path `/root/.claude/projects/-root/memory/` exists from earlier sessions — ignore; the live path is `-workspace`.)
+- **Harness-live:** `~/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/` (52 files at 2026-10-10) — what recall reads in sessions started from the mirror root. Sessions started elsewhere get their own project dir (e.g. `~/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/` held 2 files; a worktree session has its own hash and usually no memory dir), so check which path the system-reminder names.
+- **Durable archive:** `<repo>/memory_mirror/` — git-tracked, the **canonical full set + MEMORY.md index**. This is the recovery source.
+- `tools/closeout_check.py` (lines ~240-257) compares the live dir (`LLMDB_LIVE_MEMORY`, default the first path above) with `memory_mirror/` and reports any live note that is missing from or differs in the mirror, and checks every MEMORY.md link resolves; a missing live dir is reported as WARN, never skipped.
 
-**Trap hit 2026-06-20:** `cp $LIVE/*.md $MIRROR/` blindly copied a thin (restart-wiped) live dir over the mirror — **clobbering the mirror's full MEMORY.md with a 1-line stub.** Recovered via `git checkout HEAD -- memory_mirror/MEMORY.md`.
+**Trap hit 2026-06-20 (on the pod):** `cp $LIVE/*.md $MIRROR/` blindly copied a thin (restart-wiped) live dir over the mirror — **clobbering the mirror's full MEMORY.md with a 1-line stub.** Recovered via `git checkout HEAD -- memory_mirror/MEMORY.md`.
 
 **How to apply:**
-- After writing a memory: write to the live path, append the one-line pointer to `MEMORY.md`, then mirror. But **if the live dir looks thin (post-restart), repopulate it FROM the mirror first** (`cp $MIRROR/*.md $LIVE/`), don't overwrite the mirror with it.
+- After writing a memory: write the note, add its one-line pointer to `MEMORY.md`, then copy the note into the other location so both match. **If one dir looks thin, repopulate it FROM the fuller one** — never overwrite the mirror's MEMORY.md with a thin copy.
 - The mirror's `MEMORY.md` is git-tracked → if you clobber it, `git checkout HEAD -- memory_mirror/MEMORY.md` restores it. Re-read after writing ([[verify-canonical-state-edits-persist]]).
-- Same pod-restart cause as [[pod-restart-wipes-system-python-ml-stack]].

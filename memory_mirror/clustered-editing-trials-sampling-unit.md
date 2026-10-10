@@ -1,11 +1,11 @@
 ---
 name: clustered-editing-trials-sampling-unit
-description: For held-out read-corruption under sequential editing, the sampling unit is the (held-out-set × edit-ORDER) pair, NOT the individual entity — iid/Wilson CIs are invalid (clustered); use cluster-bootstrap over orders + ≥2 held-out seeds; corruption is order/held-out-DOMINATED not count-determined; ship a conservative last-all-clean ceiling for a safety counter, never a fitted point threshold
+description: "Held-out corruption under sequential editing: sampling unit = held-out set × edit order; cluster-bootstrap over orders; ship a conservative ceiling"
 metadata:
   type: feedback
 ---
 
-When measuring held-out same-relation read corruption to set a threshold/law (D1/§8.7, D-D1-2), the **experimental unit is the ordered edit-subset + the held-out set**, not the individual held-out entity. This was the load-bearing methodology lesson (gpt-5.5 cross-family caught it; Opus advisor concurred).
+When measuring held-out same-relation read corruption to set a threshold/law (D1/§8.7, D-D1-2), the **experimental unit is the ordered edit-subset + the held-out set**, not the individual held-out entity. This was the load-bearing methodology lesson (the 2026-06 cross-family reviewer, gpt-5.5, caught it; Opus advisor concurred).
 
 **What goes wrong if you ignore it:**
 - **iid confidence bounds (Wilson/Beta-binomial over N entity-trials) are INVALID** — the "288 trials" (12 orders × 24 shared held-out entities) are clustered by order and by shared entity; effective n ≪ 288, so a Wilson UCB is *overconfident* (true CI wider, thresholds lower). Retire it as a calibrated bound; keep only as a descriptive pooled stat.

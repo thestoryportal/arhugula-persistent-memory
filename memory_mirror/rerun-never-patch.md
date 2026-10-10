@@ -1,6 +1,6 @@
 ---
 name: rerun-never-patch
-description: Operator standing rule (2026-10-08) — a compromised/halted experiment is always re-run, never read around with a deviation note; program runs autonomously at full rigor
+description: Operator standing rule (2026-10-08) — a compromised or halted experiment is always re-run in fresh processes, never read around
 metadata:
   type: feedback
 ---

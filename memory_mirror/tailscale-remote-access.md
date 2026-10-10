@@ -1,11 +1,8 @@
 ---
 name: tailscale-remote-access
-description: "Set up 2026-10-07: Tailscale on the MBP as a user LaunchAgent in userspace-networking mode (no sudo); host robert-mbp / 100.118.225.127 / robert-mbp.tail36ce25.ts.net, account thestoryportal@github; the operator SSHes in from Termius on the iPhone to watch the team dashboard."
+description: Tailscale on the MBP (user LaunchAgent, userspace mode, robert-mbp 100.118.225.127); operator watches teamdash via Termius (iPhone) or an Omarchy VM
 metadata:
-  node_type: memory
   type: reference
-  originSessionId: ef74c20d-d259-4cb7-9e93-31d8d916f184
-  modified: 2026-10-07T22:47:32.757Z
 ---
 
 - Install: `brew install tailscale` (CLI 1.102.5). Daemon: `~/Library/LaunchAgents/com.rhu.tailscaled-user.plist` runs `tailscaled --tun=userspace-networking` with state + socket in `~/Library/Application Support/tailscale-user/`; log `~/Library/Logs/tailscaled-user.log`. RunAtLoad + KeepAlive. No system extension, no root.

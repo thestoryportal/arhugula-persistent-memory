@@ -1,12 +1,7 @@
 ---
 name: llmdb-root-points-at-main-checkout
-description: The shell exports LLMDB_ROOT=main checkout, so repo tools run from a worktree silently check main; prefix LLMDB_ROOT=$PWD
+description: "RETIRED 2026-10-10 — merged into llmdb-root-env-points-at-main-checkout; do not act on this note"
 metadata:
   type: feedback
 ---
-
-The login shell exports `LLMDB_ROOT=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory` (the MAIN checkout). Tools that honour it — `tools/closeout_check.py:25`, `tools/engine_fingerprint.py`, the GPU gate, experiment launchers — therefore read the main checkout even when run from `.claude/worktrees/c10k-route-a`.
-
-**Why:** 2026-10-10 MAESTRO2 reran `closeout_check.py D-C10z-a4` from the worktree and got "14 MISSING" seconds after Codex Z4 had it ALL GREEN; the trackers were edited in the worktree, the checker read main. The engine fingerprint likewise reported main's `memit_main.py` path.
-
-**How to apply:** in a worktree always run repo tools as `LLMDB_ROOT=$PWD python3 tools/...` and check the path the tool prints. A RED/GREEN disagreement between sessions → compare roots before suspecting the files. Related: [[gpu-gate-refuses-any-venv-python]].
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). Merged into [[llmdb-root-env-points-at-main-checkout]] (its cause was wrong: LLMDB_ROOT comes from .claude/settings.json:85, not the login shell). Full prior text: `git show fd77f7e:memory_mirror/llmdb-root-points-at-main-checkout.md`.

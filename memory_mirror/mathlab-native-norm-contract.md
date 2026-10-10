@@ -2,7 +2,6 @@
 name: mathlab-native-norm-contract
 description: Compare historical norm scalars with the same write native producer return; retain analysis norms separately.
 metadata:
-  node_type: memory
   type: feedback
 ---
 

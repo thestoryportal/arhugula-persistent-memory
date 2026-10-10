@@ -1,10 +1,8 @@
 ---
 name: clustered-design-power-determinism-cheaper-lever
-description: "At the realized ~50pp swing, detecting a moderate corruption effect needs ≳15 order/seed clusters per arm — so determinism (cutting swing) is a cheaper lever than multiplying clusters; tools/stats.py + tools/power.py are the canonical engines."
-metadata: 
-  node_type: memory
+description: At a ~50pp swing (4090-era figure) a moderate corruption effect needs ≳15 order clusters/arm; determinism is the cheaper lever; use tools/power.py
+metadata:
   type: project
-  originSessionId: 7244974a-eeee-4aa8-83d0-ff7e3186f6d3
 ---
 
 **Two canonical statistics tools now exist (committed 668306f, verified PASS 2026-06-24):**
@@ -22,7 +20,7 @@ metadata:
 ~50pp run-to-run swing (sd≈0.125, [[sequential-edit-run-nondeterminism]]), a
 `power.py size` for a *moderate* ~20pp corruption effect (p0=0.70, items=8, 80%
 power) lands around **≳15 order/seed clusters per arm** — an order of magnitude
-above the convention doc's ≥4-clusters floor.
+above the convention doc's ≥4-clusters floor. (The ~50pp swing was measured on the RunPod 4090 / cuBLAS in 2026-06; re-measure the between-order SD on the M3 MPS before sizing.)
 
 **Why:** ≥4 is *necessary* (just to have a cluster structure to bootstrap); ~15+
 is *sufficiency* for a given effect/noise — necessary-not-sufficient, not a

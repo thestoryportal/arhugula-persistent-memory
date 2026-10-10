@@ -2,10 +2,7 @@
 name: browser-harness-for-browser-automation
 description: "Standing preference (operator, 2026-10-06): always use Browser Harness for browser automation, not Claude in Chrome."
 metadata:
-  node_type: memory
   type: feedback
-  originSessionId: 6ffb3bc2-e19e-4357-8a56-33c06cb0cf38
-  modified: 2026-10-06T14:26:04.913Z
 ---
 
 The operator's words: "Always use Browser Harness for browser automation. It is much better than claude in chrome."

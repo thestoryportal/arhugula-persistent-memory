@@ -1,15 +1,13 @@
 ---
 name: git-add-all-leaks-secrets-on-public-repo
-description: "TRAP (2026-06-21): on a PUBLIC repo with push-after-commit standing practice, `git add -A` blindly swept an operator-supplied storage_state.json (live Google cookies) into a commit that was pushed public. NEVER `git add -A` without first checking what's staged + scanning for secrets; scope the add; secret-scan the tracked tree before every push."
-metadata: 
-  node_type: memory
+description: "Never `git add -A`: check `git status --short`, scope the add, secret-scan before every push; auth files live outside the tree"
+metadata:
   type: feedback
-  originSessionId: 1a56870e-a5ec-406a-9964-827f761992a9
 ---
 
 **What happened:** the operator dropped a `storage_state.json` (live NotebookLM/Google session cookies) into the repo tree (`tools/notebooklm-verify-tmp/`). On the next experiment close-out I ran `git add -A && git commit && git push` — `git add -A` swept the cookie file in, and the **public** repo (`github.com/thestoryportal/arhugula-persistent-memory`) + my push-after-commit practice published it. Caught only when later setting up NotebookLM and seeing `git ls-files` show it tracked.
 
-**Why it's load-bearing:** the repo went PUBLIC (2026-06-21) and push is now enabled/automatic-by-practice ([[commit-forward-work-without-asking]]). Those two facts turn a sloppy `git add -A` into a credential leak. The pre-commit anti-drift hook does NOT scan for secrets.
+**Why it's load-bearing:** the repo went PUBLIC (2026-06-21) and push is enabled/automatic-by-practice ([[commit-forward-work-without-asking]]). (As of 2026-10-10 `gh repo view --json visibility` reports PRIVATE; the rule stands — visibility can change and pushed secrets stay in history.) Those two facts turn a sloppy `git add -A` into a credential leak. The pre-commit anti-drift hook does NOT scan for secrets.
 
 **How to apply (binding):**
 - **NEVER `git add -A` / `git add .` blindly.** Before staging: `git status --short` and look at what's there. Prefer **scoping the add** to the specific files the work touched (`git add CORPUS/23.md docs/... experiments/...`), not the whole tree.

@@ -1,11 +1,8 @@
 ---
 name: prior-art-blendsql-small-models-2026
-description: "Operator-supplied 2026-10-07: Glenn & Samuel (Capital One), 'Large Databases Need Small, Open-Weight Language Models' (arXiv 2606.31808) + SemBench code; facts stay in a DB, small quantized LMs are typed query-time functions (BlendSQL, grammar-constrained outputs). CONTEXT for the write engine; LEAD for the read contract (§G CP2/E3 gap) and as an F1 comparator."
+description: "BlendSQL small models (arXiv 2606.31808): facts in a DB + typed small-LM query functions; CONTEXT for writes, LEAD for read contract, F1 comparator"
 metadata:
-  node_type: memory
   type: reference
-  originSessionId: ef74c20d-d259-4cb7-9e93-31d8d916f184
-  modified: 2026-10-07T10:58:45.907Z
 ---
 
 **Source:** https://arxiv.org/html/2606.31808v1 ; code https://github.com/CapitalOne-Research/play-by-the-type-rules/tree/main/sembench (adapted from SemBench).

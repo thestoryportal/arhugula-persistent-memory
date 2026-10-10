@@ -1,11 +1,8 @@
 ---
 name: prior-art-arxiv-2607-batch
-description: "Operator-supplied 2026-10-06: four arXiv 2607.* memory papers (Metis, Memory Decoder at Scale, MemHarness, MemTxn) — no LEAD; none writes weights or tests paraphrase transfer; MemTxn's rollback test is the reusable lifecycle design."
+description: "Four arXiv 2607.* memory papers (Metis, Memory Decoder at Scale, MemHarness, MemTxn): no LEAD; MemTxn's rollback test is the reusable lifecycle design"
 metadata:
-  node_type: memory
   type: reference
-  originSessionId: 567547cc-d4a3-4a73-a453-d399d5941f1f
-  modified: 2026-10-06T23:22:10.396Z
 ---
 
 Note: `results/prior_art_arxiv_2607_batch_2026-10-06.md` (full-text read via the arXiv MCP; WebFetch summaries disagreed between calls, so trust the MCP).

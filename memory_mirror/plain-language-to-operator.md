@@ -1,11 +1,8 @@
 ---
 name: plain-language-to-operator
-description: "Standing rule (operator, 2026-10-06): every answer, gate summary, report, and gate question or approval request to the operator is in non-technical language: clear, understandable, concise."
+description: "Standing rule (operator 2026-10-06): every answer, gate report and approval request to the operator is in clear, concise, non-technical words"
 metadata:
-  node_type: memory
   type: feedback
-  originSessionId: 6ffb3bc2-e19e-4357-8a56-33c06cb0cf38
-  modified: 2026-10-06T13:03:26.456Z
 ---
 
 The operator's words: "speak in non-technical language that is clear, understandable and concise. And make this a standing durable rule for all answers, gate summaries/reports and gate questions/approvals presented to me."

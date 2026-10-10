@@ -1,10 +1,8 @@
 ---
 name: pool-sizing-levers-items-then-determinism
-description: "Power-sizing clustered editing trials — clusters=orderings; spend held-out-probes first, then determinism; CORE=1.0 is a rule-of-three rare-event test, not an effect-size test"
-metadata: 
-  node_type: memory
+description: "Sizing clustered trials: cluster = edit ordering; spend held-out probes first, then determinism; a CORE=1.0 gate is a rule-of-three test"
+metadata:
   type: feedback
-  originSessionId: fb61dcd0-ac28-4e0b-a2b3-805299505b73
 ---
 
 When sizing a clustered editing-trial pool with `tools/power.py` (2026-06-24, F1 stimulus pool; `docs/F1_STIMULUS_POOL_SIZING.md`, `results/f1_pool_sizing.jsonl`):

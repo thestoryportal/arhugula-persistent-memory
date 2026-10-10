@@ -1,10 +1,8 @@
 ---
 name: in-weight-falsifier-must-be-weights-owned
-description: "Before building an in-weight falsifier, confirm the requirement is WEIGHTS-owned (no medium-delegation) AND the edit mechanism can't determine the outcome by construction"
-metadata: 
-  node_type: memory
+description: Before building an in-weight falsifier, confirm the requirement is WEIGHTS-owned (not medium-delegated) and the edit can't decide it by construction
+metadata:
   type: feedback
-  originSessionId: 52b6bccd-cd7e-4d09-ba27-988e5f3f0a72
 ---
 
 When designing an experiment to FALSIFY a spec read/behavior requirement in the weights, two pre-authoring gates (advisor caught the medium-delegation trap on BOTH R15 and R9, 2026-06-24):

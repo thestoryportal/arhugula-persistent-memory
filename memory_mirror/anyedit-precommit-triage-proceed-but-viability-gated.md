@@ -1,6 +1,7 @@
 ---
-title: AnyEdit triage: proceed, but viability-gated
-date: 2026-06-26
-decision: D-C10h-anyedit-triage
+name: anyedit-precommit-triage-proceed-but-viability-gated
+description: "RETIRED 2026-10-10 — June triage executed: pilot CORPUS/40, port CORPUS/42; do not act on this note"
+metadata:
+  type: project
 ---
-Advisor-review returned PROCEED for AnyEdit as the next C10 falsifier, not as a fix. Code triage prefers AnyEdit over FABLE: official AnyEdit has AlphaEdit_ARE/MEMIT_ARE and a per-token/window loop, but old deps/A100 assumptions and Qwen hparam mismatches mean it must be transplanted into the local Qwen2.5-3B harness with MEMIT primitives preserved and LAW#5 passing. FABLE is a heavier fallback; AnyEdit++ is a paper-only risk note. The pilot must be A7 plus A1/A2 held-out full-sequence first.
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). The triage it records was executed as the June pilot (CORPUS/40) and the Route A port (CORPUS/42); see [[anyedit-port-keys-at-last-prompt-token-no-paraphrase-transfer]]. Full prior text: `git show fd77f7e:memory_mirror/anyedit-precommit-triage-proceed-but-viability-gated.md`.

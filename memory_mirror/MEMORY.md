@@ -1,56 +1,124 @@
-- [⭐ Context management, every session (BINDING)](context-management-every-session.md) — Memento for MAESTRO, handoff+fresh successor for Codex; restate in every handoff
-- [LLM-as-Database program overview](llm-as-database-program-overview.md) — what the repo is, reading order, F1 status, C10 blocker
-- [Operator profile and standing directive](operator-profile-and-standing-directive.md) — architect with no ML background; make the call and proceed, surface irreversible decisions, don't block on ratification
-- [Local only, no rented compute](local-only-no-rented-compute.md) — all science on the M3 Pro; never propose rentals; design local-faithful ports instead
-- [MBP Command Line Tools (FIXED 2026-10-07)](mbp-command-line-tools-broken.md) — CLT 27.0 installed; native builds work; lesson: hand admin-only fixes to the operator at once
-- [MBP shell aliases trap](mbp-shell-aliases-trap.md) — du/cat/ls/grep/find are aliased (dust, bat, eza, rtk); use `command` prefix
-- [Local migration gaps](llm-db-local-migration-gaps.md) — mirror is a 2026-06-15 snapshot; missing engine/caches/models; CUDA hard-coded; M3 Pro changes stale hardware premises
-- [RESUME: step 1 HALTED at its inertness gate (fp16 batch-shape tolerance; amendment A2 + review next); loop PAUSED at 34/72 (held-out paraphrase caveat); then the exp-2 location control; loop relaunch waits on the sealing ruling](c10k-route-a-resume.md) — draft PR #20; never `cd` out of the worktree; LLMDB_ROOT points tools at the main checkout; kickoff = checkpoint top block
-- [Autoresearch fence + tmux driving + OpenResearch API](autoresearch-sandbox-fence-and-tmux-driving.md) — 2026-10-06: strict Bash sandbox + Read(//…) denies + standalone repo after the symlink breach; Ctrl-L clears the agent's input box; the "git" word trips the worktree guard; orx session API shapes
-- [Prior art: LRE (Hernandez 2024)](prior-art-lre-hernandez-2024.md) — operator-supplied; subject-last-token linear relation map; frames Route A zero paraphrase transfer + C10 value-class fragility; candidate next falsifier
-- [Prior art: AnyEdit++ (2026)](prior-art-anyeditpp-2026.md) — operator-supplied; surprisal-located write positions; long-form lineage metrics (BLEU on edited prompt) ≠ held-out paraphrase; read "Keys to Robust Edits" next
-- [Prior-art sweep 2026-10](prior-art-sweep-2026-10.md) — 22 papers + 20 repos tagged Q1–Q6; PRISM/ALOE/Suresh support keying-locus reading; Anand = hparam non-transfer; Moir = covariance-corpus knob; lifecycle refs
-- [Prior art: Chris Hay / LARQL 2026-10](prior-art-chrishayuk-larql-2026-10.md) — LARQL ships a Rust MEMIT (single-token targets) + L0/L1/L2 memory tiers + GGUF bake-out + Metal; cross-check engine + serving alternative; the-mechanism unchanged
-- [LLMDB_ROOT points at the main checkout](llmdb-root-env-points-at-main-checkout.md) — the shell profile's LLMDB_ROOT makes repo tools and the pre-commit hook act on the main checkout from a worktree; prefix calls with the worktree path
-- [Ollama serves winning-defense graphify](ollama-serves-winning-defense-graphify.md) — shares the GPU; stopped 2026-10-06 by the operator; restart with brew services start ollama
-- [Model and compute allocation](model-and-compute-allocation.md) — 2026-10-06: program session on Opus 5.5; subagents Sonnet 5.5 high unless complex; Codex in tmux on gpt-sol-6.1 max for implementation/reviews/runtime tests (verify the CLI model id first)
-- [Overnight autonomy + Memento handoffs](operator-overnight-autonomy-2026-10-06.md) — renewed 2026-10-07 05:45: recommendations = rulings; find the research agent's final list; delegate (Codex/subagents/Gemini); Memento for context; push allowed, never merge (rulings-10)
-- [Operator decision scope](operator-decision-scope.md) — bring only go/no-go and scope; decide word lists, thresholds, variants with the advisor + Codex; recommendation first, one yes/no
-- [Plain language to the operator](plain-language-to-operator.md) — standing rule: all answers, gate reports and approval requests in clear, concise, non-technical words
-- [README plain-words summary](readme-plain-words-summary.md) — refresh the README top section (date, progress, one record line) on every progress push
-- [NotebookLM via Browser Harness](notebooklm-via-browser-harness.md) — CLI broken (Google moved it to notebook.google.com); use the signed-in Chrome; the two project notebooks named
-- [Browser Harness for browser automation](browser-harness-for-browser-automation.md) — always, not Claude in Chrome; drive it from a script file
-- [Connected Papers API](connected-papers-api.md) — tools/connected_papers_fetch.py via uv; key in keychain item connectedpapers-api-key; graphs to the collection api/ folder
-- [Prior art: Sleeping LLM (Baranov 2026)](prior-art-sleeping-llm-2026.md) — operator-supplied; MEMIT wake + LoRA sleep; CONTEXT; replicates the single-prompt no-transfer gap; author later dropped MEMIT
-- [Prior art: arXiv 2607 batch](prior-art-arxiv-2607-batch.md) — operator-supplied Metis / Memory Decoder at Scale / MemHarness / MemTxn; no LEAD; MemTxn rollback test = lifecycle template
-- [Prior art: BlendSQL small models (Capital One 2026)](prior-art-blendsql-small-models-2026.md) — operator-supplied; facts in a DB + typed small-LM functions; CONTEXT for writes, LEAD for the read contract, F1 comparator
-- [Test-first, one-round builds](test-first-one-round-builds.md) — operator 2026-10-07: tests from the prereg first, round-trip/boundary/HALT tests, green before DONE; applies to Codex and subagents
-- [C10 harness restores band only](c10e-harness-restores-band-only.md) — snap/restore cover hp.layers only; out-of-band writers must snapshot+hash all 36 down_proj
-- [Tailscale remote access](tailscale-remote-access.md) — user LaunchAgent, userspace mode; robert-mbp 100.118.225.127; Termius on the iPhone watches the dashboard
-- [Lab View + live telemetry](lab-view-and-live-telemetry.md) — D-C10r-rulings-11: program owns docs/c10_evaluations.json after codexviz seeds it; opt-in LAW#5-inert JSONL telemetry in C10X/C10Y/C10Z builds only
-- [GPU gate blocks any python](gpu-gate-blocks-any-python.md) — P2/P3 stage gate refuses on any python process (system python3 too); builds/tests wait for COORDINATOR_EXIT; keep python3 calls short + foreground
-- [fp32 reductions over big tensors](fp32-reductions-over-big-tensors.md) — fp32 cosine over 22.5M elements hit 1.008 and HALTED P2; use float64
-- [Dashboard live derivation](dashboard-live-derivation.md) — NOW is computed live; pending rulings need "awaiting operator" in the runbook §5.2 status cell
-- [Rerun, never patch](rerun-never-patch.md) — operator rule: compromised runs are re-run, never read around; run autonomously at full rigor
-- [tmux server hang](tmux-server-hang-dashboard.md) — one tmux hosts all sessions; dashboard tmux load + resize thrash froze everything 2026-10-08
-- [Push on milestones](push-on-milestones.md) — phone push, top priority notable research results vs F1 goal; also GPU launch/verdict, HALT, needs-ruling, build admitted
-- [C10W ceiling oracle result](c10w-ceiling-oracle-result.md) — step 5 FINAL: 70/72 with locality/forgetting cost; no clean reference; not a route (CORPUS/57)
-- [C10X engine-path result](c10x-enginepath-result.md) — step 6 CLOSED: OverTone NULL 17 vs 12/72; FE package INVALID-CONTROLS-UNDERFIT (erratum); neither advances (CORPUS/58)
-- [Seed freezes context templates](seed-freezes-context-templates.md) — seed 0 → template set e8605172 → A7 40/7/7 below LAW#3; pin templates to a recorded file
-- [MPS offset-view conversion bug](mps-offset-view-conversion-bug.md) — t.to(device=cpu,dtype=X) on an MPS offset view returns garbage; use .cpu().to(X)
-- [Backup via MemitBackup.app](backup-via-memitbackup-app.md) — launchd backup runs a single-purpose app with Removable Volumes grant; never FDA for bash
-- [InfraNodus standing approval](infranodus-standing-approval.md) — operator approved forever; allow rule added 2026-10-08, calls pass
-- [Graft disabled + audit](graft-disabled-audit-2026-10-08.md) — no corruption found; codex exec needs -c mcp_servers.graft.enabled=false
-- [Never idle: arm completion watch](never-idle-arm-completion-watch.md) — 13 h idle 2026-10-09; every in-flight build/review needs a Monitor wake signal, route next step on each event
-- [GPU gate refuses any .venv python](gpu-gate-refuses-any-venv-python.md) — Codex unittests block check_gpu; poll until clear ×2 then launch
-- [tmux kill-session exact name](tmux-kill-session-exact-name.md) — prefix match killed live codexy2; use -t =name, check tmux ls first
-- [A1 population byte identity](c10z-a1-population-byte-identity.md) — D-C10z-v7diag ⟨D-C10z-v7diag@d8c55e7b⟩ A1; D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩ only the exact recorded population is authorized → CORPUS/59_C10Z_V7DIAG_A1.md.
-- [MathLab native norm contract](mathlab-native-norm-contract.md) — D-ML-1 ⟨D-ML-1@46230e48⟩ keep harvest identities separate; D-ML-2 ⟨D-ML-2@99a9fb4c⟩ replay is scoped; D-ML-3 ⟨D-ML-3@84e9d0e1⟩ compare the historical producer's native scalar → CORPUS/60_MATHLAB_HARVEST_REPLAY.md.
+- [⭐ Context management (BINDING)](context-management-every-session.md) — Memento finalize-session for MAESTRO; Codex at ~20% left gets a fresh successor
 
-- [MathLab calibration stop scope](mathlab-calibration-stop-scope.md) — D-ML-1 ⟨D-ML-1@46230e48⟩ STOPPED/calibration FAIL; D-ML-4 ⟨D-ML-4@46230e48⟩ step 4 SHELVED; NEW-1 separate → CORPUS/60_MATHLAB_HARVEST_REPLAY.md (2026-10-09 addendum).
-- [Disk budget before dispatch](disk-budget-before-dispatch.md) — 110 GB pre-cast operands filled memit; disk checks/budgets; Drive archive policy (§3.3a)
-- [Approved deletes: ask, then rmtree](approved-deletes-ask-then-rmtree.md) — Bash deletes are deny-listed; AskUserQuestion per path, then python3 shutil.rmtree + verify
+## Operating rules
+- [Answer the gate's real criterion](resolve-the-gates-real-criterion.md) — State the gate's literal criterion first; a passing necessary proxy isn't it
+- [Anti-drift: de-dup, enforce](anti-drift-enforce-not-autowrite.md) — One source + D-ID pointers; to retract a pushed claim, grep-sweep every tracker
+- [Approved deletes: ask, then rmtree](approved-deletes-ask-then-rmtree.md) — Ask per path via AskUserQuestion, then shutil.rmtree; never retry a denied rm
+- [C10 accept-bounded = hybrid](c10-accept-bounded-means-hybrid-not-general-db.md) — Never claim coined multi-word facts live in weights; route to Git/side-store
+- [Close-out gate before done](closeout-gate-before-done.md) — Not done until closeout_check <D-ID> is ALL GREEN (LLMDB_ROOT=$PWD in worktree)
+- [Commit forward, push, never merge](commit-forward-work-without-asking.md) — Push every commit to the branch; never merge; never route around a gate
+- [Disk budget before dispatch](disk-budget-before-dispatch.md) — Wait for free disk ≥ projected writes + 20 GiB; every scope states a disk budget
+- [Encode discipline as a gate](encode-recurring-discipline-as-a-gate.md) — When a discipline keeps lapsing, build an exit-code gate instead of more prose
+- [Evidence over scaffolding](evidence-over-scaffolding.md) — Next experiment runnable? Launch it before writing more plans or docs
+- [Fallback is not F1 closure](fallback-that-nullifies-spec-is-not-f1-closure.md) — Never present a side-store/hybrid fallback as F1 closure; keep C10 OPEN
+- [Forward infra is pre-approved](standing-auth-forward-requirements.md) — Do downloads/cov compute/model pulls and narrate; deletions need a per-path ask
+- [InfraNodus standing approval](infranodus-standing-approval.md) — Use InfraNodus freely on scrubbed prose (no code/emails/paths); gaps are leads
+- [Lab View + telemetry](lab-view-and-live-telemetry.md) — Each close-out: refresh docs/c10_evaluations.json; builds get inert telemetry
+- [Local only, no rented compute](local-only-no-rented-compute.md) — Never propose rentals; design the local-faithful port and state its limits
+- [Never idle: arm a completion watch](never-idle-arm-completion-watch.md) — Never end a turn with work in flight and no Monitor; push after every commit
+- [Operator decision scope](operator-decision-scope.md) — Bring only go/no-go/scope; decide design details with advisor + Astra
+- [Operator profile + standing directive](operator-profile-and-standing-directive.md) — Make the call and proceed; ask once, recommend first, make each approval durable
+- [PASS label ≠ promotable claim](pass-label-not-equal-promotable-claim.md) — Record the mechanical label, then disposition the claim with independent review
+- [Plain language to the operator](plain-language-to-operator.md) — Write every answer, report and approval request in plain, non-technical words
+- [Program overview + reading order](llm-as-database-program-overview.md) — Read CLAUDE.md, runbook §0.3, checkpoint, CORPUS; never take state from memory
+- [Push on milestones](push-on-milestones.md) — Phone push for notable results, GPU launch/verdict, HALT, pending ruling
+- [Read the source fully](read-authoritative-source-fully.md) — Read the governing spec end-to-end before framing a load-bearing decision
+- [README plain-words summary](readme-plain-words-summary.md) — On each progress push refresh README 'In plain words' (date, progress, one line)
+- [Rerun, never patch](rerun-never-patch.md) — A halted/compromised run is re-run in fresh processes after one reviewed fix
+- [Research-first, verify tools](research-first-and-verify-tool-availability.md) — Check our own corpus before external research; confirm a tool is live before use
+- [Review has diminishing returns](review-diminishing-returns-evidence-is-binding.md) — Time-box reviews; same-model councils aren't independent; get evidence instead
+- [Standing autonomy rulings](operator-overnight-autonomy-2026-10-06.md) — Recommendation = ruling, team decides; push never merge; measured budget raises
+- [Verify external artifacts first](verify-external-artifacts-before-effort.md) — Fetch repos/arXiv ids before they gate effort; verify 'it is fake' claims too
 
-- [ASTRA stage-1 UNDERFIT terminal scope](c10z-stage1-underfit-terminal.md) — D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ **DONE — UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1** (inconclusive under this solve budget; terminal under current authorization), Astra CONFIRM → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
-- [LLMDB_ROOT points at main checkout](llmdb-root-points-at-main-checkout.md) — in a worktree prefix LLMDB_ROOT=$PWD or tools check main
-- [gdrive rclone remote](gdrive-rclone-remote.md) — `gdrive:` setup (project 543404640214, published, drive.file) + phone OAuth traps; durability = launchd job + heartbeat, not this note
+## Workflow & tools
+- [Autoresearch loop per fork](autoresearch-editing-loop-per-fork.md) — Never seed ideas or corpus into the loop; outputs are leads, not port validation
+- [Browser Harness, not Chrome ext](browser-harness-for-browser-automation.md) — For browser tasks use Browser Harness from a script file, not Claude in Chrome
+- [Claude advisor for Codex-led work](claude-subscription-advisor-for-codex.md) — Codex-led work: review via LLMDB_ROOT=$PWD tools/claude_advisor.sh
+- [Connected Papers](connected-papers-api.md) — No API key: build graphs on the site via Browser Harness, export .bib to INBOX
+- [Cross-family review sequencing](codex-runs-inline-from-claude-bash.md) — Run Astra review before asking the operator; perplexity_reason if Codex is down
+- [Dashboard live derivation](dashboard-live-derivation.md) — Write 'awaiting operator' in the §5.2 status cell to surface a pending ruling
+- [gdrive rclone remote](gdrive-rclone-remote.md) — gdrive: is the archive tier; after publishing OAuth app run config reconnect
+- [InfraNodus is a lens](infranodus-discourse-lens-not-coverage-tool.md) — For coverage questions enumerate, triage, read; use InfraNodus only to rank gaps
+- [Interim SSD mirror (MemitBackup)](backup-via-memitbackup-app.md) — On 'Operation not permitted' check the app's Removable Volumes grant, never FDA
+- [Memory paths + mirror sync](memory-paths-and-mirror-discipline.md) — Keep LIVE memory and memory_mirror identical; never cp a thin dir over MEMORY.md
+- [Model and compute allocation](model-and-compute-allocation.md) — Sonnet subagents; Codex builders in tmux on gpt-6.1-sol max, not codex exec
+- [NotebookLM via Browser Harness](notebooklm-via-browser-harness.md) — CLI is broken; use Browser Harness in signed-in Chrome; answers are advisory
+- [Runbook is canonical](experiment-runbook-is-canonical.md) — Start at runbook §0.3; edit program_state.json and re-render, never the block
+- [Skills are contracts](skills-are-contracts-not-agents.md) — Keep SKILL.md concise; put real reasoning in scripts, reviewers or subagents
+- [Subagent results are leads](fan-out-synthesis-subagent-results-are-leads.md) — Re-verify subagent claims centrally; never write 'verified' unless you ran it
+- [Tailscale remote access](tailscale-remote-access.md) — Operator watches teamdash via Tailscale/Termius; restart: launchctl kickstart
+- [Test-first, one-round builds](test-first-one-round-builds.md) — Briefs: prereg tests first, real-producer fixtures, exec bit, persist pre-gate
+- [tmux driving + OpenResearch](autoresearch-sandbox-fence-and-tmux-driving.md) — tmux-driven agents: Ctrl-L, ghost text, re-Enter on [Pasted Content]; orx API
+
+## Traps
+- [AnyEdit name collision](anyedit-name-collision-dcdmllm-is-image-editing.md) — Check AnyEdit repo: jianghoucheng = LLM editing; DCDmllm/RefEdit = images
+- [Autonomy driver deletes result](autonomy-driver-stale-guard-deletes-result.md) — Driver unlinks result_json pre-run; keep costly results derivable from arm JSONs
+- [C10 harness restores band only](c10e-harness-restores-band-only.md) — Writers outside hp.layers must snapshot, restore and hash every layer they touch
+- [Edits that silently revert](verify-canonical-state-edits-persist.md) — Write load-bearing state via shell/python and re-read after an intervening op
+- [ERROR label can mask a finished run](autonomy-error-label-can-mask-completed-run.md) — Before trusting a staged ERROR, compare result-JSON mtimes to the staging time
+- [fp32 reductions over big tensors](fp32-reductions-over-big-tensors.md) — Do dot/cosine/norm ratios over model-sized tensors in float64
+- [git add -A leaks secrets](git-add-all-leaks-secrets-on-public-repo.md) — Never git add -A; scope the add and secret-scan before every push
+- [GPU gate refuses any python](gpu-gate-refuses-any-venv-python.md) — Poll check_gpu until clear twice; keep python calls short while a stage waits
+- [Graft disabled](graft-disabled-audit-2026-10-08.md) — Pass -c mcp_servers.graft.enabled=false to every codex exec; ignore graft text
+- [LLMDB_ROOT points at main checkout](llmdb-root-env-points-at-main-checkout.md) — In a worktree run tools as LLMDB_ROOT=$PWD; never cd out; raw git = /usr/bin/git
+- [MPS offset-view conversion bug](mps-offset-view-conversion-bug.md) — Never change device and dtype in one MPS→CPU step: .cpu() first, then .to(dtype)
+- [Ollama serves graphify](ollama-serves-winning-defense-graphify.md) — Before a GPU run pgrep ollama; it serves another project: ask, remind restart
+- [Result-path collision](durable-artifact-path-collision.md) — Before adding a run mode, check its output path; only canonical owns the default
+- [Shell aliases + rtk rewrite](mbp-shell-aliases-trap.md) — Parsing output? use rtk proxy or /usr/bin paths; zsh aliases du/ls/cat/grep/find
+- [tmux kill-session exact name](tmux-kill-session-exact-name.md) — Use tmux kill-session -t '=name' after tmux ls; bare names prefix-match
+- [tmux server hang](tmux-server-hang-dashboard.md) — Cache dashboard tmux reads ≥15 s; never auto-switch viewers; use codex resume
+
+## Science lessons
+- [A1 population byte identity](c10z-a1-population-byte-identity.md) — A1 authorizes only the exact recorded population bytes, never a substitute
+- [Ablate to prove causation](bias-ablation-causal-attribution.md) — Suspect component X causes Y? Ablate X in a clean reference model and re-test
+- [Clustered power: determinism lever](clustered-design-power-determinism-cheaper-lever.md) — Run tools/power.py size on the measured swing before any clustered claim
+- [Clustered trials sampling unit](clustered-editing-trials-sampling-unit.md) — Unit = held-out set × edit order; cluster-bootstrap, never iid Wilson bounds
+- [Control relation cardinality](control-relation-effective-cardinality.md) — Check effective distinct values in the usable pool before picking a dilutant
+- [CORPUS/44 rho is remaining residual](corpus44-rho-is-remaining-residual.md) — Write 'X % remains' from rho_c, never 'X % realised'
+- [Delegated is not delivered](confirmed-delegated-is-not-delivered.md) — Not weight-native moves a requirement; it stays OPEN until the delegate is shown
+- [Falsifier must be weights-owned](in-weight-falsifier-must-be-weights-owned.md) — Classify the requirement (weights-owned vs delegated); check the probe's key
+- [Fixed-budget sweep confound](fixed-budget-sweep-couples-iv-with-complement.md) — List every quantity a fixed-budget sweep co-varies before claiming X isolated
+- [In-weight necessity: hybrid](in-weight-necessity-is-scope-keyed-hybrid.md) — F1 = compaction-bounded hybrid; don't count incremental corruption against batch
+- [Injection control is a stratum](injection-control-is-a-stratum-not-a-floor.md) — Pre-register per-process quantities as reporting strata, never as success floors
+- [Insert robust, update fragile](in-weight-knowing-insert-robust-update-fragile.md) — Test native-knowing on held-out paraphrases; counterfactual updates are fragile
+- [Knowledge screen ≠ editability](native-knowledge-screen-is-not-editability.md) — Screen subject length + counterfactual expressibility before big-N edit runs
+- [Last-token write is a frame write](last-token-keyed-write-is-a-frame-write.md) — Check where an editor keys the write; test locality with same-frame prompts
+- [Less-flattering reading](default-to-the-less-flattering-reading.md) — At verdict gates TEST the confound with a controlling arm, don't footnote it
+- [Logprob reconciliation unsound](in-weight-logprob-reconciliation-is-bleed-unsound.md) — Never infer 'write landed' from weights; carry commit status in a ledger bit
+- [Match metric to the claim](match-metric-to-the-claim.md) — Measure the metric your claim names; same metric both sides; report x/N counts
+- [MathLab calibration stop scope](mathlab-calibration-stop-scope.md) — A failed proxy calibration stops that lab only; NEW-1 keeps its own gates
+- [MathLab native norm contract](mathlab-native-norm-contract.md) — Compare norms with the producer's native scalar; keep analysis norms separate
+- [Mechanics ≠ contracts](calibrate-confidence-mechanics-vs-contracts.md) — Say 'mechanics work' vs 'contract satisfied'; call advisor when most confident
+- [Method ports need faithfulness gate](method-ports-need-replication-faithfulness-gate.md) — Recover easy controls with upstream code before reading a port as science
+- [Name the manipulated variable](name-the-manipulated-variable-not-the-arm-intent.md) — List every variable that differs between arms before naming the effect
+- [No-op gate ≠ active-edit parity](anyedit-noop-gate-is-not-active-edit-parity.md) — A LAW#5/no-op pass is not port validity; add active parity + token gates
+- [Null label can hide an effect](deterministic-null-label-can-hide-real-effect.md) — A null label = didn't clear this detector; read the paired sign pattern
+- [Pool sizing levers](pool-sizing-levers-items-then-determinism.md) — Size with power.py: max probes per ordering, then cut swing; rule-of-three CORE
+- [Prototype tautology trap](prototype-tautology-trap.md) — Write tests that can fail; self-built contract tests are not empirical evidence
+- [Qwen2.5-3B super weight (L2)](qwen25-3b-super-weight-l2-down-proj.md) — Keep down_proj[318,3189] high-precision in GGUF; re-locate after any model swap
+- [Read keying locus before porting](read-keying-locus-before-porting-an-editor.md) — At prereg, write where the port keys and whether the criterion is reachable
+- [Seed freezes context templates](seed-freezes-context-templates.md) — Pin MEMIT context templates to a file; never seed-hunt after a LAW#3 miss
+- [Sequential-edit nondeterminism](sequential-edit-run-nondeterminism.md) — Never report one extreme draw; re-run in a fresh process; pool over edit orders
+- [Single seed limits generality](single-seed-limits-generality-not-significance.md) — Report within-seed significance and cross-seed generality separately
+- [Spec-coherence audit is circular](spec-coherence-audit-is-circular.md) — Before calling a spec gap, name the clause that would cover it and why not
+- [Unresolved is a verdict](calibrate-symmetrically-unresolved-is-a-verdict.md) — Caught an over-claim? Correct to 'unresolved, weak lean', not to the opposite
+- [Value-expression design](in-weight-value-expression-experiment-design.md) — Bind to held-out full-sequence match; add coherent/incoherent arms; count-match
+
+## Prior art
+- [AnyEdit++ (2026)](prior-art-anyeditpp-2026.md) — Long-form editors score canonical BLEU; they can't close C10's paraphrase bar
+- [arXiv 2607 memory batch](prior-art-arxiv-2607-batch.md) — No LEAD; reuse MemTxn's rollback test as a delete/rollback template
+- [BetaEdit official repo](betaedit-official-repo.md) — A3 is PARKED; port BetaEdit's method (no LICENSE), re-clone if revived
+- [BlendSQL small models (2026)](prior-art-blendsql-small-models-2026.md) — 'DB + small typed LM' is the F1 baseline in-weight must beat; read-contract lead
+- [EasyEdit parts bin](easyedit-assets-vendored.md) — EasyEdit: parts bin behind LAW#5, not on disk now; its locality is cross-entity
+- [Editing/memory/eval landscape (06)](editing-memory-eval-prior-art-landscape.md) — Cross-family analogs aren't corroboration; CP2 query DSL is the novel cell
+- [LARQL / Chris Hay](prior-art-chrishayuk-larql-2026-10.md) — Cross-check our MEMIT solve; LARQL MEMIT is single-token only — don't inherit
+- [LRE (Hernandez 2024)](prior-art-lre-hernandez-2024.md) — Linear relation decoding explains zero paraphrase transfer; LRE test not run
+- [Prior-art sweep 2026-10](prior-art-sweep-2026-10.md) — Coined multi-word in-weight cell is empty in literature; check GGUF Super Weight
+- [Sleeping LLM (Baranov 2026)](prior-art-sleeping-llm-2026.md) — Independent replication of the single-prompt no-transfer gap; lifecycle ideas
+
+## Results history
+- [AnyEdit port: last-token key](anyedit-port-keys-at-last-prompt-token-no-paraphrase-transfer.md) — Faithful AnyEdit fits trained prompt only; 0/72 paraphrase — don't re-tune it
+- [C10 MEMIT knobs failed](c10-memit-knobs-failed-before-anyedit.md) — para_full binds, canon_full is diagnostic; band/strength/layer knobs no lead
+- [C10 mint2 r3 (CORPUS/54)](c10-mint2-r3-provisional-no-direction.md) — Cite the reference's 17/24 beside any r3 label; V2 diagnosis still owed
+- [Mint replication spread + GGUF](mint-replication-spread-and-gguf-survival.md) — Need ≥3 seeds for mint init orderings; hash saved inits (pca_lowrank unseeded)
+- [No model clears full bars](no-model-cleared-full-bars-c10-included.md) — Don't claim any model/method passes deployment bars while C10 is open

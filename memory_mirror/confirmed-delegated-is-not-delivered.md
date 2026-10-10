@@ -1,10 +1,8 @@
 ---
 name: confirmed-delegated-is-not-delivered
-description: "Proving a requirement is NOT met by mechanism X (e.g. not weight-native) does not satisfy it — it relocates the obligation to the delegate layer, which must itself be evidenced before the requirement counts as closed"
-metadata: 
-  node_type: memory
+description: Proving a requirement is not met by the weights does not close it; it relocates the obligation to the delegate layer, which must itself be evidenced
+metadata:
   type: feedback
-  originSessionId: fb61dcd0-ac28-4e0b-a2b3-805299505b73
 ---
 
 **The trap (F1 read-contract synthesis, 2026-06-25; advisor-caught before it propagated):** the session confirmed reverse-lookup (R2), deletion (R9), closed-world (R6) are **NOT weight-native** → the spec delegates them to the `.vindex`/index layer (§11.2). It felt like the read contract had been "characterized → frontier moves on." **Wrong.** Confirming weights-don't-do-X tells you *where* the obligation lives, not that it's *met*. The structured-query burden didn't shrink — it **relocated** to the `.vindex`/index/query layer, which is prototyped-not-empirical and largely unbuilt (same epistemic status as the un-proven governance layer). "The spec delegates it by design" ≠ "the delegate delivers it."

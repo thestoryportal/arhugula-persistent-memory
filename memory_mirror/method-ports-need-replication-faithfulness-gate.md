@@ -1,7 +1,8 @@
 ---
-date: 2026-06-27
-source: C10i AnyEdit parity audit reflection
-scope: LLM-as-Database method ports / experiment assurance
+name: method-ports-need-replication-faithfulness-gate
+description: "Before reading a ported method as science: pin upstream commit/hparams, list deviations, recover easy controls; label failures diagnostic until then."
+metadata:
+  type: feedback
 ---
 
 # Method Ports Need A Replication-Faithfulness Gate
@@ -18,3 +19,5 @@ commit and hparams; list every deviation from upstream; run unchanged or minimal
 compatible upstream code on tiny easy controls; capture active trace (target norms,
 losses, deltas, update norms, logits, behavior); require easy-control recovery
 before hard cases; label all failures as diagnostic until the gate clears.
+
+Source: C10i AnyEdit parity audit reflection (2026-06-27). Confirmed in practice by C10K Route A (CORPUS/42: the faithful port did not recover A1/A2 controls).

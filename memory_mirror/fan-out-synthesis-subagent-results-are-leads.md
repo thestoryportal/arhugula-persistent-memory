@@ -1,10 +1,8 @@
 ---
 name: fan-out-synthesis-subagent-results-are-leads
-description: "When synthesizing parallel subagents, their summaries are LEADS — re-verify load-bearing claims centrally and don't inherit their confident verbs"
-metadata: 
-  node_type: memory
+description: "Subagent summaries are LEADS: re-verify load-bearing claims centrally; never write 'verified' for a check you did not run; drop confident verbs"
+metadata:
   type: feedback
-  originSessionId: 317c82e2-252c-46a7-abba-737b556c459e
 ---
 
 When I fan out parallel subagents for a search/triage/verification task and synthesize their returns, **a subagent's summary is a LEAD with the same status as any external artifact — not a verified fact.** Two failure modes hit me in ONE session (the 2026-06-23 prior-art sweeps; the advisor caught BOTH), so treat them as a standing checklist:

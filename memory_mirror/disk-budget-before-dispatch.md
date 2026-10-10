@@ -1,6 +1,6 @@
 ---
 name: disk-budget-before-dispatch
-description: The C10Y pre-cast diagnostic wrote 110 GB and filled /Volumes/memit, killing the next GPU job; every dispatch needs a disk check and every scope a disk budget
+description: Every dispatch waits for free disk ≥ projected writes + 20 GiB; every scope states a disk budget; storage policy is runbook §3.3a (gdrive archive)
 metadata:
   type: project
 ---
@@ -9,6 +9,6 @@ metadata:
 
 **Why:** persist-before-gate designs save every operand; scopes budgeted time and RAM but never disk. The queue chain checked the GPU gate, not free space.
 
-**How to apply:** (1) every queue chain / launcher waits for an explicit free-disk floor (≥ 20 GiB plus the job's projected writes) before dispatch; (2) every new scope/prereg states a disk budget (bytes per packet × count) next to time and memory; (3) §3.3 reclaim deletions may be refused by the Bash safety check — hand the operator literal commands, never re-issue variants. Related: [[gpu-gate-refuses-any-venv-python]], [[never-idle-arm-completion-watch]].
+**How to apply:** (1) every queue chain / launcher waits for an explicit free-disk floor (≥ 20 GiB plus the job's projected writes) before dispatch; (2) every new scope/prereg states a disk budget (bytes per packet × count) next to time and memory; (3) for §3.3/§3.3a reclaim deletions follow [[approved-deletes-ask-then-rmtree]] (per-path AskUserQuestion, then python shutil.rmtree); never re-issue a refused command in variant forms. Related: [[gpu-gate-refuses-any-venv-python]], [[never-idle-arm-completion-watch]].
 
-**Operator policy (2026-10-09, BINDING; runbook §3.3a):** internal SSD is NOT an archive tier. Remote archive = Google Drive via rclone (installed v1.75.2; OAuth remote `gdrive` pending at the Mac). Regenerable bulk is purged after its reading is confirmed, keeping per-file SHA-256 + sizes in git. Plan approved: replace the internal-SSD memit mirror with a Drive backup.
+**Storage policy:** runbook §3.3a (operator, 2026-10-09, BINDING) is the single source: internal SSD is NOT an archive tier; Google Drive via rclone is the archive tier (remote `gdrive:` authorized 2026-10-10, [[gdrive-rclone-remote]]); regenerable bulk is purged after its reading is confirmed, keeping per-file SHA-256 + sizes in git; the internal-SSD mirror is being replaced by a Drive backup ([[backup-via-memitbackup-app]]).

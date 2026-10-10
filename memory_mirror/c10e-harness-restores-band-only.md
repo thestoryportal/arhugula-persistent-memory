@@ -1,6 +1,6 @@
 ---
 name: c10e-harness-restores-band-only
-description: "The C10 harness's snap_layers/restore_layers (experiments/track_c/c10e_bandknob.py:149–158) snapshot and restore only hp.layers (the edit band); any arm that writes outside the band leaks into the next arm's baseline unless the driver snapshots, restores and hash-checks every layer it touches."
+description: C10 harness snap_layers/restore_layers (c10e_bandknob.py:150–158) cover only hp.layers; out-of-band writers must snapshot+hash every layer they touch.
 metadata:
   type: project
 ---
@@ -9,4 +9,4 @@ Found 2026-10-07 by the ASTRA (D-C10z-astra) prereg drafter and verified by read
 
 **Why:** a late-layer writer (ASTRA's carrier-selected layers, a per-layer DOW-KE update) would silently contaminate every later arm in the same process.
 
-**How to apply:** any new driver whose writes can leave `hp.layers` must snapshot/restore/hash all 36 `down_proj` weights (restore in `finally`, and assert no capture hooks remain before evaluation); reviewers should check this explicitly. Related: [[c10k-route-a-resume]].
+**How to apply:** any new driver whose writes can leave `hp.layers` must snapshot/restore/hash all 36 `down_proj` weights (restore in `finally`, and assert no capture hooks remain before evaluation); reviewers should check this explicitly. Related: CORPUS/61 (ASTRA).

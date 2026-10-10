@@ -1,13 +1,7 @@
 ---
-title: AnyEdit is the best remaining C10 rescue, not an assumed fix
-date: 2026-06-26
-decision: D-C10g-strengthlayers <D-C10g-strengthlayers@d691acab>
+name: anyedit-is-best-remaining-c10-rescue-not-assumed-fix
+description: "RETIRED 2026-10-10 — superseded by CORPUS/42 (the AnyEdit port halted) and the port-keys note; do not act on this note"
+metadata:
+  type: project
 ---
-
-AnyEdit/per-token editing is the best remaining technical rescue for C10 because
-the failure localized to multi-token continuation / W-realization rather than
-compute_z. That makes the prior-art direction mechanistically matched, and FABLE
-may be an adjacent stronger lead. It is still not a production-ready conclusion:
-the port must clear held-out-paraphrase full-sequence exact match, A1/A2
-controls, same-relation batch behavior, and Q4_K_M/CPU serving before C10 can be
-closed.
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). The AnyEdit port halted CONTROLS_NOT_RECOVERED (CORPUS/42) and the C10 chain has since run CORPUS/43–61, so AnyEdit is not a live rescue; see [[anyedit-port-keys-at-last-prompt-token-no-paraphrase-transfer]]. Full prior text: `git show fd77f7e:memory_mirror/anyedit-is-best-remaining-c10-rescue-not-assumed-fix.md`.

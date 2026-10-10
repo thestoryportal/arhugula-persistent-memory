@@ -1,6 +1,6 @@
 ---
 name: never-idle-arm-completion-watch
-description: As orchestrator, every dispatched build/review must have an armed completion watch; never end a turn with work in flight and no wake signal
+description: As orchestrator, every dispatched build/review needs an armed completion watch; never end a turn with work in flight and no wake signal
 metadata:
   type: feedback
 ---
@@ -11,6 +11,8 @@ metadata:
 
 **How to apply:** before ending any turn with work in flight, arm a Monitor (poll loop: Astra `-o` output file non-empty / process gone; tmux pane `Working (` → idle) and re-arm it on each 30-min expiry; or run reviews via Bash run_in_background. On each event immediately route the next step (review → fix round → commit → GPU dispatch). Idle builders get the next queued task at once; a session under ~45% context gets a fresh successor (e.g. codexy2) rather than a big new build.
 
-**Push rule (2026-10-09, operator asked "Have all commits been getting pushed?" — 87 were not, last push 2026-10-08 02:25):** after every commit, `git push origin worktree-c10k-route-a` (authorized by D-C10r-rulings-10; never merge). Check `git rev-list --count origin/worktree-c10k-route-a..HEAD` = 0 at every status report. Files >50 MB push with a GitHub warning; >100 MB would be refused — check before committing large artifacts.
+**Push rule (2026-10-09, operator asked "Have all commits been getting pushed?" — 87 were not, last push 2026-10-08 02:25):** after every commit, `git push origin <branch>` (authorized by D-C10r-rulings-10; never merge). Check `git rev-list --count origin/<branch>..HEAD` = 0 at every status report. Files >50 MB push with a GitHub warning; >100 MB would be refused — check before committing large artifacts.
 
-**Watcher gap (2026-10-09 ~15:00–15:55 MDT):** three Codex sessions finished inside the gap between an expiring watcher and its re-arm (re-arm baselines absorbed their final "Worked for" line) → ~1 h idle unseen. Fix in the saved watcher (session scratchpad `watch.sh`): on start, print `IDLE-AT-START <s>` for every idle pane, and detect busy→idle transitions as well as new "Worked for" lines; also alert LOWCONTEXT <25%. Positive control: all idle sessions are reported immediately on re-arm. Re-arm at every expiry notice.
+**Re-arm trap (2026-10-09):** sessions that finish between an expiring watcher and its re-arm are invisible if the new watcher only looks for new events — on every re-arm, first report every pane that is already idle, then watch busy→idle transitions; also alert on low context (<25%).
+
+**Background tasks (merged from a 2026-06 note):** never Read a background task's output file before its completion notification arrives — it is empty until the command exits ("wasted call"). Foreground `sleep` is blocked in this harness; for timed or conditional waits use Monitor (until-loop) or `run_in_background` and wait for the notification.

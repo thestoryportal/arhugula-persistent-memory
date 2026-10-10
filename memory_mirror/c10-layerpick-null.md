@@ -1,8 +1,7 @@
 ---
 name: c10-layerpick-null
-description: "CORPUS/56 (D-C10v-layerpick, 2026-10-07): step 4 per-fact layer pick → NULL, not advanced under the preregistered rules; B 12 vs band 11/72, fixed layer 8 12, shuffled 10; selector not credited."
+description: "HISTORICAL: CORPUS/56 per-fact layer pick NULL (12 vs band 11/72); say 'not advanced under the prereg rules', never 'placement does not move recall'."
 metadata:
-  node_type: memory
   type: project
 ---
 

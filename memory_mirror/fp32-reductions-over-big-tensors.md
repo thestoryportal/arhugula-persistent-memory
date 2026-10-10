@@ -8,4 +8,4 @@ metadata:
 
 **Why:** fp32 accumulation over tens of millions of terms loses ~1%; `norm()` and `dot()` lose differently, so ratios leave their mathematical range. A diagnostic placed after the scoring can void a whole stage.
 
-**How to apply:** in any driver/reader, do reductions over model-sized tensors (dot, cosine, Frobenius ratios) in float64; in pre-run reviews, check that validators with range bounds (|cos| ≤ 1) cannot trip on precision; run cheap diagnostics before the expensive scoring when possible. Related: [[gpu-gate-blocks-any-python]].
+**How to apply:** in any driver/reader, do reductions over model-sized tensors (dot, cosine, Frobenius ratios) in float64; in pre-run reviews, check that validators with range bounds (|cos| ≤ 1) cannot trip on precision; run cheap diagnostics before the expensive scoring when possible. Related: [[gpu-gate-refuses-any-venv-python]].

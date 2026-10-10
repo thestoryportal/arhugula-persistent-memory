@@ -1,10 +1,8 @@
 ---
 name: in-weight-logprob-reconciliation-is-bleed-unsound
-description: "A logprob storage-signature can't audit whether a write landed — it inherits the cross-entity bleed it's checking; commit-status belongs to the ledger medium, and commit-bit ≠ divergence-detection."
-metadata: 
-  node_type: memory
+description: A logprob storage-signature can't audit whether a write landed (it inherits the bleed); carry commit status in a ledger/2PC bit, not in weights
+metadata:
   type: project
-  originSessionId: ab1e2081-77d6-4198-ab85-1ae87b06cbe3
 ---
 
 R1 (CORPUS/31, D-R1-1, 2026-06-25) — first build of the index/query layer (the operator-chosen #1 frontier). A ledger-backed `SELECT` reconciled against the deployed store **abstained correctly** on never-stored facts (anti-firing SOLID: LEAK 6/6 NULL while the model fires 5/6; GATE-REJECTED 4/4; LANDED 8/8) — but the **novel divergence test FAILED 1/2**: a phantom read `SELECT→(Velloria,capital,Tokyo)`, a fact never written, because cross-entity bleed from 8 batch edits lifted the common token "Tokyo" to **+2.06 nats**, 0.06 over the frozen `STORE_THRESH=2.0`.

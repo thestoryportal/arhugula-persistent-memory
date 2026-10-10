@@ -1,6 +1,7 @@
 ---
-title: AnyEdit gate upgraded by μKE, COIN, and SUIT
-date: 2026-06-26
-decision: EV-6
+name: anyedit-gate-upgraded-by-muke-coin-suit
+description: "RETIRED 2026-10-10 — prereg advice for a pilot (CORPUS/40) and port (CORPUS/42) that are closed; do not act on this note"
+metadata:
+  type: project
 ---
-The C10 AnyEdit path remains first, but the pilot must not be a simple held-out-full-seq check. μKE/AnyEdit++ make fixed-window dependency logging mandatory; COIN makes context-prefix-only recall a false rescue; SUIT/locality-evaluation critique make locality/bystander deltas mandatory if the method appears to work. If fixed-window AnyEdit fails by later-token/window-boundary behavior, μKE is the targeted fallback; if it over-edits, SUIT is the cleaner fallback.
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). It was pre-registration advice for the June pilot (CORPUS/40) and the port that halted (CORPUS/42); current AnyEdit-family reading is [[anyedit-port-keys-at-last-prompt-token-no-paraphrase-transfer]] and [[prior-art-anyeditpp-2026]]. Full prior text: `git show fd77f7e:memory_mirror/anyedit-gate-upgraded-by-muke-coin-suit.md`.

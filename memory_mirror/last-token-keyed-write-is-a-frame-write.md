@@ -1,0 +1,12 @@
+---
+name: last-token-keyed-write-is-a-frame-write
+description: "Vendored MEMIT: a last-prompt-token write lands but does not transfer and is frame-keyed (CORPUS/43); test locality with same-frame prompts."
+metadata:
+  type: project
+---
+
+# A write keyed at the prompt's final token does not yield a subject fact (program engine)
+
+**Fact (2026-10-04, D-C10k-keying-ablation ⟨D-C10k-keying-ablation@110558e3⟩, CORPUS/43):** in the vendored MEMIT engine (unmodified; w = 5000; band [4–8]; Qwen2.5-3B), the 24 keys taken at the prompt's final token `" of"` are near-collinear in raw space (mean pairwise cosine ≥ 0.985, effective rank 1.02 at every band layer; subject keys cosine 0.02–0.07, rank 16–23), so a batch of 24 last-token writes does not land (canon 29.2 / 25.0 %) — their differences are suppressed in the covariance-plus-ridge geometry at w = 5000, collinearity and ridge not separable here (z-probe clears the z-objective). A single last-token write lands (6/6) but transfers to 0/18 held-out paraphrases (subject-keyed singles 18/18) and — frame-bleed probe — real-country frame prompts flipped to the edited value 0/9/0/0/0/1 of 12 (subject-keyed 0/0/0/0/0/0), never-edited fictional frame prompts 2/6/6/6/6/5 of 6 (subject-keyed 0/0/0/0/0/0): same-frame prompts take the value to a varying degree (31/36 bystanders, 10/72 real; the one real override rides the token prior of `Buenos`) — damage the described-as probe cannot see.
+
+**How to apply:** before porting or designing any editor, read where it keys the write; a last-token (frame) key does not yield a subject fact in this engine at the operating ridge weight. Check locality with prompts that share the written frame, not only with described-as probes (described-as JS was blind to 9/12 real-capital flips). Do not spend compute on small-ridge sweeps to rescue last-token keying (a landed last-token write does not transfer); the covariance-corpus knob is a separate, untested question. Supersedes the conditional reading in [[read-keying-locus-before-porting-an-editor]]; the Route A attribution (F3) is sufficient-in-MEMIT, exclusivity untested.

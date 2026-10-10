@@ -1,10 +1,8 @@
 ---
 name: bias-ablation-causal-attribution
-description: "To prove a suspected component CAUSES a failure (not just correlates), ablate it in a clean reference model and compare — turns correlation into causal sufficiency"
-metadata: 
-  node_type: memory
+description: To prove a suspected component CAUSES a failure, ablate it in a clean reference model and compare; turns correlation into causal sufficiency
+metadata:
   type: feedback
-  originSessionId: 4fe3a83d-4803-44dd-9256-cb8cb1a6a3db
 ---
 
 When you suspect component X causes failure Y (e.g. "LARQL drops Qwen2.5 attention biases → garbage output"), correlation across artifacts is not proof. **Ablate X in a clean reference model and re-test** — this is the causal test.

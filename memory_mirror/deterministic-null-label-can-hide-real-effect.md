@@ -1,10 +1,8 @@
 ---
 name: deterministic-null-label-can-hide-real-effect
-description: "A pre-registered NEGATIVE/null label means \"didn't clear THIS detector,\" not \"effect absent\" — inspect the raw paired/sign pattern, which carries info a magnitude threshold discards"
-metadata: 
-  node_type: memory
+description: A pre-registered null label means 'didn't clear THIS detector', not 'effect absent'; inspect the raw paired sign pattern before concluding
+metadata:
   type: feedback
-  originSessionId: 7e49dca7-c684-465a-936b-1c2ce4852502
 ---
 
 A pre-registered deterministic label is a **detector with finite power**. `LABEL=NEGATIVE/null/cross_real=False` means *"didn't clear this specific rule,"* NOT *"the effect is absent."* Respect the frozen label (don't move pre-registration), but **interpret it correctly** by inspecting the raw per-unit pattern.
@@ -14,4 +12,4 @@ A pre-registered deterministic label is a **detector with finite power**. `LABEL
 **How to apply:**
 - For paired/directional data, **always look at the sign pattern (and run a sign test), not just the verdict string or the mean-vs-threshold.** A pre-reg threshold tuned for one measurement is underpowered for a sub-resolution-but-consistent effect.
 - State it as: "frozen LABEL=X by the rule; the rule is underpowered for a ~1-unit effect; the sign pattern indicates a small real Y" — same move as [[pass-label-not-equal-promotable-claim]] but for the NULL direction (a null label hiding a real effect, vs a PASS label overstating).
-- Don't over-correct either way: a low-power sign signal is a *directional* signal, not a precise effect size ([[single-seed-limits-generality-not-significance]]). Cross-family review (gpt-5.5) flagged not to headline the p-value as an effect size.
+- Don't over-correct either way: a low-power sign signal is a *directional* signal, not a precise effect size ([[single-seed-limits-generality-not-significance]]). Cross-family review (gpt-5.5, the 2026-06 reviewer) flagged not to headline the p-value as an effect size.

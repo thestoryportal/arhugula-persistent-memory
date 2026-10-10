@@ -1,20 +1,18 @@
 ---
 name: commit-forward-work-without-asking
-description: Operator standing-auth — commit forward research work to master without asking; AND (2026-06-21) push to GitHub is now ENABLED + authorized (keep the public remote current for InfraNodus)
-metadata: 
-  node_type: memory
+description: Commit forward work freely, push every commit to the worktree branch, never merge; if a gate blocks an authorized action, have the operator relax it
+metadata:
   type: feedback
-  originSessionId: 7e49dca7-c684-465a-936b-1c2ce4852502
 ---
 
-**Operator directive (2026-06-20, robert):** Claude may **commit forward research work to local `master` without asking each time** — the commit step is pre-authorized for all forward work (experiments, fold-ins, living-doc updates, infra). Do not pause to ask "should I commit?" for routine forward progress.
+**Operator directive (2026-06-20, robert):** Claude may **commit forward research work without asking each time** — the commit step is pre-authorized for all forward work (experiments, fold-ins, living-doc updates, infra). Do not pause to ask "should I commit?" for routine forward progress. **Push (2026-06-21, renewed by D-C10r-rulings-10 on 2026-10-07):** the remote is `github.com/thestoryportal/arhugula-persistent-memory` (public in 2026-06; PRIVATE per `gh repo view` on 2026-10-10) and the operator wants it current.
 
-**Why:** keeps the durable git record current without round-trips; the operator was repeatedly approving commits ("Commit D1 fold in", "commit it") and made it standing. Extends [[standing-auth-forward-requirements]] (which pre-authorizes infra/downloads/cov/disk) to the commit action.
+**Why:** keeps the durable git record current without round-trips; the operator was repeatedly approving commits ("Commit D1 fold in", "commit it") and made it standing. Extends [[standing-auth-forward-requirements]] to the commit action.
 
-**How to apply:**
-- Commit fold-ins / experiment results / doc updates as work completes, with the standard trailers (Co-Authored-By + Claude-Session). Default pattern: branch → commit → ff-merge to `master`, local-only (matches the C2-band / D1-Phase-2 precedent).
-- **PUSH NOW ENABLED + AUTHORIZED (2026-06-21, robert):** the repo is **public** (`github.com/thestoryportal/arhugula-persistent-memory`) and the operator wants the remote **continuously current for InfraNodus ingestion**, hands-off. The `"Bash(git push:*)"` **deny rule was removed** from `/workspace/.claude/settings.json` (deny overrode allow; operator removed it themselves — I must NOT edit my own restraint file). Auth = `gh` (account `thestoryportal`, `repo` scope) + `gh auth setup-git`. **Standing practice: push after every meaningful commit + at session close** (no auto-push hook — a post-commit auto-push hook was correctly rejected by the safety classifier as a permission bypass; direct `git push` is the legitimate path). **GENERAL PRINCIPLE (2026-06-21):** when a permission/safety gate blocks an action the operator authorized *in intent*, **relax the control through the legitimate channel** (operator edits the permission), **do NOT build a mechanism that routes around the gate** (hook, wrapper, subprocess) — the *means* matters, not just the authorized end. The classifier blocked my hook correctly even though the operator wanted push; the right move was to have the operator remove the deny rule. Opening PRs / force-push / `reset --hard` / `clean` still gated.
-  - **⚠ Pod restart wipes BOTH** the `gh` credential (`~/.config/gh`) AND any unpersisted settings.json edit → after a restart, re-run `gh auth login` + re-remove the git-push deny line (the `sed` one-liner) before pushing. Logged in `SESSION_CHECKPOINT`.
-  - **Public-repo hygiene:** scan the tracked tree for secrets before pushing new credential-adjacent files; never commit tokens (creds live in `~`, outside the tree).
-- Exclude local-only files from commits (e.g. `.claude/settings.local.json`).
+**How to apply (current rule, CLAUDE.md:17):**
+- Commit fold-ins / experiment results / doc updates as work completes, with the standard trailers, on the worktree branch; then `git push origin <branch>` after every commit. **Never merge** — the operator merges.
+- **General principle (2026-06-21):** when a permission/safety gate blocks an action the operator authorized *in intent*, **relax the control through the legitimate channel** (the operator edits the permission), **do NOT build a mechanism that routes around the gate** (hook, wrapper, subprocess). A post-commit auto-push hook was correctly rejected by the safety classifier as a permission bypass.
+- `reset --hard` / `clean` / force-push stay gated (the deny list in `.claude/settings.json`).
+- Repo hygiene: scope every `git add` and never commit tokens ([[git-add-all-leaks-secrets-on-public-repo]]); exclude local-only files (e.g. `.claude/settings.local.json`).
 - The correctness LAWs and the supervised-promotion discipline are unchanged — "commit freely" is about the *git action*, not about lowering the bar for what counts as a promoted/proven result.
+- History: until 2026-06 the pattern was branch → commit → ff-merge to local `master` on the pod; that is superseded by push-to-branch, never-merge.

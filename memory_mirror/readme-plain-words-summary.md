@@ -1,11 +1,8 @@
 ---
 name: readme-plain-words-summary
-description: "Standing rule (operator, 2026-10-06): README.md opens with an 'In plain words' section for the general public; refresh it (date, progress paragraph, one newest-first progress-record line) on every push that changes progress."
+description: "Standing rule (operator 2026-10-06): refresh README's 'In plain words' section (date, progress, one record line) on every progress push"
 metadata:
-  node_type: memory
   type: feedback
-  originSessionId: 6ffb3bc2-e19e-4357-8a56-33c06cb0cf38
-  modified: 2026-10-06T13:33:13.616Z
 ---
 
 The operator asked for the plain description of the program to sit at the top of the repo's README, written for the general public. Every push that changes progress must also update it, as an easy-to-digest summary and progress record.

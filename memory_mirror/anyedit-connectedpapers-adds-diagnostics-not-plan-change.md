@@ -1,6 +1,7 @@
 ---
-title: AnyEdit ConnectedPapers adds diagnostics, not a plan change
-date: 2026-06-26
-source: EV-5
+name: anyedit-connectedpapers-adds-diagnostics-not-plan-change
+description: "RETIRED 2026-10-10 — prereg advice for the June AnyEdit pilot, which ran (CORPUS/40) and was superseded (CORPUS/42); do not act on this note"
+metadata:
+  type: project
 ---
-The relevant AnyEdit ConnectedPapers graph reinforces the AnyEdit path but does not change it. Add two prereg diagnostics before treating any AnyEdit rescue as DB-like: context-reliance (held-out paraphrase vs canonical/context-prefix) and chunk/window dependency logging (target length, window/overlap/boundary, per-token continuation). The second AnyEdit graph is image-editing only and irrelevant to LLM-as-DB.
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). It was pre-registration advice for the June AnyEdit pilot, which ran (CORPUS/40) and was superseded by the Route A port (CORPUS/42); see [[anyedit-port-keys-at-last-prompt-token-no-paraphrase-transfer]]. Full prior text: `git show fd77f7e:memory_mirror/anyedit-connectedpapers-adds-diagnostics-not-plan-change.md`.

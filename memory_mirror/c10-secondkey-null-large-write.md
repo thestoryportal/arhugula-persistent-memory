@@ -1,8 +1,7 @@
 ---
 name: c10-secondkey-null-large-write
-description: "CORPUS/53 (D-C10t-secondkey, 2026-10-07): step 2 value-internal second key → NULL-LARGE-WRITE; 23 vs same-run 15/72 (+8 < 10), write ×2.05, ten per-prefix locality gates fail; candidate not advanced; next = step 3 D-C10u-mint2."
+description: "HISTORICAL: CORPUS/53 value-internal second key NULL-LARGE-WRITE (23 vs 15/72, write ×2.05, ten locality gates fail); never cite 23/72 as a gain."
 metadata:
-  node_type: memory
   type: project
 ---
 
@@ -10,4 +9,4 @@ Step 2 of the research-pass sequence (D-C10t-secondkey@76a722d3), H-10/H-5, unde
 
 **Why:** the held-out count moved 15 → 23/72, below the +10 margin, at about twice the write, and supplying a value's prefix makes never-edited subjects complete it (ten of 24 per-prefix gates fail). The duplicate-request control stays at 15/72, so request count alone does not explain the +8, but address, remainder target, KL objective and write size are not separated.
 
-**How to apply:** never cite 23/72 as a gain, pass or LEAD; it is a NULL with a LARGE-WRITE qualifier and a recorded locality failure. Do not merge the second-key recipe or combine it with step 1's shared target; H-10/H-5 are not closed (B5 was screened, not tested). Next per the sequence = step 3 (D-C10u-mint2 v3), then step 4 (D-C10v-layerpick v2). A write-size-matched second-key control is a candidate only. See [[c10-solvefeas-underfit-at-50]], [[research-pass-2026-10-06-sequence]].
+**How to apply:** never cite 23/72 as a gain, pass or LEAD; it is a NULL with a LARGE-WRITE qualifier and a recorded locality failure. Do not merge the second-key recipe or combine it with step 1's shared target; H-10/H-5 are not closed (B5 was screened, not tested). Next per the sequence = step 3 (D-C10u-mint2 v3), then step 4 (D-C10v-layerpick v2). A write-size-matched second-key control is a candidate only. See [[c10-sharedz-underfit]], results/research_pass_2026-10-06/HANDOFF.md.

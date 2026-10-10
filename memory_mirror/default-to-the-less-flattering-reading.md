@@ -1,10 +1,8 @@
 ---
 name: default-to-the-less-flattering-reading
-description: "At every verdict gate, default to the less-flattering reading and TEST the confound with a controlling arm — don't caveat it; check a partition's axis matches the finding's axis before using it to bound severity"
-metadata: 
-  node_type: memory
+description: At every verdict gate default to the less-flattering reading and TEST the confound with a controlling arm; check a partition's axis matches
+metadata:
   type: feedback
-  originSessionId: 77383f65-76b8-42d1-a7de-d3da62645250
 ---
 
 This session the advisor caught **~6 over-rotations at verdict gates, in BOTH directions** (R11 "spec gap discovered" → actually derivable; C6 "self-undermining gap" → unreconciled-seam; C10 "SATISFIED" on canonical-only → wrong metric; C10 "satisfied" on coherent values → prior-masked; "AnyEdit won't help" → canon=teacher-forcing-artifact misread; C10 "narrow limitation" → axes-conflation). Every time, my draft verdict was the *cleaner/more-convenient* reading. The bias is direction-agnostic: I'll over-soften a falsifier I just fired just as readily as I'll over-claim a gap.

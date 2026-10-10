@@ -1,11 +1,11 @@
 ---
 name: wide-intermediate-7b-editing-vram
-description: "Running in-solve AlphaEdit on Qwen2.5-7B (intermediate 18944) on a 24GB 4090 needs eigh-not-svd for P, diagonal-add not L2*eye, del Pi before solve, expandable_segments, and BLAS=8 not 64"
-metadata: 
-  node_type: memory
+description: "HISTORICAL (pod-era 4090): in-solve AlphaEdit on Qwen2.5-7B needed eigh-not-svd for P, diagonal-add, del Pi before solve"
+metadata:
   type: reference
-  originSessionId: f4d82a89-8dda-448d-8fc0-cf79fc2d6af9
 ---
+
+**HISTORICAL (pod-era, 24 GB RTX 4090, 2026-06).** The program now runs on the M3 Pro with a CPU float64 solve (CLAUDE.md:3, :30); the CUDA-specific settings below were not re-measured on MPS. The value-preserving identities (eigh for symmetric PSD cov, diagonal-add, caching P per band) still hold mathematically.
 
 In-solve AlphaEdit editing on **Qwen2.5-7B** (28 layers, intermediate **18944** → 18944² f32 = 1.4GB per P/cache/A matrix) on a 24GB RTX 4090 sits right at the VRAM wall (15.7GB model + several 1.4GB matrices). The working config for `experiments/track_b/b1_size_dose_response.py` (MODEL=7b):
 
@@ -17,4 +17,4 @@ In-solve AlphaEdit editing on **Qwen2.5-7B** (28 layers, intermediate **18944** 
 
 **compute_P SVD recomputes per PROCESS and is the iteration drag (2026-06-25, 3B).** Even with the covariance CACHED, `torch.linalg.svd(cov)` for the null-space projector P runs ~10-15 min/process on 3B (CPU SVD of 11008x11008 x5 layers) -- paid afresh on every small diagnostic run. Two fixes: (i) use **`eigh` not `svd`** here too (point 1 -- cov is symmetric PSD, mathematically identical, far faster); (ii) for iterative same-band runs, **cache P to disk** alongside the cov cache. This dominated wall-clock across the C1 diagnostic ladder (several short edit runs each gated behind a full re-SVD).
 
-All of (1)-(4) are **value-preserving / proven inert** (LAW#5): in-place add, del, diagonal-add, eigh-for-symmetric — none change the computed ΔW. The inertness gate (memit mode) still passes |Δ|≈0. Process churn note: `pkill -f "MODEL=7b"` only kills the bash wrapper (env var not in python argv) → orphaned python keeps the GPU; kill the python PID directly. See [[runpod-durable-experiment-launch]], [[memit-cov-inversion-not-a-hang]].
+All of (1)-(4) are **value-preserving / proven inert** (LAW#5): in-place add, del, diagonal-add, eigh-for-symmetric — none change the computed ΔW. The inertness gate (memit mode) still passes |Δ|≈0. Process churn note: `pkill -f "MODEL=7b"` only kills the bash wrapper (env var not in python argv) → orphaned python keeps the GPU; kill the python PID directly.

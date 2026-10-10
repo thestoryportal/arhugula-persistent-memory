@@ -1,10 +1,8 @@
 ---
 name: resolve-the-gates-real-criterion
-description: "When resolving a decision gate (esp. under \"use your judgment\"), answer the gate's ACTUAL criterion, not a flattering adjacent one almost anything clears"
-metadata: 
-  node_type: memory
+description: When resolving a decision gate (esp. under 'use your judgment'), answer the gate's ACTUAL criterion, not a flattering adjacent one
+metadata:
   type: feedback
-  originSessionId: ba0f7d12-2172-4518-b3b6-963f1e0dd709
 ---
 
 When resolving a **decision gate**, answer the gate's *actual* criterion — not a more flattering adjacent question that almost anything clears.
@@ -18,4 +16,4 @@ When resolving a **decision gate**, answer the gate's *actual* criterion — not
 
 **Sibling trap — a NECESSARY proxy passing is NOT the gate cleared (2026-06-25, bit twice).** (a) C5: I declared "the spec doesn't mandate compaction verify" from a grep/recall instead of reading the governing section -> the full read REVERSED it (C-OC3 mandates it). (b) C1 true-scale: the native-knowledge screen (model knows 2,631 city->country facts) READ as "substrate unblocked" -> but knowledge is necessary-not-sufficient; the SUFFICIENT condition is *editability* (clean subject + expressible counterfactual), which the substrate failed. **Before a feasibility/"gate cleared" or "gap exists" verdict, identify and check the BINDING (sufficient) constraint, not a flattering necessary proxy.** Especially when the proxy is cheap and the real check is expensive -- the cheap pass tempts a premature verdict.
 
-**How to apply:** call `advisor()` *before* committing to a gated decision, not after — the criterion-swap feels like good reasoning from the inside. Sibling lessons: [[match-metric-to-the-claim]] (same shape at the measurement level), [[evidence-over-scaffolding]] (run the cheap falsifier, don't accrete elaborate work). Aligns with the operator's "defer to evidence, make decisions legible" ([[operator-profile-llm-as-database]]).
+**How to apply:** call `advisor()` *before* committing to a gated decision, not after — the criterion-swap feels like good reasoning from the inside. Sibling lessons: [[match-metric-to-the-claim]] (same shape at the measurement level), [[evidence-over-scaffolding]] (run the cheap falsifier, don't accrete elaborate work). Aligns with the operator's "defer to evidence, make decisions legible" ([[operator-profile-and-standing-directive]]).

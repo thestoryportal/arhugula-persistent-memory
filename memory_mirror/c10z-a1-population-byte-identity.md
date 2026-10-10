@@ -2,7 +2,6 @@
 name: c10z-a1-population-byte-identity
 description: A1 authorizes exactly the recorded population artifact, never a replacement with the same row count.
 metadata:
-  node_type: memory
   type: feedback
 ---
 

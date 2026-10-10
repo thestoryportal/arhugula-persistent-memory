@@ -1,0 +1,51 @@
+- [⭐ Context management, every session (BINDING)](context-management-every-session.md) — Memento for MAESTRO, handoff+fresh successor for Codex; restate in every handoff
+- [LLM-as-Database program overview](llm-as-database-program-overview.md) — what the repo is, reading order, F1 status, C10 blocker
+- [Operator profile and standing directive](operator-profile-and-standing-directive.md) — architect with no ML background; make the call and proceed, surface irreversible decisions, don't block on ratification
+- [Local only, no rented compute](local-only-no-rented-compute.md) — all science on the M3 Pro; never propose rentals; design local-faithful ports instead
+- [MBP Command Line Tools (FIXED 2026-10-07)](mbp-command-line-tools-broken.md) — CLT 27.0 installed; native builds work; lesson: hand admin-only fixes to the operator at once
+- [MBP shell aliases trap](mbp-shell-aliases-trap.md) — du/cat/ls/grep/find are aliased (dust, bat, eza, rtk); use `command` prefix
+- [Local migration gaps](llm-db-local-migration-gaps.md) — mirror is a 2026-06-15 snapshot; missing engine/caches/models; CUDA hard-coded; M3 Pro changes stale hardware premises
+- [RESUME: step 1 HALTED at its inertness gate (fp16 batch-shape tolerance; amendment A2 + review next); loop PAUSED at 34/72 (held-out paraphrase caveat); then the exp-2 location control; loop relaunch waits on the sealing ruling](c10k-route-a-resume.md) — draft PR #20; never `cd` out of the worktree; LLMDB_ROOT points tools at the main checkout; kickoff = checkpoint top block
+- [Autoresearch fence + tmux driving + OpenResearch API](autoresearch-sandbox-fence-and-tmux-driving.md) — 2026-10-06: strict Bash sandbox + Read(//…) denies + standalone repo after the symlink breach; Ctrl-L clears the agent's input box; the "git" word trips the worktree guard; orx session API shapes
+- [Prior art: LRE (Hernandez 2024)](prior-art-lre-hernandez-2024.md) — operator-supplied; subject-last-token linear relation map; frames Route A zero paraphrase transfer + C10 value-class fragility; candidate next falsifier
+- [Prior art: AnyEdit++ (2026)](prior-art-anyeditpp-2026.md) — operator-supplied; surprisal-located write positions; long-form lineage metrics (BLEU on edited prompt) ≠ held-out paraphrase; read "Keys to Robust Edits" next
+- [Prior-art sweep 2026-10](prior-art-sweep-2026-10.md) — 22 papers + 20 repos tagged Q1–Q6; PRISM/ALOE/Suresh support keying-locus reading; Anand = hparam non-transfer; Moir = covariance-corpus knob; lifecycle refs
+- [Prior art: Chris Hay / LARQL 2026-10](prior-art-chrishayuk-larql-2026-10.md) — LARQL ships a Rust MEMIT (single-token targets) + L0/L1/L2 memory tiers + GGUF bake-out + Metal; cross-check engine + serving alternative; the-mechanism unchanged
+- [LLMDB_ROOT points at the main checkout](llmdb-root-env-points-at-main-checkout.md) — the shell profile's LLMDB_ROOT makes repo tools and the pre-commit hook act on the main checkout from a worktree; prefix calls with the worktree path
+- [Ollama serves winning-defense graphify](ollama-serves-winning-defense-graphify.md) — shares the GPU; stopped 2026-10-06 by the operator; restart with brew services start ollama
+- [Model and compute allocation](model-and-compute-allocation.md) — 2026-10-06: program session on Opus 5.5; subagents Sonnet 5.5 high unless complex; Codex in tmux on gpt-sol-6.1 max for implementation/reviews/runtime tests (verify the CLI model id first)
+- [Overnight autonomy + Memento handoffs](operator-overnight-autonomy-2026-10-06.md) — renewed 2026-10-07 05:45: recommendations = rulings; find the research agent's final list; delegate (Codex/subagents/Gemini); Memento for context; push allowed, never merge (rulings-10)
+- [Operator decision scope](operator-decision-scope.md) — bring only go/no-go and scope; decide word lists, thresholds, variants with the advisor + Codex; recommendation first, one yes/no
+- [Plain language to the operator](plain-language-to-operator.md) — standing rule: all answers, gate reports and approval requests in clear, concise, non-technical words
+- [README plain-words summary](readme-plain-words-summary.md) — refresh the README top section (date, progress, one record line) on every progress push
+- [NotebookLM via Browser Harness](notebooklm-via-browser-harness.md) — CLI broken (Google moved it to notebook.google.com); use the signed-in Chrome; the two project notebooks named
+- [Browser Harness for browser automation](browser-harness-for-browser-automation.md) — always, not Claude in Chrome; drive it from a script file
+- [Connected Papers API](connected-papers-api.md) — tools/connected_papers_fetch.py via uv; key in keychain item connectedpapers-api-key; graphs to the collection api/ folder
+- [Prior art: Sleeping LLM (Baranov 2026)](prior-art-sleeping-llm-2026.md) — operator-supplied; MEMIT wake + LoRA sleep; CONTEXT; replicates the single-prompt no-transfer gap; author later dropped MEMIT
+- [Prior art: arXiv 2607 batch](prior-art-arxiv-2607-batch.md) — operator-supplied Metis / Memory Decoder at Scale / MemHarness / MemTxn; no LEAD; MemTxn rollback test = lifecycle template
+- [Prior art: BlendSQL small models (Capital One 2026)](prior-art-blendsql-small-models-2026.md) — operator-supplied; facts in a DB + typed small-LM functions; CONTEXT for writes, LEAD for the read contract, F1 comparator
+- [Test-first, one-round builds](test-first-one-round-builds.md) — operator 2026-10-07: tests from the prereg first, round-trip/boundary/HALT tests, green before DONE; applies to Codex and subagents
+- [C10 harness restores band only](c10e-harness-restores-band-only.md) — snap/restore cover hp.layers only; out-of-band writers must snapshot+hash all 36 down_proj
+- [Tailscale remote access](tailscale-remote-access.md) — user LaunchAgent, userspace mode; robert-mbp 100.118.225.127; Termius on the iPhone watches the dashboard
+- [Lab View + live telemetry](lab-view-and-live-telemetry.md) — D-C10r-rulings-11: program owns docs/c10_evaluations.json after codexviz seeds it; opt-in LAW#5-inert JSONL telemetry in C10X/C10Y/C10Z builds only
+- [GPU gate blocks any python](gpu-gate-blocks-any-python.md) — P2/P3 stage gate refuses on any python process (system python3 too); builds/tests wait for COORDINATOR_EXIT; keep python3 calls short + foreground
+- [fp32 reductions over big tensors](fp32-reductions-over-big-tensors.md) — fp32 cosine over 22.5M elements hit 1.008 and HALTED P2; use float64
+- [Dashboard live derivation](dashboard-live-derivation.md) — NOW is computed live; pending rulings need "awaiting operator" in the runbook §5.2 status cell
+- [Rerun, never patch](rerun-never-patch.md) — operator rule: compromised runs are re-run, never read around; run autonomously at full rigor
+- [tmux server hang](tmux-server-hang-dashboard.md) — one tmux hosts all sessions; dashboard tmux load + resize thrash froze everything 2026-10-08
+- [Push on milestones](push-on-milestones.md) — phone push, top priority notable research results vs F1 goal; also GPU launch/verdict, HALT, needs-ruling, build admitted
+- [C10W ceiling oracle result](c10w-ceiling-oracle-result.md) — step 5 FINAL: 70/72 with locality/forgetting cost; no clean reference; not a route (CORPUS/57)
+- [C10X engine-path result](c10x-enginepath-result.md) — step 6 CLOSED: OverTone NULL 17 vs 12/72; FE package INVALID-CONTROLS-UNDERFIT (erratum); neither advances (CORPUS/58)
+- [Seed freezes context templates](seed-freezes-context-templates.md) — seed 0 → template set e8605172 → A7 40/7/7 below LAW#3; pin templates to a recorded file
+- [MPS offset-view conversion bug](mps-offset-view-conversion-bug.md) — t.to(device=cpu,dtype=X) on an MPS offset view returns garbage; use .cpu().to(X)
+- [Backup via MemitBackup.app](backup-via-memitbackup-app.md) — launchd backup runs a single-purpose app with Removable Volumes grant; never FDA for bash
+- [InfraNodus standing approval](infranodus-standing-approval.md) — operator approved forever; allow rule added 2026-10-08, calls pass
+- [Graft disabled + audit](graft-disabled-audit-2026-10-08.md) — no corruption found; codex exec needs -c mcp_servers.graft.enabled=false
+- [Never idle: arm completion watch](never-idle-arm-completion-watch.md) — 13 h idle 2026-10-09; every in-flight build/review needs a Monitor wake signal, route next step on each event
+- [GPU gate refuses any .venv python](gpu-gate-refuses-any-venv-python.md) — Codex unittests block check_gpu; poll until clear ×2 then launch
+- [tmux kill-session exact name](tmux-kill-session-exact-name.md) — prefix match killed live codexy2; use -t =name, check tmux ls first
+- [Disk budget before dispatch](disk-budget-before-dispatch.md) — 110 GB pre-cast operands filled memit, killed attempt 4; check free disk + state disk budgets
+- [Approved deletes: ask, then rmtree](approved-deletes-ask-then-rmtree.md) — Bash deletes are deny-listed; AskUserQuestion per path, then python3 shutil.rmtree + verify
+- [ASTRA stage-1 UNDERFIT terminal scope](c10z-stage1-underfit-terminal.md) — D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ **DONE — UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1** (inconclusive under this solve budget; terminal under current authorization), Astra CONFIRM → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
+- [LLMDB_ROOT points at main checkout](llmdb-root-points-at-main-checkout.md) — in a worktree prefix LLMDB_ROOT=$PWD or tools check main
+- [gdrive rclone remote](gdrive-rclone-remote.md) — `gdrive:` setup (project 543404640214, published, drive.file) + phone OAuth traps

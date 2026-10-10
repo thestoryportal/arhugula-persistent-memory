@@ -1,11 +1,8 @@
 ---
 name: test-first-one-round-builds
-description: "Operator rule 2026-10-07 ~06:10 MDT: concise, accurate, bug-free code the first time — tests derived from the prereg written before the code, run green before hand-off — so review loops shrink; applies to me, Codex and every subagent."
+description: "Every build brief: tests from the prereg first; round-trip/boundary/HALT tests; exec bit 100755; persist before gate; self-explaining halt records"
 metadata:
-  node_type: memory
   type: feedback
-  originSessionId: ef74c20d-d259-4cb7-9e93-31d8d916f184
-  modified: 2026-10-07T12:00:43.542Z
 ---
 
 The operator's words: "be accurate and concise when coding... all of you. Review loops that go on and on are to be reduced by testing forward development and precision quality, concise bug free code the first time, not after a back and forth that slows down this powerful important work."
@@ -25,3 +22,5 @@ The operator's words: "be accurate and concise when coding... all of you. Review
 **Validate records at every stage boundary (2026-10-08):** C10X re-run 1 measured both arms for ~2 h, then halted writing its final record because harness-scorer flags (tensor/numpy bools) are not JSON; fixtures used Python bools. Briefs must require plain-JSON coercion where scorer values enter records, strict-JSON validation of the record at each stage boundary (fail fast with the field path), and regression tests with the real harness return types.
 
 **Persist before the gate (2026-10-09).** Two drivers lost the very statistic that failed: ASTRA saved dstats after V7 (halt at :1107 before save at :1113), and C10Y wrote `{}` placeholders for every instrument record when instrument_prefix halted (all four calibrations). Every build brief must require: completed and partial records plus the gate's offending inputs written (exclusive create, fsync) BEFORE the gate evaluates, explicit NOT-RUN status for skipped checks, and a forced-halt regression test that loads them back. A halt you can't inspect costs a whole re-run to diagnose.
+
+**Test-harness lessons (2026-10-07, harvested from the retired c10k-route-a resume note):** (a) a record type with two meanings (admission-UNDERFIT = no run vs per-position underfit inside a run) hid a reader bug from 61 tests — build fixtures from the REAL producer's output, not hand-built shapes; an early-return for a new record kind must sit AFTER every block-level gate that already existed, or it bypasses them. (b) After a fix round, a mutation harness built from exact-string substitutions against the OLD code silently no-ops on moved lines and reports false SURVIVED — every mutant must assert its target matches exactly once and be re-anchored. (c) A parent that halts on an empty child log needs EVERY child branch to print — a legitimate silent success (step-0 UNDERFIT) false-HALTED r2 after 97 GPU-min; drivers that pin source hashes and never overwrite mean any fix needs a fresh OUT_DIR, so test every child branch end-to-end before launch. (d) A dataset 'revision pin' in a prereg is not a pin unless the code loads that commit (C10W step 0 resolved live HEAD).

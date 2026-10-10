@@ -1,6 +1,7 @@
 ---
-title: AnyEdit token alignment gate prevents false rescue
-date: 2026-06-26
-decision: D-C10h-anyedit-viability
+name: anyedit-token-alignment-gate-prevents-false-rescue
+description: "RETIRED 2026-10-10 — merged into anyedit-noop-gate-is-not-active-edit-parity; do not act on this note"
+metadata:
+  type: feedback
 ---
-Advisor-review returned FIX-FIRST on the C10 AnyEdit viability audit: upstream AnyEdit tokenizes `answer` standalone but computes keys over `question + answer`, so Qwen continuation tokenization mismatch could create a false rescue or false failure. A no-GPU gate on current A7 passes 24/24 suffix alignment with leading-space answers. The prereg/harness must emit answer IDs, continuation suffix IDs, decoded text, window boundaries, and lookup indices for every request, and abort on mismatch or malformed decoded text.
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). The token-alignment port gate was merged into [[anyedit-noop-gate-is-not-active-edit-parity]]. Full prior text: `git show fd77f7e:memory_mirror/anyedit-token-alignment-gate-prevents-false-rescue.md`.
