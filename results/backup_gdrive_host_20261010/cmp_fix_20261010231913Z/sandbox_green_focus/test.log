@@ -1,0 +1,8 @@
+test_builder_compares_fresh_saved_compile_with_newline_growth (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_builder_rejects_app_decompile_byte_mismatch (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_builder_rejects_empty_canonical_decompile (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 3.152s
+
+OK

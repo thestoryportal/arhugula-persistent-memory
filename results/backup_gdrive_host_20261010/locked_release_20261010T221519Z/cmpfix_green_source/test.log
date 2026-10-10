@@ -1,0 +1,6 @@
+test_compiled_app_full_source_equals_saved_source (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.623s
+
+OK

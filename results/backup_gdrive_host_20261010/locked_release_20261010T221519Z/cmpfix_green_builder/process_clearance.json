@@ -1,0 +1,67 @@
+{
+  "all_owned_groups_exited": true,
+  "observed_children": [],
+  "operator_pids_not_touched": [
+    32906,
+    32913,
+    32914,
+    36233,
+    36258,
+    36259,
+    37109,
+    65807
+  ],
+  "records": [
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98041,
+      "pid": 98041,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:39.355850+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest"
+    },
+    {
+      "argv": [
+        "/bin/bash",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/launchd/build_gdrive_applet.sh",
+        "8e44cafc0439b1cad150f8666532200e489e1667",
+        "native-builder",
+        "/private/tmp/gdrive_addendum_a9dfhflp/test backup.app"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98042,
+      "pid": 98042,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:39.363959+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest"
+    },
+    {
+      "argv": [
+        "/bin/bash",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/launchd/build_gdrive_applet.sh",
+        "8e44cafc0439b1cad150f8666532200e489e1667",
+        "native-builder",
+        "/private/tmp/gdrive_addendum_a9dfhflp/test backup.app"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98107,
+      "pid": 98107,
+      "returncode": 1,
+      "started_utc": "2026-10-10T23:38:39.789395+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest"
+    }
+  ],
+  "runner_expected_exit": 0,
+  "runner_pid": 98040,
+  "scope": "direct Popen processes and their complete session groups; no detached/native open launches"
+}

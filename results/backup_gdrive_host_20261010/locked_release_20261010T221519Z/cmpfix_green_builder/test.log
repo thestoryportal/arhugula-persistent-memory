@@ -1,0 +1,6 @@
+test_builder_compiles_applet_and_prints_complete_sha256_manifest (tools.test_backup_gdrive_addendum.LauncherTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.440s
+
+OK

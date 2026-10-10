@@ -36,9 +36,12 @@ trap '/bin/rm -rf "$SCRATCH"' EXIT
 /usr/bin/osadecompile "$SCRATCH/rendered.scpt" > "$SCRATCH/canonical.applescript"
 [ -s "$SCRATCH/canonical.applescript" ] || { echo "Empty canonical AppleScript" >&2; exit 1; }
 /bin/cp "$SCRATCH/canonical.applescript" "$SOURCE"
+# Compare decompilations of two compiles of the same saved canonical source.
+/usr/bin/osacompile -o "$SCRATCH/saved.scpt" "$SOURCE"
+/usr/bin/osadecompile "$SCRATCH/saved.scpt" > "$SCRATCH/saved.applescript"
 /usr/bin/osacompile -o "$OUTPUT" "$SOURCE"
 /usr/bin/osadecompile "$OUTPUT/Contents/Resources/Scripts/main.scpt" > "$DECOMPILED"
-/usr/bin/cmp "$SOURCE" "$DECOMPILED"
+/usr/bin/cmp "$SCRATCH/saved.applescript" "$DECOMPILED"
 /bin/chmod 444 "$SOURCE" "$DECOMPILED"
 # Gather and hash in one checked process: no pipeline or ignored find -exec failure.
 /usr/bin/perl -MFile::Find -MDigest::SHA -e '

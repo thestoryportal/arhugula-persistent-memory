@@ -2346,12 +2346,104 @@ class LockedReleaseTest(Fixture):
         LauncherTest.osa_result(self, result, "locked release build")
         return app
 
+    def build_with_fake_osa(self, mode):
+        fake_bin = self.base/("fake-osa-"+mode)
+        fake_bin.mkdir()
+        fake = '#!'+sys.executable+'\n'+'''import os
+from pathlib import Path
+import sys
+
+mode = os.environ["FAKE_OSA_MODE"]
+if Path(sys.argv[0]).name == "osacompile":
+    assert len(sys.argv) == 4 and sys.argv[1] == "-o", sys.argv
+    output, source = map(Path, sys.argv[2:])
+    data = source.read_bytes()
+    if output.suffix == ".app":
+        script = output/"Contents/Resources/Scripts/main.scpt"
+        script.parent.mkdir(parents=True)
+        executable = output/"Contents/MacOS/applet"
+        executable.parent.mkdir()
+        executable.write_bytes(b"fixture applet\\n")
+    else:
+        script = output
+        if output.name == "rendered.scpt":
+            (Path(__file__).parent/"rendered_input.applescript").write_bytes(data)
+    script.write_bytes(data)
+else:
+    assert len(sys.argv) == 2, sys.argv
+    script = Path(sys.argv[1])
+    data = script.read_bytes()+b"\\n"
+    if mode == "empty_canonical" and script.name == "rendered.scpt":
+        data = b""
+    if script.name == "main.scpt":
+        if mode == "extra_newline":
+            data += b"\\n"
+        if mode == "changed_byte":
+            data = bytes([data[0] ^ 1])+data[1:]
+    sys.stdout.buffer.write(data)
+'''
+        for name in ("osacompile", "osadecompile"):
+            path = fake_bin/name
+            path.write_text(fake)
+            path.chmod(0o700)
+        # Substitute only tool paths in this fixture copy; production has no override.
+        builder = self.checkout/"tools/launchd/build_gdrive_applet.sh"
+        source = (ROOT/"tools/launchd/build_gdrive_applet.sh").read_text()
+        for name in ("osacompile", "osadecompile"):
+            self.assertIn("/usr/bin/"+name, source)
+            source = source.replace("/usr/bin/"+name, name)
+        builder.write_text(source)
+        app = self.base/(mode+" fixture.app")
+        env = dict(os.environ, PATH=str(fake_bin)+os.pathsep+os.environ["PATH"],
+                   FAKE_OSA_MODE=mode, TMPDIR=str(self.base))
+        result = run_process(["/bin/bash", str(builder), self.commit, "fixture-"+mode, str(app)],
+                             env=env, timeout=20)
+        return app, fake_bin, result
+
+    def test_builder_compares_fresh_saved_compile_with_newline_growth(self):
+        app, fake_bin, result = self.build_with_fake_osa("normal")
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        saved = Path(str(app)+".applescript")
+        decompiled = Path(str(app)+".decompiled.applescript")
+        self.assertEqual(saved.read_bytes(), (fake_bin/"rendered_input.applescript").read_bytes()+b"\n")
+        self.assertEqual(decompiled.read_bytes(), saved.read_bytes()+b"\n")
+        for path in (saved, decompiled):
+            self.assertEqual(path.stat().st_mode & 0o777, 0o444)
+        manifest = dict((path, digest) for digest, path in
+                        (line.split("  ", 1) for line in result.stdout.splitlines()))
+        self.assertEqual(manifest, {str(path): hashlib.sha256(path.read_bytes()).hexdigest()
+                                   for path in app.rglob("*") if path.is_file()})
+
+    def test_builder_rejects_app_decompile_byte_mismatch(self):
+        for mode in ("extra_newline", "changed_byte"):
+            with self.subTest(mode=mode):
+                app, fake_bin, result = self.build_with_fake_osa(mode)
+                self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+                self.assertNotEqual(Path(str(app)+".decompiled.applescript").read_bytes(),
+                                    Path(str(app)+".applescript").read_bytes()+b"\n")
+                self.assertFalse(any(re.match(r"^[0-9a-f]{64}  ", line)
+                                     for line in result.stdout.splitlines()))
+
+    def test_builder_rejects_empty_canonical_decompile(self):
+        app, fake_bin, result = self.build_with_fake_osa("empty_canonical")
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertIn("Empty canonical AppleScript", result.stderr)
+        self.assertFalse(app.exists())
+
     def test_compiled_app_full_source_equals_saved_source(self):
         app = self.build_native()
-        result = run_process(["/usr/bin/osadecompile", str(app/"Contents/Resources/Scripts/main.scpt")], timeout=10)
-        LauncherTest.osa_result(self, result, "osadecompile locked app")
-        self.assertEqual(result.stdout.encode(), Path(str(app)+".applescript").read_bytes())
-        self.assertEqual(result.stdout.encode(), Path(str(app)+".decompiled.applescript").read_bytes())
+        saved = Path(str(app)+".applescript")
+        reference = self.base/"saved source.scpt"
+        result = run_process(["/usr/bin/osacompile", "-o", str(reference), str(saved)], timeout=10)
+        LauncherTest.osa_result(self, result, "osacompile saved source")
+        app_source, reference_source = self.base/"app decompile.applescript", self.base/"saved decompile.applescript"
+        for compiled, decompiled in ((app/"Contents/Resources/Scripts/main.scpt", app_source),
+                                     (reference, reference_source)):
+            result = run_process(["/bin/sh", "-c", 'exec /usr/bin/osadecompile "$1" > "$2"',
+                                  "osadecompile", str(compiled), str(decompiled)], timeout=10)
+            LauncherTest.osa_result(self, result, "osadecompile "+str(compiled))
+        self.assertEqual(app_source.read_bytes(), reference_source.read_bytes())
+        self.assertEqual(app_source.read_bytes(), Path(str(app)+".decompiled.applescript").read_bytes())
 
     def test_compiled_app_dispatches_release_after_checkout_change(self):
         app = self.build_native()

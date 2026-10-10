@@ -1,0 +1,30 @@
+{
+  "results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/host_red/cmpfix_red/process_clearance.json": {
+    "bytes": 6128060,
+    "sha256": "861082f14217c0f3f604d229183c033020b7f46c631a2218ad7ec6b23d1f187b"
+  },
+  "results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/host_red/cmpfix_red/process_clearance.jsonl": {
+    "bytes": 5971468,
+    "sha256": "b427660e6221390642f260423f53428e8b96129261de62c839dc21d17e85d14f"
+  },
+  "results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/host_red/cmpfix_red/started_processes.jsonl": {
+    "bytes": 5776056,
+    "sha256": "5ee38365b65611509715e61b00e275371b5c3c9787e8c3042d5ff91b751ce5c7"
+  },
+  "results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/started_commands.json": {
+    "bytes": 5819069,
+    "sha256": "95a91a3475dd584d2669b1a110ec0eda80eb592c0a68b3b3ff7364ce29223be1"
+  },
+  "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/cmpfix_green/process_clearance.json": {
+    "bytes": 6271390,
+    "sha256": "23d1e159d9d8a65959b5997433012e07d2c34eddab2906ffe92429fcb40b79c9"
+  },
+  "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/cmpfix_green/process_clearance.jsonl": {
+    "bytes": 6112359,
+    "sha256": "ea0e815300b5529f843ee3524d9271d20e4fcf893e08acdfb43bcd995058a117"
+  },
+  "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/cmpfix_green/started_processes.jsonl": {
+    "bytes": 5913878,
+    "sha256": "e580bcfdb7eb32a6757e9fb80218c2073cbe909b390a74540968cf9192c7a0c2"
+  }
+}

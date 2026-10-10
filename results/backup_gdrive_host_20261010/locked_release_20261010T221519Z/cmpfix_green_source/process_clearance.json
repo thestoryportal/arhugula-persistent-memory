@@ -1,0 +1,155 @@
+{
+  "all_owned_groups_exited": true,
+  "observed_children": [],
+  "operator_pids_not_touched": [
+    32906,
+    32913,
+    32914,
+    36233,
+    36258,
+    36259,
+    37109,
+    65807
+  ],
+  "records": [
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_44d5_c07/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98193,
+      "pid": 98193,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:40.580328+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_44d5_c07/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98194,
+      "pid": 98194,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:40.592116+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_44d5_c07/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98195,
+      "pid": 98195,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:40.603050+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_44d5_c07/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98198,
+      "pid": 98198,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:40.618296+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "argv": [
+        "/bin/bash",
+        "/private/tmp/gdrive_addendum_44d5_c07/checkout/tools/launchd/build_gdrive_applet.sh",
+        "ea3c30835fb0961c0ec26883f4f6cc7349ddc754",
+        "fixture-r1",
+        "/private/tmp/gdrive_addendum_44d5_c07/locked fixture.app"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98199,
+      "pid": 98199,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:40.627061+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "argv": [
+        "/usr/bin/osacompile",
+        "-o",
+        "/private/tmp/gdrive_addendum_44d5_c07/saved source.scpt",
+        "/private/tmp/gdrive_addendum_44d5_c07/locked fixture.app.applescript"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98258,
+      "pid": 98258,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:41.049681+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "exec /usr/bin/osadecompile \"$1\" > \"$2\"",
+        "osadecompile",
+        "/private/tmp/gdrive_addendum_44d5_c07/locked fixture.app/Contents/Resources/Scripts/main.scpt",
+        "/private/tmp/gdrive_addendum_44d5_c07/app decompile.applescript"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98260,
+      "pid": 98260,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:41.106789+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    },
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "exec /usr/bin/osadecompile \"$1\" > \"$2\"",
+        "osadecompile",
+        "/private/tmp/gdrive_addendum_44d5_c07/saved source.scpt",
+        "/private/tmp/gdrive_addendum_44d5_c07/saved decompile.applescript"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98261,
+      "pid": 98261,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:41.150353+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    }
+  ],
+  "runner_expected_exit": 0,
+  "runner_pid": 98192,
+  "scope": "direct Popen processes and their complete session groups; no detached/native open launches"
+}

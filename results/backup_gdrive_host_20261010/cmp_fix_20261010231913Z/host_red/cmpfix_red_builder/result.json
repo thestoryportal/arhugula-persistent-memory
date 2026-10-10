@@ -1,0 +1,16 @@
+{
+  "all_owned_groups_exited": true,
+  "direct_process_count": 2,
+  "error_tests": [],
+  "errors": 0,
+  "exit_code": 1,
+  "failure_tests": [
+    "tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest"
+  ],
+  "failures": 1,
+  "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+  "skipped": 0,
+  "skips": [],
+  "success": false,
+  "testsRun": 1
+}

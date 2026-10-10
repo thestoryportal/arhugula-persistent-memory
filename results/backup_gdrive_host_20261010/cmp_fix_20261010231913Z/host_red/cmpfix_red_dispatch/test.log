@@ -1,0 +1,20 @@
+test_compiled_app_dispatches_release_after_checkout_change (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+
+======================================================================
+FAIL: test_compiled_app_dispatches_release_after_checkout_change (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/memit_cmpfix_red.2j4K4o/tools/test_backup_gdrive_addendum.py", line 2357, in test_compiled_app_dispatches_release_after_checkout_change
+    app = self.build_native()
+  File "/private/tmp/memit_cmpfix_red.2j4K4o/tools/test_backup_gdrive_addendum.py", line 2346, in build_native
+    LauncherTest.osa_result(self, result, "locked release build")
+  File "/private/tmp/memit_cmpfix_red.2j4K4o/tools/test_backup_gdrive_addendum.py", line 2384, in osa_result
+    self.assertEqual(result.returncode, 0, command+": "+output)
+AssertionError: 1 != 0 : locked release build: .: replacing existing signature
+cmp: EOF on /private/tmp/gdrive_addendum_msd601pe/locked fixture.app.applescript
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.419s
+
+FAILED (failures=1)
