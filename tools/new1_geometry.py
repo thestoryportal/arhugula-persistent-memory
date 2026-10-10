@@ -198,8 +198,8 @@ def covariance_basis(C,k=1024,cell=None):
 
 
 def native_projector(basis):
-    Q=basis['native']['Q'][:,basis['native']['allowed']]
-    return Q@Q.T
+    U=basis['native']['Q']; allowed=basis['native']['allowed']
+    return U[:,allowed]@U[:,allowed].T
 
 
 def geometry_energies(Z,basis):
