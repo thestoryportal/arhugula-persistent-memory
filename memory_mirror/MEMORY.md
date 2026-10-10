@@ -124,3 +124,4 @@
 - [No model clears full bars](no-model-cleared-full-bars-c10-included.md) — Don't claim any model/method passes deployment bars while C10 is open
 - [Background shell is nice 10](background-shell-niceness-10.md) — nice -n is an increment; use $((10-current)) when a script needs exactly 10
 - [Codex sandbox has no network](codex-sandbox-no-network.md) — Builders can't reach Drive/gh; MAESTRO runs live network checks itself
+- [Rerun builder tests on host TMPDIR + CI](rerun-builder-tests-host-tmpdir.md) — builder green ≠ host/CI green; /var symlink + macOS-only stat fields
