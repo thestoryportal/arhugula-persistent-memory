@@ -711,3 +711,116 @@ The report was appended; every earlier byte remains unchanged. `hashes_before.js
 Session continuation: no half-applied change or in-flight test remains. Next: MAESTRO15 runs the host commands once, provides the exact source pins, RED/GREEN logs and native receipts to Astra, and keeps activation blocked until GO. Learning: preserving journal bytes alone does not preserve their ordering constraint; derive barriers from independently parsed records and refuse inadequate reviewed floors before mutation.
 
 Context directive remains binding for every successor/team session: watch **Context N% left**. Start a new piece of work only at **60% left or more**. At **40% left or less**, stop starting work, append a handoff with completed/in-flight work, half-applied changes, exact paths and SHA-256 and next step, then reply exactly **CONTEXT HANDOFF WRITTEN**. If **Context compacted** appears, do so immediately. Restate this directive in any handoff.
+
+## MB21 Astra r6 findings 2 (P1), 3 (P2) and 4 (P2) build and verification
+
+**GDRIVE R6 FIX BUILD DONE — 15 PASS, 0 skipped; 8 new or reversed regressions have saved behavioral RED and GREEN.** Candidate for MAESTRO17 host verification and GPT-6-Astra re-review. Activation remains **BLOCKED** until Astra says GO. Starting branch/root were verified as `worktree-c10k-route-a` / this worktree. All four supplied MB20 source pins matched before the first edit. The archived MB14 status source also matched `64d59eabbf4176c67451309a261cdd87e3c0b137094cde217e064a47a9793c9b`.
+
+### Criteria and evidence
+
+1. Recovery now inspects the payloads in **all** recovery directories, including raw archived counters, archived heartbeat/receipt JSON and every independently parsed archived journal line before and after torn lines. Manifests remain validated, but their maximum does not replace payload inspection. The same `inspect_history()` implementation runs before any recovery mkdir/lock and again under the allocator lock. Archived uncertain payloads are observed without being added to the list of files moved by recovery. Every archived byte stays intact.
+2. Live `refusals/latest-refusal.json` is included in both observed-maximum calculations. Its valid launch generation raises the required reviewed floor. Exit 75 publishes no failure journal or additional failure interval. The absent-state recovery keeps the existing conservative lost-history range derived from the reviewed floor; with floor 100 that range is `[[1,100]]`, and the recovery barrier is 101. No refusal-specific failure is inserted. The exact corrupt-counter / absent-state / completed-10 / null-receipt / refusal-100 input refuses floor 10 with the whole Logs tree unchanged, accepts floor 100, retains the refusal bytes and becomes healthy after sequenced completion 102. A separate injected-refusal test proves the under-lock recheck.
+3. All three compaction boundaries are strict: the Python reader rejects **completed <= compaction_barrier**, and both extracted Perl `resolve_state` implementations clear only for **completed > compaction_barrier**. The old equality-clears test is reversed and renamed `test_r6_3_compacted_barrier_requires_strictly_later_completion`. The previous `test_5_python_and_both_perl_publishers_agree_at_boundaries` is extended and renamed `test_r6_3_python_and_both_perl_publishers_agree_at_boundaries` to follow the required r6 criterion numbering. It checks completed = barrier - 1, barrier and barrier + 1 for Python and both publishers, as well as the original 64/65 interval boundary. The actual extracted production-shell schedule fails odd generations 11..137 and refuses the intervening evens, then allocates 139: barrier 139 is created, completion 139 remains unhealthy and both publishers retain it; allocation/refusal 140 still cannot discharge it; completion 140 becomes healthy and both publishers clear it.
+4. The seven retained tests passed with the eight new/reversed regressions. The r5 torn-journal and valid-after-torn cases still preserve all bytes, refuse inadequate floors, reserve the correct barriers and require sequenced completion above recovery. The unchanged 2,000-allocation test exercises both complete production Perl programs, preserves 64-interval / 2,048-byte bounds and keeps manual, incomplete and refused completions from clearing barriers. The byte-overflow test retains `recovery_barrier`. The applet diff is verified to contain **exactly two comparison replacements**; manual-interleave, late-generation ordering, owner handling, exit-75 publication, nested catches and launch control flow were not rewritten. `tools/backup_gdrive.sh` is unchanged, so retries, bandwidth, excludes and owner-preserving refusal behavior retain their reviewed implementation. Finding 5's remaining runtime tests are part of the full host suite below; they were not rerun locally outside the authorized touched classes.
+5. MB20's helper was copied, preserving the original, to `results/backup_gdrive_mb21_20261010T191747Z/host_launcher_checks_mb21.py`. New native case **compaction-boundary** seeds the 64 odd intervals and uses three actual isolated applet allocation/refusal invocations: first compaction at 139, then completion equal to 139 during generation/receipt publication 140 (still unhealthy; barrier retained), then completion 140 during publication 141 (healthy; barrier cleared). It saves `unresolved_compacted.json`, `unresolved_equal.json` and `unresolved_above.json`. Default fixture roots remain fresh local `/private/tmp`; explicit roots must exist, be empty and resolve outside `/Volumes`. The 20-second `open -W -g` timeout is unchanged. All five native cases are **UNRUN / HOST-PENDING here**. Only syntax and `--help` were checked for the copied helper.
+6. Real HOME inventories immediately before and after the final two-class run are byte-identical: **21 entries, 18 regular files with SHA-256, 2 directories, 1 absent path**. Both listing files have SHA-256 `ec66a1f5f571981f01be772c353ba252e2ce4d5f67953631ea6293a524392b99`. The read-only MB20 inventory script was copied unchanged to `results/backup_gdrive_mb21_20261010T191747Z/real_path_listing.py`. An initial inventory is retained too. Every test fixture and cleanup used `results/backup_gdrive_mb21_20261010T191747Z/fixtures`; the actual HOME backup-log glob, Applications app and LaunchAgents were only read by the inventory script.
+
+### Actual MB14 fixture
+
+`results/backup_gdrive_mb21_20261010T191747Z/capture_mb14_fixture.py` ran the pinned MB14 recovery **once** on the exact requested input in a receipt-local temporary directory: failure 100 followed by `{torn`, corrupt counter, absent unresolved state, completed generation 10, null-generation receipt, floor 10. Command/exit/stdout/stderr are saved in `mb14_recovery_command.json`. Actual MB14 output had highest_seen 10 and recovery_barrier 11, while its archived journal retained failure 100. The exact archived directory names and file bytes, counter, counter lock and unresolved state are saved under `mb14_fixture/`. The regression copies this saved output layout, verifies every saved file hash, refuses floor 11 without changing any file/absence, accepts floor 100 with barrier 101, rejects completion 13 and accepts a sequenced allocation/completion 102. The original MB14 archive remains byte-identical throughout.
+
+Machine-readable tree: `results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture_tree_sha256.json`. Paths below are relative to `mb14_fixture/`:
+
+| Path | Bytes / kind | SHA-256 |
+| --- | --- | --- |
+| `counter` | 3 | `25d4f2a86deb5e2574bb3210b67bb24fcc4afb19f93a7b65a057daa874a9d18e` |
+| `counter.lock` | 0 | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `recoveries` | directory | `directory` |
+| `recoveries/20261010T192107.072565Z` | directory | `directory` |
+| `recoveries/20261010T192107.072565Z/counter` | 8 | `06d0083ba740ff26c91cb17f10d15d398eea1affd3112599b429f30452b59db4` |
+| `recoveries/20261010T192107.072565Z/failures.jsonl` | 68 | `5549e15ca2e08f2e074f3cb2cd88f8a7a23729f42b51071e59de1b2d724e331a` |
+| `recoveries/20261010T192107.072565Z/launch_receipt.json` | 263 | `82829ede0361d5e94b9ca0843a0bcef76f5cce7c8ecfbc9b95ddb4c384af6f08` |
+| `recoveries/20261010T192107.072565Z/manifest.json` | 822 | `ad1d4416f1f50a0aab6ee02854c7adc3eec0acbbbcd91a968211035c37bf9798` |
+| `unresolved.json` | 88 | `d8f8aa0959759c7db247333db835e5f75867a4c99f53cfbb37fdd9c386670502` |
+
+### RED index and scoped verification
+
+Machine-readable index: `results/backup_gdrive_mb21_20261010T191747Z/RED_index.json`. Production status/applet/wrapper hashes were still the MB20 pins when the RED runs completed. Each touched class ran once in RED and once in GREEN; each individual RED receipt contains its corresponding complete class log, including that test's assertion failure. The eight indexed methods had behavioral failures and **no unittest errors or skips**. Seven retained tests were already passing. No full-suite or native execution, rclone invocation, network call or repeated test loop was performed by MB21.
+
+| New or reversed test | RED receipt in this directory |
+| --- | --- |
+| `tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_mb14_archive_requires_floor_100_and_completion_102` | `RED_test_r6_1_mb14_archive_requires_floor_100_and_completion_102.log` |
+| `tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts` | `RED_test_r6_1_every_archived_source_in_older_directories_counts.log` |
+| `tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_under_lock_rechecks_archived_journal` | `RED_test_r6_1_under_lock_rechecks_archived_journal.log` |
+| `tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_2_refusal_heartbeat_raises_floor_without_a_failure` | `RED_test_r6_2_refusal_heartbeat_raises_floor_without_a_failure.log` |
+| `tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_2_under_lock_rechecks_refusal_heartbeat` | `RED_test_r6_2_under_lock_rechecks_refusal_heartbeat.log` |
+| `tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_compacted_barrier_requires_strictly_later_completion` | `RED_test_r6_3_compacted_barrier_requires_strictly_later_completion.log` |
+| `tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_python_and_both_perl_publishers_agree_at_boundaries` | `RED_test_r6_3_python_and_both_perl_publishers_agree_at_boundaries.log` |
+| `tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_odd_failure_schedule_compacts_at_139` | `RED_test_r6_3_odd_failure_schedule_compacts_at_139.log` |
+
+Exact scoped commands used by `run_scoped_tests.py` (the executable resolves to this worktree's `.venv/bin/python`):
+
+```sh
+export BACKUP_TEST_NO_RCLONE=1
+export BACKUP_TEST_RECEIPTS=$PWD/results/backup_gdrive_mb21_20261010T191747Z/fixtures
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R5RecoveryTest -v
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R5CompactionTest -v
+```
+
+GREEN receipts: `GREEN_R5RecoveryTest.log` (**9 PASS**) and `GREEN_R5CompactionTest.log` (**6 PASS**), zero skips. `RED_commands.json` / `GREEN_commands.json` preserve exact argv, exits, counts and log hashes. `verification.json` records syntax checks, exact two-change publisher scope, protected pins, intact MB14 fixture hashes, eight RED receipts and identical real-path inventories. Python compilation without bytecode, all three embedded shell syntax checks, both entire extracted Perl syntax checks, helper/recovery CLI help and changed-line whitespace checks passed. Source diffs against the captured MB20 originals are saved beside those receipts. The full suite is intentionally host-pending; expected count after these six net-new methods is 119, subject to MAESTRO17's actual full-suite receipt.
+
+### Recovery command, evidence list and refusal rule
+
+```sh
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B tools/backup_gdrive_status.py recover --generation-floor N --heartbeat /absolute/fixture/path/last_run.json
+```
+
+N must be operator-reviewed and cover every observed generation from: the current raw counter; current `unresolved.json` issued state; current heartbeat; current launch receipt; every independently parseable current failure-journal line; current `refusals/latest-refusal.json`; every preserved recovery manifest; every archived raw counter; and JSON / individually parsed JSONL payloads in **every** archived recovery directory, including archived heartbeats, receipts, refusal heartbeats and failure journals. Recognized valid generation fields include launch_generation, issued_generation, recovery_barrier, compaction_barrier, highest_seen and generation_floor. Old directory payloads count even if a newer directory has a lower maximum. Both the pre-lock scan and under-lock recheck use this complete list.
+
+An inadequate floor exits nonzero with `recovery refused` / `below observed maximum`; a pre-lock refusal creates no directory or lock and writes/moves nothing. An injected higher archived generation or refusal after the first scan is rejected under lock without moving/publishing recovery evidence. Exit 75 is only an observed-generation source, not an unresolved backup failure. All archived bytes remain intact even when torn. Recovery still never establishes health on its own, and neither manual completion nor refusal can discharge recovery or compaction barriers. Do not omit `--heartbeat` in fixtures: the default points at real HOME and remains an operator recovery action only after GO.
+
+### Exact host commands for MAESTRO17
+
+Run the full addendum suite once on the host with real **local** rclone, preserving local `/private/tmp` receipts. This is not a Drive/network self-test.
+
+```sh
+mb21_host_receipts=/private/tmp/backup_gdrive_mb21_host_$(/bin/date -u +%Y%m%dT%H%M%SZ)
+/bin/mkdir "$mb21_host_receipts"
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb21_20261010T191747Z/real_path_listing.py "$mb21_host_receipts/real_paths_before.json"
+LLMDB_ROOT=$PWD BACKUP_TEST_NO_RCLONE=0 BACKUP_TEST_RECEIPTS="$mb21_host_receipts" PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum -v > "$mb21_host_receipts/acceptance.log" 2>&1
+mb21_suite_exit=$?
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb21_20261010T191747Z/real_path_listing.py "$mb21_host_receipts/real_paths_after.json"
+if [ "$mb21_suite_exit" -ne 0 ]; then
+    /bin/cat "$mb21_host_receipts/acceptance.log"
+    exit "$mb21_suite_exit"
+fi
+/usr/bin/cmp "$mb21_host_receipts/real_paths_before.json" "$mb21_host_receipts/real_paths_after.json"
+```
+
+Inspect acceptance.log, exit code and identical inventories before proceeding. Run **every** native helper case on local temp paths; none was run by MB21:
+
+```sh
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb21_20261010T191747Z/host_launcher_checks_mb21.py manual-interleave
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb21_20261010T191747Z/host_launcher_checks_mb21.py crash-after-allocation
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb21_20261010T191747Z/host_launcher_checks_mb21.py recovery
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb21_20261010T191747Z/host_launcher_checks_mb21.py unresolved-compaction
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/backup_gdrive_mb21_20261010T191747Z/host_launcher_checks_mb21.py compaction-boundary
+```
+
+Provide source pins, RED/GREEN, fixture tree, isolation receipts, full-suite and five native-case evidence to GPT-6-Astra. This build establishes fixture behavior and syntax only; native privacy, real Drive copy, production activation and power-loss durability remain unverified. No commit, push, merge, Applications install, launchd mutation, real backup-log write, rclone or network call occurred here.
+
+### Start and final SHA-256 / scope
+
+| Changed file | Start SHA-256 | Final SHA-256 |
+| --- | --- | --- |
+| `tools/backup_gdrive_status.py` | `a4d3978bfc2995c78762f83c8c73152e73e8feb6cb4d8056791223249ef082c2` | `1063228655fb3712705b617b5da9412f5b887a40e317311fc38cedd41a5a97a0` |
+| `tools/launchd/MemitGdriveBackup.applescript` | `31566aca9386b8c70d822f4e9bfe2132b7bb8c86a87b46440aea6c91eec6e6d7` | `80c7b7126bb0bc2822e71d25dd44174cdf92e18a5a9fa4076764140ce035384c` |
+| `tools/test_backup_gdrive_addendum.py` | `6bca5cd7751ff28c19083175dfcbe4829e7d4d80827f5db33aa58a668ba6b833` | `da2389f23a91c7e7db75d81a46d81bf6439f8d6a9e87d4161eaf3d7fff6359a9` |
+| `results/backup_gdrive_mb21_20261010T191747Z/host_launcher_checks_mb21.py` | `New receipt copy; copied baseline f37134a94b9692630a7853e25c7d2847da5d6b13d8df2eeec73856f4715d9efd` | `e6e8a21e019759f9dfc14f6be410deb9a5100e05fa55b5d8a9545019faff995f` |
+| `results/backup_gdrive_build_report.md` | `10f403d6480c2b22cd26f1a7788026b587b9a8f02db908a8a20794cd702f1b33` | See `results/backup_gdrive_mb21_20261010T191747Z/hashes_final.json` (external to avoid self-reference) |
+
+The report is appended and every prior byte is retained. `hashes_final.json` supplies its final hash and hashes of every new receipt file (start: absent), avoiding a self-referential report hash. `hashes_before.json` and `originals/` preserve the start evidence. The copied listing script remains `2bc40d375fc4651d0d57525739083b832ed495189568d923074f193e4bed30c1`. MB14 original and both MB20 helper/listing originals remain unchanged. `tools/backup_gdrive.sh` remains `36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8`; no criterion required changing it. No main-checkout staged file, dashboard file/receipt, `tools/test_dashboard_mathlab.py`, NEW-1 file or unrelated builder file was touched or hashed as protected.
+
+Session continuation: no half-applied source change or in-flight test remains. Next: MAESTRO17 runs the host commands once, obtains Astra re-review and keeps activation blocked until GO. Learning: archived payloads retain generation authority independently of manifests; refusal generations constrain recovery floors without becoming backup failures; completion must be strictly later than a conservative compaction barrier.
+
+Context directive remains binding for every successor/team session: watch **Context N% left**. Start a new piece of work only at **60% left or more**. At **40% left or less**, stop starting work, append a handoff with completed/in-flight work, half-applied changes, exact paths and SHA-256 and next step, then reply exactly **CONTEXT HANDOFF WRITTEN**. If **Context compacted** appears, do so immediately. Restate this directive in any handoff. Do not allow sessions to approach full-window compaction; use a fresh successor with a precise handoff.

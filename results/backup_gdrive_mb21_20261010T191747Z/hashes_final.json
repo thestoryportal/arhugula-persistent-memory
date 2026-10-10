@@ -1,0 +1,83 @@
+{
+  "changed_files": {
+    "results/backup_gdrive_build_report.md": {
+      "final_sha256": "2d9d23c5f5ecd449ddd9c906228efe69c723784a3c5d45a0bfa37a6b354ae454",
+      "start_sha256": "10f403d6480c2b22cd26f1a7788026b587b9a8f02db908a8a20794cd702f1b33"
+    },
+    "results/backup_gdrive_mb21_20261010T191747Z/host_launcher_checks_mb21.py": {
+      "copied_baseline_sha256": "f37134a94b9692630a7853e25c7d2847da5d6b13d8df2eeec73856f4715d9efd",
+      "final_sha256": "e6e8a21e019759f9dfc14f6be410deb9a5100e05fa55b5d8a9545019faff995f",
+      "start_sha256": null
+    },
+    "tools/backup_gdrive_status.py": {
+      "final_sha256": "1063228655fb3712705b617b5da9412f5b887a40e317311fc38cedd41a5a97a0",
+      "start_sha256": "a4d3978bfc2995c78762f83c8c73152e73e8feb6cb4d8056791223249ef082c2"
+    },
+    "tools/launchd/MemitGdriveBackup.applescript": {
+      "final_sha256": "80c7b7126bb0bc2822e71d25dd44174cdf92e18a5a9fa4076764140ce035384c",
+      "start_sha256": "31566aca9386b8c70d822f4e9bfe2132b7bb8c86a87b46440aea6c91eec6e6d7"
+    },
+    "tools/test_backup_gdrive_addendum.py": {
+      "final_sha256": "da2389f23a91c7e7db75d81a46d81bf6439f8d6a9e87d4161eaf3d7fff6359a9",
+      "start_sha256": "6bca5cd7751ff28c19083175dfcbe4829e7d4d80827f5db33aa58a668ba6b833"
+    }
+  },
+  "manifest_self_hash": "excluded",
+  "protected_files": {
+    "results/backup_gdrive_mb20_20261010T180133Z/host_launcher_checks_mb20.py": "f37134a94b9692630a7853e25c7d2847da5d6b13d8df2eeec73856f4715d9efd",
+    "results/backup_gdrive_mb20_20261010T180133Z/originals/backup_gdrive_status.py": "64d59eabbf4176c67451309a261cdd87e3c0b137094cde217e064a47a9793c9b",
+    "results/backup_gdrive_mb20_20261010T180133Z/real_path_listing.py": "2bc40d375fc4651d0d57525739083b832ed495189568d923074f193e4bed30c1",
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8"
+  },
+  "real_inventories_equal": true,
+  "receipt_files_final_sha256": {
+    "results/backup_gdrive_mb21_20261010T191747Z/GREEN_R5CompactionTest.log": "2977d72cbe893d792a7d470f3a918fbe770f8b3be93ee80f3a78c57c869fbd7f",
+    "results/backup_gdrive_mb21_20261010T191747Z/GREEN_R5RecoveryTest.log": "4cdcbd60c9c22589a9c356c1fdad1e4eabc93238fb1da6380c0a8a653c3a7c03",
+    "results/backup_gdrive_mb21_20261010T191747Z/GREEN_commands.json": "3825e3be0f5883085ce67ab302547292c866e7f0537385f6566010d8b497de91",
+    "results/backup_gdrive_mb21_20261010T191747Z/MemitGdriveBackup.applescript.diff": "7a79a1d3ee3e115958b82a1913f6baeffd427c67ee076f368b0b2fb802f133dc",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_R5CompactionTest.log": "b31c28ccc042683cffe79a26807a29bbf69168f6f0ca848e5ff919cd865d0090",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_R5RecoveryTest.log": "112cc5d37ba814f4dfe8b5b3b9a17db2a3945f12b342d5576c71896aacfd2487",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_commands.json": "77027533cbc1daa19aaec4775fd2439f4ac6945f4bc3c22abd307b43f41dc2eb",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_index.json": "687505e61ba9a14c057b42a9ad370ea46bb57a7999b8ca48dace976b0b48c3e1",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_test_r6_1_every_archived_source_in_older_directories_counts.log": "112cc5d37ba814f4dfe8b5b3b9a17db2a3945f12b342d5576c71896aacfd2487",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_test_r6_1_mb14_archive_requires_floor_100_and_completion_102.log": "112cc5d37ba814f4dfe8b5b3b9a17db2a3945f12b342d5576c71896aacfd2487",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_test_r6_1_under_lock_rechecks_archived_journal.log": "112cc5d37ba814f4dfe8b5b3b9a17db2a3945f12b342d5576c71896aacfd2487",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_test_r6_2_refusal_heartbeat_raises_floor_without_a_failure.log": "112cc5d37ba814f4dfe8b5b3b9a17db2a3945f12b342d5576c71896aacfd2487",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_test_r6_2_under_lock_rechecks_refusal_heartbeat.log": "112cc5d37ba814f4dfe8b5b3b9a17db2a3945f12b342d5576c71896aacfd2487",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_test_r6_3_compacted_barrier_requires_strictly_later_completion.log": "b31c28ccc042683cffe79a26807a29bbf69168f6f0ca848e5ff919cd865d0090",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_test_r6_3_odd_failure_schedule_compacts_at_139.log": "b31c28ccc042683cffe79a26807a29bbf69168f6f0ca848e5ff919cd865d0090",
+    "results/backup_gdrive_mb21_20261010T191747Z/RED_test_r6_3_python_and_both_perl_publishers_agree_at_boundaries.log": "b31c28ccc042683cffe79a26807a29bbf69168f6f0ca848e5ff919cd865d0090",
+    "results/backup_gdrive_mb21_20261010T191747Z/append_report.py": "044a90a83182f477b1851a86d25ac1120cbbd750093f46ca9d042af5078346c1",
+    "results/backup_gdrive_mb21_20261010T191747Z/backup_gdrive_status.py.diff": "039a35a6ac5b918e8a88bcd95c7b42861cc442adb0f1932bebc3768a0ffaf330",
+    "results/backup_gdrive_mb21_20261010T191747Z/capture_mb14_fixture.py": "fd6573876a0c56eab8ce72e2623b9c3b4005ce50b53f0cdd5a46313666110127",
+    "results/backup_gdrive_mb21_20261010T191747Z/finalize_receipt.py": "cf5be7bbaee22b41407e913e288b044119564eb1805bd8364770bb428d1bc755",
+    "results/backup_gdrive_mb21_20261010T191747Z/hashes_before.json": "6dcc377ac71815a6e9c9965b388c9e5d78c41dc426bfac23a99222223e2655d9",
+    "results/backup_gdrive_mb21_20261010T191747Z/host_helper_help.txt": "3c110434af1d92882f3983b9c7249bc3b28ab9540f289c6e87f03749eee371e0",
+    "results/backup_gdrive_mb21_20261010T191747Z/host_launcher_checks_mb21.py": "e6e8a21e019759f9dfc14f6be410deb9a5100e05fa55b5d8a9545019faff995f",
+    "results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture/counter": "25d4f2a86deb5e2574bb3210b67bb24fcc4afb19f93a7b65a057daa874a9d18e",
+    "results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture/counter.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture/recoveries/20261010T192107.072565Z/counter": "06d0083ba740ff26c91cb17f10d15d398eea1affd3112599b429f30452b59db4",
+    "results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture/recoveries/20261010T192107.072565Z/failures.jsonl": "5549e15ca2e08f2e074f3cb2cd88f8a7a23729f42b51071e59de1b2d724e331a",
+    "results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture/recoveries/20261010T192107.072565Z/launch_receipt.json": "82829ede0361d5e94b9ca0843a0bcef76f5cce7c8ecfbc9b95ddb4c384af6f08",
+    "results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture/recoveries/20261010T192107.072565Z/manifest.json": "ad1d4416f1f50a0aab6ee02854c7adc3eec0acbbbcd91a968211035c37bf9798",
+    "results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture/unresolved.json": "d8f8aa0959759c7db247333db835e5f75867a4c99f53cfbb37fdd9c386670502",
+    "results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture_tree_sha256.json": "a1f1182e5cb86e19c5f2fa300dc3dfb88239e01644066bdeba0ad7b62624c16c",
+    "results/backup_gdrive_mb21_20261010T191747Z/mb14_recovery_command.json": "051922cba41b1604bfe463fa82b5b5a654ead858ccecbb198f1d4b32fc35520f",
+    "results/backup_gdrive_mb21_20261010T191747Z/originals/MemitGdriveBackup.applescript": "31566aca9386b8c70d822f4e9bfe2132b7bb8c86a87b46440aea6c91eec6e6d7",
+    "results/backup_gdrive_mb21_20261010T191747Z/originals/backup_gdrive_build_report.md": "10f403d6480c2b22cd26f1a7788026b587b9a8f02db908a8a20794cd702f1b33",
+    "results/backup_gdrive_mb21_20261010T191747Z/originals/backup_gdrive_status.py": "a4d3978bfc2995c78762f83c8c73152e73e8feb6cb4d8056791223249ef082c2",
+    "results/backup_gdrive_mb21_20261010T191747Z/originals/test_backup_gdrive_addendum.py": "6bca5cd7751ff28c19083175dfcbe4829e7d4d80827f5db33aa58a668ba6b833",
+    "results/backup_gdrive_mb21_20261010T191747Z/real_path_listing.py": "2bc40d375fc4651d0d57525739083b832ed495189568d923074f193e4bed30c1",
+    "results/backup_gdrive_mb21_20261010T191747Z/real_paths_after.json": "ec66a1f5f571981f01be772c353ba252e2ce4d5f67953631ea6293a524392b99",
+    "results/backup_gdrive_mb21_20261010T191747Z/real_paths_before.json": "ec66a1f5f571981f01be772c353ba252e2ce4d5f67953631ea6293a524392b99",
+    "results/backup_gdrive_mb21_20261010T191747Z/real_paths_initial.json": "ec66a1f5f571981f01be772c353ba252e2ce4d5f67953631ea6293a524392b99",
+    "results/backup_gdrive_mb21_20261010T191747Z/recovery_help.txt": "b9f42154f4796b2cf6bdc132e979cb729d5d96dceaf3f9a80a6a894b5c23324f",
+    "results/backup_gdrive_mb21_20261010T191747Z/report_append_sha256.json": "5d96915a675c294c77527b50f175fbb480556900c50baf85cc6a1e96011a8bee",
+    "results/backup_gdrive_mb21_20261010T191747Z/run_scoped_tests.py": "2350cf3da3fc51c68359edbf21e8bea61309ad9619d78896a828605cc4009fac",
+    "results/backup_gdrive_mb21_20261010T191747Z/test_backup_gdrive_addendum.py.diff": "e62abb723400053494229a9213e122b1c9576c26f33c6fd96aada60607d47716",
+    "results/backup_gdrive_mb21_20261010T191747Z/verification.json": "1c8a3a674fbf2183b693c31277eefedc575253effb2a73a1cbb13b46e39705a3",
+    "results/backup_gdrive_mb21_20261010T191747Z/verify_build.py": "5cace6469ec28b34a4669c9919309242cd89bc861289958115840a638dede81b"
+  },
+  "receipt_files_start": "absent",
+  "report_prior_bytes_preserved": true
+}

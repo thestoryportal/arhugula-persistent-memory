@@ -1,0 +1,59 @@
+--- MB20/tools/backup_gdrive_status.py
++++ MB21/tools/backup_gdrive_status.py
+@@ -299,13 +299,14 @@
+         pending = list(state["unresolved"]) if state else []
+         ambiguous = []
+         evidence = [heartbeat, heartbeat.parent/"launch_receipt.json",
+-                    logs/"memit-gdrive-backup-launch-journal/failures.jsonl"]
++                    logs/"memit-gdrive-backup-launch-journal/failures.jsonl",
++                    heartbeat.parent/"refusals/latest-refusal.json"]
+         archives = state_dir/"recoveries"
+ 
+         def observe(record):
+             nonlocal highest
+             if isinstance(record, dict):
+-                for key in ("launch_generation", "issued_generation", "recovery_barrier", "highest_seen", "generation_floor"):
++                for key in ("launch_generation", "issued_generation", "recovery_barrier", "compaction_barrier", "highest_seen", "generation_floor"):
+                     number = record.get(key)
+                     if valid_generation(number):
+                         highest = max(highest, number)
+@@ -317,11 +318,16 @@
+                 if not isinstance(record, dict) or not valid_generation(record.get("recovery_barrier")):
+                     raise ValueError("malformed preserved recovery manifest")
+                 observe(record)
+-        if counter.exists():
+-            text = counter.read_text()
++        for preserved_counter in [counter, *sorted(archives.rglob("counter"))]:
++            if not preserved_counter.exists():
++                continue
++            text = preserved_counter.read_text()
+             if re.fullmatch(r"(?:0|[1-9][0-9]{0,9})\n?", text) and int(text) <= 2147483647:
+                 highest = max(highest, int(text))
+-        for path in evidence:
++        # Older recovery manifests can understate the generations in their payloads.
++        preserved = [path for path in sorted(archives.rglob("*"))
++                     if path.is_file() and path.suffix in (".json", ".jsonl") and path.name != "manifest.json"]
++        for path in evidence + preserved:
+             if not path.exists():
+                 continue
+             lines = path.read_bytes().splitlines() if path.suffix == ".jsonl" else [path.read_bytes()]
+@@ -341,7 +347,7 @@
+                 manual = path == heartbeat and generation is None and value.get("launch_mode", "manual") == "manual"
+                 if not manual and not valid_generation(generation):
+                     uncertain = True
+-            if uncertain:
++            if uncertain and path in evidence:
+                 ambiguous.append(path)
+         if args.generation_floor < highest:
+             raise ValueError("generation floor %s is below observed maximum %s; no recovery evidence changed" %
+@@ -466,8 +472,8 @@
+     if state is not None and state["recovery_barrier"] is not None and (completed or 0) <= state["recovery_barrier"]:
+         return "unacknowledged recovery barrier generation %s: requires a subsequent completed heartbeat%s" % (
+             state["recovery_barrier"], manual)
+-    if state is not None and state.get("compaction_barrier") is not None and (completed or 0) < state["compaction_barrier"]:
+-        return "unacknowledged compacted barrier generation %s: requires a completed sequenced heartbeat%s" % (
++    if state is not None and state.get("compaction_barrier") is not None and (completed or 0) <= state["compaction_barrier"]:
++        return "unacknowledged compacted barrier generation %s: requires a subsequent completed sequenced heartbeat%s" % (
+             state["compaction_barrier"], manual)
+     if any(marker["launch_generation"] > (completed or 0) for marker in markers):
+         return "failed backup launch: unacknowledged failure journal generation" + manual

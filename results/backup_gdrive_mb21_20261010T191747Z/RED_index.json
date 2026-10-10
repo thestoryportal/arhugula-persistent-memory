@@ -1,0 +1,50 @@
+[
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_mb14_archive_requires_floor_100_and_completion_102",
+    "log": "RED_test_r6_1_mb14_archive_requires_floor_100_and_completion_102.log",
+    "class_log": "RED_R5RecoveryTest.log",
+    "sha256": "112cc5d37ba814f4dfe8b5b3b9a17db2a3945f12b342d5576c71896aacfd2487"
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts",
+    "log": "RED_test_r6_1_every_archived_source_in_older_directories_counts.log",
+    "class_log": "RED_R5RecoveryTest.log",
+    "sha256": "112cc5d37ba814f4dfe8b5b3b9a17db2a3945f12b342d5576c71896aacfd2487"
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_under_lock_rechecks_archived_journal",
+    "log": "RED_test_r6_1_under_lock_rechecks_archived_journal.log",
+    "class_log": "RED_R5RecoveryTest.log",
+    "sha256": "112cc5d37ba814f4dfe8b5b3b9a17db2a3945f12b342d5576c71896aacfd2487"
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_2_refusal_heartbeat_raises_floor_without_a_failure",
+    "log": "RED_test_r6_2_refusal_heartbeat_raises_floor_without_a_failure.log",
+    "class_log": "RED_R5RecoveryTest.log",
+    "sha256": "112cc5d37ba814f4dfe8b5b3b9a17db2a3945f12b342d5576c71896aacfd2487"
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_2_under_lock_rechecks_refusal_heartbeat",
+    "log": "RED_test_r6_2_under_lock_rechecks_refusal_heartbeat.log",
+    "class_log": "RED_R5RecoveryTest.log",
+    "sha256": "112cc5d37ba814f4dfe8b5b3b9a17db2a3945f12b342d5576c71896aacfd2487"
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_compacted_barrier_requires_strictly_later_completion",
+    "log": "RED_test_r6_3_compacted_barrier_requires_strictly_later_completion.log",
+    "class_log": "RED_R5CompactionTest.log",
+    "sha256": "b31c28ccc042683cffe79a26807a29bbf69168f6f0ca848e5ff919cd865d0090"
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_python_and_both_perl_publishers_agree_at_boundaries",
+    "log": "RED_test_r6_3_python_and_both_perl_publishers_agree_at_boundaries.log",
+    "class_log": "RED_R5CompactionTest.log",
+    "sha256": "b31c28ccc042683cffe79a26807a29bbf69168f6f0ca848e5ff919cd865d0090"
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_odd_failure_schedule_compacts_at_139",
+    "log": "RED_test_r6_3_odd_failure_schedule_compacts_at_139.log",
+    "class_log": "RED_R5CompactionTest.log",
+    "sha256": "b31c28ccc042683cffe79a26807a29bbf69168f6f0ca848e5ff919cd865d0090"
+  }
+]

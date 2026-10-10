@@ -1,0 +1,51 @@
+test_4_byte_overflow_preserves_the_recovery_barrier (tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_byte_overflow_preserves_the_recovery_barrier) ... ok
+test_4_exact_limit_and_limit_plus_one_compaction (tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_exact_limit_and_limit_plus_one_compaction) ... ok
+test_4_two_thousand_allocations_remain_bounded_and_fail_closed (tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_two_thousand_allocations_remain_bounded_and_fail_closed) ... ok
+test_r6_3_compacted_barrier_requires_strictly_later_completion (tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_compacted_barrier_requires_strictly_later_completion) ... FAIL
+test_r6_3_odd_failure_schedule_compacts_at_139 (tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_odd_failure_schedule_compacts_at_139) ... FAIL
+test_r6_3_python_and_both_perl_publishers_agree_at_boundaries (tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_python_and_both_perl_publishers_agree_at_boundaries) ... 
+  test_r6_3_python_and_both_perl_publishers_agree_at_boundaries (tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_python_and_both_perl_publishers_agree_at_boundaries) (completed=140, publisher='generationShell') ... FAIL
+  test_r6_3_python_and_both_perl_publishers_agree_at_boundaries (tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_python_and_both_perl_publishers_agree_at_boundaries) (completed=140, publisher='receiptShell') ... FAIL
+
+======================================================================
+FAIL: test_r6_3_compacted_barrier_requires_strictly_later_completion (tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_compacted_barrier_requires_strictly_later_completion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1668, in test_r6_3_compacted_barrier_requires_strictly_later_completion
+    self.assert_bad("compacted barrier")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 67, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T19:24:23.021357+00:00; launch generation 140
+
+
+======================================================================
+FAIL: test_r6_3_odd_failure_schedule_compacts_at_139 (tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_odd_failure_schedule_compacts_at_139)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1719, in test_r6_3_odd_failure_schedule_compacts_at_139
+    self.assert_bad("compacted barrier generation 139")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 67, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T19:24:30.731011+00:00; launch generation 139
+
+
+======================================================================
+FAIL: test_r6_3_python_and_both_perl_publishers_agree_at_boundaries (tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_python_and_both_perl_publishers_agree_at_boundaries) (completed=140, publisher='generationShell')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r6_3_python_and_both_perl_publishers_agree_at_boundaries
+    self.assertEqual(perl["compaction_barrier"], None if completed > barrier else barrier)
+AssertionError: None != 140
+
+======================================================================
+FAIL: test_r6_3_python_and_both_perl_publishers_agree_at_boundaries (tools.test_backup_gdrive_addendum.R5CompactionTest.test_r6_3_python_and_both_perl_publishers_agree_at_boundaries) (completed=140, publisher='receiptShell')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r6_3_python_and_both_perl_publishers_agree_at_boundaries
+    self.assertEqual(perl["compaction_barrier"], None if completed > barrier else barrier)
+AssertionError: None != 140
+
+----------------------------------------------------------------------
+Ran 6 tests in 13.936s
+
+FAILED (failures=4)

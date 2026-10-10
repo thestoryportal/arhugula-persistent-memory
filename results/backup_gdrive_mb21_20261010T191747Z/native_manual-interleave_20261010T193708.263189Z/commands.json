@@ -1,0 +1,82 @@
+[
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_pqq95ynj/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 0,
+    "stdout": "backup_gdrive_status: fresh successful backup; finished 2026-10-10T19:37:08.264359+00:00; launch generation 10\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/private/tmp/memit_gdrive_native_pqq95ynj/fixture/Native_1.app",
+      "/private/tmp/memit_gdrive_native_pqq95ynj/fixture/Native_1.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  },
+  {
+    "args": [
+      "/usr/bin/open",
+      "-W",
+      "-g",
+      "/private/tmp/memit_gdrive_native_pqq95ynj/fixture/Native_1.app"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_pqq95ynj/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: incomplete backup run\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/private/tmp/memit_gdrive_native_pqq95ynj/fixture/Native_2.app",
+      "/private/tmp/memit_gdrive_native_pqq95ynj/fixture/Native_2.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  },
+  {
+    "args": [
+      "/usr/bin/open",
+      "-W",
+      "-g",
+      "/private/tmp/memit_gdrive_native_pqq95ynj/fixture/Native_2.app"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_pqq95ynj/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: unacknowledged launch generation 11: no completed heartbeat; manual/unsequenced heartbeat cannot acknowledge applet evidence\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,14 @@
+test_1_torn_journal_preserves_generation_and_entire_ambiguous_file (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_1_torn_journal_preserves_generation_and_entire_ambiguous_file) ... ok
+test_1_valid_generation_after_torn_line_still_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_1_valid_generation_after_torn_line_still_counts) ... ok
+test_2_floor_below_torn_journal_is_read_only (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_2_floor_below_torn_journal_is_read_only) ... ok
+test_2_floor_below_valid_journal_is_read_only (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_2_floor_below_valid_journal_is_read_only) ... ok
+test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) ... ok
+test_r6_1_mb14_archive_requires_floor_100_and_completion_102 (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_mb14_archive_requires_floor_100_and_completion_102) ... ok
+test_r6_1_under_lock_rechecks_archived_journal (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_under_lock_rechecks_archived_journal) ... ok
+test_r6_2_refusal_heartbeat_raises_floor_without_a_failure (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_2_refusal_heartbeat_raises_floor_without_a_failure) ... ok
+test_r6_2_under_lock_rechecks_refusal_heartbeat (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_2_under_lock_rechecks_refusal_heartbeat) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.218s
+
+OK

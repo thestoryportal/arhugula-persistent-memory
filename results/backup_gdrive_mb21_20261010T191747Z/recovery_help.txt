@@ -1,0 +1,13 @@
+usage: backup_gdrive_status.py [-h] [--heartbeat HEARTBEAT] --generation-floor
+                               GENERATION_FLOOR
+
+Read backup health, or atomically publish the wrapper's current heartbeat.
+
+options:
+  -h, --help            show this help message and exit
+  --heartbeat HEARTBEAT
+  --generation-floor GENERATION_FLOOR
+                        operator-reviewed greatest generation ever issued,
+                        including lost history; must be at least every
+                        observed generation (lower floors refuse without
+                        changing evidence)

@@ -1,0 +1,52 @@
+[
+  {
+    "path": "counter",
+    "kind": "file",
+    "sha256": "25d4f2a86deb5e2574bb3210b67bb24fcc4afb19f93a7b65a057daa874a9d18e",
+    "bytes": 3
+  },
+  {
+    "path": "counter.lock",
+    "kind": "file",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "path": "recoveries",
+    "kind": "directory"
+  },
+  {
+    "path": "recoveries/20261010T192107.072565Z",
+    "kind": "directory"
+  },
+  {
+    "path": "recoveries/20261010T192107.072565Z/counter",
+    "kind": "file",
+    "sha256": "06d0083ba740ff26c91cb17f10d15d398eea1affd3112599b429f30452b59db4",
+    "bytes": 8
+  },
+  {
+    "path": "recoveries/20261010T192107.072565Z/failures.jsonl",
+    "kind": "file",
+    "sha256": "5549e15ca2e08f2e074f3cb2cd88f8a7a23729f42b51071e59de1b2d724e331a",
+    "bytes": 68
+  },
+  {
+    "path": "recoveries/20261010T192107.072565Z/launch_receipt.json",
+    "kind": "file",
+    "sha256": "82829ede0361d5e94b9ca0843a0bcef76f5cce7c8ecfbc9b95ddb4c384af6f08",
+    "bytes": 263
+  },
+  {
+    "path": "recoveries/20261010T192107.072565Z/manifest.json",
+    "kind": "file",
+    "sha256": "ad1d4416f1f50a0aab6ee02854c7adc3eec0acbbbcd91a968211035c37bf9798",
+    "bytes": 822
+  },
+  {
+    "path": "unresolved.json",
+    "kind": "file",
+    "sha256": "d8f8aa0959759c7db247333db835e5f75867a4c99f53cfbb37fdd9c386670502",
+    "bytes": 88
+  }
+]

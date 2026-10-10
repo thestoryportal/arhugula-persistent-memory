@@ -1,0 +1,10 @@
+{
+  "results/backup_gdrive_build_report.md": "10f403d6480c2b22cd26f1a7788026b587b9a8f02db908a8a20794cd702f1b33",
+  "results/backup_gdrive_mb20_20261010T180133Z/host_launcher_checks_mb20.py": "f37134a94b9692630a7853e25c7d2847da5d6b13d8df2eeec73856f4715d9efd",
+  "results/backup_gdrive_mb20_20261010T180133Z/originals/backup_gdrive_status.py": "64d59eabbf4176c67451309a261cdd87e3c0b137094cde217e064a47a9793c9b",
+  "results/backup_gdrive_mb20_20261010T180133Z/real_path_listing.py": "2bc40d375fc4651d0d57525739083b832ed495189568d923074f193e4bed30c1",
+  "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+  "tools/backup_gdrive_status.py": "a4d3978bfc2995c78762f83c8c73152e73e8feb6cb4d8056791223249ef082c2",
+  "tools/launchd/MemitGdriveBackup.applescript": "31566aca9386b8c70d822f4e9bfe2132b7bb8c86a87b46440aea6c91eec6e6d7",
+  "tools/test_backup_gdrive_addendum.py": "6bca5cd7751ff28c19083175dfcbe4829e7d4d80827f5db33aa58a668ba6b833"
+}

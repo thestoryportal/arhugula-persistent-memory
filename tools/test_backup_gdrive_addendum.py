@@ -8,11 +8,13 @@ from pathlib import Path
 import plistlib
 import re
 import shlex
+import shutil
 import subprocess
 import sys
 import tempfile
 import time
 import unittest
+from types import SimpleNamespace
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1447,6 +1449,110 @@ class R5RecoveryTest(R5Fixture):
         self.assert_low_floor_refused_unchanged()
 
 
+    def test_r6_1_mb14_archive_requires_floor_100_and_completion_102(self):
+        self.success_baseline()
+        fixture = ROOT/"results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture"
+        rows = json.loads((fixture.parent/"mb14_fixture_tree_sha256.json").read_text())
+        for row in rows:
+            if row["kind"] == "file":
+                self.assertEqual(hashlib.sha256((fixture/row["path"]).read_bytes()).hexdigest(), row["sha256"])
+        shutil.copytree(fixture/"recoveries", self.counter.parent/"recoveries")
+        for name in ("counter", "unresolved.json", "counter.lock"):
+            (self.counter.parent/name).write_bytes((fixture/name).read_bytes())
+        (self.heartbeat.parent/"launch_receipt.json").unlink()
+        archived = {name: data for name, data in self.snapshot().items() if "/recoveries/" in name}
+        self.assert_low_floor_refused_unchanged(11)
+        result = self.recover(100)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual(self.counter.read_bytes(), b"101\n")
+        self.assertEqual(json.loads((self.counter.parent/"unresolved.json").read_text())["recovery_barrier"], 101)
+        self.write_heartbeat(launch_generation=13, launch_mode="applet")
+        self.assert_bad("recovery barrier generation 101")
+        allocated = self.shell_literal("generationShell")
+        self.assertEqual(allocated.returncode, 0, allocated.stderr)
+        self.assertEqual(int(allocated.stdout), 102)
+        self.write_heartbeat(launch_generation=102, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+        after = self.snapshot()
+        self.assertEqual({name: after[name] for name in archived}, archived)
+
+    def test_r6_1_every_archived_source_in_older_directories_counts(self):
+        self.success_baseline()
+        self.counter.write_text("corrupt\n")
+        self.write_launch_receipt(launch_generation=None)
+        archives = self.counter.parent/"recoveries"
+        older = archives/"20000101T000000Z"
+        for directory in (older, archives/"20990101T000000Z"):
+            directory.mkdir(parents=True)
+            (directory/"manifest.json").write_text(json.dumps({"recovery_barrier": 11, "highest_seen": 10}))
+        sources = (("counter", b"100\n", 100),
+                   ("last_run.json", b'{"launch_generation":110}\n', 110),
+                   ("launch_receipt.json", b'{"launch_generation":120}\n', 120),
+                   ("failures.jsonl", b'{"launch_generation":130}\n{torn\n', 130),
+                   ("failures.jsonl", b'{"launch_generation":130}\n{torn\n{"launch_generation":140}\n', 140))
+        for name, data, generation in sources:
+            with self.subTest(source=name, generation=generation):
+                (older/name).write_bytes(data)
+                before = {str(p.relative_to(archives)): p.read_bytes() for p in archives.rglob("*") if p.is_file()}
+                self.assert_low_floor_refused_unchanged(generation-1)
+                result = self.recover(generation)
+                self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+                self.assertEqual(int(self.counter.read_text()), generation+1)
+                for relative, preserved in before.items():
+                    self.assertEqual((archives/relative).read_bytes(), preserved)
+
+    def assert_under_lock_rechecked(self, evidence, floor):
+        from tools import backup_gdrive_status as status
+        (self.counter.parent/"counter.lock").write_bytes(b"")
+        observed = []
+
+        def inject(_lock, _operation):
+            evidence.parent.mkdir(parents=True, exist_ok=True)
+            evidence.write_bytes(b'{"launch_generation":100}\n{torn\n' if evidence.suffix == ".jsonl" else
+                                 b'{"launch_generation":100,"exit_code":75}\n')
+            observed.append(self.snapshot())
+
+        with mock.patch.object(status.fcntl, "flock", side_effect=inject):
+            with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+                status.recover(SimpleNamespace(heartbeat=str(self.heartbeat), generation_floor=floor))
+        self.assertEqual(len(observed), 1, "positive control: history changed after the pre-lock check")
+        self.assertEqual(self.snapshot(), observed[0], "under-lock refusal must leave injected evidence unchanged")
+
+    def test_r6_1_under_lock_rechecks_archived_journal(self):
+        self.success_baseline()
+        archive = self.counter.parent/"recoveries/20000101T000000Z"
+        archive.mkdir(parents=True)
+        (archive/"manifest.json").write_text('{"recovery_barrier":11,"highest_seen":10}\n')
+        self.assert_under_lock_rechecked(archive/"failures.jsonl", 11)
+
+    def test_r6_2_refusal_heartbeat_raises_floor_without_a_failure(self):
+        self.success_baseline()
+        self.counter.write_text("corrupt\n")
+        self.write_launch_receipt(launch_generation=None)
+        refusal = self.heartbeat.parent/"refusals/latest-refusal.json"
+        refusal.parent.mkdir()
+        refusal.write_bytes(b'{"schema":1,"launch_generation":100,"launch_mode":"applet","exit_code":75}\n')
+        original = refusal.read_bytes()
+        self.assert_low_floor_refused_unchanged(10)
+        result = self.recover(100)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual(self.counter.read_bytes(), b"101\n")
+        state = json.loads((self.counter.parent/"unresolved.json").read_text())
+        self.assertEqual(state["unresolved"], [[1, 100]], "lost-history range derives from the reviewed floor")
+        self.assertEqual(state["recovery_barrier"], 101)
+        self.assertFalse(self.journal.exists(), "exit 75 must not publish an unresolved failure")
+        self.assertEqual(refusal.read_bytes(), original)
+        allocation = self.shell_literal("generationShell")
+        self.assertEqual(allocation.returncode, 0, allocation.stderr)
+        self.assertEqual(allocation.stdout.strip(), "102")
+        self.write_heartbeat(launch_generation=102, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_r6_2_under_lock_rechecks_refusal_heartbeat(self):
+        self.success_baseline()
+        self.assert_under_lock_rechecked(self.heartbeat.parent/"refusals/latest-refusal.json", 10)
+
+
 class R5CompactionTest(R5Fixture):
     INTERVAL_LIMIT = 64
     BYTE_LIMIT = 2048
@@ -1545,7 +1651,7 @@ class R5CompactionTest(R5Fixture):
         self.write_heartbeat(launch_generation=2011, launch_mode="applet")
         self.assertEqual(self.status().returncode, 0)
 
-    def test_4_compacted_barrier_cannot_be_refused_and_completion_at_barrier_clears(self):
+    def test_r6_3_compacted_barrier_requires_strictly_later_completion(self):
         self.success_baseline()
         overflow = self.state(self.INTERVAL_LIMIT+1)
         compacted = self.perl_publish(overflow)
@@ -1559,18 +1665,76 @@ class R5CompactionTest(R5Fixture):
         self.write_heartbeat(launch_generation=barrier-1, launch_mode="applet")
         self.assert_bad("compacted barrier")
         self.write_heartbeat(launch_generation=barrier, launch_mode="applet")
-        self.assertEqual(self.status().returncode, 0)
-        resolved = self.perl_publish(refused, "receiptShell", completed=barrier)
-        self.assertIsNone(resolved["compaction_barrier"])
+        self.assert_bad("compacted barrier")
+        for publisher in ("generationShell", "receiptShell"):
+            with self.subTest(publisher=publisher):
+                equal = self.perl_publish(refused, publisher, completed=barrier)
+                self.assertEqual(equal["compaction_barrier"], barrier)
+                later = dict(equal, issued_generation=barrier+1)
+                self.counter.write_text(str(barrier+1)+"\n")
+                self.write_heartbeat(launch_generation=barrier+1, launch_mode="applet")
+                resolved = self.perl_publish(later, publisher, completed=barrier+1)
+                self.assertIsNone(resolved["compaction_barrier"])
+                self.assertEqual(self.status().returncode, 0)
 
-    def test_5_python_and_both_perl_publishers_agree_at_boundaries(self):
+    def test_r6_3_python_and_both_perl_publishers_agree_at_boundaries(self):
         from tools import backup_gdrive_status as status
+        self.success_baseline()
         for count in (self.INTERVAL_LIMIT+1, self.INTERVAL_LIMIT):
             for publisher in ("generationShell", "receiptShell"):
                 original = self.state(count)
                 perl = self.perl_publish(original, publisher)
                 python = status.compact_generation_state(original)
                 self.assertEqual(perl, python)
+        compacted = status.compact_generation_state(self.state(self.INTERVAL_LIMIT+1))
+        barrier = compacted["compaction_barrier"]
+        for completed in (barrier-1, barrier, barrier+1):
+            for publisher in ("generationShell", "receiptShell"):
+                with self.subTest(completed=completed, publisher=publisher):
+                    original = dict(compacted, issued_generation=max(barrier, completed))
+                    perl = self.perl_publish(original, publisher, completed=completed)
+                    self.assertEqual(perl["compaction_barrier"], None if completed > barrier else barrier)
+                    (self.counter.parent/"unresolved.json").write_text(json.dumps(original))
+                    self.counter.write_text(str(original["issued_generation"])+"\n")
+                    self.write_heartbeat(launch_generation=completed, launch_mode="applet")
+                    healthy, reason = status.health(self.heartbeat)
+                    self.assertEqual(healthy, completed > barrier, reason)
+
+    def test_r6_3_odd_failure_schedule_compacts_at_139(self):
+        self.success_baseline()
+        for generation in range(11, 139):
+            allocation = self.shell_literal("generationShell")
+            self.assertEqual(allocation.returncode, 0, allocation.stderr)
+            self.assertEqual(int(allocation.stdout), generation)
+            receipt = self.shell_literal("receiptShell", BACKUP, 1 if generation % 2 else 75, "", generation)
+            self.assertEqual(receipt.returncode, 0, receipt.stderr)
+        state_path = self.counter.parent/"unresolved.json"
+        state = json.loads(state_path.read_text())
+        self.assertEqual(state["unresolved"], [[generation, generation] for generation in range(11, 138, 2)])
+        allocation = self.shell_literal("generationShell")
+        self.assertEqual(allocation.returncode, 0, allocation.stderr)
+        self.assertEqual(allocation.stdout.strip(), "139")
+        compacted = json.loads(state_path.read_text())
+        self.assertEqual(compacted["compaction_barrier"], 139)
+        self.assertEqual(compacted["unresolved"], [])
+        self.write_heartbeat(launch_generation=139, launch_mode="applet")
+        self.assert_bad("compacted barrier generation 139")
+        for publisher in ("generationShell", "receiptShell"):
+            equal = self.perl_publish(compacted, publisher, completed=139)
+            self.assertEqual(equal["compaction_barrier"], 139)
+        allocation = self.shell_literal("generationShell")
+        self.assertEqual(allocation.returncode, 0, allocation.stderr)
+        self.assertEqual(allocation.stdout.strip(), "140")
+        refusal = self.shell_literal("receiptShell", BACKUP, 75, "", 140)
+        self.assertEqual(refusal.returncode, 0, refusal.stderr)
+        equal = json.loads(state_path.read_text())
+        self.assertEqual(equal["compaction_barrier"], 139)
+        self.assert_bad("compacted barrier generation 139")
+        self.write_heartbeat(launch_generation=140, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+        for publisher in ("generationShell", "receiptShell"):
+            later = self.perl_publish(equal, publisher, completed=140)
+            self.assertIsNone(later["compaction_barrier"])
 
 
 class GenerationWrapperTest(Fixture):
