@@ -1,0 +1,21 @@
+# Astra r4 binding verdict — Drive backup (MB11 fix at 186491a)
+
+Reviewer: GPT-6-Astra, reasoning effort high, read-only. Packet: `astra_gdrive_r4_packet.md`. Finished 2026-10-10T09:43Z. Host evidence supplied: acceptance 97/97 OK 0 skipped; five native open -W -g checks PASS (`results/backup_gdrive_mb8b_20261010T085955Z/maestro7_*`).
+
+---
+
+VERDICT: NO-GO
+
+1. **P1 — a refusal still hides a failure recorded only by the counter.** [tools/backup_gdrive_status.py:323](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py:323) exempts the entire outstanding counter whenever the latest receipt is exit 75. Concrete schedule: completed generation 10; both failure sinks unwritable; absent-wrapper launch 11; restore receipt-directory writability; start a manual backup; applet 12 refuses while that owner runs; manual backup completes. Counter=12, receipt=75/12, no failure marker: status reports **healthy manual/unsequenced**. I reproduced the reader’s false-green result in memory. A crash after allocation 11 has the same exposure. **Fix:** persist unresolved generations under the counter lock; refusal may discharge only its own generation, and manual completion must never discharge applet generations. Add both schedules. MB11’s journal-0555 → failed receipt 11 → refusal 12 schedule is closed by receipt preservation at [MemitGdriveBackup.applescript:6](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/launchd/MemitGdriveBackup.applescript:6), but that protection requires a failed receipt.
+
+2. none found — timestamp ordering itself. [tools/backup_gdrive_status.py:249](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py:249) and lines 314–322 compare completed generations. Rollback and equal-time failure 11 remain unhealthy against completed 10; manual completion cannot clear a retained failure receipt/journal. In-memory controls confirmed these results. Finding 1 remains the manual-interleaving exception.
+
+3. **P2 — allocation failure creates a persistent recovery trap.** [MemitGdriveBackup.applescript:3](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/launchd/MemitGdriveBackup.applescript:3), lines 8–14: missing/corrupt counter causes the handler to publish null-generation evidence. Repairing the counter still leaves allocation rejecting that evidence forever; the exact allocator predicate reproduced rejection. Status also rejects it at line 269. **Fix:** implement/document an operator recovery transaction that preserves ambiguous evidence separately, establishes a monotonic recovery barrier, and stays unhealthy until a subsequent sequenced completion; test recovery after counter repair. Concurrent allocation is flock-serialized and invalid/exhausted inputs refuse dispatch. First provisioning as `0`, once and never over evidence, is sound and documented at `results/backup_gdrive_build_report.md:371`.
+
+4. none found — unchanged ownership and ordinary exit-75 heartbeat preservation, read-only status, nested no-dialog catches, synchronous `open -W -g`, 64 journal markers, one latest refusal, retries, bandwidth timetable and excludes. Inspected `tools/backup_gdrive.sh:40–86,123–129`, `tools/backup_gdrive_status.py:333–419`, `tools/launchd/MemitGdriveBackup.applescript:6–16`, and `tools/launchd/com.rhu.memit-gdrive-backup.plist:12–15`.
+
+5. **Activation remains blocked on 1–3.** After fixes/re-review: stage reviewed wrapper/status and production app; provision the fresh counter **before the first applet invocation**; complete the production Removable Volumes grant and await invocation completion; install/load the reviewed plist and kickstart; verify that invocation’s fresh sequenced heartbeat; retire the old job only after verified full-copy completion (`results/backup_gdrive_build_report.md:308,371`).
+
+Read-only review; source hashes match. Supplied 97-test and five native PASS receipts were inspected, not reproduced.
+
+🌱 graft saved 0 verified tokens; lookup failed before execution.
