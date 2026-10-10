@@ -9,9 +9,11 @@ Source: `~/.claude/memento/handoffs/maestro2_takeover_20261010.md`. Old MAESTRO 
 
 **Binding directives (restate in every handoff):** (1) context management for MAESTRO and every Codex session — the memento plugin is NOT enabled, so its ceiling hook never fires; MAESTRO resets itself at clean boundaries with `finalize-session --reset clear '<handoff>'`; Codex at ~20% left → handoff + fresh successor, retire only after `tmux ls`. (2) Never idle: Monitor watcher armed and re-armed at expiry. (3) Push after every commit; never merge; unpushed = 0. (4) The team decides: GPT-6-Astra high reviews. (5) Disk: free ≥ projected writes + 20 GiB before any dispatch; every scope states a disk budget; the internal SSD is not an archive tier (runbook §3.3a). (6) GPU gate refuses on any `.venv` python: poll `check_gpu()` until clear twice, then launch.
 
+**Sessions:** codexz3 retired → **codexz4** (C10Y disk-budget section, then attempt-4 outcome standby; prompt `~/.claude/jobs/8ac4cacf/tmp/codexz4_prompt.txt`); codexmb3 NEW-1 standby.
+
 **Live:** ASTRA attempt-4 process 1 RUNNING since 23:57:38Z in `results/c10z_astra_attempt4/` (go record 850988a5; stage01 ceiling 9,900 s). Read its outcome per `docs/C10Z_ASTRA_PREREG.md` §12 + Astra; process 2 (`tools/run_c10z_stage.sh 3`) only on a clean K2 survivor requesting stage 3; another V7 failure = HALTED-V7, search ends. NEW-1 (D-NEW1-1, build accepted 22dd8c5) is launched by a waiter (pid 91194) when process 1 exits; fallback command in `results/mathlab_staging/new1_v2_build_report.md:63-72`. C10Y pre-cast (D-C10y-precast) INCONCLUSIVE (timeout) → after attempt 4: run `results/c10y_precast_diag/measure_controls.py`, finish the budget amendment with a disk budget (>200 GB full run), Astra, fresh-namespace rerun. Math lab STOPPED (D-ML-4).
 
-**Operator asks pending:** (a) `rm -rf ~/Backups/memit_offload/c10y_precast_20261009T225619Z` (approved; permission layer refuses it for MAESTRO; hashes in git); (b) one-time `rclone config` Google Drive OAuth (remote `gdrive`) → replace the 6-hourly internal-SSD mirror with a Drive backup; (c) enable the memento plugin via `/plugin`.
+**Operator asks pending:** (a) DONE 01:05Z — 86 GB offload deleted on operator Yes (receipt `results/c10y_precast_diag/20261009T225619Z/OFFLOAD_DELETED.json`); (b) one-time `rclone config` Google Drive OAuth (remote `gdrive`) → replace the 6-hourly internal-SSD mirror with a Drive backup; (c) enable the memento plugin via `/plugin`.
 
 ## 🔄 LIVE HANDOFF — 2026-10-09 MathLab calibration stop fold (MAESTRO reviews and commits)
 

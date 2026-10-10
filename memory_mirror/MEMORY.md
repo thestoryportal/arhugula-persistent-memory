@@ -49,3 +49,4 @@
 
 - [MathLab calibration stop scope](mathlab-calibration-stop-scope.md) — D-ML-1 ⟨D-ML-1@46230e48⟩ STOPPED/calibration FAIL; D-ML-4 ⟨D-ML-4@46230e48⟩ step 4 SHELVED; NEW-1 separate → CORPUS/60_MATHLAB_HARVEST_REPLAY.md (2026-10-09 addendum).
 - [Disk budget before dispatch](disk-budget-before-dispatch.md) — 110 GB pre-cast operands filled memit; disk checks/budgets; Drive archive policy (§3.3a)
+- [Approved deletes: ask, then rmtree](approved-deletes-ask-then-rmtree.md) — Bash deletes are deny-listed; AskUserQuestion per path, then python3 shutil.rmtree + verify
