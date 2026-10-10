@@ -1,0 +1,12 @@
+RED (unchanged scanner; each class once):
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 BACKUP_TEST_NO_RCLONE=1 BACKUP_TEST_RECEIPTS=$PWD/results/backup_gdrive_mb25_20261010T202206Z/fixtures /opt/homebrew/bin/rtk proxy .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest -v > results/backup_gdrive_mb25_20261010T202206Z/red_R8CurrentUnresolvedTest.log 2>&1
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 BACKUP_TEST_NO_RCLONE=1 BACKUP_TEST_RECEIPTS=$PWD/results/backup_gdrive_mb25_20261010T202206Z/fixtures /opt/homebrew/bin/rtk proxy .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R8DuplicateKeysTest -v > results/backup_gdrive_mb25_20261010T202206Z/red_R8DuplicateKeysTest.log 2>&1
+
+GREEN (final scanner; each class once):
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 BACKUP_TEST_NO_RCLONE=1 BACKUP_TEST_RECEIPTS=$PWD/results/backup_gdrive_mb25_20261010T202206Z/fixtures /opt/homebrew/bin/rtk proxy .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest -v > results/backup_gdrive_mb25_20261010T202206Z/green_R8CurrentUnresolvedTest.log 2>&1
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 BACKUP_TEST_NO_RCLONE=1 BACKUP_TEST_RECEIPTS=$PWD/results/backup_gdrive_mb25_20261010T202206Z/fixtures /opt/homebrew/bin/rtk proxy .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R8DuplicateKeysTest -v > results/backup_gdrive_mb25_20261010T202206Z/green_R8DuplicateKeysTest.log 2>&1
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 BACKUP_TEST_NO_RCLONE=1 BACKUP_TEST_RECEIPTS=$PWD/results/backup_gdrive_mb25_20261010T202206Z/fixtures /opt/homebrew/bin/rtk proxy .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest -v > results/backup_gdrive_mb25_20261010T202206Z/green_R7PublicationTemporaryTest.log 2>&1
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 BACKUP_TEST_NO_RCLONE=1 BACKUP_TEST_RECEIPTS=$PWD/results/backup_gdrive_mb25_20261010T202206Z/fixtures /opt/homebrew/bin/rtk proxy .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest -v > results/backup_gdrive_mb25_20261010T202206Z/green_R7ArchivePrecisionTest.log 2>&1
+
+Host (prepared only; not run by MB25):
+LLMDB_ROOT=$PWD /opt/homebrew/bin/rtk proxy /bin/bash results/backup_gdrive_mb25_20261010T202206Z/host_full_suites_mb25.sh

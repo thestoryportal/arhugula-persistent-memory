@@ -1,0 +1,45 @@
+{
+  "status_bytes_outside_inspect_history_identical": true,
+  "all_existing_test_and_fixture_bytes_identical": true,
+  "R7_test_classes": [
+    "R7RecoveryFixture",
+    "R7PublicationTemporaryTest",
+    "R7ArchivePrecisionTest"
+  ],
+  "tests_unchanged_between_RED_and_GREEN": true,
+  "unchanged_pins": {
+    "tools/launchd/MemitGdriveBackup.applescript": "80c7b7126bb0bc2822e71d25dd44174cdf92e18a5a9fa4076764140ce035384c",
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8"
+  },
+  "copied_listing_helper_identical": true,
+  "real_path_listings_identical": true,
+  "real_path_listing_sha256": "ec66a1f5f571981f01be772c353ba252e2ce4d5f67953631ea6293a524392b99",
+  "inventory_rows": 21,
+  "targeted_GREEN": {
+    "R8CurrentUnresolvedTest": {
+      "tests_OK": 4,
+      "skipped": 0,
+      "log": "results/backup_gdrive_mb25_20261010T202206Z/green_R8CurrentUnresolvedTest.log"
+    },
+    "R8DuplicateKeysTest": {
+      "tests_OK": 8,
+      "skipped": 0,
+      "log": "results/backup_gdrive_mb25_20261010T202206Z/green_R8DuplicateKeysTest.log"
+    },
+    "R7PublicationTemporaryTest": {
+      "tests_OK": 11,
+      "skipped": 0,
+      "log": "results/backup_gdrive_mb25_20261010T202206Z/green_R7PublicationTemporaryTest.log"
+    },
+    "R7ArchivePrecisionTest": {
+      "tests_OK": 5,
+      "skipped": 0,
+      "log": "results/backup_gdrive_mb25_20261010T202206Z/green_R7ArchivePrecisionTest.log"
+    }
+  },
+  "total_tests_OK": 28,
+  "report_prefix_unmodified_before_append": true,
+  "source_sha256_after_GREEN": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+  "report_prefix_after_append_identical": true,
+  "report_section_persisted_after_intervening_git_diff_check": true
+}

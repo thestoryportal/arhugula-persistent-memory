@@ -1,0 +1,217 @@
+diff --git a/tools/backup_gdrive_status.py b/tools/backup_gdrive_status.py
+index 080d775..a41ee58 100755
+--- a/tools/backup_gdrive_status.py
++++ b/tools/backup_gdrive_status.py
+@@ -294,9 +294,7 @@ def recover(args):
+     archives = state_dir/"recoveries"
+ 
+     def inspect_history():
+-        state = generation_state(state_path) if state_path.exists() else None
+-        highest = state["issued_generation"] if state else 0
+-        pending = list(state["unresolved"]) if state else []
++        highest = 0
+         ambiguous = []
+         evidence = [heartbeat, heartbeat.parent/"launch_receipt.json",
+                     logs/"memit-gdrive-backup-launch-journal/failures.jsonl",
+@@ -308,6 +306,17 @@ def recover(args):
+                              ".unresolved.": "json", ".journal.": "jsonl",
+                              ".counter.": "counter", ".recovery.": "recovery"}
+ 
++        class DuplicateKeyError(ValueError):
++            pass
++
++        def unique_object(pairs):
++            record = {}
++            for key, value in pairs:
++                if key in record:
++                    raise DuplicateKeyError("duplicate JSON key %r" % key)
++                record[key] = value
++            return record
++
+         def temporary_format(path):
+             return next((kind for prefix, kind in temporary_formats.items() if path.name.startswith(prefix)), None)
+ 
+@@ -350,7 +359,7 @@ def recover(args):
+         # A killed publisher can leave higher evidence than any final filename.
+         preserved = [path for path in sorted(archives.rglob("*"))
+                      if path.is_file() and path.name != "counter"]
+-        for path in evidence + live_temporaries + preserved:
++        for path in [state_path] + evidence + live_temporaries + preserved:
+             if not path.exists():
+                 continue
+             temporary = temporary_format(path)
+@@ -369,7 +378,9 @@ def recover(args):
+             uncertain = not lines
+             for line in lines:
+                 try:
+-                    records.append(json.loads(line))
++                    records.append(json.loads(line, object_pairs_hook=unique_object))
++                except DuplicateKeyError as error:
++                    raise ValueError("unsupported recovery evidence in %s: %s" % (path, error)) from error
+                 except ValueError:
+                     uncertain = True
+             strict = path not in evidence
+@@ -391,6 +402,9 @@ def recover(args):
+                     uncertain = True
+             if uncertain and path in evidence:
+                 ambiguous.append(path)
++        state = generation_state(state_path) if state_path.exists() else None
++        highest = max(highest, state["issued_generation"] if state else 0)
++        pending = list(state["unresolved"]) if state else []
+         if args.generation_floor < highest:
+             raise ValueError("generation floor %s is below observed maximum %s; no recovery evidence changed" %
+                              (args.generation_floor, highest))
+diff --git a/tools/test_backup_gdrive_addendum.py b/tools/test_backup_gdrive_addendum.py
+index e131f33..6dc701d 100644
+--- a/tools/test_backup_gdrive_addendum.py
++++ b/tools/test_backup_gdrive_addendum.py
+@@ -1752,6 +1752,149 @@ class R7ArchivePrecisionTest(R7RecoveryFixture):
+                 self.assert_format_refused(heartbeat, evidence, "unsupported")
+ 
+ 
++class R8RecoveryFixture(R7RecoveryFixture):
++    nested_state = (b'{"schema":1,"issued_generation":10,"unresolved":[],"recovery_barrier":null,'
++                    b'"x":{"launch_generation":100}}')
++    invalid_field_state = (b'{"schema":1,"issued_generation":10,"unresolved":[],"recovery_barrier":null,'
++                           b'"launch_generation":"100"}')
++    duplicate_generation = b'{"launch_generation":100,"launch_generation":10}'
++    duplicate_state = (b'{"schema":1,"issued_generation":100,"issued_generation":10,'
++                       b'"unresolved":[],"recovery_barrier":null}')
++
++    def assert_pre_lock_refusal(self, heartbeat, evidence, word):
++        before = self.history_snapshot(heartbeat)
++        result = self.recover_history(heartbeat, 10)
++        self.assertEqual(self.history_snapshot(heartbeat), before,
++                         "pre-lock refusal must preserve every byte and directory")
++        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
++        self.assertIn("recovery refused", result.stderr)
++        self.assertIn(str(evidence), result.stderr)
++        self.assertIn(word, result.stderr)
++        self.assertFalse((heartbeat.parent.parent/"memit-gdrive-backup-launch-state/counter.lock").exists())
++
++    def assert_under_lock_refusal(self, heartbeat, evidence, payload, word):
++        from tools import backup_gdrive_status as status
++        (heartbeat.parent.parent/"memit-gdrive-backup-launch-state/counter.lock").write_bytes(b'')
++        observed = []
++
++        def inject(_lock, _operation):
++            evidence.parent.mkdir(parents=True, exist_ok=True)
++            evidence.write_bytes(payload)
++            observed.append(self.history_snapshot(heartbeat))
++
++        with mock.patch.object(status.fcntl, "flock", side_effect=inject):
++            with self.assertRaises(ValueError) as refused:
++                status.recover(SimpleNamespace(heartbeat=str(heartbeat), generation_floor=10))
++        self.assertEqual(len(observed), 1, "positive control: evidence injected after the pre-lock scan")
++        self.assertIn(str(evidence), str(refused.exception))
++        self.assertIn(word, str(refused.exception))
++        self.assertEqual(self.history_snapshot(heartbeat), observed[0],
++                         "under-lock refusal must preserve every injected byte and directory")
++
++
++class R8CurrentUnresolvedTest(R8RecoveryFixture):
++    def test_r8_2_current_unresolved_nested_generation_pre_lock_refuses_unchanged(self):
++        heartbeat = self.raw_history("nested-state")
++        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/unresolved.json"
++        evidence.write_bytes(self.nested_state)
++        self.assert_pre_lock_refusal(heartbeat, evidence, "nested generation")
++
++    def test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged(self):
++        for name, payload, word in (("nested", self.nested_state, "nested generation"),
++                                    ("encoding", b'\xff'+self.nested_state, "UTF-8"),
++                                    ("field", self.invalid_field_state, "generation field")):
++            with self.subTest(criterion=name):
++                heartbeat = self.raw_history(name)
++                evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/unresolved.json"
++                self.assert_under_lock_refusal(heartbeat, evidence, payload, word)
++
++    def test_r8_2_current_unresolved_non_utf8_refuses_with_filename(self):
++        heartbeat = self.raw_history("non-utf8-state")
++        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/unresolved.json"
++        evidence.write_bytes(b'\xff'+self.nested_state)
++        self.assert_pre_lock_refusal(heartbeat, evidence, "UTF-8")
++
++    def test_r8_2_current_unresolved_invalid_generation_field_refuses_with_filename(self):
++        heartbeat = self.raw_history("invalid-state-field")
++        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/unresolved.json"
++        evidence.write_bytes(self.invalid_field_state)
++        self.assert_pre_lock_refusal(heartbeat, evidence, "generation field")
++
++
++class R8DuplicateKeysTest(R8RecoveryFixture):
++    def duplicate_path(self, heartbeat, location):
++        return {
++            "archived": heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old/x.json",
++            "live": heartbeat.parent/"launch_receipt.json",
++            "temporary": heartbeat.parent/".last_run.ABC123",
++            "journal": heartbeat.parent.parent/"memit-gdrive-backup-launch-journal/failures.jsonl",
++            "state": heartbeat.parent.parent/"memit-gdrive-backup-launch-state/unresolved.json",
++        }[location]
++
++    def assert_duplicate_refused(self, location):
++        heartbeat = self.raw_history(location)
++        evidence = self.duplicate_path(heartbeat, location)
++        evidence.parent.mkdir(parents=True, exist_ok=True)
++        evidence.write_bytes(self.duplicate_state if location == "state" else self.duplicate_generation)
++        self.assert_pre_lock_refusal(heartbeat, evidence, "duplicate JSON key")
++
++    def test_r8_3_archived_json_duplicate_keys_refuse_unchanged_with_filename(self):
++        self.assert_duplicate_refused("archived")
++
++    def test_r8_3_live_json_duplicate_keys_refuse_unchanged_with_filename(self):
++        self.assert_duplicate_refused("live")
++
++    def test_r8_3_recognized_json_temporary_duplicate_keys_refuse_unchanged_with_filename(self):
++        self.assert_duplicate_refused("temporary")
++
++    def test_r8_3_jsonl_duplicate_keys_refuse_instead_of_torn_line_tolerance(self):
++        self.assert_duplicate_refused("journal")
++
++    def test_r8_3_current_unresolved_duplicate_keys_refuse_unchanged_with_filename(self):
++        self.assert_duplicate_refused("state")
++
++    def test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged(self):
++        for location in ("archived", "live", "temporary", "journal", "state"):
++            with self.subTest(location=location):
++                heartbeat = self.raw_history(location)
++                evidence = self.duplicate_path(heartbeat, location)
++                payload = self.duplicate_state if location == "state" else self.duplicate_generation
++                self.assert_under_lock_refusal(heartbeat, evidence, payload, "duplicate JSON key")
++
++    def test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename(self):
++        for name, payload in (("object", b'{"launch_generation":10,"x":{"value":100,"value":10}}'),
++                              ("array", b'{"launch_generation":10,"x":[{"value":100,"value":10}]}')):
++            with self.subTest(layout=name):
++                heartbeat = self.raw_history(name)
++                evidence = self.duplicate_path(heartbeat, "archived")
++                evidence.parent.mkdir(parents=True)
++                evidence.write_bytes(payload)
++                self.assert_pre_lock_refusal(heartbeat, evidence, "duplicate JSON key")
++
++    def test_r8_3_genuinely_torn_final_jsonl_line_remains_tolerated(self):
++        heartbeat = self.raw_history("torn-final-line")
++        evidence = self.duplicate_path(heartbeat, "journal")
++        evidence.parent.mkdir()
++        payload = b'{"launch_generation":100,"reason":"failed launch"}\n{"launch_generation":200'
++        evidence.write_bytes(payload)
++        before = self.history_snapshot(heartbeat)
++        result = self.recover_history(heartbeat, 10)
++        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
++        self.assertIn("below observed maximum 100", result.stderr)
++        self.assertEqual(self.history_snapshot(heartbeat), before)
++        result = self.recover_history(heartbeat, 100)
++        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
++        state_dir = heartbeat.parent.parent/"memit-gdrive-backup-launch-state"
++        self.assertEqual((state_dir/"counter").read_bytes(), b'101\n')
++        state = json.loads((state_dir/"unresolved.json").read_bytes())
++        self.assertEqual(state["recovery_barrier"], 101)
++        self.assertEqual(state["unresolved"], [[1, 100]])
++        archived = list((state_dir/"recoveries").rglob("failures.jsonl"))
++        self.assertEqual(len(archived), 1)
++        self.assertEqual(archived[0].read_bytes(), payload)
++        self.assertFalse(evidence.exists())
++
++
+ class R5CompactionTest(R5Fixture):
+     INTERVAL_LIMIT = 64
+     BYTE_LIMIT = 2048

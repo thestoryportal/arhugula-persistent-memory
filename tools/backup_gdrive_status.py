@@ -294,9 +294,7 @@ def recover(args):
     archives = state_dir/"recoveries"
 
     def inspect_history():
-        state = generation_state(state_path) if state_path.exists() else None
-        highest = state["issued_generation"] if state else 0
-        pending = list(state["unresolved"]) if state else []
+        highest = 0
         ambiguous = []
         evidence = [heartbeat, heartbeat.parent/"launch_receipt.json",
                     logs/"memit-gdrive-backup-launch-journal/failures.jsonl",
@@ -307,6 +305,17 @@ def recover(args):
         temporary_formats = {".last_run.": "json", ".launch-receipt.": "json",
                              ".unresolved.": "json", ".journal.": "jsonl",
                              ".counter.": "counter", ".recovery.": "recovery"}
+
+        class DuplicateKeyError(ValueError):
+            pass
+
+        def unique_object(pairs):
+            record = {}
+            for key, value in pairs:
+                if key in record:
+                    raise DuplicateKeyError("duplicate JSON key %r" % key)
+                record[key] = value
+            return record
 
         def temporary_format(path):
             return next((kind for prefix, kind in temporary_formats.items() if path.name.startswith(prefix)), None)
@@ -350,7 +359,7 @@ def recover(args):
         # A killed publisher can leave higher evidence than any final filename.
         preserved = [path for path in sorted(archives.rglob("*"))
                      if path.is_file() and path.name != "counter"]
-        for path in evidence + live_temporaries + preserved:
+        for path in [state_path] + evidence + live_temporaries + preserved:
             if not path.exists():
                 continue
             temporary = temporary_format(path)
@@ -369,7 +378,9 @@ def recover(args):
             uncertain = not lines
             for line in lines:
                 try:
-                    records.append(json.loads(line))
+                    records.append(json.loads(line, object_pairs_hook=unique_object))
+                except DuplicateKeyError as error:
+                    raise ValueError("unsupported recovery evidence in %s: %s" % (path, error)) from error
                 except ValueError:
                     uncertain = True
             strict = path not in evidence
@@ -391,6 +402,9 @@ def recover(args):
                     uncertain = True
             if uncertain and path in evidence:
                 ambiguous.append(path)
+        state = generation_state(state_path) if state_path.exists() else None
+        highest = max(highest, state["issued_generation"] if state else 0)
+        pending = list(state["unresolved"]) if state else []
         if args.generation_floor < highest:
             raise ValueError("generation floor %s is below observed maximum %s; no recovery evidence changed" %
                              (args.generation_floor, highest))

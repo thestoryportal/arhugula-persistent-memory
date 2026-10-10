@@ -1,0 +1,162 @@
+test_r8_3_archived_json_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_archived_json_duplicate_keys_refuse_unchanged_with_filename) ... FAIL
+test_r8_3_current_unresolved_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_current_unresolved_duplicate_keys_refuse_unchanged_with_filename) ... FAIL
+test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) ... 
+  test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) (location='archived') ... FAIL
+  test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) (location='live') ... FAIL
+  test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) (location='temporary') ... FAIL
+  test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) (location='journal') ... FAIL
+  test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) (location='state') ... FAIL
+test_r8_3_genuinely_torn_final_jsonl_line_remains_tolerated (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_genuinely_torn_final_jsonl_line_remains_tolerated) ... ok
+test_r8_3_jsonl_duplicate_keys_refuse_instead_of_torn_line_tolerance (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_jsonl_duplicate_keys_refuse_instead_of_torn_line_tolerance) ... FAIL
+test_r8_3_live_json_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_live_json_duplicate_keys_refuse_unchanged_with_filename) ... FAIL
+test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename) ... 
+  test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename) (layout='object') ... FAIL
+  test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename) (layout='array') ... FAIL
+test_r8_3_recognized_json_temporary_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_recognized_json_temporary_duplicate_keys_refuse_unchanged_with_filename) ... FAIL
+
+======================================================================
+FAIL: test_r8_3_archived_json_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_archived_json_duplicate_keys_refuse_unchanged_with_filename)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1842, in test_r8_3_archived_json_duplicate_keys_refuse_unchanged_with_filename
+    self.assert_duplicate_refused("archived")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1839, in assert_duplicate_refused
+    self.assert_pre_lock_refusal(heartbeat, evidence, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1767, in assert_pre_lock_refusal
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1483 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[377 chars]10}'}
+Diff is 18035 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must preserve every byte and directory
+
+======================================================================
+FAIL: test_r8_3_current_unresolved_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_current_unresolved_duplicate_keys_refuse_unchanged_with_filename)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1854, in test_r8_3_current_unresolved_duplicate_keys_refuse_unchanged_with_filename
+    self.assert_duplicate_refused("state")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1839, in assert_duplicate_refused
+    self.assert_pre_lock_refusal(heartbeat, evidence, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1767, in assert_pre_lock_refusal
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1303 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[312 chars]ll}'}
+Diff is 18632 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must preserve every byte and directory
+
+======================================================================
+FAIL: test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) (location='archived')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1862, in test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged
+    self.assert_under_lock_refusal(heartbeat, evidence, payload, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1786, in assert_under_lock_refusal
+    with self.assertRaises(ValueError) as refused:
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) (location='live')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1862, in test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged
+    self.assert_under_lock_refusal(heartbeat, evidence, payload, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1786, in assert_under_lock_refusal
+    with self.assertRaises(ValueError) as refused:
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) (location='temporary')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1862, in test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged
+    self.assert_under_lock_refusal(heartbeat, evidence, payload, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1786, in assert_under_lock_refusal
+    with self.assertRaises(ValueError) as refused:
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) (location='journal')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1862, in test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged
+    self.assert_under_lock_refusal(heartbeat, evidence, payload, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1786, in assert_under_lock_refusal
+    with self.assertRaises(ValueError) as refused:
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) (location='state')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1862, in test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged
+    self.assert_under_lock_refusal(heartbeat, evidence, payload, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1786, in assert_under_lock_refusal
+    with self.assertRaises(ValueError) as refused:
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r8_3_jsonl_duplicate_keys_refuse_instead_of_torn_line_tolerance (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_jsonl_duplicate_keys_refuse_instead_of_torn_line_tolerance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1851, in test_r8_3_jsonl_duplicate_keys_refuse_instead_of_torn_line_tolerance
+    self.assert_duplicate_refused("journal")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1839, in assert_duplicate_refused
+    self.assert_pre_lock_refusal(heartbeat, evidence, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1767, in assert_pre_lock_refusal
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-journal': None, 'memit-gdrive-bac[1463 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[306 chars]t\n'}
+Diff is 18005 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must preserve every byte and directory
+
+======================================================================
+FAIL: test_r8_3_live_json_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_live_json_duplicate_keys_refuse_unchanged_with_filename)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1845, in test_r8_3_live_json_duplicate_keys_refuse_unchanged_with_filename
+    self.assert_duplicate_refused("live")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1839, in assert_duplicate_refused
+    self.assert_pre_lock_refusal(heartbeat, evidence, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1767, in assert_pre_lock_refusal
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[349 chars]': b'11\n', 'memit-gdrive-backup-launch-state/[832 chars]}\n'} != {'mem[349 chars]': b'corrupt\n'}
+Diff is 9630 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must preserve every byte and directory
+
+======================================================================
+FAIL: test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename) (layout='object')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1872, in test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename
+    self.assert_pre_lock_refusal(heartbeat, evidence, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1767, in assert_pre_lock_refusal
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1484 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[382 chars]0}}'}
+Diff is 18009 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must preserve every byte and directory
+
+======================================================================
+FAIL: test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename) (layout='array')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1872, in test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename
+    self.assert_pre_lock_refusal(heartbeat, evidence, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1767, in assert_pre_lock_refusal
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1484 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[384 chars]}]}'}
+Diff is 18009 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must preserve every byte and directory
+
+======================================================================
+FAIL: test_r8_3_recognized_json_temporary_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_recognized_json_temporary_duplicate_keys_refuse_unchanged_with_filename)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1848, in test_r8_3_recognized_json_temporary_duplicate_keys_refuse_unchanged_with_filename
+    self.assert_duplicate_refused("temporary")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1839, in assert_duplicate_refused
+    self.assert_pre_lock_refusal(heartbeat, evidence, "duplicate JSON key")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1767, in assert_pre_lock_refusal
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[278 chars]ackup-launch-state': None, 'memit-gdrive-backu[1317 chars]}\n'} != {'mem[278 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[156 chars]t\n'}
+Diff is 17968 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must preserve every byte and directory
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.341s
+
+FAILED (failures=12)
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb25_20261010T202206Z/fixtures/gdrive_addendum_4lddk8wq/archived/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T202430.368215Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb25_20261010T202206Z/fixtures/gdrive_addendum_4lddk8wq/live/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T202430.371211Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb25_20261010T202206Z/fixtures/gdrive_addendum_4lddk8wq/temporary/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T202430.373663Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb25_20261010T202206Z/fixtures/gdrive_addendum_4lddk8wq/journal/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T202430.376109Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb25_20261010T202206Z/fixtures/gdrive_addendum_4lddk8wq/state/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T202430.378429Z; requires a subsequent completed generation above the barrier

@@ -1,0 +1,76 @@
+test_r8_2_current_unresolved_invalid_generation_field_refuses_with_filename (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_invalid_generation_field_refuses_with_filename) ... FAIL
+test_r8_2_current_unresolved_nested_generation_pre_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_nested_generation_pre_lock_refuses_unchanged) ... FAIL
+test_r8_2_current_unresolved_non_utf8_refuses_with_filename (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_non_utf8_refuses_with_filename) ... FAIL
+test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged) ... 
+  test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged) (criterion='nested') ... FAIL
+  test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged) (criterion='encoding') ... FAIL
+  test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged) (criterion='field') ... FAIL
+
+======================================================================
+FAIL: test_r8_2_current_unresolved_invalid_generation_field_refuses_with_filename (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_invalid_generation_field_refuses_with_filename)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1821, in test_r8_2_current_unresolved_invalid_generation_field_refuses_with_filename
+    self.assert_pre_lock_refusal(heartbeat, evidence, "generation field")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1767, in assert_pre_lock_refusal
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1331 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[314 chars]0"}'}
+Diff is 19475 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must preserve every byte and directory
+
+======================================================================
+FAIL: test_r8_2_current_unresolved_nested_generation_pre_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_nested_generation_pre_lock_refuses_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1800, in test_r8_2_current_unresolved_nested_generation_pre_lock_refuses_unchanged
+    self.assert_pre_lock_refusal(heartbeat, evidence, "nested generation")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1767, in assert_pre_lock_refusal
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1317 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[318 chars]0}}'}
+Diff is 19105 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must preserve every byte and directory
+
+======================================================================
+FAIL: test_r8_2_current_unresolved_non_utf8_refuses_with_filename (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_non_utf8_refuses_with_filename)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1815, in test_r8_2_current_unresolved_non_utf8_refuses_with_filename
+    self.assert_pre_lock_refusal(heartbeat, evidence, "UTF-8")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1771, in assert_pre_lock_refusal
+    self.assertIn(str(evidence), result.stderr)
+AssertionError: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb25_20261010T202206Z/fixtures/gdrive_addendum_s87g4fey/non-utf8-state/Library/Logs/memit-gdrive-backup-launch-state/unresolved.json' not found in "backup_gdrive_status: recovery refused: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte\n"
+
+======================================================================
+FAIL: test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged) (criterion='nested')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1809, in test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged
+    self.assert_under_lock_refusal(heartbeat, evidence, payload, word)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1786, in assert_under_lock_refusal
+    with self.assertRaises(ValueError) as refused:
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged) (criterion='encoding')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1809, in test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged
+    self.assert_under_lock_refusal(heartbeat, evidence, payload, word)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1789, in assert_under_lock_refusal
+    self.assertIn(str(evidence), str(refused.exception))
+AssertionError: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb25_20261010T202206Z/fixtures/gdrive_addendum_6lkmegcn/encoding/Library/Logs/memit-gdrive-backup-launch-state/unresolved.json' not found in "'utf-8' codec can't decode byte 0xff in position 0: invalid start byte"
+
+======================================================================
+FAIL: test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged) (criterion='field')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1809, in test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged
+    self.assert_under_lock_refusal(heartbeat, evidence, payload, word)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1786, in assert_under_lock_refusal
+    with self.assertRaises(ValueError) as refused:
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.128s
+
+FAILED (failures=6)
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb25_20261010T202206Z/fixtures/gdrive_addendum_6lkmegcn/nested/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T202430.400986Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb25_20261010T202206Z/fixtures/gdrive_addendum_6lkmegcn/field/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T202430.405412Z; requires a subsequent completed generation above the barrier

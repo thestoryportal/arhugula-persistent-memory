@@ -1,0 +1,107 @@
+{
+  "scanner_sha256": "6140a7e1d0b122ee30c93bfbfb5861a99851a7dcd1788cc23a21e355deff3046",
+  "tests_sha256": "766509ab8b1c79bc56b5f86719315c335ff87aeb051ec6b28f809aece92e434e",
+  "classes": {
+    "R8CurrentUnresolvedTest": {
+      "log": "results/backup_gdrive_mb25_20261010T202206Z/red_R8CurrentUnresolvedTest.log",
+      "tests": 4,
+      "entries": [
+        {
+          "test": "test_r8_2_current_unresolved_nested_generation_pre_lock_refuses_unchanged",
+          "outcome": "BEHAVIORAL RED",
+          "failure_lines": [
+            21
+          ]
+        },
+        {
+          "test": "test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged",
+          "outcome": "BEHAVIORAL RED",
+          "failure_lines": [
+            42,
+            52,
+            62
+          ]
+        },
+        {
+          "test": "test_r8_2_current_unresolved_non_utf8_refuses_with_filename",
+          "outcome": "BEHAVIORAL RED",
+          "failure_lines": [
+            32
+          ]
+        },
+        {
+          "test": "test_r8_2_current_unresolved_invalid_generation_field_refuses_with_filename",
+          "outcome": "BEHAVIORAL RED",
+          "failure_lines": [
+            10
+          ]
+        }
+      ]
+    },
+    "R8DuplicateKeysTest": {
+      "log": "results/backup_gdrive_mb25_20261010T202206Z/red_R8DuplicateKeysTest.log",
+      "tests": 8,
+      "entries": [
+        {
+          "test": "test_r8_3_archived_json_duplicate_keys_refuse_unchanged_with_filename",
+          "outcome": "BEHAVIORAL RED",
+          "failure_lines": [
+            18
+          ]
+        },
+        {
+          "test": "test_r8_3_live_json_duplicate_keys_refuse_unchanged_with_filename",
+          "outcome": "BEHAVIORAL RED",
+          "failure_lines": [
+            107
+          ]
+        },
+        {
+          "test": "test_r8_3_recognized_json_temporary_duplicate_keys_refuse_unchanged_with_filename",
+          "outcome": "BEHAVIORAL RED",
+          "failure_lines": [
+            142
+          ]
+        },
+        {
+          "test": "test_r8_3_jsonl_duplicate_keys_refuse_instead_of_torn_line_tolerance",
+          "outcome": "BEHAVIORAL RED",
+          "failure_lines": [
+            94
+          ]
+        },
+        {
+          "test": "test_r8_3_current_unresolved_duplicate_keys_refuse_unchanged_with_filename",
+          "outcome": "BEHAVIORAL RED",
+          "failure_lines": [
+            31
+          ]
+        },
+        {
+          "test": "test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged",
+          "outcome": "BEHAVIORAL RED",
+          "failure_lines": [
+            44,
+            54,
+            64,
+            74,
+            84
+          ]
+        },
+        {
+          "test": "test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename",
+          "outcome": "BEHAVIORAL RED",
+          "failure_lines": [
+            120,
+            131
+          ]
+        },
+        {
+          "test": "test_r8_3_genuinely_torn_final_jsonl_line_remains_tolerated",
+          "outcome": "BASELINE GREEN - required preservation control",
+          "failure_lines": []
+        }
+      ]
+    }
+  }
+}
