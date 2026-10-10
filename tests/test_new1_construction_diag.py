@@ -5,6 +5,7 @@ import io
 import json
 import os
 from pathlib import Path
+import signal
 import subprocess
 import sys
 import tempfile
@@ -276,7 +277,7 @@ class ConstructionDiagnosticTests(unittest.TestCase):
                          (600, 11., 8, 1000000))
         self.assertEqual(self.D.INPUT_PINS, self.D.I.INPUT_PINS)
         self.assertEqual(self.D.SOURCE_PINS['tools/new1_identity_diag.py'],
-                         '93a7b317f8078c63c3c0d40d35fb419dfd24132a10577387af93c3790d461cb1')
+                         'c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3')
         self.assertIn('results/mathlab_staging/new1_construction_diag_authorization.md', self.D.SOURCE_PINS)
         self.assertIn('results/mathlab_staging/new1_identity_diag_astra.md', self.D.SOURCE_PINS)
 
@@ -364,6 +365,294 @@ class ConstructionDiagnosticTests(unittest.TestCase):
         proc = subprocess.run([sys.executable, '-B', '-c', code], capture_output=True, text=True, env=env, timeout=3)
         self.assertNotEqual(proc.returncode, 0)
         self.assertIn('LLMDB_ROOT', proc.stderr)
+
+    def gated_fixture(self, marker):
+        return ('import sys,time; from pathlib import Path; '
+                'from tools import new1_construction_diag as D; '
+                'D.verify_launch=lambda *args:None; '
+                f'Path({str(marker.with_suffix(".waiting"))!r}).write_text("bootstrap ready"); '
+                f'D.measure=lambda:(Path({str(marker)!r}).write_text("arithmetic reached"),'
+                'time.sleep(.1),{"status":"MEASURED","synthetic":True})[-1]; '
+                'sys.exit(D.main(["--worker","--scope-sha","0"*64,"--source-sha","0"*64]))')
+
+    def reap_fixture(self, children):
+        for child in children:
+            if child.poll() is None: os.killpg(child.pid, signal.SIGKILL)
+            child.communicate(timeout=1)
+
+    def test_real_watchdog_late_popen_handle_is_owned_killed_and_reaped(self):
+        children = []
+        original = self.D.I.subprocess.Popen
+        def late(*args, **kw):
+            child = original(*args, **kw); children.append(child)
+            time.sleep(.2)
+            return child
+        try:
+            with tempfile.TemporaryDirectory() as temp, mock.patch.object(self.D.I.subprocess, 'Popen', new=late):
+                directory = self.D.new_directory(Path(temp))
+                status, result = self.run_fixture([sys.executable, '-B', '-c', 'import time;time.sleep(30)'],
+                                                  directory, seconds=.05)
+                self.assertEqual(status, 2)
+                self.assertIn('STOPPED-DEADLINE', result['error'])
+                self.assertEqual(len(children), 1)
+                with self.assertRaises(ProcessLookupError): os.kill(children[0].pid, 0)
+                self.assertEqual(result['worker_pid'], children[0].pid)
+        finally: self.reap_fixture(children)
+
+    def test_deadline_during_registration_never_releases_worker_arithmetic(self):
+        children = []
+        original = self.D.I.subprocess.Popen
+        def late(*args, **kw):
+            child = original(*args, **kw); children.append(child)
+            time.sleep(.2)
+            return child
+        try:
+            with tempfile.TemporaryDirectory() as temp:
+                marker = Path(temp)/'arithmetic'
+                directory = self.D.new_directory(Path(temp)/'runs')
+                with mock.patch.object(self.D.I.subprocess, 'Popen', new=late):
+                    status, result = self.run_fixture([sys.executable, '-B', '-c', self.gated_fixture(marker)],
+                                                      directory, seconds=.05)
+                self.assertEqual(status, 2)
+                self.assertFalse(marker.exists())
+                with self.assertRaises(ProcessLookupError): os.kill(children[0].pid, 0)
+        finally: self.reap_fixture(children)
+
+    def test_registered_resource_refusal_precedes_worker_release(self):
+        with tempfile.TemporaryDirectory() as temp:
+            marker = Path(temp)/'arithmetic'
+            directory = self.D.new_directory(Path(temp)/'runs')
+            def refuse(pid):
+                if pid:
+                    limit = time.monotonic()+.7
+                    while not marker.with_suffix('.waiting').exists() and time.monotonic()<limit: time.sleep(.005)
+                    self.assertTrue(marker.with_suffix('.waiting').exists())
+                    time.sleep(.03)
+                    self.assertFalse(marker.exists())
+                return {'rss_gib':11. if pid else .01, 'process_count':1}
+            status, result = self.run_fixture([sys.executable, '-B', '-c', self.gated_fixture(marker)],
+                                              directory, monitor=refuse)
+            self.assertEqual(status, 2)
+            self.assertIn('STOPPED-RESOURCE', result['error'])
+            self.assertFalse(marker.exists())
+
+    def test_registered_worker_requires_explicit_release_before_measure(self):
+        with tempfile.TemporaryDirectory() as temp:
+            marker = Path(temp)/'arithmetic'
+            directory = self.D.new_directory(Path(temp)/'runs')
+            seen = []
+            def observe(pid):
+                if pid:
+                    limit = time.monotonic()+.7
+                    while not marker.with_suffix('.waiting').exists() and time.monotonic()<limit: time.sleep(.005)
+                    self.assertTrue(marker.with_suffix('.waiting').exists())
+                    time.sleep(.03)
+                    self.assertFalse(marker.exists())
+                    seen.append(pid)
+                return {'rss_gib':.01, 'process_count':1}
+            status, result = self.run_fixture([sys.executable, '-B', '-c', self.gated_fixture(marker)],
+                                              directory, monitor=observe)
+            self.assertEqual(status, 0)
+            self.assertTrue(marker.exists())
+            self.assertTrue(seen)
+            self.assertTrue(result['synthetic'])
+
+    def test_launch_has_its_own_bound_while_whole_run_budget_remains(self):
+        children = []
+        original = self.D.I.subprocess.Popen
+        def late(*args, **kw):
+            child = original(*args, **kw); children.append(child)
+            time.sleep(.2)
+            return child
+        try:
+            with tempfile.TemporaryDirectory() as temp:
+                marker = Path(temp)/'arithmetic'; directory = self.D.new_directory(Path(temp)/'runs')
+                with mock.patch.object(self.D.I, 'LAUNCH_S', .05, create=True), \
+                     mock.patch.object(self.D.I.subprocess, 'Popen', new=late):
+                    status, result = self.run_fixture([sys.executable, '-B', '-c', self.gated_fixture(marker)],
+                                                      directory, seconds=2)
+                self.assertEqual(status, 2)
+                self.assertIn('STOPPED-LAUNCH', result['error'])
+                self.assertFalse(marker.exists())
+                with self.assertRaises(ProcessLookupError): os.kill(children[0].pid, 0)
+        finally: self.reap_fixture(children)
+
+    def test_worker_exits_promptly_when_release_never_arrives_or_pipe_closes(self):
+        for close in (False, True):
+            with self.subTest(close=close), tempfile.TemporaryDirectory() as temp:
+                marker = Path(temp)/'arithmetic'; read_fd, write_fd = os.pipe()
+                env = dict(os.environ, NEW1_IDENTITY_PARENT=str(os.getpid()),
+                           NEW1_IDENTITY_RELEASE_FD=str(read_fd), NEW1_IDENTITY_RELEASE_BY=str(time.monotonic()+.15),
+                           NEW1_IDENTITY_DEADLINE=str(time.monotonic()+1))
+                child = subprocess.Popen([sys.executable, '-B', '-c', self.gated_fixture(marker)], env=env,
+                    pass_fds=(read_fd,), start_new_session=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                os.close(read_fd)
+                try:
+                    if close: os.close(write_fd); write_fd = None
+                    stdout, stderr = child.communicate(timeout=1)
+                    self.assertNotEqual(child.returncode, 0)
+                    self.assertFalse(marker.exists())
+                    self.assertIn(b'LAUNCH', stderr)
+                finally:
+                    if write_fd is not None: os.close(write_fd)
+                    self.reap_fixture([child])
+
+    def test_worker_exits_on_parent_death_even_with_another_writer_open(self):
+        self.assertTrue(hasattr(self.D.I, 'wait_for_release'), 'worker release/liveness guard missing')
+        with tempfile.TemporaryDirectory() as temp:
+            marker = Path(temp)/'arithmetic'; gate_read, gate_write = os.pipe(); status_read, status_write = os.pipe()
+            grandchild = ('import os,time;from pathlib import Path;from tools import new1_identity_diag as I;'
+                '\ntry:I.wait_for_release()\n'
+                'except I.S.Stop:os.write(int(os.environ["FIXTURE_STATUS_FD"]),b"STOPPED");raise SystemExit(2)\n'
+                f'Path({str(marker)!r}).write_text("arithmetic reached")')
+            parent_code = ('import os,subprocess,sys,time;'
+                'env=dict(os.environ,NEW1_IDENTITY_PARENT=str(os.getpid()),'
+                'NEW1_IDENTITY_RELEASE_BY=str(time.monotonic()+4),NEW1_IDENTITY_DEADLINE=str(time.monotonic()+5));'
+                f'p=subprocess.Popen([sys.executable,"-B","-c",{grandchild!r}],env=env,'
+                f'pass_fds=({gate_read},{status_write}));'
+                'print(p.pid,flush=True);time.sleep(.2);'
+                'sys.exit("worker exited before parent death") if p.poll() is not None else None')
+            env = dict(os.environ, NEW1_IDENTITY_RELEASE_FD=str(gate_read), FIXTURE_STATUS_FD=str(status_write))
+            parent = subprocess.Popen([sys.executable, '-B', '-c', parent_code], env=env,
+                pass_fds=(gate_read,status_write), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            os.close(gate_read); os.close(status_write)
+            try:
+                stdout, stderr = parent.communicate(timeout=1)
+                self.assertEqual(parent.returncode, 0, stderr)
+                import select
+                self.assertTrue(select.select([status_read], [], [], .5)[0], 'worker did not notice parent death')
+                self.assertEqual(os.read(status_read, 32), b'STOPPED')
+                self.assertFalse(marker.exists())
+            finally:
+                os.close(gate_write); os.close(status_read)
+                if parent.poll() is None: parent.kill()
+                parent.communicate(timeout=1)
+
+    def test_keyboard_interrupt_during_popen_registration_cleans_without_release(self):
+        children = []
+        original = self.D.I.subprocess.Popen
+        previous = signal.getsignal(signal.SIGINT)
+        signal.signal(signal.SIGINT, signal.default_int_handler)
+        def late(*args, **kw):
+            child = original(*args, **kw); children.append(child)
+            time.sleep(.05)
+            os.kill(os.getpid(), signal.SIGINT)
+            time.sleep(.15)
+            return child
+        try:
+            with tempfile.TemporaryDirectory() as temp:
+                marker = Path(temp)/'arithmetic'; directory = self.D.new_directory(Path(temp)/'runs')
+                with mock.patch.object(self.D.I.subprocess, 'Popen', new=late):
+                    status, result = self.run_fixture([sys.executable, '-B', '-c', self.gated_fixture(marker)],
+                                                      directory, seconds=2)
+                self.assertEqual(status, 130)
+                self.assertFalse(marker.exists())
+                with self.assertRaises(ProcessLookupError): os.kill(children[0].pid, 0)
+        finally:
+            signal.signal(signal.SIGINT, previous)
+            self.reap_fixture(children)
+
+    def test_stalled_launch_returns_within_bound_and_late_handle_cleans_once(self):
+        import threading
+        children = []; finish = threading.Event()
+        original = self.D.I.subprocess.Popen
+        def stalled(*args, **kw):
+            child = original(*args, **kw); children.append(child)
+            finish.wait(2)
+            return child
+        try:
+            with tempfile.TemporaryDirectory() as temp:
+                marker = Path(temp)/'arithmetic'; directory = self.D.new_directory(Path(temp)/'runs')
+                start = time.monotonic()
+                with mock.patch.object(self.D.I, 'LAUNCH_S', .05, create=True), \
+                     mock.patch.object(self.D.I, 'CLEANUP_S', .05), \
+                     mock.patch.object(self.D.I.subprocess, 'Popen', new=stalled):
+                    status, result = self.run_fixture([sys.executable, '-B', '-c', self.gated_fixture(marker)],
+                                                      directory, seconds=.8)
+                self.assertEqual(status, 2)
+                self.assertIn('STOPPED-LAUNCH', result['error'])
+                self.assertLess(time.monotonic()-start, .3)
+                self.assertFalse(marker.exists())
+                finish.set()
+                limit = time.monotonic()+1
+                while children[0].poll() is None and time.monotonic()<limit: time.sleep(.01)
+                self.assertIsNotNone(children[0].poll())
+                limit = time.monotonic()+1
+                while not children[0].stdout.closed and time.monotonic()<limit: time.sleep(.01)
+                self.assertTrue(children[0].stdout.closed and children[0].stderr.closed)
+        finally:
+            finish.set(); self.reap_fixture(children)
+
+    def test_already_exited_unreleased_worker_is_reaped_without_group_signal(self):
+        children = []
+        original = self.D.I.subprocess.Popen
+        def late(*args, **kw):
+            child = original(*args, **kw); children.append(child)
+            time.sleep(.3)
+            return child
+        def denied(child): raise PermissionError('fixture signal denied for exited process group')
+        try:
+            with tempfile.TemporaryDirectory() as temp:
+                marker = Path(temp)/'arithmetic'; directory = self.D.new_directory(Path(temp)/'runs')
+                with mock.patch.object(self.D.I.subprocess, 'Popen', new=late), \
+                     mock.patch.object(self.D.S, 'terminate', side_effect=denied) as terminate:
+                    status, result = self.run_fixture([sys.executable, '-B', '-c', self.gated_fixture(marker)],
+                                                      directory, seconds=.05)
+                self.assertEqual(status, 2)
+                self.assertEqual(children[0].returncode, 2)
+                terminate.assert_not_called()
+                self.assertFalse(marker.exists())
+                with self.assertRaises(ProcessLookupError): os.kill(children[0].pid, 0)
+        finally: self.reap_fixture(children)
+
+    def test_released_worker_exits_on_parent_death_while_main_is_blocked(self):
+        with tempfile.TemporaryDirectory() as temp:
+            marker = Path(temp)/'released'; gate_read, gate_write = os.pipe(); status_read, status_write = os.pipe()
+            worker = ('import os,time;from pathlib import Path;from tools import new1_identity_diag as I;'
+                'I.wait_for_release();'
+                f'Path({str(marker)!r}).write_text("released");'
+                'os.write(int(os.environ["FIXTURE_STATUS_FD"]),b"RELEASED");time.sleep(5)')
+            parent_code = ('import os,subprocess,sys,time;from pathlib import Path;'
+                'env=dict(os.environ,NEW1_IDENTITY_PARENT=str(os.getpid()),'
+                'NEW1_IDENTITY_RELEASE_BY=str(time.monotonic()+3),NEW1_IDENTITY_DEADLINE=str(time.monotonic()+4));'
+                f'p=subprocess.Popen([sys.executable,"-B","-c",{worker!r}],env=env,pass_fds=({gate_read},{status_write}));'
+                f'os.write({gate_write},b"RUN\\n");limit=time.monotonic()+1;'
+                f'\nwhile not Path({str(marker)!r}).exists() and time.monotonic()<limit:time.sleep(.005)\n'
+                f'assert Path({str(marker)!r}).exists(),"worker never received release"')
+            env = dict(os.environ, NEW1_IDENTITY_RELEASE_FD=str(gate_read), FIXTURE_STATUS_FD=str(status_write))
+            parent = subprocess.Popen([sys.executable, '-B', '-c', parent_code], env=env,
+                pass_fds=(gate_read,gate_write,status_write), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            os.close(gate_read); os.close(status_write)
+            try:
+                stdout, stderr = parent.communicate(timeout=2)
+                self.assertEqual(parent.returncode, 0, stderr)
+                self.assertEqual(os.read(status_read, 8), b'RELEASED')
+                import select
+                self.assertTrue(select.select([status_read], [], [], .5)[0], 'released worker outlived dead parent')
+                self.assertEqual(os.read(status_read, 1), b'')
+            finally:
+                os.close(gate_write); os.close(status_read)
+                if parent.poll() is None: parent.kill()
+                parent.communicate(timeout=1)
+
+    def test_released_worker_has_independent_whole_deadline_while_main_is_blocked(self):
+        read_fd, write_fd = os.pipe()
+        end = time.monotonic()+.3
+        env = dict(os.environ, NEW1_IDENTITY_PARENT=str(os.getpid()), NEW1_IDENTITY_RELEASE_FD=str(read_fd),
+                   NEW1_IDENTITY_RELEASE_BY=str(end), NEW1_IDENTITY_DEADLINE=str(end))
+        code = ('import time;from tools import new1_identity_diag as I;I.wait_for_release();'
+                'print("RELEASED",flush=True);time.sleep(5)')
+        child = subprocess.Popen([sys.executable,'-B','-c',code],env=env,pass_fds=(read_fd,),
+            start_new_session=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        os.close(read_fd)
+        try:
+            os.write(write_fd,b'RUN\n');os.close(write_fd);write_fd=None
+            stdout, stderr = child.communicate(timeout=1)
+            self.assertEqual(stdout.strip(),b'RELEASED')
+            self.assertEqual(child.returncode,2)
+        finally:
+            if write_fd is not None:os.close(write_fd)
+            self.reap_fixture([child])
 
 
 if __name__ == '__main__': unittest.main()

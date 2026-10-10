@@ -9,7 +9,9 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import select
 import subprocess
+import threading
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +21,7 @@ from tools import new1_supervisor as S
 
 DEADLINE_S, RSS_CAP_GIB, THREADS, DISK_BYTES = 600, 11., 8, 1000000
 CLEANUP_S = 5
+LAUNCH_S = 5
 SCOPE = ROOT / 'results/mathlab_staging/new1_identity_diag_scope.md'
 SOURCE_PINS = {
     'tools/new1_geometry.py': '018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e',
@@ -220,19 +223,89 @@ def cpu_admission():
     return mathlab_admit.probe('cpu')
 
 
+def wait_for_release():
+    try:
+        fd = int(os.environ['NEW1_IDENTITY_RELEASE_FD'])
+        parent = int(os.environ['NEW1_IDENTITY_PARENT'])
+        end = float(os.environ['NEW1_IDENTITY_RELEASE_BY'])
+        deadline = float(os.environ['NEW1_IDENTITY_DEADLINE'])
+    except (KeyError, ValueError) as error:
+        raise S.Stop('INVALID-LAUNCH', 'parent release channel required') from error
+    try:
+        G.require(fd >= 0 and parent > 0 and math.isfinite(end) and math.isfinite(deadline) and end <= deadline,
+                  'invalid release channel metadata')
+        while True:
+            remaining = end-time.monotonic()
+            if remaining <= 0: raise S.Stop('STOPPED-LAUNCH', 'parent did not release worker within launch bound')
+            if os.getppid() != parent: raise S.Stop('INVALID-LAUNCH', 'parent died before release')
+            if select.select([fd], [], [], min(.1, remaining))[0]:
+                if os.read(fd, 4) != b'RUN\n': raise S.Stop('INVALID-LAUNCH', 'release channel closed or invalid')
+                if os.getppid() != parent or time.monotonic() >= end:
+                    raise S.Stop('INVALID-LAUNCH', 'parent release arrived after cancellation')
+                def guard():
+                    while os.getppid() == parent and time.monotonic() < deadline:
+                        time.sleep(min(.1, max(0, deadline-time.monotonic())))
+                    # An independent thread terminates even while native arithmetic blocks the main thread.
+                    os._exit(2)
+                threading.Thread(target=guard, daemon=True).start()
+                return
+    finally: os.close(fd)
+
+
 def supervise(command, directory, *, preflight, admission=cpu_admission, monitor=sample_rss, seconds=DEADLINE_S):
     start = time.monotonic()
     process, output, peak = None, None, 0.
-    cleaned = False
-    def stop_and_close():
+    launch_thread, launch_error = None, None
+    registered, cancelled = threading.Event(), threading.Event()
+    ownership = threading.Lock()
+    channel = [None, None]
+    cleaned, cleanup_started = False, False
+    def close_channel(index):
+        with ownership:
+            fd, channel[index] = channel[index], None
+        if fd is not None: os.close(fd)
+    def reap_and_close():
         nonlocal cleaned
-        if process is None or cleaned: return
-        cleaned = True
+        with ownership:
+            if process is None or cleaned: return
+            cleaned = True
         try:
-            with S.hard_deadline(CLEANUP_S): S.terminate(process)
+            if process.poll() is None: S.terminate(process)
         finally:
             for pipe in (process.stdout, process.stderr):
                 if pipe is not None: pipe.close()
+    def spawn(end):
+        nonlocal process, launch_error
+        try:
+            # Python signal exceptions run on the main thread, outside creation/registration.
+            process = subprocess.Popen(command, cwd=ROOT, env=dict(os.environ,
+                NEW1_IDENTITY_PARENT=str(os.getpid()), NEW1_IDENTITY_RELEASE_FD=str(channel[0]),
+                NEW1_IDENTITY_RELEASE_BY=str(end), NEW1_IDENTITY_DEADLINE=str(start+seconds)), pass_fds=(channel[0],),
+                start_new_session=True, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        except BaseException as error: launch_error = error
+        finally:
+            registered.set()
+            if cancelled.is_set():
+                try: reap_and_close()
+                except BaseException as error:
+                    launch_error = error
+                    print('INVALID-CLEANUP: late launch: ' + str(error), file=sys.stderr)
+                finally: close_channel(0)
+    def stop_and_close():
+        nonlocal cleanup_started
+        if cleanup_started: return
+        cleanup_started = True
+        cancelled.set()
+        close_channel(1)
+        try:
+            with S.hard_deadline(CLEANUP_S):
+                if launch_thread is not None and launch_thread.ident is not None:
+                    launch_thread.join(timeout=CLEANUP_S)
+                    if launch_thread.is_alive():
+                        raise S.Stop('INVALID-CLEANUP', 'launch did not register within cleanup bound')
+                reap_and_close()
+        finally:
+            if launch_thread is None or not launch_thread.is_alive(): close_channel(0)
     def pulse():
         nonlocal peak
         sample = monitor(process.pid if process is not None and process.poll() is None else None)
@@ -253,10 +326,24 @@ def supervise(command, directory, *, preflight, admission=cpu_admission, monitor
             output.record('admission', decision=decision)
             if not isinstance(decision, dict) or decision.get('allowed') is not True:
                 raise S.Stop('INVALID-ADMISSION', 'fresh CPU admission refused: ' + str(decision))
-            process = subprocess.Popen(command, cwd=ROOT, env=dict(os.environ, NEW1_IDENTITY_PARENT=str(os.getpid())),
-                start_new_session=True, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            end = min(start+seconds, time.monotonic()+LAUNCH_S)
+            channel[:] = os.pipe()
+            launch_thread = threading.Thread(target=spawn, args=(end,), daemon=True)
+            launch_thread.start()
+            while not registered.wait(timeout=max(0, min(.05, end-time.monotonic()))):
+                if time.monotonic() >= end:
+                    if time.monotonic() >= start+seconds:
+                        raise S.Stop('STOPPED-DEADLINE', 'whole-run wall-clock cap reached during launch')
+                    raise S.Stop('STOPPED-LAUNCH', 'worker creation/registration exceeded launch bound')
+            if launch_error is not None: raise launch_error
             output.record('worker', pid=process.pid)
             output.record('resource', **pulse())
+            if time.monotonic() >= start+seconds:
+                raise S.Stop('STOPPED-DEADLINE', 'whole-run wall-clock cap reached before release')
+            if time.monotonic() >= end:
+                raise S.Stop('STOPPED-LAUNCH', 'worker registration/checks exceeded launch bound')
+            G.require(os.write(channel[1], b'RUN\n') == 4, 'worker release write incomplete')
+            close_channel(1); close_channel(0)
             while True:
                 try:
                     stdout, stderr = process.communicate(timeout=1)
@@ -311,6 +398,7 @@ def main(argv=None):
     try:
         if args.worker:
             G.require(os.environ.get('NEW1_IDENTITY_PARENT') == str(os.getppid()), 'only the diagnostic parent may dispatch')
+            wait_for_release()
             verify_launch(args.scope_sha, args.source_sha)
             value = measure()
             value.update(scope_sha256=args.scope_sha, diagnostic_source_sha256=args.source_sha)

@@ -1,0 +1,12 @@
+# MB5 Task 3 context checkpoint — 2026-10-10T08:14:03.866164+00:00
+
+Done: reproduced Astra r1 finding 3 under the real watchdog before production changes; cancellation-safe creation/registration, explicit post-registration release, independent 5-s launch bound, parent/deadline liveness guard, all four GREEN suites, append-only scope revision, source/static audit, read-only helper review and revised pinned launch.
+In flight: none after final readback. No real diagnostic was run.
+Exact deliverables: tools/new1_identity_diag.py; tools/new1_construction_diag.py; tests/test_new1_construction_diag.py; results/mathlab_staging/new1_construction_diag_scope.md.
+Fresh receipts: results/mathlab_staging/new1_construction_diag_fix_20261010T074908.035652Z/. Original build directory remains untouched, exact 26-file/hash match.
+Tests: 165 PASS (43 construction + 27 identity + 34 geometry + 61 supervisor), 9.225 s, command wall 9.531034583 s, exit 0. Final tested SHAs: {"tests/test_new1_construction_diag.py": "40e2cd2905053955c7dac510860609e0a47a8e3ef661442ea1a9c90e0c660810", "tools/new1_construction_diag.py": "87a4f5425f5df5bd85b3d47455053a60965e7510297f1b8e3472c73c931411e7", "tools/new1_identity_diag.py": "c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3"}.
+Scope SHA: 9b3f7ddd5c9147758d8e8277a30a50ea21f3c3c5e08e70333938cb5e9eb25f1c.
+Next: MAESTRO4 submits the exact candidate to binding GPT-6-Astra re-review, then alone performs a single approved launch from launch_command.txt with fresh admission and namespace. The prior Astra NO-GO is preserved; helper PROCEED is build-only and not binding Astra.
+Open risks: full-size L4 numeric/native runtime, actual input hashes/admission/RSS/threads/backend and host niceness adjustment remain NOT RUN / UNVERIFIED. No retry, arithmetic/gate/cap/output/outcome amendment or result repair is authorized. Preserve original HALTs and concurrent worktree changes.
+Restrictions persist: no commit/push/merge/deletion/launchd/network/Drive/Graft/model/MPS, protected docs, git tool family, .github or dashboard-test edits. No global memory updates.
+BINDING context directive (operator 2026-10-09): watch Context N% left in every root/team session. Before approximately 20%, stop starting new work, write done/in-flight/exact paths/next step/open risks into the relevant report, notify the orchestrator and request a fresh successor. Every handoff restates this rule; never approach full-window compaction.

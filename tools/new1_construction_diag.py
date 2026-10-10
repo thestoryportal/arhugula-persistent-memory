@@ -22,7 +22,7 @@ SCOPE = ROOT / 'results/mathlab_staging/new1_construction_diag_scope.md'
 DIMENSION = 11008
 CACHE, CAPTURE, MANIFEST, INPUT_PINS = I.CACHE, I.CAPTURE, I.MANIFEST, I.INPUT_PINS
 SOURCE_PINS = {**I.SOURCE_PINS,
-    'tools/new1_identity_diag.py': '93a7b317f8078c63c3c0d40d35fb419dfd24132a10577387af93c3790d461cb1',
+    'tools/new1_identity_diag.py': 'c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3',
     'results/mathlab_staging/new1_construction_diag_authorization.md': 'e7c445af835248b6722e04449f4f6a88a41c4d39f03fc6da41841c8ea23254f5',
     'results/mathlab_staging/new1_identity_diag_astra.md': 'cdc1a94a3a361aa1d26e363b67eb02c694e1425fc0576542ddf8810000912f20',
     'tools/mathlab_admit.py': 'bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc',
@@ -223,6 +223,7 @@ def main(argv=None):
         if args.worker:
             G.require(os.environ.get('NEW1_IDENTITY_PARENT') == str(os.getppid()),
                       'only the diagnostic parent may dispatch')
+            I.wait_for_release()
             verify_launch(args.scope_sha, args.source_sha)
             value = measure()
             value.update(scope_sha256=args.scope_sha, diagnostic_source_sha256=args.source_sha)

@@ -1,0 +1,22 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "-m",
+    "unittest",
+    "tests.test_new1_construction_diag",
+    "tests.test_new1_identity_diag",
+    "tests.test_new1_geometry",
+    "tests.test_new1_supervisor",
+    "-v"
+  ],
+  "exit_code": 1,
+  "elapsed_s": 8.759425791000002,
+  "sha256": {
+    "tools/new1_construction_diag.py": "db806beb7dabbf12cd2d7c4cb3f9aa62c642a3c5cf5fa6410b7ed4f5615bcab4",
+    "tools/new1_identity_diag.py": "d0a7a3ffde0f5204001f93884077db158e4bd725ef2092eef0d6e79b3164f3ed",
+    "tests/test_new1_construction_diag.py": "dfab5abfe4c5a292cece88ea3d0c20977f465cc0996c5310dd4366273c9be0c2"
+  }
+}

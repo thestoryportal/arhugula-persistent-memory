@@ -1,0 +1,12 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_already_exited_unreleased_worker_is_reaped_without_group_signal",
+    "-v"
+  ],
+  "exit_code": 1,
+  "identity_sha256": "d0a7a3ffde0f5204001f93884077db158e4bd725ef2092eef0d6e79b3164f3ed"
+}

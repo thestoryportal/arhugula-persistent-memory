@@ -1,0 +1,21 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_real_watchdog_late_popen_handle_is_owned_killed_and_reaped",
+    "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_deadline_during_registration_never_releases_worker_arithmetic",
+    "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_registered_resource_refusal_precedes_worker_release",
+    "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_registered_worker_requires_explicit_release_before_measure",
+    "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_launch_has_its_own_bound_while_whole_run_budget_remains",
+    "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_worker_exits_promptly_when_release_never_arrives_or_pipe_closes",
+    "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_worker_exits_on_parent_death_even_with_another_writer_open",
+    "-v"
+  ],
+  "exit_code": 1,
+  "elapsed_s": 3.0214522500000003,
+  "identity_sha256": "93a7b317f8078c63c3c0d40d35fb419dfd24132a10577387af93c3790d461cb1",
+  "construction_sha256": "8949d220fc0607d96ab4df9a0916c80548575dba8525ed1c4f3ce2cf250f9d49",
+  "tests_sha256": "f24c1c465dd7cdb7de45df0b473d75047490dab73a7666c4f6d5d1f4a746ca72"
+}
