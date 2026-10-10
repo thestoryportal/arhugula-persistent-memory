@@ -1,0 +1,48 @@
+{
+  "utc": "2026-10-10T03:58:36.120847+00:00",
+  "protected_files": {
+    "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md": {
+      "sha256": "216e8cfab513f0b555d8ae7908bd629e99e3b848cd2b43c054690962572cf771",
+      "baseline_equal": true
+    },
+    "tools/new1_geometry.py": {
+      "sha256": "3234b7f16b25d151d86ec508577abd42c1163a5b2b5318761b11b28675c2df67",
+      "baseline_equal": true
+    },
+    "tools/new1_supervisor.py": {
+      "sha256": "1d24e827523f934a893e922554036c6ea9c3e1ec2cfe161d53ddaadd90068357",
+      "baseline_equal": true
+    },
+    "tools/mathlab_runtime.py": {
+      "sha256": "416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5",
+      "baseline_equal": true
+    },
+    "tools/mathlab_events.py": {
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "baseline_equal": true
+    },
+    "tests/test_new1_geometry.py": {
+      "sha256": "4b07bd40d3865d794abd44ed282725565019f06dafc152235c2aef2f6a185e8a",
+      "baseline_equal": true
+    },
+    "tests/test_new1_supervisor.py": {
+      "sha256": "c1649ad53ddaaf480fc5b614156b35a4c80ed4a8c83085aa5181f541f6df846b",
+      "baseline_equal": true
+    },
+    "results/mathlab_staging/new1_options_astra.md": {
+      "sha256": "09b9fd139d6a032dbf4d85c64786a1457c6b36d6a7eed1403a0a1badc6b28817",
+      "baseline_equal": true
+    },
+    "architecture_profile/s_new1_a1_halt_diagnostic.json": {
+      "sha256": "cc85ae4e2e9821f92e8b655a7cd15b93003984d421e4aa90924579333e81a24f",
+      "baseline_equal": true
+    }
+  },
+  "report_prefix_unchanged": true,
+  "scope": "Only measurement artifact namespaces and append-only build report written; no production/prereg changes or commits",
+  "report_sha256": "eef2d29a70da1e62492cee43b787eae0305b1b95d5973929ad942686bd7ca2e0",
+  "report_bytes": 103357,
+  "head": "77835e8f85c3e75462ec051ddae51ec26e999791",
+  "head_equal_to_baseline": true,
+  "branch": "worktree-c10k-route-a"
+}

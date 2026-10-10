@@ -1,0 +1,1 @@
+{"smoke": "PASS", "rotated_PSD_errors": {"symmetry": 0.0, "svd": 0.0, "psd": 0.0, "orthogonality_U": 0.0, "orthogonality_V": 0.0}, "indefinite_errors": {"symmetry": 0.0, "svd": 0.0, "psd": 0.3651483716701107, "orthogonality_U": 0.0, "orthogonality_V": 0.0}, "real_inputs_read": false, "SVD_calls": 0}

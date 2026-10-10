@@ -1,0 +1,9 @@
+{
+  "previous_namespace": "results/mathlab_staging/new1_b_measure_20261010T033955Z",
+  "previous_exit_code": 1,
+  "previous_failure": "os.nice(10) denied before configure()/torch import",
+  "prior_covariance_loads": 0,
+  "prior_full_shape_SVD_calls": 0,
+  "new_harness_only_change": "remove os.nice call; explicitly report scheduling limitation",
+  "harness_sha256": "fd6c6516d63a0994c51b22939fa5fc2ebbd59eac6046b588684a8041643f1e25"
+}
