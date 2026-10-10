@@ -25,3 +25,16 @@ Next gates, in order (Astra r8 conditions):
 3. Separately scoped lifecycle fix for `tools/new1_supervisor.py:411-424` (the exception path can skip `process.wait()`), reviewed. This blocks any full-worker launch.
 4. Astra launch-readiness review, then fresh operator approval for ONE capped, fresh-namespace, full five-layer Amendment-B attempt (2,700 s, 11 GiB family RSS, 8 threads, nice 10, no retry).
 5. Close-out with this README as fingerprint source; `closeout_check.py D-NEW1-b` ALL GREEN.
+
+## Superseding disposition (appended 2026-10-11 by MAESTRO28; Astra closure check C4)
+
+The "future gates" above are now satisfied; the historical diagnostic, its MEASURED acceptance, the
+INVALID-WORKER halts and the historical-cause limitation are unchanged and preserved as written.
+- Fixes accepted: 57420ab (projector; Astra r9 `results/mathlab_staging/new1_projector_fix_astra_r9.md`) and
+  ec7561d (supervisor reap; Astra r13 `results/mathlab_staging/new1_supervisor_reap_astra_r13.md`).
+- Launch readiness: Astra GO-WITH-CONDITIONS C1–C5 (`results/mathlab_staging/new1_launch_readiness_astra.md`);
+  operator authorized exactly one run (`results/mathlab_staging/new1_b2_operator_authorization_20261010.md`).
+- C4 launch manifest (authoritative for the second attempt): `results/mathlab_staging/new1_launch_c4_20261011/launch_manifest.md`
+  (f730e0d; hashes 11/11; prereg pin 1616c860… unchanged — no numerical amendment, per r8 :57); trackers D-NEW1-b@8abea439.
+- Condition closure: `results/mathlab_staging/new1_launch_closure_astra.md`.
+- Status: second attempt NOT RUN; predictions NOT COMPUTED; F1 unchanged.
