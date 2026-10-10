@@ -184,7 +184,7 @@
     "what": "Native-fp32 projector-fidelity warning only; L4 stored normalized covariance rank disagreement; actual rounded-P distance, update-weighted leakage and locality UNMEASURED; behavioral verdicts unchanged"
   },
   "D-NEW1-b": {
-    "source": "results/mathlab_staging/new1_construction_diag_fix5_real_dispatch_20261010T2031Z/README.md",
-    "what": "NEW-1 construction diagnostic: the one authorized real four-construction run (0c550ae) accepted as MEASURED, Astra r8 BRANCH-1-FIX (whole README incl. outcome ruling); gather style alone separates capture agreement; D-NEW1-b stays INVALID-WORKER / predictions NOT COMPUTED pending fix and rerun; F1 unchanged"
+    "source": "results/mathlab_staging/new1_launch_c4_20261011/launch_manifest.md",
+    "what": "NEW-1 second attempt C4 launch manifest (whole file, f730e0d): pinned hashes 11/11 OK, fix commits + Astra verdicts, C1-C5 status, endorsed command, one C5 dispatch from tmux -L new1; NOT RUN, predictions NOT COMPUTED, F1 unchanged"
   }
 }
