@@ -1,0 +1,16 @@
+COMMAND: ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", "HostFixtureTests.test_3_raised_cleanup_failure_keeps_case_reviewable", "-v"]
+EXIT: 1
+test_3_raised_cleanup_failure_keeps_case_reviewable (__main__.HostFixtureTests.test_3_raised_cleanup_failure_keeps_case_reviewable) ... FAIL
+
+======================================================================
+FAIL: test_3_raised_cleanup_failure_keeps_case_reviewable (__main__.HostFixtureTests.test_3_raised_cleanup_failure_keeps_case_reviewable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 186, in test_3_raised_cleanup_failure_keeps_case_reviewable
+    self.assertIsNone(escaped, "cleanup failure must permit summary and source hashes to be written")
+AssertionError: 'owned cleanup exception' is not None : cleanup failure must permit summary and source hashes to be written
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=1)

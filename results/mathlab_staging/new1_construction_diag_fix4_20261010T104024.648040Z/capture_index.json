@@ -1,0 +1,252 @@
+{
+  "source_before": "14329bd0daa00bb109010464c26988b5014c6b6e9b92e39152028a9af7033cbe",
+  "runs": [
+    {
+      "attempt": 1,
+      "command": [
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+        "-B",
+        "-W",
+        "error::ResourceWarning",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/observe_abrupt.py",
+        "--child",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/capture_001.jsonl"
+      ],
+      "exit": 2,
+      "unittest_complete": false,
+      "abrupt": [
+        {
+          "event": "_exit",
+          "pid": 85239,
+          "ppid": 85238,
+          "role": "parent",
+          "monotonic": 1439694.479696166,
+          "code": 2,
+          "stack": [
+            {
+              "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_identity_diag.py",
+              "function": "supervise",
+              "line": 612,
+              "exceptions": {
+                "error": "Stop('STOPPED-LAUNCH: worker creation/registration exceeded launch bound')",
+                "failure": "Stop('INVALID-CLEANUP: guardian exit lacks worker reaping proof')",
+                "cleanup_error": "'INVALID-CLEANUP: guardian exit lacks worker reaping proof'"
+              },
+              "remaining_s": 0.7399937501177192
+            },
+            {
+              "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_construction_diag.py",
+              "function": "run_fixture",
+              "line": 39,
+              "exceptions": {},
+              "remaining_s": null
+            },
+            {
+              "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_construction_diag.py",
+              "function": "test_stalled_launch_returns_within_bound_and_late_handle_cleans_once",
+              "line": 525,
+              "exceptions": {},
+              "remaining_s": null
+            },
+            {
+              "file": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/case.py",
+              "function": "_callTestMethod",
+              "line": 579,
+              "exceptions": {},
+              "remaining_s": null
+            },
+            {
+              "file": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/case.py",
+              "function": "run",
+              "line": 623,
+              "exceptions": {},
+              "remaining_s": null
+            },
+            {
+              "file": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/case.py",
+              "function": "__call__",
+              "line": 678,
+              "exceptions": {},
+              "remaining_s": null
+            },
+            {
+              "file": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/suite.py",
+              "function": "run",
+              "line": 122,
+              "exceptions": {},
+              "remaining_s": null
+            },
+            {
+              "file": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/suite.py",
+              "function": "__call__",
+              "line": 84,
+              "exceptions": {},
+              "remaining_s": null
+            },
+            {
+              "file": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/runner.py",
+              "function": "run",
+              "line": 217,
+              "exceptions": {},
+              "remaining_s": null
+            },
+            {
+              "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/observe_abrupt.py",
+              "function": "child",
+              "line": 75,
+              "exceptions": {},
+              "remaining_s": null
+            },
+            {
+              "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/observe_abrupt.py",
+              "function": "<module>",
+              "line": 103,
+              "exceptions": {},
+              "remaining_s": null
+            }
+          ],
+          "exceptions": [
+            {
+              "type": "Stop",
+              "error": "STOPPED-DEADLINE: whole-run wall-clock cap reached",
+              "function": "on_signal",
+              "line": 469,
+              "monotonic": 1439694.477627166
+            },
+            {
+              "type": "Stop",
+              "error": "STOPPED-DEADLINE: whole-run wall-clock cap reached",
+              "function": "on_signal",
+              "line": 485,
+              "monotonic": 1439694.4776435
+            },
+            {
+              "type": "Stop",
+              "error": "STOPPED-DEADLINE: whole-run wall-clock cap reached",
+              "function": "supervise",
+              "line": 568,
+              "monotonic": 1439694.477645708
+            },
+            {
+              "type": "Stop",
+              "error": "STOPPED-LAUNCH: worker creation/registration exceeded launch bound",
+              "function": "supervise",
+              "line": 580,
+              "monotonic": 1439694.477669875
+            },
+            {
+              "type": "Stop",
+              "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+              "function": "stop_and_close",
+              "line": 550,
+              "monotonic": 1439694.479413291
+            },
+            {
+              "type": "Stop",
+              "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+              "function": "cleanup",
+              "line": 554,
+              "monotonic": 1439694.479413916
+            },
+            {
+              "type": "Stop",
+              "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+              "function": "supervise",
+              "line": 606,
+              "monotonic": 1439694.479414375
+            },
+            {
+              "type": "Stop",
+              "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+              "function": "stop_and_close",
+              "line": 550,
+              "monotonic": 1439694.479434041
+            },
+            {
+              "type": "Stop",
+              "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+              "function": "cleanup",
+              "line": 554,
+              "monotonic": 1439694.479434416
+            },
+            {
+              "type": "Stop",
+              "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+              "function": "supervise",
+              "line": 609,
+              "monotonic": 1439694.479434791
+            }
+          ],
+          "ownership": [
+            {
+              "guardian": 85274,
+              "worker": 85275,
+              "guardian_code": 2,
+              "proof": null,
+              "fds": [
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                },
+                {
+                  "fd": null,
+                  "open": false
+                }
+              ],
+              "streams": []
+            }
+          ]
+        }
+      ],
+      "trace_sha256": "5c5c0ffbae53f22662575f4f6e46b18bf5c97a8f2fd4642154149b541e74f13f"
+    }
+  ]
+}

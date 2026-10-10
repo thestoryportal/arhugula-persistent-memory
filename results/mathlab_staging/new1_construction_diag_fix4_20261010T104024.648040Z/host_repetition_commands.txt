@@ -1,0 +1,2 @@
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -W error::ResourceWarning results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/run_checks.py solo --count 100 --label host_solo_100
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -W error::ResourceWarning results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/run_checks.py full --count 10 --label host_full_10

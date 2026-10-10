@@ -1,0 +1,6 @@
+test_fix4_c2_final_send_exception_retains_reaping_and_child_boundary (tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c2_final_send_exception_retains_reaping_and_child_boundary) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.124s
+
+OK

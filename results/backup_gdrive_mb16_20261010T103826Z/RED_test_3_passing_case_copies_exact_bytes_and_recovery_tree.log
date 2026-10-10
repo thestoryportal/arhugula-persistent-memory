@@ -1,0 +1,19 @@
+COMMAND: ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", "HostFixtureTests.test_3_passing_case_copies_exact_bytes_and_recovery_tree", "-v"]
+EXIT: 1
+test_3_passing_case_copies_exact_bytes_and_recovery_tree (__main__.HostFixtureTests.test_3_passing_case_copies_exact_bytes_and_recovery_tree) ... FAIL
+
+======================================================================
+FAIL: test_3_passing_case_copies_exact_bytes_and_recovery_tree (__main__.HostFixtureTests.test_3_passing_case_copies_exact_bytes_and_recovery_tree)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 149, in test_3_passing_case_copies_exact_bytes_and_recovery_tree
+    result = self.fixture_receipt("PASS")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 140, in fixture_receipt
+    self.assertTrue(copied.is_dir(), "case end must preserve fixture evidence")
+AssertionError: False is not true : case end must preserve fixture evidence
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=1)

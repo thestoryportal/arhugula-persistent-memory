@@ -1,0 +1,28 @@
+COMMAND: ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", "-v"]
+EXIT: 0
+test_2_default_layout_all_fixture_paths_outside_volumes (__main__.HostFixtureTests.test_2_default_layout_all_fixture_paths_outside_volumes) ... ok
+test_2_explicit_layout_all_fixture_paths_outside_volumes (__main__.HostFixtureTests.test_2_explicit_layout_all_fixture_paths_outside_volumes) ... ok
+test_2_file_fixture_root_rejected_before_native_work (__main__.HostFixtureTests.test_2_file_fixture_root_rejected_before_native_work) ... ok
+test_2_missing_fixture_root_rejected_before_native_work (__main__.HostFixtureTests.test_2_missing_fixture_root_rejected_before_native_work) ... ok
+test_2_nonempty_fixture_root_rejected_without_modification (__main__.HostFixtureTests.test_2_nonempty_fixture_root_rejected_without_modification) ... ok
+test_2_symlink_into_volumes_rejected_after_resolution (__main__.HostFixtureTests.test_2_symlink_into_volumes_rejected_after_resolution) ... ok
+test_2_volume_fixture_root_rejected_before_native_work (__main__.HostFixtureTests.test_2_volume_fixture_root_rejected_before_native_work) ... ok
+test_3_absent_optional_files_are_omitted (__main__.HostFixtureTests.test_3_absent_optional_files_are_omitted) ... ok
+test_3_cleanup_failure_still_copies_fixture_evidence (__main__.HostFixtureTests.test_3_cleanup_failure_still_copies_fixture_evidence) ... ok
+test_3_failing_case_copies_exact_bytes_and_recovery_tree (__main__.HostFixtureTests.test_3_failing_case_copies_exact_bytes_and_recovery_tree) ... ok
+test_3_open_timeout_remains_in_commands_receipt (__main__.HostFixtureTests.test_3_open_timeout_remains_in_commands_receipt) ... ok
+test_3_passing_case_copies_exact_bytes_and_recovery_tree (__main__.HostFixtureTests.test_3_passing_case_copies_exact_bytes_and_recovery_tree) ... ok
+test_3_raised_cleanup_failure_keeps_case_reviewable (__main__.HostFixtureTests.test_3_raised_cleanup_failure_keeps_case_reviewable) ... ok
+test_4_crash_allocation_failure_snapshots_before_release_cleanup (__main__.HostFixtureTests.test_4_crash_allocation_failure_snapshots_before_release_cleanup) ... ok
+test_4_denied_process_inspection_records_unavailable_reason (__main__.HostFixtureTests.test_4_denied_process_inspection_records_unavailable_reason) ... ok
+test_4_missing_applet_is_explicit_without_unrelated_processes (__main__.HostFixtureTests.test_4_missing_applet_is_explicit_without_unrelated_processes) ... ok
+test_4_open_nonzero_snapshots_before_returning_failure (__main__.HostFixtureTests.test_4_open_nonzero_snapshots_before_returning_failure) ... ok
+test_4_open_timeout_snapshots_without_retry_or_longer_timeout (__main__.HostFixtureTests.test_4_open_timeout_snapshots_without_retry_or_longer_timeout) ... ok
+test_4_snapshot_filter_keeps_applet_and_all_unordered_descendants (__main__.HostFixtureTests.test_4_snapshot_filter_keeps_applet_and_all_unordered_descendants) ... ok
+test_4_snapshot_filter_matches_executable_paths_with_spaces (__main__.HostFixtureTests.test_4_snapshot_filter_matches_executable_paths_with_spaces) ... ok
+test_4_timed_out_process_inspection_records_unavailable_reason (__main__.HostFixtureTests.test_4_timed_out_process_inspection_records_unavailable_reason) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.047s
+
+OK

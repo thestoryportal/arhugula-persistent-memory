@@ -1,0 +1,18 @@
+COMMAND: ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", "HostFixtureTests.test_2_volume_fixture_root_rejected_before_native_work", "-v"]
+EXIT: 1
+test_2_volume_fixture_root_rejected_before_native_work (__main__.HostFixtureTests.test_2_volume_fixture_root_rejected_before_native_work) ... FAIL
+
+======================================================================
+FAIL: test_2_volume_fixture_root_rejected_before_native_work (__main__.HostFixtureTests.test_2_volume_fixture_root_rejected_before_native_work)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 109, in test_2_volume_fixture_root_rejected_before_native_work
+    self.rejected(ROOT, "/Volumes")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 84, in rejected
+    with self.assertRaises(SystemExit) as caught:
+AssertionError: SystemExit not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

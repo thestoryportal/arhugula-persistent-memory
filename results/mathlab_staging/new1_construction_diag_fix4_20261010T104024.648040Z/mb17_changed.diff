@@ -1,0 +1,366 @@
+--- MB17-entry/tools/new1_identity_diag.py
++++ tools/new1_identity_diag.py
+@@ -277,17 +277,13 @@
+ 
+ def kill_worker(pid):
+     try: os.killpg(pid, signal.SIGKILL)
+-    except ProcessLookupError:
+-        # The worker may not yet have completed setsid().
++    except (ProcessLookupError, PermissionError):
++        # A group signal can be refused while the owned PID remains signalable.
+         try: os.kill(pid, signal.SIGKILL)
+         except ProcessLookupError: pass
+ 
+ 
+ def watchdog(owner, command, parent, work_end, absolute_end):
+-    signal.setitimer(signal.ITIMER_REAL, 0)
+-    for sig in (signal.SIGINT, signal.SIGALRM): signal.signal(sig, signal.SIG_IGN)
+-    signal.pthread_sigmask(signal.SIG_SETMASK, [])
+-    os.setsid()
+     p = owner.channels
+     pid, status, kills, error = None, None, 0, None
+     events = p['events'][1]
+@@ -300,6 +296,10 @@
+         if pid is not None and status is None and kills == 0:
+             kill_worker(pid); kills = 1
+     try:
++        signal.setitimer(signal.ITIMER_REAL, 0)
++        for sig in (signal.SIGINT, signal.SIGALRM): signal.signal(sig, signal.SIG_IGN)
++        signal.pthread_sigmask(signal.SIG_SETMASK, [])
++        os.setsid()
+         pid = os.fork()
+         if pid == 0:
+             try:
+@@ -378,7 +378,9 @@
+                 self.channels[key] = list(os.pipe())
+             parent = os.getpid()
+             self.pid = os.fork()
+-            if self.pid == 0: watchdog(self, command, parent, work_end, absolute_end)
++            if self.pid == 0:
++                try: watchdog(self, command, parent, work_end, absolute_end)
++                finally: os._exit(2)
+             for key in self.channels:
+                 if key == 'ready': self.close_fd(key, 0); self.close_fd(key, 1)
+                 else: self.close_fd(key, 0 if key in ('control', 'auth', 'release') else 1)
+--- MB17-entry/tools/new1_construction_diag.py
++++ tools/new1_construction_diag.py
+@@ -22,7 +22,7 @@
+ DIMENSION = 11008
+ CACHE, CAPTURE, MANIFEST, INPUT_PINS = I.CACHE, I.CAPTURE, I.MANIFEST, I.INPUT_PINS
+ SOURCE_PINS = {**I.SOURCE_PINS,
+-    'tools/new1_identity_diag.py': '14329bd0daa00bb109010464c26988b5014c6b6e9b92e39152028a9af7033cbe',
++    'tools/new1_identity_diag.py': '1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a',
+     'results/mathlab_staging/new1_construction_diag_authorization.md': 'e7c445af835248b6722e04449f4f6a88a41c4d39f03fc6da41841c8ea23254f5',
+     'results/mathlab_staging/new1_identity_diag_astra.md': 'cdc1a94a3a361aa1d26e363b67eb02c694e1425fc0576542ddf8810000912f20',
+     'tools/mathlab_admit.py': 'bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc',
+--- MB17-entry/tests/test_new1_construction_diag.py
++++ tests/test_new1_construction_diag.py
+@@ -277,7 +277,7 @@
+                          (600, 11., 8, 1000000))
+         self.assertEqual(self.D.INPUT_PINS, self.D.I.INPUT_PINS)
+         self.assertEqual(self.D.SOURCE_PINS['tools/new1_identity_diag.py'],
+-                         '14329bd0daa00bb109010464c26988b5014c6b6e9b92e39152028a9af7033cbe')
++                         '1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a')
+         self.assertIn('results/mathlab_staging/new1_construction_diag_authorization.md', self.D.SOURCE_PINS)
+         self.assertIn('results/mathlab_staging/new1_identity_diag_astra.md', self.D.SOURCE_PINS)
+ 
+@@ -527,9 +527,12 @@
+             self.assertIn('STOPPED-LAUNCH', result['error'])
+             self.assertLess(time.monotonic()-start, .3)
+             self.assertFalse(marker.exists())
+-            self.assertEqual(owners[0].proof['kills'], 1)
++            self.assertEqual(owners[0].proof['pid'], owners[0].worker_pid)
++            with self.assertRaises(ChildProcessError): os.waitpid(owners[0].pid, os.WNOHANG)
++            with self.assertRaises(ProcessLookupError): os.kill(owners[0].worker_pid, 0)
+             self.assertIsNotNone(owners[0].returncode)
+             self.assertTrue(all(fd is None for pair in owners[0].channels.values() for fd in pair))
++            self.assertFalse(owners[0].streams)
+ 
+     def test_already_exited_unreleased_worker_is_reaped_without_group_signal(self):
+         with tempfile.TemporaryDirectory() as temp, self.owned_fixture() as owners:
+@@ -1038,4 +1041,243 @@
+             with self.assertRaises(ProcessLookupError): os.kill(result['worker_pid'], 0)
+ 
+ 
++def _fix4_observed_child(trace_path, schedule):
++    """Run real forks under an external observer, retaining native fail-stop exits."""
++    import ctypes
++    import errno
++    I = importlib.import_module('tools.new1_identity_diag')
++    trace_path = Path(trace_path)
++    role, owners, exceptions = 'parent', [], []
++    raw_fork, raw_exit, raw_write = os.fork, os._exit, os.write
++    raw_wait, raw_kill, raw_group, raw_setsid = os.waitpid, os.kill, os.killpg, os.setsid
++    raw_init, raw_start, raw_supervise = I.OwnedWorker.__init__, I.OwnedWorker.start, I.supervise
++
++    def emit(event, **value):
++        fd = os.open(trace_path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
++        try:
++            raw_write(fd, (json.dumps(dict(event=event, pid=os.getpid(), role=role,
++                monotonic=time.monotonic(), **value), default=str)+'\n').encode())
++        finally: os.close(fd)
++
++    def init(owner, *args):
++        raw_init(owner, *args); owners.append(owner)
++
++    def fork():
++        nonlocal role
++        former = role; pid = raw_fork()
++        if pid == 0: role = 'guardian' if former == 'parent' else 'worker'
++        emit('fork', child=pid, former=former)
++        return pid
++
++    def wait(pid, flags):
++        if role == 'guardian' and schedule == 'already_exited': flags = 0
++        result = raw_wait(pid, flags)
++        if result[0]: emit('reaped', child=result[0], code=os.waitstatus_to_exitcode(result[1]))
++        elif role == 'guardian': emit('wait-live', child=pid)
++        return result
++
++    def kill(pid, sig):
++        emit('pid-probe' if sig == 0 else 'pid-signal', child=pid, signal=sig)
++        return raw_kill(pid, sig)
++
++    def group(pid, sig):
++        if role == 'guardian' and schedule in ('group_denied', 'live', 'exit_between'):
++            if schedule == 'exit_between':
++                (trace_path.parent/'exit-request').touch()
++                libc = ctypes.CDLL(None, use_errno=True)
++                info = ctypes.create_string_buffer(128)
++                rc = libc.waitid(1, pid, ctypes.byref(info), os.WEXITED | os.WNOWAIT)
++                if rc: raise OSError(ctypes.get_errno(), 'fixture waitid(WNOWAIT) failed')
++                emit('exited-before-signal', child=pid)
++            else:
++                raw_kill(pid, 0); emit('live-before-signal', child=pid)
++            emit('group-refused', child=pid)
++            raise PermissionError(errno.EPERM, 'FIX4 captured guardian group-signal refusal')
++        return raw_group(pid, sig)
++
++    def setsid():
++        if role == 'guardian' and schedule == 'setup_exception':
++            raise RuntimeError('FIX4 guardian setup exception before protected try')
++        return raw_setsid()
++
++    def write(fd, data):
++        if role == 'guardian' and data.startswith(b'{"event": "reaped"') and schedule == 'receipt_exception':
++            emit('receipt-send-refused')
++            raise OSError(errno.EIO, 'FIX4 final reaping receipt send exception')
++        return raw_write(fd, data)
++
++    def exiting(code):
++        frame = sys._getframe(1); stack = []
++        cursor = frame
++        while cursor is not None:
++            local = cursor.f_locals
++            stack.append(dict(function=cursor.f_code.co_name, line=cursor.f_lineno,
++                file=cursor.f_code.co_filename,
++                errors={k:repr(local[k]) for k in ('error','failure','cleanup_error','recording_error') if k in local},
++                remaining_s=local['end']-time.monotonic() if isinstance(local.get('end'), (float,int)) else None))
++            cursor = cursor.f_back
++        emit('_exit', code=code, stack=stack, exceptions=exceptions[-24:],
++             ownership=[dict(guardian=o.pid, worker=o.worker_pid, proof=o.proof,
++                             guardian_code=o.returncode, channels=o.channels, streams=list(o.streams)) for o in owners])
++        raw_exit(code)
++
++    def tracing(frame, event, arg):
++        if frame.f_code.co_filename != I.__file__: return None
++        if event == 'exception':
++            kind, error, _ = arg
++            exceptions.append(dict(type=kind.__name__, error=str(error), function=frame.f_code.co_name,
++                                   line=frame.f_lineno))
++            if role == 'guardian' and frame.f_code.co_name == 'supervise':
++                emit('inherited-supervisor', exception=repr(error))
++        return tracing
++
++    def start(owner, command, *args):
++        if schedule == 'already_exited': command = [sys.executable, '-B', '-c', 'raise SystemExit(2)']
++        elif schedule == 'live': command = [sys.executable, '-B', '-c', 'import time;time.sleep(.2)']
++        elif schedule == 'group_denied':
++            command = [*command[:-1], 'import time;time.sleep(.2);'+command[-1]]
++        elif schedule == 'exit_between':
++            exit_path = trace_path.parent/'exit-request'
++            code = ('import time;from pathlib import Path;'
++                    f'p=Path({str(exit_path)!r});'
++                    '\nwhile not p.exists():time.sleep(.001)\nraise SystemExit(2)')
++            command = [sys.executable, '-B', '-c', code]
++        raw_start(owner, command, *args)
++        emit('start-returned')
++        if schedule in ('setup_exception','receipt_exception'): time.sleep(2)
++
++    def snapshot(owner):
++        try: raw_wait(owner.pid, os.WNOHANG)
++        except ChildProcessError: guardian_reaped = True
++        else: guardian_reaped = False
++        worker_absent = owner.worker_pid is None
++        if owner.worker_pid is not None:
++            try: raw_kill(owner.worker_pid, 0)
++            except ProcessLookupError: worker_absent = True
++        return dict(guardian=owner.pid, worker=owner.worker_pid, proof=owner.proof,
++                    guardian_code=owner.returncode, guardian_reaped=guardian_reaped,
++                    worker_absent=worker_absent,
++                    descriptors_closed=all(fd is None for pair in owner.channels.values() for fd in pair),
++                    streams_closed=not owner.streams)
++
++    class BrokenStderr:
++        def write(self, data): raise OSError('FIX4 terminal stderr failure')
++        def flush(self): pass
++
++    def supervise(*args, **kwargs):
++        if schedule == 'terminal_failure':
++            with contextlib.redirect_stderr(BrokenStderr()): status = raw_supervise(*args, **kwargs)
++        else: status = raw_supervise(*args, **kwargs)
++        emit('supervision-return', status=status, ownership=[snapshot(o) for o in owners])
++        return status
++
++    def finish(*args): raise OSError('FIX4 terminal output failure')
++
++    I.OwnedWorker.__init__, I.OwnedWorker.start, I.supervise = init, start, supervise
++    os.fork, os.waitpid, os.kill, os.killpg, os.setsid, os.write, os._exit = fork, wait, kill, group, setsid, write, exiting
++    if schedule == 'terminal_failure': I.Output.finish = finish
++    sys.settrace(tracing)
++    emit('fixture-start', schedule=schedule)
++    if schedule in ('setup_exception','receipt_exception'):
++        with mock.patch.object(I, 'LAUNCH_S', .05), mock.patch.object(I, 'CLEANUP_S', .05), contextlib.redirect_stderr(io.StringIO()):
++            status = I.supervise([sys.executable,'-B','-c','import time;time.sleep(30)'],
++                I.new_directory(trace_path.parent/'runs'), preflight=lambda:None,
++                admission=lambda:{'allowed':True}, monitor=lambda pid:{'rss_gib':.01,'process_count':1}, seconds=.8)
++        emit('fixture-complete', status=status)
++        return 0
++    target = 'tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_stalled_launch_returns_within_bound_and_late_handle_cleans_once'
++    result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromName(target))
++    emit('unittest-complete', tests=result.testsRun, failures=len(result.failures), errors=len(result.errors))
++    return 0 if result.wasSuccessful() else 1
++
++
++class Fix4LifecycleTests(unittest.TestCase):
++    def observed(self, schedule):
++        with tempfile.TemporaryDirectory() as temp:
++            trace = Path(temp)/'trace.jsonl'
++            code = ('import sys;from tests.test_new1_construction_diag import _fix4_observed_child;'
++                    'sys.exit(_fix4_observed_child(sys.argv[1],sys.argv[2]))')
++            command = [sys.executable,'-B','-W','error::ResourceWarning','-c',code,str(trace),schedule]
++            proc = subprocess.run(command, capture_output=True, text=True, timeout=8)
++            events = [json.loads(line) for line in trace.read_text().splitlines()]
++            record = dict(schedule=schedule, native_exit=proc.returncode, command=command,
++                          events=events, stdout=proc.stdout, stderr=proc.stderr)
++            if os.environ.get('NEW1_FIX4_RECEIPTS'):
++                path = Path(os.environ['NEW1_FIX4_RECEIPTS'])/(schedule+'_'+str(time.time_ns())+'.json')
++                path.write_text(json.dumps(record,indent=2)+'\n')
++        self.assertNotIn('ResourceWarning', proc.stderr, record)
++        return record
++
++    def ownership(self, record):
++        self.assertEqual(record['native_exit'], 0, record)
++        completed = [e for e in record['events'] if e['event']=='unittest-complete']
++        self.assertEqual(len(completed), 1, record)
++        self.assertEqual((completed[0]['tests'],completed[0]['failures'],completed[0]['errors']), (1,0,0), record)
++        returned = [e for e in record['events'] if e['event']=='supervision-return']
++        self.assertEqual(len(returned), 1, record)
++        self.assertEqual(returned[0]['status'], 2, record)
++        self.assertEqual(len(returned[0]['ownership']), 1, record)
++        owner = returned[0]['ownership'][0]
++        for key in ('guardian_reaped','worker_absent','descriptors_closed','streams_closed'):
++            self.assertIs(owner[key], True, record)
++        self.assertIsNotNone(owner['guardian_code'], record)
++        self.assertEqual(owner['proof']['pid'], owner['worker'], record)
++        reaps = [e for e in record['events'] if e['event']=='reaped']
++        self.assertEqual([(e['role'],e['child']) for e in reaps],
++                         [('guardian',owner['worker']),('parent',owner['guardian'])], record)
++        return owner['proof']
++
++    def test_fix4_c1_already_exited_is_reaped_without_a_signal_before_return(self):
++        record = self.observed('already_exited'); proof = self.ownership(record)
++        self.assertEqual((proof['kills'],proof['code']), (0,2), record)
++        self.assertFalse(any(e['event'] in ('pid-signal','group-refused') for e in record['events']), record)
++
++    def test_fix4_c1_live_worker_is_killed_and_reaped_before_return(self):
++        record = self.observed('live'); proof = self.ownership(record)
++        self.assertEqual((proof['kills'],proof['code']), (1,-signal.SIGKILL), record)
++        self.assertTrue(any(e['event']=='live-before-signal' for e in record['events']), record)
++
++    def test_fix4_c1_exit_between_wait_and_kill_retains_actual_exit_status(self):
++        record = self.observed('exit_between'); proof = self.ownership(record)
++        self.assertEqual((proof['kills'],proof['code']), (1,2), record)
++        ordered = [e['event'] for e in record['events']]
++        self.assertLess(ordered.index('wait-live'), ordered.index('exited-before-signal'), record)
++        self.assertLess(ordered.index('exited-before-signal'), ordered.index('group-refused'), record)
++
++    def test_fix4_c2_guardian_setup_exception_cannot_unwind_into_supervisor(self):
++        record = self.observed('setup_exception')
++        self.assertFalse(any(e['event']=='inherited-supervisor' for e in record['events']), record)
++        self.assertFalse(any(e['event']=='start-returned' and e['role']=='guardian' for e in record['events']), record)
++        self.assertEqual(record['native_exit'], 0, record)
++        self.assertTrue(any(e['event']=='fixture-complete' and e['status']==2 for e in record['events']), record)
++        exits = [e for e in record['events'] if e['event']=='_exit' and e['role']=='guardian']
++        self.assertEqual(len(exits), 1, record)
++        self.assertEqual(exits[0]['code'], 2, record)
++
++    def test_fix4_c2_final_send_exception_retains_reaping_and_child_boundary(self):
++        record = self.observed('receipt_exception')
++        self.assertTrue(any(e['event']=='receipt-send-refused' for e in record['events']), record)
++        self.assertFalse(any(e['event']=='inherited-supervisor' for e in record['events']), record)
++        self.assertEqual(record['native_exit'], 2, record)
++        self.assertEqual(len([e for e in record['events'] if e['event']=='reaped' and e['role']=='guardian']), 1, record)
++        self.assertFalse(any(e['event'] in ('supervision-return','fixture-complete') for e in record['events']), record)
++        parent = [e for e in record['events'] if e['event']=='_exit' and e['role']=='parent']
++        self.assertEqual(len(parent), 1, record)
++        self.assertIn('guardian exit lacks worker reaping proof', str(parent[0]), record)
++
++    def test_fix4_c3_captured_exit_schedule_returns_but_true_failures_fail_stop(self):
++        self.ownership(self.observed('group_denied'))
++        for schedule, cause in (('receipt_exception','guardian exit lacks worker reaping proof'),
++                                ('terminal_failure','FIX4 terminal stderr failure')):
++            with self.subTest(schedule=schedule):
++                record = self.observed(schedule)
++                self.assertEqual(record['native_exit'], 2, record)
++                self.assertFalse(any(e['event'] in ('supervision-return','fixture-complete','unittest-complete') for e in record['events']), record)
++                exits = [e for e in record['events'] if e['event']=='_exit' and e['role']=='parent']
++                self.assertEqual(len(exits), 1, record)
++                self.assertEqual(exits[0]['code'], 2, record)
++                self.assertIn(cause, str(exits[0]), record)
++                self.assertGreater(exits[0]['stack'][0]['remaining_s'], 0, record)
++
++
+ if __name__ == '__main__': unittest.main()
+--- MB17-entry/results/mathlab_staging/new1_construction_diag_scope.md
++++ results/mathlab_staging/new1_construction_diag_scope.md
+@@ -518,3 +518,39 @@
+ This is build, stdlib fixture and static evidence. Real input rehash, real CPU admission, numerical measurement, model/GPU behavior, whole-CLI behavior under arbitrarily blocked outer streams, queue/bench clearance and the binding Astra re-review remain UNRUN or unestablished. The return-cap evidence here is for `supervise`; it does not establish a whole-CLI arbitrary-stream cap. MB15 made no commit, push, merge, live diagnostic/model/GPU launch or deletion. `tools/test_dashboard_mathlab.py`, every Drive-backup file and every git-automation file were left untouched by MB15. MAESTRO9 verifies and obtains the binding review before any authorized launch.
+ 
+ **Context directive, restated:** watch “Context N% left.” At **40% left or less**, stop starting work and append a handoff with done/half-applied work, exact paths and SHA-256 values, failing tests and exact command, and the next step. If context was compacted, do this immediately. Then reply exactly **CONTEXT HANDOFF WRITTEN**. The directive survives this revision and every successor handoff.
++
++
++## Scope revision — FIX4 (MB17, 2026-10-10T10:54:41.325730+00:00)
++
++**BUILD / synthetic-fixture correction only; real diagnostic remains UNRUN.** This additive revision implements criteria 1–3 and repeatability from `results/mathlab_staging/new1_construction_diag_astra_r3.md`, following MB15's stopped root-cause investigation. It supplies no launch approval. All prior scope bytes remain an exact prefix. Frozen scientific functions, three input pins, historical source, projector gate, scalar output schema, four constructions, authorization, 600-second/11-GiB/eight-thread/nice-10 caps and launch environment remain unchanged.
++
++Criterion 3 preceded every lifecycle edit. An external observer captured the unchanged stalled-launch test on attempt 1: guardian PID 85274 raised PermissionError from group signalling, escaped into the inherited supervisor, failed descriptor cleanup, and called `_exit(2)` at the old supervise:612. Parent PID 85239 then called the same exit site after both cleanup attempts lacked a worker reaping proof, with approximately 0.740 seconds remaining. This is an attribution of the new saved occurrence, not of historical runs 06 or 18. The observer preserved actual `_exit` behavior and recorded roles, stack/exit site, primary and cleanup exceptions, remaining deadline and ownership. A forced occurrence of the same signalling refusal and child escape was captured with lifecycle source unchanged before implementation; a deterministic criterion-3 regression RED followed before lifecycle edits. See the new receipt directory's `capture_001.jsonl`, `capture_index.json`, `deterministic_before/` and `red_c3_deterministic/`.
++
++The lifecycle correction falls back from refused/missing group signalling to signalling the already-owned worker PID, still requiring an actual waitpid result. A denied direct PID signal continues to raise. Guardian setup enters its existing protected lifecycle, and the raw-fork child branch now has an unconditional child-exit boundary, preventing setup/final-send exceptions or a return from reaching inherited supervisor/unittest code. Cleanup and all three deliberate supervisor emergency exits remain byte-identical. There are no new retries, increased caps, or fabricated successful cleanup receipts.
++
++Criterion 1 removes the inherited exact-one-kill assertion from the stalled-launch test while retaining STOPPED-LAUNCH, its .3-second return bound, the .05-second launch/cleanup fixture bounds and absent arithmetic marker. It adds immediate guardian/worker OS checks and descriptor/stream closure checks before teardown. Deterministic real-child schedules verify (kills, code) of (0, 2) for already-exited, (1, -9) for still-live, and (1, 2) for exit between the wait and the termination attempt. The last fixture uses native waitid(WNOWAIT) only to observe the controlled exit without consuming the guardian's waitpid reaping responsibility. No global kills/exit-code biconditional is imposed.
++
++Criterion 2 independently injects setup-before-try and final-receipt-send exceptions, with PID-tagged inherited-supervisor sentinels. Failures after worker creation retain real termination/reaping; missing parent-side proof remains fail-closed. Criterion 3's corrected ordinary stalled schedule must complete unittest and ownership checks. Its separate missing-proof and terminal-output controls preserve native bounded fail-stops and external differentiation from normal failure return.
++
++Six new methods are numbered `test_fix4_c1_*`, `test_fix4_c2_*`, `test_fix4_c3_*`; all 182 existing methods remain, for 188 total (66 construction, 27 identity, 34 geometry, 61 supervisor). Every new method has a saved behavioral RED before its implementing change, and all six individual GREEN receipts are saved. The zero-kill REDs remain preserved. A fixture syntax error before execution and a first-GREEN signal-0 observation-label error are documented separately and do not count as behavioral RED or repetition evidence.
++
++FIX4 receipt directory: `results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/`. `build_report.md`, the final audit/release manifest and launch command bind final hashes externally. Required sandbox pre-check: 20 consecutive fresh-process solo runs and 3 consecutive fresh-process four-suite runs, preserving each log and any failure without selective restarts. Required MAESTRO host check: 100 consecutive fresh-process solo runs and 10 consecutive fresh-process four-suite runs. Repetition is a practical threshold, not proof of non-flakiness; deterministic schedule coverage remains necessary. Host repetitions, real CPU admission, real input rehash, real numerical execution and model/GPU execution are UNRUN by MB17. MAESTRO11 verifies/commits; binding Astra review remains required.
++
++Current lifecycle/source/test pins:
++
++- `tools/new1_identity_diag.py`: `1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a`
++- `tools/new1_construction_diag.py`: `b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4`
++- `tests/test_new1_construction_diag.py`: `c80e08c5b36ffb9e5c83a2a47d9fdf28b223fb9e7e5d47a003893b681cbf69d4`
++
++The final scope SHA is recorded outside this file; the launch command uses that final scope SHA and final construction script SHA. The niceness calculation `10-current_nice`, source/input checks, namespace, exclusive two-file output, error-recording budget and fixed outcome table remain the preceding launch contract.
++
++**Context directive (binding; restate in every handoff):** watch Context N% left. Start a new piece of work only at 60% left or more. At 40% left or less, stop starting work, append a handoff at the end of build_report.md with completed and half-applied work, exact changed paths and SHA-256 values, failing tests and exact commands, and next step, then reply CONTEXT HANDOFF WRITTEN. If context is compacted, do so immediately.
++
++
++### FIX4 verification stop — 2026-10-10T11:05:29.467589+00:00
++
++**NEW1 FIX4 STOPPED: the required sandbox full-suite repetition failed.** The six new regressions have individual GREENs with saved behavioral REDs, and the corrected stalled-launch test passed 20 consecutive fresh-process solo runs on the frozen candidate. The first required four-suite run completed 188 methods with exit 1, six failures in existing supervisor deadline/resource fixtures, and a ResourceWarning for a still-running fixture subprocess. Its complete log and hash-bound index remain in `results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/sandbox_full_3/`. The repetition driver stopped; runs 2–3 were not selectively restarted or replaced.
++
++The six failing methods are `SupervisorTests.test_blocked_halt_persistence_cannot_extend_total_deadline`, `test_blocking_admission_is_interrupted_by_whole_run_deadline`, `test_cell_alarm_interrupts_blocked_persistence_inside_total_cap`, `test_supervisor_cell_deadline_interrupts_a_blocked_resource_probe`, `test_watchdog_enforces_during_blocked_persistence`, and `test_watchdog_refuses_memory_drop_during_blocking_admission`. Supervisor production/tests and all other protected files remain unchanged. These observations do not establish whether the failure predates FIX4 or is caused by this candidate.
++
++A separate fresh-process solo control of the blocked-admission fixture passed. A diagnostic-only full-suite run under an external result/state observer passed all 188 methods; it recorded default SIGALRM handlers, empty main-thread signal masks and inactive timers before/after every method. Those controls are investigative evidence, not replacement acceptance runs. The first required failure remains disqualifying; the signal/timing mechanism is unresolved. No cap increase, retry, protected-file edit or discarded failure was used to reach GREEN. No launch approval is claimed. Final static audit, receipts, hashes and an unexecuted pinned launch command are refreshed for MAESTRO11/Astra; the exact host repetition commands are in build_report.md. Further acceptance work needs their review of this saved failure.

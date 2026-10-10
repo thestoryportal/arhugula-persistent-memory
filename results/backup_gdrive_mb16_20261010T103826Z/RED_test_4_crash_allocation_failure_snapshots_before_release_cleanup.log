@@ -1,0 +1,16 @@
+COMMAND: ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", "HostFixtureTests.test_4_crash_allocation_failure_snapshots_before_release_cleanup", "-v"]
+EXIT: 1
+test_4_crash_allocation_failure_snapshots_before_release_cleanup (__main__.HostFixtureTests.test_4_crash_allocation_failure_snapshots_before_release_cleanup) ... FAIL
+
+======================================================================
+FAIL: test_4_crash_allocation_failure_snapshots_before_release_cleanup (__main__.HostFixtureTests.test_4_crash_allocation_failure_snapshots_before_release_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 264, in test_4_crash_allocation_failure_snapshots_before_release_cleanup
+    self.assertTrue((self.evidence/"process_snapshot.txt").exists())
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

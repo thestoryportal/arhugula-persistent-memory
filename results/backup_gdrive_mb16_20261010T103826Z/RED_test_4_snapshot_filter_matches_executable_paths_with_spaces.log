@@ -1,0 +1,16 @@
+COMMAND: ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", "HostFixtureTests.test_4_snapshot_filter_matches_executable_paths_with_spaces", "-v"]
+EXIT: 1
+test_4_snapshot_filter_matches_executable_paths_with_spaces (__main__.HostFixtureTests.test_4_snapshot_filter_matches_executable_paths_with_spaces) ... FAIL
+
+======================================================================
+FAIL: test_4_snapshot_filter_matches_executable_paths_with_spaces (__main__.HostFixtureTests.test_4_snapshot_filter_matches_executable_paths_with_spaces)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 192, in test_4_snapshot_filter_matches_executable_paths_with_spaces
+    self.assertIn(f"{self.executable} -psn_0_1", filtered)
+AssertionError: '/private/tmp/mb16_unit_a4fpv9nr/root with spaces/Native_1.app/Contents/MacOS/applet -psn_0_1' not found in ''
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

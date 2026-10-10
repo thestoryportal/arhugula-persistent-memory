@@ -1,0 +1,7 @@
+test_blocking_admission_is_interrupted_by_whole_run_deadline (tests.test_new1_supervisor.SupervisorTests.test_blocking_admission_is_interrupted_by_whole_run_deadline) ... STOPPED-DEADLINE: STOPPED-DEADLINE: whole-run wall-clock cap reached; closeout incomplete: STOPPED-DEADLINE: whole-run deadline reached; no prediction verdict
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.062s
+
+OK
