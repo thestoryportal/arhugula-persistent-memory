@@ -1,0 +1,3 @@
+#!/bin/bash
+if [ "$2" = classify ]; then exit 5; fi
+exec /usr/bin/python3 "$@"

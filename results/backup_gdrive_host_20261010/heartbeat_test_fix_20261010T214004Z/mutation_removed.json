@@ -1,0 +1,8 @@
+{
+  "scratch_removed": true,
+  "candidate_pins_unchanged": {
+    "tools/backup_gdrive_status.py": true,
+    "tools/backup_gdrive.sh": true,
+    "tools/test_backup_gdrive_addendum.py": true
+  }
+}

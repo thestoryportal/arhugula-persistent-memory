@@ -1,0 +1,27 @@
+[
+  {
+    "alive": false,
+    "argv": [
+      "/bin/bash",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/mutation_scratch_tools/backup_gdrive.sh"
+    ],
+    "pid": 27036,
+    "returncode": 0,
+    "started_monotonic": 0.227223083
+  },
+  {
+    "alive": false,
+    "argv": [
+      "/bin/bash",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/mutation_scratch_tools/backup_gdrive.sh"
+    ],
+    "pid": 27066,
+    "returncode": 75,
+    "started_monotonic": 0.886697416
+  },
+  {
+    "alive": false,
+    "pid": 27054,
+    "role": "fixture sync shell, observed from owned lock/rclone.pid"
+  }
+]

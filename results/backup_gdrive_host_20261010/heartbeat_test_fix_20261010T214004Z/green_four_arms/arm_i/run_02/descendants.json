@@ -1,0 +1,167 @@
+{
+  "positive_control": true,
+  "runner_pid": 28191,
+  "observed": [
+    {
+      "pid": 28192,
+      "ppid": 28191,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 0.672915125,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28196,
+      "ppid": 28192,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 0.672991,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28202,
+      "ppid": 28192,
+      "path": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/bin/python3.11",
+      "first_seen_monotonic": 0.688238541,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28203,
+      "ppid": 28192,
+      "path": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/bin/python3.11",
+      "first_seen_monotonic": 0.711413333,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28204,
+      "ppid": 28203,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 0.742068791,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28211,
+      "ppid": 28192,
+      "path": null,
+      "first_seen_monotonic": 0.965710708,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28214,
+      "ppid": 28192,
+      "path": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/bin/python3.11",
+      "first_seen_monotonic": 0.981000166,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28213,
+      "ppid": 28192,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 0.981005041,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28216,
+      "ppid": 28213,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 0.981080833,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28218,
+      "ppid": 28191,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 0.996381375,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28217,
+      "ppid": 28213,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 0.996530041,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28221,
+      "ppid": 28213,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 1.011972666,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28228,
+      "ppid": 28218,
+      "path": "/bin/mkdir",
+      "first_seen_monotonic": 1.012121291,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28229,
+      "ppid": 28213,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 1.022462208,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28232,
+      "ppid": 28218,
+      "path": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/bin/python3.11",
+      "first_seen_monotonic": 1.022612583,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28233,
+      "ppid": 28213,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 1.037985166,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28234,
+      "ppid": 28191,
+      "path": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/bin/python3.11",
+      "first_seen_monotonic": 1.050152208,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28235,
+      "ppid": 28213,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 1.05030175,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28236,
+      "ppid": 28213,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 1.063968125,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28237,
+      "ppid": 28213,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 1.079424,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28238,
+      "ppid": 28192,
+      "path": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/bin/python3.11",
+      "first_seen_monotonic": 1.089740333,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28244,
+      "ppid": 28192,
+      "path": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/bin/python3.11",
+      "first_seen_monotonic": 1.122900291,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 28253,
+      "ppid": 28192,
+      "path": "/bin/rm",
+      "first_seen_monotonic": 1.148674791,
+      "alive_after_runner_exit": false
+    }
+  ]
+}

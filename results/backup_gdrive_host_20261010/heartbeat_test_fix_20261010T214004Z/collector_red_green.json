@@ -1,0 +1,5 @@
+{
+  "old_collector_failed": true,
+  "old_error": "[('/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/collector_check_tuwme0c0/source/dangling', '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/collector_check_tuwme0c0/broken_copy/dangling', \"[Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/collector_check_tuwme0c0/source/dangling'\")]",
+  "fixed_collector_preserves_dangling_link": true
+}

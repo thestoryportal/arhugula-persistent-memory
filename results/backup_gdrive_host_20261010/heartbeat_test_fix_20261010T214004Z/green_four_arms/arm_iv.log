@@ -1,0 +1,79 @@
+RUN 01
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.205s
+
+OK
+
+RUN 02
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.208s
+
+OK
+
+RUN 03
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.171s
+
+OK
+
+RUN 04
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.194s
+
+OK
+
+RUN 05
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.204s
+
+OK
+
+RUN 06
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.264s
+
+OK
+
+RUN 07
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.231s
+
+OK
+
+RUN 08
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.221s
+
+OK
+
+RUN 09
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.205s
+
+OK
+
+RUN 10
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.228s
+
+OK

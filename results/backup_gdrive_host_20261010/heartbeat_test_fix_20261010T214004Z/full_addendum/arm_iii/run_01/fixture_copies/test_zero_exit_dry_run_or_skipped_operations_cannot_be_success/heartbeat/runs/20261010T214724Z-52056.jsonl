@@ -1,0 +1,2 @@
+{"level": "notice", "msg": "Skipping move", "object": "tiny.txt", "size": 8}
+{"level": "notice", "stats": {"bytes": 8, "errors": 0, "fatalError": false}}

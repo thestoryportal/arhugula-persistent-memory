@@ -1,0 +1,22 @@
+{
+  "classes": [
+    "StatusTest",
+    "HeartbeatTest",
+    "LaunchReceiptTest",
+    "GenerationStatusTest",
+    "GenerationLaunchTest",
+    "R5RecoveryTest",
+    "R7PublicationTemporaryTest",
+    "R7ArchivePrecisionTest",
+    "R8CurrentUnresolvedTest",
+    "R8DuplicateKeysTest",
+    "R5CompactionTest",
+    "GenerationWrapperTest",
+    "ArchiveTest"
+  ],
+  "native_classes_excluded": [
+    "LauncherTest"
+  ],
+  "real_rclone_disabled": true,
+  "test_count": 134
+}

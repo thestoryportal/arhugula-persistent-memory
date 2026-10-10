@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ "$1" = version ]; then echo "rclone-test"; exit 0; fi
+if [ "$1" = config ]; then printf "{}\n"; exit 0; fi
+touch "$BACKUP_LOCK_DIR/unexpected"

@@ -1,0 +1,6 @@
+{
+  "only_named_test_changed": true,
+  "test_sha256": "b764938802edf101be01493d24012a586076ca9f00bbfba2193c70336e54fdf1",
+  "protected_tools_unchanged": true,
+  "mutant_removed": true
+}

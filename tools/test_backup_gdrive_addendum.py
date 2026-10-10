@@ -420,11 +420,27 @@ source "$1"
                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         self.addCleanup(owner.communicate, timeout=8)
         self.addCleanup(release.touch)
+        # Allow up to three seconds for the owner's post-dispatch PID publication.
         deadline = time.monotonic()+3
-        while not entered.exists() and owner.poll() is None and time.monotonic()<deadline:
+        child_pid_path = self.base/"lock/rclone.pid"
+        missing = ["post-dispatch heartbeat publication"]
+        while time.monotonic()<deadline:
+            value = json.loads(self.heartbeat.read_text()) if self.heartbeat.exists() else {}
+            child_pid = child_pid_path.read_text().strip() if child_pid_path.exists() else ""
+            published_pid = value.get("rclone_pid")
+            conditions = [
+                (owner.poll() is None, "running lock owner"),
+                (entered.exists(), "dispatch marker"),
+                (value.get("owner_pid") == owner.pid, "heartbeat owner_pid == owner.pid"),
+                (type(published_pid) is int and published_pid > 0 and child_pid.isdigit() and
+                 published_pid == int(child_pid), "positive heartbeat rclone_pid matching lock/rclone.pid"),
+            ]
+            missing = [name for reached, name in conditions if not reached]
+            if not missing:
+                break
             time.sleep(0.01)
-        self.assertTrue(entered.exists())
-        time.sleep(0.1)  # Wait for the child PID publication as well as dispatch.
+        else:
+            self.fail("three-second timeout waiting for: "+", ".join(missing))
         previous = self.heartbeat.read_bytes()
         result = self.backup()
         self.assertEqual(result.returncode, 75, result.stderr)

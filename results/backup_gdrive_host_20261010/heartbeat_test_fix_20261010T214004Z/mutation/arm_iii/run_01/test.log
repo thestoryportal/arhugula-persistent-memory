@@ -1,0 +1,16 @@
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... FAIL
+
+======================================================================
+FAIL: test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 447, in test_held_lock_refusal_cannot_overwrite_owner_heartbeat
+    self.assertEqual(self.heartbeat.read_bytes(), previous, "a non-owner cannot publish over the active owner")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/run_single.py", line 70, in capture_assert
+    return original_assert(self, first, second, msg)
+AssertionError: b'{"b[14 chars]ed": 0, "end": "2026-10-10T21:41:58.865335+00:[874 chars]0}\n' != b'{"b[14 chars]ed": null, "end": null, "exit_code": null, "la[859 chars]5}\n' : a non-owner cannot publish over the active owner
+
+----------------------------------------------------------------------
+Ran 1 test in 1.075s
+
+FAILED (failures=1)
