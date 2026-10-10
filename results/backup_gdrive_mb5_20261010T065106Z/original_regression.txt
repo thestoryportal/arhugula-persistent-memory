@@ -1,0 +1,17 @@
+COMMAND: LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B tools/test_backup_gdrive.py -v
+test_empty_source_cannot_erase_existing_backup (__main__.BackupTest.test_empty_source_cannot_erase_existing_backup) ... ok
+test_held_lock_refuses_and_logs_without_changing_destination (__main__.BackupTest.test_held_lock_refuses_and_logs_without_changing_destination) ... ok
+test_interruption_retains_lock_while_child_may_still_run (__main__.BackupTest.test_interruption_retains_lock_while_child_may_still_run) ... ok
+test_missing_source_refuses (__main__.BackupTest.test_missing_source_refuses) ... ok
+test_real_rclone_failure_is_nonzero_and_logged (__main__.BackupTest.test_real_rclone_failure_is_nonzero_and_logged) ... ok
+test_stale_lock_refuses_explicitly_without_auto_removal (__main__.BackupTest.test_stale_lock_refuses_explicitly_without_auto_removal) ... ok
+test_three_runs_keep_old_versions_and_exclude_regenerable_files (__main__.BackupTest.test_three_runs_keep_old_versions_and_exclude_regenerable_files) ... ok
+test_timeout_stops_entire_sync_group_before_cleanup (__main__.BackupTest.test_timeout_stops_entire_sync_group_before_cleanup) ... ok
+test_unmounted_volume_refuses (__main__.BackupTest.test_unmounted_volume_refuses) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 7.026s
+
+OK
+
+EXIT_CODE: 0

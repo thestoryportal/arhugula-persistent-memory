@@ -1,0 +1,93 @@
+COMMAND: LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B tools/test_backup_gdrive_addendum.py StatusTest.test_malformed_warning_fields_refuse_success HeartbeatTest.test_verified_vanish_accepts_native_and_counted_terminal_messages HeartbeatTest.test_inconsistent_vanish_evidence_remains_fatal HeartbeatTest.test_source_symlink_escape_and_inaccessible_source_remain_fatal HeartbeatTest.test_valid_json_without_final_newline_cannot_normalize_failure HeartbeatTest.test_recovered_source_vanish_is_visible_without_final_deletion_suppression -v
+test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) ... 
+  test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': 'source vanished'}) ... FAIL
+  test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': ['source vanished']}) ... FAIL
+  test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': [{'kind': 'unknown'}]}) ... FAIL
+  test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'rclone_exit_code': '1'}) ... FAIL
+test_verified_vanish_accepts_native_and_counted_terminal_messages (__main__.HeartbeatTest.test_verified_vanish_accepts_native_and_counted_terminal_messages) ... 
+  test_verified_vanish_accepts_native_and_counted_terminal_messages (__main__.HeartbeatTest.test_verified_vanish_accepts_native_and_counted_terminal_messages) (counted=True) ... FAIL
+  test_verified_vanish_accepts_native_and_counted_terminal_messages (__main__.HeartbeatTest.test_verified_vanish_accepts_native_and_counted_terminal_messages) (counted=False) ... FAIL
+test_inconsistent_vanish_evidence_remains_fatal (__main__.HeartbeatTest.test_inconsistent_vanish_evidence_remains_fatal) ... ok
+test_source_symlink_escape_and_inaccessible_source_remain_fatal (__main__.HeartbeatTest.test_source_symlink_escape_and_inaccessible_source_remain_fatal) ... ok
+test_valid_json_without_final_newline_cannot_normalize_failure (__main__.HeartbeatTest.test_valid_json_without_final_newline_cannot_normalize_failure) ... ok
+test_recovered_source_vanish_is_visible_without_final_deletion_suppression (__main__.HeartbeatTest.test_recovered_source_vanish_is_visible_without_final_deletion_suppression) ... ERROR
+
+======================================================================
+ERROR: test_recovered_source_vanish_is_visible_without_final_deletion_suppression (__main__.HeartbeatTest.test_recovered_source_vanish_is_visible_without_final_deletion_suppression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 418, in test_recovered_source_vanish_is_visible_without_final_deletion_suppression
+    self.assertEqual(value["rclone_exit_code"],0)
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'rclone_exit_code'
+
+======================================================================
+FAIL: test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': 'source vanished'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 115, in test_malformed_warning_fields_refuse_success
+    self.assert_bad("malformed")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 51, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T06:53:50.030831+00:00
+
+
+======================================================================
+FAIL: test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': ['source vanished']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 115, in test_malformed_warning_fields_refuse_success
+    self.assert_bad("malformed")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 51, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T06:53:50.052501+00:00
+
+
+======================================================================
+FAIL: test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': [{'kind': 'unknown'}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 115, in test_malformed_warning_fields_refuse_success
+    self.assert_bad("malformed")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 51, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T06:53:50.073818+00:00
+
+
+======================================================================
+FAIL: test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'rclone_exit_code': '1'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 115, in test_malformed_warning_fields_refuse_success
+    self.assert_bad("malformed")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 51, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T06:53:50.095070+00:00
+
+
+======================================================================
+FAIL: test_verified_vanish_accepts_native_and_counted_terminal_messages (__main__.HeartbeatTest.test_verified_vanish_accepts_native_and_counted_terminal_messages) (counted=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 353, in test_verified_vanish_accepts_native_and_counted_terminal_messages
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 1 != 0 : backup_gdrive: 20261010T065350Z-13658 start /private/tmp/gdrive_addendum_pzq_hakb/source/ -> /private/tmp/gdrive_addendum_pzq_hakb/mirror/; archive=/private/tmp/gdrive_addendum_pzq_hakb/.deleted/20261010T065350Z-13658/; rclone-log=/private/tmp/gdrive_addendum_pzq_hakb/heartbeat/runs/20261010T065350Z-13658.jsonl
+backup_gdrive: 20261010T065350Z-13658 FATAL: rclone failed (exit 1); see /private/tmp/gdrive_addendum_pzq_hakb/heartbeat/runs/20261010T065350Z-13658.jsonl
+
+
+======================================================================
+FAIL: test_verified_vanish_accepts_native_and_counted_terminal_messages (__main__.HeartbeatTest.test_verified_vanish_accepts_native_and_counted_terminal_messages) (counted=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 353, in test_verified_vanish_accepts_native_and_counted_terminal_messages
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 1 != 0 : backup_gdrive: 20261010T065350Z-13680 start /private/tmp/gdrive_addendum_pzq_hakb/source/ -> /private/tmp/gdrive_addendum_pzq_hakb/mirror/; archive=/private/tmp/gdrive_addendum_pzq_hakb/.deleted/20261010T065350Z-13680/; rclone-log=/private/tmp/gdrive_addendum_pzq_hakb/heartbeat/runs/20261010T065350Z-13680.jsonl
+backup_gdrive: 20261010T065350Z-13680 FATAL: rclone failed (exit 1); see /private/tmp/gdrive_addendum_pzq_hakb/heartbeat/runs/20261010T065350Z-13680.jsonl
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 4.045s
+
+FAILED (failures=6, errors=1)
+
+EXIT_CODE: 1

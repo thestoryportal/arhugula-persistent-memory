@@ -107,6 +107,23 @@ class StatusTest(Fixture):
         self.assertIn("with warnings", result.stdout)
         self.assertIn("deletions suppressed", result.stdout)
 
+    def test_malformed_warning_fields_refuse_success(self):
+        for changes in [{"warnings":"source vanished"}, {"warnings":["source vanished"]},
+                        {"warnings":[{"kind":"unknown"}]}, {"rclone_exit_code":"1"},
+                        {"warnings":[{"kind":"source_vanished"}]},
+                        {"warnings":[{"kind":"source_vanished","object":[]}]},
+                        {"warnings":[{"kind":"nonregular_source_skipped","object":""}]}]:
+            with self.subTest(changes=changes):
+                self.write_heartbeat(**changes)
+                self.assert_bad("malformed")
+
+    def test_warning_paths_are_one_status_line(self):
+        self.write_heartbeat(rclone_exit_code=0,warnings=[{"kind":"source_vanished","object":"line\nbreak"}])
+        result=self.status()
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertEqual(len(result.stdout.splitlines()),1)
+        self.assertIn("line\\nbreak",result.stdout)
+
 
 class HeartbeatTest(Fixture):
     def setUp(self):
@@ -292,6 +309,12 @@ class HeartbeatTest(Fixture):
         (objects/"ab").mkdir()
         (objects/"ab/tmp_obj_nested").write_text("transient nested")
         (objects/"ab/permanent_hash").write_text("durable Git object")
+        root_objects=self.src/".git/objects"
+        root_objects.mkdir(parents=True)
+        (root_objects/"tmp_obj_root").write_text("transient root")
+        (root_objects/"ab").mkdir()
+        (root_objects/"ab/tmp_obj_root_nested").write_text("transient root nested")
+        (root_objects/"ab/permanent_root_hash").write_text("durable root Git object")
         (self.src/"ordinary.sock").write_text("regular file with socket suffix")
         result=self.backup()
         self.assertEqual(result.returncode,0,result.stderr)
@@ -299,6 +322,9 @@ class HeartbeatTest(Fixture):
         self.assertFalse((mirror/"repo/.git/objects/tmp_obj_live").exists())
         self.assertFalse((mirror/"repo/.git/objects/ab/tmp_obj_nested").exists())
         self.assertTrue((mirror/"repo/.git/objects/ab/permanent_hash").exists())
+        self.assertFalse((mirror/".git/objects/tmp_obj_root").exists())
+        self.assertFalse((mirror/".git/objects/ab/tmp_obj_root_nested").exists())
+        self.assertTrue((mirror/".git/objects/ab/permanent_root_hash").exists())
         self.assertEqual((mirror/"ordinary.sock").read_text(),"regular file with socket suffix")
 
     def test_native_nonregular_skip_is_recorded_as_warning(self):
@@ -335,6 +361,157 @@ class HeartbeatTest(Fixture):
         self.assertEqual(result.returncode,7)
         self.assertIn("FATAL",result.stderr)
         self.assertNotEqual(self.status().returncode,0)
+
+    def test_verified_vanish_accepts_native_and_counted_terminal_messages(self):
+        for counted in [True, False]:
+            with self.subTest(counted=counted):
+                records=self.vanished_records()
+                if not counted:
+                    records[-1]["msg"]=records[-1]["msg"].replace(" with 1 errors", "")
+                result=self.backup(BACKUP_RCLONE=self.log_rclone(records))
+                self.assertEqual(result.returncode,0,result.stderr)
+                value=json.loads(self.heartbeat.read_text())
+                self.assertEqual(value["rclone_exit_code"],1)
+                self.assertEqual(value["bytes_transferred"],8)
+                self.assertIn({"kind":"source_vanished", "object":"lost.bin"},value["warnings"])
+                self.assertIn("deletions suppressed",self.status().stdout)
+
+    def test_inconsistent_vanish_evidence_remains_fatal(self):
+        cases=[]
+        for stats in [{"bytes":8,"errors":0,"fatalError":False},
+                      {"bytes":8,"errors":2,"fatalError":False},
+                      {"bytes":8,"errors":1,"fatalError":True},
+                      {"errors":1,"fatalError":False},
+                      {"bytes":8,"errors":1,"fatalError":False,"lastError":"permission denied"},
+                      {"bytes":8,"errors":1,"fatalError":False,"transferring":[{"name":"active.bin"}]},
+                      *({"bytes":8,"errors":1,"fatalError":False,"transferring":bad} for bad in [0,False,"",{}])]:
+            records=self.vanished_records()
+            records[-2]["stats"]=stats
+            cases.append(records)
+        records=self.vanished_records()
+        records[0]["object"]="mismatched.bin"
+        cases.append(records)
+        records=self.vanished_records()
+        records[-1]["msg"]="Failed to sync: permission denied"
+        cases.append(records)
+        records=self.vanished_records()
+        records.insert(1,{"level":"error","msg":"Failed to delete destination object"})
+        cases.append(records)
+        cases.append(self.vanished_records()+[{"level":"info","msg":"still running"}])
+        for records in cases:
+            with self.subTest(records=records):
+                result=self.backup(BACKUP_RCLONE=self.log_rclone(records))
+                self.assertEqual(result.returncode,1,result.stderr)
+                self.assertIn("FATAL",result.stderr)
+                self.assertNotEqual(self.status().returncode,0)
+
+    def test_source_symlink_escape_and_inaccessible_source_remain_fatal(self):
+        outside=self.base/"outside"
+        outside.mkdir()
+        (self.src/"escape").symlink_to(outside,target_is_directory=True)
+        hidden=self.src/"hidden"
+        hidden.mkdir()
+        hidden.chmod(0o000)
+        try:
+            for name in ["escape/lost.bin", "hidden/lost.bin", "/absolute-lost.bin", "a/../lost.bin"]:
+                with self.subTest(name=name):
+                    result=self.backup(BACKUP_RCLONE=self.log_rclone(self.vanished_records(name)))
+                    self.assertEqual(result.returncode,1,result.stderr)
+                    self.assertIn("FATAL",result.stderr)
+        finally:
+            hidden.chmod(0o700)
+
+    def test_valid_json_without_final_newline_cannot_normalize_failure(self):
+        fake=self.log_rclone(self.vanished_records())
+        script=Path(fake)
+        script.write_text(script.read_text().replace("sys.exit(1)\n", "path.write_text(path.read_text().rstrip('\\n'))\nsys.exit(1)\n"))
+        result=self.backup(BACKUP_RCLONE=fake)
+        self.assertEqual(result.returncode,1,result.stderr)
+        self.assertIn("FATAL",result.stderr)
+
+        fake=self.log_rclone(self.vanished_records())
+        script=Path(fake)
+        script.write_text(script.read_text().replace("sys.exit(1)\n", "Path("+repr(str(self.src))+ ").rename("+repr(str(self.base/"moved-source"))+")\nsys.exit(1)\n"))
+        result=self.backup(BACKUP_RCLONE=fake)
+        self.assertEqual(result.returncode,1,result.stderr)
+        self.assertIn("FATAL",result.stderr)
+
+    def test_recovered_source_vanish_is_visible_without_final_deletion_suppression(self):
+        records=self.vanished_records()[:-1]
+        records.append({"level":"notice","stats":{"bytes":8,"errors":0,"fatalError":False}})
+        result=self.backup(BACKUP_RCLONE=self.log_rclone(records,0))
+        self.assertEqual(result.returncode,0,result.stderr)
+        value=json.loads(self.heartbeat.read_text())
+        self.assertEqual(value.get("rclone_exit_code"),0)
+        self.assertIn({"kind":"source_vanished","object":"lost.bin"},value["warnings"])
+        self.assertNotIn({"kind":"destination_deletions_suppressed"},value["warnings"])
+        self.assertIn("with warnings",self.status().stdout)
+
+    def test_classifier_failure_keeps_successful_raw_rclone_exit(self):
+        python=self.base/"classification-fails"
+        python.write_text('#!/bin/bash\nif [ "$2" = classify ]; then exit 5; fi\nexec /usr/bin/python3 "$@"\n')
+        python.chmod(0o700)
+        result=self.backup(BACKUP_PYTHON=str(python))
+        self.assertEqual(result.returncode,1,result.stderr)
+        self.assertEqual(json.loads(self.heartbeat.read_text())["rclone_exit_code"],0)
+        self.assert_bad("failed")
+
+    def test_malformed_stats_do_not_reuse_earlier_bytes(self):
+        records=[{"level":"notice","stats":{"bytes":8,"errors":0,"fatalError":False}},
+                 {"level":"notice","stats":{"bytes":"torn","errors":0,"fatalError":False}}]
+        result=self.backup(BACKUP_RCLONE=self.log_rclone(records,0))
+        self.assertEqual(result.returncode,0,result.stderr)
+        value=json.loads(self.heartbeat.read_text())
+        self.assertIsNone(value["bytes_transferred"])
+        self.assertEqual(value["stats_status"],"malformed")
+        self.assertIn("with warnings",self.status().stdout)
+
+    def test_duplicate_fields_and_non_json_constants_cannot_hide_errors(self):
+        for extra in ['{"level":"error","level":"notice","msg":"permission denied"}',
+                      '{"level":"info","msg":"invalid JSON","size":NaN}']:
+            with self.subTest(extra=extra):
+                records=self.vanished_records()
+                records.insert(1,extra)
+                result=self.backup(BACKUP_RCLONE=self.log_rclone(records))
+                self.assertEqual(result.returncode,1,result.stderr)
+                self.assertIn("FATAL",result.stderr)
+
+    def test_each_retry_has_its_own_error_count_and_suppression_proof(self):
+        records=self.vanished_records()[:-2]+self.vanished_records()
+        records[3]["msg"]=records[3]["msg"].replace("1/1", "1/2")
+        records[7]["msg"]=records[7]["msg"].replace("1/1", "2/2")
+        result=self.backup(BACKUP_RCLONE=self.log_rclone(records))
+        self.assertEqual(result.returncode,0,result.stderr)
+        value=json.loads(self.heartbeat.read_text())
+        self.assertEqual(value["rclone_exit_code"],1)
+        self.assertEqual(value["warnings"].count({"kind":"source_vanished","object":"lost.bin"}),1)
+
+    def test_stats_before_final_attempt_do_not_prove_completion(self):
+        records=self.vanished_records()
+        records.insert(3,records.pop(-2))
+        result=self.backup(BACKUP_RCLONE=self.log_rclone(records))
+        self.assertEqual(result.returncode,1,result.stderr)
+        self.assertIn("FATAL",result.stderr)
+
+    def test_native_warning_on_success_is_visible(self):
+        records=[{"level":"warning","msg":"partial source notice","object":"fixture.bin"},
+                 {"level":"notice","stats":{"bytes":8,"errors":0,"fatalError":False}}]
+        result=self.backup(BACKUP_RCLONE=self.log_rclone(records,0))
+        self.assertEqual(result.returncode,0,result.stderr)
+        value=json.loads(self.heartbeat.read_text())
+        self.assertIn({"kind":"rclone_warning","message":"partial source notice","object":"fixture.bin"},value["warnings"])
+        self.assertIn("WARN",result.stderr)
+        self.assertIn("with warnings",self.status().stdout)
+
+    def test_vanished_parent_is_warning_but_dangling_symlink_escape_is_fatal(self):
+        records=self.vanished_records("removed-parent/lost.bin")
+        result=self.backup(BACKUP_RCLONE=self.log_rclone(records))
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertEqual(json.loads(self.heartbeat.read_text())["rclone_exit_code"],1)
+        (self.src/"removed-parent").symlink_to(self.base/"absent-outside",target_is_directory=True)
+        result=self.backup(BACKUP_RCLONE=self.log_rclone(records))
+        self.assertEqual(result.returncode,1,result.stderr)
+        self.assertIn("FATAL",result.stderr)
 
 
 class ArchiveTest(Fixture):

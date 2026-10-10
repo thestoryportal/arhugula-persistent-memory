@@ -13,6 +13,8 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "tools/backup_gdrive.sh"
+GIT_TMP_EXCLUDES = ("**/.git/objects/**/tmp_obj_*", "**/.git/objects/tmp_obj_*",
+                    "/.git/objects/**/tmp_obj_*", "/.git/objects/tmp_obj_*")
 
 
 def run_process(args, *, env=None, timeout=1800):
@@ -238,9 +240,13 @@ def drive_selftest():
             changes = out / "dry_run_changes.txt"
             source = "/Volumes/memit/llm-database-poc-mirror/"
             excludes = str(ROOT / "tools/backup_mirror.excludes")
+            filters = ["--exclude-from", excludes]
+            for pattern in GIT_TMP_EXCLUDES:
+                filters.extend(["--exclude", pattern])
             rc("sync", source, "gdrive:memit-backup/llm-database-poc-mirror/", "--dry-run", "--links",
-               "--exclude-from", excludes, "--backup-dir", "gdrive:memit-backup/.deleted/DRY-RUN/", "--combined", str(changes))
-            local = json.loads(rc("lsjson", source, "--recursive", "--files-only", "--links", "--exclude-from", excludes))
+               *filters,
+               "--backup-dir", "gdrive:memit-backup/.deleted/DRY-RUN/", "--combined", str(changes))
+            local = json.loads(rc("lsjson", source, "--recursive", "--files-only", "--links", *filters))
             sizes = {x["Path"]: x["Size"] for x in local}
             planned = [line[2:] for line in changes.read_text().splitlines() if line.startswith(("+ ", "* "))]
             total = sum(sizes[name] for name in planned)

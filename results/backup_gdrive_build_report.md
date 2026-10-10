@@ -136,3 +136,55 @@ Read-only GPT-6/Codex-family helper review (not Astra) agreed to this narrowly s
 Worktree verified as `/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a`, branch `worktree-c10k-route-a`. Baseline HEAD `a0047f4cbef8154e3931df061482db187150b069`; observed shared HEAD `6aa22ab5990cd5eae9721d1106d6f2c487a02c5b`. No commits or mutating Git operations by this task; concurrent HEAD advance is preserved. Production wrapper/status unchanged since latest baseline: **True**. Protected old mirror script/excludes/plist and dashboard test unchanged: **True**. Runbook unchanged by this steering: **True**. Latest test SHA-256: `43e5fd2830010b4697c269a6f2de81978804824302b25cdb8b5751b274acc91e`. Wrapper SHA-256: `1c787df5cbacc4e10939d94b3194f52ba52bb0bfd83e61779affd92745209cc8`; status SHA-256: `4e7f695cc529c101417db1f78b0050a93a0881e7129f7ce8c02446cc99581cf4`. Current RED process has finished; no work is in flight. Audit and context save: `results/backup_gdrive_vanished_20261010T063803Z/audit_handoff.json`, `context_saved.md`.
 
 **BINDING context directive:** Watch your own and every orchestrated team's `Context N% left`. Before approximately **20%**, stop starting new work; write a task-report handoff listing done/in-flight work, exact paths, next steps and open risks; tell the orchestrator to start a fresh successor. Every handoff restates this rule; never approach full-window compaction. This handoff stops new work before the production correction.
+
+
+## MB5 vanished-source correction — local build complete — 2026-10-10T07:06:50.820783+00:00
+
+**Authorized Task 1 code correction DONE: 50 local tests PASS (41 addendum + 9 original), 28.425 s, exit 0.** This section supersedes the INCOMPLETE production-correction handoff above. The user's current scope delegates every Drive self-test, remote archive control, real-destination dry-run and upload-rate measurement to MAESTRO3. No Drive call or full sync was attempted in MB5. Remote correctness, transfer count/bytes, first-upload duration, deployment/TCC and launcher activation remain **UNVERIFIED**; this is local build completion, not full backup acceptance.
+
+### Warning and deletion contract
+
+The wrapper still dispatches exactly one sync, preserves rclone's IO-error deletion barrier, and publishes the terminal heartbeat before releasing its owned lock. It classifies the completed child log once, then passes that captured outcome into heartbeat publication; publication does not repeat the source check and silently change its meaning. A raw exit **1** becomes wrapper exit **0 with warnings** only when complete, newline-terminated, strictly valid per-run JSON proves local-source ENOENT: an exact local object/source path under the live source root, no traversal or symlink-parent escape, and current `lstat` FileNotFoundError. A vanished nested parent can qualify while the root remains live; inaccessible, existing/recreated or vanished-root sources cannot.
+
+Every ERROR must be an independently verified source-vanish record, a native files/directories deletion-suppression diagnostic, or an accounted Attempt summary. Each attempt has its own error count. Completion requires final NOTICE stats after the final attempt, nonfatal matching error count/last error, no active transfers, both deletion-suppression diagnostics, and a matching last terminal NOTICE. Native `Failed to sync: ...` and count-prefixed `Failed to sync with N errors: ...` are admitted. Missing/torn/malformed evidence, duplicate JSON fields, NaN/Infinity, mixed auth/permission/destination errors, mismatched paths/counts, incompatible transfer-stat types and non-1 failures remain nonzero/FATAL. Raw `rclone_exit_code` is retained independently, including raw 0 when outcome classification itself fails; wrapper/heartbeat failure then remains nonzero.
+
+Eligible raw-1 heartbeats contain structured `source_vanished` and `destination_deletions_suppressed` warnings. Wrapper logs explicitly say **source vanished; destination deletions suppressed**; fresh status returns 0 with **with warnings** and that qualification. This outcome is not an exact completed mirror. No second sync or delete pass follows it. Destination-only objects remain in place under rclone's barrier; a later successful scheduled sync may move them to the existing timestamped sibling `.deleted/` archive. Successful retries retain source-vanish warnings without claiming final deletions were suppressed. Ordinary successful runs retain archival of replacements/deletions via `--backup-dir`; excluded files are protected because no `--delete-excluded` or `--ignore-errors` is used.
+
+Native nonregular skips are recorded as `nonregular_source_skipped`; other native WARNING messages remain visible as `rclone_warning`. The local FIFO control exercises the skip notice; actual Unix-socket creation remains UNVERIFIED from the predecessor's sandbox refusal. Regular `ordinary.sock` files remain included. Malformed stats remain null/unknown with a warning rather than reusing earlier byte totals. Warning receipt fields are validated, and path newlines are escaped so status stays one line.
+
+### Git temporary-object filter
+
+Installed rclone v1.75.2's actual local `lsjson` probe (`filter_probe.json`) demonstrated that `**/.git/objects/**/tmp_obj_*` alone misses direct objects and source-root `.git` paths. The wrapper retains that requested pattern and adds exactly its three narrow companion forms: `**/.git/objects/tmp_obj_*`, `/.git/objects/**/tmp_obj_*`, and `/.git/objects/tmp_obj_*`. Permanent Git objects remain included. The explicit Drive real-source dry-run and filtered source listing use the identical four forms; their network behavior is still UNVERIFIED. Shared `tools/backup_mirror.excludes` is unchanged, and the predecessor's source inventory predates these filters.
+
+### Test-first evidence and review
+
+All MB5 receipts are under `results/backup_gdrive_mb5_20261010T065106Z/`. `red.txt` reproduced the predecessor's **27 tests / 4 failures** before implementation. `supplemental_red.txt` recorded terminal/status/recovery controls; its initial recovered-field lookup raised a missing-feature KeyError, and the assertion was changed to `.get` before final validation. `green_first.txt` recorded 33 tests with the one genuine direct-Git-object filter failure. `boundary_red.txt`, `review_red.txt`, `status_boundary_red.txt` and `final_boundary_red.txt` preserve each subsequently reproduced parser, raw-exit, measurement, completion-stat, warning-field and missing-parent failure. No failing receipt was overwritten.
+
+Final exact command (`green_final.txt`):
+
+```sh
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum tools.test_backup_gdrive -v
+```
+
+**50 PASS, zero failures/errors.** Real local-backend coverage includes create/modify/delete archival, symlinks/exclusions, queued source vanish retaining an existing destination-only file, native FIFO skip, byte accounting, archive download/SHA receipts and collision/corruption refusal. Synthetic adversarial controls cover strict log evidence, both terminal spellings, retry counters, inaccessible/path-escape/dangling-parent/missing-root cases, recovered warnings, malformed receipts, classifier failure, publication failures, overlap serialization, lock cleanup and whole-group timeout. Syntax/embedded archive Python, plist lint and scoped `git diff --check` PASS (`syntax.txt`, final audit below). No model, tensor, science or dashboard suite was run. GPT-family helper review is recorded separately; binding GPT-6-Astra review belongs to MAESTRO3.
+
+### File scope and local handoff
+
+Only the four backup wrapper/status/test files above and this report were edited; fresh evidence/context files were created in the named receipt directory. The ten protected baseline hashes match: archive helper, old mirror/excludes, both plists, dashboard test, CLAUDE.md, AGENTS.md, runbook and archive manifest (`baseline.json`, `audit.json`). The pre-existing dashboard diff was preserved. Baseline HEAD `f69a9a5faf3059b89a39603ce9dff9cb2ed92daf`; observed audit HEAD `11f61e35db4a9945546d5cd41ff2da41fe08e416`; branch remains `worktree-c10k-route-a`. Shared HEAD advances are concurrent work; MB5 performed no staging, commits, pushes, merges, file/branch/worktree deletion, launcher changes or memory_mirror edits. Local test fixture cleanup is confined to temporary roots.
+
+Environment note: RTK was absent from PATH and was located at `/opt/homebrew/bin/rtk`. One environment-required Graft CLI attempt failed before graph execution because its Node interpreter was absent from PATH (exit 127); no graph output was used and no follow-up was attempted.
+
+Done: warning correction, RED/GREEN receipts and scope proof. In flight: final report/context audit only. Next: MAESTRO3 performs binding Astra review, then the authorized host-only `--drive` / `--archive-drive` controls, exact scoped cleanup, real-destination dry-run and upload measurement. Existing activation/TCC review remains a separate step. Task 2 is intentionally unopened until the Task 1 completion reply.
+
+**BINDING context directive:** Watch this session and every orchestrated team's `Context N% left`. Before approximately **20%**, stop starting new work; write a handoff into the relevant task report with done/in-flight work, exact paths, next steps and open risks; tell the orchestrator to start a fresh successor. Every handoff restates this directive; never approach full-window compaction.
+
+Final code SHA-256:
+
+| File | SHA-256 |
+|---|---|
+| `tools/backup_gdrive.sh` | `d47b5cc52a06a3d9e8da4d2fccae4d1c4a54783dec705d51f4445a7532f71802` |
+| `tools/backup_gdrive_status.py` | `1caa8b252ff88eaa3b4c3e5f2bfc7723f41d03d7647c52e5fd13ca3f1d3f8bb9` |
+| `tools/test_backup_gdrive.py` | `9a78fd9879d3c45593268723b3d4a4df8556bfa25028eb0f60dbb13065886a62` |
+| `tools/test_backup_gdrive_addendum.py` | `ca61197aef612af8b28821e82c59bec0b76744c43fbd5417498e9e325b3d15d9` |
+
+Final helper verdict: **PROCEED, code preparation only** (`results/backup_gdrive_mb5_20261010T065106Z/helper_review.txt`). No blocking code findings remain after the reproduced corrections. Final report/audit/context receipt persisted; no work is in flight for Task 1.

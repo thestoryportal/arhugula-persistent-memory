@@ -22,6 +22,8 @@ RCLONE_VERSION=""
 LOCK_OWNED=0
 SYNC_ACTIVE=0
 SYNC_STARTED=0
+RCLONE_EXIT_CODE=0
+SYNC_OUTCOME=""
 
 log() {
   local message="backup_gdrive: $STAMP $*"
@@ -36,7 +38,8 @@ write_heartbeat() {
   "$PYTHON" "$STATUS_TOOL" record --heartbeat "$HEARTBEAT" --phase "$1" \
     --run-id "$STAMP" --start "$START" --exit-code "${2:-0}" \
     --rclone-version "$RCLONE_VERSION" --log "$LOG" --run-log "$RUN_LOG" \
-    --sync-started "$SYNC_STARTED"
+    --sync-started "$SYNC_STARTED" --rclone-exit-code "$RCLONE_EXIT_CODE" \
+    --outcome-json "$SYNC_OUTCOME"
 }
 finish() {
   local status=$?
@@ -111,15 +114,31 @@ SYNC_ACTIVE=1
 SYNC_STARTED=1
 "$RCLONE" sync "$SRC/" "$DEST/" --backup-dir "$DELETED_DIR/" \
   --exclude-from "$EXCLUDES" --links --log-file "$RUN_LOG" --log-level INFO --use-json-log \
+  --exclude '**/.git/objects/**/tmp_obj_*' --exclude '**/.git/objects/tmp_obj_*' \
+  --exclude '/.git/objects/**/tmp_obj_*' --exclude '/.git/objects/tmp_obj_*' \
   --stats 1m --stats-log-level NOTICE &
 RCLONE_PID=$!
 printf '%s\n' "$RCLONE_PID" > "$LOCK/rclone.pid"
 if wait "$RCLONE_PID"; then
   SYNC_ACTIVE=0
 else
-  STATUS=$?
+  RCLONE_EXIT_CODE=$?
   SYNC_ACTIVE=0
-  log "FATAL: rclone failed (exit $STATUS); see $RUN_LOG"
+fi
+if SYNC_OUTCOME=$("$PYTHON" "$STATUS_TOOL" classify --source "$SRC" --run-log "$RUN_LOG" --rclone-exit-code "$RCLONE_EXIT_CODE"); then
+  [ -n "$SYNC_OUTCOME" ] || die "classification produced no outcome; raw rclone exit $RCLONE_EXIT_CODE; see $RUN_LOG"
+  case "$SYNC_OUTCOME" in
+    *'"warnings": []'*) log "OK" ;;
+    *)
+      if [ "$RCLONE_EXIT_CODE" = 1 ]; then
+        log "WARN: source vanished; destination deletions suppressed; raw rclone exit 1; $SYNC_OUTCOME; see $RUN_LOG"
+      else
+        log "WARN: sync completed with warnings; $SYNC_OUTCOME; see $RUN_LOG"
+      fi ;;
+  esac
+else
+  log "FATAL: rclone failed or outcome unverified (exit $RCLONE_EXIT_CODE); see $RUN_LOG"
+  STATUS="$RCLONE_EXIT_CODE"
+  [ "$STATUS" != 0 ] || STATUS=1
   exit "$STATUS"
 fi
-log "OK"

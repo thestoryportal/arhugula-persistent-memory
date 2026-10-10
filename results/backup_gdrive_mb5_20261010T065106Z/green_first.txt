@@ -1,0 +1,49 @@
+COMMAND: LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B tools/test_backup_gdrive_addendum.py -v
+test_corrupt_remote_download_check_does_not_create_receipt (__main__.ArchiveTest.test_corrupt_remote_download_check_does_not_create_receipt) ... ok
+test_differing_remote_is_immutable_and_preserves_prior_manifest (__main__.ArchiveTest.test_differing_remote_is_immutable_and_preserves_prior_manifest) ... ok
+test_invalid_paths_refuse_before_any_copy (__main__.ArchiveTest.test_invalid_paths_refuse_before_any_copy) ... ok
+test_manifest_write_failure_is_loud (__main__.ArchiveTest.test_manifest_write_failure_is_loud) ... ok
+test_real_copy_download_check_and_sha_receipt_never_delete_source (__main__.ArchiveTest.test_real_copy_download_check_and_sha_receipt_never_delete_source) ... ok
+test_source_drift_after_check_does_not_create_receipt (__main__.ArchiveTest.test_source_drift_after_check_does_not_create_receipt) ... ok
+test_ambiguous_or_unverified_missing_source_remains_fatal (__main__.HeartbeatTest.test_ambiguous_or_unverified_missing_source_remains_fatal) ... ok
+test_exit_publication_failure_is_loud_and_preserves_original_failure (__main__.HeartbeatTest.test_exit_publication_failure_is_loud_and_preserves_original_failure) ... ok
+test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept (__main__.HeartbeatTest.test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept) ... FAIL
+test_inconsistent_vanish_evidence_remains_fatal (__main__.HeartbeatTest.test_inconsistent_vanish_evidence_remains_fatal) ... ok
+test_inflight_is_visible_and_missing_stats_are_unknown (__main__.HeartbeatTest.test_inflight_is_visible_and_missing_stats_are_unknown) ... ok
+test_lock_cleanup_failure_records_failed_outcome (__main__.HeartbeatTest.test_lock_cleanup_failure_records_failed_outcome) ... ok
+test_mixed_auth_permission_and_destination_enoent_remain_fatal (__main__.HeartbeatTest.test_mixed_auth_permission_and_destination_enoent_remain_fatal) ... ok
+test_native_nonregular_skip_is_recorded_as_warning (__main__.HeartbeatTest.test_native_nonregular_skip_is_recorded_as_warning) ... ok
+test_non_one_exit_keeps_raw_failure_even_with_vanished_messages (__main__.HeartbeatTest.test_non_one_exit_keeps_raw_failure_even_with_vanished_messages) ... ok
+test_real_queued_source_vanish_is_warning_and_keeps_raw_exit (__main__.HeartbeatTest.test_real_queued_source_vanish_is_warning_and_keeps_raw_exit) ... ok
+test_real_sync_publishes_actual_bytes_and_completed_success (__main__.HeartbeatTest.test_real_sync_publishes_actual_bytes_and_completed_success) ... ok
+test_recovered_source_vanish_is_visible_without_final_deletion_suppression (__main__.HeartbeatTest.test_recovered_source_vanish_is_visible_without_final_deletion_suppression) ... ok
+test_refusal_still_records_failed_run_without_dispatch (__main__.HeartbeatTest.test_refusal_still_records_failed_run_without_dispatch) ... ok
+test_source_symlink_escape_and_inaccessible_source_remain_fatal (__main__.HeartbeatTest.test_source_symlink_escape_and_inaccessible_source_remain_fatal) ... ok
+test_start_publication_failure_invalidates_previous_success (__main__.HeartbeatTest.test_start_publication_failure_invalidates_previous_success) ... ok
+test_terminal_publication_cannot_mask_a_newer_active_run (__main__.HeartbeatTest.test_terminal_publication_cannot_mask_a_newer_active_run) ... ok
+test_valid_json_without_final_newline_cannot_normalize_failure (__main__.HeartbeatTest.test_valid_json_without_final_newline_cannot_normalize_failure) ... ok
+test_verified_vanish_accepts_native_and_counted_terminal_messages (__main__.HeartbeatTest.test_verified_vanish_accepts_native_and_counted_terminal_messages) ... ok
+test_current_auth_error_and_old_auth_error_recovery (__main__.StatusTest.test_current_auth_error_and_old_auth_error_recovery) ... ok
+test_failed (__main__.StatusTest.test_failed) ... ok
+test_fresh_success (__main__.StatusTest.test_fresh_success) ... ok
+test_malformed_future_and_inflight_fail_closed (__main__.StatusTest.test_malformed_future_and_inflight_fail_closed) ... ok
+test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) ... ok
+test_missing (__main__.StatusTest.test_missing) ... ok
+test_new_publication_failure_and_log_rotation_are_not_silent (__main__.StatusTest.test_new_publication_failure_and_log_rotation_are_not_silent) ... ok
+test_nonfatal_source_churn_is_visible_in_status (__main__.StatusTest.test_nonfatal_source_churn_is_visible_in_status) ... ok
+test_stale_and_exact_thirteen_hour_boundary (__main__.StatusTest.test_stale_and_exact_thirteen_hour_boundary) ... ok
+
+======================================================================
+FAIL: test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept (__main__.HeartbeatTest.test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 306, in test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept
+    self.assertFalse((mirror/"repo/.git/objects/tmp_obj_live").exists())
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 33 tests in 16.899s
+
+FAILED (failures=1)
+
+EXIT_CODE: 1

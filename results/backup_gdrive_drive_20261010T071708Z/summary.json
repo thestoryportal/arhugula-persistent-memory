@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "evidence_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_drive_20261010T071708Z",
+  "three_run_sync_archive_excludes": "PASS",
+  "held_lock_unmounted_empty_refusal": "PASS",
+  "upload_bytes": 200000000,
+  "upload_wall_s": 172.07021695910953,
+  "measured_bytes_per_s": 1162316.1958790792,
+  "dry_run_transfer_files": 40412,
+  "dry_run_transfer_bytes": 287080274442,
+  "payload_rate_estimate_s": 246989.82553957822,
+  "estimate_scope": "Payload-rate projection; small-file/API overhead and source churn not measured",
+  "cleanup": "PASS"
+}

@@ -1,0 +1,8 @@
+tools/backup_gdrive_status.py: Python AST PASS
+tools/test_backup_gdrive.py: Python AST PASS
+tools/test_backup_gdrive_addendum.py: Python AST PASS
+tools/backup_gdrive.sh: bash -n PASS
+tools/archive_to_gdrive.sh: bash -n PASS
+archive_to_gdrive.sh embedded Python: AST PASS
+tools/launchd/com.rhu.memit-gdrive-backup.plist: OK
+scoped git diff --check: PASS

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>Label</key><string>com.rhu.tcc-probe</string>
+<key>ProgramArguments</key><array><string>/bin/bash</string><string>-c</string>
+<string>echo "start $(date -u +%FT%TZ) uid=$(id -u)"; /bin/ls /Volumes/memit/llm-database-poc-mirror | head -3; echo "ls_exit=${PIPESTATUS[0]}"; /usr/bin/head -c 64 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/CLAUDE.md >/dev/null; echo "read_exit=$?"; /opt/homebrew/bin/rclone lsf /Volumes/memit/llm-database-poc-mirror --max-depth 1 | head -2; echo "rclone_exit=${PIPESTATUS[0]}"</string></array>
+<key>RunAtLoad</key><false/>
+<key>StandardOutPath</key><string>/private/tmp/claude-501/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory--claude-worktrees-c10k-route-a/86efe583-a8a0-4e7b-8bcc-fbe9cb51a0d8/scratchpad/tccprobe/out.log</string>
+<key>StandardErrorPath</key><string>/private/tmp/claude-501/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory--claude-worktrees-c10k-route-a/86efe583-a8a0-4e7b-8bcc-fbe9cb51a0d8/scratchpad/tccprobe/out.log</string>
+</dict></plist>

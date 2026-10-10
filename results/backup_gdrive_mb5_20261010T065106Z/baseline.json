@@ -1,0 +1,22 @@
+{
+  "sha256": {
+    "tools/backup_gdrive.sh": "1c787df5cbacc4e10939d94b3194f52ba52bb0bfd83e61779affd92745209cc8",
+    "tools/backup_gdrive_status.py": "4e7f695cc529c101417db1f78b0050a93a0881e7129f7ce8c02446cc99581cf4",
+    "tools/archive_to_gdrive.sh": "efcade80c90afec3b71224130b3e1b38a104164a3b7c90f5670f410e6f92475d",
+    "tools/test_backup_gdrive.py": "0650b6c4f42624041e94c8642ff03f827a5b1de58e08662d18c69e036c995f90",
+    "tools/test_backup_gdrive_addendum.py": "43e5fd2830010b4697c269a6f2de81978804824302b25cdb8b5751b274acc91e",
+    "results/backup_gdrive_build_report.md": "cb1cc19c9e496472a1aa5e7fe2e5392bf508a29b6da7a936bed503646e4f8146",
+    "tools/backup_mirror.sh": "4b26fefcc25bac2274cb75962a60ef2a13a869d24c7d0364430cd5b800d012b6",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+    "tools/launchd/com.rhu.memit-backup.plist": "44c2ffcad9837f76c0b08d34a1b40ca367c9145edf3360cad3131e1c64e29a2f",
+    "tools/launchd/com.rhu.memit-gdrive-backup.plist": "55aec0d1f7a3b7158c65f81c55363fc344be2506458c578e164a74cb337522de",
+    "tools/test_dashboard_mathlab.py": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+    "CLAUDE.md": "e72e6940ee7a1748dc024c1828d4baeabc7820670a8fc0cf749cc25511a6bafb",
+    "AGENTS.md": "12279b3ccff7fbacb1b9dd6a824c433c2df4c520985bb196773311ff931f58d0",
+    "EXPERIMENT_RUNBOOK.md": "bc9540efa19f089b1e43d7c1346d34b106656e459a267c4cf4d1942b0b098892",
+    "docs/ARCHIVE_MANIFEST.tsv": "c4e7c4e611c0e15f0dfbaa473bcb934ef737fbf49330c00afd9dd1ed8828cee3"
+  },
+  "head": "f69a9a5faf3059b89a39603ce9dff9cb2ed92daf",
+  "branch": "worktree-c10k-route-a",
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+}

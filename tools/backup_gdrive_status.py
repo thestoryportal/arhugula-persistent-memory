@@ -4,7 +4,7 @@ import argparse
 import datetime as dt
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 import sys
 import tempfile
@@ -13,6 +13,144 @@ DEFAULT = Path.home()/"Library/Logs/memit-gdrive-backup/last_run.json"
 AUTH_ERROR = re.compile(r"invalid_grant|invalid_client|unauthori[sz]ed|authentication failed|"
                         r"cannot fetch token|token.*(?:expired|invalid|revoked)|"
                         r"insufficient authentication scopes|invalid authentication credentials", re.I)
+
+
+def classify(source, run_log, raw_exit):
+    """Normalize only a complete, independently checked local-source ENOENT run."""
+    value = {"rclone_exit_code": raw_exit, "warnings": [], "source_vanish_only": False,
+             "bytes_transferred": None, "stats_status": "missing"}
+
+    def unique_fields(pairs):
+        result = {}
+        for key, field in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON field: " + key)
+            result[key] = field
+        return result
+
+    def invalid_constant(name):
+        raise ValueError("invalid JSON constant: " + name)
+
+    try:
+        text = Path(run_log).read_text()
+        items = [json.loads(line, object_pairs_hook=unique_fields, parse_constant=invalid_constant) for line in text.splitlines()]
+        if any(not isinstance(item, dict) or not isinstance(item.get("level"), str) or
+               ("msg" in item and not isinstance(item["msg"], str)) for item in items):
+            raise ValueError("invalid rclone log record")
+    except (OSError, ValueError) as exc:
+        value.update(stats_status="malformed")
+        value["warnings"].append({"kind": "rclone_log_unverified"})
+        print("backup_gdrive_status: rclone log unavailable or malformed: " + str(exc), file=sys.stderr)
+        return value
+
+    source = Path(source).absolute()
+    try:
+        root = source.resolve(strict=True)
+        root_ok = root.is_dir()
+    except OSError:
+        root, root_ok = source, False
+
+    def missing_local(item):
+        name = item.get("object")
+        if not isinstance(name, str) or not name or "\x00" in name:
+            return None
+        relative = PurePosixPath(name)
+        if relative.is_absolute() or ".." in relative.parts or relative.as_posix() != name:
+            return None
+        match = re.fullmatch(r"Failed to copy: (failed to open source object: lstat (.+): no such file or directory)", item.get("msg", ""))
+        if (not root_ok or item.get("objectType") != "*local.Object" or not match or
+                match[2] not in {str(source/relative), str(root/relative)}):
+            return None
+        candidate = root/relative
+        try:
+            # --links never traverses source symlinks, so a symlinked parent is not proof.
+            if candidate.parent.resolve(strict=False) != candidate.parent:
+                return None
+            candidate.lstat()
+        except FileNotFoundError:
+            if not root.is_dir():
+                return None
+            return match[1]
+        except OSError:
+            return None
+        return None
+
+    valid = bool(items) and text.endswith("\n") and not AUTH_ERROR.search(text)
+    pending = []
+    suppressed = set()
+    last_attempt = None
+    final_stats = None
+    attempt_number = 0
+    attempts_total = None
+    malformed_stats = False
+    for item in items:
+        level, message = item["level"].lower(), item.get("msg", "")
+        if "stats" in item:
+            stats = item["stats"]
+            if isinstance(stats, dict) and type(stats.get("bytes")) is int and stats["bytes"] >= 0:
+                value.update(bytes_transferred=stats["bytes"], stats_status="recorded")
+            else:
+                valid = False
+                malformed_stats = True
+            final_stats = stats if isinstance(stats, dict) and level == "notice" else None
+            if (not isinstance(stats, dict) or type(stats.get("errors")) is not int or
+                    stats["errors"] < 0 or stats.get("fatalError") is not False):
+                valid = False
+        if level == "notice" and message == "Can't transfer non file/directory" and isinstance(item.get("object"), str):
+            warning = {"kind": "nonregular_source_skipped", "object": item["object"]}
+            if warning not in value["warnings"]:
+                value["warnings"].append(warning)
+        if level == "error":
+            detail = missing_local(item)
+            if detail:
+                pending.append(detail)
+                warning = {"kind": "source_vanished", "object": item["object"]}
+                if warning not in value["warnings"]:
+                    value["warnings"].append(warning)
+            elif message in {"not deleting files as there were IO errors", "not deleting directories as there were IO errors"}:
+                suppressed.add(message)
+            else:
+                attempt = re.fullmatch(r"Attempt (\d+)/(\d+) failed with (\d+) errors and: (.+)", message)
+                if not attempt:
+                    valid = False
+                    continue
+                number, total, errors = map(int, attempt.groups()[:3])
+                if (number != attempt_number+1 or number > total or
+                        (attempts_total is not None and total != attempts_total) or
+                        errors != len(pending) or not pending or attempt[4] not in pending):
+                    valid = False
+                last_attempt = (errors, set(pending), set(suppressed))
+                attempt_number, attempts_total = number, total
+                pending, suppressed = [], set()
+                final_stats = None
+        elif level == "warning":
+            warning = {"kind": "rclone_warning", "message": message}
+            if isinstance(item.get("object"), str):
+                warning["object"] = item["object"]
+            value["warnings"].append(warning)
+            valid = False
+        elif level not in {"debug", "info", "notice"}:
+            valid = False
+
+    terminal = re.fullmatch(r"Failed to sync(?: with (\d+) errors)?: (.+)", items[-1].get("msg", "")) if items else None
+    if (raw_exit == 1 and valid and not pending and last_attempt and terminal and
+            items[-1]["level"].lower() == "notice" and attempt_number == attempts_total and
+            final_stats and final_stats.get("errors") == last_attempt[0] and
+            type(final_stats.get("errors")) is int and final_stats["errors"] > 0 and
+            final_stats.get("fatalError") is False and final_stats.get("transferring") in (None, []) and
+            final_stats.get("retryError", True) is True and
+            final_stats.get("lastError", terminal[2]) == terminal[2] and
+            terminal[2] in last_attempt[1] and
+            (terminal[1] is None or int(terminal[1]) == last_attempt[0]) and
+            len(last_attempt[2]) == 2):
+        value["source_vanish_only"] = True
+        value["warnings"].append({"kind": "destination_deletions_suppressed"})
+    if not text.endswith("\n"):
+        value["warnings"].append({"kind": "rclone_log_unverified"})
+    if malformed_stats:
+        value.update(bytes_transferred=None, stats_status="malformed")
+        value["warnings"].append({"kind": "rclone_log_unverified"})
+    return value
 
 
 def record(args):
@@ -24,19 +162,15 @@ def record(args):
              "bytes_transferred": 0 if not args.sync_started else None,
              "rclone_version": args.rclone_version or None, "log_path": args.run_log,
              "wrapper_log": str(log), "wrapper_log_offset": stat.st_size if stat else 0,
-             "wrapper_log_identity": [stat.st_dev, stat.st_ino] if stat else None}
+             "wrapper_log_identity": [stat.st_dev, stat.st_ino] if stat else None,
+             "rclone_exit_code": args.rclone_exit_code if args.phase == "end" and args.sync_started else None,
+             "warnings": []}
     if args.phase == "end" and args.sync_started:
-        value["stats_status"] = "missing"
-        for line in Path(args.run_log).read_text().splitlines():
-            try:
-                item = json.loads(line)
-            except json.JSONDecodeError:
-                value.update(bytes_transferred=None, stats_status="malformed")
-                print("backup_gdrive_status: malformed rclone stats; transferred bytes unknown", file=sys.stderr)
-                break
-            size = item.get("stats", {}).get("bytes")
-            if type(size) is int and size >= 0:
-                value.update(bytes_transferred=size, stats_status="recorded")
+        outcome = json.loads(args.outcome_json) if args.outcome_json else {}
+        for key in ("bytes_transferred", "stats_status", "warnings"):
+            if key in outcome:
+                value[key] = outcome[key]
+        value.setdefault("stats_status", "missing")
         if value["stats_status"] == "missing":
             print("backup_gdrive_status: no rclone stats; transferred bytes unknown", file=sys.stderr)
     path = Path(args.heartbeat)
@@ -95,6 +229,27 @@ def health(path):
                 return False, "newer heartbeat publication failed"
         if not run_log.is_file():
             return False, "last run log missing"
+        warnings = value.get("warnings", [])
+        kinds = {"source_vanished", "destination_deletions_suppressed", "nonregular_source_skipped", "rclone_log_unverified", "rclone_warning"}
+        if (not isinstance(warnings, list) or any(not isinstance(warning, dict) or
+                warning.get("kind") not in kinds for warning in warnings)):
+            return False, "malformed heartbeat warnings"
+        for warning in warnings:
+            if (warning["kind"] in {"source_vanished", "nonregular_source_skipped"} and
+                    (not isinstance(warning.get("object"), str) or not warning["object"])):
+                return False, "malformed heartbeat warning object"
+            if warning["kind"] == "rclone_warning" and not isinstance(warning.get("message"), str):
+                return False, "malformed heartbeat warning message"
+        raw_exit = value.get("rclone_exit_code")
+        if raw_exit is not None and (type(raw_exit) is not int or raw_exit not in (0, 1)):
+            return False, "malformed heartbeat rclone exit code"
+        if raw_exit == 1 and not {"source_vanished", "destination_deletions_suppressed"}.issubset({w["kind"] for w in warnings}):
+            return False, "malformed source-vanish outcome"
+        if warnings:
+            summary = "; ".join(("deletions suppressed" if w["kind"] == "destination_deletions_suppressed" else
+                                  w["kind"].replace("_", " ") + ": " + str(w.get("message", w.get("object", "log")))) for w in warnings)
+            summary = summary.replace("\r", "\\r").replace("\n", "\\n")
+            return True, "fresh backup with warnings (rclone exit %s): %s; finished %s" % (raw_exit, summary, value["end"])
         return True, "fresh successful backup; finished " + value["end"]
     except (OSError, ValueError, TypeError, AttributeError, OverflowError) as exc:
         return False, "malformed heartbeat or unavailable log: " + str(exc).replace("\n", " ")
@@ -103,6 +258,14 @@ def health(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--heartbeat", default=str(DEFAULT))
+    if sys.argv[1:2] == ["classify"]:
+        parser.add_argument("--source", required=True)
+        parser.add_argument("--run-log", required=True)
+        parser.add_argument("--rclone-exit-code", type=int, required=True)
+        args = parser.parse_args(sys.argv[2:])
+        outcome = classify(args.source, args.run_log, args.rclone_exit_code)
+        print(json.dumps(outcome, sort_keys=True))
+        return 0 if args.rclone_exit_code == 0 or outcome["source_vanish_only"] else args.rclone_exit_code
     if sys.argv[1:2] == ["record"]:
         parser.add_argument("--phase", choices=("start", "end"), required=True)
         parser.add_argument("--run-id", required=True)
@@ -112,6 +275,8 @@ def main():
         parser.add_argument("--log", required=True)
         parser.add_argument("--run-log", required=True)
         parser.add_argument("--sync-started", type=int, choices=(0, 1), default=0)
+        parser.add_argument("--rclone-exit-code", type=int)
+        parser.add_argument("--outcome-json", default="")
         args = parser.parse_args(sys.argv[2:])
         try:
             record(args)

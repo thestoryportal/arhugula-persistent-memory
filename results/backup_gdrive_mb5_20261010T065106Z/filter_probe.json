@@ -1,0 +1,43 @@
+[
+  {
+    "args": [
+      "/opt/homebrew/bin/rclone",
+      "lsjson",
+      "/private/tmp/mb5_filter_probe_ixxnrecw",
+      "--recursive",
+      "--files-only",
+      "--exclude",
+      "**/.git/objects/**/tmp_obj_*"
+    ],
+    "exit_code": 0,
+    "paths": [
+      ".git/objects/ab/permanent",
+      ".git/objects/ab/tmp_obj_nested",
+      ".git/objects/tmp_obj_direct",
+      "repo/.git/objects/ab/permanent",
+      "repo/.git/objects/tmp_obj_direct"
+    ],
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/opt/homebrew/bin/rclone",
+      "lsjson",
+      "/private/tmp/mb5_filter_probe_ixxnrecw",
+      "--recursive",
+      "--files-only",
+      "--exclude",
+      "**/.git/objects/**/tmp_obj_*",
+      "--exclude",
+      "**/.git/objects/tmp_obj_*"
+    ],
+    "exit_code": 0,
+    "paths": [
+      ".git/objects/ab/permanent",
+      ".git/objects/ab/tmp_obj_nested",
+      ".git/objects/tmp_obj_direct",
+      "repo/.git/objects/ab/permanent"
+    ],
+    "stderr": ""
+  }
+]
