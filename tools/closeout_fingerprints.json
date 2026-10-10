@@ -182,5 +182,9 @@
     "anchor_start": "<!-- BEGIN D-NEW1-fid -->",
     "anchor_end": "<!-- END D-NEW1-fid -->",
     "what": "Native-fp32 projector-fidelity warning only; L4 stored normalized covariance rank disagreement; actual rounded-P distance, update-weighted leakage and locality UNMEASURED; behavioral verdicts unchanged"
+  },
+  "D-NEW1-b": {
+    "source": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/host_prequal_maestro21/README.md",
+    "what": "NEW-1 construction diagnostic interim status: FIX5 host qualification r5 steps 3-5 PASS (whole README); the one real four-construction diagnostic is UNRUN; no science verdict, F1 unchanged"
   }
 }

@@ -83,3 +83,9 @@ The navigability spine: every experiment → hypothesis, code, result, evidence 
 
 
 ⟨D-C10l-covgeom@0caeca4f⟩
+
+## 2026-10-10 — NEW-1 construction diagnostic status (D-NEW1-b)
+
+| Decision | Recorded status | Detailed source |
+|---|---|---|
+| D-NEW1-b ⟨D-NEW1-b@d5e2baff⟩ | FIX5 qualified on host; Astra r7 GO-OPERATOR; real diagnostic UNRUN, operator authorized ONE run 2026-10-10 (f5dbab5), dispatch pending a quiet host. No science verdict; F1 unchanged | [FIX5 host qualification README](../results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/host_prequal_maestro21/README.md); [Astra r7](../results/mathlab_staging/new1_construction_diag_astra_r7.md) |
