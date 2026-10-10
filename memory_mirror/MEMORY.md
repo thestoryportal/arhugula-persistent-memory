@@ -4,7 +4,7 @@
 - [Answer the gate's real criterion](resolve-the-gates-real-criterion.md) — State the gate's literal criterion first; a passing necessary proxy isn't it
 - [Anti-drift: de-dup, enforce](anti-drift-enforce-not-autowrite.md) — One source + D-ID pointers; to retract a pushed claim, grep-sweep every tracker
 - [Approved deletes: ask, then rmtree](approved-deletes-ask-then-rmtree.md) — Ask per path via AskUserQuestion, then shutil.rmtree; never retry a denied rm
-- [C10 accept-bounded = hybrid](c10-accept-bounded-means-hybrid-not-general-db.md) — Never claim coined multi-word facts live in weights; route to Git/side-store
+- [C10 accept-bounded = hybrid](c10-accept-bounded-means-hybrid-not-general-db.md) — If accepting bounded deployment, label side-store routing an engineering fallback; C10 stays OPEN for F1
 - [Close-out gate before done](closeout-gate-before-done.md) — Not done until closeout_check <D-ID> is ALL GREEN (LLMDB_ROOT=$PWD in worktree)
 - [Commit forward, push, never merge](commit-forward-work-without-asking.md) — Push every commit to the branch; never merge; never route around a gate
 - [Disk budget before dispatch](disk-budget-before-dispatch.md) — Wait for free disk ≥ projected writes + 20 GiB; every scope states a disk budget

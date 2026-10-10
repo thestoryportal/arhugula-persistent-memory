@@ -12,4 +12,4 @@ live in weights, while project-coined multi-word semantic values must route to
 Git, the index, or another authoritative side-store. Do not describe the current
 evidence as supporting arbitrary project facts stored directly in weights.
 
-Source: D-C10g-strengthlayers (2026-06-26); still binding while C10 is OPEN (EXPERIMENT_RUNBOOK.md §0.3, CORPUS/61).
+Source: D-C10g-strengthlayers (2026-06-26). Historical conditional fallback; not authorization to abandon the in-weight requirement or close C10 (see [[fallback-that-nullifies-spec-is-not-f1-closure]]).
