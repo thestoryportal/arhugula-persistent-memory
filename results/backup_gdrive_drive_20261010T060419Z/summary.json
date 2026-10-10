@@ -1,0 +1,6 @@
+{
+  "status": "FAILED",
+  "evidence_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_drive_20261010T060419Z",
+  "error": "command failed (exit 1): ['/opt/homebrew/bin/rclone', 'lsd']; 2026/10/10 00:04:19 CRITICAL: Failed to create file system for \"gdrive:memit-backup\": couldn't find root directory ID: Get \"https://www.googleapis.com/drive/v3/files/root?alt=json&fields=id&prettyPrint=false&supportsAllDrives=true\": dial tcp: lookup www.googleapis.com: no such host\n",
+  "cleanup": "NOT NEEDED: no remote writes attempted"
+}

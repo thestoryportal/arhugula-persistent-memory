@@ -1,0 +1,22 @@
+{
+  "command": [
+    "/opt/homebrew/bin/rclone",
+    "copy",
+    "/private/tmp/gdrive_addendum_probe_w4_khyjg/source/tiny.txt",
+    "/private/tmp/gdrive_addendum_probe_w4_khyjg/mirror",
+    "--immutable",
+    "--checksum",
+    "--use-json-log",
+    "--log-file",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_addendum_20261010T061642Z/probe_stats.jsonl",
+    "--log-level",
+    "INFO",
+    "--stats",
+    "1m",
+    "--stats-log-level",
+    "NOTICE"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": ""
+}

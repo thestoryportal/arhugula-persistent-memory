@@ -266,6 +266,7 @@ Incident: the C10Y pre-cast diagnostic wrote 105 GB of float64 operand packets, 
 - **Irreplaceable bulk** (non-regenerable, too big for git) → remote archive **Google Drive via rclone** (operator choice 2026-10-09; rclone v1.75.2 installed; remote `gdrive:` **AUTHORIZED 2026-10-10** — scope drive.file, Gmail Drive 5 TiB, OAuth app published so the token does not expire; setup + traps: `memory_mirror/gdrive-rclone-remote.md`). Never the internal SSD.
 - **Every scope/prereg states a disk budget** (bytes per packet × count) beside time and memory; every queue/launcher waits for free disk ≥ projected writes + 20 GiB before dispatch.
 - **Approved:** replace the 6-hourly internal-SSD mirror of memit (`tools/backup_mirror.sh`, ~266 GB at `~/Backups/memit`) with a Drive backup once `gdrive` is authorized.
+- **Drive backup build (2026-10-10):** `gdrive` authorized per MAESTRO3; wrapper/plist, heartbeat status and verified archive tooling prepared; 29 local tests PASS; Drive verification BLOCKED by sandbox DNS (no activation/full sync). Detail: [backup build report](results/backup_gdrive_build_report.md).
 - First application: pre-cast operands hashed (`results/c10y_precast_diag/20261009T225619Z/OPERANDS_SHA256SUMS.txt`, 131 files), A7-L4 set kept on memit for the controls-timing measurement, the other 96 (86 GB) approved for deletion from `~/Backups/memit_offload/`.
 
 ### §3.4 — Cov-cache & /dev/shm discipline

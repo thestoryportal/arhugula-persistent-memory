@@ -1,0 +1,12 @@
+MAESTRO3 → codexmb3: build the Google Drive backup that replaces tools/backup_mirror.sh (operator-approved, EXPERIMENT_RUNBOOK.md §3.3a "Approved: replace the 6-hourly internal-SSD mirror … with a Drive backup once gdrive is authorized"). gdrive is now authorized: rclone remote `gdrive:` (scope drive.file, 4.9 TiB free); folder `gdrive:memit-backup` exists and a write/read/delete probe passed.
+
+Deliver:
+1. tools/backup_gdrive.sh — same shape and preconditions as tools/backup_mirror.sh (read it fully first; keep its fail-closed source-mounted / non-empty checks and its excludes file). Effect: one `rclone sync` of /Volumes/memit/llm-database-poc-mirror/ → gdrive:memit-backup/llm-database-poc-mirror/ with deletions moved to gdrive:memit-backup/.deleted/<STAMP>/ (never destroyed), exclude list via --exclude-from, a run lock so a 6-hourly launch cannot overlap a still-running multi-hour first upload (mkdir-lock; stale-lock handling explicit), log to a file under ~/Library/Logs/, and a non-zero exit with a message on any rclone failure. Env overrides like the original (BACKUP_SRC/BACKUP_DEST/BACKUP_EXCLUDES) so it can be tested against a small temp source and a gdrive:memit-backup/_selftest/ destination.
+2. tools/launchd/com.rhu.memit-gdrive-backup.plist (21600 s interval, like the old one). Do NOT load/unload any launchd job, do NOT run the full sync, do NOT touch ~/Backups/memit — MAESTRO3 does those after review.
+3. Test-first evidence: a self-test against a tiny temp source (create, modify, delete a file across three runs) proving sync, .deleted backup-dir capture, excludes honoured, lock refusal while held, and failure exit when the source is unmounted/empty (simulate via env). Clean up only gdrive:memit-backup/_selftest/ afterwards with `rclone purge` on that exact path.
+4. A `rclone sync --dry-run` of the REAL source to the REAL destination: report file count and total bytes it would transfer, and an estimate of first-upload duration from a measured upload rate (time one ~200 MB file copy into _selftest).
+5. Runbook: one-line pointer under §3.3a (detail in a short report file results/backup_gdrive_build_report.md).
+
+Not acceptable: `|| true`, `2>/dev/null`, a lock that silently skips without logging, printing the rclone config/token, committing (MAESTRO3 commits), touching tools/test_dashboard_mathlab.py.
+Context directive (binding): watch your Context N% left; at ~20% stop, write a handoff in the report, and say so.
+Reply exactly "GDRIVE BACKUP BUILD DONE" with the dry-run size and upload-time estimate when finished.

@@ -1,0 +1,20 @@
+[
+  {
+    "args": [
+      "/opt/homebrew/bin/rclone",
+      "lsd",
+      "gdrive:memit-backup",
+      "--contimeout",
+      "10s",
+      "--timeout",
+      "60s",
+      "--retries",
+      "1",
+      "--low-level-retries",
+      "1"
+    ],
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "2026/10/10 00:04:19 CRITICAL: Failed to create file system for \"gdrive:memit-backup\": couldn't find root directory ID: Get \"https://www.googleapis.com/drive/v3/files/root?alt=json&fields=id&prettyPrint=false&supportsAllDrives=true\": dial tcp: lookup www.googleapis.com: no such host\n"
+  }
+]

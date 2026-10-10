@@ -1,0 +1,13 @@
+F
+======================================================================
+FAIL: test_timeout_stops_entire_sync_group_before_cleanup (__main__.BackupTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 133, in test_timeout_stops_entire_sync_group_before_cleanup
+    self.assertEqual(heartbeat.read_bytes(), before, "no live child may write after timeout")
+AssertionError: b'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' != b'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx' : no live child may write after timeout
+
+----------------------------------------------------------------------
+Ran 1 test in 1.109s
+
+FAILED (failures=1)

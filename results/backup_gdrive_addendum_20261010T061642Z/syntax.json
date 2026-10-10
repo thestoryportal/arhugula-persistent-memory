@@ -1,0 +1,7 @@
+{
+  "tools/backup_gdrive.sh": "Bash syntax PASS",
+  "tools/archive_to_gdrive.sh": "Bash syntax PASS",
+  "tools/backup_gdrive_status.py": "Python syntax PASS",
+  "tools/test_backup_gdrive_addendum.py": "Python syntax PASS",
+  "tools/test_backup_gdrive.py": "Python syntax PASS"
+}

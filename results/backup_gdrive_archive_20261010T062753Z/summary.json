@@ -1,0 +1,5 @@
+{
+  "status": "FAILED",
+  "error": "2026/10/10 00:27:53 CRITICAL: Failed to create file system for \"gdrive:\": couldn't find root directory ID: Get \"https://www.googleapis.com/drive/v3/files/root?alt=json&fields=id&prettyPrint=false&supportsAllDrives=true\": dial tcp: lookup www.googleapis.com: no such host\n",
+  "cleanup": "NOT NEEDED: no remote writes attempted"
+}

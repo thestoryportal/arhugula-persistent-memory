@@ -1,0 +1,138 @@
+# Google Drive backup build — 2026-10-10 (Codex MB3)
+
+**Code prepared; local verification PASS; Drive verification BLOCKED by sandbox DNS.** Operator authorization: MAESTRO3's prompt (saved in `backup_gdrive_build_20261010T055855Z/prompt.txt`) and runbook §3.3a. `gdrive:` exists in rclone v1.75.2; the earlier successful authorization/write probe is MAESTRO3's evidence. This session cannot resolve `www.googleapis.com`. The requested real-source dry run exited **1**, before a transfer plan was available. Drive create/modify/delete, upload rate and first-upload duration are **UNVERIFIED / UNMEASURED**. This is not full build acceptance or activation clearance.
+
+## Delivered behavior
+
+- `tools/backup_gdrive.sh`: exactly one rclone sync per run from `/Volumes/memit/llm-database-poc-mirror/` to `gdrive:memit-backup/llm-database-poc-mirror/`, archiving replaced/deleted destination files to sibling `gdrive:memit-backup/.deleted/<UTC-stamp>-<PID>/`. Original mounted/nonempty source checks and unchanged `backup_mirror.excludes` are retained. Symlinks use rclone `--links`; Drive stores its link representation for a later `--links` restore. Failure returns nonzero and identifies the log.
+- Default log: `~/Library/Logs/memit-gdrive-backup.log`; atomic mkdir lock: `~/Library/Logs/memit-gdrive-backup.lock`. Held/unknown/stale locks refuse with a logged exit 75. **No age-based auto-expiry.** Recovery requires checking both recorded owner and rclone PID have stopped, then removing only that lock. Interruption conservatively retains it while a child may still run; completed failure/success releases it.
+- Overrides: `BACKUP_SRC`, `BACKUP_DEST`, `BACKUP_EXCLUDES`, plus `BACKUP_LOG`, `BACKUP_LOCK_DIR`, `BACKUP_MOUNT_POINT`, `BACKUP_RCLONE`. Choose a destination directory below its backup parent: Drive self-test uses `_selftest/mirror`, so its sibling archive remains entirely inside `_selftest/.deleted`.
+- `tools/launchd/com.rhu.memit-gdrive-backup.plist`: interval **21600 s**, RunAtLoad false, direct Bash main-checkout path, logs under `~/Library/Logs`, low-priority IO/Nice 5. No job loaded/unloaded. **Host activation is unverified:** the existing job uses MemitBackup.app's Removable Volumes grant; that grant does not establish direct Bash access. MAESTRO3 must deploy the reviewed main-checkout script and validate the new launcher's macOS access before replacing the old job.
+
+## Evidence
+
+`backup_gdrive_build_20261010T055855Z/` contains exact outputs and baseline/hash audit. Test command: `PYTHONDONTWRITEBYTECODE=1 python3 -B tools/test_backup_gdrive.py`. Before implementation: **8 failures** (`red.txt`, missing wrapper/log behavior). Real-rclone local backend then proved three runs (create, modify, delete), archived original/replaced content, unchanged exclude behavior, symlink preservation, held/stale lock refusal, missing/unmounted/empty-source refusal and nonzero/logged real-rclone failure. The initial link assertion was corrected after a standalone positive control showed the local backend restores native symlinks; production code was unchanged for that correction.
+
+Secondary review found a self-test timeout race: killing only Bash could leave rclone writing while source cleanup/purge ran. A controlled child heartbeat reproduced this **RED** (`timeout_red.txt`). The runner now starts an independent process group, kills the entire group on timeout and drains/reaps before cleanup. **Final: 9 tests PASS** (`green_final.txt`); Bash/Python syntax and plist lint PASS. GPT-6/Codex-family read-only review: **PROCEED for code preparation only**, not activation/full sync (`review.txt`). No science/dashboard tests were run; this change is confined to backup tooling.
+
+Exact real-source dry-run attempt:
+
+```sh
+/opt/homebrew/bin/rclone sync /Volumes/memit/llm-database-poc-mirror/ gdrive:memit-backup/llm-database-poc-mirror/ --backup-dir gdrive:memit-backup/.deleted/DRY-RUN/ --exclude-from tools/backup_mirror.excludes --links --dry-run --contimeout 10s --timeout 30s --retries 1 --low-level-retries 1 --use-json-log
+```
+
+`dry_run.jsonl`: DNS lookup failure; **exit 1**, no verified dry-run file count/bytes. Independent read-only local inventory (`source_inventory.json`), with identical excludes and link policy: **40,388 files / 287,160,929,446 bytes = 287.16 GB / 267.44 GiB**. These are source candidates, not the real-destination transfer plan. One runtime Unix socket is unsupported and skipped (`source_inventory.stderr`); no bulk/science file error was reported. No first-upload estimate is inferred without measured bandwidth.
+
+## Remaining bounded host verification / handoff to MAESTRO3
+
+Run from this worktree in a host environment with Drive DNS, after code review:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 -B tools/test_backup_gdrive.py
+PYTHONDONTWRITEBYTECODE=1 python3 -B tools/test_backup_gdrive.py --drive
+```
+
+The explicit `--drive` runner creates a fresh `results/backup_gdrive_drive_<UTC>/` receipt, performs three tiny syncs into `gdrive:memit-backup/_selftest/mirror`, verifies archived bytes/exclusions and held-lock/unmounted/empty-source refusal, uploads **one 200,000,000-byte random file** into `_selftest`, measures wall time and remote size, and runs the **real source to real destination with --dry-run only**. It derives planned count/bytes from the combined dry-run changes plus a filtered source size listing. Duration = planned bytes / measured bytes-per-second; small-file/API overhead and concurrent source churn remain outside that projection. Temporary local disk budget: about 200 MB. No full backup is dispatched. After remote effects it calls `rclone purge` only on the exact authorized `gdrive:memit-backup/_selftest/` path; cleanup failure is fatal and recorded. The sandbox opt-in attempt failed its read-only preflight before any remote writes (`backup_gdrive_drive_20261010T060419Z/summary.json`), so there was no remote self-test data to clean up here.
+
+Next: obtain the host receipt; confirm all remote checks and exact cleanup PASS; record actual dry-run transfer count/bytes, upload rate and duration here. Then MAESTRO3 reviews deployment/TCC and replaces the old launchd job. Pending host-runner information was requested; no runner was supplied during this build. Do not claim `GDRIVE BACKUP BUILD DONE` until these required measurements pass. No commits, full sync, launchd mutation, `~/Backups/memit` access or `tools/test_dashboard_mathlab.py` edit by this task. Old script/excludes/plist are unchanged.
+
+**BINDING context directive:** Watch your own and every orchestrated team's `Context N% left`. Before approximately **20%**, stop starting new work; write a report handoff with what is done/in-flight, exact paths, next steps and open risks; tell the orchestrator to use a fresh successor. Every handoff restates this rule; never approach full-window compaction.
+
+Primary flag references: [rclone backup-dir](https://rclone.org/docs/#backup-dir-dir), [rclone links](https://rclone.org/docs/#l-links), [sync exclusions/error behavior](https://rclone.org/commands/rclone_sync/). Empirical local and failed-Drive evidence above takes precedence over assumptions about deployment.
+
+## Final local audit — 2026-10-10T06:15:03.566792+00:00
+
+Protected old script, excludes, old plist and dashboard test SHA-256 values match the task baseline. Scoped `git diff --check` passes. `audit.json` records the five deliverable hashes; `git_status.txt` and `git_log.txt` preserve observed shared-worktree state.
+
+Baseline HEAD `522929f6d7017f0e8b7b54e2d559d4135d9f99a2`; observed HEAD `cbe1ac28a23feeab952eb9f9fd4f4740b3739be0` on `worktree-c10k-route-a`. The shared HEAD advanced concurrently; this task performed no commits or mutating Git commands and preserved parallel changes. Drive validation remains BLOCKED; no additional remote effects were attempted.
+
+## MAESTRO3 addendum — 2026-10-10T06:33:10.745313+00:00
+
+**Addendum code prepared; 29 local behavioral tests PASS; required Drive verification remains BLOCKED by sandbox DNS.** The full instructions are saved at `backup_gdrive_addendum_20261010T061642Z/addendum.txt`. This section supersedes the earlier wrapper logging/status details. No launcher activation, full sync, operator bulk deletion, LAW-gate edit, dashboard-test edit or commit was performed.
+
+### A. Heartbeat and loud status
+
+`tools/backup_gdrive.sh` now atomically publishes `~/Library/Logs/memit-gdrive-backup/last_run.json` at start and exit. Fields: `start`, `end`, `exit_code`, `bytes_transferred`, `rclone_version`, run identity and log references. Publication uses a same-directory temporary file, fsync and rename. The existing wrapper log remains `~/Library/Logs/memit-gdrive-backup.log`; each rclone invocation writes a separate JSON log under `~/Library/Logs/memit-gdrive-backup/runs/`. Transferred bytes come from rclone's actual JSON accounting stats, with a final NOTICE-level stats record; absent/malformed stats remain **null / unknown**, never an invented zero. Refusals that do not dispatch record zero transferred bytes. `BACKUP_HEARTBEAT` isolates tests and can override the fixed receipt path.
+
+`tools/backup_gdrive_status.py` defaults to that heartbeat, with `--heartbeat <path>` for tests. It returns **0 only for a completed successful run whose end is strictly less than 13 hours old**. Missing, torn/malformed, incomplete, failed, future and stale records return nonzero with one line. Token/auth error patterns in the current run log return nonzero; old auth failures do not poison recovery. Wrapper-log inode/byte-offset checks reject rotation/truncation and detect a newer `HEARTBEAT-FAILED` diagnostic if publication failed and an older successful heartbeat remains. Publication failures are logged and force nonzero while preserving an existing rclone failure exit code. SIGKILL cannot write an end receipt; its previously published start remains INCOMPLETE.
+
+Closeout publishes the terminal receipt **before releasing the owned mkdir lock**, preventing an older success from replacing a newer active run's heartbeat. A cleanup error is republished as failed while the remaining lock still blocks dispatch. The existing mounted/nonempty/exclude/archive contract and exactly one sync are retained.
+
+**Proposed wiring, source inspection only (no LAW gates changed):** the actual session hook `.codex/hooks/session_start.py:17–23` invokes `tools/codex_context_guard.py preflight` at line 19 and propagates hard failure. `tools/codex_context_guard.py:78–105` already prints HARD/WARN readiness facts. Add a separate status invocation in the session hook before that preflight and visibly print `BACKUP WARN: <one-line reason>` on nonzero. Once the new backup is deployed and its first successful receipt exists, a queue/launcher wrapper can refuse bulk-producing dispatch on nonzero before entering frozen admission. The existing pre-dispatch boundary is `tools/mathlab_admit.py:76–99` (`dispatch_check`), which re-probes admission at 95 and refuses at 98; the status invocation belongs in its calling launcher/queue wrapper, with explicit stderr and exit handling, rather than a change to frozen LAW/science gates. These are **proposals only**; backup health is not wired into dispatch yet, and the stopped MathLab study remains stopped.
+
+### B. Verified archival and manifest
+
+`tools/archive_to_gdrive.sh <file...>` admits regular files under the resolved repo root, maps each to `gdrive:memit-archive/<repo-relative path>`, copies via rclone, then runs **`rclone check --download --one-way`** before appending `sha256`, `size_bytes`, `remote_path` to `docs/ARCHIVE_MANIFEST.tsv`. SHA-256 and size are recomputed after verification; source drift refuses the receipt. Manifest appends hold a file lock and fsync. All arguments are admitted before any copy; directories, path escapes, final symlinks and TSV-breaking path names refuse. The tool **never removes local source files**. Identical remote content may be verified again; differing existing content is preserved and fails verification without a new manifest row. Overrides `ARCHIVE_ROOT`, `ARCHIVE_DEST`, `ARCHIVE_MANIFEST`, `ARCHIVE_RCLONE`, `ARCHIVE_PYTHON` support bounded tests. The default manifest contains only its header; no unverified real archive receipt was fabricated. MAESTRO3 must include this new file in the reviewed Git commit to make it git-tracked.
+
+**Empirical collision finding:** installed rclone v1.75.2's single-file `copy --immutable --checksum` replaced differing local-backend content (`immutable_probe.json`, initial collision control RED). A separate actual-rclone probe demonstrated `--ignore-existing` preserves the original (`immutable_flags_probe.json`); the production copy now also supplies that flag. Its subsequent download check accepts matching content and rejects differing content, with the prior object and prior manifest preserved. This is the tested behavior of this installation; no claim is made that every rclone/backend has the same single-file immutable behavior. Primary semantics reference: [rclone ignore-existing](https://rclone.org/docs/#ignore-existing).
+
+### RED / GREEN evidence and limits
+
+Exact CPU/local commands (temporary roots only):
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B tools/test_backup_gdrive_addendum.py -v
+PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B tools/test_backup_gdrive.py -v
+```
+
+`backup_gdrive_addendum_20261010T061642Z/red.txt`: **18 failures before implementation**. `green_first.txt`: 17 pass plus the real collision refusal failure; corrected with the independently probed non-overwrite flag. `terminal_race_red_v2.txt`: **1 genuine RED** showing status returning fresh success during a marker-confirmed newer active sync. After serializing publication and adding the cleanup-error control, `green_final_v2.txt`: **20 PASS / 4.897 s**. `original_regression_final.txt`: **9 PASS / 7.060 s**. Syntax checks, embedded archive Python compilation and unchanged new plist lint PASS. The original slow-child fixtures now answer `version` immediately so they still test sync interruption/timeout; all backup test heartbeats are namespaced under temporary/receipt roots rather than the operator's home.
+
+Controls cover fresh/stale/exact-13h/failed/missing/torn/future/in-flight status, current versus old auth errors, log rotation, start/exit publication failure after prior success, exit-code preservation, actual stats, unknown stats, overlap serialization, lock-cleanup failure, real copy/download/SHA receipt, remote collision/corruption, source drift, manifest write failure and path admission. No model, tensor, science or dashboard tests were needed for these backup-only changes. GPT-6/Codex-family read-only review resolved the overlap blocker and returned **PROCEED, code-only**; Drive behavior/activation remain UNVERIFIED.
+
+The explicit tiny archive test is available as:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B tools/test_backup_gdrive_addendum.py --archive-drive
+```
+
+It creates one tiny temporary file, invokes the real archive helper into **`gdrive:memit-archive/_selftest/`**, checks its SHA/size/path manifest and local preservation, and purges **that exact remote path only** after any attempted remote effect. Its sandbox attempt exited **1** at read-only Drive preflight (`backup_gdrive_archive_20261010T062753Z/summary.json`, plus `archive_drive_attempt.txt`): DNS cannot resolve `www.googleapis.com`; **no Drive writes were attempted**, hence no purge was needed. The existing backup `--drive` runner now keeps its heartbeat in its receipt directory and retains group timeout protection. Required real-source dry-run size and measured 200 MB upload estimate remain UNMEASURED; the earlier local inventory remains **40,388 source files / 287,160,929,446 bytes**, not a destination transfer plan.
+
+### File identity
+
+| File | SHA-256 |
+|---|---|
+| `tools/backup_gdrive.sh` | `1c787df5cbacc4e10939d94b3194f52ba52bb0bfd83e61779affd92745209cc8` |
+| `tools/backup_gdrive_status.py` | `4e7f695cc529c101417db1f78b0050a93a0881e7129f7ce8c02446cc99581cf4` |
+| `tools/archive_to_gdrive.sh` | `efcade80c90afec3b71224130b3e1b38a104164a3b7c90f5670f410e6f92475d` |
+| `tools/test_backup_gdrive.py` | `0650b6c4f42624041e94c8642ff03f827a5b1de58e08662d18c69e036c995f90` |
+| `tools/test_backup_gdrive_addendum.py` | `5ae76e866fa94df72f6d3b72db961875ae48e655e8854183f1f6d14e21d6caa3` |
+| `docs/ARCHIVE_MANIFEST.tsv` | `c4e7c4e611c0e15f0dfbaa473bcb934ef737fbf49330c00afd9dd1ed8828cee3` |
+| `tools/launchd/com.rhu.memit-gdrive-backup.plist` | `55aec0d1f7a3b7158c65f81c55363fc344be2506458c578e164a74cb337522de` |
+
+### Current handoff
+
+Done: heartbeat/status and archive/manifest implementation; 29 local tests; RED controls and code-only review. Receipts: `results/backup_gdrive_addendum_20261010T061642Z/`, original backup receipts `results/backup_gdrive_build_20261010T055855Z/`. In flight: none. Next: a legitimate host with Drive DNS runs both `tools/test_backup_gdrive.py --drive` and `tools/test_backup_gdrive_addendum.py --archive-drive`, verifies their exact scoped cleanup, records real dry-run count/bytes and upload-rate projection, then MAESTRO3 reviews deployment/access before any job replacement. Do not load/unload launchd, dispatch full sync, delete local bulk or change LAW gates under this build authorization. Existing host-runner inquiry remains unanswered. Backup health wiring remains a proposal; the manifest is prepared for Git but not staged/committed by this task.
+
+**BINDING context directive:** Watch your own and every orchestrated team's `Context N% left`. Before approximately **20%**, stop starting new work; write a report handoff listing done/in-flight work, exact paths, next steps and open risks; tell the orchestrator to start a fresh successor. Every handoff restates this rule; never approach full-window compaction.
+
+
+## Vanished-source correction — RED evidence and context handoff — 2026-10-10T06:47:13.920419+00:00
+
+**INCOMPLETE: tests written first and RED; production correction has not been implemented.** MAESTRO3 reports that the internal-SSD backup's last logged run (`~/Backups/memit/backup.launchd.log:86–96`, 2026-10-09 17:56) was marked FATAL solely for rsync exit 24 after a `.git/objects/.../tmp_obj_*` source vanished, with no subsequent logged run. This is operator-provided evidence; this task did not read or modify `~/Backups/memit`.
+
+### Measured rclone equivalent
+
+A bounded actual-rclone v1.75.2 local control queued two temporary files with `--check-first --order-by name --transfers 1 --disable Copy --bwlimit 256k`, waited for the first destination transfer to appear, then removed only the queued temporary second source. `results/backup_gdrive_vanished_20261010T063803Z/vanished_probe.json` and `probe_rclone.jsonl` record **raw exit 1**, the intact first-file copy, `Failed to copy: failed to open source object: lstat <source>/z_vanished.bin: no such file or directory`, final stats `errors=1`, `fatalError=false`, `retryError=true`, and terminal NOTICE `Failed to sync: ...`. Rclone also reported **not deleting files/directories as there were IO errors**. This installation uses a general exit 1 for this case; rsync's 24 must not be translated into a blanket rclone success rule. [Primary rclone exit-code reference](https://rclone.org/docs/#list-of-exit-codes).
+
+A proven vanished-source outcome must be a visible **source vanished; deletions suppressed** warning, with raw rclone exit retained. It cannot be described as an exact completed mirror. Genuine auth, permission, destination and other transfer failures must remain fatal. Do not use `--ignore-errors` or weaken rclone's deletion barrier.
+
+Actual Unix-socket fixture creation was sandbox-denied (`socket_fixture.json`, `Operation not permitted`); this is UNVERIFIED. The new test instead uses a temporary FIFO to exercise rclone's generic `Can't transfer non file/directory` NOTICE. The earlier full source inventory independently recorded this NOTICE for one runtime socket. A regular file named `ordinary.sock` must remain included; a blanket `*.sock` filter would hide valid data.
+
+### RED evidence
+
+Exact command: `LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B tools/test_backup_gdrive_addendum.py -v`. `results/backup_gdrive_vanished_20261010T063803Z/red.txt`: **27 tests / 11.566 s; 23 PASS, 4 FAIL; exit 1** on unchanged production. Seven new test methods plus helpers were added to `tools/test_backup_gdrive_addendum.py`. The four intended failures prove: `.git` temporary objects are copied; a nonregular skip is absent from heartbeat warnings; the real queued-source vanish is falsely FATAL/exit 1; and status hides a supplied warning behind “fresh successful backup.” Negative controls for mixed auth/permission/destination ENOENT, ambiguous or still-present source, missing/torn final log evidence, path escape, and raw non-1 exit already PASS. Original lock, publication-failure, auth and archive controls also PASS in this run. The earlier 29-test GREEN predates this steering and does not establish the requested correction.
+
+Read-only GPT-6/Codex-family helper review (not Astra) agreed to this narrowly scoped RED plan (`review_red_plan.txt`). Binding MAESTRO3/Astra review is still required after implementation.
+
+### Successor's concrete next step
+
+1. Read both full briefs: `/Users/robertrhu/.claude/jobs/8ac4cacf/tmp/codexmb3_gdrive_prompt.txt` and `codexmb3_gdrive_addendum.txt`, this report, and the measured receipt/log above. Implement warning classification in `tools/backup_gdrive.sh` / `tools/backup_gdrive_status.py`, preserving exactly one sync and terminal publication before lock release. Normalize wrapper success only for a fully verified local-source-vanish raw-exit-1 case; heartbeat must retain `rclone_exit_code=1`, structured warnings and the deletion-suppression qualification. Require a complete valid per-run JSON log, matching local source/object ENOENT, confirmed absence via `lstat` raising `FileNotFoundError`, consistent nonfatal final stats and matching terminal NOTICE. Reject traversal/mismatched/destination errors, existing or inaccessible sources, unrelated errors, malformed/truncated evidence and other exit codes. Accept the native terminal spelling `Failed to sync: ...` as well as any independently valid count-prefixed form used by synthetic controls.
+2. Add a supplemental `--exclude '**/.git/objects/**/tmp_obj_*'` without editing shared `tools/backup_mirror.excludes`. Apply exactly the same filter to the explicit real-source dry-run and filtered source listing in `tools/test_backup_gdrive.py`. Preserve permanent Git objects and regular `.sock` files; record native nonregular skips as visible warnings. Prior source inventory predates this proposed filter.
+3. Run the new 27-test addendum suite and original 9-test suite locally, inspect RED/GREEN receipts, syntax and protected-file hashes; get a helper review with the existing lock/publication races in scope, then MAESTRO3's binding Astra review. Append final hashes and warning semantics here. No real full backup, launcher activation, commits/staging, local bulk deletion, LAW-gate changes or dashboard-test edits. `EXPERIMENT_RUNBOOK.md` remains uncommitted for MAESTRO3's reviewed commit.
+4. Required Drive tiny-sync/archive controls, real-destination dry-run and 200 MB upload measurement remain **BLOCKED by sandbox DNS / UNVERIFIED**. No host runner was supplied. Do not claim full build acceptance until those bounded host receipts pass.
+
+### Scope and saved state
+
+Worktree verified as `/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a`, branch `worktree-c10k-route-a`. Baseline HEAD `a0047f4cbef8154e3931df061482db187150b069`; observed shared HEAD `6aa22ab5990cd5eae9721d1106d6f2c487a02c5b`. No commits or mutating Git operations by this task; concurrent HEAD advance is preserved. Production wrapper/status unchanged since latest baseline: **True**. Protected old mirror script/excludes/plist and dashboard test unchanged: **True**. Runbook unchanged by this steering: **True**. Latest test SHA-256: `43e5fd2830010b4697c269a6f2de81978804824302b25cdb8b5751b274acc91e`. Wrapper SHA-256: `1c787df5cbacc4e10939d94b3194f52ba52bb0bfd83e61779affd92745209cc8`; status SHA-256: `4e7f695cc529c101417db1f78b0050a93a0881e7129f7ce8c02446cc99581cf4`. Current RED process has finished; no work is in flight. Audit and context save: `results/backup_gdrive_vanished_20261010T063803Z/audit_handoff.json`, `context_saved.md`.
+
+**BINDING context directive:** Watch your own and every orchestrated team's `Context N% left`. Before approximately **20%**, stop starting new work; write a task-report handoff listing done/in-flight work, exact paths, next steps and open risks; tell the orchestrator to start a fresh successor. Every handoff restates this rule; never approach full-window compaction. This handoff stops new work before the production correction.

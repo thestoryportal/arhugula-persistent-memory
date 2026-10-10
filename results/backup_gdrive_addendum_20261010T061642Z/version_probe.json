@@ -1,0 +1,9 @@
+{
+  "command": [
+    "/opt/homebrew/bin/rclone",
+    "version"
+  ],
+  "exit_code": 0,
+  "stdout": "rclone v1.75.2\n- os/version: darwin 26.6.2 (64 bit)\n- os/kernel: 25.6.0 (arm64)\n- os/type: darwin\n- os/arch: arm64 (ARMv8 compatible)\n- go/version: go1.27.2\n- go/linking: dynamic\n- go/tags: none\n",
+  "stderr": ""
+}

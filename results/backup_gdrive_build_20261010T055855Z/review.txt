@@ -1,0 +1,11 @@
+Reviewer: GPT-6/Codex family, read only.
+
+Initial verdict FIX-FIRST for the opt-in Drive test timeout: subprocess.run(timeout=180) killed Bash but could leave its background rclone child writing during source cleanup and _selftest purge. Production wrapper had no blocker found.
+
+Follow-up verdict: PROCEED for code preparation only. The timeout blocker is resolved.
+
+tools/test_backup_gdrive.py:18–29 starts a dedicated session, kills the entire process group on timeout, then drains output and reaps the wrapper before returning to cleanup. Local backup and Drive calls use this helper (:49–50,160–161,186–187).
+
+The regression establishes that the child started and stops writing after timeout (:134–147). timeout_red.txt records continued writes before the fix; green_final.txt records 9 tests PASS.
+
+Drive behavior, transfer size/rate and launchd access remain unverified. This verdict does not authorize activation or a full sync. No edits, tests or network calls performed during review.

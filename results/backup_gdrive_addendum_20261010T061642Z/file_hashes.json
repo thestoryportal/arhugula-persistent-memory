@@ -1,0 +1,9 @@
+{
+  "tools/backup_gdrive.sh": "1c787df5cbacc4e10939d94b3194f52ba52bb0bfd83e61779affd92745209cc8",
+  "tools/backup_gdrive_status.py": "4e7f695cc529c101417db1f78b0050a93a0881e7129f7ce8c02446cc99581cf4",
+  "tools/archive_to_gdrive.sh": "efcade80c90afec3b71224130b3e1b38a104164a3b7c90f5670f410e6f92475d",
+  "tools/test_backup_gdrive.py": "0650b6c4f42624041e94c8642ff03f827a5b1de58e08662d18c69e036c995f90",
+  "tools/test_backup_gdrive_addendum.py": "5ae76e866fa94df72f6d3b72db961875ae48e655e8854183f1f6d14e21d6caa3",
+  "docs/ARCHIVE_MANIFEST.tsv": "c4e7c4e611c0e15f0dfbaa473bcb934ef737fbf49330c00afd9dd1ed8828cee3",
+  "tools/launchd/com.rhu.memit-gdrive-backup.plist": "55aec0d1f7a3b7158c65f81c55363fc344be2506458c578e164a74cb337522de"
+}

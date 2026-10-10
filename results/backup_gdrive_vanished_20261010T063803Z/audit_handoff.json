@@ -1,0 +1,42 @@
+{
+  "utc": "2026-10-10T06:47:13.920419+00:00",
+  "baseline_HEAD": "a0047f4cbef8154e3931df061482db187150b069",
+  "HEAD": "6aa22ab5990cd5eae9721d1106d6f2c487a02c5b",
+  "branch": "worktree-c10k-route-a",
+  "sha256": {
+    "tools/backup_gdrive.sh": "1c787df5cbacc4e10939d94b3194f52ba52bb0bfd83e61779affd92745209cc8",
+    "tools/backup_gdrive_status.py": "4e7f695cc529c101417db1f78b0050a93a0881e7129f7ce8c02446cc99581cf4",
+    "tools/backup_mirror.sh": "4b26fefcc25bac2274cb75962a60ef2a13a869d24c7d0364430cd5b800d012b6",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+    "tools/launchd/com.rhu.memit-backup.plist": "44c2ffcad9837f76c0b08d34a1b40ca367c9145edf3360cad3131e1c64e29a2f",
+    "tools/test_dashboard_mathlab.py": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+    "tools/test_backup_gdrive.py": "0650b6c4f42624041e94c8642ff03f827a5b1de58e08662d18c69e036c995f90",
+    "tools/test_backup_gdrive_addendum.py": "43e5fd2830010b4697c269a6f2de81978804824302b25cdb8b5751b274acc91e",
+    "EXPERIMENT_RUNBOOK.md": "7369b2482c95f734d277da1cf50a17364c5dfb0b01b847162bfb973e513764ca",
+    "results/backup_gdrive_build_report.md": "cb1cc19c9e496472a1aa5e7fe2e5392bf508a29b6da7a936bed503646e4f8146"
+  },
+  "matches_pre_steering_baseline": {
+    "tools/backup_gdrive.sh": true,
+    "tools/backup_gdrive_status.py": true,
+    "tools/backup_mirror.sh": true,
+    "tools/backup_mirror.excludes": true,
+    "tools/launchd/com.rhu.memit-backup.plist": true,
+    "tools/test_dashboard_mathlab.py": true,
+    "tools/test_backup_gdrive.py": true,
+    "tools/test_backup_gdrive_addendum.py": false,
+    "EXPERIMENT_RUNBOOK.md": true,
+    "results/backup_gdrive_build_report.md": true
+  },
+  "production_unchanged": true,
+  "protected_unchanged": true,
+  "RED": {
+    "tests": 27,
+    "pass": 23,
+    "fail": 4,
+    "wall_seconds": 11.566,
+    "exit_code": 1
+  },
+  "current_work": "handoff; production correction not implemented",
+  "in_flight": null,
+  "commits_by_task": false
+}
