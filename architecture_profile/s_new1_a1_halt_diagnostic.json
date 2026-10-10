@@ -1,0 +1,26 @@
+{
+ "halt": "NEW-1 (D-NEW1-1) HALTED after one reviewed fix (D-NEW1-a1) failed to clear the frozen covariance validity gate",
+ "date_utc": "2026-10-10T03:03:37Z",
+ "runs": {
+  "pre_a1": "results/mathlab_staging/runs/new1_20261010T022922.650234Z (prereg eaf7bc21)",
+  "admission_race_nonrun": "results/mathlab_staging/runs/new1_20261010T025311.015991Z (INVALID-ADMISSION: teamdash gpu-summary polls)",
+  "post_a1": "results/mathlab_staging/runs/new1_20261010T030200.809009Z (prereg 216e8cfa)"
+ },
+ "gate": "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md:51 (symmetry<=1e-6; svd, psd, orthogonality<=1e-5) on native-fp32 11008^2 SVD, layer 4",
+ "observed_pre_a1": {
+  "symmetry": 0.0,
+  "svd": 0.00013040006457880495,
+  "psd": 0.00015125184589782594,
+  "orthogonality": 1.9356690175696768e-05
+ },
+ "observed_post_a1": {
+  "symmetry": 0.0,
+  "svd": 0.00013039369558719857,
+  "psd": 0.00015124534128092926,
+  "orthogonality": 1.613587520408149e-05
+ },
+ "inference": "float64 promotion of the check products changed svd/psd by <1e-8 relative: the residual is in the native-fp32 factorization, not check rounding. Astra ruled the pre-A1 halt FAITHFUL-GATE-FAILURE (results/mathlab_staging/new1_svd_ruling_astra.md).",
+ "prediction_verdict": "NOT COMPUTED",
+ "remaining_options": "(a) tolerance relaxation with an independently justified bound; (b) float64 refinement of U used throughout (changes Q); (c) separate float64 SVD with fp32 projector-identity check (changes 'exactly one' and resource assumptions); (d) shelve NEW-1. All amend frozen v2 substantively -> operator decision.",
+ "halt_discipline": "CLAUDE.md: one fix after source read; fix did not clear the gate -> HALT, no further iteration."
+}
