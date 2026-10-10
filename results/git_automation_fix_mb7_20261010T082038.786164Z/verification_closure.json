@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-10T08:39:32.277048+00:00",
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "branch": "worktree-c10k-route-a",
+  "initial_head": "1ba14c753a85768bd2dd356d3ad3b17348c6e13b",
+  "current_head": "5620b948ea6f88d6efcb352ebce32d8cadfef816",
+  "owned_sha256_verified_after_intervening_report_write": {
+    "tests/test_git_automation.py": "5187fc993491be5c9504d8a21b88afbfa4cc3655919746aacb9bbb983027b35c",
+    "tools/dashboard_experiment.py": "96d0e142f90020f63d1381c39dedcf5cd0cea14620ffce5f6d93b0aac5b62052",
+    "tools/git_hygiene.py": "1980929aadb716d85a9766dec18d57c96891c12854e24864941691a3f2c5d544",
+    "tools/git_merge_gate.py": "8e1ea0caae4e5bbb3b17a4927b7ce9c463f1e380508f154ad1874474994199c7"
+  },
+  "acceptance": {
+    "git_automation": 74,
+    "model_free": 80,
+    "model_free_by_module": [
+      13,
+      27,
+      40
+    ]
+  },
+  "regressions_red_green": 19,
+  "binding_review": "NO-GO until Astra returns GO",
+  "ubuntu": "UNVERIFIED",
+  "live_parent_api": "UNVERIFIED"
+}

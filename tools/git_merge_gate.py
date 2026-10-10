@@ -102,7 +102,8 @@ def poll_ci(repo, gh, number, sha, base, wait_s, post=False):
 def gate(repo, gh, number, dry_run=True, wait_s=480):
     names = ('pr', 'fingerprint', 'branches', 'ci', 'stable_head_base', 'ready', 'merge', 'master_ci', 'post_hygiene')
     report = {'ok': False, 'mode': 'dry-run' if dry_run else 'apply', 'pr_number': number,
-              'head_sha': None, 'base_sha': None, 'merge_sha': None, 'errors': [],
+              'status': 'REFUSED', 'merged': False, 'head_sha': None, 'base_sha': None,
+              'merge_sha': None, 'merge_first_parent': None, 'final_ci': None, 'errors': [],
               'checks': {name: {'status': 'NOT-RUN', 'reason': 'prerequisite unavailable'} for name in names}}
     def check(name, action):
         try:
@@ -168,6 +169,7 @@ def gate(repo, gh, number, dry_run=True, wait_s=480):
                     report['checks'][name] = {'status': 'WOULD-RUN', 'reason': 'dry-run; no action',
                         'head_sha': report['head_sha'], 'post_merge_sha': 'returned merge commit, verified separately'}
                 report['ok'] = True
+                report['status'] = 'DRY_RUN_PASS'
                 return report
             def ready():
                 stable()
@@ -185,15 +187,27 @@ def gate(repo, gh, number, dry_run=True, wait_s=480):
                 if any(b['name'] not in allowed for b in fresh['branches']):
                     raise H.Refusal('extra branches appeared before merge')
                 stable()
+                evidence = gh.evidence(number, report['head_sha'])
+                state, reason = ci_state(evidence, report['head_sha'])
+                report['final_ci'] = {'status': state, 'reason': reason, 'evidence': evidence}
+                if state != 'PASS':
+                    raise H.Refusal('final exact-head CI refused: ' + reason)
                 gh.merge(number, report['head_sha'])
+                report['merged'] = True
+                report['status'] = 'MERGED_WITH_FAILURE'
                 merged = gh.pr(number)
                 sha = merged['mergeCommit']['oid']
                 report['merge_sha'] = sha
                 if merged['state'] != 'MERGED' or merged['headRefOid'] != report['head_sha'] or not re.fullmatch('[0-9a-f]{40}', sha):
                     raise H.Refusal('merge returned no valid exact-head merge commit')
+                parent = gh.first_parent(sha)
+                report['merge_first_parent'] = parent
+                if parent != report['base_sha']:
+                    report['status'] = 'MERGED_ON_MOVED_BASE'
+                    raise H.Refusal('merged onto a moved base: first parent ' + parent + ' differs from recorded base ' + report['base_sha'])
                 if gh.master() != sha:
                     raise H.Refusal('master tip differs from returned merge commit; post-merge CI not verified')
-                return {'head_sha': report['head_sha'], 'merge_sha': sha, 'strategy': 'merge commit'}
+                return {'head_sha': report['head_sha'], 'merge_sha': sha, 'first_parent': parent, 'strategy': 'merge commit'}
             if check('merge', merge) is None:
                 return report
             def master_ci():
@@ -211,6 +225,7 @@ def gate(repo, gh, number, dry_run=True, wait_s=480):
             if check('post_hygiene', cleanup) is None:
                 return report
             report['ok'] = True
+            report['status'] = 'MERGED'
     except (H.Refusal, OSError) as error:
         report['errors'].append(str(error))
     return report
@@ -233,12 +248,15 @@ def main():
         repo = H.Repo(Path(os.environ.get('LLMDB_ROOT') or Path.cwd()), deadline)
         report = gate(repo, H.Gh(repo, H.repository_name(repo)), args.pr, dry_run=not args.apply, wait_s=args.ci_wait)
     except (H.Refusal, ValueError, OSError) as error:
-        report = {'ok': False, 'errors': [str(error)], 'checks': {}}
+        report = {'ok': False, 'status': 'REFUSED', 'merged': False, 'merge_sha': None, 'errors': [str(error)], 'checks': {}}
     report['command_evidence'] = repo.commands if repo else []
     print(json.dumps(report, indent=2, sort_keys=True))
     for name, value in report['checks'].items():
         print(f"{name}: {value['status']} {value.get('reason', '')}", file=sys.stderr)
-    print('PASS: bounded merge gate complete' if report['ok'] else 'REFUSE: ' + ' '.join(report['errors'][0].split()), file=sys.stderr)
+    outcome = 'PASS: bounded merge gate complete' if report['ok'] else (
+        report['status'] + ': merge_sha=' + str(report['merge_sha']) + ' ' if report['merged'] else 'REFUSE: '
+    ) + ' '.join(report['errors'][0].split())
+    print(outcome, file=sys.stderr)
     return 0 if report['ok'] else 1
 
 

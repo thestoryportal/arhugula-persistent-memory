@@ -128,6 +128,11 @@ def parse_log(path):
             "exit": int(exit_m.group(1)) if exit_m else None, "halt": bool(re.search(r"(?m)^HALT\b", text_tail))}
 
 
+def birthtime_or_mtime(path):
+    st = os.stat(path)
+    return getattr(st, "st_birthtime", st.st_mtime)
+
+
 def run_rows(paths, cols):
     """One row per made-up-names arm of each finished run (A7*), with A1 as the control column."""
     rows, wide = [], cols >= 110
@@ -135,7 +140,7 @@ def run_rows(paths, cols):
     for p in paths:
         r = parse_log(p)
         name = plain_run(os.path.basename(p)[:-4].replace("behavior_", "behavior_", 1))
-        took = dur(os.path.getmtime(p) - os.stat(p).st_birthtime)
+        took = dur(os.path.getmtime(p) - birthtime_or_mtime(p))
         a7s = {k: v for k, v in r["arms"].items() if k.startswith("A7")} or ({"run": None} if r["behavior"] is None else {})
         if not a7s and r["behavior"] is not None:
             a7s = {"A7": {"para": r["behavior"], "para_n": OUT_OF}}
@@ -288,7 +293,7 @@ def render(cols, rows):
         return [dashboard_live.clip(line, cols) for line in (out + cpu_lines(state, cols))[:rows]]
     cur = logs[-1]
     run_dir = os.path.dirname(cur)
-    runs = sorted(glob.glob(os.path.join(run_dir, "*.log")), key=lambda p: os.stat(p).st_birthtime)
+    runs = sorted(glob.glob(os.path.join(run_dir, "*.log")), key=birthtime_or_mtime)
     finished = runs[:-1] if top else runs
     # stage plan (c10u-style *_started.json with a plan) for progress + ETA
     exp_dir = os.path.dirname(run_dir) if os.path.basename(run_dir) == "logs" else run_dir
@@ -300,7 +305,7 @@ def render(cols, rows):
         except (OSError, ValueError):
             pass
     behav_done = [p for p in finished if os.path.basename(p).startswith("behavior_")] if total else finished
-    times = [os.path.getmtime(p) - os.stat(p).st_birthtime for p in behav_done if os.path.basename(p).startswith(("behavior_", "p1-"))]
+    times = [os.path.getmtime(p) - birthtime_or_mtime(p) for p in behav_done if os.path.basename(p).startswith(("behavior_", "p1-"))]
     avg = sum(times) / len(times) if times else None
 
     m = re.search(r"(?:^|/)(c10[a-z])", os.path.relpath(cur, ROOT))

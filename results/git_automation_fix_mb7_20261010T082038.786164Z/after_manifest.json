@@ -1,0 +1,122 @@
+{
+  ".github/workflows/ci.yml": {
+    "allowed_edit": false,
+    "bytes": 1218,
+    "sha256": "d5998af13b0cd9e0617455b12fdaf681c05429e0969f6593d9e829f5dabff33f"
+  },
+  "AGENTS.md": {
+    "allowed_edit": false,
+    "bytes": 22985,
+    "sha256": "12279b3ccff7fbacb1b9dd6a824c433c2df4c520985bb196773311ff931f58d0"
+  },
+  "CLAUDE.md": {
+    "allowed_edit": false,
+    "bytes": 15477,
+    "sha256": "e72e6940ee7a1748dc024c1828d4baeabc7820670a8fc0cf749cc25511a6bafb"
+  },
+  "EXPERIMENT_RUNBOOK.md": {
+    "allowed_edit": false,
+    "bytes": 451505,
+    "sha256": "efef630f43e95f433a1beaa741c1609361b87bbc7ca0de8e3cd24d722272e41e"
+  },
+  "results/git_automation_build_20261010T064202.457112Z/astra_binding_verdict.md": {
+    "allowed_edit": false,
+    "bytes": 4857,
+    "sha256": "6664197b6fd0d05df8b09df0288eb546b1c073fb791ebad256d32bf203d34b83"
+  },
+  "tests/test_git_automation.py": {
+    "allowed_edit": true,
+    "bytes": 50281,
+    "sha256": "5187fc993491be5c9504d8a21b88afbfa4cc3655919746aacb9bbb983027b35c"
+  },
+  "tests/test_new1_construction_diag.py": {
+    "allowed_edit": false,
+    "bytes": 46422,
+    "sha256": "d4fea32aba6b0a4fa695cccbd8a5734ce7f2d053bff1e39d2634fd0aa5f90fdd"
+  },
+  "tests/test_new1_geometry.py": {
+    "allowed_edit": false,
+    "bytes": 25871,
+    "sha256": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f"
+  },
+  "tests/test_new1_identity_diag.py": {
+    "allowed_edit": false,
+    "bytes": 17811,
+    "sha256": "22bfcca9f90054b6ad9cd71d7ca4bf5f67738f8d6ee284d91b106bc946e5c699"
+  },
+  "tests/test_new1_supervisor.py": {
+    "allowed_edit": false,
+    "bytes": 53742,
+    "sha256": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec"
+  },
+  "tools/backup_gdrive.sh": {
+    "allowed_edit": false,
+    "bytes": 6786,
+    "sha256": "506ce31845bcbe812261ce128f2119f247cfe270e69b8af08e9a612207aed9ce"
+  },
+  "tools/backup_gdrive_status.py": {
+    "allowed_edit": false,
+    "bytes": 21547,
+    "sha256": "f5c98ad6adb3530ac215befbfcedc94a63368a9d153186864f67823db7c40b25"
+  },
+  "tools/dashboard_experiment.py": {
+    "allowed_edit": true,
+    "bytes": 22748,
+    "sha256": "96d0e142f90020f63d1381c39dedcf5cd0cea14620ffce5f6d93b0aac5b62052"
+  },
+  "tools/git_hygiene.py": {
+    "allowed_edit": true,
+    "bytes": 21568,
+    "sha256": "1980929aadb716d85a9766dec18d57c96891c12854e24864941691a3f2c5d544"
+  },
+  "tools/git_merge_gate.py": {
+    "allowed_edit": true,
+    "bytes": 14138,
+    "sha256": "8e1ea0caae4e5bbb3b17a4927b7ce9c463f1e380508f154ad1874474994199c7"
+  },
+  "tools/launchd/MemitGdriveBackup.applescript": {
+    "allowed_edit": false,
+    "bytes": 1660,
+    "sha256": "ebafee3ad82a4376ec5dda0fbc823f2170c795cddd56d62f5ede730d6d5c3bab"
+  },
+  "tools/launchd/build_gdrive_applet.sh": {
+    "allowed_edit": false,
+    "bytes": 507,
+    "sha256": "f7ca5a5b7928faa1bc24d12ac38cdd8c6ee21ad1684e9bc7579ac8cd1260189b"
+  },
+  "tools/launchd/com.rhu.memit-backup.plist": {
+    "allowed_edit": false,
+    "bytes": 1860,
+    "sha256": "44c2ffcad9837f76c0b08d34a1b40ca367c9145edf3360cad3131e1c64e29a2f"
+  },
+  "tools/launchd/com.rhu.memit-gdrive-backup.plist": {
+    "allowed_edit": false,
+    "bytes": 1139,
+    "sha256": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce"
+  },
+  "tools/new1_construction_diag.py": {
+    "allowed_edit": false,
+    "bytes": 13332,
+    "sha256": "87a4f5425f5df5bd85b3d47455053a60965e7510297f1b8e3472c73c931411e7"
+  },
+  "tools/new1_geometry.py": {
+    "allowed_edit": false,
+    "bytes": 32086,
+    "sha256": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e"
+  },
+  "tools/new1_identity_diag.py": {
+    "allowed_edit": false,
+    "bytes": 22023,
+    "sha256": "c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3"
+  },
+  "tools/new1_supervisor.py": {
+    "allowed_edit": false,
+    "bytes": 23843,
+    "sha256": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b"
+  },
+  "tools/test_dashboard_mathlab.py": {
+    "allowed_edit": false,
+    "bytes": 44754,
+    "sha256": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e"
+  }
+}

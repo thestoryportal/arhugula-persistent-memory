@@ -1,0 +1,65 @@
+[
+  {
+    "test": "test_ci_other_head_after_final_hygiene_refuses_merge",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_ci_other_head_after_final_hygiene_refuses_merge"
+    ],
+    "exit_code": 1,
+    "expected": true,
+    "log": "RED2/test_ci_other_head_after_final_hygiene_refuses_merge.log"
+  },
+  {
+    "test": "test_render_sorts_and_times_completed_logs_without_birthtime",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_render_sorts_and_times_completed_logs_without_birthtime"
+    ],
+    "exit_code": 1,
+    "expected": true,
+    "log": "RED2/test_render_sorts_and_times_completed_logs_without_birthtime.log"
+  },
+  {
+    "test": "test_run_rows_uses_birthtime_or_mtime_without_birthtime",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_run_rows_uses_birthtime_or_mtime_without_birthtime"
+    ],
+    "exit_code": 1,
+    "expected": true,
+    "log": "RED2/test_run_rows_uses_birthtime_or_mtime_without_birthtime.log"
+  }
+]

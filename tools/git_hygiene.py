@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bounded git hygiene. Read-only by default; MAESTRO explicitly invokes --apply."""
+"""Bounded git hygiene. Worktrees are always kept; --apply deletes eligible branches."""
 from __future__ import annotations
 
 import argparse
@@ -162,6 +162,18 @@ class Gh:
     def master(self):
         return self.json(['api', f'repos/{self.repository}/git/ref/heads/master'])['object']['sha']
 
+    def first_parent(self, sha):
+        commit = self.json(['api', f'repos/{self.repository}/git/commits/{sha}'])
+        try:
+            if commit['sha'] != sha:
+                raise Refusal('merge commit evidence SHA differs')
+            parent = commit['parents'][0]['sha']
+            if not re.fullmatch('[0-9a-f]{40}', parent):
+                raise Refusal('merge commit first parent malformed')
+            return parent
+        except (KeyError, IndexError, TypeError) as error:
+            raise Refusal('merge commit first parent unavailable') from error
+
 
 def repository_name(repo):
     url = repo.git('remote', 'get-url', 'origin').strip()
@@ -315,6 +327,9 @@ def inspect(repo, gh):
         report['worktrees'].append({'path': str(path), 'branch': branch, 'head_sha': row['HEAD'],
             'eligible': not reasons, 'keep_reasons': reasons, 'cwd_pids': pids,
             'size_before_bytes': size, 'size_after_bytes': size})
+    report['manual_removal_candidates'] = [
+        {key: row[key] for key in ('path', 'branch', 'head_sha', 'size_before_bytes')}
+        for row in report['worktrees'] if row['eligible']]
     report['ok'] = not report['errors']
     return report
 
@@ -388,23 +403,7 @@ def hygiene(repo, gh, apply=False, lock=True):
         if not apply or not report['ok']:
             return report
         try:
-            for row in report['worktrees']:
-                if not row['eligible']:
-                    continue
-                fresh = inspect(repo, gh)
-                current = next((w for w in fresh['worktrees'] if w['path'] == row['path']), None)
-                if not fresh['ok'] or fresh['master_sha'] != report['master_sha'] or not current or not current['eligible'] or current['head_sha'] != row['head_sha']:
-                    raise Refusal('worktree protection/state changed; stopped without retry')
-                repo.git('worktree', 'remove', row['path'])
-                row['size_after_bytes'] = 0
-                report['actions'].append({'operation': 'worktree-remove', 'path': row['path']})
-            if any(a['operation'] == 'worktree-remove' for a in report['actions']):
-                repo.git('worktree', 'prune')
-                report['actions'].append({'operation': 'worktree-prune'})
-            after = inspect(repo, gh)
-            if not after['ok'] or after['master_sha'] != report['master_sha']:
-                raise Refusal('branch inventory changed or incomplete after worktree phase')
-            for row in after['branches']:
+            for row in report['branches']:
                 if not row['eligible']:
                     continue
                 recheck_branch(repo, gh, row, report['master_sha'])
@@ -445,7 +444,7 @@ def main():
     for row in report.get('branches', []):
         print(f"{row['classification']} {row['kind']} {row['name']} unique={row['unique_commits']} date={row['last_commit_date']}", file=sys.stderr)
     for row in report.get('worktrees', []):
-        print(f"{'REMOVE' if row['eligible'] else 'KEEP'} {row['path']} bytes={row['size_before_bytes']}->{row['size_after_bytes']} {'; '.join(row['keep_reasons'])}", file=sys.stderr)
+        print(f"{'MANUAL-REMOVAL-CANDIDATE' if row['eligible'] else 'KEEP'} {row['path']} branch={row['branch']} head={row['head_sha']} bytes={row['size_before_bytes']}->{row['size_after_bytes']} {'; '.join(row['keep_reasons'])}", file=sys.stderr)
     print('PASS: bounded hygiene complete' if report['ok'] else 'REFUSE: ' + ' '.join(report['errors'][0].split()), file=sys.stderr)
     return 0 if report['ok'] else 1
 

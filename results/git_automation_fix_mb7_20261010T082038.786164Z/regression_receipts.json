@@ -1,0 +1,135 @@
+[
+  {
+    "test": "test_ci_disappears_during_final_hygiene_refuses_merge",
+    "red": "RED/test_ci_disappears_during_final_hygiene_refuses_merge.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_ci_disappears_during_final_hygiene_refuses_merge.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_ci_flips_to_fail_during_final_hygiene_refuses_merge",
+    "red": "RED/test_ci_flips_to_fail_during_final_hygiene_refuses_merge.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_ci_flips_to_fail_during_final_hygiene_refuses_merge.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_ci_flips_to_pending_during_final_hygiene_refuses_merge",
+    "red": "RED/test_ci_flips_to_pending_during_final_hygiene_refuses_merge.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_ci_flips_to_pending_during_final_hygiene_refuses_merge.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_ci_flips_to_pending_during_ready_refuses_merge",
+    "red": "RED/test_ci_flips_to_pending_during_ready_refuses_merge.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_ci_flips_to_pending_during_ready_refuses_merge.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_ci_other_head_after_final_hygiene_refuses_merge",
+    "red": "RED2/test_ci_other_head_after_final_hygiene_refuses_merge.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_ci_other_head_after_final_hygiene_refuses_merge.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_clean_idle_worktree_is_manual_candidate_then_second_apply_noop",
+    "red": "RED/test_clean_idle_worktree_is_manual_candidate_then_second_apply_noop.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_clean_idle_worktree_is_manual_candidate_then_second_apply_noop.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_cli_post_merge_failure_keeps_merged_status_and_sha",
+    "red": "RED/test_cli_post_merge_failure_keeps_merged_status_and_sha.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_cli_post_merge_failure_keeps_merged_status_and_sha.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_commit_parent_adapter_reads_exact_commit",
+    "red": "RED/test_commit_parent_adapter_reads_exact_commit.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_commit_parent_adapter_reads_exact_commit.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_commit_parent_adapter_refuses_wrong_or_missing_evidence",
+    "red": "RED/test_commit_parent_adapter_refuses_wrong_or_missing_evidence.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_commit_parent_adapter_refuses_wrong_or_missing_evidence.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_detached_commit_after_last_inspection_stays_reachable",
+    "red": "RED/test_detached_commit_after_last_inspection_stays_reachable.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_detached_commit_after_last_inspection_stays_reachable.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_ignored_artifact_written_after_last_inspection_survives_apply",
+    "red": "RED/test_ignored_artifact_written_after_last_inspection_survives_apply.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_ignored_artifact_written_after_last_inspection_survives_apply.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_master_advances_after_final_stable_reports_merged_onto_moved_base",
+    "red": "RED/test_master_advances_after_final_stable_reports_merged_onto_moved_base.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_master_advances_after_final_stable_reports_merged_onto_moved_base.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_master_moves_during_post_merge_ci_reports_merged_with_failure",
+    "red": "RED/test_master_moves_during_post_merge_ci_reports_merged_with_failure.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_master_moves_during_post_merge_ci_reports_merged_with_failure.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_parent_read_failure_reports_merged_with_failure",
+    "red": "RED/test_parent_read_failure_reports_merged_with_failure.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_parent_read_failure_reports_merged_with_failure.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_post_merge_failed_ci_reports_merged_with_failure",
+    "red": "RED/test_post_merge_failed_ci_reports_merged_with_failure.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_post_merge_failed_ci_reports_merged_with_failure.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_post_merge_hygiene_failure_reports_merged_with_failure",
+    "red": "RED/test_post_merge_hygiene_failure_reports_merged_with_failure.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_post_merge_hygiene_failure_reports_merged_with_failure.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_post_merge_timeout_reports_merged_with_failure",
+    "red": "RED/test_post_merge_timeout_reports_merged_with_failure.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_post_merge_timeout_reports_merged_with_failure.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_render_sorts_and_times_completed_logs_without_birthtime",
+    "red": "RED2/test_render_sorts_and_times_completed_logs_without_birthtime.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_render_sorts_and_times_completed_logs_without_birthtime.log",
+    "green_exit_code": 0
+  },
+  {
+    "test": "test_run_rows_uses_birthtime_or_mtime_without_birthtime",
+    "red": "RED2/test_run_rows_uses_birthtime_or_mtime_without_birthtime.log",
+    "red_exit_code": 1,
+    "green": "GREEN/test_run_rows_uses_birthtime_or_mtime_without_birthtime.log",
+    "green_exit_code": 0
+  }
+]
