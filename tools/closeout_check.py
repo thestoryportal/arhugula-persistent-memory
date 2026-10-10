@@ -237,14 +237,24 @@ def main():
         if not ok:
             record(label, f"runbook {name}")
 
-    # Memory mirror sync (advisory)
-    live = "/root/.claude/projects/-workspace/memory"
+    # Memory mirror sync (advisory). The live Claude memory moved off the pod (/root/.claude/projects/-workspace)
+    # with D-HW-1; a missing live dir is reported, never skipped silently. MEMORY.md indexes legitimately differ
+    # (the mirror also carries team-written entries), so the invariant checked for it is "every index link resolves".
+    live = os.environ.get("LLMDB_LIVE_MEMORY",
+                          os.path.expanduser("~/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory"))
     mir = os.path.join(ROOT, "memory_mirror")
-    if os.path.isdir(live) and os.path.isdir(mir):
+    if not os.path.isdir(live):
+        print(f"  [WARN   ] memory_mirror sync — live memory dir not found: {live} (set LLMDB_LIVE_MEMORY)")
+    else:
         d = filecmp.dircmp(live, mir)
-        drift = sorted(f for f in (set(d.left_only) | set(d.diff_files)) if f.endswith(".md"))
+        drift = sorted(f for f in (set(d.left_only) | set(d.diff_files)) if f.endswith(".md") and f != "MEMORY.md")
         print(f"  [{'GREEN  ' if not drift else 'WARN   '}] memory_mirror sync" +
               (f" — unmirrored/changed: {drift}" if drift else ""))
+    index = os.path.join(mir, "MEMORY.md")
+    links = re.findall(r"\]\(([^)]+\.md)(?:#[^)]*)?\)", open(index).read())
+    dead = sorted({p for p in links if not os.path.isfile(os.path.join(mir, p))})
+    print(f"  [{'GREEN  ' if not dead else 'WARN   '}] memory_mirror/MEMORY.md links" +
+          (f" — dead: {dead}" if dead else ""))
 
     print("=" * 56)
     if missing or stale:
