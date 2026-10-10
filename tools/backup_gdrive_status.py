@@ -302,35 +302,69 @@ def recover(args):
                     logs/"memit-gdrive-backup-launch-journal/failures.jsonl",
                     heartbeat.parent/"refusals/latest-refusal.json"]
         archives = state_dir/"recoveries"
+        generation_keys = ("launch_generation", "issued_generation", "recovery_barrier",
+                           "compaction_barrier", "highest_seen", "generation_floor")
+        temporary_formats = {".last_run.": "json", ".launch-receipt.": "json",
+                             ".unresolved.": "json", ".journal.": "jsonl",
+                             ".counter.": "counter", ".recovery.": "recovery"}
 
-        def observe(record):
+        def temporary_format(path):
+            return next((kind for prefix, kind in temporary_formats.items() if path.name.startswith(prefix)), None)
+
+        def read_utf8(path):
+            try:
+                text = path.read_bytes().decode("utf-8")
+            except UnicodeError as error:
+                raise ValueError("unsupported recovery evidence in %s: expected UTF-8" % path) from error
+            if "\x00" in text:
+                raise ValueError("unsupported recovery evidence in %s: expected UTF-8" % path)
+            return text
+
+        def observe(record, path, strict):
             nonlocal highest
-            if isinstance(record, dict):
-                for key in ("launch_generation", "issued_generation", "recovery_barrier", "compaction_barrier", "highest_seen", "generation_floor"):
-                    number = record.get(key)
-                    if valid_generation(number):
-                        highest = max(highest, number)
+            nested = list(record.values())
+            while nested:
+                value = nested.pop()
+                if isinstance(value, dict):
+                    if any(key in value for key in generation_keys):
+                        raise ValueError("unsupported nested generation field in %s" % path)
+                    nested.extend(value.values())
+                elif isinstance(value, list):
+                    nested.extend(value)
+            for key in generation_keys:
+                number = record.get(key)
+                if valid_generation(number):
+                    highest = max(highest, number)
+                elif strict and number is not None and not (type(number) is int and number == 0):
+                    raise ValueError("unsupported generation field %s in %s" % (key, path))
 
-        # Prior barriers remain authoritative even after a counter is repaired lower.
-        if archives.exists():
-            for manifest in sorted(archives.glob("*/manifest.json")):
-                record = json.loads(manifest.read_text())
-                if not isinstance(record, dict) or not valid_generation(record.get("recovery_barrier")):
-                    raise ValueError("malformed preserved recovery manifest")
-                observe(record)
         for preserved_counter in [counter, *sorted(archives.rglob("counter"))]:
             if not preserved_counter.exists():
                 continue
-            text = preserved_counter.read_text()
+            text = read_utf8(preserved_counter)
             if re.fullmatch(r"(?:0|[1-9][0-9]{0,9})\n?", text) and int(text) <= 2147483647:
                 highest = max(highest, int(text))
-        # Older recovery manifests can understate the generations in their payloads.
+        live_temporaries = [path for parent in (heartbeat.parent, heartbeat.parent/"refusals", state_dir,
+                                               evidence[2].parent)
+                            for path in sorted(parent.glob(".*")) if path.is_file() and temporary_format(path)]
+        # A killed publisher can leave higher evidence than any final filename.
         preserved = [path for path in sorted(archives.rglob("*"))
-                     if path.is_file() and path.suffix in (".json", ".jsonl") and path.name != "manifest.json"]
-        for path in evidence + preserved:
+                     if path.is_file() and path.name != "counter"]
+        for path in evidence + live_temporaries + preserved:
             if not path.exists():
                 continue
-            lines = path.read_bytes().splitlines() if path.suffix == ".jsonl" else [path.read_bytes()]
+            temporary = temporary_format(path)
+            kind = temporary or {".json": "json", ".jsonl": "jsonl"}.get(path.suffix)
+            if kind is None:
+                raise ValueError("unsupported recovery evidence format in %s" % path)
+            text = read_utf8(path)
+            integer = re.fullmatch(r"(?:0|[1-9][0-9]{0,9})\n?", text)
+            if kind == "counter" or (kind == "recovery" and integer):
+                if not integer or int(text) > 2147483647:
+                    raise ValueError("unsupported counter temporary in %s" % path)
+                highest = max(highest, int(text))
+                continue
+            lines = text.splitlines() if kind == "jsonl" else [text]
             records = []
             uncertain = not lines
             for line in lines:
@@ -338,11 +372,19 @@ def recover(args):
                     records.append(json.loads(line))
                 except ValueError:
                     uncertain = True
+            strict = path not in evidence
+            if strict and (not records or (uncertain and (temporary or kind != "jsonl"))):
+                raise ValueError("unsupported recovery evidence in %s: unparseable publication" % path)
+            if path.name == "manifest.json" and (len(records) != 1 or not isinstance(records[0], dict) or
+                                                 not valid_generation(records[0].get("recovery_barrier"))):
+                raise ValueError("malformed preserved recovery manifest in %s" % path)
             for value in records:
-                observe(value)
                 if not isinstance(value, dict):
+                    if strict:
+                        raise ValueError("unsupported recovery evidence in %s: expected JSON object" % path)
                     uncertain = True
                     continue
+                observe(value, path, strict)
                 generation = value.get("launch_generation")
                 manual = path == heartbeat and generation is None and value.get("launch_mode", "manual") == "manual"
                 if not manual and not valid_generation(generation):

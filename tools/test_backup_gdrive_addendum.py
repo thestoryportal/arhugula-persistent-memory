@@ -1553,6 +1553,205 @@ class R5RecoveryTest(R5Fixture):
         self.assert_under_lock_rechecked(self.heartbeat.parent/"refusals/latest-refusal.json", 10)
 
 
+class R7RecoveryFixture(Fixture):
+    temporaries = {
+        "refusal": ("memit-gdrive-backup/refusals", ".last_run.",
+                    b'{"schema":1,"launch_generation":100,"launch_mode":"applet","exit_code":75}\n'),
+        "heartbeat": ("memit-gdrive-backup", ".last_run.",
+                      b'{"schema":1,"launch_generation":100,"launch_mode":"applet","exit_code":0}\n'),
+        "receipt": ("memit-gdrive-backup", ".launch-receipt.",
+                    b'{"schema":1,"launch_generation":100,"exit_code":75}\n'),
+        "journal": ("memit-gdrive-backup-launch-journal", ".journal.",
+                    b'{"schema":1,"launch_generation":11,"reason":"failed launch"}\n'
+                    b'{"schema":1,"launch_generation":100,"reason":"failed launch"}\n'),
+        "counter": ("memit-gdrive-backup-launch-state", ".counter.", b'100\n'),
+        "unresolved": ("memit-gdrive-backup-launch-state", ".unresolved.",
+                       b'{"schema":1,"issued_generation":100,"unresolved":[[1,100]],'
+                       b'"recovery_barrier":null,"compaction_barrier":null}\n'),
+        "recovery_state": ("memit-gdrive-backup-launch-state", ".recovery.",
+                           b'{"schema":1,"issued_generation":100,"unresolved":[[1,100]],'
+                           b'"recovery_barrier":null,"compaction_barrier":null}\n'),
+        "recovery_manifest": ("memit-gdrive-backup-launch-state", ".recovery.",
+                              b'{"schema":1,"recovery_barrier":100,"highest_seen":10,"generation_floor":99}\n'),
+        "recovery_counter": ("memit-gdrive-backup-launch-state", ".recovery.", b'100\n'),
+    }
+
+    def raw_history(self, name):
+        logs = self.base/name/"Library/Logs"
+        heartbeat = logs/"memit-gdrive-backup/last_run.json"
+        heartbeat.parent.mkdir(parents=True)
+        heartbeat.write_bytes(b'{"schema":1,"launch_generation":10,"launch_mode":"applet",'
+                              b'"end":"2026-10-10T00:00:00Z","exit_code":0}\n')
+        (heartbeat.parent/"launch_receipt.json").write_bytes(
+            b'{"schema":1,"launch_generation":null,"exit_code":127,"error_number":null}\n')
+        state_dir = logs/"memit-gdrive-backup-launch-state"
+        state_dir.mkdir()
+        (state_dir/"counter").write_bytes(b'corrupt\n')
+        self.assertFalse((state_dir/"unresolved.json").exists())
+        self.assertFalse((state_dir/"counter.lock").exists())
+        return heartbeat
+
+    def history_snapshot(self, heartbeat):
+        logs = heartbeat.parent.parent
+        return {str(path.relative_to(logs)): path.read_bytes() if path.is_file() else None
+                for path in sorted(logs.rglob("*"))}
+
+    def recover_history(self, heartbeat, floor):
+        return run_process([sys.executable, "-B", str(STATUS), "recover", "--heartbeat", str(heartbeat),
+                            "--generation-floor", str(floor)], timeout=5)
+
+    def temporary_path(self, heartbeat, source, archived):
+        directory, prefix, _data = self.temporaries[source]
+        logs = heartbeat.parent.parent
+        parent = (logs/"memit-gdrive-backup-launch-state/recoveries/old/nested" if archived else logs/directory)
+        return parent/(prefix+"ABC123")
+
+    def assert_floor_pair(self, heartbeat, evidence):
+        before = self.history_snapshot(heartbeat)
+        original = evidence.read_bytes()
+        result = self.recover_history(heartbeat, 10)
+        self.assertEqual(self.history_snapshot(heartbeat), before,
+                         "pre-lock refusal must leave all bytes and directories identical")
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertIn("below observed maximum 100", result.stderr)
+        state_dir = heartbeat.parent.parent/"memit-gdrive-backup-launch-state"
+        self.assertFalse((state_dir/"counter.lock").exists())
+        result = self.recover_history(heartbeat, 100)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual((state_dir/"counter").read_bytes(), b'101\n')
+        state = json.loads((state_dir/"unresolved.json").read_bytes())
+        self.assertEqual(state["recovery_barrier"], 101)
+        self.assertEqual(state["unresolved"], [[1, 100]])
+        self.assertEqual(evidence.read_bytes(), original, "a surviving publication temporary is evidence")
+        after = self.history_snapshot(heartbeat)
+        self.assertEqual({name: after[name] for name in before if "/recoveries/" in name},
+                         {name: data for name, data in before.items() if "/recoveries/" in name})
+        self.assertFalse((heartbeat.parent.parent/"memit-gdrive-backup-launch-journal/failures.jsonl").exists())
+
+    def assert_temporary_floor_pair(self, source):
+        for archived in (False, True):
+            with self.subTest(source=source, archived=archived):
+                heartbeat = self.raw_history(source+str(archived))
+                evidence = self.temporary_path(heartbeat, source, archived)
+                evidence.parent.mkdir(parents=True, exist_ok=True)
+                evidence.write_bytes(self.temporaries[source][2])
+                self.assert_floor_pair(heartbeat, evidence)
+
+    def assert_format_refused(self, heartbeat, evidence, word):
+        before = self.history_snapshot(heartbeat)
+        result = self.recover_history(heartbeat, 100)
+        self.assertEqual(self.history_snapshot(heartbeat), before,
+                         "unsupported evidence must refuse before directory/lock creation")
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertIn("recovery refused", result.stderr)
+        self.assertIn(str(evidence), result.stderr)
+        self.assertIn(word, result.stderr)
+
+
+class R7PublicationTemporaryTest(R7RecoveryFixture):
+    def test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("refusal")
+
+    def test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("heartbeat")
+
+    def test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("receipt")
+
+    def test_r7_1_journal_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("journal")
+
+    def test_r7_1_counter_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("counter")
+
+    def test_r7_1_unresolved_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("unresolved")
+
+    def test_r7_1_recovery_state_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("recovery_state")
+
+    def test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("recovery_manifest")
+
+    def test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("recovery_counter")
+
+    def test_r7_1_under_lock_rechecks_every_live_and_archived_temporary(self):
+        from tools import backup_gdrive_status as status
+        for source in self.temporaries:
+            for archived in (False, True):
+                with self.subTest(source=source, archived=archived):
+                    heartbeat = self.raw_history(source+str(archived))
+                    state_dir = heartbeat.parent.parent/"memit-gdrive-backup-launch-state"
+                    (state_dir/"counter.lock").write_bytes(b'')
+                    evidence = self.temporary_path(heartbeat, source, archived)
+                    observed = []
+
+                    def inject(_lock, _operation):
+                        evidence.parent.mkdir(parents=True, exist_ok=True)
+                        evidence.write_bytes(self.temporaries[source][2])
+                        observed.append(self.history_snapshot(heartbeat))
+
+                    with mock.patch.object(status.fcntl, "flock", side_effect=inject):
+                        with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+                            status.recover(SimpleNamespace(heartbeat=str(heartbeat), generation_floor=10))
+                    self.assertEqual(len(observed), 1, "positive control: injection occurred after pre-lock scan")
+                    self.assertEqual(self.history_snapshot(heartbeat), observed[0],
+                                     "under-lock refusal must preserve every injected byte and directory")
+
+    def test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename(self):
+        for source in self.temporaries:
+            for archived in (False, True):
+                with self.subTest(source=source, archived=archived):
+                    heartbeat = self.raw_history(source+str(archived))
+                    evidence = self.temporary_path(heartbeat, source, archived)
+                    evidence.parent.mkdir(parents=True, exist_ok=True)
+                    evidence.write_bytes(b'not JSON or an integer\n')
+                    self.assert_format_refused(heartbeat, evidence, "unsupported")
+
+
+class R7ArchivePrecisionTest(R7RecoveryFixture):
+    def test_r7_2_nested_manifest_requires_floor_100_and_reserves_101(self):
+        heartbeat = self.raw_history("manifest")
+        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old/nested/manifest.json"
+        evidence.parent.mkdir(parents=True)
+        evidence.write_bytes(b'{"schema":1,"recovery_barrier":100,"highest_seen":10}\n')
+        self.assert_floor_pair(heartbeat, evidence)
+
+    def test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file(self):
+        heartbeat = self.raw_history("utf16")
+        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old/failures.jsonl"
+        evidence.parent.mkdir(parents=True)
+        evidence.write_bytes(b'\xff\xfe'+('{"launch_generation":10}\n{"launch_generation":100}\n').encode("utf-16-le"))
+        self.assert_format_refused(heartbeat, evidence, "UTF-8")
+
+    def test_r7_2_nested_generation_refuses_unchanged_and_names_file(self):
+        for name, data in (("object", b'{"launch_generation":10,"payload":{"launch_generation":100}}\n'),
+                           ("array", b'{"launch_generation":10,"records":[{"issued_generation":100}]}\n')):
+            with self.subTest(layout=name):
+                heartbeat = self.raw_history(name)
+                evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old/launch_receipt.json"
+                evidence.parent.mkdir(parents=True)
+                evidence.write_bytes(data)
+                self.assert_format_refused(heartbeat, evidence, "nested generation")
+
+    def test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file(self):
+        heartbeat = self.raw_history("unknown")
+        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old/evidence.bin"
+        evidence.parent.mkdir(parents=True)
+        evidence.write_bytes(b'{"launch_generation":100}\n')
+        self.assert_format_refused(heartbeat, evidence, "unsupported")
+
+    def test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename(self):
+        for name in ("last_run.json", "failures.jsonl"):
+            with self.subTest(format=name):
+                heartbeat = self.raw_history(name)
+                evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old"/name
+                evidence.parent.mkdir(parents=True)
+                evidence.write_bytes(b'not JSON\n')
+                self.assert_format_refused(heartbeat, evidence, "unsupported")
+
+
 class R5CompactionTest(R5Fixture):
     INTERVAL_LIMIT = 64
     BYTE_LIMIT = 2048

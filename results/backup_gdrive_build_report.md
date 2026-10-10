@@ -824,3 +824,137 @@ The report is appended and every prior byte is retained. `hashes_final.json` sup
 Session continuation: no half-applied source change or in-flight test remains. Next: MAESTRO17 runs the host commands once, obtains Astra re-review and keeps activation blocked until GO. Learning: archived payloads retain generation authority independently of manifests; refusal generations constrain recovery floors without becoming backup failures; completion must be strictly later than a conservative compaction barrier.
 
 Context directive remains binding for every successor/team session: watch **Context N% left**. Start a new piece of work only at **60% left or more**. At **40% left or less**, stop starting work, append a handoff with completed/in-flight work, half-applied changes, exact paths and SHA-256 and next step, then reply exactly **CONTEXT HANDOFF WRITTEN**. If **Context compacted** appears, do so immediately. Restate this directive in any handoff. Do not allow sessions to approach full-window compaction; use a fresh successor with a precise handoff.
+
+
+## MB24 — Astra r7 finding 2 publication-temporary / archive scan fix (2026-10-10)
+
+**BUILD DONE; activation remains BLOCKED pending Astra re-review GO.** Worktree `worktree-c10k-route-a`; starting MB21 commit `f22c9f2`. All four supplied start hashes matched before the first source edit. Receipts: `results/backup_gdrive_mb24_20261010T194953Z/`. MB24 ran only the new classes and the explicitly required existing `R5RecoveryTest` (including all five r6 tests); no full suite, native case, rclone, network, install, launchd mutation, commit, push or merge ran.
+
+### Change and scope
+
+Only `recover.inspect_history` changed in the status tool. Both pre-lock and under-lock calls enumerate every known live publication-temporary prefix in the heartbeat directory, its `refusals/` directory, the launch-state directory and the launch-journal directory, plus every file recursively below `recoveries/`. Recursive traversal includes nested manifests and nested temporary files. Heartbeat/receipt/state temporaries are JSON objects; journal temporaries are JSONL; counter temporaries are integers. `.recovery.*` is shared by the counter, unresolved-state and manifest publishers, so it accepts the writer's exact integer format or a JSON object. Temporary evidence is read only and stays at its original path with identical bytes, including after successful recovery.
+
+Unsupported encodings (UTF-16 included), archive file formats, wholly unparseable archived JSON/JSONL, unparseable publication temporaries, non-object archived JSON, invalid generation field types and generation fields nested in objects or arrays refuse with the evidence filename. Known damaged canonical raw counters remain preserved damaged history under the existing operator-reviewed-floor contract; they are never invented into numeric generations. Existing canonical UTF-8 failure journals still retain independently valid records before and after torn lines, as required by the unchanged R5/r6 fixtures. These supported damaged-history forms are distinct from unsupported encodings/layouts. Ordinary null-generation final receipts remain preservable ambiguous evidence.
+
+`scope_checks.json` proves byte identity outside `inspect_history`, byte identity of every existing test, unchanged applet/wrapper hashes, and copied inventory-helper identity. Consequently strict status `completed > barrier`, both Perl publishers, 64 intervals / 2,048 bytes, owner-preserving exit 75, read-only status and r4 manual-interleave code were not edited. The existing MB14 replay, refusal heartbeat and sequenced recovery-boundary tests pass here. Full-suite and native behavior beyond these targeted tests are **HOST-PENDING / not reproduced by MB24**; the MB21 host receipts remain prior host evidence. No applet/wrapper edit was needed, so requirement 4 requires no native-helper copy or new native case.
+
+### Start and final SHA-256
+
+| File | Start | Final |
+| --- | --- | --- |
+| `tools/backup_gdrive_status.py` | `1063228655fb3712705b617b5da9412f5b887a40e317311fc38cedd41a5a97a0` | `6140a7e1d0b122ee30c93bfbfb5861a99851a7dcd1788cc23a21e355deff3046` |
+| `tools/test_backup_gdrive_addendum.py` | `da2389f23a91c7e7db75d81a46d81bf6439f8d6a9e87d4161eaf3d7fff6359a9` | `5e22410abde8debbefdce4810b3f455a5b62189371f715e2ed59a03f5d68806c` |
+| `tools/launchd/MemitGdriveBackup.applescript` | `80c7b7126bb0bc2822e71d25dd44174cdf92e18a5a9fa4076764140ce035384c` | `80c7b7126bb0bc2822e71d25dd44174cdf92e18a5a9fa4076764140ce035384c` |
+| `tools/backup_gdrive.sh` | `36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8` | `36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8` |
+
+The report's start SHA-256 is `2d9d23c5f5ecd449ddd9c906228efe69c723784a3c5d45a0bfa37a6b354ae454`. This section is appended only; the existing report prefix is checked byte for byte. Its final digest is in `results/backup_gdrive_mb24_20261010T194953Z/final_sha256.txt`, computed after append to avoid a self-referential report digest. Newly created receipt files start ABSENT; their final digests are in the same file (which excludes itself).
+
+### Actual writer publication-temporary prefixes
+
+| Prefix | Writer file:line |
+| --- | --- |
+| `.last_run.*` | `tools/backup_gdrive_status.py:228` |
+| `.recovery.*` | `tools/backup_gdrive_status.py:277` |
+| `.unresolved.*` | `tools/launchd/MemitGdriveBackup.applescript:3` |
+| `.counter.*` | `tools/launchd/MemitGdriveBackup.applescript:3` |
+| `.unresolved.*` | `tools/launchd/MemitGdriveBackup.applescript:6` |
+| `.launch-receipt.*` | `tools/launchd/MemitGdriveBackup.applescript:6` |
+| `.journal.*` | `tools/launchd/MemitGdriveBackup.applescript:6` |
+
+These are all six distinct prefixes from the reviewed writers. `tools/backup_gdrive.sh` creates no publication temporary itself; at `:43` it invokes the status publisher, with refusal heartbeat destination selected at `:42`. Both applet state publishers create `.unresolved.*` (`:3` and `:6`). Every prefix is covered live and archived; `.last_run.*` includes both the ordinary heartbeat directory and the exact Astra refusal path `refusals/.last_run.ABC123`. `.recovery.*` has separate raw integer, state-object and manifest-object cases.
+
+### Behavioral RED index and final GREEN
+
+The scanner stayed at the supplied start SHA during both RED runs. `red_index.json` records each new test, every failure line, the baseline scanner hash and the unchanged new-test hash. All 16 new tests have behavioral REDs: 11 temporary tests / 54 failed subcases and 5 archive tests / 7 failed subcases; no import/runtime errors or skips. All fixtures are raw bytes, never outputs from the fixed scanner's helpers.
+
+| New test | Saved RED log | Failure lines |
+| --- | --- | --- |
+| `test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair` | `red_R7PublicationTemporaryTest.log` | 222, 233 |
+| `test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair` | `red_R7PublicationTemporaryTest.log` | 90, 101 |
+| `test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair` | `red_R7PublicationTemporaryTest.log` | 134, 145 |
+| `test_r7_1_journal_temporary_live_and_archived_floor_pair` | `red_R7PublicationTemporaryTest.log` | 112, 123 |
+| `test_r7_1_counter_temporary_live_and_archived_floor_pair` | `red_R7PublicationTemporaryTest.log` | 68, 79 |
+| `test_r7_1_unresolved_temporary_live_and_archived_floor_pair` | `red_R7PublicationTemporaryTest.log` | 586, 597 |
+| `test_r7_1_recovery_state_temporary_live_and_archived_floor_pair` | `red_R7PublicationTemporaryTest.log` | 200, 211 |
+| `test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair` | `red_R7PublicationTemporaryTest.log` | 178, 189 |
+| `test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair` | `red_R7PublicationTemporaryTest.log` | 156, 167 |
+| `test_r7_1_under_lock_rechecks_every_live_and_archived_temporary` | `red_R7PublicationTemporaryTest.log` | 244, 252, 260, 268, 276, 284, 292, 300, 308, 316, 324, 332, 340, 348, 356, 364, 372, 380 |
+| `test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename` | `red_R7PublicationTemporaryTest.log` | 388, 399, 410, 421, 432, 443, 454, 465, 476, 487, 498, 509, 520, 531, 542, 553, 564, 575 |
+| `test_r7_2_nested_manifest_requires_floor_100_and_reserves_101` | `red_R7ArchivePrecisionTest.log` | 34 |
+| `test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file` | `red_R7ArchivePrecisionTest.log` | 78 |
+| `test_r7_2_nested_generation_refuses_unchanged_and_names_file` | `red_R7ArchivePrecisionTest.log` | 12, 23 |
+| `test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file` | `red_R7ArchivePrecisionTest.log` | 45 |
+| `test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename` | `red_R7ArchivePrecisionTest.log` | 56, 67 |
+
+Final verification: **25 tests OK, 0 skipped** (16 new + 9 existing, including 5 r6). The final source uses the same named UTF-8 rejection helper for payloads and preserved counters; after that diagnostic consistency change, only these same three classes were rerun once. The earlier successful targeted receipts are preserved separately; counts below refer to the final runs, not sums of repeated runs.
+
+| Class | Tests OK | Skips | Final receipt |
+| --- | --- | --- | --- |
+| `R7PublicationTemporaryTest` | 11 | 0 | `results/backup_gdrive_mb24_20261010T194953Z/green_final_R7PublicationTemporaryTest.log` |
+| `R7ArchivePrecisionTest` | 5 | 0 | `results/backup_gdrive_mb24_20261010T194953Z/green_final_R7ArchivePrecisionTest.log` |
+| `R5RecoveryTest` | 9 | 0 | `results/backup_gdrive_mb24_20261010T194953Z/green_final_R5RecoveryTest.log` |
+
+Each class ran with this command, substituting the class name:
+
+```sh
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 BACKUP_TEST_NO_RCLONE=1 BACKUP_TEST_RECEIPTS=$PWD/results/backup_gdrive_mb24_20261010T194953Z/fixtures /opt/homebrew/bin/rtk proxy .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.<Class> -v
+```
+
+There are 18 live/archive floor pairs, each proving floor 10 refuses without any file/directory/lock mutation and floor 100 reserves counter/barrier 101 while keeping temporary/archive bytes intact. The lock regression injects each of the nine payload/location forms live and archived after the pre-lock scan (18 cases), then proves floor 10 refuses with the entire injected snapshot unchanged. Invalid-temporary coverage adds 18 live/archive cases. Archive tests cover `recoveries/old/nested/manifest.json`, multiline UTF-16 JSONL, nested generation fields in objects and arrays, unknown archive extensions and wholly unparseable JSON/JSONL.
+
+The copied `real_path_listing.py` saved `real_paths_before_final2.json` and `real_paths_after_final2.json`; `cmp` exited 0. SHA-256 of each: `ec66a1f5f571981f01be772c353ba252e2ce4d5f67953631ea6293a524392b99` (21 inventory rows). The initial and first-targeted-run before/after listings also match. Every unittest temporary root was forced below `results/backup_gdrive_mb24_20261010T194953Z/fixtures/`, including cleanup. No protected real-HOME sink was created, changed or removed.
+
+### Recovery command, updated evidence list and refusal rule
+
+```sh
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B tools/backup_gdrive_status.py recover --generation-floor N --heartbeat /absolute/fixture/path/last_run.json
+```
+
+N must be operator-reviewed and cover every observed generation from the current raw counter, current unresolved issued state, current heartbeat, current launch receipt, every independently parseable current failure-journal line, current `refusals/latest-refusal.json`, **every known publication temporary in the four live writer directories listed above**, every preserved recovery manifest at any recursive depth, every archived raw counter, every archived JSON/JSONL payload and **every known archived publication temporary**. Older directories count even when newer manifests have lower maxima. Top-level generation fields include launch_generation, issued_generation, recovery_barrier, compaction_barrier, highest_seen and generation_floor. `.journal.*` is parsed line by line and `.counter.*` as an integer; `.recovery.*` supports the publisher's JSON and integer forms.
+
+Both scans use the complete same evidence set. A floor below the observed maximum refuses nonzero with `recovery refused` / `below observed maximum`; the pre-lock refusal creates no directory or lock and changes no bytes. Unsupported temporary/archive encodings, formats or nested generation layouts refuse nonzero and name the file instead of treating it as absent. A higher temporary, archive record or refusal injected between scans refuses under lock without moving or publishing recovery evidence. Crash-left temporary bytes remain exactly in place on refusal and success. Exit 75 remains observed history, not an unresolved backup failure; recovery itself never establishes health, and manual completion/refusal cannot discharge a recovery or compaction barrier. Fixtures must keep explicit `--heartbeat`; operator recovery/activation remains blocked until re-review GO.
+
+### Exact MAESTRO19 host commands and remaining handoff
+
+Run from this worktree once:
+
+```sh
+LLMDB_ROOT=$PWD /opt/homebrew/bin/rtk proxy /bin/bash results/backup_gdrive_mb24_20261010T194953Z/host_full_addendum_mb24.sh
+```
+
+The script below runs the full addendum suite exactly once, in a fresh local receipt root; it records real-path listings before/after even when tests fail, compares them and returns the test or inventory failure. It deliberately clears the builder-only no-rclone switch for MAESTRO's host local-fixture suite. Expected host count is MB21's 109 addendum tests + 16 new = 125, with 0 skipped; MB24 has not run it. No new native case exists because the applet and wrapper are byte-identical.
+
+```sh
+#!/bin/bash
+set -eu
+mb24_build_receipt=results/backup_gdrive_mb24_20261010T194953Z
+mb24_host_receipt=$(/opt/homebrew/bin/rtk proxy /usr/bin/mktemp -d /private/tmp/backup_gdrive_mb24_host.XXXXXX)
+/opt/homebrew/bin/rtk proxy /bin/mkdir "$mb24_host_receipt/fixtures"
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/rtk proxy .venv/bin/python -B \
+  "$mb24_build_receipt/real_path_listing.py" "$mb24_host_receipt/real_paths_before.json"
+if LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 BACKUP_TEST_RECEIPTS="$mb24_host_receipt/fixtures" \
+  /opt/homebrew/bin/rtk proxy /usr/bin/env -u BACKUP_TEST_NO_RCLONE \
+  .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum -v \
+  > "$mb24_host_receipt/full_addendum.log" 2>&1; then
+  mb24_suite_rc=0
+else
+  mb24_suite_rc=$?
+fi
+printf '%s\n' "$mb24_suite_rc" > "$mb24_host_receipt/full_suite_exit_code.txt"
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/rtk proxy .venv/bin/python -B \
+  "$mb24_build_receipt/real_path_listing.py" "$mb24_host_receipt/real_paths_after.json"
+if /opt/homebrew/bin/rtk proxy /usr/bin/cmp \
+  "$mb24_host_receipt/real_paths_before.json" "$mb24_host_receipt/real_paths_after.json"; then
+  printf 'identical\n' > "$mb24_host_receipt/inventory_comparison.txt"
+else
+  printf 'DIFFERENT\n' > "$mb24_host_receipt/inventory_comparison.txt"
+  printf 'MB24 host inventories differ; receipts: %s\n' "$mb24_host_receipt" >&2
+  exit 1
+fi
+printf 'MB24 host full addendum exit %s; receipts: %s\n' "$mb24_suite_rc" "$mb24_host_receipt"
+exit "$mb24_suite_rc"
+```
+
+Next: MAESTRO19 runs that host command, inspects its logs/inventory equality, and submits final source hashes plus these RED/GREEN/scope receipts to Astra. Activation remains BLOCKED until re-review GO. No source change is half-applied and no targeted test remains failing.
+
+**Binding context directive for this handoff:** watch `Context N% left` for this and every team session. Start a new piece of work only at 60% left or more; at 40% left or less stop starting work, append a handoff with done/in-flight/half-applied state, exact paths and hashes, failing test commands and next step, and reply exactly `CONTEXT HANDOFF WRITTEN`. If `Context compacted` appears, do that immediately. The AGENTS Team mode and Context management sections continue to bind; no commits, real/native runs or out-of-scope edits by the builder. Every successor handoff must restate the directive.
