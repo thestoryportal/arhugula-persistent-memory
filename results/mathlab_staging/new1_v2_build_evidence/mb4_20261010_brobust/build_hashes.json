@@ -1,0 +1,7 @@
+{
+  "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+  "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+  "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+  "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+  "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f"
+}

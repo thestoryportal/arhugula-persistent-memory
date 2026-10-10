@@ -1,0 +1,60 @@
+{
+  "prereg_sha256": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f",
+  "current_hash_verify": "PASS",
+  "prior_hash_refusal": "INVALID-PREREG",
+  "numerical_imports": false,
+  "bindings": {
+    "tools/new1_supervisor.py": [
+      {
+        "line": 66,
+        "source": "def verify_prereg(path, expected_sha):"
+      },
+      {
+        "line": 433,
+        "source": "parser.add_argument('--prereg-sha',required=True)"
+      },
+      {
+        "line": 440,
+        "source": "'--run-dir',str(directory),'--prereg-sha',args.prereg_sha]"
+      },
+      {
+        "line": 442,
+        "source": "verify_prereg(prereg,args.prereg_sha)"
+      },
+      {
+        "line": 443,
+        "source": "receipt(directory,'criteria',{'path':str(prereg),'sha256':args.prereg_sha})"
+      }
+    ],
+    "tools/new1_geometry.py": [
+      {
+        "line": 367,
+        "source": "require(manifest.get('prereg_sha256')==HARVEST_PREREG,'harvest1 prereg identity mismatch')"
+      },
+      {
+        "line": 500,
+        "source": "def run(client,run_dir,prereg_sha):"
+      },
+      {
+        "line": 501,
+        "source": "try: verify_prereg(ROOT/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md',prereg_sha)"
+      },
+      {
+        "line": 555,
+        "source": "result={'tier':TIER,'boundary':BOUNDARY,'prereg_sha256':prereg_sha,'harvest':str(H),"
+      },
+      {
+        "line": 556,
+        "source": "'harvest_prereg_sha256':HARVEST_PREREG,'input_shas':PINNED,'layers':rows,'predictions':predictions(rows),"
+      },
+      {
+        "line": 571,
+        "source": "parser.add_argument('--prereg-sha',required=True)"
+      },
+      {
+        "line": 573,
+        "source": "try: run(client,args.run_dir,args.prereg_sha)"
+      }
+    ]
+  }
+}

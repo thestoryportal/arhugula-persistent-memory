@@ -1,0 +1,171 @@
+{
+  "file_pins": [
+    {
+      "path": "results/c10w_oracle/p1_20261007T223707_598959Z/adapters/A1_single_s0_r16.safetensors",
+      "expected_sha256": "23c199f91412da368d5e2c9204cbac06f2153dd8958da572d69c1ba7785cefe1",
+      "actual_sha256": "23c199f91412da368d5e2c9204cbac06f2153dd8958da572d69c1ba7785cefe1",
+      "bytes": 4179028,
+      "actual_sha256_after": "23c199f91412da368d5e2c9204cbac06f2153dd8958da572d69c1ba7785cefe1"
+    },
+    {
+      "path": "results/c10w_oracle/p1_20261007T223707_598959Z/train/A1_single_s0_r16.json",
+      "expected_sha256": "11d1dbef51b0babfd8ceb1cb794ff6a84080b0b08da82c84250d7449dbfe99dc",
+      "actual_sha256": "11d1dbef51b0babfd8ceb1cb794ff6a84080b0b08da82c84250d7449dbfe99dc",
+      "bytes": 208145,
+      "actual_sha256_after": "11d1dbef51b0babfd8ceb1cb794ff6a84080b0b08da82c84250d7449dbfe99dc"
+    },
+    {
+      "path": "results/c10w_oracle/p1_20261007T223707_598959Z/adapters/A2_coherent2_s0_r16.safetensors",
+      "expected_sha256": "d5d9832620fb2db0c6f1ed984ef5e79b34361f61efb253ccc873c07885b35e90",
+      "actual_sha256": "d5d9832620fb2db0c6f1ed984ef5e79b34361f61efb253ccc873c07885b35e90",
+      "bytes": 4179028,
+      "actual_sha256_after": "d5d9832620fb2db0c6f1ed984ef5e79b34361f61efb253ccc873c07885b35e90"
+    },
+    {
+      "path": "results/c10w_oracle/p1_20261007T223707_598959Z/train/A2_coherent2_s0_r16.json",
+      "expected_sha256": "37c32338c1420a2f385e5d8281c97c30fd9b2b6ab5b83ae0a990753b26220e0e",
+      "actual_sha256": "37c32338c1420a2f385e5d8281c97c30fd9b2b6ab5b83ae0a990753b26220e0e",
+      "bytes": 208164,
+      "actual_sha256_after": "37c32338c1420a2f385e5d8281c97c30fd9b2b6ab5b83ae0a990753b26220e0e"
+    },
+    {
+      "path": "results/c10w_oracle/p1_20261007T223707_598959Z/adapters/A7_canon_s0_r16.safetensors",
+      "expected_sha256": "869905010f81fd3c6e006b3a5cf0a809221ac7b5b315f7a3665ee2f58874cd53",
+      "actual_sha256": "869905010f81fd3c6e006b3a5cf0a809221ac7b5b315f7a3665ee2f58874cd53",
+      "bytes": 4179028,
+      "actual_sha256_after": "869905010f81fd3c6e006b3a5cf0a809221ac7b5b315f7a3665ee2f58874cd53"
+    },
+    {
+      "path": "results/c10w_oracle/p1_20261007T223707_598959Z/train/A7_canon_s0_r16.json",
+      "expected_sha256": "dd35028e619ed762a6ed430de056f6eb6b3c71153b425eba711b1847dd84e3c4",
+      "actual_sha256": "dd35028e619ed762a6ed430de056f6eb6b3c71153b425eba711b1847dd84e3c4",
+      "bytes": 206355,
+      "actual_sha256_after": "dd35028e619ed762a6ed430de056f6eb6b3c71153b425eba711b1847dd84e3c4"
+    },
+    {
+      "path": "results/c10w_oracle/p1_20261007T223707_598959Z/adapters/A7_coined_coined_s0_r16.safetensors",
+      "expected_sha256": "4e2ae47a450f7014b4d3b003c125796beeb9b37ac94a32f937a65f6187cd124f",
+      "actual_sha256": "4e2ae47a450f7014b4d3b003c125796beeb9b37ac94a32f937a65f6187cd124f",
+      "bytes": 4179028,
+      "actual_sha256_after": "4e2ae47a450f7014b4d3b003c125796beeb9b37ac94a32f937a65f6187cd124f"
+    },
+    {
+      "path": "results/c10w_oracle/p1_20261007T223707_598959Z/train/A7_coined_coined_s0_r16.json",
+      "expected_sha256": "a4c4757f6251f8600c47689738b0ba0525827018126f543d376fe49794939977",
+      "actual_sha256": "a4c4757f6251f8600c47689738b0ba0525827018126f543d376fe49794939977",
+      "bytes": 208079,
+      "actual_sha256_after": "a4c4757f6251f8600c47689738b0ba0525827018126f543d376fe49794939977"
+    },
+    {
+      "path": "results/c10w_oracle/p1_20261007T223707_598959Z/adapters/A7_shuf_s0_r16.safetensors",
+      "expected_sha256": "9ce29297d07622e47d5354bd769b26cc0ce89d07128769cfeea39e84a5df094b",
+      "actual_sha256": "9ce29297d07622e47d5354bd769b26cc0ce89d07128769cfeea39e84a5df094b",
+      "bytes": 4179028,
+      "actual_sha256_after": "9ce29297d07622e47d5354bd769b26cc0ce89d07128769cfeea39e84a5df094b"
+    },
+    {
+      "path": "results/c10w_oracle/p1_20261007T223707_598959Z/train/A7_shuf_s0_r16.json",
+      "expected_sha256": "3938136ee161d8afdc55b47798854c8ea92e53badffd23ba5463c3f83194d6a0",
+      "actual_sha256": "3938136ee161d8afdc55b47798854c8ea92e53badffd23ba5463c3f83194d6a0",
+      "bytes": 208080,
+      "actual_sha256_after": "3938136ee161d8afdc55b47798854c8ea92e53badffd23ba5463c3f83194d6a0"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "expected_sha256": "f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58",
+      "actual_sha256": "f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58",
+      "bytes": 484705442,
+      "actual_sha256_after": "f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "expected_sha256": "26773779c5f95647c844fb42c553221aa81e48206cb3e61602237b3da4e53b3d",
+      "actual_sha256": "26773779c5f95647c844fb42c553221aa81e48206cb3e61602237b3da4e53b3d",
+      "bytes": 484705442,
+      "actual_sha256_after": "26773779c5f95647c844fb42c553221aa81e48206cb3e61602237b3da4e53b3d"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "expected_sha256": "72a4a42bf7586f1b7de5bfce365263d2a84b66f6ffc4ce20f9fa113d115887fd",
+      "actual_sha256": "72a4a42bf7586f1b7de5bfce365263d2a84b66f6ffc4ce20f9fa113d115887fd",
+      "bytes": 484705442,
+      "actual_sha256_after": "72a4a42bf7586f1b7de5bfce365263d2a84b66f6ffc4ce20f9fa113d115887fd"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "expected_sha256": "ed2f4c64356fc6388ae4623ccc2bfc9101660fe92a787c193d593a24992aaba5",
+      "actual_sha256": "ed2f4c64356fc6388ae4623ccc2bfc9101660fe92a787c193d593a24992aaba5",
+      "bytes": 484705442,
+      "actual_sha256_after": "ed2f4c64356fc6388ae4623ccc2bfc9101660fe92a787c193d593a24992aaba5"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "expected_sha256": "430c1aa56a7cde6626ff02e241b45fd706d02d81d97931536fbed38d8974dd2a",
+      "actual_sha256": "430c1aa56a7cde6626ff02e241b45fd706d02d81d97931536fbed38d8974dd2a",
+      "bytes": 484705442,
+      "actual_sha256_after": "430c1aa56a7cde6626ff02e241b45fd706d02d81d97931536fbed38d8974dd2a"
+    },
+    {
+      "path": "results/mathlab/harvest_20261009T184950.056951Z/manifest.json",
+      "expected_sha256": "bb9a6f9ad76678ae2289151c9fa64fb0033a6b8b2d7aff0b9a03150180f1ba7e",
+      "actual_sha256": "bb9a6f9ad76678ae2289151c9fa64fb0033a6b8b2d7aff0b9a03150180f1ba7e",
+      "bytes": 1722167,
+      "actual_sha256_after": "bb9a6f9ad76678ae2289151c9fa64fb0033a6b8b2d7aff0b9a03150180f1ba7e"
+    },
+    {
+      "path": "results/mathlab/harvest_20261009T184950.056951Z/inloop_A7_coined_coined.pt",
+      "expected_sha256": "abb882982f406ddd5d6536529ce49dee8f31ad3b3243495e93687266e7c6582f",
+      "actual_sha256": "abb882982f406ddd5d6536529ce49dee8f31ad3b3243495e93687266e7c6582f",
+      "bytes": 463160213,
+      "actual_sha256_after": "abb882982f406ddd5d6536529ce49dee8f31ad3b3243495e93687266e7c6582f"
+    },
+    {
+      "path": "experiments/track_c/c10w_oracle_train.py",
+      "expected_sha256": "64a01fbcbbd8e836f67e623bc50f66ecff8dd59a29d7c82db3bba287d76ea463",
+      "actual_sha256": "64a01fbcbbd8e836f67e623bc50f66ecff8dd59a29d7c82db3bba287d76ea463",
+      "bytes": 14710,
+      "actual_sha256_after": "64a01fbcbbd8e836f67e623bc50f66ecff8dd59a29d7c82db3bba287d76ea463"
+    },
+    {
+      "path": "results/c10w_oracle/step0_20261007T223638_531381Z/train_inputs.json",
+      "expected_sha256": "d0fa96af0de8d98c5b0fbd90609cd2f2fa1d27a03013c1db9c530e3ec804c050",
+      "actual_sha256": "d0fa96af0de8d98c5b0fbd90609cd2f2fa1d27a03013c1db9c530e3ec804c050",
+      "bytes": 92786,
+      "actual_sha256_after": "d0fa96af0de8d98c5b0fbd90609cd2f2fa1d27a03013c1db9c530e3ec804c050"
+    },
+    {
+      "path": "results/c10w_oracle/step0_20261007T223638_531381Z/step0.json",
+      "expected_sha256": "82ef86437b5ba00fa78a1b55cfe64e4d85baaceb37aa0726f3015c2b2f7d673e",
+      "actual_sha256": "82ef86437b5ba00fa78a1b55cfe64e4d85baaceb37aa0726f3015c2b2f7d673e",
+      "bytes": 18929,
+      "actual_sha256_after": "82ef86437b5ba00fa78a1b55cfe64e4d85baaceb37aa0726f3015c2b2f7d673e"
+    }
+  ],
+  "model_revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+  "harvest_prereg_sha256": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507",
+  "layer_order": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "arms": [
+    "A7_coined_coined",
+    "A1_single",
+    "A2_coherent2",
+    "A7_canon",
+    "A7_shuf"
+  ],
+  "dependencies": {
+    "python": "3.11.16",
+    "torch": "2.8.0",
+    "numpy": "2.4.6",
+    "safetensors": "0.8.0"
+  },
+  "controls": {
+    "draws_per_layer_per_family": 20,
+    "rng": "NumPy Generator(PCG64(20261009+100*l+j))",
+    "factor_hashes": "NOT GENERATED for real inputs; synthetic hashes are fixture evidence only"
+  }
+}

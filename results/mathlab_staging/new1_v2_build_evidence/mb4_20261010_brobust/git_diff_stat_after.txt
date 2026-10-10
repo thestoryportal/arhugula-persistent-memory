@@ -1,0 +1,8 @@
+ docs/NEW1_ADAPTER_GEOMETRY_PREREG.md            |  38 ++++++
+ results/mathlab_staging/new1_v2_build_report.md | 157 ++++++++++++++++++++++
+ tests/test_new1_geometry.py                     | 169 ++++++++++++++++++++----
+ tests/test_new1_supervisor.py                   |  68 ++++++++--
+ tools/new1_geometry.py                          | 134 +++++++++++++++----
+ tools/new1_supervisor.py                        |  19 +--
+ tools/test_dashboard_mathlab.py                 | 137 ++++++++++++++++++-
+ 7 files changed, 645 insertions(+), 77 deletions(-)

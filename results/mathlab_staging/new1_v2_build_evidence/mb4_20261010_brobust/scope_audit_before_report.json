@@ -1,0 +1,10 @@
+{
+  "prereg_prefix_bytes": 34841,
+  "prereg_prefix_sha256": "216e8cfab513f0b555d8ae7908bd629e99e3b848cd2b43c054690962572cf771",
+  "prereg_prefix_preserved": true,
+  "report_prefix_bytes": 103357,
+  "report_prefix_sha256": "eef2d29a70da1e62492cee43b787eae0305b1b95d5973929ad942686bd7ca2e0",
+  "report_prefix_preserved": true,
+  "protected_files_verified": 265,
+  "protected_drift": []
+}

@@ -21,12 +21,12 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools.mathlab_events import emit
 
-DEADLINE_S = 1800
+DEADLINE_S = 2700
 WAIT_S = 300
 SAMPLE_S = 1.
-RSS_CAP_GIB = 6.
+RSS_CAP_GIB = 11.
 FLOOR_GIB = 6.
-RESERVES = {'imports': 1., 'load': 2., 'covariance-svd': 5., 'covariance-checks': 2.,
+RESERVES = {'imports': 1., 'load': 2., 'covariance-svd': 5., 'covariance-svd-f64': 11., 'covariance-checks': 11.,
             'update-svd': 2., 'projections': 2., 'random-controls': 1., 'output': 1.}
 TIER = 'MATH-PROXY'
 BOUNDARY = 'math estimate, not evidence'
@@ -201,7 +201,7 @@ class Controller:
 
     def remaining(self):
         value = DEADLINE_S - (self.clock() - self.start)
-        if value <= 0: raise Stop('STOPPED-DEADLINE', 'unchanged whole-run deadline reached')
+        if value <= 0: raise Stop('STOPPED-DEADLINE', 'whole-run deadline reached')
         if self.cell_deadline is not None:
             cell_remaining=self.cell_deadline-self.clock()
             if cell_remaining<=0: raise Stop('STOPPED-RESOURCE','cell reserve not admitted within 300 s')
@@ -221,7 +221,7 @@ class Controller:
         self.remaining()
         # Stop computation before potentially blocking durability work on a breach.
         if sample.rss_gib > RSS_CAP_GIB or sample.avail_gib < FLOOR_GIB:
-            error=Stop('STOPPED-RESOURCE', 'observed RSS >6 GiB or available memory <6 GiB')
+            error=Stop('STOPPED-RESOURCE', f'observed RSS >{RSS_CAP_GIB:g} GiB or available memory <{FLOOR_GIB:g} GiB')
             error.observed=asdict(sample)
             raise error
         return sample
@@ -274,16 +274,17 @@ def publish_predictions(run_dir, path):
         raise Stop('INVALID-WORKER', 'missing MATH-PROXY boundary')
     predictions = data.get('predictions', {})
     if set(predictions) != {'H-COV','H-TOP','H-RANK','H-OVERLAP'} or any(
-            value not in ('PASS','FAIL','INVALID') for value in predictions.values()):
+            value not in ('PASS','FAIL','INVALID') and not (name=='H-COV' and value=='BOUNDARY-SENSITIVE')
+            for name,value in predictions.items()):
         raise Stop('INVALID-WORKER', 'missing primary outcomes')
     proof = receipt(run_dir, 'predictions', {'source':str(path), 'sha256':sha_file(path), 'predictions':predictions})
     for name, outcome in predictions.items():
         emit(run_dir, 'stage_started', stage=name, plain_words='Provisional math estimate, not evidence: '+name, cap_s=DEADLINE_S)
-        if outcome != 'INVALID':
+        if outcome not in ('INVALID','BOUNDARY-SENSITIVE'):
             emit(run_dir, 'gate_result', gate_id=name, plain_words='Individual frozen geometry prediction',
                  observed={'outcome':outcome, 'receipt':proof, 'provisional':True}, bar='registered same-layer 3/5 rule',
                  comparison='meets', passed=outcome=='PASS')
-        emit(run_dir, 'stage_finished', stage=name, outcome=outcome,
+        emit(run_dir, 'stage_finished', stage=name, outcome='INVALID' if outcome=='BOUNDARY-SENSITIVE' else outcome,
              summary=BOUNDARY + '; provisional individual prediction ' + outcome)
     return predictions
 
@@ -389,7 +390,7 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
             finding=durable_json(run_dir/'finding.json',{'tier':TIER,'boundary':BOUNDARY,
                 'source':str(complete),'predictions':predictions,'queue_action':'NONE — calibration/utility gated'})
             emit(run_dir,'finding_staged',finding_id='NEW1',tier=TIER,summary=BOUNDARY+'; no queue action',path=finding['path'])
-            outcome='INVALID' if 'INVALID' in predictions.values() else 'PASS'
+            outcome='INVALID' if any(v in ('INVALID','BOUNDARY-SENSITIVE') for v in predictions.values()) else 'PASS'
             emit(run_dir,'run_finished',outcome=outcome,
                  summary='Execution completed; individual predictions are separate; '+BOUNDARY,
                  before_publish=terminal_ready)

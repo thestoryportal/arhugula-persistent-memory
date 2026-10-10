@@ -53,6 +53,28 @@ class SupervisorTests(unittest.TestCase):
         gate = next(e for e in events if e['type']=='gate_result')
         self.assertEqual(gate['bar'], 13)
 
+    def test_float64_svd_and_checks_require_nineteen_gib_with_fixed_reserves(self):
+        for phase in ('covariance-svd-f64','covariance-checks'):
+            with self.subTest(phase=phase):
+                self.run=self.root/phase; self.run.mkdir(); self.clock.now=0
+                c=self.controller([self.S.Sample(18.9,8.06,0),self.S.Sample(19,8.06,0)])
+                sample=c.wait_cell(phase,'l4',123)
+                self.assertEqual(sample.avail_gib,19)
+                self.assertEqual(self.clock.now,1)
+                events,_=self.state()
+                gate=next(e for e in events if e['type']=='gate_result')
+                self.assertEqual(gate['bar'],19)
+
+    def test_float64_cell_keeps_three_hundred_second_wait_and_fail_closed_monitor(self):
+        c=self.S.Controller(self.run,clock=self.clock,sleep=self.clock.sleep,
+            monitor=lambda pid:self.S.Sample(18,8.06,0))
+        with self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
+            c.wait_cell('covariance-svd-f64','l4',123)
+        self.assertEqual(self.clock.now,300)
+        c=self.S.Controller(self.run,monitor=lambda pid:(_ for _ in ()).throw(PermissionError('ps denied')))
+        with self.assertRaisesRegex(self.S.Stop,'INVALID-MONITORING'):
+            c.wait_cell('covariance-svd-f64','l4',123)
+
     def test_cell_timeout_stops_without_lowering_reserve(self):
         c = self.S.Controller(self.run, clock=self.clock, sleep=self.clock.sleep,
             monitor=lambda pid: self.S.Sample(12, 1, 0))
@@ -60,13 +82,13 @@ class SupervisorTests(unittest.TestCase):
             c.wait_cell('covariance-svd', 'l4', 123)
         self.assertEqual(self.clock.now, 300)
 
-    def test_wait_is_inside_unchanged_1800_second_deadline(self):
+    def test_wait_is_inside_amended_2700_second_deadline(self):
         c = self.S.Controller(self.run, clock=self.clock, sleep=self.clock.sleep,
             monitor=lambda pid: self.S.Sample(12, 1, 0))
-        self.clock.now = 1799
+        self.clock.now = 2699
         with self.assertRaisesRegex(self.S.Stop, 'STOPPED-DEADLINE'):
             c.wait_cell('covariance-svd', 'l4', 123)
-        self.assertEqual(self.clock.now, 1800)
+        self.assertEqual(self.clock.now, 2700)
 
     def test_cell_cannot_admit_a_memory_probe_that_finishes_at_301_seconds(self):
         def monitor(pid):
@@ -130,7 +152,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         self.assertLess(time.monotonic()-started,.2)
 
     def test_rss_ceiling_is_strict_and_family_memory_is_used(self):
-        c = self.controller([self.S.Sample(13, 6, 0), self.S.Sample(13, 6.0001, 0)])
+        c = self.controller([self.S.Sample(13, 11, 0), self.S.Sample(13, 11.0001, 0)])
         c.check(123)
         with self.assertRaisesRegex(self.S.Stop, 'STOPPED-RESOURCE'):
             c.check(123)
@@ -172,10 +194,10 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
 
     def test_reparented_group_member_still_counts_toward_rss_cap(self):
         vm=subprocess.CompletedProcess([],0,'Pages free: 1048576.\nPages inactive: 0.\nPages speculative: 0.\n','')
-        ps=subprocess.CompletedProcess([],0,'123 1 123 1048576 1.0\n124 1 123 6291456 2.0\n99 1 99 9999999 0.0\n','')
+        ps=subprocess.CompletedProcess([],0,'123 1 123 1048576 1.0\n124 1 123 11534336 2.0\n99 1 99 9999999 0.0\n','')
         with mock.patch.object(self.S.subprocess,'run',side_effect=[vm,ps]):
             sample=self.S.sample_resources(123)
-        self.assertEqual(sample.rss_gib,7)
+        self.assertEqual(sample.rss_gib,12)
         self.assertEqual(sample.cpu_pct,3)
         with self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
             self.controller([sample]).check(123)
@@ -484,7 +506,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         pidfile=self.root/'pid'
         cmd=self.worker(f'import os,time\nfrom pathlib import Path\nPath({str(pidfile)!r}).write_text(str(os.getpid()))\nwhile True: time.sleep(.01)\n')
         def sample(pid):
-            return self.S.Sample(13,6.1 if pid and pidfile.exists() else 0,0)
+            return self.S.Sample(13,11.1 if pid and pidfile.exists() else 0,0)
         outcome=self.S.supervise(cmd,self.run,admission=lambda:{'allowed':True,'reasons':[]},monitor=sample)
         self.assertEqual(outcome,'STOPPED-RESOURCE')
         pid=int(pidfile.read_text())
@@ -512,6 +534,28 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         self.assertEqual(next(e['outcome'] for e in events if e['type']=='stage_finished' and e['stage']=='H-COV'),'INVALID')
         self.assertIsNone(state['calibration_outcome'])
 
+    def test_boundary_sensitive_prediction_is_preserved_without_boolean_fail_gate(self):
+        path=self.run/'geometry.json'
+        path.write_text(json.dumps({'tier':'MATH-PROXY','boundary':'math estimate, not evidence',
+            'predictions':{'H-COV':'BOUNDARY-SENSITIVE','H-TOP':'FAIL','H-RANK':'PASS','H-OVERLAP':'PASS'}}))
+        outcomes=self.S.publish_predictions(self.run,path)
+        self.assertEqual(outcomes['H-COV'],'BOUNDARY-SENSITIVE')
+        events,_=self.state()
+        self.assertFalse(any(e['type']=='gate_result' and e['gate_id']=='H-COV' for e in events))
+        stage=next(e for e in events if e['type']=='stage_finished' and e['stage']=='H-COV')
+        self.assertEqual(stage['outcome'],'INVALID')
+        self.assertIn('BOUNDARY-SENSITIVE',stage['summary'])
+        proof=next((self.run/'receipts').glob('predictions_*.json'))
+        self.assertEqual(json.loads(proof.read_text())['predictions']['H-COV'],'BOUNDARY-SENSITIVE')
+
+    def test_boundary_sensitive_completed_worker_cannot_publish_robust_pass(self):
+        self.assertEqual(self.complete_fixture('BOUNDARY-SENSITIVE'),'INVALID')
+        events,state=self.state()
+        self.assertEqual(state['outcome'],'INVALID')
+        self.assertNotIn('H-COV',state['gate_outcomes'])
+        finding=json.loads((self.run/'finding.json').read_text())
+        self.assertEqual(finding['predictions']['H-COV'],'BOUNDARY-SENSITIVE')
+
     def test_direct_worker_cli_refuses_before_numerical_imports(self):
         result=subprocess.run([sys.executable,'-B','tools/new1_geometry.py'],capture_output=True,text=True)
         self.assertNotEqual(result.returncode,0)
@@ -529,7 +573,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         self.assertFalse((self.run/'events.jsonl').exists())
 
     def test_observed_breach_stops_before_any_potentially_blocking_persistence(self):
-        c=self.controller([self.S.Sample(13,6.1,0)])
+        c=self.controller([self.S.Sample(13,11.1,0)])
         with mock.patch.object(self.S,'receipt',side_effect=OSError('blocked persistence')):
             with self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
                 c.check(123)
@@ -566,7 +610,7 @@ send({'type':'complete','path':'geometry.json'})
             if label=='resource' and pidfile.exists():
                 blocked.touch(); time.sleep(2)
             return original(directory,label,data)
-        def sample(pid): return self.S.Sample(13,6.1 if blocked.exists() else 0,0)
+        def sample(pid): return self.S.Sample(13,11.1 if blocked.exists() else 0,0)
         started=time.monotonic()
         with mock.patch.object(self.S,'receipt',side_effect=persist),mock.patch.object(self.S,'SAMPLE_S',.01),mock.patch.object(self.S,'DEADLINE_S',.5):
             outcome=self.S.supervise(command,self.run,admission=lambda:{'allowed':True,'reasons':[]},monitor=sample)
@@ -609,7 +653,7 @@ send({'type':'complete','path':'geometry.json'})
         command,child,ticks=self.grandchild_worker(False)
         with mock.patch.object(self.S,'SAMPLE_S',.01),mock.patch.object(self.S,'DEADLINE_S',.8):
             outcome=self.S.supervise(command,self.run,admission=lambda:{'allowed':True,'reasons':[]},
-                monitor=lambda pid:self.S.Sample(13,6.1 if pid and ticks.exists() else 0,0))
+                monitor=lambda pid:self.S.Sample(13,11.1 if pid and ticks.exists() else 0,0))
         self.assertEqual(outcome,'STOPPED-RESOURCE')
         self.assert_grandchild_stopped(child,ticks)
 
@@ -641,9 +685,9 @@ send({'type':'complete','path':'geometry.json'})
         events,_=self.state()
         self.assertFalse(any(e['type'] in ('halted','run_finished','finding_staged') for e in events))
 
-    def complete_fixture(self):
+    def complete_fixture(self,cov_outcome='FAIL'):
         (self.run/'geometry.json').write_text(json.dumps({'tier':'MATH-PROXY','boundary':'math estimate, not evidence',
-            'predictions':{'H-COV':'FAIL','H-TOP':'FAIL','H-RANK':'PASS','H-OVERLAP':'PASS'}}))
+            'predictions':{'H-COV':cov_outcome,'H-TOP':'FAIL','H-RANK':'PASS','H-OVERLAP':'PASS'}}))
         parent=mock.Mock(); child=mock.Mock(); child.fileno.return_value=99
         parent.recv.side_effect=[b'{"type":"hello","pid":123}\n{"type":"complete","path":"geometry.json"}\n',b'']
         process=mock.Mock(pid=123,returncode=0); process.poll.side_effect=[None,None,None,0]

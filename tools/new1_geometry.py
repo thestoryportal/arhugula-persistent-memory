@@ -106,7 +106,7 @@ def leading(spec):
     return Spectrum(spec.left[:,:r],spec.s[:r],spec.right[:,:r]), rank<=16 or gap(spec.s,16)
 
 
-def energy(Z,Q,indices):
+def energy_columns(Z,Q,indices):
     torch=torch_module(); finite(Q)
     if isinstance(Z,Spectrum):
         finite(Z.s); require(Z.right.shape[0]==Q.shape[0],'transposed input axis')
@@ -115,12 +115,16 @@ def energy(Z,Q,indices):
         finite(Z); require(Z.ndim==2 and Z.shape[1]==Q.shape[0],'transposed input axis')
         denominator=float(Z.double().square().sum())
     require(denominator>0,'zero update energy')
-    result=0.
+    result=[]
     for start in range(0,len(indices),256):
         basis=Q[:,indices[start:start+256]].double()
         values=(Z.s[:,None]*(Z.right.T@basis)) if isinstance(Z,Spectrum) else Z.double()@basis
-        result+=float(values.square().sum())
-    return result/denominator
+        result.extend((values.square().sum(0)/denominator).tolist())
+    return result
+
+
+def energy(Z,Q,indices):
+    return math.fsum(energy_columns(Z,Q,indices))
 
 
 def overlap(a,b):
@@ -150,7 +154,13 @@ def covariance_basis(C,k=1024,cell=None):
     denom=sum(float(C[:,i:i+256].double().square().sum()) for i in range(0,d,256))
     require(denom>0,'zero covariance')
     if cell: cell('covariance-svd')
-    U,s,Vh=torch.linalg.svd(C,full_matrices=False)
+    U32,s32,Vh32=torch.linalg.svd(C,full_matrices=False)
+    finite(U32); finite(s32)
+    native={'Q':U32,'s':s32,'allowed':(s32<.005).nonzero(as_tuple=True)[0].tolist(),
+            'excluded':(s32>=.005).nonzero(as_tuple=True)[0].tolist()}
+    del Vh32
+    if cell: cell('covariance-svd-f64')
+    U,s,Vh=torch.linalg.svd(C.double(),full_matrices=False)
     if cell: cell('covariance-checks')
     errors={'symmetry':0.,'svd':0.,'psd':0.,'orthogonality':0.}
     for start in range(0,d,256):
@@ -178,9 +188,34 @@ def covariance_basis(C,k=1024,cell=None):
     subsets={'top':list(range(k)),'bottom':list(range(d-k,d)),
              'excluded':(s>=.005).nonzero(as_tuple=True)[0].tolist(),
              'allowed':(s<.005).nonzero(as_tuple=True)[0].tolist()}
-    return {'Q':U,'s':s,'subsets':subsets,'checks':errors,
+    r32,r64=len(native['excluded']),len(subsets['excluded'])
+    return {'Q':U,'s':s,'native':native,'subsets':subsets,'checks':errors,
+            'native_excluded_count':r32,'float64_excluded_count':r64,
+            'cutoffs':list(range(min(r32,r64),max(r32,r64)+1)),
+            'band_indices':list(range(min(r32,r64),max(r32,r64))),
             'dimensions':{key:len(value) for key,value in subsets.items()},
             'valid':{'top':gap(s,k),'bottom':gap(s,d-k),'excluded':True,'allowed':True}}
+
+
+def native_projector(basis):
+    Q=basis['native']['Q'][:,basis['native']['allowed']]
+    return Q@Q.T
+
+
+def geometry_energies(Z,basis):
+    fractions={key:energy(Z,basis['Q'],index) for key,index in basis['subsets'].items()}
+    validate_fractions(fractions)
+    band=energy_columns(Z,basis['Q'],basis['band_indices'])
+    prefix=[0.]
+    for value in band: prefix.append(prefix[-1]+value)
+    low=basis['cutoffs'][0]; nominal=basis['float64_excluded_count']
+    cutoffs={}
+    for cutoff in basis['cutoffs']:
+        delta=prefix[cutoff-low]-prefix[nominal-low]
+        cutoffs[str(cutoff)]={**fractions,'excluded':fractions['excluded']+delta,
+                             'allowed':fractions['allowed']-delta}
+        validate_fractions(cutoffs[str(cutoff)])
+    return {'energy':fractions,'band_energy':math.fsum(band),'energy_by_cutoff':cutoffs}
 
 
 def tensor_sha(tensor):
@@ -241,14 +276,17 @@ def random_control(output_dim,input_dim,ds,layer,j):
     return Spectrum(factors[0],flat,factors[1]), Spectrum(factors[0],ds,factors[1])
 
 
-def m16_diagnostic(spec,Q,subsets):
+def m16_diagnostic(spec,Q,subsets,basis=None):
     retained,valid=leading(spec)
     fractions={key:energy(retained,Q,index) for key,index in subsets.items()} if valid else None
     if fractions is not None: validate_fractions(fractions)
-    return {'role':'secondary','valid':valid,
+    result={'role':'secondary','valid':valid,
         'retained_energy':float(retained.s.square().sum()/spec.s.square().sum()),
         'r_eff':effective_rank(retained.s),
         'energy':fractions}
+    if basis is not None:
+        result.update(geometry_energies(retained,basis) if valid else {'band_energy':None,'energy_by_cutoff':None})
+    return result
 
 
 def validate_fractions(fractions):
@@ -263,6 +301,16 @@ def summarize_draws(draws):
         values=[v['energy'][key] for v in draws]
         result['mean_energy'][key]=sum(values)/20
         result['q95_energy'][key]=q95(values)
+    if 'energy_by_cutoff' in draws[0]:
+        result['mean_energy_by_cutoff']={}; result['q95_energy_by_cutoff']={}
+        for cutoff in draws[0]['energy_by_cutoff']:
+            result['mean_energy_by_cutoff'][cutoff]={}; result['q95_energy_by_cutoff'][cutoff]={}
+            for key in draws[0]['energy']:
+                values=[v['energy_by_cutoff'][cutoff][key] for v in draws]
+                result['mean_energy_by_cutoff'][cutoff][key]=sum(values)/20
+                result['q95_energy_by_cutoff'][cutoff][key]=q95(values)
+        result['mean_band_energy']=sum(v['band_energy'] for v in draws)/20
+        result['q95_band_energy']=q95([v['band_energy'] for v in draws])
     for key in ('norm','r_eff'):
         values=[v[key] for v in draws]
         result['mean_'+key]=sum(values)/20; result['q95_'+key]=q95(values)
@@ -280,6 +328,10 @@ def q95(values):
     return sorted(values)[18]
 
 
+def covariance_prediction(D,M,R):
+    return D['excluded']>=.25 and D['excluded']-M['excluded']>=.15 and D['excluded']>=R['excluded_q95']+.10
+
+
 def predictions(rows):
     names=['H-COV','H-TOP','H-RANK','H-OVERLAP']
     if len(rows)!=5 or sorted(row['layer'] for row in rows)!=BAND: return dict.fromkeys(names,'INVALID')
@@ -288,11 +340,22 @@ def predictions(rows):
         if any(not row.get('valid',False) or (name=='H-TOP' and not row.get('top_valid',False)) or
                (name=='H-OVERLAP' and not row.get('overlap_valid',False)) for row in rows):
             outcomes[name]='INVALID'; continue
+        if name=='H-COV':
+            robust=[]
+            for row in rows:
+                basis=row.get('basis',{}); cutoffs=row.get('cutoffs',{})
+                r32,r64=basis.get('native_excluded_count'),basis.get('float64_excluded_count')
+                if (type(r32) is not int or type(r64) is not int or min(r32,r64)<0 or
+                    basis.get('cutoffs')!=list(range(min(r32,r64),max(r32,r64)+1)) or
+                    set(cutoffs)!={str(c) for c in basis['cutoffs']}):
+                    outcomes[name]='INVALID'; break
+                robust.append(all(covariance_prediction(v['D'],v['M'],v['random']) for v in cutoffs.values()))
+            else: outcomes[name]='PASS' if sum(robust)>=3 else 'BOUNDARY-SENSITIVE'
+            continue
         passes=[]
         for row in rows:
             D,M,R=row['D'],row['M'],row['random']
-            if name=='H-COV': ok=D['energy']['excluded']>=.25 and D['energy']['excluded']-M['energy']['excluded']>=.15 and D['energy']['excluded']>=R['excluded_q95']+.10
-            elif name=='H-TOP': ok=D['energy']['top']-M['energy']['top']>=.10 and D['energy']['top']>=R['top_q95']+.05
+            if name=='H-TOP': ok=D['energy']['top']-M['energy']['top']>=.10 and D['energy']['top']>=R['top_q95']+.05
             elif name=='H-RANK': ok=D['r_eff']>=8 and D['r_eff']/M['r_eff']>=1.25
             else: ok=D['input_overlap']<=.25 and D['input_overlap']>=R['input_overlap_q95']+.05
             passes.append(ok)
@@ -355,25 +418,28 @@ def analyse_layer(C,adapters,M,layer,cell,control_dir):
 def analyse_layer_with_basis(basis,adapters,M,layer,cell,control_dir):
     torch=torch_module()
     Q,subsets=basis['Q'],basis['subsets']
+    cell('projections')
+    native_excluded=energy(M,basis['native']['Q'],basis['native']['excluded'])
+    require(native_excluded<=1e-4,'closed-form native excluded-energy parity failed')
     cell('update-svd')
     mspec=spectrum(M); mlead,mvalid=leading(mspec)
     row={'layer':layer,'valid':True,'top_valid':basis['valid']['top'],
-         'basis':{'checks':basis['checks'],'valid':basis['valid'],'dimensions':basis['dimensions']},'arms':{}}
+         'basis':{key:basis[key] for key in ('checks','valid','dimensions','native_excluded_count',
+                 'float64_excluded_count','cutoffs','band_indices')},
+         'native_parity':{'excluded_energy':native_excluded,'bar':1e-4,
+                          'projector_identity':basis['native'].get('projector_identity','UNVERIFIED-FIXTURE')},'arms':{}}
     cell('projections')
-    menergy={key:energy(M,Q,index) for key,index in subsets.items()}
-    validate_fractions(menergy)
-    require(menergy['excluded']<=1e-4,'closed-form excluded-energy parity failed')
-    row['M']={'energy':menergy,'r_eff':effective_rank(mspec.s),'r95':rank95(mspec.s),
+    allocation=geometry_energies(M,basis); menergy=allocation['energy']
+    row['M']={**allocation,'r_eff':effective_rank(mspec.s),'r95':rank95(mspec.s),
               'numerical_rank':int((mspec.s>mspec.s[0]*1e-6).sum()),'norm':float(mspec.s.norm())}
-    row['M16']=m16_diagnostic(mspec,Q,subsets)
+    row['M16']=m16_diagnostic(mspec,Q,subsets,basis=basis)
     # Keep only the leading M bases after its full-spectrum statistics.
     del mspec
     dspec=None; dlead=None
     for name,(A,B,scale) in adapters.items():
         cell('update-svd'); spec=adapter_spectrum(A,B,scale); lead,valid=leading(spec)
-        cell('projections'); fractions={key:energy(spec,Q,index) for key,index in subsets.items()}
-        validate_fractions(fractions)
-        record={'energy':fractions,'r_eff':effective_rank(spec.s),'r95':rank95(spec.s),
+        cell('projections'); allocation=geometry_energies(spec,basis); fractions=allocation['energy']
+        record={**allocation,'r_eff':effective_rank(spec.s),'r95':rank95(spec.s),
             'norm':float(spec.s.norm()),'numerical_rank':int((spec.s>spec.s[0]*1e-6).sum()),
             'overlap_valid':valid and mvalid,
             'energy_minus_M':{key:{'difference':fractions[key]-menergy[key],
@@ -403,8 +469,7 @@ def analyse_layer_with_basis(basis,adapters,M,layer,cell,control_dir):
         for target,spec in ((draws,flat),(secondary,matched)):
             lead,valid=leading(spec)
             record={'j':j,'factor_sha256':proof,'r_eff':effective_rank(spec.s),
-                    'norm':float(spec.s.norm()),'energy':{key:energy(spec,Q,index) for key,index in subsets.items()}}
-            validate_fractions(record['energy'])
+                    'norm':float(spec.s.norm()),**geometry_energies(spec,basis)}
             record['input_subspace']=overlap(lead.right,mlead.right) if valid and mvalid else None
             record['output_subspace']=overlap(lead.left,mlead.left) if valid and mvalid else None
             target.append(record)
@@ -416,6 +481,19 @@ def analyse_layer_with_basis(basis,adapters,M,layer,cell,control_dir):
                   'top_q95':q95([v['energy']['top'] for v in draws]),
                   'input_overlap_q95':q95([v['input_subspace']['O16'] for v in draws]) if mvalid else None}
     row['secondary_random']={'role':'secondary','draws':secondary,**summarize_draws(secondary)}
+    row['cutoffs']={}
+    for cutoff in basis['cutoffs']:
+        key=str(cutoff)
+        for subset,count in (('excluded',cutoff),('allowed',M.shape[1]-cutoff)):
+            require(abs(row['random']['mean_energy_by_cutoff'][key][subset]-count/M.shape[1])<=.01,
+                    'random cutoff energy instrument validity')
+        Dcut,Mcut=row['D']['energy_by_cutoff'][key],row['M']['energy_by_cutoff'][key]
+        Rcut={'excluded_q95':row['random']['q95_energy_by_cutoff'][key]['excluded']}
+        shuf=row['arms']['A7_shuf']['energy_by_cutoff'][key]['excluded']
+        row['cutoffs'][key]={'D':Dcut,'M':Mcut,'random':Rcut,'shuf_excluded':shuf,
+            'margin_outcome':'PASS' if covariance_prediction(Dcut,Mcut,Rcut) else 'FAIL',
+            'near_shuf':abs(Dcut['excluded']-shuf)<=.05}
+    row['robust_H_COV_layer_pass']=all(v['margin_outcome']=='PASS' for v in row['cutoffs'].values())
     return row
 
 
@@ -455,13 +533,14 @@ def run(client,run_dir,prereg_sha):
         with bound_input(path,PINNED[str(path)]): C=load_covariance(path)
         require(C.shape==(11008,11008),'production covariance shape mismatch')
         cell=lambda phase:client.cell(phase,f'l{layer}')
-        # A single covariance decomposition is reused by identity checks and all arm statistics.
+        # Native identity and float64 geometry each reuse their own decomposition.
         basis=covariance_basis(C,cell=cell)
+        del C
         cell('covariance-checks')
-        Q=basis['Q']; idx=basis['subsets']['allowed']
-        projector=Q[:,idx]@Q[:,idx].T
+        idx=basis['native']['allowed']
+        projector=native_projector(basis)
         M=validate_capture(bundle,layer,projector,len(idx)); del projector
-        # analyse_layer consumes this existing basis; never decompose C twice.
+        basis['native']['projector_identity']='VERIFIED'
         selected={name:(v[f'A_{layer}'],v[f'B_{layer}'],float(v['scale'])) for name,v in adapters.items()}
         row=analyse_layer_with_basis(basis,selected,M,layer,cell,run_dir/'controls'/f'l{layer}')
         client.cell('output',f'l{layer}-statistics')
@@ -469,13 +548,14 @@ def run(client,run_dir,prereg_sha):
         durable_json(path,{'tier':TIER,'boundary':BOUNDARY,**row})
         client.send({'type':'artifact','path':str(path.relative_to(run_dir))})
         rows.append(row)
-        del C,Q,basis,M,row
+        del basis,M,row
     client.cell('load','post-consumption-identity')
     for name,digest in PINNED.items(): verify_file(ROOT/Path(name),digest)
     client.cell('output','final-statistics')
     result={'tier':TIER,'boundary':BOUNDARY,'prereg_sha256':prereg_sha,'harvest':str(H),
         'harvest_prereg_sha256':HARVEST_PREREG,'input_shas':PINNED,'layers':rows,'predictions':predictions(rows),
-        'specificity':'NON-SPECIFIC' if sum(abs(r['D']['energy']['excluded']-r['shuf_excluded'])<=.05 for r in rows)>=3 else 'NO SPECIFICITY CLAIM',
+        'robust_H_COV_layers':[r['layer'] for r in rows if r['robust_H_COV_layer_pass']],
+        'specificity':'NON-SPECIFIC' if sum(any(v['near_shuf'] for v in r['cutoffs'].values()) for r in rows)>=3 else 'NO SPECIFICITY CLAIM',
         'queue_action':'NONE — calibration and prospective utility not established',
         'budget_feasibility':'UNVERIFIED','behavior':'NOT MEASURED: locality and held-out generalization'}
     durable_json(run_dir/'geometry.json',result)
