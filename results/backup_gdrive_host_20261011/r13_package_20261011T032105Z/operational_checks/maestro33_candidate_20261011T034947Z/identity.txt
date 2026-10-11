@@ -1,0 +1,3 @@
+base_origin_master=a424085f3664ec15037c0e4b22cb7e94654e8343
+source_commit=bdc1ad167afeedb94ccd60137b591eb78044c899
+candidate_path=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/backup-gdrive-r13-cand-20261011T034947Z

@@ -1,0 +1,10 @@
+[pre-commit] anti-drift + secret checks…
+  [ok    ] SESSION_CHECKPOINT.md  (GENERATED:program-state)
+  [ok    ] EXPERIMENT_RUNBOOK.md  (GENERATED:program-state)
+  [ok    ] README.md  (GENERATED:program-state)
+  [ok    ] SESSION_BOOTSTRAP.md  (GENERATED:program-state)
+  [ok    ] PROGRESS.md  (GENERATED:f1-scorecard)
+✅ all generated blocks current.
+[pre-commit] ✅ no drift
+hint: The '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/git_hooks/post-commit' hook was ignored because it's not set as executable.
+hint: You can disable this warning with `git config set advice.ignoredHook false`.

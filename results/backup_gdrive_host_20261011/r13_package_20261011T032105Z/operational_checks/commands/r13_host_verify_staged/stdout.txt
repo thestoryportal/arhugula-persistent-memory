@@ -1,0 +1,1 @@
+PASS exact index path/blob/type/mode tree, clean working tree and 1185 object SHA-256 pins
