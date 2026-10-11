@@ -29,15 +29,15 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T13:54:10Z",
+    "edited": "2026-10-11T14:07:07Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "running",
+        "state": "in_review",
         "who": "Astra round 8, then MAESTRO binds",
-        "session": "codexr1j",
+        "session": "Astra round 9",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
@@ -82,7 +82,8 @@
           "13:05Z: codexr1h finished (7697cb73); MAESTRO reran every test set (42 new, and the 36/27/18/9 older ones still pass) and checked the script now names the Intel key. Fixed: a starting checkpoint can be used only once, and a lost result can't be hidden by restoring the Intel Mac; only the M3's clock counts; the capture must be committed first. Astra round 7 is reviewing (9a4e4bdc).",
           "13:14Z: Astra round 7 said not yet (4d4a99e6) but allowed the identity check. MAESTRO ran it: the Intel Mac answered for the first time (c9c42c68): Intel chip, macOS 14.8.9, Apple's built-in Python 3.9.6 at the expected path. Still open: a success note could survive a crash at the last moment; a slow start could stretch the Intel Mac's time limit; the M3's own notes must count against the space allowance. Builder codexr1i is fixing those four points; the binding step waits for Astra round 8.",
           "13:40Z: codexr1i finished the four fixes (a369d87f). MAESTRO reran every test set: 54 new pass after MAESTRO moved the builder's late hand-off note out of its report (it broke a page-length test); all older sets still pass. Astra round 8 is reviewing (3629479a). If it says yes, MAESTRO runs the binding step next.",
-          "13:47Z: Astra round 8 said not yet (7f64cc1b). Fixed and accepted: the space accounting, and the earlier identity answer counts as an observation. Still open: a success note that was only half-saved could still count if a later correction never got written; and the Intel Mac checks its time limit before the identity work but not during it or right before it reports success. MAESTRO46 decided both fixes (save the success note under a temporary name first and give it its real name only once it is safely on disk; time checks during identity work and just before success) and builder codexr1j is making them. The binding step waits for Astra round 9."
+          "13:47Z: Astra round 8 said not yet (7f64cc1b). Fixed and accepted: the space accounting, and the earlier identity answer counts as an observation. Still open: a success note that was only half-saved could still count if a later correction never got written; and the Intel Mac checks its time limit before the identity work but not during it or right before it reports success. MAESTRO46 decided both fixes (save the success note under a temporary name first and give it its real name only once it is safely on disk; time checks during identity work and just before success) and builder codexr1j is making them. The binding step waits for Astra round 9.",
+          "14:06Z: codexr1j finished both fixes (9a8f51bb). MAESTRO46 reran every test set (61 new pass; all older sets still pass) and confirmed in the code that the success note now appears only after it is safely on disk, and that the Intel side checks its time limit during identity work and just before success. Astra round 9 is reviewing (6d638f68). If it says yes, MAESTRO runs the binding step next."
         ]
       },
       {
@@ -131,9 +132,9 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "in_review",
-        "who": "Astra (round 4), then MAESTRO",
-        "session": "",
+        "state": "running",
+        "who": "codexr2i + codexr2j, then MAESTRO, then Astra round 5",
+        "session": "codexr2i, codexr2j",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -153,7 +154,8 @@
           "13:22Z: codexr2f finished the build-level rules (ea7477ad): 224 lines, all nine parts Astra asked for, every choice tied to a contract clause, MAESTRO owns all three parts. MAESTRO checked the shape, not the content. Astra round 3 is reviewing it now (36d32697). codexr2f closed.",
           "13:30Z: Astra round 3 said not yet (0219b4a7): name who builds each part and list every way science runs get started; the copy program can't approve its own start while paused, so the coordinator must do it; a recovery checker must work even when the coordinator is dead; every record needs a full format; one source was cited from the wrong file. MAESTRO made those design calls and started two builders: codexr2g (rules v2 + record formats) and codexr2h (list of science start paths). Then Astra round 4.",
           "13:40Z: codexr2h ran out of room halfway through the list of science start paths and handed off; fresh successor codexr2h2 is finishing it. codexr2g is still writing rules v2.",
-          "13:53Z: both builders finished. codexr2g wrote the shared-drive rules version 2 with exact record formats and a checker; codexr2h2 finished the list of every science launch path. MAESTRO46 checked them (checker passes, sizes and sections right, three sampled fingerprints match) and committed them (181b2cfa). Astra round 4 is reviewing (309a9a65)."
+          "13:53Z: both builders finished. codexr2g wrote the shared-drive rules version 2 with exact record formats and a checker; codexr2h2 finished the list of every science launch path. MAESTRO46 checked them (checker passes, sizes and sections right, three sampled fingerprints match) and committed them (181b2cfa). Astra round 4 is reviewing (309a9a65).",
+          "14:06Z: Astra round 4 said not yet (d833fb81). The rules now name owners, and the startup order and integration fixes were accepted. Still open: two maths-notebook launch paths were missing from the list, and some old scripts were wrongly marked as unable to run here; a profile had to contain its own fingerprint, which can't be built; the recovery path lived inside the folder whose loss it must survive; first-time setup with no earlier writer couldn't be written down; and the checker only checked structure. MAESTRO46 decided the fixes. codexr2i is revising the rules and record formats; codexr2j is completing the launch list. A later builder strengthens the checker."
         ]
       },
       {
@@ -162,7 +164,7 @@
         "summary": "Five Codex reviewers each take one area of the lists you sent (web dashboard tools, terminal dashboard tools, dashboard/design skills, research/ML skills, design best practices) and report what fits our work, how it would plug in, the cost and risk, and a verdict per item. Review only: nothing is installed or built.",
         "state": "running",
         "who": "Codex reviewers codexdirweb, codexdirtui, codexdiruiskills, codexdirresearchskills, codexdirpractices; then MAESTRO summarises for you",
-        "session": "codexdirweb, codexdirtui, codexdiruiskills, codexdirresearchskills, codexdirpractices",
+        "session": "codexdirsynth",
         "started": "2026-10-11T13:52:00Z",
         "estimate": {
           "low_min": 30,
@@ -173,7 +175,8 @@
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "13:52Z: you sent the lists (13:50Z). MAESTRO46 split them into five areas and started one Codex reviewer per area with a shared description of our setup (results/dashboard_integration_review_20261011/CONTEXT.md). Each writes one report there; skills are also checked for install safety."
+          "13:52Z: you sent the lists (13:50Z). MAESTRO46 split them into five areas and started one Codex reviewer per area with a shared description of our setup (results/dashboard_integration_review_20261011/CONTEXT.md). Each writes one report there; skills are also checked for install safety.",
+          "14:06Z: all five reviews are done (one reviewer ran low on room and a fresh one finished its last two items). Reports are in results/dashboard_integration_review_20261011/. A sixth Codex session is writing a one-page summary for you."
         ]
       },
       {

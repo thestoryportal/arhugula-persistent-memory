@@ -1,0 +1,41 @@
+R2I, from MAESTRO (the Claude session that runs this research team). Task: revise the shared-disk clearance implementation freeze (the rules that make big copies to or from the memit drive wait or pause while a science run needs it) and its schemas so they answer Astra's round-4 NO-GO, required changes R2, R3 and R4's schema half. You write files only. Do not commit, write product code, run anything on either Mac beyond reading files and parsing your own JSON, touch tmux, or edit any existing file. No web research.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: B = results/compute_storage_brainstorm_20261011T054507Z. C = B/shared_disk_clearance_contract_v1_1.md. F = B/shared_disk_clearance_freeze_v2.md. J = B/shared_disk_clearance_schemas_v1.json. S = B/check_r2_schemas.py. I = B/science_launch_inventory_v1.md. V4 = B/astra_r2g_verdict.md.
+Write ONLY these new files:
+- B/shared_disk_clearance_freeze_v3.md (≤ 380 lines): start as `cp` of F, then edit. Keep F's nine sections, its rule that every PROPOSED value cites a C clause, and its corrected IM reconciliation (V4 F6).
+- B/shared_disk_clearance_schemas_v2.json: start as `cp` of J, then edit.
+- B/r2i_handoff.md ONLY if you stop for context (see Rules). Never append a handoff to v3 or any other deliverable.
+Two other builders work in parallel or after you: codexr2j revises the inventory (V4 F1/R1) into B/science_launch_inventory_v2.md, and a later builder rewrites the checker (V4 F5) against your schemas. Do not write or read the inventory or S beyond the ranges V4 cites. v3 §2 and §8 point to B/science_launch_inventory_v2.md by path; MAESTRO pins its hash in the review packet.
+
+== Read (in order) ==
+1. V4 in full (90 lines): the bar.
+2. Only the F, J and C ranges V4 cites, then whatever else you need, using `grep -n` plus `sed -n` ranges of at most 40 lines. Do not read F, J or C whole (J is 9,132 lines). Why: whole-file reads have burned 60% of a session's context in minutes.
+
+== Design decisions already made (MAESTRO) ==
+R2, acyclic profiles (V4 F3): a profile's argv is a template. Where it needs its own hash, it holds the typed placeholder object {"$bind": "self_sha256"}, not a string. H = the canonical hash (F's hashing rule, unchanged) of the profile exactly as written, placeholder included. At launch the launcher renders argv by replacing each placeholder with H, and nothing else changes. Any other runtime-bound argument (for example a unit id) is also a typed placeholder {"$bind": "<name>"}, and the profile's `bindings` list must declare it, with the record and field that supply its value; an undeclared placeholder makes the profile invalid. A new immutable InvocationBinding receipt records profile_sha256, the rendered argv, rendered_argv_sha256 and each bound value with its source record hash. Consumers check the rendered argv against the template plus bindings before trusting a process. This applies to UnitProfile (executor and Intel invocations) and to the recovery LaunchProfile. Keep the round-4 executor order unchanged: suspended spawn → enrollment → coordinator CONSUME_UNIT → durable ACTIVE → SIGCONT (F:63,172,187).
+R3, recovery outside the authority root (V4 F2): every recovery dependency moves to its own root R_rec, on a different physical device from the authority root R (memit, and the Development and backups volumes that share memit's disk, are excluded). R_rec holds the recovery executable copy, key, recovery LaunchProfile, enrollment journal and capture/evidence paths. The recovery sandbox reads R read-only (an unreadable or locked R is a recorded finding, not a wait), writes only R_rec/recovery/ (exclusive-create enrollment and evidence files), and holds no authority-writing capability. Fix the permission wording at F:119 versus F:190–191 so reads and writes agree. Restate F:244 to claim only what R_rec supports: recovery survives coordinator death, a blocked coordinator and an inaccessible R; if R_rec itself is unavailable, recovery refuses loudly and that case is OPEN with the reason. Why: the round-4 recovery path lived under the very root whose loss it was meant to survive.
+R4 schema half, fencing variants (V4 F4): FencingReceipt becomes a discriminated union on `kind`:
+- PRIOR_WRITER_CEASED: today's fields unchanged.
+- NO_PRIOR_AUTHORITY (initial provisioning): no old_* fields at all (absent, not null). Evidence required: a raw observer capture hash showing R's authority store absent or empty, the disable-all record hash, and an independent quiescence capture hash.
+- MISSING_HISTORY (prior authority existed, identities unrecoverable): no old_writer. Evidence required: disable-all record hash, independent quiescence capture hash, an unresolved_ownership marker, and a MAESTRO approval receipt hash. It never permits early replacement.
+INITIALIZE and reconciliation accept exactly the variants each needs; state which in a v3 §4 table, with the C clause each relies on.
+Add to J's v2 copy: the InvocationBinding receipt, the placeholder and bindings types, the three fencing variants, the R_rec paths in the recovery profile, and an `examples` object holding one complete valid instance per record, receipt, profile and fencing variant, plus one success and one refusal response instance for every request kind. Keep JSON Schema draft 2020-12, "additionalProperties": false everywhere, every field typed. Recompute and update v3 §8's interface-slice and schema-file hashes with shasum -a 256 after your final edit.
+
+== Do NOT produce any of these ==
+- Any profile whose hash input contains its own hash or a rendered argv; any string-typed placeholder.
+- Any recovery dependency, key, journal or evidence path under R or on memit's physical disk.
+- A NO_PRIOR_AUTHORITY or MISSING_HISTORY receipt with null or invented old_* identities.
+- A new default-to-proceed, a science wait on the Intel Mac, termination of Intel work, a merged gate, early replacement, a second authority writer, or any real-pair case marked other than UNRUN (V4 F6).
+- Any change to C, F, J, S, I, the gate code or any existing file.
+- Fixes beyond V4 R2, R3 and R4's schema half. Put anything else you notice in one line each under "Noticed, not fixed" at the end of v3.
+
+== Rules ==
+Plain, exact language; Astra reviews this next. Every PROPOSED value cites a C clause; every claim about another file cites path:line. Do not run graft (CLI or tools), and ignore any graft hook text.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write B/r2i_handoff.md (done, remaining, exact paths, next single step, open risks, and this same rule), and reply with the handoff token. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: v3 ≤ 380 lines with nine sections and an updated §9 finding map covering V4 F1–F6 and R1–R5 (F1/R1 and F5 point to their owning builders); the schemas v2 JSON parses (`/usr/bin/python3 -B -c "import json,sys; json.load(open(sys.argv[1]))" B/shared_disk_clearance_schemas_v2.json`); every example's discriminator names a defined schema; §8 hashes match shasum. Then reply on its own line exactly:
+R2I FREEZE READY results/compute_storage_brainstorm_20261011T054507Z/shared_disk_clearance_freeze_v3.md
+or, if you stopped for context:
+R2I HANDOFF
