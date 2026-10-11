@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T09:23:40Z",
+    "edited": "2026-10-11T09:27:49Z",
     "items": [
       {
         "id": "backups-audit",
@@ -54,8 +54,8 @@
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "in_review",
-        "who": "Astra (reviewer), then MAESTRO",
+        "state": "ready",
+        "who": "MAESTRO (Intel size facts), then a builder, then Astra",
         "session": "",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
@@ -78,7 +78,8 @@
           "08:56Z: amendment written and checked by MAESTRO (phase1_intel_amendment_v1.md). Intel Mac checks found MacPorts has no Neo4j package, so Neo4j needs another install source. 08:59Z: sent to Astra for a fresh review.",
           "09:03Z: Astra said GO with conditions on the Intel plan, and agreed no new question for you is needed. Next: pin exact software versions for the Intel Mac (Neo4j from its own download; Python 3.12.15 vs the frozen 3.12.14 needs a review), then the run setup and tests on the Intel Mac.",
           "09:10Z: MAESTRO39 read the Intel Mac's install facts (no changes made): the package list it uses is pinned to one dated snapshot; Python there is 3.12.15, not the planned 3.12.14; Neo4j has no package and comes from Neo4j's own download. Facts committed (3a7f9855). codexr1 is now drafting the install freeze Astra asked for.",
-          "09:21Z: install freeze drafted by codexr1 and checked by MAESTRO39 (every fingerprint traced to a file we hold; no 'latest' or fallback install path). Recommends Python 3.12.15, Neo4j 2026.09.0, the planned DuckDB 1.5.5, and pre-built packages. Committed 643ac6b9; Astra is reviewing it."
+          "09:21Z: install freeze drafted by codexr1 and checked by MAESTRO39 (every fingerprint traced to a file we hold; no 'latest' or fallback install path). Recommends Python 3.12.15, Neo4j 2026.09.0, the planned DuckDB 1.5.5, and pre-built packages. Committed 643ac6b9; Astra is reviewing it.",
+          "09:27Z: Astra said NO-GO on install freeze v1 (546a9eb2). The blocker: nothing yet shows Java, Neo4j, Python and their parts fit the planned 1 GB of setup space and 15 minutes. Next: measure real download/installed sizes read-only, then version 2. If they do not fit, raising the limit would be your decision. Astra agreed the four recommended choices need no separate approval from you."
         ]
       },
       {
@@ -108,8 +109,8 @@
         "id": "r4-dashboard-record",
         "title": "Phone dashboard on the Intel Mac: freeze what it shows and how",
         "summary": "Write down exactly what status record the Intel-hosted dashboard reads, how old data shows as UNAVAILABLE (never as idle), and the exact way each M3 helper is launched so the science safety gate still allows it. Then Astra reviews it.",
-        "state": "in_review",
-        "who": "Astra (reviewer), then MAESTRO",
+        "state": "ready",
+        "who": "A builder, then MAESTRO, then Astra",
         "session": "",
         "started": "2026-10-11T09:12:53Z",
         "estimate": {
@@ -122,7 +123,8 @@
         "needs_from_you": [],
         "notes": [
           "09:12Z: drafting started (dashboard_host_status_record_v1.md); answers Astra's condition R4.",
-          "09:23Z: draft finished and checked by MAESTRO39 (the proposed M3 helper passes the science gate's own exemption test; old or lost data shows UNAVAILABLE, never idle). Committed 67b6a0b1; Astra is reviewing it."
+          "09:23Z: draft finished and checked by MAESTRO39 (the proposed M3 helper passes the science gate's own exemption test; old or lost data shows UNAVAILABLE, never idle). Committed 67b6a0b1; Astra is reviewing it.",
+          "09:27Z: Astra said NO-GO on dashboard record v1 (546a9eb2): needs the exact record format with examples, protection against replayed old records across restarts, and a decision on how builder activity is shown. Next: version 2."
         ]
       },
       {
