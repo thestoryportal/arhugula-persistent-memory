@@ -29,14 +29,14 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T10:21:37Z",
+    "edited": "2026-10-11T10:26:41Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "in_review",
-        "who": "Astra (round 2), then MAESTRO",
+        "state": "ready",
+        "who": "MAESTRO: brief a builder to fix the script and scope the trial",
         "session": "",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
@@ -63,7 +63,8 @@
           "09:27Z: Astra said NO-GO on install freeze v1 (546a9eb2). The blocker: nothing yet shows Java, Neo4j, Python and their parts fit the planned 1 GB of setup space and 15 minutes. Next: measure real download/installed sizes read-only, then version 2. If they do not fit, raising the limit would be your decision. Astra agreed the four recommended choices need no separate approval from you.",
           "09:44Z: Sizes measured without installing anything (df332df1): the Intel tools need about 1.5 GB of setup space, not 1 GB; DuckDB can come as a ready-made Python package, so nothing big gets compiled. The operator raised setup space to 2 GB (pilot+setup 7 GB total, Amendment 20). Next: brief a builder for install freeze v2 with Astra's R1-R5, then Astra.",
           "09:58Z: Builder codexr1b is writing install freeze v2 against Astra's findings, with the new 2 GB limit and the measured sizes.",
-          "10:21Z: Install freeze v2 is written (172e96f6): one manifest of 48 parts, checks that refuse a mismatch before installing, and a space table under the 2 GB limit. Three items can't be settled without touching the Intel Mac (build time/space for a few small parts, the final install chain, the start-up checks), and they are named openly. Astra round 2 is reviewing it (packet 59ffc2eb)."
+          "10:21Z: Install freeze v2 is written (172e96f6): one manifest of 48 parts, checks that refuse a mismatch before installing, and a space table under the 2 GB limit. Three items can't be settled without touching the Intel Mac (build time/space for a few small parts, the final install chain, the start-up checks), and they are named openly. Astra round 2 is reviewing it (packet 59ffc2eb).",
+          "10:26Z: Astra round 2 said no-go. The budget arithmetic checks out, but the read-only collection script must be fixed before it runs (its time limit restarts each run, it scans all of /private/tmp, and its install checks refuse too much and too little). A small build trial on the Intel Mac is needed to measure build time and space, and that trial needs your OK once it is scoped with exact limits."
         ]
       },
       {
