@@ -675,3 +675,232 @@ Proposed source/missing-state defaults: a tapped number opens a source detail wi
 
 - Session 4's continuity authority is the separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff3.md`, plus these append-only notes and predecessor settled decisions. Preserve reviewed-source allowances, scientific source/coverage gaps and all no-execution boundaries. No tests/build/browser/model/science/git mutation occurred at the gate.
 - Binding context rule carried forward: watch "Context N% left" at the end of each reply before asking anything; start new work only at >=60% left. At <=45% left or any "Context compacted", tell the operator, finish the current point and write a separate handoff with completed/in-flight work, exact paths, settled choices, open risks and one exact next point. At <=40%, stop starting work. Never place the handoff inside notes or approach full-window compaction. Restate this rule in every successor/team handoff. The 44% figure here is MAESTRO-reported, not independently measured.
+
+## LVB4 — tracker accuracy and coverage
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to which presentation should lead the tracker. Option 1 was "Separate accuracy and coverage — recommended: '80% correct; 10 of 30 assessed.'" Settled: lead with accuracy on assessed material and assessment coverage as separate measures, at applicable overall/domain/topic/science levels. The example is illustrative, not actual learner data. Unassessed questions count as neither correct nor wrong. Preserve latest-completed-attempt scoring, earlier-attempt history and end-of-quiz feedback.
+
+### Open questions
+
+- Score taxonomy, eligible question/version populations, equal-point aggregation, incomplete-retake rules and local persistence remain proposed/preparation work. With no assessed responses, the proposed display remains "Not assessed yet", rather than a percentage of knowledge. This answer does not approve every earlier scoring default.
+- Next quiz-format preference: answer-choice questions about concepts and reading diagrams/charts/experiment evidence, plus optional unscored "explain it in your own words" reflections (recommended), or answer-choice questions alone. Both use reviewed answer keys for scored responses and retain feedback at the end. Written reflections use authored comparison explanations for self-review; no automatic free-text grading or tutor is implied. This format proposal is not yet approved.
+
+### Spec changes proposed
+
+- Define accuracy and assessment coverage separately in the pending learner-tracker contract under Learn (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`). Preserve scientific read-only/model-free boundaries (`:16-20`, `:31-32`), source-linked context and phone readability (`:348-373`). The current Learn anchors do not define personal quiz scores; the selected display is an explicit proposed extension, not an existing measured capability. Spec remains unchanged.
+- The pending quiz contract must distinguish checked scored answers from any optional self-reviewed written reflection. Exact formats and hint/skip handling remain open. The personal learning score does not become an experiment score or scientific verdict.
+
+### Context for build agents
+
+- Supply the accepted accuracy/coverage wording with reviewed question/lesson versions, response eligibility and source-linked answer keys. Future reader cases include high accuracy with low coverage, mixed accuracy with broad coverage and no assessed responses; unanswered material must never appear as wrong or zero knowledge. These are planned checks only.
+- If the proposed reflections are selected, prepare authored prompts and comparison explanations linked to the lesson/science/paper context; keep them separate from checked scores. Neither a chart library nor a UI reference supplies educational answer keys. Use the already-selected layout checklist and historical Learn phone image as context, retaining `docs/LABVIZ_V2_SPEC.md:360-371`. No build, test, browser run, package, model or scientific process was executed. Worktree root/branch were verified read-only; only this notes entry was appended.
+
+## LVB4 — scored answer choices and optional written reflections
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to which quiz format to use. Option 1 was "Both — recommended: scored answer choices plus optional written reflections." Settled: prepared answer-choice questions cover concepts, diagrams/charts and interpreting experiment evidence; optional written reflections invite the learner to explain an idea in their own words. Reflections have prepared comparison explanations for self-review and do not affect the checked score. No automatic free-text grading or guided tutor is selected. Feedback remains at quiz end; accuracy and coverage remain separate.
+
+### Open questions
+
+- Next hint preference: hints in optional practice, with scored quizzes answered without hints (recommended for an easily interpreted score), or hints during scored quizzes with helped answers explicitly identified. Practice means prepared questions/hints, not the deferred guided tutor. Exact eligibility/aggregation for helped responses would require a further rule if that option is selected. No hint rule is approved yet.
+- Question inventory, number per card/section, skips/incomplete attempts, version handling, taxonomy and local persistence remain preparation or design work. The format choice does not change each-card/section coverage or make an unreviewed question scoreable.
+
+### Spec changes proposed
+
+- Add the selected scored-answer-choice and optional unscored-reflection formats to the pending Learn assessment contract (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`). Reviewed prompts/keys/explanations and clear score labels extend the existing Learn description; preserve scientific boundaries (`:16-20`, `:31-32`) and phone/source/navigation rules (`:348-373`). Hints and practice/scored-answer eligibility remain proposed. Binding spec unchanged.
+
+### Context for build agents
+
+- Provide checked answer choices/keys and source-linked end-of-quiz feedback, plus separately identified optional reflection prompts and authored comparison explanations. A reflection is not marked correct/incorrect by an invented semantic grader and does not enter accuracy/coverage counts for scored questions. Preserve submitted responses and the approved latest-completed-attempt rule.
+- Future reader tasks: interpret a diagram/chart or evidence limitation, complete checked questions, read end-of-quiz explanations, optionally write a reflection and compare it with the prepared explanation, then reach the relevant lesson/science/paper source. Use the selected short layout/chart checklists and historical Learn phone context; no reference supplies answer keys. These are proposed verification tasks, not tests performed. Only notes were appended; no build, browser run, model/service, package or science execution occurred.
+
+## LVB4 — hints in practice only
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to where hints should be available. Option 1 was "Practice only — recommended: explore with help, then check understanding without hints." Settled: prepared practice offers hints; scored quizzes are answered without hints. Checked quiz explanations remain at the end. Practice is learning activity and does not update scored accuracy/assessment coverage; this follows the distinction presented between practice and the scored check. Guided tutoring remains future work.
+
+### Open questions
+
+- Next skip preference: allow "Skip for now", keep the response unassessed and show skips separately (recommended to preserve accuracy/coverage meanings), or require an answer to each scored question before finishing. Both must preserve available source-linked explanations at quiz end and the distinction between an unanswered question and an incorrect submitted answer. Skip eligibility, completed-attempt coverage and retake replacement still need explicit rules if skipping is selected.
+- Proposed example, not learner data: in a ten-question quiz, seven correct submitted answers, one incorrect and two skips would show "7 of 8 correct; 8 of 10 assessed; 2 skipped". The broader tracker also names its complete reviewed-bank denominator. A skip does not establish lack of knowledge; an unanswered quiz is not 0% knowledge.
+- Review materials remain accessible outside the quiz; the interface cannot establish that a learner did not consult outside help. Scores describe performance on these reviewed questions, not a certified examination or comprehensive expertise. No new restriction on lesson/science access is proposed.
+
+### Spec changes proposed
+
+- Add the accepted practice-only hint rule and separate practice/scored eligibility to the pending Learn assessment contract (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`). End-of-quiz feedback, accuracy/coverage and no automatic reflection grading remain as previously settled. Skipping and completion rules below remain proposed. Preserve personal-state/scientific-authority separation (`:16-20`, `:31-32`) and phone readability/source links (`:348-373`). Spec unchanged.
+
+### Context for build agents
+
+- Supply authored practice hints with lesson/source references and a clearly labelled scored check. Practice completion or hinted responses do not replace the latest completed scored attempt. Keep optional reflections separate from checked-question counts. A practice flow uses prepared material and must not silently implement the deferred tutor.
+- Future reader cases include using a hint in practice, entering a scored quiz, completing it and reading feedback. If skipping is selected, add separate correct/incorrect/unassessed counts and explicit empty-assessment behavior. These are planned cases only; no tests/build/browser/science/model/service were run. Only this notes entry was appended.
+
+## LVB4 — skip for now and phone quiz layout proposal
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to how uncertain answers should work. Option 1 was "Allow skipping — recommended: skipped questions remain unassessed and appear in the review." Settled: offer "Skip for now"; skipped questions do not count as incorrect and remain visibly unassessed. Include them in the end-of-quiz review with applicable prepared explanations. Illustrative quiz-level display: "7 of 8 correct; 8 of 10 assessed; 2 skipped"; these are example counts, not learner results. Overall coverage uses the separately defined reviewed-bank population.
+
+### Open questions
+
+- Proposed completion/retake defaults, not separately approved: explicit Finish records a completed attempt with answered/skipped states; unfinished retakes retain the preceding completed score. On a completed retake of the same quiz/question versions, use that attempt throughout: skipped questions are currently unassessed and preceding answers stay historical. Do not silently fill skips with earlier correct answers. Finishing with all questions skipped produces "Not assessed yet" and visible skips, not a percentage. Exact overlapping-quiz/question identity rules and version handling still need preparation.
+- Next phone quiz-layout preference: one question at a time (recommended), with position such as "Question 3 of 10", Previous/Next, Skip and an explicit Finish/review step; or all questions on one scrolling page. Either preserves selections when moving between questions and keeps correctness/explanations until quiz end. Navigation position is not assessment coverage; optional reflections stay unscored. The layout and detailed controls are proposed, not approved by the skip answer.
+
+### Spec changes proposed
+
+- Add the accepted skip/unassessed/review distinction to the pending Learn assessment contract (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`). Phone quiz layout extends the current Learn design under §4A (`:357-373`), retaining readable text, 44px targets, text-labelled state and no horizontal page scroll. Existing missing scientific data remains a different state from a personal unanswered quiz question. Binding spec unchanged.
+
+### Context for build agents
+
+- Existing historical image inspected in LVB4: `results/labviz/review/20261008T130913325Z/chromium-phone-learn.png`. It shows stacked era cards and a long Learn page, not the proposed quiz interface. Matching `measure.json:1425370-1425388` records a 390x844 viewport, equal 390px client/scroll widths and 2808px document height. Summary at `:1425414-1425431` records 16px body, 13px minimum rendered text, 44px minimum target height and zero clipped text nodes. These October 8 measurements predate MathLab and the proposed learner features; they do not validate quiz geometry or new themes. A focused-question layout is a design inference from this historical context and §4A, not a diagnosed runtime defect.
+- Give builders reviewed quiz keys/feedback, explicit answer/skip states and examples showing correctness, coverage and navigation position separately. Future cases include a skipped question revisited before finishing, mixed answers/skips, all skips, an unfinished retake and a completed retake with skips. Preserve checked-score versus optional-reflection separation and end-of-quiz feedback. Use the selected interface checklist for focus and distinct states. These are planned checks only; only this notes entry was appended, with no build/test/browser/science/model execution.
+
+## LVB4 — one-question phone quiz and tracker organisation proposal
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to which quiz layout to use. Option 1 was "One question at a time — recommended: focused view, with navigation between questions." Settled phone layout: one question with room for its diagram/chart and answer choices, visible position such as "Question 3 of 10", Previous/Next and Skip; selections persist when moving between questions. An explicit Finish ends assessment and leads to explanations/review. End-of-quiz feedback and optional unscored reflections remain settled. Exact geometry and desktop adaptation require later authorised design/verification.
+
+### Open questions
+
+- Next tracker-detail ordering: broad learning domains/topics first, with research understanding also accessible (recommended for connecting foundations to the science), or understanding of our research questions/experiments first, with broad domains/topics also accessible. The overall accuracy/coverage summary leads either arrangement; both retain every required domain/topic/science view. This does not reopen questions -> model parts -> papers in Learn.
+- Proposed broad-domain labels/definitions: Model architecture (how the model is built and processes inputs), Engineering (how changes are made, checked and operated), Scientific reasoning (how tests and evidence are judged). Proposed separate "Our research" grouping presents understanding of this program's research questions, experiments and paper connections. This is a proposed organisation, not a frozen curriculum or mutually exclusive partition: questions may have multiple associations but must count once overall.
+- Previously proposed arithmetic/completion/version defaults still require an explicit contract review before a build brief. Exact topic hierarchy, reviewed-bank membership, question counts and local saving remain preparation work. A low assessed-topic accuracy and an unassessed topic must have different wording; neither establishes comprehensive ability.
+
+### Spec changes proposed
+
+- Add the approved focused phone quiz/navigation layout to the pending Learn assessment contract (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`) under §4A readability, touch and navigation constraints (`:348-373`). Questionnaire position remains distinct from measured learner coverage; optional reflection state stays separate from checked answers. Binding spec unchanged.
+- Define learner domain/topic/research associations and the eventual selected tracker ordering explicitly in the pending learner contract, separate from scientific context/evidence authority (`:16-20`, `:983-1023`). The tracker organisation and proposed labels above are not yet approved.
+
+### Context for build agents
+
+- Supply the complete LVB4 quiz decision chain: separate accuracy/coverage; checked answer choices and optional self-reviewed reflections; practice-only hints; skipped responses unassessed; focused phone questions; explanations at the end. Pair the historical phone Learn image/measurements from the preceding entry with the selected interface hierarchy/state checklist. They provide context, not acceptance for the new quiz.
+- An eventual tracker builder needs reviewed lesson/question associations, named score populations and explicit aggregation rules, plus source-linked feedback and reader tasks for reaching a topic or research lesson from a score. No UI reference establishes curriculum validity or a scientific finding. Only this notes entry was appended; no product/spec edit, build/test/browser run, service, model or science process occurred.
+
+## LVB4 — domains/topics lead tracker detail
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to which tracker detail should lead. Option 1 was "Domains and topics — recommended, followed by our research." Settled: overall accuracy/coverage summary first, then domain/topic detail, then understanding of our research questions/experiments; all score views remain accessible. The presented broad grouping is Model architecture (how the model works), Engineering (how we change and operate it), Scientific reasoning (how we judge tests/evidence), and Our research (specific questions/experiments). Exact finer taxonomy, lesson bank and source associations still require preparation. Preserve the separate Learn entry ordering and the existing five top-level destinations.
+
+### Open questions
+
+- Next arithmetic preference: equal points per checked question, counting each stable question identity once overall despite multiple topic/research associations (recommended for transparent counts), or extra weight for harder questions, requiring reviewed difficulty labels and a distinct weighted-score definition. Equal-point summaries total correct and assessed eligible responses, not an average of unequal topic percentages. This arithmetic remains a proposal until the operator answers.
+- Routine completion/version defaults from the skip entry remain proposed, including retention of the preceding completed score during an unfinished retake and explicit handling of skipped responses in a completed retake. Question/version identity and overlap between quizzes must be defined before a build brief. Device-local storage capability remains unverified.
+
+### Spec changes proposed
+
+- Add the accepted overall -> domains/topics -> our-research tracker ordering and broad-group definitions to the pending learner assessment contract (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`), with links to reviewed lessons and relevant experiment/paper context. Domain/topic/research scores describe learner responses, never scientific run verdicts (`:16-20`). Arithmetic is still pending; exact mappings extend the context model explicitly (`:983-1023`). Phone controls/counts/readability retain §4A (`:357-373`). Spec unchanged.
+
+### Context for build agents
+
+- Supply the accepted hierarchy alongside question/lesson-to-domain/topic/research associations and applicable source locations. A question may appear in several relevant detail views without being duplicated in the overall population; do not assume domain subtotals form a disjoint partition. Show assessed accuracy and coverage together at each applicable level, with distinct not-assessed and needs-review states.
+- Use the already-selected interface hierarchy checklist and historical phone Learn evidence to guide readable summaries and expandable detail. An eventual arithmetic packet must contain a multi-tagged question and differently sized topic populations, with approved expected totals. These are planned examples, not tests run. Only notes were appended; no product/spec edit, build/test/browser, package, model/service or science process occurred.
+
+## LVB4 — equal-point scoring and completion/version rules for review
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to how questions should contribute to the score. Option 1 was "Equal points — recommended: every scored question counts equally." Settled: equal points per eligible checked question; count each question once overall despite several topic/research associations. Accuracy is correct responses divided by assessed responses, with the counts visible; coverage separately reports assessed questions against the applicable reviewed bank. Aggregate response counts rather than averaging differently sized topic percentages. Practice, optional reflections and skipped responses do not become scored correct/incorrect answers. These are learner scores, not comprehensive expertise or scientific acceptance.
+
+### Open questions
+
+- Proposed completion/version rules presented for a single design review: (1) an unfinished retake leaves the preceding completed score displayed and is labelled in progress; (2) explicitly finishing a retake makes that latest completed attempt current, including its skips as unassessed, while previous answers remain historical; (3) when a scored question changes, its preceding version's answer remains history and the new version needs reassessment. Unchanged reviewed questions retain their identity and applicable scores. These rules make the settled latest-completed-attempt rule explicit; they are not yet separately approved.
+- A completed quiz with only skips has no assessed responses and displays "Not assessed yet" with visible skip counts, not 0% accuracy. Bank version/population labels must explain changes in coverage denominators. Exact question identity/quiz ownership and overlap resolution require a scoped contract; never count duplicate appearances as new overall questions or silently choose among conflicting current answers.
+- The actual reviewed curriculum, question keys, source associations, question/version bank and local saving remain preparation dependencies. No device storage capability or learner behavior has been verified.
+
+### Spec changes proposed
+
+- Add approved equal-point/count-based score arithmetic, non-duplicated overall questions and explicit accuracy/coverage populations to the pending Learn assessment contract (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`). The proposed completion/version rules refine this new personal-state contract, separate from scientific record authority (`:16-20`, `:31-32`) and source-bound run cards (`:662-676`). Count labels, phone/readability and selection continuity retain §4A (`:348-373`). Binding spec unchanged.
+
+### Context for build agents
+
+- Provide an arithmetic worksheet with eligible correct/assessed/bank counts, equal points, multiple associations and uneven topic sizes. Include the original illustrative 8 correct/10 assessed/30 reviewed-bank questions and a multi-tagged question counted once overall. Topic/domain/research counts can overlap; overall totals must use unique eligible questions.
+- A later completion/version packet must include an unfinished retake, completed retake with skips, all-skipped completion, changed versus unchanged questions and a bank denominator change. Retain prior attempts as history and clear current-versus-historical labels. These are planned cases, not tests performed. Only this notes entry was appended; no product/spec edit, build/test/browser run, model/service or science process occurred.
+
+## LVB4 — completed-attempt and revised-question rules
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to whether the proposed handling rules fit. Option 1 was "Use these rules — recommended." Settled: an unfinished retake retains the preceding completed score and shows In progress; finishing a retake makes its answers current, including skips as unassessed, with prior answers kept as history; a changed question keeps its preceding answer in history and the revised question shows Needs reassessment. Unchanged questions retain their applicable scores. This selects completion/version behavior and does not lift the build hold or verify personal storage.
+
+### Open questions
+
+- The main learner quiz/tracker interaction and score rules are now recorded. Remaining preparation includes reviewed lessons/question keys/feedback, stable versioned question identities, exact domain/topic/research associations and bank populations, experiment/paper source verification, supported persistence/error behavior and eventual phone/theme verification. Handling duplicate appearances of one question across quizzes must follow explicit ownership/current-answer rules consistent with one overall question and latest completed scoring; no conflicting answer selection is established by this discussion.
+- Next discussion choices: (1) finish whole-site navigation and missing-data wording, recommended to connect all journeys; (2) inspect the exact context packets for build agents; (3) refine model-detail recording requirements and historical gaps. Navigation/state defaults remain proposed in LVB3's corresponding entry; original-paper new-tab behavior, pause/return and shared-step switching are already settled and must not be asked again. Selected per-task builder extracts and all granular model/player requirements likewise remain settled.
+- No new reference search is needed to resume these topics. Preserve the existing primary-source table/read allowances; UI references are patterns/checklists, not adopted packages, educational answer keys or scientific data.
+
+### Spec changes proposed
+
+- Add the accepted unfinished/finished-retake and revised-question rules to the pending versioned learner-state contract under Learn (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`). Maintain separate scientific read-only authority (`:16-20`, `:31-32`), explicit score populations and source/context/phone requirements (`:348-373`). Current-versus-historical learner labels extend this contract; they do not reinterpret scientific evidence badges. Binding spec unchanged.
+
+### Context for build agents
+
+- A learner builder receives the complete LVB3/LVB4 chain and reviewed content/version/association inputs, with worked accuracy/coverage and retake examples. Include no-assessment, skips, changed questions, overlapping tags and failed save cases. Feedback stays at quiz end; hints stay in practice; optional reflections stay unscored; guided tutoring stays future work. A builder must not silently restore a skipped prior answer into a current completed retake.
+- The relevant interface/chart extracts and historical phone evidence can guide presentation, but educational content validity and source associations need separate preparation. MAESTRO still needs explicit spec amendments and scoped briefs before any build. Only this notes entry was appended; no product/spec edit, build/test/browser run, install, model/service or science process occurred.
+
+## LVB4 — whole-site navigation continuation
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to which topic to discuss next. Option 1 was "Navigation and missing-data wording — recommended." Continue that unfinished whole-site design topic. This selects the agenda, not blanket approval of earlier navigation/state defaults. Previously approved original-paper new-tab links, reading pauses/same-position return, player mode continuity and non-obstructing phone layout remain settled.
+
+### Open questions
+
+- Proposed refinement: visible return links name the origin, for example "Back to quiz review", "Back to this input" or "Back to comparison", alongside the existing location trail. Following an internal cross-journey link opens the named destination; the return action restores the originating selection, paused position and reading/answer context as applicable. An explicitly different target experiment is named before selection changes. No silent change to another run or reset to the start.
+- Next preference: named return links for cross-journey navigation (recommended for clarity), or reliance on browser Back and the location trail. Both preserve the already-approved paused return and selection behavior; the question is the visibility/wording of the return action, not whether state is retained. Source details and original external paper links keep their existing approved behavior.
+- Proposed link/open defaults remain pending: a shared player link opens paused; unavailable run/input/step is identified and available alternatives offered explicitly. Exact state/history fields and supported return/scroll behavior require a later contract and verification. Missing-data wording is the next topic within this agenda.
+
+### Spec changes proposed
+
+- Clarify origin-named return links and expanded learning/player origin state under §4A (`docs/LABVIZ_V2_SPEC.md:348-355`) and §7.6 (`:919-931`). The current selection contract carries run/line/compare; learner card/review, input/component/mode/step/zoom and origin position are explicit proposed extensions. Do not change the existing five destinations or reopen settled pause/return choices. Binding spec unchanged.
+
+### Context for build agents
+
+- Current spec inspected: `docs/LABVIZ_V2_SPEC.md:348-355` provides the location/context/source frame and cross-view run selection; `:578-587` provides refused-comparison and missing-linked-evaluation cases; `:662-676` provides sourced/derived/missing leaf values and source hashes. A navigation builder needs actual target/origin identities, readable destination names and source-state cases, not fabricated links.
+- Integration review `results/dashboard_integration_review_20261011/uiskills_report.md:19`, `:28-29` supports a scoped text-only hierarchy/focus/state checklist, with script/secondary-source safety unverified. Preserve its previously selected primary excerpts and exclusions rather than installing a skill. The historical Learn phone screenshot and measurements in the preceding entries illustrate available layout/context space; they do not prove new return behavior. Future reader task: quiz review -> linked experiment/input -> source detail -> same origin review/position, and comparison -> input -> comparison with both run identities retained. No tests/browser/build ran; only this notes entry was appended.
+
+## LVB4 — named return links and distinct data-state wording
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to which navigation style to use. Option 1 was "Named return links — recommended: the destination is clear on screen." Settled: visible origin-named return links alongside the location trail, such as Back to quiz review, Back to this input and Back to comparison. Returning restores the originating context/position and preserves the already-approved paused state and selections. Browser Back remains a supported ordinary navigation action; the selected visible links do not replace its state requirements.
+
+### Open questions
+
+- Proposed distinct messages for review: absent observation -> "Not recorded for this run"; load/parse failure -> "Could not read this data" with a plain reason; ineligible comparison -> "Not comparable" with the mismatch reason; absent scientific judgement -> "Not judged yet"; missing linked explanation -> "Explanation not linked yet"; failed learner save -> "Progress could not be saved". Draft explanatory content is a separate reviewed-status state, not an absent observation or an unjudged experiment. These words remain proposed until the operator answers.
+- Recommended placement: the relevant message beside the affected value/section, with reason/source details reachable; add a clear whole-view notice if the entire view cannot load. Show the data's recorded date where activity freshness matters. A measured zero stays zero; old historical evidence does not become invalid merely because it is old. Unknown activity never becomes idle/no work/unaffected. Missing lesson/key/paper association and unresolved navigation retain their own preparation/selection messages.
+- Next wording review preference: use these plain-language messages (recommended), or revise specific wording while preserving all distinctions. Link-open paused defaults and exact origin/history fields remain pending; no silent selection substitution is proposed.
+
+### Spec changes proposed
+
+- Add the accepted origin-named returns to §4A selection/navigation (`docs/LABVIZ_V2_SPEC.md:348-355`) and the pending learning/player origin-state amendments (`:919-931`). Define distinct absent/read-failure/comparison/judgement/explanation/save states under existing missing rules (`:32`, `:664-670`), comparison/evaluation requirements (`:578-587`) and the new learner contract (`:346`, `:1058`). Exact new wording/placement is pending. Binding spec unchanged.
+
+### Context for build agents
+
+- Supply source-state examples independently: absent field in otherwise readable source, unreadable/malformed source, eligible/ineligible comparison, missing judgement, missing linked explanation, draft explanation, failed personal saving and dated activity. Preserve source identity and visible reasons. Do not infer an absent scientific verdict merely from an absent plain-language evaluation link.
+- Borrow the already-selected interface-design complete-state checklist, grounded in the current spec and historical phone Learn context. `results/dashboard_integration_review_20261011/SUMMARY.md:26-28`, `:55-56` separates honest failure/phone checks from unverified LabViz appearance; terminal findings do not prove a LabViz runtime bug. Future reader tasks must distinguish these states rather than merely find a generic empty message. No tests/browser/build or external source/model/service ran; only this notes entry was appended.
+
+## LVB4 — data-state wording accepted; continuation checkpoint
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to whether to use the proposed messages. Option 1 was "Yes — recommended: retain these distinctions and wording." Settled: Not recorded for this run (absent measurement); Could not read this data (read/parse failure); Not comparable (refused comparison); Not judged yet (absent scientific judgement); Explanation not linked yet (absent linked explanation); Progress could not be saved (failed personal saving). Place the relevant message beside the affected item, retain accessible reason/source details and give a prominent notice for whole-view failure. Absence of an explanation does not establish absence of scientific judgement. Draft content remains a distinct reviewed-status case.
+- All preceding LVB4 operator choices remain settled. This checkpoint grants no building, specification edit, scientific acceptance, package adoption or installation authority.
+
+### Open questions
+
+- Recommended exact next topic for a fresh successor: make the Learn/quiz/tracker build-agent context packet concrete, using the now-settled reader journey and rules plus the previously selected task-specific reference approach. Present what material a builder receives and what separate reviewed-content preparation supplies; do not ask again whether to use task-specific extracts or reopen any approved learner/navigation decision.
+- Outstanding dependencies: reviewed lessons/questions/keys/feedback and paper sections/associations; finer taxonomy and reviewed-bank populations; question identity/ownership for overlapping quizzes; source-bound model topology/input/component coverage; future capture feasibility; local storage/error behavior and eventual phone/theme/player acceptance. Shared-link paused entry/unresolvable selection behavior, initial theme/mode/exploration defaults and end-of-sequence behavior remain proposed where not separately selected.
+
+### Spec changes proposed
+
+- Add the accepted distinct data-state wording/placement under existing missing and comparison/evaluation rules (`docs/LABVIZ_V2_SPEC.md:32`, `:578-587`, `:664-670`) and the pending learner-state contract (`:346`, `:1058`). Keep scientific authority/read-only boundaries (`:16-20`, `:31-32`) and §4A readability/source/navigation rules (`:348-373`). All accumulated amendments remain proposals against the unchanged binding spec; MAESTRO must freeze explicit amendments and scoped briefs before building.
+
+### Context for build agents
+
+- Supply all six distinct state cases and whole-view failure, with actual reason/source identity rather than a generic empty state. Preserve measured zero, dated static activity, historical evidence validity and the separation between judgement, explanation and draft review. Borrow the selected interface state checklist as text, with existing spec rules prevailing. No trial, runtime check or scientific acceptance occurred.
+- Continuation is saved separately in `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff4.md`. This is a proactive learning/navigation arc checkpoint; no numerical context reading is available in the session messages and no percentage is asserted. Start no further piece in LVB4. Binding rule survives: watch Context N% left at the end of every reply before asking anything; start new work only at >=60% left; at <=45% or any Context compacted, tell the operator, finish the current point and write a separate handoff; at <=40%, stop starting work. Never put the handoff inside notes or approach full-window compaction. Restate the rule in every successor/team handoff.
