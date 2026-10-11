@@ -1,0 +1,3182 @@
+{
+  "fixture_version": 1,
+  "contract": "dashboard_host_status_record_v2.md",
+  "status": "PREDETERMINED_UNRUN_READER_OUTCOMES",
+  "source_claims": [
+    "astra_r4d_verdict.md:7-17",
+    "dashboard_host_status_record_v1.md:17-39,45-51,136-155",
+    "tools/dashboard_queue.py:541-549"
+  ],
+  "fixture_key_utf8": "R4D2-public-fixture-key-not-for-host-use",
+  "serialization": {
+    "encoding": "UTF-8",
+    "sort_keys": true,
+    "separators": [
+      ",",
+      ":"
+    ],
+    "ensure_ascii": false,
+    "allow_nan": false,
+    "terminal_newline": false
+  },
+  "recipe_rules": {
+    "base_selection": "base_records[input.base] and base_envelopes[input.base]",
+    "record": "Sequential RFC-6901 pointer edits to deep copy; add creates object member, replace/remove require existing target; canonical serialize and HMAC AFTER edits.",
+    "envelope": "Sequential pointer edits to literal signed base envelope; canonical serialize envelope, never resign.",
+    "raw": "Canonical base envelope bytes then raw_transform; append ASCII spaces (byte 0x20) to exact total_bytes; replace_utf8 replaces entire response.",
+    "record_raw": "Canonical base record bytes; prefix_duplicate_key inserts literal JSON member after opening brace followed by comma; sign those exact bytes without reparsing.",
+    "context": "Named trusted test prerequisites, not wire fields. Integrity and transport labels are scenario facts, not real commissioning evidence. Restart reloads same state/pin; missing/corrupt never initializes.",
+    "scope": "Record refusal invalidates source feed; named component refusal leaves others independently accepted; ACCEPT preserves historical/unavailable states.",
+    "acceptance": "Predetermined not measured. Literal base envelopes carry fixture-key signatures, never host credentials or live receipts.",
+    "verification_limit": "Authoring checks may parse JSON, decode literal base envelopes and check fixture HMACs/recipes; no proposed dashboard reader, host controls, classifier or collector has been executed."
+  },
+  "base_records": {
+    "m3": {
+      "schema_version": 2,
+      "source_host": {
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "label": "Fixture m3",
+        "platform": "macos-arm64",
+        "boot_id": "0000000b-0000-0000-0000-00000000000b"
+      },
+      "collector": {
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "generation_number": 42,
+        "pid": 9001,
+        "started_at": "2026-10-11T11:50:00.000Z",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      "sequence": 10,
+      "source_observed_at": "2026-10-11T12:00:20.000Z",
+      "writer_at": "2026-10-11T12:00:20.100Z",
+      "views": {
+        "m3_science_maestro": {
+          "state": "OWNED",
+          "components": {
+            "science": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "state": "RUNS_OBSERVED",
+                "runs": [
+                  {
+                    "identity_state": "IDENTIFIED",
+                    "subject": {
+                      "kind": "RUN",
+                      "id": "fixture-run",
+                      "generation_id": "00000078-0000-0000-0000-000000000078",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                    },
+                    "source_directory": "/tmp/r4d2-fixture/run",
+                    "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+                    "prereg_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+                    "state": "RUNNING",
+                    "process": {
+                      "state": "PRESENT",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                      "pid": 101,
+                      "started_at": "2026-10-11T11:55:00.000Z",
+                      "executable": "/usr/bin/fixture-native-marker",
+                      "command": "/usr/bin/fixture-native-marker fixture-control"
+                    },
+                    "evidence": [
+                      {
+                        "path": "/tmp/r4d2-fixture/run/events.jsonl",
+                        "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+                        "measured_at": "2026-10-11T12:00:19.000Z",
+                        "subject": {
+                          "kind": "RUN",
+                          "id": "fixture-run",
+                          "generation_id": "00000078-0000-0000-0000-000000000078",
+                          "host_id": "00000001-0000-0000-0000-000000000001",
+                          "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "inventory_validated": true,
+                "source_reads_validated": true
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": {
+                    "kind": "RUN",
+                    "id": "fixture-run",
+                    "generation_id": "00000078-0000-0000-0000-000000000078",
+                    "host_id": "00000001-0000-0000-0000-000000000001",
+                    "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                  },
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                },
+                {
+                  "kind": "process_inventory",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/bin/ps -axww -o pid=,ppid=,etime=,command=",
+                  "observation_sequence": 10
+                }
+              ]
+            },
+            "maestro": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "sessions": [
+                  {
+                    "subject": {
+                      "kind": "SESSION",
+                      "id": "session-m3",
+                      "generation_id": "0000006e-0000-0000-0000-00000000006e",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                    },
+                    "name": "codex-r4",
+                    "process": {
+                      "state": "PRESENT",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                      "pid": 101,
+                      "started_at": "2026-10-11T11:55:00.000Z",
+                      "executable": "/usr/bin/fixture-native-marker",
+                      "command": "/usr/bin/fixture-native-marker fixture-control"
+                    },
+                    "activity": {
+                      "state": "BUSY",
+                      "observed_at": "2026-10-11T12:00:20.000Z",
+                      "pane": {
+                        "pane_id": "%1",
+                        "pid": 101,
+                        "dead": false,
+                        "current_command": "fixture-native-marker"
+                      },
+                      "context_left": 60,
+                      "finished": false
+                    },
+                    "recorded_task_id": "task-m3",
+                    "recorded_state": "running"
+                  }
+                ]
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": {
+                    "kind": "SESSION",
+                    "id": "session-m3",
+                    "generation_id": "0000006e-0000-0000-0000-00000000006e",
+                    "host_id": "00000001-0000-0000-0000-000000000001",
+                    "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                  },
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                },
+                {
+                  "kind": "process_inventory",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/bin/ps -axww -o pid=,ppid=,etime=,command=",
+                  "observation_sequence": 10
+                },
+                {
+                  "kind": "session_inventory",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/opt/homebrew/bin/tmux -L default list-sessions -F '#{session_name}'",
+                  "observation_sequence": 10
+                },
+                {
+                  "kind": "pane_capture",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/opt/homebrew/bin/tmux -L default capture-pane -p -t '=codex-r4:'",
+                  "observation_sequence": 10
+                }
+              ]
+            },
+            "queue": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "source_path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/program_state.json",
+                "revision": "fixture-revision-1",
+                "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+                "edited_at": "2026-10-11T12:00:19.000Z",
+                "items": [
+                  {
+                    "subject": {
+                      "kind": "TASK",
+                      "id": "task-m3",
+                      "generation_id": "00000064-0000-0000-0000-000000000064",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                    },
+                    "title": "Fixture task",
+                    "summary": "",
+                    "who": "Fixture owner",
+                    "recorded_state": "running",
+                    "session_name": "codex-r4",
+                    "started_at": "2026-10-11T11:55:00.000Z",
+                    "estimate": {
+                      "low_min": 1,
+                      "high_min": 2,
+                      "set_at": "2026-10-11T12:00:19.000Z"
+                    },
+                    "depends_on": [],
+                    "blocked_by": [],
+                    "needs_from_you": [],
+                    "notes": []
+                  }
+                ],
+                "sessions": [
+                  {
+                    "subject": {
+                      "kind": "SESSION",
+                      "id": "session-m3",
+                      "generation_id": "0000006e-0000-0000-0000-00000000006e",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                    },
+                    "name": "codex-r4",
+                    "process": {
+                      "state": "PRESENT",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                      "pid": 101,
+                      "started_at": "2026-10-11T11:55:00.000Z",
+                      "executable": "/usr/bin/fixture-native-marker",
+                      "command": "/usr/bin/fixture-native-marker fixture-control"
+                    },
+                    "activity": {
+                      "state": "BUSY",
+                      "observed_at": "2026-10-11T12:00:20.000Z",
+                      "pane": {
+                        "pane_id": "%1",
+                        "pid": 101,
+                        "dead": false,
+                        "current_command": "fixture-native-marker"
+                      },
+                      "context_left": 60,
+                      "finished": false
+                    },
+                    "recorded_task_id": "task-m3",
+                    "recorded_state": "running"
+                  }
+                ],
+                "pending_decisions": []
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": {
+                    "kind": "TASK",
+                    "id": "task-m3",
+                    "generation_id": "00000064-0000-0000-0000-000000000064",
+                    "host_id": "00000001-0000-0000-0000-000000000001",
+                    "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                  },
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                },
+                {
+                  "kind": "file",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": {
+                    "kind": "SESSION",
+                    "id": "session-m3",
+                    "generation_id": "0000006e-0000-0000-0000-00000000006e",
+                    "host_id": "00000001-0000-0000-0000-000000000001",
+                    "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                  },
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                },
+                {
+                  "kind": "process_inventory",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/bin/ps -axww -o pid=,ppid=,etime=,command=",
+                  "observation_sequence": 10
+                },
+                {
+                  "kind": "session_inventory",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/opt/homebrew/bin/tmux -L default list-sessions -F '#{session_name}'",
+                  "observation_sequence": 10
+                },
+                {
+                  "kind": "pane_capture",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/opt/homebrew/bin/tmux -L default capture-pane -p -t '=codex-r4:'",
+                  "observation_sequence": 10
+                }
+              ]
+            }
+          }
+        },
+        "intel_support": {
+          "state": "NOT_OWNED"
+        },
+        "storage_transfers": {
+          "state": "OWNED",
+          "components": {
+            "disks": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "entries": [
+                  {
+                    "disk_id": "disk-m3",
+                    "physical_id": "physical-m3",
+                    "host_id": "00000001-0000-0000-0000-000000000001",
+                    "path": "/tmp/r4d2-fixture",
+                    "measured_at": "2026-10-11T12:00:20.000Z",
+                    "total_bytes": 100000000000,
+                    "free_bytes": 70000000000,
+                    "used_bytes": 30000000000
+                  }
+                ]
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                }
+              ]
+            },
+            "folder_sizes": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "entries": [
+                  {
+                    "state": "COMPLETE",
+                    "path": "/tmp/r4d2-fixture/run",
+                    "measurement": {
+                      "measured_at": "2026-10-11T12:00:19.000Z",
+                      "bytes": 8192,
+                      "physical_id": "physical-m3",
+                      "coverage": "COMPLETE",
+                      "receipt_path": "/tmp/r4d2-fixture/size.json",
+                      "receipt_sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                    }
+                  }
+                ],
+                "scan_state": "IDLE",
+                "errors": []
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                }
+              ]
+            },
+            "transfers": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "jobs": [
+                  {
+                    "subject": {
+                      "kind": "TRANSFER",
+                      "id": "transfer-m3",
+                      "generation_id": "0000008c-0000-0000-0000-00000000008c",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                    },
+                    "source_subject": {
+                      "kind": "RUN",
+                      "id": "fixture-run",
+                      "generation_id": "00000078-0000-0000-0000-000000000078",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                    },
+                    "source_manifest": {
+                      "path": "/tmp/r4d2-fixture/source-manifest.json",
+                      "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+                      "measured_at": "2026-10-11T12:00:19.000Z",
+                      "subject": {
+                        "kind": "RUN",
+                        "id": "fixture-run",
+                        "generation_id": "00000078-0000-0000-0000-000000000078",
+                        "host_id": "00000001-0000-0000-0000-000000000001",
+                        "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                      }
+                    },
+                    "source_host": {
+                      "role": "m3",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                      "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                      "collector_generation_number": 42
+                    },
+                    "source_path": "/tmp/r4d2-fixture/run",
+                    "destination_host_id": "00000002-0000-0000-0000-000000000002",
+                    "destination_path": "/tmp/r4d2-fixture/copy",
+                    "stage": "COPYING",
+                    "bytes_copied": 4096,
+                    "bytes_total": 8192,
+                    "source_observation": {
+                      "state": "CURRENT",
+                      "origin": {
+                        "role": "m3",
+                        "host_id": "00000001-0000-0000-0000-000000000001",
+                        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                        "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                        "collector_generation_number": 42
+                      },
+                      "observed_at": "2026-10-11T12:00:20.000Z",
+                      "stage": "COPYING",
+                      "bytes_observed": 4096
+                    },
+                    "destination_observation": {
+                      "state": "CURRENT",
+                      "origin": {
+                        "role": "intel",
+                        "host_id": "00000002-0000-0000-0000-000000000002",
+                        "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                        "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                        "collector_generation_number": 7
+                      },
+                      "observed_at": "2026-10-11T12:00:20.000Z",
+                      "stage": "COPYING",
+                      "bytes_observed": 4096
+                    },
+                    "checkpoint": {
+                      "path": "/tmp/r4d2-fixture/checkpoint-m3.json",
+                      "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+                      "measured_at": "2026-10-11T12:00:19.000Z",
+                      "subject": {
+                        "kind": "TRANSFER",
+                        "id": "transfer-m3",
+                        "generation_id": "0000008c-0000-0000-0000-00000000008c",
+                        "host_id": "00000001-0000-0000-0000-000000000001",
+                        "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                      }
+                    },
+                    "coverage": {
+                      "state": "PARTIAL",
+                      "covered_count": 1,
+                      "total_count": 2,
+                      "receipt": {
+                        "path": "/tmp/r4d2-fixture/coverage-m3.json",
+                        "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+                        "measured_at": "2026-10-11T12:00:19.000Z",
+                        "subject": {
+                          "kind": "TRANSFER",
+                          "id": "transfer-m3",
+                          "generation_id": "0000008c-0000-0000-0000-00000000008c",
+                          "host_id": "00000001-0000-0000-0000-000000000001",
+                          "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                        }
+                      }
+                    },
+                    "verification": null,
+                    "pending_decisions": []
+                  }
+                ]
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": {
+                    "kind": "TRANSFER",
+                    "id": "transfer-m3",
+                    "generation_id": "0000008c-0000-0000-0000-00000000008c",
+                    "host_id": "00000001-0000-0000-0000-000000000001",
+                    "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                  },
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                }
+              ]
+            },
+            "warnings": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "entries": [],
+                "r2_summary": {
+                  "state": "UNAVAILABLE",
+                  "reason": "No independently published advisory summary"
+                }
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                  "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                  "collector_generation_number": 42,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "intel": {
+      "schema_version": 2,
+      "source_host": {
+        "role": "intel",
+        "host_id": "00000002-0000-0000-0000-000000000002",
+        "label": "Fixture intel",
+        "platform": "macos-x86_64",
+        "boot_id": "0000000c-0000-0000-0000-00000000000c"
+      },
+      "collector": {
+        "generation_id": "00000007-0000-0000-0000-000000000007",
+        "generation_number": 7,
+        "pid": 9002,
+        "started_at": "2026-10-11T11:50:00.000Z",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      "sequence": 10,
+      "source_observed_at": "2026-10-11T12:00:20.000Z",
+      "writer_at": "2026-10-11T12:00:20.100Z",
+      "views": {
+        "m3_science_maestro": {
+          "state": "NOT_OWNED"
+        },
+        "intel_support": {
+          "state": "OWNED",
+          "components": {
+            "builders": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "jobs": [
+                  {
+                    "task": {
+                      "subject": {
+                        "kind": "TASK",
+                        "id": "task-intel",
+                        "generation_id": "00000065-0000-0000-0000-000000000065",
+                        "host_id": "00000002-0000-0000-0000-000000000002",
+                        "boot_id": "0000000c-0000-0000-0000-00000000000c"
+                      },
+                      "title": "Fixture task",
+                      "summary": "",
+                      "who": "Fixture owner",
+                      "recorded_state": "running",
+                      "session_name": "codex-intel",
+                      "started_at": "2026-10-11T11:55:00.000Z",
+                      "estimate": {
+                        "low_min": 1,
+                        "high_min": 2,
+                        "set_at": "2026-10-11T12:00:19.000Z"
+                      },
+                      "depends_on": [],
+                      "blocked_by": [],
+                      "needs_from_you": [],
+                      "notes": []
+                    },
+                    "process": {
+                      "state": "PRESENT",
+                      "host_id": "00000002-0000-0000-0000-000000000002",
+                      "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                      "pid": 201,
+                      "started_at": "2026-10-11T11:55:00.000Z",
+                      "executable": "/usr/bin/fixture-native-marker",
+                      "command": "/usr/bin/fixture-native-marker fixture-control"
+                    },
+                    "activity": {
+                      "state": "BUSY",
+                      "observed_at": "2026-10-11T12:00:20.000Z",
+                      "pane": {
+                        "pane_id": "%1",
+                        "pid": 201,
+                        "dead": false,
+                        "current_command": "fixture-native-marker"
+                      },
+                      "context_left": 60,
+                      "finished": false
+                    },
+                    "base_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+                    "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+                    "package_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+                    "stage": "BUILDING",
+                    "receipts": []
+                  }
+                ]
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": {
+                    "kind": "TASK",
+                    "id": "task-intel",
+                    "generation_id": "00000065-0000-0000-0000-000000000065",
+                    "host_id": "00000002-0000-0000-0000-000000000002",
+                    "boot_id": "0000000c-0000-0000-0000-00000000000c"
+                  },
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                },
+                {
+                  "kind": "process_inventory",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/bin/ps -axww -o pid=,ppid=,etime=,command=",
+                  "observation_sequence": 10
+                },
+                {
+                  "kind": "session_inventory",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/opt/homebrew/bin/tmux -L default list-sessions -F '#{session_name}'",
+                  "observation_sequence": 10
+                },
+                {
+                  "kind": "pane_capture",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/opt/homebrew/bin/tmux -L default capture-pane -p -t '=codex-intel:'",
+                  "observation_sequence": 10
+                }
+              ]
+            },
+            "research_engine": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "state": "READY",
+                "subject": {
+                  "kind": "RE_PUBLICATION",
+                  "id": "pub-fixture-1",
+                  "generation_id": "00000082-0000-0000-0000-000000000082",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c"
+                },
+                "session_name": "codex-intel",
+                "process": {
+                  "state": "PRESENT",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "pid": 202,
+                  "started_at": "2026-10-11T11:55:00.000Z",
+                  "executable": "/usr/bin/fixture-native-marker",
+                  "command": "/usr/bin/fixture-native-marker fixture-control"
+                },
+                "stores": [
+                  {
+                    "role": "PRIMARY",
+                    "store_id": "store-primary",
+                    "path": "/tmp/r4d2-fixture/primary",
+                    "publication_id": "pub-fixture-1",
+                    "source_generation_id": "00000082-0000-0000-0000-000000000082",
+                    "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+                  },
+                  {
+                    "role": "SECONDARY",
+                    "store_id": "store-secondary",
+                    "path": "/tmp/r4d2-fixture/secondary",
+                    "publication_id": "pub-fixture-1",
+                    "source_generation_id": "00000082-0000-0000-0000-000000000082",
+                    "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+                  }
+                ],
+                "publication_id": "pub-fixture-1",
+                "source_generation_id": "00000082-0000-0000-0000-000000000082",
+                "source_observed_at": "2026-10-11T11:56:00.000Z",
+                "coverage": {
+                  "state": "COMPLETE",
+                  "covered_count": 1,
+                  "total_count": 1,
+                  "receipt": {
+                    "path": "/tmp/r4d2-fixture/re-coverage.json",
+                    "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+                    "measured_at": "2026-10-11T12:00:19.000Z",
+                    "subject": {
+                      "kind": "RE_PUBLICATION",
+                      "id": "pub-fixture-1",
+                      "generation_id": "00000082-0000-0000-0000-000000000082",
+                      "host_id": "00000002-0000-0000-0000-000000000002",
+                      "boot_id": "0000000c-0000-0000-0000-00000000000c"
+                    }
+                  }
+                },
+                "health": "HEALTHY",
+                "rss_bytes": 268435456
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": {
+                    "kind": "RE_PUBLICATION",
+                    "id": "pub-fixture-1",
+                    "generation_id": "00000082-0000-0000-0000-000000000082",
+                    "host_id": "00000002-0000-0000-0000-000000000002",
+                    "boot_id": "0000000c-0000-0000-0000-00000000000c"
+                  },
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                },
+                {
+                  "kind": "process_inventory",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/bin/ps -axww -o pid=,ppid=,etime=,command=",
+                  "observation_sequence": 10
+                }
+              ]
+            },
+            "resources": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "measured_at": "2026-10-11T12:00:20.000Z",
+                "processes": [
+                  {
+                    "process": {
+                      "state": "PRESENT",
+                      "host_id": "00000002-0000-0000-0000-000000000002",
+                      "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                      "pid": 201,
+                      "started_at": "2026-10-11T11:55:00.000Z",
+                      "executable": "/usr/bin/fixture-native-marker",
+                      "command": "/usr/bin/fixture-native-marker fixture-control"
+                    },
+                    "role": "BUILDER",
+                    "rss_bytes": 134217728
+                  },
+                  {
+                    "process": {
+                      "state": "PRESENT",
+                      "host_id": "00000002-0000-0000-0000-000000000002",
+                      "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                      "pid": 202,
+                      "started_at": "2026-10-11T11:55:00.000Z",
+                      "executable": "/usr/bin/fixture-native-marker",
+                      "command": "/usr/bin/fixture-native-marker fixture-control"
+                    },
+                    "role": "RE",
+                    "rss_bytes": 268435456
+                  },
+                  {
+                    "process": {
+                      "state": "PRESENT",
+                      "host_id": "00000002-0000-0000-0000-000000000002",
+                      "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                      "pid": 203,
+                      "started_at": "2026-10-11T11:55:00.000Z",
+                      "executable": "/usr/bin/fixture-native-marker",
+                      "command": "/usr/bin/fixture-native-marker fixture-control"
+                    },
+                    "role": "NEO4J",
+                    "rss_bytes": 134217728
+                  },
+                  {
+                    "process": {
+                      "state": "PRESENT",
+                      "host_id": "00000002-0000-0000-0000-000000000002",
+                      "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                      "pid": 204,
+                      "started_at": "2026-10-11T11:55:00.000Z",
+                      "executable": "/usr/bin/fixture-native-marker",
+                      "command": "/usr/bin/fixture-native-marker fixture-control"
+                    },
+                    "role": "DASHBOARD",
+                    "rss_bytes": 67108864
+                  }
+                ],
+                "support_rss_bytes": 603979776,
+                "dashboard_rss_bytes": 67108864,
+                "re_rss_bytes": 402653184,
+                "neo4j_rss_bytes": 134217728,
+                "os_available_bytes": 8589934592,
+                "user_available_bytes": 8589934592,
+                "pressure": "NORMAL"
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                },
+                {
+                  "kind": "process_inventory",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "command": "/bin/ps -axww -o pid=,ppid=,etime=,command=",
+                  "observation_sequence": 10
+                }
+              ]
+            }
+          }
+        },
+        "storage_transfers": {
+          "state": "OWNED",
+          "components": {
+            "disks": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "entries": [
+                  {
+                    "disk_id": "disk-intel",
+                    "physical_id": "physical-intel",
+                    "host_id": "00000002-0000-0000-0000-000000000002",
+                    "path": "/tmp/r4d2-fixture",
+                    "measured_at": "2026-10-11T12:00:20.000Z",
+                    "total_bytes": 100000000000,
+                    "free_bytes": 70000000000,
+                    "used_bytes": 30000000000
+                  }
+                ]
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                }
+              ]
+            },
+            "folder_sizes": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "entries": [
+                  {
+                    "state": "COMPLETE",
+                    "path": "/tmp/r4d2-fixture/run",
+                    "measurement": {
+                      "measured_at": "2026-10-11T12:00:19.000Z",
+                      "bytes": 8192,
+                      "physical_id": "physical-intel",
+                      "coverage": "COMPLETE",
+                      "receipt_path": "/tmp/r4d2-fixture/size.json",
+                      "receipt_sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                    }
+                  }
+                ],
+                "scan_state": "IDLE",
+                "errors": []
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                }
+              ]
+            },
+            "transfers": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "jobs": [
+                  {
+                    "subject": {
+                      "kind": "TRANSFER",
+                      "id": "transfer-intel",
+                      "generation_id": "0000008d-0000-0000-0000-00000000008d",
+                      "host_id": "00000002-0000-0000-0000-000000000002",
+                      "boot_id": "0000000c-0000-0000-0000-00000000000c"
+                    },
+                    "source_subject": {
+                      "kind": "RUN",
+                      "id": "fixture-run",
+                      "generation_id": "00000078-0000-0000-0000-000000000078",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                    },
+                    "source_manifest": {
+                      "path": "/tmp/r4d2-fixture/source-manifest.json",
+                      "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+                      "measured_at": "2026-10-11T12:00:19.000Z",
+                      "subject": {
+                        "kind": "RUN",
+                        "id": "fixture-run",
+                        "generation_id": "00000078-0000-0000-0000-000000000078",
+                        "host_id": "00000001-0000-0000-0000-000000000001",
+                        "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                      }
+                    },
+                    "source_host": {
+                      "role": "m3",
+                      "host_id": "00000001-0000-0000-0000-000000000001",
+                      "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                      "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                      "collector_generation_number": 42
+                    },
+                    "source_path": "/tmp/r4d2-fixture/run",
+                    "destination_host_id": "00000002-0000-0000-0000-000000000002",
+                    "destination_path": "/tmp/r4d2-fixture/copy",
+                    "stage": "COPYING",
+                    "bytes_copied": 4096,
+                    "bytes_total": 8192,
+                    "source_observation": {
+                      "state": "CURRENT",
+                      "origin": {
+                        "role": "m3",
+                        "host_id": "00000001-0000-0000-0000-000000000001",
+                        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                        "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                        "collector_generation_number": 42
+                      },
+                      "observed_at": "2026-10-11T12:00:20.000Z",
+                      "stage": "COPYING",
+                      "bytes_observed": 4096
+                    },
+                    "destination_observation": {
+                      "state": "CURRENT",
+                      "origin": {
+                        "role": "intel",
+                        "host_id": "00000002-0000-0000-0000-000000000002",
+                        "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                        "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                        "collector_generation_number": 7
+                      },
+                      "observed_at": "2026-10-11T12:00:20.000Z",
+                      "stage": "COPYING",
+                      "bytes_observed": 4096
+                    },
+                    "checkpoint": {
+                      "path": "/tmp/r4d2-fixture/checkpoint-intel.json",
+                      "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+                      "measured_at": "2026-10-11T12:00:19.000Z",
+                      "subject": {
+                        "kind": "TRANSFER",
+                        "id": "transfer-intel",
+                        "generation_id": "0000008d-0000-0000-0000-00000000008d",
+                        "host_id": "00000002-0000-0000-0000-000000000002",
+                        "boot_id": "0000000c-0000-0000-0000-00000000000c"
+                      }
+                    },
+                    "coverage": {
+                      "state": "PARTIAL",
+                      "covered_count": 1,
+                      "total_count": 2,
+                      "receipt": {
+                        "path": "/tmp/r4d2-fixture/coverage-intel.json",
+                        "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+                        "measured_at": "2026-10-11T12:00:19.000Z",
+                        "subject": {
+                          "kind": "TRANSFER",
+                          "id": "transfer-intel",
+                          "generation_id": "0000008d-0000-0000-0000-00000000008d",
+                          "host_id": "00000002-0000-0000-0000-000000000002",
+                          "boot_id": "0000000c-0000-0000-0000-00000000000c"
+                        }
+                      }
+                    },
+                    "verification": null,
+                    "pending_decisions": []
+                  }
+                ]
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": {
+                    "kind": "TRANSFER",
+                    "id": "transfer-intel",
+                    "generation_id": "0000008d-0000-0000-0000-00000000008d",
+                    "host_id": "00000002-0000-0000-0000-000000000002",
+                    "boot_id": "0000000c-0000-0000-0000-00000000000c"
+                  },
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                }
+              ]
+            },
+            "warnings": {
+              "state": "CURRENT",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "payload": {
+                "entries": [],
+                "r2_summary": {
+                  "state": "UNAVAILABLE",
+                  "reason": "No independently published advisory summary"
+                }
+              },
+              "provenance": [
+                {
+                  "kind": "file",
+                  "host_id": "00000002-0000-0000-0000-000000000002",
+                  "boot_id": "0000000c-0000-0000-0000-00000000000c",
+                  "collector_generation_id": "00000007-0000-0000-0000-000000000007",
+                  "collector_generation_number": 7,
+                  "observed_at": "2026-10-11T12:00:20.000Z",
+                  "subject": null,
+                  "path": "/tmp/r4d2-fixture/authority.json",
+                  "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "base_envelopes": {
+    "m3": {
+      "envelope_version": 1,
+      "record_utf8_b64": "eyJjb2xsZWN0b3IiOnsiZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDJhLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAyYSIsImdlbmVyYXRpb25fbnVtYmVyIjo0MiwicGlkIjo5MDAxLCJwcm9maWxlX3NoYTI1NiI6IjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIiLCJzb3VyY2Vfc2hhMjU2IjoiMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMSIsInN0YXJ0ZWRfYXQiOiIyMDI2LTEwLTExVDExOjUwOjAwLjAwMFoifSwic2NoZW1hX3ZlcnNpb24iOjIsInNlcXVlbmNlIjoxMCwic291cmNlX2hvc3QiOnsiYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJsYWJlbCI6IkZpeHR1cmUgbTMiLCJwbGF0Zm9ybSI6Im1hY29zLWFybTY0Iiwicm9sZSI6Im0zIn0sInNvdXJjZV9vYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInZpZXdzIjp7ImludGVsX3N1cHBvcnQiOnsic3RhdGUiOiJOT1RfT1dORUQifSwibTNfc2NpZW5jZV9tYWVzdHJvIjp7ImNvbXBvbmVudHMiOnsibWFlc3RybyI6eyJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBheWxvYWQiOnsic2Vzc2lvbnMiOlt7ImFjdGl2aXR5Ijp7ImNvbnRleHRfbGVmdCI6NjAsImZpbmlzaGVkIjpmYWxzZSwib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJwYW5lIjp7ImN1cnJlbnRfY29tbWFuZCI6ImZpeHR1cmUtbmF0aXZlLW1hcmtlciIsImRlYWQiOmZhbHNlLCJwYW5lX2lkIjoiJTEiLCJwaWQiOjEwMX0sInN0YXRlIjoiQlVTWSJ9LCJuYW1lIjoiY29kZXgtcjQiLCJwcm9jZXNzIjp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJjb21tYW5kIjoiL3Vzci9iaW4vZml4dHVyZS1uYXRpdmUtbWFya2VyIGZpeHR1cmUtY29udHJvbCIsImV4ZWN1dGFibGUiOiIvdXNyL2Jpbi9maXh0dXJlLW5hdGl2ZS1tYXJrZXIiLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwicGlkIjoxMDEsInN0YXJ0ZWRfYXQiOiIyMDI2LTEwLTExVDExOjU1OjAwLjAwMFoiLCJzdGF0ZSI6IlBSRVNFTlQifSwicmVjb3JkZWRfc3RhdGUiOiJydW5uaW5nIiwicmVjb3JkZWRfdGFza19pZCI6InRhc2stbTMiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwNmUtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDZlIiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImlkIjoic2Vzc2lvbi1tMyIsImtpbmQiOiJTRVNTSU9OIn19XX0sInByb3ZlbmFuY2UiOlt7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDJhLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAyYSIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX251bWJlciI6NDIsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJraW5kIjoiZmlsZSIsIm9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwicGF0aCI6Ii90bXAvcjRkMi1maXh0dXJlL2F1dGhvcml0eS5qc29uIiwic2hhMjU2IjoiNDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NCIsInN1YmplY3QiOnsiYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImdlbmVyYXRpb25faWQiOiIwMDAwMDA2ZS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwNmUiLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwiaWQiOiJzZXNzaW9uLW0zIiwia2luZCI6IlNFU1NJT04ifX0seyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAyYS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMmEiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjQyLCJjb21tYW5kIjoiL2Jpbi9wcyAtYXh3dyAtbyBwaWQ9LHBwaWQ9LGV0aW1lPSxjb21tYW5kPSIsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJraW5kIjoicHJvY2Vzc19pbnZlbnRvcnkiLCJvYnNlcnZhdGlvbl9zZXF1ZW5jZSI6MTAsIm9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwic3ViamVjdCI6bnVsbH0seyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAyYS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMmEiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjQyLCJjb21tYW5kIjoiL29wdC9ob21lYnJldy9iaW4vdG11eCAtTCBkZWZhdWx0IGxpc3Qtc2Vzc2lvbnMgLUYgJyN7c2Vzc2lvbl9uYW1lfSciLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwia2luZCI6InNlc3Npb25faW52ZW50b3J5Iiwib2JzZXJ2YXRpb25fc2VxdWVuY2UiOjEwLCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInN1YmplY3QiOm51bGx9LHsiYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwMmEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDJhIiwiY29sbGVjdG9yX2dlbmVyYXRpb25fbnVtYmVyIjo0MiwiY29tbWFuZCI6Ii9vcHQvaG9tZWJyZXcvYmluL3RtdXggLUwgZGVmYXVsdCBjYXB0dXJlLXBhbmUgLXAgLXQgJz1jb2RleC1yNDonIiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImtpbmQiOiJwYW5lX2NhcHR1cmUiLCJvYnNlcnZhdGlvbl9zZXF1ZW5jZSI6MTAsIm9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwic3ViamVjdCI6bnVsbH1dLCJzdGF0ZSI6IkNVUlJFTlQifSwicXVldWUiOnsib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJwYXlsb2FkIjp7ImVkaXRlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MTkuMDAwWiIsIml0ZW1zIjpbeyJibG9ja2VkX2J5IjpbXSwiZGVwZW5kc19vbiI6W10sImVzdGltYXRlIjp7ImhpZ2hfbWluIjoyLCJsb3dfbWluIjoxLCJzZXRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjE5LjAwMFoifSwibmVlZHNfZnJvbV95b3UiOltdLCJub3RlcyI6W10sInJlY29yZGVkX3N0YXRlIjoicnVubmluZyIsInNlc3Npb25fbmFtZSI6ImNvZGV4LXI0Iiwic3RhcnRlZF9hdCI6IjIwMjYtMTAtMTFUMTE6NTU6MDAuMDAwWiIsInN1YmplY3QiOnsiYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImdlbmVyYXRpb25faWQiOiIwMDAwMDA2NC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwNjQiLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwiaWQiOiJ0YXNrLW0zIiwia2luZCI6IlRBU0sifSwic3VtbWFyeSI6IiIsInRpdGxlIjoiRml4dHVyZSB0YXNrIiwid2hvIjoiRml4dHVyZSBvd25lciJ9XSwicGVuZGluZ19kZWNpc2lvbnMiOltdLCJyZXZpc2lvbiI6ImZpeHR1cmUtcmV2aXNpb24tMSIsInNlc3Npb25zIjpbeyJhY3Rpdml0eSI6eyJjb250ZXh0X2xlZnQiOjYwLCJmaW5pc2hlZCI6ZmFsc2UsIm9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwicGFuZSI6eyJjdXJyZW50X2NvbW1hbmQiOiJmaXh0dXJlLW5hdGl2ZS1tYXJrZXIiLCJkZWFkIjpmYWxzZSwicGFuZV9pZCI6IiUxIiwicGlkIjoxMDF9LCJzdGF0ZSI6IkJVU1kifSwibmFtZSI6ImNvZGV4LXI0IiwicHJvY2VzcyI6eyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiY29tbWFuZCI6Ii91c3IvYmluL2ZpeHR1cmUtbmF0aXZlLW1hcmtlciBmaXh0dXJlLWNvbnRyb2wiLCJleGVjdXRhYmxlIjoiL3Vzci9iaW4vZml4dHVyZS1uYXRpdmUtbWFya2VyIiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsInBpZCI6MTAxLCJzdGFydGVkX2F0IjoiMjAyNi0xMC0xMVQxMTo1NTowMC4wMDBaIiwic3RhdGUiOiJQUkVTRU5UIn0sInJlY29yZGVkX3N0YXRlIjoicnVubmluZyIsInJlY29yZGVkX3Rhc2tfaWQiOiJ0YXNrLW0zIiwic3ViamVjdCI6eyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDZlLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDA2ZSIsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJpZCI6InNlc3Npb24tbTMiLCJraW5kIjoiU0VTU0lPTiJ9fV0sInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzb3VyY2VfcGF0aCI6Ii9Wb2x1bWVzL21lbWl0L2xsbS1kYXRhYmFzZS1wb2MtbWlycm9yL2FyaHVndWxhLXBlcnNpc3RlbnQtbWVtb3J5Ly5jbGF1ZGUvd29ya3RyZWVzL2MxMGstcm91dGUtYS9kb2NzL3Byb2dyYW1fc3RhdGUuanNvbiJ9LCJwcm92ZW5hbmNlIjpbeyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAyYS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMmEiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjQyLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwia2luZCI6ImZpbGUiLCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9hdXRob3JpdHkuanNvbiIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwNjQtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDY0IiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImlkIjoidGFzay1tMyIsImtpbmQiOiJUQVNLIn19LHsiYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwMmEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDJhIiwiY29sbGVjdG9yX2dlbmVyYXRpb25fbnVtYmVyIjo0MiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImtpbmQiOiJmaWxlIiwib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJwYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvYXV0aG9yaXR5Lmpzb24iLCJzaGEyNTYiOiI0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0Iiwic3ViamVjdCI6eyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDZlLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDA2ZSIsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJpZCI6InNlc3Npb24tbTMiLCJraW5kIjoiU0VTU0lPTiJ9fSx7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDJhLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAyYSIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX251bWJlciI6NDIsImNvbW1hbmQiOiIvYmluL3BzIC1heHd3IC1vIHBpZD0scHBpZD0sZXRpbWU9LGNvbW1hbmQ9IiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImtpbmQiOiJwcm9jZXNzX2ludmVudG9yeSIsIm9ic2VydmF0aW9uX3NlcXVlbmNlIjoxMCwib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJzdWJqZWN0IjpudWxsfSx7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDJhLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAyYSIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX251bWJlciI6NDIsImNvbW1hbmQiOiIvb3B0L2hvbWVicmV3L2Jpbi90bXV4IC1MIGRlZmF1bHQgbGlzdC1zZXNzaW9ucyAtRiAnI3tzZXNzaW9uX25hbWV9JyIsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJraW5kIjoic2Vzc2lvbl9pbnZlbnRvcnkiLCJvYnNlcnZhdGlvbl9zZXF1ZW5jZSI6MTAsIm9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwic3ViamVjdCI6bnVsbH0seyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAyYS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMmEiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjQyLCJjb21tYW5kIjoiL29wdC9ob21lYnJldy9iaW4vdG11eCAtTCBkZWZhdWx0IGNhcHR1cmUtcGFuZSAtcCAtdCAnPWNvZGV4LXI0OiciLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwia2luZCI6InBhbmVfY2FwdHVyZSIsIm9ic2VydmF0aW9uX3NlcXVlbmNlIjoxMCwib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJzdWJqZWN0IjpudWxsfV0sInN0YXRlIjoiQ1VSUkVOVCJ9LCJzY2llbmNlIjp7Im9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwicGF5bG9hZCI6eyJpbnZlbnRvcnlfdmFsaWRhdGVkIjp0cnVlLCJydW5zIjpbeyJldmlkZW5jZSI6W3sibWVhc3VyZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjE5LjAwMFoiLCJwYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvcnVuL2V2ZW50cy5qc29ubCIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwNzgtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDc4IiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImlkIjoiZml4dHVyZS1ydW4iLCJraW5kIjoiUlVOIn19XSwiaWRlbnRpdHlfc3RhdGUiOiJJREVOVElGSUVEIiwicHJlcmVnX3NoYTI1NiI6IjU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTUiLCJwcm9jZXNzIjp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJjb21tYW5kIjoiL3Vzci9iaW4vZml4dHVyZS1uYXRpdmUtbWFya2VyIGZpeHR1cmUtY29udHJvbCIsImV4ZWN1dGFibGUiOiIvdXNyL2Jpbi9maXh0dXJlLW5hdGl2ZS1tYXJrZXIiLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwicGlkIjoxMDEsInN0YXJ0ZWRfYXQiOiIyMDI2LTEwLTExVDExOjU1OjAwLjAwMFoiLCJzdGF0ZSI6IlBSRVNFTlQifSwic291cmNlX2RpcmVjdG9yeSI6Ii90bXAvcjRkMi1maXh0dXJlL3J1biIsInNvdXJjZV9zaGEyNTYiOiIxMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExIiwic3RhdGUiOiJSVU5OSU5HIiwic3ViamVjdCI6eyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDc4LTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDA3OCIsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJpZCI6ImZpeHR1cmUtcnVuIiwia2luZCI6IlJVTiJ9fV0sInNvdXJjZV9yZWFkc192YWxpZGF0ZWQiOnRydWUsInN0YXRlIjoiUlVOU19PQlNFUlZFRCJ9LCJwcm92ZW5hbmNlIjpbeyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAyYS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMmEiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjQyLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwia2luZCI6ImZpbGUiLCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9hdXRob3JpdHkuanNvbiIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwNzgtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDc4IiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImlkIjoiZml4dHVyZS1ydW4iLCJraW5kIjoiUlVOIn19LHsiYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwMmEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDJhIiwiY29sbGVjdG9yX2dlbmVyYXRpb25fbnVtYmVyIjo0MiwiY29tbWFuZCI6Ii9iaW4vcHMgLWF4d3cgLW8gcGlkPSxwcGlkPSxldGltZT0sY29tbWFuZD0iLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwia2luZCI6InByb2Nlc3NfaW52ZW50b3J5Iiwib2JzZXJ2YXRpb25fc2VxdWVuY2UiOjEwLCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInN1YmplY3QiOm51bGx9XSwic3RhdGUiOiJDVVJSRU5UIn19LCJzdGF0ZSI6Ik9XTkVEIn0sInN0b3JhZ2VfdHJhbnNmZXJzIjp7ImNvbXBvbmVudHMiOnsiZGlza3MiOnsib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJwYXlsb2FkIjp7ImVudHJpZXMiOlt7ImRpc2tfaWQiOiJkaXNrLW0zIiwiZnJlZV9ieXRlcyI6NzAwMDAwMDAwMDAsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJtZWFzdXJlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBhdGgiOiIvdG1wL3I0ZDItZml4dHVyZSIsInBoeXNpY2FsX2lkIjoicGh5c2ljYWwtbTMiLCJ0b3RhbF9ieXRlcyI6MTAwMDAwMDAwMDAwLCJ1c2VkX2J5dGVzIjozMDAwMDAwMDAwMH1dfSwicHJvdmVuYW5jZSI6W3siYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwMmEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDJhIiwiY29sbGVjdG9yX2dlbmVyYXRpb25fbnVtYmVyIjo0MiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImtpbmQiOiJmaWxlIiwib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJwYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvYXV0aG9yaXR5Lmpzb24iLCJzaGEyNTYiOiI0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0Iiwic3ViamVjdCI6bnVsbH1dLCJzdGF0ZSI6IkNVUlJFTlQifSwiZm9sZGVyX3NpemVzIjp7Im9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwicGF5bG9hZCI6eyJlbnRyaWVzIjpbeyJtZWFzdXJlbWVudCI6eyJieXRlcyI6ODE5MiwiY292ZXJhZ2UiOiJDT01QTEVURSIsIm1lYXN1cmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoxOS4wMDBaIiwicGh5c2ljYWxfaWQiOiJwaHlzaWNhbC1tMyIsInJlY2VpcHRfcGF0aCI6Ii90bXAvcjRkMi1maXh0dXJlL3NpemUuanNvbiIsInJlY2VpcHRfc2hhMjU2IjoiNDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NCJ9LCJwYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvcnVuIiwic3RhdGUiOiJDT01QTEVURSJ9XSwiZXJyb3JzIjpbXSwic2Nhbl9zdGF0ZSI6IklETEUifSwicHJvdmVuYW5jZSI6W3siYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwMmEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDJhIiwiY29sbGVjdG9yX2dlbmVyYXRpb25fbnVtYmVyIjo0MiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImtpbmQiOiJmaWxlIiwib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJwYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvYXV0aG9yaXR5Lmpzb24iLCJzaGEyNTYiOiI0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0Iiwic3ViamVjdCI6bnVsbH1dLCJzdGF0ZSI6IkNVUlJFTlQifSwidHJhbnNmZXJzIjp7Im9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwicGF5bG9hZCI6eyJqb2JzIjpbeyJieXRlc19jb3BpZWQiOjQwOTYsImJ5dGVzX3RvdGFsIjo4MTkyLCJjaGVja3BvaW50Ijp7Im1lYXN1cmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoxOS4wMDBaIiwicGF0aCI6Ii90bXAvcjRkMi1maXh0dXJlL2NoZWNrcG9pbnQtbTMuanNvbiIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwOGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDhjIiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImlkIjoidHJhbnNmZXItbTMiLCJraW5kIjoiVFJBTlNGRVIifX0sImNvdmVyYWdlIjp7ImNvdmVyZWRfY291bnQiOjEsInJlY2VpcHQiOnsibWVhc3VyZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjE5LjAwMFoiLCJwYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvY292ZXJhZ2UtbTMuanNvbiIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwOGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDhjIiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImlkIjoidHJhbnNmZXItbTMiLCJraW5kIjoiVFJBTlNGRVIifX0sInN0YXRlIjoiUEFSVElBTCIsInRvdGFsX2NvdW50IjoyfSwiZGVzdGluYXRpb25faG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImRlc3RpbmF0aW9uX29ic2VydmF0aW9uIjp7ImJ5dGVzX29ic2VydmVkIjo0MDk2LCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsIm9yaWdpbiI6eyJib290X2lkIjoiMDAwMDAwMGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBjIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAwNy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDciLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjcsImhvc3RfaWQiOiIwMDAwMDAwMi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJyb2xlIjoiaW50ZWwifSwic3RhZ2UiOiJDT1BZSU5HIiwic3RhdGUiOiJDVVJSRU5UIn0sImRlc3RpbmF0aW9uX3BhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9jb3B5IiwicGVuZGluZ19kZWNpc2lvbnMiOltdLCJzb3VyY2VfaG9zdCI6eyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAyYS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMmEiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjQyLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwicm9sZSI6Im0zIn0sInNvdXJjZV9tYW5pZmVzdCI6eyJtZWFzdXJlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MTkuMDAwWiIsInBhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9zb3VyY2UtbWFuaWZlc3QuanNvbiIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwNzgtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDc4IiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImlkIjoiZml4dHVyZS1ydW4iLCJraW5kIjoiUlVOIn19LCJzb3VyY2Vfb2JzZXJ2YXRpb24iOnsiYnl0ZXNfb2JzZXJ2ZWQiOjQwOTYsIm9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwib3JpZ2luIjp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDJhLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAyYSIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX251bWJlciI6NDIsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJyb2xlIjoibTMifSwic3RhZ2UiOiJDT1BZSU5HIiwic3RhdGUiOiJDVVJSRU5UIn0sInNvdXJjZV9wYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvcnVuIiwic291cmNlX3N1YmplY3QiOnsiYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImdlbmVyYXRpb25faWQiOiIwMDAwMDA3OC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwNzgiLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwiaWQiOiJmaXh0dXJlLXJ1biIsImtpbmQiOiJSVU4ifSwic3RhZ2UiOiJDT1BZSU5HIiwic3ViamVjdCI6eyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDhjLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDA4YyIsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJpZCI6InRyYW5zZmVyLW0zIiwia2luZCI6IlRSQU5TRkVSIn0sInZlcmlmaWNhdGlvbiI6bnVsbH1dfSwicHJvdmVuYW5jZSI6W3siYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwMmEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDJhIiwiY29sbGVjdG9yX2dlbmVyYXRpb25fbnVtYmVyIjo0MiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImtpbmQiOiJmaWxlIiwib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJwYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvYXV0aG9yaXR5Lmpzb24iLCJzaGEyNTYiOiI0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0Iiwic3ViamVjdCI6eyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDhjLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDA4YyIsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJpZCI6InRyYW5zZmVyLW0zIiwia2luZCI6IlRSQU5TRkVSIn19XSwic3RhdGUiOiJDVVJSRU5UIn0sIndhcm5pbmdzIjp7Im9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwicGF5bG9hZCI6eyJlbnRyaWVzIjpbXSwicjJfc3VtbWFyeSI6eyJyZWFzb24iOiJObyBpbmRlcGVuZGVudGx5IHB1Ymxpc2hlZCBhZHZpc29yeSBzdW1tYXJ5Iiwic3RhdGUiOiJVTkFWQUlMQUJMRSJ9fSwicHJvdmVuYW5jZSI6W3siYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwMmEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDJhIiwiY29sbGVjdG9yX2dlbmVyYXRpb25fbnVtYmVyIjo0MiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImtpbmQiOiJmaWxlIiwib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJwYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvYXV0aG9yaXR5Lmpzb24iLCJzaGEyNTYiOiI0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0Iiwic3ViamVjdCI6bnVsbH1dLCJzdGF0ZSI6IkNVUlJFTlQifX0sInN0YXRlIjoiT1dORUQifX0sIndyaXRlcl9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMTAwWiJ9",
+      "hmac_sha256": "43ded11983873ea6eda3bf22b025e059ca6db376c42a07b4bb8f5db0d7ed90fa"
+    },
+    "intel": {
+      "envelope_version": 1,
+      "record_utf8_b64": "eyJjb2xsZWN0b3IiOnsiZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDA3LTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwNyIsImdlbmVyYXRpb25fbnVtYmVyIjo3LCJwaWQiOjkwMDIsInByb2ZpbGVfc2hhMjU2IjoiMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMyIsInNvdXJjZV9zaGEyNTYiOiIxMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExIiwic3RhcnRlZF9hdCI6IjIwMjYtMTAtMTFUMTE6NTA6MDAuMDAwWiJ9LCJzY2hlbWFfdmVyc2lvbiI6Miwic2VxdWVuY2UiOjEwLCJzb3VyY2VfaG9zdCI6eyJib290X2lkIjoiMDAwMDAwMGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBjIiwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImxhYmVsIjoiRml4dHVyZSBpbnRlbCIsInBsYXRmb3JtIjoibWFjb3MteDg2XzY0Iiwicm9sZSI6ImludGVsIn0sInNvdXJjZV9vYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInZpZXdzIjp7ImludGVsX3N1cHBvcnQiOnsiY29tcG9uZW50cyI6eyJidWlsZGVycyI6eyJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBheWxvYWQiOnsiam9icyI6W3siYWN0aXZpdHkiOnsiY29udGV4dF9sZWZ0Ijo2MCwiZmluaXNoZWQiOmZhbHNlLCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBhbmUiOnsiY3VycmVudF9jb21tYW5kIjoiZml4dHVyZS1uYXRpdmUtbWFya2VyIiwiZGVhZCI6ZmFsc2UsInBhbmVfaWQiOiIlMSIsInBpZCI6MjAxfSwic3RhdGUiOiJCVVNZIn0sImJhc2Vfc2hhMjU2IjoiMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMSIsInBhY2thZ2Vfc2hhMjU2IjoiNjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NiIsInByb2Nlc3MiOnsiYm9vdF9pZCI6IjAwMDAwMDBjLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYyIsImNvbW1hbmQiOiIvdXNyL2Jpbi9maXh0dXJlLW5hdGl2ZS1tYXJrZXIgZml4dHVyZS1jb250cm9sIiwiZXhlY3V0YWJsZSI6Ii91c3IvYmluL2ZpeHR1cmUtbmF0aXZlLW1hcmtlciIsImhvc3RfaWQiOiIwMDAwMDAwMi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJwaWQiOjIwMSwic3RhcnRlZF9hdCI6IjIwMjYtMTAtMTFUMTE6NTU6MDAuMDAwWiIsInN0YXRlIjoiUFJFU0VOVCJ9LCJyZWNlaXB0cyI6W10sInNvdXJjZV9zaGEyNTYiOiIxMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExIiwic3RhZ2UiOiJCVUlMRElORyIsInRhc2siOnsiYmxvY2tlZF9ieSI6W10sImRlcGVuZHNfb24iOltdLCJlc3RpbWF0ZSI6eyJoaWdoX21pbiI6MiwibG93X21pbiI6MSwic2V0X2F0IjoiMjAyNi0xMC0xMVQxMjowMDoxOS4wMDBaIn0sIm5lZWRzX2Zyb21feW91IjpbXSwibm90ZXMiOltdLCJyZWNvcmRlZF9zdGF0ZSI6InJ1bm5pbmciLCJzZXNzaW9uX25hbWUiOiJjb2RleC1pbnRlbCIsInN0YXJ0ZWRfYXQiOiIyMDI2LTEwLTExVDExOjU1OjAwLjAwMFoiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGMiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwNjUtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDY1IiwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImlkIjoidGFzay1pbnRlbCIsImtpbmQiOiJUQVNLIn0sInN1bW1hcnkiOiIiLCJ0aXRsZSI6IkZpeHR1cmUgdGFzayIsIndobyI6IkZpeHR1cmUgb3duZXIifX1dfSwicHJvdmVuYW5jZSI6W3siYm9vdF9pZCI6IjAwMDAwMDBjLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYyIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwMDctMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDA3IiwiY29sbGVjdG9yX2dlbmVyYXRpb25fbnVtYmVyIjo3LCJob3N0X2lkIjoiMDAwMDAwMDItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAyIiwia2luZCI6ImZpbGUiLCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9hdXRob3JpdHkuanNvbiIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGMiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwNjUtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDY1IiwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImlkIjoidGFzay1pbnRlbCIsImtpbmQiOiJUQVNLIn19LHsiYm9vdF9pZCI6IjAwMDAwMDBjLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYyIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwMDctMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDA3IiwiY29sbGVjdG9yX2dlbmVyYXRpb25fbnVtYmVyIjo3LCJjb21tYW5kIjoiL2Jpbi9wcyAtYXh3dyAtbyBwaWQ9LHBwaWQ9LGV0aW1lPSxjb21tYW5kPSIsImhvc3RfaWQiOiIwMDAwMDAwMi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJraW5kIjoicHJvY2Vzc19pbnZlbnRvcnkiLCJvYnNlcnZhdGlvbl9zZXF1ZW5jZSI6MTAsIm9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwic3ViamVjdCI6bnVsbH0seyJib290X2lkIjoiMDAwMDAwMGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBjIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAwNy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDciLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjcsImNvbW1hbmQiOiIvb3B0L2hvbWVicmV3L2Jpbi90bXV4IC1MIGRlZmF1bHQgbGlzdC1zZXNzaW9ucyAtRiAnI3tzZXNzaW9uX25hbWV9JyIsImhvc3RfaWQiOiIwMDAwMDAwMi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJraW5kIjoic2Vzc2lvbl9pbnZlbnRvcnkiLCJvYnNlcnZhdGlvbl9zZXF1ZW5jZSI6MTAsIm9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwic3ViamVjdCI6bnVsbH0seyJib290X2lkIjoiMDAwMDAwMGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBjIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAwNy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDciLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjcsImNvbW1hbmQiOiIvb3B0L2hvbWVicmV3L2Jpbi90bXV4IC1MIGRlZmF1bHQgY2FwdHVyZS1wYW5lIC1wIC10ICc9Y29kZXgtaW50ZWw6JyIsImhvc3RfaWQiOiIwMDAwMDAwMi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJraW5kIjoicGFuZV9jYXB0dXJlIiwib2JzZXJ2YXRpb25fc2VxdWVuY2UiOjEwLCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInN1YmplY3QiOm51bGx9XSwic3RhdGUiOiJDVVJSRU5UIn0sInJlc2VhcmNoX2VuZ2luZSI6eyJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBheWxvYWQiOnsiY292ZXJhZ2UiOnsiY292ZXJlZF9jb3VudCI6MSwicmVjZWlwdCI6eyJtZWFzdXJlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MTkuMDAwWiIsInBhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9yZS1jb3ZlcmFnZS5qc29uIiwic2hhMjU2IjoiNDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NCIsInN1YmplY3QiOnsiYm9vdF9pZCI6IjAwMDAwMDBjLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYyIsImdlbmVyYXRpb25faWQiOiIwMDAwMDA4Mi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwODIiLCJob3N0X2lkIjoiMDAwMDAwMDItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAyIiwiaWQiOiJwdWItZml4dHVyZS0xIiwia2luZCI6IlJFX1BVQkxJQ0FUSU9OIn19LCJzdGF0ZSI6IkNPTVBMRVRFIiwidG90YWxfY291bnQiOjF9LCJoZWFsdGgiOiJIRUFMVEhZIiwicHJvY2VzcyI6eyJib290X2lkIjoiMDAwMDAwMGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBjIiwiY29tbWFuZCI6Ii91c3IvYmluL2ZpeHR1cmUtbmF0aXZlLW1hcmtlciBmaXh0dXJlLWNvbnRyb2wiLCJleGVjdXRhYmxlIjoiL3Vzci9iaW4vZml4dHVyZS1uYXRpdmUtbWFya2VyIiwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsInBpZCI6MjAyLCJzdGFydGVkX2F0IjoiMjAyNi0xMC0xMVQxMTo1NTowMC4wMDBaIiwic3RhdGUiOiJQUkVTRU5UIn0sInB1YmxpY2F0aW9uX2lkIjoicHViLWZpeHR1cmUtMSIsInJzc19ieXRlcyI6MjY4NDM1NDU2LCJzZXNzaW9uX25hbWUiOiJjb2RleC1pbnRlbCIsInNvdXJjZV9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwODItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDgyIiwic291cmNlX29ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMTo1NjowMC4wMDBaIiwic3RhdGUiOiJSRUFEWSIsInN0b3JlcyI6W3sicGF0aCI6Ii90bXAvcjRkMi1maXh0dXJlL3ByaW1hcnkiLCJwdWJsaWNhdGlvbl9pZCI6InB1Yi1maXh0dXJlLTEiLCJyb2xlIjoiUFJJTUFSWSIsInNvdXJjZV9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwODItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDgyIiwic291cmNlX3NoYTI1NiI6IjExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTEiLCJzdG9yZV9pZCI6InN0b3JlLXByaW1hcnkifSx7InBhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9zZWNvbmRhcnkiLCJwdWJsaWNhdGlvbl9pZCI6InB1Yi1maXh0dXJlLTEiLCJyb2xlIjoiU0VDT05EQVJZIiwic291cmNlX2dlbmVyYXRpb25faWQiOiIwMDAwMDA4Mi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwODIiLCJzb3VyY2Vfc2hhMjU2IjoiMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMSIsInN0b3JlX2lkIjoic3RvcmUtc2Vjb25kYXJ5In1dLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGMiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwODItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDgyIiwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImlkIjoicHViLWZpeHR1cmUtMSIsImtpbmQiOiJSRV9QVUJMSUNBVElPTiJ9fSwicHJvdmVuYW5jZSI6W3siYm9vdF9pZCI6IjAwMDAwMDBjLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYyIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwMDctMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDA3IiwiY29sbGVjdG9yX2dlbmVyYXRpb25fbnVtYmVyIjo3LCJob3N0X2lkIjoiMDAwMDAwMDItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAyIiwia2luZCI6ImZpbGUiLCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9hdXRob3JpdHkuanNvbiIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGMiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwODItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDgyIiwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImlkIjoicHViLWZpeHR1cmUtMSIsImtpbmQiOiJSRV9QVUJMSUNBVElPTiJ9fSx7ImJvb3RfaWQiOiIwMDAwMDAwYy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGMiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDA3LTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwNyIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX251bWJlciI6NywiY29tbWFuZCI6Ii9iaW4vcHMgLWF4d3cgLW8gcGlkPSxwcGlkPSxldGltZT0sY29tbWFuZD0iLCJob3N0X2lkIjoiMDAwMDAwMDItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAyIiwia2luZCI6InByb2Nlc3NfaW52ZW50b3J5Iiwib2JzZXJ2YXRpb25fc2VxdWVuY2UiOjEwLCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInN1YmplY3QiOm51bGx9XSwic3RhdGUiOiJDVVJSRU5UIn0sInJlc291cmNlcyI6eyJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBheWxvYWQiOnsiZGFzaGJvYXJkX3Jzc19ieXRlcyI6NjcxMDg4NjQsIm1lYXN1cmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwibmVvNGpfcnNzX2J5dGVzIjoxMzQyMTc3MjgsIm9zX2F2YWlsYWJsZV9ieXRlcyI6ODU4OTkzNDU5MiwicHJlc3N1cmUiOiJOT1JNQUwiLCJwcm9jZXNzZXMiOlt7InByb2Nlc3MiOnsiYm9vdF9pZCI6IjAwMDAwMDBjLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYyIsImNvbW1hbmQiOiIvdXNyL2Jpbi9maXh0dXJlLW5hdGl2ZS1tYXJrZXIgZml4dHVyZS1jb250cm9sIiwiZXhlY3V0YWJsZSI6Ii91c3IvYmluL2ZpeHR1cmUtbmF0aXZlLW1hcmtlciIsImhvc3RfaWQiOiIwMDAwMDAwMi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJwaWQiOjIwMSwic3RhcnRlZF9hdCI6IjIwMjYtMTAtMTFUMTE6NTU6MDAuMDAwWiIsInN0YXRlIjoiUFJFU0VOVCJ9LCJyb2xlIjoiQlVJTERFUiIsInJzc19ieXRlcyI6MTM0MjE3NzI4fSx7InByb2Nlc3MiOnsiYm9vdF9pZCI6IjAwMDAwMDBjLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYyIsImNvbW1hbmQiOiIvdXNyL2Jpbi9maXh0dXJlLW5hdGl2ZS1tYXJrZXIgZml4dHVyZS1jb250cm9sIiwiZXhlY3V0YWJsZSI6Ii91c3IvYmluL2ZpeHR1cmUtbmF0aXZlLW1hcmtlciIsImhvc3RfaWQiOiIwMDAwMDAwMi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJwaWQiOjIwMiwic3RhcnRlZF9hdCI6IjIwMjYtMTAtMTFUMTE6NTU6MDAuMDAwWiIsInN0YXRlIjoiUFJFU0VOVCJ9LCJyb2xlIjoiUkUiLCJyc3NfYnl0ZXMiOjI2ODQzNTQ1Nn0seyJwcm9jZXNzIjp7ImJvb3RfaWQiOiIwMDAwMDAwYy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGMiLCJjb21tYW5kIjoiL3Vzci9iaW4vZml4dHVyZS1uYXRpdmUtbWFya2VyIGZpeHR1cmUtY29udHJvbCIsImV4ZWN1dGFibGUiOiIvdXNyL2Jpbi9maXh0dXJlLW5hdGl2ZS1tYXJrZXIiLCJob3N0X2lkIjoiMDAwMDAwMDItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAyIiwicGlkIjoyMDMsInN0YXJ0ZWRfYXQiOiIyMDI2LTEwLTExVDExOjU1OjAwLjAwMFoiLCJzdGF0ZSI6IlBSRVNFTlQifSwicm9sZSI6Ik5FTzRKIiwicnNzX2J5dGVzIjoxMzQyMTc3Mjh9LHsicHJvY2VzcyI6eyJib290X2lkIjoiMDAwMDAwMGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBjIiwiY29tbWFuZCI6Ii91c3IvYmluL2ZpeHR1cmUtbmF0aXZlLW1hcmtlciBmaXh0dXJlLWNvbnRyb2wiLCJleGVjdXRhYmxlIjoiL3Vzci9iaW4vZml4dHVyZS1uYXRpdmUtbWFya2VyIiwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsInBpZCI6MjA0LCJzdGFydGVkX2F0IjoiMjAyNi0xMC0xMVQxMTo1NTowMC4wMDBaIiwic3RhdGUiOiJQUkVTRU5UIn0sInJvbGUiOiJEQVNIQk9BUkQiLCJyc3NfYnl0ZXMiOjY3MTA4ODY0fV0sInJlX3Jzc19ieXRlcyI6NDAyNjUzMTg0LCJzdXBwb3J0X3Jzc19ieXRlcyI6NjAzOTc5Nzc2LCJ1c2VyX2F2YWlsYWJsZV9ieXRlcyI6ODU4OTkzNDU5Mn0sInByb3ZlbmFuY2UiOlt7ImJvb3RfaWQiOiIwMDAwMDAwYy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGMiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDA3LTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwNyIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX251bWJlciI6NywiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImtpbmQiOiJmaWxlIiwib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJwYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvYXV0aG9yaXR5Lmpzb24iLCJzaGEyNTYiOiI0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0Iiwic3ViamVjdCI6bnVsbH0seyJib290X2lkIjoiMDAwMDAwMGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBjIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAwNy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDciLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjcsImNvbW1hbmQiOiIvYmluL3BzIC1heHd3IC1vIHBpZD0scHBpZD0sZXRpbWU9LGNvbW1hbmQ9IiwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImtpbmQiOiJwcm9jZXNzX2ludmVudG9yeSIsIm9ic2VydmF0aW9uX3NlcXVlbmNlIjoxMCwib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJzdWJqZWN0IjpudWxsfV0sInN0YXRlIjoiQ1VSUkVOVCJ9fSwic3RhdGUiOiJPV05FRCJ9LCJtM19zY2llbmNlX21hZXN0cm8iOnsic3RhdGUiOiJOT1RfT1dORUQifSwic3RvcmFnZV90cmFuc2ZlcnMiOnsiY29tcG9uZW50cyI6eyJkaXNrcyI6eyJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBheWxvYWQiOnsiZW50cmllcyI6W3siZGlza19pZCI6ImRpc2staW50ZWwiLCJmcmVlX2J5dGVzIjo3MDAwMDAwMDAwMCwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsIm1lYXN1cmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwicGF0aCI6Ii90bXAvcjRkMi1maXh0dXJlIiwicGh5c2ljYWxfaWQiOiJwaHlzaWNhbC1pbnRlbCIsInRvdGFsX2J5dGVzIjoxMDAwMDAwMDAwMDAsInVzZWRfYnl0ZXMiOjMwMDAwMDAwMDAwfV19LCJwcm92ZW5hbmNlIjpbeyJib290X2lkIjoiMDAwMDAwMGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBjIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAwNy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDciLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjcsImhvc3RfaWQiOiIwMDAwMDAwMi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJraW5kIjoiZmlsZSIsIm9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwicGF0aCI6Ii90bXAvcjRkMi1maXh0dXJlL2F1dGhvcml0eS5qc29uIiwic2hhMjU2IjoiNDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NCIsInN1YmplY3QiOm51bGx9XSwic3RhdGUiOiJDVVJSRU5UIn0sImZvbGRlcl9zaXplcyI6eyJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBheWxvYWQiOnsiZW50cmllcyI6W3sibWVhc3VyZW1lbnQiOnsiYnl0ZXMiOjgxOTIsImNvdmVyYWdlIjoiQ09NUExFVEUiLCJtZWFzdXJlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MTkuMDAwWiIsInBoeXNpY2FsX2lkIjoicGh5c2ljYWwtaW50ZWwiLCJyZWNlaXB0X3BhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9zaXplLmpzb24iLCJyZWNlaXB0X3NoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQifSwicGF0aCI6Ii90bXAvcjRkMi1maXh0dXJlL3J1biIsInN0YXRlIjoiQ09NUExFVEUifV0sImVycm9ycyI6W10sInNjYW5fc3RhdGUiOiJJRExFIn0sInByb3ZlbmFuY2UiOlt7ImJvb3RfaWQiOiIwMDAwMDAwYy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGMiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDA3LTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwNyIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX251bWJlciI6NywiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImtpbmQiOiJmaWxlIiwib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJwYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvYXV0aG9yaXR5Lmpzb24iLCJzaGEyNTYiOiI0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0Iiwic3ViamVjdCI6bnVsbH1dLCJzdGF0ZSI6IkNVUlJFTlQifSwidHJhbnNmZXJzIjp7Im9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwicGF5bG9hZCI6eyJqb2JzIjpbeyJieXRlc19jb3BpZWQiOjQwOTYsImJ5dGVzX3RvdGFsIjo4MTkyLCJjaGVja3BvaW50Ijp7Im1lYXN1cmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoxOS4wMDBaIiwicGF0aCI6Ii90bXAvcjRkMi1maXh0dXJlL2NoZWNrcG9pbnQtaW50ZWwuanNvbiIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGMiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwOGQtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDhkIiwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImlkIjoidHJhbnNmZXItaW50ZWwiLCJraW5kIjoiVFJBTlNGRVIifX0sImNvdmVyYWdlIjp7ImNvdmVyZWRfY291bnQiOjEsInJlY2VpcHQiOnsibWVhc3VyZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjE5LjAwMFoiLCJwYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvY292ZXJhZ2UtaW50ZWwuanNvbiIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGMiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwOGQtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDhkIiwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImlkIjoidHJhbnNmZXItaW50ZWwiLCJraW5kIjoiVFJBTlNGRVIifX0sInN0YXRlIjoiUEFSVElBTCIsInRvdGFsX2NvdW50IjoyfSwiZGVzdGluYXRpb25faG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImRlc3RpbmF0aW9uX29ic2VydmF0aW9uIjp7ImJ5dGVzX29ic2VydmVkIjo0MDk2LCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsIm9yaWdpbiI6eyJib290X2lkIjoiMDAwMDAwMGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBjIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAwNy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDciLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjcsImhvc3RfaWQiOiIwMDAwMDAwMi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJyb2xlIjoiaW50ZWwifSwic3RhZ2UiOiJDT1BZSU5HIiwic3RhdGUiOiJDVVJSRU5UIn0sImRlc3RpbmF0aW9uX3BhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9jb3B5IiwicGVuZGluZ19kZWNpc2lvbnMiOltdLCJzb3VyY2VfaG9zdCI6eyJib290X2lkIjoiMDAwMDAwMGItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBiIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAyYS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMmEiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjQyLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwicm9sZSI6Im0zIn0sInNvdXJjZV9tYW5pZmVzdCI6eyJtZWFzdXJlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MTkuMDAwWiIsInBhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9zb3VyY2UtbWFuaWZlc3QuanNvbiIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwNzgtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDc4IiwiaG9zdF9pZCI6IjAwMDAwMDAxLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsImlkIjoiZml4dHVyZS1ydW4iLCJraW5kIjoiUlVOIn19LCJzb3VyY2Vfb2JzZXJ2YXRpb24iOnsiYnl0ZXNfb2JzZXJ2ZWQiOjQwOTYsIm9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwib3JpZ2luIjp7ImJvb3RfaWQiOiIwMDAwMDAwYi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGIiLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDJhLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAyYSIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX251bWJlciI6NDIsImhvc3RfaWQiOiIwMDAwMDAwMS0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJyb2xlIjoibTMifSwic3RhZ2UiOiJDT1BZSU5HIiwic3RhdGUiOiJDVVJSRU5UIn0sInNvdXJjZV9wYXRoIjoiL3RtcC9yNGQyLWZpeHR1cmUvcnVuIiwic291cmNlX3N1YmplY3QiOnsiYm9vdF9pZCI6IjAwMDAwMDBiLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYiIsImdlbmVyYXRpb25faWQiOiIwMDAwMDA3OC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwNzgiLCJob3N0X2lkIjoiMDAwMDAwMDEtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwiaWQiOiJmaXh0dXJlLXJ1biIsImtpbmQiOiJSVU4ifSwic3RhZ2UiOiJDT1BZSU5HIiwic3ViamVjdCI6eyJib290X2lkIjoiMDAwMDAwMGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBjIiwiZ2VuZXJhdGlvbl9pZCI6IjAwMDAwMDhkLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDA4ZCIsImhvc3RfaWQiOiIwMDAwMDAwMi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJpZCI6InRyYW5zZmVyLWludGVsIiwia2luZCI6IlRSQU5TRkVSIn0sInZlcmlmaWNhdGlvbiI6bnVsbH1dfSwicHJvdmVuYW5jZSI6W3siYm9vdF9pZCI6IjAwMDAwMDBjLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwYyIsImNvbGxlY3Rvcl9nZW5lcmF0aW9uX2lkIjoiMDAwMDAwMDctMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDA3IiwiY29sbGVjdG9yX2dlbmVyYXRpb25fbnVtYmVyIjo3LCJob3N0X2lkIjoiMDAwMDAwMDItMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAyIiwia2luZCI6ImZpbGUiLCJvYnNlcnZlZF9hdCI6IjIwMjYtMTAtMTFUMTI6MDA6MjAuMDAwWiIsInBhdGgiOiIvdG1wL3I0ZDItZml4dHVyZS9hdXRob3JpdHkuanNvbiIsInNoYTI1NiI6IjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQiLCJzdWJqZWN0Ijp7ImJvb3RfaWQiOiIwMDAwMDAwYy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMGMiLCJnZW5lcmF0aW9uX2lkIjoiMDAwMDAwOGQtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDhkIiwiaG9zdF9pZCI6IjAwMDAwMDAyLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMiIsImlkIjoidHJhbnNmZXItaW50ZWwiLCJraW5kIjoiVFJBTlNGRVIifX1dLCJzdGF0ZSI6IkNVUlJFTlQifSwid2FybmluZ3MiOnsib2JzZXJ2ZWRfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjAwMFoiLCJwYXlsb2FkIjp7ImVudHJpZXMiOltdLCJyMl9zdW1tYXJ5Ijp7InJlYXNvbiI6Ik5vIGluZGVwZW5kZW50bHkgcHVibGlzaGVkIGFkdmlzb3J5IHN1bW1hcnkiLCJzdGF0ZSI6IlVOQVZBSUxBQkxFIn19LCJwcm92ZW5hbmNlIjpbeyJib290X2lkIjoiMDAwMDAwMGMtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDBjIiwiY29sbGVjdG9yX2dlbmVyYXRpb25faWQiOiIwMDAwMDAwNy0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDciLCJjb2xsZWN0b3JfZ2VuZXJhdGlvbl9udW1iZXIiOjcsImhvc3RfaWQiOiIwMDAwMDAwMi0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJraW5kIjoiZmlsZSIsIm9ic2VydmVkX2F0IjoiMjAyNi0xMC0xMVQxMjowMDoyMC4wMDBaIiwicGF0aCI6Ii90bXAvcjRkMi1maXh0dXJlL2F1dGhvcml0eS5qc29uIiwic2hhMjU2IjoiNDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NCIsInN1YmplY3QiOm51bGx9XSwic3RhdGUiOiJDVVJSRU5UIn19LCJzdGF0ZSI6Ik9XTkVEIn19LCJ3cml0ZXJfYXQiOiIyMDI2LTEwLTExVDEyOjAwOjIwLjEwMFoifQ==",
+      "hmac_sha256": "faa183183d77573dc0096bd924db08c428759ef912919fb420c19908e709f996"
+    }
+  },
+  "reader_contexts": {
+    "m3_ready": {
+      "expected_registry": {
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      "pin": {
+        "version": 1,
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "generation_number": 42,
+        "collector_pid": 9001,
+        "collector_started_at": "2026-10-11T11:50:00.000Z",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "verified_at": "2026-10-11T11:50:01.000Z",
+        "proof_receipt": {
+          "path": "/tmp/r4d2-fixture/transition-m3.json",
+          "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+          "measured_at": "2026-10-11T11:50:01.000Z",
+          "subject": {
+            "kind": "SESSION",
+            "id": "fixture-transition-proof",
+            "generation_id": "0000002a-0000-0000-0000-00000000002a",
+            "host_id": "00000001-0000-0000-0000-000000000001",
+            "boot_id": "0000000b-0000-0000-0000-00000000000b"
+          }
+        }
+      },
+      "reader_state": {
+        "version": 1,
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "pin_sha256": "816d1f204dbd0778ff9eab6ca41da13eb4fdaf76b0d059f310c986374a5c5fe7",
+        "highest_generation": 42,
+        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "highest_sequence": 9,
+        "highest_record_sha256": "2a9f2e3abf7f8ad8c7e91843cf0c3945b98fed8ac10b5e7d6479b0590409c13f",
+        "last_source_observed_at": "2026-10-11T12:00:20.000Z",
+        "last_received_at": "2026-10-11T12:00:20.500Z",
+        "clock_uncertainty_ms": 0,
+        "age_floors": [
+          {
+            "source_time": "2026-10-11T12:00:20.000Z",
+            "age_ms": 500
+          },
+          {
+            "source_time": "2026-10-11T12:00:19.000Z",
+            "age_ms": 1500
+          }
+        ]
+      },
+      "validation_integrity": "VALID",
+      "transition_currency": "INDEPENDENTLY_VERIFIED",
+      "transport": "LIVE_SUCCESS",
+      "receiver_utc": "2026-10-11T12:00:21.000Z",
+      "combined_clock_uncertainty_ms": 0,
+      "source_generation_history_floor": 42
+    },
+    "intel_ready": {
+      "expected_registry": {
+        "role": "intel",
+        "host_id": "00000002-0000-0000-0000-000000000002",
+        "platform": "macos-x86_64",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      "pin": {
+        "version": 1,
+        "role": "intel",
+        "host_id": "00000002-0000-0000-0000-000000000002",
+        "platform": "macos-x86_64",
+        "boot_id": "0000000c-0000-0000-0000-00000000000c",
+        "generation_id": "00000007-0000-0000-0000-000000000007",
+        "generation_number": 7,
+        "collector_pid": 9002,
+        "collector_started_at": "2026-10-11T11:50:00.000Z",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "verified_at": "2026-10-11T11:50:01.000Z",
+        "proof_receipt": {
+          "path": "/tmp/r4d2-fixture/transition-intel.json",
+          "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+          "measured_at": "2026-10-11T11:50:01.000Z",
+          "subject": {
+            "kind": "SESSION",
+            "id": "fixture-transition-proof",
+            "generation_id": "00000007-0000-0000-0000-000000000007",
+            "host_id": "00000002-0000-0000-0000-000000000002",
+            "boot_id": "0000000c-0000-0000-0000-00000000000c"
+          }
+        }
+      },
+      "reader_state": {
+        "version": 1,
+        "role": "intel",
+        "host_id": "00000002-0000-0000-0000-000000000002",
+        "pin_sha256": "fb50758b55d60678f47fa7388c03bad1d405c68a5165b195a2f34376d5940165",
+        "highest_generation": 7,
+        "boot_id": "0000000c-0000-0000-0000-00000000000c",
+        "generation_id": "00000007-0000-0000-0000-000000000007",
+        "highest_sequence": 9,
+        "highest_record_sha256": "b0e8f3fbb2500aa31b60d7cafa697cef1251e3ce08cff782ebff835d2c1c0e28",
+        "last_source_observed_at": "2026-10-11T12:00:20.000Z",
+        "last_received_at": "2026-10-11T12:00:20.500Z",
+        "clock_uncertainty_ms": 0,
+        "age_floors": [
+          {
+            "source_time": "2026-10-11T12:00:20.000Z",
+            "age_ms": 500
+          },
+          {
+            "source_time": "2026-10-11T12:00:19.000Z",
+            "age_ms": 1500
+          }
+        ]
+      },
+      "validation_integrity": "VALID",
+      "transition_currency": "INDEPENDENTLY_VERIFIED",
+      "transport": "LIVE_SUCCESS",
+      "receiver_utc": "2026-10-11T12:00:21.000Z",
+      "combined_clock_uncertainty_ms": 0,
+      "source_generation_history_floor": 7
+    },
+    "m3_seen_10": {
+      "expected_registry": {
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      "pin": {
+        "version": 1,
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "generation_number": 42,
+        "collector_pid": 9001,
+        "collector_started_at": "2026-10-11T11:50:00.000Z",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "verified_at": "2026-10-11T11:50:01.000Z",
+        "proof_receipt": {
+          "path": "/tmp/r4d2-fixture/transition-m3.json",
+          "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+          "measured_at": "2026-10-11T11:50:01.000Z",
+          "subject": {
+            "kind": "SESSION",
+            "id": "fixture-transition-proof",
+            "generation_id": "0000002a-0000-0000-0000-00000000002a",
+            "host_id": "00000001-0000-0000-0000-000000000001",
+            "boot_id": "0000000b-0000-0000-0000-00000000000b"
+          }
+        }
+      },
+      "reader_state": {
+        "version": 1,
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "pin_sha256": "816d1f204dbd0778ff9eab6ca41da13eb4fdaf76b0d059f310c986374a5c5fe7",
+        "highest_generation": 42,
+        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "highest_sequence": 10,
+        "highest_record_sha256": "72c6147e63274d637e24bae27a2267341f3bb75cf1e45195647019985a053623",
+        "last_source_observed_at": "2026-10-11T12:00:20.000Z",
+        "last_received_at": "2026-10-11T12:00:20.500Z",
+        "clock_uncertainty_ms": 0,
+        "age_floors": [
+          {
+            "source_time": "2026-10-11T12:00:20.000Z",
+            "age_ms": 500
+          },
+          {
+            "source_time": "2026-10-11T12:00:19.000Z",
+            "age_ms": 1500
+          }
+        ]
+      },
+      "validation_integrity": "VALID",
+      "transition_currency": "INDEPENDENTLY_VERIFIED",
+      "transport": "LIVE_SUCCESS",
+      "receiver_utc": "2026-10-11T12:00:21.000Z",
+      "combined_clock_uncertainty_ms": 0,
+      "source_generation_history_floor": 42
+    },
+    "m3_state_missing": {
+      "expected_registry": {
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      "pin": {
+        "version": 1,
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "generation_number": 42,
+        "collector_pid": 9001,
+        "collector_started_at": "2026-10-11T11:50:00.000Z",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "verified_at": "2026-10-11T11:50:01.000Z",
+        "proof_receipt": {
+          "path": "/tmp/r4d2-fixture/transition-m3.json",
+          "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+          "measured_at": "2026-10-11T11:50:01.000Z",
+          "subject": {
+            "kind": "SESSION",
+            "id": "fixture-transition-proof",
+            "generation_id": "0000002a-0000-0000-0000-00000000002a",
+            "host_id": "00000001-0000-0000-0000-000000000001",
+            "boot_id": "0000000b-0000-0000-0000-00000000000b"
+          }
+        }
+      },
+      "reader_state": null,
+      "validation_integrity": "MISSING",
+      "transition_currency": "INDEPENDENTLY_VERIFIED",
+      "transport": "LIVE_SUCCESS",
+      "receiver_utc": "2026-10-11T12:00:21.000Z",
+      "combined_clock_uncertainty_ms": 0,
+      "source_generation_history_floor": 42
+    },
+    "m3_state_corrupt": {
+      "expected_registry": {
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      "pin": {
+        "version": 1,
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "generation_number": 42,
+        "collector_pid": 9001,
+        "collector_started_at": "2026-10-11T11:50:00.000Z",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "verified_at": "2026-10-11T11:50:01.000Z",
+        "proof_receipt": {
+          "path": "/tmp/r4d2-fixture/transition-m3.json",
+          "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+          "measured_at": "2026-10-11T11:50:01.000Z",
+          "subject": {
+            "kind": "SESSION",
+            "id": "fixture-transition-proof",
+            "generation_id": "0000002a-0000-0000-0000-00000000002a",
+            "host_id": "00000001-0000-0000-0000-000000000001",
+            "boot_id": "0000000b-0000-0000-0000-00000000000b"
+          }
+        }
+      },
+      "reader_state": {
+        "version": 1,
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "pin_sha256": "816d1f204dbd0778ff9eab6ca41da13eb4fdaf76b0d059f310c986374a5c5fe7",
+        "highest_generation": 42,
+        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "highest_sequence": 10,
+        "highest_record_sha256": "72c6147e63274d637e24bae27a2267341f3bb75cf1e45195647019985a053623",
+        "last_source_observed_at": "2026-10-11T12:00:20.000Z",
+        "last_received_at": "2026-10-11T12:00:20.500Z",
+        "clock_uncertainty_ms": 0,
+        "age_floors": [
+          {
+            "source_time": "2026-10-11T12:00:20.000Z",
+            "age_ms": 500
+          },
+          {
+            "source_time": "2026-10-11T12:00:19.000Z",
+            "age_ms": 1500
+          }
+        ]
+      },
+      "validation_integrity": "CORRUPT",
+      "transition_currency": "INDEPENDENTLY_VERIFIED",
+      "transport": "LIVE_SUCCESS",
+      "receiver_utc": "2026-10-11T12:00:21.000Z",
+      "combined_clock_uncertainty_ms": 0,
+      "source_generation_history_floor": 42
+    },
+    "m3_restarted_cached": {
+      "expected_registry": {
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      "pin": {
+        "version": 1,
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "generation_number": 42,
+        "collector_pid": 9001,
+        "collector_started_at": "2026-10-11T11:50:00.000Z",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "verified_at": "2026-10-11T11:50:01.000Z",
+        "proof_receipt": {
+          "path": "/tmp/r4d2-fixture/transition-m3.json",
+          "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+          "measured_at": "2026-10-11T11:50:01.000Z",
+          "subject": {
+            "kind": "SESSION",
+            "id": "fixture-transition-proof",
+            "generation_id": "0000002a-0000-0000-0000-00000000002a",
+            "host_id": "00000001-0000-0000-0000-000000000001",
+            "boot_id": "0000000b-0000-0000-0000-00000000000b"
+          }
+        }
+      },
+      "reader_state": {
+        "version": 1,
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "pin_sha256": "816d1f204dbd0778ff9eab6ca41da13eb4fdaf76b0d059f310c986374a5c5fe7",
+        "highest_generation": 42,
+        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "highest_sequence": 10,
+        "highest_record_sha256": "72c6147e63274d637e24bae27a2267341f3bb75cf1e45195647019985a053623",
+        "last_source_observed_at": "2026-10-11T12:00:20.000Z",
+        "last_received_at": "2026-10-11T12:00:20.500Z",
+        "clock_uncertainty_ms": 0,
+        "age_floors": [
+          {
+            "source_time": "2026-10-11T12:00:20.000Z",
+            "age_ms": 500
+          },
+          {
+            "source_time": "2026-10-11T12:00:19.000Z",
+            "age_ms": 1500
+          }
+        ]
+      },
+      "validation_integrity": "VALID",
+      "transition_currency": "INDEPENDENTLY_VERIFIED",
+      "transport": "CACHED_ONLY",
+      "receiver_utc": "2026-10-11T12:00:21.000Z",
+      "combined_clock_uncertainty_ms": 0,
+      "source_generation_history_floor": 42
+    },
+    "m3_restarted_live": {
+      "expected_registry": {
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      "pin": {
+        "version": 1,
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "platform": "macos-arm64",
+        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "generation_number": 42,
+        "collector_pid": 9001,
+        "collector_started_at": "2026-10-11T11:50:00.000Z",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "verified_at": "2026-10-11T11:50:01.000Z",
+        "proof_receipt": {
+          "path": "/tmp/r4d2-fixture/transition-m3.json",
+          "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+          "measured_at": "2026-10-11T11:50:01.000Z",
+          "subject": {
+            "kind": "SESSION",
+            "id": "fixture-transition-proof",
+            "generation_id": "0000002a-0000-0000-0000-00000000002a",
+            "host_id": "00000001-0000-0000-0000-000000000001",
+            "boot_id": "0000000b-0000-0000-0000-00000000000b"
+          }
+        }
+      },
+      "reader_state": {
+        "version": 1,
+        "role": "m3",
+        "host_id": "00000001-0000-0000-0000-000000000001",
+        "pin_sha256": "816d1f204dbd0778ff9eab6ca41da13eb4fdaf76b0d059f310c986374a5c5fe7",
+        "highest_generation": 42,
+        "boot_id": "0000000b-0000-0000-0000-00000000000b",
+        "generation_id": "0000002a-0000-0000-0000-00000000002a",
+        "highest_sequence": 10,
+        "highest_record_sha256": "72c6147e63274d637e24bae27a2267341f3bb75cf1e45195647019985a053623",
+        "last_source_observed_at": "2026-10-11T12:00:20.000Z",
+        "last_received_at": "2026-10-11T12:00:20.500Z",
+        "clock_uncertainty_ms": 0,
+        "age_floors": [
+          {
+            "source_time": "2026-10-11T12:00:20.000Z",
+            "age_ms": 500
+          },
+          {
+            "source_time": "2026-10-11T12:00:19.000Z",
+            "age_ms": 1500
+          }
+        ]
+      },
+      "validation_integrity": "VALID",
+      "transition_currency": "INDEPENDENTLY_VERIFIED",
+      "transport": "LIVE_SUCCESS",
+      "receiver_utc": "2026-10-11T12:00:21.000Z",
+      "combined_clock_uncertainty_ms": 0,
+      "source_generation_history_floor": 42
+    }
+  },
+  "cases": [
+    {
+      "id": "valid_m3_science_maestro",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": []
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      },
+      "covers_views": [
+        "m3_science_maestro"
+      ]
+    },
+    {
+      "id": "valid_intel_support",
+      "context": "intel_ready",
+      "input": {
+        "base": "intel",
+        "layer": "record",
+        "edits": []
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      },
+      "covers_views": [
+        "intel_support"
+      ]
+    },
+    {
+      "id": "valid_storage_transfers",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": []
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      },
+      "covers_views": [
+        "storage_transfers"
+      ]
+    },
+    {
+      "id": "valid_last_known",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/state",
+            "value": "LAST_KNOWN"
+          },
+          {
+            "op": "add",
+            "path": "/views/m3_science_maestro/components/science/reason",
+            "value": "Retained original successful observation"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      },
+      "notes": "Historical only, never current"
+    },
+    {
+      "id": "valid_unavailable_component",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science",
+            "value": {
+              "state": "UNAVAILABLE",
+              "observed_at": null,
+              "payload": null,
+              "provenance": [],
+              "reason": "Source inventory denied"
+            }
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      }
+    },
+    {
+      "id": "valid_positive_no_active_run",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/payload",
+            "value": {
+              "state": "NO_ACTIVE_RUN_OBSERVED",
+              "runs": [],
+              "inventory_validated": true,
+              "source_reads_validated": true
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/provenance",
+            "value": [
+              {
+                "kind": "file",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": null,
+                "path": "/tmp/r4d2-fixture/authority.json",
+                "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+              },
+              {
+                "kind": "process_inventory",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": null,
+                "command": "/bin/ps -axww -o pid=,ppid=,etime=,command=",
+                "observation_sequence": 10
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      }
+    },
+    {
+      "id": "valid_re_refusal",
+      "context": "intel_ready",
+      "input": {
+        "base": "intel",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/intel_support/components/research_engine/payload/state",
+            "value": "REFUSING"
+          },
+          {
+            "op": "add",
+            "path": "/views/intel_support/components/research_engine/payload/refusal_reason",
+            "value": "Coverage decision pending"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      }
+    },
+    {
+      "id": "valid_queue_null_no_estimate",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/items/0/estimate",
+            "value": null
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/items/0/started_at",
+            "value": null
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      }
+    },
+    {
+      "id": "valid_activity_waiting",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/sessions/0/activity/state",
+            "value": "WAITING"
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/sessions/0/activity/context_left",
+            "value": null
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/payload/sessions/0/activity/state",
+            "value": "WAITING"
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/payload/sessions/0/activity/context_left",
+            "value": null
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      }
+    },
+    {
+      "id": "valid_activity_idle_finished",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/sessions/0/activity/state",
+            "value": "IDLE"
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/sessions/0/activity/finished",
+            "value": true
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/payload/sessions/0/activity/state",
+            "value": "IDLE"
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/payload/sessions/0/activity/finished",
+            "value": true
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      }
+    },
+    {
+      "id": "valid_activity_missing",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/sessions/0/process",
+            "value": {
+              "state": "ABSENT"
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/sessions/0/activity",
+            "value": {
+              "state": "MISSING",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "context_left": null,
+              "finished": false
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/payload/sessions/0/process",
+            "value": {
+              "state": "ABSENT"
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/payload/sessions/0/activity",
+            "value": {
+              "state": "MISSING",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "context_left": null,
+              "finished": false
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/provenance",
+            "value": [
+              {
+                "kind": "file",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": {
+                  "kind": "SESSION",
+                  "id": "session-m3",
+                  "generation_id": "0000006e-0000-0000-0000-00000000006e",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                },
+                "path": "/tmp/r4d2-fixture/authority.json",
+                "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+              },
+              {
+                "kind": "process_inventory",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": null,
+                "command": "/bin/ps -axww -o pid=,ppid=,etime=,command=",
+                "observation_sequence": 10
+              },
+              {
+                "kind": "session_inventory",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": null,
+                "command": "/opt/homebrew/bin/tmux -L default list-sessions -F '#{session_name}'",
+                "observation_sequence": 10
+              }
+            ]
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/provenance",
+            "value": [
+              {
+                "kind": "file",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": {
+                  "kind": "TASK",
+                  "id": "task-m3",
+                  "generation_id": "00000064-0000-0000-0000-000000000064",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                },
+                "path": "/tmp/r4d2-fixture/authority.json",
+                "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+              },
+              {
+                "kind": "file",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": {
+                  "kind": "SESSION",
+                  "id": "session-m3",
+                  "generation_id": "0000006e-0000-0000-0000-00000000006e",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                },
+                "path": "/tmp/r4d2-fixture/authority.json",
+                "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+              },
+              {
+                "kind": "process_inventory",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": null,
+                "command": "/bin/ps -axww -o pid=,ppid=,etime=,command=",
+                "observation_sequence": 10
+              },
+              {
+                "kind": "session_inventory",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": null,
+                "command": "/opt/homebrew/bin/tmux -L default list-sessions -F '#{session_name}'",
+                "observation_sequence": 10
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      }
+    },
+    {
+      "id": "valid_activity_unavailable",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/sessions/0/activity",
+            "value": {
+              "state": "UNAVAILABLE",
+              "observed_at": null,
+              "context_left": null,
+              "finished": null,
+              "reason": "Capture timeout"
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/payload/sessions/0/activity",
+            "value": {
+              "state": "UNAVAILABLE",
+              "observed_at": null,
+              "context_left": null,
+              "finished": null,
+              "reason": "Capture timeout"
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/provenance",
+            "value": [
+              {
+                "kind": "file",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": {
+                  "kind": "SESSION",
+                  "id": "session-m3",
+                  "generation_id": "0000006e-0000-0000-0000-00000000006e",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                },
+                "path": "/tmp/r4d2-fixture/authority.json",
+                "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+              },
+              {
+                "kind": "process_inventory",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": null,
+                "command": "/bin/ps -axww -o pid=,ppid=,etime=,command=",
+                "observation_sequence": 10
+              },
+              {
+                "kind": "session_inventory",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": null,
+                "command": "/opt/homebrew/bin/tmux -L default list-sessions -F '#{session_name}'",
+                "observation_sequence": 10
+              }
+            ]
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/provenance",
+            "value": [
+              {
+                "kind": "file",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": {
+                  "kind": "TASK",
+                  "id": "task-m3",
+                  "generation_id": "00000064-0000-0000-0000-000000000064",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                },
+                "path": "/tmp/r4d2-fixture/authority.json",
+                "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+              },
+              {
+                "kind": "file",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": {
+                  "kind": "SESSION",
+                  "id": "session-m3",
+                  "generation_id": "0000006e-0000-0000-0000-00000000006e",
+                  "host_id": "00000001-0000-0000-0000-000000000001",
+                  "boot_id": "0000000b-0000-0000-0000-00000000000b"
+                },
+                "path": "/tmp/r4d2-fixture/authority.json",
+                "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+              },
+              {
+                "kind": "process_inventory",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": null,
+                "command": "/bin/ps -axww -o pid=,ppid=,etime=,command=",
+                "observation_sequence": 10
+              },
+              {
+                "kind": "session_inventory",
+                "host_id": "00000001-0000-0000-0000-000000000001",
+                "boot_id": "0000000b-0000-0000-0000-00000000000b",
+                "collector_generation_id": "0000002a-0000-0000-0000-00000000002a",
+                "collector_generation_number": 42,
+                "observed_at": "2026-10-11T12:00:20.000Z",
+                "subject": null,
+                "command": "/opt/homebrew/bin/tmux -L default list-sessions -F '#{session_name}'",
+                "observation_sequence": 10
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      }
+    },
+    {
+      "id": "unknown_nested_field",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "add",
+            "path": "/views/m3_science_maestro/components/science/payload/runs/0/extra",
+            "value": 1
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "UNKNOWN_FIELD",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "missing_required_field",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "remove",
+            "path": "/views/m3_science_maestro/components/science/payload/runs/0/prereg_sha256"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "MISSING_FIELD",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "wrong_type_bool_as_integer",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/sequence",
+            "value": true
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "WRONG_TYPE",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "out_of_vocabulary_state",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/sessions/0/activity/state",
+            "value": "ASLEEP"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "OUT_OF_VOCABULARY",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "conditional_reason_missing_last_known",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/state",
+            "value": "LAST_KNOWN"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "CONDITIONAL_FIELD",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "conditional_reason_present_current",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "add",
+            "path": "/views/m3_science_maestro/components/science/reason",
+            "value": "Forbidden in CURRENT"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "CONDITIONAL_FIELD",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "conditional_pane_missing_busy",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "remove",
+            "path": "/views/m3_science_maestro/components/queue/payload/sessions/0/activity/pane"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "CONDITIONAL_FIELD",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "conditional_pane_present_missing",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/sessions/0/process",
+            "value": {
+              "state": "ABSENT"
+            }
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/queue/payload/sessions/0/activity",
+            "value": {
+              "state": "MISSING",
+              "observed_at": "2026-10-11T12:00:20.000Z",
+              "context_left": null,
+              "finished": false,
+              "pane": {
+                "pane_id": "%1",
+                "pid": 101,
+                "dead": false,
+                "current_command": "fixture"
+              }
+            }
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "CONDITIONAL_FIELD",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "conditional_refusal_reason_missing",
+      "context": "intel_ready",
+      "input": {
+        "base": "intel",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/intel_support/components/research_engine/payload/state",
+            "value": "REFUSING"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "CONDITIONAL_FIELD",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "conditional_components_present_not_owned",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "add",
+            "path": "/views/intel_support/components",
+            "value": {}
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "CONDITIONAL_FIELD",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "null_nonnullable_run_id",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/payload/runs/0/subject/id",
+            "value": null
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "WRONG_TYPE",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "empty_string_id",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/payload/runs/0/subject/id",
+            "value": ""
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "BAD_VALUE",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "empty_string_reason",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science",
+            "value": {
+              "state": "UNAVAILABLE",
+              "observed_at": null,
+              "payload": null,
+              "provenance": [],
+              "reason": ""
+            }
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "BAD_VALUE",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "empty_list_required_provenance",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/provenance",
+            "value": []
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "BAD_VALUE",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "empty_runs_in_runs_observed",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/payload/runs",
+            "value": []
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "BAD_VALUE",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "null_required_empty_provenance",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science",
+            "value": {
+              "state": "UNAVAILABLE",
+              "observed_at": null,
+              "payload": null,
+              "provenance": null,
+              "reason": "Source inventory denied"
+            }
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "WRONG_TYPE",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "unavailable_nonnull_payload",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science",
+            "value": {
+              "state": "UNAVAILABLE",
+              "observed_at": null,
+              "payload": {
+                "state": "NO_ACTIVE_RUN_OBSERVED",
+                "runs": [],
+                "inventory_validated": true,
+                "source_reads_validated": true
+              },
+              "provenance": [],
+              "reason": "Source inventory denied"
+            }
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "WRONG_TYPE",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "null_source_time_with_current_components",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/source_observed_at",
+            "value": null
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "SEMANTIC_INVALID",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "provenance_host_mismatch",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/provenance/0/host_id",
+            "value": "00000002-0000-0000-0000-000000000002"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "PROVENANCE_MISMATCH",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "provenance_boot_mismatch",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/provenance/0/boot_id",
+            "value": "0000000c-0000-0000-0000-00000000000c"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "PROVENANCE_MISMATCH",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "provenance_collector_generation_mismatch",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/provenance/0/collector_generation_id",
+            "value": "00000029-0000-0000-0000-000000000029"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "PROVENANCE_MISMATCH",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "provenance_collector_number_mismatch",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/provenance/0/collector_generation_number",
+            "value": 41
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "PROVENANCE_MISMATCH",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "provenance_run_generation_mismatch",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/provenance/0/subject/generation_id",
+            "value": "00000079-0000-0000-0000-000000000079"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "PROVENANCE_MISMATCH",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "receipt_subject_mismatch",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/science/payload/runs/0/evidence/0/subject/generation_id",
+            "value": "00000079-0000-0000-0000-000000000079"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "PROVENANCE_MISMATCH",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "paired_store_generation_mismatch",
+      "context": "intel_ready",
+      "input": {
+        "base": "intel",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/intel_support/components/research_engine/payload/stores/1/source_generation_id",
+            "value": "00000083-0000-0000-0000-000000000083"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "PROVENANCE_MISMATCH",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "stale_component",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/observed_at",
+            "value": "2026-10-11T11:59:49.000Z"
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/payload/sessions/0/activity/observed_at",
+            "value": "2026-10-11T11:59:49.000Z"
+          },
+          {
+            "op": "replace",
+            "path": "/source_observed_at",
+            "value": "2026-10-11T11:59:49.000Z"
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/provenance/0/observed_at",
+            "value": "2026-10-11T11:59:49.000Z"
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/provenance/1/observed_at",
+            "value": "2026-10-11T11:59:49.000Z"
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/provenance/2/observed_at",
+            "value": "2026-10-11T11:59:49.000Z"
+          },
+          {
+            "op": "replace",
+            "path": "/views/m3_science_maestro/components/maestro/provenance/3/observed_at",
+            "value": "2026-10-11T11:59:49.000Z"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "STALE_COMPONENT",
+        "scope": "m3_science_maestro.maestro"
+      },
+      "notes": "Age 32 seconds versus 30; other components independently accepted"
+    },
+    {
+      "id": "stale_nested_folder_measurement",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/views/storage_transfers/components/folder_sizes/payload/entries/0/measurement/measured_at",
+            "value": "2026-10-11T11:29:59.000Z"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "STALE_COMPONENT",
+        "scope": "storage_transfers.folder_sizes"
+      }
+    },
+    {
+      "id": "bad_base64",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "envelope",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/record_utf8_b64",
+            "value": "%%%"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "BAD_BASE64",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "bad_signature",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "envelope",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/hmac_sha256",
+            "value": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "BAD_SIGNATURE",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "unknown_schema",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/schema_version",
+            "value": 99
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "UNKNOWN_VERSION",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "wrong_host_identity",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/source_host/host_id",
+            "value": "00000002-0000-0000-0000-000000000002"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "IDENTITY_MISMATCH",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "wrong_profile_identity",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/collector/profile_sha256",
+            "value": "9999999999999999999999999999999999999999999999999999999999999999"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "IDENTITY_MISMATCH",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "oversize_envelope",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "raw",
+        "edits": [],
+        "raw_transform": {
+          "op": "append_ascii_spaces_to_total_size",
+          "total_bytes": 262145
+        }
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "OVERSIZE_ENVELOPE",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "duplicate_record_key",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record_raw",
+        "edits": [],
+        "raw_transform": {
+          "op": "prefix_duplicate_key",
+          "key": "schema_version",
+          "value": 2
+        }
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "DUPLICATE_KEY",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "empty_response",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "raw",
+        "edits": [],
+        "raw_transform": {
+          "op": "replace_utf8",
+          "value": ""
+        }
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "BAD_JSON",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "truncated_envelope",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "raw",
+        "edits": [],
+        "raw_transform": {
+          "op": "replace_utf8",
+          "value": "{"
+        }
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "BAD_JSON",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "invalid_clock_time",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/writer_at",
+            "value": "2026-10-11T11:49:59.000Z"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "BAD_TIME",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "same_generation_lower_sequence",
+      "context": "m3_seen_10",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/sequence",
+            "value": 9
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "SEQUENCE_REGRESSION",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "same_sequence_changed_bytes",
+      "context": "m3_seen_10",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/source_host/label",
+            "value": "Changed fixture label"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "SEQUENCE_CONFLICT",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "same_sequence_identical_duplicate",
+      "context": "m3_seen_10",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": []
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      },
+      "notes": "No age, receive time or high-water refresh"
+    },
+    {
+      "id": "unseen_older_generation_fresh",
+      "context": "m3_seen_10",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/collector/generation_number",
+            "value": 41
+          },
+          {
+            "op": "replace",
+            "path": "/collector/generation_id",
+            "value": "00000029-0000-0000-0000-000000000029"
+          },
+          {
+            "op": "replace",
+            "path": "/sequence",
+            "value": 999
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "OLD_GENERATION",
+        "scope": "record"
+      },
+      "notes": "Never seen generation; age 1 second; generation check precedes provenance"
+    },
+    {
+      "id": "new_generation_without_independent_pin",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/collector/generation_number",
+            "value": 43
+          },
+          {
+            "op": "replace",
+            "path": "/collector/generation_id",
+            "value": "0000002b-0000-0000-0000-00000000002b"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "TRANSITION_UNVERIFIED",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "same_number_different_uuid",
+      "context": "m3_ready",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/collector/generation_id",
+            "value": "00000063-0000-0000-0000-000000000063"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "GENERATION_CONFLICT",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "reader_state_missing",
+      "context": "m3_state_missing",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": []
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "READER_STATE_MISSING",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "reader_state_corrupt",
+      "context": "m3_state_corrupt",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": []
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "READER_STATE_CORRUPT",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "restart_cached_only",
+      "context": "m3_restarted_cached",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": []
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "TRANSITION_UNVERIFIED",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "restart_rejects_lower",
+      "context": "m3_restarted_live",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": [
+          {
+            "op": "replace",
+            "path": "/sequence",
+            "value": 9
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "UNAVAILABLE",
+        "reason_code": "SEQUENCE_REGRESSION",
+        "scope": "record"
+      }
+    },
+    {
+      "id": "restart_live_duplicate_retains_age",
+      "context": "m3_restarted_live",
+      "input": {
+        "base": "m3",
+        "layer": "record",
+        "edits": []
+      },
+      "expected": {
+        "outcome": "ACCEPT",
+        "reason_code": null,
+        "scope": "record"
+      },
+      "notes": "Original times, persisted floor/hash, conservative age preserved"
+    }
+  ]
+}
