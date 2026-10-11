@@ -64,7 +64,18 @@
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "codexre1 drafts a separate Intel amendment (v5 stays unchanged, per design.md:239-245); MAESTRO then runs the Intel pin checks; fresh Astra round after."
+          "04:23Z: you approved the design; ~04:31Z you chose Neo4j on this Mac and a small resource cap.",
+          "04:54Z: first-build plan written (20 pass/fail checks).",
+          "04:59Z: Astra said GO with 4 fixes: the engine must step aside for any waiting science run, the graph copy must be strictly add-only, a clear low-priority rule, and MAESTRO records the close-out.",
+          "05:03Z: SPEC2 wrote v2 with the 4 fixes (phase1_spec_v2.md). One gap found: nothing yet tells the engine that a science run is waiting, so building stays blocked until MAESTRO sets that up.",
+          "05:05Z: Astra re-check: 3 of 4 fixes done. Remaining: MAESTRO must set up a clear 'science run waiting' signal the engine can watch. Then the answer-key session can start.",
+          "05:12Z: MAESTRO wrote the science-waiting signal (science_reservation_contract_v1.md) and plan v3 (all open setup choices settled). Astra is checking it now. Two things will need your OK: a one-line extra step before each science run, and letting the Neo4j install update 6 shared Mac libraries.",
+          "05:15Z: you said yes to both (the extra science-run step; the 6 library updates).",
+          "05:18Z: Astra said NO-GO on the signal design: 4 real timing/safety holes. 05:24Z: MAESTRO rewrote it (v2: one shared lock, the science side itself makes sure the engine is gone, every wait has a hard limit). Astra is re-checking.",
+          "05:30Z: Astra said NO-GO again: the fixes added parts that had their own holes. 05:33Z: MAESTRO simplified instead (v3: no watcher at all; the science side alone stops the engine and checks it is gone, with one 30 s limit). Astra is checking v3.",
+          "05:40Z: Astra said NO-GO a third time. You now want the engine on the Intel Mac, which removes most of the need for the signal, so MAESTRO paused the signal work until the hardware plan (HW1) is done.",
+          "07:15Z: hardware plan approved (D-HW-2); the engine moves to the Intel Mac, so the plan is rewritten for it. The old 'science goes first' signal is no longer needed in its old form; Astra's concerns carry into a new disk-sharing rule.",
+          "08:47Z: codexre1 drafts a separate Intel amendment (v5 stays unchanged, per design.md:239-245); MAESTRO then runs the Intel pin checks; fresh Astra round after."
         ]
       },
       {
