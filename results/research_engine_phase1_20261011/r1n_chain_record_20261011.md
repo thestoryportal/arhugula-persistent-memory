@@ -33,3 +33,28 @@ sha256:
 cab8eda522b050ab0dbba3c97c54b128dc6a96b665da202c2d56485ad95302f7  r1n_evaluate_20261011T164501Z.out
 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  r1n_evaluate_20261011T164501Z.stderr
 ```
+
+## C (16:49:07–16:49:09Z)
+`RE/r1n_chain_driver_maestro51.py bind` (A.load_maker(sizing=False); M bind args as R1L; `--probe RE/intel_identity_probe_r1h_20261011T131105Z.json`; `--bootstrap-start-utc 2026-10-11T16:49:07Z`). rc 0, stderr empty, final qualified, m3_deadline 1791738217.0 (= start + 870 s, 17:03:37Z). Capture sha256 73e5fb3a…; committed e8d46659.
+```
+9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa  r1j_bind_r1n_20261011T164907Z.exit
+59e76d46969ce4deac245576896f3259c5cf2a400e8197fd1a350c0a635d9d37  r1j_bind_r1n_20261011T164907Z.final
+59e76d46969ce4deac245576896f3259c5cf2a400e8197fd1a350c0a635d9d37  r1j_bind_r1n_20261011T164907Z.final.pending
+73e5fb3ae1962eb2ac762a6743bbc4a912f655b1d88ded78ef20b36155d908bb  r1j_bind_r1n_20261011T164907Z.json
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  r1j_bind_r1n_20261011T164907Z.stderr
+```
+
+## Gate D (16:49:16Z): GATE D GO
+Checker `RE/r1n_chain_driver_maestro51.py gate` (committed 49c71b14 before C; dry-run on the consumed R1J bind failed D6/D8 as required). Output verbatim:
+```
+D1 PASS mismatches=[] N.capture_sha256=3506fe32f9b3 committed=3506fe32f9b3
+D2 PASS age=235s final={'exit': 0, 'm3_deadline': 1791737971.6292312, 'm3_qualified_at': 1791737122.036215, 'qualified': True}
+D3 PASS ['.exit', '.final', '.final.pending', '.json', '.stderr'] 7188 B
+D4 PASS new_since_B={'/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/research_engine_phase1_20261011/r1n_evaluate_20261011T164501Z.exit': 2, '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/research_engine_phase1_20261011/r1n_evaluate_20261011T164501Z.out': 4246, '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/research_engine_phase1_20261011/r1n_evaluate_20261011T164501Z.stderr': 0} resized={} bind_set=113619 B old_state_now=7386341 D(B)=4009702
+D5 PASS receipts=37732722 setup=1949513676
+D6 PASS core=a32411006dc3 roots=['absent', '/private/tmp/r1l-intel-provisioning-v11', 'absent', '/private/tmp/r1l-intel-window-registration-v11'] seals=True differ=['binding_provenance', 'collector', 'window_seal'] attempt_absent=True
+D7 PASS live=2175092 calls=223284
+D8 PASS left=860s deadline=1791738217.0
+GATE D GO
+```
+MAESTRO judgment (non-numerical): writer control holds — no scheduled/MacPorts writers (16:43Z survey), the only possible writer is the operator at the Intel console, old r1h-v7 state byte-identical at D; row drift since A (~4 min) is unobserved and is covered by the fixed D(B) 4,009,702 allowance, of which 4,248 bytes are used by B's own output; no evidence update; 860 s left for E, preservation and commits (declared minimum 420 s).
