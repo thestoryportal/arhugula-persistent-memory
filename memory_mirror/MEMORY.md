@@ -131,6 +131,7 @@
 - [Count running duplicates before launch](check-for-running-duplicate-before-launch.md) — a prior chain may already run the same check; `pgrep -f … | wc -l` first
 - [Trim builder reading lists](trim-builder-reading-lists.md) — MB23's 4-item reading pass cost 36% context before any edit; give line ranges or split read/build
 - [Codex hook-trust prompt at launch](codex-hook-trust-prompt-at-launch.md) — fresh builder may stall on hook trust; check pane ~20 s, send 3 (no new trust)
+- [Codex watch: anchor tokens, context from rollout](codex-watch-anchor-replies-read-context-from-rollout.md) — brief echoes reply tokens (anchor ^); truncated footer → read rollout token_count
 - [Read handoff before launching successor](read-handoff-before-launching-successor.md) — a 40%-stop may be a finished build; verify, do not relaunch
 - [Dry admission probe before one-shot](dry-admission-probe-before-one-shot.md) — read-only probe('cpu') first so a refusal can't burn a single authorized attempt
 - [Record provenance per test run](record-provenance-per-test-run.md) — RED/GREEN logs need command + source/test SHA-256 or they cannot be cited; use a mktemp copy for old-source RED
