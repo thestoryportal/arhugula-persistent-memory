@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T16:51:29Z",
+    "edited": "2026-10-11T16:54:25Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -145,8 +145,8 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "running",
-        "who": "codexr2n4 (launch list) + codexr2p (one-example fix), then Astra round 6",
+        "state": "in_review",
+        "who": "Astra round 6 (MAESTRO51 watching)",
         "session": "codexr2m2, codexr2n",
         "started": "2026-10-11T09:03Z",
         "estimate": {
@@ -180,7 +180,8 @@
           "16:08Z: the launch-list builder ran low on room and handed off cleanly. Done so far: one science run fully described (the C10U wordlist script), 8 runs refused for specific reasons, 111 matches marked 'not science' (other apps' agents, backup helpers, package files). 242 matches still to sort. MAESTRO50 re-checked its files (they parse, the size is in limits, and every recorded fingerprint matches) and started a fresh successor, codexr2n2, to finish the sorting.",
           "16:15Z: the rules-freeze builder finished: version 4 of the shared-drive rules plus the matching record formats, including the 'science runs are watched, not sandboxed' decision. MAESTRO50 checked it independently: right length and all nine sections, the formats load, every example names a real format, every required cross-reference fingerprint is present, and every pinned file fingerprint recomputes. Next: the checker builder (codexr2o), while codexr2n2 finishes the launch list; then the expert's round 6.",
           "16:21Z: the launch-list successor sorted all 242 remaining matches (89 not science, 7 more refused for a specific reason, 146 science runs still to describe) and handed off; MAESTRO50 re-checked its files and started a third session, codexr2n3, which takes the record shapes from the now-final rules. The checker builder codexr2o is working in parallel.",
-          "16:35Z: two things. (1) The new checker caught a real slip in the rule formats: the 'first setup' example points at the wrong record. A small fixer (codexr2p) is correcting that one example and re-running the checker. (2) Describing every old experiment's launcher would take about 24 more sessions, so MAESTRO50 decided to describe only the launchers the next science run will use (the C10W family the re-test reuses, plus the wordlist and tokenizer scripts) and to mark every other launcher 'retired': it is simply not allowed to run alongside drive copies until someone describes it. That is the safe direction; the expert judges it in round 6 (r2_inventory_scope_decision.md). codexr2n4 is doing that now."
+          "16:35Z: two things. (1) The new checker caught a real slip in the rule formats: the 'first setup' example points at the wrong record. A small fixer (codexr2p) is correcting that one example and re-running the checker. (2) Describing every old experiment's launcher would take about 24 more sessions, so MAESTRO50 decided to describe only the launchers the next science run will use (the C10W family the re-test reuses, plus the wordlist and tokenizer scripts) and to mark every other launcher 'retired': it is simply not allowed to run alongside drive copies until someone describes it. That is the safe direction; the expert judges it in round 6 (r2_inventory_scope_decision.md). codexr2n4 is doing that now.",
+          "16:54:17Z: the launch list is finished and checked: 55 complete launch descriptions for the science programs still in use, and 168 programs from finished experiments marked 'not allowed until described' (safe default). I re-checked every file fingerprint (206 of 206 match). The expert's round 6 review of the whole package started at 16:53Z."
         ]
       },
       {
