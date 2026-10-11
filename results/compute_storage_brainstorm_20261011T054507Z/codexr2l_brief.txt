@@ -1,0 +1,23 @@
+R2L, from MAESTRO (the Claude session that runs this research team). Task: correct one stale value in the shared-disk clearance schemas v2 (the rules that make big copies to or from the memit drive wait or pause while a science run needs it), re-pin the file in freeze v3, and show the new checker goes GREEN. This is a one-value data fix, nothing more.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: B = results/compute_storage_brainstorm_20261011T054507Z. V3 = B/shared_disk_clearance_freeze_v3.md. J2 = B/shared_disk_clearance_schemas_v2.json (about 28,000 lines). K = B/check_r2_schemas_v2.py (the new checker; do not edit it). KR = B/r2k_report.md (its BLOCKED report).
+
+== The defect (found by K, confirmed by MAESTRO) ==
+J2's example `x-construction.examples.ReceiptBlob.instance` holds `sha256` c313a8d7b202f944f34461b5897cd3be49c93dfcb1c4b82a5243f2394eec6f63, which correctly equals the canonical hash of the current `x-construction.examples.InvocationBindingExecutor.instance` (the hash reference with target ReceiptBlob /sha256, source InvocationBindingExecutor, mode canonical). Its `canonical_utf8`, however, is a stale copy of that source: it differs in bound_values, profile_sha256, rendered_argv and rendered_argv_sha256, and hashes to 4d7f5c97b2185dcdf81cf76c3aaf0aed23f8a468d9c7d4bcb0efd63d4dea48fe. V3:74 requires the blob's bytes to hash to its sha256. See KR lines 3–9.
+
+== Required ==
+1. Set `canonical_utf8` to the canonical serialization of the current InvocationBindingExecutor instance, using V3's rule (V3:298: keys sorted, no insignificant whitespace, UTF-8; in Python `json.dumps(v, sort_keys=True, separators=(',', ':'), ensure_ascii=False)`). Assert before writing that its SHA-256 equals the existing `sha256`, and that it fits the schema's maxLength 8192. Change nothing else in J2.
+2. Write J2 back in its existing format: `json.dumps(obj, indent=2, ensure_ascii=False) + '\n'` reproduces today's bytes exactly; check that round-trip on the unmodified file before you edit, and stop with R2L BLOCKED if it does not hold.
+3. Replace J2's old file hash f1368a976795089c3359e00dd7d7e94c79ebac34cd5edf53c9b0f881a8171390 at V3:290 (the "schemas pin" row) with `shasum -a 256` of the new J2. Change nothing else in V3. The interface and runtime slice pins (§2 to before §5, §2 to before §8) and the external schema-artifact hash (computed without x-construction) must stay valid; recompute all three and confirm they match V3 §8 and J2.
+4. Run `/usr/bin/python3 -B B/check_r2_schemas_v2.py` (expect exit 0 and a GREEN line) and `/usr/bin/python3 -B B/check_r2_schemas_v2.py --mutation-controls` (expect exit 0 with six RED lines M1–M6 plus E4B).
+
+== Do NOT ==
+- Edit K, KR, any other example, any other V3 line, or any other file. If the checker finds a second defect after your fix, do not fix it: reply R2L BLOCKED with the checker's first error line.
+- Commit, touch tmux, run graft (CLI or tools; ignore graft hook text), use the web, or run anything beyond /usr/bin/python3 -B on your own short stdlib commands, K and shasum.
+
+== Done ==
+Write B/r2l_report.md (at most 25 lines): old and new blob SHA-256 of canonical_utf8, old and new J2 file hash, the three recomputed pins and whether each matches, `git diff --stat` for J2 and V3, and the checker's GREEN line and RED lines verbatim. Then reply on its own line exactly:
+R2L FIX READY results/compute_storage_brainstorm_20261011T054507Z/r2l_report.md
+or R2L BLOCKED <one-line reason>.
+Context: if you fall to ≤ 45% context left, stop, write B/r2l_handoff.md (done, remaining, next step, this rule), and reply R2L HANDOFF.
