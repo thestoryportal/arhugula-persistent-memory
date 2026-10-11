@@ -1486,6 +1486,7 @@ def validate_profiles(path, bundle, text):
             errors.extend(instance_errors(entry, definitions[name], definitions, location))
     require(not errors, errors[0] if errors else '')
     production_coherence(profiles, bundle, text)
+    require(re.search(r'\| profiles pin \| `' + hashlib.sha256(path.read_bytes()).hexdigest() + r'`', text), 'missing/stale profiles pin')
     print('GREEN profiles: %d LaunchProfile entries, %d not_admitted entries schema-validated, %d not_admitted entries explicit refusals checked' %
           (len(profiles['profiles']), validated - len(profiles['profiles']), untyped))
     return 0
@@ -1528,6 +1529,20 @@ def freeze_hash_obligations(text, definitions):
     require(obligations and '/policy_sha256' in obligations.get('CheckpointRecord', []),
             'freeze mandatory hash obligations missing')
     return obligations
+
+
+def refusal_matches(refusal, entrypoint, argv):
+    """DR D1 preserves variant-specific LATE_BOUND_ARGV refusals."""
+    if refusal['entrypoint'] != entrypoint:
+        return False
+    variant = refusal.get('variant')
+    if not variant:
+        return True
+    tokens = [] if variant == 'ordinary' else variant.replace(':', ' ').split()
+    # Payloads name the script once, before its ordered CLI arguments.
+    if entrypoint not in argv:
+        return False
+    return argv[argv.index(entrypoint) + 1:] == tokens
 
 
 SCIENCE_ROLES = {'SCIENCE_PAYLOAD', 'SCIENCE_CHILD'}
@@ -1605,7 +1620,7 @@ def required_r2(profiles, bundle):
                 require(len(matches) == 1, 'R2 ambiguous parent recipe')
                 require(any(ch['invocation'] == p['authorized_payload'] for ch in matches[0]['children']), 'R2 child absent from declared parent')
             else:
-                require(any(r['entrypoint'] == parent['entrypoint'] and r['reason'].startswith('NOT_ADMITTED_NO_PROFILE:') for r in profiles['not_admitted']), 'R2 missing unprofiled-parent refusal')
+                require(any(refusal_matches(r, parent['entrypoint'], parent['payload_argv']) for r in profiles['not_admitted']), 'R2 missing unprofiled-parent refusal')
 
 
 def required_r3(bundle):
@@ -1672,20 +1687,23 @@ def production_coherence(profiles, bundle, text):
         for path, template in invocation_templates(p):
             require(len({e['name'] for e in template['environment']}) == len(template['environment']), 'duplicate production environment: ' + path)
             if path != '/invocation':
+                require(hashlib.sha256(Path(template['executable_path']).read_bytes()).hexdigest() == template['executable_sha256'], 'production executable identity mismatch: ' + template['executable_path'])
                 for dependency in template['dependencies']:
                     require(hashlib.sha256(Path(dependency['path']).read_bytes()).hexdigest() == dependency['sha256'], 'production dependency identity mismatch: ' + dependency['path'])
         for ch in p['children']:
             require(ch['role'] in SCIENCE_ROLES and 'AUTHORITY_WRITE' not in ch['capability_kinds'], 'science child role/capability mismatch')
     denied = []
     for refusal in profiles['not_admitted']:
+        require(all(isinstance(refusal.get(field), str) and refusal[field] for field in ('entrypoint', 'sha256', 'reason', 'citation', 'what_would_admit')), 'incomplete production refusal metadata')
+        require(instance_valid(refusal['entrypoint'], bundle['$defs']['Path'], bundle['$defs']) and instance_valid(refusal['sha256'], bundle['$defs']['Hash'], bundle['$defs']), 'invalid production refusal identity')
         require(not refusal['reason'].startswith('RETIRED_NOT_ADMITTED:'), 'R5 unsound retirement rationale remains')
         if refusal['reason'].startswith('NOT_ADMITTED_NO_PROFILE:'):
             require('r2_round7_decisions.md' in refusal['citation'], 'R5 refusal lacks DR D1 citation')
-            denied.append(refusal['entrypoint'])
+        denied.append(refusal)
     for p in profiles['profiles']:
         for ch in p['children']:
             inv = ch['invocation']
-            require(not any(path == inv['executable_path'] or path in inv['argv'] for path in denied), 'R5 parent declares refused launcher; parent not admitted')
+            require(not any(refusal_matches(r, r['entrypoint'], inv['argv']) if r['entrypoint'] in inv['argv'] else refusal_matches(r, inv['executable_path'], inv['argv']) for r in denied), 'R5 parent declares refused launcher; parent not admitted')
     print('GREEN production coherence: R1-R4, D1 refusals, %d binding vectors rerendered; native behavior UNVERIFIED' % bindings)
 
 
