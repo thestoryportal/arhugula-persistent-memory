@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T08:45:20Z",
+    "edited": "2026-10-11T08:48:33Z",
     "items": [
       {
         "id": "backups-audit",
@@ -51,26 +51,20 @@
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "ready",
-        "who": "MAESTRO",
-        "session": "",
-        "started": "2026-10-11T04:37:00Z",
-        "estimate": null,
+        "state": "running",
+        "who": "Codex (codexre1), then MAESTRO, then Astra",
+        "session": "codexre1",
+        "started": "2026-10-11T08:47Z",
+        "estimate": {
+          "low_min": 30,
+          "high_min": 75,
+          "set": "2026-10-11T08:48Z"
+        },
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "04:23Z: you approved the design; ~04:31Z you chose Neo4j on this Mac and a small resource cap.",
-          "04:54Z: first-build plan written (20 pass/fail checks).",
-          "04:59Z: Astra said GO with 4 fixes: the engine must step aside for any waiting science run, the graph copy must be strictly add-only, a clear low-priority rule, and MAESTRO records the close-out.",
-          "05:03Z: SPEC2 wrote v2 with the 4 fixes (phase1_spec_v2.md). One gap found: nothing yet tells the engine that a science run is waiting, so building stays blocked until MAESTRO sets that up.",
-          "05:05Z: Astra re-check: 3 of 4 fixes done. Remaining: MAESTRO must set up a clear 'science run waiting' signal the engine can watch. Then the answer-key session can start.",
-          "05:12Z: MAESTRO wrote the science-waiting signal (science_reservation_contract_v1.md) and plan v3 (all open setup choices settled). Astra is checking it now. Two things will need your OK: a one-line extra step before each science run, and letting the Neo4j install update 6 shared Mac libraries.",
-          "05:15Z: you said yes to both (the extra science-run step; the 6 library updates).",
-          "05:18Z: Astra said NO-GO on the signal design: 4 real timing/safety holes. 05:24Z: MAESTRO rewrote it (v2: one shared lock, the science side itself makes sure the engine is gone, every wait has a hard limit). Astra is re-checking.",
-          "05:30Z: Astra said NO-GO again: the fixes added parts that had their own holes. 05:33Z: MAESTRO simplified instead (v3: no watcher at all; the science side alone stops the engine and checks it is gone, with one 30 s limit). Astra is checking v3.",
-          "05:40Z: Astra said NO-GO a third time. You now want the engine on the Intel Mac, which removes most of the need for the signal, so MAESTRO paused the signal work until the hardware plan (HW1) is done.",
-          "07:15Z: hardware plan approved (D-HW-2); the engine moves to the Intel Mac, so the plan is rewritten for it. The old 'science goes first' signal is no longer needed in its old form; Astra's concerns carry into a new disk-sharing rule."
+          "codexre1 drafts a separate Intel amendment (v5 stays unchanged, per design.md:239-245); MAESTRO then runs the Intel pin checks; fresh Astra round after."
         ]
       },
       {
