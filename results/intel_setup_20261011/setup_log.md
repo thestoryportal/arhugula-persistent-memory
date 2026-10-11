@@ -12,3 +12,4 @@
 - No Homebrew, no Command Line Tools (git and python3 are stubs that prompt an install); rsync 2.6.9.
 - Hardware: MacBookPro16,2, i5-1038NG7 (4 cores / 8 threads), 16 GB, macOS 14.8.9 (23J631), x86_64.
 - Networks: Intel internet via Wi-Fi gateway 192.168.1.1; the M3 is on 192.168.8.1 / 192.168.9.155, a different network. Only the cable joins them.
+- 07:42Z: operator chose to shrink the caps to fit (decisions_log.md amendment 16) and to leave FileVault off (amendment 17).

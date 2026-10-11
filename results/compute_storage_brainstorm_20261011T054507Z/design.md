@@ -420,3 +420,5 @@ Watch Context N% left for this session and every orchestrated session. Start a n
 ## Post-review amendments (MAESTRO36, 2026-10-11, after Astra r1 GO-WITH-CONDITIONS)
 
 Operator approval (choice 15, 07:03:36Z) covered the text hashed 3f77e638…05ce1. Edits since then, none changing a choice: §8 (line 263) makes Intel-first the sole first-upload route per choice 11 (Astra R1); lines 136 and 307 mark answered section checks (Astra F6); citations corrected at lines 22, 24, 33, 89, 263 and 275 (MAESTRO verification). Astra R2–R5 are dispatch preconditions recorded in integration_plan.md. Verdict: astra_r1_verdict.md; verification: maestro_verification_r1.md.
+
+Amendments 16-17 (07:42:54Z, decisions_log.md): §4 caps resized to the measured 512 GB SSD (250/50/40/50/6 GB, ≥80 GB free); FileVault stays off on the Intel Mac.

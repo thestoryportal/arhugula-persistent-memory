@@ -181,3 +181,18 @@ Recorded 2026-10-11T07:03:36Z using `date -u`.
 > "Very important consideration as we proceed wit this design: there are several previous design plans and build in the queue that this design and others before it cross over into each other. So we must ensure that there is a durable cross cutting concerns, conflicts, collisions, and deign implementation plan that brings them all together seamlessly. I approve this session's design."
 
 Decision: approve this session's assembled design, including the conditional friend trial and no-loan fallback. Add a binding cross-cutting integration requirement: one durable plan must reconcile this architecture with earlier designs, queued builds, shared interfaces/paths/resources, prior approvals and review findings before affected implementation is dispatched. HW2 creates integration_plan.md as the source-backed seed and explicit completion contract; MAESTRO owns live queue/owner reconciliation, amendments, binding review and canonical propagation. No install, connection, credential move, deletion, Git mutation or science run is authorized by design approval.
+
+## Amendment 16 — choice 6 resized to the measured disk (MAESTRO36 question)
+
+Recorded 2026-10-11T07:42:54Z using `date -u`.
+
+The 07:40Z inventory (results/intel_setup_20261011/inventory_20261011T0740Z.txt) found a 512 GB SSD (500.0 GB container, 482.5 GB free), not 1 TB. Choice 6's caps (686 GB + 100 GB free) do not fit. Operator answer to "How should we fit it?": "A: Shrink to fit (Recommended)".
+
+Decision: same priorities, smaller limits (decimal GB): 250 current recovery copy, 50 extra unique history, 40 builder work/tools, 50 temporary analysis/transfer, 6 pilot/setup, at least 80 kept free; 476 GB in all against 482.5 GB measured free. The recovery copy holds what cannot be rebuilt; finished bulk stays on Drive (choice 3). Choice 7's retention scheme now fits within 50 GB of history; overflow is shown, never silently trimmed. memit thresholds and the every-job projected peak + 20 GiB rule are unchanged.
+
+## Amendment 17 — FileVault stays off on the Intel Mac
+
+Recorded 2026-10-11T07:42:54Z using `date -u`.
+
+Operator answer to "Turn encryption on?": "Leave it off". The Intel Mac comes back by itself after a restart; its disk, including the research-data copy and any later Drive login, is readable by whoever holds the laptop. The Drive credential decision (activation's separate operator OK) must restate this.
+
