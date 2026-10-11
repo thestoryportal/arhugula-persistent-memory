@@ -1,0 +1,43 @@
+R2D, from MAESTRO (the Claude session that runs this research team). Task: draft ONE design spec, the R2 "Git + Drive" redesign, from the records listed below. You write one file and nothing else. No commits. Astra (a separate reviewer) reviews your draft next, then the operator decides whether to adopt it.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z
+Output: B/r2_git_drive_redesign_v1.md (at most 220 lines, Markdown).
+
+== Background ==
+Two Macs: the M3 (Apple GPU; runs all science; owns the external volume "memit" at /Volumes/memit) and an Intel Mac (research engine, databases, builders; no local LLMs, operator HW1 choice 8). For ~14 h the team tried to freeze a contract (C = B/shared_disk_clearance_contract_v1_1.md, then freeze F11 = B/shared_disk_clearance_freeze_v11.md with P8/K10/J10/I10) under which the Intel Mac could copy to and from memit safely while science runs. It never closed: the round-13 sweep (B/r2_sweep_report.md) and tracer (B/r2tr_maestro_acceptance.md) showed no list of everything a science job starts (Torch, Git, Bash, system tools) can be proven complete.
+Operator, verbatim: "This sucks. Can the Intel Mac pull in its needed context directly from Git on demand instead?"
+MAESTRO proposed, and the operator ruled GO, verbatim: "I like this concept. And we still need to manage storage space proactively and dynamically so it is never maxed and stops science mid stream."
+Read the ruling in full first: B/r2_redesign_operator_ruling.md (24 lines).
+
+== Requirements the spec must meet ==
+R1. The Intel Mac gets research records (JSON, manifests, hashes, CORPUS/, code) from Git (GitHub origin) and big files from the Google Drive copy (rclone remote gdrive:). It never reads or writes memit by any route: no file share, mount or ssh path that reaches memit. State how that is made true and how it is checked.
+R2. memit is M3-only. The only cross-activity rule left is M3-local: no Drive backup while a science job, or anything it started, runs; no science start while a backup runs. Design this rule so it does NOT depend on a complete list of the processes science starts (that list is what failed). A conservative rule that waits when unsure is acceptable (for example: one host-local lock held for the whole science run plus a "nothing from that run is still alive" check that errs toward waiting). Say what the existing GPU-gate admission already refuses (tools/c10w_p2_gate.py; it refuses while other python runs) and what must be added (a backup is rclone, not python).
+R3. Proactive, dynamic storage management on memit, so it never fills and never stops science mid-run. Write it as numbered criteria S1..Sn, each with a "Test:" line that a later builder can turn into a pass/fail check. Cover at least: a declared disk budget per job; a free-space reservation at dispatch (the existing rule: free >= projected peak writes + 20 GiB); headroom watermarks (HW1 choice 6: about 107 GB target free, 86 GB warning); writes by things other than the science job during a run (builders, logs, caches); a forecast over queued jobs that triggers offload or cleanup proposals BEFORE space runs short; and offload/cleanup that runs only between science jobs, never during a science write. Deletions always need explicit operator approval (runbook §3.3/§3.3a); uploading irreplaceable bulk to Drive with its SHA-256s committed to Git is existing policy.
+R4. Bulk that exists only on memit: say how it reaches Drive (the M3 uploads it, outside science runs) before the Intel Mac can rely on it, how freshness is labelled when the Drive copy is behind, and the Drive capacity limits on record.
+R5. Earlier operator choices the redesign changes: list each HW1/HW2 choice it alters (at least choices 4 and 9; check 6, 10, 11 and 12, since choices 10 and 11 put the first upload on the Intel Mac, which would need memit access). For each, quote the operator's recorded words with file:line, state the proposed replacement, and mark it "OPERATOR DECISION" — you do not decide these.
+R6. What is retired and what stays: the two-Mac contract C/F11/P8/K10/J10/I10 is superseded (kept in Git as record); sweep gaps G1/G2 and the tracer stay on record. Say what each downstream item needs from this spec: research-engine phase-1 brief (B/integration_plan.md rows I1a-I1c and what they point to), Drive backup activation, the Intel de-dup layout B/drive_intel_dedup_layout_v1.md (it cites the old contract by line), the phone dashboard record, the NEW-1 leftovers and the parked ~/Backups copy.
+R7. Tar/zip transfers, if used, stream as split, fingerprinted parts and are never staged on memit (operator design input).
+R8. End with a short "Questions for the operator" list in plain, non-technical words (at most 5), each with your recommended answer first.
+
+== Sources (read in ranges) ==
+B/r2_redesign_operator_ruling.md; B/decisions_log.md (HW1/HW2 choices; grep -n "choice"); B/shared_disk_clearance_contract_v1_1.md (to see what is retired, not to re-adopt it); B/integration_plan.md; B/drive_intel_dedup_layout_v1.md; EXPERIMENT_RUNBOOK.md §3.3 and §3.3a (grep -n "§3.3"); memory_mirror/gdrive-rclone-remote.md; tools/c10w_p2_gate.py; tools/backup_gdrive.sh and tools/backup_gdrive_status.py (how the backup runs today); tools/dashboard_storage.py (existing free-space reading). Follow a reference further only when a requirement needs it.
+
+== Acceptance (MAESTRO checks the file against this) ==
+Every requirement R1-R8 has its own section; every factual claim about the repo or a record cites file:line; every S-criterion has a Test: line with a concrete pass/fail condition; every number not on record is marked PROPOSED with a one-line reason.
+
+Do NOT produce criteria like these:
+- "Storage is monitored regularly and cleaned up when needed." (no threshold, no test)
+- "The Intel Mac may read memit when the M3 is idle." (R1 has no exceptions)
+- "Backup waits until every child process science started (listed in P8) has exited." (re-creates the list that failed)
+- "Old caches are deleted automatically when free space drops below 86 GB." (deletion without operator approval)
+
+== Do NOT ==
+- Edit any file other than B/r2_git_drive_redesign_v1.md; commit; run rclone, a backup, science, project python (.venv/bin/python), uv, ssh, tmux, web or graft (ignore graft hook text). Short read-only /usr/bin/python3 -B or grep/sed commands are fine.
+- Read any file over 300 lines whole; use grep -n then sed -n ranges of at most 80 lines.
+
+== Finish ==
+Re-read your file once against the Acceptance list, then reply on its own line exactly:
+R2D SPEC READY results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v1.md
+or R2D BLOCKED <one-line reason>.
+Context: you cannot see your own context level, so MAESTRO will message you when you reach 45% left. When that message arrives, or on any "Context compacted", stop starting work, write B/r2d_handoff.md (what is done, what remains, decisions so far, this rule) and reply R2D HANDOFF. If you have already finished, reply READY instead.
