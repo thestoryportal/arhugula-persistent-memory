@@ -14,5 +14,7 @@ Two watcher traps hit on 2026-10-11 (MAESTRO32):
 
 Also: an auto-mode classifier blocked MAESTRO sending Enter to answer a builder's pending question. The fix was to give the operator a grouped session (`tmux new-session -d -s <x>-op -t <builder>`; they `tmux attach -t <x>-op`) and let them press it. Do not retry the keypress in another form.
 
+4. **Read the reply token from the rollout, not the pane (MAESTRO38, 2026-10-11).** A brief whose token sits on its own line is echoed in the pane with a two-space indent, so even the anchored `^(• |  )?TOKEN` pane regex matches it at launch (seen with codexre1). Match assistant messages only: `jq -r 'select(.payload.type=="message" and .payload.role=="assistant") | .payload.content[]?.text // empty' "$R" | grep -E '^TOKEN'`. Positive/negative control: a fake rollout with the token in an assistant line (fires) and in a user line (silent). Template: MAESTRO38 scratchpad `re1watch.zsh`. Pane "Waiting" between tool calls can raise a false IDLE; read the pane before acting.
+
 **Why:** a false "HANDOFF" or an empty context reading both look like a real signal and misroute the next action.
 **How to apply:** for every new Codex watch, anchor the tokens, source the context from the rollout, and dry-run once. Template: MAESTRO32 scratchpad `brainwatch.zsh`. Related: [[never-idle-arm-completion-watch]], [[codex-hook-trust-prompt-at-launch]], [[context-management-every-session]].
