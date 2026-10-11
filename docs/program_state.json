@@ -29,14 +29,14 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T16:35:27Z",
+    "edited": "2026-10-11T16:37:27Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "in_review",
-        "who": "Astra round 13 (running), then your one approval",
+        "state": "running",
+        "who": "MAESTRO51 runs the approved v11 chain (A-E, one attempt)",
         "session": null,
         "started": "2026-10-11T08:47Z",
         "estimate": null,
@@ -94,7 +94,8 @@
           "15:52Z: with your approval, the size check ran on the Intel Mac (it only read). The fixed pass/fail rule said FAIL: the full file list would need about 35 MB of record space, but only 18 MB is set aside. Almost all of it is the 61,743 files and folders already under /opt/local. So the chain stopped as planned: no setup ran and nothing was changed on the Intel Mac. Your approval is used up. Next: re-plan the space budget (or how /opt/local is recorded) with the expert, then ask you again.",
           "16:02Z: MAESTRO50 started builder codexr1n to re-plan the space budget as version 11: keep the 2 GB setup ceiling, give the file-list records enough room (sized from the 15:52Z measurement, with a growth reserve fixed in advance) and take that room from another reserve. It also writes up two other options for you to weigh later (record /opt/local more compactly; clear the old leftover Intel files, which would need your OK). It builds and tests only on this Mac. Next: check its work, then the expert's round 13, then one new question to you.",
           "16:21Z: the re-plan builder finished version 11: 38 MB for the file-list records (was 18 MB), the failure reserve cut from 70 MB to 16 KB (the source shows the bigger leftovers are already counted elsewhere), and the 2 GB ceiling kept. MAESTRO50 reran all its tests (7, 10 and 64, all passing). But MAESTRO50 found one gap: almost no room is left for the Intel Mac's files to change before the next measurement (~690 files), so a small MacPorts update would fail the next run and waste your approval. The same builder is adding that reserve now (the record space goes to about 42 MB, still well under the ceiling). Then the expert's round 13.",
-          "16:35Z: the reserve fix is in and MAESTRO50 re-checked it (all tests pass: 9, 10 and 64): 42 MB for the records, so the Intel Mac's files can grow by about 3.3 MB before the next measurement and still pass; the 2 GB ceiling keeps about 46 MB spare. The expert's round 13 review is running now. If it says yes, the next step is one approval question to you."
+          "16:35Z: the reserve fix is in and MAESTRO50 re-checked it (all tests pass: 9, 10 and 64): 42 MB for the records, so the Intel Mac's files can grow by about 3.3 MB before the next measurement and still pass; the 2 GB ceiling keeps about 46 MB spare. The expert's round 13 review is running now. If it says yes, the next step is one approval question to you.",
+          "16:37Z: the expert said yes (round 13), with three conditions MAESTRO follows during the run (written in r1n_gate_d_addendum_r13.md). You approved one run at 16:37Z. Next: a fresh MAESTRO session runs it step by step (measure, check, set up, gate check, file list), stopping at the first failure."
         ]
       },
       {
