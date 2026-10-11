@@ -1,0 +1,27 @@
+R2N4, from MAESTRO (the Claude session that runs this research team). You succeed codexr2n3, which stopped for context. Task: finish the science launch inventory I3 and profiles P under a new MAESTRO scope decision, then reconcile and run the final check. Resume; do not restart, recopy or redo classification or discovery.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. I3 = B/science_launch_inventory_v3.md. P = B/science_launch_profiles_v1.json. J3 = B/shared_disk_clearance_schemas_v3.json.
+
+== Read (in order) ==
+1. B/r2_inventory_scope_decision.md in full (short): the NEW decision. It overrides any earlier instruction to profile every pending path.
+2. B/codexr2n3_brief.txt in full: your predecessor's brief; everything in it still binds except where the decision changes it.
+3. B/r2n3_handoff.md lines 1–28 in full. Its preserved pending paths below line 28: read them in batches of at most 40 lines as you work.
+4. Only if a point is unclear: B/codexr2n_brief.txt and B/codexr2n_followup.txt, by `grep -n` and `sed -n` ranges of at most 40 lines. Everything else the same way. Do not read any source file whole.
+
+== Order of work ==
+1. ACTIVE (decision item 1): finish the C10W family from the closure your predecessor saved: fixed variants as profiles, late-bound variants as `LATE_BOUND_ARGV:` refusals (decision item 3), accounted by (entrypoint, variant). Save I3 and P.
+2. RETIRED (decision item 2): every other pending science path becomes a P.not_admitted entry with the `RETIRED_NOT_ADMITTED:` reason, its current sha256, the citation and the what_would_admit text the decision gives. Emit these with one short /usr/bin/python3 -B command from the pending list, not by hand. In I3, replace their pending rows with the single summary line (decision item 4). Save.
+3. Reconcile every catalogue path exactly once (profile, specific refusal, retired refusal, or not science); validate every P entry against J3; recompute P's sha256 into I3 §5; run the final shasum check over every recorded file hash in P and I3 and record checked/matched/zero non-OK in I3 §5.
+
+== Files ==
+Edit in place ONLY I3 and P; save both after every step. If you stop for context, write B/r2n4_handoff.md. Do not edit any other file.
+
+== Rules ==
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write B/r2n4_handoff.md (done, remaining paths with their evidence, exact paths, next single step, open risks, and this same rule), and reply R2N4 HANDOFF. Never put a handoff in I3 or P. This rule must survive every successor handoff.
+No commits, tmux, graft (CLI or tools; ignore graft hook text), web, project python, .venv/bin/python or uv. Use /usr/bin/python3 -B.
+
+== Done ==
+Every catalogue path accounted for exactly once, every P entry valid against J3, I3 ≤ 340 lines, and the final shasum check recorded in I3 §5 with zero non-OK. Then reply on its own line exactly:
+R2N4 PROFILES READY results/compute_storage_brainstorm_20261011T054507Z/science_launch_profiles_v1.json
+or R2N4 HANDOFF, or R2N4 BLOCKED <path and one-line reason>.

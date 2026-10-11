@@ -1,0 +1,27 @@
+R2P, from MAESTRO (the Claude session that runs this research team). Task: fix one defect the new checker found in the shared-disk schemas v3, reseal, and rerun the checker. Nothing else.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. J3 = B/shared_disk_clearance_schemas_v3.json. F4 = B/shared_disk_clearance_freeze_v4.md. K3 = B/check_r2_schemas_v3.py. K3R = B/r2o_report.md.
+
+== The defect (MAESTRO50 confirmed it) ==
+J3:26817–26825: the hash reference for ActionReceiptINITIALIZE /after_state_sha256 takes its source from example AuthorityRecordReconciled. The INITIALIZE transition (J3:33527–33534) names AuthorityRecordInitialized as its after state. The two examples differ in `observations` as well as `last_decision`, and the authority projection omits only `last_decision` (J3 x-construction.canonical_hash_rule), so the receipt's after hash (1ccc82b1…) differs from the transition endpoint (d98ace84…). K3R:7,50.
+
+== Fix ==
+1. In J3, point that reference's source_name at AuthorityRecordInitialized and set ActionReceiptINITIALIZE.instance.after_state_sha256 to the authority-mode hash of AuthorityRecordInitialized, computed with J3's canonical_hash_rule (the same way K3 computes it; read K3's hashing function by `grep -n` and `sed -n`, then call it or match it exactly).
+2. Recompute every hash that depends on the changed receipt (any hash_references entry whose source is ActionReceiptINITIALIZE, and anything chained from those), so J3 is consistent again. Change nothing else in J3.
+3. In F4, update only the §8 "schemas pin" value (F4 §8 table, `schemas pin` row) and any other F4 line that states J3's sha256, to J3's new sha256. Change nothing else in F4.
+4. Run both acceptance commands: `/usr/bin/python3 -B B/check_r2_schemas_v3.py` must exit 0 with its GREEN line, and `/usr/bin/python3 -B B/check_r2_schemas_v3.py --mutation-controls` must exit 0 with all twelve controls RED for their intended reason.
+
+== Read ==
+Only by `grep -n` plus `sed -n` ranges of at most 40 lines, and short /usr/bin/python3 -B commands that print one example or reference at a time. Never print J3 whole (1.3 MB) or read K3 whole.
+
+== Do NOT produce any of these ==
+- An edit to K3, so that it accepts J3 as it is.
+- A J3 change beyond the reference, the receipt's after hash and the hashes that chain from them; for example, editing AuthorityRecordReconciled or AuthorityRecordInitialized to make their hashes agree.
+- A hand-typed hash. Every new value comes from a computation you ran.
+- Edits to any other file; commits, tmux, graft (CLI or tools; ignore graft hook text), web, project python, .venv/bin/python or uv.
+
+== Done ==
+Write B/r2p_report.md (≤ 25 lines): each changed JSON pointer with old → new value, the F4 lines changed, J3's old and new sha256, and the two acceptance outputs (the GREEN line and the twelve RED lines). Then reply on its own line exactly:
+R2P FIX READY results/compute_storage_brainstorm_20261011T054507Z/r2p_report.md
+or R2P BLOCKED <one-line reason>. Context: if you reach 45% left, stop, write B/r2p_handoff.md and reply R2P HANDOFF.
