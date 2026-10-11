@@ -1,0 +1,15 @@
+PROTECTED local backup-gdrive-r12 unique=1 date=2026-10-10T21:52:02-06:00
+PROTECTED local master unique=0 date=2026-10-04T20:40:26-06:00
+PROTECTED local research-pass/2026-10-06 unique=9 date=2026-10-06T12:59:41-06:00
+PROTECTED local worktree-c10k-route-a unique=125 date=2026-10-10T21:56:15-06:00
+PROTECTED remote backup-gdrive-r12 unique=1 date=2026-10-10T21:52:02-06:00
+PROTECTED remote master unique=0 date=2026-10-10T04:15:40-06:00
+PROTECTED remote worktree-c10k-route-a unique=125 date=2026-10-10T21:56:15-06:00
+KEEP /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory branch=master head=557a58bc5384829b3506374d0495b2816c658fac bytes=87148781568->87148781568 detached/default/open-PR worktree; dirty, untracked, ignored or submodule work; process cwd in worktree
+KEEP /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_3cd2ad17-33c5-4752-b9e0-9259bc163220 branch= head=c50a546ad1348ba8781c262b6e300c1ee1a69065 bytes=49487872->49487872 detached/default/open-PR worktree; dirty, untracked, ignored or submodule work
+KEEP /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_73a1fdb0-4a98-49ce-9f9d-c16222391e61 branch= head=ea36597d0e8b9c26621d83664c8bd6137179e9a8 bytes=51904512->51904512 detached/default/open-PR worktree; dirty, untracked, ignored or submodule work
+KEEP /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_8376051e-0cc1-4c9c-94f6-eb257a489254 branch=research-pass/2026-10-06 head=900aa8edeb9c1f56f7334170f9bf5597238b6595 bytes=51580928->51580928 dirty, untracked, ignored or submodule work; unmerged branch
+KEEP /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/backup-gdrive-r13-cand-20261011T034947Z branch=backup-gdrive-r12 head=e76db678a8cf0f2d4703886fa0b5e1e910e9e00e bytes=5463887872->5463887872 current worktree; detached/default/open-PR worktree; unmerged branch; process cwd in worktree
+KEEP /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a branch=worktree-c10k-route-a head=01c0afc6954baa7e4dc761efd6c8bd44fffb7225 bytes=44689719296->44689719296 dirty, untracked, ignored or submodule work; unmerged branch; process cwd in worktree
+KEEP /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/merge-int-20261010 branch= head=bac4fbe0ee18ecfb6f18ca3707185f23cac58f94 bytes=5422448640->5422448640 detached/default/open-PR worktree
+PASS: bounded hygiene complete
