@@ -27,7 +27,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T03:19:10Z",
+    "edited": "2026-10-11T03:19:19Z",
     "items": [
       {
         "id": "drive-review",
@@ -35,7 +35,7 @@
         "summary": "Astra, the independent reviewer, checks the package and the Mac test results and says go or no-go.",
         "state": "running",
         "who": "Astra round 12 said no-go on one point (the backup-branch check read files on disk, not what is actually committed). Builder MB45 fixing it, then Mac checks, then Astra round 13",
-        "session": "codexmb45 (started 03:35Z)",
+        "session": "codexmb45 (started 03:18Z)",
         "started": "2026-10-11T02:45:00Z",
         "estimate": {
           "low_min": 60,
