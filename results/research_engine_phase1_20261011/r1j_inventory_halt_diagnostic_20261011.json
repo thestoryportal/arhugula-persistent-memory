@@ -1,0 +1,38 @@
+{
+  "halt": "R1J inventory attempt 0 refused on the Intel side: 'REFUSED: Cumulative receipt limit exceeded'",
+  "utc_window": [
+    "2026-10-11T14:32:08Z",
+    "2026-10-11T14:32:26Z"
+  ],
+  "authority": {
+    "astra": "RE/astra_r1p10_verdict.md (6931d0c0) GO",
+    "operator": "RE/operator_ruling_r1_bind_20261011.md (189208c2) Go now"
+  },
+  "bind": {
+    "result": "qualified .final committed",
+    "commit": "a806d691",
+    "capture_sha256": "2faa891b91b120ebb90672470a861727536360e960c0c12bbc137156096a421e"
+  },
+  "inventory": {
+    "commit": "08ad0ada",
+    "exit": 1,
+    "anchor_consumed": "0:a49c11de49ce325c23ce47591355e5c4e38bc55730025f91ed2cdc3e55b18792",
+    "stderr": "REFUSED: Cumulative receipt limit exceeded",
+    "capture_bytes": 735896,
+    "capture_sha256": "8b15bd3823f8ee999fe09d60aa9e79481ab2b4fcf996416f98d4aac0b1552689",
+    "R1I-LIVE_lines": 81599,
+    "R1H-ANCHOR_lines": 10,
+    "attempt_record_sha256": "04d74df9796fad12592efbda3757566a75c8cdf1cca8151cdb3d90613a514c1a"
+  },
+  "observed_cause_hypothesis_UNVERIFIED": "r1j_stub.py:69-77 transport_check prints 'R1I-LIVE' on every call; ~81.6k calls in seconds suggest per-step heartbeat output flooding the stream. The halt is raised by r1j_collector.py:781-784 (receipt_bytes + amount > receipt_limit_bytes 10,000,000; manifest v9 :1633). Which receipt term grew past the limit is NOT yet established.",
+  "limits": {
+    "receipt_limit_bytes": 10000000,
+    "max_dispatch_receipt_bytes": 2500000
+  },
+  "next": [
+    "no retry: anchor consumed (r1j_make_bundle.py dispatch refuses a consumed anchor)",
+    "Codex builder: read-only root cause, then ONE fix with a failing-first test",
+    "Astra review",
+    "operator authorization required for any rerun (rerun-never-patch)"
+  ]
+}
