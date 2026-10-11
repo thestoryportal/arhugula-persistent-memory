@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T09:11:22Z",
+    "edited": "2026-10-11T09:12:53Z",
     "items": [
       {
         "id": "backups-audit",
@@ -97,6 +97,26 @@
         "needs_from_you": [],
         "notes": [
           "09:03Z: drafting started (shared_disk_clearance_contract_v1.md)."
+        ]
+      },
+      {
+        "id": "r4-dashboard-record",
+        "title": "Phone dashboard on the Intel Mac: freeze what it shows and how",
+        "summary": "Write down exactly what status record the Intel-hosted dashboard reads, how old data shows as UNAVAILABLE (never as idle), and the exact way each M3 helper is launched so the science safety gate still allows it. Then Astra reviews it.",
+        "state": "running",
+        "who": "Codex (codexr4), then MAESTRO, then Astra",
+        "session": "codexr4",
+        "started": "2026-10-11T09:12:53Z",
+        "estimate": {
+          "low_min": 20,
+          "high_min": 60,
+          "set": "2026-10-11T09:04Z"
+        },
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "09:12Z: drafting started (dashboard_host_status_record_v1.md); answers Astra's condition R4."
         ]
       },
       {
