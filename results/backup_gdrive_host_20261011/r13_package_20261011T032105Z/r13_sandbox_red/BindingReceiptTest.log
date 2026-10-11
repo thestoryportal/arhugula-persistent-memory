@@ -1,0 +1,59 @@
+test_gate_head_pass (test_r13.BindingReceiptTest) ... FAIL
+test_gate_head_wrong (test_r13.BindingReceiptTest) ... FAIL
+test_gate_report_malformed (test_r13.BindingReceiptTest) ... FAIL
+test_observed_heads_pass (test_r13.BindingReceiptTest) ... FAIL
+test_observed_remote_wrong (test_r13.BindingReceiptTest) ... FAIL
+test_observed_remote_wrong_ref (test_r13.BindingReceiptTest) ... FAIL
+
+======================================================================
+FAIL: test_gate_head_pass (test_r13.BindingReceiptTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 233, in test_gate_head_pass
+    def test_gate_head_pass(self): self.assertEqual(self.call('gate').returncode, 0)
+AssertionError: 2 != 0
+
+======================================================================
+FAIL: test_gate_head_wrong (test_r13.BindingReceiptTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 245, in test_gate_head_wrong
+    value = self.call('gate'); self.assertEqual(value.returncode, 1); self.assertIn('gate head binding mismatch', value.stderr)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_gate_report_malformed (test_r13.BindingReceiptTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 249, in test_gate_report_malformed
+    value = self.call('gate'); self.assertEqual(value.returncode, 1); self.assertIn('full 40-hex SHA', value.stderr)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_observed_heads_pass (test_r13.BindingReceiptTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 232, in test_observed_heads_pass
+    def test_observed_heads_pass(self): self.assertEqual(self.call('heads').returncode, 0)
+AssertionError: 2 != 0
+
+======================================================================
+FAIL: test_observed_remote_wrong (test_r13.BindingReceiptTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 237, in test_observed_remote_wrong
+    value = self.call('heads'); self.assertEqual(value.returncode, 1); self.assertIn('binding mismatch', value.stderr)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_observed_remote_wrong_ref (test_r13.BindingReceiptTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 241, in test_observed_remote_wrong_ref
+    value = self.call('heads'); self.assertEqual(value.returncode, 1); self.assertIn('remote observation', value.stderr)
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.193s
+
+FAILED (failures=6)

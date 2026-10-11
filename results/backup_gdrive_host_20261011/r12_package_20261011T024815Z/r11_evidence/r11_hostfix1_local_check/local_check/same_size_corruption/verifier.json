@@ -1,0 +1,16 @@
+{
+  "differing": 1,
+  "missing": 0,
+  "errors": 1,
+  "unchecked": 0,
+  "incomplete": 3,
+  "pass": false,
+  "reasons": [
+    "nonzero or malformed check exit",
+    "missing or ambiguous terminal differences summary",
+    "matching summary/report mismatch"
+  ],
+  "failed_objects": [
+    "alpha.txt"
+  ]
+}

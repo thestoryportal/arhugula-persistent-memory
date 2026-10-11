@@ -1,0 +1,216 @@
+test_clean_commit_receipt (test_r13.CandidateTest) ... FAIL
+test_clean_pr_binding (test_r13.CandidateTest) ... FAIL
+test_clean_staged (test_r13.CandidateTest) ... ok
+test_commit_complete_path_set (test_r13.CandidateTest) ... FAIL
+test_commit_uses_objects_despite_working_tree_corruption (test_r13.CandidateTest) ... FAIL
+test_commit_wrong_mode_hidden (test_r13.CandidateTest) ... FAIL
+test_committed_allowlisted_corruption_hidden (test_r13.CandidateTest) ... FAIL
+test_committed_out_of_scope_hidden (test_r13.CandidateTest) ... FAIL
+test_ignored_untracked_rejected (test_r13.CandidateTest) ... FAIL
+test_index_complete_path_set (test_r13.CandidateTest) ... FAIL
+test_index_wrong_mode_hidden (test_r13.CandidateTest) ... FAIL
+test_malformed_head (test_r13.CandidateTest) ... FAIL
+test_merge_commit_two_parents (test_r13.CandidateTest) ... FAIL
+test_pr_head_different (test_r13.CandidateTest) ... FAIL
+test_remote_head_different (test_r13.CandidateTest) ... FAIL
+test_staged_allowlisted_corruption_hidden (test_r13.CandidateTest) ... FAIL
+test_staged_out_of_scope_hidden (test_r13.CandidateTest) ... FAIL
+test_working_tree_must_equal_index (test_r13.CandidateTest) ... FAIL
+test_wrong_parent (test_r13.CandidateTest) ... FAIL
+
+======================================================================
+FAIL: test_clean_commit_receipt (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 142, in test_clean_commit_receipt
+    self.assertTrue(self.receipt.is_file(), 'K12 never writes a verified commit receipt')
+AssertionError: False is not true : K12 never writes a verified commit receipt
+
+======================================================================
+FAIL: test_clean_pr_binding (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 148, in test_clean_pr_binding
+    self.assertEqual(value.returncode, 0, value.stdout+value.stderr)
+AssertionError: 2 != 0 : usage: candidate.py [-h] {create,verify} ...
+candidate.py: error: argument mode: invalid choice: 'verify-pr-head' (choose from 'create', 'verify')
+
+
+======================================================================
+FAIL: test_commit_complete_path_set (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 161, in test_commit_complete_path_set
+    self.reject(self.committed(sha), 'scope commit tree mismatch')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 70, in reject
+    self.assertIn(diagnostic, value.stderr)
+AssertionError: 'scope commit tree mismatch' not found in "FAIL scope exact diff mismatch: extra=['unrelated.txt']; missing=[]\n"
+
+======================================================================
+FAIL: test_commit_uses_objects_despite_working_tree_corruption (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 152, in test_commit_uses_objects_despite_working_tree_corruption
+    value = self.committed(sha); self.assertEqual(value.returncode, 0, value.stdout+value.stderr)
+AssertionError: 1 != 0 : FAIL source byte/mode mismatch: tools/backup.sh
+
+
+======================================================================
+FAIL: test_commit_wrong_mode_hidden (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 109, in test_commit_wrong_mode_hidden
+    self.reject(self.committed(self.commit()), 'scope commit tree mismatch')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 0 != 1 : PASS exact scope, committed bytes/modes, branch and 3 SHA-256 pins
+
+
+======================================================================
+FAIL: test_committed_allowlisted_corruption_hidden (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 101, in test_committed_allowlisted_corruption_hidden
+    self.reject(self.committed(self.hide_committed('tools/backup.sh')), 'scope commit tree mismatch')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 0 != 1 : PASS exact scope, committed bytes/modes, branch and 3 SHA-256 pins
+
+
+======================================================================
+FAIL: test_committed_out_of_scope_hidden (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 98, in test_committed_out_of_scope_hidden
+    self.reject(self.committed(self.hide_committed('unrelated.txt')), 'scope commit tree mismatch')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 0 != 1 : PASS exact scope, committed bytes/modes, branch and 3 SHA-256 pins
+
+
+======================================================================
+FAIL: test_ignored_untracked_rejected (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 165, in test_ignored_untracked_rejected
+    self.reject(self.staged(), 'untracked files')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 0 != 1 : PASS exact scope, committed bytes/modes, branch and 3 SHA-256 pins
+
+
+======================================================================
+FAIL: test_index_complete_path_set (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 156, in test_index_complete_path_set
+    self.reject(self.staged(), 'scope index tree mismatch')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 70, in reject
+    self.assertIn(diagnostic, value.stderr)
+AssertionError: 'scope index tree mismatch' not found in "FAIL scope exact diff mismatch: extra=['extra.txt']; missing=[]\n"
+
+======================================================================
+FAIL: test_index_wrong_mode_hidden (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 105, in test_index_wrong_mode_hidden
+    self.reject(self.staged(), 'scope index tree mismatch')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 0 != 1 : PASS exact scope, committed bytes/modes, branch and 3 SHA-256 pins
+
+
+======================================================================
+FAIL: test_malformed_head (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 134, in test_malformed_head
+    self.reject(self.call('verify-pr-head', str(self.receipt), 'g'*40, self.source), 'full 40-hex SHA')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 2 != 1 : usage: candidate.py [-h] {create,verify} ...
+candidate.py: error: argument mode: invalid choice: 'verify-pr-head' (choose from 'create', 'verify')
+
+
+======================================================================
+FAIL: test_merge_commit_two_parents (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 119, in test_merge_commit_two_parents
+    self.reject(self.committed(sha), 'parent must be origin/master')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 0 != 1 : PASS exact scope, committed bytes/modes, branch and 3 SHA-256 pins
+
+
+======================================================================
+FAIL: test_pr_head_different (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 126, in test_pr_head_different
+    self.reject(self.call('verify-pr-head', str(self.receipt), self.base, self.source), 'PR head binding mismatch')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 2 != 1 : usage: candidate.py [-h] {create,verify} ...
+candidate.py: error: argument mode: invalid choice: 'verify-pr-head' (choose from 'create', 'verify')
+
+
+======================================================================
+FAIL: test_remote_head_different (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 130, in test_remote_head_different
+    self.reject(self.call('verify-pr-head', str(self.receipt), self.source, self.base), 'PR head binding mismatch')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 2 != 1 : usage: candidate.py [-h] {create,verify} ...
+candidate.py: error: argument mode: invalid choice: 'verify-pr-head' (choose from 'create', 'verify')
+
+
+======================================================================
+FAIL: test_staged_allowlisted_corruption_hidden (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 95, in test_staged_allowlisted_corruption_hidden
+    self.hide('tools/backup.sh'); self.reject(self.staged(), 'scope index tree mismatch')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 0 != 1 : PASS exact scope, committed bytes/modes, branch and 3 SHA-256 pins
+
+
+======================================================================
+FAIL: test_staged_out_of_scope_hidden (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 92, in test_staged_out_of_scope_hidden
+    self.hide('unrelated.txt'); self.reject(self.staged(), 'scope index tree mismatch')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 0 != 1 : PASS exact scope, committed bytes/modes, branch and 3 SHA-256 pins
+
+
+======================================================================
+FAIL: test_working_tree_must_equal_index (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 169, in test_working_tree_must_equal_index
+    self.reject(self.staged(), 'working tree differs from index')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 70, in reject
+    self.assertIn(diagnostic, value.stderr)
+AssertionError: 'working tree differs from index' not found in 'FAIL source byte/mode mismatch: tools/backup.sh\n'
+
+======================================================================
+FAIL: test_wrong_parent (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 114, in test_wrong_parent
+    self.reject(self.committed(sha), 'parent must be origin/master')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 69, in reject
+    self.assertEqual(value.returncode, 1, value.stdout+value.stderr)
+AssertionError: 0 != 1 : PASS exact scope, committed bytes/modes, branch and 3 SHA-256 pins
+
+
+----------------------------------------------------------------------
+Ran 19 tests in 13.407s
+
+FAILED (failures=18)

@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/check_plan.py",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/activation_plan_v3.md"
+  ],
+  "HOME": "/private/tmp/r12_receipt_probe_xwh2832d/home",
+  "exit_code": 0,
+  "stdout": "PASS []\n",
+  "stderr": ""
+}

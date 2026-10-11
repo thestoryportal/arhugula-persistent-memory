@@ -1,0 +1,81 @@
+{
+  "baseline": true,
+  "groups": [
+    {
+      "group": "CandidateTest",
+      "testsRun": 19,
+      "failures": 18,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "test_r13.CandidateTest.test_clean_commit_receipt",
+        "test_r13.CandidateTest.test_clean_pr_binding",
+        "test_r13.CandidateTest.test_commit_complete_path_set",
+        "test_r13.CandidateTest.test_commit_uses_objects_despite_working_tree_corruption",
+        "test_r13.CandidateTest.test_commit_wrong_mode_hidden",
+        "test_r13.CandidateTest.test_committed_allowlisted_corruption_hidden",
+        "test_r13.CandidateTest.test_committed_out_of_scope_hidden",
+        "test_r13.CandidateTest.test_ignored_untracked_rejected",
+        "test_r13.CandidateTest.test_index_complete_path_set",
+        "test_r13.CandidateTest.test_index_wrong_mode_hidden",
+        "test_r13.CandidateTest.test_malformed_head",
+        "test_r13.CandidateTest.test_merge_commit_two_parents",
+        "test_r13.CandidateTest.test_pr_head_different",
+        "test_r13.CandidateTest.test_remote_head_different",
+        "test_r13.CandidateTest.test_staged_allowlisted_corruption_hidden",
+        "test_r13.CandidateTest.test_staged_out_of_scope_hidden",
+        "test_r13.CandidateTest.test_working_tree_must_equal_index",
+        "test_r13.CandidateTest.test_wrong_parent"
+      ]
+    },
+    {
+      "group": "PlanOrderTest",
+      "testsRun": 16,
+      "failures": 15,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "test_r13.PlanOrderTest.test_actual_v4_plan",
+        "test_r13.PlanOrderTest.test_empty_required_row",
+        "test_r13.PlanOrderTest.test_head_not_immediately_before_gate",
+        "test_r13.PlanOrderTest.test_missing_1_1_candidate",
+        "test_r13.PlanOrderTest.test_missing_1_1_commit",
+        "test_r13.PlanOrderTest.test_missing_1_1_gate",
+        "test_r13.PlanOrderTest.test_missing_1_1_gate_head",
+        "test_r13.PlanOrderTest.test_missing_1_1_pr",
+        "test_r13.PlanOrderTest.test_missing_1_1_pr_observe",
+        "test_r13.PlanOrderTest.test_missing_1_1_push",
+        "test_r13.PlanOrderTest.test_missing_1_1_remote_observe",
+        "test_r13.PlanOrderTest.test_missing_1_1_verify_commit",
+        "test_r13.PlanOrderTest.test_missing_1_1_verify_pr_head",
+        "test_r13.PlanOrderTest.test_missing_1_1_verify_staged",
+        "test_r13.PlanOrderTest.test_out_of_order"
+      ]
+    },
+    {
+      "group": "BindingReceiptTest",
+      "testsRun": 6,
+      "failures": 6,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "test_r13.BindingReceiptTest.test_gate_head_pass",
+        "test_r13.BindingReceiptTest.test_gate_head_wrong",
+        "test_r13.BindingReceiptTest.test_gate_report_malformed",
+        "test_r13.BindingReceiptTest.test_observed_heads_pass",
+        "test_r13.BindingReceiptTest.test_observed_remote_wrong",
+        "test_r13.BindingReceiptTest.test_observed_remote_wrong_ref"
+      ]
+    }
+  ],
+  "testsRun": 41,
+  "failures": 39,
+  "errors": 0,
+  "skipped": 0,
+  "accepted": true,
+  "suite_exit_code": 1,
+  "exit_code": 0
+}

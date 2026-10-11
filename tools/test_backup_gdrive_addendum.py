@@ -1,17 +1,21 @@
 """Backup heartbeat and archival controls; real local rclone, optional tiny Drive probe."""
 import datetime as dt
 import hashlib
+import fcntl
 import json
 import os
 from pathlib import Path
 import plistlib
 import re
 import shlex
+import shutil
 import subprocess
 import sys
 import tempfile
 import time
 import unittest
+from types import SimpleNamespace
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -21,13 +25,64 @@ STATUS = ROOT / "tools/backup_gdrive_status.py"
 BACKUP = ROOT / "tools/backup_gdrive.sh"
 ARCHIVE = ROOT / "tools/archive_to_gdrive.sh"
 RCLONE = "/opt/homebrew/bin/rclone"
+NO_RCLONE = os.environ.get("BACKUP_TEST_NO_RCLONE") == "1"
+HOST_RCLONE = unittest.skipIf(NO_RCLONE, "HOST-PENDING: real rclone forbidden by MB14 brief")
+
+
+def isolate_failing_launcher_home(source, home):
+    def isolate(match):
+        name, literal = match.groups()
+        body = json.loads(literal)
+        if name in {"generationShell", "receiptShell"}:
+            body = "HOME="+shlex.quote(str(home))+"\nexport HOME\n"+body
+        return "property "+name+" : "+json.dumps(body)
+    return re.sub(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', isolate, source, flags=re.M)
+
+
+class LauncherHomeExportTest(unittest.TestCase):
+    def test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home(self):
+        with tempfile.TemporaryDirectory(prefix="launcher_home_", dir="/private/tmp") as temporary:
+            base = Path(temporary)
+            home, sentinel = base/"fixture-home", base/"sentinel-home"
+            home.mkdir()
+            sentinel.mkdir()
+            source = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+            # Keep the native transform; replace only each property's Perl payload.
+            transformed = isolate_failing_launcher_home(source, home)
+            for name in ("generationShell", "receiptShell"):
+                match = re.search(r'^property '+name+r' : ("(?:\\.|[^"\\])*")$', transformed, re.M)
+                self.assertIsNotNone(match)
+                body = json.loads(match.group(1))
+                original = json.loads(re.search(r'^property '+name+r' : ("(?:\\.|[^"\\])*")$',
+                                                source, re.M).group(1))
+                self.assertIn("/usr/bin/perl", original)
+                self.assertTrue(body.endswith(original))
+                prefix = body[:-len(original)]
+                probe = prefix+"/usr/bin/perl -e 'print $ENV{HOME} // \"UNSET\"'"
+                for parent in (None, str(sentinel)):
+                    with self.subTest(property=name, parent_home=parent):
+                        env = dict(os.environ)
+                        if parent is None:
+                            env.pop("HOME", None)
+                        else:
+                            env["HOME"] = parent
+                        result = run_process(["/bin/sh", "-c", probe], env=env, timeout=5)
+                        self.assertEqual(result.returncode, 0, result.stderr)
+                        self.assertEqual(result.stdout, str(home))
 
 
 class Fixture(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory(prefix="gdrive_addendum_", dir="/private/tmp")
+        self.tmp = tempfile.TemporaryDirectory(prefix="gdrive_addendum_", dir=os.environ.get("BACKUP_TEST_RECEIPTS", "/private/tmp"))
         self.addCleanup(self.tmp.cleanup)
         self.base = Path(self.tmp.name)
+        self.home = self.base/"home"
+        self.home.mkdir()
+        isolated = mock.patch.dict(os.environ, HOME=str(self.home), BACKUP_PYTHON=sys.executable,
+                                   PYTHONDONTWRITEBYTECODE="1")
+        isolated.start()
+        self.addCleanup(isolated.stop)
+        os.environ.pop("BACKUP_LAUNCH_GENERATION", None)
         self.log = self.base / "wrapper.log"
         self.log.write_text("")
         self.run_log = self.base / "rclone.jsonl"
@@ -70,12 +125,13 @@ class Fixture(unittest.TestCase):
         os.mkfifo(release)
         entered = self.base/"owner-entered"
         rclone = self.base/"held-rclone"
-        rclone.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo rclone-test; exit 0; fi\n'
-                          'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n'
+        rclone.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo rclone-test; exit 0; fi\n'+
+                          ('if [ "$1" = config ]; then printf "{}\\n"; exit 0; fi\n' if NO_RCLONE else
+                           'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n')+
                           'printf entered > '+shlex.quote(str(entered))+'\n'
                           'IFS= read -r released < '+shlex.quote(str(release))+'\n')
         rclone.chmod(0o700)
-        env = dict(os.environ, BACKUP_SRC=str(source), BACKUP_DEST=str(self.base/"held-mirror"),
+        env = dict(os.environ, BACKUP_SRC=str(source), BACKUP_DEST=("fixture:" if NO_RCLONE else "")+str(self.base/"held-mirror"),
                    BACKUP_LOG=str(self.log), BACKUP_HEARTBEAT=str(self.heartbeat),
                    BACKUP_LOCK_DIR=str(self.base/"lock"), BACKUP_MOUNT_POINT="/",
                    BACKUP_RCLONE=str(rclone), BACKUP_EXCLUDES=str(ROOT/"tools/backup_mirror.excludes"))
@@ -242,21 +298,23 @@ class HeartbeatTest(Fixture):
         self.src = self.base / "source"
         self.src.mkdir()
         (self.src / "tiny.txt").write_bytes(b"eight!!!")
-        self.env = dict(os.environ, BACKUP_SRC=str(self.src), BACKUP_DEST=str(self.base / "mirror"),
+        self.env = dict(os.environ, BACKUP_SRC=str(self.src), BACKUP_DEST=("fixture:" if NO_RCLONE else "")+str(self.base / "mirror"),
                         BACKUP_LOG=str(self.log), BACKUP_HEARTBEAT=str(self.heartbeat),
                         BACKUP_LOCK_DIR=str(self.base / "lock"), BACKUP_MOUNT_POINT="/",
-                        BACKUP_RCLONE=RCLONE, BACKUP_EXCLUDES=str(ROOT / "tools/backup_mirror.excludes"))
+                        BACKUP_RCLONE=str(self.base/"HOST-PENDING-rclone") if NO_RCLONE else RCLONE, BACKUP_EXCLUDES=str(ROOT / "tools/backup_mirror.excludes"))
 
     def backup(self, **changes):
         return run_process(["/bin/bash", str(BACKUP)], env=dict(self.env, **changes), timeout=10)
 
     def fake_rclone(self, body):
         path = self.base / "fake-rclone"
-        path.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo "rclone-test"; exit 0; fi\n'
-                        'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n'+body)
+        path.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo "rclone-test"; exit 0; fi\n'+
+                        ('if [ "$1" = config ]; then printf "{}\\n"; exit 0; fi\n' if NO_RCLONE else
+                           'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n')+body)
         path.chmod(0o700)
         return str(path)
 
+    @HOST_RCLONE
     def test_real_sync_publishes_actual_bytes_and_completed_success(self):
         result = self.backup()
         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
@@ -299,6 +357,7 @@ class HeartbeatTest(Fixture):
         self.assertEqual(proc.returncode, 0, output)
         self.assertIsNone(json.loads(self.heartbeat.read_text())["bytes_transferred"])
 
+    @HOST_RCLONE
     def test_start_publication_failure_invalidates_previous_success(self):
         self.assertEqual(self.backup().returncode, 0)
         self.assertTrue(self.heartbeat.exists(), "positive control needs prior success")
@@ -312,6 +371,7 @@ class HeartbeatTest(Fixture):
         finally:
             self.heartbeat.parent.chmod(0o700)
 
+    @HOST_RCLONE
     def test_exit_publication_failure_is_loud_and_preserves_original_failure(self):
         for exit_code in [0, 23]:
             with self.subTest(exit_code=exit_code):
@@ -402,11 +462,27 @@ source "$1"
                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         self.addCleanup(owner.communicate, timeout=8)
         self.addCleanup(release.touch)
+        # Allow up to three seconds for the owner's post-dispatch PID publication.
         deadline = time.monotonic()+3
-        while not entered.exists() and owner.poll() is None and time.monotonic()<deadline:
+        child_pid_path = self.base/"lock/rclone.pid"
+        missing = ["post-dispatch heartbeat publication"]
+        while time.monotonic()<deadline:
+            value = json.loads(self.heartbeat.read_text()) if self.heartbeat.exists() else {}
+            child_pid = child_pid_path.read_text().strip() if child_pid_path.exists() else ""
+            published_pid = value.get("rclone_pid")
+            conditions = [
+                (owner.poll() is None, "running lock owner"),
+                (entered.exists(), "dispatch marker"),
+                (value.get("owner_pid") == owner.pid, "heartbeat owner_pid == owner.pid"),
+                (type(published_pid) is int and published_pid > 0 and child_pid.isdigit() and
+                 published_pid == int(child_pid), "positive heartbeat rclone_pid matching lock/rclone.pid"),
+            ]
+            missing = [name for reached, name in conditions if not reached]
+            if not missing:
+                break
             time.sleep(0.01)
-        self.assertTrue(entered.exists())
-        time.sleep(0.1)  # Wait for the child PID publication as well as dispatch.
+        else:
+            self.fail("three-second timeout waiting for: "+", ".join(missing))
         previous = self.heartbeat.read_bytes()
         result = self.backup()
         self.assertEqual(result.returncode, 75, result.stderr)
@@ -453,6 +529,7 @@ source "$1"
                 self.assertIn(name, result.stderr)
                 self.assert_bad("failed")
 
+    @HOST_RCLONE
     def test_remote_global_overrides_refuse_without_dispatch(self):
         config = self.base/"rclone.conf"
         dispatched = self.base/"unexpected-dispatch"
@@ -474,6 +551,7 @@ source "$1"
         self.assertNotEqual(result.returncode, 0, result.stderr)
         self.assertFalse(dispatched.exists())
 
+    @HOST_RCLONE
     def test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries(self):
         args = self.base/"sync-args"
         fake = self.fake_rclone('printf "%s\\n" "$@" > "'+str(args)+'"\nexec '+RCLONE+' "$@"\n')
@@ -485,6 +563,7 @@ source "$1"
         self.assertEqual(actual[actual.index("--retries")+1], "1")
         self.assertGreater(int(actual[actual.index("--low-level-retries")+1]), 1)
 
+    @HOST_RCLONE
     def test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night(self):
         args = self.base/"timetable-args"
         fake = self.fake_rclone('printf "%s\\n" "$@" > "'+str(args)+'"\nexec '+RCLONE+' "$@"\n')
@@ -505,8 +584,9 @@ source "$1"
     def log_rclone(self, records, exit_code=1):
         script = self.base/"logged-rclone"
         script.write_text('#!/usr/bin/python3\nimport json,sys,subprocess\nfrom pathlib import Path\n'
-                          'if sys.argv[1] == "version":\n print("rclone fixture");sys.exit(0)\n'
-                          'if sys.argv[1] == "config":\n sys.exit(subprocess.call(['+repr(RCLONE)+',*sys.argv[1:]]))\n'
+                          'if sys.argv[1] == "version":\n print("rclone fixture");sys.exit(0)\n'+
+                          ('if sys.argv[1] == "config":\n print("{}");sys.exit(0)\n' if NO_RCLONE else
+                           'if sys.argv[1] == "config":\n sys.exit(subprocess.call(['+repr(RCLONE)+',*sys.argv[1:]]))\n')+
                           'path=Path(sys.argv[sys.argv.index("--log-file")+1])\n'
                           'records='+repr(records)+'\n'
                           'path.write_text("".join(json.dumps(record)+"\\n" if not isinstance(record,str) else record+"\\n" for record in records))\n'
@@ -523,6 +603,7 @@ source "$1"
                 {"level":"notice", "stats":{"bytes":8, "errors":error_count, "fatalError":False}},
                 {"level":"notice", "msg":"Failed to sync with "+str(error_count)+" errors: "+error}]
 
+    @HOST_RCLONE
     def test_real_queued_source_vanish_is_warning_and_keeps_raw_exit(self):
         (self.src/"tiny.txt").unlink()
         stable=self.src/"a_hold.bin"
@@ -557,6 +638,7 @@ source "$1"
         self.assertNotIn("FATAL",self.log.read_text())
         self.assertIn("with warnings",self.status().stdout)
 
+    @HOST_RCLONE
     def test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept(self):
         objects=self.src/"repo/.git/objects"
         objects.mkdir(parents=True)
@@ -582,6 +664,7 @@ source "$1"
         self.assertTrue((mirror/".git/objects/ab/permanent_root_hash").exists())
         self.assertEqual((mirror/"ordinary.sock").read_text(),"regular file with socket suffix")
 
+    @HOST_RCLONE
     def test_native_nonregular_skip_is_recorded_as_warning(self):
         os.mkfifo(self.src/"runtime.sock")
         result=self.backup()
@@ -706,7 +789,11 @@ source "$1"
         python=self.base/"classification-fails"
         python.write_text('#!/bin/bash\nif [ "$2" = classify ]; then exit 5; fi\nexec /usr/bin/python3 "$@"\n')
         python.chmod(0o700)
-        result=self.backup(BACKUP_PYTHON=str(python))
+        settings = {"BACKUP_PYTHON": str(python)}
+        if NO_RCLONE:
+            settings["BACKUP_RCLONE"] = self.log_rclone(
+                [{"level": "notice", "stats": {"bytes": 8, "errors": 0, "fatalError": False}}], 0)
+        result=self.backup(**settings)
         self.assertEqual(result.returncode,1,result.stderr)
         self.assertEqual(json.loads(self.heartbeat.read_text())["rclone_exit_code"],0)
         self.assert_bad("failed")
@@ -1173,6 +1260,883 @@ class GenerationLaunchTest(Fixture):
             self.journal.parent.chmod(0o700)
 
 
+    def shell_literal(self, name, *args):
+        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        literals = {key: json.loads(value) for key, value in
+                    re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', text, re.M)}
+        return run_process(["/bin/sh", "-c", literals[name], "backup-fixture", *map(str, args)],
+                           env=dict(os.environ, HOME=str(self.home)), timeout=5)
+
+    def recover(self, floor=10):
+        return run_process([sys.executable, "-B", str(STATUS), "recover", "--heartbeat", str(self.heartbeat),
+                            "--generation-floor", str(floor)], timeout=5)
+
+    def test_1_manual_interleave_preserves_counter_only_generation_11(self):
+        self.success_baseline()
+        self.journal.parent.mkdir()
+        self.journal.parent.chmod(0o555)
+        self.heartbeat.parent.chmod(0o555)
+        try:
+            self.launch(self.base/"absent/backup_gdrive.sh")
+            self.assertEqual(self.counter.read_text().strip(), "11")
+            self.assertFalse(self.journal.exists())
+            self.heartbeat.parent.chmod(0o700)
+            owner, env = self.hold_live_owner()
+            prior = self.heartbeat.read_bytes()
+            result = self.launch(BACKUP, env=env)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            receipt = json.loads((self.heartbeat.parent/"launch_receipt.json").read_text())
+            self.assertEqual((receipt["launch_generation"], receipt["exit_code"]), (12, 75))
+            self.assertEqual(self.heartbeat.read_bytes(), prior)
+            self.assertIsNone(owner.poll())
+            with (self.base/"owner-release.fifo").open("w") as stream:
+                stream.write("release\n")
+            stdout, stderr = owner.communicate(timeout=5)
+            self.assertEqual(owner.returncode, 0, stdout+stderr)
+            self.assertIsNone(json.loads(self.heartbeat.read_text())["launch_generation"])
+            self.assert_bad("generation 11")
+        finally:
+            self.heartbeat.parent.chmod(0o700)
+            self.journal.parent.chmod(0o700)
+
+    def test_2_crash_after_allocation_then_refusal_preserves_generation_11(self):
+        self.success_baseline()
+        previous = (self.heartbeat.parent/"launch_receipt.json").read_bytes()
+        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        literal = re.search(r'^property generationShell : ("(?:\\.|[^"\\])*")$', text, re.M)[1]
+        result = run_process(["/bin/sh", "-c", json.loads(literal)+"/bin/kill -KILL $$\n"],
+                             env=dict(os.environ, HOME=str(self.home)), timeout=5)
+        self.assertEqual(result.returncode, -9)
+        self.assertEqual(self.counter.read_text().strip(), "11")
+        self.assertEqual((self.heartbeat.parent/"launch_receipt.json").read_bytes(), previous)
+        self.assertFalse(self.journal.exists())
+        wrapper = self.base/"refused.sh"
+        wrapper.write_text("#!/bin/sh\nexit 75\n")
+        self.assertEqual(self.launch(wrapper).returncode, 0)
+        self.assert_bad("generation 11")
+
+    def test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set(self):
+        self.success_baseline()
+        for generation in (11, 12, 13):
+            result = self.shell_literal("generationShell")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(int(result.stdout), generation)
+        result = self.shell_literal("receiptShell", BACKUP, 75, "", 12)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assert_bad("generation 11")
+        state = json.loads((self.counter.parent/"unresolved.json").read_text())
+        self.assertEqual(state["unresolved"], [[11, 11], [13, 13]])
+        self.write_heartbeat(launch_generation=None, launch_mode="manual")
+        self.assert_bad("generation 11")
+        self.write_heartbeat(launch_generation=10, launch_mode="applet")
+        self.assert_bad("generation 11")
+        self.write_heartbeat(launch_generation=13, launch_mode="applet", end=None, exit_code=None)
+        self.assertNotEqual(self.status().returncode, 0)
+        self.write_heartbeat(launch_generation=11, launch_mode="applet")
+        self.assert_bad("generation 13")
+        self.write_heartbeat(launch_generation=13, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_3_corrupt_unresolved_set_refuses_dispatch(self):
+        self.success_baseline()
+        self.assertEqual(self.shell_literal("generationShell").returncode, 0)
+        (self.counter.parent/"unresolved.json").write_text("{torn\n")
+        marker = self.base/"must-not-dispatch"
+        wrapper = self.base/"stub.sh"
+        wrapper.write_text('#!/bin/sh\nprintf ran > '+shlex.quote(str(marker))+'\n')
+        self.launch(wrapper)
+        self.assertFalse(marker.exists(), "corrupt unresolved generations must refuse dispatch")
+        self.assert_bad("unresolved")
+
+    def test_4_recovery_preserves_null_evidence_and_requires_sequenced_completion(self):
+        self.success_baseline()
+        self.assertEqual(self.shell_literal("generationShell").returncode, 0)
+        self.counter.write_text("corrupt\n")
+        marker = self.base/"dispatched-generation"
+        wrapper = self.base/"stub.sh"
+        wrapper.write_text('#!/bin/sh\nprintf "%s" "$BACKUP_LAUNCH_GENERATION" > '+shlex.quote(str(marker))+'\n')
+        self.assertNotEqual(self.launch(wrapper).returncode, 0)
+        result = self.shell_literal("receiptShell", wrapper, "", 1, "")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        receipt = self.heartbeat.parent/"launch_receipt.json"
+        self.assertIsNone(json.loads(receipt.read_text())["launch_generation"])
+        prior = {"launch_receipt.json": receipt.read_bytes(), "failures.jsonl": self.journal.read_bytes()}
+        self.counter.write_text("10\n")
+        self.assertNotEqual(self.launch(wrapper).returncode, 0)
+        self.assertFalse(marker.exists())
+        result = self.recover(11)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        archives = list((self.counter.parent/"recoveries").iterdir())
+        self.assertEqual(len(archives), 1)
+        for name, data in prior.items():
+            self.assertEqual((archives[0]/name).read_bytes(), data, "ambiguous evidence must survive byte-for-byte")
+        barrier = int(self.counter.read_text())
+        self.assertGreater(barrier, 11, "recovery must retain the generation lost from the repaired counter")
+        self.assertEqual(self.launch(wrapper).returncode, 0)
+        generation = int(marker.read_text())
+        self.assertGreater(generation, barrier)
+        self.assert_bad("recovery barrier")
+        self.write_heartbeat(launch_generation=None, launch_mode="manual")
+        self.assert_bad("recovery barrier")
+        self.write_heartbeat(launch_generation=generation, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_4_null_evidence_publication_waits_for_recovery_counter_lock(self):
+        self.success_baseline()
+        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        literal = re.search(r'^property receiptShell : ("(?:\\.|[^"\\])*")$', text, re.M)[1]
+        entered = self.base/"publisher-entered"
+        body = 'touch '+shlex.quote(str(entered))+'\n'+json.loads(literal)
+        with (self.counter.parent/"counter.lock").open("a") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            proc = subprocess.Popen(["/bin/sh", "-c", body, "backup-receipt", str(BACKUP), "", "1", ""],
+                                    env=dict(os.environ, HOME=str(self.home)),
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            self.addCleanup(proc.communicate, timeout=5)
+            deadline = time.monotonic()+3
+            while not entered.exists() and proc.poll() is None and time.monotonic()<deadline:
+                time.sleep(0.01)
+            self.assertTrue(entered.exists(), "positive control: publisher process started")
+            time.sleep(0.15)
+            self.assertIsNone(proc.poll(), "null-generation evidence must serialize with recovery")
+        stdout, stderr = proc.communicate(timeout=5)
+        self.assertEqual(proc.returncode, 0, stdout+stderr)
+        self.assertIsNone(json.loads((self.heartbeat.parent/"launch_receipt.json").read_text())["launch_generation"])
+
+    def test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers(self):
+        self.success_baseline()
+        self.counter.unlink()
+        self.assertNotEqual(self.shell_literal("generationShell").returncode, 0)
+        self.assertEqual(self.shell_literal("receiptShell", BACKUP, "", 1, "").returncode, 0)
+        result = self.recover(20)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        first = int(self.counter.read_text())
+        archives = self.counter.parent/"recoveries"
+        original = {str(path.relative_to(archives)): path.read_bytes() for path in archives.rglob("*") if path.is_file()}
+        self.counter.write_text("10\n")
+        result = self.recover(0)
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual(self.counter.read_text(), "10\n")
+        result = self.recover(first)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertGreater(int(self.counter.read_text()), first)
+        for name, data in original.items():
+            self.assertEqual((archives/name).read_bytes(), data)
+        self.assert_bad("recovery barrier")
+
+class R5Fixture(Fixture):
+    success_baseline = GenerationLaunchTest.success_baseline
+    shell_literal = GenerationLaunchTest.shell_literal
+    recover = GenerationLaunchTest.recover
+    launch = LaunchReceiptTest.launch
+
+    def setUp(self):
+        super().setUp()
+        self.heartbeat = self.home/"Library/Logs/memit-gdrive-backup/last_run.json"
+        self.heartbeat.parent.mkdir(parents=True)
+        self.counter = self.home/"Library/Logs/memit-gdrive-backup-launch-state/counter"
+        self.counter.parent.mkdir()
+        self.counter.write_text("0\n")
+        self.journal = self.home/"Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl"
+
+
+class R5RecoveryTest(R5Fixture):
+    def damaged_history(self, torn):
+        self.success_baseline()
+        self.counter.write_text("corrupt\n")
+        self.write_launch_receipt(launch_generation=None)
+        self.journal.parent.mkdir()
+        self.journal.write_bytes(b'{"schema":1,"launch_generation":100,"reason":"failed launch"}\n'+
+                                 (b'{torn\n' if torn else b''))
+
+    def snapshot(self):
+        logs = self.home/"Library/Logs"
+        return {str(p.relative_to(logs)): p.read_bytes() if p.is_file() else None
+                for p in sorted(logs.rglob("*"))}
+
+    def assert_low_floor_refused_unchanged(self, floor=10):
+        before = self.snapshot()
+        result = self.recover(floor)
+        self.assertEqual(self.snapshot(), before, "low floor must not write or move any recovery evidence")
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertIn("observed", result.stderr)
+
+    def test_1_torn_journal_preserves_generation_and_entire_ambiguous_file(self):
+        self.damaged_history(True)
+        self.assert_low_floor_refused_unchanged()
+        original = self.journal.read_bytes()
+        result = self.recover(100)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        archive, = (self.counter.parent/"recoveries").iterdir()
+        self.assertEqual((archive/"failures.jsonl").read_bytes(), original)
+        self.assertEqual(int(self.counter.read_text()), 101)
+        # Criterion 3: recovery and a manual completion cannot discharge the barrier.
+        self.assert_bad("recovery barrier generation 101")
+        self.write_heartbeat(launch_generation=None, launch_mode="manual")
+        self.assert_bad("recovery barrier generation 101")
+        self.write_heartbeat(launch_generation=12, launch_mode="applet")
+        self.assert_bad("recovery barrier generation 101")
+        self.write_heartbeat(launch_generation=101, launch_mode="applet")
+        self.assert_bad("recovery barrier generation 101")
+        result = self.shell_literal("generationShell")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(int(result.stdout), 102)
+        self.write_heartbeat(launch_generation=102, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+        self.assertEqual((archive/"failures.jsonl").read_bytes(), original)
+
+    def test_1_valid_generation_after_torn_line_still_counts(self):
+        self.damaged_history(True)
+        with self.journal.open("ab") as stream:
+            stream.write(b'{"schema":1,"launch_generation":103,"reason":"failed"}\n')
+        original = self.journal.read_bytes()
+        self.assert_low_floor_refused_unchanged(100)
+        result = self.recover(103)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual(int(self.counter.read_text()), 104)
+        archive, = (self.counter.parent/"recoveries").iterdir()
+        self.assertEqual((archive/"failures.jsonl").read_bytes(), original)
+        self.assert_bad("recovery barrier generation 104")
+
+    def test_2_floor_below_valid_journal_is_read_only(self):
+        self.damaged_history(False)
+        self.assert_low_floor_refused_unchanged()
+
+    def test_2_floor_below_torn_journal_is_read_only(self):
+        self.damaged_history(True)
+        self.assert_low_floor_refused_unchanged()
+
+
+    def test_r6_1_mb14_archive_requires_floor_100_and_completion_102(self):
+        self.success_baseline()
+        fixture = ROOT/"results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture"
+        rows = json.loads((fixture.parent/"mb14_fixture_tree_sha256.json").read_text())
+        for row in rows:
+            if row["kind"] == "file":
+                self.assertEqual(hashlib.sha256((fixture/row["path"]).read_bytes()).hexdigest(), row["sha256"])
+        shutil.copytree(fixture/"recoveries", self.counter.parent/"recoveries")
+        for name in ("counter", "unresolved.json", "counter.lock"):
+            (self.counter.parent/name).write_bytes((fixture/name).read_bytes())
+        (self.heartbeat.parent/"launch_receipt.json").unlink()
+        archived = {name: data for name, data in self.snapshot().items() if "/recoveries/" in name}
+        self.assert_low_floor_refused_unchanged(11)
+        result = self.recover(100)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual(self.counter.read_bytes(), b"101\n")
+        self.assertEqual(json.loads((self.counter.parent/"unresolved.json").read_text())["recovery_barrier"], 101)
+        self.write_heartbeat(launch_generation=13, launch_mode="applet")
+        self.assert_bad("recovery barrier generation 101")
+        allocated = self.shell_literal("generationShell")
+        self.assertEqual(allocated.returncode, 0, allocated.stderr)
+        self.assertEqual(int(allocated.stdout), 102)
+        self.write_heartbeat(launch_generation=102, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+        after = self.snapshot()
+        self.assertEqual({name: after[name] for name in archived}, archived)
+
+    def test_r6_1_every_archived_source_in_older_directories_counts(self):
+        self.success_baseline()
+        self.counter.write_text("corrupt\n")
+        self.write_launch_receipt(launch_generation=None)
+        archives = self.counter.parent/"recoveries"
+        older = archives/"20000101T000000Z"
+        for directory in (older, archives/"20990101T000000Z"):
+            directory.mkdir(parents=True)
+            (directory/"manifest.json").write_text(json.dumps({"recovery_barrier": 11, "highest_seen": 10}))
+        sources = (("counter", b"100\n", 100),
+                   ("last_run.json", b'{"launch_generation":110}\n', 110),
+                   ("launch_receipt.json", b'{"launch_generation":120}\n', 120),
+                   ("failures.jsonl", b'{"launch_generation":130}\n{torn\n', 130),
+                   ("failures.jsonl", b'{"launch_generation":130}\n{torn\n{"launch_generation":140}\n', 140))
+        for name, data, generation in sources:
+            with self.subTest(source=name, generation=generation):
+                (older/name).write_bytes(data)
+                before = {str(p.relative_to(archives)): p.read_bytes() for p in archives.rglob("*") if p.is_file()}
+                self.assert_low_floor_refused_unchanged(generation-1)
+                result = self.recover(generation)
+                self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+                self.assertEqual(int(self.counter.read_text()), generation+1)
+                for relative, preserved in before.items():
+                    self.assertEqual((archives/relative).read_bytes(), preserved)
+
+    def assert_under_lock_rechecked(self, evidence, floor):
+        from tools import backup_gdrive_status as status
+        (self.counter.parent/"counter.lock").write_bytes(b"")
+        observed = []
+
+        def inject(_lock, _operation):
+            evidence.parent.mkdir(parents=True, exist_ok=True)
+            evidence.write_bytes(b'{"launch_generation":100}\n{torn\n' if evidence.suffix == ".jsonl" else
+                                 b'{"launch_generation":100,"exit_code":75}\n')
+            observed.append(self.snapshot())
+
+        with mock.patch.object(status.fcntl, "flock", side_effect=inject):
+            with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+                status.recover(SimpleNamespace(heartbeat=str(self.heartbeat), generation_floor=floor))
+        self.assertEqual(len(observed), 1, "positive control: history changed after the pre-lock check")
+        self.assertEqual(self.snapshot(), observed[0], "under-lock refusal must leave injected evidence unchanged")
+
+    def test_r6_1_under_lock_rechecks_archived_journal(self):
+        self.success_baseline()
+        archive = self.counter.parent/"recoveries/20000101T000000Z"
+        archive.mkdir(parents=True)
+        (archive/"manifest.json").write_text('{"recovery_barrier":11,"highest_seen":10}\n')
+        self.assert_under_lock_rechecked(archive/"failures.jsonl", 11)
+
+    def test_r6_2_refusal_heartbeat_raises_floor_without_a_failure(self):
+        self.success_baseline()
+        self.counter.write_text("corrupt\n")
+        self.write_launch_receipt(launch_generation=None)
+        refusal = self.heartbeat.parent/"refusals/latest-refusal.json"
+        refusal.parent.mkdir()
+        refusal.write_bytes(b'{"schema":1,"launch_generation":100,"launch_mode":"applet","exit_code":75}\n')
+        original = refusal.read_bytes()
+        self.assert_low_floor_refused_unchanged(10)
+        result = self.recover(100)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual(self.counter.read_bytes(), b"101\n")
+        state = json.loads((self.counter.parent/"unresolved.json").read_text())
+        self.assertEqual(state["unresolved"], [[1, 100]], "lost-history range derives from the reviewed floor")
+        self.assertEqual(state["recovery_barrier"], 101)
+        self.assertFalse(self.journal.exists(), "exit 75 must not publish an unresolved failure")
+        self.assertEqual(refusal.read_bytes(), original)
+        allocation = self.shell_literal("generationShell")
+        self.assertEqual(allocation.returncode, 0, allocation.stderr)
+        self.assertEqual(allocation.stdout.strip(), "102")
+        self.write_heartbeat(launch_generation=102, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_r6_2_under_lock_rechecks_refusal_heartbeat(self):
+        self.success_baseline()
+        self.assert_under_lock_rechecked(self.heartbeat.parent/"refusals/latest-refusal.json", 10)
+
+
+class R7RecoveryFixture(Fixture):
+    temporaries = {
+        "refusal": ("memit-gdrive-backup/refusals", ".last_run.",
+                    b'{"schema":1,"launch_generation":100,"launch_mode":"applet","exit_code":75}\n'),
+        "heartbeat": ("memit-gdrive-backup", ".last_run.",
+                      b'{"schema":1,"launch_generation":100,"launch_mode":"applet","exit_code":0}\n'),
+        "receipt": ("memit-gdrive-backup", ".launch-receipt.",
+                    b'{"schema":1,"launch_generation":100,"exit_code":75}\n'),
+        "journal": ("memit-gdrive-backup-launch-journal", ".journal.",
+                    b'{"schema":1,"launch_generation":11,"reason":"failed launch"}\n'
+                    b'{"schema":1,"launch_generation":100,"reason":"failed launch"}\n'),
+        "counter": ("memit-gdrive-backup-launch-state", ".counter.", b'100\n'),
+        "unresolved": ("memit-gdrive-backup-launch-state", ".unresolved.",
+                       b'{"schema":1,"issued_generation":100,"unresolved":[[1,100]],'
+                       b'"recovery_barrier":null,"compaction_barrier":null}\n'),
+        "recovery_state": ("memit-gdrive-backup-launch-state", ".recovery.",
+                           b'{"schema":1,"issued_generation":100,"unresolved":[[1,100]],'
+                           b'"recovery_barrier":null,"compaction_barrier":null}\n'),
+        "recovery_manifest": ("memit-gdrive-backup-launch-state", ".recovery.",
+                              b'{"schema":1,"recovery_barrier":100,"highest_seen":10,"generation_floor":99}\n'),
+        "recovery_counter": ("memit-gdrive-backup-launch-state", ".recovery.", b'100\n'),
+    }
+
+    def raw_history(self, name):
+        logs = self.base/name/"Library/Logs"
+        heartbeat = logs/"memit-gdrive-backup/last_run.json"
+        heartbeat.parent.mkdir(parents=True)
+        heartbeat.write_bytes(b'{"schema":1,"launch_generation":10,"launch_mode":"applet",'
+                              b'"end":"2026-10-10T00:00:00Z","exit_code":0}\n')
+        (heartbeat.parent/"launch_receipt.json").write_bytes(
+            b'{"schema":1,"launch_generation":null,"exit_code":127,"error_number":null}\n')
+        state_dir = logs/"memit-gdrive-backup-launch-state"
+        state_dir.mkdir()
+        (state_dir/"counter").write_bytes(b'corrupt\n')
+        self.assertFalse((state_dir/"unresolved.json").exists())
+        self.assertFalse((state_dir/"counter.lock").exists())
+        return heartbeat
+
+    def history_snapshot(self, heartbeat):
+        logs = heartbeat.parent.parent
+        return {str(path.relative_to(logs)): path.read_bytes() if path.is_file() else None
+                for path in sorted(logs.rglob("*"))}
+
+    def recover_history(self, heartbeat, floor):
+        return run_process([sys.executable, "-B", str(STATUS), "recover", "--heartbeat", str(heartbeat),
+                            "--generation-floor", str(floor)], timeout=5)
+
+    def temporary_path(self, heartbeat, source, archived):
+        directory, prefix, _data = self.temporaries[source]
+        logs = heartbeat.parent.parent
+        parent = (logs/"memit-gdrive-backup-launch-state/recoveries/old/nested" if archived else logs/directory)
+        return parent/(prefix+"ABC123")
+
+    def assert_floor_pair(self, heartbeat, evidence):
+        before = self.history_snapshot(heartbeat)
+        original = evidence.read_bytes()
+        result = self.recover_history(heartbeat, 10)
+        self.assertEqual(self.history_snapshot(heartbeat), before,
+                         "pre-lock refusal must leave all bytes and directories identical")
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertIn("below observed maximum 100", result.stderr)
+        state_dir = heartbeat.parent.parent/"memit-gdrive-backup-launch-state"
+        self.assertFalse((state_dir/"counter.lock").exists())
+        result = self.recover_history(heartbeat, 100)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual((state_dir/"counter").read_bytes(), b'101\n')
+        state = json.loads((state_dir/"unresolved.json").read_bytes())
+        self.assertEqual(state["recovery_barrier"], 101)
+        self.assertEqual(state["unresolved"], [[1, 100]])
+        self.assertEqual(evidence.read_bytes(), original, "a surviving publication temporary is evidence")
+        after = self.history_snapshot(heartbeat)
+        self.assertEqual({name: after[name] for name in before if "/recoveries/" in name},
+                         {name: data for name, data in before.items() if "/recoveries/" in name})
+        self.assertFalse((heartbeat.parent.parent/"memit-gdrive-backup-launch-journal/failures.jsonl").exists())
+
+    def assert_temporary_floor_pair(self, source):
+        for archived in (False, True):
+            with self.subTest(source=source, archived=archived):
+                heartbeat = self.raw_history(source+str(archived))
+                evidence = self.temporary_path(heartbeat, source, archived)
+                evidence.parent.mkdir(parents=True, exist_ok=True)
+                evidence.write_bytes(self.temporaries[source][2])
+                self.assert_floor_pair(heartbeat, evidence)
+
+    def assert_format_refused(self, heartbeat, evidence, word):
+        before = self.history_snapshot(heartbeat)
+        result = self.recover_history(heartbeat, 100)
+        self.assertEqual(self.history_snapshot(heartbeat), before,
+                         "unsupported evidence must refuse before directory/lock creation")
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertIn("recovery refused", result.stderr)
+        self.assertIn(str(evidence), result.stderr)
+        self.assertIn(word, result.stderr)
+
+
+class R7PublicationTemporaryTest(R7RecoveryFixture):
+    def test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("refusal")
+
+    def test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("heartbeat")
+
+    def test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("receipt")
+
+    def test_r7_1_journal_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("journal")
+
+    def test_r7_1_counter_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("counter")
+
+    def test_r7_1_unresolved_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("unresolved")
+
+    def test_r7_1_recovery_state_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("recovery_state")
+
+    def test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("recovery_manifest")
+
+    def test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair(self):
+        self.assert_temporary_floor_pair("recovery_counter")
+
+    def test_r7_1_under_lock_rechecks_every_live_and_archived_temporary(self):
+        from tools import backup_gdrive_status as status
+        for source in self.temporaries:
+            for archived in (False, True):
+                with self.subTest(source=source, archived=archived):
+                    heartbeat = self.raw_history(source+str(archived))
+                    state_dir = heartbeat.parent.parent/"memit-gdrive-backup-launch-state"
+                    (state_dir/"counter.lock").write_bytes(b'')
+                    evidence = self.temporary_path(heartbeat, source, archived)
+                    observed = []
+
+                    def inject(_lock, _operation):
+                        evidence.parent.mkdir(parents=True, exist_ok=True)
+                        evidence.write_bytes(self.temporaries[source][2])
+                        observed.append(self.history_snapshot(heartbeat))
+
+                    with mock.patch.object(status.fcntl, "flock", side_effect=inject):
+                        with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+                            status.recover(SimpleNamespace(heartbeat=str(heartbeat), generation_floor=10))
+                    self.assertEqual(len(observed), 1, "positive control: injection occurred after pre-lock scan")
+                    self.assertEqual(self.history_snapshot(heartbeat), observed[0],
+                                     "under-lock refusal must preserve every injected byte and directory")
+
+    def test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename(self):
+        for source in self.temporaries:
+            for archived in (False, True):
+                with self.subTest(source=source, archived=archived):
+                    heartbeat = self.raw_history(source+str(archived))
+                    evidence = self.temporary_path(heartbeat, source, archived)
+                    evidence.parent.mkdir(parents=True, exist_ok=True)
+                    evidence.write_bytes(b'not JSON or an integer\n')
+                    self.assert_format_refused(heartbeat, evidence, "unsupported")
+
+
+class R7ArchivePrecisionTest(R7RecoveryFixture):
+    def test_r7_2_nested_manifest_requires_floor_100_and_reserves_101(self):
+        heartbeat = self.raw_history("manifest")
+        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old/nested/manifest.json"
+        evidence.parent.mkdir(parents=True)
+        evidence.write_bytes(b'{"schema":1,"recovery_barrier":100,"highest_seen":10}\n')
+        self.assert_floor_pair(heartbeat, evidence)
+
+    def test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file(self):
+        heartbeat = self.raw_history("utf16")
+        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old/failures.jsonl"
+        evidence.parent.mkdir(parents=True)
+        evidence.write_bytes(b'\xff\xfe'+('{"launch_generation":10}\n{"launch_generation":100}\n').encode("utf-16-le"))
+        self.assert_format_refused(heartbeat, evidence, "UTF-8")
+
+    def test_r7_2_nested_generation_refuses_unchanged_and_names_file(self):
+        for name, data in (("object", b'{"launch_generation":10,"payload":{"launch_generation":100}}\n'),
+                           ("array", b'{"launch_generation":10,"records":[{"issued_generation":100}]}\n')):
+            with self.subTest(layout=name):
+                heartbeat = self.raw_history(name)
+                evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old/launch_receipt.json"
+                evidence.parent.mkdir(parents=True)
+                evidence.write_bytes(data)
+                self.assert_format_refused(heartbeat, evidence, "nested generation")
+
+    def test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file(self):
+        heartbeat = self.raw_history("unknown")
+        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old/evidence.bin"
+        evidence.parent.mkdir(parents=True)
+        evidence.write_bytes(b'{"launch_generation":100}\n')
+        self.assert_format_refused(heartbeat, evidence, "unsupported")
+
+    def test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename(self):
+        for name in ("last_run.json", "failures.jsonl"):
+            with self.subTest(format=name):
+                heartbeat = self.raw_history(name)
+                evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old"/name
+                evidence.parent.mkdir(parents=True)
+                evidence.write_bytes(b'not JSON\n')
+                self.assert_format_refused(heartbeat, evidence, "unsupported")
+
+
+class R8RecoveryFixture(R7RecoveryFixture):
+    nested_state = (b'{"schema":1,"issued_generation":10,"unresolved":[],"recovery_barrier":null,'
+                    b'"x":{"launch_generation":100}}')
+    invalid_field_state = (b'{"schema":1,"issued_generation":10,"unresolved":[],"recovery_barrier":null,'
+                           b'"launch_generation":"100"}')
+    duplicate_generation = b'{"launch_generation":100,"launch_generation":10}'
+    duplicate_state = (b'{"schema":1,"issued_generation":100,"issued_generation":10,'
+                       b'"unresolved":[],"recovery_barrier":null}')
+
+    def assert_pre_lock_refusal(self, heartbeat, evidence, word):
+        before = self.history_snapshot(heartbeat)
+        result = self.recover_history(heartbeat, 10)
+        self.assertEqual(self.history_snapshot(heartbeat), before,
+                         "pre-lock refusal must preserve every byte and directory")
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertIn("recovery refused", result.stderr)
+        self.assertIn(str(evidence), result.stderr)
+        self.assertIn(word, result.stderr)
+        self.assertFalse((heartbeat.parent.parent/"memit-gdrive-backup-launch-state/counter.lock").exists())
+
+    def assert_under_lock_refusal(self, heartbeat, evidence, payload, word):
+        from tools import backup_gdrive_status as status
+        (heartbeat.parent.parent/"memit-gdrive-backup-launch-state/counter.lock").write_bytes(b'')
+        observed = []
+
+        def inject(_lock, _operation):
+            evidence.parent.mkdir(parents=True, exist_ok=True)
+            evidence.write_bytes(payload)
+            observed.append(self.history_snapshot(heartbeat))
+
+        with mock.patch.object(status.fcntl, "flock", side_effect=inject):
+            with self.assertRaises(ValueError) as refused:
+                status.recover(SimpleNamespace(heartbeat=str(heartbeat), generation_floor=10))
+        self.assertEqual(len(observed), 1, "positive control: evidence injected after the pre-lock scan")
+        self.assertIn(str(evidence), str(refused.exception))
+        self.assertIn(word, str(refused.exception))
+        self.assertEqual(self.history_snapshot(heartbeat), observed[0],
+                         "under-lock refusal must preserve every injected byte and directory")
+
+
+class R8CurrentUnresolvedTest(R8RecoveryFixture):
+    def test_r8_2_current_unresolved_nested_generation_pre_lock_refuses_unchanged(self):
+        heartbeat = self.raw_history("nested-state")
+        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/unresolved.json"
+        evidence.write_bytes(self.nested_state)
+        self.assert_pre_lock_refusal(heartbeat, evidence, "nested generation")
+
+    def test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged(self):
+        for name, payload, word in (("nested", self.nested_state, "nested generation"),
+                                    ("encoding", b'\xff'+self.nested_state, "UTF-8"),
+                                    ("field", self.invalid_field_state, "generation field")):
+            with self.subTest(criterion=name):
+                heartbeat = self.raw_history(name)
+                evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/unresolved.json"
+                self.assert_under_lock_refusal(heartbeat, evidence, payload, word)
+
+    def test_r8_2_current_unresolved_non_utf8_refuses_with_filename(self):
+        heartbeat = self.raw_history("non-utf8-state")
+        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/unresolved.json"
+        evidence.write_bytes(b'\xff'+self.nested_state)
+        self.assert_pre_lock_refusal(heartbeat, evidence, "UTF-8")
+
+    def test_r8_2_current_unresolved_invalid_generation_field_refuses_with_filename(self):
+        heartbeat = self.raw_history("invalid-state-field")
+        evidence = heartbeat.parent.parent/"memit-gdrive-backup-launch-state/unresolved.json"
+        evidence.write_bytes(self.invalid_field_state)
+        self.assert_pre_lock_refusal(heartbeat, evidence, "generation field")
+
+
+class R8DuplicateKeysTest(R8RecoveryFixture):
+    def duplicate_path(self, heartbeat, location):
+        return {
+            "archived": heartbeat.parent.parent/"memit-gdrive-backup-launch-state/recoveries/old/x.json",
+            "live": heartbeat.parent/"launch_receipt.json",
+            "temporary": heartbeat.parent/".last_run.ABC123",
+            "journal": heartbeat.parent.parent/"memit-gdrive-backup-launch-journal/failures.jsonl",
+            "state": heartbeat.parent.parent/"memit-gdrive-backup-launch-state/unresolved.json",
+        }[location]
+
+    def assert_duplicate_refused(self, location):
+        heartbeat = self.raw_history(location)
+        evidence = self.duplicate_path(heartbeat, location)
+        evidence.parent.mkdir(parents=True, exist_ok=True)
+        evidence.write_bytes(self.duplicate_state if location == "state" else self.duplicate_generation)
+        self.assert_pre_lock_refusal(heartbeat, evidence, "duplicate JSON key")
+
+    def test_r8_3_archived_json_duplicate_keys_refuse_unchanged_with_filename(self):
+        self.assert_duplicate_refused("archived")
+
+    def test_r8_3_live_json_duplicate_keys_refuse_unchanged_with_filename(self):
+        self.assert_duplicate_refused("live")
+
+    def test_r8_3_recognized_json_temporary_duplicate_keys_refuse_unchanged_with_filename(self):
+        self.assert_duplicate_refused("temporary")
+
+    def test_r8_3_jsonl_duplicate_keys_refuse_instead_of_torn_line_tolerance(self):
+        self.assert_duplicate_refused("journal")
+
+    def test_r8_3_current_unresolved_duplicate_keys_refuse_unchanged_with_filename(self):
+        self.assert_duplicate_refused("state")
+
+    def test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged(self):
+        for location in ("archived", "live", "temporary", "journal", "state"):
+            with self.subTest(location=location):
+                heartbeat = self.raw_history(location)
+                evidence = self.duplicate_path(heartbeat, location)
+                payload = self.duplicate_state if location == "state" else self.duplicate_generation
+                self.assert_under_lock_refusal(heartbeat, evidence, payload, "duplicate JSON key")
+
+    def test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename(self):
+        for name, payload in (("object", b'{"launch_generation":10,"x":{"value":100,"value":10}}'),
+                              ("array", b'{"launch_generation":10,"x":[{"value":100,"value":10}]}')):
+            with self.subTest(layout=name):
+                heartbeat = self.raw_history(name)
+                evidence = self.duplicate_path(heartbeat, "archived")
+                evidence.parent.mkdir(parents=True)
+                evidence.write_bytes(payload)
+                self.assert_pre_lock_refusal(heartbeat, evidence, "duplicate JSON key")
+
+    def test_r8_3_genuinely_torn_final_jsonl_line_remains_tolerated(self):
+        heartbeat = self.raw_history("torn-final-line")
+        evidence = self.duplicate_path(heartbeat, "journal")
+        evidence.parent.mkdir()
+        payload = b'{"launch_generation":100,"reason":"failed launch"}\n{"launch_generation":200'
+        evidence.write_bytes(payload)
+        before = self.history_snapshot(heartbeat)
+        result = self.recover_history(heartbeat, 10)
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertIn("below observed maximum 100", result.stderr)
+        self.assertEqual(self.history_snapshot(heartbeat), before)
+        result = self.recover_history(heartbeat, 100)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        state_dir = heartbeat.parent.parent/"memit-gdrive-backup-launch-state"
+        self.assertEqual((state_dir/"counter").read_bytes(), b'101\n')
+        state = json.loads((state_dir/"unresolved.json").read_bytes())
+        self.assertEqual(state["recovery_barrier"], 101)
+        self.assertEqual(state["unresolved"], [[1, 100]])
+        archived = list((state_dir/"recoveries").rglob("failures.jsonl"))
+        self.assertEqual(len(archived), 1)
+        self.assertEqual(archived[0].read_bytes(), payload)
+        self.assertFalse(evidence.exists())
+
+
+class R5CompactionTest(R5Fixture):
+    INTERVAL_LIMIT = 64
+    BYTE_LIMIT = 2048
+
+    def perl_program(self, name):
+        source = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        literal = json.loads(re.search(r'^property '+name+r' : ("(?:\\.|[^"\\])*")$', source, re.M)[1])
+        # The program is the actual argument to Perl -e, including both publishers.
+        match = re.search(r" -e '(.*?)\n'", literal, re.S)
+        self.assertIsNotNone(match)
+        return match[1]
+
+    def perl_publish(self, state, name="generationShell", completed=0, refused=0):
+        program = self.perl_program(name)
+        helpers = program[program.index("sub state_integer"):]
+        helpers = helpers[:helpers.index("my ($completed, $refused)") if name == "generationShell" else
+                          helpers.index("my ($sec, $micro)")]
+        (self.counter.parent/"unresolved.json").write_text(json.dumps(state))
+        result = run_process(["/usr/bin/perl", "-MJSON::PP", "-MFile::Temp=tempfile", "-e", helpers+
+            '\nmy ($dir,$issued,$completed,$refused)=@ARGV;\n'+
+            'my $state=read_state($dir,$issued,$completed);\n'+
+            'resolve_state($state,$completed,$refused); publish_state($dir,$state);\n',
+            str(self.counter.parent), str(state["issued_generation"]), str(completed), str(refused)], timeout=5)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = (self.counter.parent/"unresolved.json").read_bytes()
+        self.assertLessEqual(len(data), self.BYTE_LIMIT, "unresolved state byte bound")
+        value = json.loads(data)
+        self.assertLessEqual(len(value["unresolved"]), self.INTERVAL_LIMIT, "unresolved state interval bound")
+        return value
+
+    def state(self, count):
+        return {"schema": 1, "issued_generation": 10+count*2,
+                "unresolved": [[11+2*i, 11+2*i] for i in range(count)], "recovery_barrier": None}
+
+    def test_4_exact_limit_and_limit_plus_one_compaction(self):
+        at_limit = self.perl_publish(self.state(self.INTERVAL_LIMIT))
+        self.assertEqual(at_limit["unresolved"], self.state(self.INTERVAL_LIMIT)["unresolved"])
+        self.assertIsNone(at_limit.get("compaction_barrier"))
+        overflow = self.perl_publish(self.state(self.INTERVAL_LIMIT+1))
+        self.assertEqual(overflow["unresolved"], [])
+        self.assertEqual(overflow["compaction_barrier"], overflow["issued_generation"])
+
+    def test_4_byte_overflow_preserves_the_recovery_barrier(self):
+        state = self.state(1)
+        state.update(recovery_barrier=10, padding="x"*self.BYTE_LIMIT)
+        compacted = self.perl_publish(state)
+        self.assertEqual(compacted["recovery_barrier"], 10)
+        self.assertEqual(compacted["compaction_barrier"], state["issued_generation"])
+        self.assertEqual(compacted["unresolved"], [])
+
+    def test_4_two_thousand_allocations_remain_bounded_and_fail_closed(self):
+        self.success_baseline()
+        allocation = self.perl_program("generationShell")
+        receipt = self.perl_program("receiptShell")
+        self.assertIn("exit($published ? 0 : 1);", receipt)
+        # Keep the production IO and interval logic; suppress only process exit/output.
+        receipt = receipt.replace("exit($published ? 0 : 1);", 'die "receipt failed" unless $published;')
+        harness = 'my ($allocation,$receipt,$dir)=@ARGV;\n'
+        harness += '$allocation=eval "sub {".$allocation."}"; die $@ if $@;\n'
+        harness += '$receipt=eval "sub {".$receipt."}"; die $@ if $@;\n'
+        harness += 'for my $g (11..2010) {\n'
+        harness += ' { my $output=""; open my $capture, ">", \\$output or die $!; local *STDOUT=$capture; $allocation->(); }\n'
+        harness += ' if ($g % 2 == 0) { local @ARGV=("fixture-wrapper",75,"",$g); $receipt->(); }\n'
+        harness += ' open my $in, "<", "$dir/unresolved.json" or die $!; my $data=do {local $/; <$in>}; close $in or die $!;\n'
+        harness += ' print encode_json({generation=>$g,bytes=>length($data),state=>decode_json($data)}),"\\n"; }\n'
+        result = run_process(["/usr/bin/perl", "-MJSON::PP", "-MFcntl=:flock", "-MFile::Path=make_path",
+                              "-MFile::Temp=tempfile", "-MTime::HiRes=gettimeofday", "-MPOSIX=strftime",
+                              "-e", harness, allocation, receipt, str(self.counter.parent)], timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        snapshots = [json.loads(line) for line in result.stdout.splitlines()]
+        self.assertEqual(len(snapshots), 2000)
+        from tools import backup_gdrive_status as status
+        self.write_launch_receipt(launch_generation=10, exit_code=0)
+        for snapshot in snapshots:
+            state = snapshot["state"]
+            self.assertLessEqual(snapshot["bytes"], self.BYTE_LIMIT)
+            self.assertLessEqual(len(state["unresolved"]), self.INTERVAL_LIMIT)
+            self.counter.write_text(str(snapshot["generation"])+"\n")
+            with mock.patch.object(status, "generation_state", return_value=state):
+                ok, reason = status.health(self.heartbeat)
+            self.assertFalse(ok, reason)
+            self.assertTrue("generation 11" in reason or "compacted barrier" in reason, reason)
+        self.counter.write_text("2010\n")
+        compacted = json.loads((self.counter.parent/"unresolved.json").read_text())
+        barrier = compacted["compaction_barrier"]
+        self.assertGreaterEqual(barrier, 11)
+        # A manual heartbeat, an incomplete sequence and another refusal cannot clear it.
+        self.write_heartbeat(launch_generation=None, launch_mode="manual")
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=barrier, launch_mode="applet", end=None, exit_code=None)
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=10, launch_mode="applet")
+        self.assertEqual(self.shell_literal("generationShell").returncode, 0)
+        self.assertEqual(self.shell_literal("receiptShell", BACKUP, 75, "", 2011).returncode, 0)
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=2011, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_r6_3_compacted_barrier_requires_strictly_later_completion(self):
+        self.success_baseline()
+        overflow = self.state(self.INTERVAL_LIMIT+1)
+        compacted = self.perl_publish(overflow)
+        self.counter.write_text(str(overflow["issued_generation"])+"\n")
+        barrier = compacted["compaction_barrier"]
+        refused = self.perl_publish(compacted, "receiptShell", completed=10, refused=barrier)
+        self.assertEqual(refused["compaction_barrier"], barrier)
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=None, launch_mode="manual")
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=barrier-1, launch_mode="applet")
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=barrier, launch_mode="applet")
+        self.assert_bad("compacted barrier")
+        for publisher in ("generationShell", "receiptShell"):
+            with self.subTest(publisher=publisher):
+                equal = self.perl_publish(refused, publisher, completed=barrier)
+                self.assertEqual(equal["compaction_barrier"], barrier)
+                later = dict(equal, issued_generation=barrier+1)
+                self.counter.write_text(str(barrier+1)+"\n")
+                self.write_heartbeat(launch_generation=barrier+1, launch_mode="applet")
+                resolved = self.perl_publish(later, publisher, completed=barrier+1)
+                self.assertIsNone(resolved["compaction_barrier"])
+                self.assertEqual(self.status().returncode, 0)
+
+    def test_r6_3_python_and_both_perl_publishers_agree_at_boundaries(self):
+        from tools import backup_gdrive_status as status
+        self.success_baseline()
+        for count in (self.INTERVAL_LIMIT+1, self.INTERVAL_LIMIT):
+            for publisher in ("generationShell", "receiptShell"):
+                original = self.state(count)
+                perl = self.perl_publish(original, publisher)
+                python = status.compact_generation_state(original)
+                self.assertEqual(perl, python)
+        compacted = status.compact_generation_state(self.state(self.INTERVAL_LIMIT+1))
+        barrier = compacted["compaction_barrier"]
+        for completed in (barrier-1, barrier, barrier+1):
+            for publisher in ("generationShell", "receiptShell"):
+                with self.subTest(completed=completed, publisher=publisher):
+                    original = dict(compacted, issued_generation=max(barrier, completed))
+                    perl = self.perl_publish(original, publisher, completed=completed)
+                    self.assertEqual(perl["compaction_barrier"], None if completed > barrier else barrier)
+                    (self.counter.parent/"unresolved.json").write_text(json.dumps(original))
+                    self.counter.write_text(str(original["issued_generation"])+"\n")
+                    self.write_heartbeat(launch_generation=completed, launch_mode="applet")
+                    healthy, reason = status.health(self.heartbeat)
+                    self.assertEqual(healthy, completed > barrier, reason)
+
+    def test_r6_3_odd_failure_schedule_compacts_at_139(self):
+        self.success_baseline()
+        for generation in range(11, 139):
+            allocation = self.shell_literal("generationShell")
+            self.assertEqual(allocation.returncode, 0, allocation.stderr)
+            self.assertEqual(int(allocation.stdout), generation)
+            receipt = self.shell_literal("receiptShell", BACKUP, 1 if generation % 2 else 75, "", generation)
+            self.assertEqual(receipt.returncode, 0, receipt.stderr)
+        state_path = self.counter.parent/"unresolved.json"
+        state = json.loads(state_path.read_text())
+        self.assertEqual(state["unresolved"], [[generation, generation] for generation in range(11, 138, 2)])
+        allocation = self.shell_literal("generationShell")
+        self.assertEqual(allocation.returncode, 0, allocation.stderr)
+        self.assertEqual(allocation.stdout.strip(), "139")
+        compacted = json.loads(state_path.read_text())
+        self.assertEqual(compacted["compaction_barrier"], 139)
+        self.assertEqual(compacted["unresolved"], [])
+        self.write_heartbeat(launch_generation=139, launch_mode="applet")
+        self.assert_bad("compacted barrier generation 139")
+        for publisher in ("generationShell", "receiptShell"):
+            equal = self.perl_publish(compacted, publisher, completed=139)
+            self.assertEqual(equal["compaction_barrier"], 139)
+        allocation = self.shell_literal("generationShell")
+        self.assertEqual(allocation.returncode, 0, allocation.stderr)
+        self.assertEqual(allocation.stdout.strip(), "140")
+        refusal = self.shell_literal("receiptShell", BACKUP, 75, "", 140)
+        self.assertEqual(refusal.returncode, 0, refusal.stderr)
+        equal = json.loads(state_path.read_text())
+        self.assertEqual(equal["compaction_barrier"], 139)
+        self.assert_bad("compacted barrier generation 139")
+        self.write_heartbeat(launch_generation=140, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+        for publisher in ("generationShell", "receiptShell"):
+            later = self.perl_publish(equal, publisher, completed=140)
+            self.assertIsNone(later["compaction_barrier"])
+
+
 class GenerationWrapperTest(Fixture):
     def wrapper_records(self, generation):
         trace = self.base/"heartbeats.jsonl"
@@ -1220,7 +2184,325 @@ class GenerationWrapperTest(Fixture):
         self.assertFalse(self.heartbeat.exists())
 
 
+class LockedReleaseTest(Fixture):
+    """MB32: removing the release gate must dispatch corrupted fixture bytes."""
+    FILES = ("backup_gdrive.sh", "backup_gdrive_status.py", "backup_mirror.excludes")
+
+    def setUp(self):
+        # A receipt-dir HOME is itself in a checkout; release fixtures must be outside it.
+        temporary_root = mock.patch.dict(os.environ, BACKUP_TEST_RECEIPTS="/private/tmp")
+        temporary_root.start()
+        self.addCleanup(temporary_root.stop)
+        super().setUp()
+        self.checkout = self.base/"checkout"
+        launchd = self.checkout/"tools/launchd"
+        launchd.mkdir(parents=True)
+        self.original = {
+            "backup_gdrive.sh": b'#!/bin/sh\nprintf "%s\\n" "$0" > "$HOME/dispatched-wrapper"\nprintf "%s\\n" "$BACKUP_LAUNCH_GENERATION" > "$HOME/dispatched-generation"\n',
+            "backup_gdrive_status.py": b'# committed fixture status\n',
+            "backup_mirror.excludes": b'# committed fixture excludes\n',
+        }
+        for name, content in self.original.items():
+            (self.checkout/"tools"/name).write_bytes(content)
+        for name in ("MemitGdriveBackup.applescript", "build_gdrive_applet.sh", "stage_gdrive_release.sh"):
+            source = ROOT/"tools/launchd"/name
+            if source.exists():
+                shutil.copyfile(source, launchd/name)
+        self.git("init", "-q")
+        self.git("add", "tools")
+        self.git("-c", "user.name=MB32 Fixture", "-c", "user.email=fixture@invalid",
+                 "-c", "core.hooksPath=/dev/null", "commit", "-qm", "locked release fixture")
+        self.commit = self.git("rev-parse", "HEAD").stdout.strip()
+        self.release_root = self.home/"Library/Application Support/memit-gdrive-backup/releases"
+        self.release = self.release_root/"fixture-r1"
+        self.rendered = self.base/"rendered source.applescript"
+        self.counter = self.home/"Library/Logs/memit-gdrive-backup-launch-state/counter"
+        self.counter.parent.mkdir(parents=True)
+        self.counter.write_text("0\n")
+        self.receipt = self.home/"Library/Logs/memit-gdrive-backup/launch_receipt.json"
+        self.marker = self.home/"dispatched-wrapper"
+
+    def git(self, *args):
+        result = run_process(["/usr/bin/git", "-C", str(self.checkout), *args], timeout=10)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        return result
+
+    def stage(self, *, baseline=True, root=None, rendered=None):
+        script = self.checkout/"tools/launchd/stage_gdrive_release.sh"
+        if not script.exists() and baseline:
+            # Safely exercise the old dispatch: its checkout path is a tiny stub.
+            self.release.mkdir(parents=True)
+            for name, content in self.original.items():
+                (self.release/name).write_bytes(content)
+            manifest = "".join(hashlib.sha256(self.original[n]).hexdigest()+"  "+n+"\n" for n in self.FILES)
+            (self.release/"MANIFEST").write_text(manifest)
+            source = (self.checkout/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+            source = re.sub(r'^property wrapperPath : .*$',
+                            lambda m: 'property wrapperPath : '+json.dumps(str(self.checkout/"tools/backup_gdrive.sh")),
+                            source, flags=re.M)
+            self.rendered.write_text(source)
+            return subprocess.CompletedProcess([], 0, "", "")
+        self.assertTrue(script.is_file(), "commit-only release staging entrypoint is missing")
+        args = ["/bin/bash", str(script), self.commit, "fixture-r1", str(rendered or self.rendered)]
+        if root is not None:
+            args.append(str(root))
+        return run_process(args, timeout=10)
+
+    def ready(self):
+        result = self.stage()
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+
+    def dispatch(self):
+        source = self.rendered.read_text()
+        literals = {name: json.loads(literal) for name, literal in
+                    re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', source, re.M)}
+        # Same ordered shell literals and stamped wrapperPath as the applet.
+        composition = re.search(r'quoted form of \(([^)]+)\).*" backup-launch "', source)
+        self.assertIsNotNone(composition, "applet dispatch composition must be exercised")
+        body = literals["generationShell"]+"".join(literals[name.strip()] for name in composition[1].split("&"))
+        return run_process(["/bin/sh", "-c", body, "backup-launch", literals["wrapperPath"]], timeout=5)
+
+    def refused(self, name, expected, actual):
+        result = self.dispatch()
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertFalse(self.marker.exists(), "integrity failure dispatched the wrapper")
+        self.assertTrue(self.receipt.is_file(), "integrity refusal needs the existing receipt sink")
+        value = json.loads(self.receipt.read_text())
+        self.assertEqual(value["launch_generation"], 1)
+        self.assertNotEqual(value["exit_code"], 0)
+        failure = next((f for f in value.get("integrity_failures", []) if f["file"] == name), None)
+        self.assertIsNotNone(failure, "failure receipt must name "+name)
+        self.assertEqual(failure["expected_sha256"], expected)
+        self.assertEqual(failure["actual_sha256"], actual)
+        self.assertEqual(self.counter.read_text(), "1\n", "reserve before checking to sequence refusals")
+
+    def change_byte(self, name):
+        self.ready()
+        path = self.release/name
+        previous = path.read_bytes()
+        changed = bytes([previous[0] ^ 1])+previous[1:]
+        path.chmod(0o600)
+        path.write_bytes(changed)
+        self.refused(name, hashlib.sha256(previous).hexdigest(), hashlib.sha256(changed).hexdigest())
+
+    def test_good_release_dispatches_release_path(self):
+        self.ready()
+        result = self.dispatch()
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual(self.marker.read_text().strip(), str(self.release/"backup_gdrive.sh"))
+        self.assertEqual((self.home/"dispatched-generation").read_text(), "1\n")
+        self.assertEqual(json.loads(self.receipt.read_text())["wrapper_path"], str(self.release/"backup_gdrive.sh"))
+        self.assertEqual({p.name for p in self.release.iterdir()}, set(self.FILES)|{"MANIFEST"})
+        for path in [self.release, *self.release.iterdir()]:
+            self.assertEqual(path.stat().st_mode & 0o222, 0, str(path)+" must be read-only")
+
+    def test_changed_wrapper_byte_refuses(self):
+        self.change_byte("backup_gdrive.sh")
+
+    def test_changed_status_byte_refuses(self):
+        self.change_byte("backup_gdrive_status.py")
+
+    def test_changed_excludes_byte_refuses(self):
+        self.change_byte("backup_mirror.excludes")
+
+    def test_changed_manifest_byte_refuses(self):
+        self.change_byte("MANIFEST")
+
+    def test_missing_file_refuses(self):
+        self.ready()
+        self.release.chmod(0o700)
+        path = self.release/"backup_gdrive_status.py"
+        previous = path.read_bytes()
+        path.unlink()
+        self.refused(path.name, hashlib.sha256(previous).hexdigest(), "MISSING")
+
+    def test_extra_file_refuses(self):
+        self.ready()
+        self.release.chmod(0o700)
+        path = self.release/"unexpected file"
+        path.write_bytes(b"unapproved")
+        self.refused(path.name, "ABSENT", hashlib.sha256(b"unapproved").hexdigest())
+
+    def test_checkout_pull_cannot_change_dispatch(self):
+        self.ready()
+        (self.checkout/"tools/backup_gdrive.sh").write_text("#!/bin/sh\nexit 99\n")
+        result = self.dispatch()
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertTrue(self.marker.is_file(), "pull changed what the applet dispatches")
+        self.assertEqual(self.marker.read_text().strip(), str(self.release/"backup_gdrive.sh"))
+        self.assertEqual((self.release/"backup_gdrive.sh").read_bytes(), self.original["backup_gdrive.sh"])
+
+    def test_existing_release_id_refused_without_overwrite(self):
+        self.ready()
+        before = {p.name: p.read_bytes() for p in self.release.iterdir()}
+        result = run_process(["/bin/bash", str(self.checkout/"tools/launchd/build_gdrive_applet.sh"),
+                              self.commit, "fixture-r1", str(self.base/"second.app")], timeout=10)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("existing release", result.stderr.lower())
+        self.assertEqual({p.name: p.read_bytes() for p in self.release.iterdir()}, before)
+        self.assertFalse((self.base/"second.app.applescript").exists())
+
+    def test_dirty_checkout_stages_commit_bytes(self):
+        for name in self.FILES:
+            (self.checkout/"tools"/name).write_bytes(b"dirty working tree\n")
+        result = self.stage(baseline=False)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        for name in self.FILES:
+            self.assertEqual((self.release/name).read_bytes(), self.original[name])
+
+    def test_release_inside_another_checkout_refused(self):
+        other = self.base/"other checkout"
+        other.mkdir()
+        result = run_process(["/usr/bin/git", "init", "-q", str(other)], timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        result = self.stage(baseline=False, root=other/"releases")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("git checkout", result.stderr.lower())
+        self.assertFalse((other/"releases/fixture-r1").exists())
+
+    def test_rendered_source_stamps_release_and_all_four_hashes(self):
+        self.ready()
+        source = self.rendered.read_text()
+        literals = {name: json.loads(literal) for name, literal in
+                    re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', source, re.M)}
+        self.assertEqual(literals["wrapperPath"], str(self.release/"backup_gdrive.sh"))
+        for path in self.release.iterdir():
+            self.assertIn(hashlib.sha256(path.read_bytes()).hexdigest(), source)
+
+    def build_native(self):
+        self.assertTrue((self.checkout/"tools/launchd/stage_gdrive_release.sh").is_file(),
+                        "locked release build entrypoint is missing")
+        # Standard Additions does not inherit subprocess HOME; embed the fixture HOME.
+        template = self.checkout/"tools/launchd/MemitGdriveBackup.applescript"
+        def isolate(match):
+            name, literal = match.groups()
+            body = json.loads(literal)
+            if name in {"generationShell", "integrityShell", "receiptShell"}:
+                body = "HOME="+shlex.quote(str(self.home))+"\nexport HOME\n"+body
+            return "property "+name+" : "+json.dumps(body)
+        template.write_text(re.sub(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', isolate,
+                                   template.read_text(), flags=re.M))
+        app = self.base/"locked fixture.app"
+        result = run_process(["/bin/bash", str(self.checkout/"tools/launchd/build_gdrive_applet.sh"),
+                              self.commit, "fixture-r1", str(app)], timeout=20)
+        LauncherTest.osa_result(self, result, "locked release build")
+        return app
+
+    def build_with_fake_osa(self, mode):
+        fake_bin = self.base/("fake-osa-"+mode)
+        fake_bin.mkdir()
+        fake = '#!'+sys.executable+'\n'+'''import os
+from pathlib import Path
+import sys
+
+mode = os.environ["FAKE_OSA_MODE"]
+if Path(sys.argv[0]).name == "osacompile":
+    assert len(sys.argv) == 4 and sys.argv[1] == "-o", sys.argv
+    output, source = map(Path, sys.argv[2:])
+    data = source.read_bytes()
+    if output.suffix == ".app":
+        script = output/"Contents/Resources/Scripts/main.scpt"
+        script.parent.mkdir(parents=True)
+        executable = output/"Contents/MacOS/applet"
+        executable.parent.mkdir()
+        executable.write_bytes(b"fixture applet\\n")
+    else:
+        script = output
+        if output.name == "rendered.scpt":
+            (Path(__file__).parent/"rendered_input.applescript").write_bytes(data)
+    script.write_bytes(data)
+else:
+    assert len(sys.argv) == 2, sys.argv
+    script = Path(sys.argv[1])
+    data = script.read_bytes()+b"\\n"
+    if mode == "empty_canonical" and script.name == "rendered.scpt":
+        data = b""
+    if script.name == "main.scpt":
+        if mode == "extra_newline":
+            data += b"\\n"
+        if mode == "changed_byte":
+            data = bytes([data[0] ^ 1])+data[1:]
+    sys.stdout.buffer.write(data)
+'''
+        for name in ("osacompile", "osadecompile"):
+            path = fake_bin/name
+            path.write_text(fake)
+            path.chmod(0o700)
+        # Substitute only tool paths in this fixture copy; production has no override.
+        builder = self.checkout/"tools/launchd/build_gdrive_applet.sh"
+        source = (ROOT/"tools/launchd/build_gdrive_applet.sh").read_text()
+        for name in ("osacompile", "osadecompile"):
+            self.assertIn("/usr/bin/"+name, source)
+            source = source.replace("/usr/bin/"+name, name)
+        builder.write_text(source)
+        app = self.base/(mode+" fixture.app")
+        env = dict(os.environ, PATH=str(fake_bin)+os.pathsep+os.environ["PATH"],
+                   FAKE_OSA_MODE=mode, TMPDIR=str(self.base))
+        result = run_process(["/bin/bash", str(builder), self.commit, "fixture-"+mode, str(app)],
+                             env=env, timeout=20)
+        return app, fake_bin, result
+
+    def test_builder_compares_fresh_saved_compile_with_newline_growth(self):
+        app, fake_bin, result = self.build_with_fake_osa("normal")
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        saved = Path(str(app)+".applescript")
+        decompiled = Path(str(app)+".decompiled.applescript")
+        self.assertEqual(saved.read_bytes(), (fake_bin/"rendered_input.applescript").read_bytes()+b"\n")
+        self.assertEqual(decompiled.read_bytes(), saved.read_bytes()+b"\n")
+        for path in (saved, decompiled):
+            self.assertEqual(path.stat().st_mode & 0o777, 0o444)
+        manifest = dict((path, digest) for digest, path in
+                        (line.split("  ", 1) for line in result.stdout.splitlines()))
+        self.assertEqual(manifest, {str(path): hashlib.sha256(path.read_bytes()).hexdigest()
+                                   for path in app.rglob("*") if path.is_file()})
+
+    def test_builder_rejects_app_decompile_byte_mismatch(self):
+        for mode in ("extra_newline", "changed_byte"):
+            with self.subTest(mode=mode):
+                app, fake_bin, result = self.build_with_fake_osa(mode)
+                self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+                self.assertNotEqual(Path(str(app)+".decompiled.applescript").read_bytes(),
+                                    Path(str(app)+".applescript").read_bytes()+b"\n")
+                self.assertFalse(any(re.match(r"^[0-9a-f]{64}  ", line)
+                                     for line in result.stdout.splitlines()))
+
+    def test_builder_rejects_empty_canonical_decompile(self):
+        app, fake_bin, result = self.build_with_fake_osa("empty_canonical")
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertIn("Empty canonical AppleScript", result.stderr)
+        self.assertFalse(app.exists())
+
+    def test_compiled_app_full_source_equals_saved_source(self):
+        app = self.build_native()
+        saved = Path(str(app)+".applescript")
+        reference = self.base/"saved source.scpt"
+        result = run_process(["/usr/bin/osacompile", "-o", str(reference), str(saved)], timeout=10)
+        LauncherTest.osa_result(self, result, "osacompile saved source")
+        app_source, reference_source = self.base/"app decompile.applescript", self.base/"saved decompile.applescript"
+        for compiled, decompiled in ((app/"Contents/Resources/Scripts/main.scpt", app_source),
+                                     (reference, reference_source)):
+            result = run_process(["/bin/sh", "-c", 'exec /usr/bin/osadecompile "$1" > "$2"',
+                                  "osadecompile", str(compiled), str(decompiled)], timeout=10)
+            LauncherTest.osa_result(self, result, "osadecompile "+str(compiled))
+        self.assertEqual(app_source.read_bytes(), reference_source.read_bytes())
+        self.assertEqual(app_source.read_bytes(), Path(str(app)+".decompiled.applescript").read_bytes())
+
+    def test_compiled_app_dispatches_release_after_checkout_change(self):
+        app = self.build_native()
+        (self.checkout/"tools/backup_gdrive.sh").write_text("#!/bin/sh\nexit 99\n")
+        result = run_process(["/usr/bin/osascript", str(app/"Contents/Resources/Scripts/main.scpt")], timeout=5)
+        LauncherTest.osa_result(self, result, "osascript locked app")
+        self.assertEqual(self.marker.read_text().strip(), str(self.release/"backup_gdrive.sh"))
+        self.assertEqual(json.loads(self.receipt.read_text())["exit_code"], 0)
+
+
 class LauncherTest(Fixture):
+    def setUp(self):
+        temporary_root = mock.patch.dict(os.environ, BACKUP_TEST_RECEIPTS="/private/tmp")
+        temporary_root.start()
+        self.addCleanup(temporary_root.stop)
+        super().setUp()
+
     def osa_result(self, result, command):
         output = result.stdout+result.stderr
         if result.returncode and any(reason in output.lower() for reason in
@@ -1251,19 +2533,17 @@ class LauncherTest(Fixture):
         stub.write_text('#!/bin/bash\nprintf invoked > "'+str(marker)+'"\nexit 1\n')
         variant = self.base/"failure.applescript"
         text = source.read_text()
-        variant_text = text.replace("/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh", str(stub))
+        variant_text = re.sub(r'^property wrapperPath : .*$',
+                              lambda m: 'property wrapperPath : '+json.dumps(str(stub)), text, flags=re.M)
+        # This existing smoke tests the caught wrapper error; release checks have their own tests.
+        variant_text = re.sub(r'^property integrityShell : .*$', 'property integrityShell : ""',
+                              variant_text, flags=re.M)
         self.assertNotEqual(variant_text, text, "variant must actually invoke the exit-1 stub")
         home = self.base/"applet-home"
         counter = home/"Library/Logs/memit-gdrive-backup-launch-state/counter"
         counter.parent.mkdir(parents=True)
         counter.write_text("0\n")
-        def isolate(match):
-            name, literal = match.groups()
-            body = json.loads(literal)
-            if name in {"generationShell", "receiptShell"}:
-                body = "HOME="+shlex.quote(str(home))+"\n"+body
-            return "property "+name+" : "+json.dumps(body)
-        variant_text = re.sub(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', isolate, variant_text, flags=re.M)
+        variant_text = isolate_failing_launcher_home(variant_text, home)
         variant.write_text(variant_text)
         compiled = self.base/"failure.scpt"
         result = run_process(["/usr/bin/osacompile", "-o", str(compiled), str(variant)], timeout=10)
@@ -1274,12 +2554,20 @@ class LauncherTest(Fixture):
         self.osa_result(result, "osascript exit-1 variant")
         self.assertLess(time.monotonic()-start, 5)
         self.assertTrue(marker.is_file(), "positive control: the failing shell script was run")
+        receipt = home/"Library/Logs/memit-gdrive-backup/launch_receipt.json"
+        state = counter.parent/"unresolved.json"
+        for artifact in (receipt, counter, state):
+            self.assertTrue(artifact.is_file(), "positive control: fixture artifact "+str(artifact))
+        self.assertEqual(json.loads(receipt.read_text())["exit_code"], 1)
+        self.assertGreater(int(counter.read_text()), 0)
 
     def test_builder_compiles_applet_and_prints_complete_sha256_manifest(self):
         script = ROOT/"tools/launchd/build_gdrive_applet.sh"
         self.assertTrue(script.is_file(), "applet builder must exist")
         app = self.base/"test backup.app"
-        result = run_process(["/bin/bash", str(script), str(app)], timeout=15)
+        commit = run_process(["/usr/bin/git", "-C", str(ROOT), "rev-parse", "HEAD"], timeout=5)
+        self.assertEqual(commit.returncode, 0, commit.stderr)
+        result = run_process(["/bin/bash", str(script), commit.stdout.strip(), "native-builder", str(app)], timeout=20)
         self.osa_result(result, "build_gdrive_applet.sh")
         self.assertTrue((app/"Contents/MacOS/applet").is_file())
         files = {str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in app.rglob("*") if path.is_file()}
@@ -1291,7 +2579,7 @@ class LauncherTest(Fixture):
             manifest[path] = digest
         self.assertEqual(manifest, files)
         previous = manifest.copy()
-        refused = run_process(["/bin/bash", str(script), str(app)], timeout=10)
+        refused = run_process(["/bin/bash", str(script), commit.stdout.strip(), "native-builder", str(app)], timeout=10)
         self.assertNotEqual(refused.returncode, 0, "builder must not overwrite an existing app bundle")
         self.assertEqual({str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in app.rglob("*") if path.is_file()}, previous)
 
@@ -1323,6 +2611,7 @@ class ArchiveTest(Fixture):
         if self.manifest.exists():
             self.assertLessEqual(len(self.manifest.read_text().splitlines()), 1)
 
+    @HOST_RCLONE
     def test_real_copy_download_check_and_sha_receipt_never_delete_source(self):
         result = self.archive()
         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
@@ -1334,6 +2623,7 @@ class ArchiveTest(Fixture):
         self.assertTrue(self.src.exists())
         self.assertEqual(self.archive().returncode, 0, "identical remote content may be verified again")
 
+    @HOST_RCLONE
     def test_differing_remote_is_immutable_and_preserves_prior_manifest(self):
         self.assertEqual(self.archive().returncode, 0)
         prior = self.manifest.read_bytes()
@@ -1343,6 +2633,7 @@ class ArchiveTest(Fixture):
         self.assertEqual((self.dest/"records/tiny.bin").read_bytes(), b"irreplaceable test")
         self.assertEqual(self.manifest.read_bytes(), prior)
 
+    @HOST_RCLONE
     def test_corrupt_remote_download_check_does_not_create_receipt(self):
         fake = self.fake_rclone('if [ "$1" = check ]; then printf corrupt > "'+str(self.dest/"records/tiny.bin")+'"; fi\nexec '+RCLONE+' "$@"\n')
         result = self.archive(ARCHIVE_RCLONE=fake)
@@ -1350,6 +2641,7 @@ class ArchiveTest(Fixture):
         self.assert_no_receipt()
         self.assertTrue(self.src.exists())
 
+    @HOST_RCLONE
     def test_source_drift_after_check_does_not_create_receipt(self):
         fake = self.fake_rclone(RCLONE+' "$@"\nstatus=$?\nif [ "$1" = check ] && [ "$status" = 0 ]; then printf drift >> "'+str(self.src)+'"; fi\nexit "$status"\n')
         result = self.archive(ARCHIVE_RCLONE=fake)
@@ -1357,6 +2649,7 @@ class ArchiveTest(Fixture):
         self.assertIn("changed", result.stdout+result.stderr)
         self.assert_no_receipt()
 
+    @HOST_RCLONE
     def test_manifest_write_failure_is_loud(self):
         blocker = self.source_root/"blocker"
         blocker.write_text("not a directory")

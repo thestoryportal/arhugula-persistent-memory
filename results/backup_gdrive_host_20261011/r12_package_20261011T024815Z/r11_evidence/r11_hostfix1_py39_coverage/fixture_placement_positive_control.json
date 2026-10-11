@@ -1,0 +1,19 @@
+{
+  "different_physical_disks": true,
+  "fixture_device": 16777234,
+  "fixture_physical_disks": [
+    "disk0"
+  ],
+  "fixture_root": "/private/tmp/drive_r11_r11_hostfix1_py39_coverage_34zkve0n",
+  "fixtures": "/private/tmp/drive_r11_r11_hostfix1_py39_coverage_34zkve0n/home/fixtures",
+  "home": "/private/tmp/drive_r11_r11_hostfix1_py39_coverage_34zkve0n/home",
+  "mountpoints": {
+    "fixture": "/System/Volumes/Data",
+    "source": "/Volumes/memit"
+  },
+  "source_device": 16777244,
+  "source_path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "source_physical_disks": [
+    "disk4"
+  ]
+}

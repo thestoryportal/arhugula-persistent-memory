@@ -1,0 +1,24 @@
+test_clean_commit_receipt (test_r13.CandidateTest) ... ok
+test_clean_pr_binding (test_r13.CandidateTest) ... ok
+test_clean_staged (test_r13.CandidateTest) ... ok
+test_commit_complete_path_set (test_r13.CandidateTest) ... ok
+test_commit_uses_objects_despite_working_tree_corruption (test_r13.CandidateTest) ... ok
+test_commit_wrong_mode_hidden (test_r13.CandidateTest) ... ok
+test_committed_allowlisted_corruption_hidden (test_r13.CandidateTest) ... ok
+test_committed_out_of_scope_hidden (test_r13.CandidateTest) ... ok
+test_ignored_untracked_rejected (test_r13.CandidateTest) ... ok
+test_index_complete_path_set (test_r13.CandidateTest) ... ok
+test_index_wrong_mode_hidden (test_r13.CandidateTest) ... ok
+test_malformed_head (test_r13.CandidateTest) ... ok
+test_merge_commit_two_parents (test_r13.CandidateTest) ... ok
+test_pr_head_different (test_r13.CandidateTest) ... ok
+test_remote_head_different (test_r13.CandidateTest) ... ok
+test_staged_allowlisted_corruption_hidden (test_r13.CandidateTest) ... ok
+test_staged_out_of_scope_hidden (test_r13.CandidateTest) ... ok
+test_working_tree_must_equal_index (test_r13.CandidateTest) ... ok
+test_wrong_parent (test_r13.CandidateTest) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 12.138s
+
+OK

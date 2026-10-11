@@ -1,0 +1,11 @@
+test_copy_exact_committed_bytes_and_branch (test_r12.ScopeTest) ... ok
+test_extra_file_in_diff_fails (test_r12.ScopeTest) ... ok
+test_glob_allowlist_fails (test_r12.ScopeTest) ... ok
+test_oversize_evidence_fails (test_r12.ScopeTest) ... ok
+test_pin_mismatch_fails (test_r12.ScopeTest) ... ok
+test_same_count_wrong_paths_fails (test_r12.ScopeTest) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 2.274s
+
+OK

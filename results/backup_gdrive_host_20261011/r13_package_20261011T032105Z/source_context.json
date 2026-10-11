@@ -1,0 +1,10 @@
+{
+  "worktree": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "branch": "worktree-c10k-route-a",
+  "dispatched_head": "96c5c91c6413ceb11c01cae06ab60a663afd0d43",
+  "observed_head": "92ec1487e40211dc0285df47cc6a035d16173162",
+  "origin_master": "a424085f3664ec15037c0e4b22cb7e94654e8343",
+  "concurrent_head_drift": "Other session advanced shared HEAD during read-only orientation; same root/branch, no writing git commands by MB45",
+  "final_observed_head": "e045bb1d56b3b564e4bfef72cc77ba3078a0f8f9",
+  "final_observed_branch": "worktree-c10k-route-a"
+}

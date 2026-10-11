@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/run_r13.py",
+    "r13_sandbox_red",
+    "--baseline"
+  ],
+  "HOME": "/private/tmp/r13_sandbox_qztcxz3q/home",
+  "BACKUP_TEST_NO_RCLONE": "1",
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "baseline": true
+}

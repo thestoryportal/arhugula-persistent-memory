@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/run_sandbox.py",
+    "r12_sandbox_final_green"
+  ],
+  "HOME": "/private/tmp/r12_sandbox_0cqs_zpx/home",
+  "BACKUP_TEST_NO_RCLONE": "1",
+  "baseline": false
+}

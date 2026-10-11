@@ -1,0 +1,138 @@
+test_debug_argument_error_is_harmless (test_r12.LogTest) ... ok
+test_fixture_template_pins_format (test_r12.LogTest) ... FAIL
+test_json_fail (test_r12.LogTest) ... test_microseconds_fail (test_r12.LogTest) ... test_prefix_fail (test_r12.LogTest) ... test_saved_fixture_replay (test_r12.LogTest) ... ok
+test_standard_errors_fail (test_r12.LogTest) ... ok
+test_stderr_json_fail (test_r12.LogTest) ... test_time_only_fail (test_r12.LogTest) ... test_unprefixed_fail (test_r12.LogTest) ... ok
+
+======================================================================
+FAIL: test_fixture_template_pins_format (test_r12.LogTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 196, in test_fixture_template_pins_format
+    self.assertIn('--log-format',argv)
+AssertionError: '--log-format' not found in ['/opt/homebrew/bin/rclone', 'check', 's', 'd', '--one-way', '--exclude-from', 'excludes', '--exclude', '**/.git/objects/**/tmp_obj_*', '--exclude', '**/.git/objects/tmp_obj_*', '--exclude', '/.git/objects/**/tmp_obj_*', '--exclude', '/.git/objects/tmp_obj_*', '--links', '--combined', '/private/tmp/r12_log_c5zpso85/clean/combined.txt', '--differ', '/private/tmp/r12_log_c5zpso85/clean/differ.txt', '--missing-on-dst', '/private/tmp/r12_log_c5zpso85/clean/missing-on-dst.txt', '--error', '/private/tmp/r12_log_c5zpso85/clean/error.txt', '--log-file', '/private/tmp/r12_log_c5zpso85/clean/check.log', '--log-level', 'DEBUG', '--stats', '0', '--retries', '1']
+
+======================================================================
+FAIL: test_json_fail (test_r12.LogTest) (severity='ERROR')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('{"level": "error", "msg": "fixture anomaly"}', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_json_fail (test_r12.LogTest) (severity='CRITICAL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('{"level": "critical", "msg": "fixture anomaly"}', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_json_fail (test_r12.LogTest) (severity='FATAL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('{"level": "fatal", "msg": "fixture anomaly"}', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_microseconds_fail (test_r12.LogTest) (severity='ERROR')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('2026/10/11 00:00:00.123456 ERROR: fixture anomaly', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_microseconds_fail (test_r12.LogTest) (severity='CRITICAL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('2026/10/11 00:00:00.123456 CRITICAL: fixture anomaly', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_microseconds_fail (test_r12.LogTest) (severity='FATAL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('2026/10/11 00:00:00.123456 FATAL: fixture anomaly', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_prefix_fail (test_r12.LogTest) (severity='ERROR')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('worker: 2026/10/11 00:00:00 ERROR: fixture anomaly', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_prefix_fail (test_r12.LogTest) (severity='CRITICAL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('worker: 2026/10/11 00:00:00 CRITICAL: fixture anomaly', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_prefix_fail (test_r12.LogTest) (severity='FATAL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('worker: 2026/10/11 00:00:00 FATAL: fixture anomaly', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_stderr_json_fail (test_r12.LogTest) (severity='ERROR')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('{"level": "error", "msg": "fixture anomaly"}', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_stderr_json_fail (test_r12.LogTest) (severity='CRITICAL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('{"level": "critical", "msg": "fixture anomaly"}', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_stderr_json_fail (test_r12.LogTest) (severity='FATAL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('{"level": "fatal", "msg": "fixture anomaly"}', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_time_only_fail (test_r12.LogTest) (severity='ERROR')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('00:00:00 ERROR: fixture anomaly', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_time_only_fail (test_r12.LogTest) (severity='CRITICAL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('00:00:00 CRITICAL: fixture anomaly', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+======================================================================
+FAIL: test_time_only_fail (test_r12.LogTest) (severity='FATAL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 183, in unsupported
+    self.assertFalse(value['pass'],(line,value))
+AssertionError: True is not false : ('00:00:00 FATAL: fixture anomaly', {'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0, 'pass': True, 'reasons': [], 'failed_objects': []})
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.424s
+
+FAILED (failures=16)

@@ -1,0 +1,14 @@
+test_json_override_fails (test_r12.PlanTest) ... ok
+test_missing_executable_fails_with_injected_probe (test_r12.PlanTest) ... ok
+test_missing_head_fails (test_r12.PlanTest) ... ok
+test_missing_log_format_fails (test_r12.PlanTest) ... ok
+test_plan_v3_contract (test_r12.PlanTest) ... ok
+test_probe_all_wrapped_executables (test_r12.PlanTest) ... ok
+test_relative_program_fails (test_r12.PlanTest) ... ok
+test_wrong_head_fails (test_r12.PlanTest) ... ok
+test_wrong_log_format_fails (test_r12.PlanTest) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.031s
+
+OK

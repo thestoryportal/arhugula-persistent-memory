@@ -1,0 +1,2 @@
+Filesystem   512-blocks      Used Available Capacity  Mounted on
+/dev/disk6s1  878917912 711312376 167300440    81%    /Volumes/memit
