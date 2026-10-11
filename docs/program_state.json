@@ -29,12 +29,12 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T08:01:24Z",
+    "edited": "2026-10-11T08:05:48Z",
     "items": [
       {
         "id": "intel-setup",
-        "title": "Intel Mac: finish developer tools, then Homebrew",
-        "summary": "The Intel Mac is awake, reachable over the cable, and shares your M3's keyboard and mouse (Deskflow). Next it needs Apple's developer tools (the install window is open on it), then Homebrew.",
+        "title": "Intel Mac: install Homebrew",
+        "summary": "Developer tools are now installed on the Intel Mac. The Homebrew installer (checked: genuine, signed, Apple-approved) is open on its screen and needs your password.",
         "state": "needs_you",
         "who": "You, then MAESTRO",
         "session": "",
@@ -43,14 +43,16 @@
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [
-          "On the Intel Mac: click Install in the developer-tools window and let it finish"
+          "On the Intel Mac: click through the Homebrew installer and type your Intel Mac password when it asks",
+          "Tell MAESTRO whether the mouse crosses to the Intel Mac and whether you accepted both Deskflow Trust prompts"
         ],
         "notes": [
           "07:15Z: reformatted and connected by you; MAESTRO sees it at 192.168.10.2 (file sharing on, remote login off).",
           "07:40Z: key sign-in works (account robertrhu_node2). Measured: 500 GB SSD, not 1 TB; macOS 14.8.9; 16 GB; sleeps after 1 min; FileVault off; no Homebrew or developer tools.",
           "07:43Z: you chose to shrink the space limits to fit (250 GB copy, 50 history, 40 builders, 50 temporary, 6 engine, 80 free) and to leave FileVault off.",
           "07:45Z: you turned off sleep; both Macs back on the same Wi-Fi.",
-          "08:00Z: Deskflow (free keyboard/mouse sharing, Intel to the right of the M3) installed on both Macs and connected over the cable."
+          "08:00Z: Deskflow (free keyboard/mouse sharing, Intel to the right of the M3) installed on both Macs and connected over the cable.",
+          "08:05Z: developer tools confirmed installed (git 2.39.5). Homebrew 7.0.9 installer copied over the cable, hash/signature/notarization checked, opened on the Intel screen."
         ]
       },
       {
