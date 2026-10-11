@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T22:19:43Z",
+    "edited": "2026-10-11T22:29:44Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -149,7 +149,7 @@
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
         "who": "codexr2sw (sweep) and codexr2tr (tracer) run; then fixes if gaps, then Astra round 13",
-        "session": "codexr2sw, codexr2tr",
+        "session": "codexr2sw2, codexr2tr",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -210,7 +210,8 @@
           "21:41Z: The builder wrote its report (fixes ready). MAESTRO reran every check in a sandbox that blocks writing files and starting Git or the project Python: all pass, the 56 deliberate-failure tests fail exactly as intended, and nothing was written (877126ed). Astra round 12 started at 21:41Z (packet 4fc09e1c). Builder window codexr2w4 closed.",
           "21:46Z: Astra round 12 said NO-GO (6175faab). It confirmed last round's two problems are fixed and that all the safety boundaries still hold. It found two remaining gaps on the science side: one launch type (P1 project dispatch) is recorded as starting no other programs when it actually starts a checker, and some evaluation runs could be steered by a loaded certificate into extra Git checks that are not yet declared. Plus one out-of-date line in the rules document. No change to the agreed contract or to any program file is asked for. Round 13 is next: a MAESTRO ruling, then builders, then Astra again; a fresh MAESTRO will start it.",
           "21:58Z: MAESTRO59 took over, checked both of Astra's gaps against the unchanged programs (both are real) and wrote the round-13 ruling D16 (6ebec173): every science launch that runs the certificate checker must declare it, the extra Git checks a loaded certificate can trigger are declared and refused, and the checker now works out what each launch should declare from the programs themselves instead of trusting the list. No change to the contract or any program file. Builder codexr2x started at 21:57Z (brief f5f991fc).",
-          "22:20Z: The round-13 builder finished (fixes ready) and MAESTRO reran every check in a sandbox that blocks writing files and starting Git or the project Python: all pass, the 59 deliberate-failure tests fail exactly as intended, and nothing was written (912efae1). On the operator's request, two cheaper GPT-6.1-Sol sessions now run before Astra round 13: codexr2sw sweeps all the code for every remaining gap in one pass, and codexr2tr builds a tracer program that finds them mechanically (briefs 18e89a46). Astra round 13 waits for both; any gaps they find are fixed first."
+          "22:20Z: The round-13 builder finished (fixes ready) and MAESTRO reran every check in a sandbox that blocks writing files and starting Git or the project Python: all pass, the 59 deliberate-failure tests fail exactly as intended, and nothing was written (912efae1). On the operator's request, two cheaper GPT-6.1-Sol sessions now run before Astra round 13: codexr2sw sweeps all the code for every remaining gap in one pass, and codexr2tr builds a tracer program that finds them mechanically (briefs 18e89a46). Astra round 13 waits for both; any gaps they find are fixed first.",
+          "22:29Z: the full sweep ran out of room before writing its report (handed off at 42% with two possible new gaps: extra shell copies and how helper programs are found on the path). A fresh sweep session (codexr2sw2) is finishing the report from that hand-off. The tracer (codexr2tr) is still building."
         ]
       },
       {
