@@ -1,0 +1,194 @@
+### date
+Sun Oct 11 09:06:48 UTC 2026
+### sw_vers
+ProductName:		macOS
+ProductVersion:		14.8.9
+BuildVersion:		23J631
+x86_64
+### port version
+Version: 2.12.6
+### sources.conf (non-comment)
+rsync://rsync.macports.org/macports/release/tarballs/ports.tar.gz [default]
+### sources.conf full lines w/ rsync/file/https
+3:# To change how MacPorts fetches base, see rsync_server and rsync_dir in
+6:# To add a local source, add a "file://" entry.
+8:#   Example: file:///Users/landonf/misc/MacPorts/ports
+13:#   Example: file:///Users/landonf/misc/MacPorts/ports [nosync]
+17:# to shadow remote ones, "file://" URLs must come before other URLs.
+19:# A list of rsync mirrors is available at
+20:# https://trac.macports.org/wiki/Mirrors#Portfiles.
+22:# If an "rsync://" URL points to a .tar file, a signed .rmd160 file must
+28:# "[default]", even if switched from the default "rsync://" URL.
+30:rsync://rsync.macports.org/macports/release/tarballs/ports.tar.gz [default]
+### macports.conf non-comment
+prefix              	/opt/local
+portdbpath          	/opt/local/var/macports
+applications_dir    	/Applications/MacPorts
+frameworks_dir      	/opt/local/Library/Frameworks
+sources_conf        	/opt/local/etc/macports/sources.conf
+archive_sites_conf      /opt/local/etc/macports/archive_sites.conf
+pubkeys_conf            /opt/local/etc/macports/pubkeys.conf
+variants_conf       	/opt/local/etc/macports/variants.conf
+### ports tree dirs
+total 0
+drwxr-xr-x  4 root  wheel  128 Oct 11 02:16 .
+drwxr-xr-x@ 9 root  wheel  288 Oct 11 02:16 ..
+drwxr-xr-x  3 root  wheel   96 Oct 11 02:16 rsync.macports.org
+drwxr-xr-x  3 root  wheel   96 Oct 11 02:16 selfupdate
+/opt/local/var/macports/sources/rsync.macports.org/:
+total 0
+drwxr-xr-x  3 root  wheel   96 Oct 11 02:16 .
+drwxr-xr-x  4 root  wheel  128 Oct 11 02:16 ..
+drwxr-xr-x  3 root  wheel   96 Oct 11 02:16 macports
+
+/opt/local/var/macports/sources/selfupdate/:
+total 8
+drwxr-xr-x  3 root  wheel   96 Oct 11 02:16 .
+drwxr-xr-x  4 root  wheel  128 Oct 11 02:16 ..
+-rw-r--r--  1 root  wheel   63 Oct 11 02:16 RELEASE_URL
+### tree mtime + PortIndex
+/opt/local/var/macports/sources/rsync.macports.org/macports/release
+### port dir
+python312: /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/lang/python312
+duckdb: /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/databases/duckdb
+openjdk21: /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/java/openjdk21
+py312-pip: /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/python/py-pip
+### port info
+name: python312
+version: 3.12.15
+revision: 0
+variants: universal, optimizations, lto, dtrace
+platforms: darwin
+depends_build: pkgconfig
+depends_lib: bzip2, expat, gettext-runtime, libedit, libffi, ncurses, openssl, sqlite3, xz, zlib
+depends_run: python_select-312, python3_select-312
+--
+name: duckdb
+version: 1.5.6
+revision: 1
+variants: debug, universal
+platforms: darwin
+depends_build: cmake, python314, zstd, pkgconfig
+depends_lib: croaring, openssl3
+depends_run: 
+--
+name: openjdk21
+version: 21.0.12.1
+revision: 0
+variants: release, optimized, debug, client, server, minimal, core, zero, universal
+platforms:  darwin >= 16 
+depends_build: openjdk21-zulu, autoconf, gmake, bash
+depends_lib: freetype, libiconv
+depends_run: 
+### python312 portfile version lines
+8:version             3.12.15
+24:checksums           rmd160 ddf2fd5c510af4305541ff1c8f2244a6e028a450 \
+25:                    sha256 c2c4321961fab0fb999d66e0cecf521c2ab3994c7992873ea99e306c1094fd5a
+### rdeps python312
+The following ports are dependencies of python312 @3.12.15_0+lto+optimizations:
+  xz
+    gettext
+      xz-bootstrap
+      ncurses
+      gettext-tools-libs
+        libiconv
+          gperf
+        libtextstyle
+        gettext-runtime
+  pkgconfig
+  bzip2
+  expat
+  libedit
+  libffi
+    dejagnu
+      expect
+        automake
+          autoconf
+            m4
+        tcl
+          tcl8
+            zlib
+  openssl
+    openssl3
+  sqlite3
+  python_select-312
+    python_select
+  python3_select-312
+    python3_select
+### rdeps duckdb
+The following ports are dependencies of duckdb @1.5.6_1:
+  cmake
+    libcxx
+    curl
+      xz
+        gettext
+          xz-bootstrap
+          ncurses
+          gettext-tools-libs
+            libiconv
+              gperf
+            libtextstyle
+            gettext-runtime
+      pkgconfig
+      zlib
+      brotli
+        cmake-bootstrap
+      nghttp2
+      libidn2
+        libunistring
+          autoconf
+            m4
+          automake
+          libtool
+      libpsl
+      openssl
+        openssl3
+      curl-ca-bundle
+        unzip
+        perl5
+          perl5.34
+            db48
+            gdbm
+              readline
+      zstd
+        lz4
+    expat
+    bzip2
+    libarchive
+      libxml2
+### rdeps openjdk21
+The following ports are dependencies of openjdk21 @21.0.12.1_0+release+server:
+  openjdk21-zulu
+  autoconf
+    xz
+      gettext
+        xz-bootstrap
+        ncurses
+        gettext-tools-libs
+          libiconv
+            gperf
+          libtextstyle
+          gettext-runtime
+    m4
+  gmake
+    lzip
+  bash
+    bison
+      bison-runtime
+    cctools
+  freetype
+### installed
+No ports are installed.
+### neo4j search
+No match for neo4j found
+No match for cypher found
+### disk
+Filesystem     1024-blocks     Used Available Capacity iused      ifree %iused  Mounted on
+/dev/disk1s4s1   488245288 10027356 467303544     3%  406316 4294219065    0%   /
+/dev/disk1s1     488245288  7487884 467303544     2%  286733 4673035440    0%   /System/Volumes/Data
+### xcode-select
+/Library/Developer/CommandLineTools
+### java
+The operation couldn’t be completed. Unable to locate a Java Runtime.
+Please visit http://www.java.com for information on installing Java.
+
