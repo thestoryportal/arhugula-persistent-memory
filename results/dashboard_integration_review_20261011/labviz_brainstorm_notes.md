@@ -332,3 +332,207 @@ Proposed source/missing-state defaults: a tapped number opens a source detail wi
 - Future mechanical verification retains the binding spec counts/limits, including <=1 MB uncompressed initial view, no horizontal page scroll at 360px, 44px targets, >=13px rendered text, contrast and both themes (`docs/LABVIZ_V2_SPEC.md:354`, `:360-373`, `:405-420`). Existing October 8 measurements/screenshots do not validate new player, theme or later MathLab UI. No new scientific/UI acceptance is claimed.
 
 - Citation corrections after numbered re-reading: the 3D fallback source for the paragraph at line 325 is `tools/labviz/README.md:26`, not `:28` (which describes review tooling). The 44px touch-target rule is `docs/LABVIZ_V2_SPEC.md:367`; an earlier phone-control chat link pointed to `:369` (stacked table rows). The requirements themselves are unchanged. Continuation/design handoff saved separately as `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff2.md`; it is not approval to build or a statement of new acceptance.
+
+## LVB3 — one input end to end on paper
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "Start with 1", replying to the continuation choices: walk one input end to end on paper (recommended), refine diagram/chart teaching, or review the consolidated handoff. Begin with the on-paper walkthrough. This selects the discussion topic; the specific screen wording and missing-activity transition below remain proposals. All earlier decisions and the building hold persist.
+
+### Open questions
+
+- Proposed walkthrough uses C10W P1, oracle_p1, A7_coined_coined, Zorbland. Source: `results/c10w_oracle/p1_20261007T223707_598959Z/eval.json:49739-49752` records the subject, template `If you visit {}, its capital city is`, generated text ` Vindex Vaskul,` and `full:true`; the expected answer `Vindex Vask` and rewording hit array `[false,true,true]` are at `:58507-58517`. The recipe starts at `:37710`, before these records; oracle_canon_s0 starts at `:59673`. Filling the recorded template with the recorded subject yields the proposed displayed input "If you visit Zorbland, its capital city is"; this is a source-bound assembly, not a separately recorded full prompt. Any other prompt wrapper remains outside this excerpt.
+- Proposed screen sequence: (1) exact input/expected/generated text and recorded scoring explanation; (2) selected experiment's model diagram, with stored-number edits distinguished from information passing through it; (3) sourced measurement/chart at the selected component and step, or an explicit gap; (4) plain-language explanation of that measurement and its limit; (5) associated paper reading card where the association and supporting section are verified, otherwise a visible association gap; (6) return to the same paused input/component/step. This is a paper design exercise, not an observed interaction or browser test.
+- A layer's recorded write size summarizes a change to its stored numbers across the run; it is not a measurement of this input's effect or proof of where its fact is stored. The recorded input/output pair does not supply its historical internal trajectory. No input-to-component coverage audit or bibliography verification was performed. No missing observation is replaced with an invented value or intermediate animation.
+- Next operator preference: when a guided walkthrough reaches unrecorded internal activity, continue with clearly labelled structural teaching and visible gaps (recommended), or pause the recorded walkthrough at its last supported observation and offer structural teaching as a separate learning segment. Both retain free exploration, complete available inputs and the broader affected-part coverage requirement; neither invents a trajectory.
+
+### Spec changes proposed
+
+- No new spec amendment is approved by the topic choice. The walkthrough makes the pending input/answer, measurement/source and paper-card proposals concrete. Existing anchors: exact facts/questions and scoring at `docs/LABVIZ_V2_SPEC.md:619-625`; stored-number changes versus changed flow at `:627-648`; unavailable historical internals at `:325-328`; synchronized player and re-creation labels at `:896-931`. The eventual transition between recorded observations and conceptual teaching must make its change of meaning explicit. Spec remains unchanged.
+
+### Context for build agents
+
+- Supply this source-bound example alongside the approved input-first/pause/return decisions and selected spec spans. Reader task: identify the actual generated words, explain why the recorded scoring calls them a match, find a measurement's source and scope, recognize the internal-activity gap, and return from reading without losing position. Preserve leading spaces/punctuation in exact source text. Do not substitute a literal string-equality test for the recorded scoring.
+- Use the previously selected chart-accuracy checklist for measurement scope and missing values, and the layout checklist for the focused diagram/detail arrangement. External examples supply presentation patterns only. No new repository page, paper, screenshot, code, package or skill was opened/executed here; source revisions/licences and experiment paper associations still need authorized preparation. No build/test/model process was run. Worktree root and branch `worktree-c10k-route-a` were verified read-only.
+
+## LVB3 — broader learning linked to experiments and papers
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1 approved. Also include broader learnings about ML/LLM architecture, engineering, science that contextualizes the specific science learnings associated with the experiements. Also any context that might be relevant from the science research paper (s) to also use as learnings and understanding."
+- Recording-gap transition approved: continue with clearly labelled "How this part works" teaching, separate from recorded activity. Retain the missing-record notice; conceptual teaching never supplies an invented historical measurement or animation.
+- Learning scope expanded: explain broader machine-learning and language-model architecture, engineering practices, and scientific methods that help the reader understand the selected experiment. Include relevant explanations and context from its associated research papers, beyond bibliographic details alone. Teach from first principles for a reader without ML background, define necessary terms, and connect each topic back to the experiment. Both already-approved free exploration and guided learning remain available.
+
+### Open questions
+
+- Proposed learning structure: "How it works" (general architecture), "How we change and test it" (engineering), "What this experiment teaches us" (sourced scientific finding and limits), and "What the paper contributes" (its method, assumptions, relevant findings and limitations with supporting sections). Relevant science-method lessons include why training performance and answers to new wording differ, why other abilities are checked, and why a changed signal alone does not establish a cause or a fact's storage location. These are teaching-topic proposals, not new findings about the selected run.
+- Proposed navigation: a short relevant lesson beside the selected experiment/input/part/chart, with optional deeper connected lessons in the existing Learn and evaluations destination. Returning preserves the same paused experiment state. Show distinct labels for general explanation, this experiment's recorded observation, its reviewed interpretation and a paper's claim; list important limitations beside the claim they limit. Technical depth remains available rather than flattening explanations to slogans.
+- Next presentation preference: brief contextual lesson with expandable depth and an optional connected learning path (recommended), or the full relevant lesson displayed on the experiment page. This concerns the new broader material's initial presentation, not whether both exploration and guided learning exist; that is already settled.
+- No associated paper has been opened or freshly verified in LVB3. Paper-derived lesson content, the exact bibliography, applicability to the selected model/method, and supporting section/page references remain preparation dependencies. General paper findings do not become this run's results or establish that this program's method works.
+
+### Spec changes proposed
+
+- Extend the existing era-aware Learn explainers (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`) with experiment-linked foundational architecture, engineering and scientific-method lessons; extend the pending paper-reading-card proposal to source-bound learning extracts and connections to those lessons. Keep the existing five destinations. The current plain-words evaluation fields at `:584-587` support experiment-specific finding/limit text but do not alone specify the broader teaching scope.
+- Add the approved recording-gap teaching transition alongside the pending guided-player amendments (`docs/LABVIZ_V2_SPEC.md:325-328`, `:627-648`, `:919-931`). Preserve missing values and model-free/no-verdict boundaries (`:16-20`, `:31-32`). The source graph at `:983-1023` needs explicit lesson/paper associations if represented there; existing document links cannot silently be interpreted as scientific support. No spec edit or implementation authority is granted.
+
+### Context for build agents
+
+- Give a builder reviewed lesson text plus a lesson-to-experiment/input/component/paper association list, definitions of prerequisites, source locations, applicability and limitations. Architecture material must match the selected model; general engineering/science lessons must identify how they apply to this experiment. Paper lessons include the verified section supporting the explanation and a separate citation establishing this experiment's relationship to the paper. Missing associations stay visible.
+- Use the previously selected component-teaching references as patterns only, and chart/layout checklists for readability and honest evidence wording. Supply paired reader tasks: explain a general concept, point to its role in this experiment, distinguish the paper's claim from the run's observation, state the unresolved limit, then return to the same paused position. Lessons are reviewed static content; no live explanation service, model execution, automatic paper fetching, package adoption or new browser/test run is authorized.
+
+## LVB3 — expandable lessons and the Learn entry point
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to how the broader learning material should first appear. Option 1 was "Brief lesson with expandable depth — recommended, plus a connected 'Learn from the beginning' path." Settled: short relevant lessons at the selected experiment/input/part/chart, deeper material on demand, and a connected foundational learning path. This retains both free exploration and guided learning, the complete available detail and source-linked paper context.
+
+### Open questions
+
+- Next: the leading entry point within Learn. Recommendation: plain-language questions spanning architecture, engineering and science, with links to relevant model parts, experiments and papers. Alternatives: begin with model parts, or begin with associated papers. All remain accessible whichever leads; the earlier research-era/line tagging is retained. Proposed question examples: "How does a model learn?", "How do we change one fact?", and "What makes a test convincing?" These are curriculum/navigation examples, not scientific claims.
+- Lesson prerequisites, exact lesson-to-source associations and reviewed wording still need preparation. No lesson curriculum or paper summary has been audited or implemented here.
+
+### Spec changes proposed
+
+- Clarify Learn's entry/navigation arrangement under `docs/LABVIZ_V2_SPEC.md:346`, `:1058`, preserving the five destinations, context/selection continuity and source links (`:341-355`). Add the approved brief/expandable lesson and foundational-path presentation to the pending broader-learning amendment. A question-first, part-first or paper-first entry would supplement the existing era-aware organisation; that choice is still open. Phone text, contrast and touch requirements remain `:357-373`.
+
+### Context for build agents
+
+- Existing image inspected: `results/labviz/review/20261008T130913325Z/chromium-phone-learn.png`. It shows research-era cards with several technical titles, draft labels and a "Reading a recorded picture" explanation. Use it as historical layout context for the proposed broader-learning entry. Matching measurement block `results/labviz/review/20261008T130913325Z/measure.json:1425370-1425388` identifies Learn, 390x844, 390px scroll/client widths and 2808px document height. Its content/summary at `:1425414-1425431` records 16px body text, 13px minimum rendered text, 44px minimum target height and zero clipped text nodes. These are October 8 measurements, not acceptance for the broader learning design, current MathLab addition or both themes.
+- Supply the brief/expandable lesson decision, this historical screenshot/measurement extract, the relevant §4A rules and a future reader task: find a foundational lesson, reach a related experiment and supporting paper section, then return to the original paused context. Borrow hierarchy/spacing from the already-selected interface checklist; keep sources and unresolved limits reachable. No new screenshot, browser run, test, build or external source reading occurred.
+
+## LVB3 — Learn ordering and tutoring/quizzes
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1 then 2 then 3. Also, a feature that tutors or quizes a user against each section/card of the learning tab."
+- Learn's entry order settled: plain-language questions first, model parts second, papers third. All remain reachable and retain the applicable research-era/line tags. This supplements the brief contextual lessons and connected foundational learning path already approved.
+- New feature intent: tutoring or quizzes associated with each section/card of Learn. Do not narrow coverage to a single demonstration lesson or a few selected cards. The tutoring mechanism, answer interaction and progress persistence are not yet selected. This is design intent, not authority to implement or connect a service.
+
+### Open questions
+
+- Recommended interaction: each learning card offers "Teach me" and "Check my understanding". Guided teaching uses reviewed explanations, small questions and hints; quiz feedback explains the answer and links back to the exact lesson/source. Optional practice does not lock access to lessons, diagrams, experiments or papers. These labels and mechanics remain proposals.
+- Next mechanism preference: (1) prepared guided tutor plus quizzes, recommended for the existing static/model-free site; (2) open-ended conversational AI tutoring plus quizzes, requiring a separately designed connection; (3) both. Prepared tutoring means authored branches, hints and feedback; it must not be advertised as an unrestricted conversational model. A conversational option remains a proposal with capability, source grounding, uncertainty, data handling and resource/dependency questions to resolve, not an implied install/model/service authorization.
+- Example comprehension question derived from an existing guardrail: "Does a brighter answer signal prove the fact is stored in that layer?" Feedback must explain that the signal shows where an answer becomes readable, not where it was written (`docs/LABVIZ_V2_SPEC.md:589-595`). This checks understanding of a lesson, not the model or an experiment's scientific acceptance. Static multiple-choice feedback can be checked against reviewed answer keys; free-text grading cannot be promised without a suitable reviewed mechanism.
+- Whether to remember learning progress, how to offer revisits and how deep a quiz should be remain future design points. Learner progress and answers must remain separate from research results, gate states and scientific verdicts. No learner account, external transmission or persistence mechanism has been selected.
+
+### Spec changes proposed
+
+- Clarify questions -> model parts -> papers under the existing Learn destination (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`). Add tutoring/quiz coverage per section/card and its eventual selected interaction to the pending broader-learning amendment. No such learner-tutoring flow is specified in the currently inspected Learn anchors; the existing "General-knowledge quiz" at `:523` describes a model evaluation, a different concept.
+- Keep source-linked feedback, visible scientific limits, preserved experiment/player context, phone readability and the model-free/no-verdict rules (`docs/LABVIZ_V2_SPEC.md:16-20`, `:31-32`, `:348-373`). Any conversational service would need its own explicit scoped design/amendment before implementation. Binding spec remains unchanged.
+
+### Context for build agents
+
+- Supply the operator's every-section/card requirement, accepted entry order, lesson/source associations and a reviewed question bank: question, targeted concept, answer key, explanation, hints and exact supporting lesson/paper location. Include questions that teach the difference between general principles, a paper's claim, an experiment's observation and unresolved limits. Material lacking reviewed support stays visibly pending rather than receiving invented feedback.
+- Reader-task proposal: open a card, request a hint, answer, understand the explanation, revisit its source, and return to the same learning/experiment context. Verify the educational answer separately from scientific experiment scoring. Use the existing layout/chart checklists as text references only; no tutor package, model, account, cloud connector, scripts, build or tests were installed/run.
+
+## LVB3 — prepared quizzes; guided tutor retained for the future
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1 with guided tutor durably noted as a future feature."
+- Selected mechanism is prepared, source-linked learning material and quizzes. Interpret the explicit future-feature qualification as deferring the guided tutor rather than requiring it in the initial quiz implementation. Preserve that qualification alongside the original option 1 ("Prepared guided tutor and quizzes — recommended: reviewed explanations, questions, hints and feedback") so no scope change is hidden. Guided tutoring remains durably on the LabViz roadmap in this discussion record. No conversational AI tutor, model/service connection or build is authorized.
+- Quiz coverage remains each learning section/card. Earlier foundational lessons, expandable depth, sources and learning routes are retained; deferring tutoring does not remove those accepted learning requirements. The initial quiz's exact hint/feedback depth remains to flesh out.
+
+### Open questions
+
+- Next reader preference: remember learning progress on the current device (recommended), or retain it only during the current visit. Proposed remembered state names cards/questions attempted, answers and topics to revisit; it does not declare mastery merely because a card was opened. Persistence is a proposed convenience, not a verified capability in local-file browsers. If storage is unavailable, explain that visibly; do not claim progress was saved. No cross-device service, account or external transfer is assumed.
+- Detailed question format, explanation/hint presentation, retries and review order remain open. Guided tutor stays future work; revisit its concrete scope in a later authorized design/build brief rather than silently including it now.
+
+### Spec changes proposed
+
+- In the pending Learn amendment, separate prepared quizzes for each section/card from the future guided-tutor feature. Current Learn anchors are `docs/LABVIZ_V2_SPEC.md:346`, `:1058`; broader-learning and quiz proposals supplement those anchors, while no-verdict/read-only boundaries remain `:16-20`, `:31-32`. Learner progress, if selected, is personal UI state and must never enter scientific results, source measurements, acceptance gates or program verdicts. Spec remains unchanged.
+
+### Context for build agents
+
+- Supply this exact future-feature qualification with the earlier quiz requirement. An eventual initial quiz brief receives reviewed questions, answer keys, explanations and supporting lesson/paper sections; it does not receive an instruction to build a guided or conversational tutor. Preserve source/missing-data labels and the selected experiment's paused state on reading/return. Define optional progress behavior only after the reader preference is settled and verify it under supported file-URL/phone conditions in a later authorized scope.
+- Durable future item: guided tutor per learning section/card, using the selected lesson and source context, plain-language teaching and checked feedback. Its exact interaction, prerequisite handling and implementation remain unbuilt and unverified. This notes entry is the scoped durable record; no other memory, roadmap, spec, source or build file was edited.
+
+## LVB3 — saved learning tracker and knowledge scores
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1...and with a learning tracker that scores domain/topic/science knowledge plus overall knowledge scores."
+- Progress is remembered on the current device, with the previously offered reset option. Add a learning tracker reporting domain, topic, science-knowledge and overall scores. This is learner assessment within LabViz, distinct from the experiments' model scores and scientific acceptance. No account, cross-device service or implementation is authorized by this choice.
+
+### Open questions
+
+- Recommended scope/labels: broad domains (model architecture, engineering, scientific reasoning); finer topics within them; experiment/research-line science understanding; and overall demonstrated understanding across assessed lessons. Domain/topic/science definitions and the exact taxonomy remain proposed. Paper-derived concepts connect to their applicable topics and experiments; one question may support several displayed views but counts once in the overall score.
+- Proposed score display pairs accuracy with coverage. Illustrative only: "8 of 10 answered correctly; 10 of 30 questions attempted" (80% on attempted questions, with 20 unassessed). An unanswered question is unassessed, not wrong; an unavailable/unreviewed question does not enter the scored bank. With zero assessed questions show "Not assessed yet", never 0% knowledge. Scores describe demonstrated understanding of the reviewed material, not comprehensive expertise or proof of scientific ability.
+- Proposed arithmetic: reviewed questions have equal points; topic/domain/overall summaries aggregate the applicable correct and assessed counts, not an unweighted average of differently sized topic percentages. Each overall question identity counts once, despite multiple paper/experiment tags or repeated attempts. No invented scientific certainty or calibrated ability estimate is attached to this simple learning score. The exact score denominator and attempt rule still need agreement.
+- Next scoring preference: latest completed quiz attempt (recommended for current progress, with prior attempts visible), first completed attempt (baseline), or best attempt (achievement). Practice/hints/revealed answers should be distinguishable from scored answers; retaking known questions can reflect familiarity with the questions as well as understanding. The scored/practice interaction and retake details are still proposals.
+- Saving must be confirmed by the interface; unsupported/failed local storage remains visible. Save question/lesson version identity with attempts so changed material does not silently inherit an old score. Preserve previous results as historical or request reassessment, rather than pretending the learner answered a new question. Reset applies only to learner progress, never research evidence. Persistence capabilities and quiz inventory remain unverified.
+
+### Spec changes proposed
+
+- Extend the pending Learn/quiz amendment with a device-local tracker, domain/topic/science/overall summaries, score and coverage definitions, version-bound attempts, visible missing/save-error states and a learner-only reset. Current anchors: Learn `docs/LABVIZ_V2_SPEC.md:346`, `:1058`; source/context/readability `:348-373`; scientific no-verdict/read-only boundary `:16-20`, `:31-32`. These anchors do not yet define personal knowledge scores. Any score may summarize learner responses only; it cannot become a scientific verdict or mutate experiment data. Spec unchanged.
+
+### Context for build agents
+
+- Supply the operator's exact tracker requirement, a reviewed lesson/topic/domain/science association table and question bank with stable/versioned identities, answer keys and source locations. Include illustrative score/coverage cases: no responses, partial coverage, mixed correctness, different topic sizes, a multi-tagged question, repeated attempts, changed questions and unavailable storage. Verify that overall totals do not double-count tags or attempts and that unanswered questions remain unassessed. These are future acceptance cases, not tests run.
+- Reader task: identify a strong and a weak topic, distinguish accuracy from coverage, see which science lesson an answer relates to, inspect its explanation/source, revisit the lesson and resume learning. Use simple label/count summaries on phones before adding charts. Personal assessment belongs in Learn; experiment scores retain their original meanings elsewhere. No new code, storage, quiz execution, browser run, package or model/service was introduced.
+
+## LVB3 — latest-attempt scoring and answer feedback
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to which attempt determines the displayed score. Option 1 was "Latest — recommended: reflects your current performance and can rise or fall." Settled: the latest completed quiz attempt supplies current learner scores; earlier attempts remain visible as history, as included in the recommendation. First/best attempts do not silently replace the selected latest-attempt rule.
+
+### Open questions
+
+- Proposed scoring continuity: an unfinished retake leaves the previous completed result in place and is labelled in progress. On completion, the new result replaces the prior result for that quiz/version in current summaries. Changed lesson/question versions require explicit historical/reassessment handling; never count an old answer as an answer to a new question. This is a design proposal, not a verified data model.
+- Next feedback preference: explain each answer after submission (recommended for learning), or reveal explanations at the end of the quiz. Feedback names the correct answer, explains the idea, addresses the selected misconception where reviewed feedback exists, and links to the applicable lesson/source. It preserves the submitted response; seeing the explanation does not let the reader revise that same response into an earned correct answer. A new completed attempt follows the approved latest-attempt scoring rule. Feedback timing is still open.
+- Proposed authored question coverage: meanings of concepts, reading diagrams/charts, engineering choices, interpreting experiment evidence and identifying limits or a paper's applicable assumptions. Quizzes use the selected lesson/run/source context and checked answer keys. Exact formats, question counts and hint handling remain to define; no free-text semantic grading or guided tutor is added by this proposal.
+
+### Spec changes proposed
+
+- Add the accepted latest-completed-attempt rule and historical-results presentation to the pending learner-tracker amendment under Learn (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`). The incomplete-retake and feedback rules above remain proposed. Preserve source/context/phone constraints at `:348-373` and scientific boundaries at `:16-20`, `:31-32`. No binding-spec edit occurred.
+
+### Context for build agents
+
+- Future cases for a scoped quiz/tracker brief: a higher latest score, a lower latest score, an unfinished retake, prior-result history, a revised question version and submitting an answer before viewing its explanation. Current aggregation uses each applicable question once from the selected completed attempts and shows coverage; no result from personal learning enters scientific cards/gates. These are planned cases only, not tests run.
+- Provide reviewed feedback text with a supporting lesson/source reference and an optional selected-wrong-answer explanation. Reading explanation/source retains the selected learning card and experiment/player context. Guided tutoring stays a future feature. No new source reading, browser run, code, package, model or service was used.
+
+## LVB3 — end-of-quiz review, connected summaries and science
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "2...and summaries each and their connections to each other. And connect this to the science as well."
+- Explain answers at the end of the quiz, after assessment is completed. The earlier immediate-feedback recommendation is not selected. Provide summaries of the assessed material, explain how its ideas connect to one another, and connect those ideas to the relevant science. Keep this as a connected learning review, not only a percentage and isolated right/wrong markers.
+- Interpret "summaries each" inclusively: individual answer explanations and learning-card/section summaries, with relevant topic connections. Each summary connects to the applicable experiments, reviewed findings/limits and research papers where associations are supported. Exact summary length and presentation remain proposals; do not silently narrow the request to a single overall summary.
+
+### Open questions
+
+- Proposed review order: score and coverage -> each submitted answer with explanation and relevant card/section summary -> how the ideas connect -> where they apply in the science -> topics/lessons to revisit. Feedback preserves submitted responses and links to original lessons and sources; latest completed-attempt scoring remains settled. No guided tutor is brought forward from the future-feature list.
+- Proposed science connection explains the research question, why the idea matters to the experiment's design, what was observed, the reviewed interpretation and remaining limits; its paper connection names the relevant method/assumption/section. Distinguish teaching relationships from documented experiment/paper associations and from evidence supporting a claim. No conceptual arrow or shared topic implies causation or scientific validation.
+- Next relationship-display preference: (1) both, short written connections first with an expandable visual map (recommended for phones); (2) linked written summaries; (3) visual map first with explanations on selection. All preserve access to summaries and science sources. The visual map would be a proposed learning aid, not a replacement for the existing home-map contract.
+- Illustrative connected lesson: learning from practice questions, answering differently worded questions and checking other abilities are distinct parts of evaluating a change. A review explains their relationship and links to applicable source-bound experiment records. This is a teaching outline, not a new finding or claim about an unaudited paper.
+
+### Spec changes proposed
+
+- Extend the pending Learn/quiz amendment with end-of-assessment explanations, summaries per assessed card/section, explicit links between concepts and supported links to experiments/findings/limits/paper sections (`docs/LABVIZ_V2_SPEC.md:346`, `:584-587`, `:1058`). Carry context/selection/source/readability rules from `:348-373`.
+- If a visual learning map is selected, adapt the home map's focused plain-word connection explanation and phone drill-down (`docs/LABVIZ_V2_SPEC.md:1086-1096`) while retaining its warning that a link is not evidence. Extend the context model explicitly for learning concepts/cards and their association sources (`:983-1023`); do not silently reinterpret existing edges. Display choice remains open. Spec unchanged.
+
+### Context for build agents
+
+- Supply reviewed end-of-quiz explanation/summary text, a concept-to-concept teaching relationship list with supporting sources, and lesson-to-experiment/paper associations. For each science link, include the research question, association source, applicable observation/interpretation, limitation and supporting record/document/paper location. Unsupported connections are pending, never inferred as established science. The learner score remains separate from experiment scores/verdicts.
+- Future reader task: finish an assessment, explain an answer, describe how two assessed concepts relate, find their role in an experiment and its evidence/limit, inspect the associated paper section, then return to the learning review. Use the approved question-first Learn navigation, historical phone Learn screenshot, §4A rules and focused-map pattern as context. No new product, diagram artifact, source-model change, browser run, test, external reading or service was created/executed.
+
+## LVB3 — connected review presentation and learning-design checkpoint
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to how learning-review connections appear. Option 1 was "Both — recommended: short written explanations, then an expandable map." Settled: written connections lead; an expandable visual map also lets readers explore the relationships between assessed ideas and their science/paper context. Keep sources and relationship meaning reachable. The selected quiz feedback still appears at the end, not after each question.
+
+### Open questions
+
+- Learning feature design is recorded across LVB3 entries; remaining details include the reviewed question bank, question formats/hints, curriculum and paper associations, taxonomy and exact score/coverage definitions, versioned attempt handling, local-storage support and phone map geometry. The proposed defaults in earlier entries have not all been individually approved. Guided tutoring remains future work.
+- Next proposed discussion menu: (1) navigation and unavailable-data wording across LabViz, recommended to finish practical details of the connected journeys; (2) walk the expanded lesson/quiz/tracker journey end to end on paper; (3) review the consolidated proposed spec amendments. The operator has not answered this next menu. Do not reopen any prior settled choice.
+
+### Spec changes proposed
+
+- Add the selected written-first plus expandable-map learning review to the pending Learn amendment (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`), using source-explained relationships and readable focused/drill-down presentation (`:1086-1096`) under §4A (`:348-373`). Concept teaching, paper claims and experiment evidence stay explicitly distinguishable. The initial site/input walkthrough and all learning additions are proposals against an unchanged binding spec; no build approval follows from this checkpoint.
+
+### Context for build agents
+
+- Give any eventual learning builder the complete LVB3 decision chain, including feedback-at-end, latest-completed-attempt scores, device-local progress, per-card/section assessment coverage and guided-tutor deferral. The learner tracker and teaching map are separate from science scoring/authority. Separate UI work from reviewed curriculum/question/paper preparation and any future scientific observation capture.
+- Continuation saved separately in `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff3.md`. This is an arc checkpoint, not a claim that all LabViz discussion or acceptance is complete. No context percentage is asserted; no compaction notice has been observed. No tests, builds, browser runs, installs, science or git mutations occurred.
