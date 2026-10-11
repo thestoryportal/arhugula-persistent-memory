@@ -244,3 +244,55 @@ MAESTRO stop directive received at approximately 45% context left. **No new step
 ### Binding context rule — survives this handoff
 
 Start a new step only at **>=60% context left**. At **<=40% left**, any context compaction, or MAESTRO's explicit earlier stop, stop starting work and append a handoff to progress.md with done/in-flight/remaining/exact paths/next step/open risks and this rule, then reply on its own line **BK3 HANDOFF**. Preserve this directive through every team/session handoff.
+
+
+## BK4 CLOSEOUT — 2026-10-11T09:44:40.824392+00:00
+
+A/B/D complete: audit_report.md contains final classifications/match counts, required real positive control, all 148 GAP TABLE file rows (146 distinct SHA256 payloads), explicit none loss mappings, content-based chronology, BK3C citations/referral resolutions, operator questions and bounded comparison/custody limits. All 292 original PROGRAM files plus six referral archives have final per-file decisions in program_final_dispositions.jsonl / .tsv. Final PROGRAM 294 = 100 EXACT +56 SAME-NAME +36 CONTENT +102 scoped UNIQUE; ADJACENT 10027; UNRELATED 509275. Four contextual/tooling files demoted to adjacent with source lines; six council archives promoted from adjacent; seventh referral stays adjacent. Original A/C denominators remain traceable; BK3C files unchanged.
+
+New interpretation check: docs/runbooks/stage_1_sect_runbook_v1_7.md:13-15 supersedes backup v1.6, so it is historical full-anchor preservation, not globally newer. docs/framework_findings/framework_finding_memit_ceiling_archival_v1_1.md:43-45 references the separate original v1.0 record. Neither is a guessed pod-loss restoration. All gap rows recorded_loss=none.
+
+Independent verification (bk4_verification.json): 298 reviewed source SHA256 hashes unchanged; 100 actual Git commit/path/blob locations verified; positive control rehashed; report/TSV/inventory attribution reconciled; gzip -t exit 0 and decompressed inventory hash matches raw 5bf9ac37fe26bd62477f4ec7d32a0cf4cbbb2fd8427f039741b98b6762f4af4f; protected adjacent files unchanged. Initial package PASS: 90 files, 83171325 committed bytes, maximum 37526654 bytes. A final rerun after this append/context save refreshes the manifest and package receipt; that is the acceptance authority. Raw inventory.tsv is 157756604 bytes and stays in place but is excluded from MAESTRO's committed set. inventory.tsv.gz is 37526654 bytes. Every committed file <=45000000 bytes; total <=200000000 bytes.
+
+Scripts: scripts/bk4_finalize.py regenerates editorial dispositions/counts/report; scripts/bk4_verify.py independently verifies acceptance and regenerates bk4_commit_manifest.tsv / bk4_verification.json. Supplemental current-source/citation evidence is bk4_followup_evidence.json; current identity receipts bk4_identity_verification.json. Context save: bk4_context_save.md, exact read-only git state bk4_context_git_state.json. First manifest self-size failure and correction preserved in bk4_verification_first_failure.txt. No source execution, imports/deletions, outside-audit writes, Git mutation, install or tmux action.
+
+Remaining actions are operator/MAESTRO decisions about recommended imports and committing the <=200 MB package excluding raw inventory.tsv. No imports are authorized by this report. No known required audit work is deferred after final verification. No command is in flight except the final foreground verifier when launched; do not kill unrelated processes. Comparison exclusions and concurrent snapshot limits remain in the report.
+
+Binding context rule: start a new step only at >=60% context; at <=40% or any compaction stop starting work, append a successor handoff with done/in-flight/remaining/exact paths/next step/open risks and this rule, and reply with its assigned HANDOFF token. Never approach full-window compaction. Preserve this rule in every handoff.
+
+
+## BK4 HANDOFF
+
+MAESTRO stop directive received after BK4 had returned AUDIT READY. No command was in progress; no new audit/comparison/verification step was started. This append is the requested handoff only. Timestamp: 2026-10-11T09:45:47.167673+00:00.
+
+### Done and exact paths
+
+- Final report: results/backups_audit_20261011T084030Z/audit_report.md (121441 bytes at final verification), with 148 GAP TABLE file rows / 146 distinct SHA256 payloads, positive control, final class/match counts, loss mapping, chronology, referrals, recommendations, operator questions and comparison limits.
+- All 292 original PROGRAM files adjudicated; six ADJACENT referral archives promoted to PROGRAM/EXACT; seventh referral s3-spec-writer-architecture.md remains ADJACENT/reference. Four original PROGRAM contextual/tooling files demoted to ADJACENT; original cohorts remain traceable.
+- Final relevance counts: PROGRAM 294; ADJACENT 10027; UNRELATED 509275; total 519596 non-caselaw inventory entries. Final PROGRAM matches: EXACT 100; SAME-NAME 56; CONTENT 36; scoped UNIQUE 102.
+- File-level decisions: program_final_dispositions.jsonl and program_final_dispositions.tsv; counts: bk4_final_counts.json. All paths in this section are relative to results/backups_audit_20261011T084030Z/ unless written in full.
+- All gap rows map recorded loss to none; no specifically lost model/cache/build/InfraNodus export bytes identified. v1.6 SECT full anchors are superseded by repo docs/runbooks/stage_1_sect_runbook_v1_7.md:13-15. Original v1.0 ceiling finding is separately referenced by docs/framework_findings/framework_finding_memit_ceiling_archival_v1_1.md:43-45. Historical preservation is not restored scientific data or latest governing status.
+- Independent acceptance PASS before this handoff: bk4_verification.json; all 298 reviewed backup hashes unchanged; 100 Git commit/path/blob locations verified; real positive control rehashed; 148 report rows reconcile; inventory attribution and loss citations checked; gzip -t exit 0; decompressed SHA equals raw inventory SHA 5bf9ac37fe26bd62477f4ec7d32a0cf4cbbb2fd8427f039741b98b6762f4af4f.
+- Packaging at that PASS: 93 proposed committed files; 83204933 bytes total; maximum file 37526654 bytes. Every included file <=45000000 bytes; total <=200000000 bytes. inventory.tsv.gz is 37526654 bytes. Raw inventory.tsv remains in place, 157756604 bytes, and MUST be excluded from MAESTRO's committed set.
+- Protected BK3C adjacent_groups.tsv / adjacent_dispositions.md / adjacent_progress.md unchanged; C is committed at 7dcf95794ea9880d132a6d4bea18fc4774233d1f. Do not edit or redo C.
+- Current-source/citation evidence: bk4_followup_evidence.json; revalidation: bk4_identity_verification.json; scope start: bk4_start_receipt.json; package manifest: bk4_commit_manifest.tsv. Context save: bk4_context_save.md; read-only git state: bk4_context_git_state.json; append-only prefix receipt: bk4_closeout_state.json. First verifier self-manifest-size defect and corrected rerun provenance: bk4_verification_first_failure.txt.
+- Reproducible formatter: scripts/bk4_finalize.py. Independent verifier: scripts/bk4_verify.py. No audit-owned process remains running. No imports/copies/moves/deletions outside the audit folder, commits/pushes/installs, experiments/models or tmux actions were performed.
+
+### Remaining and next single step
+
+The requested audit/report work is complete. **This requested append changes progress.md after final packaging acceptance, so the serialized package manifest/hash/total is now stale for that file.** No audit content, classification, report row, inventory or BK3C bytes changed. A fresh successor or MAESTRO should run exactly this single step to refresh package acceptance before committing:
+
+/opt/homebrew/bin/rtk proxy python3 -B results/backups_audit_20261011T084030Z/scripts/bk4_verify.py
+
+That verifier rechecks source/identity/report/gzip/protected evidence and rewrites bk4_commit_manifest.tsv / bk4_verification.json with current package sizes/hashes. It writes only the audit folder. Do not rerun the formatter unless editorial decisions are intentionally changed. After verification, MAESTRO/operator decides recommended imports and may commit the package excluding raw inventory.tsv. BK4 has no import or commit authorization.
+
+### Open risks and constraints
+
+- UNIQUE is bounded to saved content/history/mirror research-text coverage; dependency/cache trees, large numeric JSON/IPYNB, symlink alias and unreachable Git limits remain in audit_report.md. Adjacent review is group-level, not per-member uniqueness.
+- Concurrent MAESTRO commits mean no single frozen repo/mirror snapshot. Verified branch remained worktree-c10k-route-a; final verifier observed HEAD df332df16de7ad479383a702fd91cc8c5d4e9f62 versus start 0889b08178f0339c0605d3171de59486fe338541. Pre-existing/concurrent work was untouched.
+- Do not rerun inventory.py, history_index.py or symlink_supplement.py; do not modify BK3C files. Never treat plans, MD5 lists or research surveys as restored cache/model bytes. Imports remain operator decisions.
+- This handoff intentionally leaves only the package receipt refresh described above. Stop directive forbids BK4 starting that command now.
+
+### Binding context rule — survives this handoff
+
+Start a new step only at >=60% context left. At <=40%, any context compaction, or MAESTRO's explicit earlier stop (including this <=45% directive), stop starting work; finish only the command already in progress, append a successor handoff containing done/in-flight/remaining/exact paths/counts/next single step/open risks and this rule, then reply with the assigned HANDOFF token. Never approach full-window compaction. Preserve this directive in every successor/team handoff.

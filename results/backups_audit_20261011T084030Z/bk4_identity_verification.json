@@ -1,0 +1,2395 @@
+{
+  "backup_sources": [
+    {
+      "row": "52",
+      "path": "/Volumes/backups/CLAUDE.md",
+      "bytes": 5367,
+      "sha256": "2252dd69ffaecd6e6a0b6e67e8930c303992fdb22374e201f3db4cee9727e9a0"
+    },
+    {
+      "row": "54",
+      "path": "/Volumes/backups/ConnectedPapers-for-AlphaEdit%3A-Null%20Space-Constrained-Knowledge-Editing-for-Language-Models.bib",
+      "bytes": 66812,
+      "sha256": "57a5796f1c2b02ddae5a58467a90ed75b73597f5e3d82c6c8032eb95475967d8"
+    },
+    {
+      "row": "55",
+      "path": "/Volumes/backups/ConnectedPapers-for-AnyEdit%3A-Edit-Any-Knowledge-Encoded-in-Language-Models (1).bib",
+      "bytes": 67502,
+      "sha256": "a5e3428bb32f97e333386b1416a21b0a13ec6041b1791a3467477f4434239bc7"
+    },
+    {
+      "row": "56",
+      "path": "/Volumes/backups/ConnectedPapers-for-AnyEdit%3A-Edit-Any-Knowledge-Encoded-in-Language-Models.bib",
+      "bytes": 67502,
+      "sha256": "a5e3428bb32f97e333386b1416a21b0a13ec6041b1791a3467477f4434239bc7"
+    },
+    {
+      "row": "57",
+      "path": "/Volumes/backups/ConnectedPapers-for-Connected-Papers-%7C-Find-and-explore-academic-papers (1).bib",
+      "bytes": 67832,
+      "sha256": "2197e8238ac920e458ca77442c41af0a595c611476dd3f56d6c13ff6f240d328"
+    },
+    {
+      "row": "58",
+      "path": "/Volumes/backups/ConnectedPapers-for-Connected-Papers-%7C-Find-and-explore-academic-papers.bib",
+      "bytes": 65803,
+      "sha256": "cd4467ae8d3752409f82f52467256d129a0a11260e49cd8e5a0a54b35c49ece3"
+    },
+    {
+      "row": "59",
+      "path": "/Volumes/backups/ConnectedPapers-for-Connected-Papers-%7C-anyedit-paper-2.bib",
+      "bytes": 76715,
+      "sha256": "c0ceca79e07d8d91f7b4fe3ce8f141fb57af744d612d2fe6b0bfbc2b059a9d97"
+    },
+    {
+      "row": "60",
+      "path": "/Volumes/backups/ConnectedPapers-for-Decoupled-Mixture%20of%20Experts-for-Parametric-Knowledge-Injection.bib",
+      "bytes": 72364,
+      "sha256": "872c9c0614979036d985590950bba42437f058d61c8396155507e66b97649442"
+    },
+    {
+      "row": "61",
+      "path": "/Volumes/backups/ConnectedPapers-for-Lightweight-LLM-Agent-Memory-with-Small-Language-Models.bib",
+      "bytes": 71739,
+      "sha256": "f6d0447b80fb00636795219c903eba203aee8145204b701599a60790ddd653a4"
+    },
+    {
+      "row": "62",
+      "path": "/Volumes/backups/ConnectedPapers-for-MEMOIR%3A-Lifelong-Model-Editing-with-Minimal-Overwrite-and-Informed-Retention-for-LLMs.bib",
+      "bytes": 67572,
+      "sha256": "6845e8312beeff9d09132ecf389ecd077e7c3744e8c4b12b427d068f6dbe072d"
+    },
+    {
+      "row": "63",
+      "path": "/Volumes/backups/ConnectedPapers-for-MEMORYLLM%3A-Towards-Self%20Updatable-Large-Language-Models.bib",
+      "bytes": 74143,
+      "sha256": "bc0a7ae3b065ed0c9fb3c12b998a5f04c3189c14bc9e2ead68f4c391c4828e8a"
+    },
+    {
+      "row": "89",
+      "path": "/Volumes/backups/agent-harness-council-runbook.md",
+      "bytes": 63540,
+      "sha256": "0199f1c4b4f5cac66994c210ca6fff0d541088669d388dffa843885ee061e0ad"
+    },
+    {
+      "row": "98",
+      "path": "/Volumes/backups/aggregate_verdict.json",
+      "bytes": 2214,
+      "sha256": "d7070b27b3c9deb04ae1036d67f2bea60adbb308ccfaea434440d77b1d788ed8"
+    },
+    {
+      "row": "100",
+      "path": "/Volumes/backups/aisecops-specialist.skill",
+      "bytes": 9143,
+      "sha256": "efaf55fa857ca978b3836c8a3df626c280bfa4e4c76ae888f9c7daf92ef06951"
+    },
+    {
+      "row": "102",
+      "path": "/Volumes/backups/architecture-profile-seed.json",
+      "bytes": 8320,
+      "sha256": "a6a4d1484486bf0b9b6bb19350dec62cb57bf8440b3cfff7ee83acc14b21287d"
+    },
+    {
+      "row": "119",
+      "path": "/Volumes/backups/causal_trace_runbook_v0_1.md",
+      "bytes": 58711,
+      "sha256": "ca51c6ce7bc4afd11251b0153bbd7be1750d1b24b18414262bd8ac5bc3aefbe4"
+    },
+    {
+      "row": "120",
+      "path": "/Volumes/backups/cfb-v2.yaml",
+      "bytes": 35197,
+      "sha256": "0c2bb99b637920d71f38712e0155cf52f113f08dc52151fdd7df9b12d8743f00"
+    },
+    {
+      "row": "121",
+      "path": "/Volumes/backups/cfb-v3.yaml",
+      "bytes": 38505,
+      "sha256": "2cfdcfb2d8c29dc477b24c3617878936454b84660bc7ffd57f7f7bd406e4968e"
+    },
+    {
+      "row": "122",
+      "path": "/Volumes/backups/cfb-v4-highAKD (1).yaml",
+      "bytes": 31876,
+      "sha256": "e3ce9cb8690f70ba4d7335cf1a11679a8d79fa9563c3ef9ffca9840e9fb1e30f"
+    },
+    {
+      "row": "123",
+      "path": "/Volumes/backups/cfb-v4-highAKD.yaml",
+      "bytes": 26218,
+      "sha256": "495415f88ebc0882bbe28ed8b11a3e6f2e76884fec3f2d485975093e984aae9c"
+    },
+    {
+      "row": "131",
+      "path": "/Volumes/backups/cross_architecture_axis_scoping_note.md",
+      "bytes": 11617,
+      "sha256": "882f22b26066ceeeebd0feac6a46422b86997ece9bf444e61b44b738b9240b30"
+    },
+    {
+      "row": "132",
+      "path": "/Volumes/backups/d3_multi_target_hyperscale_runbook_v0_1.md",
+      "bytes": 34541,
+      "sha256": "9651c3af35c011b49e201ffb870f5ec1ef42bee27d050bbfdebf5e44d3698c1a"
+    },
+    {
+      "row": "133",
+      "path": "/Volumes/backups/deep-research-report.md",
+      "bytes": 11318,
+      "sha256": "fdf74cbbf4d33637b88c76173c803d5cc3dc5f3ba2b78a17b06f67dabfef02a5"
+    },
+    {
+      "row": "139",
+      "path": "/Volumes/backups/framework-council.skill",
+      "bytes": 7319,
+      "sha256": "780d03b5698a3d9f062d68b1330643410b5f9a7f2bcde0ae8a2e7084a32c0613"
+    },
+    {
+      "row": "140",
+      "path": "/Volumes/backups/framework_finding_memit_ceiling_archival (1).md",
+      "bytes": 26537,
+      "sha256": "1fa4457e9b726ba62acd9b52d0b5bd82367cf9116e157b048cb088548abe5249"
+    },
+    {
+      "row": "141",
+      "path": "/Volumes/backups/framework_finding_memit_ceiling_archival-v1_3.md",
+      "bytes": 31725,
+      "sha256": "4da101ea0b2a4eb4ce59426051f7f3b7fbe7d92a17bdeb271f4fce85ef963309"
+    },
+    {
+      "row": "142",
+      "path": "/Volumes/backups/framework_finding_memit_ceiling_archival-v1_4.md",
+      "bytes": 25024,
+      "sha256": "7a287ac07eac30563300131b12993efb3db52b079a44006ccbe4a1cf4a9e550b"
+    },
+    {
+      "row": "143",
+      "path": "/Volumes/backups/framework_finding_memit_ceiling_archival-v1_5.md",
+      "bytes": 19057,
+      "sha256": "aa81552c4b8a9f02f27990af29b4b735d275f0cd62ef4212a8e8090b8ce6b51b"
+    },
+    {
+      "row": "144",
+      "path": "/Volumes/backups/framework_finding_memit_ceiling_archival-v1_6 (1).md",
+      "bytes": 14308,
+      "sha256": "2d92590261655ad0fe050eea87a9eaee77dd538deab7100f83dcaeda4d8d4a02"
+    },
+    {
+      "row": "145",
+      "path": "/Volumes/backups/framework_finding_memit_ceiling_archival-v1_6.md",
+      "bytes": 14308,
+      "sha256": "2d92590261655ad0fe050eea87a9eaee77dd538deab7100f83dcaeda4d8d4a02"
+    },
+    {
+      "row": "146",
+      "path": "/Volumes/backups/framework_finding_memit_ceiling_archival.md",
+      "bytes": 26537,
+      "sha256": "1fa4457e9b726ba62acd9b52d0b5bd82367cf9116e157b048cb088548abe5249"
+    },
+    {
+      "row": "147",
+      "path": "/Volumes/backups/framework_finding_memit_ceiling_archival_v1_1 (1).md",
+      "bytes": 31779,
+      "sha256": "501999c42c4e938d83aef4d019970c2c8ed492e0f1b75b3379ebbcbd839898fe"
+    },
+    {
+      "row": "148",
+      "path": "/Volumes/backups/framework_finding_memit_ceiling_archival_v1_1.md",
+      "bytes": 31779,
+      "sha256": "501999c42c4e938d83aef4d019970c2c8ed492e0f1b75b3379ebbcbd839898fe"
+    },
+    {
+      "row": "149",
+      "path": "/Volumes/backups/framework_finding_v1_7_consolidated.md",
+      "bytes": 17296,
+      "sha256": "94c917d3762544395eb015c4690a4f8350d4571069f5f8f9f7e32a5abcea7396"
+    },
+    {
+      "row": "150",
+      "path": "/Volumes/backups/gemma4_editing_research.md",
+      "bytes": 39877,
+      "sha256": "1f07b10d715c9fe191bf8b7978ccaf8d87d240fc0f7ec75c90a30fa2aab23444"
+    },
+    {
+      "row": "152",
+      "path": "/Volumes/backups/grace-patches-canonical (1).md",
+      "bytes": 53797,
+      "sha256": "1e326370b43a5c6f641818ed0e07597b7efb718d7e1cc5d6e16704c3fa0633f4"
+    },
+    {
+      "row": "153",
+      "path": "/Volumes/backups/grace-patches-canonical-v0_2.md",
+      "bytes": 29730,
+      "sha256": "4e16e27abd01cc8ab5a15e65f24489dd4d31162c4d7516204e1274905c09aee9"
+    },
+    {
+      "row": "154",
+      "path": "/Volumes/backups/grace-patches-canonical.md",
+      "bytes": 53797,
+      "sha256": "1e326370b43a5c6f641818ed0e07597b7efb718d7e1cc5d6e16704c3fa0633f4"
+    },
+    {
+      "row": "155",
+      "path": "/Volumes/backups/graph-data-architect.skill",
+      "bytes": 7300,
+      "sha256": "f0bb58d16b7741f41e9cdcc9dadfb0954daf93bf360c6983f3908670dd391773"
+    },
+    {
+      "row": "167",
+      "path": "/Volumes/backups/llm-as-database-v1_2-integrated-spec.txt",
+      "bytes": 240518,
+      "sha256": "eefffb99d92b07a2ce21f47d5f4a1e92499bd942ba21fdf582d3076ff2b22773"
+    },
+    {
+      "row": "168",
+      "path": "/Volumes/backups/llm-knowledge-editing-same-entity-locality.md",
+      "bytes": 41565,
+      "sha256": "d4f101dd91a9f1344fefce95575fbae63852e8cb8a20fbac882d95a1006a8cc7"
+    },
+    {
+      "row": "169",
+      "path": "/Volumes/backups/llm_editing_survey.md",
+      "bytes": 53936,
+      "sha256": "a7e32b35c48a93654d3213092a5c53f89ea4af6b3531b63bdf6e32ee4aa0078c"
+    },
+    {
+      "row": "170",
+      "path": "/Volumes/backups/llm_research_tools_repos.md",
+      "bytes": 6670,
+      "sha256": "63c369312bb33f6bd9991b14717e11878b7fa2aab180fa15aca2f1e10b2c0269"
+    },
+    {
+      "row": "176",
+      "path": "/Volumes/backups/memit-patches-canonical-v2_6.md",
+      "bytes": 10104,
+      "sha256": "b2ce3de29e232702f16d051778d9eafeec9acd5781ed9726a10a154cc9e87ef2"
+    },
+    {
+      "row": "177",
+      "path": "/Volumes/backups/memit-patches-canonical.md",
+      "bytes": 114814,
+      "sha256": "938a7cb93c177066a3266ece72129c555d14e464eb124b4578a8ec8cbdee5d89"
+    },
+    {
+      "row": "178",
+      "path": "/Volumes/backups/memit-specialist.skill",
+      "bytes": 5515,
+      "sha256": "2b2d56c749eb088b17e4b6206fff1556cceeea924b5290ac1d2aa07369777d23"
+    },
+    {
+      "row": "179",
+      "path": "/Volumes/backups/memit_main.py",
+      "bytes": 10072,
+      "sha256": "4b5c6478da463bb174036a3a0495d7786f8e4d207ee7021a7e9afb6aef977168"
+    },
+    {
+      "row": "182",
+      "path": "/Volumes/backups/molab_feasibility_report.md",
+      "bytes": 30424,
+      "sha256": "b7f980d6da2eaccab56066099c2f4f2253ab5bd7d502ec8ddc04b5ac6caf1bb5"
+    },
+    {
+      "row": "194",
+      "path": "/Volumes/backups/orchestration-comparativist.skill",
+      "bytes": 9128,
+      "sha256": "648e241dccae3a3ef38437799f004741266ceb7acddbf57a083a0ddb4bb4a22a"
+    },
+    {
+      "row": "195",
+      "path": "/Volumes/backups/organize_llm_as_database.py",
+      "bytes": 39356,
+      "sha256": "7f6723ffa24cfc5574cbd1e8175609b4d906dc127de1e9e4bd642fc1ce3018af"
+    },
+    {
+      "row": "196",
+      "path": "/Volumes/backups/organize_llm_as_database.v1.py.bak",
+      "bytes": 21628,
+      "sha256": "10c6de4ce1883cb2a77536a5fe597a06af5df6c00ff0d47597b77ce83724a12f"
+    },
+    {
+      "row": "199",
+      "path": "/Volumes/backups/probe-set-v2.yaml",
+      "bytes": 28013,
+      "sha256": "358737450f610fe5a2bdfa9092e4d27cdc8f63b93a2ff7ce63946c9f8a8eeaa6"
+    },
+    {
+      "row": "200",
+      "path": "/Volumes/backups/probe-set-v3 (1).yaml",
+      "bytes": 29134,
+      "sha256": "8527642fa06ca41781e398da40ef955c3c5b25cbace63e838779386dcbb98076"
+    },
+    {
+      "row": "201",
+      "path": "/Volumes/backups/probe-set-v3.yaml",
+      "bytes": 29134,
+      "sha256": "8527642fa06ca41781e398da40ef955c3c5b25cbace63e838779386dcbb98076"
+    },
+    {
+      "row": "202",
+      "path": "/Volumes/backups/probe-set-v4-highAKD.yaml",
+      "bytes": 29507,
+      "sha256": "b99b5d9b8ed1d093869aed902be8464e41677d83a1c988ca3ae2150a1338d1fd"
+    },
+    {
+      "row": "203",
+      "path": "/Volumes/backups/probe_band_recalibration_spec.md",
+      "bytes": 26375,
+      "sha256": "2b3833b5cf1d3b842e5a75222c7117d614920ca81626b33e2c833ad457c946b3"
+    },
+    {
+      "row": "215",
+      "path": "/Volumes/backups/re_evaluate_bands.py",
+      "bytes": 18627,
+      "sha256": "813f123eb977bdff91dafeda1d2b02ff8a7f4fb56c8ff6c06b5e351785b7ac7e"
+    },
+    {
+      "row": "216",
+      "path": "/Volumes/backups/reproducibility_manifest.json",
+      "bytes": 50142,
+      "sha256": "647efc7b31dbb22f1e6dc2034445a9a30c7a2207ea6b7ae4e2539219d173c385"
+    },
+    {
+      "row": "218",
+      "path": "/Volumes/backups/revised_sweep_verdict_v1.json",
+      "bytes": 56152,
+      "sha256": "23c4ba6252c314693cd7bb41ede3a0d94ed915db7de4f74ad45305aeda17e8b3"
+    },
+    {
+      "row": "219",
+      "path": "/Volumes/backups/rome-patches-canonical (1).md",
+      "bytes": 96944,
+      "sha256": "6a97293c9b30a997462d8f55ccb9ab6101d776a3d13e9bef1127555ece408dc9"
+    },
+    {
+      "row": "220",
+      "path": "/Volumes/backups/rome-patches-canonical.md",
+      "bytes": 27140,
+      "sha256": "0e116733dbcc7be53f97951c52366b6104a24ff10421c5033ed243ddbac6b1c3"
+    },
+    {
+      "row": "231",
+      "path": "/Volumes/backups/s212a-runbook-amendment-patch.md",
+      "bytes": 30163,
+      "sha256": "e288d5e6d89301f889aeed7f2ee4dfd6037d4feb02e9eab805d97c786372c2db"
+    },
+    {
+      "row": "233",
+      "path": "/Volumes/backups/s28_v2_4_1_amendment_section_3_8_9 (1).md",
+      "bytes": 9539,
+      "sha256": "c6887448dc09e431cf0e7f24b78566d4318a305cad1933136bf5c97453f9bf96"
+    },
+    {
+      "row": "234",
+      "path": "/Volumes/backups/s28_v2_4_1_amendment_section_3_8_9.md",
+      "bytes": 9539,
+      "sha256": "c6887448dc09e431cf0e7f24b78566d4318a305cad1933136bf5c97453f9bf96"
+    },
+    {
+      "row": "244",
+      "path": "/Volumes/backups/session_2_17_summary_block.md",
+      "bytes": 29184,
+      "sha256": "f1e39e2649dd5fdd5d52e8510f3c792a16bc4069dd6761c76fa724bbc1fd1323"
+    },
+    {
+      "row": "245",
+      "path": "/Volumes/backups/session_2_18_summary_block.md",
+      "bytes": 26185,
+      "sha256": "031b8b15bc96bfcf26387f22f0fd33668c506d810d137645a29389f9a6311335"
+    },
+    {
+      "row": "246",
+      "path": "/Volumes/backups/session_2_18_summary_block_appendix.md",
+      "bytes": 46877,
+      "sha256": "430071abf423769490f1f220f2929714a0f9d0ebcb82567375cf5fa2e071d0db"
+    },
+    {
+      "row": "247",
+      "path": "/Volumes/backups/session_2_23_summary_block.md",
+      "bytes": 10303,
+      "sha256": "448c641ece8b249fe328e9c5ff0335e99c4c7d4466e9171a81b214d790c0e9eb"
+    },
+    {
+      "row": "248",
+      "path": "/Volumes/backups/session_2_24_summary_block.md",
+      "bytes": 18241,
+      "sha256": "f33382afc65488462ea68e4923114aa56b62dd90c66f6ca67cf92b2fd86b466e"
+    },
+    {
+      "row": "249",
+      "path": "/Volumes/backups/session_2_25_summary_block.md",
+      "bytes": 11899,
+      "sha256": "27b5b328c80313f3ae02ddb62b7b8db696c69f3e9f99cffe6f611dd22f99540d"
+    },
+    {
+      "row": "250",
+      "path": "/Volumes/backups/session_2_26_summary_block.md",
+      "bytes": 15419,
+      "sha256": "375f43395ed2c6fa707694e70e0a10d90d2087f912ff56a4a321d7c683e3b431"
+    },
+    {
+      "row": "251",
+      "path": "/Volumes/backups/session_2_27_summary_block.md",
+      "bytes": 18831,
+      "sha256": "7898f736969856f1867fde0cffe8a3198fda67878069451db362dbafb3f6ca7b"
+    },
+    {
+      "row": "252",
+      "path": "/Volumes/backups/session_2_28_summary_block.md",
+      "bytes": 9482,
+      "sha256": "38de2216f05971f6c2f1c223e8680f90cd43c6b41610ca0053b03431c8f44fc6"
+    },
+    {
+      "row": "253",
+      "path": "/Volumes/backups/session_2_29_summary_block.md",
+      "bytes": 12470,
+      "sha256": "64c84fdd171d2b0383a955a7911e1aed52aaf3ff357a5fd7b7062f140648c4a1"
+    },
+    {
+      "row": "254",
+      "path": "/Volumes/backups/session_2_30_summary_block.md",
+      "bytes": 14353,
+      "sha256": "799658de661140e7608669e91478b769c66780cddc6b9017ecd20332193b1057"
+    },
+    {
+      "row": "255",
+      "path": "/Volumes/backups/session_2_31_summary_block.md",
+      "bytes": 14896,
+      "sha256": "6980dea865d2e46aee213ddf4e9c0ec8a7d8e5bc0bf49a6a24f935002d9199a5"
+    },
+    {
+      "row": "256",
+      "path": "/Volumes/backups/session_2_32_summary_block.md",
+      "bytes": 19125,
+      "sha256": "739803243c79969b37335743e8bd13c3dd1ca5f86a4806143d2ead54140ccb04"
+    },
+    {
+      "row": "257",
+      "path": "/Volumes/backups/session_2_34_kickoff.md",
+      "bytes": 5073,
+      "sha256": "01546669626d549d9d8cd693e68f29eeeaa95d282fdd18e413b28c52359e42e9"
+    },
+    {
+      "row": "258",
+      "path": "/Volumes/backups/session_2_39_kickoff.md",
+      "bytes": 9813,
+      "sha256": "c750be375ca5d4f39f92bba5f06a2ec7074af3c361f01d0930dff89cf20c3c48"
+    },
+    {
+      "row": "259",
+      "path": "/Volumes/backups/session_2_8_summary_block (1).md",
+      "bytes": 29702,
+      "sha256": "ca200ab6ad3e1944ac7535ecc8dc155c02dde5eb63886937570efdcd5b7fcf61"
+    },
+    {
+      "row": "260",
+      "path": "/Volumes/backups/session_2_9_summary_block.md",
+      "bytes": 31104,
+      "sha256": "40032ea70a440ac78c2ce671553b516dbbf932f25466e7a8582cad32f869df92"
+    },
+    {
+      "row": "261",
+      "path": "/Volumes/backups/settings.json",
+      "bytes": 2589,
+      "sha256": "258501e58d1a8a60f44be30c747330ba4138eaaaa7fe0aa0e565ba73ae56558b"
+    },
+    {
+      "row": "267",
+      "path": "/Volumes/backups/stage_1_sect_runbook_v1_4.md",
+      "bytes": 154793,
+      "sha256": "df701429519e2b72a47a8d4f8922fde93dd7c5e4be49b5d2ecd26b38262171d4"
+    },
+    {
+      "row": "268",
+      "path": "/Volumes/backups/stage_1_sect_runbook_v1_4_amended.md",
+      "bytes": 167206,
+      "sha256": "6498c8c6b59bc9e8af215f66fb12bda64bf3f7e0f56ebdd382739da39d06e8fb"
+    },
+    {
+      "row": "269",
+      "path": "/Volumes/backups/stage_1_sect_runbook_v1_5 (1).md",
+      "bytes": 176074,
+      "sha256": "c51ed3e57e3fed753062586bc92dd1daac7aa8157f422d5b144cab6e8aee89f7"
+    },
+    {
+      "row": "270",
+      "path": "/Volumes/backups/stage_1_sect_runbook_v1_5.md",
+      "bytes": 176074,
+      "sha256": "c51ed3e57e3fed753062586bc92dd1daac7aa8157f422d5b144cab6e8aee89f7"
+    },
+    {
+      "row": "271",
+      "path": "/Volumes/backups/stage_1_sect_runbook_v1_5_substitution_patch.md",
+      "bytes": 40375,
+      "sha256": "ae3fd89a965f988ee6c503757da13b2757a2b703fc0b5a15d83fbd12998d9435"
+    },
+    {
+      "row": "272",
+      "path": "/Volumes/backups/stage_1_sect_runbook_v1_6 (1).md",
+      "bytes": 194298,
+      "sha256": "72894fc52398aa180dba60fb5170aa7a399c5f7693bb1762d8186bcc9db01afb"
+    },
+    {
+      "row": "273",
+      "path": "/Volumes/backups/stage_1_sect_runbook_v1_6.md",
+      "bytes": 194298,
+      "sha256": "72894fc52398aa180dba60fb5170aa7a399c5f7693bb1762d8186bcc9db01afb"
+    },
+    {
+      "row": "274",
+      "path": "/Volumes/backups/stage_1_sect_runbook_v1_7.md",
+      "bytes": 40229,
+      "sha256": "122704a34d4a544cba7d99127bc3decd5a207697a2d87e972b659cd8f5fc51f2"
+    },
+    {
+      "row": "275",
+      "path": "/Volumes/backups/stage_1_trial_cfb-001_r1.json",
+      "bytes": 12436,
+      "sha256": "33ddb67b658ff5ddc933e7e256b049e73f055282c6895305b58228224d73d68e"
+    },
+    {
+      "row": "276",
+      "path": "/Volumes/backups/stage_1_trial_cfb-001_r2.json",
+      "bytes": 12435,
+      "sha256": "786bd8c19438282275cc1eb9f1d799f049a6bfb5e29bc42fd1f3c081f22dc6e5"
+    },
+    {
+      "row": "277",
+      "path": "/Volumes/backups/stage_1_trial_cfb-001_r3.json",
+      "bytes": 12435,
+      "sha256": "45ff38b90d4294c9d7712e717708134d0dfa3d53ea7a3dc8fd1b4e470a371590"
+    },
+    {
+      "row": "278",
+      "path": "/Volumes/backups/stage_1_trial_cfb-002_r1.json",
+      "bytes": 12444,
+      "sha256": "eafa106e0b5a3f8d9daa47111d4ffafce591365c211182fca236703dc88b2dfa"
+    },
+    {
+      "row": "279",
+      "path": "/Volumes/backups/stage_1_trial_cfb-002_r2.json",
+      "bytes": 12444,
+      "sha256": "f6a58062af1d221880dfa6cec03957d2c1a49389425ae531ef08b72939499221"
+    },
+    {
+      "row": "280",
+      "path": "/Volumes/backups/stage_1_trial_cfb-002_r3.json",
+      "bytes": 12444,
+      "sha256": "3417e649a4b994b630d340bc4819467344947babde13a366c725d6007e6dddd4"
+    },
+    {
+      "row": "281",
+      "path": "/Volumes/backups/stage_1_trial_cfb-003_r1.json",
+      "bytes": 12416,
+      "sha256": "1546889ffa27a108ebe4e1481a2be6ff2e3f83f2dcc04789fcf285539933578e"
+    },
+    {
+      "row": "282",
+      "path": "/Volumes/backups/stage_1_trial_cfb-003_r2.json",
+      "bytes": 12416,
+      "sha256": "616d4b3a6e79dbbeb7d3792bfe42c64decefad21dd42af931ef4296d387c6793"
+    },
+    {
+      "row": "283",
+      "path": "/Volumes/backups/stage_1_trial_cfb-003_r3.json",
+      "bytes": 12416,
+      "sha256": "67ac3153495e0f8466be1bb74cac392a6d7ddff936aac1bd6fa46c608110ecbe"
+    },
+    {
+      "row": "284",
+      "path": "/Volumes/backups/stage_2_sweep_design.md",
+      "bytes": 24978,
+      "sha256": "bedd9c75dcbcd3498f0512550bd640fe3d11958b86d093cb43711ed50b9fd050"
+    },
+    {
+      "row": "285",
+      "path": "/Volumes/backups/stage_2_sweep_verdict.json",
+      "bytes": 15989,
+      "sha256": "7085c42c04e52566d6516208bf116e540999033388ef5328c0041b1ab6fa932d"
+    },
+    {
+      "row": "288",
+      "path": "/Volumes/backups/state-consistency-theorist.skill",
+      "bytes": 9930,
+      "sha256": "d854c6a922b43ff76b42cbeeca207614c2c2e7e070fe3b0839a350df54ffcc72"
+    },
+    {
+      "row": "294",
+      "path": "/Volumes/backups/t1_alt_model_3b_memit_akd_runbook_v0_1 (1).md",
+      "bytes": 36155,
+      "sha256": "2f384786e13510f311e6fee7f90f28428dc3a9530888e8f347bd73b652d48a92"
+    },
+    {
+      "row": "295",
+      "path": "/Volumes/backups/t1_alt_model_3b_memit_akd_runbook_v0_1.md",
+      "bytes": 35720,
+      "sha256": "cc1735420818778e90660c486a18ae3960a9aa4614ceb716b904781626003871"
+    },
+    {
+      "row": "296",
+      "path": "/Volumes/backups/t1_alt_model_3b_memit_runbook_v0_1.md",
+      "bytes": 56199,
+      "sha256": "720e61f3b2f788bcc4d4d139744dfeaf23a298b56dff45c12a7564ac9d35b8e8"
+    },
+    {
+      "row": "297",
+      "path": "/Volumes/backups/t1_band_4_8_runbook_v0_1.md",
+      "bytes": 37644,
+      "sha256": "580301ce0221aafd315a2789cf4b0d023898d38217289c8277677fcd4dae4556"
+    },
+    {
+      "row": "298",
+      "path": "/Volumes/backups/t2_grace_runbook (1).md",
+      "bytes": 85904,
+      "sha256": "68f7edefc785b39777498e78f5efdfcc5f6e362ad75b0cc332eb931588a280bc"
+    },
+    {
+      "row": "299",
+      "path": "/Volumes/backups/t2_grace_runbook-v0_2.md",
+      "bytes": 43498,
+      "sha256": "904ee8d4bed6f5f693b77809b84370c2cb430eb521442d8a28bd04b6ac6ac6ed"
+    },
+    {
+      "row": "300",
+      "path": "/Volumes/backups/t2_grace_runbook.md",
+      "bytes": 85904,
+      "sha256": "68f7edefc785b39777498e78f5efdfcc5f6e362ad75b0cc332eb931588a280bc"
+    },
+    {
+      "row": "301",
+      "path": "/Volumes/backups/t2_rome_runbook (1).md",
+      "bytes": 107006,
+      "sha256": "ab647646c0573b1b40f248e788d6308aa2d956280fd702fc4c50905cff260715"
+    },
+    {
+      "row": "302",
+      "path": "/Volumes/backups/t2_rome_runbook.md",
+      "bytes": 107006,
+      "sha256": "ab647646c0573b1b40f248e788d6308aa2d956280fd702fc4c50905cff260715"
+    },
+    {
+      "row": "303",
+      "path": "/Volumes/backups/t2_rome_runbook_v0_1.md",
+      "bytes": 72011,
+      "sha256": "a4b11eadf23ddf270e9e8e8ea1dc3b056f03fea2b7678cef3b8370d6b29891f4"
+    },
+    {
+      "row": "304",
+      "path": "/Volumes/backups/t3_mistral_7b_memit_runbook_v0_1.md",
+      "bytes": 83032,
+      "sha256": "26bb151da5a8864f1b767e03607b94a3dc8f9a4e68ff0ac0333f621f70833432"
+    },
+    {
+      "row": "305",
+      "path": "/Volumes/backups/t3_qwen_7b_memit_runbook_v0_1.md",
+      "bytes": 95765,
+      "sha256": "af34900653d6335d48644a34d3da01127aece334fb7df1a792a234db656ac1e8"
+    },
+    {
+      "row": "306",
+      "path": "/Volumes/backups/t_branch_decision_document_v1_1 (1).md",
+      "bytes": 30263,
+      "sha256": "e2e6186cf0a9d98ad8e995ae255ce39af43cbcf7dc139f06dc1fff5e0a1c1af4"
+    },
+    {
+      "row": "307",
+      "path": "/Volumes/backups/t_branch_decision_document_v1_1.md",
+      "bytes": 30263,
+      "sha256": "e2e6186cf0a9d98ad8e995ae255ce39af43cbcf7dc139f06dc1fff5e0a1c1af4"
+    },
+    {
+      "row": "308",
+      "path": "/Volumes/backups/t_branch_decision_document_v1_2.md",
+      "bytes": 31121,
+      "sha256": "0731c97543c6b64abbb1a1b53e9ada2383eee4baf6cbbee5ccb3b76d7aee31f9"
+    },
+    {
+      "row": "309",
+      "path": "/Volumes/backups/t_branch_decision_document_v1_3.md",
+      "bytes": 12589,
+      "sha256": "ec2fa281744fd4b3ee24b0c4aff61d0917493b6bd8f9e232c239bc3c0f17f30f"
+    },
+    {
+      "row": "310",
+      "path": "/Volumes/backups/t_branch_decision_document_v1_4.md",
+      "bytes": 10157,
+      "sha256": "3b9f26bb7dba9e319e4c496be6780e7e02e2d708904cccb8135dd5a673e2be79"
+    },
+    {
+      "row": "316",
+      "path": "/Volumes/backups/validation-contract-architect.skill",
+      "bytes": 8648,
+      "sha256": "af375c3a8016538d66a0dfdf6480b79464e250ad86169b0ba1f6b19d0414d967"
+    },
+    {
+      "row": "318",
+      "path": "/Volumes/backups/llm-as-database/Claude-Orchestration path selection and delegation token design.md",
+      "bytes": 69015,
+      "sha256": "5ab9ce7e4bffb4b41113837e52c7a886abc944eba98d2c9ad58faf10029d598f"
+    },
+    {
+      "row": "319",
+      "path": "/Volumes/backups/llm-as-database/GPU_Procurement_for_LLM-as-Database_POC__Cloud_Rental_vs_Apple_Silicon_Analysis.md",
+      "bytes": 32011,
+      "sha256": "551bf2af35c43ca6f9fe49469acb3f3aa62f2e9d21a4d4a2009cfafd3bee1175"
+    },
+    {
+      "row": "320",
+      "path": "/Volumes/backups/llm-as-database/MEMIT_Target_Model_Recommendation__Survey_of_Eleven_Open-Weights_Candidates.md",
+      "bytes": 29096,
+      "sha256": "8f790926c0a46e6970342813cadd458a02a4851fd65c3ba4019216c921dbbfda"
+    },
+    {
+      "row": "321",
+      "path": "/Volumes/backups/llm-as-database/SKILL.md",
+      "bytes": 19960,
+      "sha256": "9fc4c53aac383eeb3c133a246aa374cc258303ac880d0fbca8ef9741c9e514d9"
+    },
+    {
+      "row": "322",
+      "path": "/Volumes/backups/llm-as-database/adversarial-skills-starter-descriptions.md",
+      "bytes": 29793,
+      "sha256": "0fab18a705e3712962b1e2f543e30eba7b20b1a2037b46c5f04b0809cda4c9e0"
+    },
+    {
+      "row": "323",
+      "path": "/Volumes/backups/llm-as-database/aisecops-friction-analysis.md",
+      "bytes": 40774,
+      "sha256": "4f5ae3fafd5fc2e64ff544b84825b6e6999d40bc3d12bb92954dcc17749b1add"
+    },
+    {
+      "row": "324",
+      "path": "/Volumes/backups/llm-as-database/aisecops-specialist.md",
+      "bytes": 23722,
+      "sha256": "d8afb03f110f64003eece324980131b161ada038b2ef87f2b9ef46c3a506e351"
+    },
+    {
+      "row": "325",
+      "path": "/Volumes/backups/llm-as-database/block-2-3-runbook-deltas.md",
+      "bytes": 22260,
+      "sha256": "806558d8834892cf89b3c97dc023493d10e4946a868805696b73ab360505cf3a"
+    },
+    {
+      "row": "326",
+      "path": "/Volumes/backups/llm-as-database/block-2-execution-plan.md",
+      "bytes": 16938,
+      "sha256": "26cd7b0deacdc1a35e654cf618130321d0a88e392308da606f4fbee4c5d3bc04"
+    },
+    {
+      "row": "327",
+      "path": "/Volumes/backups/llm-as-database/block-2-runpod-notebook.md",
+      "bytes": 19739,
+      "sha256": "0f7362229890cbab4712be53b586796f169dfb0a10854168af187dc593ae7a7c"
+    },
+    {
+      "row": "328",
+      "path": "/Volumes/backups/llm-as-database/block-2-session-prompt.md",
+      "bytes": 18278,
+      "sha256": "053761ba72ae78ea519a4db12ee59a1f56d6f070dcb6a4cbd1ec037e2a259892"
+    },
+    {
+      "row": "329",
+      "path": "/Volumes/backups/llm-as-database/block-3-resume-execution-plan.md",
+      "bytes": 20214,
+      "sha256": "badbadcaff7826796d1eac5e6302deaf13a12461ed52cc80615d4a7543b0bda9"
+    },
+    {
+      "row": "330",
+      "path": "/Volumes/backups/llm-as-database/capture_delta.py",
+      "bytes": 8819,
+      "sha256": "620c1e645b0b04d9b0958ca4cb7a8a34d7e7d0ebf8dc6c145dd34ddad1a9cb1d"
+    },
+    {
+      "row": "331",
+      "path": "/Volumes/backups/llm-as-database/capture_token_ids.py",
+      "bytes": 20823,
+      "sha256": "d161e65859b79d73a95120746e62a1ec365b9333a77410d61cd047e4f38eb379"
+    },
+    {
+      "row": "332",
+      "path": "/Volumes/backups/llm-as-database/cfb-v1.1.yaml",
+      "bytes": 22736,
+      "sha256": "97a0e5f877e21b4d3761905648516dc7effdc2c7b75ddec603b10a0670f58189"
+    },
+    {
+      "row": "333",
+      "path": "/Volumes/backups/llm-as-database/compaction-probe-calib-proto-1.md",
+      "bytes": 53026,
+      "sha256": "b3879a88ae36fc67fafa24559a6b8dd8d10e8dd52db8ea570b984370f3199bb8"
+    },
+    {
+      "row": "334",
+      "path": "/Volumes/backups/llm-as-database/council-review-checkpoint-post-gs3.md",
+      "bytes": 8576,
+      "sha256": "216f86c48fc7628627efafce5057a2f4c773fd4df487d68e97e7a03eb1cce65e"
+    },
+    {
+      "row": "335",
+      "path": "/Volumes/backups/llm-as-database/epsilon-calib-proto-1.md",
+      "bytes": 31386,
+      "sha256": "867f3b66dba426b26ea2b7ff5de3d1ebb50f607e35bc14bc829ba700e2919ef6"
+    },
+    {
+      "row": "336",
+      "path": "/Volumes/backups/llm-as-database/framework-council-SKILL-v2.md",
+      "bytes": 19150,
+      "sha256": "ec7e8e5002fc9d28c10e2ab74e606d348ef953d3df1865b15dea9a5bac7c3db0"
+    },
+    {
+      "row": "337",
+      "path": "/Volumes/backups/llm-as-database/framework-council-friction-analysis.md",
+      "bytes": 35606,
+      "sha256": "207237feb6f014599b69f55f7ff5071589512c3ba86e686e14b58ef3a755e793"
+    },
+    {
+      "row": "338",
+      "path": "/Volumes/backups/llm-as-database/framework-spec-iteration-guide.md",
+      "bytes": 37698,
+      "sha256": "a9623e94f569b0fa8c8bffcda5f820ec0babc645128fe01205fb4c7133a4dfd0"
+    },
+    {
+      "row": "339",
+      "path": "/Volumes/backups/llm-as-database/framework-spec-writer.skill",
+      "bytes": 13527,
+      "sha256": "ee0e767dc4532040d617d1e8095decd69a045b95f818aa60a8acc9a8e8736db1"
+    },
+    {
+      "row": "340",
+      "path": "/Volumes/backups/llm-as-database/gap-backlog-v1.md",
+      "bytes": 28589,
+      "sha256": "58aab699d96575b764a987166ee1e880757d05039eddcb840aaffef34d74c910"
+    },
+    {
+      "row": "341",
+      "path": "/Volumes/backups/llm-as-database/gap-backlog-v2.md",
+      "bytes": 32951,
+      "sha256": "f37de4a0e5dea985afe1e2731773de2144958f3d3255a7f5bccf8c4e27ea6228"
+    },
+    {
+      "row": "342",
+      "path": "/Volumes/backups/llm-as-database/gap-backlog-v3.md",
+      "bytes": 47791,
+      "sha256": "443787ff16586ea1fbccd5de6994eda1fe6616ce98acf5271fb59e121934606f"
+    },
+    {
+      "row": "343",
+      "path": "/Volumes/backups/llm-as-database/gap-backlog-v4.md",
+      "bytes": 44301,
+      "sha256": "13bd0dfdd8ce8e98d2bc8a474db692b48fbfb1ae454224930dc3b435eb3c4fc0"
+    },
+    {
+      "row": "344",
+      "path": "/Volumes/backups/llm-as-database/gap-backlog-v5.md",
+      "bytes": 16470,
+      "sha256": "5e40d89b6d9848f845b307cf40f0a7fa763fc308c7c14be3a924c9b18b8f14a7"
+    },
+    {
+      "row": "345",
+      "path": "/Volumes/backups/llm-as-database/gap-session-1-summary.md",
+      "bytes": 10086,
+      "sha256": "eeba5609a005b48f7c069eb3a7daefb3324ed1eb60bb24bb336213d2d3b757f3"
+    },
+    {
+      "row": "346",
+      "path": "/Volumes/backups/llm-as-database/gap-session-1-summary_gap-schedule-v1.md",
+      "bytes": 30979,
+      "sha256": "bc9970bff6a9e174a6cf4dadfa0f72f7629ce46e418e237ca7ccf77c6909c7da"
+    },
+    {
+      "row": "347",
+      "path": "/Volumes/backups/llm-as-database/gap-session-10-summary.md",
+      "bytes": 30124,
+      "sha256": "e5c943b06b7bc2d6a64567d52540220ab4d0a103e0b3b6b5e8695dce653c4dce"
+    },
+    {
+      "row": "348",
+      "path": "/Volumes/backups/llm-as-database/gap-session-10-summary_gap-schedule-v2.md",
+      "bytes": 19320,
+      "sha256": "269344fb151d3edd951bf92aab7aa09ef7c16257d3d253928b3a1ad57fb21348"
+    },
+    {
+      "row": "349",
+      "path": "/Volumes/backups/llm-as-database/gap-session-11-summary.md",
+      "bytes": 30106,
+      "sha256": "f42667314d00f9fefd1184eb938878305bb47971a7ab2da33155a881c615e152"
+    },
+    {
+      "row": "350",
+      "path": "/Volumes/backups/llm-as-database/gap-session-11-summary_gap-schedule-v2.md",
+      "bytes": 41073,
+      "sha256": "7edc1b7ee1a30ac0574b6fa921269e23b4934a2c3f7ea3f3ae6b21466bdaeefe"
+    },
+    {
+      "row": "351",
+      "path": "/Volumes/backups/llm-as-database/gap-session-12-summary.md",
+      "bytes": 20023,
+      "sha256": "9657f0058c99ad41e4080e6dc8e5fd91e40aa6aeb204a2b94fb0be0b919a30df"
+    },
+    {
+      "row": "352",
+      "path": "/Volumes/backups/llm-as-database/gap-session-13-summary.md",
+      "bytes": 81964,
+      "sha256": "70e01fb65c3363c4ce793a0ca4060c7b0ebe515208977e36d6cfbad93c51270e"
+    },
+    {
+      "row": "353",
+      "path": "/Volumes/backups/llm-as-database/gap-session-1_gap-schedule-v2-summary.md",
+      "bytes": 16526,
+      "sha256": "90d20b8f9cee3fbbf4f2805867533bcd18730fa54fd105e0198f03ea5308a63f"
+    },
+    {
+      "row": "354",
+      "path": "/Volumes/backups/llm-as-database/gap-session-2-summary_gap-schedule-v1.md",
+      "bytes": 15230,
+      "sha256": "fb0ead5278f15ef426b64c1df7d8e65451773f06a5c9fcab5e841f9ea9c16795"
+    },
+    {
+      "row": "355",
+      "path": "/Volumes/backups/llm-as-database/gap-session-2-summary_gap-schedule-v2-summary.md",
+      "bytes": 13325,
+      "sha256": "d92f00f6b5554a967fddaf9aeb0393923d3ad0ab520d9e59577f94fd7a1c1409"
+    },
+    {
+      "row": "356",
+      "path": "/Volumes/backups/llm-as-database/gap-session-3-summary.md",
+      "bytes": 25400,
+      "sha256": "1015af579131a061b8c4707a37323f1b5c72c9e68f2618f425bdb5e338e4c146"
+    },
+    {
+      "row": "357",
+      "path": "/Volumes/backups/llm-as-database/gap-session-3-summary_gap-schedule-v1.md",
+      "bytes": 11560,
+      "sha256": "86587c74eada5860a83acc565ece73aff2a31e485c3a3747fccf935a4d676402"
+    },
+    {
+      "row": "358",
+      "path": "/Volumes/backups/llm-as-database/gap-session-4-ceremony-authorization.md",
+      "bytes": 46408,
+      "sha256": "e0c0aba795175963aaf2802a9bc7687d1612bee33abc04cc5f56c205dd3d9058"
+    },
+    {
+      "row": "359",
+      "path": "/Volumes/backups/llm-as-database/gap-session-4-summary_gap-schedule-v1.md",
+      "bytes": 22715,
+      "sha256": "02bd6a809048c2159a8ab4ead1adef66ae61253fa6b47dda4b7fdb79d831aaf4"
+    },
+    {
+      "row": "360",
+      "path": "/Volumes/backups/llm-as-database/gap-session-4-summary_gap-schedule-v2.md",
+      "bytes": 24005,
+      "sha256": "c322f97ba685d65e2435e3960e4d0c13a834e20994d030b5e8d747646f3a67f0"
+    },
+    {
+      "row": "361",
+      "path": "/Volumes/backups/llm-as-database/gap-session-4_gap-schedule-v2-summary.md",
+      "bytes": 26923,
+      "sha256": "078dad3fa33a6679e2468d5cc89ee8ca284a1437d9db0d004cacb829f39fb03c"
+    },
+    {
+      "row": "362",
+      "path": "/Volumes/backups/llm-as-database/gap-session-5-summary_gap-schedule-v1.md",
+      "bytes": 17673,
+      "sha256": "3e6374c686ac01749fcf919bfae089c3e41737670cd1c7cf1895c9f366fea3cc"
+    },
+    {
+      "row": "363",
+      "path": "/Volumes/backups/llm-as-database/gap-session-5-summary_gap-schedule-v2.md",
+      "bytes": 19671,
+      "sha256": "ac6c59b04c33b01adf6c26236035f4c203b5a17f4bf48e95ce0954ba2ced8ce3"
+    },
+    {
+      "row": "364",
+      "path": "/Volumes/backups/llm-as-database/gap-session-5-summary_gap-schedule-v3.md",
+      "bytes": 7155,
+      "sha256": "220e40bab9ea8fe895da7ecd85d16d1808cea2929f05f74f9a1f4b446619ce4e"
+    },
+    {
+      "row": "365",
+      "path": "/Volumes/backups/llm-as-database/gap-session-6-summary_gap-schedule-v1.md",
+      "bytes": 18621,
+      "sha256": "b53bcb31a5c3c954a3f13aac0471ca7fbce2475ccb03ca96e99f75b4dde236dd"
+    },
+    {
+      "row": "366",
+      "path": "/Volumes/backups/llm-as-database/gap-session-6-summary_gap-schedule-v2.md",
+      "bytes": 15200,
+      "sha256": "c7665b701a384becaa794d011054e00d9befccdab0cd62f21bce036793e5b22e"
+    },
+    {
+      "row": "367",
+      "path": "/Volumes/backups/llm-as-database/gap-session-6-summary_gap-schedule-v3.md",
+      "bytes": 7652,
+      "sha256": "cfa1551231ea1bd08d33cf00b768cb5fe0a9c8a60049109edc3adc4179d89f35"
+    },
+    {
+      "row": "368",
+      "path": "/Volumes/backups/llm-as-database/gap-session-7-summary_gap-schedule-v2.md",
+      "bytes": 22031,
+      "sha256": "1375c4724ba11b666de93b4bf9ca32e6d262e4f5779db8553dd94241b214ad10"
+    },
+    {
+      "row": "369",
+      "path": "/Volumes/backups/llm-as-database/gap-session-7-summary_gap-schedule-v3.md",
+      "bytes": 21156,
+      "sha256": "c16d07b50367debe65219a6f641a6031bcb7bdebed90f7ecdfa361db59aed4ca"
+    },
+    {
+      "row": "370",
+      "path": "/Volumes/backups/llm-as-database/gap-session-8-summary_gap-schedule-v2.md",
+      "bytes": 23278,
+      "sha256": "0d927eda5aa3384b2abd20e183549c2917ddf1064f5d96c11d42f60f2c8551b3"
+    },
+    {
+      "row": "371",
+      "path": "/Volumes/backups/llm-as-database/gap-session-8-summary_gap-schedule-v3.md",
+      "bytes": 26797,
+      "sha256": "c0b57ff8724389688f0e951b82c987f4502c03e9802c355da0166f42e913e572"
+    },
+    {
+      "row": "372",
+      "path": "/Volumes/backups/llm-as-database/gap-session-9-summary_gap-schedule-v2.md",
+      "bytes": 17138,
+      "sha256": "33cd7053dc620f5a3ebf92b67346976f3d4a39db06d452fc09953d38c773e0fe"
+    },
+    {
+      "row": "373",
+      "path": "/Volumes/backups/llm-as-database/gap-session-9-summary_gap-schedule-v3.md",
+      "bytes": 35802,
+      "sha256": "54434a1317cc952a62b7c1aa3cae22a475950b5c2657f9c2fe7c17a89bf54764"
+    },
+    {
+      "row": "374",
+      "path": "/Volumes/backups/llm-as-database/gap-session-schedule-v1.md",
+      "bytes": 25787,
+      "sha256": "604cb02cc1633f56d75c986377799b0951f43a30181f0d026e45dc95ebc1e668"
+    },
+    {
+      "row": "375",
+      "path": "/Volumes/backups/llm-as-database/gap-session-schedule-v2.md",
+      "bytes": 43164,
+      "sha256": "67b51065faafff0feabf7c166323b753819ade255cb5142538060fd6853aa29e"
+    },
+    {
+      "row": "376",
+      "path": "/Volumes/backups/llm-as-database/gap-session-schedule-v3.md",
+      "bytes": 25825,
+      "sha256": "ffa2bb11af5d55a4c3fb99a09f72ab9b29fd254108a77446bbe9df1aeb60874e"
+    },
+    {
+      "row": "377",
+      "path": "/Volumes/backups/llm-as-database/gap-session-schedule-v4.md",
+      "bytes": 8170,
+      "sha256": "c943c3119c70e7e6b8d02a02e2093edcdcc5ec4982da731bd777fb3226866ed3"
+    },
+    {
+      "row": "378",
+      "path": "/Volumes/backups/llm-as-database/gap-session-starter-prompts-v4.md",
+      "bytes": 57159,
+      "sha256": "050d74bdbd875e5453e1bf708fe7286c80978c46fa52419e0f9914008c8f7afb"
+    },
+    {
+      "row": "379",
+      "path": "/Volumes/backups/llm-as-database/gap-session-starter-prompts.md",
+      "bytes": 77524,
+      "sha256": "e9a507ad64a3a8f46b8c783a62c1b2b3502584a15f82ddd0191601bc54d2c4ad"
+    },
+    {
+      "row": "380",
+      "path": "/Volumes/backups/llm-as-database/graph-data-architect-friction-analysis.md",
+      "bytes": 25963,
+      "sha256": "3fa2679306c5ffaf93072d1857b14115de9bbe44671b2159c6b360565ae38375"
+    },
+    {
+      "row": "381",
+      "path": "/Volumes/backups/llm-as-database/graph-data-architect.md",
+      "bytes": 18080,
+      "sha256": "19084338145c575b41056a811cec1479b4ae8acfa9eca91e47abbae3ac948ab3"
+    },
+    {
+      "row": "382",
+      "path": "/Volumes/backups/llm-as-database/graph-data-architect.skill",
+      "bytes": 6434,
+      "sha256": "f915da250a082f1408d923c7d82aa1e3d1e72a9c6eefaabae1183be5d990a8f5"
+    },
+    {
+      "row": "383",
+      "path": "/Volumes/backups/llm-as-database/interface-contracts-ic-review-v1.md",
+      "bytes": 71664,
+      "sha256": "d13a6b64d14d2d6fb743efb5e54c75f55c06620c30e77f1ae9b2828be6dc0cbd"
+    },
+    {
+      "row": "384",
+      "path": "/Volumes/backups/llm-as-database/judge-calib-proto-1.md",
+      "bytes": 56518,
+      "sha256": "73ffd8315aa8754190695cef8a047e16c03751eda59a01ce379112ba2e435e66"
+    },
+    {
+      "row": "385",
+      "path": "/Volumes/backups/llm-as-database/kaggle-canonical-notebook.md",
+      "bytes": 18077,
+      "sha256": "74cc7e6c6b6992153fda3559f78b0ade22729a31955a6750de8afe3203163732"
+    },
+    {
+      "row": "386",
+      "path": "/Volumes/backups/llm-as-database/llm-as-database-agent-harness-framework.md",
+      "bytes": 47543,
+      "sha256": "c1e3fc506a040d00d394599cac46071cd20e994be8370dc41557ec0cf9f58264"
+    },
+    {
+      "row": "387",
+      "path": "/Volumes/backups/llm-as-database/llm-as-database-v1.0-integrated-spec.md",
+      "bytes": 79169,
+      "sha256": "43d4139bc17ca8a0ed0f89ae95f3b426f719d0c4bb1a5e2893a814dacf858506"
+    },
+    {
+      "row": "388",
+      "path": "/Volumes/backups/llm-as-database/llm-as-database-v1_1-integrated-spec.md",
+      "bytes": 98408,
+      "sha256": "39275aee014a9ec36540bdf09a58a3ee6e03961efae6c82d002e6722222b9d53"
+    },
+    {
+      "row": "389",
+      "path": "/Volumes/backups/llm-as-database/llm-as-database-v1_2-integrated-spec.md",
+      "bytes": 240518,
+      "sha256": "eefffb99d92b07a2ce21f47d5f4a1e92499bd942ba21fdf582d3076ff2b22773"
+    },
+    {
+      "row": "390",
+      "path": "/Volumes/backups/llm-as-database/llm-harness-memory-framework-gemini-chat.md",
+      "bytes": 161136,
+      "sha256": "1281aea3a6d9eff7c43fbe25cb7124ee595435b1d88e041340f89a3df2400579"
+    },
+    {
+      "row": "391",
+      "path": "/Volumes/backups/llm-as-database/llm-memory-layer.md",
+      "bytes": 11083,
+      "sha256": "1fbcc36ba6192484542a2557d64f8f109fc65dd3bb4a55eb8457137165f897e2"
+    },
+    {
+      "row": "392",
+      "path": "/Volumes/backups/llm-as-database/memit-compat-proto-1.md",
+      "bytes": 17291,
+      "sha256": "48037d7221003636b0bb3517bde9701cabc02a87ff8c93e0f697b1eb5a2a8cd3"
+    },
+    {
+      "row": "393",
+      "path": "/Volumes/backups/llm-as-database/memit-llama-deep-research-distillation.md",
+      "bytes": 12529,
+      "sha256": "f68bc71dabf4e8a910c8459cd1a71e280082ddc74bbd49132204c94535cf23f8"
+    },
+    {
+      "row": "394",
+      "path": "/Volumes/backups/llm-as-database/memit-patches-canonical-2.md",
+      "bytes": 107437,
+      "sha256": "c4570eff517727a0b4bd0bb9731e7926594a516844b0041f1bea0bd1c514fefc"
+    },
+    {
+      "row": "395",
+      "path": "/Volumes/backups/llm-as-database/memit-patches-canonical-v2.4.md",
+      "bytes": 70720,
+      "sha256": "27186a958824a41680dccea2a5513f4f625c630fdbb7d23bb2cac5b78dfb98ef"
+    },
+    {
+      "row": "396",
+      "path": "/Volumes/backups/llm-as-database/memit-patches-canonical_v1.md",
+      "bytes": 53997,
+      "sha256": "d2cc72873e02a3370c24af9016aa249f5eaf354d4882d311ad0fcbc5102f7a9e"
+    },
+    {
+      "row": "397",
+      "path": "/Volumes/backups/llm-as-database/memit-specialist-friction-analysis.md",
+      "bytes": 28874,
+      "sha256": "7e50edeecedb3e913ab2b830902621974097eb522d8c72dfe7ee76f7d3070e0b"
+    },
+    {
+      "row": "398",
+      "path": "/Volumes/backups/llm-as-database/memit-specialist-spec-design.md",
+      "bytes": 7011,
+      "sha256": "c34756207752c8dc97a634e3fb7c1d0be338fb2bc235d242a59688518750a4b4"
+    },
+    {
+      "row": "399",
+      "path": "/Volumes/backups/llm-as-database/memit-specialist.md",
+      "bytes": 12278,
+      "sha256": "c656e1e3fe4d65266a79860f7d626c6bd15b46e4ba1f75dcfc1b942173d2adec"
+    },
+    {
+      "row": "400",
+      "path": "/Volumes/backups/llm-as-database/memit-specialist.skill.md",
+      "bytes": 5515,
+      "sha256": "2b2d56c749eb088b17e4b6206fff1556cceeea924b5290ac1d2aa07369777d23"
+    },
+    {
+      "row": "401",
+      "path": "/Volumes/backups/llm-as-database/ontological-schema-llm-databse-agent-framework.md",
+      "bytes": 6883,
+      "sha256": "48e37f393fc1e5250a532205c593e54c8b0bd166f4631e834b60433aa8064a4d"
+    },
+    {
+      "row": "402",
+      "path": "/Volumes/backups/llm-as-database/oq-backlog-v3.md",
+      "bytes": 33959,
+      "sha256": "92841da0c0e29427bbeb2222c3284f8c30a025d9c071f8d7baf4c203905e833d"
+    },
+    {
+      "row": "403",
+      "path": "/Volumes/backups/llm-as-database/oq-s23-backlog-v2.md",
+      "bytes": 24372,
+      "sha256": "deac5a1267dd8e3c8da800dd3c68b7e230862f6131a53cc646d26b53a101a9e2"
+    },
+    {
+      "row": "404",
+      "path": "/Volumes/backups/llm-as-database/oq-s23-backlog.md",
+      "bytes": 15998,
+      "sha256": "bee4f751273325e2779bea2b76eb26ab8d6095cc1c8a097442d67445ef922637"
+    },
+    {
+      "row": "405",
+      "path": "/Volumes/backups/llm-as-database/orchestration-comparativist-friction-analysis.md",
+      "bytes": 25399,
+      "sha256": "16be3d6234dcc3b282ce7b98fc173caa9bedfb37a83417a5b44958d1c7e6bc28"
+    },
+    {
+      "row": "406",
+      "path": "/Volumes/backups/llm-as-database/orchestration-comparativist.md",
+      "bytes": 30628,
+      "sha256": "9e7a4cb22767ce2972b0cdeae816465d01fb6577c70b2da1b71fc3a6bf814c09"
+    },
+    {
+      "row": "407",
+      "path": "/Volumes/backups/llm-as-database/orchestration-comparativist.skill",
+      "bytes": 9364,
+      "sha256": "4b7a4ada1faf31702932fd46cc65c7939b302542f418d3f5b3dbe26a23a26934"
+    },
+    {
+      "row": "408",
+      "path": "/Volumes/backups/llm-as-database/orchestration-tools-requirements-matrix.md",
+      "bytes": 10294,
+      "sha256": "bd7f7a45e7420a4f80ef3f48e0e740e500994cb76fc332134f7370998f9849ca"
+    },
+    {
+      "row": "409",
+      "path": "/Volumes/backups/llm-as-database/poc-execution-plan-and-spec-revision-rule (1).md",
+      "bytes": 58824,
+      "sha256": "58a5fd7bb0ff53492ba9b4fb64b6b7e990d3921bee76e2f195e1d58235d7a336"
+    },
+    {
+      "row": "410",
+      "path": "/Volumes/backups/llm-as-database/poc-execution-plan-and-spec-revision-rule.md",
+      "bytes": 58824,
+      "sha256": "58a5fd7bb0ff53492ba9b4fb64b6b7e990d3921bee76e2f195e1d58235d7a336"
+    },
+    {
+      "row": "411",
+      "path": "/Volumes/backups/llm-as-database/pre_s2_6_fork_work_runbook.md",
+      "bytes": 76583,
+      "sha256": "e34b744c52b53fde0a8b5bb2e209c98672f4e907d11997b4c2da5b159677d643"
+    },
+    {
+      "row": "412",
+      "path": "/Volumes/backups/llm-as-database/pre_s2_6_fork_work_summary_block.md",
+      "bytes": 23475,
+      "sha256": "1c07d7d5d0157d8fc31a54e6032ee9ad14ba41836ee2ff2ad7b0c9bb5335de64"
+    },
+    {
+      "row": "413",
+      "path": "/Volumes/backups/llm-as-database/probe-set-v1.1.yaml",
+      "bytes": 34234,
+      "sha256": "9081491c1516f94a905faa08df0928d77b8d128ba0e237bc6b66fb43df08d20a"
+    },
+    {
+      "row": "414",
+      "path": "/Volumes/backups/llm-as-database/project-system-prompt-revised.md",
+      "bytes": 7207,
+      "sha256": "96f9ddcbd249ac1e4240a01917eb72977a7c9aa0d51321006be0e449b51f6736"
+    },
+    {
+      "row": "415",
+      "path": "/Volumes/backups/llm-as-database/reproducibility_manifest.json",
+      "bytes": 22843,
+      "sha256": "73530c8d30a01152ce8b90fb28fc4167a05d2cddc7bc659a134593764f205c78"
+    },
+    {
+      "row": "416",
+      "path": "/Volumes/backups/llm-as-database/s2_5b_artifact_checksums.txt",
+      "bytes": 1710,
+      "sha256": "9e19155ce1bbe3fa1ab5bd36128b8a984b4fdc0d6ea6778121c883a9ddc8036d"
+    },
+    {
+      "row": "417",
+      "path": "/Volumes/backups/llm-as-database/session-2.0-entry-note.md",
+      "bytes": 3826,
+      "sha256": "2b556f467bd53c56a5da500a96a77913745a57db93c77c103ba8605ae3f2ec84"
+    },
+    {
+      "row": "418",
+      "path": "/Volumes/backups/llm-as-database/session-2.0-prompt.md",
+      "bytes": 7829,
+      "sha256": "f6b442a3fdb6735c3bb80153a2ed74190a4542ae355f6ccbc7a81268dca1056c"
+    },
+    {
+      "row": "419",
+      "path": "/Volumes/backups/llm-as-database/session-2.1-entry-note.md",
+      "bytes": 6076,
+      "sha256": "beee6482698abc94c95b87dd50d51e21592b40e8fe9d120f4fdf313f387fee60"
+    },
+    {
+      "row": "420",
+      "path": "/Volumes/backups/llm-as-database/session-2.1-prompt.md",
+      "bytes": 12600,
+      "sha256": "9812406296b01405c7cdb7d677502852ebf519bc705af1bba204c7136ce95615"
+    },
+    {
+      "row": "421",
+      "path": "/Volumes/backups/llm-as-database/session-2.2-entry-note.md",
+      "bytes": 7126,
+      "sha256": "9c7f155bd2a6faae36ff7f4705d22a2ed0ffac7069dae28ed9d2ded440b2b6de"
+    },
+    {
+      "row": "422",
+      "path": "/Volumes/backups/llm-as-database/session-2.2-prompt.md",
+      "bytes": 15141,
+      "sha256": "fde1e12fd6ea09fe9bb5cdcc89486019c0b84fa1335bae3ca90e5bdbf82d73e6"
+    },
+    {
+      "row": "423",
+      "path": "/Volumes/backups/llm-as-database/session-2_2-runbook-deltas.md",
+      "bytes": 15669,
+      "sha256": "89e4e356a8c637336457961e3e25c21c2a48d1042dd02e5b3e26f17da90b604e"
+    },
+    {
+      "row": "424",
+      "path": "/Volumes/backups/llm-as-database/session-2_2-summary-block.md",
+      "bytes": 14082,
+      "sha256": "c41b09215a22681760a24384e0182f66abce47ab2f0baa18fd8a6bd0538ec11e"
+    },
+    {
+      "row": "425",
+      "path": "/Volumes/backups/llm-as-database/session-2_3-partial-summary.md",
+      "bytes": 12437,
+      "sha256": "521cfb9fc4fb2131e2a2a0b5ee5a700c3bdadf1ea7a8ef978f7887b26f3d5f39"
+    },
+    {
+      "row": "426",
+      "path": "/Volumes/backups/llm-as-database/session-2_3-resume-prompt.md",
+      "bytes": 24171,
+      "sha256": "a9ea8a1cac786c473f28ad4c83411c25b3920c5c75e84af784be60efde52e951"
+    },
+    {
+      "row": "427",
+      "path": "/Volumes/backups/llm-as-database/session-2_3-to-2_4.md",
+      "bytes": 6071,
+      "sha256": "0e7b7ce71362c2d2f74511b3d099aed4b708f324acbe0d8e7d895505d2fccde2"
+    },
+    {
+      "row": "428",
+      "path": "/Volumes/backups/llm-as-database/session-2_4-starter-prompt.md",
+      "bytes": 17643,
+      "sha256": "cf33d9eb1792eec489d886767c3408e0c51069ff87b1b5cda2dc78343e7da447"
+    },
+    {
+      "row": "429",
+      "path": "/Volumes/backups/llm-as-database/session_2_3_summary_block.md",
+      "bytes": 12150,
+      "sha256": "3b253b0aa5c2861de7207bc89dfe2291c060501148dac7880d54e99ae5345ce0"
+    },
+    {
+      "row": "430",
+      "path": "/Volumes/backups/llm-as-database/session_2_4_summary_block.md",
+      "bytes": 17530,
+      "sha256": "bb286e02bff02a549c9afbd3afd1d0356fd3b5b59d01151a87dc54a74812d042"
+    },
+    {
+      "row": "431",
+      "path": "/Volumes/backups/llm-as-database/session_2_5_summary_block.md",
+      "bytes": 26907,
+      "sha256": "aaee68bbe5eb6ee0e5a3b114f197e1971b78ed2e1ad9006258464ea35eeca16e"
+    },
+    {
+      "row": "432",
+      "path": "/Volumes/backups/llm-as-database/session_2_5b_starter_package.md",
+      "bytes": 23929,
+      "sha256": "67d619b7c9cdb6bc8ae2f07c68d26fca439f6eda0f527f0a36750c038d33bd26"
+    },
+    {
+      "row": "433",
+      "path": "/Volumes/backups/llm-as-database/session_2_5b_step_4_0_summary.md",
+      "bytes": 30908,
+      "sha256": "f0911e2965b6f131093920646416aaa5b4b3f7ecb8e97e7b7ee240676630a93c"
+    },
+    {
+      "row": "434",
+      "path": "/Volumes/backups/llm-as-database/session_2_5b_step_4_1_summary.md",
+      "bytes": 7594,
+      "sha256": "20277367a15b3e85d5c0497c446e895343a6774715805d818d25c11c13bfb266"
+    },
+    {
+      "row": "435",
+      "path": "/Volumes/backups/llm-as-database/session_2_5b_step_4_2_summary.md",
+      "bytes": 8036,
+      "sha256": "cf35380aa08bea790eba6b4f2a3b5b9d508dc8bb2308410568af040bf5b01a0b"
+    },
+    {
+      "row": "436",
+      "path": "/Volumes/backups/llm-as-database/session_2_5b_step_4_3_operator_runbook.md",
+      "bytes": 27055,
+      "sha256": "b02e0814f667fb27f94a61d76826a36b751673f68ec7a881b13e45b8517b0107"
+    },
+    {
+      "row": "437",
+      "path": "/Volumes/backups/llm-as-database/session_2_5b_step_4_3_summary.md",
+      "bytes": 8081,
+      "sha256": "ae6b8f7ccceb730bf7109051c15ba12626a05e3641420554e1e39bf5611af55d"
+    },
+    {
+      "row": "438",
+      "path": "/Volumes/backups/llm-as-database/session_2_5b_step_4_5_summary.md",
+      "bytes": 16869,
+      "sha256": "6b323a657a8e892863cc0d9c4be9d5ead963560ef40c4d084717ac71793547e7"
+    },
+    {
+      "row": "439",
+      "path": "/Volumes/backups/llm-as-database/session_2_5b_step_4_6_summary.md",
+      "bytes": 13272,
+      "sha256": "a80036ac7be09a654647c6ffbdc5c95d365acc6b68fe53e2179bc62a28034415"
+    },
+    {
+      "row": "440",
+      "path": "/Volumes/backups/llm-as-database/session_2_5b_step_4_7_summary.md",
+      "bytes": 20840,
+      "sha256": "38fba332c1ef5ac40d88292914bfbfde9837d12d7baebd8a84d3e87309bf2ffa"
+    },
+    {
+      "row": "441",
+      "path": "/Volumes/backups/llm-as-database/session_2_5b_step_4_8_summary.md",
+      "bytes": 23077,
+      "sha256": "ee04fa902bc5fc32d016c24435b043a92fd0e81c81d5bf6077ab862c11cd8a05"
+    },
+    {
+      "row": "442",
+      "path": "/Volumes/backups/llm-as-database/session_2_6_summary_block.md",
+      "bytes": 35292,
+      "sha256": "5990e7946dfda7204ffdad164026d80138b9f82bc3030db98cd8391721940176"
+    },
+    {
+      "row": "443",
+      "path": "/Volumes/backups/llm-as-database/session_2_7_summary_block.md",
+      "bytes": 15636,
+      "sha256": "a22ff09cd71ad322ee6e607d6fc0cef724ed82000d9e3edf9652320c2e119f37"
+    },
+    {
+      "row": "444",
+      "path": "/Volumes/backups/llm-as-database/skill-design-decisions-adversarial.md",
+      "bytes": 30419,
+      "sha256": "a4e9f19bc45c4c1aa5da7eccfe97d630babbb700813f62cdfe1225b4d63bed1d"
+    },
+    {
+      "row": "445",
+      "path": "/Volumes/backups/llm-as-database/skill-design-decisions.md",
+      "bytes": 7878,
+      "sha256": "49b77f240f6baa715b59f5013376dab4b5e5bf8b15cfbed033532a217778ab09"
+    },
+    {
+      "row": "446",
+      "path": "/Volumes/backups/llm-as-database/skill-friction-log-v1.md",
+      "bytes": 209100,
+      "sha256": "f76ae9a00410e5c6f8776b7f14ff64941ab84c0da3a561e3f71c633365461e7a"
+    },
+    {
+      "row": "447",
+      "path": "/Volumes/backups/llm-as-database/skill-refinement-log-v2.md",
+      "bytes": 19028,
+      "sha256": "12f81e31a22e7d9455e2b44a515de38200b6d1673be06335a8e73e2e9865118b"
+    },
+    {
+      "row": "448",
+      "path": "/Volumes/backups/llm-as-database/skill-refinement-priority-list-v1.md",
+      "bytes": 26140,
+      "sha256": "b74df1c5292ba227c21d87f85d7b4afe568f269b44b0e3f435130b53c46d7272"
+    },
+    {
+      "row": "449",
+      "path": "/Volumes/backups/llm-as-database/smoke_test.py",
+      "bytes": 20513,
+      "sha256": "2c4de88c3f28786cbee4497e88b5251d1756fd6c32a3207b42661c5cc29d9400"
+    },
+    {
+      "row": "450",
+      "path": "/Volumes/backups/llm-as-database/stage_1_compat_assessment.md",
+      "bytes": 24271,
+      "sha256": "f580aa3baf1879796ee1f3b8edc983181223cf73b040860dd5a11aeb98490651"
+    },
+    {
+      "row": "451",
+      "path": "/Volumes/backups/llm-as-database/stage_1_sect_runbook (1).md",
+      "bytes": 112241,
+      "sha256": "5e2954d0d0d81b4acca053a13eb38237fb845b38ff4608438ffddec484601b50"
+    },
+    {
+      "row": "452",
+      "path": "/Volumes/backups/llm-as-database/stage_1_sect_runbook copy.md",
+      "bytes": 104798,
+      "sha256": "a31b0af27d53c875c723b53b67a228050f72b92226a9d3ad6e7d84c642e1dd90"
+    },
+    {
+      "row": "453",
+      "path": "/Volumes/backups/llm-as-database/stage_1_sect_runbook.md",
+      "bytes": 140994,
+      "sha256": "1922c06946943753306e77271dc012a664f3689119d84f1e5565e088e5c996d9"
+    },
+    {
+      "row": "454",
+      "path": "/Volumes/backups/llm-as-database/state-consistency-theorist-SKILL.md",
+      "bytes": 19258,
+      "sha256": "2e51893195ca0bf157a3584e4b3860e7cf41d8626b680162366af3289197a5e8"
+    },
+    {
+      "row": "455",
+      "path": "/Volumes/backups/llm-as-database/state-consistency-theorist-friction-analysis.md",
+      "bytes": 27690,
+      "sha256": "ab79612389ab0a0b6961e8d6afb884f214f39df5c34a7cb1c4d5fd687d377b0b"
+    },
+    {
+      "row": "456",
+      "path": "/Volumes/backups/llm-as-database/state-consistency-theorist.md",
+      "bytes": 25317,
+      "sha256": "5917058b956e9db16b5a90ea09476294ee2a45989645a062618147b62f38c7a3"
+    },
+    {
+      "row": "457",
+      "path": "/Volumes/backups/llm-as-database/syncing-git-vindex-two-phase-commit.md",
+      "bytes": 19297,
+      "sha256": "dbc22bda6a1e1f9975bebf2643d3df5594c7652ee9229dde36ef0a2f90b84985"
+    },
+    {
+      "row": "458",
+      "path": "/Volumes/backups/llm-as-database/tension-map-v1.md",
+      "bytes": 33093,
+      "sha256": "79526f10a44b2264e745abde08a6d3adc10831d70ed149788bd5acf1cbb6541d"
+    },
+    {
+      "row": "459",
+      "path": "/Volumes/backups/llm-as-database/tension-map-v2.md",
+      "bytes": 37383,
+      "sha256": "1de95202c174c4ea57737b7d8257b83edcdaab01a26fbed852070f386e07bc9b"
+    },
+    {
+      "row": "460",
+      "path": "/Volumes/backups/llm-as-database/tension-map-v4.md",
+      "bytes": 28921,
+      "sha256": "5295e0699f328d041bc0bc085f1943778b26e9a6fa5c0475127fe526a7fb3bf6"
+    },
+    {
+      "row": "461",
+      "path": "/Volumes/backups/llm-as-database/tension-map-v5.md",
+      "bytes": 7347,
+      "sha256": "c215b5870be6555013c0c6c5942cb8a75ee70fd8969fe95a6113cbe5aa6858eb"
+    },
+    {
+      "row": "462",
+      "path": "/Volumes/backups/llm-as-database/threat-modeling-write-layer-access-control.md",
+      "bytes": 9945,
+      "sha256": "e32fd81db76f3a00fcdd19d854064a700aa5fc34d94bbc493f8b6f2e580da567"
+    },
+    {
+      "row": "463",
+      "path": "/Volumes/backups/llm-as-database/transcript-session-1-schema.md",
+      "bytes": 68114,
+      "sha256": "10cb8b63940082d378f0c56cf2d173c05696ebf20f6119285a1605957de8891b"
+    },
+    {
+      "row": "464",
+      "path": "/Volumes/backups/llm-as-database/transcript-session-2-engine.md",
+      "bytes": 43782,
+      "sha256": "b5264df198666e0ff095d16739bc814a799cd81b19072dd264160e03b4725458"
+    },
+    {
+      "row": "465",
+      "path": "/Volumes/backups/llm-as-database/transcript-session-3-security.md",
+      "bytes": 39071,
+      "sha256": "1cff75855d57c94ab594381df243f14b9ac4011b583b08bc615a6b72c6a9dfca"
+    },
+    {
+      "row": "466",
+      "path": "/Volumes/backups/llm-as-database/transcript-session-4-validation.md",
+      "bytes": 59399,
+      "sha256": "8015561924167ccafe440625d1084c6cfea104c6678c54ac42d8512b8e23693b"
+    },
+    {
+      "row": "467",
+      "path": "/Volumes/backups/llm-as-database/transcript-session-5-consistency.md",
+      "bytes": 83167,
+      "sha256": "157f2f6633716d7e18f6b7df6a03296e93208a4549041d582e366a9afce3770b"
+    },
+    {
+      "row": "468",
+      "path": "/Volumes/backups/llm-as-database/transcript-session-6-orchestration.md",
+      "bytes": 109548,
+      "sha256": "7cf85aa1b7fea4e362aaea9805bcacef006e7cf011979819bef2e34debb0b55a"
+    },
+    {
+      "row": "469",
+      "path": "/Volumes/backups/llm-as-database/transcript-session-7-council.md",
+      "bytes": 281248,
+      "sha256": "8e130c1f8e03d0fa1c93faad83aa9eceb9513cb5c163d8453820a36b5998d2c4"
+    },
+    {
+      "row": "470",
+      "path": "/Volumes/backups/llm-as-database/v2-spec-synthesis-prompt.md",
+      "bytes": 13458,
+      "sha256": "223adebd7e94056be3dfd73cff92d72f0bab6e10466cbe7cf678ecf6d1f868bd"
+    },
+    {
+      "row": "471",
+      "path": "/Volumes/backups/llm-as-database/validation-architecture-reflexion-loop-design.md",
+      "bytes": 10209,
+      "sha256": "62872fb50bcb4b31841db4e3698575b65d681d9ca29e46ac26c637ebb74cd466"
+    },
+    {
+      "row": "472",
+      "path": "/Volumes/backups/llm-as-database/validation-contract-architect (1).skill",
+      "bytes": 7341,
+      "sha256": "b19e2691c1dae2ed335695e7205d4fc69b0331862b21890d3a41875e87cf4a39"
+    },
+    {
+      "row": "473",
+      "path": "/Volumes/backups/llm-as-database/validation-contract-architect-friction-analysis.md",
+      "bytes": 24787,
+      "sha256": "46f8cdb6eafc1d967d82db4e16467e2f0073124fe724faf0137d6a464acb23f8"
+    },
+    {
+      "row": "474",
+      "path": "/Volumes/backups/llm-as-database/validation-contract-architect.md",
+      "bytes": 21644,
+      "sha256": "f7696bdecb740d11228045c3089618dd3d2348243a7d260ccf6b9e73fcdf4057"
+    },
+    {
+      "row": "475",
+      "path": "/Volumes/backups/llm-as-database/validation-contract-architect.skill",
+      "bytes": 6185,
+      "sha256": "c8c9105a62ad3f2e839cd44ac7d1a1f917582f1240b9e45dac7b486b1d3a5d9d"
+    },
+    {
+      "row": "476",
+      "path": "/Volumes/backups/llm-as-database/workstream-1_5-master-plan (1).md",
+      "bytes": 46171,
+      "sha256": "5bec76c2df6526a5b4352779fa178c8706de9390175610ffbbe073ad5277b57d"
+    },
+    {
+      "row": "477",
+      "path": "/Volumes/backups/llm-as-database/workstream-1_5-master-plan.md",
+      "bytes": 46171,
+      "sha256": "5bec76c2df6526a5b4352779fa178c8706de9390175610ffbbe073ad5277b57d"
+    },
+    {
+      "row": "478",
+      "path": "/Volumes/backups/llm-as-database/write-engine-poc-scope (1).md",
+      "bytes": 12038,
+      "sha256": "8bcc3007996acf18f4f2dc3dd823d72555262cc93183a34131b493368ddd0f97"
+    },
+    {
+      "row": "479",
+      "path": "/Volumes/backups/llm-as-database/write-engine-poc-scope.md",
+      "bytes": 12038,
+      "sha256": "8bcc3007996acf18f4f2dc3dd823d72555262cc93183a34131b493368ddd0f97"
+    },
+    {
+      "row": "480",
+      "path": "/Volumes/backups/llm-as-database/framework-council-skills/aiSecOps-specialist.skill",
+      "bytes": 5423,
+      "sha256": "6e8dffdbb7b1a50438d52860083b5587179974d141b9b51234c7bd5a4d005a8c"
+    },
+    {
+      "row": "481",
+      "path": "/Volumes/backups/llm-as-database/framework-council-skills/framework-council.skill",
+      "bytes": 5411,
+      "sha256": "cf195aced070ebfdf603ad05c712128a1842bfcb600866505b99ab68b1fb5831"
+    },
+    {
+      "row": "482",
+      "path": "/Volumes/backups/llm-as-database/framework-council-skills/framework-spec-project-guide.md",
+      "bytes": 17650,
+      "sha256": "8b6f1b691f8d67c512fdc5f9dfb0aab27bf94422d6b7b4d17704d15b19a1c576"
+    },
+    {
+      "row": "483",
+      "path": "/Volumes/backups/llm-as-database/framework-council-skills/graph-data-architect.skill",
+      "bytes": 4706,
+      "sha256": "e98f46118efc92cb64ac6c8105fd5190a2850ab8bac2554f8fd02b7f4b7ab238"
+    },
+    {
+      "row": "484",
+      "path": "/Volumes/backups/llm-as-database/framework-council-skills/memit-specialist.skill",
+      "bytes": 4579,
+      "sha256": "390f79f062673b7e5fc0a8d0b6177c3248f99b96687f519c92a5ae24e38eced7"
+    },
+    {
+      "row": "485",
+      "path": "/Volumes/backups/llm-as-database/framework-council-skills/orchestration-comparativist.skill",
+      "bytes": 6735,
+      "sha256": "62d0c2688fb0f3c8fde9dd61a9112f4dfa7c94cf0b142e98c76f6d40c8cc2407"
+    },
+    {
+      "row": "486",
+      "path": "/Volumes/backups/llm-as-database/framework-council-skills/state-consistency-theorist.skill",
+      "bytes": 5946,
+      "sha256": "72ea2d36e5e207e1326255ccf1667fe4962b7c07466f6de1d7c44778dcb6981a"
+    },
+    {
+      "row": "487",
+      "path": "/Volumes/backups/llm-as-database/framework-council-skills/validation-contract-architect.skill",
+      "bytes": 6229,
+      "sha256": "b36cf3ef43f902405c28312ced4078475b1ecff02c75b15638e350c5f0240433"
+    },
+    {
+      "row": "488",
+      "path": "/Volumes/backups/_archive_stale_pre_s2_5b/memit-patches-canonical.v2.0_apr26.md",
+      "bytes": 16180,
+      "sha256": "eee529c954c10b1fe0fb3628798b98d6bb349612cf4a81420ef8d5adb1a7d51d"
+    },
+    {
+      "row": "489",
+      "path": "/Volumes/backups/_archive_stale_pre_s2_5b/reproducibility_manifest.v2.0_apr28.json",
+      "bytes": 8195,
+      "sha256": "1b43dc5e202728c1d9afad02dea96996ab57111471b227fbfb681f5dca992a77"
+    },
+    {
+      "row": "490",
+      "path": "/Volumes/backups/_archive_stale_pre_s2_5b/session_2_5b_step_4_3_operator_runbook.duplicate.md",
+      "bytes": 27055,
+      "sha256": "b02e0814f667fb27f94a61d76826a36b751673f68ec7a881b13e45b8517b0107"
+    },
+    {
+      "row": "17851",
+      "path": "/Volumes/backups/agent-deployment-framework/.superpowers/brainstorm/fallback/07-augmentation-models.html",
+      "bytes": 8847,
+      "sha256": "4ebba59aaf7585bfa5278edac8fa362dfd48ea3c3045a7b8e57df605a7e08c1a"
+    },
+    {
+      "row": "17852",
+      "path": "/Volumes/backups/agent-deployment-framework/.superpowers/brainstorm/fallback/08-v1-approaches.html",
+      "bytes": 8464,
+      "sha256": "1a5da6fd3a18fe73fb09ee58cc17c372f902a306c962040d1f3d14991ac254df"
+    },
+    {
+      "row": "17853",
+      "path": "/Volumes/backups/agent-deployment-framework/.superpowers/brainstorm/fallback/09-design-architecture.html",
+      "bytes": 9865,
+      "sha256": "53ee8185f3caea8c80795b67dc138e3706ed8076b922bf05b7a73fad4385cecd"
+    },
+    {
+      "row": "17856",
+      "path": "/Volumes/backups/agent-deployment-framework/.superpowers/brainstorm/fallback/12-visual-mindmap-infographic.html",
+      "bytes": 19537,
+      "sha256": "3e30359ae5bdf81d1addd6164b61fe0b0f0163b9974123d7744bfb522bf813ff"
+    },
+    {
+      "row": "17857",
+      "path": "/Volumes/backups/agent-deployment-framework/.superpowers/brainstorm/fallback/index.html",
+      "bytes": 14800,
+      "sha256": "482df554e62904c5017fd94c13d9b9e642de62dffa2bdb78e0b333d4757f8fdc"
+    }
+  ],
+  "exact_locations": [
+    {
+      "row": "54",
+      "commit": "f459b3a21b996149287b20a6b4ad111763e5fc8f",
+      "path": "research_and_specs/ConnectedPapers-for-AlphaEdit%3A-Null%20Space-Constrained-Knowledge-Editing-for-Language-Models.bib",
+      "blob": "1f0928070f6e39cbc6b62dc0fd712cd62c1f8dfa"
+    },
+    {
+      "row": "57",
+      "commit": "f459b3a21b996149287b20a6b4ad111763e5fc8f",
+      "path": "research_and_specs/ConnectedPapers-for-Connected-Papers-%7C-Find-and-explore-academic-papers (1).bib",
+      "blob": "27f437e60895784b123cb42fb4ea4d9a85880a3a"
+    },
+    {
+      "row": "58",
+      "commit": "f459b3a21b996149287b20a6b4ad111763e5fc8f",
+      "path": "research_and_specs/ConnectedPapers-for-Connected-Papers-%7C-Find-and-explore-academic-papers.bib",
+      "blob": "1f898be1e8d9fd9a15ab3dbc5e98809510f8b842"
+    },
+    {
+      "row": "60",
+      "commit": "f459b3a21b996149287b20a6b4ad111763e5fc8f",
+      "path": "research_and_specs/ConnectedPapers-for-Decoupled-Mixture%20of%20Experts-for-Parametric-Knowledge-Injection.bib",
+      "blob": "676c16fbac174c6f1d28b73aeaa864c2279403d8"
+    },
+    {
+      "row": "61",
+      "commit": "f459b3a21b996149287b20a6b4ad111763e5fc8f",
+      "path": "research_and_specs/ConnectedPapers-for-Lightweight-LLM-Agent-Memory-with-Small-Language-Models.bib",
+      "blob": "6b5e122f80171012cb15a1ec70ed4f08d74c170a"
+    },
+    {
+      "row": "62",
+      "commit": "f459b3a21b996149287b20a6b4ad111763e5fc8f",
+      "path": "research_and_specs/ConnectedPapers-for-MEMOIR%3A-Lifelong-Model-Editing-with-Minimal-Overwrite-and-Informed-Retention-for-LLMs.bib",
+      "blob": "c8075c6d40dc61fde54fa064133aad24aba28c2a"
+    },
+    {
+      "row": "63",
+      "commit": "f459b3a21b996149287b20a6b4ad111763e5fc8f",
+      "path": "research_and_specs/ConnectedPapers-for-MEMORYLLM%3A-Towards-Self%20Updatable-Large-Language-Models.bib",
+      "blob": "dd8e0443032364db5b19db08a8507b31d7cb9b1b"
+    },
+    {
+      "row": "59",
+      "commit": "47425909b50317e0bb04841be9cda972bb93eb01",
+      "path": "research_and_specs/ConnectedPapers-for-Connected-Papers-%7C-anyedit-paper-2.bib",
+      "blob": "e4160eb6ccd7e3e6aae1037476016e5f082524b6"
+    },
+    {
+      "row": "122",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "configs/hparams/cfb-v4-highAKD.yaml",
+      "blob": "53d93d2c57d44e2c55491848d5357545c0befdf4"
+    },
+    {
+      "row": "123",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "configs/hparams/cfb-v4-highAKD-v0_1-draft.yaml",
+      "blob": "65bc5bb9e147ccacb132b515d98883e219629b15"
+    },
+    {
+      "row": "147",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/framework_findings/framework_finding_memit_ceiling_archival_v1_1.md",
+      "blob": "8ad3d99407f5ef372f6bb9ae2ccc1ff88e5c7f73"
+    },
+    {
+      "row": "148",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/framework_findings/framework_finding_memit_ceiling_archival_v1_1.md",
+      "blob": "8ad3d99407f5ef372f6bb9ae2ccc1ff88e5c7f73"
+    },
+    {
+      "row": "152",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/grace-patches-canonical.md",
+      "blob": "9c486ca1b855a920140ccd83122472d0acebf867"
+    },
+    {
+      "row": "153",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/grace-patches-canonical-v0_2.md",
+      "blob": "8987ca9ef94018adec41784501e692c411d29200"
+    },
+    {
+      "row": "154",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/grace-patches-canonical.md",
+      "blob": "9c486ca1b855a920140ccd83122472d0acebf867"
+    },
+    {
+      "row": "219",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/rome-patches-canonical.md",
+      "blob": "0fae62761a6df3f72da932f75ca73b586475c8d9"
+    },
+    {
+      "row": "274",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/runbooks/stage_1_sect_runbook_v1_7.md",
+      "blob": "46a34ea514346e0b8e0dfc9353bc5307576c88bc"
+    },
+    {
+      "row": "294",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/runbooks/t1_alt_model_3b_memit_akd_runbook_v0_1.md",
+      "blob": "bf66e94a30b0948d2570cb81c209a9634ffc993e"
+    },
+    {
+      "row": "296",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/runbooks/t1_alt_model_3b_memit_runbook_v0_1.md",
+      "blob": "6a6126d567f767f0b6a31533ac4e3e1170ddd126"
+    },
+    {
+      "row": "297",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/runbooks/t1_band_4_8_runbook_v0_1.md",
+      "blob": "8b81f7f509a934ffcee81de94a8f7f0a225aa77a"
+    },
+    {
+      "row": "298",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/runbooks/t2_grace_runbook.md",
+      "blob": "9398934c1f4f3311fb2dcf2f54dba2549506f620"
+    },
+    {
+      "row": "299",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/runbooks/t2_grace_runbook-v0_2.md",
+      "blob": "7692850348491e66ac618e313ae2bc5b03fffc1d"
+    },
+    {
+      "row": "300",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/runbooks/t2_grace_runbook.md",
+      "blob": "9398934c1f4f3311fb2dcf2f54dba2549506f620"
+    },
+    {
+      "row": "301",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/runbooks/t2_rome_runbook.md",
+      "blob": "ff4a4e7e0fb194917443f5129e628e80c23feb86"
+    },
+    {
+      "row": "302",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/runbooks/t2_rome_runbook.md",
+      "blob": "ff4a4e7e0fb194917443f5129e628e80c23feb86"
+    },
+    {
+      "row": "304",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/runbooks/t3_mistral_7b_memit_runbook_v0_1.md",
+      "blob": "7faa522b6f97d0bab7e3ce5aaa44fc8480300d59"
+    },
+    {
+      "row": "305",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/runbooks/t3_qwen_7b_memit_runbook_v0_1.md",
+      "blob": "56be000640c02b100c28bf897223e1c7653746e5"
+    },
+    {
+      "row": "306",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/t_branch_decision_document_v1_1.md",
+      "blob": "ecdf93675084177f6324f4d86ff8c3a1059c65d5"
+    },
+    {
+      "row": "307",
+      "commit": "627cf848149e42fd54e9b13875ffdbaf8b49f1b6",
+      "path": "docs/t_branch_decision_document_v1_1.md",
+      "blob": "ecdf93675084177f6324f4d86ff8c3a1059c65d5"
+    },
+    {
+      "row": "131",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/cross_architecture_axis_scoping_note.md",
+      "blob": "1a4bda7eafd46e632a5c086471bc648d0d1bdfdb"
+    },
+    {
+      "row": "141",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/framework_findings/framework_finding_memit_ceiling_archival-v1_3.md",
+      "blob": "3b1d194d508b06502c9e08040b15b4f681b4c71a"
+    },
+    {
+      "row": "142",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/framework_findings/framework_finding_memit_ceiling_archival-v1_4.md",
+      "blob": "8f22a4e9e247ceeb1cabd7686a6fecefb839253e"
+    },
+    {
+      "row": "143",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/framework_findings/framework_finding_memit_ceiling_archival-v1_5.md",
+      "blob": "2f4bc16b0d697daa5fda860601984407b7bac07e"
+    },
+    {
+      "row": "144",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/framework_findings/framework_finding_memit_ceiling_archival-v1_6.md",
+      "blob": "d12fed6c594a8a6ad18fec01a68cdf15b5999ac3"
+    },
+    {
+      "row": "145",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/framework_findings/framework_finding_memit_ceiling_archival-v1_6.md",
+      "blob": "d12fed6c594a8a6ad18fec01a68cdf15b5999ac3"
+    },
+    {
+      "row": "149",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/framework_findings/framework_finding_v1_7_consolidated.md",
+      "blob": "fb34c3828b6d53449fc68a46eb3d62d255e2f744"
+    },
+    {
+      "row": "150",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/gemma4_editing_research.md",
+      "blob": "a9da31711abb0baa0a9b05779214531ee9cba0e6"
+    },
+    {
+      "row": "167",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/llm-as-database-v1_2-integrated-spec.md",
+      "blob": "68839eb081baf0beb0f38c6ad6f55eb8098e7c2e"
+    },
+    {
+      "row": "168",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/llm-knowledge-editing-same-entity-locality.md",
+      "blob": "94fd7f447f1473aedca501ab12ccb806c6135545"
+    },
+    {
+      "row": "169",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/llm_editing_survey.md",
+      "blob": "8b58719b360ab4708599230903ca6ae5c39d67ce"
+    },
+    {
+      "row": "176",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/memit-patches-canonical-v2_6.md",
+      "blob": "d633a745f5575cb22eaf456327bab3384aa22b72"
+    },
+    {
+      "row": "177",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/memit-patches-canonical.md",
+      "blob": "40f97c8361618df8db9e6c30f7c174b6818fcf9e"
+    },
+    {
+      "row": "178",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "skills/memit-specialist.skill",
+      "blob": "b77aeda55fa4264086a372f42cb76f1b19ff721f"
+    },
+    {
+      "row": "182",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/molab_feasibility_report.md",
+      "blob": "102ea90320aefd0856bcc7b1a18727d3d102dbac"
+    },
+    {
+      "row": "202",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "configs/hparams/probe-set-v4-highAKD.yaml",
+      "blob": "82c942dc9403c7d56bd1ffaf181c3e57433e012e"
+    },
+    {
+      "row": "247",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/session_summaries/session_2_23_summary_block.md",
+      "blob": "a83fe19510e5cc750db75d03f06782d4f6be155b"
+    },
+    {
+      "row": "248",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/session_summaries/session_2_24_summary_block.md",
+      "blob": "11eb7e5c496759c3d896e211b40134ce7cae5fd5"
+    },
+    {
+      "row": "249",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/session_summaries/session_2_25_summary_block.md",
+      "blob": "df5d5eaea2e28228a50d2da6b8fefefb4a85c27b"
+    },
+    {
+      "row": "252",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/session_summaries/session_2_28_summary_block.md",
+      "blob": "d8e1c854c290171044e68cb80a76d65fac12b50f"
+    },
+    {
+      "row": "253",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/session_summaries/session_2_29_summary_block.md",
+      "blob": "96b7cf972d9a3abddfdc3bb1b0de6256bf2e9641"
+    },
+    {
+      "row": "254",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/session_summaries/session_2_30_summary_block.md",
+      "blob": "aea74d75d2ab4ac82283bf034789c3a333d9668f"
+    },
+    {
+      "row": "255",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/session_summaries/session_2_31_summary_block.md",
+      "blob": "e070b373a2699047c86f805c7d048a5e98fdb340"
+    },
+    {
+      "row": "256",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/session_summaries/session_2_32_summary_block.md",
+      "blob": "bbefc92551758e053bf82c81994159706e9ad1a5"
+    },
+    {
+      "row": "257",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/session_summaries/session_2_34_kickoff.md",
+      "blob": "291de41a792925499d39cb619bbd1c0ad68d3f4b"
+    },
+    {
+      "row": "258",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/session_summaries/session_2_39_kickoff.md",
+      "blob": "c8b9ff99a1cb16b932f3075546d652b4f0886499"
+    },
+    {
+      "row": "267",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/runbooks/Archive/stage_1_sect_runbook_v1_4_old.md",
+      "blob": "baf374715321aa4f550f140a1a5026add61a9538"
+    },
+    {
+      "row": "268",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/runbooks/Archive/stage_1_sect_runbook_v1_4.md",
+      "blob": "fd32b4049319d0ddc6982d3170a3c5b5cf4ee732"
+    },
+    {
+      "row": "269",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/runbooks/stage_1_sect_runbook_v1_5.md",
+      "blob": "dd32f98e415d04be672c85ba88d64472b2ce60ee"
+    },
+    {
+      "row": "270",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/runbooks/stage_1_sect_runbook_v1_5.md",
+      "blob": "dd32f98e415d04be672c85ba88d64472b2ce60ee"
+    },
+    {
+      "row": "284",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/runbooks/stage_2_sweep_design.md",
+      "blob": "2e2a27cde87d626b13b8594b7c24e4453fbd1d22"
+    },
+    {
+      "row": "308",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/t_branch_decision_document_v1_2.md",
+      "blob": "7d8781e3650c47dbd0d5680a82628f3f9a1b49ad"
+    },
+    {
+      "row": "309",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/t_branch_decision_document_v1_3.md",
+      "blob": "01feee48a414be7e5640bcb034c5b6593761f0e8"
+    },
+    {
+      "row": "310",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "docs/t_branch_decision_document_v1_4.md",
+      "blob": "11d41d8b5e83a6a279ace31ba4015469765f4a17"
+    },
+    {
+      "row": "319",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/proposals/GPU_Procurement_for_LLM-as-Database_POC__Cloud_Rental_vs_Apple_Silicon_Analysis.md",
+      "blob": "41fb948a0839659662f0fe04fd1c07d9a15be12d"
+    },
+    {
+      "row": "320",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/proposals/MEMIT_Target_Model_Recommendation__Survey_of_Eleven_Open-Weights_Candidates.md",
+      "blob": "29e1497b658d91e24f1fa1d40f63ed8541b332c1"
+    },
+    {
+      "row": "330",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/capture_delta.py",
+      "blob": "2fd513082ea4c557609a12adf4a05fa29449dcfb"
+    },
+    {
+      "row": "386",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/predecessor_design/llm-as-database-agent-harness-framework.md",
+      "blob": "6610d0d6fcdee0f57a92c522f347eb1e37c4fca7"
+    },
+    {
+      "row": "389",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/llm-as-database-v1_2-integrated-spec.md",
+      "blob": "68839eb081baf0beb0f38c6ad6f55eb8098e7c2e"
+    },
+    {
+      "row": "390",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/predecessor_design/llm-harness-memory-framework-gemini-chat.md",
+      "blob": "a21dd8dfc40ab2deac021c9311e6b53577c5f80b"
+    },
+    {
+      "row": "391",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/predecessor_design/llm-memory-layer.md",
+      "blob": "6c9ccad6fb1231a2dabe021c9c10a9a3da2db28a"
+    },
+    {
+      "row": "393",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/predecessor_design/memit-llama-deep-research-distillation.md",
+      "blob": "4f5f74c8928cc62e711a6fbae1fc04fd9e17925e"
+    },
+    {
+      "row": "394",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/memit_patches_versions/memit-patches-canonical_v2_4_backup_20260501T152648Z.md",
+      "blob": "eec248f1b2b79c76033f379b9c8750641a6d15a0"
+    },
+    {
+      "row": "396",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/_archive_pre_s27/memit-patches-canonical_pre_s27.md",
+      "blob": "66aa0c0e607afef314a589e01f6072bad7cdb11f"
+    },
+    {
+      "row": "400",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "skills/memit-specialist.skill",
+      "blob": "b77aeda55fa4264086a372f42cb76f1b19ff721f"
+    },
+    {
+      "row": "401",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/predecessor_design/ontological-schema-llm-databse-agent-framework.md",
+      "blob": "f5e7b9b756583cb8e69462d7b346ac9a63f22128"
+    },
+    {
+      "row": "402",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/oq-backlog-v3.md",
+      "blob": "f3e88676536efc6127deeb0e22871ea3e9c34a24"
+    },
+    {
+      "row": "408",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/orchestration-tools-requirements-matrix.md",
+      "blob": "d71e22f13cafb884210b8befbe331f0e2b36d6f0"
+    },
+    {
+      "row": "409",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/proposals/poc-execution-plan-and-spec-revision-rule.md",
+      "blob": "b2c69b3fc47f3930a72e67d5675d85d04a11fc73"
+    },
+    {
+      "row": "410",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/proposals/poc-execution-plan-and-spec-revision-rule.md",
+      "blob": "b2c69b3fc47f3930a72e67d5675d85d04a11fc73"
+    },
+    {
+      "row": "411",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/runbooks/Archive/pre_s2_6_fork_work_runbook.md",
+      "blob": "556e75a924ed30d9637b4840c7cfca13e5d51e57"
+    },
+    {
+      "row": "436",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/runbooks/Archive/session_2_5b_step_4_3_operator_runbook.md",
+      "blob": "0182a94f73149bf853b4e1e5ea8cc67f52192f46"
+    },
+    {
+      "row": "449",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/smoke_test.py",
+      "blob": "24f641cab9732db7ebb383d32b35001d49a5fb7a"
+    },
+    {
+      "row": "452",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/_archive_pre_s27/stage_1_sect_runbook_pre_s27.md",
+      "blob": "0fb99c6ba573e53f271a1e8a9b30b0b5500dfd1b"
+    },
+    {
+      "row": "453",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/runbooks/Archive/stage_1_sect_runbook.md",
+      "blob": "288ccaada1d0f679c0fc40d81edca48e890a7f08"
+    },
+    {
+      "row": "457",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/predecessor_design/syncing-git-vindex-two-phase-commit.md",
+      "blob": "7ef5920cd4872e56e32adf57f22260a880247a35"
+    },
+    {
+      "row": "462",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/predecessor_design/threat-modeling-write-layer-access-control.md",
+      "blob": "07b068b85ae7eaa889627ec02979b9f5441230c8"
+    },
+    {
+      "row": "471",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/predecessor_design/validation-architecture-reflexion-loop-design.md",
+      "blob": "ee3d26cc38e95ff08943c6d4e3c9e40bb6977713"
+    },
+    {
+      "row": "476",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/proposals/workstream-1_5-master-plan.md",
+      "blob": "0b305ceed31865753033c55be4cee83cf42d381f"
+    },
+    {
+      "row": "477",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/proposals/workstream-1_5-master-plan.md",
+      "blob": "0b305ceed31865753033c55be4cee83cf42d381f"
+    },
+    {
+      "row": "478",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/proposals/write-engine-poc-scope.md",
+      "blob": "83957496827a4e6e7cfc1c38246a31fc262bb067"
+    },
+    {
+      "row": "479",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "research_and_specs/proposals/write-engine-poc-scope.md",
+      "blob": "83957496827a4e6e7cfc1c38246a31fc262bb067"
+    },
+    {
+      "row": "490",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "architecture_profile/runbooks/Archive/session_2_5b_step_4_3_operator_runbook.md",
+      "blob": "0182a94f73149bf853b4e1e5ea8cc67f52192f46"
+    },
+    {
+      "row": "100",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "skills/aisecops-specialist.skill",
+      "blob": "dc039e9020d814571a0adc46be20fab393d9e445"
+    },
+    {
+      "row": "139",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "skills/framework-council.skill",
+      "blob": "fa25c818e1431e48e48d8fb484e9ce03ddf26fc5"
+    },
+    {
+      "row": "155",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "skills/graph-data-architect.skill",
+      "blob": "0db449b51050d8e0d585606494db45783233ea76"
+    },
+    {
+      "row": "194",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "skills/orchestration-comparativist.skill",
+      "blob": "4a390acc237ac04761ab6bd3db36d04e0d56c33c"
+    },
+    {
+      "row": "288",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "skills/state-consistency-theorist.skill",
+      "blob": "ec4f1b62da909935a5ae49704b2e0173b4c6f9e4"
+    },
+    {
+      "row": "316",
+      "commit": "3c8c1c22f3dd33986fe3d228621acce6e6f05bb9",
+      "path": "skills/validation-contract-architect.skill",
+      "blob": "50415e4cf43e162ddf1c6f5be4613acf48fb2778"
+    },
+    {
+      "row": "179",
+      "commit": "60a051b506a992b33e4359bb076d2d29f33d0ebe",
+      "path": "memit_dry_run/memit/memit/memit_main.py.pre_p7_backup",
+      "blob": "c401ef483081b5f68e4fec908bb7c9b69ca1fbeb"
+    },
+    {
+      "row": "261",
+      "commit": "d0b4fb0fb43192ac6111039b4a374a2e527e5cc4",
+      "path": ".claude/settings.json.bak.20260621-213827",
+      "blob": "3b017a0149f6bdb6960468dc7be97a2f5d30f178"
+    }
+  ],
+  "positive_control_reverified": true
+}
