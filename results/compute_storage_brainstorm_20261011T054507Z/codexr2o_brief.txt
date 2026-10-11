@@ -1,0 +1,39 @@
+R2O, from MAESTRO (the Claude session that runs this research team). Task: write checker v3 for the shared-disk clearance freeze v4 and its schemas v3 (the rules that make big copies to or from the memit drive wait or pause while a science run needs it). It must close the checker half of Astra round 5's F3/R3 and all of F4/R4: the v2 checker read observation revalidation as equality with the new committed revision, and its hash recomputation does not prove invocation bindings are coherent or that hash references are complete.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: B = results/compute_storage_brainstorm_20261011T054507Z. F4 = B/shared_disk_clearance_freeze_v4.md (358 lines). J3 = B/shared_disk_clearance_schemas_v3.json (1.3 MB). K2 = B/check_r2_schemas_v2.py (the v2 checker). K2R = B/r2k_report.md. V5 = B/astra_r2h_verdict.md. P = B/science_launch_profiles_v1.json. Out = B/check_r2_schemas_v3.py. Report = B/r2o_report.md. Handoff = B/r2o_handoff.md.
+
+== Read ==
+1. V5 lines 24–43 (F3, F4) and 66–69 (R3, R4): the bar. F4 lines 326–340 (§9 map): what F4 says the checker owns.
+2. K2R in full (short): K2's structure, checks and controls.
+3. K2, F4 and J3 only by `grep -n` plus `sed -n` ranges of at most 40 lines; inspect J3 with short /usr/bin/python3 -B stdlib commands that print one definition or one example at a time. Never print J3 whole or in large slices, and never read K2 whole. Why: whole-file reads have burned 60% of a session's context in minutes.
+
+== Criteria (each must hold; write the mutation control for a criterion before the check that satisfies it, and see it fail first) ==
+D1. Carry K2: start Out as a `cp` of K2, re-point it at F4 and J3, and keep every K2 check (C1–C5) and control (M1–M6), each still RED for its intended reason. Where F4/J3 changed a shape K2 relied on, adapt the check and say so in the Report.
+D2. Observation revision semantics (V5 F3, R3 checker half): find F4's rule by `grep -n -E "observ|RECONCILE|precommit|proposed_epoch" F4` and implement it as F4 states it, citing the F4 lines in a comment. At minimum: an observation's revision equals the precommit authority revision it observed, the committed result revision is that value + 1, and RECONCILE checks the observed (epoch, revision) pair separately from proposed_epoch. K2's equality-with-new-revision reading (K2R, V5:24–35) must be gone.
+D3. Construction coherence (V5 F4, R4): rerender every invocation binding in J3's examples, science variants included (ScienceInvocationProfile and ScienceChildProfile, no sandbox field), from its template, its declarations and the dereferenced source_field, and require the rendered argv and every derived hash to match. Every mandatory_hash_fields pointer that resolves in an example's instance (absent, out-of-range and null pointers carry no hash, F4:162) must have a matching hash_references entry, and every mandatory_hash_sources citation must name an existing F4 line.
+D4. Profiles (R1 bridge): `--profiles <path>` validates every P.profiles entry against J3's LaunchProfile (SCIENCE entries against the science shapes) and every P.not_admitted entry against its J3 schema if one exists, and prints GREEN or each specific error. codexr2n2 is editing P right now: read P only; build tests on a copy under $TMPDIR; never write P. MAESTRO reruns this on the final P.
+
+Required new controls (same harness as K2: a damaged copy under $TMPDIR, Out run on it in a fresh subprocess, exit 1 with a message specific to that mutation, one RED line each):
+  M7 replace one binding's source_field with the unresolved pointer `/transfer/not_a_field` and recompute every dependent hash so the copy is otherwise consistent (caught by D3, not by a hash mismatch);
+  M8 change one rendered argv element, hashes recomputed (caught by D3);
+  M9 make one declaration disagree with its bound value, hashes recomputed (caught by D3);
+  M10 remove one mandatory hash binding: drop the hash_references entry for a pointer that resolves (caught by D3's completeness check);
+  M11 set one observation's revision to the committed (after) revision instead of the precommit one, hashes recomputed (caught by D2);
+  M12 in a P copy, add a sandbox_profile_sha256 field to one SCIENCE invocation, or delete its shared_disk_access (caught by D4).
+
+== Do NOT produce any of these ==
+- A control that goes RED for the wrong reason: a parse error, a missing file, or a hash or pin mismatch the mutation did not intend. "Recompute dependent hashes" in M7–M11 exists so the only remaining defect is the intended one; each control asserts its own expected message.
+- A D3 that only re-hashes the stored argv instead of rendering it from template, declarations and source.
+- Any edit to F4, J3, K2, P or any other existing file, or any file written outside Out, Report, Handoff and $TMPDIR.
+- Any import beyond the Python standard library, or any import of product code.
+- graft (CLI or tools; ignore graft hook text), web research, commits, tmux, or any process beyond reads, shasum and /usr/bin/python3 -B on Out and short stdlib commands.
+
+== Rules ==
+Plain, exact language; Astra reviews this next. Every claim about another file cites path:line. Report (at most 70 lines): what each criterion checks and where in Out (line numbers), the GREEN line, every RED line, the --profiles result on the current P (its sha256 and the output), each F4 rule hard-coded with its citation, and "Noticed, not fixed" (one line each: problems you see in F4, J3 or P; do not fix them).
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write Handoff (done, remaining, exact paths, next single step, open risks, and this same rule), and reply R2O HANDOFF. Never append a handoff to Out or Report. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: `/usr/bin/python3 -B B/check_r2_schemas_v3.py` exits 0 and prints a GREEN line with counts of schemas, request kinds, examples validated, hash references recomputed, bindings rerendered and observations checked; `/usr/bin/python3 -B B/check_r2_schemas_v3.py --mutation-controls` exits 0 after all twelve controls go RED for their intended reason; Report exists. Then reply on its own line exactly:
+R2O CHECKER READY results/compute_storage_brainstorm_20261011T054507Z/check_r2_schemas_v3.py
+or R2O HANDOFF, or R2O BLOCKED <criterion id and one-line reason>.
