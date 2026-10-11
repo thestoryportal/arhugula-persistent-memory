@@ -1379,7 +1379,7 @@ def mutation_controls(freeze, schemas, controls=None):
                 bundle['$defs']['ScienceChildProfile']['oneOf'][0]['properties']['role'] = {'$ref': '#/$defs/Role'}
             elif control == 'R4':
                 q = next(q for q in profiles['profiles'] if Path(q['entrypoint']).name == 'c10w_oracle_step0.py' and 'p3-shuf-s0' in q['authorized_payload']['argv'])
-                q['children'] = [ch for ch in q['children'] if not any(isinstance(a, dict) and a.get('$bind') == 'replication_p2_adapter_relative_0' for a in ch['invocation']['argv'])]
+                q['children'] = [ch for ch in q['children'] if ch.get('trace_site') != 'science-replication']
             elif control == 'R6Q':
                 observation = bundle['x-construction']['examples']['QUERYSuccessResponse']['instance']['body']['observation']
                 require(observation['observed_sequence'] == 3, 'QUERY positive control not sequence 3')
@@ -1666,22 +1666,18 @@ def needs_replication(profile):
 
 def required_r4(profiles, bundle):
     for i, p in enumerate(profiles['profiles']):
-        if p['scope'] != 'SCIENCE':
-            continue
+        if p['scope'] != 'SCIENCE':continue
         if needs_replication(p):
-            for index in range(6):
-                name = 'replication_p2_adapter_relative_%d' % index
-                expected = ['ls-files', '--error-unmatch', '--', {'$bind': name}]
-                candidates = [ch for ch in p['children'] if ch['invocation']['executable_path'] == '/usr/bin/git' and ch['invocation']['argv'] == expected]
-                require(len(candidates) == 1, 'R4 P3 replication Git profile missing: profile %d adapter %d' % (i, index))
-                environment = {e['name']: e['value'] for e in candidates[0]['invocation']['environment']}
-                require(environment.get('HF_HUB_OFFLINE') == '1' and 'LLMDB_DEVICE' not in environment, 'R4 replication environment mismatch')
-                require({'name': name, 'source_record': 'ScienceLaunchContextRecord', 'source_field': '/values/' + name} in p['bindings'], 'R4 replication adapter binding missing')
+            candidates=[ch for ch in p['children'] if ch.get('origin')=='SCIENCE' and ch.get('trace_site')=='science-replication']
+            require(len(candidates)==1, 'R4 P3 replication Git profile missing: profile %d operand family' % i)
+            environment={e['name']:e['value'] for e in candidates[0]['invocation']['environment']}
+            require(environment.get('HF_HUB_OFFLINE')=='1' and 'LLMDB_DEVICE' not in environment,'R4 replication environment mismatch')
+            require({'name':'replication_adapter_family','source_record':'ScienceLaunchContextRecord','source_field':'/values/replication_adapter_family'} in p['bindings'],'R4 replication adapter binding missing')
         for ch in p['children']:
             if ch['role']=='ADMISSION_HELPER':
-                require(ch['enrollment']=='PRE_RELEASE_REQUIRED' and ch['registration_authority']=='C:115', 'R9 R1 admission helper requires full pre-release registration')
+                require(ch['enrollment']=='PRE_RELEASE_REQUIRED' and ch['registration_authority']=='C:115','R9 R1 admission helper requires full pre-release registration')
             else:
-                require(ch['enrollment'] == 'DECLARED_AT_ROOT_ADMISSION', 'R4 science child registration is not declared at root admission')
+                require(ch['enrollment']=='DECLARED_AT_ROOT_ADMISSION','R4 science child registration is not declared at root admission')
 
 
 REQUIRED_CHECKS = {'R1': required_r1, 'R2': required_r2, 'R4': required_r4}
@@ -2363,28 +2359,34 @@ def traced_occurrences(p, trace):
     expected=[]
     for site in trace['process_sites']:
         if not r11_site_reachable(site, stages):continue
-        matched=[(n,ch) for n,ch in enumerate(p['children']) if trace_selector(ch['invocation'],site['selector'])]
+        family=site['id'] in (V_SITE,T_SITE)
+        matched=[(n,ch) for n,ch in enumerate(p['children']) if ch.get('trace_site')==site['id'] and trace_selector(ch['invocation'],site['selector'])]
         require(matched,'R10 '+site['id']+' admission recipe missing: '+p['entrypoint'])
-        recipes={canonical(ch['invocation']) for _,ch in matched}
-        require({hashlib.sha256(r.encode()).hexdigest() for r in recipes}==set(application['recipes'][site['id']]), 'R10 recorded admission recipe set mismatch: '+site['id'])
-        for recipe in sorted(recipes):
-            paths=[('/children/%d'%n,ch) for n,ch in matched if canonical(ch['invocation'])==recipe and ch.get('origin')=='ADMISSION']
-            require(len(paths)==1,'R10 '+site['id']+' admission-origin occurrence missing/merged: '+p['entrypoint'])
-            path,ch=paths[0]
+        admission=[(n,ch) for n,ch in matched if ch.get('origin')=='ADMISSION']
+        if family:
+            require(len(admission)==1,'R10 '+site['id']+' admission-origin occurrence missing/merged: '+p['entrypoint'])
+            pass  # Family digests are checked after authority/origin assertions below.
+        else:
+            recipes={canonical(ch['invocation']) for _,ch in matched}
+            require({hashlib.sha256(r.encode()).hexdigest() for r in recipes}==set(application['recipes'][site['id']]), 'R10 recorded admission recipe set mismatch: '+site['id'])
+            for recipe in recipes:
+                require(len([ch for _,ch in admission if canonical(ch['invocation'])==recipe])==1,'R10 '+site['id']+' admission-origin occurrence missing/merged: '+p['entrypoint'])
+        for n,ch in admission:
+            path='/children/%d'%n
             require(ch.get('role')=='ADMISSION_HELPER' and ch.get('registration_authority')=='C:115' and ch.get('enrollment')=='PRE_RELEASE_REQUIRED', 'R10 '+site['id']+' admission-origin carries A1/science authority: '+path)
-            require(ch.get('trace_site')==site['id'], 'R10 occurrence source trace mismatch: '+path)
-            if site['shared_science'] or hashlib.sha256(recipe.encode()).hexdigest() in application['science_recipes'].get(site['id'],[]):
-                science=[c for _,c in matched if canonical(c['invocation'])==recipe and c.get('origin')=='SCIENCE']
-                require(len(science)>=1,'R10 '+site['id']+' origins merged/science occurrence missing')
+            if site['shared_science']:
+                science=[c for _,c in matched if c.get('origin')=='SCIENCE']
+                require(science,'R10 '+site['id']+' origins merged/science occurrence missing')
                 require(all(c['role']=='SCIENCE_CHILD' and c['registration_authority']==A1_AUTHORITY and c['enrollment']=='DECLARED_AT_ROOT_ADMISSION' for c in science), 'R10 shared science occurrence lost A1')
             expected.append(path)
+        if family:
+            require([digest_json(ch) for _,ch in admission]==application.get('operand_families',{}).get(site['id']), 'R10 recorded admission operand family mismatch: '+site['id'])
     require(len(expected)==len(set(expected)),'R10 admission occurrence serves multiple trace sites')
     require(set(expected)=={'/children/%d'%n for n,ch in enumerate(p['children']) if ch.get('origin')=='ADMISSION'}, 'R10 untraced admission occurrence')
     return expected
 
 
 def round10_checks(profiles,bundle,text):
-    round12_checks(profiles,bundle,text)
     round11_checks(profiles,bundle,text)
     trace=(profiles or bundle)['x-construction'].get('admission_trace')
     require(isinstance(trace,dict),'R10 admission transitive trace missing')
@@ -2417,6 +2419,7 @@ def round10_checks(profiles,bundle,text):
                 if ch.get('origin')!='ADMISSION':continue
                 enrollment=profiles['x-construction']['examples'][prefix+'Descendant%d'%n]['instance']
                 require(enrollment['kind']=='ADMISSION_HELPER' and enrollment['registration_authority']=='C:115' and enrollment['enrollment']=='PRE_RELEASE_REQUIRED','R10 admission enrollment carries science authority')
+    round12_checks(profiles,bundle,text)
     print('GREEN D13 trace: %d recorded queries, %d admission-origin occurrences derived; recorded queries only, no complete call graph or native proof'%(len(queries),count))
 
 
@@ -2561,21 +2564,20 @@ def r11_exclusion(trace):
 
 
 def r11_reachability(profiles,bundle):
-    trace=(profiles or bundle)['x-construction']['admission_trace'];first,count=r11_source_domain()
+    trace=(profiles or bundle)['x-construction']['admission_trace'];first,_=r11_source_domain()
     owners=profiles['profiles'] if profiles else [e['instance'] for e in bundle['x-construction']['examples'].values() if e['schema_name']=='LaunchProfile' and e['instance']['scope']=='SCIENCE']
     for p in owners:
         roots=admission_roots(p,trace)
         if not roots:continue
         stages={inv['argv'][-1] for _,inv in roots}
         if stages=={first}:continue
-        for index in range(count):
-            candidates=[ch for ch in p['children'] if ch['invocation']['executable_path']=='/usr/bin/git' and
-                        ch['invocation']['argv']==['ls-files','--error-unmatch','--',{'$bind':'p2_adapter_relative_%d'%index}] and ch.get('origin')=='ADMISSION']
-            require(len(candidates)==1, 'R11 reachable admission occurrence missing: verifier-descendant Git, '+','.join(sorted(stages))+', adapter %d'%index)
-            # Origin authority is checked by the preserved R10 production/control path.
+        candidates=[ch for ch in p['children'] if ch.get('origin')=='ADMISSION' and ch.get('trace_site')==V_SITE]
+        require(len(candidates)==1, 'R11 reachable admission occurrence missing: verifier-descendant Git, '+','.join(sorted(stages)))
         application=next(a for a in trace['applications'] if a['entrypoint']==p['entrypoint'] and a['payload_argv']==p['authorized_payload']['argv'])
-        expected={'verifier-p3'} | ({'gate-phase-trains'} if 'p2-eval' in stages else set())
-        require(set(application.get('routes',{}).get('git-ls-files',[]))==expected,'R11 reachable admission route coverage missing')
+        require(application.get('routes',{}).get(V_SITE)==['verifier-p3'],'R11 reachable admission route coverage missing')
+        if 'p2-eval' in stages:
+            require(application.get('routes',{}).get(T_SITE)==['gate-phase-trains'],'R11 reachable admission route coverage missing')
+            require(len([ch for ch in p['children'] if ch.get('origin')=='ADMISSION' and ch.get('trace_site')==T_SITE])==1,'R11 reachable admission route coverage missing')
         require(p.get('composition_refusal','').startswith(ADMISSION_REASON),'R11 composition refusal missing')
 
 
@@ -2583,7 +2585,7 @@ def round11_checks(profiles,bundle,text):
     trace=(profiles or bundle)['x-construction']['admission_trace']
     r11_selectors(trace);r11_exclusion(trace);r11_reachability(profiles,bundle)
     site=next(s for s in trace['process_sites'] if s['id']=='git-ls-files')
-    routes={r['id']:r for r in site.get('routes',[])}
+    routes={r['id']:r for source in (site,r12_site(trace,T_SITE)) for r in source.get('routes',[])}
     require(set(routes)=={'verifier-p3','gate-phase-trains'},'R11 Git routes missing')
     expected=['tools/c10w_p2_gate.py:101,104–105','experiments/track_c/c10w_oracle_train.py:51–66',
               'experiments/track_c/c10w_oracle_read.py:588,531–539,538,542,550,139–140,133']
@@ -2647,6 +2649,56 @@ def r12_site(trace, name):
     matches = [s for s in trace['process_sites'] if s['id'] == name]
     require(len(matches) == 1, 'R12 process site missing/duplicate: ' + name)
     return matches[0]
+
+
+# Inserted into K9: exact metadata expected from pinned pre-spawn source.
+def r12_metadata():
+    gate='tools/c10w_p2_gate.py'; train='experiments/track_c/c10w_oracle_train.py'
+    step='experiments/track_c/c10w_oracle_step0.py'; shell='tools/run_c10w_p2_stage.sh'
+    dispatch='tools/run_c10w_stage.sh'; read=READER_SOURCE
+    def pins(path,*lines):return [r12_pin(path,n) for n in lines]
+    def constant(maximum,path,*lines):return {'kind':'pinned_constant','maximum':maximum,'enforcing_lines':pins(path,*lines)}
+    def literal(path,*lines):return {'kind':'pinned_literal','enforcing_lines':pins(path,*lines)}
+    def loaded(record,field,path,lines,constraints):
+        return {'kind':'loaded_data','record':record,'field':field,'read_lines':pins(path,*lines),'pre_spawn_constraints':constraints}
+    vcount={'kind':'loaded_data','record':'latest_directory("p2")/eval.json','field':'train_records','selection_lines':pins(read,543,549)}
+    vsource=loaded('latest_directory("p2")/eval.json','train_records[*].adapter.path',read,(543,549,550),pins(read,70,71,72,73,74,132,133,525,526,527,528,550))
+    tsource=loaded('train/<tag>_{400,800}.json (last existing file)','adapter.path',read,(516,517,518,519,520),pins(read,70,71,72,73,74,132,133,518,519,520))
+    result={
+      V_SITE:(vcount,vsource),
+      T_SITE:(constant(6,read,28,29,30,515),tsource),
+      'gate-root':(constant(1,shell,22),loaded('shell arguments','S; EXTRA',shell,(8,9,10,12,13,22),pins(shell,9,12,13,22))),
+      'fingerprint':(constant(1,gate,70),literal(gate,70)),
+      'ps':(constant(1,gate,75),literal(gate,75)),
+      'env':(constant(1,gate,79),literal(gate,79)),
+      'tmux-exec':(constant(1,gate,79),loaded('process environment','PATH selects tmux executable',gate,(79,),pins(gate,79))),
+      'verify-preflight':(constant(1,train,65),literal(train,65,66)),
+      'science-replication':(vcount,vsource),
+      'science-disk-records':({'kind':'loaded_data','record':'disk_state latest phase eval.json records','field':'phases[*].train_records','selection_lines':pins(read,593,596,597,599,604,607)},
+          loaded('disk_state latest phase eval.json records','phases[*].train_records[*].adapter.path',read,(593,596,597,599,604,607,608),pins(read,70,71,72,73,74,132,133,600,601,602,606,608))),
+      'science-fingerprint':(constant(1,step,101),literal(step,100,101,102)),
+      'science-shell-dispatch':(constant(1,shell,34),loaded('shell arguments','S',shell,(8,9,34),pins(shell,9,26,34))),
+      'science-python-dispatch':(constant(1,dispatch,15),loaded('shell arguments','argv[1]',dispatch,(15,),pins(dispatch,9,10,11,14,15))),
+      'science-train-child':(constant(3,step,398,399,401,405,407,409),loaded('dispatch stage and disk-selected training records','directory; step0; unit; steps',step,(376,382,388,393,394,398,401,409,305,306),pins(step,296,397,400,407,408))),
+      'science-eval-child':(constant(1,step,411,415),loaded('dispatch stage and disk-selected phase','phase; directory; step0',step,(376,382,411,415),pins(step,296,413,414))),
+      'science-read-child':(constant(1,step,357),literal(step,357)),
+      'science-shell-dirname-p2':(constant(1,shell,7),literal(shell,7)),
+      'science-shell-dirname-dispatch':(constant(1,dispatch,7),literal(dispatch,7)),
+      'science-shell-mkdir':(constant(1,shell,20),literal(shell,8,20)),
+      'science-shell-date':(constant(1,shell,24),literal(shell,24)),
+    }
+    for phase,maximum in [('p1',5),('p2',6),('p3',4)]:
+        result['science-phase-trains-'+phase]=(constant(maximum,read,28,29,30,515),tsource)
+    return result
+
+
+def r12_validate_metadata(site, count, source):
+    expected=r12_metadata()
+    require(site in expected,'R12 process site has no source mapping: '+site)
+    require((count,source)==expected[site],'R12 occurrence/site differs from exact pinned pre-spawn metadata: '+site)
+    for value in (count,source):
+        for key in ('enforcing_lines','selection_lines','read_lines','pre_spawn_constraints'):
+            if key in value:r12_pins_valid(value[key],'R12 process metadata pin mismatch: '+site)
 
 
 def r12_counts(trace):
@@ -2773,6 +2825,11 @@ def round12_checks(profiles, bundle, text):
                 source_site = r12_site(trace, site)
                 require(child['count'] == source_site['count'] and child['operand_source'] == source_site['operand_source'],
                         'R12 occurrence differs from pinned count/operand source: ' + site)
+    for site in trace['process_sites']:
+        r12_validate_metadata(site['id'],site['count'],site['operand_source'])
+    for p in owners:
+        for child in p['children']:
+            r12_validate_metadata(child['trace_site'],child['count'],child['operand_source'])
     for origin, counts in totals.items():
         print('GREEN D15 %s sites: count pinned_constant=%d loaded_data=%d; operand-source pinned_literal=%d loaded_data=%d' %
               (origin, counts['count']['pinned_constant'], counts['count']['loaded_data'],
