@@ -1,0 +1,1 @@
+PASS: visible pane starts with Work queue and has 30 rows.

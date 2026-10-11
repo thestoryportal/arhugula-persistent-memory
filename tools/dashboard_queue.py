@@ -1,4 +1,4 @@
-"""Read-only work queue; /usr/bin/python3 tools/dashboard_queue.py [--once WIDTH].
+"""Read-only work queue; /usr/bin/python3 tools/dashboard_queue.py [--once WIDTH [HEIGHT]].
 
 The JSON boundary constructs typed items. Rendering uses only its arguments;
 tmux, process inventory, recorded events, local clock and terminal are edges.
@@ -231,25 +231,34 @@ def cells(value):
     return sum(cell_width(ch) for ch in value)
 
 
+def clip(value, width):
+    used = 0
+    for index, ch in enumerate(value):
+        used += cell_width(ch)
+        if used > width or index >= width:
+            return value[:index]
+    return value
+
+
 def wrap(value, width, prefix=""):
     """Wrap words by terminal cells, splitting an overlong word without losing it."""
     indent = " " * cells(prefix)
     lines, line = [], prefix
     for word in clean(value).split():
         gap = " " if line != prefix and line != indent else ""
-        if cells(line + gap + word) <= width:
+        if cells(line + gap + word) <= width and len(line + gap + word) <= width:
             line += gap + word
             continue
         if line != prefix and line != indent:
             lines.append(line.rstrip())
             line = indent
-        while cells(line + word) > width:
+        while cells(line + word) > width or len(line + word) > width:
             available = width - cells(line)
             if available <= 0:
                 raise ValueError("width is too small for the hanging indent")
             used, split = 0, 0
             for index, ch in enumerate(word):
-                if used + cell_width(ch) > available:
+                if used + cell_width(ch) > available or len(line) + index >= width:
                     break
                 used += cell_width(ch)
                 split = index + 1
@@ -315,20 +324,19 @@ def live_line(observed, item=None, session=None):
     return text
 
 
-def render(queue: QueueInput, live: Live, now: dt.datetime, width: int) -> str:
+def render(queue: QueueInput, live: Live, now: dt.datetime, width: int,
+           height: Optional[int] = None) -> str:
     if width < 40:
         raise ValueError("queue needs at least 40 columns")
     if now.utcoffset() is None:
         raise ValueError("now must include the local timezone")
     lines = wrap("Work queue · " + clock_text(now, now.tzinfo), width)
     items = queue.items if isinstance(queue, Queue) else ()
-    by_session = {}
-    for item in items:
-        if item.session is not None:
-            by_session.setdefault(item.session, item)
+    by_session = {item.session: item for item in reversed(items) if item.session is not None}
+    states = {item.id: State.IN_REVIEW if is_finished(item, live.get(item.session)) else item.state
+              for item in items}
     if isinstance(queue, Queue):
-        counts = collections.Counter(State.IN_REVIEW if is_finished(item, live.get(item.session))
-                                     else item.state for item in items)
+        counts = collections.Counter(states.values())
         lines += wrap(" · ".join("%s %d" % (badge(state), counts[state]) for state in State), width)
         age = max(0, (now - queue.edited).total_seconds())
         edited = ("queue not updated for %s — may be out of date" % minutes_text(age // 60)
@@ -337,52 +345,86 @@ def render(queue: QueueInput, live: Live, now: dt.datetime, width: int) -> str:
         for item in items:
             if item.state == State.NEEDS_YOU:
                 lines += wrap(item.title, width, "  Needs you: ")
-    lines += ["", "Running now (detected live)"]
-    for session, observed in sorted(live.items()):
-        item = by_session.get(session)
-        if item is not None and observed.status == Observed.UNAVAILABLE:
-            continue  # The item's Live field carries the single diagnostic.
-        name = item.title + " (" + session + ")" if item is not None else session
-        description = name + ": " + live_line(observed, item, session)
-        if item is None:
-            description += "; not yet described in the queue"
-        lines += wrap(description, width, "  - ")
-    for reviewer in live.reviewers:
-        lines += wrap("Astra review running for %d min; record: %s; not yet described in the queue" %
-                      (reviewer.elapsed_seconds // 60, reviewer.output), width, "  - ")
-    if live.experiment is not None:
-        lines += wrap("experiment run in progress: %s (events updated %d min ago); not yet described in the queue" %
-                      (live.experiment.name, live.experiment.events_age_seconds // 60),
-                      width, "  - ")
-    for error in live.errors:
-        lines += wrap("Live check unavailable: " + error, width, "  ")
-    if not live and not live.reviewers and live.experiment is None and not live.errors:
-        lines += wrap("No work detected by the live checks.", width, "  ")
     if isinstance(queue, QueueMissing):
         lines += [""] + wrap("work_queue is not in program_state.json yet. MAESTRO can add the work list.", width)
     elif isinstance(queue, QueueProblem):
         lines += [""] + wrap("Queue could not be read: " + queue.message, width)
     elif not items:
         lines += ["", "The work queue is empty."]
+    # Mandatory attention text must fit before optional live details and cards.
+    if height is not None and height < len(lines) + bool(items):
+        raise ValueError("window is too short for the header and Needs you block")
+
+    live_lines, idle, diagnostics = ["", "Running now (detected live)"], [], []
+    for session, observed in sorted(live.items()):
+        item = by_session.get(session)
+        if observed.finished or observed.status == Observed.IDLE:
+            idle.append(session)
+            continue
+        if observed.status not in (Observed.BUSY, Observed.WAITING):
+            if observed.status == Observed.UNAVAILABLE and item is None:
+                diagnostics += wrap(live_line(observed, session=session), width, "  ")
+            continue
+        name = item.title + " (" + session + ")" if item is not None else session
+        description = name + ": " + live_line(observed, item, session)
+        if item is None:
+            description += "; not yet described in the queue"
+        live_lines += wrap(description, width, "  - ")
+    for reviewer in live.reviewers:
+        live_lines += wrap("Astra review running for %d min; record: %s; not yet described in the queue" %
+                           (reviewer.elapsed_seconds // 60, reviewer.output), width, "  - ")
+    if live.experiment is not None:
+        live_lines += wrap("experiment run in progress: %s (events updated %d min ago); not yet described in the queue" %
+                           (live.experiment.name, live.experiment.events_age_seconds // 60), width, "  - ")
+    if len(live_lines) == 2:
+        live_lines += wrap("No work detected by the live checks.", width, "  ")
+    if idle:
+        live_lines += wrap("Idle builder windows: " + ", ".join(idle), width)
+    for error in live.errors:
+        diagnostics += wrap("Live check unavailable: " + error, width, "  ")
+    if diagnostics:
+        live_lines += ["Live checks"] + diagnostics
+    if height is not None:
+        budget = height - len(lines) - bool(items)
+        if len(live_lines) > budget:
+            live_lines = (live_lines[:budget - 1] +
+                          [clip("+%d more live lines" % (len(live_lines) - budget + 1), width)]) if budget else []
+    lines += live_lines
+
     titles = {item.id: item.title for item in items}
-    for number, item in enumerate(items, 1):
-        observed = live.get(item.session)
-        state = State.IN_REVIEW if is_finished(item, observed) else item.state
-        lines += [""] + wrap(item.title, width, "%d. " % number)
-        lines += ["  [" + badge(state) + "]"]
-        lines += wrap(item.who, width, "  Who: ")
-        lines += wrap(item.summary, width, "  Summary: ")
+    ordered = list(enumerate(items, 1))
+    if height is not None:
+        priority = {State.RUNNING: 0, State.NEEDS_YOU: 1, State.IN_REVIEW: 2}
+        ordered.sort(key=lambda entry: priority.get(states[entry[1].id], 3))
+    for index, (number, item) in enumerate(ordered):
+        observed, state = live.get(item.session), states[item.id]
+        card = [""] + wrap(item.title, width, "%d. " % number)
+        card += ["  [" + badge(state) + "]"]
+        card += wrap(item.who, width, "  Who: ")
+        card += wrap(item.summary, width, "  Summary: ")
         if item.depends_on:
-            lines += wrap("; ".join(titles[dep] for dep in item.depends_on), width, "  Waits for: ")
+            card += wrap("; ".join(titles[dep] for dep in item.depends_on), width, "  Waits for: ")
         for blocker in item.blocked_by:
-            lines += wrap(blocker, width, "  Blocked by: ")
+            card += wrap(blocker, width, "  Blocked by: ")
         for need in item.needs_from_you:
-            lines += wrap(need, width, "  Needs from you: ")
-        lines += wrap(time_line(item, now), width, "  Time: ")
+            card += wrap(need, width, "  Needs from you: ")
+        card += wrap(time_line(item, now), width, "  Time: ")
         if item.session is not None:
-            lines += wrap(live_line(observed, item), width, "  Live: ")
+            card += wrap(live_line(observed, item), width, "  Live: ")
         for note in item.notes:
-            lines += wrap(note, width, "  Note: ")
+            card += wrap(note, width, "  Note: ")
+        remaining = len(ordered) - index - 1
+        if height is None or len(lines) + len(card) + bool(remaining) <= height:
+            lines += card
+            continue
+        rest = ordered[index:]
+        available = height - len(lines)
+        shown = len(rest) if len(rest) <= available else available - 1
+        for number, item in rest[:shown]:
+            lines.append(clip("%d. [%s] %s" % (number, badge(states[item.id]), clean(item.title)), width))
+        if shown < len(rest):
+            lines.append(clip("+%d more items (taller window shows more)" % (len(rest) - shown), width))
+        break
     return "\n".join(lines)
 
 
@@ -550,33 +592,39 @@ def local_now():
     return dt.datetime.now().astimezone()
 
 
-def terminal_width():
-    return max(40, shutil.get_terminal_size((80, 24)).columns - 1)
+def terminal_dimensions():
+    size = shutil.get_terminal_size((80, 24))
+    return max(40, size.columns - 1), max(1, size.lines)
 
 
 def run_loop(path, root, stream=None, sleep=time.sleep, clock=local_now,
-             width=terminal_width, detect=gather_live):
+             width=None, detect=gather_live):
     stream = sys.stdout if stream is None else stream
     while True:
+        columns, rows = terminal_dimensions()
         queue, now = read_queue(path), clock()
         live = detect(queue, root, now)
-        frame = render(queue, live, now, width())
-        stream.write("\x1b[2J\x1b[H" + colorize(frame, stream.isatty()) + "\n")
+        frame = render(queue, live, now, columns if width is None else width(), rows)
+        stream.write("\x1b[2J\x1b[H" + colorize(frame, stream.isatty()))
         stream.flush()
         sleep(5)
 
 
 def main():
     parser = argparse.ArgumentParser(description="Read-only program work queue")
-    parser.add_argument("--once", type=int, metavar="WIDTH")
+    parser.add_argument("--once", type=int, nargs="+", metavar="N", help="WIDTH [HEIGHT]")
     args = parser.parse_args()
     # The launch must stay exactly /usr/bin/python3 '<absolute dashboard path>'.
     # A worktree shell can inherit LLMDB_ROOT=main; bind this read-only tab to its file.
     root = Path(__file__).resolve().parents[1]
     path = root / "docs/program_state.json"
     if args.once is not None:
+        if len(args.once) not in (1, 2):
+            parser.error("--once expects WIDTH [HEIGHT]")
+        columns = args.once[0]
+        rows = args.once[1] if len(args.once) == 2 else terminal_dimensions()[1]
         queue, now = read_queue(path), local_now()
-        print(colorize(render(queue, gather_live(queue, root, now), now, args.once), sys.stdout.isatty()))
+        print(colorize(render(queue, gather_live(queue, root, now), now, columns, rows), sys.stdout.isatty()))
     else:
         run_loop(path, root)
 

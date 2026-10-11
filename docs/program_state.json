@@ -27,75 +27,27 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T02:37:29Z",
+    "edited": "2026-10-11T02:38:29Z",
     "items": [
-      {
-        "id": "queue-tab",
-        "title": "Make the queue tab fit the screen",
-        "summary": "The queue tab is live as tab 8, but its list is taller than the window, so the important top part scrolls out of view. Q3 makes it fit: what needs you and what is running stay on screen, the rest shrinks to one line each.",
-        "state": "running",
-        "who": "Builder Q3, then MAESTRO checks on the Mac",
-        "session": "codexq3",
-        "started": "2026-10-11T02:18:00Z",
-        "estimate": {
-          "low_min": 30,
-          "high_min": 75,
-          "set": "2026-10-11T02:18:00Z"
-        },
-        "depends_on": [],
-        "blocked_by": [],
-        "needs_from_you": [],
-        "notes": [
-          "Tab 8 'queue' is installed and working (commit 23a4d8cb): 24/24 tests and all Mac checks passed after Q2's 3 fixes.",
-          "Open it on the phone: tmux new-session -t dashboard \\; set destroy-unattached on \\; select-window -t queue",
-          "Q3 also moves finished builders out of 'Running now' onto one 'Idle builder windows' line."
-        ]
-      },
-      {
-        "id": "drive-host-tests",
-        "title": "Drive backup: run the package's tests on the Mac",
-        "summary": "The builder works in a sandbox that cannot run some Mac-only checks, so MAESTRO reruns everything on the Mac itself before anyone calls it passing.",
-        "state": "in_review",
-        "who": "Done on the Mac; next is Astra's review",
-        "session": null,
-        "started": "2026-10-11T01:54:31Z",
-        "estimate": {
-          "low_min": 40,
-          "high_min": 90,
-          "set": "2026-10-11T02:05:12Z"
-        },
-        "depends_on": [],
-        "blocked_by": [],
-        "needs_from_you": [],
-        "notes": [
-          "First Mac run: 7 of 9 checks passed (main suite 155 tests, 0 failures).",
-          "2 failed only on the Mac: test files were placed on the same disk as the source (the real safety rule rightly refuses that), and the copy-checker miscounts an error on clean copies.",
-          "Evidence: results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/maestro_host_20261011T015745Z/",
-          "MB42 fixed both Mac-only failures (16 new tests pass, 20 existing checks pass; safety-critical files unchanged) and handed off at 41% working memory.",
-          "Second Mac run (02:31-02:36Z): all 9 checks as designed — coverage 22/22, copy-checker clean on clean copies and catches the planted corruption, main suite 155 run 0 failures 14 skips, package 55/55, fingerprints match.",
-          "Evidence: results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/maestro_host_20261011T023126Z/"
-        ]
-      },
       {
         "id": "drive-review",
         "title": "Drive backup: expert review, round 11",
         "summary": "Astra, the independent reviewer, checks the package and the Mac test results and says go or no-go.",
-        "state": "blocked",
-        "who": "Astra (reviewer)",
+        "state": "running",
+        "who": "Astra (reviewer), run by MAESTRO",
         "session": null,
-        "started": null,
+        "started": "2026-10-11T02:38:29Z",
         "estimate": {
           "low_min": 20,
           "high_min": 45,
           "set": "2026-10-11T01:45:00Z"
         },
-        "depends_on": [
-          "drive-host-tests"
-        ],
+        "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "Round 10 verdict was NO-GO (results/backup_gdrive_host_20261010/astra_r10_verdict.md)."
+          "Round 10 verdict was NO-GO (results/backup_gdrive_host_20261010/astra_r10_verdict.md).",
+          "Mac tests done 02:36Z: all 9 checks as designed (commit 3911e72a)."
         ]
       },
       {
@@ -220,7 +172,7 @@
       },
       {
         "id": "close-builders",
-        "title": "Close finished builder windows MB39-MB42 and Q1-Q2",
+        "title": "Close finished builder windows MB39-MB43 and Q1-Q3",
         "summary": "Their work is saved and committed; these idle windows can be closed (MAESTRO is not allowed to close them).",
         "state": "needs_you",
         "who": "You (MAESTRO cannot close sessions)",
@@ -230,7 +182,7 @@
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [
-          "Run: tmux -L default kill-session -t codexmb39; tmux -L default kill-session -t codexmb40; tmux -L default kill-session -t codexmb41; tmux -L default kill-session -t codexmb42; tmux -L default kill-session -t codexq1; tmux -L default kill-session -t codexq2"
+          "Run: for s in codexmb39 codexmb40 codexmb41 codexmb42 codexmb43 codexq1 codexq2 codexq3; do tmux -L default kill-session -t $s; done"
         ],
         "notes": []
       },

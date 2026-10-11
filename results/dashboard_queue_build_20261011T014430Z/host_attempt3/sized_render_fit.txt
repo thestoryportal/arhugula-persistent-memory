@@ -1,0 +1,2 @@
+PASS: --once 40 30 fits (25 rows).
+PASS: --once 100 45 fits (45 rows).

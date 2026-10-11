@@ -1,0 +1,30 @@
+Work queue · 8:37 PM
+RUNNING 0 · NEEDS YOU 2 · IN REVIEW 2 ·
+READY 1 · BLOCKED 6
+  queue edited 0 min ago
+  Needs you: Decide where NEW-1's 100
+             leftover files go
+  Needs you: Close finished builder
+             windows MB39-MB42 and Q1-Q2
+
+Running now (detected live)
+  No work detected by the live checks.
+Idle builder windows: codexmb39,
+codexmb40, codexmb41, codexmb42,
+codexmb43, codexq1, codexq2, codexq3
+5. [NEEDS YOU] Decide where NEW-1's 100
+10. [NEEDS YOU] Close finished builder w
+1. [IN REVIEW] Make the queue tab fit th
+2. [IN REVIEW] Drive backup: run the pac
+3. [BLOCKED] Drive backup: expert review
+4. [BLOCKED] Drive backup: turn it on
+6. [BLOCKED] Move 268.5 GiB of parked ex
+7. [BLOCKED] Re-test: write the experime
+8. [BLOCKED] Re-test: expert check and f
+9. [BLOCKED] Re-test: run it
+11. [READY] Tidy three out-of-date recor
+
+
+
+
+

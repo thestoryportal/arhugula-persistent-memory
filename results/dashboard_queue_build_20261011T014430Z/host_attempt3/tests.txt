@@ -1,0 +1,60 @@
+test_q2_01_exact_tmux_session_targets_work (__main__.Q2Regressions) ... ok
+test_q2_02_failed_session_reason_is_shown_once (__main__.Q2Regressions) ... ok
+test_q2_03_old_unfinished_run_is_not_in_progress (__main__.Q2Regressions) ... ok
+test_q2_04_event_freshness_boundary_and_terminal (__main__.Q2Regressions) ... ok
+test_q2_05_shared_detector_process_binding (__main__.Q2Regressions) ... ok
+test_q2_06_estimate_timestamp_is_when_estimate_was_made (__main__.Q2Regressions) ... ok
+test_q2_07_host_outputs_go_only_to_attempt_two (__main__.Q2Regressions) ... ok
+test_q2_08_host_rejects_unavailable_existing_session (__main__.Q2Regressions) ... ok
+test_q2_09_host_rejects_nonlive_experiment (__main__.Q2Regressions) ... ok
+test_q3_host_01_fresh_attempt3_and_both_sized_renders (__main__.Q3HostRegressions) ... ok
+test_q3_host_02_private_small_server_visible_capture_and_owned_cleanup (__main__.Q3HostRegressions) ... ok
+test_q3_host_03_scrolled_header_fails_even_with_short_capture (__main__.Q3HostRegressions) ... ok
+test_q3_host_04_capture_over_30_rows_fails_with_header_visible (__main__.Q3HostRegressions) ... ok
+test_q3_host_05_refuse_existing_server_or_attempt_and_never_kill_unowned (__main__.Q3HostRegressions) ... ok
+test_q3_host_06_gpu_exemption_rejects_own_pid_without_changing_other_jobs (__main__.Q3HostRegressions) ... ok
+test_q3_01_frames_fit_real_phone_and_desktop_heights (__main__.Q3Regressions) ... ok
+test_q3_02_header_attention_and_stale_warning_survive_pressure (__main__.Q3Regressions) ... ok
+test_q3_03_priority_cards_get_full_details_before_lower_states (__main__.Q3Regressions) ... ok
+test_q3_04_compact_rows_and_exact_omitted_item_count (__main__.Q3Regressions) ... ok
+test_q3_05_compact_unicode_clips_characters_without_splitting_bytes (__main__.Q3Regressions) ... ok
+test_q3_06_only_working_builders_are_running_idle_names_are_grouped (__main__.Q3Regressions) ... ok
+test_q3_07_live_loop_rereads_both_dimensions_after_resize (__main__.Q3Regressions) ... ok
+test_q3_08_redraw_does_not_scroll_when_last_row_is_used (__main__.Q3Regressions) ... ok
+test_q3_09_once_accepts_width_height_and_legacy_width (__main__.Q3Regressions) ... ok
+test_q3_10_missing_problem_and_empty_queue_frames_are_bounded (__main__.Q3Regressions) ... ok
+test_01_parse_typed_items_and_show_each_bad_field (__main__.QueueCriteria)
+A dropped item, coercion or default must fail this criterion. ... ok
+test_02_renderer_is_pure_and_live_is_a_session_mapping (__main__.QueueCriteria)
+Clock, file or tmux access inside rendering must fail. ... ok
+test_03_display_width_word_wrap_and_long_word_hanging_indent (__main__.QueueCriteria)
+Overflow, lost characters or missing continuation indentation must fail. ... ok
+test_04_ordered_cards_header_attention_and_dependency_titles (__main__.QueueCriteria)
+Reordering, missing fields, empty labels or dependency ids must fail. ... ok
+test_05_elapsed_countdown_overrun_null_and_local_clock (__main__.QueueCriteria)
+Frozen countdowns, UTC clocks or overrun arithmetic errors must fail. ... ok
+test_06_live_status_memory_and_queue_session_scope (__main__.QueueCriteria)
+Misreported pane state, memory or scans of unrelated sessions must fail. ... ok
+test_07_stale_queue_boundary_and_absent_key_plainly_visible (__main__.QueueCriteria)
+Missing-key crashes or hidden staleness must fail. ... ok
+test_08_loop_reloads_recovers_midwrite_redraws_and_limits_color (__main__.QueueCriteria)
+A crash, stale cached JSON, wrong interval or body color must fail. ... ok
+test_09_launcher_idempotent_python_path_and_team_registration (__main__.QueueCriteria)
+A real duplicate window, wrong interpreter or missing integration must fail. ... ok
+test_10_host_runner_records_every_step_and_owns_only_q1check_socket (__main__.QueueCriteria)
+Missing host evidence, default-server mutation or a hidden exit must fail. ... ok
+test_11_live_detection_unlisted_reviewers_experiment_and_finished_override (__main__.QueueCriteria)
+Hand-written lag, stale READY, hidden workers or unavailable-as-idle must fail. ... ok
+test_12_unrelated_process_prompt_quotes_cannot_hide_reviewers (__main__.QueueCriteria)
+A shell's unbalanced prompt text must not erase a genuine review. ... ok
+test_13_badge_words_in_body_are_never_colored (__main__.QueueCriteria)
+Only the actual state badge may get color after the header. ... ok
+test_14_tab_reads_its_own_worktree_despite_inherited_main_root (__main__.QueueCriteria)
+The known main-checkout environment must not redirect this tab's queue. ... ok
+test_15_empty_successful_tmux_inventory_is_unavailable_not_finished (__main__.QueueCriteria)
+An empty observation layer cannot establish a missing builder. ... ok
+
+----------------------------------------------------------------------
+Ran 40 tests in 2.557s
+
+OK

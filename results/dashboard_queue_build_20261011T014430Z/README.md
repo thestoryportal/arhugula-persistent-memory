@@ -180,3 +180,125 @@ lessons, SHA-256s, and the single next host step inside the authorized receipt
 scope; no global memory file was edited.
 
 Binding operator context directive (2026-10-10): watch “Context N% left”. Start a new piece of work only at >=60% left. At <=40% left, or on any “Context compacted”, stop starting work, append a handoff to the receipt README with done/half-done, exact paths, SHA-256s, test state and a single next step, and reply “Q2 HANDOFF”. Restate this directive in every handoff.
+
+
+## Q3 round
+
+Status: **QUEUE TAB FIT READY FOR MAESTRO RUN**. Sandbox: **40/40 queue
+GREEN**, including all original 24 tests and 16 Q3 regressions, plus **27/27
+shared detector GREEN**; zero errors/skips. Native host acceptance remains
+**UNRUN**, and `host_attempt3/` remains absent and reserved for MAESTRO.
+
+MAESTRO resolved the launch contract: `-B` applies to tests and renders;
+the private tab must launch exactly like `tools/dashboard_queue_tab.sh`,
+`/usr/bin/python3 '<ROOT>/tools/dashboard_queue.py'`, without `-B`.
+The tightened host test first failed on the prior `-B` launch, then passed
+after that one command was corrected. The GPU gate and exemption assertion
+remain unchanged. The runner still exports PYTHONDONTWRITEBYTECODE=1.
+
+Before editing, `tools/dashboard_queue.py`, `tools/test_dashboard_queue.py` and
+this README were copied to `before_q3/`; `q3_before_sha256.json` pins them.
+The original 24-test source is retained verbatim before the appended Q3 classes.
+The original host runner and host attempts 1/2 were preserved. `host_attempt3/`
+remains absent and reserved for a real host execution.
+
+| Evidence | Result | Receipt |
+| --- | --- | --- |
+| Unmodified Q2 baseline | 24 tests, 24 PASS; exit 0 | `q3_baseline.log/.exit` |
+| Q3 RED on current Q2 before implementation | 16 tests, all 16 FAIL; 22 failed assertions including subtests; zero errors/skips; exit 1 | `q3_red.log/.exit`, `q3_tests_before_fix.py` |
+| Strengthened pressure fixtures, reconfirmed on saved Q2 | 16 tests, all 16 FAIL; 22 failed assertions; zero errors/skips; exit 1 | `q3_red_confirmed.log/.exit`, `q3_tests_before_fix_v2.py` |
+| First GREEN attempt | 38 PASS, one failure and one error caused by fixtures allowing full lower-priority cards to fit | `q3_green_attempt1.log/.exit` |
+| Final queue GREEN after exact launch correction | 40 tests, 40 PASS; zero errors/skips; exit 0 | `q3_green_final.log/.exit` |
+| Current shared detector suite | 27 tests, 27 PASS; zero errors/skips; exit 0 | `q3_shared_detector_green.log/.exit` |
+| Python and shell checks | Python 3.9.6; both Python files parse as 3.9; Bash syntax and diff whitespace PASS | `q3_python_version`, `q3_shell_syntax`, `q3_diff_check` `.log/.exit` pairs |
+| Real-source sandbox renders | 40x30: 28 rows, maximum 40 characters; 100x45: 45 rows, maximum 100 characters | `q3_sandbox_render_40_30` and `_100_45` `.txt/.stderr/.exit`; `q3_render_checks.json/.exit` |
+| Protected sources and existing tests | Six protected files unchanged; existing tests unchanged; staged state unchanged | `q3_protected_sha256.json`, `q3_scope_check.log/.exit` |
+| Historical GPU launch conflict | Original CLT dashboard command exempt; prior `-B` launch produced a blocker, now resolved by MAESTRO | `q3_gate_launch_probe.json/.exit` |
+| Tightened exact-launch regression RED | 1 test, 1 FAIL, no errors/skips; before host command correction | `q3_launch_red.log/.exit`, `q3_tests_launch_before_fix.py` |
+| Tightened exact-launch regression GREEN | 1 test, 1 PASS; unchanged gate exempts the actual launch form | `q3_launch_green.log/.exit`, `q3_gate_launch_resolved.json/.exit` |
+| Final shell syntax | PASS; exit 0 | `q3_shell_syntax_final.log/.exit` |
+
+Test list (the appended `Q3Regressions` and `Q3HostRegressions` classes):
+
+1. `test_q3_01`: crowded 40x30, 40x45 and 100x45 frames fit real height and character/cell width.
+2. `test_q3_02`: time, all counts, edit age, complete Needs you titles and >3-hour warning survive crowding.
+3. `test_q3_03`: running, needs_you and in_review cards keep complete details ahead of lower states; original item numbers remain.
+4. `test_q3_04`: remaining cards become single numbered state/title rows; last row reports the exact omitted count; an exact compact fit needs no footer.
+5. `test_q3_05`: middle dot, em dash, accented, wide and combining characters clip without splitting encoded bytes.
+6. `test_q3_06`: only BUSY/WAITING builders appear under Running now; finished/idle names share a wrapped Idle builder windows line; unknown observations are separate diagnostics.
+7. `test_q3_07`: the actual redraw loop queries both dimensions again after resize from 40x30 to 100x45.
+8. `test_q3_08`: a full 30-row redraw has no trailing newline to scroll away its header.
+9. `test_q3_09`: --once 40 30, --once 100 45 and legacy --once 40 work with height limits.
+10. `test_q3_10`: missing, malformed and empty queues remain visible within height despite crowded live observations.
+11. `test_q3_host_01`: fresh host_attempt3 only, both sized renders, saved exit codes and 8 seconds of waits.
+12. `test_q3_host_02`: private q3check at 40x30 with the real tab's exact command and unchanged GPU exemption, visible-pane capture without scrollback, exactly one owned cleanup and read-only default inventory.
+13. `test_q3_host_03`: a short scrolled capture lacking the Work queue header fails.
+14. `test_q3_host_04`: a header-visible capture over 30 rows fails.
+15. `test_q3_host_05`: existing q3check or host_attempt3 is refused; a failed start never triggers kill-server.
+16. `test_q3_host_06`: own-PID GPU blockers fail the exemption check; unrelated blockers are recorded without killing their processes.
+
+The renderer reserves the header and the existing Needs you title block, then
+budgets live observations and full cards ordered running / needs_you / in_review.
+When the next card cannot fit, it and all following items collapse to one line;
+the remaining item count uses the last row when necessary. Unbounded pure
+`render(..., width)` snapshots keep original card order; the live loop and both
+CLI forms always pass a height. Optional live detail overflow is counted separately.
+A window shorter than the mandatory header/Needs you block plus its item footer
+raises a clear ValueError: that physical limit cannot satisfy both full attention
+text and bounded output. No mandatory text is silently cut to fit such a window.
+
+Every line fits by Python character count and terminal cell count. The specified
+`+K more items (taller window shows more)` sentence is 41 characters for two-digit
+K, so its tail is character-clipped at width 40. At 100 columns it is complete.
+The two pressure-fixture corrections increased input size and preserved every
+assertion; renewed RED against saved Q2 preceded the final GREEN.
+
+### Q3 completion and MAESTRO host step
+
+Done: renderer and CLI changes in `tools/dashboard_queue.py`; 16 new regressions
+in `tools/test_dashboard_queue.py`; saved behavioral RED / GREEN and source-size
+receipts; proposed `run_host_checks_q3.sh` with guarded host_attempt3, private
+40x30 q3check, visible capture after 2+6 seconds, header/row validation, inherited
+Q2 liveness validation and own-PID GPU exemption check. Native tmux acceptance is
+UNRUN. Sandbox fixtures never started or killed a real tmux server. No live
+`dashboard` mutation, science/model/GPU work, commits, pushes or writing git
+commands occurred. MAESTRO's program state and MB43's backup files were not edited.
+
+Launch conflict resolved: the throwaway tab now uses exactly
+`/usr/bin/python3 '<ROOT>/tools/dashboard_queue.py'`. Tests and sized renders
+retain `/usr/bin/python3 -B`. `q3_launch_red.log/.exit` captures the tightened
+assertion's failure before this command change, and `q3_launch_green.log/.exit`
+captures its PASS. `q3_gate_launch_resolved.json/.exit` confirms the canonical
+CLT process command is exempt under the unchanged gate, with the old `-B` form
+still correctly treated as a blocker. The six protected hashes remain pinned.
+
+Before the resolution edits, the current test file, host runner and README were
+copied into `before_q3/launch_resolution/`; hashes are saved in
+`q3_resolution_before_sha256.json`. Earlier RED/GREEN, handoff and launch-conflict
+receipts remain historical evidence. `q3_context_ready.md` records the final
+context-save state; the older `q3_context_saved.md` is superseded for task status.
+
+Single next step: **MAESTRO runs the prepared host command**. It will refuse
+an existing host_attempt3 or q3check server, wait 8 seconds, capture only the
+visible pane, require its first nonblank line to start Work queue and at most
+30 lines, verify GPU exemption, and kill only the private server it started.
+
+```bash
+bash '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/dashboard_queue_build_20261011T014430Z/run_host_checks_q3.sh'
+```
+
+| Changed source | Before SHA-256 | Current SHA-256 |
+| --- | --- | --- |
+| `tools/dashboard_queue.py` | `f2704b90ce2beb20df7e6ca4fc605f3cf91d05b15691779f0495b2185b69241c` | `2d200620dd6a7d02283b80619192d2d7b03d38b11a9485b15d6f201ab6cfa85f` |
+| `tools/test_dashboard_queue.py` | `e3433d43f9e0b8cdd877b835ce396e814c020e8f64f5e481282aaff43f6cd762` | `5258f3d4fa66ed12235a1c8e407d4e1122eed26ae034d217f3bf19a67b70244a` |
+| `results/dashboard_queue_build_20261011T014430Z/run_host_checks_q3.sh` | `new file` | `5cc9703cf5e1b382a42bfa20c223c5a247473258de6cb40bc5f48f890e0bdf8c` |
+
+README before SHA-256: `ad3364da36f7c8c4be90f1e7ed74e9d241dd276e4aa02756cb573cc8f88bc231`.
+Final README / ready-context / source hashes live in `q3_final_sha256.json` to
+avoid self-reference. `q3_after_sha256.json` pins the earlier handoff state.
+
+CONTEXT DIRECTIVE (binding, operator 2026-10-10): watch “Context N% left”.
+Start a new piece of work only at >=60% left. At <=40% left, or on any
+“Context compacted”, stop starting work, append a handoff to this README with
+done/half-done, exact paths, SHA-256s, test state and a single next step, and reply
+“Q3 HANDOFF”. Restate this directive in every handoff, including every team session.

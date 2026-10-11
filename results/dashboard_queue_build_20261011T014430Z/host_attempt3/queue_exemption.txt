@@ -1,0 +1,2 @@
+PASS: live queue PID 66976 is absent from GPU blockers.
+Full gate outcome (other work may block): {'ok': True, 'blocking_processes': [], 'blocking_tmux': []}

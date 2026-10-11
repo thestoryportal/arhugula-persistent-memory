@@ -679,5 +679,333 @@ source "$1"
         self.assertIn('stale-new1', outputs['host_attempt2/queue_live_checks.txt'])
 
 
+
+class Q3Regressions(unittest.TestCase):
+    module = QueueCriteria.module
+    parsed = QueueCriteria.parsed
+    active = QueueCriteria.active
+
+    def sized(self, q, queue, live, width, height):
+        # Execute Q2's renderer too: RED must show oversized output, not TypeError.
+        if 'height' in q.render.__code__.co_varnames:
+            return q.render(queue, live, NOW, width, height=height)
+        return q.render(queue, live, NOW, width)
+
+    def crowded(self, count=50):
+        return [item(id='task%d' % n, title='Task %d · — café' % n,
+                     state='blocked', session=None, started=None, estimate=None,
+                     summary='A long explanation ' * 120, notes=['Detailed note ' * 25])
+                for n in range(1, count + 1)]
+
+    def test_q3_01_frames_fit_real_phone_and_desktop_heights(self):
+        q = self.module()
+        for width, height in ((40, 30), (40, 45), (100, 45)):
+            with self.subTest(width=width, height=height):
+                shown = self.sized(q, self.parsed(q, self.crowded()), q.Live(), width, height)
+                self.assertLessEqual(len(shown.splitlines()), height)
+                self.assertTrue(all(len(line) <= width and cells(line) <= width
+                                    for line in shown.splitlines()))
+                self.assertTrue(shown.splitlines()[0].startswith('Work queue'))
+
+    def test_q3_02_header_attention_and_stale_warning_survive_pressure(self):
+        q = self.module()
+        needs = [item(id='decision%d' % n, title='Choose the next study %d with all its details intact' % n,
+                      state='needs_you', session=None, started=None, estimate=None)
+                 for n in (1, 2)]
+        queue = self.parsed(q, needs + self.crowded(), edited='2026-10-10T21:47:00Z')
+        shown = self.sized(q, queue, q.Live(), 40, 30)
+        self.assertLessEqual(len(shown.splitlines()), 30)
+        top = flat(shown.split('Running now (detected live)', 1)[0])
+        for value in ('Work queue · 7:47 PM', 'RUNNING 0', 'NEEDS YOU 2',
+                      'IN REVIEW 0', 'READY 0', 'BLOCKED 50',
+                      'queue not updated for 4 h 0 min — may be out of date'):
+            self.assertIn(value, top)
+        for value in needs:
+            self.assertIn('Needs you: ' + value['title'], top)
+        fresh = self.sized(q, self.parsed(q, needs + self.crowded()), q.Live(), 40, 30)
+        self.assertIn('queue edited 7 min ago', flat(fresh))
+
+    def test_q3_03_priority_cards_get_full_details_before_lower_states(self):
+        q = self.module()
+        values = [item(id='ready', title='Low priority first', state='ready', session=None,
+                       summary='A low priority explanation ' * 120),
+                  item(id='running', title='Active priority', summary='RUNNING detail marker',
+                       session=None, started=None, estimate=None),
+                  item(id='needs', title='Attention priority', state='needs_you', summary='NEEDS detail marker',
+                       session=None, started=None, estimate=None, needs_from_you=['Choose A']),
+                  item(id='review', title='Review priority', state='in_review', summary='REVIEW detail marker',
+                       session=None, started=None, estimate=None)] + self.crowded(30)
+        shown = self.sized(q, self.parsed(q, values), q.Live(), 100, 45)
+        self.assertLessEqual(len(shown.splitlines()), 45)
+        for detail in ('Summary: RUNNING detail marker', 'Summary: NEEDS detail marker',
+                       'Summary: REVIEW detail marker', 'Needs from you: Choose A'):
+            self.assertIn(detail, shown)
+        positions = [shown.index(label) for label in ('2. Active priority', '3. Attention priority',
+                                                     '4. Review priority', '1. [READY] Low priority first')]
+        self.assertEqual(positions, sorted(positions))
+        # In roomy snapshots the original order and full cards stay available.
+        unbounded = q.render(self.parsed(q, values), q.Live(), NOW, 100)
+        self.assertLess(unbounded.index('1. Low priority first'), unbounded.index('2. Active priority'))
+
+    def test_q3_04_compact_rows_and_exact_omitted_item_count(self):
+        q = self.module()
+        values = self.crowded()
+        for width in (40, 100):
+            shown = self.sized(q, self.parsed(q, values), q.Live(), width, 30)
+            lines = shown.splitlines()
+            self.assertLessEqual(len(lines), 30)
+            rows = [line for line in lines if re.match(r'^\d+\. ', line)]
+            self.assertGreater(len(rows), 0)
+            for number, row in enumerate(rows, 1):
+                self.assertEqual(row, ('%d. [BLOCKED] %s' % (number, values[number - 1]['title']))[:width])
+            k = len(values) - len(rows)
+            self.assertEqual(lines[-1], ('+%d more items (taller window shows more)' % k)[:width])
+        # An exact fit uses the last row for the last item, not a +1 footer.
+        queue = self.parsed(q, self.crowded(2))
+        shown = self.sized(q, queue, q.Live(), 40, 30)
+        self.assertNotIn('more items', shown)
+        self.assertIn('2. [BLOCKED]', shown)
+
+    def test_q3_05_compact_unicode_clips_characters_without_splitting_bytes(self):
+        q = self.module()
+        title = '· — café ' + '界e\u0301' * 30
+        values = self.crowded(2)
+        values[0]['title'] = title
+        shown = self.sized(q, self.parsed(q, values), q.Live(), 40, 30)
+        row = next(line for line in shown.splitlines() if line.startswith('1. '))
+        self.assertTrue(row.startswith('1. [BLOCKED] · — café '), row)
+        self.assertNotIn('\ufffd', row)
+        self.assertLessEqual(len(row), 40)
+        self.assertLessEqual(cells(row), 40)
+        expected = '1. [BLOCKED] ' + title
+        self.assertTrue(expected.startswith(row))
+        self.assertGreater(len(row), len('1. [BLOCKED] · — café '))
+
+    def test_q3_06_only_working_builders_are_running_idle_names_are_grouped(self):
+        q = self.module()
+        live = q.Live({'codexbusy': q.SessionLive(q.Observed.BUSY, 55),
+                       'codexwaiting': q.SessionLive(q.Observed.WAITING, 65),
+                       'codexmb39': q.SessionLive(q.Observed.IDLE, 60, True),
+                       'codexmb40': q.SessionLive(q.Observed.IDLE, 70),
+                       'codexgone': q.SessionLive(q.Observed.MISSING),
+                       'codexunknown': q.SessionLive(q.Observed.UNAVAILABLE, reason='capture denied')})
+        shown = self.sized(q, self.parsed(q, []), live, 40, 30)
+        self.assertIn('Idle builder windows: codexmb39, codexmb40', flat(shown))
+        running = shown.split('Running now (detected live)', 1)[1].split('Idle builder windows:', 1)[0]
+        self.assertIn('codexbusy', running)
+        self.assertIn('codexwaiting', running)
+        for name in ('codexmb39', 'codexmb40', 'codexgone', 'codexunknown'):
+            self.assertNotIn(name, running)
+        self.assertIn('live session check unavailable for codexunknown: capture denied', flat(shown))
+        self.assertLessEqual(len(shown.splitlines()), 30)
+
+    def loop_frames(self, q, sizes):
+        class EndLoop(Exception):
+            pass
+        stream = io.StringIO()
+        waits = []
+        def sleep(seconds):
+            waits.append(seconds)
+            if len(waits) == len(sizes):
+                raise EndLoop()
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'program_state.json'
+            path.write_text(json.dumps(source(self.crowded())))
+            with mock.patch.object(q.shutil, 'get_terminal_size', side_effect=[os.terminal_size(s) for s in sizes]) as terminal:
+                with self.assertRaises(EndLoop):
+                    q.run_loop(path, Path(directory), stream=stream, sleep=sleep,
+                               clock=lambda: NOW, detect=lambda *args: q.Live())
+        self.assertEqual(waits, [5] * len(sizes))
+        self.assertEqual(terminal.call_count, len(sizes))
+        return stream.getvalue().split('\x1b[2J\x1b[H')[1:]
+
+    def test_q3_07_live_loop_rereads_both_dimensions_after_resize(self):
+        q = self.module()
+        sizes = [(40, 30), (100, 45)]
+        frames = self.loop_frames(q, sizes)
+        self.assertEqual(len(frames), 2)
+        for frame, (width, height) in zip(frames, sizes):
+            self.assertLessEqual(len(frame.splitlines()), height)
+            self.assertTrue(all(len(line) <= width and cells(line) <= width for line in frame.splitlines()))
+            self.assertTrue(frame.startswith('Work queue'))
+        self.assertGreater(len(frames[1].splitlines()), len(frames[0].splitlines()))
+
+    def test_q3_08_redraw_does_not_scroll_when_last_row_is_used(self):
+        q = self.module()
+        frame = self.loop_frames(q, [(40, 30)])[0]
+        self.assertFalse(frame.endswith('\n'), 'A newline on the last row scrolls the header away')
+        self.assertEqual(len(frame.splitlines()), 30)
+
+    def test_q3_09_once_accepts_width_height_and_legacy_width(self):
+        q = self.module()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'tools').mkdir()
+            (root / 'docs').mkdir()
+            (root / 'docs/program_state.json').write_text(json.dumps(source(self.crowded())))
+            for args, width, height in ((['40', '30'], 40, 30), (['100', '45'], 100, 45), (['40'], 40, 30)):
+                with self.subTest(args=args):
+                    out = io.StringIO()
+                    with mock.patch.object(q, '__file__', str(root / 'tools/dashboard_queue.py')), \
+                         mock.patch.object(sys, 'argv', ['dashboard_queue.py', '--once'] + args), \
+                         mock.patch.object(q, 'gather_live', return_value=q.Live()), \
+                         mock.patch.object(q, 'local_now', return_value=NOW), \
+                         mock.patch.object(q.shutil, 'get_terminal_size', return_value=os.terminal_size((width, height))), \
+                         mock.patch.object(sys, 'stdout', out):
+                        try:
+                            q.main()
+                        except SystemExit as error:
+                            self.fail('--once W H must render successfully: ' + str(error))
+                    self.assertLessEqual(len(out.getvalue().splitlines()), height)
+                    self.assertTrue(all(len(line) <= width and cells(line) <= width for line in out.getvalue().splitlines()))
+
+    def test_q3_10_missing_problem_and_empty_queue_frames_are_bounded(self):
+        q = self.module()
+        live = q.Live({'codex%d' % n: q.SessionLive(q.Observed.BUSY, 50) for n in range(30)},
+                      errors=('Process inventory is unavailable ' * 30,))
+        for queue, message in ((q.QueueMissing(), 'work_queue is not in program_state.json yet'),
+                               (q.QueueProblem('JSON was incomplete'), 'Queue could not be read: JSON was incomplete'),
+                               (self.parsed(q, []), 'The work queue is empty.')):
+            with self.subTest(message=message):
+                shown = self.sized(q, queue, live, 40, 30)
+                self.assertLessEqual(len(shown.splitlines()), 30)
+                self.assertIn(message, flat(shown))
+                self.assertTrue(all(cells(line) <= 40 and len(line) <= 40 for line in shown.splitlines()))
+
+
+class Q3HostRegressions(unittest.TestCase):
+    def host(self, capture='Work queue · fixture\nRUNNING 0', server_exists=False,
+             attempt_exists=False, start_fails=False, blockers=()):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            receipt = root / 'results/dashboard_queue_build_20261011T014430Z'
+            receipt.mkdir(parents=True)
+            (root / 'tools').mkdir()
+            (root / 'tools/test_dashboard_queue.py').write_text('print("fixture tests pass")\n')
+            (root / 'tools/dashboard_queue.py').write_text(
+                'import os, sys\nfrom pathlib import Path\n'
+                'with Path(os.environ["Q3_CLI"]).open("a") as f: f.write(repr(sys.argv[1:]) + "\\n")\n'
+                'print("Work queue · fixture")\n')
+            (root / 'tools/c10w_p2_gate.py').write_text(
+                'def check_gpu(): return {"blocking_processes": %r}\n' % list(blockers))
+            (receipt / 'check_q2_host_live.py').write_text('print("fixture live checks pass")\n')
+            for n in (1, 2):
+                (receipt / ('host_attempt%d' % n)).mkdir()
+                (receipt / ('host_attempt%d/locked.txt' % n)).write_text('unchanged\n')
+            if attempt_exists:
+                (receipt / 'host_attempt3').mkdir()
+                (receipt / 'host_attempt3/locked.txt').write_text('unchanged\n')
+            script = RECEIPTS / 'run_host_checks_q3.sh'
+            # Before implementation run the old host script and fail on its behavior.
+            if not script.exists():
+                script = RECEIPTS / 'run_host_checks.sh'
+            runner = receipt / script.name
+            runner.write_text(script.read_text())
+            # Let the old runner execute instead of failing mkdir before its checks.
+            if script.name == 'run_host_checks.sh':
+                runner.write_text(runner.read_text().replace('host_attempt2', 'legacy_attempt'))
+            wrapper = r"""
+function tmux() {
+  printf '%s\n' "$*" >> "$Q3_COMMANDS"
+  if [ "$1" != -L ]; then return 98; fi
+  local server=$2 action=$3
+  if [ "$server" = default ]; then
+    if [ "$action" = list-sessions ]; then printf '%s\n' codexbuild; return 0; fi
+    return 99
+  fi
+  if [ "$server" != q3check ] && [ "$server" != q1check ]; then return 97; fi
+  case "$action" in
+    list-sessions)
+      if [ "$server" = q3check ] && [ "$Q3_EXISTS" = 1 ]; then printf '%s\n' owned-by-someone-else; return 0; fi
+      printf '%s\n' 'no server running on /tmp/q3-fixture'; return 1;;
+    new-session) if [ "$Q3_START_FAILS" = 1 ]; then return 2; fi; return 0;;
+    kill-server) return 0;;
+    capture-pane) printf '%s\n' "$Q3_CAPTURE"; return 0;;
+    list-panes) printf '%s\n' '0 424242 /usr/bin/python3 tools/dashboard_queue.py'; return 0;;
+    *) return 96;;
+  esac
+}
+function /bin/ps() { printf '%s\n' '1 1 00:01 /usr/sbin/launchd'; }
+function sleep() { printf '%s\n' "$*" >> "$Q3_WAITS"; return 0; }
+source "$1"
+"""
+            commands = root / 'commands.txt'
+            cli = root / 'cli.txt'
+            waits = root / 'waits.txt'
+            env = dict(os.environ, Q3_CAPTURE=capture, Q3_EXISTS=str(int(server_exists)),
+                       Q3_START_FAILS=str(int(start_fails)), Q3_COMMANDS=str(commands),
+                       Q3_CLI=str(cli), Q3_WAITS=str(waits), PYTHONDONTWRITEBYTECODE='1')
+            result = subprocess.run(['bash', '-c', wrapper, str(runner), str(runner)],
+                                    env=env, capture_output=True, text=True, timeout=15)
+            for n in (1, 2):
+                self.assertEqual((receipt / ('host_attempt%d/locked.txt' % n)).read_text(), 'unchanged\n')
+            if attempt_exists:
+                self.assertEqual((receipt / 'host_attempt3/locked.txt').read_text(), 'unchanged\n')
+                self.assertEqual(list((receipt / 'host_attempt3').iterdir()), [receipt / 'host_attempt3/locked.txt'])
+            outputs = {str(p.relative_to(receipt)): p.read_text() for p in receipt.rglob('*')
+                       if p.is_file() and p.suffix in ('.txt', '.exit')}
+            return result, outputs, (commands.read_text().splitlines() if commands.exists() else []), \
+                (cli.read_text().splitlines() if cli.exists() else []), \
+                (waits.read_text().splitlines() if waits.exists() else [])
+
+    def test_q3_host_01_fresh_attempt3_and_both_sized_renders(self):
+        result, outputs, commands, cli, waits = self.host()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn('host_attempt3/tests.exit', outputs)
+        for name in ('tests', 'render_40', 'render_100', 'tmux_start', 'tmux_capture',
+                     'visible_fit', 'gpu_check', 'queue_exemption', 'tmux_cleanup'):
+            self.assertEqual(outputs['host_attempt3/' + name + '.exit'], '0\n')
+        self.assertEqual(cli, ["['--once', '40', '30']", "['--once', '100', '45']"])
+        self.assertEqual(sum(int(n) for n in waits), 8)
+
+    def test_q3_host_02_private_small_server_visible_capture_and_owned_cleanup(self):
+        result, outputs, commands, cli, waits = self.host()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        start = next(line for line in commands if 'new-session' in line)
+        launch = re.fullmatch(r"-L q3check new-session -d -s q3check -x 40 -y 30 /usr/bin/python3 '(.*/tools/dashboard_queue\.py)'", start)
+        self.assertIsNotNone(launch, 'Private tab must use the real tab command exactly: ' + start)
+        gate = importlib.import_module('c10w_p2_gate')
+        clt = '/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python'
+        inventory = '424242 %s %s\n' % (clt, launch.group(1))
+        self.assertEqual(gate.blocking_processes(inventory, -1), [], 'Exact tab launch must retain its GPU exemption')
+        capture = next(line for line in commands if 'capture-pane' in line)
+        self.assertEqual(capture, '-L q3check capture-pane -p -t =q3check:')
+        self.assertEqual(commands.count('-L q3check kill-server'), 1)
+        self.assertTrue(all(line == '-L default list-sessions -F #{session_name}'
+                            for line in commands if line.startswith('-L default ')))
+
+    def test_q3_host_03_scrolled_header_fails_even_with_short_capture(self):
+        result, outputs, commands, cli, waits = self.host('Summary: only the bottom is visible\nFinal card')
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(outputs['host_attempt3/visible_fit.exit'], '1\n')
+        self.assertEqual(commands.count('-L q3check kill-server'), 1)
+
+    def test_q3_host_04_capture_over_30_rows_fails_with_header_visible(self):
+        result, outputs, commands, cli, waits = self.host('Work queue\n' + '\n'.join('row%d' % n for n in range(30)))
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(outputs['host_attempt3/visible_fit.exit'], '1\n')
+        self.assertEqual(commands.count('-L q3check kill-server'), 1)
+
+    def test_q3_host_05_refuse_existing_server_or_attempt_and_never_kill_unowned(self):
+        result, outputs, commands, cli, waits = self.host(server_exists=True)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertFalse(any('new-session' in line or 'kill-server' in line for line in commands), commands)
+        result, outputs, commands, cli, waits = self.host(attempt_exists=True)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(commands, [])
+        result, outputs, commands, cli, waits = self.host(start_fails=True)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertFalse(any('kill-server' in line for line in commands), commands)
+
+    def test_q3_host_06_gpu_exemption_rejects_own_pid_without_changing_other_jobs(self):
+        result, outputs, commands, cli, waits = self.host(blockers=('424242 /usr/bin/python3 tools/dashboard_queue.py',))
+        self.assertIn('host_attempt3/queue_exemption.exit', outputs)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(outputs['host_attempt3/queue_exemption.exit'], '1\n')
+        self.assertEqual(commands.count('-L q3check kill-server'), 1)
+        result, outputs, commands, cli, waits = self.host(blockers=('515151 /usr/bin/python3 other-job.py',))
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

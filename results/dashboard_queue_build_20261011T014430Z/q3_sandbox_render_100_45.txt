@@ -1,0 +1,45 @@
+Work queue · 8:27 PM
+RUNNING 2 · NEEDS YOU 2 · IN REVIEW 0 · READY 1 · BLOCKED 6
+  queue edited 8 min ago
+  Needs you: Decide where NEW-1's 100 leftover files go
+  Needs you: Close finished builder windows MB39-MB42 and Q1-Q2
+
+Running now (detected live)
+  No work detected by the live checks.
+Live checks
+  Live check unavailable: tmux: [Errno 2] No such file or directory: 'tmux'
+  Live check unavailable: reviewers: [Errno 1] Operation not permitted: '/bin/ps'
+
+1. Make the queue tab fit the screen
+  [RUNNING]
+  Who: Builder Q3, then MAESTRO checks on the Mac
+  Summary: The queue tab is live as tab 8, but its list is taller than the window, so the important
+           top part scrolls out of view. Q3 makes it fit: what needs you and what is running stay on
+           screen, the rest shrinks to one line each.
+  Time: running for 9 min · about 21-66 min left (estimate made 8:18 PM)
+  Live: live session check unavailable for codexq3
+  Note: Tab 8 'queue' is installed and working (commit 23a4d8cb): 24/24 tests and all Mac checks
+        passed after Q2's 3 fixes.
+  Note: Open it on the phone: tmux new-session -t dashboard \; set destroy-unattached on \;
+        select-window -t queue
+  Note: Q3 also moves finished builders out of 'Running now' onto one 'Idle builder windows' line.
+
+2. Drive backup: run the package's tests on the Mac
+  [RUNNING]
+  Who: Builder MB43 finishing, then MAESTRO re-runs
+  Summary: The builder works in a sandbox that cannot run some Mac-only checks, so MAESTRO reruns
+           everything on the Mac itself before anyone calls it passing.
+  Time: running for 33 min · about 18-68 min left (estimate made 8:05 PM)
+  Live: live session check unavailable for codexmb43
+  Note: First Mac run: 7 of 9 checks passed (main suite 155 tests, 0 failures).
+  Note: 2 failed only on the Mac: test files were placed on the same disk as the source (the real
+        safety rule rightly refuses that), and the copy-checker miscounts an error on clean copies.
+  Note: Evidence:
+        results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/maestro_host_20261011T01574
+        5Z/
+  Note: MB42 fixed both Mac-only failures (16 new tests pass, 20 existing checks pass;
+        safety-critical files unchanged) and handed off at 41% working memory.
+  Note: MB43 (fresh) started 02:13Z to refresh the package and prepare fresh commands; then MAESTRO
+        re-runs all 9 checks on the Mac.
+5. [NEEDS YOU] Decide where NEW-1's 100 leftover files go
++8 more items (taller window shows more)
