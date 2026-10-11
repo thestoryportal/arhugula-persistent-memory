@@ -29,14 +29,14 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T16:13:27Z",
+    "edited": "2026-10-11T16:20:48Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
         "state": "running",
-        "who": "codexr1n (v11 budget re-plan), then Astra round 13, then your one approval",
+        "who": "codexr1n (W1 reserve fix), then Astra round 13, then your one approval",
         "session": null,
         "started": "2026-10-11T08:47Z",
         "estimate": null,
@@ -92,7 +92,8 @@
           "15:40Z: codexr1m finished the read-only size check for the Intel Mac and the pass/fail rule fixed in advance; MAESTRO49 reran its tests (10 of 10, and the existing 64 of 64) and confirmed it only reads. Next: the expert's round 12 review, then one question to you covering the gated steps.",
           "15:46Z: the expert said yes (round 12): the read-only size check may run once on the Intel Mac, then the fresh setup, then the full file list, all under ONE approval from you, stopping at the first failure. MAESTRO49 wrote the stop-checks the expert asked for (r1m_gate_d_checklist.md). Waiting for your yes or no.",
           "15:52Z: with your approval, the size check ran on the Intel Mac (it only read). The fixed pass/fail rule said FAIL: the full file list would need about 35 MB of record space, but only 18 MB is set aside. Almost all of it is the 61,743 files and folders already under /opt/local. So the chain stopped as planned: no setup ran and nothing was changed on the Intel Mac. Your approval is used up. Next: re-plan the space budget (or how /opt/local is recorded) with the expert, then ask you again.",
-          "16:02Z: MAESTRO50 started builder codexr1n to re-plan the space budget as version 11: keep the 2 GB setup ceiling, give the file-list records enough room (sized from the 15:52Z measurement, with a growth reserve fixed in advance) and take that room from another reserve. It also writes up two other options for you to weigh later (record /opt/local more compactly; clear the old leftover Intel files, which would need your OK). It builds and tests only on this Mac. Next: check its work, then the expert's round 13, then one new question to you."
+          "16:02Z: MAESTRO50 started builder codexr1n to re-plan the space budget as version 11: keep the 2 GB setup ceiling, give the file-list records enough room (sized from the 15:52Z measurement, with a growth reserve fixed in advance) and take that room from another reserve. It also writes up two other options for you to weigh later (record /opt/local more compactly; clear the old leftover Intel files, which would need your OK). It builds and tests only on this Mac. Next: check its work, then the expert's round 13, then one new question to you.",
+          "16:21Z: the re-plan builder finished version 11: 38 MB for the file-list records (was 18 MB), the failure reserve cut from 70 MB to 16 KB (the source shows the bigger leftovers are already counted elsewhere), and the 2 GB ceiling kept. MAESTRO50 reran all its tests (7, 10 and 64, all passing). But MAESTRO50 found one gap: almost no room is left for the Intel Mac's files to change before the next measurement (~690 files), so a small MacPorts update would fail the next run and waste your approval. The same builder is adding that reserve now (the record space goes to about 42 MB, still well under the ceiling). Then the expert's round 13."
         ]
       },
       {
@@ -142,7 +143,7 @@
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
-        "who": "codexr2n2 (launch list) + codexr2o (checker v3), then MAESTRO, then Astra round 6",
+        "who": "codexr2n3 (launch list) + codexr2o (checker v3), then MAESTRO, then Astra round 6",
         "session": "codexr2m2, codexr2n",
         "started": "2026-10-11T09:03Z",
         "estimate": {
@@ -174,7 +175,8 @@
           "15:40Z: the expert said NO-GO again (round 5), but closer: 2 of 5 fixes are now closed. Still open: the list of science launches must become a closed, exact list (anything not on it is refused); the science run ID needs one fixed source; the checker misread how the record's revision counter advances, and it must check deeper. Two builders started: codexr2m (rules + schemas) and codexr2n (exact launch list); a checker builder follows them.",
           "15:56Z: the launch-list builder stopped on a real gap: the rules required every science run to be locked in a 'sandbox', and no science sandbox exists. MAESTRO49 decided science runs are watched, not sandboxed (the shared-drive contract asks for watching, not locking; science is the side being protected). Written in r2_science_containment_decision.md; the expert reviews it next round. codexr2n continues with that; the rules builder ran low on room and handed off to codexr2m2.",
           "16:08Z: the launch-list builder ran low on room and handed off cleanly. Done so far: one science run fully described (the C10U wordlist script), 8 runs refused for specific reasons, 111 matches marked 'not science' (other apps' agents, backup helpers, package files). 242 matches still to sort. MAESTRO50 re-checked its files (they parse, the size is in limits, and every recorded fingerprint matches) and started a fresh successor, codexr2n2, to finish the sorting.",
-          "16:15Z: the rules-freeze builder finished: version 4 of the shared-drive rules plus the matching record formats, including the 'science runs are watched, not sandboxed' decision. MAESTRO50 checked it independently: right length and all nine sections, the formats load, every example names a real format, every required cross-reference fingerprint is present, and every pinned file fingerprint recomputes. Next: the checker builder (codexr2o), while codexr2n2 finishes the launch list; then the expert's round 6."
+          "16:15Z: the rules-freeze builder finished: version 4 of the shared-drive rules plus the matching record formats, including the 'science runs are watched, not sandboxed' decision. MAESTRO50 checked it independently: right length and all nine sections, the formats load, every example names a real format, every required cross-reference fingerprint is present, and every pinned file fingerprint recomputes. Next: the checker builder (codexr2o), while codexr2n2 finishes the launch list; then the expert's round 6.",
+          "16:21Z: the launch-list successor sorted all 242 remaining matches (89 not science, 7 more refused for a specific reason, 146 science runs still to describe) and handed off; MAESTRO50 re-checked its files and started a third session, codexr2n3, which takes the record shapes from the now-final rules. The checker builder codexr2o is working in parallel."
         ]
       },
       {

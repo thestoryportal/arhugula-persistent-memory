@@ -310,56 +310,105 @@
       "sha256": "616c3e69021413b3e95549e8934aed84639f7eac7c91641f910b04a129bbcbfe",
       "reason": "Executes C10_RUN_DIR/edit.py selected at run time (/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/editor_bootstrap.py:20); that payload is not a fixed launch dependency.",
       "citation": "results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v2.md:249",
-      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7–11 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
+      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7\u201311 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
     },
     {
       "entrypoint": "experiments/track_c/autoresearch_c10/editor_bootstrap.py",
       "sha256": "f1271db7ab744c80acc8ff5e9fafe4eb431369ac65bb3883f0834e4d031dbe2c",
       "reason": "Executes the run-directory edit.py selected at run time (experiments/track_c/autoresearch_c10/editor_bootstrap.py:23); that payload cannot be identified by hashing this bootstrap alone.",
       "citation": "results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v2.md:185",
-      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7–11 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
+      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7\u201311 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
     },
     {
       "entrypoint": "experiments/track_c/autoresearch_c10/replay_exp2/run_replay.sh",
       "sha256": "a41c27f47a2a418a12a8edda733bfa32bdb94bf96749d6f09f0d20132b41ac99",
       "reason": "Selects replay destination payload at run time (experiments/track_c/autoresearch_c10/replay_exp2/run_replay.sh:5,7,157); destination edit.py identity is not a fixed launch dependency.",
       "citation": "results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v2.md:194",
-      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7–11 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
+      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7\u201311 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
     },
     {
       "entrypoint": "mathlab/m2_solve_repro.py",
       "sha256": "eb928e44c99e253840b491008df9a8fdec5b87b161526afd5a616299ad85410f",
       "reason": "PEP723 notebook launched by the runner's unlocked uv run --script resolution and arbitrary forwarded argument suffix (tools/mathlab_cpu_runner.py:17,63,66,67); no complete fixed invocation for this route is supplied.",
       "citation": "results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v2.md:255",
-      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7–11 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
+      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7\u201311 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
     },
     {
       "entrypoint": "mathlab/m3_calibration.py",
       "sha256": "5a0f29e4a29096e2c8e5e6540f8be5b248aa59ebb03b17cd1e12b8767bea858c",
       "reason": "PEP723 notebook launched by the runner's unlocked uv run --script resolution and arbitrary forwarded argument suffix (tools/mathlab_cpu_runner.py:17,63,66,67); no complete fixed invocation for this route is supplied.",
       "citation": "results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v2.md:256",
-      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7–11 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
+      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7\u201311 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
     },
     {
       "entrypoint": "tools/mathlab_cpu_runner.py",
       "sha256": "77ee421368f917283d2aeeea43239c38c482c05924e47942b1de32a155577d31",
       "reason": "The runner forwards arbitrary notebook_args after parse_known_args (tools/mathlab_cpu_runner.py:63,67); its uv run --script child is resolved independently of the project lock (:66). A complete literal child argv and locked interpreter/package identity are unavailable from this launcher.",
       "citation": "results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v2.md:237",
-      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7–11 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
+      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7\u201311 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
     },
     {
       "entrypoint": "tools/run_mathlab_cpu.sh",
       "sha256": "a79e0dedd366c7721f8a9e84214f63f52d293ae8f38740068874f4e0256b8007",
       "reason": "Executes the variable-arity notebook runner (tools/run_mathlab_cpu.sh:23; tools/mathlab_cpu_runner.py:63,67). Its child interpreter/package resolution is not fixed by project uv.lock (tools/mathlab_cpu_runner.py:66).",
       "citation": "results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v2.md:236",
-      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7–11 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
+      "what_would_admit": "Freeze a fixed-arity invocation, an identified locked interpreter/package set, and every chosen payload dependency; then supply a complete SCIENCE LaunchProfile under r2_science_containment_decision.md:7\u201311 with literal argv/environment, computed identities, each child, shared_disk_access and binding declarations."
     },
     {
       "entrypoint": "experiments/track_c/autoresearch_c10/replay_exp2/tokenizer_precheck.py",
       "sha256": "baf1d40c43f017e6a46bd4525878529c8fc7522396a7afcff034ccf7ab911014",
-      "reason": "DEST is selected at invocation; precheck_inputs inspects and hashes that destination's edit.py/diff rather than a fixed dependency set (experiments/track_c/autoresearch_c10/replay_exp2/tokenizer_precheck.py:27–40,72–78). A named, byte-pinned clone is required to fix its shared-disk access and dependency identities. The shared tokenizer-cache read and receipt write are at :88–95.",
+      "reason": "DEST is selected at invocation; precheck_inputs inspects and hashes that destination's edit.py/diff rather than a fixed dependency set (experiments/track_c/autoresearch_c10/replay_exp2/tokenizer_precheck.py:27\u201340,72\u201378). A named, byte-pinned clone is required to fix its shared-disk access and dependency identities. The shared tokenizer-cache read and receipt write are at :88\u201395.",
       "citation": "experiments/track_c/autoresearch_c10/replay_exp2/tokenizer_precheck.py:27",
-      "what_would_admit": "Select a literal replay destination and hash its edit.py/diff/inspection dependencies; freeze the pinned venv runtime required at :20–24, exact closed environment, cache/receipt access paths, and the complete fixed argv before admission."
+      "what_would_admit": "Select a literal replay destination and hash its edit.py/diff/inspection dependencies; freeze the pinned venv runtime required at :20\u201324, exact closed environment, cache/receipt access paths, and the complete fixed argv before admission."
+    },
+    {
+      "entrypoint": "experiments/track_c/autoresearch_c10/dispatch.py",
+      "sha256": "5cfcb9d9e2204d9c848cc6f91e98bd52975e26cf5212e6ed4d69bf3f78750db1",
+      "reason": "This route reaches the mutable sandbox edit.py snapshot selected at each dispatch, then executes that snapshot through editor_bootstrap.py. The next recipe is not a fixed byte-pinned dependency; the launch profile cannot enumerate its child/dependency identities (experiments/track_c/autoresearch_c10/dispatch.py:150\u2013169).",
+      "citation": "experiments/track_c/autoresearch_c10/dispatch.py:150\u2013169",
+      "what_would_admit": "Freeze one exact recipe and its complete imported dependency set, prevent recipe replacement for this launch, and supply a complete SCIENCE profile for the selected fixed child tree; the general editable-recipe loop remains refused."
+    },
+    {
+      "entrypoint": "/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/dispatch.py",
+      "sha256": "5cfcb9d9e2204d9c848cc6f91e98bd52975e26cf5212e6ed4d69bf3f78750db1",
+      "reason": "This route reaches the mutable sandbox edit.py snapshot selected at each dispatch, then executes that snapshot through editor_bootstrap.py. The next recipe is not a fixed byte-pinned dependency; the launch profile cannot enumerate its child/dependency identities (/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/dispatch.py:150\u2013169).",
+      "citation": "/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/dispatch.py:150\u2013169",
+      "what_would_admit": "Freeze one exact recipe and its complete imported dependency set, prevent recipe replacement for this launch, and supply a complete SCIENCE profile for the selected fixed child tree; the general editable-recipe loop remains refused."
+    },
+    {
+      "entrypoint": "/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/run.sh",
+      "sha256": "31a9d49440b34f837ee086d1d2967921a3d143e814cfdd2e99711c370cac47ed",
+      "reason": "This route reaches the mutable sandbox edit.py snapshot selected at each dispatch, then executes that snapshot through editor_bootstrap.py. The next recipe is not a fixed byte-pinned dependency; the launch profile cannot enumerate its child/dependency identities (/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/run.sh:7\u20138; /Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/dispatch.py:150\u2013169).",
+      "citation": "/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/run.sh:7\u20138; /Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/dispatch.py:150\u2013169",
+      "what_would_admit": "Freeze one exact recipe and its complete imported dependency set, prevent recipe replacement for this launch, and supply a complete SCIENCE profile for the selected fixed child tree; the general editable-recipe loop remains refused."
+    },
+    {
+      "entrypoint": "experiments/track_c/autoresearch_c10/v13_launcher.py",
+      "sha256": "9374f3f44e80ab1b4452acbd946e1caa245b779773e3002b3f0eb4ec41eb54f1",
+      "reason": "This route reaches the mutable sandbox edit.py snapshot selected at each dispatch, then executes that snapshot through editor_bootstrap.py. The next recipe is not a fixed byte-pinned dependency; the launch profile cannot enumerate its child/dependency identities (experiments/track_c/autoresearch_c10/v13_launcher.py:84\u201387; experiments/track_c/autoresearch_c10/dispatch.py:150\u2013169).",
+      "citation": "experiments/track_c/autoresearch_c10/v13_launcher.py:84\u201387; experiments/track_c/autoresearch_c10/dispatch.py:150\u2013169",
+      "what_would_admit": "Freeze one exact recipe and its complete imported dependency set, prevent recipe replacement for this launch, and supply a complete SCIENCE profile for the selected fixed child tree; the general editable-recipe loop remains refused."
+    },
+    {
+      "entrypoint": "/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/v13_launcher.py",
+      "sha256": "d03c9d72bab4a7ec156924e778a922b25ad7d0e3d91df6a97472599ec7dbd6f3",
+      "reason": "This route reaches the mutable sandbox edit.py snapshot selected at each dispatch, then executes that snapshot through editor_bootstrap.py. The next recipe is not a fixed byte-pinned dependency; the launch profile cannot enumerate its child/dependency identities (/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/v13_launcher.py:84\u201395; /Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/dispatch.py:150\u2013169).",
+      "citation": "/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/v13_launcher.py:84\u201395; /Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/dispatch.py:150\u2013169",
+      "what_would_admit": "Freeze one exact recipe and its complete imported dependency set, prevent recipe replacement for this launch, and supply a complete SCIENCE profile for the selected fixed child tree; the general editable-recipe loop remains refused."
+    },
+    {
+      "entrypoint": "experiments/track_c/autoresearch_c10/launch.sh",
+      "sha256": "9deb4e074db55f5d6694e0e7bdefc6799da0ec04e6a6e0a00af17dde5d19fdcd",
+      "reason": "This route reaches the mutable sandbox edit.py snapshot selected at each dispatch, then executes that snapshot through editor_bootstrap.py. The next recipe is not a fixed byte-pinned dependency; the launch profile cannot enumerate its child/dependency identities (experiments/track_c/autoresearch_c10/launch.sh:8\u201310; /Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/dispatch.py:150\u2013169).",
+      "citation": "experiments/track_c/autoresearch_c10/launch.sh:8\u201310; /Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/dispatch.py:150\u2013169",
+      "what_would_admit": "Freeze one exact recipe and its complete imported dependency set, prevent recipe replacement for this launch, and supply a complete SCIENCE profile for the selected fixed child tree; the general editable-recipe loop remains refused."
+    },
+    {
+      "entrypoint": "experiments/track_c/autoresearch_c10/start_tmux.sh",
+      "sha256": "b339d5f5bf71f4823731dd6085cf95070211f85c2cf7ff76daba033422aeff99",
+      "reason": "This route reaches the mutable sandbox edit.py snapshot selected at each dispatch, then executes that snapshot through editor_bootstrap.py. The next recipe is not a fixed byte-pinned dependency; the launch profile cannot enumerate its child/dependency identities (experiments/track_c/autoresearch_c10/start_tmux.sh:5\u201310; /Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/dispatch.py:150\u2013169).",
+      "citation": "experiments/track_c/autoresearch_c10/start_tmux.sh:5\u201310; /Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10/dispatch.py:150\u2013169",
+      "what_would_admit": "Freeze one exact recipe and its complete imported dependency set, prevent recipe replacement for this launch, and supply a complete SCIENCE profile for the selected fixed child tree; the general editable-recipe loop remains refused."
     }
   ]
 }
