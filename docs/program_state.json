@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T13:48:05Z",
+    "edited": "2026-10-11T13:54:10Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -131,9 +131,9 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "running",
-        "who": "codexr2g + codexr2h2, then Astra round 4",
-        "session": "codexr2g, codexr2h2",
+        "state": "in_review",
+        "who": "Astra (round 4), then MAESTRO",
+        "session": "",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -152,7 +152,28 @@
           "12:41Z: MAESTRO named the owners: MAESTRO owns all three parts (the M3 coordinator, the Intel copy worker and the M3 copy step); Codex builders build each one, and nothing runs before the freeze passes Astra. The Intel Mac asks the M3 over ssh with a dedicated key that can only run one fixed request each. Builder codexr2f is writing the freeze: exact commands, formats, limits and time-outs.",
           "13:22Z: codexr2f finished the build-level rules (ea7477ad): 224 lines, all nine parts Astra asked for, every choice tied to a contract clause, MAESTRO owns all three parts. MAESTRO checked the shape, not the content. Astra round 3 is reviewing it now (36d32697). codexr2f closed.",
           "13:30Z: Astra round 3 said not yet (0219b4a7): name who builds each part and list every way science runs get started; the copy program can't approve its own start while paused, so the coordinator must do it; a recovery checker must work even when the coordinator is dead; every record needs a full format; one source was cited from the wrong file. MAESTRO made those design calls and started two builders: codexr2g (rules v2 + record formats) and codexr2h (list of science start paths). Then Astra round 4.",
-          "13:40Z: codexr2h ran out of room halfway through the list of science start paths and handed off; fresh successor codexr2h2 is finishing it. codexr2g is still writing rules v2."
+          "13:40Z: codexr2h ran out of room halfway through the list of science start paths and handed off; fresh successor codexr2h2 is finishing it. codexr2g is still writing rules v2.",
+          "13:53Z: both builders finished. codexr2g wrote the shared-drive rules version 2 with exact record formats and a checker; codexr2h2 finished the list of every science launch path. MAESTRO46 checked them (checker passes, sizes and sections right, three sampled fingerprints match) and committed them (181b2cfa). Astra round 4 is reviewing (309a9a65)."
+        ]
+      },
+      {
+        "id": "dashboard-integration-review",
+        "title": "Review your dashboard, skills and dataviz lists",
+        "summary": "Five Codex reviewers each take one area of the lists you sent (web dashboard tools, terminal dashboard tools, dashboard/design skills, research/ML skills, design best practices) and report what fits our work, how it would plug in, the cost and risk, and a verdict per item. Review only: nothing is installed or built.",
+        "state": "running",
+        "who": "Codex reviewers codexdirweb, codexdirtui, codexdiruiskills, codexdirresearchskills, codexdirpractices; then MAESTRO summarises for you",
+        "session": "codexdirweb, codexdirtui, codexdiruiskills, codexdirresearchskills, codexdirpractices",
+        "started": "2026-10-11T13:52:00Z",
+        "estimate": {
+          "low_min": 30,
+          "high_min": 75,
+          "set": "2026-10-11T13:53Z"
+        },
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "13:52Z: you sent the lists (13:50Z). MAESTRO46 split them into five areas and started one Codex reviewer per area with a shared description of our setup (results/dashboard_integration_review_20261011/CONTEXT.md). Each writes one report there; skills are also checked for install safety."
         ]
       },
       {
@@ -169,10 +190,11 @@
           "set": "2026-10-11T09:12Z"
         },
         "depends_on": [
-          "r2-clearance"
+          "r2-clearance",
+          "dashboard-integration-review"
         ],
         "blocked_by": [
-          "Your context first: you asked (13:05Z) that no building start on the terminal dashboard or LabViz until you've given context to review."
+          "Your context arrived (13:50Z) and is being reviewed; building waits until you have seen the review findings."
         ],
         "needs_from_you": [],
         "notes": [
