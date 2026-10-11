@@ -1006,3 +1006,218 @@ Proposed packet, following `results/dashboard_integration_review_20261011/labviz
 - All three subjects, one fact throughout, shared latest results for identical reused questions and varied question authoring across cards are recorded above. No operator question remains unanswered. Stop starting new work at this proactive arc checkpoint; no context percentage is exposed or asserted, and no compaction notice was observed.
 - Continuation saved separately in `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff5.md`. Exact next point: make the three-card same-fact reader journey/content packet concrete, using varied question perspectives and connected review/tracker examples; verify the selected variant's method source before an experiment-specific editing explanation. Existing spec/hold and all prior settled decisions remain.
 - Context directive survives: check Context N% left at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted, finish the current point and write a separate successor handoff; at <=40%, stop starting work. Never put the handoff inside notes or approach full-window compaction; restate this rule in every successor/team handoff. Only notes and the designated handoff were written; no implementation or runtime/scientific acceptance is claimed.
+
+## LVB6 — first learning card approved; selected change method located
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "approved", replying to the complete proposed Card 1 and its short-opening versus fuller-opening question. Accept the short explanation with expandable foundations and source details, a teaching diagram distinct from the recorded example, visible missing-data wording, a checked-choice question and feedback at quiz end. This is design approval, not permission to build or a reviewed educational answer bank.
+- Approved card: "What happens between my question and the model's reply?" Explain that information from a question passes through model parts, which use stored numbers to shape the reply; different questions can change activity without changing those numbers. Expand Foundations for model parts, stored numbers and information flow. Diagram: Question -> model parts -> reply, labelled Teaching illustration; it is not a replay of this experiment.
+- Example: assemble "If you visit Zorbland, its capital city is" from the saved template and subject; preserve saved reply " Vindex Vaskul,". Expand Source details for the original record. Visible limitation: "This record does not provide the information's path inside the model or a complete saved input." Basis re-read in LVB6: `results/c10w_oracle/p1_20261007T223707_598959Z/eval.json:49739-49752`; distinction in `docs/LABVIZ_V2_SPEC.md:636-648`. A broader historical-internals coverage audit was not performed.
+- Draft quiz: "You ask two different questions. Must the model's stored numbers change for its internal activity to differ?" Choices: A Yes; B No - different inputs can produce different activity. At quiz end explain B and connect to Card 2's deliberate change to stored numbers. The approved presentation remains subject to lesson/key/source review before publication; the question is not a calibrated educational measure.
+
+### Open questions
+
+- Next discussion slice: Card 2 around the same Zorbland fact, with the selected variant's trained-adapter method rather than a blanket MEMIT description. Proposed opening: "How did this experiment change the model?" Train a small added correction while holding the original stored numbers fixed, then combine that correction with selected parts for the recorded evaluation. An adapter is a small learned correction, not a fact table or a guarantee of isolated knowledge storage. Proposed varied question: after one part's stored numbers change, must an untouched part process exactly the same information? No; unchanged stored numbers do not guarantee unchanged activity. Feedback remains at quiz end and connects to evidence checks in Card 3.
+- Expanded detail may distinguish training (base numbers fixed), evaluation (merged effective numbers changed) and restoration after evaluation. Diagram remains a teaching illustration; write-size records do not reconstruct Zorbland's internal path. Exact lesson wording, checked choices, key, source/paper associations and displayed layer naming still require reviewed preparation. Card 2 has not yet been approved.
+
+### Spec changes proposed
+
+- Card 1 supplies a concrete accepted example for the pending Learn/quiz/tracker extension (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`), not an independently frozen schema or a reduced curriculum. Preserve context/source selection (`:348-355`) and the diagram/activity distinction (`:636-648`). The selected method clarifies the existing C10W adapter caption at `:635-641`; no binding spec edit occurred.
+
+### Context for build agents
+
+- Selected configuration: P1 / oracle_p1 / A7_coined_coined / Zorbland. `experiments/track_c/c10w_oracle_read.py:24-27` associates the recipe and training units; `experiments/track_c/c10w_oracle_eval.py:339-342`, `:384-387` chooses the matching training record. `results/c10w_oracle/p1_20261007T223707_598959Z/eval.json:72196-72213` records A7, seed 0, rank 16, 400 steps and trainer provenance; `:72435-72440` records its saved adapter reference and frozen_parameters_unchanged:true. No adapter/weight file was opened.
+- Method source inspected as text: `experiments/track_c/c10w_oracle_train.py:166-181` freezes original parameters, adds LoRA corrections to band down_proj parts and optimizes only the correction parameters; `:196-206` performs fitting. `experiments/track_c/c10w_oracle_eval.py:89-116` loads the saved correction and adds its delta to the selected weights for evaluation. Recorded band `[4,5,6,7,8]` is at `results/c10w_oracle/p1_20261007T223707_598959Z/eval.json:37710-37718`; matching initial/final band hashes at `:65339-65351` record restoration. Hash equality is recorded evidence, not a fresh recomputation here. Current source bytes were not hash-compared to the run's historical trainer hash; final reviewed content must bind to frozen method source.
+- Supply the approved Card 1 as content/layout context and the above selected-method excerpts for Card 2 preparation. The current hparams filename alone does not establish MEMIT as oracle_p1's change method. A final packet still needs reviewed source-bound lessons/questions/keys and supporting paper sections. No new repository adoption, installation, external page, source/spec/product edit, model/science process, build/test/browser run or git mutation occurred.
+- Root and branch worktree-c10k-route-a were verified read-only. Brainstorming skill used for conversational design only; generic commit/spec/browser/implementation actions excluded by operator scope. Only this notes entry was appended. No numerical context percentage is exposed or asserted. Check available context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point and write the separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff6.md`; at <=40% stop starting work. Never approach compaction; restate the rule in the handoff.
+
+## LVB6 — second learning card approved; evidence card prepared
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "Approved", replying to Card 2's two-stage explanation versus more training detail upfront. Accept "How did this experiment change the model?" with (1) learn a correction while original stored numbers stay fixed and (2) apply the correction to selected parts for testing. Define adapter as a small learned correction. Keep deeper changed-part details expandable and the teaching diagram distinct from information-flow observations. This approves the presentation, not reviewed content or building.
+- Accepted Card 2 draft quiz: "One part's stored numbers changed. Must an untouched part now process exactly the same information as before?" A Yes - its numbers stayed fixed; B No - the information reaching it may have changed. At quiz end explain B and connect to Card 3's recorded checks. Source and internal-path limitations remain visible; final source/key review is still required. All prior lessons, question-variety, quiz/tracker and scope rules carry forward.
+
+### Open questions
+
+- Next slice: "What do these results let us say?" Show Zorbland's expected answer Vindex Vask and the three recorded rewording flags as miss / match / match; preserve the full saved reply rather than silently replacing it with the target. Explain that a recorded scoring match is not necessarily literal equality of the entire visible reply. Expand Foundations for answer pieces, scoring rules, checks for unwanted effects on other questions and independent repeat runs.
+- Proposed teaching diagram: differently worded questions -> answer checks -> side-effect checks -> repeat-run checks, explicitly an explanation of evaluation, not a result trace. Recorded observation panel holds the Zorbland flags. A separate selected-P1 context note holds the recorded side-effect-check failure and lack of a final judgement in that snapshot. Do not turn per-fact flags, a whole-configuration count or a later phase's finding into one another.
+- Proposed varied evidence question: "A recorded measurement shows different activity in a model part. What can that observation establish on its own?" A That this part's stored numbers were edited; B That its activity differed - stored-number changes need separate evidence. End feedback explains B, reconnecting input-dependent flow (Card 1) and deliberate stored-number changes (Card 2); a bright answer signal also does not locate where a fact is stored. Card 3 wording is proposed, not approved or a reviewed bank entry.
+
+### Spec changes proposed
+
+- Card 2 is a concrete accepted example under the pending Learn/assessment extension at `docs/LABVIZ_V2_SPEC.md:346`, `:1058`; preserve the stored-number/activity distinction at `:636-648`. Card 3 follows recorded scoring/source rules at `:619-625`, sourced evaluation context at `:584-587` and answer-readable versus stored-fact distinction at `:589-595`. No additional feature amendment follows merely from these examples; binding spec remains unchanged.
+
+### Context for build agents
+
+- Zorbland target and ordered full-answer flags re-read at `results/c10w_oracle/p1_20261007T223707_598959Z/eval.json:58507-58517`; saved generated reply remains at `:49739-49752`. Current scoring implementation inspected as text: `experiments/track_c/c10e_bandknob.py:109-117` compares generated answer-piece IDs for the target's length; `:358-373` records the canonical/reworded checks. `experiments/track_c/c10w_oracle_eval.py:181-196` records a longer continuation, with full determined by the first n IDs and contains separately determined from text. These are distinct recorded checks, not a new scoring run. Current code was not hash-compared to historical source pins; final educational review must bind to the frozen version.
+- Selected P1 context: `results/c10w_oracle/p1_20261007T223707_598959Z/interim_reader_configuration_v2.json:4` is INTERIM / seed 0 / no final label; `:18-29` records count 70 and G4:false alongside the other configuration gates. `results/c10w_oracle/p1_20261007T223707_598959Z/verdict.json:4-6` records INCOMPLETE, final_label:null and routing:null for this P1 reader snapshot. These do not establish the current whole-program state or supersede later phases. Historical interpretation read at `CORPUS/55_C10W_ORACLE_P1_INTERIM.md:13-45`; it describes training, source-bound results, same-frame side effects and limits. No fresh scientific verdict is made.
+- Provide the lesson builder with exact scoring-source excerpts, preserved output/flags, the selected snapshot's recorded interpretation and reviewed feedback/connections. Keep missing internal observations and missing final judgement distinct from failed measured checks. Supporting paper sections and a reviewed curriculum remain preparation gaps. No new external page, install/clone, source/spec/product edit, test/build/browser run, model/science process or git mutation occurred; only this notes entry was appended.
+- Context rule remains: check available Context before each question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point and write the separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff6.md`; at <=40% stop starting work. No numerical percentage is exposed or asserted. Preserve the same rule in the successor handoff.
+
+## LVB6 — third learning card approved; connected review and tracker example
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "Approved", replying to Card 3's proposed balance of results/limits versus giving the differently worded questions more space. Accept the balanced card "What do these results let us say?" with Zorbland's target, recorded miss / match / match flags, preserved saved reply, scoring-rule explanation, visible selected-P1 side-effect/final-judgement limits, expandable foundations and an explicitly labelled evaluation teaching diagram. This completes design approval of the three worked cards, not the reviewed curriculum, whole viewer or a scientific conclusion.
+- Accepted Card 3 draft quiz asks what different activity in a recorded measurement establishes on its own: A stored numbers were edited; B activity differed, edits need separate evidence. End feedback explains B and connects input, deliberate changes and evidence. Exact sources/review dependencies remain at the preceding LVB6 evidence-card entry; no new source audit or scientific verdict follows from approval.
+
+### Open questions
+
+- Proposed next worked slice: the connected review and personal tracker across the three card quizzes. Each card retains its own end feedback; an aggregate example does not replace every-card/section assessment or introduce an unapproved combined-quiz requirement. Written connections lead, with an expandable relationship map, following settled LVB3 rules at notes `:609` and handoff4 `:39`.
+- Illustrative learner responses in this three-question example only: Card 1 correct, Card 2 incorrect, Card 3 skipped; assessed accuracy = 1/2 = 50%, coverage = 2/3, skipped = 1. This is a worked worksheet, not actual learner data, whole-bank overall coverage or expertise. Proposed review wording links the three ideas: a new input can change activity without editing stored numbers; the experiment deliberately applies a learned correction; recorded checks determine what may be concluded. Link the missed answer to the stored-number/activity explanation and the skip to its evidence question.
+- One remaining navigation preference to discuss: Review this idea opens the explanation of the specific misunderstood idea (recommended), or starts its lesson card at the top. Preserve Back to quiz review and the prior selections/location; practice remains optional/unscored, no hints in scored quizzes, and no automatic grading/tutor is added.
+
+### Spec changes proposed
+
+- Card 3 is an accepted example for the pending Learn/assessment extension (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`); scoring/source/evaluation limits retain `:584-595`, `:619-625`. Connected written end review and personal tracker are already accepted proposed extensions, not new features introduced by this example. A precise review-link target would refine selection/return continuity (`:348-355`), with the accepted origin-named return behavior retained. Binding spec unchanged.
+
+### Context for build agents
+
+- Give the content/UI builders the three approved worked cards, their source excerpts and distinct draft question perspectives, separately reviewed lesson/keys/feedback, and this labelled response/count worksheet. Exact topic/domain/research associations remain preparation work. Model architecture, Engineering and Scientific reasoning are the accepted broad domain labels; Our research is the accepted experiment/question detail view (handoff4 `:29`). The sample is a subset of the eventual reviewed bank, never its asserted entire population.
+- Score rules re-read at notes `:807`, `:828`: count correct/assessed responses, count each eligible question once overall despite associations, show coverage separately, keep latest completed answers/history, leave skips unassessed and revised questions needing reassessment. Same question/version reused elsewhere follows notes `:985`; distinct authored questions about the same concept remain distinct items. An unfinished retake does not update current scores. No arithmetic test or product run occurred; the worksheet follows settled rules.
+- Reviewed paper associations remain pending; show Explanation not linked yet where applicable rather than invent a supporting paper/section. Local saving is unverified; Progress could not be saved must remain visible on failure. Only this notes entry was appended; no product/spec/build edit, external page/install, model/science process, build/test/browser run or git mutation occurred.
+- Context directive persists: check available Context before questions; start new pieces only at >=60%; at <=45% or any Context compacted finish the point and write the separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff6.md`; at <=40% stop starting new work. No numerical percentage is exposed or asserted. Restate this rule in the handoff.
+- Reference clarification after re-reading: the written-first connected end-review rule above is at notes `:612` and `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff4.md:37`, correcting the preceding `:609` / `:39` pointers. The design is unchanged.
+
+## LVB6 — review links open the relevant explanation directly
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "Open explanation directly", selecting the recommended Review this idea target. Open the specific explanation associated with the misunderstood idea; keep the full lesson card reachable. Retain the settled Back to quiz review action, prior selections/location, optional unscored practice and end-only quiz feedback. This is navigation design approval, not build or storage verification.
+- The approved three-card same-fact journey now has a concrete end-review link target. The labelled three-response score/coverage worksheet illustrates settled arithmetic; the operator's last answer specifically selects the link target and does not separately approve every draft phrase or hypothetical response.
+
+### Open questions
+
+- Next navigation detail, carried from handoff5 `:65` and notes `:218`, `:897`: a valid shared link to a selected run/input/player step opens paused (recommended), or starts playing automatically. Existing reading pauses/paused return and cross-mode source-step continuity are settled; first entry from a link is the remaining preference. Unresolvable selections, initial theme/mode/exploration and sequence-end behavior remain proposed for later discussion.
+- Reviewed content, exact concept-to-explanation targets, paper associations, stable question/version identity, source coverage and local storage/error behavior remain preparation dependencies. No new runtime or scientific acceptance is claimed.
+
+### Spec changes proposed
+
+- Add the accepted direct-explanation review-link target to the pending Learn/assessment contract (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`) with origin-named return continuity. Shared-link initial playback state would refine existing linked selections (`:353`) and player controls (`:919-931`); the current binding spans were re-read and do not select autoplay versus paused first entry. No spec edit occurred.
+
+### Context for build agents
+
+- Prepare a reviewed association from each checked question's concept to its relevant explanation section, with a full-card link and origin return information. Do not generate an explanation or answer key at click time. Failure to find a prepared explanation must be visible under the settled Explanation not linked yet message; preserve reviewed-content/source distinction.
+- Supply the complete LVB6 approved three-card example, the hypothetical 1/2 accuracy and 2/3 coverage worksheet, the direct-review target and accepted learner-state cases from notes `:807`, `:828`, `:985`. Builder preparation still needs worksheet cases for retakes/skips/revisions/overlap/save failure, reviewed content and phone tasks; none were executed. Only this notes entry was appended; no code/spec/product edit, build/test/browser run, install/clone, model/science process, external page or git mutation occurred.
+- Context rule remains binding: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point and write the separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff6.md`; at <=40% stop starting work. No numerical context percentage is exposed or asserted; restate this rule in the handoff.
+
+## LVB6 — linked player positions open paused
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", choosing "Open paused - recommended. Press Play when ready." A valid link to a selected run/question/player step opens at that linked position and stays paused until the reader presses Play. Preserve exact selected context and evidence/source labels; do not fabricate activity for an unavailable step. Previously accepted reading pauses/paused return and mode continuity remain settled.
+
+### Open questions
+
+- Next proposed case: the linked input/step cannot be found in this build. Recommended: retain the exact available run/context, show the requested target and a visible "Cannot find the linked step in this build" notice, then offer an explicit choice of available steps in that same run. If the run itself is unavailable, offer Choose a run without selecting a replacement automatically. Alternative presentation: a dedicated link-problem page, with explicit recovery actions. Neither option silently substitutes another run/step or treats an unresolved link as proof that the historical observation was never recorded.
+- This is a navigation-resolution notice, distinct from the six accepted data messages. The reason may be missing target, malformed selection, unsupported field or content absent from this build; show a known reason and retain unknown reasons honestly. Exact URL/state fields and resolution behavior still need a scoped contract.
+
+### Spec changes proposed
+
+- Add accepted paused entry from valid links to §4A selection/link state (`docs/LABVIZ_V2_SPEC.md:353`) and player controls (`:919-931`). An unresolved-link presentation would refine the same selection contract, preserving source/missing-data rules. Binding spec unchanged.
+
+### Context for build agents
+
+- Give the viewer builder valid linked selections plus unresolved-step/input and unresolved-run examples, accepted paused first entry and prior origin-return requirements. Preserve the requested identity, report which fields resolve, and require an explicit reader action before changing selections. Examples are planned behavior cases, not tests run or proof of current link support. No new read beyond the preceding verified navigation spans was needed; only this notes entry was appended.
+- All discussion/build boundaries and preparation gaps persist. Check context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point and write separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff6.md`; at <=40% stop starting work. No numerical percentage is exposed or asserted; restate the rule in the handoff.
+
+## LVB6 — unresolved links keep available run context visible
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", choosing "Notice within the run page - recommended." When the linked step cannot be found, retain the exact available run/context and display the requested target with "Cannot find the linked step in this build" and Choose an available step. Wait for the reader to select a replacement. If the run itself is unavailable, offer Choose a run without automatic substitution. This accepts the presented recovery behavior, not a finding that historical data never existed. The six scientific/personal-data messages remain distinct.
+
+### Open questions
+
+- Next player default carried from notes `:258` and handoff5 `:65`: at the final available step, stop and remain there with "End of available sequence" and Replay from start (recommended), or automatically repeat the selected sequence with visible repeat behavior. Preserve source order, distinguish sequence end from missing detail, and never invent intermediate frames or a completion verdict. Sequence-end behavior has not been selected yet.
+
+### Spec changes proposed
+
+- Add accepted unresolved-link notice/recovery to the linked-selection contract (`docs/LABVIZ_V2_SPEC.md:353`), preserving resolved identity and explicit selection changes. An end-of-sequence default would refine player controls (`:919-931`). Binding spec unchanged.
+
+### Context for build agents
+
+- Supply unresolved step/input/run cases, known versus unknown reasons, requested-versus-resolved identity display and explicit recovery actions. Missing requested content must not silently select a different experiment or restart playback; an unavailable run gets recovery controls without falsely labelling another run as the requested one. Preserve return-to-origin where an origin exists. These are planned cases, not executed tests.
+- Only this notes entry was appended. All discussion/build holds and unverified preparation/persistence/source-coverage limits persist. Check context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point and write the separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff6.md`; at <=40% stop starting work. No numerical percentage is exposed or asserted; preserve the rule in the handoff.
+
+## LVB6 — playback stops at the last available step
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", choosing "Stop at the end - recommended." Stop playback at the final available step, retain the diagram/answer and show "End of available sequence" with Replay from start. No automatic loop. The message describes this sequence's end, not experiment completion or scientific acceptance; visible source/missing-detail labels persist.
+
+### Open questions
+
+- Next initial preference carried from notes `:52`: follow the device's light/dark appearance until the reader explicitly chooses a theme, then remember that choice on the device (recommended); alternatively initially use light or initially use dark. The light/dark switch itself is already approved and is not reopened. Persistence remains unverified; no account/cloud state is selected.
+- Initial player mode/exploration defaults and exact state/source/content preparation remain pending. Do not convert these defaults into build authority.
+
+### Spec changes proposed
+
+- Add accepted sequence-end stop/replay behavior to player controls (`docs/LABVIZ_V2_SPEC.md:919-931`). Starting-theme behavior would refine the accepted light/dark extension; preserve readable text, contrast, non-colour cues, touch sizes and equivalent eventual verification in both themes (`:357-373`, `:405-420`, re-read in this turn). No spec edit occurred.
+
+### Context for build agents
+
+- Include a last-step/replay reader case and distinguish no available sequence, a stopped complete displayed sequence, gaps within available content and the experiment's independent recorded status. Theme preparation requires reviewed palettes for both modes and device/default/explicit-choice cases; no screenshot or current implementation claim establishes the new theme behavior. Both modes show identical scientific data and evidence labels.
+- Only this notes entry was appended; no source/spec/product edit, build/test/browser run, model/science process, external page/install or git mutation occurred. Check context before questions; start new pieces only at >=60%; at <=45% or any Context compacted finish the point and write separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff6.md`; at <=40% stop starting work. No numerical percentage is exposed or asserted; preserve the rule in the handoff.
+
+## LVB6 — starting theme follows the device
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", choosing "Follow the device - recommended." Initially use the phone/computer's light or dark appearance; after an explicit LabViz theme choice, remember that choice on the same device. The approved theme switch remains. This is intended local presentation behavior, not a verified storage capability or account/cloud feature. Both themes retain the same source-bound values and evidence labels.
+
+### Open questions
+
+- Next normal-entry preference, previously proposed at notes `:158`, `:306`: for a selected run when entering Inside the model without a link to a specific step, start with the 2D overview and free exploration, keeping Start walkthrough visible (recommended), or enter the guided walkthrough first. Both exploration and walkthrough are already required; 2D -> 3D -> explanation order remains settled. A valid specific link continues to override general entry with its selected paused position. Initial player mode remains a separate proposed default.
+
+### Spec changes proposed
+
+- Add accepted device-following initial theme/explicit local override to the proposed light/dark extension, preserving §4A readability and equivalent future theme checks (`docs/LABVIZ_V2_SPEC.md:357-373`, `:405-420`). Exploration/walkthrough entry would refine Inside-the-model navigation (`:345`, `:353`) and diagram/player presentation (`:643-657`). Binding spec unchanged.
+
+### Context for build agents
+
+- Include system light/dark preference, explicit override and reload cases; validate actual supported device/file-URL persistence in a later authorized build. Initial theme is presentation state, independent of scientific records. Preserve equivalent text/mark contrast, labels, touch targets and non-colour states; historical screenshots do not prove the proposed modes.
+- Viewer entry context distinguishes direct navigation, valid specific links, named returns and unresolved selections; do not let a generic entry default erase a valid linked or returning selection. Selected-model topology and measurement coverage remain preparation inputs; the inspected spec's Qwen-specific structural example is not a universal model diagram. Only this notes entry was appended; all holds/unverified preparation limits persist.
+- Check context before questions; start new pieces only at >=60%; at <=45% or any Context compacted finish the point and write separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff6.md`; at <=40% stop starting work. No numerical percentage is exposed or asserted; restate the rule in the handoff.
+
+## LVB6 — normal Inside-the-model entry starts with exploration
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", choosing "Explore first - recommended." Normal Inside-the-model entry for a selected run starts with the 2D overview and free exploration, with a visible Start walkthrough action. Both exploration and guided walkthrough remain available; the established 2D -> 3D -> explanation order persists. Specific linked positions and named returns preserve their requested/origin state instead of resetting to the normal-entry overview.
+
+### Open questions
+
+- Remaining initial player-mode preference from notes `:306`: Experiment phases, paused (recommended for broad context), One fact/question, paused, or One component, paused. Experiment phases means the recorded change/test/side-effect stages; the other modes focus on a selected input or model part. This is a fresh-entry default, not a reset during mode switching, a valid specific link or a named return. The three modes themselves are already accepted. Available records constrain every mode; empty/missing routes must be explicit.
+
+### Spec changes proposed
+
+- Add accepted exploration-first normal entry with visible walkthrough to Inside-the-model navigation/linked state (`docs/LABVIZ_V2_SPEC.md:345`, `:353`) and model/player presentation (`:643-657`, `:919-931`). Initial player mode would refine the accepted three-route extension at those anchors. No spec edit occurred.
+
+### Context for build agents
+
+- Supply separate fresh-entry, specific-link and origin-return reader cases, model-specific 2D overview context and a visible optional walkthrough entry. General teaching must be labelled and not presented as historical activity. Preserve all three player routes, granular depth, source-step continuity and source/missing notices. Builder preparation still requires actual source coverage; no mode default creates missing observations.
+- Only this notes entry was appended. All discussion/build holds and unverified content/source/persistence limits remain. Check context before questions; start new pieces only at >=60%; at <=45% or any Context compacted finish the point and write separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff6.md`; at <=40% stop starting work. No numerical percentage is exposed or asserted; preserve the rule in the handoff.
+
+## LVB6 — initial player mode settled; planned continuity checkpoint
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", choosing "Experiment phases, paused - recommended." On fresh normal entry for a selected run, initially select Experiment phases and leave playback paused. This gives the recorded change/test/side-effect sequence as the broad starting route; all three accepted modes remain available. Valid specific links, named returns and source-step-preserving mode switches retain their own selections rather than being reset by this default. Available records and explicit gaps constrain every route.
+
+### Open questions
+
+- No operator question remains pending. The three-card same-Zorbland example, direct explanation review links, paused linked positions, in-context unresolved-link recovery, stop/replay at sequence end, device-following initial theme and exploration-first/phases-paused normal entry are settled.
+- Exact content/key/paper review, question/version identities and completed-attempt ordering, finer topic/bank population, source/model/input/component coverage, future capture authority, local persistence and eventual phone/theme verification remain preparation work. The short three-question worksheet was shown; complete retake/reuse/revision/save-failure examples are still needed in the final builder packet.
+
+### Spec changes proposed
+
+- Add accepted initial phases-paused default alongside exploration-first entry and specific-link/return precedence to §4A navigation and the player extension (`docs/LABVIZ_V2_SPEC.md:345`, `:353`, `:643-657`, `:919-931`). All LVB6 choices remain proposed amendments to the unchanged binding spec; MAESTRO must freeze amendments/scoped briefs before building.
+
+### Context for build agents
+
+- Supply the LVB6 accepted examples and navigation defaults with separate fresh-entry/link/return cases; follow available source steps and show gaps, never fabricate internal activity or scientific labels. Lesson and question-key review remains separate from viewer construction; primary-reference extracts remain contextual trials, not adoptions.
+- Proactive arc checkpoint: no numerical context percentage is exposed or asserted, and no compaction notice was observed. Save continuation separately in `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff6.md`; start no further piece in LVB6. Exact next point: complete a phone-sized tracker behavior worksheet around the three drafted questions using settled retake/skip/reuse/revision/save-failure rules, then continue source/model coverage preparation. Do not reopen settled choices or present a new subject-selection menu.
+- Only the append-only notes and designated handoff are authorized writes. No code/spec/product edit, build/test/browser run, install/clone, model/weight/tokenizer/science access, external page or git mutation occurred. Context directive survives: check available Context at the end of every reply before questions; start new pieces only at >=60%; at <=45% or any Context compacted finish the point and write a separate successor handoff; at <=40% stop starting work. Never approach compaction or put the handoff in notes; restate this rule in every successor handoff.
