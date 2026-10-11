@@ -1,0 +1,44 @@
+R2Q, from MAESTRO (the Claude session that runs this research team). Task: answer Astra's round-6 required changes R1–R4 and R6 for the shared-disk clearance freeze, by building new versions of four subjects and a checker that proves them. Test-first. No commits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. C = B/shared_disk_clearance_contract_v1_1.md (never edit).
+Inputs (read-only; never edit any of them): F4 = B/shared_disk_clearance_freeze_v4.md (358 lines). J3 = B/shared_disk_clearance_schemas_v3.json (1.4 MB). K3 = B/check_r2_schemas_v3.py (1,501 lines). P = B/science_launch_profiles_v1.json (7.7 MB, 159,042 lines). I3 = B/science_launch_inventory_v3.md (263 lines).
+V6 = B/astra_r2i_verdict.md (Astra round 6, NO-GO): findings F1–F7 at :7–75, required changes R1–R6 at :79–89. Read V6 in full first.
+DR = B/r2_round7_decisions.md (MAESTRO's rulings for this round). Read it in full second. It is binding: D1 answers R5, D2 selects R1's composition, D3 selects R4's registration mechanism. Do not reopen them.
+
+== Outputs (new files only) ==
+F5 = B/shared_disk_clearance_freeze_v5.md, J4 = B/shared_disk_clearance_schemas_v4.json, K4 = B/check_r2_schemas_v4.py, P2 = B/science_launch_profiles_v2.json. I4 = B/science_launch_inventory_v4.md only if an I3 line states a fact you change (copy I3, change only those lines). Start each by copying its input, then change it by script.
+
+== What each required change needs (V6 wording first, then direction) ==
+R1 "Freeze one production guard/profile composition … Make F4, J3 and P agree." Apply DR D2: every production SCIENCE profile in P2 uses J3's construction (science-guard owns /invocation with launch_id and self_sha256 declarations; the payload is under /authorized_payload; bindings resolve inside the owning profile). F5 and J4 state the same construction.
+R2 "Distinguish independently admissible entrypoints from child-only recipes … retain /usr/bin/true only where absence of a separate admission is established." Add to J4 an admission scope on each LaunchProfile: TOP_LEVEL or CHILD_ONLY (a CHILD_ONLY recipe runs only as a declared child of an admitted parent). `tools/run_c10w_stage.sh` P2 variants are CHILD_ONLY under `tools/run_c10w_p2_stage.sh`, whose gate is `tools/c10w_p2_gate.py` (V6 F2, :15–21). Audit all 49 `/usr/bin/true` admissions in P: keep one only where I3 or a cited source line establishes there is no separate admission (the wordlist, I3:152–157); otherwise name the real admission or make the profile CHILD_ONLY.
+R3 "Reconcile unsandboxed science with Process, enrollment and observation records. Restrict the exemption by actual role/capability." In J4, a science process is represented without a sandbox hash and points at its ScienceInvocationProfile; every non-science Process still requires a nonnull sandbox_profile_sha256. ScienceChildProfile.role accepts only science roles: never RECOVERY_EXCLUSIVE_CREATE or AUTHORITY_WRITE (V6 F3, :23–32).
+R4 "Complete the transitive C10W child profiles, including P3 replication Git probes. Select how every permitted child is registered before execution." Registration is DR D3 (declared-tree registration at root admission, label DECLARED_AT_ROOT_ADMISSION, no BROKER_SUSPENDED on science children). Trace every C10W child, including verify-preflight → authorized_phase_entry → replication_for → `/usr/bin/git ls-files --error-unmatch -- <adapter>` and step0's ensure_authorized path (V6 F4, :34–46, with source lines). Profile each with its adapter bindings.
+R5 is DR D1. In P2, rename every `RETIRED_NOT_ADMITTED:` refusal to `NOT_ADMITTED_NO_PROFILE:` citing DR D1, and apply D1's rule that a parent whose declared children include a refused launcher is not admitted.
+R6 "Check QUERY's fresh observation against current authority and reconcile mandatory hash obligations independently of the supplied manifest. Add isolated controls for both omissions, rerun production semantic checks." In K4: (a) validate QUERY's returned observation revision against the current authority, as for other observations; (b) derive the mandatory hash-reference set from F5's stated obligations (not from J4's manifest) and require the manifest to cover it; (c) `--profiles` also runs the production declaration/coherence checks, plus R1–R4's checks; (d) new mutation controls, each RED for its own reason: the swapped QUERY observed_sequence 3→4 with the schema pin updated, the removed CheckpointRecord /policy_sha256 manifest entry plus its root-example reference (V6 F6, :58–69), and one control per R1–R4 check. (e) `--mutation-controls` must run in a read-only sandbox: mutate in-memory copies and create no file or directory (Astra could not run K3's controls because TMPDIR creation was denied, V6:109).
+
+== Test-first ==
+Before building F5/J4/P2, write K4's new checks and run them against F4/J3/P. Each R1–R4 check must report the defect V6 names; record each failing output. Then build until K4 is GREEN on F5/J4/P2.
+
+== Acceptance (all must hold; paste outputs in the report) ==
+1. `/usr/bin/python3 -B B/check_r2_schemas_v4.py` (defaulting to F5/J4) exits 0 with its GREEN line.
+2. `/usr/bin/python3 -B B/check_r2_schemas_v4.py --profiles B/science_launch_profiles_v2.json` exits 0, GREEN, running coherence checks, not only schema validation.
+3. `/usr/bin/python3 -B B/check_r2_schemas_v4.py --mutation-controls` exits 0, every control RED for its intended reason, with zero files created (show `find "$TMPDIR" -newer B/codexr2q_brief.txt | wc -l` before and after, or equivalent).
+4. The test-first failing outputs from F4/J3/P, one per R1–R4 check.
+5. F5 pins J4's and P2's sha256 (from `shasum -a 256`), and F5 §9 maps V6 R1–R6 to the lines that close each.
+
+== Read discipline ==
+Never read P, J3/J4 or K3 whole: `grep -n` to locate, then `sed -n` ranges of at most 40 lines, and short /usr/bin/python3 -B commands that print one profile or reference at a time. Edit P2 and J4 by script.
+
+== Do NOT produce any of these ==
+- An edit to any input file (F4, J3, K3, P, I3, DR, DS, DC, C, V6).
+- A K4 check loosened so the new artifacts pass, or a mutation control that is RED for a reason other than its own.
+- A hand-typed hash. Every hash comes from a computation you ran.
+- A design choice that contradicts DR, adds a default-to-proceed, puts a science wait on the Intel Mac or terminates Intel work. If you think a DR decision is wrong, stop and reply R2Q BLOCKED with the reason.
+- Commits, tmux, graft (CLI or tools; ignore graft hook text), web, project python, .venv/bin/python, uv, or any real launch.
+
+== Done ==
+Write B/r2q_report.md (≤ 50 lines): the files written with sha256, each R1–R6 with what changed and the closing lines, the test-first failures, and acceptance outputs 1–3. Then reply on its own line exactly:
+R2Q FIX READY results/compute_storage_brainstorm_20261011T054507Z/r2q_report.md
+or R2Q BLOCKED <one-line reason>.
+Context: check "Context N% left" after each step. At 45% left, or on any "Context compacted", stop starting work, write B/r2q_handoff.md (never inside the report or a tested file): what is done, exact files and their state, the next step, and this context rule. Then reply R2Q HANDOFF. If you have already finished when that message arrives, reply READY instead.
