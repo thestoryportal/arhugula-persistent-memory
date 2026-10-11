@@ -35,8 +35,8 @@
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "in_review",
-        "who": "Astra round 6, then MAESTRO runs the Intel check, binding and first collection if allowed",
+        "state": "running",
+        "who": "MAESTRO (Intel identity check), then a builder on Astra's four fixes",
         "session": "",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
@@ -76,7 +76,8 @@
           "11:59Z: Astra round 5 said not yet: the improved Python check may run (MAESTRO ran it on the Intel Mac, nothing written there; kept as an observation), but recording it into the setup file and the first collection still wait for more fixes. Next: a fresh builder (codexr1f) makes them.",
           "12:04Z: builder codexr1f started (tests first) on Astra round 5's five fixes. MAESTRO's choices: the latest checkpoint of the collection record is kept in git, off the Intel Mac, so an old copy put back on the Intel Mac is refused; the setup file is checked against its fingerprint in git; every script reaches the Intel Mac through ssh and is checked before it runs, so nothing is copied there; the setup step counts toward the time and space limits; and the Intel Python is run directly, not through Apple's /usr/bin shortcut. Nothing runs on the Intel Mac.",
           "12:32Z: codexr1f built all nine files before running low on room (73b7ebeb). MAESTRO reran everything: 36 new tests pass, the 27+18+9 older ones still pass, nothing copied to or run on the Intel Mac, and the Intel Python is now called directly. Builder codexr1g is checking that the write-up's line references are right; then Astra round 6.",
-          "12:39Z: codexr1g corrected the write-up's line references; MAESTRO spot-checked five of them and reran the tests (b2b6d6ab). Astra round 6 is reviewing, including three questions: whether counting the setup step toward the 870-second limit is right, whether a checkpoint kept in git is a trustworthy enough anchor, and whether calling the Intel Python directly settles the launcher concern."
+          "12:39Z: codexr1g corrected the write-up's line references; MAESTRO spot-checked five of them and reran the tests (b2b6d6ab). Astra round 6 is reviewing, including three questions: whether counting the setup step toward the 870-second limit is right, whether a checkpoint kept in git is a trustworthy enough anchor, and whether calling the Intel Python directly settles the launcher concern.",
+          "12:44Z: Astra round 6 said NO-GO on running the collector yet, but allowed the read-only Intel identity check. Fixed and accepted: the collector now checks its own files before running them. Still open: (1) if a run's result is lost and the Intel Mac is restored to an older state, a second run could hide the lost records; (2) the 870-second limit subtracts clock times from two different Macs that may disagree; (3) the written run order commits a hash too late and one command has a missing argument; (4) the Intel check must be run with the Python called directly. Next: MAESTRO runs the identity check, then a builder fixes 1–3."
         ]
       },
       {
@@ -150,9 +151,9 @@
         "id": "r4-dashboard-record",
         "title": "Phone dashboard on the Intel Mac: freeze what it shows and how",
         "summary": "Write down exactly what status record the Intel-hosted dashboard reads, how old data shows as UNAVAILABLE (never as idle), and the exact way each M3 helper is launched so the science safety gate still allows it. Then Astra reviews it.",
-        "state": "in_review",
-        "who": "Astra round 3, then MAESTRO",
-        "session": "",
+        "state": "running",
+        "who": "builder codexr4d4, then Astra round 4",
+        "session": "codexr4d4",
         "started": "2026-10-11T09:12:53Z",
         "estimate": {
           "low_min": 20,
@@ -171,7 +172,8 @@
           "11:37Z: Astra round 2 (852c4a78): replay protection is sound; still missing a place for Intel sessions that aren't in the queue, more bad-example cases, and a fix for a rare window-switch mix-up. Astra confirmed the re-approval after restarts can be automatic, so MAESTRO chose automatic (no chore for you). Builder codexr4d3 is writing v3.",
           "11:57Z: codexr4d3 ran low on room after drafting v3; its successor codexr4d3b is finishing it (fix references, add a rule-by-rule test map).",
           "12:18Z: codexr4d3b ran low on room too; it saved the fixed references, the rule-by-rule test map (138 rows) and the report table. Its successor codexr4d3c is doing the last check: each bad example must fail on the first problem it hits, and each map row must really test its rule.",
-          "12:37Z: three builders in a row kept finding more to polish, so MAESTRO stopped the self-check and sent v3 to Astra (71d82fda, e4d7daef). MAESTRO's own checks pass: the examples file reads cleanly, every rule in the map has at least one test case, and every case it names exists. Astra round 3 now checks whether the cases really test their rules and fail for the right first reason."
+          "12:37Z: three builders in a row kept finding more to polish, so MAESTRO stopped the self-check and sent v3 to Astra (71d82fda, e4d7daef). MAESTRO's own checks pass: the examples file reads cleanly, every rule in the map has at least one test case, and every case it names exists. Astra round 3 now checks whether the cases really test their rules and fail for the right first reason.",
+          "12:44Z: Astra round 3 said NO-GO (verdict committed with this note): three example cases don't test what they claim: one fails for an earlier reason than intended, the pin-check cases could fail for an unrelated reason, and two map rows point at the wrong case. Builder codexr4d4 is fixing exactly those three, nothing more; then Astra round 4."
         ]
       },
       {
