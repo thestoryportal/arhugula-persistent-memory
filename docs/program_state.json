@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T09:13:11Z",
+    "edited": "2026-10-11T09:16:03Z",
     "items": [
       {
         "id": "backups-audit",
@@ -83,9 +83,9 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "running",
-        "who": "Codex (codexr2), then MAESTRO, then Astra",
-        "session": "codexr2",
+        "state": "in_review",
+        "who": "Astra (reviewer), then MAESTRO",
+        "session": "",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -96,7 +96,8 @@
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "09:03Z: drafting started (shared_disk_clearance_contract_v1.md)."
+          "09:03Z: drafting started (shared_disk_clearance_contract_v1.md).",
+          "09:16Z: draft finished and checked by MAESTRO39 (no existing file changed, science gate untouched, nothing defaults to 'go' when information is missing, ordinary science never waits on the Intel Mac). Committed c9e6615b; Astra is reviewing it now."
         ]
       },
       {
