@@ -1398,3 +1398,296 @@ Proposed packet, following `results/dashboard_integration_review_20261011/labviz
 
 - Continuation saved separately in results/dashboard_integration_review_20261011/labviz_brainstorm_handoff7.md with topics/settled notes pointers, inspected references, gaps/exclusions and the one pending question. Fresh successor resumes, does not restart or reopen settled choices. No build/test/browser run, code/site/spec edit, install/model/science/git action occurred.
 - Binding rule survives: check Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the point and write the separate designated successor handoff with completed/in-flight work, exact paths, settled pointers, open risks and one next point; at <=40% stop starting work. Never approach compaction or place the handoff inside notes. Restate the same rule in every successor/team handoff. MAESTRO reports 43% here; LVB7 stops.
+
+## LVB8 — newer built snapshots wait for an explicit update
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Show Newer snapshot available / Update view and wait for your tap." In a hosted/connected view, notification does not automatically replace the displayed built snapshot. This continues LVB7’s pending ordinary-page choice (handoff7:51-59); it does not approve building or alter separately labelled telemetry polling.
+- Preserve reading position, valid run/input/component/player/comparison/filter selections and unfinished learner work when the reader updates. Unresolvable selected targets use the settled explicit recovery behavior. Keep the displayed snapshot/source dates clear; do not blend newer status into older displayed records. Direct-file opening must describe its actual supported refresh capability; no hosted polling promise is inferred.
+
+### Open questions
+
+- Future scoped preparation must define coherent snapshot identity/adoption, detection in each supported viewing mode, interrupted/unreadable update handling and preservation of learner drafts. No existing runtime behavior was inspected or verified here.
+- Continue the full model-wide source/model/input/component preparation. Complete applicable populations, version-bound sources, reviewed explanations and finer observations remain preparation dependencies; no selected-demo or top-16 scope substitution.
+
+### Spec changes proposed
+
+- Add the accepted notification-and-tap behavior beside selection/loading rules (docs/LABVIZ_V2_SPEC.md:352-355) and distinguish it from Phase-2 telemetry polling (:938-950). Binding spec unchanged. Detailed URL recovery remains anchored by the prior verified :419 reference.
+
+### Context for build agents
+
+- Give builders the accepted refresh journey and planned cases: a new snapshot while reading/paused playback/comparing/drafting answers; reader-triggered coherent adoption; retained valid context; unresolved selected target; failed update; honest direct-file behavior. These are future validation cases, not tests run or claims of implementation.
+- Current root and branch worktree-c10k-route-a verified read-only. Brainstorming skill supplies conversation structure only; explicit operator restrictions override its generic spec/commit/implementation steps. No code/spec/site edits, builds/tests/browser runs, project Python/node, install/clone, model/science execution or git mutation occurred. Only this notes entry appended.
+- Context directive survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted, tell the operator, finish the point and write the separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff8.md with topics, decisions/notes pointers, in-flight work, open questions/risks and one exact next point. At <=40% stop starting work. Never approach compaction or place the handoff inside notes; restate this same rule in every successor/team handoff. No numerical context percentage is exposed or asserted.
+
+## LVB8 — complete searchable inputs grouped by purpose
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "One searchable list with purpose groups — recommended." Provide one searchable browser of every applicable recorded input for the selected run, grouped by purpose: facts being added, practice wording, test questions, and checks for unwanted changes. Preserve additional source-supported roles where needed; the four illustrative labels do not redefine historical input roles or exclude probes/other applicable inputs.
+- Keep the already accepted input-and-answers-first detail order (notes:190-203), then associated model detail. Display expected and observed answers and the recorded scoring explanation where available; unavailable fields remain explicit. Selecting an input in the player or from a model part retains access to the complete applicable set. Search/filtering changes the displayed subset, never the underlying coverage or evidence population.
+
+### Open questions
+
+- Actual all-model/all-run input populations, role assignments, exact recorded wording, source-bound permitted transcription, expected/observed answers and finer model/input observations still require preparation. Do not deduce completeness from a readable list or invent a full prompt from an incomplete template.
+- Routine builder preparation must retain occurrence/source context when identical wording is used for different purposes; grouping must follow reviewed source roles rather than text similarity. Exact identifiers and future data-contract fields remain unfrozen.
+
+### Spec changes proposed
+
+- Expand the words/phrases panel (docs/LABVIZ_V2_SPEC.md:619-625) into the accepted complete searchable purpose-grouped browser, preserving recorded-source precedence (:201-213), selected-state continuity (:352), source links (:348-351) and phone readability/touch requirements (§4A). This supplements model-first coverage ordering; it does not reverse that accepted structure or edit the binding spec.
+
+### Context for build agents
+
+- Give source preparers an inventory requirement spanning every required model/run and applicable input role, exact text or explicit gap, expected/observed response, recorded scoring rule, source/version and associated model-part/recorded-step coverage. Give viewer builders reviewed inventory records, input-first detail order and the complete-list route beside focused selections; none is populated or validated by this choice alone.
+- Keep identical text in distinct experiment purposes/context distinguishable. A source-reading failure, uninspected role coverage and confirmed missing recording remain different states; do not group every problem under an empty list.
+- No new external reference, screenshot, source population audit or runtime test occurred for this decision. Building hold persists; only notes appended. Context rule remains: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the current point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff8.md with completed/in-flight work, decisions/notes pointers, open risks/questions and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes; restate this rule in every successor/team handoff. No numerical percentage is exposed or asserted.
+
+## LVB8 — proposed input coverage display inside a model part
+
+### Decisions (with the operator’s words)
+
+- No new operator choice yet. Complete model-wide/granular scope, model-first coverage order, purpose-grouped searchable inputs and input-and-answers-first details remain settled. This question concerns only the initial displayed subset when browsing inputs from a selected model part.
+
+### Open questions
+
+- Recommended: initially show all applicable run inputs in the part’s searchable browser, with an observation-coverage label for that part beside each input; provide filters to focus on recorded observations. Alternative: initially show only inputs with recorded observations for that part, with a clearly visible All inputs control. Both retain the complete applicable input population and the always-visible coverage summary. No answer yet.
+- Proposed coverage wording must distinguish recorded observations here, confirmed not recorded here, coverage not yet checked and could not read the relevant data. Recorded observation labels never imply a complete historical internal trajectory. Do not claim that an input did not pass through a part just because no observation exists.
+
+### Spec changes proposed
+
+- Clarify the default input subset in per-part exploration (docs/LABVIZ_V2_SPEC.md:619-648), preserving recording/teaching distinctions (:648-657), source framing (:348-352) and existing phone rules (:357-371). This is proposed UI behavior, not a populated data contract, implementation or binding-spec edit.
+
+### Context for build agents
+
+- Existing historical capture inspected: results/labviz/review/20261008T130913325Z/chromium-phone-model-2d.png. It shows vertically stacked selected-run, layer-write, part, wiring, answer-signal and recorded-event sections. This is an older capture, not a current browser run or proof of the proposed input browser. measure.json:1512162-1512180 identifies the matching view, a 390x844 viewport, 390px root scroll/client width and 7706px page scroll height. No fresh rendering, text/contrast analysis or acceptance claim follows.
+- Phone presentation must keep coverage labels readable in stacked rows and controls at the spec’s touch/readability sizes. Existing interface-design trial guidance at results/dashboard_integration_review_20261011/uiskills_report.md:42-44 supports hierarchy/state review; reuse the already selected checklist context, not an installed skill or copied unaudited scripts. The proposed input browser does not call for a new chart package.
+- Source preparers must supply verified input-to-part observation associations and explicit coverage gaps before the viewer can label them. A readable result file alone does not establish observation coverage. No external lookup, build/test/browser run, project Python/node, science/model process or code/spec/site edit occurred; only notes appended and one existing screenshot viewed.
+- Binding context rule: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write the separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff8.md with topics, decisions/notes pointers, in-flight work, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes; restate this same rule in every successor/team handoff. No numerical percentage is exposed or asserted.
+
+## LVB8 — per-part input browsing starts with complete coverage
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "All inputs, with recording labels — recommended. You can filter to recorded observations." When browsing from a model part, initially display all applicable inputs for the selected run, grouped by the already accepted purpose groups, with observation-coverage labels for the selected part. Provide filters for recorded observations without silently hiding gaps in the default display.
+- Preserve the distinction between recorded observations here, confirmed not recorded here, not yet checked and failed reads. No recording does not mean that the input bypassed this part or that its internal activity was unchanged. Opening a row retains the accepted exact-input/expected-answer/observed-answer/scoring-first detail order and access to source-supported finer observations.
+
+### Open questions
+
+- Preparation must establish the applicable input population and verified per-input/per-part coverage before publishing those labels. Unknown population sizes cannot be presented as complete coverage or zero missing observations. Exact data-contract identifiers/fields remain unfrozen; no full inventory has been performed.
+- The next design point may distinguish coverage gaps from the separately reviewed work needed to address them. Showing such work would describe a dependency, not approve recording, execution or building.
+
+### Spec changes proposed
+
+- Add the accepted default complete-list display and recording filters to per-part/input exploration (docs/LABVIZ_V2_SPEC.md:619-648) and model-first coverage preparation. Retain source framing (:348-352), phone rules (:357-371) and recorded/teaching/re-creation boundaries (:648-657). Binding spec unchanged.
+
+### Context for build agents
+
+- Source preparation supplies version-bound model structure, complete applicable input populations, recorded stored-number changes, input-to-part observations/available steps, reviewed explanations/paper sections and explicit gaps. Viewer builders render reviewed content and the accepted opening display; they cannot infer coverage from missing arrays, animation or configured write locations.
+- Prepare cases for a fully observed input, a partially observed input, confirmed absent observation, uninspected coverage and failed source read, while preserving full model-wide/finer scope. These are planned content/validation cases, not tests run.
+- No new source, screenshot, external page, runtime test or inventory opened for this decision; only notes appended. The building hold persists. Context directive remains binding: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff8.md with topics, decisions/notes pointers, in-flight work, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes; restate this same rule in every successor/team handoff. No numerical percentage is exposed or asserted.
+
+## LVB8 — recording gaps explain reasons and preparation needs
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "The gap plus its explanation and preparation needs — recommended." In expanded coverage detail, readers can see the recording status, Why this is missing and What would be needed, beside the affected model/input/part context. Preserve the compact always-visible summary and already accepted complete scope/navigation.
+- Explanation must distinguish a verified absence from an uninspected source or failed read. When the cause has not been established, say so. Preparation needs describe reviewed dependencies, not an approval to act, a scheduled job, an available recording or a promise that the gap will be filled.
+- Unrecorded historical internal activity cannot be restored as historical evidence. A separately authorized future recording pertains to a future run; a re-creation remains labelled NOT EVIDENCE. A missing context explanation may instead be addressable by the accepted local-first, version-bound public-source lookup. These are different gap types, not interchangeable remedies.
+
+### Open questions
+
+- Actual gap reasons, relevant source checks and preparation dependencies still require the full source inventory/content review. No all-model survey or current source/pin audit has occurred. Unknown needs stay explicitly unresolved rather than inferred from a generic model diagram.
+
+### Spec changes proposed
+
+- Extend accepted expanded Recording coverage/per-part evidence detail (docs/LABVIZ_V2_SPEC.md:345, :348-352, :619-657) with the reason/need explanation. Preserve the historical limits documented at :325-328 without treating the binding sampled scope as satisfaction of the accepted full model-wide/finer intent. No binding-spec edit occurred.
+
+### Context for build agents
+
+- Give source preparers a gap record concept containing affected model/run/version/input/part/step, recording status, checked source locations, supported reason or explicit unknown, and reviewed preparation need or unresolved dependency. This is content preparation, not a frozen schema. Give viewer builders reviewed explanations with source links and appropriate evidence labels; builders do not invent causes or commission science.
+- Example categories for future reviewed content: matching model reference missing -> find/review the exact public revision; observation absent from readable historical records -> historical detail unavailable, future recording requires a separate scientific plan; malformed/unreadable source -> display the read failure, preserve raw evidence, await scoped investigation; uninspected coverage -> source inspection still needed. None is a current diagnosis of a particular run.
+- Only notes appended; no new source/screenshot/external page, build/test/browser run, project Python/node, install/clone, model/science process or git mutation. Context directive survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff8.md with topics, decisions/notes pointers, in-flight work, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes; restate this same rule in every successor/team handoff. No numerical percentage is exposed or asserted.
+
+## LVB8 — readable source details open within LabViz
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Expand readable source details inside LabViz — recommended, keeping your place." Tapping a displayed number or its source link opens readable details in the current LabViz context, rather than opening the original recorded file first. Retain the original-file link as a further deliberate action and preserve position/selections.
+- Source detail shows the recorded value, units where applicable, exact file/field or document-line location, and the rule/input values for a derived calculation. It must respect the binding source-leaf contract (docs/LABVIZ_V2_SPEC.md:662-676), retaining original precision and distinguishing recorded, derived and missing data. Existing phone details remain in reserved/below-diagram space rather than an obstructing overlay.
+
+### Open questions
+
+- Future scoped builder contract must define readable extracts and original-file link behavior for direct-file and hosted viewing, including source/version availability and failures. No current source-link runtime was tested; the selected UI is design, not acceptance.
+- Source details must remain tied to the displayed snapshot even when a newer snapshot is available. A mutable original-file path alone cannot establish that the opened bytes match the displayed recorded value. Exact archival/link resolution and mismatch handling need scoped design/verification; source identity may not be inferred from a current path.
+
+### Spec changes proposed
+
+- Add the accepted in-view source-detail opening behavior to consistent source/navigation framing (docs/LABVIZ_V2_SPEC.md:348-352), existing data-for-view links (:615-617) and typed source/value/hash requirements (:662-676). Preserve phone readability/touch sizing (:357-371), paused context/return behavior and reader-triggered snapshot adoption. Binding spec unchanged.
+
+### Context for build agents
+
+- Source preparers supply reviewed, snapshot/version-bound value and source extracts, units, supporting document quote where appropriate and every calculation input required by the binding leaf rules. Viewer builders present readable details plus deliberate original-file access; a card or public-model explanation is not a substitute for a recorded experiment value.
+- Keep plain-language calculation explanation first with exact recorded inputs available; this is a routine implementation recommendation, not a new operator choice. Missing/unreadable source and version mismatch remain explicit rather than substituted with current data or a guessed number. No frozen source-extract schema, archival strategy or implementation is asserted.
+- Reuse the selected interface hierarchy/state checklist for focused readable detail, Anthropic chart accuracy/units guidance for numeric presentation and the review-derived Axiom quantity/unit/source/blocker worksheet as text-only context (notes:283-295). Original Axiom pages were not opened; no new package/skill adoption, install or external lookup occurred. The previously inspected phone model capture supplies historical layout context only.
+- Only notes appended; no code/spec/site edit, build/test/browser run, project Python/node, model/science process or git mutation. Binding context rule survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff8.md with topics, decisions/notes pointers, in-flight work, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes; restate the same rule in every successor/team handoff. No numerical percentage is exposed or asserted.
+
+## LVB8 — compare two runs within the selected model part
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Compare within the selected model-part view — recommended." Add focused two-run comparison at the currently inspected model part, preserving the reader’s location and access to recorded changes, inputs, observations, gaps and sources. On a phone, the two runs stack. This supplements the existing run-level comparison destination and retains the four-section evidence sheet for each run.
+- Preserve full model-wide/finer scope. A run without a recorded observation remains present with its explicit gap; do not omit it, substitute zero or silently select a different part. Source links and snapshot/version context remain separate for each run.
+
+### Open questions
+
+- Source preparation must establish valid part/input/measurement/phase correspondences. Matching a component name or layer number alone does not prove equivalent structure or a common measurement. Comparable displays require reviewed meaning, units, evidence tier and appropriate run/input/state context; exact eligibility remains a future scoped contract.
+- Playback positions and any synchronization need clarification. Do not infer that the same step number or elapsed time means the same scientific state in two runs. Existing paused entry, retained selections and explicit unresolved-target recovery remain settled.
+
+### Spec changes proposed
+
+- Extend existing comparison behavior (docs/LABVIZ_V2_SPEC.md:577-582) into Inside the model/per-part exploration (:627-657), preserving shared scales only for comparable units, evidence/source framing (:348-352), phone layout/readability (:357-371) and recorded-event/re-creation limits. Do not change the settled global comparison order or claim a generic numerical difference proves an effect. Binding spec unchanged.
+
+### Context for build agents
+
+- Source/content preparation supplies each run’s reviewed four-section sheet, exact model/configuration/version, selected input text/role and scoring where applicable, stored-number/activity measurement definitions and units, source-supported available positions and explicit correspondence or refusal reasons. Viewer builders provide a focused stacked pair with each run’s identity/source visible and stable context/return navigation.
+- Keep individual run evidence viewable when a requested paired measurement is not comparable; display the refusal reason beside that comparison. Eligibility for the existing per-fact derived row remains the exact fact/template/scoring contract at spec:579; do not replace it with a looser part-comparison rule. Single-observation uncertainty at :582 still applies.
+- Borrow the already selected interface hierarchy/state and Anthropic unit/scale/table guidance as text-only context; ECharts selection/highlight documentation is optional context, not an adopted renderer or authorization to load remote assets. Existing phone model screenshot supplies historical one-column context, not validation of this proposed paired view.
+- Only notes appended; no new screenshot/external source, code/spec/site edit, build/test/browser run, project Python/node, model/science process, install/clone or git mutation. Context rule survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff8.md with topics, decisions/notes pointers, in-flight work, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes; restate this same rule in every successor/team handoff. No numerical percentage is exposed or asserted.
+
+## LVB8 — comparison playback offers independent and linked modes
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "Both options with a toggle switch". Provide both independent playback and playback linked at verified corresponding recorded points, controlled by a visible Link playback toggle in the focused two-run model-part comparison. Off means each run has separate controls; on means corresponding positions advance together. Each run’s own diagram/chart/input text remains synchronized internally in either mode.
+- Linked playback does not equate arbitrary step numbers, durations or merely similar phase names. Display each run’s actual selected position and the supported correspondence; keep source/model/input/phase/recording context and source links distinct. Missing observations remain explicit; alignment does not certify scientific comparability or a causal effect.
+
+### Open questions
+
+- Recommended routine initial setting is independent playback, with both views paused, because cross-run alignment requires prepared correspondences. The operator approved availability/toggle, not an explicit initial on/off preference. No separate preference question is required for this sensible reversible recommendation; it remains distinguishable from the operator’s words.
+- Exact source-supported correspondence records, compatibility rules and availability across all required models/runs/player modes remain preparation dependencies. No alignment population has been inventoried or inferred from experiment labels.
+
+### Spec changes proposed
+
+- Extend focused two-run comparison and playback under docs/LABVIZ_V2_SPEC.md:577-582, :651-657 and :919-931 with independent/linked modes and a Link playback toggle. Preserve the settled missing-target recovery: if the next requested linked point cannot resolve, pause, keep current evidence/selections visible and explain the missing match rather than silently moving one run or switching modes. Existing within-run synchronization remains mandatory. Binding spec unchanged.
+
+### Context for build agents
+
+- Preparation supplies explicit verified point correspondences, source references and eligibility/refusal reasons. A correspondence is navigational alignment, not automatically measurement eligibility; existing exact fact/template/scoring comparison rules, shared-unit/evidence-tier scales and single-observation caveats still apply.
+- Viewer builders label the toggle and both actual source positions; support independent control when off and reviewed paired movement when on. If linking the current positions cannot resolve, show an explicit choice among supported matches or return to independent mode; do not silently jump. Switching off keeps the positions currently displayed. These are proposed routine consequences of the accepted modes/retention/recovery rules, not a frozen interaction schema.
+- Planned verification cases include different step counts, missing corresponding points, source/version mismatch, one-sided unreadable data, toggling while paused and continuity across model-part/input navigation. They are future cases, not tests run. Apply the existing 44px touch requirement and non-color/explicit-label rules (spec:363-371); no switch component/library is adopted.
+- Only notes appended; no source/code/spec/site edit, build/test/browser run, project Python/node, science/model process, install/clone, external query or git mutation. Binding context rule survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff8.md with topics, decisions/notes pointers, in-flight work, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes; restate this same rule in every successor/team handoff. No numerical percentage is exposed or asserted.
+
+## LVB8 — comparable measurements include a sourced numerical difference
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Original values plus a clearly labelled difference — recommended." In the focused two-run model-part comparison, retain both original measurements and additionally show their numerical difference where the measurement pairing is valid. Label the difference as calculated and expose both source values and the calculation rule through the accepted readable source detail.
+- A difference describes the selected reported quantity; it is not automatically a causal effect, scientific verdict, significance estimate or difference between unsaved internal tensors. Matching playback points alone does not make measurements comparable. If comparison is ineligible or a value is missing/unreadable, preserve available individual values and show the applicable refusal/gap instead of a numerical difference.
+
+### Open questions
+
+- Preparation must freeze applicable measurement eligibility/definitions, units, source version and evidence tier, operand roles and subtraction direction. No comparable-pair population, schema or implementation has been verified in this discussion.
+- Routine recommendation: state the subtraction direction with the two actual run identities, retain units/full underlying precision and round only presentation; avoid a bare signed number or color-only emphasis. This follows the source/display rules, not an additional operator-selected preference.
+
+### Spec changes proposed
+
+- Extend focused model-part comparison alongside docs/LABVIZ_V2_SPEC.md:577-582 and :627-657 with the accepted calculated difference. Preserve the full operand/rule source contract (:668), source hashes (:674), comparable-unit/evidence scales (:566-574), single-observation limits (:582) and phone/readability/non-color rules (:357-371). Binding spec unchanged.
+
+### Context for build agents
+
+- Source/content preparation supplies the reviewed paired quantity definitions, eligibility/rejection reason, individual source leaves, units and explicit difference rule. Viewer builders retain the original paired values, display the eligible derived result and provide readable source detail listing both operands; they do not derive a missing tensor change from write-size summaries or infer scientific improvement from a larger/smaller value.
+- Planned content/validation cases: equal values yield a measured/calculated zero; incompatible units/refused pairing yield no difference; missing/unreadable operand remains explicit; source-revision mismatch cannot silently use current data; displayed rounding does not alter recorded arithmetic. These are future cases, not tests run.
+- Reuse the selected Anthropic accuracy/units/non-color/table extract and interface state/hierarchy checklist as text-only builder context (notes:283-295). No new library, remote service or skill adoption is required or authorized. Only notes appended; no new source/screenshot/external query, code/spec/site edit, build/test/browser run, project Python/node, science/model process or git mutation.
+- Binding context rule survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff8.md with topics, decisions/notes pointers, in-flight work, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes; restate the same rule in every successor/team handoff. No numerical percentage is exposed or asserted.
+
+## LVB8 — compact recording coverage includes verified counts
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Verified counts plus plain-language states — recommended." The always-visible Recording coverage summary includes counts where the complete applicable population and available recordings have been checked, alongside plain-language states for other coverage. Expanded detail remains available in the settled model -> layer -> part order.
+- The offered example "Saved replies: 8 of 10 inputs; Internal activity: coverage not yet checked" is hypothetical, not a measured run, actual inventory or frozen set of summary fields. Reply availability is recording coverage, not answer accuracy or personal learning progress. No aggregate all-data completeness percentage or universal model population is approved.
+- Unknown/uninspected populations cannot supply a denominator; failed reads stay visible rather than becoming zero coverage. Counts retain exact applicable model/run/version/role/part context and readable operand/source details. A small complete subset cannot be presented as full model-wide/finer coverage.
+
+### Open questions
+
+- Preparation still must inventory all required models/revisions, applicable input roles/populations, structures/parts/finer observations, source versions, reviewed explanations and correspondence eligibility. Coverage counts need explicit counting units and deduplication/occurrence rules appropriate to the recorded population; educational question-bank identity rules must not be silently applied to experiment-input occurrences.
+- Which summary fields are valid for each model/run/recording category depends on that reviewed inventory. No fixed universal fields, denominators, all-model totals or current coverage audit have been established.
+
+### Spec changes proposed
+
+- Add sourced counts to the accepted compact Recording coverage summary (docs/LABVIZ_V2_SPEC.md:345, :348-352), following count/unit formatting (:372) and derived-input source rules (:668), while preserving explicit missing states (:669) and full model-specific input/component scope (:619-657). Binding spec unchanged.
+
+### Context for build agents
+
+- Source preparers supply the reviewed applicable population, available-recording membership, counting unit, source/context identities and unknown/read-failure states. Viewer builders display counts with their named denominator and independent plain-language states, then allow source/detail expansion. Do not average incompatible populations or infer completeness from successful parsing.
+- Example future cases: complete known population with partial reply availability; known zero observations after verified source inspection; uninspected population; unreadable source; filtered list whose full-population denominator must remain explicit. These are preparation/validation cases, not tests run.
+- Citation correction for the immediately preceding numerical-difference entry: Every source file is hashed is docs/LABVIZ_V2_SPEC.md:673, rather than the neighbouring blank :674. Derived full-operand arithmetic is :668; design and authority unchanged. Earlier entries remain append-only.
+- Only notes appended; no source/code/spec/site edit, build/test/browser run, project Python/node, model/science process, install/clone, new screenshot/external query or git mutation. Binding context rule survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff8.md with topics, decisions/notes pointers, in-flight work, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes; restate the same rule in every successor/team handoff. No numerical percentage is exposed or asserted.
+
+## LVB8 — each compared run retains its own coverage summary
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Each run’s own summary above its panel — recommended." In the focused two-run comparison, each run has its own compact Recording coverage summary above its panel, including verified counts and plain-language states as applicable. Preserve each run’s identity/version/source context, individual expansion and explicit gaps. Do not combine the pair into a single completeness score.
+- On a phone, each summary travels with its corresponding stacked run panel. Linked playback and calculated comparable differences do not merge coverage populations or source authority. Existing model-first expanded coverage, complete input browser and retained source-detail context remain settled.
+
+### Open questions
+
+- No operator question is pending at this checkpoint. Next: make the full model-wide source-preparation worksheet concrete, assembling the accepted inventory/identity/coverage/explanation/source/paired-point requirements without another feature-selection menu or reduced demo scope.
+- The source inventory, all applicable population sizes, matching historical versions, actual finer recordings, paired-point/measurement eligibility and source-link archival behavior remain unverified preparation dependencies. Interface design choices alone do not supply those records.
+
+### Spec changes proposed
+
+- Add per-run summaries to the focused Inside-the-model comparison amendment (docs/LABVIZ_V2_SPEC.md:577-582, :627-657), retaining source/evidence framing (:348-352), phone stacking/readability (:357-371), sourced count arithmetic (:668) and explicit missing leaves (:669). Binding spec unchanged.
+- Citation correction: the count/unit formatting requirement is docs/LABVIZ_V2_SPEC.md:371, rather than the neighbouring blank :372 referenced in the preceding count entry. The exact source-leaf and hash line verification performed in LVB8 remains :666 JSON source, :667 document source, :668 derived arithmetic, :669 missing, :673 source hashes. Earlier notes remain append-only.
+
+### Context for build agents
+
+- Give viewer builders two reviewed independent coverage records, source-bound counts/statuses and the accepted stacked pair/expansion behavior. Give source preparers the whole model/run/input/part inventory requirement; diagrams, public explanations, successful parsing or synchronized playback cannot stand in for recorded coverage.
+- Planned cases: differing recording coverage across two runs; one unknown population; one failed read; matching playback positions with unequal observation coverage; filtered inputs retaining named full-population counts. No tests, build or runtime verification occurred.
+- LVB8 closes this design arc proactively with a separate continuation handoff at results/dashboard_integration_review_20261011/labviz_brainstorm_handoff8.md. No numerical Context reading is exposed or claimed. This is an arc checkpoint, not a claim that the 45% threshold was observed or that LabViz/source preparation is complete.
+- Building hold and all execution exclusions remain. Only notes and the designated handoff are written. Binding context rule survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the point and write the separate designated successor handoff with topics, decisions/notes pointers, in-flight work, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes; restate the same rule in every successor/team handoff.
+
+## LVB8 — operator corrects premature closure
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "Questions do remain". The preceding last-choice answer settled only placement of each compared run’s recording summary. It did not close LabViz brainstorming, exhaust the operator’s questions or establish readiness for a builder. Resume the interactive conversation and preserve every settled choice and the building hold.
+- Correct the prior checkpoint wording: no unanswered multiple-choice prompt remained at that instant, but substantive design questions and the operator’s own questions remain open. Do not use completion of a presented choice as a reason to end this discussion.
+
+### Open questions
+
+- Invite the operator’s next question before imposing another feature-selection sequence. Its subject is not yet supplied; do not guess it or constrain it to a new topic menu.
+- Existing unresolved work remains: coherent snapshot/source-version access; full model/run/input/component inventory and granular coverage; verified comparison point/measurement compatibility; reviewed model explanations/paper associations; concrete full-scope preparation material and eventual authorized product verification. These are not all operator preference questions; resolve source/technical facts through scoped inspection rather than asking the operator to supply them.
+
+### Spec changes proposed
+
+- No new spec amendment from this correction. The binding spec is unchanged; accepted design extensions still require MAESTRO’s frozen amendments/scoped briefs before building. No readiness or scientific acceptance is inferred.
+
+### Context for build agents
+
+- The separately saved handoff is a continuity record, not a declaration that the operator’s questions are exhausted or a requirement to replace their next question with the proposed worksheet. Append a corresponding correction there; earlier records remain intact.
+- Only notes/handoff updated; no code/spec/site edit, build/test/browser run, project Python/node, model/science process, install/clone, external query or git mutation. The context rule remains binding: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the current point, tell the operator and write/update the separate designated successor handoff with topics, decisions/notes pointers, in-flight work, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff inside notes; restate this rule in every successor/team handoff. No numerical Context reading is exposed or asserted.
+
+## LVB8 — front-end topic selected; operator invokes context ceiling
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "LabViz front end, UI, UX and UI/UX information architecture design". This is the chosen next discussion topic. Address the coherent reader-facing interface: information hierarchy, navigation, layout, visual presentation and interaction across screens. Do not substitute further source-contract/coverage questions or impose the previously proposed preparation worksheet.
+- Operator verbatim: "You need to handoff first for a fresh session. You have reached your context ceiling". Stop discussion/new work now, update the designated separate handoff and yield for a fresh successor. Do not ask another design question in LVB8.
+
+### Open questions
+
+- Front-end/UX/information-architecture discussion remains open. No new navigation-placement, sticky-header/bottom-bar, global layout or visual-system proposal was presented to or chosen by the operator in this final topic slice.
+- Successor must assemble the existing settled pieces into a coherent screen/navigation design, preserving the five destinations, Map home, context continuity, phone layout, source/coverage and focused-comparison choices. Read only relevant spec/notes/current-build review spans as needed; do not reopen settled choices.
+
+### Spec changes proposed
+
+- No additional spec amendment was accepted in this slice. docs/LABVIZ_V2_SPEC.md:338-355 supplies existing information architecture; :357-371 phone/readability rules; :405-420 navigation/phone acceptance; :1095 phone map drill-down. Spec remains unchanged.
+
+### Context for build agents
+
+- The last completed read-only tool call inspected S:338-355, :405-420, :1090-1113 and handoff6:14-38. It finished successfully before the interruption; no background process or pending mutation was launched. Its combined output was truncated; do not claim complete inspection of omitted portions or fresh acceptance results.
+- Next discussion is interface design, not implementation/source-inventory execution. Existing screenshot/source context and all building/execution exclusions persist. Only this notes entry and the designated handoff update are written at the gate.
+- Binding context directive: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the point and write the separate designated successor handoff with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff inside notes; restate this same rule in every successor/team handoff. The operator reports the context ceiling now; LVB8 stops.

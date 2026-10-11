@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T18:45:39Z",
+    "edited": "2026-10-11T18:49:45Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -203,7 +203,7 @@
         "summary": "Five Codex reviewers each take one area of the lists you sent (web dashboard tools, terminal dashboard tools, dashboard/design skills, research/ML skills, design best practices) and report what fits our work, how it would plug in, the cost and risk, and a verdict per item. Review only: nothing is installed or built.",
         "state": "needs_you",
         "who": "You: pick proposals; then MAESTRO",
-        "session": "codexlabviz8",
+        "session": "codexlabviz9",
         "started": "2026-10-11T13:52:00Z",
         "estimate": {
           "low_min": 30,
@@ -227,7 +227,8 @@
           "17:06:12Z: LabViz talk session 4 saved its handoff at a planned stop (you approved all six data messages) and closed. Session 5 is open (tmux attach -t codexlabviz5; phone: tmux new-session -t codexlabviz5 \\; set destroy-unattached on) and first asks whether to go on to the next topic: what exactly the build agents get for the Learn/quiz/tracker part. Building stays on hold until you say so.",
           "17:22:47Z: LabViz talk session 5 settled shared-result scoring and varied question wording (notes from line 908), then saved handoff5 at a planned stop. Session 6 is open (tmux attach -t codexlabviz6; phone: tmux new-session -t codexlabviz6 \\; set destroy-unattached on) and goes straight into the first concrete Zorbland card. It now reads only the newest notes section, so it should last longer. Building stays on hold until you say so.",
           "17:57:08Z: LabViz talk session 6 approved all three learning cards, the review link, player entry/end and theme/start defaults (notes from line 1010), then saved handoff6 and closed. Session 7 is open (tmux attach -t codexlabviz7), starting with the tracker worksheet for the three worked questions.",
-          "18:20:51Z: LabViz talk session 7 worked through the tracker's retake/skip/reuse consequences and began coverage preparation (notes from line 1225), then saved handoff7 and closed. Session 8 is open (tmux attach -t codexlabviz8); it first re-asks your pending question: when a newer snapshot is ready, show 'Update view' and wait for a tap, or update automatically?"
+          "18:20:51Z: LabViz talk session 7 worked through the tracker's retake/skip/reuse consequences and began coverage preparation (notes from line 1225), then saved handoff7 and closed. Session 8 is open (tmux attach -t codexlabviz8); it first re-asks your pending question: when a newer snapshot is ready, show 'Update view' and wait for a tap, or update automatically?",
+          "18:49:36Z: LabViz talk session 8 settled newer snapshots waiting for a tap, coverage counts, and run comparison; you said questions remain and picked the next topic (front end, UI/UX, information architecture). Session 9 (codexlabviz9) started and opens on that topic. Building is still on hold."
         ]
       },
       {
