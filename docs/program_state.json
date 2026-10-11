@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T20:10:53Z",
+    "edited": "2026-10-11T20:19:23Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -209,7 +209,7 @@
         "summary": "Five Codex reviewers each take one area of the lists you sent (web dashboard tools, terminal dashboard tools, dashboard/design skills, research/ML skills, design best practices) and report what fits our work, how it would plug in, the cost and risk, and a verdict per item. Review only: nothing is installed or built.",
         "state": "needs_you",
         "who": "You: pick proposals; then MAESTRO",
-        "session": "codexlabviz12",
+        "session": "codexlabviz13",
         "started": "2026-10-11T13:52:00Z",
         "estimate": {
           "low_min": 30,
@@ -237,7 +237,8 @@
           "18:49:36Z: LabViz talk session 8 settled newer snapshots waiting for a tap, coverage counts, and run comparison; you said questions remain and picked the next topic (front end, UI/UX, information architecture). Session 9 (codexlabviz9) started and opens on that topic. Building is still on hold.",
           "19:21:26Z: LabViz talk session 9 settled phone navigation (side drawer) and a collapsible desktop sidebar; you asked for whole-page visual design rather than control-by-control questions. Session 10 (codexlabviz10) started on the Science lines and research-question page. Building is still on hold.",
           "19:38Z: LabViz session 10 settled the Science lines page (roomy question list), the question page (a flowing research brief with a branching diagram of spec and science connections), and data storytelling as part of the frame (notes + handoff10, ea560ec0). Session 11 (codexlabviz11) is open for you: next is the Runs page and the run-comparison page. Building is still on hold.",
-          "19:58Z: LabViz session 11 settled the comparison page: the two runs line up row by row (notes + handoff11, ea266c13). Session 12 (codexlabviz12) is open for you: next is the 'Inside the model' page, guided by the reference material. Building is still on hold."
+          "19:58Z: LabViz session 11 settled the comparison page: the two runs line up row by row (notes + handoff11, ea266c13). Session 12 (codexlabviz12) is open for you: next is the 'Inside the model' page, guided by the reference material. Building is still on hold.",
+          "20:19Z: LabViz session 12 settled five page choices (one continuous account on Inside the model, a learning library on Learn, a warm neutral colour family, an explained Runs landing page, focused zooms) and handed off at 45% (49080d67). Session 13 (codexlabviz13) is open for you: it asks what most sparked your Shopify-inspired idea, then works it into the Inside the model page. Building stays on hold."
         ]
       },
       {
