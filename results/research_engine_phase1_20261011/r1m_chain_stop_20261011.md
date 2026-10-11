@@ -11,7 +11,7 @@ Authorization: `RE/operator_authorization_r1m_20261011T1547Z.md` (one A–E chai
 - Required receipt bytes 34,712,537 against the sealed 18,000,000 allowance (receipt_pass false). Required setup bytes 2,016,477,107 against the 2,000,000,000 cap (setup_pass false). LIVE dispatch passes (2,175,092 ≤ 2,500,000).
 - The largest term is inventory rows: 20,114,046 bytes for 61,743 rows. Nearly all of them are under `/opt/local`: 25,639 directories, 36,089 files and 11 symlinks; the files hold 192,852,353 bytes in 37,607 hash chunks. The other admitted roots do not exist yet.
 - Old Intel state is 7,386,341 bytes (r1h-v7 provisioning 7,367,301 plus registration 19,040). Existing M3 receipts are 851,702 bytes.
-- Even without the old state, the rows plus the fixed terms (about 27.3 MB) exceed 18 MB.
+- Even without the old state, rows + M3 receipts + fixed terms = 27,326,196 bytes, above 18 MB.
 
 ## Consequence
 Under the reviewed rule, 18 MB cannot hold this inventory. The constants may not be changed after measurement (E; Astra r12 R1). A rerun needs a re-planned budget or scope (for example the sealed receipt allowance and setup cap, or how `/opt/local` is recorded), reviewed by Astra and authorized again by the operator.
