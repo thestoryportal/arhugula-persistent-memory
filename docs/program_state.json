@@ -35,14 +35,16 @@
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "in_review",
-        "who": "Astra (round 3), then you (trial OK)",
+        "state": "needs_you",
+        "who": "You (trial OK), then a builder fixes the script (codexr1d), then Astra",
         "session": "",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
-        "needs_from_you": [],
+        "needs_from_you": [
+          "Yes/no on one scratch-only build test on the Intel Mac (at most 4 GB, 2 hours, files kept). Nothing would run until its safety checks pass review."
+        ],
         "notes": [
           "04:23Z: you approved the design; ~04:31Z you chose Neo4j on this Mac and a small resource cap.",
           "04:54Z: first-build plan written (20 pass/fail checks).",
@@ -66,7 +68,8 @@
           "10:21Z: Install freeze v2 is written (172e96f6): one manifest of 48 parts, checks that refuse a mismatch before installing, and a space table under the 2 GB limit. Three items can't be settled without touching the Intel Mac (build time/space for a few small parts, the final install chain, the start-up checks), and they are named openly. Astra round 2 is reviewing it (packet 59ffc2eb).",
           "10:26Z: Astra round 2 said no-go. The budget arithmetic checks out, but the read-only collection script must be fixed before it runs (its time limit restarts each run, it scans all of /private/tmp, and its install checks refuse too much and too little). A small build trial on the Intel Mac is needed to measure build time and space, and that trial needs your OK once it is scoped with exact limits.",
           "10:28Z: Builder codexr1c is fixing the collection script (tests first, one per Astra point) and writing the build-trial plan with exact disk and time limits, ending in a plain question for you. Nothing runs on the Intel Mac yet.",
-          "10:52Z: The script fix is done (485ff9d8): MAESTRO reran its 9 tests (all pass). The trial plan proposes one scratch-only build test on the Intel Mac, at most 4 GB and two hours. Astra round 3 is reviewing both (packet bac3c607). Your OK on the trial comes after Astra."
+          "10:52Z: The script fix is done (485ff9d8): MAESTRO reran its 9 tests (all pass). The trial plan proposes one scratch-only build test on the Intel Mac, at most 4 GB and two hours. Astra round 3 is reviewing both (packet bac3c607). Your OK on the trial comes after Astra.",
+          "10:56Z: Astra round 3 said no-go on running the script yet (3 fixes: finish the setup record before its clock starts, two time-limit checks, pin the Intel Python and remove duplicated settings). The build-trial plan is ready for your yes/no, as a conditional OK only. Next: your answer, then builder codexr1d fixes the script, then Astra round 4."
         ]
       },
       {
