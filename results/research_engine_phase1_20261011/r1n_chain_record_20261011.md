@@ -21,3 +21,15 @@ cbce1b49cd47230d9691fbe206eabd3308e7152c8e87baf7b41fca230b2cebdd  r1j_probe_r1n_
 3506fe32f9b301e92489a9fa300b1357efca54122ec37a36a77f546aaf0beefd  r1j_probe_r1n_20261011T164501Z.json
 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  r1j_probe_r1n_20261011T164501Z.stderr
 ```
+
+## B (16:45:45Z)
+`/usr/bin/python3 -B RE/r1n_evaluate.py RE/r1j_probe_r1n_20261011T164501Z.json RE/intel_provisioning_manifest_v11.json` + 10 `--extra-receipt` (the identity-probe files above); no `--replay-cap`. Exit 0, stderr empty, verdict **PASS**, replay_only false, capture_sha256 3506fe32… (= A). Output written to scratch then copied to `RE/r1n_evaluate_20261011T164501Z.{out,stderr,exit}` (so it could not count itself).
+- Receipts: required 37,732,722 ≤ 42,000,000 (headroom 4,267,278). Setup: 1,949,513,676 ≤ 2,000,000,000. LIVE: 2,175,092 ≤ 2,500,000.
+- Terms: rows 20,114,046 (61,743 rows, same as CAP); drift D(B_A) 4,009,702; old Intel state 7,386,341; measured M3 851,702; omitted M3 10,483 (= 8,296 at CAP + 2,187 extras); sizing envelope 135,168 (actual set 7,188).
+- Side by side (R2): A's census (no extras; sizing set counted as plain evidence) = 851,702 + 8,296 + 7,188 = 867,186. N's charged evidence = 851,702 + 10,483 + 135,168 = 997,353. N's is larger and is the one charged; no double count (sizing set charged once, by envelope).
+sha256:
+```
+9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa  r1n_evaluate_20261011T164501Z.exit
+cab8eda522b050ab0dbba3c97c54b128dc6a96b665da202c2d56485ad95302f7  r1n_evaluate_20261011T164501Z.out
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  r1n_evaluate_20261011T164501Z.stderr
+```
