@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T21:33:25Z",
+    "edited": "2026-10-11T21:41:22Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -148,8 +148,8 @@
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
-        "who": "Builder codexr2w4 writes its report; then MAESTRO checks it in a sandbox and Astra reviews",
-        "session": "codexr2w4",
+        "who": "Astra reviews round 12; then MAESTRO records the verdict",
+        "session": "astra_r2o",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -206,7 +206,8 @@
           "20:50Z: Builder codexr2w wrote the new checks first and proved they catch both gaps Astra named; MAESTRO reran them (f00553ae). It stopped early to stay within its memory limit, so a fresh builder, codexr2w2, picked up the rest of round 12 (8b15b79f).",
           "21:01Z: Builder codexr2w2 rebuilt most of the new rules files and the new checks pass on them; MAESTRO reran them and saved the work (0303a034). The written explanation and the full check runs are still to do, so a third builder, codexr2w3, took over (6aa72d65).",
           "21:16Z: Builder codexr2w3 fixed how each Git check's source is described and added explicit refusals for every case the rules cannot list (215 in all); MAESTRO checked and saved it (b97b5be2). A fourth builder, codexr2w4, is now running the full checks (2c1f8050).",
-          "21:33Z: Builder codexr2w4 finished the full checks: all pass, including the 56 deliberate-failure tests. Its scan for stray files could not read 45 macOS system folders in the temp area, the same situation as round 11. MAESTRO ruled the same way as round 11: record the readable scan with that limit stated, and use MAESTRO's own sandboxed run as the proof that nothing was written. MAESTRO confirmed all six file fingerprints match. The builder is now writing its short report; MAESTRO's sandboxed acceptance and Astra round 12 come next."
+          "21:33Z: Builder codexr2w4 finished the full checks: all pass, including the 56 deliberate-failure tests. Its scan for stray files could not read 45 macOS system folders in the temp area, the same situation as round 11. MAESTRO ruled the same way as round 11: record the readable scan with that limit stated, and use MAESTRO's own sandboxed run as the proof that nothing was written. MAESTRO confirmed all six file fingerprints match. The builder is now writing its short report; MAESTRO's sandboxed acceptance and Astra round 12 come next.",
+          "21:41Z: The builder wrote its report (fixes ready). MAESTRO reran every check in a sandbox that blocks writing files and starting Git or the project Python: all pass, the 56 deliberate-failure tests fail exactly as intended, and nothing was written (877126ed). Astra round 12 started at 21:41Z (packet 4fc09e1c). Builder window codexr2w4 closed."
         ]
       },
       {
