@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T19:29:26Z",
+    "edited": "2026-10-11T19:38:51Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -206,7 +206,7 @@
         "summary": "Five Codex reviewers each take one area of the lists you sent (web dashboard tools, terminal dashboard tools, dashboard/design skills, research/ML skills, design best practices) and report what fits our work, how it would plug in, the cost and risk, and a verdict per item. Review only: nothing is installed or built.",
         "state": "needs_you",
         "who": "You: pick proposals; then MAESTRO",
-        "session": "codexlabviz10",
+        "session": "codexlabviz11",
         "started": "2026-10-11T13:52:00Z",
         "estimate": {
           "low_min": 30,
@@ -232,7 +232,8 @@
           "17:57:08Z: LabViz talk session 6 approved all three learning cards, the review link, player entry/end and theme/start defaults (notes from line 1010), then saved handoff6 and closed. Session 7 is open (tmux attach -t codexlabviz7), starting with the tracker worksheet for the three worked questions.",
           "18:20:51Z: LabViz talk session 7 worked through the tracker's retake/skip/reuse consequences and began coverage preparation (notes from line 1225), then saved handoff7 and closed. Session 8 is open (tmux attach -t codexlabviz8); it first re-asks your pending question: when a newer snapshot is ready, show 'Update view' and wait for a tap, or update automatically?",
           "18:49:36Z: LabViz talk session 8 settled newer snapshots waiting for a tap, coverage counts, and run comparison; you said questions remain and picked the next topic (front end, UI/UX, information architecture). Session 9 (codexlabviz9) started and opens on that topic. Building is still on hold.",
-          "19:21:26Z: LabViz talk session 9 settled phone navigation (side drawer) and a collapsible desktop sidebar; you asked for whole-page visual design rather than control-by-control questions. Session 10 (codexlabviz10) started on the Science lines and research-question page. Building is still on hold."
+          "19:21:26Z: LabViz talk session 9 settled phone navigation (side drawer) and a collapsible desktop sidebar; you asked for whole-page visual design rather than control-by-control questions. Session 10 (codexlabviz10) started on the Science lines and research-question page. Building is still on hold.",
+          "19:39Z: LabViz session 10 settled the Science lines page (roomy question list), the question page (a flowing research brief with a branching diagram of spec and science connections), and data storytelling as part of the frame (notes + handoff10, ea560ec0). Session 11 (codexlabviz11) is open for you: next is the Runs page and the run-comparison page. Building is still on hold."
         ]
       },
       {
