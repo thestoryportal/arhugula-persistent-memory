@@ -1,0 +1,46 @@
+R2N, from MAESTRO (the Claude session that runs this research team). Task: turn the science-entrypoint inventory (every way science work is launched on the M3, so the shared-disk clearance guard can wrap each one) into a closed, enforceable set of launch profiles that answers Astra's round-5 NO-GO, finding F1 and required change R1. You write files only. Do not commit, write product code, run project Python, .venv/bin/python or uv, touch tmux, or edit any existing file. No web research.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: B = results/compute_storage_brainstorm_20261011T054507Z. I2 = B/science_launch_inventory_v2.md (289 lines). J2 = B/shared_disk_clearance_schemas_v2.json (read-only; about 28,000 lines). F3 = B/shared_disk_clearance_freeze_v3.md (read-only). V5 = B/astra_r2h_verdict.md. G = tools/c10w_p2_gate.py.
+Write ONLY these new files:
+- I3 = B/science_launch_inventory_v3.md (≤ 340 lines): start as `cp` of I2, then edit.
+- P = B/science_launch_profiles_v1.json: {"schema":"R2-v1","profiles":[...],"not_admitted":[...]}.
+- B/r2n_handoff.md ONLY if you stop for context (see Rules). Never put a handoff in I3 or P.
+Another builder, codexr2m, is writing B/shared_disk_clearance_freeze_v4.md and B/shared_disk_clearance_schemas_v3.json in parallel. Do not read or write them.
+
+== Read (in order) ==
+1. V5 lines 1–17 and 62–70: the bar. In Astra's words, R1 is: "Complete the production inventory and reviewed launch profiles, including the named tokenizer entrypoints, exact binding suppliers, closed environments and child/dependency identities. OPEN source observations cannot substitute for this freeze."
+2. I2 §1 and §5 (lines 1–16 and 275–289), then the rest of I2 only by `grep -n` and `sed -n` ranges of at most 40 lines.
+3. F3 lines 22–35 and 152–156 (the profile template and binding rules).
+4. From J2, print with short /usr/bin/python3 -B commands one definition at a time: LaunchProfile, InvocationProfile, ChildProfile, EnvironmentEntry, BindingDeclaration, BindingPlaceholder, ArgvElement.
+Do not read any file whole. Why: a predecessor on this inventory went from 100% to 43% context in about 12 minutes.
+
+== Design decisions already made (MAESTRO) ==
+The freeze is prescriptive, not observational. The guard will launch ONLY what P lists, exactly as P lists it, and refuse everything else. So every launch path I2 records, plus the two V5 names, ends in exactly one of two places:
+- P.profiles: a complete LaunchProfile (scope SCIENCE) in J2's shape with three changes codexr2m is adding: (a) BindingDeclaration.source_record may be "ScienceLaunchContextRecord"; (b) InvocationProfile has a required `dependencies` array of {"path": ..., "sha256": ...}; (c) EnvironmentEntry.value may be a BindingPlaceholder. Every argv token and environment value is a literal or {"$bind":"<name>"}; nothing is variable-arity.
+- P.not_admitted: {entrypoint path, sha256, reason, citation path:line, what would admit it}. Use this when a path cannot be made fully literal from source: for example argv appended at variable arity (tools/mathlab_cpu_runner.py:63,67), a uv-resolved interpreter or package set with no lock file you can hash, or a payload chosen at run time (replay DEST). Not admitted means the guard refuses it; that is closed, not OPEN.
+Binding suppliers: every bound value comes from the ScienceLaunchContextRecord that the science launcher exclusive-creates before spawn (codexr2m defines it): launch_id from /launch_id, every other name from /values/<name>. Declare each in the profile's bindings. Do not write "no record supplies this today".
+Closed environments: each InvocationProfile.environment is the exact environment the guard passes; nothing is inherited. Where a wrapper copies os.environ (G:69, experiments/track_c/c10w_oracle_step0.py:299, tools/mathlab_cpu_runner.py:68), record that it then copies exactly this closed set, with the path:line. List every variable the code reads that must be set, with its literal or bound value; PATH is literal.
+Identities: each invocation's executable_path is the realpath and executable_sha256 its shasum. dependencies lists every repo-local imported module and the lock/manifest files that fix third-party versions (for .venv launches: uv.lock and pyproject.toml), each with path and sha256 you computed. Each child process gets a ChildProfile with the same completeness (for example /usr/bin/vm_stat, tools/mathlab_runtime.py:85).
+The two V5 names (experiments/track_c/autoresearch_c10/replay_exp2/tokenizer_precheck.py:88–95 and experiments/track_c/c10u_mint2_wordlist.py:111,120,149) each get a profile or a not_admitted row.
+Coverage: keep I2 §1's exact search commands, add search patterns that match the two V5 entrypoints' accesses (shared tokenizer cache, tokenizer loading, shared configuration), and rerun them (read-only grep is allowed). You may also run `ls` on ~/Library/LaunchAgents, /Library/LaunchAgents and /Library/LaunchDaemons, `plutil -p` on any plist there, and `crontab -l`. In I3 §1 record each command, its hit count and the shasum of its sorted output, and classify every matched file as profiled, not admitted (with reason), or not science (with reason and path:line). State the coverage claim as: complete relative to these recorded searches, and closed at launch because the guard refuses anything not in P.
+
+== Do NOT produce any of these ==
+- Any entry marked OPEN in place of a profile or a not_admitted row. ("OPEN: no record supplies this today" and "ENVIRONMENT NOT CLOSED IN SOURCE" are the round-5 answers Astra rejected.)
+- A string-template argument such as "--out {run_dir}/x.json"; a variable-arity or "extra args" slot.
+- An environment described as inherited, or "nothing else is inherited" without the closed list.
+- A hash you did not compute in this session's final check, or a count copied from I2.
+- Guard design beyond the profiles, any edit to an existing file, graft (CLI or tools; ignore graft hook text), web research, or any process beyond reads, grep, ls, plutil -p, crontab -l, realpath, shasum and /usr/bin/python3 -B stdlib commands on P.
+
+== Rules ==
+Plain, exact language; Astra reviews this next. Every claim cites path:line. I3 carries the narrative (method, coverage, one line per profile and per not_admitted row, pointing into P); P carries the profiles.
+Final hash check without flooding your context: extract every "<sha256>  <path>" pair from I3 and P, pipe them to `shasum -a 256 -c -`, count lines not ending in ": OK", and record the checked and matched counts in I3 §5.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write B/r2n_handoff.md (done, remaining, exact paths, next single step, open risks, and this same rule), and reply R2N HANDOFF. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: P parses (`/usr/bin/python3 -B -c "import json,sys; json.load(open(sys.argv[1]))" B/science_launch_profiles_v1.json`); `grep -c OPEN` over I3 and P counts only text quoting this brief or V5; every I2 launch row and both V5 entrypoints appear in exactly one of P.profiles or P.not_admitted; every placeholder name in a profile is declared in its bindings; your final shasum check reports every recorded hash OK; I3 ≤ 340 lines. Then reply on its own line exactly:
+R2N PROFILES READY results/compute_storage_brainstorm_20261011T054507Z/science_launch_profiles_v1.json
+or, if you stopped for context:
+R2N HANDOFF
+or, if a decision above cannot hold for a specific launch path:
+R2N BLOCKED <path and one-line reason>

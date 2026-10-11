@@ -29,15 +29,15 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T15:26:53Z",
+    "edited": "2026-10-11T15:40:51Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "running",
+        "state": "in_review",
         "who": "Astra round 8, then MAESTRO binds",
-        "session": "codexr1m",
+        "session": "astra r1p12",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
@@ -88,7 +88,8 @@
           "14:24Z: codexr1k added the missing proof: a test showing the identity check had started before the time limit and was cut off partway through (a17412cd). MAESTRO47 reran all eight test sets; all pass. Astra round 10 is reviewing it now (packet 87c295e5).",
           "14:35Z: Astra round 10 said GO (6931d0c0) and you said go. The Intel Mac proved it is the same machine (a806d691). The listing step then stopped itself after 18 seconds: it printed a progress line on every step (81,599 of them) and hit its size limit. Everything was kept (08ad0ada, cd5ea2e3). Nothing will be retried without you. Builder codexr1l is finding the exact cause and writing one tested fix; Astra reviews it; then MAESTRO asks you before any re-run.",
           "14:55Z: the cause of the stop is found and one fix is ready: the Intel Mac's record-keeping allowance was too small for the full file list; it rises from 10 MB to 18 MB, still inside the original limit. All 373 tests pass on MAESTRO48's rerun (508123a8). The exact amount it ran over cannot be recovered (the refusal did not log it); MAESTRO accepted that. The expert reviewer (Astra) is now checking it (round 11). After that, a fresh run needs your new go-ahead.",
-          "15:17Z: Astra round 11: the fix is sound, and a fresh \"prove it is the same machine\" step is allowed, but the full file listing is not yet: first measure (read-only) how big the Intel Mac's file tree really is, and count the old failed attempt's leftover files against the budget (b43f2073). A new builder (codexr1m) is writing that read-only measuring tool and a pass/fail rule fixed in advance. MAESTRO will then bring you one go-ahead covering measure, then bind, then list."
+          "15:17Z: Astra round 11: the fix is sound, and a fresh \"prove it is the same machine\" step is allowed, but the full file listing is not yet: first measure (read-only) how big the Intel Mac's file tree really is, and count the old failed attempt's leftover files against the budget (b43f2073). A new builder (codexr1m) is writing that read-only measuring tool and a pass/fail rule fixed in advance. MAESTRO will then bring you one go-ahead covering measure, then bind, then list.",
+          "15:40Z: codexr1m finished the read-only size check for the Intel Mac and the pass/fail rule fixed in advance; MAESTRO49 reran its tests (10 of 10, and the existing 64 of 64) and confirmed it only reads. Next: the expert's round 12 review, then one question to you covering the gated steps."
         ]
       },
       {
@@ -137,9 +138,9 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "in_review",
+        "state": "running",
         "who": "codexr2i + codexr2j, then MAESTRO, then Astra round 5",
-        "session": "astra r2h",
+        "session": "codexr2m, codexr2n",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -166,7 +167,8 @@
           "14:46Z: the rules draft (v3) and its data formats are finished and checked by MAESTRO48 (every cross-check recomputed, all pins match; commit eb2436ad). Next: a new builder (codexr2k) writes a stronger automatic checker, then the expert reviewer (Astra) does round 5.",
           "14:49Z: the checker builder stopped on a mistake in MAESTRO's instructions (one rule compared the wrong two lists). MAESTRO corrected the rule; the builder has resumed.",
           "15:21Z: the new checker is built and works (all six planted faults caught), and it found one real error in the data: an example held an out-of-date copy of another (d90387bb). Claude Code's safety check blocked MAESTRO from fixing it directly; you chose a Codex fixer (15:20Z). codexr2l is making that one-value fix; then the expert reviewer (Astra) does round 5.",
-          "15:26Z: the one-value fix is in and checked: the new checker now passes on the real files and still catches all six planted faults (4dd9c2a9). The expert reviewer (Astra) is doing round 5 on the full rules package."
+          "15:26Z: the one-value fix is in and checked: the new checker now passes on the real files and still catches all six planted faults (4dd9c2a9). The expert reviewer (Astra) is doing round 5 on the full rules package.",
+          "15:40Z: the expert said NO-GO again (round 5), but closer: 2 of 5 fixes are now closed. Still open: the list of science launches must become a closed, exact list (anything not on it is refused); the science run ID needs one fixed source; the checker misread how the record's revision counter advances, and it must check deeper. Two builders started: codexr2m (rules + schemas) and codexr2n (exact launch list); a checker builder follows them."
         ]
       },
       {
