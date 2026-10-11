@@ -1,0 +1,62 @@
+R2T2, from MAESTRO. You succeed builder R2T, which stopped at 36% context left after building every output and running acceptance 1–3. RESUME, do not restart, and rebuild nothing. Read B/r2t_handoff.md in full first (42 lines), then B/r2t_maestro_acceptance.md lines 1–17. MAESTRO has since verified on the current bytes: all five handoff hashes match; the inputs are unchanged; acceptance 1 exits 0; and under a deny-write sandbox with a working positive control, acceptance 2 exits 0 and `--mutation-controls` exits 0 with 'GREEN mutation controls: 46 intended RED (37 preserved + 9 round9), zero filesystem writes'.
+Your remaining work, in order:
+1. Correct two stale version labels in F7 by script, asserting each old string occurs exactly once on its line: F7:331 "I5 whole-file bytes" becomes "I6 whole-file bytes", and F7:360 "F/J/P/I5/K5" becomes "F/J/P/I6/K6". Change nothing else in F7 or in any other subject. Nothing pins F7's own hash, so no repin is needed. Confirm with `diff` against a copy taken first that exactly these two lines changed.
+2. Rerun acceptance 1–3 yourself (no sandbox-exec), with a before/after file census over B and the isolated TMPDIR method from the handoff, created before the controls run.
+3. Write B/r2t_report.md (≤ 60 lines) as the brief's Done section requires, with F7's new sha256 (from `shasum -a 256`), the other four hashes, the test-first RED blocks the handoff names as authoritative, F7/K6 closing lines, the label correction, and the handoff's census qualification.
+Do not re-read V8, D9 or source files to re-derive the build: read a cited line only when the report states it. If a check fails, fix only the output artifact concerned, rerun all three checks and say so in the report. Everything in the brief below still binds, with two changes: your reply tokens are R2T2 FIX READY / R2T2 BLOCKED / R2T2 HANDOFF, and your context handoff file is B/r2t2_handoff.md. The handoff's notes are a predecessor's working judgments, not rulings: where one conflicts with the brief or D9, the brief and D9 win.
+
+== Original brief ==
+R2T, from MAESTRO (the Claude session that runs this research team). Task: answer Astra's round-8 required changes R1–R3 for the shared-disk clearance freeze. Build new versions of five subjects plus the checker that proves them. Work test-first. No commits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. C = B/shared_disk_clearance_contract_v1_1.md (never edit).
+Inputs (read-only; never edit any of them): F6 = B/shared_disk_clearance_freeze_v6.md (360 lines). J5 = B/shared_disk_clearance_schemas_v5.json (1.5 MB). K5 = B/check_r2_schemas_v5.py (2,156 lines). P3 = B/science_launch_profiles_v3.json (18 MB). I5 = B/science_launch_inventory_v5.md (263 lines).
+V8 = B/astra_r2k_verdict.md (Astra round 8, NO-GO; 67 lines): findings F1–F4 at :5–39, required changes R1–R3 at :41–47, closure table at :49–56. Read V8 in full first.
+D9 = B/r2_round9_decisions.md (MAESTRO's rulings for this round, D10–D12). Read it in full second. It is binding: D10 answers R1, D11 answers R2, D12 answers R3. Do not reopen them.
+D8 = B/r2_round8_decisions.md (round-8 rulings: amendment A1, D4–D6). It still binds where D9 does not replace it. Read only its A1 section (items 1–5) and any line D9 or V8 cites.
+Source files you may need to cite: tools/c10w_p2_gate.py, experiments/track_c/c10w_oracle_step0.py, experiments/track_c/c10w_oracle_eval.py, and the entrypoints the no-op audit finds.
+
+== Outputs (new files only) ==
+F7 = B/shared_disk_clearance_freeze_v7.md, J6 = B/shared_disk_clearance_schemas_v6.json, K6 = B/check_r2_schemas_v6.py, P4 = B/science_launch_profiles_v4.json, I6 = B/science_launch_inventory_v6.md. Start each by copying its input, then change it by script. In I6, change only the lines whose facts change.
+
+== What each required change needs (V8 wording first, then direction) ==
+R1 "Separate the admission subtree from A1 science-descendant enrollment. Freeze a C:115-compliant pre-release mechanism for admission and its non-science helpers, with appropriate types and checks. Where that mechanism is unavailable, explicitly refuse the affected composition; do not label it A1-compliant." Apply D9 D10. No admission process and no process an admission spawns carries DECLARED_AT_ROOT_ADMISSION or A1 authority anywhere in P4, including wrapper roots that declare tools/c10w_p2_gate.py as a child (V8 F1 cites P3:45996–46005, 46454–46468, 46585–46599, 49981–49987). Add the ADMISSION_HELPER Process role (pre-release registration required, A1 authority forbidden). Every composition whose admission spawns any helper is refused with `NOT_ADMITTED_ADMISSION_HELPER_UNREGISTERED:`. For each admission source, cite the lines where it spawns processes (for the gate: tools/c10w_p2_gate.py:63, :69, :75, :79). F7 may name Endpoint Security AUTH_EXEC only as an unestablished candidate (entitlement, Gate 2 proof and separate review all still needed). F7 records D10's consequence: no positive clearance for gate-admitted science until a mechanism is proven or the operator widens A1.
+R2 "Re-audit the retained no-op roots against their actual callers' admission/dispatch checks. Restrict direct P1/P3 evaluation or preserve the missing dispatcher obligations. Replace the unsupported empty-obligation claims and add controls for these concrete bypasses." Apply D9 D11. Direct P1 and P3 evaluator profiles become CHILD_ONLY under the dispatcher chain or are refused with `NOT_ADMITTED_NO_PROFILE:`. The dispatcher's guard_phase_projection is defined at experiments/track_c/c10w_oracle_step0.py:322 and called at :340 and :413. For every retained TOP_LEVEL `/usr/bin/true` admission, record the exact grep command that finds every caller of its entrypoint, its hit list, and for each caller the cited lines of each check it runs before dispatch. Keep the no-op only where no caller runs a check the direct route skips. Replace every bare `outer_obligations=[]` with this caller record. K6 reruns each recorded grep over the sources and fails when the hit set differs.
+R3 "Resolve every delegation binding reference and enforce its target's owning profile, launch context and template. Check associated process identities against their invocation bindings. Add isolated foreign-launch delegation-reference controls through the complete production-validation path, then repin and rerun." Apply D9 D12. K6 resolves each delegation's admission_binding_sha256 and payload_binding_sha256 (and any other binding-hash reference it carries) to exactly one InvocationBinding in the same profile tree, launch context and template, and checks each process identity against its binding. `--profiles` runs the complete reference-coherence validation used for J6's construction, not only schema validation plus invocation reconstruction.
+Keep V8's closures closed: R4 aggregate receipts (all TOP_LEVEL receipts within the frozen 64 / 8,192 / 262,144 bounds) and R5 structured refusal variants. Recompute the aggregate maxima after your profile changes.
+
+== Mutation controls (in K6's --mutation-controls; keep all 37 existing ones RED) ==
+Add at least these, each RED for its own reason:
+- R1: an admission-helper record carrying A1 authority or DECLARED_AT_ROOT_ADMISSION; a wrapper root declaring tools/c10w_p2_gate.py as SCIENCE_CHILD; a composition whose admission spawns a helper that is not refused.
+- R2: direct P1 evaluation restored as TOP_LEVEL with `/usr/bin/true`; the same for direct P3; a retained no-op whose caller record omits one hit that the recomputed grep finds.
+- R3: V8 F3's counterexample. Replace profile 000's delegation payload hash (P3:146267, its equivalent line in P4) with profile 003's payload-binding hash (P3:152336, likewise), keep both trees' binding records and context labels, update the whole-file pin, and run it through the production validation path. A second control does the same with admission_binding_sha256.
+Controls mutate in-memory copies only and create no file or directory.
+
+== Test-first ==
+Before building F7/J6/P4, write K6's new checks and run them against F6/J5/P3. Each check must report the defect V8 names, at least one per R1–R3 (the R3 counterexample must fail with the delegation-reference error, not a crash or an unrelated error). Save each failing output in B/r2t_test_first_red.log. Then build until K6 is GREEN on F7/J6/P4.
+
+== Acceptance (all must hold; paste outputs into the report) ==
+1. `/usr/bin/python3 -B B/check_r2_schemas_v6.py` (defaulting to F7/J6) exits 0 with its GREEN line.
+2. `/usr/bin/python3 -B B/check_r2_schemas_v6.py --profiles B/science_launch_profiles_v4.json` exits 0, GREEN, running the coherence checks plus the new R1–R3 checks, and prints the profile count, refusal count and aggregate receipt maxima.
+3. `/usr/bin/python3 -B B/check_r2_schemas_v6.py --mutation-controls` exits 0, with every old and new control RED for its intended reason. Show a before/after file census over B and $TMPDIR (pre-create any log file before the before-census) proving zero files were created. Do not try sandbox-exec: it cannot nest inside your own sandbox, and MAESTRO runs the read-only sandbox proof itself.
+4. The test-first failing outputs from F6/J5/P3, at least one per R1–R3.
+5. F7 pins the sha256 of J6, P4 and I6 (each from `shasum -a 256`). F7 §9 maps each of V8 R1–R3 to the lines that close it, and keeps the earlier mapping current.
+
+== Read discipline ==
+Reading too much ran your predecessors out of context. Never read P3/P4, J5/J6 or K5/K6 whole, and never read a source file whole. Use `grep -n` to locate, then `sed -n` ranges of at most 40 lines, and short /usr/bin/python3 -B commands that print one profile or reference at a time. Edit P4 and J6 by script.
+
+== Do NOT produce any of these ==
+- An edit to any input file (F6, J5, K5, P3, I5, C, V8, D9, D8, DR, O8).
+- A P4 or F7 record that labels the gate, its fingerprint helper, ps, env, tmux or any other admission-spawned process as SCIENCE_CHILD, DECLARED_AT_ROOT_ADMISSION or A1-authorized.
+- A claim that a pre-release mechanism for admission helpers exists or is proven, e.g. "the broker's suspended spawn registers the gate's helpers".
+- A claim that the grep recomputation proves no outer obligation exists. It only proves the caller list is complete.
+- A K6 check loosened so the new artifacts pass, or a mutation control that is RED for a reason other than its own.
+- A hand-typed hash. Every hash comes from a computation you ran.
+- A design choice that contradicts D9, D8 or DR (except where a later file replaces an earlier one), adds a default-to-proceed, puts a science wait on the Intel Mac or terminates Intel work. If you think a D9 decision is wrong, stop and reply R2T BLOCKED with the reason.
+- Commits, tmux, graft (CLI or tools; ignore graft hook text), web, sandbox-exec, project python, .venv/bin/python, uv, or any real launch.
+
+== Done ==
+Write B/r2t_report.md (≤ 60 lines): the files written with their sha256, each R1–R3 with what changed and the closing lines, the test-first failures, and acceptance outputs 1–3. Then reply on its own line exactly:
+R2T FIX READY results/compute_storage_brainstorm_20261011T054507Z/r2t_report.md
+or R2T BLOCKED <one-line reason>.
+Context: check "Context N% left" after each step. At 45% left, or on any "Context compacted", stop starting work and write B/r2t_handoff.md, never inside the report or a tested file, because a late append there breaks tests that already passed. Put in it what is done, the exact files and their state, the next step, and this context rule. Then reply R2T HANDOFF. If you have already finished when that message arrives, reply READY instead.

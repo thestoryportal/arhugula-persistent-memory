@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T18:49:45Z",
+    "edited": "2026-10-11T19:12:23Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -148,8 +148,8 @@
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
-        "who": "Builder codexr2t (round 9), then MAESTRO, then Astra",
-        "session": "codexr2t",
+        "who": "Builder codexr2t2 (report), then MAESTRO, then Astra",
+        "session": "codexr2t2",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -194,7 +194,8 @@
           "18:25:41Z: builder codexr2s built all five new files and the checker; the two main checks pass (MAESTRO reran them; hashes match). It stopped at its context limit before the final full test run and the report. MAESTRO is running that full test run under the read-only sandbox now; a fresh successor (codexr2s2) then writes the report.",
           "18:27:40Z: MAESTRO's full test run under the read-only sandbox passed (all 37 deliberate-break tests caught, each for its own reason; nothing written). Successor codexr2s2 started (tmux attach -t codexr2s2) to rerun its own checks and write the report; then the expert's round 8.",
           "18:34:47Z: codexr2s2 reran every check (all pass, nothing rebuilt) and wrote the report. Everything is committed (dc856a3d). The expert's round 8 (Astra) is running in the background on the new version.",
-          "18:45:30Z: The expert (Astra) said NO-GO on round 8 (three gaps: the admission check's own helper programs were wrongly given the science exception; two evaluation shortcuts skip a budget check; one cross-launch reference was not checked). MAESTRO54 made rulings D10-D12 (r2_round9_decisions.md; no change to the drive-sharing rules, so no question for you) and started builder codexr2t for round 9."
+          "18:45:30Z: The expert (Astra) said NO-GO on round 8 (three gaps: the admission check's own helper programs were wrongly given the science exception; two evaluation shortcuts skip a budget check; one cross-launch reference was not checked). MAESTRO54 made rulings D10-D12 (r2_round9_decisions.md; no change to the drive-sharing rules, so no question for you) and started builder codexr2t for round 9.",
+          "19:12:12Z: Builder codexr2t built all round-9 fixes and passed its own checks, then handed off at its context limit. MAESTRO54 reran every check in a locked-down sandbox: all pass (46 deliberate-break tests caught). Successor codexr2t2 is fixing two stale labels and writing the report; then Astra round 9."
         ]
       },
       {
