@@ -1,0 +1,43 @@
+Work queue · 7:47 PM
+RUNNING 1 · NEEDS YOU 1 · IN REVIEW 0 ·
+READY 0 · BLOCKED 0
+  queue edited 7 min ago
+  Needs you: Choose the next study
+
+Running now (detected live)
+  - Make the work list easier to read
+    (codexbuild): builder working · 59%
+    memory left
+  - codexextra: builder waiting on a
+    test run · 70% memory left; not yet
+    described in the queue
+  - Astra review running for 7 min;
+    record: review.md; not yet described
+    in the queue
+  - experiment run in progress:
+    fixture-run; not yet described in
+    the queue
+
+1. Make the work list easier to read
+  [RUNNING]
+  Who: The dashboard builder
+  Summary: Show what is happening and
+           what needs your attention.
+           This helps us choose the next
+           step.
+  Time: running for 1 h 20 min · about
+        30-60 min left (estimated 7:40
+        PM)
+  Live: builder working · 59% memory
+        left
+
+2. Choose the next study
+  [NEEDS YOU]
+  Who: The dashboard builder
+  Summary: Show what is happening and
+           what needs your attention.
+           This helps us choose the next
+           step.
+  Needs from you: Choose the smaller
+                  study
+  Time: no estimate yet

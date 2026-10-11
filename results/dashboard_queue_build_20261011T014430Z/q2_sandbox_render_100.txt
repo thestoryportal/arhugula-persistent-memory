@@ -1,0 +1,122 @@
+Work queue · 8:13 PM
+RUNNING 2 · NEEDS YOU 1 · IN REVIEW 0 · READY 1 · BLOCKED 7
+  queue edited 4 min ago
+  Needs you: Decide where NEW-1's 100 leftover files go
+
+Running now (detected live)
+  Live check unavailable: tmux: [Errno 2] No such file or directory: 'tmux'
+  Live check unavailable: reviewers: [Errno 1] Operation not permitted: '/bin/ps'
+
+1. Build this queue tab
+  [RUNNING]
+  Who: Builder Q2 (after Q1)
+  Summary: A builder is making this tab, so current and upcoming work is always visible in plain
+           words on the Mac and the phone.
+  Time: running for 33 min · about 22-52 min left (estimate made 8:05 PM)
+  Live: live session check unavailable for codexq2
+  Note: Q1 built it and the Mac checks pass, but reading the real screen found 3 problems: live
+        builder status never shows, an old experiment folder is shown as running, and the estimate
+        wording is confusing. Q2 is fixing those.
+  Note: Then MAESTRO re-checks on the Mac and adds it as tab 8 without restarting the other tabs.
+
+2. Drive backup: run the package's tests on the Mac
+  [RUNNING]
+  Who: Builder MB42 fixing, then MAESTRO re-runs
+  Summary: The builder works in a sandbox that cannot run some Mac-only checks, so MAESTRO reruns
+           everything on the Mac itself before anyone calls it passing.
+  Time: running for 19 min · about 32-82 min left (estimate made 8:05 PM)
+  Live: live session check unavailable for codexmb42
+  Note: First Mac run: 7 of 9 checks passed (main suite 155 tests, 0 failures).
+  Note: 2 failed only on the Mac: test files were placed on the same disk as the source (the real
+        safety rule rightly refuses that), and the copy-checker miscounts an error on clean copies.
+  Note: MB42 is fixing both; then all 9 checks re-run fresh.
+  Note: Evidence:
+        results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/maestro_host_20261011T01574
+        5Z/
+  Note: MB42 asked for the Mac's disk layout; MAESTRO31 ran the read-only disk queries and passed
+        the answers back (02:08Z). MB42 at 50% of its working memory: may hand off to a fresh MB43.
+
+3. Drive backup: expert review, round 11
+  [BLOCKED]
+  Who: Astra (reviewer)
+  Summary: Astra, the independent reviewer, checks the package and the Mac test results and says go
+           or no-go.
+  Waits for: Drive backup: run the package's tests on the Mac
+  Time: about 0-17 min left (estimate made 7:45 PM)
+  Note: Round 10 verdict was NO-GO (results/backup_gdrive_host_20261010/astra_r10_verdict.md).
+
+4. Drive backup: turn it on
+  [BLOCKED]
+  Who: MAESTRO, with your go
+  Summary: Upload the project's bulk files to Google Drive, confirm every byte arrived, then start
+           the automatic backup.
+  Waits for: Drive backup: expert review, round 11
+  Needs from you: OK to run the full read-back check (reads about 287 GB to compare every file).
+  Needs from you: OK to pause writing to the project disk while the first upload and check run.
+  Time: no estimate yet
+  Note: No time estimate until the review passes; the 287 GB check speed depends on the connection.
+  Note: The plan also asks you to confirm 'fresh history' versus 'recovery' for the backup log.
+
+5. Decide where NEW-1's 100 leftover files go
+  [NEEDS YOU]
+  Who: You
+  Summary: The last experiment (NEW-1) left 100 control files (167 MB). Their fingerprints are
+           already saved in the project record.
+  Needs from you: Keep them and move them to Drive once it works (recommended), or delete them now.
+  Time: no estimate yet
+  Note: Hashes: results/mathlab_staging/new1_outcome_20261011/npz_bench_files.sha256
+
+6. Move 268.5 GiB of parked experiment files off the Mac
+  [BLOCKED]
+  Who: MAESTRO, with your go
+  Summary: An earlier experiment's large files are parked in ~/Backups on the Mac's own disk, which
+           is not meant to be an archive.
+  Waits for: Drive backup: turn it on
+  Needs from you: Once Drive works: OK to upload them, and later to delete the local copies.
+  Time: no estimate yet
+
+7. Re-test: write the experiment plan
+  [BLOCKED]
+  Who: A builder, then MAESTRO
+  Summary: Write down, before running anything, exactly how the re-test will run and what counts as
+           pass or fail (reusing the Arm R recipe and a new Arm M token).
+  Waits for: Drive backup: turn it on
+  Blocked by: Your ruling: it waits until the Drive backup work is done.
+  Time: about 32-92 min left (estimate made 7:45 PM)
+  Note: Record: results/autoresearch_reaim/operator_ruling_retest_20261011.md (decision
+        D-C10r-rulings-18).
+
+8. Re-test: expert check and freeze of the plan
+  [BLOCKED]
+  Who: Astra (reviewer)
+  Summary: Astra checks the plan; once accepted it is frozen so results cannot quietly change the
+           rules afterwards.
+  Waits for: Re-test: write the experiment plan
+  Time: about 0-17 min left (estimate made 7:45 PM)
+
+9. Re-test: run it
+  [BLOCKED]
+  Who: MAESTRO, with your go
+  Summary: Run the frozen re-test on the Mac and record the result.
+  Waits for: Re-test: expert check and freeze of the plan
+  Needs from you: A separate go for the run itself, with its disk budget.
+  Time: no estimate yet
+
+10. Close finished builder windows MB39-MB42
+  [BLOCKED]
+  Who: You (MAESTRO cannot close sessions)
+  Summary: Their work becomes part of the Drive package; once that is saved, their windows can be
+           closed.
+  Waits for: Drive backup: run the package's tests on the Mac
+  Needs from you: Run: tmux -L default kill-session -t codexmb39; tmux -L default kill-session -t
+                  codexmb40; tmux -L default kill-session -t codexmb41; tmux -L default kill-session
+                  -t codexmb42
+  Time: no estimate yet
+
+11. Tidy three out-of-date record lines
+  [READY]
+  Who: MAESTRO
+  Summary: Three project documents still describe older states (an F1 summary line, an 'attempt 4
+           running' line, and a plan marked both frozen and draft).
+  Time: about 0-2 min left (estimate made 7:45 PM)
+  Note: docs/F1_DETERMINATION.md:11 vs :71; SESSION_CHECKPOINT.md:37; C10Y pre-cast scope status.

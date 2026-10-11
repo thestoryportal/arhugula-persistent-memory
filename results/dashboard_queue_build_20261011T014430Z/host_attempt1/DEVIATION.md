@@ -1,0 +1,1 @@
+MAESTRO30 deviation (2026-10-11): host attempt 1 failed only at tmux_capture ("can't find pane: =q1check" — a capture-pane target needs the session form '=q1check:'). All other host checks passed in attempt 1 (outputs kept in this folder). MAESTRO changed that one target in run_host_checks.sh (attempt-1 copy alongside) and re-ran the whole script fresh.
