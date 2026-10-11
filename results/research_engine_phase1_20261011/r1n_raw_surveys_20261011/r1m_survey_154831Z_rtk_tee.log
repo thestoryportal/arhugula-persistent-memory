@@ -1,0 +1,122 @@
+2026-10-11T15:48:31Z
+Macs-MacBook-Pro.local
+--procs
+   32 root             09:47:35 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/FSEvents.framework/Versions/A/Support/fseventsd
+   33 root             09:47:35 /System/Library/PrivateFrameworks/MediaRemote.framework/Support/mediaremoted
+   37 _accessoryupdater 09:47:35 /System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/Support/accessoryupdaterd
+   42 _biome           09:47:35 /System/Library/PrivateFrameworks/BiomeStreams.framework/Support/biomed
+   49 _softwareupdate  09:47:35 /System/Library/PrivateFrameworks/MobileSoftwareUpdate.framework/Support/softwareupdated
+   55 root             09:47:35 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Support/mds
+   74 root             09:47:35 /usr/libexec/CSCSupportd
+   84 root             09:47:35 /System/Library/PrivateFrameworks/GenerationalStorage.framework/Versions/A/Support/revisiond
+   98 root             09:47:35 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
+  130 root             09:47:35 /usr/libexec/airportd
+  131 _analyticsd      09:47:35 /System/Library/PrivateFrameworks/CoreAnalytics.framework/Support/analyticsd
+  170 _softwareupdate  09:47:33 /System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdated
+  194 root             09:47:33 /System/Library/PrivateFrameworks/SystemStatusServer.framework/Support/systemstatusd
+  214 _softwareupdate  09:47:32 /usr/sbin/distnoted
+  222 root             09:47:28 /System/Library/PrivateFrameworks/MobileSoftwareUpdate.framework/Versions/A/XPCServices/com.apple.MobileSoftwareUpdate.CleanupPreparePathService.xpc/Contents/MacOS/com.apple.MobileSoftwareUpdate.CleanupPreparePathService
+  223 root             09:47:27 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mds_stores
+  290 _spotlight       09:47:27 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdbulkimport
+  315 _softwareupdate  09:47:20 /System/Library/PrivateFrameworks/BridgeOSSoftwareUpdate.framework/Support/bosUpdateProxy
+  316 root             09:47:20 /System/Library/PrivateFrameworks/CoreKDL.framework/Support/corekdld
+  322 root             09:47:19 /usr/libexec/colorsync.displayservices
+  323 root             09:47:19 /System/Library/Frameworks/ColorSync.framework/Versions/A/XPCServices/com.apple.ColorSyncXPCAgent.xpc/Contents/MacOS/com.apple.ColorSyncXPCAgent
+  324 root             09:47:19 /usr/libexec/colorsyncd
+  338 root             09:47:18 /System/Library/PrivateFrameworks/InstallerDiagnostics.framework/Versions/A/Resources/installerdiagwatcher
+  339 root             09:47:18 /System/Library/PrivateFrameworks/BridgeOSInstallReporting.framework/Resources/bosreporter
+  354 _appinstalld     09:47:18 /System/Library/PrivateFrameworks/MobileInstallation.framework/Support/appinstalld
+  382 root             09:47:17 /System/Library/PrivateFrameworks/SiriInference.framework/Support/siriinferenced
+  402 root             09:47:16 /usr/libexec/rtcreportingd
+  439 root             09:47:13 /System/Library/CoreServices/ReportCrash
+  446 root             09:47:12 /System/Library/Frameworks/LocalAuthentication.framework/Support/coreauthd
+  526 root             09:47:09 /System/Library/PrivateFrameworks/AppSSO.framework/Support/AppSSODaemon
+  533 root             09:47:08 /usr/libexec/wallpaperexportd
+  538 root             09:47:08 /System/Library/PrivateFrameworks/WirelessDiagnostics.framework/Support/awdd
+  568 root             09:47:06 /System/Library/PrivateFrameworks/CloudKitDaemon.framework/Support/cloudd
+  625 root             09:46:59 /System/Library/CoreServices/CrashReporterSupportHelper
+  709 _spotlight       09:46:17 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker
+  806 _softwareupdate  09:46:02 /System/Library/PrivateFrameworks/Install.framework/Frameworks/DistributionKit.framework/Versions/A/XPCServices/DistributionHelper.xpc/Contents/MacOS/DistributionHelper
+  883 _rmd             09:45:02 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/SoftwareUpdateSubscriber.xpc/Contents/MacOS/SoftwareUpdateSubscriber
+  953 robertrhu_node2  09:42:40 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdbulkimport
+  975 root             09:42:38 /System/Library/PrivateFrameworks/AuthKit.framework/Versions/A/Support/akd
+ 1033 robertrhu_node2  09:42:24 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
+ 1036 robertrhu_node2  09:42:24 /System/Library/PrivateFrameworks/VoiceShortcuts.framework/Versions/A/Support/siriactionsd
+ 1039 robertrhu_node2  09:42:24 /System/Library/PrivateFrameworks/UserNotificationsCore.framework/Support/usernotificationsd
+ 1047 robertrhu_node2  09:42:23 /System/Library/Frameworks/Accounts.framework/Versions/A/Support/accountsd
+ 1048 robertrhu_node2  09:42:23 /usr/libexec/rapportd
+ 1050 robertrhu_node2  09:42:23 /System/Library/PrivateFrameworks/DoNotDisturbServer.framework/Support/donotdisturbd
+ 1055 robertrhu_node2  09:42:23 /System/Library/Frameworks/Contacts.framework/Support/contactsd
+ 1056 robertrhu_node2  09:42:23 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/corespotlightd
+ 1059 robertrhu_node2  09:42:23 /System/Library/PrivateFrameworks/CloudKitDaemon.framework/Support/cloudd
+ 1060 robertrhu_node2  09:42:23 /System/Library/PrivateFrameworks/SyncedDefaults.framework/Support/syncdefaultsd
+ 1063 robertrhu_node2  09:42:23 /System/Library/PrivateFrameworks/CoreSuggestions.framework/Versions/A/Support/suggestd
+ 1070 robertrhu_node2  09:42:23 /System/Library/PrivateFrameworks/FileProvider.framework/Support/fileproviderd
+ 1072 robertrhu_node2  09:42:23 /System/Library/PrivateFrameworks/BiomeStreams.framework/Support/BiomeAgent
+ 1081 robertrhu_node2  09:42:23 /System/Library/Frameworks/CoreTelephony.framework/Support/CommCenter
+ 1085 robertrhu_node2  09:42:22 /System/Library/PrivateFrameworks/ChronoCore.framework/Support/chronod
+ 1087 robertrhu_node2  09:42:22 /System/Library/PrivateFrameworks/PhotoLibraryServices.framework/Versions/A/Support/photolibraryd
+ 1090 robertrhu_node2  09:42:22 /System/Library/PrivateFrameworks/CoreFollowUp.framework/Versions/A/Support/followupd
+ 1104 robertrhu_node2  09:42:21 /System/Library/Frameworks/LocalAuthentication.framework/Support/coreauthd
+ 1105 robertrhu_node2  09:42:21 /System/Cryptexes/App/System/Library/CoreServices/SafariSupport.bundle/Contents/MacOS/SafariBookmarksSyncAgent
+ 1123 robertrhu_node2  09:42:20 /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/fontworker
+ 1124 robertrhu_node2  09:42:20 /System/Library/PrivateFrameworks/DataAccess.framework/Support/dataaccessd
+ 1130 robertrhu_node2  09:42:20 /System/Library/PrivateFrameworks/ContactsDonation.framework/Versions/A/Support/contactsdonationagent
+ 1137 robertrhu_node2  09:42:18 /System/Library/PrivateFrameworks/Stickers.framework/Support/stickersd
+ 1138 robertrhu_node2  09:42:18 /System/Library/CoreServices/ReportCrash
+ 1141 robertrhu_node2  09:42:18 /System/Library/PrivateFrameworks/HomeKitDaemon.framework/Support/homed
+ 1144 robertrhu_node2  09:42:18 /System/Library/PrivateFrameworks/MediaRemote.framework/Support/mediaremoteagent
+ 1145 robertrhu_node2  09:42:18 /System/Library/PrivateFrameworks/CallHistory.framework/Support/CallHistorySyncHelper
+ 1149 root             09:42:18 /System/Library/PrivateFrameworks/InstallerDiagnostics.framework/Versions/A/Resources/installerdiagd
+ 1150 robertrhu_node2  09:42:17 /System/Library/PrivateFrameworks/AssistantServices.framework/Versions/A/Support/assistantd
+ 1153 robertrhu_node2  09:42:17 /System/Library/PrivateFrameworks/AXAssetLoader.framework/Support/axassetsd
+ 1164 robertrhu_node2  09:42:16 /System/Library/PrivateFrameworks/CalendarDaemon.framework/Support/calaccessd
+ 1171 robertrhu_node2  09:42:15 /System/Library/PrivateFrameworks/AvatarPersistence.framework/Support/avatarsd
+ 1180 robertrhu_node2  09:42:11 /System/Library/PrivateFrameworks/AuthKit.framework/Versions/A/Support/akd
+ 1192 robertrhu_node2  09:42:09 /System/Library/PrivateFrameworks/AppStoreDaemon.framework/Support/appstoreagent
+ 1193 robertrhu_node2  09:42:09 /System/Library/PrivateFrameworks/IntlPreferences.framework/Support/localizationswitcherd
+ 1194 robertrhu_node2  09:42:09 /System/Library/PrivateFrameworks/AppSSO.framework/Support/AppSSOAgent.app/Contents/MacOS/AppSSOAgent
+ 1197 _installcoordinationd 09:42:09 /System/Library/PrivateFrameworks/InstallCoordination.framework/Support/installcoordinationd
+ 1223 robertrhu_node2  09:42:05 /System/Applications/Messages.app/Contents/PlugIns/MobileSMSSpotlightImporterCatalyst.appex/Contents/MacOS/MobileSMSSpotlightImporterCatalyst
+ 1272 robertrhu_node2  09:41:53 /System/Library/PrivateFrameworks/TextToSpeechKonaSupport.framework/Versions/A/PlugIns/KonaSynthesizer.appex/Contents/MacOS/KonaSynthesizer
+ 1276 robertrhu_node2  09:41:53 /System/Library/PrivateFrameworks/TextToSpeechMauiSupport.framework/Versions/A/PlugIns/MauiAUSP.appex/Contents/MacOS/MauiAUSP
+ 1281 robertrhu_node2  09:41:52 /System/Library/PrivateFrameworks/TextToSpeechVoiceBankingSupport.framework/Support/voicebankingd
+ 1291 robertrhu_node2  09:41:49 /System/Library/PrivateFrameworks/PhotoAnalysis.framework/Versions/A/Support/photoanalysisd
+ 1310 robertrhu_node2  09:41:39 /System/Library/Frameworks/QuickLookThumbnailing.framework/Support/com.apple.quicklook.ThumbnailsAgent
+ 1331 robertrhu_node2  09:41:27 /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd
+ 1354 robertrhu_node2  09:41:21 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker
+ 1375 robertrhu_node2  09:41:16 /System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/Support/fudHelperAgent
+ 1394 robertrhu_node2  09:40:59 /System/iOSSupport/System/Library/PrivateFrameworks/HomeEnergyDaemon.framework/Support/homeenergyd
+ 1398 robertrhu_node2  09:40:56 /System/Applications/System Settings.app/Contents/PlugIns/csimporter.appex/Contents/MacOS/csimporter
+ 1421 robertrhu_node2  09:40:35 /System/Library/PrivateFrameworks/CloudDocsDaemon.framework/Versions/A/Support/bird
+ 1425 robertrhu_node2  09:40:35 /System/Library/PrivateFrameworks/AMPDevices.framework/Versions/A/Support/AMPDeviceDiscoveryAgent
+ 1433 robertrhu_node2  09:40:35 /System/Library/Image Capture/Support/icdd
+ 1450 robertrhu_node2  09:40:34 /System/Library/PrivateFrameworks/iTunesCloud.framework/Support/itunescloudd
+ 1481 robertrhu_node2  09:40:31 /System/Library/PrivateFrameworks/CallHistory.framework/Support/CallHistoryPluginHelper
+ 1495 robertrhu_node2  09:40:25 /System/Library/PrivateFrameworks/SoftwareUpdate.framework/Resources/SoftwareUpdateNotificationManager.app/Contents/MacOS/SoftwareUpdateNotificationManager
+ 1500 root             09:40:23 /System/Library/Frameworks/ColorSync.framework/Versions/A/XPCServices/com.apple.ColorSyncXPCAgent.xpc/Contents/MacOS/com.apple.ColorSyncXPCAgent
+ 1548 _softwareupdate  09:39:53 /System/Library/PrivateFrameworks/UIFoundation.framework/Versions/A/XPCServices/nsattributedstringagent.xpc/Contents/MacOS/nsattributedstringagent
+ 1549 _softwareupdate  09:39:53 /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/XPCServices/com.apple.hiservices-xpcservice.xpc/Contents/MacOS/com.apple.hiservices-xpcservice
+ 1550 _softwareupdate  09:39:53 /usr/sbin/cfprefsd
+ 1552 _softwareupdate  09:39:52 /System/Library/Frameworks/MediaAccessibility.framework/Versions/A/XPCServices/com.apple.accessibility.mediaaccessibilityd.xpc/Contents/MacOS/com.apple.accessibility.mediaaccessibilityd
+ 1777 robertrhu_node2  09:21:28 /System/Library/PrivateFrameworks/Synapse.framework/Support/contentlinkingd
+ 1809 robertrhu_node2  09:08:12 /System/Library/Frameworks/ColorSync.framework/Support/colorsync.useragent
+ 1810 robertrhu_node2  09:08:12 /System/Library/Frameworks/ColorSync.framework/Versions/A/XPCServices/com.apple.ColorSyncXPCAgent.xpc/Contents/MacOS/com.apple.ColorSyncXPCAgent
+ 1824 robertrhu_node2  08:50:25 /System/Library/Frameworks/LocalAuthentication.framework/Support/coreautha.bundle/Contents/MacOS/coreautha
+ 2666 robertrhu_node2  07:55:51 /System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app/Contents/MacOS/BackgroundTaskManagementAgent
+ 2861 robertrhu_node2  07:42:56 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdwrite
+--crontab
+crontab: no crontab for robertrhu_node2
+--agents
+/Library/LaunchAgents:
+/Library/LaunchDaemons:
+/Users/robertrhu_node2/Library/LaunchAgents:
+--roots
+ls: /Applications/MacPorts: No such file or directory
+ls: /Users/robertrhu_node2/research-engine-phase1: No such file or directory
+drwxr-xr-x  11 root             wheel  352 Oct 11 02:16 /opt/local
+drwx------   5 robertrhu_node2  wheel  160 Oct 11 08:32 /private/tmp/r1h-intel-provisioning-v7
+drwx------   3 robertrhu_node2  wheel   96 Oct 11 08:32 /private/tmp/r1h-intel-window-registration-v7
+--who
+_mbsetupuser     console      Oct 11 00:01 
+robertrhu_node2  console      Oct 11 00:06 
