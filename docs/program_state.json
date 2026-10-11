@@ -25,5 +25,274 @@
     "robustness": "native-knowing robust IFF no entrenched pretrained competitor (code/structural yes; common-knowledge domain_concepts no); C/G7 multi-token ❌; C10 MEMIT band/strength/layer-count knobs ❌; C2-band ⚠️",
     "critical_path": "D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩: frozen stage-1 UNDERFIT, terminal under current authorization; C10 remains OPEN/BLOCKING → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md. F1 read-contract slice SYNTHESIZED (verdict = bifurcation: native-knowing toward-satisfied-conditioned / structured-query burden relocated to unbuilt index). Remaining frontier: C1 compaction-at-true-scale (stimulus-gated) · index/query layer build+test (load-bearing) · C5/C6/C7 governance/security/pruning (Phase-2) · C4 7B transfer",
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
+  },
+  "work_queue": {
+    "edited": "2026-10-11T01:45:00Z",
+    "items": [
+      {
+        "id": "drive-package",
+        "title": "Drive backup: finish the safety package",
+        "summary": "A builder is preparing the tested package that turns on the automatic Google Drive backup safely. The last expert review (round 10) said no-go; this package answers its points.",
+        "state": "running",
+        "who": "Builder MB41 (third in a relay: MB39, MB40, MB41)",
+        "session": "codexmb41",
+        "started": "2026-10-11T00:55:00Z",
+        "estimate": {
+          "low_min": 90,
+          "high_min": 180,
+          "set": "2026-10-11T01:45:00Z"
+        },
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "Each builder hands off when its memory runs low; expect one or two more hand-offs.",
+          "Current step: fixing the plan checker that wrongly flags a read-only check as a write.",
+          "Receipt folder: results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/"
+        ]
+      },
+      {
+        "id": "queue-tab",
+        "title": "Build this queue tab",
+        "summary": "A builder is making this tab, so current and upcoming work is always visible in plain words on the Mac and the phone.",
+        "state": "running",
+        "who": "Builder Q1",
+        "session": "codexq1",
+        "started": "2026-10-11T01:40:00Z",
+        "estimate": {
+          "low_min": 45,
+          "high_min": 90,
+          "set": "2026-10-11T01:45:00Z"
+        },
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "After the builder finishes, MAESTRO runs its checks on the Mac and adds the tab to the dashboard without restarting the other tabs."
+        ]
+      },
+      {
+        "id": "drive-host-tests",
+        "title": "Drive backup: run the package's tests on the Mac",
+        "summary": "The builder works in a sandbox that cannot run some Mac-only checks, so MAESTRO reruns everything on the Mac itself before anyone calls it passing.",
+        "state": "blocked",
+        "who": "MAESTRO",
+        "session": null,
+        "started": null,
+        "estimate": {
+          "low_min": 20,
+          "high_min": 45,
+          "set": "2026-10-11T01:45:00Z"
+        },
+        "depends_on": [
+          "drive-package"
+        ],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "Runs in the separate normal-priority tmux server (tmux -L new1)."
+        ]
+      },
+      {
+        "id": "drive-review",
+        "title": "Drive backup: expert review, round 11",
+        "summary": "Astra, the independent reviewer, checks the package and the Mac test results and says go or no-go.",
+        "state": "blocked",
+        "who": "Astra (reviewer)",
+        "session": null,
+        "started": null,
+        "estimate": {
+          "low_min": 20,
+          "high_min": 45,
+          "set": "2026-10-11T01:45:00Z"
+        },
+        "depends_on": [
+          "drive-host-tests"
+        ],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "Round 10 verdict was NO-GO (results/backup_gdrive_host_20261010/astra_r10_verdict.md)."
+        ]
+      },
+      {
+        "id": "drive-activate",
+        "title": "Drive backup: turn it on",
+        "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup.",
+        "state": "blocked",
+        "who": "MAESTRO, with your go",
+        "session": null,
+        "started": null,
+        "estimate": null,
+        "depends_on": [
+          "drive-review"
+        ],
+        "blocked_by": [],
+        "needs_from_you": [
+          "OK to run the full read-back check (reads about 287 GB to compare every file).",
+          "OK to pause writing to the project disk while the first upload and check run."
+        ],
+        "notes": [
+          "No time estimate until the review passes; the 287 GB check speed depends on the connection.",
+          "The plan also asks you to confirm 'fresh history' versus 'recovery' for the backup log."
+        ]
+      },
+      {
+        "id": "new1-leftovers",
+        "title": "Decide where NEW-1's 100 leftover files go",
+        "summary": "The last experiment (NEW-1) left 100 control files (167 MB). Their fingerprints are already saved in the project record.",
+        "state": "needs_you",
+        "who": "You",
+        "session": null,
+        "started": null,
+        "estimate": null,
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [
+          "Keep them and move them to Drive once it works (recommended), or delete them now."
+        ],
+        "notes": [
+          "Hashes: results/mathlab_staging/new1_outcome_20261011/npz_bench_files.sha256"
+        ]
+      },
+      {
+        "id": "parked-packets",
+        "title": "Move 268.5 GiB of parked experiment files off the Mac",
+        "summary": "An earlier experiment's large files are parked in ~/Backups on the Mac's own disk, which is not meant to be an archive.",
+        "state": "blocked",
+        "who": "MAESTRO, with your go",
+        "session": null,
+        "started": null,
+        "estimate": null,
+        "depends_on": [
+          "drive-activate"
+        ],
+        "blocked_by": [],
+        "needs_from_you": [
+          "Once Drive works: OK to upload them, and later to delete the local copies."
+        ],
+        "notes": []
+      },
+      {
+        "id": "retest-plan",
+        "title": "Re-test: write the experiment plan",
+        "summary": "Write down, before running anything, exactly how the re-test will run and what counts as pass or fail (reusing the Arm R recipe and a new Arm M token).",
+        "state": "blocked",
+        "who": "A builder, then MAESTRO",
+        "session": null,
+        "started": null,
+        "estimate": {
+          "low_min": 60,
+          "high_min": 120,
+          "set": "2026-10-11T01:45:00Z"
+        },
+        "depends_on": [
+          "drive-activate"
+        ],
+        "blocked_by": [
+          "Your ruling: it waits until the Drive backup work is done."
+        ],
+        "needs_from_you": [],
+        "notes": [
+          "Record: results/autoresearch_reaim/operator_ruling_retest_20261011.md (decision D-C10r-rulings-18)."
+        ]
+      },
+      {
+        "id": "retest-freeze",
+        "title": "Re-test: expert check and freeze of the plan",
+        "summary": "Astra checks the plan; once accepted it is frozen so results cannot quietly change the rules afterwards.",
+        "state": "blocked",
+        "who": "Astra (reviewer)",
+        "session": null,
+        "started": null,
+        "estimate": {
+          "low_min": 20,
+          "high_min": 45,
+          "set": "2026-10-11T01:45:00Z"
+        },
+        "depends_on": [
+          "retest-plan"
+        ],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": []
+      },
+      {
+        "id": "retest-run",
+        "title": "Re-test: run it",
+        "summary": "Run the frozen re-test on the Mac and record the result.",
+        "state": "blocked",
+        "who": "MAESTRO, with your go",
+        "session": null,
+        "started": null,
+        "estimate": null,
+        "depends_on": [
+          "retest-freeze"
+        ],
+        "blocked_by": [],
+        "needs_from_you": [
+          "A separate go for the run itself, with its disk budget."
+        ],
+        "notes": []
+      },
+      {
+        "id": "close-builders",
+        "title": "Close finished builder windows MB39 and MB40",
+        "summary": "Their work becomes part of the Drive package; once that is saved, their windows can be closed.",
+        "state": "blocked",
+        "who": "You (MAESTRO cannot close sessions)",
+        "session": null,
+        "started": null,
+        "estimate": null,
+        "depends_on": [
+          "drive-package"
+        ],
+        "blocked_by": [],
+        "needs_from_you": [
+          "Run: tmux -L default kill-session -t codexmb39; tmux -L default kill-session -t codexmb40"
+        ],
+        "notes": []
+      },
+      {
+        "id": "stale-records",
+        "title": "Tidy three out-of-date record lines",
+        "summary": "Three project documents still describe older states (an F1 summary line, an 'attempt 4 running' line, and a plan marked both frozen and draft).",
+        "state": "ready",
+        "who": "MAESTRO",
+        "session": null,
+        "started": null,
+        "estimate": {
+          "low_min": 15,
+          "high_min": 30,
+          "set": "2026-10-11T01:45:00Z"
+        },
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "docs/F1_DETERMINATION.md:11 vs :71; SESSION_CHECKPOINT.md:37; C10Y pre-cast scope status."
+        ]
+      },
+      {
+        "id": "memory-sync",
+        "title": "Reconcile three memory notes that differ between copies",
+        "summary": "Three of the project's memory notes differ between the live copy and the repository copy; check which is newer before syncing.",
+        "state": "ready",
+        "who": "MAESTRO",
+        "session": null,
+        "started": null,
+        "estimate": {
+          "low_min": 10,
+          "high_min": 20,
+          "set": "2026-10-11T01:45:00Z"
+        },
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "background-shell-niceness-10, context-management-every-session, rerun-builder-tests-host-tmpdir."
+        ]
+      }
+    ]
   }
 }
