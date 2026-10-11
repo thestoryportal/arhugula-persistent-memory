@@ -1,0 +1,8 @@
+2026-10-11T05:33:11Z
+cmd: uv pip install --dry-run --require-hashes -p <fresh uv venv, CPython 3.12.14> -r duckdb_1.5.5.lock.txt
+Using Python 3.12.14 environment at: /private/tmp/claude-501/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory--claude-worktrees-c10k-route-a/c61ff8d6-ada6-4f3c-9133-454d7a185d27/scratchpad/lockparse
+Resolved 1 package in 1ms
+Would install 1 package
+ + duckdb==1.5.5
+exit=0
+f8ffcdeadaded28928249cf8b468a25e9cf25e8a1a6b028b22deed8757c28636  duckdb_1.5.5.lock.txt
