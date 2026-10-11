@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T17:03:27Z",
+    "edited": "2026-10-11T17:06:26Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -193,7 +193,7 @@
         "summary": "Five Codex reviewers each take one area of the lists you sent (web dashboard tools, terminal dashboard tools, dashboard/design skills, research/ML skills, design best practices) and report what fits our work, how it would plug in, the cost and risk, and a verdict per item. Review only: nothing is installed or built.",
         "state": "needs_you",
         "who": "You: pick proposals; then MAESTRO",
-        "session": "codexlabviz3",
+        "session": "codexlabviz5",
         "started": "2026-10-11T13:52:00Z",
         "estimate": {
           "low_min": 30,
@@ -213,7 +213,8 @@
           "14:35Z: at your request, an interactive LabViz brainstorm is open in tmux session codexlabviz (discussion only; the build hold stays). Notes go to results/dashboard_integration_review_20261011/labviz_brainstorm_notes.md.",
           "15:23Z: LabViz brainstorm: the first session ran low on room and wrote its handoff (16 of your decisions recorded, af90cb27); a fresh session (codexlabviz2) continues with the next topic (what context the build agents get). Building stays on hold.",
           "15:56Z: LabViz brainstorm session 2 ran low on room and wrote its handoff (handoff2). Session 3 (codexlabviz3) continues and will first re-ask session 2's last question. Attach: tmux attach -t codexlabviz3 (phone: tmux new-session -t codexlabviz3 \\; set destroy-unattached on).",
-          "16:55:12Z: LabViz talk session 3 saved its handoff and closed; session 4 is open (tmux attach -t codexlabviz4) and starts by re-asking the open scoring question (how the learning tracker shows scores). Building stays on hold until you say so."
+          "16:55:12Z: LabViz talk session 3 saved its handoff and closed; session 4 is open (tmux attach -t codexlabviz4) and starts by re-asking the open scoring question (how the learning tracker shows scores). Building stays on hold until you say so.",
+          "17:06:12Z: LabViz talk session 4 saved its handoff at a planned stop (you approved all six data messages) and closed. Session 5 is open (tmux attach -t codexlabviz5; phone: tmux new-session -t codexlabviz5 \\; set destroy-unattached on) and first asks whether to go on to the next topic: what exactly the build agents get for the Learn/quiz/tracker part. Building stays on hold until you say so."
         ]
       },
       {
