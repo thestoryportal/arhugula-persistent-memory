@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T17:22:56Z",
+    "edited": "2026-10-11T17:39:45Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -147,9 +147,9 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "running",
-        "who": "codexr2q2 builds round-7 fixes; then MAESTRO52 runs Astra round 7",
-        "session": "codexr2q2",
+        "state": "in_review",
+        "who": "Astra round 7 reviewing; then MAESTRO52",
+        "session": "astra r2j",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -186,7 +186,8 @@
           "16:54:17Z: the launch list is finished and checked: 55 complete launch descriptions for the science programs still in use, and 168 programs from finished experiments marked 'not allowed until described' (safe default). I re-checked every file fingerprint (206 of 206 match). The expert's round 6 review of the whole package started at 16:53Z.",
           "17:03:17Z: the expert's round 6 says not yet (NO-GO), with every earlier point partly fixed. The main remaining gaps: the launch descriptions don't yet match the guard design exactly; one route could skip its required gate; the 'science isn't sandboxed' exception needs tighter limits; some child programs of the active experiment are missing; my 'which programs are still active' reasoning must use your actual re-test decision; the checker needs two more checks. Next: a builder fixes these, then round 7.",
           "17:11:21Z: I wrote down three rulings for round 7 (r2_round7_decisions.md): my earlier 'which programs are active' reasoning was wrong and is corrected (your re-test is still at the planning stage, so no science launcher is active today and the re-test's will need its own launch description before it runs); one shape for how the guard wraps a science launch; and how a science run's child programs get registered before they start. A builder (codexr2q) is now fixing everything else the expert listed. Then expert round 7.",
-          "17:20:17Z: the first builder wrote the four new checks and showed each one catching the problem the expert named in the round-6 files (I re-ran all four myself: same result). It handed off early at 54% room left, before building. A fresh builder (codexr2q2) now builds the fixed versions until those checks pass."
+          "17:20:17Z: the first builder wrote the four new checks and showed each one catching the problem the expert named in the round-6 files (I re-ran all four myself: same result). It handed off early at 54% room left, before building. A fresh builder (codexr2q2) now builds the fixed versions until those checks pass.",
+          "17:39:36Z: the fixed versions are built (freeze v5, schemas v4, profiles v2, checker v4). I re-ran every check myself, including the 26 deliberate-break tests inside a lock that blocks all file writes: all passed as designed. The builder only stopped because it couldn't create that lock inside its own sandbox. The expert's round 7 review is now running."
         ]
       },
       {
