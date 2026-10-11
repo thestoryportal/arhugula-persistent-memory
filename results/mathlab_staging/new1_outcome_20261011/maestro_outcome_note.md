@@ -1,6 +1,6 @@
 # NEW-1 authorized run — outcome note (MAESTRO29, 2026-10-11)
 
-Tier: MATH-PROXY — a math estimate, not evidence. Astra's binding reading is pending; this note records what ran and what the frozen prereg says it means, nothing more.
+Tier: MATH-PROXY — a math estimate, not evidence. Astra's binding reading: ACCEPT-WITH-CONDITIONS (`new1_outcome_astra.md`, commit 01147aa); both conditions are applied below. This note records what ran and what the frozen prereg says it means, nothing more.
 
 ## What ran
 

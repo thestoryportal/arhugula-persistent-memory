@@ -72,4 +72,11 @@ _This overlay is a living tracker. Keep it current as part of the experiment clo
 | D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ | Write Engine / C10 §8.9 mechanism qualifier; F1 unchanged; actual projector/leakage/locality UNMEASURED | [B measurement report — D-NEW1-fid warning](../results/mathlab_staging/new1_v2_build_report.md#d-new1-fid) |
 
 
+## 2026-10-11 — NEW-1 one authorized execution outcome pointer (D-NEW1-c)
+
+| Decision | Scope | Detailed source |
+|---|---|---|
+| D-NEW1-c ⟨D-NEW1-c@fce4a263⟩ | Write Engine / C10 adapter-geometry queue input: MATH-PROXY—math estimate, not evidence; H-COV BOUNDARY-SENSITIVE, excluded-energy contrast NON-SPECIFIC, H-TOP PASS, H-RANK FAIL, H-OVERLAP FAIL; no queue change; F1 unchanged | [NEW-1 outcome note](../results/mathlab_staging/new1_outcome_20261011/maestro_outcome_note.md) |
+
+
 ⟨D-C10l-covgeom@0caeca4f⟩
