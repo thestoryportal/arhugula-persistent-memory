@@ -295112,7 +295112,7 @@
           "launch_context_sha256": "5bffddfadfeb16d781c0a8ee521376236237f4388c4cb9eba48fc1704ec14de2",
           "launch_profile_sha256": "1e9aed64d56d10088e0984918a4fc996a9ce982a581b24db1725fdde980504f0",
           "recipe_binding_sha256": "91b824cf9326975dfb2d11ad5c6957897ae51cef591be3d3c6248d8d51271649",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -295126,7 +295126,7 @@
           "launch_context_sha256": "5bffddfadfeb16d781c0a8ee521376236237f4388c4cb9eba48fc1704ec14de2",
           "launch_profile_sha256": "1e9aed64d56d10088e0984918a4fc996a9ce982a581b24db1725fdde980504f0",
           "recipe_binding_sha256": "0f5a37c91ea647b32590770a913708f8c9a7afd5c78f71922f69ba69a6b71295",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -295589,7 +295589,7 @@
           "launch_context_sha256": "a39eac8e71ab8e0b673974d384bb19a8b03583e96f902a99f0bf949f5e7223f1",
           "launch_profile_sha256": "6e5a667652f3eae9adcc2b92cba363673e5a9d0b57c4fab750a37f205dafa4f2",
           "recipe_binding_sha256": "b48098883ca70cf41a1d64287cb83890b8dbddadf003f814333646d4736bd95d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -295603,7 +295603,7 @@
           "launch_context_sha256": "a39eac8e71ab8e0b673974d384bb19a8b03583e96f902a99f0bf949f5e7223f1",
           "launch_profile_sha256": "6e5a667652f3eae9adcc2b92cba363673e5a9d0b57c4fab750a37f205dafa4f2",
           "recipe_binding_sha256": "ab5026aa7073eacf2dea5b4c9e48cd3e3e615e954cc589c6b3e447afc98cdc0c",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -295922,7 +295922,7 @@
           "launch_context_sha256": "274e2ebbf6199dbdd27c7d84dff7b54721f334378d221be2eeefb73262db2bc6",
           "launch_profile_sha256": "6680ffebb27d052fc04a517600a871c134f103224a745a7d93757043c1b2ddec",
           "recipe_binding_sha256": "2654ba9a605f3cc0d48b8cc99c714c8feb2ce1c39f4a1b0395df42c138a57e7a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -296454,7 +296454,7 @@
           "launch_context_sha256": "67ebf51b00f87ad245a48c068530747385c428b501bc37e94db0139ddc00b3de",
           "launch_profile_sha256": "b2183fa7543fdd643ded805a0fb2b99b77f2ff169ec089e9c9a239932eb7a64e",
           "recipe_binding_sha256": "5ecbeee2d066fe90f9a52fbcdc220cf0e7662c395538afd80445d2cbb83d431e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -296468,7 +296468,7 @@
           "launch_context_sha256": "67ebf51b00f87ad245a48c068530747385c428b501bc37e94db0139ddc00b3de",
           "launch_profile_sha256": "b2183fa7543fdd643ded805a0fb2b99b77f2ff169ec089e9c9a239932eb7a64e",
           "recipe_binding_sha256": "6bf9a798752e2f8e2ac7bae1c48414f862eefe30175e01fa99a0f3e560ccde8b",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -296482,7 +296482,7 @@
           "launch_context_sha256": "67ebf51b00f87ad245a48c068530747385c428b501bc37e94db0139ddc00b3de",
           "launch_profile_sha256": "b2183fa7543fdd643ded805a0fb2b99b77f2ff169ec089e9c9a239932eb7a64e",
           "recipe_binding_sha256": "f36e18af6687f27a5fa7037096b3e697cd61b2948a05ad92144342d4904d6791",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -297240,7 +297240,7 @@
           "launch_context_sha256": "283ac3ce38e623a0bc5dec4325dfe9e7a1c23cf55f95a9894b3d1333781ee2ae",
           "launch_profile_sha256": "8bbf8fdfe23c3d5e379473e8521e2c802e715df302ba33b1a83a084bcf0a4d39",
           "recipe_binding_sha256": "ec43db59aa409f6f0fd50a90574fb661658ce24cef16282cf0b91196f30ca4d2",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -297254,7 +297254,7 @@
           "launch_context_sha256": "283ac3ce38e623a0bc5dec4325dfe9e7a1c23cf55f95a9894b3d1333781ee2ae",
           "launch_profile_sha256": "8bbf8fdfe23c3d5e379473e8521e2c802e715df302ba33b1a83a084bcf0a4d39",
           "recipe_binding_sha256": "b4f5724d5a0fd1261ed1f026e4def628dec1b85d8ef488151b2e0d918f506bed",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -297268,7 +297268,7 @@
           "launch_context_sha256": "283ac3ce38e623a0bc5dec4325dfe9e7a1c23cf55f95a9894b3d1333781ee2ae",
           "launch_profile_sha256": "8bbf8fdfe23c3d5e379473e8521e2c802e715df302ba33b1a83a084bcf0a4d39",
           "recipe_binding_sha256": "e1521005e77d8fac52a680c74b832ad053a589e873b4894251f3979e0d500825",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -297282,7 +297282,7 @@
           "launch_context_sha256": "283ac3ce38e623a0bc5dec4325dfe9e7a1c23cf55f95a9894b3d1333781ee2ae",
           "launch_profile_sha256": "8bbf8fdfe23c3d5e379473e8521e2c802e715df302ba33b1a83a084bcf0a4d39",
           "recipe_binding_sha256": "f650a1a6662a17aaa22d4717b109213243e49bd92f5a05d97f734c302be6acd8",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -297296,7 +297296,7 @@
           "launch_context_sha256": "283ac3ce38e623a0bc5dec4325dfe9e7a1c23cf55f95a9894b3d1333781ee2ae",
           "launch_profile_sha256": "8bbf8fdfe23c3d5e379473e8521e2c802e715df302ba33b1a83a084bcf0a4d39",
           "recipe_binding_sha256": "b0481148317a40b2c706d0dc50435c62d2964ca6ac76b36910eaa1f4f95de6ee",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -298054,7 +298054,7 @@
           "launch_context_sha256": "1ebfd5c290270285d46024d61f9284e79e2f5164d022ac901c1ecd5bc04f7352",
           "launch_profile_sha256": "747eb9208e696f8fa6239869ea15df023b9dba691992ef0634eb718aabe28aae",
           "recipe_binding_sha256": "41eaff477ac3e4f02aa8dbf6d79396a58ea3310536ceab4043c7fee2634c305f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -298068,7 +298068,7 @@
           "launch_context_sha256": "1ebfd5c290270285d46024d61f9284e79e2f5164d022ac901c1ecd5bc04f7352",
           "launch_profile_sha256": "747eb9208e696f8fa6239869ea15df023b9dba691992ef0634eb718aabe28aae",
           "recipe_binding_sha256": "30df627987d3e5cf1a01856ceb3e0fd120bbf5cccf8d07af0197d9ed13b15c56",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -298082,7 +298082,7 @@
           "launch_context_sha256": "1ebfd5c290270285d46024d61f9284e79e2f5164d022ac901c1ecd5bc04f7352",
           "launch_profile_sha256": "747eb9208e696f8fa6239869ea15df023b9dba691992ef0634eb718aabe28aae",
           "recipe_binding_sha256": "6d4e68971e58b907476d75925e1c9fd25cf680a19f2c4871ef0acd3c33ba5e9a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -298096,7 +298096,7 @@
           "launch_context_sha256": "1ebfd5c290270285d46024d61f9284e79e2f5164d022ac901c1ecd5bc04f7352",
           "launch_profile_sha256": "747eb9208e696f8fa6239869ea15df023b9dba691992ef0634eb718aabe28aae",
           "recipe_binding_sha256": "73748cc9ffdac50f869a591357ae8c8290a0750914f292f5e7610da00b7bc4af",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -298110,7 +298110,7 @@
           "launch_context_sha256": "1ebfd5c290270285d46024d61f9284e79e2f5164d022ac901c1ecd5bc04f7352",
           "launch_profile_sha256": "747eb9208e696f8fa6239869ea15df023b9dba691992ef0634eb718aabe28aae",
           "recipe_binding_sha256": "53abcfa945c04a3257ae1c6a08e1de78d54d4aec9e0478556519ddbb3e1cc635",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -298675,7 +298675,7 @@
           "launch_context_sha256": "7ae0f4e6d9c4c561e9d42a5cfc90971a14a09e8a32264075e313762c83eba0e6",
           "launch_profile_sha256": "562aa1dd81904c46d5100b50edbbce97f9d4eaba685ada0185b821045fe96161",
           "recipe_binding_sha256": "fdca77335535f19d2df6efe2255af1bef5989e2af8660da3cd32c49ab4a181f8",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -298689,7 +298689,7 @@
           "launch_context_sha256": "7ae0f4e6d9c4c561e9d42a5cfc90971a14a09e8a32264075e313762c83eba0e6",
           "launch_profile_sha256": "562aa1dd81904c46d5100b50edbbce97f9d4eaba685ada0185b821045fe96161",
           "recipe_binding_sha256": "b9a53b39d5c48b243d85dcb31882f424f67c84f207340d59cd8404817f3437de",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -298703,7 +298703,7 @@
           "launch_context_sha256": "7ae0f4e6d9c4c561e9d42a5cfc90971a14a09e8a32264075e313762c83eba0e6",
           "launch_profile_sha256": "562aa1dd81904c46d5100b50edbbce97f9d4eaba685ada0185b821045fe96161",
           "recipe_binding_sha256": "cd8e02fb9362974c4a4ec96f9070a8c34546e0429089df2ae661eed5e545b4e3",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -299470,7 +299470,7 @@
           "launch_context_sha256": "929ed29e9f94b8bc825f3df47a6703f52b8ed22eb6a103cdd4217a4e795ef1d6",
           "launch_profile_sha256": "5bbb650b6a6f63c2d6692cf89ee7e357d692fcf946c0add9053c17c6d7906843",
           "recipe_binding_sha256": "618053d095cfc95358b7127c881cd7a7e1ff66c02e7999e791973db7161719a5",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -299484,7 +299484,7 @@
           "launch_context_sha256": "929ed29e9f94b8bc825f3df47a6703f52b8ed22eb6a103cdd4217a4e795ef1d6",
           "launch_profile_sha256": "5bbb650b6a6f63c2d6692cf89ee7e357d692fcf946c0add9053c17c6d7906843",
           "recipe_binding_sha256": "80ec899f54499779bc44eb4a2166508531efa7a5bf5fc385598c59722f0a5e0b",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -299498,7 +299498,7 @@
           "launch_context_sha256": "929ed29e9f94b8bc825f3df47a6703f52b8ed22eb6a103cdd4217a4e795ef1d6",
           "launch_profile_sha256": "5bbb650b6a6f63c2d6692cf89ee7e357d692fcf946c0add9053c17c6d7906843",
           "recipe_binding_sha256": "b995fad14b1dfcc7010c2b1b4fdaed774215f2548c106c65321094deb2728f6b",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -299512,7 +299512,7 @@
           "launch_context_sha256": "929ed29e9f94b8bc825f3df47a6703f52b8ed22eb6a103cdd4217a4e795ef1d6",
           "launch_profile_sha256": "5bbb650b6a6f63c2d6692cf89ee7e357d692fcf946c0add9053c17c6d7906843",
           "recipe_binding_sha256": "011a50e2a4567acfc78ec8ac7065b59706c7fe22a4ca0b8624fd7dce60f997bb",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -299526,7 +299526,7 @@
           "launch_context_sha256": "929ed29e9f94b8bc825f3df47a6703f52b8ed22eb6a103cdd4217a4e795ef1d6",
           "launch_profile_sha256": "5bbb650b6a6f63c2d6692cf89ee7e357d692fcf946c0add9053c17c6d7906843",
           "recipe_binding_sha256": "a5276f66a3cfe27f671db14ec2f4e7dab45a16582b738f60b630600b9b07072b",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -300091,7 +300091,7 @@
           "launch_context_sha256": "af7a9bf536acaf29040f90af37aa9f40fb3d61955c8fc3c46848c57ad3b94edc",
           "launch_profile_sha256": "587652ae03b3718bcb70bc9a00dae0e7696a1f211fb537337b4eff13a3d64357",
           "recipe_binding_sha256": "3de7c0991496a490c157ace0ed5a5bae55591ef17b9f622d0c22daa27e3ffbd7",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -300105,7 +300105,7 @@
           "launch_context_sha256": "af7a9bf536acaf29040f90af37aa9f40fb3d61955c8fc3c46848c57ad3b94edc",
           "launch_profile_sha256": "587652ae03b3718bcb70bc9a00dae0e7696a1f211fb537337b4eff13a3d64357",
           "recipe_binding_sha256": "f178d91634f3173e34fce6e83548d25ca798ed9eb6b4fcb0662ea397fc963407",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -300119,7 +300119,7 @@
           "launch_context_sha256": "af7a9bf536acaf29040f90af37aa9f40fb3d61955c8fc3c46848c57ad3b94edc",
           "launch_profile_sha256": "587652ae03b3718bcb70bc9a00dae0e7696a1f211fb537337b4eff13a3d64357",
           "recipe_binding_sha256": "a1fde17bc2147c880ea31ee956b85b2f639e38c04683cff8df6b14e1d2c9b2f8",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -300886,7 +300886,7 @@
           "launch_context_sha256": "a5ada7c637ddf8cf6d0827888dbc75c6e03d17ac561f0b6ed34b26f76484c947",
           "launch_profile_sha256": "01c23d9ccb32906f2d54c40e8dcdc97f07f1bd6d085d56c2a5e2301eb1b8872a",
           "recipe_binding_sha256": "56c09192deff63a7d90f06f9b61fe62218f74ecd4ec8ba1dfde1fa50679383a0",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -300900,7 +300900,7 @@
           "launch_context_sha256": "a5ada7c637ddf8cf6d0827888dbc75c6e03d17ac561f0b6ed34b26f76484c947",
           "launch_profile_sha256": "01c23d9ccb32906f2d54c40e8dcdc97f07f1bd6d085d56c2a5e2301eb1b8872a",
           "recipe_binding_sha256": "2c779adea3572bb4298a40f1d77cfb49eea525c9e16ab364ca127d329ae2ae6c",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -300914,7 +300914,7 @@
           "launch_context_sha256": "a5ada7c637ddf8cf6d0827888dbc75c6e03d17ac561f0b6ed34b26f76484c947",
           "launch_profile_sha256": "01c23d9ccb32906f2d54c40e8dcdc97f07f1bd6d085d56c2a5e2301eb1b8872a",
           "recipe_binding_sha256": "e334bf936771d18ff8f2a7a404af14693cbe5fda50b6bef20fa7a6064dc22ced",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -300928,7 +300928,7 @@
           "launch_context_sha256": "a5ada7c637ddf8cf6d0827888dbc75c6e03d17ac561f0b6ed34b26f76484c947",
           "launch_profile_sha256": "01c23d9ccb32906f2d54c40e8dcdc97f07f1bd6d085d56c2a5e2301eb1b8872a",
           "recipe_binding_sha256": "2e4be4241ee229579c340b5f8d0ec042412c7d08cba32d6908d208a67aef8187",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -300942,7 +300942,7 @@
           "launch_context_sha256": "a5ada7c637ddf8cf6d0827888dbc75c6e03d17ac561f0b6ed34b26f76484c947",
           "launch_profile_sha256": "01c23d9ccb32906f2d54c40e8dcdc97f07f1bd6d085d56c2a5e2301eb1b8872a",
           "recipe_binding_sha256": "2b376a53105a75075beefcdf39dc00fcfc744db44051d70070b13742e6d2019d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -301507,7 +301507,7 @@
           "launch_context_sha256": "fd262fa391c0712f779962ef812e8f53cffa6c055136d3fb57dbe22a216f9516",
           "launch_profile_sha256": "bf6d4dbd46d6e1d9cc32c103fad0b90ddad06c010c28210a97969b4c9156f465",
           "recipe_binding_sha256": "eafdb1a824dbc8a34e46af04d0a9a9f54149730759409bca65e38eaa4327f77f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -301521,7 +301521,7 @@
           "launch_context_sha256": "fd262fa391c0712f779962ef812e8f53cffa6c055136d3fb57dbe22a216f9516",
           "launch_profile_sha256": "bf6d4dbd46d6e1d9cc32c103fad0b90ddad06c010c28210a97969b4c9156f465",
           "recipe_binding_sha256": "30807e03305768c71934f8cc98aedb1d79e58f88fffb7a96fd550f6fc7e3b138",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -301535,7 +301535,7 @@
           "launch_context_sha256": "fd262fa391c0712f779962ef812e8f53cffa6c055136d3fb57dbe22a216f9516",
           "launch_profile_sha256": "bf6d4dbd46d6e1d9cc32c103fad0b90ddad06c010c28210a97969b4c9156f465",
           "recipe_binding_sha256": "b9c3f981f64bd1cd995f787a69a8579167c854769f94054276930bf983367156",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -302302,7 +302302,7 @@
           "launch_context_sha256": "faab199c28398abe579daebf7f02ee5036c1198e4487572926b4ab397dc9efd0",
           "launch_profile_sha256": "bd3dd10b187f40d35b6adc33422339166f783a189ed216e0707673feef25bcba",
           "recipe_binding_sha256": "7091d793d114eb3e88202cd04e15d8e464e864d9f6ee778f5e83fcc4855277a0",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -302316,7 +302316,7 @@
           "launch_context_sha256": "faab199c28398abe579daebf7f02ee5036c1198e4487572926b4ab397dc9efd0",
           "launch_profile_sha256": "bd3dd10b187f40d35b6adc33422339166f783a189ed216e0707673feef25bcba",
           "recipe_binding_sha256": "0bc699163bd335c203f9e321e339fe6962794d00922eeedfed3979e1bc46e11e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -302330,7 +302330,7 @@
           "launch_context_sha256": "faab199c28398abe579daebf7f02ee5036c1198e4487572926b4ab397dc9efd0",
           "launch_profile_sha256": "bd3dd10b187f40d35b6adc33422339166f783a189ed216e0707673feef25bcba",
           "recipe_binding_sha256": "82d96667b5df4b4499bb39004923987238d98f6b5ae13f277d063ab1d9d176a2",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -302344,7 +302344,7 @@
           "launch_context_sha256": "faab199c28398abe579daebf7f02ee5036c1198e4487572926b4ab397dc9efd0",
           "launch_profile_sha256": "bd3dd10b187f40d35b6adc33422339166f783a189ed216e0707673feef25bcba",
           "recipe_binding_sha256": "daa2bc378be709998984b31d7356be0125dc436038195a965ff258fe3199dabb",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -302358,7 +302358,7 @@
           "launch_context_sha256": "faab199c28398abe579daebf7f02ee5036c1198e4487572926b4ab397dc9efd0",
           "launch_profile_sha256": "bd3dd10b187f40d35b6adc33422339166f783a189ed216e0707673feef25bcba",
           "recipe_binding_sha256": "4d0efb32047cf04d826250a6114bcd9cc4e90f169a1aa3f1384c0efffb0f1bfb",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -302923,7 +302923,7 @@
           "launch_context_sha256": "b1fbef16f4003804d597c027f97effa19e6386e14fdc422d96883e60aa7a5f16",
           "launch_profile_sha256": "8ccbcf353f3a64155f95d399da0c31ca7175fea2b54aacc396a58df0a5a58926",
           "recipe_binding_sha256": "e0cee90cba6b913839e051341d65a979f1dc3e1e42c690206e95bd3d6c762b8d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -302937,7 +302937,7 @@
           "launch_context_sha256": "b1fbef16f4003804d597c027f97effa19e6386e14fdc422d96883e60aa7a5f16",
           "launch_profile_sha256": "8ccbcf353f3a64155f95d399da0c31ca7175fea2b54aacc396a58df0a5a58926",
           "recipe_binding_sha256": "4c10362e118d465f52958f500cf840df7859625b2f1bd77d3a7c329314c202cf",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -302951,7 +302951,7 @@
           "launch_context_sha256": "b1fbef16f4003804d597c027f97effa19e6386e14fdc422d96883e60aa7a5f16",
           "launch_profile_sha256": "8ccbcf353f3a64155f95d399da0c31ca7175fea2b54aacc396a58df0a5a58926",
           "recipe_binding_sha256": "a794555c7fe751dfc4dffd025ee60a3a26055f8d59d21e6438c68f9d0563428f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -303718,7 +303718,7 @@
           "launch_context_sha256": "275e0923b2ebeb15915cc22f6d6a01843f61a7698cf3582ed1e4f152543be4e6",
           "launch_profile_sha256": "b5463efdda99fb70ed3a5e4c4472d97dcf280b8ea48d5c1a84fdd0e871c29485",
           "recipe_binding_sha256": "a8ee2bd5e06d849156ed9c26ccbbb84903ebf92ab6381e61726c3390063f0f66",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -303732,7 +303732,7 @@
           "launch_context_sha256": "275e0923b2ebeb15915cc22f6d6a01843f61a7698cf3582ed1e4f152543be4e6",
           "launch_profile_sha256": "b5463efdda99fb70ed3a5e4c4472d97dcf280b8ea48d5c1a84fdd0e871c29485",
           "recipe_binding_sha256": "1b7399c50f7eb0ddef8346e52a02c7ecebc8d8a3751403eb03ed59f8753753b1",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -303746,7 +303746,7 @@
           "launch_context_sha256": "275e0923b2ebeb15915cc22f6d6a01843f61a7698cf3582ed1e4f152543be4e6",
           "launch_profile_sha256": "b5463efdda99fb70ed3a5e4c4472d97dcf280b8ea48d5c1a84fdd0e871c29485",
           "recipe_binding_sha256": "288eee2839dcbf841ff96a32b67a247cc8be53ac296f2fb284475c366f6a727c",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -303760,7 +303760,7 @@
           "launch_context_sha256": "275e0923b2ebeb15915cc22f6d6a01843f61a7698cf3582ed1e4f152543be4e6",
           "launch_profile_sha256": "b5463efdda99fb70ed3a5e4c4472d97dcf280b8ea48d5c1a84fdd0e871c29485",
           "recipe_binding_sha256": "5e560be5e04f4ee8f7b380959913344955aea1d980c939dd43c3163e2aa34e9e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -303774,7 +303774,7 @@
           "launch_context_sha256": "275e0923b2ebeb15915cc22f6d6a01843f61a7698cf3582ed1e4f152543be4e6",
           "launch_profile_sha256": "b5463efdda99fb70ed3a5e4c4472d97dcf280b8ea48d5c1a84fdd0e871c29485",
           "recipe_binding_sha256": "d1b185329d296ada09366e42e828d1eaffebf3c7b2af83e14bb3850c880183c8",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -304461,7 +304461,7 @@
           "launch_context_sha256": "09a57ae7b10ef7f8ed88da2c58acb7d0a915f2b0445d0116f65206c0a6b9ed9a",
           "launch_profile_sha256": "20208e1a8045ad8a7b5a2cc79830493afa101407b3d1d7aaf0f82894b82083c3",
           "recipe_binding_sha256": "201ae1a0954ad05963f913ec9dde4c3b0d50c108685aa0823fb3ebcd2878c962",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -304475,7 +304475,7 @@
           "launch_context_sha256": "09a57ae7b10ef7f8ed88da2c58acb7d0a915f2b0445d0116f65206c0a6b9ed9a",
           "launch_profile_sha256": "20208e1a8045ad8a7b5a2cc79830493afa101407b3d1d7aaf0f82894b82083c3",
           "recipe_binding_sha256": "4c2de7a17b51dfafd3e62d503be670df70313122fff27901f7b67ff008968cd7",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -304489,7 +304489,7 @@
           "launch_context_sha256": "09a57ae7b10ef7f8ed88da2c58acb7d0a915f2b0445d0116f65206c0a6b9ed9a",
           "launch_profile_sha256": "20208e1a8045ad8a7b5a2cc79830493afa101407b3d1d7aaf0f82894b82083c3",
           "recipe_binding_sha256": "7e3b605b25f2558e578f6e8ae39f1dddf9b3cbd98273aaeee1ba75558d342697",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -304503,7 +304503,7 @@
           "launch_context_sha256": "09a57ae7b10ef7f8ed88da2c58acb7d0a915f2b0445d0116f65206c0a6b9ed9a",
           "launch_profile_sha256": "20208e1a8045ad8a7b5a2cc79830493afa101407b3d1d7aaf0f82894b82083c3",
           "recipe_binding_sha256": "0e7f5dde3f90be18fb86c01f721eccf33ee8c31c3340ffc455c0f90a34fd11d7",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -305392,7 +305392,7 @@
           "launch_context_sha256": "386bae276821004dcfff91c9a77a12aeb274d617caf934f15c9eaef98c225925",
           "launch_profile_sha256": "93c29ba7c8eb1e1dd11a6b8105b4675cfc42c9ce89ac5e447eaa7fa63fc70721",
           "recipe_binding_sha256": "bf6d6f2352265651e39c28639fc3710cc9bc375c7af586656d51a4d782409191",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -305406,7 +305406,7 @@
           "launch_context_sha256": "386bae276821004dcfff91c9a77a12aeb274d617caf934f15c9eaef98c225925",
           "launch_profile_sha256": "93c29ba7c8eb1e1dd11a6b8105b4675cfc42c9ce89ac5e447eaa7fa63fc70721",
           "recipe_binding_sha256": "96faa2a508f89e8794f30c479110e134edc811e37693d0943f91a6b999d62a53",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -305420,7 +305420,7 @@
           "launch_context_sha256": "386bae276821004dcfff91c9a77a12aeb274d617caf934f15c9eaef98c225925",
           "launch_profile_sha256": "93c29ba7c8eb1e1dd11a6b8105b4675cfc42c9ce89ac5e447eaa7fa63fc70721",
           "recipe_binding_sha256": "367ec4dc2d0fb00229a94c83d83367a37d476aae85f0d33c6b2880e326ccc015",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -305434,7 +305434,7 @@
           "launch_context_sha256": "386bae276821004dcfff91c9a77a12aeb274d617caf934f15c9eaef98c225925",
           "launch_profile_sha256": "93c29ba7c8eb1e1dd11a6b8105b4675cfc42c9ce89ac5e447eaa7fa63fc70721",
           "recipe_binding_sha256": "2bc97280d6b7fb438f67faee2fd1905ca40970e832317dd20a7b9d1e0a50f96e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -305448,7 +305448,7 @@
           "launch_context_sha256": "386bae276821004dcfff91c9a77a12aeb274d617caf934f15c9eaef98c225925",
           "launch_profile_sha256": "93c29ba7c8eb1e1dd11a6b8105b4675cfc42c9ce89ac5e447eaa7fa63fc70721",
           "recipe_binding_sha256": "03c3a82ee7676b0cb1212d6e9f206c99e251560fdff538b6546411d13cda48ec",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -305462,7 +305462,7 @@
           "launch_context_sha256": "386bae276821004dcfff91c9a77a12aeb274d617caf934f15c9eaef98c225925",
           "launch_profile_sha256": "93c29ba7c8eb1e1dd11a6b8105b4675cfc42c9ce89ac5e447eaa7fa63fc70721",
           "recipe_binding_sha256": "7b23e3b67e246164a84d0be5d3ae0fb47425e7d3516f9b610e676994f77eac99",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -306216,7 +306216,7 @@
           "launch_context_sha256": "b7eca99476bcafa8fe65ae89037442dc2adef721e984fadcf6a2e6887b8beb43",
           "launch_profile_sha256": "fbcde9acbfa4868649a174da513804156e53e727aa68e2ac1325d257ce61f873",
           "recipe_binding_sha256": "6133905477ff4e066377bdad073fac52da51151f037656d53102f5209ad3cb30",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -306230,7 +306230,7 @@
           "launch_context_sha256": "b7eca99476bcafa8fe65ae89037442dc2adef721e984fadcf6a2e6887b8beb43",
           "launch_profile_sha256": "fbcde9acbfa4868649a174da513804156e53e727aa68e2ac1325d257ce61f873",
           "recipe_binding_sha256": "abfa24d21a3788a6e453735ce777b1d197ce53cc0718db38eab631df1806814f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -306244,7 +306244,7 @@
           "launch_context_sha256": "b7eca99476bcafa8fe65ae89037442dc2adef721e984fadcf6a2e6887b8beb43",
           "launch_profile_sha256": "fbcde9acbfa4868649a174da513804156e53e727aa68e2ac1325d257ce61f873",
           "recipe_binding_sha256": "f451e0eec83810f6659081cebc6a91d3bd7ca4cc6547d918804db87a84c1d14f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -306258,7 +306258,7 @@
           "launch_context_sha256": "b7eca99476bcafa8fe65ae89037442dc2adef721e984fadcf6a2e6887b8beb43",
           "launch_profile_sha256": "fbcde9acbfa4868649a174da513804156e53e727aa68e2ac1325d257ce61f873",
           "recipe_binding_sha256": "592373e03004ec4e40aea8d1af1643de78b3a9b337644a200f387c3221b5a257",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -306272,7 +306272,7 @@
           "launch_context_sha256": "b7eca99476bcafa8fe65ae89037442dc2adef721e984fadcf6a2e6887b8beb43",
           "launch_profile_sha256": "fbcde9acbfa4868649a174da513804156e53e727aa68e2ac1325d257ce61f873",
           "recipe_binding_sha256": "5a7afd9222e2a7d1458856de813318d8c15b18b3028f27b3f9b0a86f453ad1db",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -307228,7 +307228,7 @@
           "launch_context_sha256": "10b96364eeb1e16973e9f802a54d092e5fa658371913aa6cab432f5d37e16ad5",
           "launch_profile_sha256": "a9050827037239426a1e8a861a7bc6b020414e4f59e91f3f778bf92d384d4e68",
           "recipe_binding_sha256": "0c9b475763839201b07dc38b00e28680a25320a13b153921676536d45a392d60",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -307242,7 +307242,7 @@
           "launch_context_sha256": "10b96364eeb1e16973e9f802a54d092e5fa658371913aa6cab432f5d37e16ad5",
           "launch_profile_sha256": "a9050827037239426a1e8a861a7bc6b020414e4f59e91f3f778bf92d384d4e68",
           "recipe_binding_sha256": "fc9c6955c5448c7add9dd2f10c25f4a097ea6254a2e99f9ab277056d519ba963",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -307256,7 +307256,7 @@
           "launch_context_sha256": "10b96364eeb1e16973e9f802a54d092e5fa658371913aa6cab432f5d37e16ad5",
           "launch_profile_sha256": "a9050827037239426a1e8a861a7bc6b020414e4f59e91f3f778bf92d384d4e68",
           "recipe_binding_sha256": "d64b2c637916303b8024a9e22dd4a5ad22a4867fbf15d90099a27e81cfef5d4d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -307270,7 +307270,7 @@
           "launch_context_sha256": "10b96364eeb1e16973e9f802a54d092e5fa658371913aa6cab432f5d37e16ad5",
           "launch_profile_sha256": "a9050827037239426a1e8a861a7bc6b020414e4f59e91f3f778bf92d384d4e68",
           "recipe_binding_sha256": "37f27822161c72d4bea7caa3879d5189c2758a886e36492d8a5d9786df2dc25e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -307284,7 +307284,7 @@
           "launch_context_sha256": "10b96364eeb1e16973e9f802a54d092e5fa658371913aa6cab432f5d37e16ad5",
           "launch_profile_sha256": "a9050827037239426a1e8a861a7bc6b020414e4f59e91f3f778bf92d384d4e68",
           "recipe_binding_sha256": "d35e481b98e61e6038ce417209e96eea3a534cce8d28c42c6e873392630d0238",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -307298,7 +307298,7 @@
           "launch_context_sha256": "10b96364eeb1e16973e9f802a54d092e5fa658371913aa6cab432f5d37e16ad5",
           "launch_profile_sha256": "a9050827037239426a1e8a861a7bc6b020414e4f59e91f3f778bf92d384d4e68",
           "recipe_binding_sha256": "f411c38dc89ee32d78a4d4fc4ba62237e8dd0f279a1c6d9616b0ad4421946860",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -307312,7 +307312,7 @@
           "launch_context_sha256": "10b96364eeb1e16973e9f802a54d092e5fa658371913aa6cab432f5d37e16ad5",
           "launch_profile_sha256": "a9050827037239426a1e8a861a7bc6b020414e4f59e91f3f778bf92d384d4e68",
           "recipe_binding_sha256": "4e59456702efef5021be9833d07de488af2914dfb8c610355a68a48993e54216",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -307938,7 +307938,7 @@
           "launch_context_sha256": "ac109612f8ba5a179fd4d07e4809dd13605ccfa76a6be23ad3c326d96737fd10",
           "launch_profile_sha256": "d6217568a7918c8e1971da303fb9d634b4e9b6955e9f90a121046a2d78d987fa",
           "recipe_binding_sha256": "cc251f21d68e0e685a97e74ca5514d90dd7ce4f171cf24d2bce221f4ac09efa1",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -307952,7 +307952,7 @@
           "launch_context_sha256": "ac109612f8ba5a179fd4d07e4809dd13605ccfa76a6be23ad3c326d96737fd10",
           "launch_profile_sha256": "d6217568a7918c8e1971da303fb9d634b4e9b6955e9f90a121046a2d78d987fa",
           "recipe_binding_sha256": "98e9bef9b5a1f033bb9147864b16ee561b908e5163bd03a1581ed61ae12ee8fb",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -308622,7 +308622,7 @@
           "launch_context_sha256": "36e176752a697ede846a9be51e886fadcae585baa7c4e513595c9f42fbad7e03",
           "launch_profile_sha256": "e5c808289ebffe36500e831b777494dfa2db7a131746d63885864d37661281dc",
           "recipe_binding_sha256": "a01644237d39c1152dbc8931be3b1e63354d37533090c2f83496fd73f0e0d267",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -308636,7 +308636,7 @@
           "launch_context_sha256": "36e176752a697ede846a9be51e886fadcae585baa7c4e513595c9f42fbad7e03",
           "launch_profile_sha256": "e5c808289ebffe36500e831b777494dfa2db7a131746d63885864d37661281dc",
           "recipe_binding_sha256": "157345c4522a213ccbb35b9c1c6ee2fd9b3f16c1c5b62b9638c999a640193ac0",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -308650,7 +308650,7 @@
           "launch_context_sha256": "36e176752a697ede846a9be51e886fadcae585baa7c4e513595c9f42fbad7e03",
           "launch_profile_sha256": "e5c808289ebffe36500e831b777494dfa2db7a131746d63885864d37661281dc",
           "recipe_binding_sha256": "6d435f1e4770d443fae93deeee3a182dec5101f345371942005c2dc5fc57b849",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -308664,7 +308664,7 @@
           "launch_context_sha256": "36e176752a697ede846a9be51e886fadcae585baa7c4e513595c9f42fbad7e03",
           "launch_profile_sha256": "e5c808289ebffe36500e831b777494dfa2db7a131746d63885864d37661281dc",
           "recipe_binding_sha256": "d3510a9b46550e69d29ae8f02df4a0b952531fd363ddb66d72f34492f342de58",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -309536,7 +309536,7 @@
           "launch_context_sha256": "e0e04b2cb70d1a4c39062f9316117e2dda5a84eb265735d0a7aedf7c2385a76a",
           "launch_profile_sha256": "56181d93c305c145560733757e12a1dab7b7a6ae9ede65467b15bb453108d20c",
           "recipe_binding_sha256": "759eebdbbe0038028b1858422bce3a21aea24546e24b02cd091fcdee543b6c2f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -309550,7 +309550,7 @@
           "launch_context_sha256": "e0e04b2cb70d1a4c39062f9316117e2dda5a84eb265735d0a7aedf7c2385a76a",
           "launch_profile_sha256": "56181d93c305c145560733757e12a1dab7b7a6ae9ede65467b15bb453108d20c",
           "recipe_binding_sha256": "bcf37d887674d3a02cf64709490169deb1a2d567d4fa872cfc9f318cc1e0ecc4",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -309564,7 +309564,7 @@
           "launch_context_sha256": "e0e04b2cb70d1a4c39062f9316117e2dda5a84eb265735d0a7aedf7c2385a76a",
           "launch_profile_sha256": "56181d93c305c145560733757e12a1dab7b7a6ae9ede65467b15bb453108d20c",
           "recipe_binding_sha256": "17414e4ab22cc9ede972233177f2a0a81a07d10fb31b735b01482d48256cbb19",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -309578,7 +309578,7 @@
           "launch_context_sha256": "e0e04b2cb70d1a4c39062f9316117e2dda5a84eb265735d0a7aedf7c2385a76a",
           "launch_profile_sha256": "56181d93c305c145560733757e12a1dab7b7a6ae9ede65467b15bb453108d20c",
           "recipe_binding_sha256": "f4648938dcb82f9253bac2fdedcdee5e67b4db6b035bf9b2f0fbc8952987b738",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -309592,7 +309592,7 @@
           "launch_context_sha256": "e0e04b2cb70d1a4c39062f9316117e2dda5a84eb265735d0a7aedf7c2385a76a",
           "launch_profile_sha256": "56181d93c305c145560733757e12a1dab7b7a6ae9ede65467b15bb453108d20c",
           "recipe_binding_sha256": "fe84f12976588ef2748afe9545f20083714b507e12e7eaea229173f3c0fbffc3",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -309606,7 +309606,7 @@
           "launch_context_sha256": "e0e04b2cb70d1a4c39062f9316117e2dda5a84eb265735d0a7aedf7c2385a76a",
           "launch_profile_sha256": "56181d93c305c145560733757e12a1dab7b7a6ae9ede65467b15bb453108d20c",
           "recipe_binding_sha256": "bf22ca994ad14b74e753d19927e6136ef5eb1f0827c48c707bb40f6179bc3826",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -311887,7 +311887,7 @@
           "launch_context_sha256": "eb7c02a56d895bd6b1ef6ea803e4cdf36c0c0d8400c9a990d1ffa13e3b90273d",
           "launch_profile_sha256": "fe03a24b3fdadd50d7a158ab43046e269b03c761c4f9850349434c21d31a6ee0",
           "recipe_binding_sha256": "756c67fdd70b216863b88c6cb7eedd468c1cde297756fc5cfacbb5bd949df4f0",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -311901,7 +311901,7 @@
           "launch_context_sha256": "eb7c02a56d895bd6b1ef6ea803e4cdf36c0c0d8400c9a990d1ffa13e3b90273d",
           "launch_profile_sha256": "fe03a24b3fdadd50d7a158ab43046e269b03c761c4f9850349434c21d31a6ee0",
           "recipe_binding_sha256": "7b74aeedb28e9f4c5cbc4e4b1b1573d9e84a725cd0b28c80c7d9625f3e2a7e84",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -311915,7 +311915,7 @@
           "launch_context_sha256": "eb7c02a56d895bd6b1ef6ea803e4cdf36c0c0d8400c9a990d1ffa13e3b90273d",
           "launch_profile_sha256": "fe03a24b3fdadd50d7a158ab43046e269b03c761c4f9850349434c21d31a6ee0",
           "recipe_binding_sha256": "a5c24162822e3bd82aa366be75d5dad9f8860d86520c143b6ad36da42827c5cd",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -311929,7 +311929,7 @@
           "launch_context_sha256": "eb7c02a56d895bd6b1ef6ea803e4cdf36c0c0d8400c9a990d1ffa13e3b90273d",
           "launch_profile_sha256": "fe03a24b3fdadd50d7a158ab43046e269b03c761c4f9850349434c21d31a6ee0",
           "recipe_binding_sha256": "93894b59fb113f50665efa1318506fedd03a23ad3be92219575aae42f8d22d91",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -311943,7 +311943,7 @@
           "launch_context_sha256": "eb7c02a56d895bd6b1ef6ea803e4cdf36c0c0d8400c9a990d1ffa13e3b90273d",
           "launch_profile_sha256": "fe03a24b3fdadd50d7a158ab43046e269b03c761c4f9850349434c21d31a6ee0",
           "recipe_binding_sha256": "90be375b2e223a513ce37c136386d4f672a47973683ebbc30d48fb87280a566a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -311957,7 +311957,7 @@
           "launch_context_sha256": "eb7c02a56d895bd6b1ef6ea803e4cdf36c0c0d8400c9a990d1ffa13e3b90273d",
           "launch_profile_sha256": "fe03a24b3fdadd50d7a158ab43046e269b03c761c4f9850349434c21d31a6ee0",
           "recipe_binding_sha256": "da7b2164662dea98ab4c74b6a6401a24ecc1a600af5983bf67cd879a83841cd3",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -311971,7 +311971,7 @@
           "launch_context_sha256": "eb7c02a56d895bd6b1ef6ea803e4cdf36c0c0d8400c9a990d1ffa13e3b90273d",
           "launch_profile_sha256": "fe03a24b3fdadd50d7a158ab43046e269b03c761c4f9850349434c21d31a6ee0",
           "recipe_binding_sha256": "bccc16160512f76c00bf0658daae531829cca5146798de6d14b51b326f5496ac",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -311985,7 +311985,7 @@
           "launch_context_sha256": "eb7c02a56d895bd6b1ef6ea803e4cdf36c0c0d8400c9a990d1ffa13e3b90273d",
           "launch_profile_sha256": "fe03a24b3fdadd50d7a158ab43046e269b03c761c4f9850349434c21d31a6ee0",
           "recipe_binding_sha256": "5710a03fdb260ddc7d010f1afd213ed3f048e71d7cd666af494ad17f3a744c38",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -311999,7 +311999,7 @@
           "launch_context_sha256": "eb7c02a56d895bd6b1ef6ea803e4cdf36c0c0d8400c9a990d1ffa13e3b90273d",
           "launch_profile_sha256": "fe03a24b3fdadd50d7a158ab43046e269b03c761c4f9850349434c21d31a6ee0",
           "recipe_binding_sha256": "5cd46f3b0ac9bef43e554ee5f92cf204f9878f63792dcaee40918b5a3349dc74",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -312013,7 +312013,7 @@
           "launch_context_sha256": "eb7c02a56d895bd6b1ef6ea803e4cdf36c0c0d8400c9a990d1ffa13e3b90273d",
           "launch_profile_sha256": "fe03a24b3fdadd50d7a158ab43046e269b03c761c4f9850349434c21d31a6ee0",
           "recipe_binding_sha256": "413d5aefc6156db3b568a22ab35bff695e5370e18addcaaba3566caf7ee40dd8",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -312041,7 +312041,7 @@
           "launch_context_sha256": "eb7c02a56d895bd6b1ef6ea803e4cdf36c0c0d8400c9a990d1ffa13e3b90273d",
           "launch_profile_sha256": "fe03a24b3fdadd50d7a158ab43046e269b03c761c4f9850349434c21d31a6ee0",
           "recipe_binding_sha256": "03b33e6dd7f93ba392ea92da6eca469a4fa2096d9e2322a0e105386e955312e5",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -312603,7 +312603,7 @@
           "launch_context_sha256": "c5b390e01aa36d0c13ff1e7032af9a479c6d0bc2695c9750a92d61b64752a73e",
           "launch_profile_sha256": "ff8817ccfa59b0ad2ebd1519f99f1aa5b31e84eca810a33efe76e8a8f6ba08e1",
           "recipe_binding_sha256": "4e20c810af50061869495132637692c254e42b3b2b33a5280c21650c52ca1694",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -312617,7 +312617,7 @@
           "launch_context_sha256": "c5b390e01aa36d0c13ff1e7032af9a479c6d0bc2695c9750a92d61b64752a73e",
           "launch_profile_sha256": "ff8817ccfa59b0ad2ebd1519f99f1aa5b31e84eca810a33efe76e8a8f6ba08e1",
           "recipe_binding_sha256": "7e9f5a71428c43a80e5078a39dea929c2962c930235c185d2a143c5c5d85be1e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -312631,7 +312631,7 @@
           "launch_context_sha256": "c5b390e01aa36d0c13ff1e7032af9a479c6d0bc2695c9750a92d61b64752a73e",
           "launch_profile_sha256": "ff8817ccfa59b0ad2ebd1519f99f1aa5b31e84eca810a33efe76e8a8f6ba08e1",
           "recipe_binding_sha256": "a980dda398dd6caeb581f9522b815044ea1c525a2476325136072abf7d7b0e85",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -313381,7 +313381,7 @@
           "launch_context_sha256": "576266428f072c94d68ad9dfb670b270dd0e47bd711643b00fa318d122e4b1c1",
           "launch_profile_sha256": "a145695b2e614d65eee757057da55f5bf9c35792eca4361fa45aacc6c37566fe",
           "recipe_binding_sha256": "08055fda2df151bfaaf8e9ca4963a03869e207ed88d3f7aa76387228ff552d7c",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -313395,7 +313395,7 @@
           "launch_context_sha256": "576266428f072c94d68ad9dfb670b270dd0e47bd711643b00fa318d122e4b1c1",
           "launch_profile_sha256": "a145695b2e614d65eee757057da55f5bf9c35792eca4361fa45aacc6c37566fe",
           "recipe_binding_sha256": "c671d57f063ffe67057a5b56c5598d4c50efabc6ea19a68e6ce6ae6b0883427b",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -313409,7 +313409,7 @@
           "launch_context_sha256": "576266428f072c94d68ad9dfb670b270dd0e47bd711643b00fa318d122e4b1c1",
           "launch_profile_sha256": "a145695b2e614d65eee757057da55f5bf9c35792eca4361fa45aacc6c37566fe",
           "recipe_binding_sha256": "445575b0f3520ebc5acf233d7f0a9b32a5d056c4561b91f63f5713b85c1982ac",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -313423,7 +313423,7 @@
           "launch_context_sha256": "576266428f072c94d68ad9dfb670b270dd0e47bd711643b00fa318d122e4b1c1",
           "launch_profile_sha256": "a145695b2e614d65eee757057da55f5bf9c35792eca4361fa45aacc6c37566fe",
           "recipe_binding_sha256": "de1c7942290e67315d869e798cba7227199348eee40679bd92bf67ed2e6aa0ba",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -313437,7 +313437,7 @@
           "launch_context_sha256": "576266428f072c94d68ad9dfb670b270dd0e47bd711643b00fa318d122e4b1c1",
           "launch_profile_sha256": "a145695b2e614d65eee757057da55f5bf9c35792eca4361fa45aacc6c37566fe",
           "recipe_binding_sha256": "249fc526e8586b762455f872617e2e945e3b7b75e374417f284a518a20717d65",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -315596,7 +315596,7 @@
           "launch_context_sha256": "8ef62e7ccef10c00b151215102daf9aa13cbe4fec56f008abd34338821419e01",
           "launch_profile_sha256": "d293343b4e030a4dbff98a1d2563e75b71852465ed7a066866d6f44bc39ea5f1",
           "recipe_binding_sha256": "17036299c904560a9b5c22dba4c4d955c599e9c455f90414860df3172383f320",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -315610,7 +315610,7 @@
           "launch_context_sha256": "8ef62e7ccef10c00b151215102daf9aa13cbe4fec56f008abd34338821419e01",
           "launch_profile_sha256": "d293343b4e030a4dbff98a1d2563e75b71852465ed7a066866d6f44bc39ea5f1",
           "recipe_binding_sha256": "ca44b2a67ffa99246f2583869617fdbc8285f93369fa127e9fba2937dce01d46",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -315624,7 +315624,7 @@
           "launch_context_sha256": "8ef62e7ccef10c00b151215102daf9aa13cbe4fec56f008abd34338821419e01",
           "launch_profile_sha256": "d293343b4e030a4dbff98a1d2563e75b71852465ed7a066866d6f44bc39ea5f1",
           "recipe_binding_sha256": "42b896abe635ad1da92e712510e4bbc113a66b4366ddb356cf36fcb0a311fd8f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -315638,7 +315638,7 @@
           "launch_context_sha256": "8ef62e7ccef10c00b151215102daf9aa13cbe4fec56f008abd34338821419e01",
           "launch_profile_sha256": "d293343b4e030a4dbff98a1d2563e75b71852465ed7a066866d6f44bc39ea5f1",
           "recipe_binding_sha256": "f91aad8aa57692345746a798359abfe7d490dfa43c9fb35b806552075da7745a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -315652,7 +315652,7 @@
           "launch_context_sha256": "8ef62e7ccef10c00b151215102daf9aa13cbe4fec56f008abd34338821419e01",
           "launch_profile_sha256": "d293343b4e030a4dbff98a1d2563e75b71852465ed7a066866d6f44bc39ea5f1",
           "recipe_binding_sha256": "1c263f2f7825227860be009c9a904db522d59043618393f92df28182027919da",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -315666,7 +315666,7 @@
           "launch_context_sha256": "8ef62e7ccef10c00b151215102daf9aa13cbe4fec56f008abd34338821419e01",
           "launch_profile_sha256": "d293343b4e030a4dbff98a1d2563e75b71852465ed7a066866d6f44bc39ea5f1",
           "recipe_binding_sha256": "65f0a785ebf846b3ad44b374f0ae780aed44b20584b09be3996a81eae8b9a329",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -315680,7 +315680,7 @@
           "launch_context_sha256": "8ef62e7ccef10c00b151215102daf9aa13cbe4fec56f008abd34338821419e01",
           "launch_profile_sha256": "d293343b4e030a4dbff98a1d2563e75b71852465ed7a066866d6f44bc39ea5f1",
           "recipe_binding_sha256": "747f2f87847b2adc6727f0954dfd4421409d014e407366fdf364d4afea6e3aac",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -315694,7 +315694,7 @@
           "launch_context_sha256": "8ef62e7ccef10c00b151215102daf9aa13cbe4fec56f008abd34338821419e01",
           "launch_profile_sha256": "d293343b4e030a4dbff98a1d2563e75b71852465ed7a066866d6f44bc39ea5f1",
           "recipe_binding_sha256": "44b60270593e13c85015e21e417d636fb0951b091e597f83c61ff3aa60b37987",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -315708,7 +315708,7 @@
           "launch_context_sha256": "8ef62e7ccef10c00b151215102daf9aa13cbe4fec56f008abd34338821419e01",
           "launch_profile_sha256": "d293343b4e030a4dbff98a1d2563e75b71852465ed7a066866d6f44bc39ea5f1",
           "recipe_binding_sha256": "2c588f6f36ff70823276f5e73f6988048b6454b6ba26d9e0aa34e0d74626fd6c",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -315736,7 +315736,7 @@
           "launch_context_sha256": "8ef62e7ccef10c00b151215102daf9aa13cbe4fec56f008abd34338821419e01",
           "launch_profile_sha256": "d293343b4e030a4dbff98a1d2563e75b71852465ed7a066866d6f44bc39ea5f1",
           "recipe_binding_sha256": "79c88a315a9782473cbfc32d4b597345532ac1688e1eb7279ea1f9677c69e602",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -316298,7 +316298,7 @@
           "launch_context_sha256": "13bf277797b84444fb2145b61ec352eef6322d304a7f120046559082b41153d3",
           "launch_profile_sha256": "c1c836be6ebf1144e29deb2ae835efb3faa6cbe334a174f0fed78361f2129c84",
           "recipe_binding_sha256": "4621a8843ac63a8ce8ffadd25ada896dcadfdd1d43cc21c2e6407019969f1558",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -316312,7 +316312,7 @@
           "launch_context_sha256": "13bf277797b84444fb2145b61ec352eef6322d304a7f120046559082b41153d3",
           "launch_profile_sha256": "c1c836be6ebf1144e29deb2ae835efb3faa6cbe334a174f0fed78361f2129c84",
           "recipe_binding_sha256": "e94ae76d7cd26729623721ba3b7763e742a6873aa99767044c1295d063dbbd6e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -316326,7 +316326,7 @@
           "launch_context_sha256": "13bf277797b84444fb2145b61ec352eef6322d304a7f120046559082b41153d3",
           "launch_profile_sha256": "c1c836be6ebf1144e29deb2ae835efb3faa6cbe334a174f0fed78361f2129c84",
           "recipe_binding_sha256": "be319f349113606bd44312ed06ce26b1a187066cc00e3e5607c77729e572e1a9",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -317076,7 +317076,7 @@
           "launch_context_sha256": "a6d7e10f3d3415ad3b6db094f4f57442bf3a493d7a07fa8066876169f08994ac",
           "launch_profile_sha256": "abc9fcf9aec6d1e527c13fc3b50693f87f26c9183c0ea44878ca0730d7d3a2ae",
           "recipe_binding_sha256": "54bb3b56d00cb2ccefc1a61a2dd3d51169da21d63c90601a5bc5e546dbfbf9c9",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -317090,7 +317090,7 @@
           "launch_context_sha256": "a6d7e10f3d3415ad3b6db094f4f57442bf3a493d7a07fa8066876169f08994ac",
           "launch_profile_sha256": "abc9fcf9aec6d1e527c13fc3b50693f87f26c9183c0ea44878ca0730d7d3a2ae",
           "recipe_binding_sha256": "35bc4db05de9e93679d94d51624441e666dad1431aee2e9d9a78405358a2b29b",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -317104,7 +317104,7 @@
           "launch_context_sha256": "a6d7e10f3d3415ad3b6db094f4f57442bf3a493d7a07fa8066876169f08994ac",
           "launch_profile_sha256": "abc9fcf9aec6d1e527c13fc3b50693f87f26c9183c0ea44878ca0730d7d3a2ae",
           "recipe_binding_sha256": "ca8b56a4864859d38f9841b2b4bf4621d31980bc9bc9cffa6ff984b6a83fa215",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -317118,7 +317118,7 @@
           "launch_context_sha256": "a6d7e10f3d3415ad3b6db094f4f57442bf3a493d7a07fa8066876169f08994ac",
           "launch_profile_sha256": "abc9fcf9aec6d1e527c13fc3b50693f87f26c9183c0ea44878ca0730d7d3a2ae",
           "recipe_binding_sha256": "edd23758b3799b5d37244521523eeb20cb88b23d5e5e3296df99ba57be59db23",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -317132,7 +317132,7 @@
           "launch_context_sha256": "a6d7e10f3d3415ad3b6db094f4f57442bf3a493d7a07fa8066876169f08994ac",
           "launch_profile_sha256": "abc9fcf9aec6d1e527c13fc3b50693f87f26c9183c0ea44878ca0730d7d3a2ae",
           "recipe_binding_sha256": "65df383c596a3b81080642d497c99391b34948ddc53de49fc93b0ed9c4c1d84a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -319291,7 +319291,7 @@
           "launch_context_sha256": "3eb3e6dfa058565065a1efe04175db7cb75fabac5577571e7e578bcf89debd32",
           "launch_profile_sha256": "c7aea44c4041e5cbfd270126b30d06c411f81983d8e59c8a47210b779c392932",
           "recipe_binding_sha256": "bf0248b8afc962070922464d9733d49827d057f621f5c0ce3bccf232d532635b",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -319305,7 +319305,7 @@
           "launch_context_sha256": "3eb3e6dfa058565065a1efe04175db7cb75fabac5577571e7e578bcf89debd32",
           "launch_profile_sha256": "c7aea44c4041e5cbfd270126b30d06c411f81983d8e59c8a47210b779c392932",
           "recipe_binding_sha256": "7d42e16263e5c7afbff5d004e26b26bd9a51d534e29ca1437869e0afdac293f1",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -319319,7 +319319,7 @@
           "launch_context_sha256": "3eb3e6dfa058565065a1efe04175db7cb75fabac5577571e7e578bcf89debd32",
           "launch_profile_sha256": "c7aea44c4041e5cbfd270126b30d06c411f81983d8e59c8a47210b779c392932",
           "recipe_binding_sha256": "0b02847c414275952c94e1f328ebb723668b514e9ba94c5784c74ff2292b6cf8",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -319333,7 +319333,7 @@
           "launch_context_sha256": "3eb3e6dfa058565065a1efe04175db7cb75fabac5577571e7e578bcf89debd32",
           "launch_profile_sha256": "c7aea44c4041e5cbfd270126b30d06c411f81983d8e59c8a47210b779c392932",
           "recipe_binding_sha256": "d903d42a2029212ca876fa9b9d12097352df6401685e4af2e42f63757eb2cc83",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -319347,7 +319347,7 @@
           "launch_context_sha256": "3eb3e6dfa058565065a1efe04175db7cb75fabac5577571e7e578bcf89debd32",
           "launch_profile_sha256": "c7aea44c4041e5cbfd270126b30d06c411f81983d8e59c8a47210b779c392932",
           "recipe_binding_sha256": "b0509461d03f4bf55cca390440ccfbf6806e8703219bdf4c92d9cb40bbc3882c",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -319361,7 +319361,7 @@
           "launch_context_sha256": "3eb3e6dfa058565065a1efe04175db7cb75fabac5577571e7e578bcf89debd32",
           "launch_profile_sha256": "c7aea44c4041e5cbfd270126b30d06c411f81983d8e59c8a47210b779c392932",
           "recipe_binding_sha256": "7dce4f6632b989346f7360b36f67e0e3de8c4c7dfe32057c19e1e92cd2782cda",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -319375,7 +319375,7 @@
           "launch_context_sha256": "3eb3e6dfa058565065a1efe04175db7cb75fabac5577571e7e578bcf89debd32",
           "launch_profile_sha256": "c7aea44c4041e5cbfd270126b30d06c411f81983d8e59c8a47210b779c392932",
           "recipe_binding_sha256": "0c2bd928a568addb3d73c36efeb3bdd8e0cca9cb5af4fa912494da014ab7f5f7",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -319389,7 +319389,7 @@
           "launch_context_sha256": "3eb3e6dfa058565065a1efe04175db7cb75fabac5577571e7e578bcf89debd32",
           "launch_profile_sha256": "c7aea44c4041e5cbfd270126b30d06c411f81983d8e59c8a47210b779c392932",
           "recipe_binding_sha256": "bd86cc472b9146c768ca22da63637894f6cd6ceb423ffd0a11a40c2b9fd7a0d0",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -319403,7 +319403,7 @@
           "launch_context_sha256": "3eb3e6dfa058565065a1efe04175db7cb75fabac5577571e7e578bcf89debd32",
           "launch_profile_sha256": "c7aea44c4041e5cbfd270126b30d06c411f81983d8e59c8a47210b779c392932",
           "recipe_binding_sha256": "9846df12a882e17d67dd213556e5d23f12f14ca0e1b8103796e31f3500c2d426",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -319431,7 +319431,7 @@
           "launch_context_sha256": "3eb3e6dfa058565065a1efe04175db7cb75fabac5577571e7e578bcf89debd32",
           "launch_profile_sha256": "c7aea44c4041e5cbfd270126b30d06c411f81983d8e59c8a47210b779c392932",
           "recipe_binding_sha256": "1c59d4fe4d1a5082c9c530c48aaad9bd7780667ef6595c9ce1b8d17850b05d7e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -319995,7 +319995,7 @@
           "launch_context_sha256": "83ed315a9e762c75aacc633082d8192084f3dab33b38bfad577967ea1c5a0bad",
           "launch_profile_sha256": "46419b34cd0fea5eb6054b372fd46b9b4de30843b57e97b828d274d256b6d305",
           "recipe_binding_sha256": "f946e287f8284d0f1879c0b7d5846307469e915e901ec07aa47e8977c4c5714d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -320009,7 +320009,7 @@
           "launch_context_sha256": "83ed315a9e762c75aacc633082d8192084f3dab33b38bfad577967ea1c5a0bad",
           "launch_profile_sha256": "46419b34cd0fea5eb6054b372fd46b9b4de30843b57e97b828d274d256b6d305",
           "recipe_binding_sha256": "3791f795ba94b63d77786e419ac3c6ff6b56ce7812240dd9266ee3d98f5d514f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -320023,7 +320023,7 @@
           "launch_context_sha256": "83ed315a9e762c75aacc633082d8192084f3dab33b38bfad577967ea1c5a0bad",
           "launch_profile_sha256": "46419b34cd0fea5eb6054b372fd46b9b4de30843b57e97b828d274d256b6d305",
           "recipe_binding_sha256": "54cf3cdef82e92c260e3a28220d6e924353ca1ef675279675c9aac6750398ee5",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -320775,7 +320775,7 @@
           "launch_context_sha256": "549e668649f7b9b2f35df52802f35e2457f4e4244e8f6fecd7872e901ca89dd4",
           "launch_profile_sha256": "84453ecda603bc72c29683076b63a6377856edb62aaccd3492891b84821d348c",
           "recipe_binding_sha256": "fc5fc1b7ef2a63036e2c36e8a81619a7b7a711ef188cccb5a1070641363db202",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -320789,7 +320789,7 @@
           "launch_context_sha256": "549e668649f7b9b2f35df52802f35e2457f4e4244e8f6fecd7872e901ca89dd4",
           "launch_profile_sha256": "84453ecda603bc72c29683076b63a6377856edb62aaccd3492891b84821d348c",
           "recipe_binding_sha256": "3475e728d469c973380088921ed640130b08babdee3d3085c7c9fd901342c873",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -320803,7 +320803,7 @@
           "launch_context_sha256": "549e668649f7b9b2f35df52802f35e2457f4e4244e8f6fecd7872e901ca89dd4",
           "launch_profile_sha256": "84453ecda603bc72c29683076b63a6377856edb62aaccd3492891b84821d348c",
           "recipe_binding_sha256": "17d4deb4e323d005fcdfc9275e885e465f1874b4d4c303a67df997f31ca2fdac",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -320817,7 +320817,7 @@
           "launch_context_sha256": "549e668649f7b9b2f35df52802f35e2457f4e4244e8f6fecd7872e901ca89dd4",
           "launch_profile_sha256": "84453ecda603bc72c29683076b63a6377856edb62aaccd3492891b84821d348c",
           "recipe_binding_sha256": "828cf7f1f61d9152e5d446411af618cdf517d050b5ccc2f51734efb1bb2c1da4",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -320831,7 +320831,7 @@
           "launch_context_sha256": "549e668649f7b9b2f35df52802f35e2457f4e4244e8f6fecd7872e901ca89dd4",
           "launch_profile_sha256": "84453ecda603bc72c29683076b63a6377856edb62aaccd3492891b84821d348c",
           "recipe_binding_sha256": "5914a04a226875c1e477efe4b9532c6315c354f441fab0e0043289bdb3a57892",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -322992,7 +322992,7 @@
           "launch_context_sha256": "6ae57890de5f0fc89ae06925695d9d023ac6f8e0fe434f33c6f7301441708141",
           "launch_profile_sha256": "804148f20ec06d8d8ad206b4d4c651050fa7f36adca9a744e8c8975c477fe358",
           "recipe_binding_sha256": "0afb934f769a15d285a2d756e2a473cc62de75b2f4005bb4254ef8bc6ad4960d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323006,7 +323006,7 @@
           "launch_context_sha256": "6ae57890de5f0fc89ae06925695d9d023ac6f8e0fe434f33c6f7301441708141",
           "launch_profile_sha256": "804148f20ec06d8d8ad206b4d4c651050fa7f36adca9a744e8c8975c477fe358",
           "recipe_binding_sha256": "0179b29a47b809588d10b31f2b90863ea3311050f4932c43d05810aeb8c6d39f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323020,7 +323020,7 @@
           "launch_context_sha256": "6ae57890de5f0fc89ae06925695d9d023ac6f8e0fe434f33c6f7301441708141",
           "launch_profile_sha256": "804148f20ec06d8d8ad206b4d4c651050fa7f36adca9a744e8c8975c477fe358",
           "recipe_binding_sha256": "581d8acf63589937b432db5628cda4ae6ede3fec4ff24c6143521095dd58d6bf",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323034,7 +323034,7 @@
           "launch_context_sha256": "6ae57890de5f0fc89ae06925695d9d023ac6f8e0fe434f33c6f7301441708141",
           "launch_profile_sha256": "804148f20ec06d8d8ad206b4d4c651050fa7f36adca9a744e8c8975c477fe358",
           "recipe_binding_sha256": "7bf1633d4ac216c73a5e8a94fb399bdba49d0951816db1063f0f4714fc10f950",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323048,7 +323048,7 @@
           "launch_context_sha256": "6ae57890de5f0fc89ae06925695d9d023ac6f8e0fe434f33c6f7301441708141",
           "launch_profile_sha256": "804148f20ec06d8d8ad206b4d4c651050fa7f36adca9a744e8c8975c477fe358",
           "recipe_binding_sha256": "ffbe19aedd2af6de1bcaaa653d12d284913802e43c3e66e272db7ea88b1d1010",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323062,7 +323062,7 @@
           "launch_context_sha256": "6ae57890de5f0fc89ae06925695d9d023ac6f8e0fe434f33c6f7301441708141",
           "launch_profile_sha256": "804148f20ec06d8d8ad206b4d4c651050fa7f36adca9a744e8c8975c477fe358",
           "recipe_binding_sha256": "668f0dab1a84715dc3a1379562bf1f7950b532faf5045f7633b0f8b4c340e5d2",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323076,7 +323076,7 @@
           "launch_context_sha256": "6ae57890de5f0fc89ae06925695d9d023ac6f8e0fe434f33c6f7301441708141",
           "launch_profile_sha256": "804148f20ec06d8d8ad206b4d4c651050fa7f36adca9a744e8c8975c477fe358",
           "recipe_binding_sha256": "794bf11d2ac5b45dae9fbbb0e3204956774358278c472caeb5756241cda7bd63",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323090,7 +323090,7 @@
           "launch_context_sha256": "6ae57890de5f0fc89ae06925695d9d023ac6f8e0fe434f33c6f7301441708141",
           "launch_profile_sha256": "804148f20ec06d8d8ad206b4d4c651050fa7f36adca9a744e8c8975c477fe358",
           "recipe_binding_sha256": "a85f00f2b3dc5f2e935858636f5c6f3319688017b72d2bb21b3d5078c9bf6aff",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323104,7 +323104,7 @@
           "launch_context_sha256": "6ae57890de5f0fc89ae06925695d9d023ac6f8e0fe434f33c6f7301441708141",
           "launch_profile_sha256": "804148f20ec06d8d8ad206b4d4c651050fa7f36adca9a744e8c8975c477fe358",
           "recipe_binding_sha256": "846efe5066c5bb256a40c1eb1a370b02a1c3294d46931b8dd1812b12a3ea61f6",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323132,7 +323132,7 @@
           "launch_context_sha256": "6ae57890de5f0fc89ae06925695d9d023ac6f8e0fe434f33c6f7301441708141",
           "launch_profile_sha256": "804148f20ec06d8d8ad206b4d4c651050fa7f36adca9a744e8c8975c477fe358",
           "recipe_binding_sha256": "551ed3803f62e2fe2ea4eb2313ee64d1fc22380bcd3dff97a4cbbc76c37dcd34",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323819,7 +323819,7 @@
           "launch_context_sha256": "022f274161d53d6345cfb48440a613fbfc3dcf868d1fa8a234b9e41214c5b8b7",
           "launch_profile_sha256": "659c7267f41160813da3ac3760f9bb11c27d2531da9d14bc34de777ed44badb2",
           "recipe_binding_sha256": "cee88b79b157619c25a26e84fe7c955144eac0e17bac19d9c861114b604fd892",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323833,7 +323833,7 @@
           "launch_context_sha256": "022f274161d53d6345cfb48440a613fbfc3dcf868d1fa8a234b9e41214c5b8b7",
           "launch_profile_sha256": "659c7267f41160813da3ac3760f9bb11c27d2531da9d14bc34de777ed44badb2",
           "recipe_binding_sha256": "e6f583d1f3cfede325ec1d0df93d4e1601552c9155a8185b37ffc1c51e3ed91d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323847,7 +323847,7 @@
           "launch_context_sha256": "022f274161d53d6345cfb48440a613fbfc3dcf868d1fa8a234b9e41214c5b8b7",
           "launch_profile_sha256": "659c7267f41160813da3ac3760f9bb11c27d2531da9d14bc34de777ed44badb2",
           "recipe_binding_sha256": "2de975dd1bbf8549944728e3f84d11d079a53ac5882d2b21555fb9c06c0f921a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -323861,7 +323861,7 @@
           "launch_context_sha256": "022f274161d53d6345cfb48440a613fbfc3dcf868d1fa8a234b9e41214c5b8b7",
           "launch_profile_sha256": "659c7267f41160813da3ac3760f9bb11c27d2531da9d14bc34de777ed44badb2",
           "recipe_binding_sha256": "9485104adf82c9ec6541722f9e77f01f4c7db02d274e8205cc26368fb355bc2d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -324736,7 +324736,7 @@
           "launch_context_sha256": "a0a213b151a7a47b17651111128df802a075fd7dc540b4364945e84087c3b404",
           "launch_profile_sha256": "7b1667e7545ede218a3a9e191a8d59fa1dde35c0367db28059c6f1c773598026",
           "recipe_binding_sha256": "5a6551dc80fee6cf8c88c0ed28e967b78a09d8ea684ff0be980a7155245079f9",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -324750,7 +324750,7 @@
           "launch_context_sha256": "a0a213b151a7a47b17651111128df802a075fd7dc540b4364945e84087c3b404",
           "launch_profile_sha256": "7b1667e7545ede218a3a9e191a8d59fa1dde35c0367db28059c6f1c773598026",
           "recipe_binding_sha256": "f35c03d8c4a8c46f274663fa994457cc303d1b957871eb5c644d4ec7377bb7f5",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -324764,7 +324764,7 @@
           "launch_context_sha256": "a0a213b151a7a47b17651111128df802a075fd7dc540b4364945e84087c3b404",
           "launch_profile_sha256": "7b1667e7545ede218a3a9e191a8d59fa1dde35c0367db28059c6f1c773598026",
           "recipe_binding_sha256": "a879a5eaff067c09cdcf1366ea089c2ea0a7c5d4088eff90c1b48715882050a7",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -324778,7 +324778,7 @@
           "launch_context_sha256": "a0a213b151a7a47b17651111128df802a075fd7dc540b4364945e84087c3b404",
           "launch_profile_sha256": "7b1667e7545ede218a3a9e191a8d59fa1dde35c0367db28059c6f1c773598026",
           "recipe_binding_sha256": "4416cfb1b43164910b7aa0c5f195423a8359e18bdd9ceaa0afa8558c4ae04c21",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -324792,7 +324792,7 @@
           "launch_context_sha256": "a0a213b151a7a47b17651111128df802a075fd7dc540b4364945e84087c3b404",
           "launch_profile_sha256": "7b1667e7545ede218a3a9e191a8d59fa1dde35c0367db28059c6f1c773598026",
           "recipe_binding_sha256": "c5b9cd6da01e5ebc9b4627c06b13f43ce2530a15bb52ef53e05f0c23babe2b6a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -324806,7 +324806,7 @@
           "launch_context_sha256": "a0a213b151a7a47b17651111128df802a075fd7dc540b4364945e84087c3b404",
           "launch_profile_sha256": "7b1667e7545ede218a3a9e191a8d59fa1dde35c0367db28059c6f1c773598026",
           "recipe_binding_sha256": "253a4ff2ace535eb62b05327ed77526af123ec8a0a2ea154b01b90e36546af4d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -327090,7 +327090,7 @@
           "launch_context_sha256": "370a3bcc674dfa28ff4345c025286b0343fac645576fc305ea660348c582b61c",
           "launch_profile_sha256": "34757e2d582f39c1dde13701e128e290e953a39595e14a93bc1c571ef5f3344b",
           "recipe_binding_sha256": "155ae92e7c2c59c4b9c7111fa453710090bbe3028244dd1c8a4cd9d884667ff5",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -327104,7 +327104,7 @@
           "launch_context_sha256": "370a3bcc674dfa28ff4345c025286b0343fac645576fc305ea660348c582b61c",
           "launch_profile_sha256": "34757e2d582f39c1dde13701e128e290e953a39595e14a93bc1c571ef5f3344b",
           "recipe_binding_sha256": "cd82a83b5177defd78f202847259d6967c4186d43fed196edf83bfef91114bd9",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -327118,7 +327118,7 @@
           "launch_context_sha256": "370a3bcc674dfa28ff4345c025286b0343fac645576fc305ea660348c582b61c",
           "launch_profile_sha256": "34757e2d582f39c1dde13701e128e290e953a39595e14a93bc1c571ef5f3344b",
           "recipe_binding_sha256": "295e0a80d69e0d2879ed8fec7eacd5134c3b693f4543530573cf6753bf353331",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -327132,7 +327132,7 @@
           "launch_context_sha256": "370a3bcc674dfa28ff4345c025286b0343fac645576fc305ea660348c582b61c",
           "launch_profile_sha256": "34757e2d582f39c1dde13701e128e290e953a39595e14a93bc1c571ef5f3344b",
           "recipe_binding_sha256": "7123535873a0170c6d2d42d9218949f314fb894c7ad7624829b3dc5c8197a711",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -327146,7 +327146,7 @@
           "launch_context_sha256": "370a3bcc674dfa28ff4345c025286b0343fac645576fc305ea660348c582b61c",
           "launch_profile_sha256": "34757e2d582f39c1dde13701e128e290e953a39595e14a93bc1c571ef5f3344b",
           "recipe_binding_sha256": "86a87d323ab0a37f0f2ed28bf599616cdd0fadb13ef117c747c1127f4714857e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -327160,7 +327160,7 @@
           "launch_context_sha256": "370a3bcc674dfa28ff4345c025286b0343fac645576fc305ea660348c582b61c",
           "launch_profile_sha256": "34757e2d582f39c1dde13701e128e290e953a39595e14a93bc1c571ef5f3344b",
           "recipe_binding_sha256": "ca6348caceae621d8d62fe570367f53ff7002ce4acded1433b748571265b3add",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -327174,7 +327174,7 @@
           "launch_context_sha256": "370a3bcc674dfa28ff4345c025286b0343fac645576fc305ea660348c582b61c",
           "launch_profile_sha256": "34757e2d582f39c1dde13701e128e290e953a39595e14a93bc1c571ef5f3344b",
           "recipe_binding_sha256": "a3e9a02ec310610eeca471eaa4308b831617a622cd2ad7f67fc3a6a0a38390ab",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -327188,7 +327188,7 @@
           "launch_context_sha256": "370a3bcc674dfa28ff4345c025286b0343fac645576fc305ea660348c582b61c",
           "launch_profile_sha256": "34757e2d582f39c1dde13701e128e290e953a39595e14a93bc1c571ef5f3344b",
           "recipe_binding_sha256": "48ead08ec3cfa96d1260708443c682e6619b26820e896f3b54c660dcecbb85d1",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -327202,7 +327202,7 @@
           "launch_context_sha256": "370a3bcc674dfa28ff4345c025286b0343fac645576fc305ea660348c582b61c",
           "launch_profile_sha256": "34757e2d582f39c1dde13701e128e290e953a39595e14a93bc1c571ef5f3344b",
           "recipe_binding_sha256": "a81d4a16985cb2ba9f4c16ff2bc4b21b58e605348dc4959ea5de159f9438956c",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -327216,7 +327216,7 @@
           "launch_context_sha256": "370a3bcc674dfa28ff4345c025286b0343fac645576fc305ea660348c582b61c",
           "launch_profile_sha256": "34757e2d582f39c1dde13701e128e290e953a39595e14a93bc1c571ef5f3344b",
           "recipe_binding_sha256": "68adecf17ffa29e6aff1650446a748147db093342f62f8e1cf2af922264e5d4b",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -327244,7 +327244,7 @@
           "launch_context_sha256": "370a3bcc674dfa28ff4345c025286b0343fac645576fc305ea660348c582b61c",
           "launch_profile_sha256": "34757e2d582f39c1dde13701e128e290e953a39595e14a93bc1c571ef5f3344b",
           "recipe_binding_sha256": "c3c00e5c0bcc7a19c8c3da66285fa5d165419988374facc48afc8718a3f26e00",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -328221,7 +328221,7 @@
           "launch_context_sha256": "2df0084efacbda4016fcea13ccdf97d37e51f049342d493c89b2cfb38d902371",
           "launch_profile_sha256": "939d4e1786bf944a0fba61479c4fb5942e17742116bd75aee442a1d14efbfc61",
           "recipe_binding_sha256": "8f8f02d9408b519fe432684a4cf084f75d8c4436125346f75817d261f2444897",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -328235,7 +328235,7 @@
           "launch_context_sha256": "2df0084efacbda4016fcea13ccdf97d37e51f049342d493c89b2cfb38d902371",
           "launch_profile_sha256": "939d4e1786bf944a0fba61479c4fb5942e17742116bd75aee442a1d14efbfc61",
           "recipe_binding_sha256": "851ef979e04bafa97dce153a1d25d864c94db494d2ca7d704181bea44aab093a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -328249,7 +328249,7 @@
           "launch_context_sha256": "2df0084efacbda4016fcea13ccdf97d37e51f049342d493c89b2cfb38d902371",
           "launch_profile_sha256": "939d4e1786bf944a0fba61479c4fb5942e17742116bd75aee442a1d14efbfc61",
           "recipe_binding_sha256": "ed75ec3da9429db2a63d77831ce687fea625f5cad7ebf33f963a4c7697f0dbb1",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -328263,7 +328263,7 @@
           "launch_context_sha256": "2df0084efacbda4016fcea13ccdf97d37e51f049342d493c89b2cfb38d902371",
           "launch_profile_sha256": "939d4e1786bf944a0fba61479c4fb5942e17742116bd75aee442a1d14efbfc61",
           "recipe_binding_sha256": "99c38897c141c105ac45ebbad97353839d9cfc8ea76b6b3cced070568fb2a934",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -328277,7 +328277,7 @@
           "launch_context_sha256": "2df0084efacbda4016fcea13ccdf97d37e51f049342d493c89b2cfb38d902371",
           "launch_profile_sha256": "939d4e1786bf944a0fba61479c4fb5942e17742116bd75aee442a1d14efbfc61",
           "recipe_binding_sha256": "d1b2bf18f92839d96923600064f5ab8b94f8e74b9b4d1215adf2191827ca66f2",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -328291,7 +328291,7 @@
           "launch_context_sha256": "2df0084efacbda4016fcea13ccdf97d37e51f049342d493c89b2cfb38d902371",
           "launch_profile_sha256": "939d4e1786bf944a0fba61479c4fb5942e17742116bd75aee442a1d14efbfc61",
           "recipe_binding_sha256": "9aaa52711edd5e05289b2f1652f693f45e6ffe18f574b3bbd82cac9ce56ea951",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -328305,7 +328305,7 @@
           "launch_context_sha256": "2df0084efacbda4016fcea13ccdf97d37e51f049342d493c89b2cfb38d902371",
           "launch_profile_sha256": "939d4e1786bf944a0fba61479c4fb5942e17742116bd75aee442a1d14efbfc61",
           "recipe_binding_sha256": "8b1f39ef8ba8980bc66ca00b2887a8ef2659475ca95f6a7c9d142e5f2cce585e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -329470,7 +329470,7 @@
           "launch_context_sha256": "c80c25291da1d94eebd5229afadd339f6489238a5211f6136e3c22afa060a0a9",
           "launch_profile_sha256": "47d66d22dd4132b0d06326b0f53d7c01d35b1384ebcab3ecca97d1b85eec472e",
           "recipe_binding_sha256": "4028d354e890bd8fa52ee6dc121f8921817014004df4bb18d2f501321a83b9df",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -329484,7 +329484,7 @@
           "launch_context_sha256": "c80c25291da1d94eebd5229afadd339f6489238a5211f6136e3c22afa060a0a9",
           "launch_profile_sha256": "47d66d22dd4132b0d06326b0f53d7c01d35b1384ebcab3ecca97d1b85eec472e",
           "recipe_binding_sha256": "ccd41a1a06c898620d39d6b989bf3e5d3fba6a7c081a18906f0db37e10f4268a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -329498,7 +329498,7 @@
           "launch_context_sha256": "c80c25291da1d94eebd5229afadd339f6489238a5211f6136e3c22afa060a0a9",
           "launch_profile_sha256": "47d66d22dd4132b0d06326b0f53d7c01d35b1384ebcab3ecca97d1b85eec472e",
           "recipe_binding_sha256": "f5ad1475a64cce60ec13f560a8487392ecb837643c41f6752bded1a40465f78b",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -329512,7 +329512,7 @@
           "launch_context_sha256": "c80c25291da1d94eebd5229afadd339f6489238a5211f6136e3c22afa060a0a9",
           "launch_profile_sha256": "47d66d22dd4132b0d06326b0f53d7c01d35b1384ebcab3ecca97d1b85eec472e",
           "recipe_binding_sha256": "071bfe85b8a6590969eceb27794ffebf2953aa9f2c50eac6cda45402021eb696",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -329526,7 +329526,7 @@
           "launch_context_sha256": "c80c25291da1d94eebd5229afadd339f6489238a5211f6136e3c22afa060a0a9",
           "launch_profile_sha256": "47d66d22dd4132b0d06326b0f53d7c01d35b1384ebcab3ecca97d1b85eec472e",
           "recipe_binding_sha256": "88779982dbed215acbc62bfa889d3ace13f32114edee141ad23d2345eef06f41",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -329540,7 +329540,7 @@
           "launch_context_sha256": "c80c25291da1d94eebd5229afadd339f6489238a5211f6136e3c22afa060a0a9",
           "launch_profile_sha256": "47d66d22dd4132b0d06326b0f53d7c01d35b1384ebcab3ecca97d1b85eec472e",
           "recipe_binding_sha256": "26972076dd663691dcfdcf30f9121eb911dec500a38c71fc430e73f5db993a17",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -329554,7 +329554,7 @@
           "launch_context_sha256": "c80c25291da1d94eebd5229afadd339f6489238a5211f6136e3c22afa060a0a9",
           "launch_profile_sha256": "47d66d22dd4132b0d06326b0f53d7c01d35b1384ebcab3ecca97d1b85eec472e",
           "recipe_binding_sha256": "96f6d23509bf192ca74c3ff83ecb7ac1222142d9ddf6581cd880a91b96e07e2c",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -329568,7 +329568,7 @@
           "launch_context_sha256": "c80c25291da1d94eebd5229afadd339f6489238a5211f6136e3c22afa060a0a9",
           "launch_profile_sha256": "47d66d22dd4132b0d06326b0f53d7c01d35b1384ebcab3ecca97d1b85eec472e",
           "recipe_binding_sha256": "d6ef63ffc6cb0aff5de3a92736a9ee689d10643e516614505d9e351291ff1cf1",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -329582,7 +329582,7 @@
           "launch_context_sha256": "c80c25291da1d94eebd5229afadd339f6489238a5211f6136e3c22afa060a0a9",
           "launch_profile_sha256": "47d66d22dd4132b0d06326b0f53d7c01d35b1384ebcab3ecca97d1b85eec472e",
           "recipe_binding_sha256": "9d736a2eb77ece89da88bcda80ff84f97dd8b112b26601cbfeed0353b44721a4",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332267,7 +332267,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "21915ad9c7cd1211a14715124fd2f4e175b9f9b508dc041034c612567c7690c2",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332281,7 +332281,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "34f24ffb2a12c0fc13a80cb0741733b422b70230db5be7b242b809cb58cdc0ff",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332295,7 +332295,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "c5bf9d04fcd1965b23c1636231c1c65606dcc51ab5d821bbe2af4667655838e9",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332309,7 +332309,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "897e2e4a5f53586f2914c8531576924ef55989a9e8cafcab94839b8170e6cee1",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332323,7 +332323,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "ce921464ef17fabf936890a3d46b3c10e54fefadd943efb01cc7ae6a534613e5",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332337,7 +332337,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "63005234b4832b72140bbccf727298c0bac64468e653f5ba661151aefcba4d52",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332351,7 +332351,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "02f9992cb3bf923134b5c25a796da050a7790cbc7ca61ad2990cd1408f9f1e92",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332365,7 +332365,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "6703fde33a6fa5a791df0b6a623c2fbab44f82e3af30983169e8ed252a37e51f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332379,7 +332379,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "1843b65183f01a3e91a481d53a2ce967a69b3b7121a4c472749276fbdfb4e352",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332393,7 +332393,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "8f4ad29a8182d93d1fd12202aab99768a9f8a8d500024c369cbe768fcbe7038e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332407,7 +332407,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "aadd328abeee20c0e1dd5fb3e7f53d661f10c6892f1e18fd6423997d31f71511",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332421,7 +332421,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "e0cb54d019c0e82eba724df3a6a668f8336311b0ce3826f881bd319f441e0674",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332435,7 +332435,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "1dff934e0171ffac920308a265cf0ff30f07d5a45f732160a412c0e1b7d71b13",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -332491,7 +332491,7 @@
           "launch_context_sha256": "dd7ff3fc7d906929a66683754c8b58ef4658f77872ddaf8b14d6b151c7ed3830",
           "launch_profile_sha256": "058b70eeb69becefcbe06cc65b2d78165b299ddcb124bef311b6103247aaded2",
           "recipe_binding_sha256": "3f70d43a71b525c9030eb048753553b9acfaed7e6278282a8ebf101ca6fb0823",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -333289,7 +333289,7 @@
           "launch_context_sha256": "eacabf26ea52af2c46b04ee973eb604ad4af976b9c6721783ed6109e6f82b136",
           "launch_profile_sha256": "01e35d1ad21b6c011ae167b732d43f48f14a2031bfb618881adbde7ea4c35bd7",
           "recipe_binding_sha256": "e0266b246f5fa901e6033b91ebfe39a8532fe992cdf980dcd8e922b2e5c5ffca",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -333303,7 +333303,7 @@
           "launch_context_sha256": "eacabf26ea52af2c46b04ee973eb604ad4af976b9c6721783ed6109e6f82b136",
           "launch_profile_sha256": "01e35d1ad21b6c011ae167b732d43f48f14a2031bfb618881adbde7ea4c35bd7",
           "recipe_binding_sha256": "a0840b7cc639539ce3292dc7817868532f863a2cd780336bb61091b06d9f581a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -333317,7 +333317,7 @@
           "launch_context_sha256": "eacabf26ea52af2c46b04ee973eb604ad4af976b9c6721783ed6109e6f82b136",
           "launch_profile_sha256": "01e35d1ad21b6c011ae167b732d43f48f14a2031bfb618881adbde7ea4c35bd7",
           "recipe_binding_sha256": "456daffc942bfe8ffedceb178038bb9ab12611fd4599fe0f530ef631298fd87d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -333331,7 +333331,7 @@
           "launch_context_sha256": "eacabf26ea52af2c46b04ee973eb604ad4af976b9c6721783ed6109e6f82b136",
           "launch_profile_sha256": "01e35d1ad21b6c011ae167b732d43f48f14a2031bfb618881adbde7ea4c35bd7",
           "recipe_binding_sha256": "2e248a0a2f7e82a4fad9f3617d7c60c1b44e058d18a0d7d9030c087a43472ca2",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -333345,7 +333345,7 @@
           "launch_context_sha256": "eacabf26ea52af2c46b04ee973eb604ad4af976b9c6721783ed6109e6f82b136",
           "launch_profile_sha256": "01e35d1ad21b6c011ae167b732d43f48f14a2031bfb618881adbde7ea4c35bd7",
           "recipe_binding_sha256": "b6435d31c46a01d24ca6caf3d159dc2787315f82495a44a848d43b9647bcfe8e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -334345,7 +334345,7 @@
           "launch_context_sha256": "6f144cd2cb4fa81a83ab99363c8d5f3086822b97bbed62211103fb95fa2ae161",
           "launch_profile_sha256": "e08cad03296cd6f1406f612ed20c6ea5d86ce435da032e082db548f7b6fbca04",
           "recipe_binding_sha256": "7772fc7aa353e15596ed083410397eb63bd98b8fafdfb5e66e260bf4cb6761cb",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -334359,7 +334359,7 @@
           "launch_context_sha256": "6f144cd2cb4fa81a83ab99363c8d5f3086822b97bbed62211103fb95fa2ae161",
           "launch_profile_sha256": "e08cad03296cd6f1406f612ed20c6ea5d86ce435da032e082db548f7b6fbca04",
           "recipe_binding_sha256": "cd2e6c3cdb604ab53eda6da65acce5f9baab40e90a5211096e2d8ec1ab37a3cc",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -334373,7 +334373,7 @@
           "launch_context_sha256": "6f144cd2cb4fa81a83ab99363c8d5f3086822b97bbed62211103fb95fa2ae161",
           "launch_profile_sha256": "e08cad03296cd6f1406f612ed20c6ea5d86ce435da032e082db548f7b6fbca04",
           "recipe_binding_sha256": "7ac065c06fee623c8158e5652a9f0174f1125d4d9468d7a8cab8692835316e43",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -334387,7 +334387,7 @@
           "launch_context_sha256": "6f144cd2cb4fa81a83ab99363c8d5f3086822b97bbed62211103fb95fa2ae161",
           "launch_profile_sha256": "e08cad03296cd6f1406f612ed20c6ea5d86ce435da032e082db548f7b6fbca04",
           "recipe_binding_sha256": "d2b439e100d4076ac56e28892649627d2a5c99ce5712cd4857824df450ea0fb9",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -334401,7 +334401,7 @@
           "launch_context_sha256": "6f144cd2cb4fa81a83ab99363c8d5f3086822b97bbed62211103fb95fa2ae161",
           "launch_profile_sha256": "e08cad03296cd6f1406f612ed20c6ea5d86ce435da032e082db548f7b6fbca04",
           "recipe_binding_sha256": "a7992443f0d4806bf7d69715f48fad03c0a6bf103b3af82cf5dab3142fadc95d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -334415,7 +334415,7 @@
           "launch_context_sha256": "6f144cd2cb4fa81a83ab99363c8d5f3086822b97bbed62211103fb95fa2ae161",
           "launch_profile_sha256": "e08cad03296cd6f1406f612ed20c6ea5d86ce435da032e082db548f7b6fbca04",
           "recipe_binding_sha256": "c9f5b929840fbba09ae1c07c54aabadb41a49e99d70fccfbf9cf5fcbf53e0469",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -334429,7 +334429,7 @@
           "launch_context_sha256": "6f144cd2cb4fa81a83ab99363c8d5f3086822b97bbed62211103fb95fa2ae161",
           "launch_profile_sha256": "e08cad03296cd6f1406f612ed20c6ea5d86ce435da032e082db548f7b6fbca04",
           "recipe_binding_sha256": "8a647e9675a0247da9ecf776ac5b3bdf8ec2b2b4ef30dac61e1f83c903c50e37",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -335105,7 +335105,7 @@
           "launch_context_sha256": "b55a1b1810a0734c1c4efcffc4635847ff02bff9d1a430b10af69c858644e6d2",
           "launch_profile_sha256": "ef6accb914a8419ca7b3218b20ba83a1f475ce9c3778769627bee9dd00ac90bc",
           "recipe_binding_sha256": "fc6220ba585ef6883e820595b95acd3464554741f07fa63ab8ac011826a367bb",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -335119,7 +335119,7 @@
           "launch_context_sha256": "b55a1b1810a0734c1c4efcffc4635847ff02bff9d1a430b10af69c858644e6d2",
           "launch_profile_sha256": "ef6accb914a8419ca7b3218b20ba83a1f475ce9c3778769627bee9dd00ac90bc",
           "recipe_binding_sha256": "1ddf1eb5ccbd57d923d54be80dd2e54a2e60eeeaeae1265f7a8f3962fd9748a6",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -335133,7 +335133,7 @@
           "launch_context_sha256": "b55a1b1810a0734c1c4efcffc4635847ff02bff9d1a430b10af69c858644e6d2",
           "launch_profile_sha256": "ef6accb914a8419ca7b3218b20ba83a1f475ce9c3778769627bee9dd00ac90bc",
           "recipe_binding_sha256": "982e4fbef97aafded5f2de12eae05cf9082e5c690f68f762627ba073688ab500",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -335147,7 +335147,7 @@
           "launch_context_sha256": "b55a1b1810a0734c1c4efcffc4635847ff02bff9d1a430b10af69c858644e6d2",
           "launch_profile_sha256": "ef6accb914a8419ca7b3218b20ba83a1f475ce9c3778769627bee9dd00ac90bc",
           "recipe_binding_sha256": "26e8f7699245d3ac98c9a52cd1e540fc6647b4d7f2c537b07b55d7ad804fb140",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -336025,7 +336025,7 @@
           "launch_context_sha256": "604df4a6c08a825fa71083171fca766ccfb41a1da0fbb2e25120643d9dbad4f7",
           "launch_profile_sha256": "2d54830ea95fd213176058caa5feeca7f989ddc80b4581a04d83df5531b77dab",
           "recipe_binding_sha256": "d3ab2ece1c28ec1f7ea87c215969ff715619b56c88c3c28f7751c47302a68320",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -336039,7 +336039,7 @@
           "launch_context_sha256": "604df4a6c08a825fa71083171fca766ccfb41a1da0fbb2e25120643d9dbad4f7",
           "launch_profile_sha256": "2d54830ea95fd213176058caa5feeca7f989ddc80b4581a04d83df5531b77dab",
           "recipe_binding_sha256": "61b7f18ab315bed7e3f7513fea1c0db2270738d42f0f5c1665d61b37104885dd",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -336053,7 +336053,7 @@
           "launch_context_sha256": "604df4a6c08a825fa71083171fca766ccfb41a1da0fbb2e25120643d9dbad4f7",
           "launch_profile_sha256": "2d54830ea95fd213176058caa5feeca7f989ddc80b4581a04d83df5531b77dab",
           "recipe_binding_sha256": "41dc70ee1c6f2c2ac854dfbf380b2301a7b2961b88a62f8145b9cd0bd111794f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -336067,7 +336067,7 @@
           "launch_context_sha256": "604df4a6c08a825fa71083171fca766ccfb41a1da0fbb2e25120643d9dbad4f7",
           "launch_profile_sha256": "2d54830ea95fd213176058caa5feeca7f989ddc80b4581a04d83df5531b77dab",
           "recipe_binding_sha256": "063e55ccd91aebda33d156ea6e12a9909447d3a746db034105d978ea3bd34b0e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -336081,7 +336081,7 @@
           "launch_context_sha256": "604df4a6c08a825fa71083171fca766ccfb41a1da0fbb2e25120643d9dbad4f7",
           "launch_profile_sha256": "2d54830ea95fd213176058caa5feeca7f989ddc80b4581a04d83df5531b77dab",
           "recipe_binding_sha256": "aba1fc9d07fb6913f63c83ba3329efe7f7ae8f44136e69c4f35051b30651ee36",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -336095,7 +336095,7 @@
           "launch_context_sha256": "604df4a6c08a825fa71083171fca766ccfb41a1da0fbb2e25120643d9dbad4f7",
           "launch_profile_sha256": "2d54830ea95fd213176058caa5feeca7f989ddc80b4581a04d83df5531b77dab",
           "recipe_binding_sha256": "ddd53fdac5ceeba16c0e7a9ede8af38f27594b17e009a52f91be16f9ce834a38",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -336893,7 +336893,7 @@
           "launch_context_sha256": "50c0be4eabd0d80acee4a3367f1237f9c3d1ad450fc744a0438cff47aee7eb62",
           "launch_profile_sha256": "3e273c9681eedebfc121ed58fe213b3dc8de31cdb8b2935997ed9eb93cbdd212",
           "recipe_binding_sha256": "366a641697ed89466defcaba5d7af076de3ed666c9670d1291c345318803830e",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -336907,7 +336907,7 @@
           "launch_context_sha256": "50c0be4eabd0d80acee4a3367f1237f9c3d1ad450fc744a0438cff47aee7eb62",
           "launch_profile_sha256": "3e273c9681eedebfc121ed58fe213b3dc8de31cdb8b2935997ed9eb93cbdd212",
           "recipe_binding_sha256": "7a6a39cc13af62fa85b9d1fa444ed3cc5710406afc3618fe4a13d8d7ff97df6c",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -336921,7 +336921,7 @@
           "launch_context_sha256": "50c0be4eabd0d80acee4a3367f1237f9c3d1ad450fc744a0438cff47aee7eb62",
           "launch_profile_sha256": "3e273c9681eedebfc121ed58fe213b3dc8de31cdb8b2935997ed9eb93cbdd212",
           "recipe_binding_sha256": "88254bb7578683b5fb5bb0bcc8aa9999fe2e43879a0ed9ae8acd52a341b9dc5f",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -336935,7 +336935,7 @@
           "launch_context_sha256": "50c0be4eabd0d80acee4a3367f1237f9c3d1ad450fc744a0438cff47aee7eb62",
           "launch_profile_sha256": "3e273c9681eedebfc121ed58fe213b3dc8de31cdb8b2935997ed9eb93cbdd212",
           "recipe_binding_sha256": "58fbb63ffbcc579d6e4bc5f453a46d77c0c0cd01c58dba37fac5eec77cf02e40",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -336949,7 +336949,7 @@
           "launch_context_sha256": "50c0be4eabd0d80acee4a3367f1237f9c3d1ad450fc744a0438cff47aee7eb62",
           "launch_profile_sha256": "3e273c9681eedebfc121ed58fe213b3dc8de31cdb8b2935997ed9eb93cbdd212",
           "recipe_binding_sha256": "db8780dfacd35b5783e287b45b03bf5d9494fdfe323bf089bd120f84b2acdc7b",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -337949,7 +337949,7 @@
           "launch_context_sha256": "07c24555374c9cb4433d5f532b03af822b22498679dbe35282693b43f8f711c1",
           "launch_profile_sha256": "fdc3db8b2fbca9a551f3bda4e8d8827a29a8c45c2c7d4fd2430579584ff2b867",
           "recipe_binding_sha256": "d9905ea48ee2b7bc0adeff83aff6787ba5783c74172d825fa290233a79f4362a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -337963,7 +337963,7 @@
           "launch_context_sha256": "07c24555374c9cb4433d5f532b03af822b22498679dbe35282693b43f8f711c1",
           "launch_profile_sha256": "fdc3db8b2fbca9a551f3bda4e8d8827a29a8c45c2c7d4fd2430579584ff2b867",
           "recipe_binding_sha256": "df376af137aae1b559881f8ccdc30aff0f1c488681efeb1b0f96f956055dafac",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -337977,7 +337977,7 @@
           "launch_context_sha256": "07c24555374c9cb4433d5f532b03af822b22498679dbe35282693b43f8f711c1",
           "launch_profile_sha256": "fdc3db8b2fbca9a551f3bda4e8d8827a29a8c45c2c7d4fd2430579584ff2b867",
           "recipe_binding_sha256": "6e20b2a42b3d2d26ca7529c79779804262fcc1f4ee831492ea3aa1c9d1671d8a",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -337991,7 +337991,7 @@
           "launch_context_sha256": "07c24555374c9cb4433d5f532b03af822b22498679dbe35282693b43f8f711c1",
           "launch_profile_sha256": "fdc3db8b2fbca9a551f3bda4e8d8827a29a8c45c2c7d4fd2430579584ff2b867",
           "recipe_binding_sha256": "a1e6cb27c9df074bb9882cab2e9649215d3ace027de318e1b9b09cf76ddba391",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -338005,7 +338005,7 @@
           "launch_context_sha256": "07c24555374c9cb4433d5f532b03af822b22498679dbe35282693b43f8f711c1",
           "launch_profile_sha256": "fdc3db8b2fbca9a551f3bda4e8d8827a29a8c45c2c7d4fd2430579584ff2b867",
           "recipe_binding_sha256": "2ad933253ba9cd4d3bd591b5307c629b0251c2d2c7a16c95f4d43379098dc504",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -338019,7 +338019,7 @@
           "launch_context_sha256": "07c24555374c9cb4433d5f532b03af822b22498679dbe35282693b43f8f711c1",
           "launch_profile_sha256": "fdc3db8b2fbca9a551f3bda4e8d8827a29a8c45c2c7d4fd2430579584ff2b867",
           "recipe_binding_sha256": "0a34607ac4d8c11d52c4ebe1b6e1f17d5fccf895216e4b4eab733b75d51aaa72",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -338033,7 +338033,7 @@
           "launch_context_sha256": "07c24555374c9cb4433d5f532b03af822b22498679dbe35282693b43f8f711c1",
           "launch_profile_sha256": "fdc3db8b2fbca9a551f3bda4e8d8827a29a8c45c2c7d4fd2430579584ff2b867",
           "recipe_binding_sha256": "bd355fba3e155f68f03e345d72c667864139e9242c5c3750b50769cd2cc700e9",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -339013,7 +339013,7 @@
           "launch_context_sha256": "622d98bf5116fc85689a337a17befc5bbcbbf636c304836892dac9fa096a0d65",
           "launch_profile_sha256": "4886bae1ca638d0da4a3c84f825d2766fc8129da5d424c55d0ae7b10af970c1d",
           "recipe_binding_sha256": "84c6edd59510f3d278764a61f790f3aab4a5820901906b3d3dc61377fc930939",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -339027,7 +339027,7 @@
           "launch_context_sha256": "622d98bf5116fc85689a337a17befc5bbcbbf636c304836892dac9fa096a0d65",
           "launch_profile_sha256": "4886bae1ca638d0da4a3c84f825d2766fc8129da5d424c55d0ae7b10af970c1d",
           "recipe_binding_sha256": "96fc052119c9a4e594448cb01c06b49aa66517e6e0d23e7b3538454bbaed6aba",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -339041,7 +339041,7 @@
           "launch_context_sha256": "622d98bf5116fc85689a337a17befc5bbcbbf636c304836892dac9fa096a0d65",
           "launch_profile_sha256": "4886bae1ca638d0da4a3c84f825d2766fc8129da5d424c55d0ae7b10af970c1d",
           "recipe_binding_sha256": "ab60cdef5cce76a1e9f95a62546847823ba7ac9e8bdfd1ad2f6a057cf2ff3c47",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -339055,7 +339055,7 @@
           "launch_context_sha256": "622d98bf5116fc85689a337a17befc5bbcbbf636c304836892dac9fa096a0d65",
           "launch_profile_sha256": "4886bae1ca638d0da4a3c84f825d2766fc8129da5d424c55d0ae7b10af970c1d",
           "recipe_binding_sha256": "b38c4563fd8ccc6ec210c27efdd7ff60da2f91b63e9a2f44f7adf17210fdc828",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -339069,7 +339069,7 @@
           "launch_context_sha256": "622d98bf5116fc85689a337a17befc5bbcbbf636c304836892dac9fa096a0d65",
           "launch_profile_sha256": "4886bae1ca638d0da4a3c84f825d2766fc8129da5d424c55d0ae7b10af970c1d",
           "recipe_binding_sha256": "5231209e9fbb1f7993aab21bb8b1c7fe24c80b03cfcf61d5868d906a19e63a15",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -339083,7 +339083,7 @@
           "launch_context_sha256": "622d98bf5116fc85689a337a17befc5bbcbbf636c304836892dac9fa096a0d65",
           "launch_profile_sha256": "4886bae1ca638d0da4a3c84f825d2766fc8129da5d424c55d0ae7b10af970c1d",
           "recipe_binding_sha256": "20035f9fcd42eb228f7852c8d90be6f49ae96fb6fd52a6f40cf823682cc2aee6",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -339097,7 +339097,7 @@
           "launch_context_sha256": "622d98bf5116fc85689a337a17befc5bbcbbf636c304836892dac9fa096a0d65",
           "launch_profile_sha256": "4886bae1ca638d0da4a3c84f825d2766fc8129da5d424c55d0ae7b10af970c1d",
           "recipe_binding_sha256": "ea4421bb7132b5fd9800c8afb2e55e177ff87b10e8ba7a6af7719c9bcc6b9761",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -340279,7 +340279,7 @@
           "launch_context_sha256": "ad50bd8afbb1d9a768a18158978ea28e33bfd0b0b705d517242cbe6ccdf9305f",
           "launch_profile_sha256": "6b7b8405afb45482d3b27e9ce6fd5a9f6ad72458e5cb23a941aa3cb998f92bf1",
           "recipe_binding_sha256": "710d1dfe3f9abd0fc247029142faebc8efed6968d7b0e82403089f87fa598318",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -340293,7 +340293,7 @@
           "launch_context_sha256": "ad50bd8afbb1d9a768a18158978ea28e33bfd0b0b705d517242cbe6ccdf9305f",
           "launch_profile_sha256": "6b7b8405afb45482d3b27e9ce6fd5a9f6ad72458e5cb23a941aa3cb998f92bf1",
           "recipe_binding_sha256": "e107175d0e1c72dd7657609635a11859a2e09f143903818f327aa2337fe47974",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -340307,7 +340307,7 @@
           "launch_context_sha256": "ad50bd8afbb1d9a768a18158978ea28e33bfd0b0b705d517242cbe6ccdf9305f",
           "launch_profile_sha256": "6b7b8405afb45482d3b27e9ce6fd5a9f6ad72458e5cb23a941aa3cb998f92bf1",
           "recipe_binding_sha256": "46b192b77b5a1b583b3462ee2c9582687b53130384777ca9b36f0e2ac049c3ac",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -340321,7 +340321,7 @@
           "launch_context_sha256": "ad50bd8afbb1d9a768a18158978ea28e33bfd0b0b705d517242cbe6ccdf9305f",
           "launch_profile_sha256": "6b7b8405afb45482d3b27e9ce6fd5a9f6ad72458e5cb23a941aa3cb998f92bf1",
           "recipe_binding_sha256": "006e0152e46c4d37d48bd931cf8249c03ff0feb1589fc01ca6b87bf855d93540",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -340335,7 +340335,7 @@
           "launch_context_sha256": "ad50bd8afbb1d9a768a18158978ea28e33bfd0b0b705d517242cbe6ccdf9305f",
           "launch_profile_sha256": "6b7b8405afb45482d3b27e9ce6fd5a9f6ad72458e5cb23a941aa3cb998f92bf1",
           "recipe_binding_sha256": "871be521aff9370adc3d62cab3462b8810e26dc24a6c6ed6e6645cf290e1f365",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -340349,7 +340349,7 @@
           "launch_context_sha256": "ad50bd8afbb1d9a768a18158978ea28e33bfd0b0b705d517242cbe6ccdf9305f",
           "launch_profile_sha256": "6b7b8405afb45482d3b27e9ce6fd5a9f6ad72458e5cb23a941aa3cb998f92bf1",
           "recipe_binding_sha256": "83efbb1be07c8d4ab272272ed89474878cf7ff669b98a4646ca94ee6aeedfef9",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -340363,7 +340363,7 @@
           "launch_context_sha256": "ad50bd8afbb1d9a768a18158978ea28e33bfd0b0b705d517242cbe6ccdf9305f",
           "launch_profile_sha256": "6b7b8405afb45482d3b27e9ce6fd5a9f6ad72458e5cb23a941aa3cb998f92bf1",
           "recipe_binding_sha256": "fc5e4e054f8aa2c90eb3b26f1c7d86d7eb5e1afe40e4cd926ec6fb719af180e8",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -340377,7 +340377,7 @@
           "launch_context_sha256": "ad50bd8afbb1d9a768a18158978ea28e33bfd0b0b705d517242cbe6ccdf9305f",
           "launch_profile_sha256": "6b7b8405afb45482d3b27e9ce6fd5a9f6ad72458e5cb23a941aa3cb998f92bf1",
           "recipe_binding_sha256": "974dff5d1e725ce65371bb5aeda4a7295d9414f85d05c33e9a3d82baeff19a65",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -340391,7 +340391,7 @@
           "launch_context_sha256": "ad50bd8afbb1d9a768a18158978ea28e33bfd0b0b705d517242cbe6ccdf9305f",
           "launch_profile_sha256": "6b7b8405afb45482d3b27e9ce6fd5a9f6ad72458e5cb23a941aa3cb998f92bf1",
           "recipe_binding_sha256": "05a84fad67b3da95c29296e33d0a3810a3e3768da181a53e7b76d5de7d8a6552",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -340826,7 +340826,7 @@
           "launch_context_sha256": "b961efb10f7fe7b10002a2404794935bedc57476dc9553aa931a8bb44d941a9b",
           "launch_profile_sha256": "63e29b8b54f3e6e8fa5a45b756f11a5f3a1dc56ebdfd3a91cd38a0022fffc1f2",
           "recipe_binding_sha256": "a1ac4938032ab59b9cbd7d740e4934b3294d194cd1aa54e7bc4094063c581f3d",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -340840,7 +340840,7 @@
           "launch_context_sha256": "b961efb10f7fe7b10002a2404794935bedc57476dc9553aa931a8bb44d941a9b",
           "launch_profile_sha256": "63e29b8b54f3e6e8fa5a45b756f11a5f3a1dc56ebdfd3a91cd38a0022fffc1f2",
           "recipe_binding_sha256": "a86b589bc00007ac3b14cfb4a3ec887c6ddea55ea2892ebd318a739af17defd7",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -341477,7 +341477,7 @@
           "launch_context_sha256": "f690d73ed5703a7a3ca077abc9f858734705c5178983104b21a34dd74ffa33d6",
           "launch_profile_sha256": "0af8f7ebdb2338e8161401af181acfbf8f56d57d9cf1acea37ba3442a2945bf3",
           "recipe_binding_sha256": "9dc02c544c3df9921f5df8539939c42e385e9c757928c977e22d711d362ba2a8",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -341491,7 +341491,7 @@
           "launch_context_sha256": "f690d73ed5703a7a3ca077abc9f858734705c5178983104b21a34dd74ffa33d6",
           "launch_profile_sha256": "0af8f7ebdb2338e8161401af181acfbf8f56d57d9cf1acea37ba3442a2945bf3",
           "recipe_binding_sha256": "6284c81a0a1601d8aad36bb2c92dc6c86e5d0d443aaf2f33ddeadaf6ad2924ba",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -341505,7 +341505,7 @@
           "launch_context_sha256": "f690d73ed5703a7a3ca077abc9f858734705c5178983104b21a34dd74ffa33d6",
           "launch_profile_sha256": "0af8f7ebdb2338e8161401af181acfbf8f56d57d9cf1acea37ba3442a2945bf3",
           "recipe_binding_sha256": "f4db9573ce8e4f2c9adb643d616c6497f7a419b1b4499e3fb4a66418a33b3be9",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -341519,7 +341519,7 @@
           "launch_context_sha256": "f690d73ed5703a7a3ca077abc9f858734705c5178983104b21a34dd74ffa33d6",
           "launch_profile_sha256": "0af8f7ebdb2338e8161401af181acfbf8f56d57d9cf1acea37ba3442a2945bf3",
           "recipe_binding_sha256": "630dc97609c4b8a577bd87920527bd22b2db682f5fb20f9c918129328c7bde81",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -341935,7 +341935,7 @@
           "launch_context_sha256": "54c1880e78324f1a17164e40c1ad6cb7cad2927a6aea7e3af58563d16dc49e78",
           "launch_profile_sha256": "5b42ab633c41d22678c1edd448722956b09a8c679278934e534a30b22bc940e1",
           "recipe_binding_sha256": "811fb45bc1b77ddab224f1e515b6603ecbbddbe0b71ca71bd48ecf084fcbd5ad",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -341949,7 +341949,7 @@
           "launch_context_sha256": "54c1880e78324f1a17164e40c1ad6cb7cad2927a6aea7e3af58563d16dc49e78",
           "launch_profile_sha256": "5b42ab633c41d22678c1edd448722956b09a8c679278934e534a30b22bc940e1",
           "recipe_binding_sha256": "7a80cfb1fe5450332af1c36164cb6186337a3263479734bb0f7a621c7a71a476",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -343019,7 +343019,7 @@
           "launch_context_sha256": "91c563d6f820f66bbd30ee82b7400645dc68d88a8811cde00cda5498bac9cbe6",
           "launch_profile_sha256": "a9f12a411d17a089709e9c0e6523381034e59be56620eee9413d3e7fefa0160d",
           "recipe_binding_sha256": "3e01d23259bc8a435968fedf4d82e8dde75d95eda7e9d4e3fff8250c1cf97020",
-          "kind": "SCIENCE_CHILD",
+          "kind": "DESCENDANT",
           "registration_authority": "D-R2C-A1",
           "enrollment": "DECLARED_AT_ROOT_ADMISSION",
           "observed_process": null
@@ -382515,10 +382515,13 @@
           "citations": [
             "experiments/track_c/c10w_oracle_eval.py:357–361,367",
             "experiments/track_c/c10w_oracle_read.py:550,608",
-            "experiments/track_c/c10w_oracle_step0.py:101,386,398–409,415"
+            "experiments/track_c/c10w_oracle_step0.py:101,386,398–409,415",
+            "experiments/track_c/c10w_oracle_step0.py:414–415",
+            "experiments/track_c/c10w_oracle_eval.py:357,428,430–431",
+            "experiments/track_c/c10w_oracle_read.py:28–30,515–520"
           ],
           "starts": [],
-          "notes": "SCIENCE occurrences keep D-R2C-A1 and source-specific metadata. Evaluator fingerprint is eval:367 → step0:101, separate from admission gate:69. Verifier counts cover direct train/eval, dispatcher, evaluator-child, and dispatcher plus at most three training attempts (maximum four). Loaded replication/disk-record counts and selected adapter operands remain refused, not enumerated by A1."
+          "notes": "SCIENCE occurrences keep D-R2C-A1 and source-specific metadata. Evaluator fingerprint is eval:367 → step0:101, separate from admission gate:69. Verifier counts cover direct train/eval, dispatcher, evaluator-child, and dispatcher plus at most three training attempts (maximum four). Loaded replication/disk-record counts and selected adapter operands remain refused, not enumerated by A1. Direct phase_trains bounds are 5/6/4; dispatch stage probes at step0:414 plus evaluator:357 yield aggregate 10/12/8. P2 evaluator additionally selects P1 same-seed adapters at eval:428,430–431 (at most five), recorded as its own refused loaded operand family. Counts do not establish equality between any selected operands."
         }
       ],
       "unreached_process_hits": {

@@ -2361,7 +2361,7 @@ def traced_occurrences(p, trace):
         if not r11_site_reachable(site, stages):continue
         family=site['id'] in (V_SITE,T_SITE)
         matched=[(n,ch) for n,ch in enumerate(p['children']) if ch.get('trace_site')==site['id'] and trace_selector(ch['invocation'],site['selector'])]
-        require(matched,'R10 '+site['id']+' admission recipe missing: '+p['entrypoint'])
+        require(matched,'R10 '+site['id']+' admission-origin occurrence missing/merged: '+p['entrypoint'])
         admission=[(n,ch) for n,ch in matched if ch.get('origin')=='ADMISSION']
         if family:
             require(len(admission)==1,'R10 '+site['id']+' admission-origin occurrence missing/merged: '+p['entrypoint'])

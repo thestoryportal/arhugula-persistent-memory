@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T21:16:42Z",
+    "edited": "2026-10-11T21:33:25Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -148,7 +148,7 @@
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
-        "who": "Builder codexr2w4 runs round 12's full checks; then MAESTRO checks it and Astra reviews",
+        "who": "Builder codexr2w4 writes its report; then MAESTRO checks it in a sandbox and Astra reviews",
         "session": "codexr2w4",
         "started": "2026-10-11T09:03Z",
         "estimate": {
@@ -205,7 +205,8 @@
           "20:40Z: Astra round 11 said not yet (423dec6a). The Git check can be handed more files than the rules counted: the program checks every training file listed on disk before it confirms there are only six, and the two routes into that check can pick different files. MAESTRO57 ruled D15 (7aacc902): count those as an open-ended set, keep the two routes apart, and refuse any case the rules cannot list. No change to the agreement or to any program file. Builder codexr2w is building round 12 now; then MAESTRO's own check and Astra round 12.",
           "20:50Z: Builder codexr2w wrote the new checks first and proved they catch both gaps Astra named; MAESTRO reran them (f00553ae). It stopped early to stay within its memory limit, so a fresh builder, codexr2w2, picked up the rest of round 12 (8b15b79f).",
           "21:01Z: Builder codexr2w2 rebuilt most of the new rules files and the new checks pass on them; MAESTRO reran them and saved the work (0303a034). The written explanation and the full check runs are still to do, so a third builder, codexr2w3, took over (6aa72d65).",
-          "21:16Z: Builder codexr2w3 fixed how each Git check's source is described and added explicit refusals for every case the rules cannot list (215 in all); MAESTRO checked and saved it (b97b5be2). A fourth builder, codexr2w4, is now running the full checks (2c1f8050)."
+          "21:16Z: Builder codexr2w3 fixed how each Git check's source is described and added explicit refusals for every case the rules cannot list (215 in all); MAESTRO checked and saved it (b97b5be2). A fourth builder, codexr2w4, is now running the full checks (2c1f8050).",
+          "21:33Z: Builder codexr2w4 finished the full checks: all pass, including the 56 deliberate-failure tests. Its scan for stray files could not read 45 macOS system folders in the temp area, the same situation as round 11. MAESTRO ruled the same way as round 11: record the readable scan with that limit stated, and use MAESTRO's own sandboxed run as the proof that nothing was written. MAESTRO confirmed all six file fingerprints match. The builder is now writing its short report; MAESTRO's sandboxed acceptance and Astra round 12 come next."
         ]
       },
       {
@@ -214,7 +215,7 @@
         "summary": "Five Codex reviewers each take one area of the lists you sent (web dashboard tools, terminal dashboard tools, dashboard/design skills, research/ML skills, design best practices) and report what fits our work, how it would plug in, the cost and risk, and a verdict per item. Review only: nothing is installed or built.",
         "state": "needs_you",
         "who": "You: pick proposals; then MAESTRO",
-        "session": "codexlabviz14",
+        "session": "codexlabviz15",
         "started": "2026-10-11T13:52:00Z",
         "estimate": {
           "low_min": 30,
@@ -246,7 +247,8 @@
           "20:19Z: LabViz session 12 settled five page choices (one continuous account on Inside the model, a learning library on Learn, a warm neutral colour family, an explained Runs landing page, focused zooms) and handed off at 45% (49080d67). Session 13 (codexlabviz13) is open for you: it asks what most sparked your Shopify-inspired idea, then works it into the Inside the model page. Building stays on hold.",
           "20:50Z: LabViz session 13 settled the Shopify-inspired layout (selectors and short explanations on the left, the model drawing on the right, drawn as a cutaway) and folded in your two new design guides; its notes and handoff are saved (bd9a4bf3). Session 14 is ready for you: tmux attach -t codexlabviz14. It picks up from the worked example (C10V recipe B, A7).",
           "21:01Z: You added a step: once Astra approves the updated LabViz rulebook, a Codex agent draws static wireframes of every page and each user flow worth checking, and you review them before you approve the rulebook or any building starts. Tools checked: Codex already has the Pencil design tool connected; Figma is not connected yet and would need your sign-in.",
-          "21:16Z: LabViz session 14 wrote its handoff (typography accepted; a design-system file and a free Figma preference proposed). A separate session, codexfigma, is setting up Figma for Codex and needs you to sign in: tmux attach -t codexfigma."
+          "21:16Z: LabViz session 14 wrote its handoff (typography accepted; a design-system file and a free Figma preference proposed). A separate session, codexfigma, is setting up Figma for Codex and needs you to sign in: tmux attach -t codexfigma.",
+          "21:33Z: MAESTRO58 took over. Told you: LabViz session 15 is ready (tmux attach -t codexlabviz15); Figma is set up for Codex, off by default, sign-in worked, free plan can draw frames; only the account/plan check could not be read. Recommended treating it as done and confirming the account in the wireframe session. Session codexlabviz14 has closed."
         ]
       },
       {
