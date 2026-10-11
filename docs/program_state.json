@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T09:12:53Z",
+    "edited": "2026-10-11T09:13:11Z",
     "items": [
       {
         "id": "backups-audit",
@@ -110,7 +110,7 @@
         "estimate": {
           "low_min": 20,
           "high_min": 60,
-          "set": "2026-10-11T09:04Z"
+          "set": "2026-10-11T09:12Z"
         },
         "depends_on": [],
         "blocked_by": [],
