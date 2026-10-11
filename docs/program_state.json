@@ -148,9 +148,9 @@
         "id": "r4-dashboard-record",
         "title": "Phone dashboard on the Intel Mac: freeze what it shows and how",
         "summary": "Write down exactly what status record the Intel-hosted dashboard reads, how old data shows as UNAVAILABLE (never as idle), and the exact way each M3 helper is launched so the science safety gate still allows it. Then Astra reviews it.",
-        "state": "running",
-        "who": "Builder codexr4d3c (final check), then Astra round 3",
-        "session": "codexr4d3c",
+        "state": "in_review",
+        "who": "Astra round 3, then MAESTRO",
+        "session": "",
         "started": "2026-10-11T09:12:53Z",
         "estimate": {
           "low_min": 20,
@@ -168,7 +168,8 @@
           "11:30Z: codexr4d2 finished record v2 (b0013a54): every field spelled out, 60 worked good/bad examples, old data rejected even after restarts, busy/waiting/idle kept. One cost found: after every M3 collector restart, someone would have to re-approve the dashboard by hand on the Intel Mac. Astra is checking whether that can be automatic before it comes to you.",
           "11:37Z: Astra round 2 (852c4a78): replay protection is sound; still missing a place for Intel sessions that aren't in the queue, more bad-example cases, and a fix for a rare window-switch mix-up. Astra confirmed the re-approval after restarts can be automatic, so MAESTRO chose automatic (no chore for you). Builder codexr4d3 is writing v3.",
           "11:57Z: codexr4d3 ran low on room after drafting v3; its successor codexr4d3b is finishing it (fix references, add a rule-by-rule test map).",
-          "12:18Z: codexr4d3b ran low on room too; it saved the fixed references, the rule-by-rule test map (138 rows) and the report table. Its successor codexr4d3c is doing the last check: each bad example must fail on the first problem it hits, and each map row must really test its rule."
+          "12:18Z: codexr4d3b ran low on room too; it saved the fixed references, the rule-by-rule test map (138 rows) and the report table. Its successor codexr4d3c is doing the last check: each bad example must fail on the first problem it hits, and each map row must really test its rule.",
+          "12:37Z: three builders in a row kept finding more to polish, so MAESTRO stopped the self-check and sent v3 to Astra (71d82fda, e4d7daef). MAESTRO's own checks pass: the examples file reads cleanly, every rule in the map has at least one test case, and every case it names exists. Astra round 3 now checks whether the cases really test their rules and fail for the right first reason."
         ]
       },
       {
