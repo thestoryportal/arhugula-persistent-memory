@@ -185,9 +185,9 @@
         "id": "drive-activate",
         "title": "Drive backup: turn it on",
         "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup. The plan is being rewritten so the first upload runs from the Intel Mac (your choice 11); your three OKs will be asked again against that version.",
-        "state": "ready",
-        "who": "MAESTRO, then you",
-        "session": null,
+        "state": "running",
+        "who": "builder codexdl1, then Astra, then you (three OKs)",
+        "session": "codexdl1",
         "started": null,
         "estimate": null,
         "depends_on": [],
@@ -196,7 +196,8 @@
         "notes": [
           "08:23Z: your earlier three questions are withdrawn until the Intel version exists (integration row I7); they are deferred, not waived.",
           "08:37Z: integration table approved. Next: measure what the ~287 GB upload is made of (helper running), inventory first (row I3b), then MAESTRO brings you space options and the Intel-first plan.",
-          "09:54Z: The operator chose to store identical files once on the Intel Mac (Amendment 21). The copy fits in about 130 GB of the 250 GB. Next: design that layout and send it to Astra before any copy."
+          "09:54Z: The operator chose to store identical files once on the Intel Mac (Amendment 21). The copy fits in about 130 GB of the 250 GB. Next: design that layout and send it to Astra before any copy.",
+          "12:59Z: builder codexdl1 is designing the Intel Mac layout that stores each identical file once (your Amendment 21): how one stored copy serves every path, how it is kept from being changed, how the upload still sends every path to Drive, and the space math. Design only, nothing copied; Astra reviews it before any copy, then the full Intel plan and your three OKs."
         ]
       },
       {
