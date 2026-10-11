@@ -3320,3 +3320,607 @@ These candidate codes/family assignments are design proposals, not imported stan
 - Session reflection: scoped primary/reference reads and approved directions are useful; broad searches of these accumulated notes create oversized output. Locate exact headings/terms, then read <=60-line ranges. Keep one whole-experience choice at a time and a pending question through the checkpoint.
 - Root/branch reverified at gate. Only notes and separate handoff15 written; no new topic, DESIGN.md/S/L/W change, imagery/wireframe, build/test/browser/science/model runtime, web/Figma connection, install/clone, Git mutation, agents/external messages or global memory write. No process/agent/tool call remains in flight after handoff verification.
 - BINDING context rule persists: check available Context at every reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate designated successor handoff with topics/decisions/notes pointers, paths, in-flight work, risks and one exact next point. At <=40% stop starting work; never approach compaction or put handoff inside notes. Restate this rule in every successor/team handoff. No numerical reading exposed; never invent one. MAESTRO's 44% notice requires this checkpoint and stopping now.
+
+## LVB16 — flat and quiet whole-site surfaces accepted
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", answering the pending question at notes:3299 and selecting "Flat and quiet: spacing, fills and borders distinguish ordinary content; small shadows distinguish temporary menus and hints."
+- Accept that qualitative surface-depth direction across all five destinations, deeper pages and their shared navigation. Ordinary reading, charts, controls and supporting panels use spacing, fills and borders; restrained shadows can distinguish temporary layers. Existing page compositions, warm-neutral/teal direction, clean system lettering, quiet charts and outline icons remain settled.
+- This answer settles surface depth only. It does not approve every proposed help/dialog/state recipe, exact radius/border/shadow/spacing value, asset choice or rendered specimen. No actual modal task is added.
+
+### Open questions
+
+- Supplementary interface-help presentation across the site remains proposed: (1) help on demand, opened by tap, keyboard or pointer, with longer explanations in the already reserved reading/detail space (recommended); or (2) short guidance visible by default beside unfamiliar controls, with deeper detail on demand. This concerns supplementary help, not removal of accepted teaching companions, lesson content, source links or persistent failures/limitations.
+- Exact geometry and component specimens remain to prepare together in whole-page examples. Existing typography/spacing candidates at notes:2684-2688 remain provisional; avoid separate preference questions for every token. All-page/all-flow static wireframes remain a separate later operator-review gate.
+
+### Spec changes proposed
+
+- Add the accepted flat-and-quiet surface direction beside docs/LABVIZ_V2_SPEC.md:340-371 in the later presentation reconciliation and future design-system packet; do not edit the spec in this session.
+- Preserve consistent context/source/evidence information (S:347-352), readable text/non-colour cues and phone requirements (S:359-371). Surface styling must not obscure source meaning or the focused diagram/chart. All existing navigation and reserved-detail decisions persist.
+
+### Context for build agents
+
+- Source: Dashboard_UI_Design_Best_Practices:.md:28-38. Extract its spacing/dividing-line and subtle-outline/background separation patterns. Why: supports the accepted flat page hierarchy. Adapt to the settled roomy page compositions; no forced raised cards, dense typography, CRUD/bulk actions or new features. This is text context, not a package adoption or executable workflow.
+- Source for the next help discussion: Dashboard_UI_Design_Best_Practices:.md:20-26 supplies distinctions among short temporary help, longer reading and deliberate empty states. It does not decide whether guidance is always visible; the recommended on-demand default is design judgement. Generic toast/modal prescriptions do not override accepted persistent errors/source limits or non-obstructing model detail.
+- Future wireframe agent: show the accepted flat surface language in every page and flow, including ordinary reading, selected/focused controls, reserved detail, empty/missing/error states and any justified temporary help layer. Exact dimensions/shadow recipes remain illustrative until reviewed. No new wireframe, image or DESIGN.md created here.
+- Separate Figma status supplied by MAESTRO for LVB16: configured for Codex, switched off by default; sign-in worked. Account/plan check was unreadable and is deferred to the later wireframe session. This session did not inspect/connect/call Figma and makes no compatibility or account-plan claim.
+- Root/branch verified: worktree-c10k-route-a at the dispatched worktree. Brainstorming skill read for conversational design preparation only; no separate-doc/commit/browser/implementation workflow applied. Only this authorized notes file appended; no spec/source/build/guide edits, tests/browser/science/model runs, installs/clones, external research or Git mutation.
+- Session reflection: use precise headings and short source ranges. Broad matching over long accumulated notes produced oversized search output; return to narrow heading searches and <=60-line reads. Approval of one qualitative choice must not silently approve surrounding component recipes.
+- BINDING context rule: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with topics, decisions/notes pointers, paths, in-flight work, risks and one exact next point. At <=40% stop starting work; never approach compaction or put the handoff inside notes. Restate this rule in every successor/team handoff. No numerical reading is exposed; never invent one.
+
+## LVB16 — on-demand supplementary help accepted; interaction emphasis proposed
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", selecting "Help on demand: tap a labelled help control for a short explanation; open fuller detail when needed."
+- Accept on-demand supplementary interface help across LabViz. Short help opens through a labelled control on touch, with equivalent keyboard/pointer access. Fuller detail uses existing reserved reading/detail space or the accepted deeper routes.
+- Retain existing explanatory companions/lessons and persistent sources, important limitations and failures. This answer changes supplementary-help visibility only; it does not approve an actual dialog task, every dismissal/focus recipe, specific geometry or help text not yet reviewed.
+
+### Open questions
+
+- Proposed next whole-site choice: emphasis of interactive elements, reviewing the role/state proposal at notes:3008-3068 as one group. Recommended restrained emphasis: visibly underlined reading/source links, clearly edged ordinary controls, muted teal for current selection and sparing main-action emphasis. Alternative: stronger filled treatments for more action controls, with greater visual prominence. Both retain flat surfaces, readable labels, non-colour cues and established page compositions.
+- Neither treatment changes what actions exist or uses selection colour as scientific judgement. No separate question for every hover colour, radius or ring thickness. Exact theme pairs, geometry and assembled component states remain provisional for later visual review and testing.
+
+### Spec changes proposed
+
+- Add accepted on-demand supplementary help beside docs/LABVIZ_V2_SPEC.md:347-371 in the later presentation amendment/design-system packet, retaining accessible source/context information and existing persistent state messages (notes:889-905).
+- If the operator accepts the proposed interaction emphasis, reconcile the corresponding role/state recipe at notes:3008-3068 beside S:347-371. Keep keyboard focus distinct from persistent selection, touch access equivalent to hover, 44px targets and required text/control contrast. S remains unchanged.
+
+### Context for build agents
+
+- interface-design: results/dashboard_integration_review_20261011/uiskills_report.md:28 contributes hierarchy and complete interaction/data-state review. Give builders the previously selected text checklist plus our accepted directions and candidate role/state matrix, not the executable skill workflow. Do not import its default-font rejection, native-control replacement, optional image generation or extra saved-file actions.
+- Dashboard_UI_Design_Best_Practices:.md:9/:18 supports visual importance and visible current state; :20-26 helps distinguish supplementary help from longer reading; :35-38 supports restrained boundaries and related local views. It does not prescribe our exact colours or prove usability. Toast/CRUD/density prescriptions remain excluded where they conflict with current authority.
+- Historical context inspected this turn: results/labviz/review/20261008T130913325Z/chromium-phone-map.png shows underlined source/log links, outlined controls and a filled active destination. Its old horizontal navigation is historical build context, not a proposal to reopen the accepted sidebar/drawer. This capture predates MathLab and does not establish the current complete build's behavior.
+- Measurement limits: measure.json:1 identifies measurements only, no reviewer verdict; :275-302 contains a desktop Map record (1440x900), while :23-28 lists the requested 390x844 phone viewport. These opened ranges establish no image/measurement pairing or new phone text/contrast result. Preserve notes:2100's unrelated blocked-CDN fallback correction.
+- Future wireframe agent should show help closed/open and links/controls/selection/focus states in coherent whole-page and flow examples. Scientific quantities/source association and exact help content must come from reviewed records/authoring; no invented explanatory findings.
+- Scope: only notes appended; one historical screenshot viewed and bounded read-only source/measurement inspection. No design image/wireframe creation, S/L/W/guide edit, browser/build/test/project-Python/model/science run, web/Figma call, installation, Git mutation or external agent message. No global memory write.
+- BINDING context rule: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with topics, decisions/notes pointers, paths, in-flight work, risks and one exact next point. At <=40% stop starting work; never approach compaction or put handoff inside notes. Restate this rule in every successor/team handoff. No numerical reading is exposed; never invent one.
+
+## LVB16 — restrained interaction emphasis accepted; shared layout recipe proposed
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", selecting "Restrained emphasis: controls are easy to recognize but visually quiet."
+- Approval applies to the presented whole-site treatment: visibly underlined reading/source links; ordinary controls with clear edges; muted teal for the current choice and a few existing main actions. Reading and visualizations remain prominent within the accepted page compositions.
+- Retain flat-and-quiet surfaces and on-demand supplementary help. This qualitative interaction hierarchy does not approve every earlier candidate hue/alias, visited-link rule, pressed/focus recipe or unshown control specimen, and does not authorize new actions.
+
+### Open questions
+
+- Proposed next review is a single coherent typography/spacing/geometry recipe rather than a preference question for each token. Working recipe: familiar system lettering; 28px page titles and 20px section headings with semibold emphasis; binding 17px desktop/16px phone body and 13px rendered minimum; generous separation between major sections and tighter spacing within related labels/controls; thin dividers, gently rounded controls and support surfaces only where useful; broad chart/reading areas remain open within the accepted compositions.
+- Operator choice pending: (1) balanced hierarchy using this working recipe (recommended), or (2) stronger hierarchy through more prominent headings and section breaks. Exact sizes beyond S requirements, corners, spacing, line weights and final responsive geometry remain provisional for the later all-page/all-flow wireframes and rendered checks. This is a grouped hierarchy/geometry review, not renewed typography-family/navigation/composition choices.
+
+### Spec changes proposed
+
+- Add accepted restrained interaction hierarchy beside docs/LABVIZ_V2_SPEC.md:347-371 in the later presentation reconciliation. Retain context/source/evidence visibility, non-colour meaning, independent keyboard focus, 44px phone targets and contrast requirements.
+- Any accepted working layout recipe remains a proposed visual starting point beside S:359-371, with S's body/minimum/line-height/prose-width/phone requirements binding. Do not freeze candidate heading/spacing/corner values as measured facts or edit S in this session.
+
+### Context for build agents
+
+- Reconcile notes:3008-3068's candidate interface matrix against the approval above. Mark the underlined-link/clear-control-edge/sparing-teal hierarchy accepted, while exact aliases and other interaction recipes remain proposed. Keep model measurement fill, structural family tint, scientific labels and learner state distinct from UI selection.
+- Reference: interface-design's focused checklist (notes:289; uiskills_report.md:28) contributes hierarchy, spacing and complete states; Dashboard_UI_Design_Best_Practices:.md:9/:35-38 contributes prominence and subtle support-surface separation. Neither supplies our exact type/geometry values; those are design proposals derived from notes:2684-2688 and constrained by S:359-371. The guide's smaller-type/dense-grid prescriptions yield to S and settled roomy compositions.
+- Working spacing candidate remains notes:2685 onward (4/8/12/16/24/32/48px). Treat it as a shared starting vocabulary applied to whole pages, not a requirement to ask the operator about every step or use every value. Exact corner radius/border/shadow values require composed visual examples, not isolated token approval.
+- Future wireframe agent should show page title, location/context, local controls, primary content, secondary detail and source/limitations together on each page in both phone/desktop examples. Keep page-specific compositions and shared hierarchy coherent; avoid forced cards around every chart or explanation. Historical phone Map inspected in the previous point provides incumbent context, not final geometry or usability acceptance.
+- Preparation reflection: qualitative choices now cover whole-site depth, supplementary-help visibility and interaction prominence. Remaining geometry should be reviewed as one assembled page language; preserve accepted/proposed/verified distinctions and the separate later visual-review gate.
+- Scope: authorized notes appended and bounded source reads only; no S/L/W/guide/DESIGN.md edit, new imagery/wireframes, runtime/build/test/browser/science/model/web/Figma action, install/clone, Git mutation, global memory write or external agent message.
+- BINDING context rule: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with topics, decisions/notes pointers, paths, in-flight work, risks and one exact next point. At <=40% stop starting work; never approach compaction or put handoff inside notes. Restate this rule in every successor/team handoff. No numerical reading is exposed; never invent one.
+
+## LVB16 — balanced shared layout recipe accepted; icon sourcing proposed
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", selecting "Balanced hierarchy: use this calm recipe as the starting point for later wireframes."
+- Accept the presented coherent page-wide starting recipe: clear page titles, modest section headings, generous space between sections, close grouping of related labels/controls, thin dividers, gently rounded corners, and open space for charts/longer reading within each settled composition.
+- Exact measurements remain provisional until visual review. The operator-facing proposal did not specify numeric heading sizes or individual spacing/radius values; do not treat this answer as approval of the 28px/20px or spacing candidates retained in notes:2684 onward. S's existing readability/phone requirements remain binding. Typography family, navigation and existing page compositions stay settled.
+
+### Open questions
+
+- Proposed next whole-site asset decision: (1) use a ready-made consistent outline family, with only needed assets locally supplied later (recommended), or (2) commission/create a small custom outline family for LabViz. Both preserve the already accepted quiet outline style and informative words. No question about outline versus solid is reopened.
+- Tabler Icons is a candidate for the ready-made route, not yet an adopted dependency or an approved asset list. Exact glyphs for the five destinations and utilities, role fit, pin/source hashes, actual subset review, attribution and rendered size/state/accessibility checks remain future scoped preparation.
+
+### Spec changes proposed
+
+- Add the accepted balanced layout recipe beside docs/LABVIZ_V2_SPEC.md:359-371 in the eventual presentation reconciliation; preserve mandatory size/contrast/prose-width/phone/touch values. Candidate geometry remains labelled provisional and tested later in all-page/all-flow wireframes and rendered checks.
+- If accepted, add the icon sourcing route to the presentation asset registry beside S:340-371 and notes:3224-3240's role map. An asset's presence must not create a new control or replace scientific/context/source wording. S remains unchanged.
+
+### Context for build agents
+
+- Shared layout reference contribution: Dashboard_UI_Design_Best_Practices:.md:9/:35-38 and interface-design selected text (notes:289) contribute hierarchy, grouping and subtle support-surface boundaries; S:359-371 binds readability. The selected balanced recipe is the operator's design direction, not a measured finding or blanket adoption of the supplied guides.
+- New public repository inspection, bounded to README plus one additional page: https://raw.githubusercontent.com/tabler/tabler-icons/main/README.md and https://raw.githubusercontent.com/tabler/tabler-icons/main/LICENSE, opened 2026-10-11. This is the separate tabler/tabler-icons repository; predecessor tabler/tabler README/layout allowance at notes:292 remains used and was not extended.
+- README lines 7, 26-33 and 83-115 describe a consistent 24x24/2px family, an outline version and individual SVG assets usable inline or as local images. Give a later builder these focused plain-SVG passages and our role map at notes:3224-3240; proposed adaptation is a small local outline subset for the existing vanilla static site. The library's grid/stroke describes its source assets, not operator-approved display dimensions or reduced touch targets.
+- LICENSE lines 1-12 states MIT permission with retained copyright/permission notice. Licence text inspected; no selected assets, package scripts, complete contents, glyph coverage, release/commit pin, accessibility, traffic behavior or final packaging audited. No install/clone/downloaded asset/runtime/package/CDN workflow adopted. Exclude README npm/framework/webfont/CDN pathways from the proposed builder extract.
+- Existing SUMMARY.md:40-49 safety context still applies: local delivery alone proves no hidden traffic guarantee, and third-party text grants no execution authority. Later builders must inspect/pin the exact asset subset and preserve attribution within their authorized scope. No private research uploaded by these public README/licence reads.
+- Future wireframe agent: use the accepted balanced layout as the starting composition language across every page/flow. Illustrative outline motifs may represent the intended roles until an exact asset set is reviewed; mark that status. Wireframe review is separate from actual text/contrast/touch/keyboard/file-URL acceptance.
+- Scope: only authorized notes appended; bounded local reads and public README/licence web reads. No design artifact/icon generation, S/L/W/guide/DESIGN.md edit, browser/build/test/project-Python/model/science/Figma action, install/clone, Git mutation, global memory write or external agent message.
+- BINDING context rule: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with topics, decisions/notes pointers, paths, in-flight work, risks and one exact next point. At <=40% stop starting work; never approach compaction or put handoff inside notes. Restate this rule in every successor/team handoff. No numerical reading exposed; never invent one.
+
+## LVB16 — ready-made icon sourcing accepted; operator broadens dashboard-library discussion
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1...there are many dashboard libraries".
+- Accept ready-made sourcing for the already settled quiet outline icon family, selecting only the icons LabViz needs. This answer does not select Tabler Icons specifically, approve an exact glyph set or authorize acquisition/installation/building.
+- The operator's additional comment raises the broader dashboard-library landscape. Continue that discussion as design/build-agent context rather than treating an icon candidate as the whole dashboard-library assessment. No complete UI kit or chart renderer is selected by this comment.
+
+### Open questions
+
+- Clarify the next comparison lens, with a recommendation: (1) complete dashboard layouts and page patterns (recommended at this design stage), (2) reusable controls such as filters, tabs and detail panels, or (3) chart interaction behavior. This is one question about the intended contribution of libraries, not renewed navigation/visual-style preferences or a request for installation permission.
+- After the lens is selected, compare a bounded shortlist against the accepted five-page compositions, phone/readability requirements and source/missing rules. The operator's comment may warrant candidates beyond the review; additional public reading stays README plus one page per repository, and uninspected examples stay marked not opened.
+
+### Spec changes proposed
+
+- Add accepted ready-made icon sourcing to the future asset registry alongside docs/LABVIZ_V2_SPEC.md:340-371 and the existing icon-role proposal (notes:3224-3240). Exact source/pin/licence/subset selection stays outstanding. S remains unchanged.
+- Broader dashboard-library comparison currently changes the preparation/reference packet only. A later implementation-library proposal needs explicit mapping of which accepted requirement it serves and any change to S; no dependency or replacement is implied by using a design reference.
+
+### Context for build agents
+
+- Reopened review: results/dashboard_integration_review_20261011/web_report.md:26 describes Tabler's HTML/CSS/JS layout role; :30 describes CoreUI's comparable template role; :37 describes ECharts' chart-renderer role. These are distinct contributions, not interchangeable all-purpose recommendations. Review findings/labels remain proposals, not adoptions or fresh browser compatibility proof.
+- Whole-page reference candidates: give builders Tabler's already inspected README/layout catalogue (notes:292) and CoreUI's review row/source pointers (:30). Extract primary/local hierarchy, page-title/context organization, control grouping and consistent component states where actually documented. CoreUI original pages and concrete visual examples were not reopened here; exact visual specimens/markup remain not opened in this session. A catalogue alone does not prove phone layout.
+- Chart behavior context: ECharts matching-item event/action extract already opened at notes:291 supports coordinated selection and source/detail access. uPlot and Charts.css roles remain review-derived (web_report.md:41-42), not opened here; no uninspected chart can be claimed to meet LabViz's rendered-text requirement. Perspective's filtering/comparison role at :31 is contingent on an actual need and adds packaging considerations.
+- Review trial boundary: web_report.md:22/:52-55 and SUMMARY.md:40 onward require scoped later evaluation, local assets/traffic checking and file-URL/phone verification. Tabler's trial at :53 specifically discusses the separate planned phone status surface; it is not an already approved LabViz redesign trial. Borrowing LabViz design context must be mapped to our own accepted pages and source rules.
+- Builder-facing output from the next comparison should be concrete: selected documented pattern/checklist/passages, its exact LabViz page/interaction use, adaptation constraints, known gaps and exclusions. Continue to mark not opened/unverified rather than infer suitability from a product name or screenshot. No packages, hosted dashboards or executable skill workflows adopted.
+- Scope: authorized notes appended and bounded local review reads only in this point; no new external repository browsing, assets downloaded, design artifacts/images, S/L/W/guide/DESIGN.md edits, browser/build/test/project-Python/model/science/Figma action, install/clone, Git mutation, global memory write or external agent message.
+- BINDING context rule: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with topics, decisions/notes pointers, paths, in-flight work, risks and one exact next point. At <=40% stop starting work; never approach compaction or put handoff inside notes. Restate this rule in every successor/team handoff. No numerical reading exposed; never invent one.
+
+## LVB16 — operator's six dashboard references inspected and mapped to builder context
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "Here are a few:" followed by:
+  - https://github.com/homarr-labs/dashboard-icons
+  - https://github.com/tabler/tabler
+  - https://github.com/simplifyinsights/tableau-icons
+  - https://awesomedataviz.com/ai/
+  - https://github.com/ColorlibHQ/gentelella
+  - https://github.com/plotly/dash
+- Treat these as operator-supplied candidates for the continuing library/reference discussion. The supplied links authorize bounded public inspection within the existing discussion scope, not adoption of any library, appearance, dependency or runtime.
+- Ready-made outline icon sourcing remains accepted at notes:3437; no exact family is selected. The six links broaden the reference landscape and do not answer the earlier comparison-lens options literally. Progress by assessing what each can contribute rather than insisting on that menu first.
+
+### Open questions
+
+- Recommended focused builder packet: Tabler for the shared page/layout catalogue and Gentelella for a concrete component/state reference sheet, with separate candidate icon and chart-behavior extracts. Operator choice pending: (1) carry both as curated complementary references (recommended), or (2) give Tabler the lead and consult Gentelella only for specific gaps. This chooses reference emphasis, not an implementation framework or aesthetic acceptance of unseen pages.
+- Exact rendered examples for the accepted LabViz page recipes remain to inspect/prepare later. No visual comparison, mobile interaction, exact contrast, file-URL compatibility, private-data behavior, asset pin or complete licence/runtime audit is established by README/document text.
+
+### Spec changes proposed
+
+- No new implementation or architecture change proposed by this first assessment. Add the selected documented extracts to the later builder-context packet, mapped to docs/LABVIZ_V2_SPEC.md:340-371 and the existing five accepted page recipes.
+- Library patterns must serve the accepted sidebar/drawer/local context and open reading/chart compositions. Library status labels, example numbers, broad theme recolouring, sample business data, automatic animations or false success feedback cannot replace S's scientific/source/missing/phone/accessibility rules. Current S/L/W stay unchanged.
+
+### Context for build agents — exact source contribution and bounded observations
+
+All public reads occurred on 2026-10-11. GitHub line pointers below refer to the web tool's rendered page, including README, not a frozen commit or local source file. These remain mutable public snapshots.
+
+| Candidate and opened source | Concrete material a builder could receive | Intended LabViz role and safety/observation boundary |
+|---|---|---|
+| homarr-labs/dashboard-icons — https://github.com/homarr-labs/dashboard-icons README, rendered lines 237-249, 253-300 and 358-363 | Its documented service/application/tool identity catalogue, formats and light/dark variants; if a later LabViz page actually needs a named tool logo, identify that exact asset and original source/terms | Useful for recognizable named-service identity, not evidence that this supplies the agreed functional outline navigation/action family. README promotes CDN URLs and an MCP search service; do not embed remote asset requests or enable MCP. Legal section distinguishes trademark/brand constraints and externally indexed Simple Icons. Individual assets and licence file not opened; no blanket licence clearance or unified-outline claim. Only README inspected; no downloads. |
+| tabler/tabler — https://raw.githubusercontent.com/tabler/tabler/dev/README.md lines 37-53, 87-109, 129-141 and 181-185; previously opened layout catalogue retained at notes:292 | Ready-made page/component catalogue, shared light/dark component framing and separable CSS/assets. Give builders selected passages plus our five page recipes, mandatory context/source states and exact approved navigation rather than the entire demo | Strong shared layout/component reference candidate. README says Bootstrap 5, bundled plugins and framework-neutral HTML/CSS; that does not prove the desired phone drawer or file-URL behavior. CDN/npm/clone/demo launch instructions excluded. MIT core statement is separate from bundled plugin terms; README specifically flags ApexCharts licensing. Browser minimum claims are documentation, not this operator's phone acceptance. Tabler README + prior layout page allowance remains used; no extra Tabler page/demo/code opened. |
+| simplifyinsights/tableau-icons — https://github.com/simplifyinsights/tableau-icons README, rendered lines 171-217 and repository listing 151-163 | A discovery catalogue of several distinct icon families, including Feather and Material; give a builder an original-family pointer after deciding which required roles need it | Supports icon discovery, not a single matching family or a dashboard layout library. README lists archived collections with 2019 upload dates and says attribution free; that assertion is not verification of each original family's actual current terms. No ZIP contents, original family licence or glyph set opened/downloaded. If chosen later, obtain required original assets/terms through a separate authorized scoped review; avoid mixing styles automatically. Only README inspected. |
+| awesomedataviz.com/ai/ — exact supplied URL retried through web open | Nothing verified to extract | NOT OPENED: web tool returned Internal Error, matching the earlier recorded limitation at web_report.md:40. No category entries/candidates/quality/maintenance/licence claim inferred from the name. This is a failed observation attempt, not proof that the website is down or empty. |
+| ColorlibHQ/gentelella — https://github.com/ColorlibHQ/gentelella README rendered lines 235-287 and 304-311; https://preview.colorlib.com/theme/gentelella/production/playground.html sections Buttons, Status & badges, Alerts, Form inputs, Tables, Tabs, Progress, Accordion, Empty state, List lifecycle and Banners | A focused component/state reference sheet: ordinary/outline/disabled controls, related form grouping, tabs, expanders, empty versus load/error states and page-level notices. Give selected text/HTML examples and our accepted state meanings; README's component-playground organization is an example of how to document the future shared LabViz components | README currently describes v4 as vanilla JS/SCSS/Vite 8, with ECharts, light/dark, desktop rail/mobile drawer and a component playground. These are documented claims, not verified LabViz-compatible behavior. Static web text from the playground was opened; no browser, buttons, interactions or rendered screenshot inspected. Its sample commerce/activity data and Saved/Failed labels are not research evidence. Do not import its broad theme generator's chart recolouring, Google Fonts, PWA/service worker, CRUD, command palette, generic toast defaults or build/scaffolding instructions. Actual code/escaping/traffic/licence/size behavior unaudited. README plus this one supporting page allowance is used. |
+| plotly/dash — https://github.com/plotly/dash README rendered lines 248-261 | Selected examples describing a dropdown controlling a graph and coordinated filtering across inputs/outputs; give builders these interaction descriptions paired with the existing source-backed LabViz run/input/selection rules | Useful chart-control coordination reference. README describes Plotly.js/React/Flask tied to analytical Python; a full Dash application would change the static file-URL architecture and add a running Python service, consistent with the prior SKIP assessment at web_report.md:29. No Dash runtime/framework selected. External Google Finance example data, Panda/Python execution, cloud/Enterprise/deployment/jobs and source gists excluded. No gallery, tutorial, source code or demo opened/run. README inspected only in this session. |
+
+- Recommended synthesis: two dashboard references can support one LabViz-owned design system if each extract has a clear job. Tabler supplies page/component vocabulary; Gentelella supplies a component/state documentation pattern; Tabler Icons remains an unselected outline asset candidate at notes:3408; Homarr/Tableau collections have separate identity/discovery uses; Dash supplies optional interaction ideas. This mapping is design judgement, not integration acceptance or a requirement to use every candidate.
+- S:347-371 governs context/evidence/readability/non-colour/text/phone constraints. Retain earlier model write-size-versus-activity boundaries and accepted source/learning/return semantics. A library demo's empty state cannot silently mean missing scientific observations; a red application error cannot become an invented scientific FAIL; personal progress cannot mean science complete.
+- Reviewed safety remains SUMMARY.md:40 onward and the lane reports. No assets/third-party services/scripts enabled, no private research sent, and no source pin/subset/licence/traffic acceptance claimed. The public README reads do not grant those actions.
+- Packet extraction must stay short and concrete for builders: named source section/example, exact LabViz page/state/job, approved adaptation and exclusions, known checks and not-opened limits. Full library/skill loads or entire demo galleries add noise and can import unsuitable defaults.
+- Session reflection: inspect a repository's current documented identity before relying on its name or historical reputation. Distinguish named-service logos, functional icons, page templates, discovery catalogues and application frameworks; the operator supplied all as leads, not as interchangeable dependencies. GitHub wrappers create noisy output, so use known raw README paths where possible and bounded sections for supporting pages.
+- Scope: authorized notes appended; public README/document text inspection only. No screenshots/mockups/icons generated, site/browser/build/test/project-Python/model/science/Figma run, S/L/W/guide/DESIGN.md edit, download/clone/install, Git mutation, global memory write or external agent message.
+- BINDING context rule: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with topics, decisions/notes pointers, paths, in-flight work, risks and one exact next point. At <=40% stop starting work; never approach compaction or put handoff inside notes. Restate this rule in every successor/team handoff. No numerical reading exposed; never invent one.
+
+## LVB16 — operator supplies Awesome Dataviz AI-page content and advertised MCP discovery tools
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "This is the page you can't get to open and what it points to content wise:" followed by the page text below.
+- Supplied title: "Awesome Dataviz for AI agents and developers".
+- Supplied introduction: "Give your assistant current facts about 365 data visualization tools, from ranking and activity to licenses and install commands, instead of whatever it remembers from training."
+- Supplied service description: "A remote Model Context Protocol server is available at https://awesomedataviz.com/mcp (Streamable HTTP, no authentication). It offers four read-only tools:"
+  - "search_dataviz_tools: find tools by need (“react network graph”, “python 3d”, “terminal charts”), optionally filtered by category, topic, language or maintenance status."
+  - "get_dataviz_tool: everything about one tool, including stars, activity, license, install commands and alternatives."
+  - "compare_dataviz_tools: two to five tools side by side."
+  - "list_dataviz_categories: the categories and topics, with counts."
+- Supplied Claude Code instruction: "claude mcp add --transport http awesome-dataviz https://awesomedataviz.com/mcp".
+- Supplied Claude.ai/Claude Desktop instruction: "Go to Settings → Connectors → Add custom connector, and paste https://awesomedataviz.com/mcp as the URL."
+- This supplies previously missing descriptive content as operator-provided text. Keep the earlier URL retrieval marked not opened; it is no longer correct to say that no descriptive content is available. Catalogue size/currentness, tool behavior, read-only/no-auth claims and endpoint availability remain advertised, not independently tested.
+- The operator has not asked this session to add/configure/connect/call the remote service or execute the supplied installation/configuration command. No connector configuration or external tool invocation is authorized by merely pasting those instructions. The pending Tabler/Gentelella reference-emphasis choice remains unanswered; no selection is inferred.
+
+### Open questions
+
+- Recommended role: a discovery/comparison aid while preparing the curated builder packet. Proposed flow: identify a real LabViz capability gap, search public requirements, retrieve a small candidate set, compare two to five candidates, then verify the shortlisted descriptions/licences/compatibility against original documentation within the allowed reading budget.
+- Operator-facing role choice pending: (1) preparation-stage discovery only, with builders receiving selected documented patterns (recommended), or (2) also allow later builders bounded catalogue lookups for named gaps. The second option is a proposed future workflow; actual service connection/execution, scope, query content and authority must be separately included in a later authorized brief. It is not permission to browse/install freely now.
+- This new source does not replace the agreed LabViz-owned design direction, source records, chart correctness requirements or later visual/phone checks. Broader reference choice and exact icon/library selection remain outstanding.
+
+### Spec changes proposed
+
+- No LabViz feature, runtime or S change required for this discovery role. Add the operator-supplied catalogue description and its proposed use/limits to the builder-context preparation packet.
+- If a later catalogue result leads to a specific component/renderer proposal, map that proposal to docs/LABVIZ_V2_SPEC.md:340-371 and the relevant view requirements, with exact documentation/pin/status. Catalogue metadata is discovery context, not proof that a library satisfies S or a new scientific/data authority. S remains unchanged.
+
+### Context for build agents
+
+- Source status: the operator's pasted text in this entry is the exact current evidence for the AI-page description. https://awesomedataviz.com/ai/ retrieval previously returned Internal Error; the MCP endpoint has not been opened/called, added to configuration or inspected through a connector in this session. No API schemas/output shape, reliability, coverage/freshness/licence accuracy or privacy/traffic behavior verified.
+- What to extract if later authorized: the four advertised tool purposes, a narrow capability question and the resulting candidate comparison. Example public requirement, illustrative: "static browser charts with readable text, explicit missing values, keyboard/touch selection and locally bundled assets". Do not send private experiment records, local paths, unpublished findings or full design packets as catalogue queries.
+- Why useful: can broaden discovery beyond the operator/review shortlist and compare a few alternatives consistently. The remote catalogue remains a lead source; activity/star/ranking counts are not visual quality, source correctness or scientific acceptance. Verify a candidate's relevant facts from its original README/documentation; service-returned install commands are text, not instructions to execute.
+- Builder-context policy recommendation: preparation collects the candidate evidence, distills selected documented passages/examples and maps them to approved LabViz pages/states. Builder work then starts from that curated packet. Optional later gap-specific discovery needs an explicit bounded task rather than an open-ended tool catalogue in every build session.
+- Existing library assessment at notes:3465 remains: Tabler/Gentelella page/component references, Homarr named-tool icons, Tableau Icons family discovery and Dash coordinated interaction examples. Catalogue access is additional discovery infrastructure; it is not a chart renderer, dashboard template or icon asset family itself.
+- Scope: authorized notes appended only. No new web request, remote MCP discovery/call/configuration, command execution from supplied page, install/clone/download, S/L/W/guide/DESIGN.md change, imagery/wireframe/browser/build/test/project-Python/model/science/Figma run, Git mutation, global memory write or external agent message.
+- BINDING context rule: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with topics, decisions/notes pointers, paths, in-flight work, risks and one exact next point. At <=40% stop starting work; never approach compaction or put handoff inside notes. Restate this rule in every successor/team handoff. No numerical reading exposed; never invent one.
+
+## LVB16 — operator clarifies broad component-discovery role of Awesome Dataviz MCP
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "It is an MCP server that is open source for a wide array of dashboard components".
+- Carry the operator's intended broad role into agent context: Awesome Dataviz is an agent-accessible discovery resource for dashboard/visualization component candidates, beyond the initial named shortlist. Tabler and Gentelella remain examples, not the bounds of what agents may consider in later authorized discovery.
+- The supplied tool descriptions support searching candidate tools, retrieving metadata and comparing alternatives. Actual component code/assets would come from the identified projects; no claim is made that an MCP metadata response itself delivers a tested LabViz component.
+- Open-source status is operator-reported. No implementation repository, source licence or endpoint behavior inspected in this session. This distinction preserves the operator's description without pretending fresh verification.
+- The clarification makes the broader discovery intention clear; do not keep forcing the operator through the earlier reference-lens menu. It does not select a library/component or specify the exact future connected workflow. No installation/configuration/MCP call undertaken.
+
+### Open questions
+
+- No new approval question is necessary merely to record this clarified role. The earlier preparation-only versus later-builder lookup alternatives at notes:3510 remain an unresolved workflow detail, not a reason to block the current contextual assessment or to narrow the catalogue to Tabler/Gentelella.
+- Remaining concrete preparation is a capability-to-reference map: what LabViz needs, which candidate pattern/library serves it, which original documented example a builder receives, which constraints apply and which checks remain. Candidate choice can be resolved by bounded evidence-led comparison within a later authorized discovery task.
+- Actual service provisioning/calls, implementation-source verification, catalog freshness/schema/privacy and library subset/pin/compatibility remain unverified; the present discussion is not their execution gate or acceptance receipt.
+
+### Spec changes proposed
+
+- Add the broad MCP discovery-resource role to the future builder-context packet. No new site feature, runtime, component dependency or S amendment follows solely from this clarification.
+- Continue mapping selected patterns to docs/LABVIZ_V2_SPEC.md:340-371 and the appropriate accepted view contracts. Source-record authority, no model loading/verdict invention, phone/readability/missing-data and later wireframe checks remain binding. S unchanged.
+
+### Context for build agents
+
+- Supply the operator-provided four advertised tool descriptions from notes:3510 with a clear discovery job. Illustrative capability searches: phone navigation; searchable run lists; coordinated chart/detail selection; source-linked comparison displays. These are examples of public capability descriptions, not current calls or a verified catalogue result.
+- A useful discovery output identifies a small candidate set and why each fits the needed role. Give the selected original README/documentation extract or example, the relevant LabViz page/state and adaptation constraints. Verify claims against original project sources rather than treating catalogue ranking/activity/licence metadata as integration acceptance.
+- Builders/design preparers can receive a broad discovery-resource pointer alongside a focused task; later briefs must specify whether connected lookups are enabled, scope and stopping conditions. Presenting that pointer is not an instruction to install packages, execute returned commands, import every template default or upload private research.
+- Retain the distinction among references: MCP catalogue helps discover/compare; Tabler/Gentelella supply layout/component examples; icon families supply drawings; chart libraries supply renderers/behaviors. These can serve one LabViz-owned design system without competing scientific authority.
+- Preparation reflection: the operator's repeated clarification supplies intent. Respond by preserving the broader component-discovery role and moving toward concrete capability mapping, rather than generating another choice menu or silently limiting the reference universe to the earlier review.
+- Scope: authorized notes appended only; no new external read/service call/configuration, design artifact/image/wireframe, S/L/W/guide/DESIGN.md edit, runtime/build/test/browser/project-Python/model/science/Figma action, install/clone/download, Git mutation, global memory write or external agent message.
+- BINDING context rule: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with topics, decisions/notes pointers, paths, in-flight work, risks and one exact next point. At <=40% stop starting work; never approach compaction or put handoff inside notes. Restate this rule in every successor/team handoff. No numerical reading exposed; never invent one.
+
+## LVB16 — main Awesome Dataviz URL supplied; root retrieval remains unverified
+
+### Decisions (with the operator's words)
+
+- Operator supplied: "https://awesomedataviz.com/".
+- Attempted to open that exact main URL through the web reader. It returned Internal Error / "URL https://awesomedataviz.com/ is not accessible via this tool." The main page remains NOT OPENED by this session; this is an observation-tool limitation, not proof the website is down.
+- A bounded search for the domain/categories/MCP source did not establish the requested main-page contents or an authoritative implementation repository. Unrelated results were not followed or used as substitute evidence.
+- Retain the operator-supplied AI/MCP content at notes:3510 and broad component-discovery intent at notes:3548. No need to ask the operator to repeat that intent or restrict the discovery universe to Tabler/Gentelella.
+
+### Open questions
+
+- Main-page categories, exact entries, component coverage and implementation-source/licence details remain uninspected. Advertised MCP tools/counts remain operator-provided, not tested. No connector installed/configured/called.
+- Continue useful preparation by mapping accepted LabViz needs to focused discovery questions and the original-source material a builder would need. No speculative catalogue results or popularity-based selection.
+
+### Spec changes proposed
+
+- None from this retrieval attempt. Broader discovery context stays in the preparation packet; S/L/W unchanged.
+
+### Context for build agents
+
+- Resource pointer: https://awesomedataviz.com/ plus the supplied https://awesomedataviz.com/mcp description at notes:3510. Mark main/AI page retrieval as not opened, MCP behavior as untested, and pasted description as operator-provided.
+- Concrete proposed discovery worksheet: each row names a LabViz need, a public capability query, a small candidate set, the selected original documented example, required adaptation and remaining checks. Example jobs: Map relationship display/selection; Runs search/filter/source-linked comparisons; coordinated chart/model/detail selection. These are illustrative future queries, not returned catalogue contents.
+- Keep the whole-site component references, outline-asset sourcing, scientific/source correctness and phone/file-URL requirements together. The catalogue can broaden candidate discovery; the selected original project evidence and approved LabViz contract still determine use.
+- Scope: authorized notes appended and a direct web-open attempt plus bounded search only. No browser harness or other prohibited fallback, new service connection/call/configuration, build/test/model/science/project-Python runtime, S/L/W/guide/DESIGN.md edit, imagery/wireframes, install/clone/download, Git mutation, global memory write or external agent message.
+- BINDING context rule: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with topics, decisions/notes pointers, paths, in-flight work, risks and one exact next point. At <=40% stop starting work; never approach compaction or put handoff inside notes. Restate this rule in every successor/team handoff. No numerical reading exposed; never invent one.
+
+## LVB16 — MAESTRO access receipt resolves catalogue scope and supplies plain-HTTP routes
+
+### Decisions (with the operator's words)
+
+- User/MAESTRO dispatch: "MAESTRO context message, sent at the operator's request for this session's context: MAESTRO checked awesomedataviz.com from its own session. Read results/dashboard_integration_review_20261011/awesomedataviz_access_report.md (about 30 lines) and fold what matters into the brainstorm."
+- Read the full report (20 lines). MAESTRO's receipt records working AI-page, llms.txt and search access, including a five-result live JSON query (awesomedataviz_access_report.md:3-8). Fold this into the discovery context: access is demonstrated in MAESTRO's session, although not reproduced by this session's web reader.
+- Catalogue role is now better bounded: about 365 chart/data-visualization tools across 24 categories and 14 topics; NO icons/icon-set category (report:11-12). Keep it as broader chart/map/graph/dashboard/diagram discovery context. Do not use it to settle the ready-made outline icon-family choice; source that family directly from icon repositories.
+- The documented four-tool MCP route remains as described, but its handshake was not tested, client compatibility is unconfirmed and nothing installed (report:8/:13/:19-20). No MCP connection, client config change or handshake performed here.
+
+### Open questions
+
+- Reported working HTTP routes permit discovery without requiring MCP setup (report:14). Later authorized preparation can use a small JSON search response for an actual capability need. Candidate code/asset selection, pinning, original project terms, phone/readability/file-URL/traffic compatibility and rendered specimens remain outstanding.
+- Cheap probes in this session: https://awesomedataviz.com/llms.txt and the exact report positive-control query https://awesomedataviz.com/api/search?q=react%20charts&limit=5 both still returned "not accessible via this tool." Do not rerun the same probes or claim the site/service is unavailable. The report's suggested main-page explanation at :17 is unconfirmed and does not explain these failures as established fact.
+- Broader catalogue connection policy and the earlier Tabler/Gentelella reference-emphasis question remain unselected; this report changes knowledge/access context, not an operator design preference. Continue capability mapping without forcing repeated menus or narrowing the resource to two templates.
+
+### Spec changes proposed
+
+- No site runtime/dependency or S change. Update the future agent-context preparation packet with exact catalogue role, working MAESTRO receipt and plain-HTTP alternatives; keep icon sourcing separate.
+- Discovery-selected chart/graph/library patterns still need mapping to docs/LABVIZ_V2_SPEC.md:340-371 and relevant view contracts before any amendment/implementation proposal. Catalogue facts do not relax source/number/missing/evidence/phone rules.
+
+### Context for build agents
+
+- Primary local receipt: results/dashboard_integration_review_20261011/awesomedataviz_access_report.md:3-14. Supply these focused lines alongside operator-pasted tool descriptions at notes:3510. Distinguish MAESTRO's live HTTP evidence, catalogue documentation claims and untested MCP/client behavior.
+- Routes listed in report:14: /api/search?q=... with category/topic/language/status/limit; /api/tools/{slug}.json for one candidate; /api/categories.json and /api/topics.json for discovery; /api/tools.json for the whole directory; /llms.txt and /llms-full.txt; page + .md. Prefer the narrow search/per-tool routes to loading the whole catalogue. No API response schema beyond the receipt's example has been read here; validate actual response shape before any future script uses it.
+- Report:11 states catalogue content CC BY 4.0, attribution "Awesome Dataviz (awesomedataviz.com)", with daily refresh. Attribute reused catalogue content. This is catalogue-content licensing/currentness as recorded by MAESTRO, not a licence or verification guarantee for every listed software project. Original project licence/pin review stays separate. Open-source implementation status remains operator-reported; no source repository opened here.
+- Practical reference map, proposed: catalogue discovers/compares chart/map/graph candidates; Tabler/Gentelella supply shared layout/component patterns; dedicated outline repositories supply navigation/action drawings. A final builder extract names the exact selected original example, LabViz job, approved adaptation and exclusions, source/pin/status and remaining checks.
+- Data boundary: public capability queries only; private records, unpublished findings and local paths are not catalogue query material. Service-supplied install commands remain documentation. Do not install/execute to validate a discovery claim under the present hold.
+- Session reflection: an observation failure in one reader does not invalidate another session's receipt. Preserve both with exact scope. Conversely, a working search endpoint does not establish an MCP handshake, Codex compatibility, icon coverage or candidate integration acceptance. No scientific causal inference or new finding follows.
+- Scope: authorized notes appended; one 20-line receipt read and two public read-only web probes. No connector config/handshake/tool call, build/test/browser/science/model/project-Python run, S/L/W/guide/DESIGN.md edit, image/wireframe, asset download/install/clone, Git mutation, global memory write or external agent message.
+- BINDING context rule: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with topics, decisions/notes pointers, paths, in-flight work, risks and one exact next point. At <=40% stop starting work; never approach compaction or put handoff inside notes. Restate this rule in every successor/team handoff. No numerical reading exposed; never invent one. This dispatch supplies task context without a numerical stop-gate notice.
+
+## LVB16 — proposed next review: shared component/state sheet and Runs journey
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "What next?". This requests the next useful discussion step; it does not approve a new design choice.
+- Recommendation: move from qualitative foundations/reference discovery to a coherent shared component/state sheet across all five pages, then review the Runs -> comparison -> Inside the model -> named return journey. Keep every previously settled composition/navigation/continuity choice intact. Proposed worksheet below is discussion preparation, not a wireframe, approved specimen or build-ready packet.
+
+### Open questions
+
+- Paper-review question to resolve through the next walkthrough: does the assembled component/state treatment preserve understandable action, current context, source access and recovery/return at each step? Seek a specific inconsistency or missing decision, not another preference question about every control/token.
+- Exact palette pairs/geometry, reviewed content/source coverage, asset/library selection and later visual/phone/file-URL verification remain pending. Do not treat normal/selected/missing source examples as sufficient coverage for all failures, loading, empty, unreviewed and learner-save states.
+
+### Spec changes proposed
+
+- Reconcile the shared component/state sheet beside docs/LABVIZ_V2_SPEC.md:340-371 and comparison :578-587, with accepted aligned-row amendment (notes:2074) and explained Runs landing (notes:2332). No S edit; no changed navigation, comparison eligibility/order or scientific judgement.
+
+### Context for build agents — proposed page/component coverage sheet
+
+| Page | Component jobs within settled composition | Applicable states to show in later examples |
+|---|---|---|
+| Home/Map | Shared frame/context/source; map focus/drill-down; selection and reserved relationship detail | Normal overview, focused selection, absent relationship/source information, read failure; an absent recorded link never proves no relation |
+| Science lines | Question list, flowing research brief, branch/spec/science connections and deeper reading | Normal browse/selected question, reviewed versus draft/unlinked explanation, missing records/read failure, named return |
+| Runs | Purpose/search/filters, explained collapsed experiment groups, nested observations, run detail and comparison selection | Normal list, expanded/selected run, valid no-match search, unreadable records, missing/unreviewed summary, eligible/ineligible comparison, source-linked missing measurement |
+| Inside the model | Concise companion, broad cutaway, selected chart, input/part/step controls, coverage/source and reserved detail | Normal/selected part, available versus absent recording, unchanged-method qualification where supported, read/unresolved-selection failure, on-demand help, touch/keyboard/reduced-motion/paused return |
+| Learn & evaluations | Library, lesson/quiz/review, personal progress, explanation/source links and return | Normal lesson/review, answered/unanswered as already governed, checked feedback, missing/unlinked/draft content, actual local-save failure, preserved paused origin |
+
+- Proposed first walkthrough, illustrative and without fabricated scientific values: (1) find an explained experiment group using existing search/filters; (2) expand/select its source-backed runs; (3) choose a comparison and show eligibility/reasons; (4) read outcomes/side effects, setup differences and question-by-question answers in the accepted order with aligned rows; (5) inspect the selected run/input/part in Inside the model, retaining coverage/source and existing paused defaults; (6) return through the accepted origin-named link with the prior comparison/context intact. Sources: S:344/:352/:578-587; notes:2046-2090/:2332; named return authority notes:866 onward. No pair eligibility or actual answer/measurement asserted.
+- Phone keeps corresponding A/B values together before the next measurement (accepted notes:2074-2078), existing named run identification and retained menu/player/coverage rules. Combined sticky space/fit remains unverified; this worksheet introduces no extra fixed header.
+- Reference contribution: interface-design selected checklist notes:289/uiskills_report.md:28 supplies hierarchy/control/focus/data-state coverage; Gentelella's opened component-playground sections provide a specimen-sheet organization and distinct empty/loading/error examples (notes:3465). Tabler's documented layout catalogue contributes shared frame/component vocabulary. Awesome Dataviz supports later chart/graph candidate discovery, not icon sourcing (access_report:11-14). All patterns adapt to our exact labels/source contracts; no template sample data, generic status semantics or executable adoption.
+- Future wireframe agent receives this page/state worksheet, accepted directions/decision index, reconciled S and selected documented reference extracts. Its later all-page/all-flow drawings must include the applicable state/return cases; static drawings do not establish rendered behavioral acceptance.
+- Scope: notes preparation and bounded read-only spec/prior-decision inspection only; no new preference settled, S/L/W/guide/DESIGN.md edit, wireframe/image, browser/build/test/science/model/project-Python/web/MCP/Figma action, install/clone/download, Git mutation, global memory write or external agent message.
+- BINDING context rule retained: check available Context before each question; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with decisions/notes pointers, paths, in-flight work, risks and one exact next point. Stop starting work at <=40%; never approach compaction or embed handoff in notes. Restate in every handoff; no numerical reading exposed, never invent one.
+
+## LVB16 — assembled Runs/comparison/model/source/return paper walkthrough
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "proceed". Continue the proposed paper review; this does not blanket-approve new recipes, alter settled journeys or lift the build hold.
+- Reopened the accepted Runs landing at notes:2332, comparison order at :13, aligned rows at :2074, model-part pair at :1535, in-view source detail at :1512, named returns and six messages at :866-905. These are settled; do not ask the operator to choose them again.
+
+### Open questions
+
+- One substantive unresolved source-access point remains from notes:1512-1524: when the original file cannot be confirmed to match the displayed snapshot, should its separate original-file link remain available with an explicit unverified-source label (recommended), or be disabled until matching bytes are available? Both preserve source details belonging to the displayed snapshot wherever supplied and never present different/unverified bytes as the evidence for its displayed number.
+- This is a whole-site source/reader-recovery rule, not a new source overlay, automatic refresh, scientific authority or browser-implementation decision. Distinguish known mismatch, missing original and unknown match; no newer/current version inferred from path, filename or mtime. Exact packaging/verification mechanism remains future scoped work.
+- Partial read-failure presentation below is a proposed assembled recipe, not evidence of a current bug or runtime behavior. Exact word/layout specimens and source-bound extracts remain to review; no actual run pair/measurement eligibility or scientific numbers invented.
+
+### Spec changes proposed
+
+- Reconcile the existing accepted journey/frame refinements with docs/LABVIZ_V2_SPEC.md:344/:347-352/:578-587, model-part pair :627-657 and source leaves/hash rules :662-675. Proposed source-access rule, if approved, extends readable/original-file separation without weakening leaf/source identity requirements. S unchanged.
+
+### Context for build agents — coherent paper experience, illustrative
+
+| Step | Reader experience | Shared design and state treatment |
+|---|---|---|
+| 1. Find | Runs opens as the explained research-question list, with purpose, existing search/filters, collapsed experiment groups and summaries/limits where reviewed | Familiar lettering, quiet frame, roomy groups. Valid no-match search is an empty result; inability to read records remains "Could not read this data". No guessed summaries or silently broadened search |
+| 2. Select | Expand a group and choose the intended runs; compact comparison selection identifies both | Clear edges and restrained selected marker/label; no accidental scientific PASS meaning. Preserve complete input/source/context access and nested observations. No new third-run restriction or removal of S's desktop third-card capability |
+| 3. Compare | Keep run names and which measures can be compared clear; outcomes/side effects first, setup differences second, question-by-question answers third | Corresponding desktop values align across columns; phone places the A/B pair together within each measurement. Each quantity has units/count denominator/source; explicit missing gap differs from zero. A sourced numerical difference requires valid correspondence/units; setup differences/one-run observations do not prove causes or effects |
+| 4. Inspect | Enter the focused model-part view with the accepted compared-run context; inspect the intended part/input/step | Retain both run identities and their separate coverage/sources when using the accepted paired model-part view. Keep absent observations visible, not omitted. Concise companion, broad cutaway/chart and reserved side/below detail persist; source-bound correspondence and paused/player rules remain. Individual-run inspection remains available; no forced loss of the originating pair |
+| 5. Read source | Tap a measurement or source link to open readable in-context details; original-file access is a further deliberate action | Show the exact recorded value/precision, units, file/field or quoted line and all operands for a derived number. Keep the displayed snapshot's identity. Phone source placement must retain readable reserved space without covering the focused content. Original-file match/recovery policy is the one pending point above |
+| 6. Return | "Back to comparison" restores the originating pair, position and relevant selections; ordinary Browser Back also works | Calm continuity, existing paused context and distinct keyboard focus. No restart or silently selected substitute record/part. Combined phone geometry/focus/history behavior needs later verification |
+
+- Proposed partial-failure specimen: if one selected run's relevant data cannot be read, keep the readable run/context and both identities visible. Put "Could not read this data" with the affected run/section and a plain reason/source; paired arithmetic requiring the unreadable data is unavailable for that reason. Do not mislabel the failure as a recorded absence, zero or scientific defeat. A successfully read but absent measurement says "Not recorded for this run"; incompatible pair says "Not comparable" with the actual mismatch reason. Whole-view failure remains prominent. Exact specimens pending.
+- Source-boundary evidence: S:665-668 requires exact source leaves, original precision and every derived operand; :673 lists source file hashes. This governs displayed-source identity but does not establish that clicking a mutable original path later opens matching bytes. Readable in-view extracts and optional original-file access are independently accepted at notes:1512-1520. Pending mismatch handling is not settled by a library demo.
+- Reference contribution: interface-design focused checklist (notes:289/uiskills_report.md:28) supplies hierarchy/selected/focus/empty/error completeness; Anthropic checklist (notes:290) supplies shared units/scales/gaps/non-colour/table checks; Gentelella's opened playground List lifecycle/Banners sections (notes:3465) provide examples for distinguishing loading/empty/error presentation, adapted to our scientific meanings. Tabler supplies page/component catalogue context. ECharts selected event/action extract (notes:291) is optional coordinated-selection context, not adopted code. Awesome Dataviz is a later chart/graph discovery resource, not proof of any selected behavior.
+- Future wireframe packet: include the six-step journey, desktop/phone paired-measurement arrangements, normal/selected/help/source detail and partial/whole read-failure cases, origin return and pending source-file policy. Preserve approved all-page/all-flow coverage; no diagram/mockup generated here. All placeholder pair references in this paper walkthrough are illustrative, not recorded findings.
+- Scope: authorized notes appended and bounded read-only prior-decision/spec inspection only. No S/L/W/guide/DESIGN.md change, imagery/wireframe, browser/build/test/science/model/project-Python/web/MCP/Figma run, install/clone/download, Git mutation, global memory write or external agent message.
+- BINDING context rule retained: check available Context before each question; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with decisions/notes pointers, paths, in-flight work, risks and one exact next point. Stop starting work at <=40%; never approach compaction or embed handoff in notes. Restate in every handoff; no numerical reading exposed, never invent one.
+- Source-policy question clarification: the alternatives concern an original-file destination that can be opened but whose match to the displayed snapshot is unconfirmed or known different. A known missing/unreadable original is shown unavailable with its actual reason; do not offer pretend-working access. Retain any supplied snapshot-bound readable detail in all cases. No file accessibility/mismatch case has been observed or exercised here.
+
+## LVB16 — matching-only original-record access accepted
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "2", selecting "Matching-only access: enable that link only when the file is confirmed to match."
+- Accept matching-only access for the separate original-record file link: enable it only when the actual file contents to be opened are confirmed to match the source identity of the data displayed by the site. Unknown match, known mismatch and missing/unreadable original leave that action unavailable with a plain reason.
+- Preserve the previously accepted in-context readable details tied to the displayed snapshot wherever supplied, including exact value/precision, units, file/field/quoted line and every derived operand. One unavailable original-file link does not invalidate otherwise source-bound displayed details or silently replace them with a different/current record.
+- Approval is scoped to this original-record evidence link. It does not require every external research/reference/navigation link to match a local result-file hash, authorize a connection/build/rebuild/source copy, or reopen ordinary source-detail placement, named returns, scientific state wording or snapshot adoption.
+
+### Open questions
+
+- No operator-facing question remains on original-record access policy. The detailed verification/delivery mechanism remains future scoped engineering preparation: how matching source bytes and the clicked destination are bound for direct-file and hosted delivery, how unknown/mismatch/missing cases are distinguished and how an existing confirmation becomes invalid if the destination can change.
+- Accepted rule requires a confirmation for the actual bytes to be opened; matching pathname, filename, mtime or a hash recorded only at an earlier build cannot establish a mutable destination's later identity. Do not show a "verified" state merely because the card contains an expected hash. No browser/source-verification mechanism or live mismatch observed/tested here.
+- Remaining shared-sheet work: apply this accepted source policy to all five page/flow specimens, finish other state/return/accessibility cases and keep exact geometry/palette/assets/source-reviewed content provisional until later review. Previously proposed partial-comparison read-failure recipe is not independently approved by this answer.
+
+### Spec changes proposed
+
+- Add the accepted matching-only original-record access rule beside docs/LABVIZ_V2_SPEC.md:347-352/:662-675 and readable-source proposal notes:1512-1530. Preserve S's exact source leaves/precision/operands/hash authority. S remains unchanged.
+- Distinguish displayed source identity, availability of readable snapshot-bound detail and original-file action availability as separate states. No blanket source failure, scientific judgement or automatic refresh/acquisition action inferred.
+
+### Context for build agents
+
+| Original-record state | Reader treatment | Required evidence/status |
+|---|---|---|
+| Matching contents confirmed | Original-record action available; named source/details remain clear | Confirmation binds the destination's actual contents to the expected source identity, under the chosen delivery mechanism |
+| Match not confirmed | Original-record action unavailable; "Original file match not confirmed" with reachable reason/details | Do not infer mismatch, absence, newer data or scientific invalidity from unknown verification |
+| Known different contents | Original-record action unavailable; "Original file differs from the displayed data" | A real comparison established the difference; no filename/mtime inference. Preserve available snapshot-bound detail |
+| Missing/unreadable original | Original-record action unavailable; explain actual missing/read reason | An observed failure supports this reason; no pretend-working link or substitution. Preserve available snapshot-bound detail |
+
+- These explanatory strings are proposed specimens, not replacement scientific/error wording or individually approved copy. Keep unavailable-control text readable and its reason reachable by touch/keyboard; don't fade essential content or create a popup over the focused diagram. The expected-source hash alone is metadata until the actual destination confirmation is established.
+- Reference contribution: S:665-668/:673 binds exact values, operands and source hashes; accepted notes:1512 supplies readable detail plus separate original access. interface-design focused checklist notes:289/uiskills_report.md:28 contributes distinct unavailable/error/focus states; Gentelella's opened playground provides state-sheet organization, not evidence-integrity validation or a required verification implementation. No library catalogue claim can establish matching evidence bytes.
+- Future wireframe agent should show matching, unconfirmed, differing and missing-original cases within the same source-detail layout and retain the originating comparison/model/learning context. Later engineering/browser checks must verify the actual clicked bytes and fail-closed availability, including mutable-destination races where relevant; a static drawing is not that proof.
+- Scope: authorized notes appended only; no S/L/W/guide/DESIGN.md change, original-file open/copy/hash verification, new imagery/wireframe, browser/build/test/science/model/project-Python/web/MCP/Figma action, install/clone/download, Git mutation, global memory write or external agent message.
+- BINDING context rule retained: check available Context before each question; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with decisions/notes pointers, paths, in-flight work, risks and one exact next point. Stop starting work at <=40%; never approach compaction or embed handoff in notes. Restate in every handoff; no numerical reading exposed, never invent one.
+
+## LVB16 — assembled learning/quiz/review/model/return journey; question ownership pending
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "proceed". Continue the proposed whole learning journey on paper; no new learning/quiz rule is approved by this instruction alone.
+- Reopened settled library composition (notes:2244), local progress/latest-completed scoring (:450/:474), end-of-quiz connected feedback (:495/:520), answer choices/unscored reflections/practice-only hints (:700/:720), one-question phone layout (:761), domains/topics then Our research (:783), equal-point counts (:803), completion/skip/version rules (:824) and learner packet/example scope (:908/:936). Retain all; do not ask those choices again.
+
+### Open questions
+
+- One genuine unresolved cross-quiz rule from notes:824-831/:908-930: question ownership when material spans multiple lessons. Proposed alternatives: (1) one home quiz for each scored question, with multiple topic/research associations and references from other lessons (recommended); or (2) the same stable question can occur in several quizzes, with its newest completed attempt across those quizzes determining its one overall current result.
+- Both alternatives preserve one question counted once overall, equal points, current-versus-history distinction and reviewed question versions. Option 1 avoids conflicting current answers and supports the existing three-foundation example with varied questions per card (notes:980). It does not prevent several quizzes testing the same concept with different reviewed questions. Other cards keep their own required quizzes; a cross-reference does not replace their assessments.
+- If option 2 is selected, the global current-question result and each quiz's immutable completed-attempt review must be separately labelled; finishing any shared-question quiz can update overall/topic results while other quiz reviews remain historical records of those attempts. Latest-completed skips/version handling must stay consistent. Exact ownership/ordering/schema remains future scoped engineering preparation, not a claim of storage implementation.
+- Actual checked lessons/prompts/keys/end explanations, stable identities/versions, topic populations/associations, source-bound model context and personal save support remain outstanding. No score examples here represent the operator's actual knowledge or a measured learning benefit.
+
+### Spec changes proposed
+
+- Reconcile the accepted broader Learn/quiz/tracker extension beside docs/LABVIZ_V2_SPEC.md:346/:1058 and source/context/readability :347-371, with scientific evaluations :584-587 kept distinct. Add the chosen ownership rule only after the operator answers; S unchanged.
+- Carry matching-only original-record access (notes:3705) through the learning source detail as well as Runs/model. It does not govern every external paper/reference link as a local-record hash link. No new model/grading/tutor/runtime implied.
+
+### Context for build agents — coherent paper learning experience, illustrative
+
+| Step | Reader experience | Shared components/state rules |
+|---|---|---|
+| 1. Choose/read | Learn opens as the library, with questions first, model parts second, papers third and compact personal progress; read a brief lesson and expand deeper explanation | Same calm frame/type/links/controls; retain lesson/source/science context. Three-foundation worked example covers input -> changing a fact -> judging evidence, not one reduced card or the entire curriculum |
+| 2. Practice/check | Optional prepared practice offers hints; a scored quiz offers checked answer choices without hints, one question at a time on phone, Previous/Next/Skip and explicit Finish | Preserve answers during question navigation; skips remain unassessed. Optional written reflections remain unscored. No immediate correctness/explanation reveal during the scored attempt, no semantic AI grader and no guided tutor |
+| 3. Review | At Finish, show accuracy and assessment coverage, submitted answers/end explanations and card/section summaries, then written concept/science connections with an expandable map | Counts have explicit denominators; unassessed is not zero knowledge. Keep submitted responses/history and reviewed feedback/source associations. Concept/paper/experiment relationship links do not create causal/support claims. Changed question versions need reassessment, while unchanged identities retain applicable results |
+| 4. Explore evidence | Follow the associated experiment/model/source from the review; retain exact selected input/part/available position, paused entry and recording limits | Non-obstructing reserved detail, source/coverage labels and known available target persist. Readable source details are in context; original-record action follows the accepted matching-only policy. An unresolved target preserves available context and reports its actual limitation, never silently substitutes a different record |
+| 5. Return/track | Named "Back to quiz review" restores the review/origin; open full tracker from compact personal progress | Overall accuracy/coverage leads, domains/topics next, Our research also accessible. Latest completed attempt supplies current summaries; incomplete retake retains prior completed result. Device-local progress/history and explicit save failures remain separate from scientific records and outcomes |
+
+- Proposed failure specimen: when saving fails, retain the existing explicit "Progress could not be saved" message with a readable reason near the affected learner-state surface, rather than a fleeting success toast. Keep on-screen feedback and distinguish an unsaved completed attempt from any previously stored result wherever those states are known. Do not claim durability, recovery or that all previous progress was lost without actual storage evidence. Exact retry/recovery mechanism and store behavior remain future preparation.
+- Score/source distinctions: a quiz-correct checkmark concerns the checked educational response; a recorded scientific outcome remains tied to its record/meaning; a concept connection teaches an association rather than proving a finding. Practice/reflections/skips/draft or unreviewed questions cannot be folded into scored accuracy. Full reviewed-bank coverage and overlapping domain/research tags stay explicit.
+- Ownership example, illustrative without fake scores: an explanation question relevant to both Model architecture and Our research has one stable identity and one overall contribution. Under the recommended home-quiz rule, both tracker views reference the same owned result. Another lesson may test that concept with its own distinct reviewed question, but cannot create a second scored copy of the first stable identity. No actual bank/quiz membership asserted.
+- Reference contribution: interface-design focused state/hierarchy checklist (notes:289/uiskills_report.md:28) supplies understandable selected/current/history/unavailable presentation; Gentelella's opened playground supplies component-sheet organization and control/progress/empty/error specimens, adapted to our wording; Anthropic chart checklist supplies readable labelled numbers/scopes, not educational keys or a scoring policy. No external reference determines question ownership: this is our design/data-consistency choice grounded in the earlier open contract and one-question-once rule.
+- Future wireframe packet: library/lesson/practice/scored-question/in-progress/finished-review/connections-map/tracker/model/source/return and save-failure states, phone/desktop, both themes. Preserve full all-page/all-flow gate; no wireframe created or assessed. Reviewed content preparation and actual learner-state persistence are separate acceptance tasks.
+- Scope: authorized notes appended and bounded read-only settled-decision/spec inspection only. No S/L/W/guide/DESIGN.md edit, new image/wireframe, browser/build/test/model/science/project-Python/web/MCP/Figma action, install/clone/download, personal state save/reset, Git mutation, global memory write or external agent message.
+- BINDING context rule retained: check available Context before each question; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with decisions/notes pointers, paths, in-flight work, risks and one exact next point. Stop starting work at <=40%; never approach compaction or embed handoff in notes. Restate in every handoff; no numerical reading exposed, never invent one.
+
+## LVB16 — one home quiz accepted; saving-failure journey proposed
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1...and I am quite certain we already made this decision. Unless it is some sort of nuanced thing you are getting at. But continue to the next question pleaser".
+- Carry forward one home quiz per stable scored question. Its result may contribute to multiple topic/domain/research views while counting once overall; other lessons may reference it. Required per-card/section quizzes remain, and distinct reviewed questions may assess the same concept. This does not approve duplicate scored identities or change latest-completed/equal-point/skip/version rules.
+- The question was about cross-quiz ownership/current-answer selection, narrower than the already-settled one-overall-count rule. The operator flags repetition; do not reopen either. No claim that the operator's recollection is wrong or that an earlier open-note entry proves no later/prior decision existed. Use this explicit answer as current authority and proceed to a genuinely unresolved reader-experience point.
+
+### Open questions
+
+- Saving-failure behavior is the next coherent whole-journey question, distinct from the already accepted "Progress could not be saved" wording/placement (notes:887-904). Proposed alternatives: (1) continue learning and new scored quizzes in the current open visit, with unsaved results clearly marked and no promise they survive closing (recommended); or (2) pause starting new scored quizzes until saving works, while lesson reading, available practice and existing review remain accessible.
+- Both retain the persistent actual save-error reason, existing in-progress/finished/current/history semantics, no false success and no retrospective erasure of prior stored results. The policy concerns personal learning state only, not scientific evidence or source-match controls. Exact transactional/store/recovery implementation remains future scoped work; no retry/export/sync service is added by the question.
+- Later mechanisms must distinguish a known unsaved attempt, confirmed stored history and unavailable/unknown storage state. Partial write/read failures cannot be assumed to erase all history or establish that a particular result was stored. No local-storage support/runtime capability tested here.
+
+### Spec changes proposed
+
+- Add one-home-quiz ownership to the pending broader Learn/quiz/tracker amendment beside docs/LABVIZ_V2_SPEC.md:346/:1058, current result/unique-question arithmetic and reviewed versioned-bank rules (notes:803/:824). S unchanged.
+- Add the eventual selected save-failure journey policy beside the accepted personal-state error wording and existing shared-frame/readability rules (S:347-371). Do not silently apply the original-record matching-only rule to whether a learner may keep reading or produce clearly unsaved personal responses.
+
+### Context for build agents
+
+- Ownership contract: one stable question/version has one scoring owner/home quiz, one current result from that quiz's latest completed applicable attempt and any number of documented topic/research associations. Other quizzes must not silently create a second scoring owner for that same identity. Reusing an idea with a distinct reviewed question is different from duplicating an identical scored identity. Preserve history and changed-version reassessment.
+- Supply reviewed question IDs/versions, owner quiz, bank population and association mappings; the viewer cannot guess ownership from matching words or silently choose among conflicting answers. Compiler/verifier mechanics and meaningful later cases require their own scoped brief; no code/schema/test executed here.
+- Saving-failure reference contribution: existing accepted notes:887-904 supply precise persistent wording and separation from scientific/missing states; interface-design focused checklist notes:289/uiskills_report.md:28 supplies clear error/unavailable/current feedback; Gentelella playground Banners/List lifecycle sections supply specimen organization. None defines persistence correctness or dictates whether study must stop: continued temporary study is design judgement, not an established storage capability.
+- Future wireframe agent should show failed saving in quiz finish/review, compact progress and full tracker, with stored versus unsaved personal state legible. If continuation is selected, clearly distinguish temporary current-visit results from durable history; if pausing is selected, show the unavailable start action/reason without blocking existing reading/review. Actual durability/recovery requires later runtime verification.
+- Session reflection: reserve operator questions for substantive unresolved behavior; avoid narrow terminology forks that feel like reconfirmation of an existing decision. Current operator words bind. This saving-failure fork changes the complete study experience and was still unresolved in the scoped learner packet (notes:917/:824-831/:887-899).
+- Scope: authorized notes appended and bounded read-only prior-state checks only. No personal store manipulation, runtime/build/test/browser/model/science/project-Python/web/MCP/Figma action, S/L/W/guide/DESIGN.md edit, imagery/wireframe, install/clone/download, Git mutation, global memory write or external agent message.
+- BINDING context rule retained: check available Context before each question; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with decisions/notes pointers, paths, in-flight work, risks and one exact next point. Stop starting work at <=40%; never approach compaction or embed handoff in notes. Restate in every handoff; no numerical reading exposed, never invent one.
+
+## LVB16 — temporary study during save failure accepted; MathLab/model destination fallback proposed
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", selecting "Continue temporarily: new quizzes remain available; unsaved work may be lost when the page closes."
+- Accept continued lesson/practice/new scored-quiz use during the current open visit when personal saving fails. Keep the persistent "Progress could not be saved" message/reason and clearly identify unsaved results; do not promise persistence after closing. Existing finish/feedback/current/history/skip/version rules remain, with one home quiz per scored question. This is personal learner-state behavior, not a scientific/source-verification fallback.
+- Known stored history and unsaved current results remain separate. No inference that previous history was erased or a failed attempt was saved. Exact storage/transaction/retry/recovery mechanism and actual device support remain future scoped work. No account, sync, export, reset or extra save loop approved.
+
+### Open questions
+
+- Whole-site coverage check found a consequential record/view compatibility case: opening Inside the model with a MathLab estimate record selected. Current source tools/labviz/app.js:629-630 delegates that case to renderRun, which shows the MathLab record at :615-622; no browser behavior/navigation correctness tested.
+- Proposed alternatives: (1) explain that an applicable model view is unavailable for this selected record, retain its identity/meaning and offer "Open MathLab record" or the existing picker to choose a suitable model run (recommended); or (2) directly open the MathLab record detail with an explicit explanation and correct destination/return context. Neither invents a model, substitutes another run or adds a sixth top-level destination.
+- This question concerns a destination incompatible with the selected record's source-backed content, not a missing measurement inside an otherwise applicable model view. Eligibility/reasons must be grounded in the record/content contract; do not infer universal inapplicability solely from an estimate badge if later supported model information exists.
+- Exact saved-state/link routing/focus/phone specimens and final content/eligibility contract remain proposed. Primary navigation forms, five destinations, existing model/coverage/player/input/granularity requirements and source policy stay settled.
+
+### Spec changes proposed
+
+- Add accepted current-visit study/save-failure policy to the pending Learn amendment beside docs/LABVIZ_V2_SPEC.md:346/:1058 and retained error/source/readability rules :347-371. S unchanged.
+- Reconcile the eventual chosen record/view compatibility treatment beside S:345/:347-352 and MathLab forward requirement :1169-1178. Preserve event authority/shared fold, visible parse errors, MATH-PROXY and "math estimate, not evidence" labels. No new destination, neural activity or scientific verdict.
+
+### Context for build agents
+
+- MathLab coverage evidence reopened: S:1169-1178 specifies shared read_events/fold, append-only event authority and math-estimate/idea limits. It still describes this as a forward requirement, while the dispatched current build includes MathLab integration; do not treat that final historical clause as proof current code lacks integration. This scope discrepancy needs later MAESTRO reconciliation, not an edit here.
+- Source presence, not end-to-end proof: tools/labviz/cards.py:828-846 constructs MathLab cards from event paths/shared fold. tools/labviz/app.js:559-588 renders snapshot scope/state, parse errors and experiment/stage sections; :607-622 renders referenced estimate findings/candidate ideas and the original-event link; :629-630 sends mathlab selections in renderModel to renderRun. results/labviz/site/index.html:18-22 still declares the five existing destinations. Only bounded text reads; no generated data read, runtime, liveness, render/phone/focus or source-match acceptance claimed.
+- Current renderRun original-record actions (:619-626) must be reconciled with newly accepted matching-only access (notes:3705), including original events.jsonl. Existing expected source hashes/counts do not confirm later clicked bytes. Report this in the future builder packet; do not modify code under the hold.
+- Reference contribution: S supplies scientific/content authority and context continuity; interface-design selected checklist notes:289/uiskills_report.md:28 supports clear unavailable/recovery states; Gentelella opened component/state examples support readable notices/relevant actions. None prescribes this fallback or establishes eligibility. The recommended explanation-first behavior is design judgement; Tabler/MCP/icon references do not supply missing model observations.
+- Future wireframe agent should include both neural-model and MathLab record families in the all-page/all-flow coverage, preserve the common design language while showing their distinct content/tiers, and show the selected unavailable-destination recovery if approved. MathLab is existing LabViz content inside the five-destination design, not a new domain session or new model view.
+- Session reflection: expand whole-site state coverage to record/view compatibility, not only normal/selected/missing/control cosmetics. Ground a new operator fork in actual source behavior and an unchanged explicit contract; avoid reopening already settled learning/control decisions.
+- Scope: authorized notes appended and bounded S/L/W/prior-note text reads only; no code/spec/site/guide/DESIGN.md edit, browser/build/test/model/science/project-Python/web/MCP/Figma action, imagery/wireframe, personal saving/storage mutation, install/clone/download, Git mutation, global memory write or external agent message.
+- BINDING context rule retained: check available Context before each question; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with decisions/notes pointers, paths, in-flight work, risks and one exact next point. Stop starting work at <=40%; never approach compaction or embed handoff in notes. Restate in every handoff; no numerical reading exposed, never invent one.
+
+## LVB16 — explain-and-offer recovery accepted; detailed MathLab integration draft
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1...and the Spec should have a detailed integration of MathLab into the LabViz. Must ensure it isn't overlooked."
+- Accept explanation-first recovery when the selected record lacks an applicable model view: retain its identity/context, explain the actual limitation and offer Open MathLab record or the existing picker for a suitable model run. Do not silently substitute a run or change the meaning of the selected destination. This preserves five top-level destinations and all applicable model/input/player/coverage requirements.
+- Explicit requirement: the eventual updated spec must contain detailed MathLab integration, covering its whole-site role rather than only the current short forward requirement. Prepare the concrete draft below in the authorized notes. This instruction does not lift the notes-only hold or authorize editing S, building, new MathLab execution or a sixth primary destination.
+
+### Open questions
+
+- One whole-site discoverability choice remains: (1) a named MathLab entry within Science lines, with linked run records (recommended), or (2) MathLab appears contextually within the research lines/experiments it supports. Both retain searchable MathLab records in Runs and source-backed connections; neither adds a top-level destination or a new F1 condition.
+- Exact source-to-question/experiment/paper/model associations need reviewed preparation. Do not infer them from paths, names, chronology or a matching label; unlinked context stays explicit. Node/edge taxonomy and record/view eligibility require a scoped contract.
+- All new draft requirements below are proposals for the eventual reconciliation/review, except choices explicitly approved above or in prior entries. Source code presence is not browser/native/scientific acceptance. Exact charts/content/assets, coherent source acquisition, original-file verification, performance/accessibility and all-page/all-flow wireframes remain unverified.
+
+### Spec changes proposed — detailed draft for MAESTRO to reconcile into S
+
+**Placement and cross-cutting reconciliation.** Replace/expand S:1169-1178 with a numbered MathLab integration section and cross-reference it from §0 observation scope (:14-20), §2 source/tier/missing/budget rules (:29-52), §4A five-destination/frame/readability (:340-371), §5 comparison/captions (:578-587), §6 source/run-card contract (:662-675), §9 build/ingestion (:953-965) and §11 context model/map (:997 onward/:1086-1096). Reconcile the existing final statement that LabViz code is unchanged: current source already contains integration. Do not erase the distinction between implemented source, proposed redesign and verified behavior.
+
+**ML-1 — purpose and authority.** MathLab estimates/checks are visible program context inside LabViz. Preserve MATH-PROXY and the plain label "math estimate, not evidence" throughout records, summaries, charts, comparisons, source details and associated learning material. Displaying a gate/result label reports its recorded/folded meaning; it cannot make an F1 verdict, promote a staged finding, certify a real experiment or change a prereg/ledger. Candidate questions remain ideas to test. MathLab data is not a recorded neural internal trajectory.
+
+**ML-2 — input and one state definition.** Ingest results/mathlab_staging/runs/*/events.jsonl through the existing tools/mathlab_events.read_events and fold, plus only staged findings referenced by accepted events. Use that same schema/fold as teamdash; add no status.json, alternate gate classifier, inferred idle state or independent MathLab state authority. Preserve event append order and source identity; timestamps are recorded metadata, not an excuse to reorder the authoritative stream or assert process liveness. Do not load models, run calculations, emit events, trigger admission/replays or write producer files from LabViz.
+
+**ML-3 — snapshot and errors.** The site shows a saved event snapshot with recorded times. A recorded "running" state is not proof of current activity. Distinguish a successfully read empty stream, malformed/duplicate/partial-line errors, an unreadable stream, an incomplete terminal publication, a missing referenced finding and missing fields. Shared reader errors remain visible with source/line/reason; valid-prefix display, if supplied, must be qualified rather than silently treating rejected bytes as successful/empty. Event/fold state and reader-error state stay separate. No guessed completion, passed check or lost-history claim.
+
+**ML-4 — explicit run-card/source extension.** Document MathLab card family/context and the source-reader metadata already present in code: event-file source leaves use reader="mathlab_events.read_events" with fields resolved against its validated events/errors result; the mathlab-fold derivation has the event-stream operand and canonical fold rule source. Explicitly reconcile this with §6's ordinary JSON/jq rules, source hash set and structural-key metadata rather than silently treating JSONL as an ordinary JSON object. Preserve exact types/precision, all operands, source file and canonical reader/fold hashes. MATH-PROXY must be explicit in the evidence vocabulary; it must not be relabelled RECORDED science merely because event bytes were recorded. Source capture/verification must reject incoherent values/hashes if files change during capture. Mechanism and exact allowed metadata are future engineering decisions.
+
+**ML-5 — context and discoverability.** Keep the five destinations. MathLab has a named source-backed identity; existing code uses mathlab:D-ML-1, not a new C11 condition. Associate records with relevant questions/experiments/decisions/papers only through reviewed mappings and documented links. Map shows only supported relationships and their meaning; an edge does not prove causal influence or scientific support. Science lines provides the selected named-entry/contextual presentation once the operator chooses. Runs includes searchable/grouped MathLab records with clear family/tier and per-record identity; do not hide admission-only, halted, invalid or incomplete records. Unknown model/era/association remains unknown instead of inheriting C10 defaults.
+
+**ML-6 — detailed MathLab record composition.** Use the shared warm-neutral/teal/familiar-type/outline/flat design and accepted readable sources, with MathLab-specific content. Lead with title/run identity, purpose (admission versus experiment), recorded state/time and estimate tier. Then present a concise plain-language account and recording/source limitations; ordered experiment steps/stages; progress; check groups and their recorded values/thresholds/outcomes/coverage; halt reason/diagnostic where present; recorded resource samples; staged findings; candidate questions; and source events. Group related detail with readable headings/expanders, not a forced dashboard tile grid. Missing values/sections retain the exact absence/read/review reason; irrelevant neural-model fields are not invented. Exact sequence beyond the lead is a proposed starting recipe for later visual review.
+
+**ML-7 — checks and provisional publication.** Gate group completeness, outcomes, calibration stopping, INVALID/halting and admission-only versus experiment scope come from the shared fold. UI rounding/colour cannot recalculate a scientific gate. Preserve shared-fold suppression of provisional NEW1 predictions/findings while publication is incomplete or halted; raw event presence cannot bypass that policy into a final finding/verdict display. A raw source/event view may explain that an event was recorded, with its provisional scope explicit, without presenting it as an accepted finding. Completed substages, individual failed proxies and aggregate calibration failure remain distinct; a successful admission does not complete an experiment step.
+
+**ML-8 — charts, timeline and diagrams.** Plot only inspected recorded or explicitly derived quantities with units, source, scope, timestamps/index and operands as applicable. Recorded resource/progress/stage series can use readable charts where the actual data supports them; one point stays one point, null stays a gap and an unknown denominator stays unknown. Numerical estimate/check charts require reviewed units/meaning/eligibility and use the agreed quiet chart grammar. An event timeline shows recorded event/stage order, not hidden mathematical/model activity. A method diagram, if authored, is labelled explanation and tied to its reviewed method; do not generate a neural tower, answer-signal glow, token animation or inferred internal frames from MathLab events. No chart library or new capture is chosen by this draft.
+
+**ML-9 — comparisons.** MathLab estimates retain their own identity/tier/context beside other records. Do not run them through the ordinary matched fact-answer row, model-correctness score pictures or science winner language. Current source already refuses that answer-evidence comparison. Descriptive side-by-side MathLab records remain readable; any numerical estimate comparison needs an explicit source-backed meaning/unit/state correspondence before adding a difference/shared scale. If the correspondence is absent, show the reason and preserve individual records. No claim that estimate differences are experimentally demonstrated effects.
+
+**ML-10 — incompatible destination and return.** Apply the newly accepted explanation-and-choice pattern when Inside the model is not applicable to the selected record: retain the MathLab identity/context, explain why, offer Open MathLab record/Choose a model run and preserve origin/return. Do not silently render a different record kind under an unexplained destination or choose another run. Supported linked model/experiment context may be offered when actually documented; no eligibility inferred solely from a tier badge. Preserve named return, selection, relevant paused position and independent keyboard focus.
+
+**ML-11 — sources, findings and learning.** Show only event-referenced staged documents within their permitted scope, with source identity/tier and visible missing/unsafe/unreadable-reference reasons. Readable in-context source details retain original precision/paths/lines/operands. Original events/finding-file actions obey matching-only access to actual matching bytes; expected source hashes or current paths alone are not confirmation. Associated research/lessons require reviewed authorship and mappings. MathLab concepts may contribute to the existing library/quiz/tracker through checked content, one-home-quiz identities and ordinary learner rules; personal quiz results never promote MathLab estimates or constitute scientific acceptance. No auto-generated keys, tutor, source association or shared experimental/learner PASS colour meaning.
+
+**ML-12 — phone, accessibility, delivery and future acceptance.** Phone record content stacks readable label/value pairs, with units/reasons/tier/source reachable and useful on-demand help. Preserve 13px rendered minimum, binding body sizes, 44px targets, contrast/non-colour cues, no horizontal page scroll, retained navigation and reserved non-obstructing detail. Long event/check/resource data needs scoped readable grouping/chunking without dropping authoritative coverage. Static/file-URL assets and existing model-free build/ingestion budgets remain; no Python viewing service/library install/network data upload assumed. Include MathLab in all-page/all-flow static wireframes after updated-S Astra review, and verify actual behavior later after the hold is lifted. Nothing here claims those checks passed.
+
+**Required future review/acceptance cases (proposed coverage, not frozen test counts or executed tests):**
+1. Shared-reader/fold parity for the same event bytes and source hashes; no second state file/algorithm.
+2. Valid empty, missing/unreadable file, malformed/duplicate/incomplete line and mixed-valid/error cases with explicit reasons.
+3. Admission-only versus experiment; stage progress/completion versus whole-run state; recorded running versus actual liveness unknown.
+4. Incomplete/partial check groups, individual failures, aggregate calibration failure, INVALID and resource/deadline halt without semantic collapse.
+5. run_finishing/incomplete publication, provisional NEW1 suppression, final publication and later halt; no final finding/verdict through a raw-event adapter.
+6. Referenced available, empty, outside-workspace, unsafe and unreadable finding documents; candidate ideas versus findings kept distinct.
+7. Typed event-reader source metadata, fold operands/rule binding, canonical code/source hashes and coherent snapshot capture under changed inputs.
+8. Source original-file confirmed match, unconfirmed, different contents and missing/unreadable cases; verify the actual opened bytes.
+9. Recorded time/resource/estimate plots with units/denominators, zero/missing/singleton/unsupported comparison cases and text alternatives.
+10. MathLab entry/links across Map/Science/Runs, unlinked contexts and no invented model/era/relationship.
+11. Ordinary science comparison refusal and preserved individual-record access; any separate estimate comparison only under an approved correspondence contract.
+12. Inside-the-model explanation/choices, explicit navigation, no silent record substitution and retained named return/context.
+13. Reviewed MathLab lesson/quiz/source links, one-home-quiz scoring and unsaved personal continuation without scientific promotion.
+14. All relevant phone/desktop/theme/high-zoom/touch/keyboard/reduced-motion/focus/source/return states, plus static file-URL/no-unapproved-network delivery and build budget.
+
+### Context for build agents — source inventory and reconciliation checks
+
+- Binding short requirement: S:1169-1178; no verdict/model/source policy S:14-20/:29-52; five destinations/frame/readability :340-371; ordinary comparison :578-587; typed source/hash contract :662-675; context namespace :997-1008. New detailed text belongs in the later reconciled spec, not a parallel scientific authority.
+- Current schema/state sources reopened: tools/mathlab_events.py:43-74 event types/fields/check plan; :122-171 fsync/terminal-publication boundary (partial bounded implementation read, not a full durability audit); :206-227 strict reader/error paths; :228-307 fold/state/provisional handling; :308-359 check groups/admission/terminal/calibration/status. Current source verified memory-derived shared-authority cautions; no historical test totals/hashes or science statuses carried forward as current acceptance.
+- Current LabViz adapters/views: tools/labviz/cards.py:74-88 canonical event source reader; :100-122 mathlab-fold recomputation; :319-347 reader/rule binding and verifier; :828-881 MathLab card/findings/context; :881-905 source hash gathering. tools/labviz/app.js:559-618 MathLab snapshot/check/resource/findings/candidates; :615-630 run source link/model fallback; :655-662 ordinary answer-comparison refusal. Source presence only; no runtime/source-pin/consumer-parity/geometry acceptance in this session.
+- Specific later audit concern, not a confirmed runtime bug: fold at mathlab_events.py:285-307 removes provisional NEW1 findings when not committed, while cards.py:841-867 builds staged-document entries from raw validated finding_staged events and app.js:601-609 renders card.mathlab.findings. Review whether the adapter preserves fold-approved visibility before any publish/acceptance claim. Do not patch it under the hold or call a fixture failure without running an authorized reproducer.
+- Cross-cutting spec gaps to reconcile explicitly: MATH-PROXY alongside §2 evidence types; special JSONL-reader metadata versus §6 ordinary JSON-source grammar; fold provenance/hash/structural fields; missing model/era/context; provisional finding visibility; ordinary comparison eligibility; matched original-source actions; MathLab in build-order/context/wireframe acceptance. A detailed record-page recipe alone does not close these contracts.
+- Reference contribution: interface-design checklist for hierarchy/complete states; Gentelella opened playground for state-sheet organization; Anthropic chart checklist for units/gaps/scales/non-colour/table checks; Tabler for shared layout catalogue; Awesome Dataviz for later chart/graph candidate discovery, not icons or scientific validation. Give builders focused documented passages mapped to ML clauses, not full executable skills/packages. None defines MathLab gate meaning or unlocks runtime work.
+- Future wireframe agent must include the MathLab entry, selected record, stages/checks/resources/findings/candidates/source/error states, comparison refusal, unavailable model destination and returns across all five applicable destinations. The operator's detailed-integration requirement is a named coverage gate; it may not be dropped because the primary visual example is Inside the model.
+- Scope: authorized notes appended; bounded source/spec/memory reads only. No S/L/W/guide/DESIGN.md edit, code/schema change, MathLab/model/science/project-Python/browser/build/test/web/MCP/Figma action, imagery/wireframe, source copy/asset download/install/clone, personal-state mutation, Git mutation, global memory write or external agent message. Detailed proposal is not frozen, Astra-approved, build-ready or a scientific result.
+- BINDING context rule retained: check available Context before each question; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with decisions/notes pointers, paths, in-flight work, risks and one exact next point. Stop starting work at <=40%; never approach compaction or embed handoff in notes. Restate in every handoff; no numerical reading exposed, never invent one.
+
+## LVB16 — MAESTRO 45% context checkpoint; MathLab discoverability unanswered
+
+### Decisions (with the operator's words)
+
+- MAESTRO verbatim: "MAESTRO context message: you are at 45% context left. Finish the current step, then stop starting new work: write results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md (what was covered this session, decisions and operator answers, the open question and exact next point, and the context rule) and reply LVB16 HANDOFF. If you have already written it, reply READY instead."
+- Stop starting work. 45% is MAESTRO-reported, not independently visible. No new design answer is supplied by the gate.
+
+### Open questions
+
+- Exact pending question (notes:3837-3850): named MathLab entry within Science lines versus contextual integration into supported research lines/experiments. Both preserve five destinations, searchable records and source-backed relationships. Do not silently choose or replace it with another menu.
+
+### Spec changes proposed
+
+- Detailed MathLab draft ML-1..ML-12 and 14 future check cases remain notes:3851-3905 for later S reconciliation. S unchanged; no implementation/readiness/scientific acceptance.
+
+### Context for build agents / successor
+
+- Separate handoff written to results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with settled answers, exact ranges, reference/read limits, current-source audit concerns, remaining obligations and one exact next point. Check it before resuming.
+- Root/branch reverified. Only authorized notes/handoff written. No process/agent/external call/tool cell remains in flight after verification. No additional topic, code/spec/site edit, test/build/browser/model/science/MCP/Figma action or Git mutation.
+- BINDING context rule: check available Context before questions; start new pieces only at >=60%; at <=45%, Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate designated successor handoff with topics/decisions/notes pointers, paths, in-flight work, risks and exact next point. Stop starting work at <=40%; never approach compaction or embed handoff in notes. Restate in every handoff; no numerical reading exposed, never invent one. The reported 45% requires stopping now.
