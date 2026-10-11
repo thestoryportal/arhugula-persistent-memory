@@ -27,24 +27,24 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T04:10:16Z",
+    "edited": "2026-10-11T04:17:48Z",
     "items": [
       {
         "id": "research-engine-brainstorm",
         "title": "Research engine: brainstorm the design with you",
         "summary": "A brainstorming partner (BRAIN1) talks it through with you in plain words: a map of what we track and how it links, a searchable store rebuilt from the project record, gap reports and an idea engine. The finished design comes back to MAESTRO.",
         "state": "running",
-        "who": "You + BRAIN1 (tmux codexbrain); MAESTRO watching",
-        "session": "codexbrain",
+        "who": "You + BRAIN2 (tmux codexbrain2); MAESTRO watching",
+        "session": "codexbrain2",
         "started": "2026-10-11T03:22:37Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": null,
         "notes": [
-          "04:10Z: BRAIN1 asked you whether its five-phase plan and small first test slice look right; it is waiting on your answer.",
-          "BRAIN1 is near its memory limit (41% left). After your next exchange MAESTRO has it write a handoff, and a fresh BRAIN2 continues from it; nothing is lost.",
-          "Notes so far: results/research_engine_brainstorm_20261011T032049Z/ (design.md, decisions_log.md)."
+          "04:17Z: BRAIN1 reached its memory limit and handed off cleanly; BRAIN2 (tmux codexbrain2) continues from its note.",
+          "Next: BRAIN2 asks you to approve the written design as a whole (you already approved the phases). After your OK, MAESTRO gets an independent review and plans the first small build.",
+          "Files: results/research_engine_brainstorm_20261011T032049Z/ (design.md, decisions_log.md, review_notes.md, handoff.md)."
         ]
       },
       {
