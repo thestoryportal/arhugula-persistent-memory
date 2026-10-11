@@ -35,9 +35,9 @@
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "running",
-        "who": "builder codexr1h, then Astra round 7, then MAESTRO runs the Intel check",
-        "session": "codexr1h",
+        "state": "in_review",
+        "who": "Astra round 7, then MAESTRO runs the Intel check",
+        "session": "",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
@@ -78,7 +78,8 @@
           "12:32Z: codexr1f built all nine files before running low on room (73b7ebeb). MAESTRO reran everything: 36 new tests pass, the 27+18+9 older ones still pass, nothing copied to or run on the Intel Mac, and the Intel Python is now called directly. Builder codexr1g is checking that the write-up's line references are right; then Astra round 6.",
           "12:39Z: codexr1g corrected the write-up's line references; MAESTRO spot-checked five of them and reran the tests (b2b6d6ab). Astra round 6 is reviewing, including three questions: whether counting the setup step toward the 870-second limit is right, whether a checkpoint kept in git is a trustworthy enough anchor, and whether calling the Intel Python directly settles the launcher concern.",
           "12:44Z: Astra round 6 said NO-GO on running the collector yet, but allowed the read-only Intel identity check. Fixed and accepted: the collector now checks its own files before running them. Still open: (1) if a run's result is lost and the Intel Mac is restored to an older state, a second run could hide the lost records; (2) the 870-second limit subtracts clock times from two different Macs that may disagree; (3) the written run order commits a hash too late and one command has a missing argument; (4) the Intel check must be run with the Python called directly. Next: MAESTRO runs the identity check, then a builder fixes 1–3.",
-          "12:48Z: MAESTRO's Intel identity check was refused at login before it reached the Intel Mac (3096ad7c): the run script relied on the Mac's default key, but the Intel Mac only accepts its own key. Nothing ran there. Builder codexr1h is fixing Astra's three open points and making the script name the Intel key itself; the identity check runs after Astra round 7."
+          "12:48Z: MAESTRO's Intel identity check was refused at login before it reached the Intel Mac (3096ad7c): the run script relied on the Mac's default key, but the Intel Mac only accepts its own key. Nothing ran there. Builder codexr1h is fixing Astra's three open points and making the script name the Intel key itself; the identity check runs after Astra round 7.",
+          "13:05Z: codexr1h finished (7697cb73); MAESTRO reran every test set (42 new, and the 36/27/18/9 older ones still pass) and checked the script now names the Intel key. Fixed: a starting checkpoint can be used only once, and a lost result can't be hidden by restoring the Intel Mac; only the M3's clock counts; the capture must be committed first. Astra round 7 is reviewing (9a4e4bdc)."
         ]
       },
       {
@@ -164,7 +165,9 @@
         "depends_on": [
           "r2-clearance"
         ],
-        "blocked_by": [],
+        "blocked_by": [
+          "Your context first: you asked (13:05Z) that no building start on the terminal dashboard or LabViz until you've given context to review."
+        ],
         "needs_from_you": [],
         "notes": [
           "09:12Z: drafting started (dashboard_host_status_record_v1.md); answers Astra's condition R4.",
@@ -178,7 +181,8 @@
           "12:37Z: three builders in a row kept finding more to polish, so MAESTRO stopped the self-check and sent v3 to Astra (71d82fda, e4d7daef). MAESTRO's own checks pass: the examples file reads cleanly, every rule in the map has at least one test case, and every case it names exists. Astra round 3 now checks whether the cases really test their rules and fail for the right first reason.",
           "12:44Z: Astra round 3 said NO-GO (verdict committed with this note): three example cases don't test what they claim: one fails for an earlier reason than intended, the pin-check cases could fail for an unrelated reason, and two map rows point at the wrong case. Builder codexr4d4 is fixing exactly those three, nothing more; then Astra round 4.",
           "12:54Z: codexr4d4 fixed exactly Astra's three points (e799eb0d): the clock example now fails for the clock reason, each pin-check example has a single defect, the renewal example starts from a matching saved copy, and map rows 69 and 77 point at real tests (three new empty-builder examples). MAESTRO checked only those files changed, the examples read cleanly and every named case exists. Astra round 4 is reviewing (eaabed12).",
-          "12:57Z: Astra round 4 said GO (verdict committed with this note): all three fixes hold and nothing else broke, so the dashboard record is frozen and building it is allowed. The build waits for the shared-drive rules (R2), which the dashboard also reads."
+          "12:57Z: Astra round 4 said GO (verdict committed with this note): all three fixes hold and nothing else broke, so the dashboard record is frozen and building it is allowed. The build waits for the shared-drive rules (R2), which the dashboard also reads.",
+          "13:05Z: you asked that no building start on the terminal dashboard or LabViz until you provide context to review. Held: nothing is built until then, even after the shared-drive rules pass."
         ]
       },
       {
