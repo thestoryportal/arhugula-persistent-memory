@@ -13077,13 +13077,13 @@
           "m3_boot_id": "edd9784d3f61f9b20748ffc90ec7fd06",
           "authority_epoch": "b54716d6f405864f1761d6729fa6cd52",
           "sequence": 1,
-          "decision_receipt": "bac2092bdaed8e5473e3d98d8bdd1c7c9d1c901e619a354e0180f6d8fc3dd762",
+          "decision_receipt": "3c986178182ca718ea8e7ab4ea6b38de881928739a394724c4970d16416719ce",
           "grant": null,
           "clearance": null,
           "evidence": [],
           "kind": "INITIALIZED",
           "body": {
-            "action_receipt": "bac2092bdaed8e5473e3d98d8bdd1c7c9d1c901e619a354e0180f6d8fc3dd762"
+            "action_receipt": "3c986178182ca718ea8e7ab4ea6b38de881928739a394724c4970d16416719ce"
           }
         }
       },
@@ -15720,7 +15720,7 @@
           "entry_elapsed": 111,
           "completed_elapsed": 112,
           "before_state_sha256": "fb3f6d37148f75e09929db19d2acbd1e4ee908dba2b00382a535f98e59f6b2fb",
-          "after_state_sha256": "1ccc82b1b6ca44d37d741b390173638eae163c8fd4e872031d9684a156ed1a47",
+          "after_state_sha256": "d98ace8410fee4fe56b9d2a365fc68d06af4b59400342f45f4daebf9c03dab81",
           "input_receipts": [
             "c016a970718887cb73b2324953110c04106c9a48fa07741cd98f2d34c5a69987",
             "b2c5cf1efb49b233e7bd469530b70302058d3fb74b4b6b546f493d7c859c479e",
@@ -18709,7 +18709,7 @@
           "science": [],
           "sequence": 1,
           "transfer": null,
-          "last_decision": "bac2092bdaed8e5473e3d98d8bdd1c7c9d1c901e619a354e0180f6d8fc3dd762",
+          "last_decision": "3c986178182ca718ea8e7ab4ea6b38de881928739a394724c4970d16416719ce",
           "ledger_generation": 1
         }
       },
@@ -26819,7 +26819,7 @@
         "target_name": "ActionReceiptINITIALIZE",
         "target_pointer": "/after_state_sha256",
         "source_type": "example",
-        "source_name": "AuthorityRecordReconciled",
+        "source_name": "AuthorityRecordInitialized",
         "source_pointer": "",
         "hash_mode": "authority"
       },

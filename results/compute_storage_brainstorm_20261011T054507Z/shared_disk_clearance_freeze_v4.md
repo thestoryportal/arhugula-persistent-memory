@@ -313,7 +313,7 @@ PROPOSED Gate 1 manifest location is R`profiles/gate1-manifest.json`, created on
 | AR1; AR2, entire files | `94a2eff894df1df3a2241612bee82248cf6911f251da9820a15fa4b8412b705b`; `f26f92f231b2f2f651d9581c46c32e39b0b42f8454f4008bd2db9e90a0337206` (pins inherited from F1:198; C:171–175) |
 | F, entire file | Hash final saved bytes into the external permitting-review manifest; deliberately no self-referential hash inside F (C:171; AR1:51) |
 | F1; AR3; IM, entire input files | `5e044b74f5cdbf3f84331bbeefdb674bd226c1993f03cb611f542783ce703fbf`; `702d0185267f46006a03ff50c4e228a3ef5b0a8f0159b422ae91cec04e267dc6`; `8f43668d555d02e553e5513ecb1ba3428dd31b1631a0d7d393a7a4012ff4fd81` (F1:1–224; AR3:1–68; IM:90–100,168–176,184–192,205) |
-| schemas pin | `ba89e266bf983d653b8a5e5d462413e08e87845339cd366a8939e6d761d406c8` (C:38–49,171) |
+| schemas pin | `e8ed7828c09b9b04eaddad3c82a1f5f48672ef7c36ff0380aa3bc5ede8d29a6f` (C:38–49,171) |
 | interface pin | `24f3aa53c7df550c890499930eef32e2bdceff2b78db12acff419595961be2c1` (C:38,47,171) |
 | runtime pin | `5d4e720bfb372f25d319241abf236a6570e4ad7de924d13db71bbff8017d108d` (C:38,47,171) |
 | Successor checker | Later checker v3 builder owns V5 F3's checker half and R4; MAESTRO pins reviewed final bytes externally. Existing K2 is not v4 acceptance evidence (V5:26–47,71–73; C:38–49,171) |
