@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T13:14:23Z",
+    "edited": "2026-10-11T13:22:24Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -129,9 +129,9 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "running",
-        "who": "builder codexr2f (build-level freeze), then MAESTRO checks it, then Astra",
-        "session": "codexr2f",
+        "state": "in_review",
+        "who": "Astra round 3, then MAESTRO",
+        "session": "",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -147,7 +147,8 @@
           "09:19Z: Astra said GO with conditions (8acdd455): the safety direction is right; next, add missing test cases and fix one, separate the three gates (freeze, then real two-Mac trial, then evidence), and later a full build-level freeze naming owners and exact formats before anything is built.",
           "09:22Z: codexr2b is writing version 1.1 with Astra's test additions and the three separate gates.",
           "09:32Z: Astra round 2 on version 1.1 (61105f13): GO with conditions; the test additions and the three separate gates are accepted. Only the build-level freeze remains (who builds what, exact formats and limits) before anything is built.",
-          "12:41Z: MAESTRO named the owners: MAESTRO owns all three parts (the M3 coordinator, the Intel copy worker and the M3 copy step); Codex builders build each one, and nothing runs before the freeze passes Astra. The Intel Mac asks the M3 over ssh with a dedicated key that can only run one fixed request each. Builder codexr2f is writing the freeze: exact commands, formats, limits and time-outs."
+          "12:41Z: MAESTRO named the owners: MAESTRO owns all three parts (the M3 coordinator, the Intel copy worker and the M3 copy step); Codex builders build each one, and nothing runs before the freeze passes Astra. The Intel Mac asks the M3 over ssh with a dedicated key that can only run one fixed request each. Builder codexr2f is writing the freeze: exact commands, formats, limits and time-outs.",
+          "13:22Z: codexr2f finished the build-level rules (ea7477ad): 224 lines, all nine parts Astra asked for, every choice tied to a contract clause, MAESTRO owns all three parts. MAESTRO checked the shape, not the content. Astra round 3 is reviewing it now (36d32697). codexr2f closed."
         ]
       },
       {
@@ -191,7 +192,7 @@
         "title": "Drive backup: turn it on",
         "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup. The plan is being rewritten so the first upload runs from the Intel Mac (your choice 11); your three OKs will be asked again against that version.",
         "state": "blocked",
-        "who": "MAESTRO: Astra review once the shared-drive rules (R2) are committed",
+        "who": "MAESTRO: re-point the layout to the reviewed rules, then Astra",
         "session": "",
         "started": null,
         "estimate": null,
@@ -205,7 +206,8 @@
           "08:37Z: integration table approved. Next: measure what the ~287 GB upload is made of (helper running), inventory first (row I3b), then MAESTRO brings you space options and the Intel-first plan.",
           "09:54Z: The operator chose to store identical files once on the Intel Mac (Amendment 21). The copy fits in about 130 GB of the 250 GB. Next: design that layout and send it to Astra before any copy.",
           "12:59Z: builder codexdl1 is designing the Intel Mac layout that stores each identical file once (your Amendment 21): how one stored copy serves every path, how it is kept from being changed, how the upload still sends every path to Drive, and the space math. Design only, nothing copied; Astra reviews it before any copy, then the full Intel plan and your three OKs.",
-          "13:07Z: codexdl1 finished the layout design (58d7374c): each identical file stored once, every path linked to that one copy and locked against changes, every path still uploaded to Drive, and the space math (about 130 GB stored out of 250 GB, before overhead that must be measured). It leans on the shared-drive rules still being written, so Astra reviews it once those are committed."
+          "13:07Z: codexdl1 finished the layout design (58d7374c): each identical file stored once, every path linked to that one copy and locked against changes, every path still uploaded to Drive, and the space math (about 130 GB stored out of 250 GB, before overhead that must be measured). It leans on the shared-drive rules still being written, so Astra reviews it once those are committed.",
+          "13:22Z: The layout design points at 11 lines of the shared-drive rules by line number, and those lines moved when the rules were finished. MAESTRO will re-point them after Astra's review of the rules (which may move them again), then send the layout to Astra."
         ]
       },
       {
