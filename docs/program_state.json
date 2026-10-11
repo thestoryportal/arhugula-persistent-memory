@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T08:59:45Z",
+    "edited": "2026-10-11T09:04:05Z",
     "items": [
       {
         "id": "backups-audit",
@@ -52,15 +52,11 @@
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "in_review",
-        "who": "Astra (reviewer), then MAESTRO",
-        "session": "astra exec",
-        "started": "2026-10-11T08:59Z",
-        "estimate": {
-          "low_min": 15,
-          "high_min": 40,
-          "set": "2026-10-11T08:59Z"
-        },
+        "state": "ready",
+        "who": "MAESTRO, then a builder, then Astra",
+        "session": "",
+        "started": "2026-10-11T08:47Z",
+        "estimate": null,
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [],
@@ -77,7 +73,28 @@
           "05:40Z: Astra said NO-GO a third time. You now want the engine on the Intel Mac, which removes most of the need for the signal, so MAESTRO paused the signal work until the hardware plan (HW1) is done.",
           "07:15Z: hardware plan approved (D-HW-2); the engine moves to the Intel Mac, so the plan is rewritten for it. The old 'science goes first' signal is no longer needed in its old form; Astra's concerns carry into a new disk-sharing rule.",
           "08:47Z: codexre1 drafts a separate Intel amendment (v5 stays unchanged, per design.md:239-245); MAESTRO then runs the Intel pin checks; fresh Astra round after.",
-          "08:56Z: amendment written and checked by MAESTRO (phase1_intel_amendment_v1.md). Intel Mac checks found MacPorts has no Neo4j package, so Neo4j needs another install source. 08:59Z: sent to Astra for a fresh review."
+          "08:56Z: amendment written and checked by MAESTRO (phase1_intel_amendment_v1.md). Intel Mac checks found MacPorts has no Neo4j package, so Neo4j needs another install source. 08:59Z: sent to Astra for a fresh review.",
+          "09:03Z: Astra said GO with conditions on the Intel plan, and agreed no new question for you is needed. Next: pin exact software versions for the Intel Mac (Neo4j from its own download; Python 3.12.15 vs the frozen 3.12.14 needs a review), then the run setup and tests on the Intel Mac."
+        ]
+      },
+      {
+        "id": "r2-clearance",
+        "title": "Rules for sharing the memit drive between the two Macs",
+        "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
+        "state": "running",
+        "who": "Codex (codexr2), then MAESTRO, then Astra",
+        "session": "codexr2",
+        "started": "2026-10-11T09:03Z",
+        "estimate": {
+          "low_min": 20,
+          "high_min": 60,
+          "set": "2026-10-11T09:04Z"
+        },
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "09:03Z: drafting started (shared_disk_clearance_contract_v1.md)."
         ]
       },
       {
