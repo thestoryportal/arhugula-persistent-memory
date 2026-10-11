@@ -1,0 +1,11 @@
+# R2 redesign — operator ruling (recorded by MAESTRO60, 2026-10-11 ~23:02Z)
+
+Trigger: round-13 sweep (`r2_sweep_report.md`, a862958f) and tracer (`r2tr_maestro_acceptance.md`, 6602bd48) both showed the frozen science list cannot be proven complete in advance (outside programs: Torch, Git, Bash, system tools; 1302 unresolved callees, 94 boundaries). MAESTRO brought the scope decision before Astra round 13 instead of after it (promise in the MAESTRO60 handoff).
+
+Options discussed with the operator, in order: run-time watch; Apple sandbox fence (Docker ruled out: no Apple GPU in Linux containers); single-file deterministic scripts (fixes only our own code; Torch remains); tar/zip transfers (helps copies, not the science side; never stage on memit); sandbox consequences (silent fallbacks such as GPU→CPU or a cache recompute must be caught by a known-baseline rerun inside the fence). Operator: "This sucks. Can the Intel Mac pull in its needed context directly from Git on demand instead?"
+
+MAESTRO proposal: the Intel Mac pulls research records from Git (GitHub) and big files from the Google Drive copy; it never touches memit. memit becomes M3-only. The one remaining rule is M3-local: no Drive backup while a science job (or anything it started) runs, no science start while a backup runs, and the free-space check stays. Most of the two-Mac R2 contract is retired (kept in git). This changes HW1 choices 4 and 9 (`decisions_log.md:65–72,113–122`), so it is the operator's call, with Astra review before adoption.
+
+**Operator answer (verbatim):** "I like this concept. And we still need to manage storage space proactively and dynamically so it is never maxed and stops science mid stream."
+
+Ruling as recorded: GO on the Git + Drive concept for the redesign. Added binding requirement: storage on memit is managed proactively and dynamically so it never fills and never stops science mid-run. Next: MAESTRO writes the redesign (Git-for-records, Drive-for-bulk, M3-only backup/science mutual exclusion, proactive storage management), Astra reviews it at high effort, and the operator approves adoption. Round 13 (R2Y fix, Astra round 13 on F11/J10/K10/P8/I10) is NOT run. The G1/G2 bookkeeping gaps and the tracer stay on record. Nothing is built or commissioned without a separate operator go.
