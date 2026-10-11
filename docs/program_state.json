@@ -27,7 +27,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T03:19:19Z",
+    "edited": "2026-10-11T03:22:37Z",
     "items": [
       {
         "id": "drive-review",
@@ -50,6 +50,20 @@
           "3 fixes needed: (1) the merge must come from a backup-only branch, not this whole work branch; (2) one plan command points at a program path that does not exist on this Mac (/usr/bin/gh); (3) the copy-checker must fix the log format it accepts and reject any other, so an error written in a different format cannot pass as clean.",
           "Verdict: results/backup_gdrive_host_20261011/astra_r11_verdict.md"
         ]
+      },
+      {
+        "id": "research-engine-brainstorm",
+        "title": "Research engine: brainstorm the design with you",
+        "summary": "A brainstorming partner (BRAIN1) talks it through with you in plain words: a map of what we track and how it links, a searchable store rebuilt from the project record, gap reports and an idea engine. The finished design comes back to MAESTRO.",
+        "state": "running",
+        "who": "You + BRAIN1 (tmux codexbrain); MAESTRO watching",
+        "session": "codexbrain",
+        "started": "2026-10-11T03:22:37Z",
+        "estimate": null,
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": null,
+        "notes": null
       },
       {
         "id": "drive-activate",
