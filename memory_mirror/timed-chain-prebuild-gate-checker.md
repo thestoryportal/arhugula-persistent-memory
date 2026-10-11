@@ -8,5 +8,7 @@ When a chain step starts a clock (the R1 bind opens an 870-second window that mu
 
 Also: write an evaluator's output to scratch and copy it into the evidence directory afterwards, when that directory is the evaluator's own receipt census, so it cannot count itself.
 
+BUT a fast, clean run is not a verified gate (Astra r14 DEFECTIVE on R1N): (1) get and RECORD a writer reservation from the operator ("please don't touch the Intel Mac until I say") before A — a survey naming them as the only writer is not control; (2) the receipt census covers every measurement receipt incl. .tsv/.txt cited by the manifest plus scratch copies and rtk tee logs, not just N's filename glob; (3) the checker must implement each GD check in full (complete paths vs committed bytes, recursive old roots, reconstructed bound manifest, reservations), and get Astra review BEFORE use; (4) preserve raw survey output (rtk tee logs live in ~/Library/Application Support/rtk/tee/); never write "byte-identical" from a size compare.
+
 **Why:** a crash or doubt inside the window ends the one-attempt authorization; preparation is free beforehand.
 **How to apply:** any authorized single-attempt chain with a deadline (R1 inventory, future Intel commissioning). Related: [[one-shot-run-needs-real-scale-dry-run]].
