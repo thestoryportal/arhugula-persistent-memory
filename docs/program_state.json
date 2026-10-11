@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T20:19:23Z",
+    "edited": "2026-10-11T20:33:31Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -147,9 +147,9 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "running",
-        "who": "Builder codexr2v builds round 11; then MAESTRO checks it and Astra reviews",
-        "session": "codexr2v",
+        "state": "in_review",
+        "who": "The expert (Astra) reviews round 11; then MAESTRO",
+        "session": "astra r2n",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -200,7 +200,8 @@
           "19:29Z: Astra round 9 said NO-GO (b324fd08), on one point only: two checks the gate runs through borrowed code (a proof check and a git lookup) were still labelled as science. The other earlier problems are now closed. MAESTRO55 ruled D13 (ea1ec7cc; no change to the agreement): a process is labelled by where it was started from, and the audit traces every borrowed path. codexr2u is building round 10 now.",
           "19:58Z: codexr2u built round 10 and its own checks passed, then stopped at its context limit with a handoff (only the report is left to write). MAESTRO55 is re-running the checks in a locked-down shell before a fresh builder writes the report.",
           "20:03Z: Round 10 is built and checked: MAESTRO55 reran every check in a locked-down shell (all pass; 68bbe401), and codexr2u2 wrote the report (dd36eafa). Astra round 10 is reviewing now.",
-          "20:10Z: Astra round 10 said not yet (3c4d9e9a): one gap left. A later training stage reads its certificate from disk and never checks which phase it is for, so a 'P3' certificate would start a Git check the rules had left out. MAESTRO56 ruled D14 (52b94f9a): count that branch as reachable wherever the program reads the certificate from disk; no change to the agreement or to any program file. Builder codexr2v is building round 11 now; then MAESTRO's own check and Astra round 11."
+          "20:10Z: Astra round 10 said not yet (3c4d9e9a): one gap left. A later training stage reads its certificate from disk and never checks which phase it is for, so a 'P3' certificate would start a Git check the rules had left out. MAESTRO56 ruled D14 (52b94f9a): count that branch as reachable wherever the program reads the certificate from disk; no change to the agreement or to any program file. Builder codexr2v is building round 11 now; then MAESTRO's own check and Astra round 11.",
+          "20:33Z: Builder codexr2v finished round 11 (03fa810b): the later training stages now count that Git check as part of the gate's own work, and a new test proves a 'P3' certificate really reaches it. MAESTRO56 reran every check itself, including a run that blocks Git from starting at all, and found nothing written and the same 53 deliberate failures. Astra round 11 is reviewing it now (3f443a0d)."
         ]
       },
       {
