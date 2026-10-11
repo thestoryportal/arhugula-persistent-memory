@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T18:21:13Z",
+    "edited": "2026-10-11T18:27:43Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -148,8 +148,8 @@
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
-        "who": "codexr2s builds round 8; then MAESTRO checks; then the expert (Astra)",
-        "session": "codexr2s",
+        "who": "codexr2s2 writes the report; then MAESTRO; then the expert (Astra)",
+        "session": "codexr2s2",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -190,7 +190,9 @@
           "17:39:36Z: the fixed versions are built (freeze v5, schemas v4, profiles v2, checker v4). I re-ran every check myself, including the 26 deliberate-break tests inside a lock that blocks all file writes: all passed as designed. The builder only stopped because it couldn't create that lock inside its own sandbox. The expert's round 7 review is now running.",
           "17:47:00Z: the expert's round 7 still says not yet (NO-GO). Fixed now: the 'which programs are active' reasoning and the checker's two blind spots. Still open: (1) the agreement requires every program a science run starts to be registered before it may run, and ordinary science code can't do that without new machinery or an agreed change to the rules; (2) the guard's sandbox forbids the very launches it must do; plus four smaller fixes. An analyst (codexr2r) is writing the options, including one that keeps the agreement unchanged; then I bring you a plain choice, since changing the agreement is your call.",
           "17:57:08Z: the options note is in (B/r2_round8_options.md; MAESTRO53 re-checked its Mac facts and contract quotes). Choice 1 is yours: keep the 'register every program before it starts' rule as written (which means refusing science launches for now), or change it narrowly for the science program's own child programs. Choice 2 (how the launch guard runs) MAESTRO rules: a separate trusted launcher.",
-          "18:03:43Z: you chose the narrow change (science program's own helpers are listed in advance and tracked as they appear; surprises keep the drive locked). Recorded as D-R2C-A1 in B/r2_round8_decisions.md, with MAESTRO's rulings on the launch guard and the four fixes. Builder codexr2s started (tmux attach -t codexr2s); then MAESTRO's own check and the expert's round 8."
+          "18:03:43Z: you chose the narrow change (science program's own helpers are listed in advance and tracked as they appear; surprises keep the drive locked). Recorded as D-R2C-A1 in B/r2_round8_decisions.md, with MAESTRO's rulings on the launch guard and the four fixes. Builder codexr2s started (tmux attach -t codexr2s); then MAESTRO's own check and the expert's round 8.",
+          "18:25:41Z: builder codexr2s built all five new files and the checker; the two main checks pass (MAESTRO reran them; hashes match). It stopped at its context limit before the final full test run and the report. MAESTRO is running that full test run under the read-only sandbox now; a fresh successor (codexr2s2) then writes the report.",
+          "18:27:40Z: MAESTRO's full test run under the read-only sandbox passed (all 37 deliberate-break tests caught, each for its own reason; nothing written). Successor codexr2s2 started (tmux attach -t codexr2s2) to rerun its own checks and write the report; then the expert's round 8."
         ]
       },
       {

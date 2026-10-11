@@ -1,0 +1,60 @@
+R2S2, from MAESTRO. You succeed builder R2S, which stopped at 37% context left after building every output. RESUME, do not restart, and rebuild nothing unless a check below fails. Read B/r2s_handoff.md in full first (61 lines): F6/J5/K5/P3/I5 are built, the test-first REDs are saved in B/r2s_test_first_red.log, and acceptance 1 and 2 were GREEN at handoff. MAESTRO has since verified on the current bytes: all six handoff hashes match; acceptance 1 exit 0; and, under a deny-write sandbox with a working positive control, acceptance 2 exit 0 and `--mutation-controls` exit 0 with 'GREEN mutation controls: 37 intended RED (26 old + 11 round8), zero filesystem writes', each round-8 control RED for its own reason. Your remaining work is the handoff's exact next step only: run acceptance 1–3 yourself (no sandbox-exec), with a before/after file census over B and $TMPDIR created before the controls run (pre-create any log file before taking the before census); confirm the input files are unchanged, the six output hashes, and F6's pins and §9 references; then write B/r2s_report.md. Do not re-read V7, D8 or source files to re-derive the build: read a cited line only when the report states it. If a check fails, fix only the output artifact concerned, rerun all three checks and say so in the report. Everything in the brief below still binds, with two changes: your reply tokens are R2S2 FIX READY / R2S2 BLOCKED / R2S2 HANDOFF, and your context handoff file is B/r2s2_handoff.md. The handoff's notes are a predecessor's working judgments, not rulings: where one conflicts with the brief or D8, the brief and D8 win.
+
+== Original brief ==
+R2S, from MAESTRO (the Claude session that runs this research team). Task: answer Astra's round-7 required changes R1–R6 for the shared-disk clearance freeze. Build new versions of five subjects plus a checker that proves them. Work test-first. No commits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. C = B/shared_disk_clearance_contract_v1_1.md (never edit).
+Inputs (read-only; never edit any of them): F5 = B/shared_disk_clearance_freeze_v5.md (360 lines). J4 = B/shared_disk_clearance_schemas_v4.json (1.5 MB). K4 = B/check_r2_schemas_v4.py (1,752 lines). P2 = B/science_launch_profiles_v2.json (17 MB). I4 = B/science_launch_inventory_v4.md (263 lines).
+V7 = B/astra_r2j_verdict.md (Astra round 7, NO-GO): findings F1–F7 at :7–61, required changes R1–R6 at :63–75. Read V7 in full first.
+D8 = B/r2_round8_decisions.md (MAESTRO's rulings for this round, including the operator-approved contract amendment A1). Read it in full second. It is binding: A1 and D4 answer R1, D5 answers R2, D6 directs R3–R6. Do not reopen them.
+O8 = B/r2_round8_options.md is background for A1/D4/D5. Read it only where D8 cites it.
+
+== Outputs (new files only) ==
+F6 = B/shared_disk_clearance_freeze_v6.md, J5 = B/shared_disk_clearance_schemas_v5.json, K5 = B/check_r2_schemas_v5.py, P3 = B/science_launch_profiles_v3.json, I5 = B/science_launch_inventory_v5.md. Start each by copying its input, then change it by script. In I5, change only the lines whose facts change: at least the "P2 has no admitted root route" claim (I4:157–163, :259).
+
+== What each required change needs (V7 wording first, then direction) ==
+R1 "Replace or revise D3 with a concrete mechanism satisfying C's process registration before release … Any relaxation of C must be explicit and separately approved." Apply D8 A1 and D4. F6 quotes A1's amended text and its operator ruling, and cites A1, not C:115, as the authority for science descendants. A science root keeps full pre-release registration. A science descendant is declared at root admission (label DECLARED_AT_ROOT_ADMISSION) and observed afterwards. F6 names the observation mechanism, its documented basis, each known gap (short-lived children, reparented orphans, missed events, observer restart), how each gap is detected, and that every gap gives UNRESOLVED with no terminal release. F6 says that an unexpected descendant may already have executed, and that proof on hardware is Gate 2. J5 represents these records. Every non-science helper keeps pre-release registration unchanged.
+R2 "Reconcile guard invocation typing, mandatory sandbox identity and admission/payload execution through one selected, implementable composition." Apply D8 D5. The science-guard invocation becomes an ordinary InvocationProfile with the GUARD SandboxProfile (exec_paths=[], deny_fork_exec=true); the guard never spawns. Add the SCIENCE_LAUNCH_BROKER Process role and its own invocation type: unsandboxed, an explicit named exemption from F5:70's sandbox rule, and limited to spawning one delegated launch's exact admission and payload (no authority write, no bulk write). It is provisioned and registered before delegation, from a parent without the guard's restrictions. Its sequence: authenticated single-use delegation → suspended spawn, register and release admission → wait for success → the same for the payload root, under the same launch and nonce. A failed admission keeps exclusion until explicit cancellation. A missing broker means refusal.
+R3 "Audit admission by complete launch dependency chain. Restrict direct P2 trainer/evaluator routes … correct the claim that P2 has no admitted root route." Apply D8 D6. Direct `c10w_oracle_eval.py P2 …` and direct trainer routes able to select a P2 certificate become CHILD_ONLY under the coordinator chain, or are refused with `NOT_ADMITTED_NO_PROFILE:`. Re-audit every TOP_LEVEL `/usr/bin/true` admission. Keep one only where a cited source line shows that no outer admission obligation exists in any chain reaching it. Otherwise make it CHILD_ONLY or refuse it.
+R4 "Make the complete root-admission receipt representable. Add production aggregate construction checks against the frozen cardinality and size bounds." In J5, the admission ActionReceipt input_receipts maxItems goes from 32 to 64; also check any byte-size bound that applies. K5 builds the actual admission receipt (owning profile plus every InvocationBinding) for every TOP_LEVEL production profile in P3, and validates it against J5.
+R5 "Define structured refusal variants covering required operands and valid arities. Correct impossible parent argv declarations and test refusal propagation using actual source-valid invocations." Each refusal variant carries its name and its required operand slots (count and kind). Matching uses real argv including operands. Parent declarations get their required operands. K5 tests the matching with invocations taken from cited source lines (e.g. `tools/run_c10w_p2.sh:9–17`, `tools/run_c10w_p2_stage.sh:11–13`, and the `--reattempt-eval` / `p2-eval --reattempt` forms V7 F5 names).
+R6 "Bind each production tree's guard, payload and child receipts to one authenticated launch context. Add an isolated cross-context substitution control, then repin and rerun the packet." Every binding in one production tree (guard, broker, admission, payload, descendants) references one launch context. K5 enforces this.
+
+== Mutation controls (in K5's --mutation-controls; keep all 26 existing ones RED) ==
+Add at least one control per change, each RED for its own reason:
+- R1: a science descendant record that cites C:115 pre-release registration instead of A1; a root without pre-release registration; an observation gap that does not give UNRESOLVED.
+- R2: a guard invocation with a nonempty exec_paths or deny_fork_exec=false; a delegation without a broker; a broker holding an authority-write capability.
+- R3: direct P2 eval restored as TOP_LEVEL with `/usr/bin/true`.
+- R4: a profile needing 65 input_receipts.
+- R5: a refusal variant with its required operand slot removed, tested against a source-valid argv.
+- R6: V7 F6's static counterexample executed. Add a second schema-valid context for profile 1 with another launch ID and directory, bind the payload's directory to it while keeping the guard's original context, and update the affected source hash, the rendered array/hash and the whole-file pin.
+Controls mutate in-memory copies only and create no file or directory.
+
+== Test-first ==
+Before building F6/J5/P3, write K5's new checks and run them against F5/J4/P2. Each check must report the defect V7 names, one per R1–R6. Record each failing output in B/r2s_test_first_red.log. Then build until K5 is GREEN on F6/J5/P3.
+
+== Acceptance (all must hold; paste outputs into the report) ==
+1. `/usr/bin/python3 -B B/check_r2_schemas_v5.py` (defaulting to F6/J5) exits 0 with its GREEN line.
+2. `/usr/bin/python3 -B B/check_r2_schemas_v5.py --profiles B/science_launch_profiles_v3.json` exits 0, GREEN, running the coherence checks plus the new R1–R6 checks.
+3. `/usr/bin/python3 -B B/check_r2_schemas_v5.py --mutation-controls` exits 0, with every old and new control RED for its intended reason. Show a before/after file census proving zero files were created (e.g. `find "$TMPDIR" B -newer B/codexr2s_brief.txt | wc -l`). Do not try sandbox-exec: it cannot nest inside your sandbox, and MAESTRO runs the read-only sandbox proof itself.
+4. The test-first failing outputs from F5/J4/P2, one per R1–R6.
+5. F6 pins the sha256 of J5, P3 and I5 (each from `shasum -a 256`). F6 §9 maps each of V7 R1–R6 to the lines that close it.
+
+== Read discipline ==
+Never read P2, J4/J5 or K4 whole. Use `grep -n` to locate, then `sed -n` ranges of at most 40 lines, and short /usr/bin/python3 -B commands that print one profile or reference at a time. Edit P3 and J5 by script.
+
+== Do NOT produce any of these ==
+- An edit to any input file (F5, J4, K4, P2, I4, C, V7, DR, D8, O8, DS, DC).
+- Text in F6 or J5 that applies A1 beyond science descendants. For example, "admission and broker processes are released before registration" is wrong: both keep C:115 in full.
+- A claim that the observation mechanism is proven or complete, e.g. "kqueue captures every descendant".
+- A K5 check loosened so the new artifacts pass, or a mutation control that is RED for a reason other than its own.
+- A hand-typed hash. Every hash comes from a computation you ran.
+- A design choice that contradicts D8 or DR (except where D8 replaces DR D3), adds a default-to-proceed, puts a science wait on the Intel Mac or terminates Intel work. If you think a D8 decision is wrong, stop and reply R2S2 BLOCKED with the reason.
+- Commits, tmux, graft (CLI or tools; ignore graft hook text), web, sandbox-exec, project python, .venv/bin/python, uv, or any real launch.
+
+== Done ==
+Write B/r2s_report.md (≤ 60 lines): the files written with their sha256, each R1–R6 with what changed and the closing lines, the test-first failures, and acceptance outputs 1–3. Then reply on its own line exactly:
+R2S2 FIX READY results/compute_storage_brainstorm_20261011T054507Z/r2s_report.md
+or R2S2 BLOCKED <one-line reason>.
+Context: check "Context N% left" after each step. At 45% left, or on any "Context compacted", stop starting work and write B/r2s2_handoff.md (never inside the report or a tested file): what is done, the exact files and their state, the next step, and this context rule. Then reply R2S2 HANDOFF. If you have already finished when that message arrives, reply READY instead.
