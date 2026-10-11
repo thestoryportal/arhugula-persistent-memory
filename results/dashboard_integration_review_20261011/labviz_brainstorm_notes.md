@@ -2042,3 +2042,128 @@ Proposed packet, following `results/dashboard_integration_review_20261011/labviz
 
 - Separate continuation handoff: results/dashboard_integration_review_20261011/labviz_brainstorm_handoff10.md. It preserves the settled-decision pointers, exact next point, references actually read, execution boundary and binding context rule. The context-save skill's summary/decisions/remaining-work structure is adapted to this expressly allowed path; its global files/scripts/telemetry/git workflows were not executed.
 - Binding context rule: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write the separate designated successor handoff with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff inside notes; restate this rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB11 — Runs and comparison composition presented
+
+### Decisions (with the operator's words)
+
+- No new LVB11 design choice yet. Carry LVB10's accepted roomy question lists, flowing research briefs, branching spec/science connections and data-storytelling frame (handoff10:17-36), plus LVB9's accepted navigation and calm workspace (handoff9:15-39). Comparison section order remains accepted.
+- Dispatch: "present the Runs landing page and run-comparison page composition through the data-storytelling lens, plus its phone adaptation; then ask one genuinely unsettled whole-page design question." Proposal below is not approval to build.
+
+### Open questions
+
+- Illustrative Runs landing page: accepted shell and compact dated activity/context; plain-language purpose; search and existing filters; collapsed experiment groups named by research question, with individual runs and duplicate observation cards nested beneath. Reviewed recorded summaries retain limits and source access; missing/unreviewed summaries remain explicit. Compact two-run selection summary leads into comparison. Preserve full scope, inputs, sources, spec/science context and access to Inside the model.
+- Illustrative comparison: pair identities and comparability notice lead; accepted outcomes/side effects first, setup differences second, question-by-question answers third. Reviewed explanations accompany matching measurements with their sources and limits. Setup changes and visual differences cannot become causal claims. Full per-run context and gaps remain accessible.
+- Choice being presented: aligned measurement rows across two run columns (recommended for seeing corresponding values and explanations together), versus separate run cards inside each comparison section (stronger individual-run grouping). Neither selected yet; section order and comparison eligibility are not reopened.
+- Phone: one-column Runs list with wrapping question text; compact selection summary. Comparison pairs A/B within each measurement before the next, retaining run names and sticky run identification. Preserve accepted phone menu and no horizontal page scrolling or hover dependency. Combined geometry remains future verification.
+
+### Spec changes proposed
+
+- docs/LABVIZ_V2_SPEC.md:344 already requires grouped/collapsed/searchable/filterable Runs; :347-352 binds shared frame and selection continuity. Proposed story-led summary placement refines presentation, without adding scientific interpretation.
+- :577-582 requires aligned side-by-side cards/pictures, common scales where comparable, source-supported fact joins and single-observation caveats. Aligned measurement rows across sections are explicitly a proposed refinement/amendment, not silently the binding layout. Preserve eligibility and caveats.
+- :584-587 requires sourced plain-language evaluations and honest missing/unreviewed wording. :357-371 binds readability, minimum text sizes, 44px targets and stacked phone table rows. Binding spec unchanged.
+
+### Context for build agents
+
+- Give builders the eventual chosen whole-page composition, accepted comparison order, reviewed source content/limits and these spec anchors together. Reopened historical results/labviz/review/20261008T130913325Z/chromium-phone-compare.png: long individual-run blocks follow the leading comparison area. measure.json:1369886-1369908 records 390x844 viewport, 390px scroll/client width and 11505px page height. Capture predates MathLab; dimensions alone prove no readability/contrast defect and are not a target height.
+- Focused text extracts remain notes:283-295: interface-design hierarchy/spacing/states for reading sequence; Anthropic accuracy/accessibility for scales, units and non-color labels. Tabler remains optional layout catalogue; concrete responsive markup uninspected. Supply selected passages, not installs or whole skill workflows. SUMMARY.md:9-16 proposes trials, not adoptions; :33-57 safety persists.
+- Data-storytelling context remains the previously opened Bismart article and scientific adaptations at notes:2002 onward. No fresh external reading, package adoption, causal claim, generated verdict or invented finding.
+- Brainstorming skill used for conversational page design only; operator's discussion-only/two-file scope overrides its spec-writing, commit, browser companion and implementation workflow. Root/branch verified read-only: worktree-c10k-route-a. Only notes appended; building hold and execution exclusions persist.
+- Binding context rule: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff11.md with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or put the handoff inside notes; restate the rule in every handoff. No numerical Context percentage is exposed; never invent one or claim the threshold was observed.
+
+## LVB11 — aligned comparison rows accepted; Inside the model composition
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", selecting "Aligned rows — recommended: compare each measurement and its explanation together." Adopt aligned measurement rows through the accepted comparison sections: two-run desktop values/visuals align across columns; phone pairs the corresponding A/B values within each measurement. Preserve each source, explicit gap, per-run context and comparability limit, with shared scales only where appropriate.
+- This settles the row-versus-separate-card choice. It does not independently approve every proposed Runs landing-page detail, change the settled comparison order, remove the spec's desktop third-card capability, authorize implementation, or establish any scientific effect.
+
+### Open questions
+
+- Illustrative Inside the model composition: accepted shell, run/research context and compact selection summary; always-visible recording coverage; dominant focused 2D model diagram, retaining 3D and guided explanation in the settled presentation order; selected applicable chart below the diagram; the accepted non-obstructing desktop explanation/source panel, with phone details below. Model -> layer -> part -> available finer detail remains source-bound and preserves selected input/step.
+- Use a connected plain-language account at the selected depth: what this part does; what this experiment recorded about it; what remains unobserved. Source-reviewed labels and short explanations accompany the drawing/chart; general teaching, stored-number changes and recorded internal activity remain distinct. Do not animate unseen activity as recorded, infer a fact's storage location, or treat a visual difference as a cause. Keep the complete input-and-answer browser, research sources, coverage detail and comparison within the selected part accessible.
+- Proposed whole-page visual choice: annotated workspace (recommended: diagram, chart and explanations read as one connected account, with open spacing and light dividers), versus distinct instrument panels (diagram, chart and explanations each have a quiet enclosing surface and clear heading). Both preserve the accepted sequence, calm themes, side/below details, full scope and player behavior. This is framing of the whole page, not a new navigation, player-mode or diagram/chart-order choice. Neither accepted yet.
+- Phone retains compact selectors/coverage and visible essential player controls; readable focused diagram with drill-down; one explained chart at a time; details below. The fresh-entry state remains exploration-first, Experiment phases selected and paused. No combined phone fit or proposed geometry is verified.
+
+### Spec changes proposed
+
+- Accepted aligned-row composition refines docs/LABVIZ_V2_SPEC.md:577-582 explicitly; preserve eligibility, fact joins, single-observation caveats and desktop third-card capacity. Accepted comparison section order remains notes:13.
+- Inside the model whole-page framing would clarify :345, :347-352 and :619-657 beside existing accepted proposed amendments at notes:48/:55/:301/:1260/:1796/:1820. Preserve phone/readability requirements (:357-371), source-grounded model-specific structure, recorded/re-creation/teaching distinctions and complete finer-depth intent. Binding spec unchanged.
+
+### Context for build agents
+
+- Reopened historical results/labviz/review/20261008T130913325Z/chromium-phone-model-2d.png. Capture shows written-layer bars, layer-part cards, static wiring, answer/internal-flow context and recorded events in successive blocks. It predates MathLab and does not verify the proposed whole-page composition or the requested exhaustive recording depth.
+- measure.json:1512162-1512190 identifies model-2d and its selected run/line, then records 390x844 viewport, 390px scroll/client width and 5616px page height. Dimensions alone establish no readability/contrast defect. No new browser or test run.
+- Give builders the eventual selected page framing, settled model/input/player/detail decisions, reviewed per-part evidence sheets and recording coverage, selected-model structure, and the above spec/capture anchors. Original source excerpts remain notes:283-295: interface-design hierarchy/spacing/states; Anthropic chart accuracy/accessibility; optional ECharts linked-selection documentation. Transformer Explainer README supplies input-to-model teaching framing only; its concrete interface remains uninspected, and its live-model runtime is excluded. Tabler remains catalogue context only. SUMMARY safety persists; no source/library/skill install or runtime adoption.
+- Only notes appended; design hold and all execution exclusions persist. Context rule: check available Context before each question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff11.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or put handoff in notes; restate the rule in every handoff. No numerical percentage is exposed or asserted.
+
+## LVB11 — review sources connected explicitly to design direction
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "Are there useful context sources in the /results/dashboard_integration_review SUMMARY.md to inform your direction?" This steers the ongoing page-design conversation toward explicit use of the supplied references; it selects no new visual treatment. The actual supplied review path remains results/dashboard_integration_review_20261011/SUMMARY.md.
+- Aligned comparison rows remain accepted. Inside the model whole-page framing is still open; its alternatives were recorded as proposals but had not been presented to the operator before this source-context question arrived. Do not treat an option as answered or approved.
+
+### Open questions
+
+- Continue Inside the model composition with explicit reference roles attached: interface-design's hierarchy/spacing/states inform how the diagram, chart and details read together; Anthropic's chart checklist informs the actual available measurement charts; ECharts' inspected event/action example informs keeping selected input/component/step synchronized; Tabler supplies optional shared-shell catalogue context. These inform proposals; none establishes a preferred visual treatment empirically.
+- Tableau/Fuselab guidance in practices_report.md supplies chart-choice, direct-label, phone-legibility and reader-understanding criteria. Proposed reader check for the model page: identify the selected part, explain the recorded measurement and recognize what was not observed. No new visual or runtime test authorized or performed.
+- A concrete whole-page granular-model interface remains uninspected. Transformer Explainer's opened README provides teaching framing only, not verified visual geometry. Avoid claiming that the review supplied an inspected model-explorer layout.
+
+### Spec changes proposed
+
+- No additional binding-spec change from this source-context question. Use focused reference extracts alongside the pending Inside the model presentation refinement at docs/LABVIZ_V2_SPEC.md:345/:619-657, keeping current phone/readability, complete scope and evidence constraints. Narrative content remains source-reviewed under the existing captions/evaluation rules (:584-587).
+
+### Context for build agents
+
+- SUMMARY.md:9-16 prioritizes small web/layout trials and one interface guide plus one chart guide; :21-22 borrows design practices; :29 proposes a LabViz capture/spec check; :33-57 limits safety claims. Reread these and relevant lane excerpts; no new original external page opened.
+- Actual selected primary extracts remain notes:283-295. Give builders a small task packet: agreed page composition; binding spec ranges; relevant historical capture; interface-design hierarchy/spacing/state checklist; Anthropic accuracy/accessibility checklist; ECharts item-selection/highlighting passage only where linked interaction is relevant; optional Tabler Layout catalogue. Each extract carries its use, provenance and exclusions. Keep Bismart's previously supplied narrative checklist alongside these; it adds explanatory framing, not evidence or an adopted platform.
+- CORRECTION to the immediately preceding entry: measure.json:1512162-1512190 records a deliberately blocked-CDN 3D-fallback scenario named model-2d, with viewport 390x844, 390px scroll/client width and scroll_height 7706, not 5616. It is not established here as the measurement paired with chromium-phone-model-2d.png. Withdraw that earlier height and pairing claim; the screenshot remains separately inspected historical visual context. No font/contrast inference follows. Preserve this appended correction rather than rewriting earlier entries.
+- Only notes appended; building hold persists. Context rule survives: check available Context before each question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff11.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or put handoff inside notes; restate the rule in every handoff. No numerical percentage is exposed or asserted.
+
+## LVB11 — proposed reference-guided design loop and fresh-context packet
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "How should we proceed at this point with those findings at this point to enhance our brainstorming work in this session and for forward sessions post clear for fresh context?" This asks for a current/future discussion approach. The approach below is a recommendation, not an operator-approved visual choice, new tool adoption or lifting of the building hold.
+- Preparing the allowed handoff is within this session's authorized recording scope. No numerical Context percentage is exposed; a prepared handoff does not assert that the 45% threshold was observed or that the operator has already cleared context.
+
+### Open questions
+
+- Recommended discussion loop per remaining page: (1) name the reader's question and source-supported account; (2) show a small labelled illustrative whole-page layout, including phone adaptation; (3) name which selected reference informs each consequential design choice and why; (4) compare two coherent treatments where genuinely unsettled; (5) record the operator's choice, source constraints and proposed spec refinement. Carry all settled choices forward. Inside the model is next; Learn/evaluations follows, then a cross-page coherence pass without reopening settled decisions absent a concrete conflict.
+- Use current supplied extracts first. Where an actual visual gap affects a decision, identify that gap and propose a bounded original-source inspection within the operator's existing reading limits. Do not restart broad intake or claim uninspected linked examples are verified. No additional lookup is needed for the current reference-packet preparation.
+- The model-page framing choice remains unpresented and unanswered. Its proposed treatments are annotated workspace versus distinct instrument panels, each preserving the settled diagram/chart/detail sequence and granular scope. Review actual proposed geometry if it reveals that these treatments merely repeat the settled calm-workspace choice; ask only a real remaining whole-page fork.
+
+### Spec changes proposed
+
+- Separate the future design basis into binding current spec, operator-accepted pending refinements, and still-proposed options. The source-guided loop does not edit docs/LABVIZ_V2_SPEC.md or authorize new scope. Any later MAESTRO build packet must reconcile/freeze accepted amendments before implementation.
+- Later cross-page reconciliation should check shared navigation/context, visual hierarchy, model/input selection continuity, source/limit wording, phone space and source-reviewed narrative. Keep unresolved recording/content/compatibility matters open rather than turning a style decision into acceptance.
+
+### Context for build agents
+
+- Reusable compact packet format, stored as this notes entry plus handoff pointers: page purpose and reviewed story; settled choices; relevant binding spec spans; one historical capture where useful; one interface checklist and one chart checklist; selected interaction/example passage only where relevant; exact intended extraction and safety exclusions; unresolved question and proposed amendment. A packet is context, not installed software, prepared scientific content or measured compatibility.
+- Source roles: interface-design layout/state checklist (notes:289); Anthropic accuracy/accessibility (notes:290); ECharts linked selection (notes:291); Tabler shared-layout catalogue with concrete phone markup uninspected (notes:292); Transformer Explainer teaching framing, concrete interface uninspected (notes:293); Bismart narrative adaptations (notes:2002 onward); practices_report.md:22/:26 for chart choice/direct labels/phone legibility. SUMMARY.md:9-16/:33-57 supplies trial/safety boundaries.
+- Prepare separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff11.md with compact design basis, LVB11 decisions, source-use ledger, correction pointer, exact next point and efficient reading order. Successor reads it plus notes:2046 onward, R/CONTEXT.md and R/SUMMARY.md; opens older notes/spec/source/captures only for the concrete point. Do not reread the whole growing notes file or assume an unaccepted process proposal has operator approval.
+- Only notes and handoff11 may be written; discussion hold and all execution exclusions remain. Binding context rule: check available Context before each question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write the separate designated handoff with completed/in-flight topics, decisions/notes pointers, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or put handoff inside notes; restate this rule in every successor/team handoff. No numerical percentage is exposed or asserted.
+
+## LVB11 — best-practice documents as continuing design context
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "Are the best practice documents useful context?" Answer: yes, as complementary design principles and reader checks. This selects no layout or package, and does not lift the hold. Source-specific uses below are recommendations informed by the supplied practices review.
+
+### Open questions
+
+- Recommended recurring design context: TXST for audience/question and presentation-versus-exploration purpose; Tableau/Sigma for chart choice, visual hierarchy, restrained colour and progressive detail; Databricks/FedTech for exact metric definitions, source support, denominators/populations/time windows; Fuselab and the inspected PMC planning material for legibility and reader-understanding checks. Bismart remains the operator's additional data-storytelling source.
+- Apply practices to each concrete whole-page proposal: name the reader's question; show the visual account and phone adaptation; identify the applied practice; ask whether the reader can explain the recorded message and its unresolved limit. These are proposed discussion/verification prompts, not an empirical usability result.
+- Carry a distilled practice checklist and exact source pointers across fresh sessions, beside accepted decisions and the binding spec. Add new source reading only for a material design gap. Pending Inside the model composition remains next; visual alternatives remain unpresented/unanswered.
+
+### Spec changes proposed
+
+- No new spec amendment from this question. Proposed practices guide the pending per-view composition refinements and future comprehension checks alongside docs/LABVIZ_V2_SPEC.md:338-371/:405-420/:619-657. Bind every story/number to reviewed recorded sources; maintain scientific gaps and avoid causal persuasion.
+
+### Context for build agents
+
+- Exact review anchors: practices_report.md:19 TXST; :21 Databricks; :22 Tableau; :23 FedTech; :24 Sigma; :26 Fuselab; :27 PMC; :72 LabViz contract/reader check; :79 rejection of rigid limits/persuasion. These describe the original review's inspected pages. LVB11 reread report excerpts only; no new original external pages were opened, no article platforms or scripts adopted, and the PMC full text was not newly inspected.
+- Builder/successor packet includes short selected practice extracts or clearly marked review-derived paraphrases, their purpose and source, alongside interface-design/Anthropic checklists and relevant repo examples. Keep original opened-source versus review-derived versus uninspected distinctions. Spec and operator decisions govern when generic guidance conflicts.
+- Handoff11 is prepared and updated to carry this recommendation and the practices-source roles. No clear or context-threshold observation is asserted. Only notes/handoff written; all discussion-only boundaries persist. Binding context rule survives: inspect available Context before questions; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, notify operator and write separate designated successor handoff with topics, decisions, exact paths, open risks and one next point; at <=40% stop starting work. Never approach compaction or place handoff inside notes; restate the rule in every successor/team handoff. No numerical percentage is exposed or asserted.
