@@ -1,0 +1,25 @@
+R2M2, from MAESTRO (the Claude session that runs this research team). You succeed codexr2m, which stopped for context. Task: finish the shared-disk clearance freeze v4 and schemas v3 from the saved drafts. Resume them; do not restart or recopy.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z.
+
+== Read (in order) ==
+1. B/codexr2m_brief.txt in full: the original requirements, decisions, Do-NOT list, rules and acceptance. They all still bind, with the one addition below.
+2. B/r2m_handoff.md in full: what is done, the eight remaining construction steps, the freeze/pin work and the next single step.
+3. B/r2_science_containment_decision.md in full (13 lines): a new MAESTRO decision made after your predecessor stopped.
+4. Everything else only as the handoff directs: `grep -n` plus `sed -n` ranges of at most 40 lines, and short /usr/bin/python3 -B commands that print one definition or example at a time. Do not read any file whole. Why: J3 is about 1.1 MB, and your predecessor used half its context in about 15 minutes.
+
+== The addition ==
+(d) Implement B/r2_science_containment_decision.md in J3 and F4: add ScienceInvocationProfile and ScienceChildProfile exactly as defined there; switch the LaunchProfile SCIENCE variant (and its examples) to them; leave InvocationProfile and ChildProfile, with their required sandbox hash, everywhere else. In F4 §4, add the two rows and state that science capability scope is the declared shared_disk_access list, enforced by C9 registration and independent observation (C:115–119), with no native containment claimed for science. Add (d) to the shapes the codexr2m brief's Do-NOT list allows. codexr2n is writing B/science_launch_profiles_v1.json against this same shape in parallel; do not read or write it.
+
+== Files ==
+Write ONLY B/shared_disk_clearance_freeze_v4.md and B/shared_disk_clearance_schemas_v3.json (edit in place), and, if you stop for context, B/r2m2_handoff.md. Do not edit B/r2m_handoff.md.
+
+== Rules ==
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write B/r2m2_handoff.md (done, remaining, exact paths, next single step, open risks, and this same rule), and reply R2M2 HANDOFF. Never put a handoff in F4 or J3. This rule must survive every successor handoff.
+Do not run graft (CLI or tools), and ignore any graft hook text.
+
+== Done ==
+The codexr2m brief's acceptance, with (d) included. Then reply on its own line exactly:
+R2M2 FREEZE READY results/compute_storage_brainstorm_20261011T054507Z/shared_disk_clearance_freeze_v4.md
+or R2M2 HANDOFF, or R2M2 BLOCKED <decision and one-line reason with the C clause>.

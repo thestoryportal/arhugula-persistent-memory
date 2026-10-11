@@ -99,3 +99,236 @@ Recorded JSON/logs and documentary context → source-linked run cards/context g
 ## Session continuity
 
 Context rule: watch the "Context N% left" line. At or below 45% left, or on any "Context compacted", tell the operator, finish the current point, and write `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff.md` with topics covered, a pointer to these decisions, open questions, the next point and this same rule. Never put that handoff inside this notes file. The repo's earlier context gate also applies: at or below 40%, stop starting new work.
+
+## LVB2 — builder-context packaging
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to "How should we package the outside references for builders?" Option 1 was "Selected extracts per task — recommended. Clear examples with an explanation of what to borrow." Settled: a small task-specific packet with binding spec ranges, relevant agreed decisions and existing phone screenshots, one layout checklist, one chart-accuracy checklist, and outside examples relevant to the assignment. Candidate examples still need inspection; no package adoption or execution is authorized.
+
+### Open questions
+
+- Concrete extracts remain to select and verify. Next: what a recorded playback step needs so granular diagrams, charts and input/answer text stay synchronized. Historical gaps and the separation of recorded measurements, re-creations and explanatory diagrams remain binding (`docs/LABVIZ_V2_SPEC.md:320-328`, `:896-931`).
+
+### Spec changes proposed
+
+- No additional product-spec amendment is needed for the packet decision itself. Previously proposed granular-player and cross-journey amendments remain pending; the spec is unchanged.
+
+### Context for build agents
+
+- interface-design: hierarchy, spacing and loading/empty/error-state extracts; Anthropic data-visualization: units, scales, uncertainty, missing-data and readable-label extracts. Purpose: one focused layout guide and one chart guide per task. Original sources not opened in LVB2; scripts and secondary material remain unaudited (`results/dashboard_integration_review_20261011/uiskills_report.md:19`, `:28-29`). Supply source/version and check licence before copying; no skill execution.
+- Tabler: one relevant layout/phone-stacking example; ECharts: one relevant chart-interaction example; Transformer Explainer: one relevant component-explanation example. Example pages remain unopened; previous README findings are above at lines 90-91. Candidate basis: `results/dashboard_integration_review_20261011/web_report.md:26`, `:37`, and the external-reading entries above. Keep each selected experiment's model structure and recorded data; the Explainer's live GPT-2 runtime is outside the viewer contract. No clone, install, remote assets or model execution.
+- Each packet names the reader task, applicable spec lines, source/version, exact pattern to borrow, evidence/missing-data limits and unresolved checks. Existing October 8 screenshots predate MathLab and illustrate existing behavior rather than prove the proposed design.
+- LVB2 context rule: at or below 45% remaining, or on any "Context compacted", finish the current point and write the separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff2.md` with decisions pointer, open questions, exact next point and this rule. Start a new piece only at >=60% remaining. Never put the handoff in these notes.
+
+## LVB2 — deep input-linked model detail and learning
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "Deep detail for inputs as well as any and all parts of the model that were/are effected by those inputs with that data associated to it along with any explnations for science and learning by a non-technical user."
+- Preserve this as an input-linked, model-wide depth requirement: detailed inputs, all affected model parts and their associated measurements, plus nontechnical scientific explanations. The operator did not choose a restriction to selected demonstration inputs or a fixed sample of internal parts. The design must connect input -> sequence step -> model part -> recorded measurement -> explanation/source, and allow exploration from either the input or the part. This extends the earlier granular-zoom condition; it does not reduce it to layer summaries.
+- Interpret "affected" with explicit distinctions: stored-number changes, changes in the signals passing through a part, and the part's role in processing the selected input. Unedited stored numbers do not establish unchanged activity (`docs/LABVIZ_V2_SPEC.md:636-641`). Recorded association is not by itself a causal explanation of an answer or a location where a fact is stored (`:595`, `:603-604`). Show the measurement and its comparison basis; unseen parts remain "not recorded", never "unaffected".
+
+### Open questions
+
+- How should nontechnical learning be presented: explanation beside the selected input/part/step, a guided walkthrough first, or both selectable? Next operator question concerns this learning preference.
+- The full capture inventory and feasibility remain to define per experiment: exact model structure, all input sets, component coverage, sequence resolution, available before/after comparisons, sources and missing fields. Model-wide means input/output stages and intermediate parts, not only the edited layer band. Existing historical data cannot establish exhaustive affected-part coverage (`docs/LABVIZ_V2_SPEC.md:325-328`).
+- Later preparation must assess recording/storage cost and observer effects before any scientific recording change. No instrumentation, observation rerun or model execution is authorized here.
+
+### Spec changes proposed
+
+- Extend §5 items a-d and §6-7 with an explicit input-to-component measurement link and coverage inventory. A frame identifies run/model/configuration and source version; input identity/role/text and recorded pieces; phase/step and recorded time or untimed source order; component/subcomponent identity; measurement, units and before/after comparison basis; source path/key or line; and unavailable fields/reasons. The same frame drives synchronized diagrams, charts and input/answer text. Proposed fields are a design target, not an implemented schema.
+- Replace a fixed top-16 sample as the definition of sufficient granular coverage with an explicit requirement to assess the useful depth needed for all affected parts. Any practical sampling remains visibly disclosed and a limitation against the operator's broader target. Current sampling boundaries are at `docs/LABVIZ_V2_SPEC.md:328`, `:638`, `:863-872`; no exhaustive recording capability is established by the current spec.
+- Extend the plain-language captions to selected inputs, components and playback steps: what the part normally does; what was measured for this input; what changed under the stated comparison; what the experiment's sourced interpretation says; and what is still unknown. Introduce technical words through a short plain-language definition. Separate general model explanation from experiment-specific observation and reviewed scientific interpretation. Existing relevant caption/evidence rules are `docs/LABVIZ_V2_SPEC.md:584-587`, `:619-625`, `:627-648`. No new verdict or causal claim may be generated by the viewer.
+
+### Context for build agents
+
+- Give the builder the verbatim requirement above, the selected model's own structure, input lists bound to the exact run version, a per-part/per-input data-coverage table, available measurement frames and their provenance, and approved explanatory text with source references. Show both recorded data and explicit gaps, including gaps at finer zoom levels.
+- For component explanations, candidate external references supply a teaching pattern only. Adapt terminology and diagrams to the selected model; do not copy another model's structure or use its demonstration outputs as our experiment data. Add related papers through the already-required research-source links, with the documented basis for each association. Concrete external examples remain unopened.
+
+## LVB2 — learning routes
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to "How would you prefer to learn?" Option 1 was "Both — recommended: explore with explanations, or follow a guided walkthrough." Provide both free exploration with selection-specific explanations and an optional guided walkthrough of the same experiment data. These learning routes supplement the three already-approved player modes; they do not replace or narrow those modes.
+- Both routes retain the selected experiment and source/evidence labels. A guided explanation must link each statement to the relevant input, model part, sequence step or research source; conceptual teaching is visibly distinguished from what this experiment recorded. Missing observations remain explicit in either route.
+
+### Open questions
+
+- Learning-route entry and return behavior will be fleshed out with navigation; no initial route preference was selected by this answer. Proposed routine default: exploration, with a visible walkthrough entry and a return to the prior selection.
+- Next discussion: access to complete input sets and associated research papers across journeys, including how much plain-language paper context appears before opening the original source.
+
+### Spec changes proposed
+
+- Clarify §4A.1 and §5/§7.6: selection-specific learning explanations and an optional source-bound guided walkthrough are available within experiment exploration, with cross-links to the existing Learn and evaluations destination. Keep the five top-level destinations (`docs/LABVIZ_V2_SPEC.md:341-353`); use the existing plain-language evaluation fields as a basis for experiment interpretation (`:584-587`). Initial state and return behavior remain proposals until the navigation discussion.
+
+### Context for build agents
+
+- Give the builder paired reader tasks using the same run: freely select an input and explain a measured component change; follow a walkthrough to the corresponding step and find the same measurement/source. Include definitions of technical terms, reviewed captions, relevant associated papers, recorded/re-created/diagram labels and expected missing-data wording. This is a future reader-verification design; no test or browser run occurs now.
+
+## LVB2 — paper reading cards
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to "What should happen when you select a paper?" Option 1 was "Reading card first — recommended, with an 'Open original' link." Selecting an associated paper opens a short reading card: what the paper investigates in plain words, how this experiment uses it, the section supporting that association, and an explicit link to the original paper. The associated-papers requirement across journeys was already settled; this decision specifies presentation.
+- Retain the prior distinction between sources cited/used by the experiment and related reading. An association needs its program-document citation; a paper-level statement needs its own supporting location. Where either has not been verified, show that gap rather than inventing a role or a page reference. Reading cards are source-bound context, not new experimental evidence.
+
+### Open questions
+
+- Next: input selection and detail order. Proposed browser: the complete available run-specific input set, searchable and grouped by purpose (facts supplied, training/practice text where applicable, evaluation questions, and side-effect checks). Highlight the input selected in the player while retaining access to the complete set; include expected/observed answers and the scoring explanation where available.
+- Paper associations and summary completeness still need a later source audit. No experiment bibliography or paper has been freshly audited in this session. Return from a reading card should preserve the originating experiment/input/component/step; detailed navigation remains to discuss.
+
+### Spec changes proposed
+
+- Extend the previously proposed Research and sources section (§6 and §11.1-11.2, `docs/LABVIZ_V2_SPEC.md:662-674`, `:983-1023`) with reading-card fields: title and recorded bibliographic details, plain-language topic, experiment role with association source, supporting paper section/page where verified, original link, and association/summary verification gaps. Cross-journey access remains required. No spec edit is made.
+
+### Context for build agents
+
+- Supply verified bibliographic entries and concise reviewed reading-card text, with distinct citations for the experiment association and any paper claims. Extract the reading-card presentation pattern; preserve deliberately opened original links and explicit missing metadata. No automatic paper download, external summary service, research upload or live model-generated explanation is authorized.
+
+## LVB2 — input-detail order
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to "When you select an input, which order would you prefer?" Option 1 was "Input and answers -> model detail — recommended." On input selection, lead with exact input text and expected/observed answers, then the associated fine-grained model detail. Include the run's recorded scoring explanation; an absent expected or observed answer is explicitly missing. Do not generate an answer to fill the panel.
+- This presentation applies when selecting an input across the journeys, including within the player or from a model part. It retains input-to-part links and all three player modes, and does not restrict exploration to final outcomes.
+
+### Open questions
+
+- The complete searchable input browser grouped by purpose remains the proposed implementation arrangement; this reply specifically settles detail order. Exact sets are bound to the selected run's recorded configuration/version, with supplied/training/evaluation/side-effect roles distinct and a complete-set route beside focused selections.
+- Next: navigation and playback continuity. Proposed behavior: preserve run, input, component, player mode, step and zoom when opening details or papers, switching 2D/3D, entering/leaving a walkthrough or using Back. Extend linkable selection state; when a requested step does not exist in another route, show the mismatch and offer valid positions rather than silently jumping. Automatic pause while reading is the next operator preference.
+
+### Spec changes proposed
+
+- Clarify the cross-journey Inputs and answers section in §4A.1, §5 item a and §6 (`docs/LABVIZ_V2_SPEC.md:338-355`, `:619-625`, `:662-674`) with the approved input/answer-first arrangement and links to corresponding component measurements. Preserve source-precedence and version-bound input text (`:623`), explicit missing values and the recorded scoring rule (`:620`).
+
+### Context for build agents
+
+- Supply the input role, exact text, expected and observed answers where recorded, scoring kind/rule, run/configuration source identity, and linked component/step measurements. Match comparisons by fact/question identity and scoring kind, never row position (`docs/LABVIZ_V2_SPEC.md:580`). Design complete lists for phone use with expandable rows and search; the selected subset does not replace the full available set. Source text and unverified transcription remain visibly distinct.
+
+## LVB2 — pause while reading
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to "Which behavior do you prefer?" Option 1 was "Pause while reading — recommended." Automatically pause playback when the reader opens a detailed explanation or paper reading card. Returning retains that position; the reader presses Play to continue. Brief captions already visible beside the animated data do not themselves trigger a pause on every frame.
+
+### Open questions
+
+- Next: mode-switch continuity. Proposed option: preserve the selected source step when it exists in the new mode; if it does not, remain paused, explain that absence and offer valid recorded positions. Alternative: explicitly restart each new mode at its first available step. No silent jump or invented intermediate frame.
+- Other proposed navigation defaults remain: preserve run/input/component/zoom when changing 2D/3D or opening/returning from source detail; retain an origin state for walkthrough return; expose selected mode/step/input/component/zoom in a link. A link opens paused and displays missing/unresolvable selection explicitly. These are design proposals, not behavior verified in the current build.
+
+### Spec changes proposed
+
+- Add the approved pause/return behavior to §7.6 and the focused-detail/reading-card requirements (`docs/LABVIZ_V2_SPEC.md:919-931`, `:353-355`). Expand selection state beyond the existing run/line/compare fields as previously proposed. Spec remains unchanged.
+
+### Context for build agents
+
+- Provide two reader-task examples: open a deeper component explanation during playback and return to the same paused frame; open its associated paper card and return without losing input/component context. Use the same source-labelled frame for diagrams, charts and text. Future verification must distinguish expanded reading from inline captions; no browser or test run now.
+
+## LVB2 — mode continuity and phone player proposal
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to "Which switching behavior do you prefer?" Option 1 was "Keep the matching step — recommended; choose another when unavailable." Switching between Experiment phases, One fact/question and One component preserves the matching source step where it exists. If unavailable in the new mode, playback stays paused, states why and offers available positions. Do not silently reset, choose an approximate step or invent intervening frames.
+
+### Open questions
+
+- Next phone-layout preference: keep essential playback controls visible in a compact band with reserved layout space, or let them scroll with the focused diagram. A persistent band must never overlay the diagram or approved detail panel; eventual phone/zoom checks must establish that its reserved height leaves the focused view useful.
+- Proposed standard controls follow the existing contract: Play/Pause, Previous/Next step, a timeline selector, speed, and selectors appropriate to the three approved modes (`docs/LABVIZ_V2_SPEC.md:919-931`). Source/evidence status and current position remain readable. Untimed sequences use step/order wording, not an invented clock.
+
+### Spec changes proposed
+
+- Add approved mode-switch behavior and a paused unavailable-selection state to §4A.1 and §7.6 (`docs/LABVIZ_V2_SPEC.md:353-355`, `:919-931`). Phone control placement remains proposed. Preserve 44px touch targets, 360px no-horizontal-scroll behavior, 13px text floor and text/pattern state labels (`:360-373`).
+
+### Context for build agents
+
+- Existing screenshot re-inspected in LVB2: `results/labviz/review/20261008T130913325Z/chromium-phone-model-2d.png`. Qualitative observation: the page stacks a long layer listing, parts, static wiring and recorded events. It predates MathLab and does not show or validate the newly proposed granular player. Use it to explain why focused views and reachable controls matter; do not claim a current runtime defect from this historical image.
+- Existing phone Map measurements re-read: `results/labviz/review/20261008T130913325Z/measure.json:825181-825210` records 390x844, matching 390px client/scroll widths and 1905px document height. This is Map horizontal-fit evidence only, not player control acceptance or proof that the model screenshot has those dimensions.
+- Builder packet: these approved continuity/pause rules, relevant §4A and §7.6 extracts, the existing screenshot, and later reader tasks for switching modes at both a shared and an unavailable step. Include all synchronized diagrams/charts/input text and a source link at the selected frame. No new browser review or test occurs in this discussion.
+
+## LVB2 — visible phone controls
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to "Where should the essential controls sit?" Option 1 was "Stay visible in their own band — recommended." Keep Play/Pause and Previous/Next step visible while exploring on a phone, in a compact band occupying its own layout space. It never covers the focused diagram or detail panel. Maintain 44px targets and readable labels.
+
+### Open questions
+
+- Exact reserved height and phone-landscape/zoom behavior require later authorized design verification. Additional mode/input/component selectors, timeline and speed must remain reachable; the answer does not require putting every control into the persistent band.
+- Remaining design work: specific reference extracts, chart and missing-data presentation, full navigation/reader-task handoff. Standard player proposals: all panes share a source-labelled step; playback stops at the end of the selected sequence rather than silently cycling; untimed data uses ordered steps, not a manufactured duration. These defaults remain proposals.
+
+### Spec changes proposed
+
+- Specify persistent essential phone controls with reserved non-obstructing space in §4A and §7.6. Retain the existing phone/text/contrast rules (`docs/LABVIZ_V2_SPEC.md:360-373`) and player controls (`:919-931`). Future measurements must cover both themes, narrow/landscape phone and zoom; existing October 8 proof does not cover this new band.
+
+### Context for build agents
+
+- Supply the approved control/panel/pause/mode-switch decisions alongside the historical phone screenshot and spec minimum sizes. Require the future reader to change a step, read its explanation and return without losing position or scrolling back to find essential controls. No current build, test or browser run is authorized.
+
+## LVB2 — bounded primary-source checks for builder extracts
+
+### Decisions (with the operator's words)
+
+- No new operator decision in this section. These checks make the already-approved task-specific reference packaging concrete; they do not adopt packages or execute skills.
+
+### Open questions
+
+- Tabler's actual phone-stacking/side-panel markup and Transformer Explainer's concrete zoom/teaching visuals remain unverified. Their references cannot be treated as tested solutions. Source versions are mutable and not pinned; pin and check licences before a future builder packet copies text or code. No secondary skill reference or executable was audited.
+- Next reader preference: one explained chart at a time on a phone, with all applicable measures reachable through a selector, or applicable charts stacked on the page. Preserve the input/component/step across chart switches. Missing data should remain labelled at the relevant part and in a coverage summary; no missing cell becomes zero or "unaffected".
+
+### Spec changes proposed
+
+- No amendment is required merely to supply reference extracts. Any new chart selector/arrangement should be documented under §5 items b-d, retaining §4A's source, text and non-color requirements (`docs/LABVIZ_V2_SPEC.md:360-373`, `:627-657`). Chart references do not override the required structural 3D view or the operator's model-wide depth target.
+
+### Context for build agents
+
+Primary pages opened read-only on 2026-10-11; no clone, install, demo launch, local scripts or model execution. Per-repo reading remains bounded to README plus at most one additional page. Reopening ranges of the same page does not establish its linked references.
+
+| Source actually opened | Selected extract / exact builder context | Intended LabViz use and limits |
+|---|---|---|
+| [interface-design SKILL](https://raw.githubusercontent.com/dammyjay93/interface-design/main/.claude/skills/interface-design/SKILL.md), Design System Essentials and Static polish sections | Short checklist for hierarchy, consistent spacing, dedicated focus/control states and loading/empty/error states; tabular numbers prevent moving labels. | Check focused diagram/detail layout in both themes. Exclude its native-control replacement advice, default-font rejection, 40px minimum alternative and execution/save/image-generation workflow. LabViz's 44px floor and existing contract prevail. Source licence not freshly checked. |
+| [Anthropic data-visualization SKILL](https://raw.githubusercontent.com/anthropics/knowledge-work-plugins/main/data/skills/data-visualization/SKILL.md), Accuracy and Accessibility sections | Checklist for zero-based magnitude bars, common scales for comparable units, labelled axes/units, supported uncertainty, non-color labels/patterns and a data-table alternative. | Explain recorded component changes and comparisons. Do not invent uncertainty intervals, copy Python examples, use insight titles as new verdicts, or apply its numerical-chart guidance to remove the required structural 3D model. The spec's rendered 13px text floor prevails over generic point sizes. Licence not freshly checked. |
+| [ECharts Event and Action](https://echarts.apache.org/handbook/en/concepts/event/), event parameters and dispatchAction sections; README opened previously | Documentation example for identifying a clicked data item and programmatically highlighting a corresponding item/showing its detail. Give a builder the selected passages and a local-record selection task. | Proposed adaptation: selected chart point -> the same input/component/frame in diagrams, explanation and source panel. This adaptation is an inference, not tested LabViz integration. Omit example search links, database requests, sample business data and automatic timer cycling. SVG/text compliance, phone/file-URL behavior and asset budget remain unverified; renderer docs were not opened. README plus one extra page allowance is used. |
+| [Tabler README](https://github.com/tabler/tabler) and [Layout index](https://docs.tabler.io/ui/layout) | A layout-context catalogue: consistent navigation, page titles/breadcrumbs/actions and page structure. | The index links to examples but contains no inspected side-panel/phone-stacking markup. Give its catalogue as optional reading; use our approved layout and existing screenshot as concrete geometry context. Do not claim Tabler proves the desired stacking behavior. Omit CDN starter assets and bundled plugins; actual subset licences/traffic/phone behavior remain unverified. README plus one extra page allowance is used. |
+| [Transformer Explainer README](https://github.com/poloclub/transformer-explainer) | Its framing of explaining internal operations in relation to an input and next-word-piece output; paper pointer. | Candidate teaching context only; no concrete visual/zoom example verified. README explicitly runs live GPT-2 in-browser: no runtime/model/demo is embedded or executed. Use the selected experiment's own architecture and recorded signals. The linked ACM paper was attempted but returned Internal Error: **not opened**. No alternative paper/demo/code page was opened. |
+
+- Axiom/practices panel worksheet remains review-derived context (`results/dashboard_integration_review_20261011/uiskills_report.md:48-51`): reader question, exact quantity, unit, source and explicit blocker. Original Axiom/article pages were not opened in LVB2; no platform/API work is authorized. Pinning and licence review are future preparation needs, not completed acceptance.
+
+## LVB2 — phone charts and consolidated design draft
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to "Which arrangement would you prefer?" Option 1 was "One explained chart at a time — recommended." On phones, show one explained chart at a time, with every applicable available measure reachable through a selector. Each chart includes units, its source and plain-language meaning; unavailable measurements remain explicit. Chart switching preserves input, component and playback step. This is presentation, not a restriction on recorded coverage.
+
+### Open questions
+
+- All operator decisions above remain settled. Remaining discussion can pressure-test the connected design with an on-paper input walkthrough, refine diagram/chart teaching, or review the consolidated handoff. No further choice is required about the already-approved three journeys or activity placement.
+- Routine design defaults proposed below have not been individually chosen: complete searchable input browser grouped by purpose; initial Experiment phases mode, paused; exploration with a visible optional walkthrough entry; initial theme follows the device and subsequent choice is remembered locally where supported; end-of-sequence stops playback; navigation/link state as listed below. Preserve these as proposals, not operator quotations.
+- Preparation dependencies: model-specific component topology, source-version-bound complete input sets, per-input/per-part coverage inventory, reviewed explanations/bibliographies, immutable reference extracts and licence checks. Richer future observation requires its own recording plan, inertness/resource review and scientific authority. Current historical detail is incomplete; no viewer can infer the missing trajectory.
+
+### Spec changes proposed
+
+Consolidated draft for MAESTRO; binding spec remains unchanged:
+
+| Area | Resulting behavior / amendment target | Existing anchor |
+|---|---|---|
+| Home and question journey | Compact dated activity strip, then big picture -> findings with limits -> detailed activity. Question page: findings/limits -> history -> latest experiment. | `docs/LABVIZ_V2_SPEC.md:340-345`, `:1086-1096` |
+| Comparison | Identities/eligibility notice -> outcomes and measured side effects -> setup differences -> per-question answers. Pair corresponding measures on phones; keep source/scoring/unit differences visible. | `docs/LABVIZ_V2_SPEC.md:578-582` |
+| Model exploration | 2D -> 3D -> guided explanation; model -> layer -> component -> finest available experiment-specific detail. Link inputs to all affected parts and their data; disclose unobserved parts/depths. | `docs/LABVIZ_V2_SPEC.md:627-657`, `:325-328` |
+| Learning and research | Free exploration plus optional walkthrough over the same sourced data. Inputs lead with exact text and answers. Papers open a plain-language reading card with experiment role, supporting section and original link. | `docs/LABVIZ_V2_SPEC.md:584-587`, `:619-625`, `:983-1023` |
+| Player and navigation | Three selectable modes; one source-labelled frame drives diagrams/charts/text. Opening deeper explanations or papers pauses; return stays paused. Mode switching retains the matching step, or pauses and offers available steps. Proposed Back/URL state retains run/input/component/mode/step/zoom and observation identity; unresolved selections are explicit. | `docs/LABVIZ_V2_SPEC.md:353-355`, `:919-931` |
+| Phone and themes | Focused views with detail below on narrow phones, side panel in its own space on wider screens. Essential controls remain visible in a reserved band. One explained chart at a time, all applicable measures accessible. Light/dark switch with equivalent readability. | `docs/LABVIZ_V2_SPEC.md:357-373`, `:405-420` |
+| Observation coverage | Each source step binds run/model/configuration/input/component identity, order/time, measurements/units/comparison basis, sources and missing fields. Assess needed depth beyond fixed top-16 summaries. Actual recordings, later re-creations and conceptual diagrams remain distinct. | `docs/LABVIZ_V2_SPEC.md:856-875`, `:896-931` |
+
+Functioning, checked against current documentation: recorded files + documentary links -> source-linked run cards/context -> generated static page -> linked views. Cards preserve original precision and source hashes; derived values retain operands; display rounding never changes card values (`tools/labviz/README.md:12-16`, `docs/LABVIZ_V2_SPEC.md:662-676`). The browser visualizes supplied records; it does not run science or load models/tokenizers/weight files (`docs/LABVIZ_V2_SPEC.md:16-20`, `:31-32`). The existing Phase 1 generic reader excludes observation replays/telemetry and EXPLORATORY records; richer views require the separately labelled paths, not relaxing that reader (`tools/labviz/README.md:14`, `docs/LABVIZ_V2_SPEC.md:962-965`). MathLab retains its shared event reader and MATH-PROXY label; it is not model-internal evidence (`tools/labviz/README.md:18-20`).
+
+Proposed source/missing-state defaults: a tapped number opens a source detail with original value/unit, exact file/key or document line, and calculation operands if derived. "Not recorded for this run" means absent measurement; "Could not read this data" describes load/parse failure with a visible reason; "Not comparable" states an eligibility mismatch; "Not judged yet" preserves absent scientific judgement. A measured zero remains zero, never missing. Unknown component activity is not "unaffected". Static activity wording includes source date and does not claim current liveness. Historic scientific results do not expire merely because they are old. Conceptual wiring motion says "diagram, not recorded activity"; later observation frames retain NOT EVIDENCE. A 3D rendering failure offers available 2D/text data without pretending 3D rendered (`docs/LABVIZ_V2_SPEC.md:32`, `:365-373`, `:580`, `:646`, `:906-917`; `tools/labviz/README.md:28`). These are proposed presentation defaults subject to the existing evidence rules.
+
+### Context for build agents
+
+- Assign narrow viewer work using the relevant rows above plus exact spec ranges, accepted operator quotations, selected existing phone images and the primary-source extracts table. The decision record cannot silently override the binding spec: MAESTRO needs explicit amendments and a scoped brief before building.
+- Separate viewer preparation from data preparation/recording: topology, input provenance, paper association and coverage inventory must identify what actually exists before promising exhaustive playback. Observation capture, reruns, recording budgets and model access remain separately gated. A useful UI reference provides a pattern/checklist, never experiment data or scientific acceptance.
+- Future reader verification: (1) reach a question's finding and explain its unresolved limit; (2) compare two runs and identify a refused comparison; (3) select an input, read its answers, trace available component measurements and identify a gap; (4) switch modes at a shared and an unavailable step; (5) open explanation/paper and return to the same paused position; (6) follow a walkthrough and find the same underlying source as free exploration. These are planned tasks, not tests performed.
+- Future mechanical verification retains the binding spec counts/limits, including <=1 MB uncompressed initial view, no horizontal page scroll at 360px, 44px targets, >=13px rendered text, contrast and both themes (`docs/LABVIZ_V2_SPEC.md:354`, `:360-373`, `:405-420`). Existing October 8 measurements/screenshots do not validate new player, theme or later MathLab UI. No new scientific/UI acceptance is claimed.
+
+- Citation corrections after numbered re-reading: the 3D fallback source for the paragraph at line 325 is `tools/labviz/README.md:26`, not `:28` (which describes review tooling). The 44px touch-target rule is `docs/LABVIZ_V2_SPEC.md:367`; an earlier phone-control chat link pointed to `:369` (stacked table rows). The requirements themselves are unchanged. Continuation/design handoff saved separately as `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff2.md`; it is not approval to build or a statement of new acceptance.
