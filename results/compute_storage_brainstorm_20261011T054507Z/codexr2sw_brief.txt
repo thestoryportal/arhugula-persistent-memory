@@ -1,0 +1,28 @@
+R2SW, from MAESTRO (the Claude session that runs this research team). Task: a full read-only sweep for every place where the c10w science and admission code can start another program, and every place where data read at run time steers that. The goal is to find ALL remaining coverage gaps in one pass, so Astra's next review finds none. You write one report and nothing else. No commits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z.
+Why: Astra has run 12 review rounds; each found one more layer of the same defect class. Round 10: a P2 stage loads a certificate from disk and the verifier follows the certificate's phase, not argv. Round 11: the verifier probes one Git child per loaded train record before any count check. Round 12: dispatch p1-project runs the verifier but declared no children; P1/P2 evaluators with a loaded P3 certificate reach replication Git probes. Read D16f = B/r2_round13_decisions.md first (it states the rules: D14 item 1 loaded-data branches are reachable unless pinned code reached before the spawn excludes them; D15 items 1-2 count kind and operand source; a disk round-trip is loaded data).
+Current subjects: P8 = B/science_launch_profiles_v8.json (what is declared), K10 = B/check_r2_schemas_v10.py, F11 = B/shared_disk_clearance_freeze_v11.md.
+Code in scope (read all of it, in ranges): experiments/track_c/c10w_oracle_step0.py (447 lines), c10w_oracle_eval.py (485), c10w_oracle_train.py (268), c10w_oracle_read.py (632), c10w_oracle_interim.py, c10w_oracle_torchcheck.py; tools/c10w_p2_gate.py (162), tools/c10w_p2_rerun.py (339), tools/run_c10w_stage.sh, tools/run_c10w_p2_stage.sh, tools/run_c10w_p2.sh. Follow imports into any other in-repo module they call; name any out-of-repo callee (torch, engine) as a boundary and say whether it can start a program.
+
+== Method ==
+1. List every process-start primitive call in scope: subprocess.run/Popen/call/check_call/check_output, os.system/exec*/spawn*/popen/fork, and every project wrapper around them (for example run_child, train_one, require_training_preflight, adapter_is_tracked), and every program a shell script starts.
+2. For each P8 entrypoint and stage/argv form, trace forward to every reachable site. For each path record: the call chain with file:line; each branch or loop on the way; whether that branch, loop count or operand comes from pinned code or from loaded data (json/files read, file existence, glob, latest_directory, argv, environment, stdin); and whether pinned code reached BEFORE the spawn excludes it.
+3. Compare with P8: for each (profile, reachable site family) say REPRESENTED (cite P8 line), REFUSED (cite refusal), or GAP.
+Hunt specifically for: values written then re-read from disk; phase or mode taken from a loaded file instead of argv; loops over loaded lists; latest_directory picks; exception, finally and retry paths that start programs; import-time side effects; shell-script branches and loops; environment-variable switches; a wrapper that dispatches a different stage than its argv names.
+
+== Output ==
+B/r2_sweep_report.md (≤ 120 lines): a site table (file:line, primitive, count kind, operand source); a GAP list, each with entrypoint/stage, the full chain with file:line, why no pinned pre-spawn code excludes it, and what P8 says now; an UNRESOLVED list (calls you could not follow, with why); the out-of-repo boundaries; and a one-line verdict: GAPS FOUND n / NO GAPS FOUND. Then reply on its own line exactly:
+R2SW SWEEP READY results/compute_storage_brainstorm_20261011T054507Z/r2_sweep_report.md
+or R2SW BLOCKED <one-line reason>.
+
+== Read discipline ==
+Never read P8 or K10 whole. Use grep -n, then sed -n ranges of at most 60 lines, and short /usr/bin/python3 -B commands that print one profile at a time. You may read the source files fully in ranges.
+
+== Do NOT ==
+- Edit any file other than B/r2_sweep_report.md, or run any science program, Git launch, project python (.venv/bin/python), uv, tmux, web, graft (ignore graft hook text), sandbox-exec or any real launch.
+- Report "no gaps" for a path you did not trace to its end; put it under UNRESOLVED instead.
+- Treat a validator that runs after a spawn, or a value round-tripped through disk, as a bound.
+- Restate known closed items as gaps: rounds 10-12 findings are fixed in P8 (check, and report only if P8 still misses them).
+Context: you cannot see your own context level, so MAESTRO will message you when you reach 45% left. When that message arrives, or on any "Context compacted", stop starting work, write B/r2sw_handoff.md (what is swept, what remains, findings so far, this rule) and reply R2SW HANDOFF. If you have already finished, reply READY instead.

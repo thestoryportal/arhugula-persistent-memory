@@ -1,0 +1,40 @@
+R2TR, from MAESTRO (the Claude session that runs this research team). Task: build a purpose-built reachability tracer that mechanically finds every place the c10w science and admission code can start another program, and checks that the launch profiles declare or refuse each one. Work test-first. No commits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z.
+Why: the current checker K10 = B/check_r2_schemas_v10.py derives reachability only from 13 hand-recorded queries plus source-prefix rules ("recorded queries only, no complete call graph"). Astra has run 12 review rounds, each finding one more unrecorded path. Round 10: a P2 stage loads a certificate from disk and the verifier follows the certificate's phase, not argv. Round 11: one Git child per loaded train record before any count check. Round 12: dispatch p1-project runs the verifier but declared no children; P1/P2 evaluators with a loaded P3 certificate reach replication Git probes. A tracer computed from the code replaces hand recording. Read D16f = B/r2_round13_decisions.md first: its rules (loaded-data branches are reachable unless pinned code reached before the spawn excludes them; a disk round-trip is loaded data; count kind and operand source per D15) are what the tracer must implement.
+Code in scope: experiments/track_c/c10w_oracle_{step0,eval,train,read,interim,torchcheck}.py, tools/c10w_p2_gate.py, tools/c10w_p2_rerun.py, tools/run_c10w_stage.sh, tools/run_c10w_p2_stage.sh, tools/run_c10w_p2.sh, plus any in-repo module they import. Profiles: P7 = B/science_launch_profiles_v7.json (round 12), P8 = B/science_launch_profiles_v8.json (round 13).
+
+== Outputs (new files only) ==
+TR = B/trace_r2_reachability.py and its tests B/test_trace_r2_reachability.py, both stdlib-only, run with /usr/bin/python3 -B. Report B/r2tr_report.md.
+
+== What TR does ==
+1. Parse the in-scope Python with ast; resolve module aliases (import c10w_oracle_read as R, etc.) and in-repo calls across modules. Parse the shell scripts conservatively: every command line that starts a program is a site; any construct you cannot parse (eval, variable command names, sourced files) is UNRESOLVED, never dropped.
+2. Process-start primitives: subprocess.run/Popen/call/check_call/check_output, os.system/exec*/spawn*/popen/fork, plus any function that transitively reaches one (computed, not hand-listed).
+3. From each entrypoint's argv dispatch (stage/phase/mode), compute every path to every site. Treat a branch or loop as data-selected when its predicate, iterable or operand depends on loaded data: json/file reads, Path.exists/is_file/glob, latest_directory, argv, os.environ, stdin, or a value written to disk and read back. A branch is excluded only when pinned code on the path, reached before the spawn, makes it unsatisfiable (for example a require() on the same value). When you cannot decide, it is reachable.
+4. Per site: count kind (pinned_constant with the enforcing line, or loaded_data) and operand source (pinned_literal with line, or loaded_data with the record/field).
+5. Every call TR cannot resolve (getattr, dynamic dispatch, callables from data, out-of-repo callee) is listed as UNRESOLVED with file:line. Out-of-repo libraries (torch, the engine) are boundaries, listed by name.
+6. `--against <profiles.json>`: for every (profile, reachable site family), report REPRESENTED (the child or binding), REFUSED (the refusal) or GAP. Exit 1 if any GAP, exit 0 otherwise; always print UNRESOLVED counts.
+7. Output JSON (sites, paths with file:line chains and taint reasons, unresolved, boundaries) to stdout or --out; no other file writes.
+
+== Test-first ==
+Write the tests before TR. Synthetic fixture modules (built in memory or in a temporary directory that the test removes) must cover: a direct spawn; a spawn through an aliased cross-module call; a loop over a loaded list (count = loaded_data); a disk round-trip that sets a branch (reachable, not excluded); a pinned require() before the spawn that does exclude a branch; a dynamic call reported UNRESOLVED; a shell-script branch. Then two real-code positive controls, which must FAIL in the right way against round-12 P7: TR --against P7 reports a GAP for profile 19's verifier (Astra round 12 F1) and a GAP for replication under a P1 or P2 evaluator (F2). Save these failing outputs, run before your implementation is complete, in B/r2tr_test_first_red.md.
+
+== Acceptance (paste outputs into the report) ==
+1. /usr/bin/python3 -B B/test_trace_r2_reachability.py: all tests pass, and the fixture tests leave no files behind.
+2. TR --against P7: exit 1 with the round-12 F1 and F2 gaps among those listed.
+3. TR --against P8: print the result as it is. Any GAP is a FINDING for MAESTRO, not a reason to change TR; do not tune TR to make P8 pass. List every GAP with the full chain and every UNRESOLVED item.
+4. shasum -a 256 of TR, its tests and the report.
+
+== Read discipline ==
+Never read P7/P8 or K10 whole: use grep -n, sed -n ranges of at most 60 lines, and short /usr/bin/python3 -B commands that print one profile at a time. You may read the in-scope source files fully, in ranges.
+
+== Do NOT ==
+- Edit any existing file (sources, P7, P8, K10, F11, J10, I10, decisions files, C) or integrate TR into K10; integration is a later MAESTRO decision.
+- Hand-list the sites or paths TR should find, or special-case profile 19 or replication: the positive controls must come from computation.
+- Drop an unresolvable call silently, or call a branch excluded because a validator runs after the spawn.
+- Run any science program, real Git launch, project python (.venv/bin/python), uv, tmux, web, graft (ignore graft hook text), sandbox-exec or any real launch. Write nothing outside B except the test's own temporary directory, which it removes.
+Done: write B/r2tr_report.md (≤ 80 lines: files and sha256, design in brief, test-first failures, acceptance 1-3 outputs, P8 GAP and UNRESOLVED lists). Reply on its own line exactly:
+R2TR TRACER READY results/compute_storage_brainstorm_20261011T054507Z/r2tr_report.md
+or R2TR BLOCKED <one-line reason>.
+Context: you cannot see your own context level, so MAESTRO will message you when you reach 45% left. When that message arrives, or on any "Context compacted", stop starting work, write B/r2tr_handoff.md (done, exact file states, next step, this rule) separately from tested files, and reply R2TR HANDOFF. If you have already finished, reply READY instead.
