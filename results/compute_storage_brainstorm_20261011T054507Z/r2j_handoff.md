@@ -1,0 +1,52 @@
+# R2J handoff — resume, do not restart
+
+MAESTRO ordered the context stop at 43%. The current import-closure edit completed and was saved before the stop. No further inventory edit was made after the stop. Inventory is INCOMPLETE; do not send INVENTORY READY.
+
+## Authority and scope
+
+Worktree: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a; verified git top-level matches, branch worktree-c10k-route-a. B = results/compute_storage_brainstorm_20261011T054507Z. Read authority: B/astra_r2g_verdict.md:1–30,66–80; predecessor B/science_launch_inventory_v1.md in full. Target: B/science_launch_inventory_v2.md only, at most 320 lines. B/r2j_handoff.md is the separate authorized context handoff. Do not edit v1 or any existing source, commit, touch tmux, run graft, use web, run .venv/bin/python, uv, project Python, or science. Commands must be read commands or shasum -a 256; writing the authorized inventory/handoff is the task exception. V2 began by the required cp of v1. Do not read/write codexr2i's freeze v3 or schemas v2 in B. Other file-content reads must use grep -n or sed ranges of at most 40 lines; never read another file whole. Hash no model weights or files over 50 MB. Use /opt/homebrew/bin/rtk proxy for shell reads.
+
+## Saved artifact
+
+Target absolute path: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v2.md.
+At stop: 264 lines, §§1–5 present, no handoff section. SHA-256 freshly computed after the last edit: 7e61a473e99c2c49dbe528a9e464621c9d41acbe550eabefb0b222dc0cc91955. This pins the partial inventory, not acceptance.
+
+## Done
+
+- §1 replaced the predecessor discovery transcript with exact new searches covering subprocess/os.exec/spawn, Python/shell launch strings, uv, tmux launch/send-keys source, repo launchd/cron strings, G stage names and model/engine launch predicates. Broad process search returned 510 matches; model/engine search 165; these two command outputs were captured untruncated. Searched scope and unsearched host mechanisms are explicit.
+- All 40 prior CUDA-only RETIRED rows were changed to NOT ADMITTED UNDER R2 with pre-CUDA directory/tokenizer/log access citations. The current source evidence does not justify retaining any CUDA-only retirement. Only autoresearch_c10/prepare.py's explicit refusal at :2 retains RETIRED. Source storage/tokenizer reads were grepped for every affected row; additional targeted reads checked function/wrapper context.
+- Both omitted MathLab notebook rows are present, with computed source hashes, shared-boundary reads/writes, exact nice/timeout/uv argv prefixes, assigned environment and local imports (§4:233 onward; boundary at :252–255). The variable-arity forwarded argv tail and uv-resolved executable/packages remain OPEN.
+- Added other discovered children: autoresearch_band_search/evaluate.py; b3_probe.py/b3_smoke.py/b3_verdict.py; c10l_mint_p4_probe.py; new1_dispatch_report.py; codex_context_guard.py; repo and installed audit_transcript.py; MAIN converter/llama-server/llama-quantize. Added governance g1_two_phase_commit.py, deployment e1_probe.py, visualization/build_structure_onnx.py, c10s_sharedz_inertness.py and c10i_anyedit_parity_audit.py as additional source boundaries. Existing scientific-child rows retained.
+- §3 training/eval payload argv now uses literal JSON arrays and scalar $bind objects, with Namespace/source-field explanations, 400/800/matched-A7 coverage and reattempt chain. Python executable symlink and target were read, sized and independently hashed, never run. Target /Users/robertrhu/.local/share/uv/python/cpython-3.11-macos-aarch64-none/bin/python3.11 is 17,275,920 bytes; interpreter/target SHA-256 ca2aa0df94c15d303d5fc924ec4c5630d56691ed0bad79553ecc108b0cf17cdb.
+- §3:46–83 now has local-import closure descriptions, 20 engine module identities including memit/rome/util initializers, and 10 package Name/Version metadata rows. MathLab core/index/runtime/events hashes are at :255. Venv metadata was read only for Name/Version, no package trees hashed. Values: torch 2.8.0; transformers 4.51.0; safetensors 0.8.0; numpy 2.4.6; huggingface_hub 0.36.2; datasets 5.0.1; tqdm 4.70.1; PyYAML 6.0.3; matplotlib 3.11.2; psutil 7.2.2. No marimo/pydantic/duckdb Name/Version match exists in that venv's complete metadata search; uv runtime identity remains OPEN.
+- First hash pass independently computed all 153 predecessor path identities; all matched the corresponding v1 digest. A further 45 successful path hashes bring the work performed to 198 distinct paths. This is NOT the required final rerun. Hash results are in this session's tool transcript and the inventory; no extra receipt file was permitted.
+
+## Remaining — no acceptance claim
+
+1. §2:17–23 still contains predecessor source-template argv strings, obsolete F1 alias/reference, and inherited-environment prose. Replace these with literal arrays and genuine scalar bindings, after bounded source verification; add/cross-reference helper child rows as needed. §3 is improved, but supplying frozen record fields remain unresolved for shell values and the parent-dispatch digest; do not pretend local placeholder names are frozen records.
+2. Closed profiles remain incomplete. Source facts: tools/c10w_p2_gate.py:69 and c10w_oracle_step0.py:299 copy os.environ; tools/mathlab_cpu_runner.py:68 does too. The statement “nothing else is inherited” is unsupported for those wrappers. §3 records literal assignments/unsets and some inherited harness reads, but needs every relevant read's literal/default or typed binding and a source-faithful account of closure. Do not invent environment values or imply source already closes inheritance. No guard design belongs in this inventory.
+3. Supply full MathLab argv including each forwarded argument as literal/scalar binding, with real record/field suppliers; current :253 contains only the exact executable prefix and explicitly OPEN tail. Inputs are params.harvest_dir, reproduction_dir, output_root/index_path as defined by notebook Params and runtime fields. No invented CLI flag is allowed.
+4. Finish complete child coverage for every inventoried runner/wrapper, including supporting/native children where required. Dynamic native/toolchain/DEST/run-directory targets must remain explicit OPEN where source cannot identify their bytes. Revisit c10s_sharedz_inertness.py's actual harness reachability; its row currently says further trace is needed. External LARQL launcher rows identify the source path but no LARQL binary identity was computed. Preserve searched-scope limitations for host launchd/cron/interactive commands.
+5. Check local-import closure per stage and distinguish reachable P2 imports from freeze-only imports; the 20-module engine table includes initializer transitive imports, but is not host/native-package closure proof. PATH-resolved bash and other applicable executable identities remain OPEN. Do not hash large native trees.
+6. Replace §5:256–264, which is untouched predecessor text. It contradicts completed closure/identity work and falsely describes a final 153-file rerun and 217-line inventory. Remove stale references/aliases (A/F1 etc.) or define exact source aliases. Add one-line “Noticed, not fixed” entries for incidental findings only.
+7. Re-run EVERY recorded SHA-256, compare digest against exact path, count distinct checked paths and record the actual matching count. Verify ≤320 lines, §§1–5 filled, both notebook rows/all 40 reclassifications present, no handoff section, no argv templates, and no fabricated bindings/environment/children/hashes. Only then send the exact ready token.
+
+## Next single step
+
+Resume at v2 §2:17–23: bounded grep/sed verification of G:63–79, reader:128–135, train:60–67 and stage.sh:21–34, then replace §2's old source-template helper argv with literal arrays/$bind fields and reconcile its obsolete alias. Do not restart v1 or redo completed inventory rows.
+
+## Open risks and execution notes
+
+- Source inheritance cannot establish the requested closed-profile claim; this is a real unresolved source/record issue, not a verified closure. No external freeze/schema files were read to resolve it.
+- The 198-path number counts successful first-pass computations, not final validation. V2's old last line must not be treated as this session's receipt. Final per-path rerun is UNRUN.
+- Cheap wrong-path probes surfaced errors: tools/autonomy_guard.py does not exist; actual autonomy child is tools/codex_context_guard.py (driver:252), subsequently read/hashed. Worktree llama_cpp_src paths did not exist; tools/c10l_mint_p4.sh:7–9 names MAIN, whose actual converter and binaries were then read, sized and hashed. No absent candidate was added with a fabricated hash.
+- MAIN converter was 13,012 bytes, llama-server 49,984, llama-quantize 33,472; these small files are pinned as selected entry files, not as complete native dependency closure. Native runtime/import closure remains OPEN.
+- Some focused tool outputs truncated, including the recent stop-state grep; broad discovery outputs stored in this session were complete. New claims needing those omitted details must use narrower reads. Full candidate coverage still needs reconciliation.
+- One accidental source sed range was core.py:250–293 (44 lines), exceeding the 40-line limit; do not repeat it. Several short files were exposed completely by bounded ranges; the successor must honor the explicit no-whole-file restriction. No project interpreter or uv process was launched.
+- No edits to existing files, git mutation, tmux operation, web/graft use, model/weight hashes, science or parallel builder artifacts occurred. Only v2 and this authorized handoff were written.
+
+## Binding context rule — survives every successor handoff
+
+Start a new step only at ≥60% context left. At ≤45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write B/r2j_handoff.md with done, remaining, exact paths, next single step, open risks and this same rule; then reply R2J HANDOFF. Never put the handoff inside the inventory. MAESTRO's stop at 43% is the present stop authority. The repo also requires active context management for every orchestrated team session.
+
+Successful final token, on its own line only after acceptance: R2J INVENTORY READY results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v2.md
