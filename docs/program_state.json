@@ -192,7 +192,7 @@
           "14:09Z: the one-page summary is ready (results/dashboard_integration_review_20261011/SUMMARY.md). Headline: keep our dashboards; first check that failures read UNAVAILABLE and that tabs fit the phone; a few small trials are worth considering; no skill should be installed as-is. Waiting for you to pick which proposals to approve.",
           "14:12Z: you said you will review the report first; MAESTRO asks the approval questions after that.",
           "14:35Z: at your request, an interactive LabViz brainstorm is open in tmux session codexlabviz (discussion only; the build hold stays). Notes go to results/dashboard_integration_review_20261011/labviz_brainstorm_notes.md.",
-          "15:24Z: LabViz brainstorm: the first session ran low on room and wrote its handoff (16 of your decisions recorded, af90cb27); a fresh session (codexlabviz2) continues with the next topic (what context the build agents get). Building stays on hold."
+          "15:23Z: LabViz brainstorm: the first session ran low on room and wrote its handoff (16 of your decisions recorded, af90cb27); a fresh session (codexlabviz2) continues with the next topic (what context the build agents get). Building stays on hold."
         ]
       },
       {
