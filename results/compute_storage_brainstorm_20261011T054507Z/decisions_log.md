@@ -214,3 +214,15 @@ What does not change: design.md:242 still binds. Neo4j Community, Java, CPython/
 Recorded 2026-10-11T08:11:13Z using `date -u`.
 
 Operator answer to "Should the Intel Mac log itself in automatically after a restart?": "Yes, turn it on (Recommended)". The operator set it in System Settings; MAESTRO confirmed `autoLoginUser = robertrhu_node2` and `/etc/kcpassword` present (08:10Z). With FileVault off (amendment 17), anyone holding the laptop reaches the logged-in account, including the research-data copy and any later Drive login. The Drive credential question must restate both facts.
+
+## Amendment 20 — Intel setup space raised to 2 GB; pilot+setup total 7 GB
+
+Recorded 2026-10-11T09:44:21Z using `date -u`.
+
+Operator answer to "Setting up the Intel Mac needs more space than you allowed … How should I handle it?": "Raise to 2 GB (Recommended)". Option text: tool setup gets 2 GB instead of 1 GB, and the combined pilot-plus-setup space grows from 6 GB to 7 GB; the pilot keeps its full 5 GB; all other limits stay the same.
+
+Why: read-only measurement (`results/research_engine_phase1_20261011/intel_r1_sizes_20261011.md`, commit df332df1) puts conservative peak setup growth at ≈1.48 GB with Neo4j 5.26 LTS (≈1.74 GB with 2026.09.0). Java + Python and their MacPorts closure alone take ≈0.91 GB, archive plus unpacked. This answers Astra's blocking F3 (`results/research_engine_phase1_20261011/astra_r1p_verdict.md`), which asked for a revised budget from the operator if the estimate exceeds the cap.
+
+What changes: setup growth ≤2,000,000,000 bytes (was ≤1,000,000,000 in `results/research_engine_phase1_20261011/phase1_intel_amendment_v1.md`); the amendment-16 pilot/setup ceiling becomes 7 GB (was 6 GB). Pilot ≤5,000,000,000 bytes is unchanged.
+
+What does not change: provisioning ≤15 min and every other amendment-16 cap; exceeding the new 2 GB cap still stops for operator disposition; the freeze must still measure growth and time at commissioning. Using the PyPI DuckDB wheel instead of a MacPorts source build is a design choice that goes to Astra review under amendment 18, not an operator question.
