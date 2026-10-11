@@ -148,3 +148,6 @@
 - [Codex web review lanes](codex-web-review-lanes.md) — `--search` only (sandbox network refused by classifier); web reading burns ~15%/min; ≤12 items/lane, successor generator ready
 - [Timed chain: prebuild gate checker](timed-chain-prebuild-gate-checker.md) — before a deadline-opening step, commit Gate D checker + dry-run it on a consumed run (R1N: caught key + DST bugs)
 - [LabViz wireframes before spec approval](labviz-wireframe-before-spec-approval.md) — after Astra GO on S: Codex static wireframes + flows; operator reviews before approving spec/builders
+- [Remove shared resource before policing it](remove-shared-resource-before-policing-it.md) — unterminating gate loop → design the contention away (R2 → Git+Drive)
+- [M3 hosts the team: no routine reboots](m3-hosts-the-team-no-routine-reboots.md) — reboot/logout kills MAESTRO, builders, phone link; R2 uses activity UIDs instead
+- [Intel exists to offload the M3](intel-exists-to-offload-the-m3.md) — uploads/retries go to Intel via M3-initiated push; operator declined activity accounts
