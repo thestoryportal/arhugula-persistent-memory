@@ -27,20 +27,20 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T02:45:16Z",
+    "edited": "2026-10-11T02:46:42Z",
     "items": [
       {
         "id": "drive-review",
         "title": "Drive backup: expert review, round 11",
         "summary": "Astra, the independent reviewer, checks the package and the Mac test results and says go or no-go.",
-        "state": "ready",
-        "who": "A builder fixes 3 points, then Astra re-checks (round 12)",
-        "session": null,
-        "started": null,
+        "state": "running",
+        "who": "Builder MB44 fixing 3 points, then MAESTRO re-runs on the Mac, then Astra round 12",
+        "session": "codexmb44",
+        "started": "2026-10-11T02:45:00Z",
         "estimate": {
-          "low_min": 20,
-          "high_min": 45,
-          "set": "2026-10-11T01:45:00Z"
+          "low_min": 60,
+          "high_min": 150,
+          "set": "2026-10-11T02:45:00Z"
         },
         "depends_on": [],
         "blocked_by": [],
