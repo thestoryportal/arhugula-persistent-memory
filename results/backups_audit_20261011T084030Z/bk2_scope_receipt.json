@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-11T09:06:05.905995+00:00",
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "branch": "worktree-c10k-route-a",
+  "head": "8281e302091f988a72647bfdcccf77fe9aca3216",
+  "inventory_sha256": "5bf9ac37fe26bd62477f4ec7d32a0cf4cbbb2fd8427f039741b98b6762f4af4f",
+  "output_bytes": 187002284,
+  "files_over_45000000_bytes": [
+    {
+      "path": "results/backups_audit_20261011T084030Z/inventory.tsv",
+      "bytes": 157756604
+    }
+  ],
+  "scope": "BK2 scripts write only this audit folder. No source imports/copies/moves/deletes, git mutations, installs, experiments/models, or tmux actions. Concurrent MAESTRO commits observed.",
+  "acceptance": "NOT READY: report, compressed inventory, final semantic review, loss evidence and adjacent groups remain pending"
+}

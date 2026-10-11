@@ -1,0 +1,8 @@
+e76db678a8cf0f2d4703886fa0b5e1e910e9e00e refs/heads/backup-gdrive-r12
+557a58bc5384829b3506374d0495b2816c658fac refs/heads/master
+900aa8edeb9c1f56f7334170f9bf5597238b6595 refs/heads/research-pass/2026-10-06
+f2d4c5f24eebd2be74d88b2ba7c1fedd85648323 refs/heads/worktree-c10k-route-a
+5ccbb836abcb7d0534d6601d502f760f79bf8d85 refs/remotes/origin/HEAD
+e76db678a8cf0f2d4703886fa0b5e1e910e9e00e refs/remotes/origin/backup-gdrive-r12
+5ccbb836abcb7d0534d6601d502f760f79bf8d85 refs/remotes/origin/master
+f2d4c5f24eebd2be74d88b2ba7c1fedd85648323 refs/remotes/origin/worktree-c10k-route-a

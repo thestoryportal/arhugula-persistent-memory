@@ -1,0 +1,63 @@
+{
+  "utc": "2026-10-11T09:09:13.998971+00:00",
+  "corrected_search_completed": true,
+  "process_exit_code": 0,
+  "state": {
+    "head_start": "8281e302091f988a72647bfdcccf77fe9aca3216",
+    "head_end": "8281e302091f988a72647bfdcccf77fe9aca3216",
+    "program_count": 292,
+    "exact_receipts": 94,
+    "queries_including_zip_members": 199,
+    "counts": {
+      "filesystem_names_seen": 60926,
+      "filesystem_text_or_members_searched": 41383,
+      "size_filtered_files_hashed": 680,
+      "large_json_text_excluded": 101,
+      "historical_blobs_searched": 12054,
+      "historical_blob_text_excluded": 2643
+    },
+    "errors": [],
+    "seconds": 152.18,
+    "status": "search evidence complete; semantic/version review pending",
+    "limits": "Directory symlinks not followed; environment/dependency/cache dirs excluded; history text only blobs <=200 KiB; large filesystem JSON >2 MiB not text-indexed; no UNIQUE verdict."
+  },
+  "search_queue_counts": {
+    "CONTENT-RELATED-REVIEW": 67,
+    "EXACT-VERIFIED": 94,
+    "NORMALIZED-CONTENT-IDENTICAL": 9,
+    "SEARCH-NO-MATCH-REVIEW": 87,
+    "FILESYSTEM-BYTE-IDENTICAL": 35
+  },
+  "owned_outputs": {
+    "scripts/program_content_search.py": {
+      "bytes": 12148,
+      "sha256": "532759f781f356d7bca502ea55e82ddc1b1bf320f83931dfc190692f7c4602bc"
+    },
+    "scripts/program_json_diffs.py": {
+      "bytes": 2394,
+      "sha256": "fb3331973000bca6c578b6fe8cbf6f66d057d279393b5e3af23566ec2f01e2d1"
+    },
+    "program_exact_receipts.jsonl": {
+      "bytes": 26057,
+      "sha256": "201df7754737b25e837447225cbd4b29f097f951cc2898740ee7eebf879a1f07"
+    },
+    "program_content_evidence.jsonl": {
+      "bytes": 815067,
+      "sha256": "e82db47028a7b698ccda90f39c4a96e775d8a297adceec45ed1f874a9627e043"
+    },
+    "program_byte_copies.jsonl": {
+      "bytes": 160016,
+      "sha256": "e43f74c1e6db6eb460199b53b1386bc01166714a99b3c51c97a82b2082572e33"
+    },
+    "program_search_queue.tsv": {
+      "bytes": 61464,
+      "sha256": "244bc6d256fa26ad8aa20ddbc6a0d9fa650a3efa8429f4cbaca36a814b18ff7e"
+    },
+    "program_json_diffs.jsonl": {
+      "bytes": 109383,
+      "sha256": "6b7dd24931937724c4a265160cbcc0649ad4e16b8e465a551e300fd9c9179708"
+    }
+  },
+  "output_bytes_before_this_receipt": 187016605,
+  "acceptance": "NOT READY; semantic/version review, recorded-loss search, adjacent dispositions, audit_report.md, gzip packaging pending"
+}

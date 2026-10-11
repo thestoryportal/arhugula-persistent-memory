@@ -1,0 +1,12 @@
+{
+  "counts": {
+    "filesystem_files_searched": 41399,
+    "large_numeric_excluded": 101,
+    "historical_blobs_searched": 12475,
+    "large_historical_numeric_excluded": 22
+  },
+  "errors": [],
+  "seconds": 219.26,
+  "queries": 164,
+  "limits": "Six-token anchors, punctuation/case/line-wrap independent; best eight candidates only; numeric JSON/IPYNB >2 MiB and dependency/cache trees excluded; no automatic uniqueness or chronology claim."
+}

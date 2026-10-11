@@ -1,0 +1,90 @@
+{
+  "counts": {
+    "(root)": [
+      317,
+      766505576,
+      10414
+    ],
+    "_archive_stale_pre_s2_5b": [
+      3,
+      51430,
+      203
+    ],
+    "agent-deployment-framework": [
+      5691,
+      42225262,
+      528164
+    ],
+    "1996 Ford E 350 Van V8-7.3L DSL Turbo VIN F": [
+      12952,
+      91941893,
+      2677649
+    ],
+    "seo-growth-engine": [
+      486317,
+      16092955614,
+      84301046
+    ],
+    "datasets": [
+      41443,
+      82397170119,
+      1232192
+    ],
+    "layer-05-runtime-operations": [
+      11,
+      149602,
+      538
+    ],
+    "indydevdan-harness-research": [
+      8383,
+      373324650,
+      864550
+    ],
+    "drive-download-20260515T023255Z-3-001": [
+      3,
+      288089,
+      185
+    ],
+    "agent-sdk-workshop": [
+      2669,
+      278404638,
+      249715
+    ],
+    "agent-harness-local-seo": [
+      1101,
+      5432399,
+      91568
+    ],
+    "codex-app-intel-repackager-main": [
+      11,
+      70150,
+      612
+    ],
+    "drive-download-20260804T131838Z-1-001": [
+      4,
+      399103105,
+      250
+    ],
+    "soe-skills-all": [
+      8,
+      23481,
+      323
+    ],
+    "llm-as-database": [
+      170,
+      5564191,
+      8263
+    ],
+    "meta-harness-architecture-template": [
+      41,
+      67995,
+      2466
+    ],
+    "src": [
+      1914,
+      30505760,
+      65430
+    ]
+  },
+  "errors": []
+}

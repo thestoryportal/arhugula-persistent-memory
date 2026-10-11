@@ -1,0 +1,9 @@
+{
+  "P": "Dedicated LLM-as-Database research folder or its stale historical archive",
+  "N": "Specific program experiment/research/artifact filename; root titles inspected where ambiguous",
+  "C": "Specific program content signature (MEMIT/LARQL/compute_z/LLM-as-Database/AlphaEdit); interpretation still requires review",
+  "T": "Agent/Claude tooling, harness/skill source or design/research; adjacent to program, actual use not established for all clones",
+  "V": "Generated dependency, environment or unrelated checkout git internals",
+  "M": "Filesystem metadata",
+  "O": "Different project/domain or incidental generic-model/hash reference; no specific program signal"
+}

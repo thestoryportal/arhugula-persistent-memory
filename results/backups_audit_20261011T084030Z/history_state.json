@@ -1,0 +1,8 @@
+{
+  "head": "f2d4c5f24eebd2be74d88b2ba7c1fedd85648323",
+  "objects": 20367,
+  "blobs": 14697,
+  "history_paths": 18055,
+  "built_utc": "2026-10-11T08:44:13.247243+00:00",
+  "scope": "objects reachable from git rev-list --all (refs, not unreachable objects/reflog-only commits)"
+}

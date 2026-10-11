@@ -1,0 +1,1312 @@
+{
+  "rows": 519336,
+  "bytes_hashed": 18086613160,
+  "counts": {
+    "unrelated": 510488,
+    "adjacent": 8024,
+    "program": 824
+  },
+  "errors": [
+    {
+      "path": "agent-deployment-framework/.git/hooks/post-commit",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "agent-deployment-framework/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "agent-deployment-framework/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "agent-deployment-framework/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "agent-deployment-framework/departments/node_modules/.bin/ccusage",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "agent-sdk-workshop/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "agent-sdk-workshop/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "agent-sdk-workshop/.venv/bin/python3.14",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "agent-sdk-workshop/.venv/bin/\ud835\udf0bthon",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.venv/bin/python3.14",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/acorn",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/baseline-browser-mapping",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/browserslist",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/eslint",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/js-yaml",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/jsesc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/json5",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/nanoid",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/node-which",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/parser",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/rolldown",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/tsc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/tsserver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/update-browserslist-db",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/.bin/vite",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/.worktrees/session-14-financial/frontend/node_modules/@typescript-eslint/typescript-estree/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/__VoF/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/__VoF/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/__VoF/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/acorn",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/browserslist",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/create-jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ejs",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/esparse",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/esvalidate",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/import-local-fixture",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jake",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/js-yaml",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jsesc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/json5",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/node-which",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/nodemon",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/nodetouch",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/parser",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/resolve",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-cwd",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-esm",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-script",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-transpile-only",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-script",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/tsc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/tsserver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/.bin/update-browserslist-db",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/istanbul-lib-instrument/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/jest-snapshot/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/make-dir/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/nodemon/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/simple-update-notifier/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.cursor/GoHighLevel-MCP-main/node_modules/ts-jest/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/_imported/Auto-Claude/auto-claude/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/_imported/Auto-Claude/auto-claude/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/_imported/Auto-Claude/auto-claude/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/_imported/Auto-Claude/auto-claude-ui/node_modules/.pnpm/electron@39.2.7/node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Electron Framework",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/_imported/Auto-Claude/auto-claude-ui/node_modules/.pnpm/electron@39.2.7/node_modules/electron/dist/Electron.app/Contents/Frameworks/Mantle.framework/Mantle",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/_imported/Auto-Claude/auto-claude-ui/node_modules/.pnpm/electron@39.2.7/node_modules/electron/dist/Electron.app/Contents/Frameworks/ReactiveObjC.framework/ReactiveObjC",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/_imported/Auto-Claude/auto-claude-ui/node_modules/.pnpm/electron@39.2.7/node_modules/electron/dist/Electron.app/Contents/Frameworks/Squirrel.framework/Squirrel",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/platform/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/platform/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/_SEO/platform/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/live-steam-app/apps/python-api/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/live-steam-app/apps/python-api/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/live-steam-app/apps/python-api/.venv/bin/python3.11",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/trinity-seo/langextract-main/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/trinity-seo/langextract-main/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/trinity-seo/langextract-main/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/acorn",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/browserslist",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/create-jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ejs",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/esparse",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/esvalidate",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/import-local-fixture",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jake",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/js-yaml",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jsesc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/json5",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/node-which",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/nodemon",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/nodetouch",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/parser",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/resolve",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-cwd",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-esm",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-script",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-transpile-only",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-script",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/tsc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/tsserver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/.bin/update-browserslist-db",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/istanbul-lib-instrument/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/jest-snapshot/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/make-dir/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/nodemon/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/simple-update-notifier/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/.cursor/GoHighLevel-MCP-main/node_modules/ts-jest/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO/_imported/Auto-Claude/auto-claude-ui/node_modules/.pnpm/electron@39.2.7/node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Electron Framework",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO/_imported/Auto-Claude/auto-claude-ui/node_modules/.pnpm/electron@39.2.7/node_modules/electron/dist/Electron.app/Contents/Frameworks/Mantle.framework/Mantle",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO/_imported/Auto-Claude/auto-claude-ui/node_modules/.pnpm/electron@39.2.7/node_modules/electron/dist/Electron.app/Contents/Frameworks/ReactiveObjC.framework/ReactiveObjC",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO/_imported/Auto-Claude/auto-claude-ui/node_modules/.pnpm/electron@39.2.7/node_modules/electron/dist/Electron.app/Contents/Frameworks/Squirrel.framework/Squirrel",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO/platform/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO/platform/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO/platform/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/acorn",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/browserslist",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/create-jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ejs",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/esparse",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/esvalidate",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/import-local-fixture",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jake",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/js-yaml",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jsesc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/json5",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/node-which",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/nodemon",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/nodetouch",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/parser",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/resolve",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-cwd",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-esm",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-script",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-transpile-only",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-script",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/tsc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/tsserver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/.bin/update-browserslist-db",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/istanbul-lib-instrument/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/jest-snapshot/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/make-dir/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/nodemon/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/simple-update-notifier/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/_SEO_CWD/.cursor/GoHighLevel-MCP-main/node_modules/ts-jest/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/acorn",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/browserslist",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/create-jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ejs",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/esparse",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/esvalidate",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/import-local-fixture",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jake",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/js-yaml",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/jsesc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/json5",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/node-which",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/nodemon",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/nodetouch",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/parser",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/resolve",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-jest",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-cwd",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-esm",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-script",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-node-transpile-only",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/ts-script",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/tsc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/tsserver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/.bin/update-browserslist-db",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/istanbul-lib-instrument/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/jest-snapshot/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/make-dir/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/nodemon/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/simple-update-notifier/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.cursor/GoHighLevel-MCP-main/node_modules/ts-jest/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/live-steam-app/apps/python-api/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/live-steam-app/apps/python-api/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/live-steam-app/apps/python-api/.venv/bin/python3.11",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/trinity-seo/langextract-main/.venv/bin/python",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/trinity-seo/langextract-main/.venv/bin/python3",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/jeromy-seo-audit/atomic-seo copy/screaming_frog_reports/atomic-seo/live-steam-app/docs/docs/docs-dev-stuff/WOLFF SEO PROJECT/trinity-seo/langextract-main/.venv/bin/python3.13",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/acorn",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/anthropic-ai-sdk",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/codex",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/esbuild",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/escodegen",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/esgenerate",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/esparse",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/esvalidate",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/fxparser",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/is-docker",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/is-in-ci",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/is-inside-container",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/js-yaml",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/json5",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/mathjs",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/mustache",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/node-which",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/nunjucks-precompile",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/openai",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/opener",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/pdf-parse",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/pf",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/playwright",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/playwright-core",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/prebuild-install",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/promptfoo",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/rc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/rimraf",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/semver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/specificity",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/tldts",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/ts-node",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/ts-node-cwd",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/ts-node-esm",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/ts-node-script",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/ts-node-transpile-only",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/ts-script",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/tsc",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/tsserver",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/tsx",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/uuid",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/.bin/yaml",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/@anthropic-ai/claude-agent-sdk/node_modules/.bin/anthropic-ai-sdk",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/@aws-sdk/xml-builder/node_modules/.bin/fxparser",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    },
+    {
+      "path": "seo-growth-engine/tests/prompt-evals/node_modules/natural/node_modules/.bin/uuid",
+      "error": "non-regular file; no dereference permitted",
+      "mode": 41453
+    }
+  ],
+  "completed_utc": "2026-10-11T08:49:26Z"
+}
