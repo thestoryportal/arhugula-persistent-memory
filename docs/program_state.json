@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T23:50:28Z",
+    "edited": "2026-10-11T23:54:05Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -147,9 +147,9 @@
         "id": "r2-clearance",
         "title": "Drive sharing (R2): write the simpler Git + Drive redesign",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "in_review",
-        "who": "Astra",
-        "session": "astra r2d2 (pid 9144)",
+        "state": "running",
+        "who": "codexr2e (Sol)",
+        "session": "codexr2e",
         "started": "2026-10-11T23:07Z",
         "estimate": {
           "low_min": 20,
@@ -221,7 +221,8 @@
           "23:29Z: Expert review (Astra) said GO with five small conditions: keep the Intel restore points you approved, prove the account switch can't miss a running process, test that one account can't sneak work through files another runs, size the disk budget from a fixed workload, and keep 'adopt the design' separate from 'turn it on' (a0f6cf9b). The drafter is folding them into a v2 now. Your four questions come after MAESTRO checks v2.",
           "23:33Z: Version 2 done with all five of the expert's conditions folded in; MAESTRO62 checked every change against the request. Version 1 kept as the reviewed record. Drafter session closed. Next: your four plain yes/no questions about adopting the design (adopting does not turn anything on).",
           "23:44Z: Your answers recorded word for word (a6384bfe): Intel uses Git and Drive only; the M3 hands new files to the Intel over the cable between science jobs and the Intel does the slow Drive upload; no extra Mac accounts, the copy waits on the existing job gate and pauses if science starts; free space protected at each job's peak. A fresh drafter (codexr2e) is writing version 3 to match; the expert (Astra) reviews it next, then you adopt.",
-          "23:50Z: Version 3 written to match your answers and checked by MAESTRO62 (committed). The expert (Astra) is reviewing it now. After that: you adopt it (nothing gets built or switched on), plus three later 'before switching on' questions (Intel's Drive login, full upload checks, fresh backup history)."
+          "23:50Z: Version 3 written to match your answers and checked by MAESTRO62 (committed). The expert (Astra) is reviewing it now. After that: you adopt it (nothing gets built or switched on), plus three later 'before switching on' questions (Intel's Drive login, full upload checks, fresh backup history).",
+          "23:54Z: The expert (Astra) said GO with two fixes (8005ad4d): (1) the quick status checks the backup copy runs must never make a science job get refused or wait, and must time out if stuck; (2) the 'copy may overlap science, we accept that' rule only covers read-only copying. Deleting files or bringing files back from Drive into the science area must stay switched off until they have their own protection. The same drafter (codexr2e) is writing version 4 with just those two fixes. Then you adopt it."
         ]
       },
       {
