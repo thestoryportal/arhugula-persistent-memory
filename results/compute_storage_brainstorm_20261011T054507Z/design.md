@@ -1,17 +1,17 @@
-# HW1 — Compute and storage architecture for MAESTRO
+# HW1 / HW2 — Compute and storage architecture for MAESTRO
 
-Status: HW1 HANDOFF at approximately39% context, per MAESTRO. Approved architecture choices are recorded; section11 trial choice and final design approval remain open. No implementation authorized or performed.
-Last saved: 2026-10-11T06:49:57Z
+Status: WHOLE DESIGN APPROVED by the operator at 2026-10-11T07:03:36Z. Friend trial remains conditional, with an owned-machine fallback. Binding added requirement: durable reconciliation of earlier plans and queued builds before affected implementation; see integration_plan.md. No implementation authorized or performed.
+Last saved: 2026-10-11T07:03:36Z
 
 ## Purpose and scope
 
 Use the Intel Mac, a possible temporary Apple Silicon loan, and Google Drive to reduce delays to the M3's science and improve recovery after disk failure. This concerns the research program's support infrastructure and orchestration; it does not establish that the proposed LLM-as-Database product is scientifically ready. The product still has its separate Git and model-weight authorities, validation, security and consistency rules (docs/SPEC_E2E_GROUND_TRUTH.md:7–30). The F1 goal remains proving or falsifying readiness, rather than collecting green checks (DISCIPLINE.md:7–18).
 
-HW1 writes only this folder. No installs, connections, SSH, model runs, experiments, long-lived processes, Git mutation or deletion. MAESTRO owns implementation briefs, reviews, canonical decision IDs and commits. The existing design/spec stays untouched.
+HW1 and HW2 write only this folder. No installs, connections, SSH, model runs, experiments, long-lived processes, Git mutation or deletion. MAESTRO owns implementation briefs, reviews, canonical decision IDs and commits. The existing design/spec stays untouched. Section approvals cover the operator-facing choices quoted in decisions_log.md; additional technical suggestions are proposals for MAESTRO's later reviewed briefs. In particular, the Intel support-memory targets, retrieval allowance and pause timing are not independently approved or measured.
 
 ## Existing operator direction
 
-The MAESTRO brief reports that the operator already selected all five Intel roles: second copy of memit, Codex builders, research engine, Drive transfers, and phone dashboard. This is accepted direction, not a question to reopen. The detailed boundaries and schedule still need discussion. The possible loan machine is optional; its memory and availability are unknown.
+The MAESTRO brief reports that the operator already selected all five Intel roles: second copy of memit, Codex builders, research engine, Drive transfers, and phone dashboard. This is accepted direction, not a question to reopen. The detailed boundaries and schedule are recorded in the approved sections below. The possible loan machine is optional; its memory and availability are unknown.
 
 ## Grounding checked so far
 
@@ -20,7 +20,7 @@ The MAESTRO brief reports that the operator already selected all five Intel role
 | M3 Pro, 48 GB, Apple GPU is the current science host | CLAUDE.md:3; this session did not inspect hardware directly. |
 | Science record authority remains Git; model-weight authority in the intended product is distinct | CLAUDE.md:50–54 (Merging), CLAUDE.md:56–61 (Storage discipline); docs/SPEC_E2E_GROUND_TRUTH.md:20,29–30. Storage lines checked against the source in HW1. |
 | memit is the working disk; Drive is the remote warehouse; M3 internal storage is not an archive; other named volumes share memit's physical disk | CLAUDE.md:56–61; EXPERIMENT_RUNBOOK.md:271–280. Independent physical disk topology was not inspected. |
-| memit has about 419.1 GiB total, 74.7 GiB free, 83% used | Read-only `df -k /Volumes/memit /` observed this session: 439458956 KiB total, 78323856 KiB available. The brief's 320 GB project measurement is attributed to MAESTRO, not recomputed. |
+| memit has about 419.1 GiB total, 74.7 GiB free, 83% used | Read-only `df -k /Volumes/memit /` observed by HW1: 439458956 KiB total, 78323856 KiB available. The brief's 320 GB project measurement is attributed to MAESTRO, not recomputed. |
 | Work budgets must include projected writes plus 20 GiB free | EXPERIMENT_RUNBOOK.md:277; source policy, not proof of future job admission. |
 | Installed package metadata says torch 2.8.0 and transformers 4.51.0 | .venv/lib/python3.11/site-packages/torch-2.8.0.dist-info/METADATA:3; .venv/lib/python3.11/site-packages/transformers-4.51.0.dist-info/METADATA:3. No Python import/model load was performed. |
 | Official Intel macOS PyTorch releases stop with 2.2.x | Confirmed with Perplexity and official release notes: https://pytorch.org/blog/pytorch2-2/ ; https://dev-discuss.pytorch.org/t/pytorch-macos-x86-builds-deprecation-starting-january-2024/1690 . This rules out treating the Intel Mac as a drop-in replacement for the current official science environment; it does not rule out all useful CPU science support. |
@@ -62,7 +62,7 @@ Operator section check: A approved. Storage across all resources must be optimiz
 
 ## Section 2 — What earns a place on each disk
 
-Approval: APPROVED — operator selected storage approach A at 2026-10-11T06:02:09Z. Detailed automation and retrieval section remains proposed.
+Approval: APPROVED — operator selected storage approach A at 2026-10-11T06:02:09Z; section 3 library/access direction approved at 2026-10-11T06:06:06Z. Specific retrieval allowances remain future reviewed work.
 
 Operator requirement: storage must be very well managed across every available resource, with an optimized plan that prevents disk-full blocks. Exact words are in decisions_log.md.
 
@@ -87,12 +87,12 @@ Planning guardrails to refine after the tier choice:
 
 1. A single inventory records every bulk item's size, class, responsible run, current verified locations and whether a named analysis still needs it. Totals count staging, versions, logs and temporary peak writes, including all services that share a physical disk.
 2. Before a job, compare projected additional peak writes plus the existing 20 GiB reserve with real free space on every affected disk (EXPERIMENT_RUNBOOK.md:277). Plan for concurrent promised writes too; two jobs cannot both spend the same headroom. Unknown size or unavailable observation means wait, not assumed capacity.
-3. A warning threshold must occur well before hard admission refusal. The warning triggers a concrete proposed transfer/reclaim list, not automatic deletion. Exact reserve/threshold amounts will be decided after capacity and workload inventories; 20 GiB alone is not a target operating buffer for large tensor jobs.
+3. A warning threshold must occur well before hard admission refusal. The warning triggers a concrete proposed transfer/reclaim list, not automatic deletion. Section 4 records approved starting targets subject to capacity and workload inventories; 20 GiB alone is not a target operating buffer for large tensor jobs.
 4. Moving files requires source identities, completed destination verification and a committed record of their location. Uploading is not verification. A failed/partial transfer does not qualify a file for removal.
 5. Removal follows the existing protected-path rules and operator approval for the exact path, size and method (CLAUDE.md:60–61). Approved architecture does not preapprove deletions.
 6. Backups retain earlier versions within an explicit budget, and never inherit source deletions silently. Freshness and restore checks are shown separately from successful transfer status.
 
-These are design requirements for MAESTRO to review and implement, not existing measured automation. Storage approach A is approved. Backup frequency/version retention, Drive ownership and restore acceptance remain to discuss.
+These are design requirements for MAESTRO to review and implement, not existing measured automation. Sections 4–5 record approved copying/retention/recovery direction; section 8 records Intel Drive ownership, with separate credential and activation gates.
 
 ## Section 3 — A complete research library, with large files brought back when needed
 
@@ -116,7 +116,7 @@ Proposed query-to-analysis flow:
 
 1. A researcher asks the Intel service a question. Both databases use the same pinned source snapshot; the answer includes exact records, scope, caveats and original source references (original design:114,119,134–138).
 2. If a deeper analysis needs bulk, it produces a request naming the exact files/versions, reason, destination worker, expected download/write/memory/time budget and any scientific authorization required. A missing file or unverified location is explicit.
-3. The storage manager checks availability, local space including promised writes, work already using the data and permission. It chooses Intel for compatible CPU-only work, M3 for its science environment, or a loan worker for a separately authorized non-LLM package. The operator clarified at 2026-10-11T06:47:30Z that the friend's Apple Silicon Mac may run separately gated model jobs; Intel remains prohibited. The archive policy does not determine scientific relevance.
+3. The storage manager checks availability, local space including promised writes, work already using the data and permission. It chooses Intel for compatible CPU-only work, M3 for its science environment, or the optional loan worker for a separately authorized package, including model work only after section 11 gates. The operator clarified at 2026-10-11T06:47:30Z that the friend's Apple Silicon Mac may run separately gated model jobs; Intel remains prohibited. The archive policy does not determine scientific relevance.
 4. The authorized transfer worker brings in only the required files and verifies identities before analysis. The researcher holds those files for the task so a cleanup cannot remove them underneath it. The immutable original result stays archived.
 5. New analysis outputs and requests return through MAESTRO's staged review workflow. Exploratory ideas, CPU math and actual model experiments remain separately labelled. After the named analysis releases the files, the manager may propose reclaim; actual removal still requires exact-path approval.
 
@@ -156,7 +156,7 @@ Approved Intel starting planning caps, decimal GB, subject to post-format capaci
 | Area | Proposed maximum | Reason |
 |---|---:|---|
 | Current recovery set | 400 GB | Room beyond the brief's 320 GB project estimate without granting unbounded mirroring. Exact included files to be inventoried. |
-| Earlier backup versions | 100 GB additional unique data | Protect against an overwritten/deleted file; do not store repeated full 320 GB copies. Retention targets to be settled. |
+| Earlier backup versions | 100 GB additional unique data | Protect against an overwritten/deleted file; do not store repeated full 320 GB copies. Seven daily/four weekly restore points approved in section 5, subject to the unique-byte cap. |
 | Editable builder work and tools | 80 GB | Small source copies, environments and capped receipts; avoid multiplying model caches per builder. |
 | Large-file staging and CPU analysis | 100 GB | Temporarily receive a named task's data; larger tasks use reviewed batching or another destination. |
 | Research-engine pilot | 5 GB data + <=1 GB separately budgeted provisioning growth | Starting ceilings from phase1_spec_v5.md:207–211,244–246, moved to Intel under a new reviewed host specification. No implied permanent M3 archive. |
@@ -168,7 +168,7 @@ For memit, approved steady-state target >=100 GiB free (approximately107 GB); wa
 
 The storage manager's inventory distinguishes archival location, scientific retention obligation, active-task holds, backup freshness and restore verification. It displays queued commitments and the minimum remaining headroom after admitted work. Its early warning presents exact candidate paths/bytes/verified copies for MAESTRO and the operator; it never converts a low-space warning into deletion authority. History/staging/log cap exhaustion pauses the responsible support job rather than consuming science headroom.
 
-Copy schedule A approved. Next section check: numerical starting space budgets, followed by version retention/restoration. Alternative to per-area caps: one flexible Intel pool with only a shared free-space floor; simpler allocation but allows builders/backup history to consume each other's room. Recommend per-area caps plus the shared floor, with adjustments only after measuring capacity and demand.
+Copy schedule A, numerical starting budgets and section 5 retention/restoration direction are approved. Alternative to per-area caps: one flexible Intel pool with only a shared free-space floor; simpler allocation but allows builders/backup history to consume each other's room. Recommend per-area caps plus the shared floor, with adjustments only after measuring capacity and demand.
 
 ## Section 5 — Earlier versions and restoration
 
@@ -310,7 +310,7 @@ Section check: approve the owned-Mac cable arrangement and private device-only r
 
 Approval: scope option A APPROVED at 2026-10-11T06:47:30Z. The friend's Apple Silicon Mac may run models; Intel may not. Operator will verify availability/constraints in the next24 hours. This is role approval, not a run/connection authorization.
 
-The original MAESTRO brief proposes independent Apple Silicon replication, while the operator later said "no local LLM models can run on the Intel, only the M3." Intel remains categorically prohibited from local model execution. Before designing a model job for the friend, ask which scope was intended:
+The original MAESTRO brief proposes independent Apple Silicon replication, while the operator later said "no local LLM models can run on the Intel, only the M3." Intel remains categorically prohibited from local model execution. The operator resolved the earlier scope question as A. The alternatives below are retained as decision history; do not re-ask:
 
 - A. The ban applies to Intel; the friend's Apple Silicon Mac may run a bounded, separately approved model job after inventory/baseline gates — recommended if the aim is independent replication and the friend has enough capacity.
 - B. M3 is the only local-model machine including the friend; loan work is confined to non-model analysis/testing.
@@ -320,7 +320,7 @@ An architecture choice allowing a possible friend job is not permission to conne
 
 ## Section 11 — Conditional loan-machine trial
 
-Approval: PROPOSED; trial order/time box awaits section check. Availability/constraints will be supplied by the operator within24 hours, recorded 2026-10-11T06:47:30Z. The design can be completed conditionally without inventing the missing facts or starting a job.
+Approval: A APPROVED CONDITIONALLY at 2026-10-11T06:55:50Z. The operator explicitly requests a fallback if the loan cannot be finalized. This approves planning for a baseline-first, one-result trial, up to one week or the shorter offered period, without guaranteeing availability. Availability/constraints are expected within 24 hours of the operator's earlier answer recorded 2026-10-11T06:47:30Z. No missing facts or launch authorization are inferred.
 
 Ask the friend for: exact chip/model, memory, macOS version, actual free disk, dependable quiet hours, expected loan duration, his normal model workload, permitted power/sleep settings, allowed downloads/data scope, and how urgently he may reclaim the computer. No private credentials are requested. Require a separate account and his explicit agreement to the time window/resource caps/access and completion/cleanup process.
 
@@ -330,7 +330,7 @@ Ask the friend for: exact chip/model, memory, macOS version, actual free disk, d
 | B. After baseline gates, use the loan for new queued tests first | Earlier new-data throughput. | Less direct replication of an important existing result; new-test outcomes on a newly commissioned host need careful separation from M3 evidence. |
 | C. Use only for non-model work initially | Useful if memory/quiet hours prove insufficient. | Does not provide cross-device model replication; remains the capacity fallback rather than the chosen model-role prohibition. |
 
-Default proposal: seven calendar days after successful owner agreement/commissioning, or the shorter period the friend offers. No job starts without a named remaining time window and enough time to return deciding receipts/results. One local model job at a time on the friend's Mac, and no simultaneous competing friend model jobs during the approved window. GPU serialization is per machine; a separately approved friend job may run while the M3 runs its own science because memory/GPU are separate. Independent-host concurrent observations remain separately identified, never pooled as one run.
+Approved conditional time box: up to seven calendar days from the agreed trial start, or the shorter period the friend offers. Include setup/baseline/return work in the owner-agreed access window; commissioning does not silently extend the loan. No job starts without a named remaining time window and enough time to return deciding receipts/results. One local model job at a time on the friend's Mac, and no simultaneous competing friend model jobs during the approved window. GPU serialization is per machine; a separately approved friend job may run while the M3 runs its own science because memory/GPU are separate. Independent-host concurrent observations remain separately identified, never pooled as one run.
 
 Memory planning branches (selection depends on measured peak, not this table alone):
 
@@ -341,7 +341,7 @@ Memory planning branches (selection depends on measured peak, not this table alo
 |24–32 GB |3B editing/replication may be eligible after the exact job's full CPU+GPU+covariance+temp peak is budgeted and independently checked. |
 |48 GB or more | Closer to the M3's capacity envelope, but chip/stack/timing/baselines still require commissioning. No automatic move to7B or different model family. |
 
-Qwen2.5-3B remains the first candidate anchor, matching the current program's Qwen-ceiling policy in runbook§0.3. Qwen3/7B historical usage does not authorize a model change on the loan worker. Candidate cheap baseline: reproduce the readback of a small compiled edited artifact, if its exact files/runtime/probe set are available. CORPUS/17:9–12 documents about1.8 GiB Q4_K_M data and explicit edited/native eligible pools; runbook§0.3's M3 B3 reproduction gives the later host reference. A readback-only repeat demonstrates that read path, not independent recreation of editing. If the friend has enough memory, MAESTRO can instead choose one reviewed edit/mechanism replication that advances the live§0.3 frontier. The exact result is selected after inventory and bounded-source review; never salvage a compromised/halted run by rereading it under a new host.
+Qwen2.5-3B is the first candidate anchor, matching the pinned model in EXPERIMENT_RUNBOOK.md:120; exact task/model selection still belongs to the reviewed MAESTRO brief. Qwen3/7B historical usage does not authorize a model change on the loan worker. Candidate cheap baseline: reproduce the readback of a small compiled edited artifact, if its exact files/runtime/probe set are available. CORPUS/17_B3_QUANTIZATION_SURVIVAL.md:9–12 documents about1.8 GiB Q4_K_M data and explicit edited/native eligible pools; EXPERIMENT_RUNBOOK.md:124 gives the later M3 B3 reproduction reference. A readback-only repeat demonstrates that read path, not independent recreation of editing. If the friend has enough memory, MAESTRO can instead choose one reviewed edit/mechanism replication that advances the live§0.3 frontier. The exact result is selected after inventory and bounded-source review; never salvage a compromised/halted run by rereading it under a new host.
 
 Required gate order before borrowed data counts:
 
@@ -353,21 +353,65 @@ Required gate order before borrowed data counts:
 
 Give the friend's account only curated source/test inputs and the exact artifacts for its task. The owned Intel can stage/send inputs and receive outputs; Drive credentials stay on owned devices. Prefer already verified public data/models or reviewed artifacts; no personal/config secrets or privileged whole-repo/home backup. Network loss preserves unreturned partial output as incomplete, and the task's return window must tolerate it. The owner can revoke access any time; stop/failure protocols preserve evidence without automatic repeated experiments. After the trial, return all required results to owned verified storage, revoke the narrow access and let the owner/operator approve exact workspace cleanup; no generic wipe or silent deletion. Reuse only if the measured time-to-useful-evidence, reliability and interference with the friend justify extending the loan.
 
-Section check: approve the baseline-first, one-result initial trial, proposed one-week time box subject to the friend's actual offer, and conditional workload selection after the promised inventory?
+### Fallback if the loan is unavailable or unsuitable
 
-## Discussion sequence still to complete
+The core design requires only the owned M3, Intel and separately activated Drive service. No recovery copy, research-service authority, credential, mandatory dashboard function or committed science schedule depends on the friend. Treat loan capacity as absent until the owner agreement, inventory and commissioning gates pass.
 
-1. Intel availability and separate local working copies APPROVED.
-2. Selective storage APPROVED; complete searchable library and controlled bulk retrieval APPROVED; backup schedule, retention and restoration still open.
-3. Intel builder split and return handoffs APPROVED, with no local LLM runs on Intel; required M3 verification retained.
-4. Intel research-engine hosting/independent local work with shared-disk transfer coordination APPROVED; MAESTRO must amend/re-review host spec.
-5. Intel Drive uploads from verified local copies and phone/local dashboard views APPROVED; first-upload Intel route A APPROVED, subject to amended activation procedure/review.
-6. Direct cable/independent internet and optional device-only private friend access APPROVED as design; no setup executed.
-7. Friend local-model role APPROVED; inventory expected from operator within24 hours. Conditional one-week baseline/replication-first plan PROPOSED.
-8. Risks, exact approval boundaries, staged acceptance and final review.
+- If the loan never becomes available, M3 remains the only model worker. MAESTRO queues each authorized model job serially on M3 under its existing resource/science gates; Intel continues its approved non-model support roles. No Intel local model, rented compute, new purchase or larger storage budget is substituted.
+- If memory or available hours are too small, offer a separately scoped smaller readback/non-model task only if useful and owner-approved, otherwise do not use the loan. A smaller test cannot replace an editing replication or satisfy an untested claim.
+- If access is lost mid-trial, report the remote job as interrupted/unverified. Retain any received evidence, do not promote partial output, and request fresh authority before repeating an attempt where required. A replacement M3 run starts in a fresh namespace under its own reviewed preregistration; it does not resume damaged remote science.
+- Without a usable loan, re-running on M3 can confirm repeatability on M3, but cannot provide cross-device confirmation. Any finding requiring that confirmation stays OPEN. The explicit costs are longer model queues and lost cross-device evidence, not weaker acceptance rules.
 
-Each section will be saved and checked with the operator. Final approval is separate from installation, network access, credential provisioning, deletions or science-run authorization.
+This fallback follows the operator's instruction to plan for the option without depending on it and is included in the whole-design approval. It is not new live-run permission.
 
-## Context rule for this session and successors
+## Section 12 — Failure handling and later acceptance
 
-Watch Context N% left. Start a new piece of work only at >=60%. At <=40%, or any Context compacted, stop starting work; save design.md and decisions_log.md, write handoff.md here with done/open/single next step/exact paths, restate this rule, and report HW1 HANDOFF. Never push on through compaction.
+Status: included in whole-design approval at 2026-10-11T07:03:36Z. These requirements summarize earlier approved boundaries; they describe evidence MAESTRO must obtain during later authorized work. No commissioning, restore, network or scientific checks have been run by HW2.
+
+| Risk or interruption | Required behavior | Later acceptance evidence |
+|---|---|---|
+| Disk approaches a cap or cannot fit a job | Pause new writes in the affected area, retain verified copies, show commitments and a specific transfer/reclaim proposal. No silent history trimming or automatic deletion. | Actual physical capacity/use, conservative peak-write reservations, refusal at cap/unknown observations, correct units; projected writes + 20 GiB remains binding (CLAUDE.md:59–61). |
+| M3 travels, cable drops or either machine sleeps | Intel-local work may continue; new shared-disk work waits. Show the last verified source generation and its age. | Deliberate disconnection/partial-copy tests; no partial checkpoint promoted; return/catch-up preserves exact identities. |
+| Intel services fail or packages differ | Preserve original records and existing verified snapshots; mark the service unavailable. Do not automatically relocate it to M3 or change dependencies. | Actual Intel/Sonoma compatibility and resource receipts; reviewed new host spec; disposition of every prior NO-GO finding (astra_spec_r5_verdict.md:2 under results/research_engine_phase1_20261011/). |
+| Drive loses access, fills or transfer fails | Keep local data; show archive incomplete and the backup gap. Never reclaim a sole copy. | Authorized Intel credential/host checks, exact returned identities/content checks, deliberate failure controls, and all amended activation requirements. Existing final catch-up/full-check obligations remain until revised (activation_plan_v4.md:314–316 under results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/). |
+| Builder returns stale changes or Intel-only tests | MAESTRO reconciles against current sources; required M3/CI/Astra checks stay open. | Exact base/patch/scope/environment plus behavioral RED/GREEN receipts; actual M3 checks where the runtime requires them. |
+| Dashboard observes the wrong machine or stale data | Always identify the source host and time; show UNAVAILABLE rather than idle/zero on lost observation. | Positive controls for each source host and the failure sink; actual collector runtime remains compatible with unchanged science gates (tools/c10w_p2_gate.py:22–54). |
+| Friend unavailable, underpowered or reclaims access | Apply section 11 fallback; remote partial output stays unverified. | Owner agreement, inventory and baseline receipts before any model job; independently verified complete return before promotion/extension. |
+| All local copies lost or mistaken changes copied | Restore a verified generation to a fresh approved destination; missing bulk comes from verified Drive objects. | A restore of current and older known files; matching hashes/manifests; applicable science gates before resuming model work (CLAUDE.md:30–34). |
+
+The design does not promise copy speed, zero science downtime, a full 3B editing fit on the friend, Intel native dependency compatibility, a particular restore duration or successful remote activation. These are measured/frozen during later briefs. Fixture/static checks prove only their stated local behavior; actual host checks prove host behavior; scientific claims require their exact preregistered science evidence. No skipped/unknown check becomes PASS.
+
+## Section 13 — Concrete handoff to MAESTRO
+
+Status: approved design handoff at 2026-10-11T07:03:36Z. This is a design handoff, not an executable implementation plan or permission to provision.
+
+Settled direction: separate copies; M3 remains primary science/MAESTRO authority with memit attached; Intel performs non-model support from its own bounded files; Drive is the verified remote archive; the friend is optional and removable without breaking the core design. Sections 4–5 hold the approved capacity/copy/retention numbers; decisions_log.md holds quoted operator choices.
+
+MAESTRO's next design-to-build work, in dependency order:
+
+0. Complete the cross-cutting reconciliation in integration_plan.md before dispatching affected builds: identify current plans/owners and source pins, reconcile conflicting requirements and resource/path claims, record supersession explicitly, review amendments and publish queue dependencies. Unaffected work retains its existing authority.
+1. Inventory the formatted Intel disk/health, memory and supported software, selected M3/internal/memit data and duplicates. Confirm caps fit before any bulk job. Prepare exact source/path manifests and future authority/credential approvals. Intel builders require only curated source; recovery and editable areas remain separate.
+2. Write a new Intel research-engine host amendment/spec, preserving the frozen M3 spec and pilot limits. Dispose of all Astra findings, replace same-host coordination with independent Intel placement and M3 disk-work clearance, and obtain the required permitting review before reliance.
+3. Prepare separate bounded briefs for owned-Mac transport, recovery/version retention, Intel builders and returned evidence, Intel Drive activation, and source-identified phone/local dashboards. Each names allowed files, identities, budgets, acceptance checks and explicit UNVERIFIED host items. Do not silently activate the old mirror or replace the reviewed Drive procedure.
+4. Commission and verify each authorized component with section 12 evidence; then permit only its reviewed operating scope. Initial Intel-local Drive upload can overlap M3 science after safe source capture, while final consistency obligations still need their approved procedure.
+5. Independently pursue the friend inventory/agreement within the promised check-in; enable the conditional trial only after its gates. If unavailable, publish the M3-only model queue and preserve any cross-device evidence gap explicitly. Core owned-Mac work need not wait for the loan.
+
+Operator decisions still required later are the real outward actions: owner/access agreement and credential setup, exact storage/spend changes, exact deletions, frozen-prereg/activation amendments and named live runs. Routine interface/dependency choices and acceptance evidence belong to MAESTRO's reviewed briefs. This session authorizes none of those actions. Do not use design approval as a blanket install/connect/launch permission.
+
+Whole-design approval is recorded in decisions_log.md, choice 15. No brainstorming answer remains pending. HW2 supplies the ready token and exact design path; MAESTRO must complete the explicit cross-cutting reconciliation before affected reviews/builds/commits.
+
+## Discussion status
+
+Sections 1–13 and the assembled written design are approved. Section 11 remains conditional on loan availability. Choice 15 also requires a durable cross-cutting integration plan; section 14 and integration_plan.md record that requirement and the concrete reconciliation handoff. Implementation compatibility, commissioning, resource measurements and permitting reviews remain future work, not design PASS claims.
+
+## Section 14 — Cross-cutting integration is a required predecessor
+
+Operator requirement and whole-design approval recorded at 2026-10-11T07:03:36Z; quoted in decisions_log.md, choice 15.
+
+This architecture overlaps earlier research-engine, science-reservation, Drive activation, dashboard, storage and science-queue work. Keep one durable record of how they fit: integration_plan.md in this folder. It contains a source-backed initial conflict map, queue dependency chain, owners, required decisions/evidence and the procedure MAESTRO must complete before affected dispatch. It is an integration design/completion contract, not a claim that the whole live build roster has already been reconciled.
+
+Each affected brief must name the selected plan version and integration rows it implements. An old plan is retired only through an explicit reviewed disposition; preserve its original bytes and prior approvals. Do not invent a second science queue, infer launch permission from design approval or let two builders independently define the same interface/path/resource allowance. Canonical queue/status updates remain MAESTRO-owned outside this folder.
+
+## Context rule for HW2 and successors
+
+Watch Context N% left for this session and every orchestrated session. Start a new piece of work only at >=60%. At <=40%, or on ANY Context compacted, stop starting work; save design.md and decisions_log.md; write results/compute_storage_brainstorm_20261011T054507Z/handoff_hw2.md with done/open/single next step/exact paths and this rule; report a line starting HW2 HANDOFF. MAESTRO starts a fresh successor. Never continue through compaction. Whole-design approval permits only a line starting HW2 DESIGN READY FOR MAESTRO and the design path; no writing-plans transition, build or commit.

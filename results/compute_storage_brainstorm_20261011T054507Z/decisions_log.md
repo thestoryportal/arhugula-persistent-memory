@@ -165,3 +165,19 @@ Next proposed section: one-week conditional trial, baseline first, one selected 
 Recorded 2026-10-11T06:49:57Z using `date -u`.
 
 MAESTRO reports about39% context left and directs an immediate HW1 handoff. No architecture answer is inferred from this steering message. The last operator-facing question, "Approve A as the conditional trial plan?", remains UNANSWERED. No new design work started after the directive. See handoff.md.
+
+## HW2 choice 14 — Conditional trial A with a no-loan fallback
+
+Recorded 2026-10-11T06:55:50Z using `date -u`.
+
+> "A...thsi is tenative if I am able to finalize using that resource. But let's plan as if it is an option but if we find it isn't have a fallback"
+
+Decision: approve trial A conditionally, subject to finalizing access to the friend's Mac. Plan for the option without making any core service, recovery obligation or promised science schedule depend on it. Add a fallback: the owned M3 retains serialized model work; Intel continues its approved non-model support roles; cross-device confirmation remains open without another device. The fallback and consolidated risks/acceptance/MAESTRO sections are presented for whole-design review. No connection, credential, model run or implementation authorization is inferred.
+
+## HW2 choice 15 — Whole design approved; durable integration required
+
+Recorded 2026-10-11T07:03:36Z using `date -u`.
+
+> "Very important consideration as we proceed wit this design: there are several previous design plans and build in the queue that this design and others before it cross over into each other. So we must ensure that there is a durable cross cutting concerns, conflicts, collisions, and deign implementation plan that brings them all together seamlessly. I approve this session's design."
+
+Decision: approve this session's assembled design, including the conditional friend trial and no-loan fallback. Add a binding cross-cutting integration requirement: one durable plan must reconcile this architecture with earlier designs, queued builds, shared interfaces/paths/resources, prior approvals and review findings before affected implementation is dispatched. HW2 creates integration_plan.md as the source-backed seed and explicit completion contract; MAESTRO owns live queue/owner reconciliation, amendments, binding review and canonical propagation. No install, connection, credential move, deletion, Git mutation or science run is authorized by design approval.
