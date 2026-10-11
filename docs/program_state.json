@@ -35,9 +35,9 @@
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "running",
-        "who": "builder codexr1g (report check), then Astra round 6",
-        "session": "codexr1g",
+        "state": "in_review",
+        "who": "Astra round 6, then MAESTRO runs the Intel check, binding and first collection if allowed",
+        "session": "",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
@@ -75,7 +75,8 @@
           "11:57Z: codexr1e finished (fbba4e35); MAESTRO reran 27+18+9 tests, all pass. The clock now cannot restart while its outside record survives, the Python check covers links and refuses unreadable folders, and a separate tool records the Intel Python without overwriting anything. Astra round 5 is reviewing (also: where the files should sit on the Intel Mac).",
           "11:59Z: Astra round 5 said not yet: the improved Python check may run (MAESTRO ran it on the Intel Mac, nothing written there; kept as an observation), but recording it into the setup file and the first collection still wait for more fixes. Next: a fresh builder (codexr1f) makes them.",
           "12:04Z: builder codexr1f started (tests first) on Astra round 5's five fixes. MAESTRO's choices: the latest checkpoint of the collection record is kept in git, off the Intel Mac, so an old copy put back on the Intel Mac is refused; the setup file is checked against its fingerprint in git; every script reaches the Intel Mac through ssh and is checked before it runs, so nothing is copied there; the setup step counts toward the time and space limits; and the Intel Python is run directly, not through Apple's /usr/bin shortcut. Nothing runs on the Intel Mac.",
-          "12:32Z: codexr1f built all nine files before running low on room (73b7ebeb). MAESTRO reran everything: 36 new tests pass, the 27+18+9 older ones still pass, nothing copied to or run on the Intel Mac, and the Intel Python is now called directly. Builder codexr1g is checking that the write-up's line references are right; then Astra round 6."
+          "12:32Z: codexr1f built all nine files before running low on room (73b7ebeb). MAESTRO reran everything: 36 new tests pass, the 27+18+9 older ones still pass, nothing copied to or run on the Intel Mac, and the Intel Python is now called directly. Builder codexr1g is checking that the write-up's line references are right; then Astra round 6.",
+          "12:39Z: codexr1g corrected the write-up's line references; MAESTRO spot-checked five of them and reran the tests (b2b6d6ab). Astra round 6 is reviewing, including three questions: whether counting the setup step toward the 870-second limit is right, whether a checkpoint kept in git is a trustworthy enough anchor, and whether calling the Intel Python directly settles the launcher concern."
         ]
       },
       {
