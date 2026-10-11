@@ -27,27 +27,28 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T02:14:31Z",
+    "edited": "2026-10-11T02:19:27Z",
     "items": [
       {
         "id": "queue-tab",
-        "title": "Build this queue tab",
-        "summary": "A builder is making this tab, so current and upcoming work is always visible in plain words on the Mac and the phone.",
+        "title": "Make the queue tab fit the screen",
+        "summary": "The queue tab is live as tab 8, but its list is taller than the window, so the important top part scrolls out of view. Q3 makes it fit: what needs you and what is running stay on screen, the rest shrinks to one line each.",
         "state": "running",
-        "who": "Builder Q2 (after Q1)",
-        "session": "codexq2",
-        "started": "2026-10-11T01:40:00Z",
+        "who": "Builder Q3, then MAESTRO checks on the Mac",
+        "session": "codexq3",
+        "started": "2026-10-11T02:18:00Z",
         "estimate": {
           "low_min": 30,
-          "high_min": 60,
-          "set": "2026-10-11T02:05:12Z"
+          "high_min": 75,
+          "set": "2026-10-11T02:18:00Z"
         },
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "Q1 built it and the Mac checks pass, but reading the real screen found 3 problems: live builder status never shows, an old experiment folder is shown as running, and the estimate wording is confusing. Q2 is fixing those.",
-          "Then MAESTRO re-checks on the Mac and adds it as tab 8 without restarting the other tabs."
+          "Tab 8 'queue' is installed and working (commit 23a4d8cb): 24/24 tests and all Mac checks passed after Q2's 3 fixes.",
+          "Open it on the phone: tmux new-session -t dashboard \\; set destroy-unattached on \\; select-window -t queue",
+          "Q3 also moves finished builders out of 'Running now' onto one 'Idle builder windows' line."
         ]
       },
       {
@@ -218,19 +219,17 @@
       },
       {
         "id": "close-builders",
-        "title": "Close finished builder windows MB39-MB42",
-        "summary": "Their work becomes part of the Drive package; once that is saved, their windows can be closed.",
-        "state": "blocked",
+        "title": "Close finished builder windows MB39-MB42 and Q1-Q2",
+        "summary": "Their work is saved and committed; these idle windows can be closed (MAESTRO is not allowed to close them).",
+        "state": "needs_you",
         "who": "You (MAESTRO cannot close sessions)",
         "session": null,
         "started": null,
         "estimate": null,
-        "depends_on": [
-          "drive-host-tests"
-        ],
+        "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [
-          "Run: tmux -L default kill-session -t codexmb39; tmux -L default kill-session -t codexmb40; tmux -L default kill-session -t codexmb41; tmux -L default kill-session -t codexmb42"
+          "Run: tmux -L default kill-session -t codexmb39; tmux -L default kill-session -t codexmb40; tmux -L default kill-session -t codexmb41; tmux -L default kill-session -t codexmb42; tmux -L default kill-session -t codexq1; tmux -L default kill-session -t codexq2"
         ],
         "notes": []
       },
