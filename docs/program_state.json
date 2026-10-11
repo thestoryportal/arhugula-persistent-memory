@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T08:42:22Z",
+    "edited": "2026-10-11T08:45:20Z",
     "items": [
       {
         "id": "backups-audit",
@@ -111,8 +111,8 @@
       },
       {
         "id": "parked-packets",
-        "title": "Move 268.5 GiB of parked experiment files off the Mac",
-        "summary": "An earlier experiment's large files are parked in ~/Backups on the Mac's own disk, which is not meant to be an archive.",
+        "title": "Old Mac-disk copy of the memit drive (~284 GB in ~/Backups): decide what happens to it",
+        "summary": "The parked experiment files were already deleted on 2026-10-10 01:05Z. What remains in ~/Backups/memit is an old automatic copy of the memit drive (same files as the Drive upload source) plus 3.5 GB of deleted-file history. Facts: results/compute_storage_brainstorm_20261011T054507Z/drive_intel_fit_facts.md.",
         "state": "blocked",
         "who": "MAESTRO, with your go",
         "session": null,
@@ -123,9 +123,11 @@
         ],
         "blocked_by": [],
         "needs_from_you": [
-          "Once Drive works: OK to upload them, and later to delete the local copies."
+          "Once Drive works: OK to remove the old copy (each path asked separately)."
         ],
-        "notes": []
+        "notes": [
+          "Corrected 2026-10-11 08:45Z by MAESTRO38 from the verified Drive-facts file."
+        ]
       },
       {
         "id": "retest-plan",
