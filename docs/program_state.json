@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T10:45:46Z",
+    "edited": "2026-10-11T10:49:49Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -93,17 +93,20 @@
         "id": "system-one-models-assessment",
         "title": "Check: would \"System One\" models (Jev, OpenJev, Layla) help our stack?",
         "summary": "You asked for an objective look at TypeSafe's System One Models (Jev, OpenJev, Layla): models that give software typed decisions with probabilities and confidence. Codex judges each against the science, the research engine and day-to-day operations.",
-        "state": "running",
-        "who": "codexs1m, then MAESTRO",
-        "session": "codexs1m",
+        "state": "needs_you",
+        "who": "You: park it, or pick one small test",
+        "session": "",
         "started": "2026-10-11T10:41Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
-        "needs_from_you": [],
+        "needs_from_you": [
+          "Park it with the brainstorm tests, or set up one small test (and whether record excerpts may leave the Mac for Jev)."
+        ],
         "notes": [
           "10:41Z: Codex codexs1m started. It identifies the tools from public sources first, then rates each one: adopt now, test later, or not useful here. No downloads, no model runs.",
-          "10:43Z: You corrected the target: these are TypeSafe's (typesafe.ai) decision models, not Meta's JEPA. Codex was redirected, with focus on whether the confidence numbers are trustworthy, local vs hosted, and where a typed decision would replace a judgement we make today."
+          "10:43Z: You corrected the target: these are TypeSafe's (typesafe.ai) decision models, not Meta's JEPA. Codex was redirected, with focus on whether the confidence numbers are trustworthy, local vs hosted, and where a typed decision would replace a judgement we make today.",
+          "10:52Z: Assessment written and spot-checked (Jev price/hosting, Laya accuracy and over-confidence, the Jev calibration paper). Nothing is 'adopt now'. Jev and Laya are 'test later' for advisory checks such as 'does this source support this claim'; the two big OpenJev models are not useful here now. None of them helps the core science."
         ]
       },
       {
