@@ -9,7 +9,7 @@ import types
 import r1n_make_manifest_v11 as generator
 
 HERE = Path(__file__).resolve().parent
-MANIFEST_SHA256 = hashlib.sha256(generator.generated_bytes()).hexdigest()
+MANIFEST_SHA256 = hashlib.sha256(generator.generated_bytes()).hexdigest()  # Includes W1 seal headroom.
 PINS = {
     'r1l_make_bundle.py': 'c014f55e69ff9dd2483ebd92fc82d36cd760f9b6d11248f1d405dfc660b2d694',
     'r1m_size_probe.py': '93900742211b38cf6cf136eec5752b8f4958dc7782982c2999045ffac18ba029',

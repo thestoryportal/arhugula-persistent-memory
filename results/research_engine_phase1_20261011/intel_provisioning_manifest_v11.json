@@ -1461,14 +1461,14 @@
       },
       {
         "id": "receipts",
-        "bytes": 38000000,
+        "bytes": 42000000,
         "basis": "ALLOWANCE",
         "scope": "All inventories, stdout/stderr and evidence",
         "evidence": "results/research_engine_phase1_20261011/astra_r1p_verdict.md:27"
       }
     ],
-    "planned_peak_bytes": 1949780954,
-    "margin_bytes": 50219046,
+    "planned_peak_bytes": 1953780954,
+    "margin_bytes": 46219046,
     "calendar_line_comparison_bytes": 2247766765,
     "status": "CONDITIONAL-ALLOWANCES-NOT-A-DEMONSTRATED-BOUND",
     "measured_source_build_peak": "NEEDS-FETCH",
@@ -1630,7 +1630,7 @@
       "/Applications/MacPorts",
       "/Users/robertrhu_node2/research-engine-phase1"
     ],
-    "receipt_limit_bytes": 38000000,
+    "receipt_limit_bytes": 42000000,
     "failure_reserve_bytes": 16384,
     "staging_bound_bytes": 600000000,
     "per_download_bound_bytes": 500000000,

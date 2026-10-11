@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from unittest import mock
 
@@ -36,7 +37,7 @@ class ReplanTests(unittest.TestCase):
         self.assertEqual(set(changes), expected)
         self.assertEqual(new['budget']['setup_cap_bytes'], 2_000_000_000)
         non = sum(x['bytes'] for x in new['budget']['components'] if x['id'] != 'receipts')
-        self.assertEqual(new['budget']['planned_peak_bytes'], non + 38_000_000)
+        self.assertEqual(new['budget']['planned_peak_bytes'], non + 42_000_000)
         self.assertLessEqual(new['budget']['planned_peak_bytes'], 2_000_000_000)
         with tempfile.TemporaryDirectory() as tmp:
             outputs = [Path(tmp) / n for n in ('one.json', 'two.json')]
@@ -153,6 +154,63 @@ class ReplanTests(unittest.TestCase):
                 e.evaluate(probe, bad, 0, 0, replay=True)
         with self.assertRaisesRegex(ValueError, 'nonnegative'):
             e.evaluate(probe, manifest, 0, -1, replay=True)
+
+    def fresh_growth_cli(self, delta):
+        e = load('r1n_evaluate')
+        g = load('r1n_make_manifest_v11')
+        manifest = json.loads(g.generated_bytes())
+        probe = load('r1m_evaluate').parse_capture(CAP.read_bytes())
+        probe.update(manifest_sha256=e.MANIFEST_SHA256, sizing_probe_sha256=e.probe_pin(),
+                     measured_at_unix_ns=time.time_ns())
+        for root, name in zip(probe['roots'], manifest['collector']['admitted_write_roots']):
+            root['root'] = name
+        for key in ('observed_row_bytes', 'inventory_row_bound_bytes'):
+            probe[key] += delta
+        probe['roots'][0]['row_bytes'] += delta
+        # Grow serialization bytes alone, keeping LIVE work fixed to isolate R.
+        with tempfile.TemporaryDirectory(dir='/private/tmp', prefix='r1n-w1-') as tmp:
+            directory = Path(tmp)
+            path = directory / g.TARGET
+            path.write_bytes(g.generated_bytes())
+            prefix = directory / 'r1j_probe_r1n_fixture'
+            prefix.with_suffix('.json').write_text(json.dumps(probe) + '\n')
+            prefix.with_suffix('.stderr').write_bytes(b'')
+            prefix.with_suffix('.exit').write_bytes(b'0\n')
+            final = (json.dumps(dict(exit=0, qualified=True, m3_deadline=time.time()+60,
+                                    m3_qualified_at=time.time()), sort_keys=True) + '\n').encode()
+            prefix.with_suffix('.final').write_bytes(final)
+            prefix.with_suffix('.final.pending').write_bytes(final)
+            (directory / 'r1j_bind_baseline.json').write_bytes(b'x' * 851702)
+            (directory / 'r1m_evaluate_baseline.out').write_bytes(b'x' * 8296)
+            p = subprocess.run(['/usr/bin/python3', '-B', str(HERE / 'r1n_evaluate.py'),
+                                str(prefix.with_suffix('.json')), str(path)], capture_output=True)
+        self.assertEqual(p.stderr, b'')
+        result = json.loads(p.stdout)
+        print('R1N-W1 ' + json.dumps(dict(delta=delta, exit=p.returncode, result=result), sort_keys=True))
+        self.assertFalse(result['replay_only'])
+        self.assertTrue(result['live_pass'])
+        self.assertEqual(result['terms']['measured_m3_bytes'], 851702)
+        self.assertEqual(result['terms']['omitted_m3_bytes'], 8296)
+        return p.returncode, result
+
+    def test_08_w1_budget_growth_passes(self):
+        e = load('r1n_evaluate')
+        w1 = e.drift_reserve(e.CAP_ROW_BYTES)
+        delta = w1 * 5 // 6 - 1000  # floor(W1 / 1.2) - 1,000; exact integers.
+        code, result = self.fresh_growth_cli(delta)
+        self.assertEqual((code, result['verdict']), (0, 'PASS'))
+        self.assertEqual(result['receipt_cap_bytes'], 42_000_000)
+        self.assertEqual(result['required_receipt_bytes'], 41_739_037)
+        self.assertEqual(sum(result['terms'].values()), result['required_receipt_bytes'])
+        self.assertNotIn('w1_seal_headroom_bytes', result['terms'])
+        self.assertEqual(load('r1n_make_manifest_v11').W1_SEAL_HEADROOM_BYTES, w1)
+
+    def test_09_w1_seal_excess_fails(self):
+        code, result = self.fresh_growth_cli(4_009_703)
+        self.assertEqual((code, result['verdict']), (1, 'FAIL'))
+        self.assertEqual(result['receipt_cap_bytes'], 42_000_000)
+        self.assertEqual(result['required_receipt_bytes'], 42_542_179)
+        self.assertFalse(result['receipt_pass'])
 
 
 if __name__ == '__main__':

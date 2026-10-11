@@ -8,7 +8,10 @@ HERE = Path(__file__).resolve().parent
 SOURCE = 'intel_provisioning_manifest_v10.json'
 TARGET = 'intel_provisioning_manifest_v11.json'
 SOURCE_SHA256 = '748fc72aa49bcdb963d99b89bbc29859237d1bbd32b84b8e05fd38d07bd9df3f'
-RECEIPT_CAP = 38_000_000
+CAP_REQUIRED_RECEIPT_BYTES = 37_730_535  # CAP demand already includes W2 D(B_CAP).
+W1_SEAL_HEADROOM_BYTES = max(1_000_000, (20_048_510 + 4) // 5)
+RECEIPT_CAP = ((CAP_REQUIRED_RECEIPT_BYTES + W1_SEAL_HEADROOM_BYTES + 999_999)
+               // 1_000_000) * 1_000_000
 FAILURE_EXTRA = 16_384
 
 

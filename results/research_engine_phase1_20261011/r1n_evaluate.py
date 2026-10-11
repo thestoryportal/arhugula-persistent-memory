@@ -9,7 +9,7 @@ import time
 from r1m_evaluate import parse_capture
 from r1m_size_probe import (COLLECTOR_SHA256, OLD_ROOTS, MAX_SUMMARY_BYTES,
                            FUTURE_COLLECTOR_ROW_BYTES, FUTURE_COLLECTOR_ENTRIES)
-from r1n_make_manifest_v11 import generated_bytes, RECEIPT_CAP
+from r1n_make_manifest_v11 import generated_bytes, RECEIPT_CAP, W1_SEAL_HEADROOM_BYTES
 
 HERE = Path(__file__).resolve().parent
 MANIFEST_SHA256 = hashlib.sha256(generated_bytes()).hexdigest()
@@ -101,7 +101,8 @@ def evaluate(probe, manifest, measured_m3_bytes, omitted_m3_bytes, replay=False)
         drift_live_bytes=DRIFT_LIVE_BYTES, live_dispatch_bytes=live, dispatch_cap_bytes=DISPATCH_CAP,
         drift_rule='max(1000000, ceil(observed_row_bytes / 5))',
         receipt_pass=receipt_pass, setup_pass=setup_pass, live_pass=live_pass, sealed_policy_pass=True,
-        replay_only=replay, verdict='PASS' if all((receipt_pass, setup_pass, live_pass)) else 'FAIL')
+        replay_only=replay, w1_seal_headroom_bytes=W1_SEAL_HEADROOM_BYTES,
+        verdict='PASS' if all((receipt_pass, setup_pass, live_pass)) else 'FAIL')
 
 
 def local_accounting(manifest, directory, sizing_prefix=None, extra_receipts=()):
