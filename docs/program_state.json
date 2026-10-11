@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T21:51:54Z",
+    "edited": "2026-10-11T21:58:16Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -148,8 +148,8 @@
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
-        "who": "MAESTRO writes the round-13 ruling; then builders and Astra round 13",
-        "session": null,
+        "who": "Builder codexr2x builds round 13; then MAESTRO sandboxed acceptance and Astra round 13",
+        "session": "codexr2x",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -208,7 +208,8 @@
           "21:16Z: Builder codexr2w3 fixed how each Git check's source is described and added explicit refusals for every case the rules cannot list (215 in all); MAESTRO checked and saved it (b97b5be2). A fourth builder, codexr2w4, is now running the full checks (2c1f8050).",
           "21:33Z: Builder codexr2w4 finished the full checks: all pass, including the 56 deliberate-failure tests. Its scan for stray files could not read 45 macOS system folders in the temp area, the same situation as round 11. MAESTRO ruled the same way as round 11: record the readable scan with that limit stated, and use MAESTRO's own sandboxed run as the proof that nothing was written. MAESTRO confirmed all six file fingerprints match. The builder is now writing its short report; MAESTRO's sandboxed acceptance and Astra round 12 come next.",
           "21:41Z: The builder wrote its report (fixes ready). MAESTRO reran every check in a sandbox that blocks writing files and starting Git or the project Python: all pass, the 56 deliberate-failure tests fail exactly as intended, and nothing was written (877126ed). Astra round 12 started at 21:41Z (packet 4fc09e1c). Builder window codexr2w4 closed.",
-          "21:46Z: Astra round 12 said NO-GO (6175faab). It confirmed last round's two problems are fixed and that all the safety boundaries still hold. It found two remaining gaps on the science side: one launch type (P1 project dispatch) is recorded as starting no other programs when it actually starts a checker, and some evaluation runs could be steered by a loaded certificate into extra Git checks that are not yet declared. Plus one out-of-date line in the rules document. No change to the agreed contract or to any program file is asked for. Round 13 is next: a MAESTRO ruling, then builders, then Astra again; a fresh MAESTRO will start it."
+          "21:46Z: Astra round 12 said NO-GO (6175faab). It confirmed last round's two problems are fixed and that all the safety boundaries still hold. It found two remaining gaps on the science side: one launch type (P1 project dispatch) is recorded as starting no other programs when it actually starts a checker, and some evaluation runs could be steered by a loaded certificate into extra Git checks that are not yet declared. Plus one out-of-date line in the rules document. No change to the agreed contract or to any program file is asked for. Round 13 is next: a MAESTRO ruling, then builders, then Astra again; a fresh MAESTRO will start it.",
+          "21:58Z: MAESTRO59 took over, checked both of Astra's gaps against the unchanged programs (both are real) and wrote the round-13 ruling D16 (6ebec173): every science launch that runs the certificate checker must declare it, the extra Git checks a loaded certificate can trigger are declared and refused, and the checker now works out what each launch should declare from the programs themselves instead of trusting the list. No change to the contract or any program file. Builder codexr2x started at 21:57Z (brief f5f991fc)."
         ]
       },
       {

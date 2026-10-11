@@ -1,4 +1,4 @@
-# MAESTRO decisions for R2 round 13 (MAESTRO59, 2026-10-11 22:05Z)
+# MAESTRO decisions for R2 round 13 (MAESTRO59, 2026-10-11 21:56Z)
 
 Trigger: Astra round 12 says NO-GO (`astra_r2o_verdict.md`, V12; committed 6175faab). Its two high findings are F1 (:5–11) and F2 (:13–21). F3, F4 and F6 are notes that confirm the route V/T repair, the R12A–C controls, the 43 = 72 − 25 − 4 count and the preserved boundaries. F5 (:47–49) is low. Its required changes are R1 (:63) and R2 (:65). Alias for this file: D16f. The ruling is numbered D16, which continues after D15 (`r2_round12_decisions.md`, D15f).
 
@@ -6,7 +6,7 @@ This file is an addendum. It does not edit C (`shared_disk_clearance_contract_v1
 
 ## D16 (answers R1 / V12 F1–F2): science-origin child coverage follows the loaded certificate, and the checker derives expected occurrences from source, not from the supplied child list
 
-**What MAESTRO checked in the unchanged source (re-read with `awk NR` 2026-10-11 21:58–22:02Z):**
+**What MAESTRO checked in the unchanged source (re-read with `awk NR` 2026-10-11 21:54–21:55Z):**
 - `experiments/track_c/c10w_oracle_step0.py:366–425`. Only `p1-preflight` returns (:367–371) before the certificate check. For every other stage, `phase = stage[:2].upper()` (:366). For P1 stages, including `p1-project`, `directory = p1` (:383). The certificate is loaded from disk (:384) and `T.require_training_preflight` runs (:385–386) before the train branch (:387), the eval branch (:411) and the `p1-project` branch (:418).
 - `experiments/track_c/c10w_oracle_train.py:51–68`. `require_training_preflight` checks fields of the loaded proof (:52–63) and then always spawns `.venv/bin/python -B c10w_oracle_read.py verify-preflight` with the proof on stdin (:65–66). Nothing in it compares `proof["phase"]` with any caller's phase.
 - `experiments/track_c/c10w_oracle_eval.py:352–366`. For P1/P2/P3 argv, `phase_trains` runs (:357), then the certificate is loaded (:360) and the verifier is spawned through `require_training_preflight` (:361). The only phase-dependent check before that spawn is on argv (:363), and it comes after the spawn.
