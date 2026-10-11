@@ -125,9 +125,9 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "ready",
-        "who": "MAESTRO (name owners), then a builder, then Astra",
-        "session": "",
+        "state": "running",
+        "who": "builder codexr2f (build-level freeze), then MAESTRO checks it, then Astra",
+        "session": "codexr2f",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -142,7 +142,8 @@
           "09:16Z: draft finished and checked by MAESTRO39 (no existing file changed, science gate untouched, nothing defaults to 'go' when information is missing, ordinary science never waits on the Intel Mac). Committed c9e6615b; Astra is reviewing it now.",
           "09:19Z: Astra said GO with conditions (8acdd455): the safety direction is right; next, add missing test cases and fix one, separate the three gates (freeze, then real two-Mac trial, then evidence), and later a full build-level freeze naming owners and exact formats before anything is built.",
           "09:22Z: codexr2b is writing version 1.1 with Astra's test additions and the three separate gates.",
-          "09:32Z: Astra round 2 on version 1.1 (61105f13): GO with conditions; the test additions and the three separate gates are accepted. Only the build-level freeze remains (who builds what, exact formats and limits) before anything is built."
+          "09:32Z: Astra round 2 on version 1.1 (61105f13): GO with conditions; the test additions and the three separate gates are accepted. Only the build-level freeze remains (who builds what, exact formats and limits) before anything is built.",
+          "12:41Z: MAESTRO named the owners: MAESTRO owns all three parts (the M3 coordinator, the Intel copy worker and the M3 copy step); Codex builders build each one, and nothing runs before the freeze passes Astra. The Intel Mac asks the M3 over ssh with a dedicated key that can only run one fixed request each. Builder codexr2f is writing the freeze: exact commands, formats, limits and time-outs."
         ]
       },
       {
