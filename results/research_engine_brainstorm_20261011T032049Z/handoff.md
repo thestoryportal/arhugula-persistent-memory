@@ -1,51 +1,39 @@
-# BRAIN1 handoff — final written review is next
+# BRAIN2 final handoff — approved design for MAESTRO
 
-Date: 2026-10-11 04:16 UTC
-MAESTRO reports 36% context left. Drafting/self-review is finished; no new work started.
+Date: 2026-10-11 04:23:51 UTC
+Status: brainstorming complete. Final written-design approval received.
 
-## Conversation and artifacts
+## Completed and latest operator preference
 
-The operator agreed on the major design choices and phases. **Final approval of the written design has not been requested or received.** Last substantive answer: "Yes" to delivery phases and the first test slice. Latest message: MAESTRO requests this handoff. No question currently awaits an answer.
+BRAIN2 continued from BRAIN1, read the handoff, decision log, design sections, self-review and brainstorming process, and asked for final approval of the written design. The operator's exact answer was:
 
-All artifacts are in results/research_engine_brainstorm_20261011T032049Z/:
+> Approved
 
-- design.md: consolidated design, 5,523 words, including a 438-word plain-language summary, goals, 12 exact dated responses, options, design, checks, risks and source grounding.
-- decisions_log.md: chronological exact responses and option meanings, including phase approval.
-- review_notes.md: completed inline self-review, limitations and fingerprints. This is not Astra review.
-- handoff.md: this note.
+The approval is recorded in design.md and decisions_log.md. Approval/status metadata and fingerprints were updated without substantive changes to the design. All prior operator choices remain intact. No question awaits an answer; no work is in flight.
 
-## Settled choices
+## Artifacts
 
-All goals: trustworthy connected research, new solutions, better experiment selection and follow-through. All human views: conversation, research map and briefings. Agents are first-class users of every feature. Operator papers/ideas/direction can interject at any time with acknowledgment and visible replanning.
+All files are in results/research_engine_brainstorm_20261011T032049Z/:
 
-**Git is science authority; DuckDB handles measurements; Neo4j handles connections.** Both use one source snapshot and are rebuildable. Records/trust section approved: source pointers, checked/inferred links, scoped numbers, distinct evidence kinds and explicit indexing coverage.
-
-Agents autonomously investigate and prepare proposals. **Each experiment needs a separate go-ahead.** Resource contention or requiring a quiet machine needs HIL unless an existing manager covers that specific workload. Applies to indexing, queries, notebooks and local compute too. Resource-management coverage does not approve an experiment. Reuse valid approvals.
-
-Approved integrations: MathLab as an independently gated workbench; InfraNodus as candidate-bridge input; LabViz as shared human workspace. Preserve MathLab's failed-calibration/proposal-ranking stop.
-
-AutoResearch choice A: preserve current isolated optimizer, add a separately reviewed guided mode for future approved ideas/starting recipes. Current sandbox gets no corpus/seeds; new mode requires a reviewed contract. Outputs remain candidates for independent confirmation. Invocation needs an optimization problem, trustworthy fixed metric/controls, permission and resource admission.
-
-Agent workflow and five phases approved. First brief: roughly five independently checked chains (positive, negative, halted, superseded, mathematical), vocabulary, both databases and minimal agent queries; approved resource budget; no model experiment. Then full inventory/status checks, shared workflow, discovery adapters, and approved follow-through after harmless fixtures.
-
-## What is still draft
-
-The assembled written document awaits final review, including detailed schema/service/publication mechanisms and the complete discovery/proposal description. The original discovery-section check received integration questions rather than a direct approval; those integrations were subsequently approved. Do not claim the final file is approved.
-
-Hosting, exact sample chains, schema/dependencies, budgets, adapters/authentication, guided-mission boundaries and evaluation rubric are explicitly deferred implementation choices for MAESTRO briefs.
+- design.md — approved design; SHA-256: aa09563f092b6da8e01f900339720ee5cb46397cd3f5b98649f949de728dc6df
+- decisions_log.md — exact dated operator decisions including final approval; SHA-256: 2c0d972db8f2618368438949fdc24e68b6fdfc69a0f375e64dbefabfa5123b9e
+- review_notes.md — BRAIN1 inline self-review and BRAIN2 approval receipt; no independent Astra review.
+- handoff.md — final context-save and handoff.
 
 ## Single next step
 
-Link design.md and ask: **"Do you approve this written design for MAESTRO?"** Do not reopen settled choices.
+MAESTRO takes the approved design through independent review and prepares the narrow phase-1 build brief. The first slice is roughly five independently checked evidence chains, the written vocabulary, rebuildable DuckDB and Neo4j views of one Git snapshot, and minimal direct agent queries, under an approved resource budget with no model experiment. BRAIN2 does not build or invoke writing-plans.
 
-After approval, append its exact wording/date, update approval metadata and fingerprints without unreviewed substantive changes, then return **BRAINSTORM DESIGN READY FOR MAESTRO** with the design path. MAESTRO owns review/build/commits. Requested changes stay inside this folder.
+## Remaining implementation choices and risks
+
+Hosting, exact sample chains, schema/dependencies, budgets, adapters/authentication, guided AutoResearch boundaries and the evaluation rubric remain for bounded MAESTRO briefs. Agents are first-class users of every feature, within the chosen approval rules. Each experiment needs its separate go-ahead; resource contention or requiring a quiet machine needs human approval unless an existing manager covers that specific workload. Reuse valid authorizations. Resource management alone does not approve an experiment.
+
+Git remains science authority; DuckDB handles measurements and Neo4j connections. Machine-inferred links remain distinguished from checked links. MathLab's stopped prediction/ranking path stays stopped until its restart conditions are met. Existing AutoResearch stays isolated; guided mode needs a separate reviewed contract. Optimizer outputs remain candidates for independent confirmation.
 
 ## Boundaries and caveats
 
-Design only; everything outside this output folder is read-only. No git writes, installs, experiments, models, notebooks, dashboard builds, long processes or tmux changes. No independent reviewer run; self-review only.
-
-An early graft lookup reported automatically refreshing its graph for two changed files, an unintended cache side effect. Disclosed to the operator/review notes; exact cache paths unknown; no shared changes reverted or further graft used. Continue with ordinary read-only tools. Large result/decision counts were not bulk-verified. Current MathLab, optimizer and LabViz rules were checked in source. BRAIN1's callable list exposed Perplexity only; MAESTRO connector access is separate.
+Design only. BRAIN2 wrote only these four existing documents in the output folder. No git mutations, installs, deletions, experiments, model/notebook runs, dashboard builds, services, long processes or tmux changes occurred. BRAIN1's earlier graft cache-refresh side effect remains disclosed in review_notes.md; BRAIN2 made no graft calls or shared-file reversions. Prior grounding and counts remain BRAIN1's evidence with its stated limits; this approval does not verify future scientific value or host performance.
 
 ## Binding context directive
 
-**A Codex session takes new work only at >=60% context left and hands off at <=40% or on any Context compacted.** Stop new topics; update design.md and decisions_log.md; write handoff.md with done, open questions, latest preferences and one next step; restate this directive; tell the operator a fresh partner will continue; reply **BRAIN1 HANDOFF**. Preserve this for every successor/team session.
+Watch Context N% left. Start a new piece of work only at >=60% left. At <=40% left, or on any Context compacted, stop starting new topics; update design.md and decisions_log.md; append a handoff with done, open questions, latest operator preferences and one next step; restate this directive; tell the operator plainly that a fresh partner will continue; reply BRAIN2 HANDOFF. Every successor and team session must preserve this directive.

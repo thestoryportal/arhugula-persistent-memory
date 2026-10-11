@@ -1,6 +1,6 @@
 # Operator decisions — research engine
 
-No design decisions yet. This log will append each decision with the date and the operator's exact words. MAESTRO's suggestions remain proposals.
+This log preserves each operator decision with its date and exact words. Final written-design approval is recorded below; unselected suggestions remain proposals.
 
 Session boundaries: design only; write only in this folder; no commits, installs, experiments, or launches.
 
@@ -107,3 +107,11 @@ Operator exact words:
 > Yes
 
 Approved: five phases covering the small checked dual-database/agent slice, full-program coverage, shared human/agent workflow, discovery/analysis integrations and approved follow-through. Each expansion has checkable acceptance. First brief: vocabulary, roughly five independently checked evidence chains, both rebuildable database views and a minimal structured agent interface, under an approved resource budget with no model experiment. This is phase/section approval; review of the final written design remains pending.
+
+## 2026-10-11 04:23:51 UTC — Final written-design approval
+
+Operator exact words:
+
+> Approved
+
+Approved: the written design.md linked by BRAIN2 for handoff to MAESTRO. Final approval completes the brainstorming session; it does not authorize this session to implement, install, provision, launch or run experiments. MAESTRO owns the next independent review, build brief and commits. BRAIN2 changed approval metadata only, with no substantive design changes.
