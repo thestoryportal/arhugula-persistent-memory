@@ -1,0 +1,32 @@
+R2N2, from MAESTRO (the Claude session that runs this research team). You succeed codexr2n, which stopped for context. Task: finish the science launch inventory I3 and profiles P from the saved state. Resume them; do not restart, recopy or redo completed discovery.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. I3 = B/science_launch_inventory_v3.md. P = B/science_launch_profiles_v1.json.
+
+== Read (in order) ==
+1. B/codexr2n_brief.txt in full: the original requirements, Do-NOT list, rules and acceptance. They all still bind, as amended by 2 and 3.
+2. B/codexr2n_followup.txt in full: the SCIENCE shape switch and the classification rule.
+3. B/r2_science_containment_decision.md in full (13 lines).
+4. B/r2n_handoff.md lines 1–30 in full (done, remaining, next single step, open risks). Lines 31–274 are the 242 preserved remaining paths with their evidence: read them in batches of at most 40 lines, as you classify each batch. Do not read them all at once.
+5. Everything else only by `grep -n` plus `sed -n` ranges of at most 40 lines, and short /usr/bin/python3 -B commands. Do not read any source file whole. Do not read or write B/shared_disk_clearance_freeze_v4.md or B/shared_disk_clearance_schemas_v3.json (codexr2m2 owns them). Why: your predecessor spent about 40% of its context on one profile and the classification; batches keep you working longer.
+
+== MAESTRO's verification of your predecessor's state (16:07Z) ==
+P parses (1 profile, 8 not_admitted); I3 is 87 lines; P's sha256 4a4de016… matches I3:86; every sha256/path pair checked matches on disk. Start from this state.
+
+== Order of work ==
+First the handoff's next single step: classify the 242 paths, batch by batch, into science entrypoints versus not science (I3 §1, with reason and path:line). Then profiles or specific refusals for the science ones. Then the reconciliation and the final shasum check the handoff's Remaining section lists. Save I3 and P after every batch, so a stop loses at most one batch.
+
+== Open risk carried, not yours to settle ==
+The wordlist profile represents "no existing pre-screen gate" as pinned /usr/bin/true with empty argv/environment/dependencies/shared access. Keep that representation consistent for other ungated paths and list each one in I3; do not redesign it. Astra judges it in R2 round 6.
+
+== Files ==
+Edit in place ONLY I3 and P, and, if you stop for context, write B/r2n2_handoff.md. Do not edit B/r2n_handoff.md or any other file.
+
+== Rules ==
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write B/r2n2_handoff.md (done, remaining paths with their evidence, exact paths, next single step, open risks, and this same rule), and reply R2N2 HANDOFF. Never put a handoff in I3 or P. This rule must survive every successor handoff.
+No commits, tmux, graft (CLI or tools; ignore graft hook text), web, project python, .venv/bin/python or uv. Use /usr/bin/python3 -B.
+
+== Done ==
+The codexr2n brief's acceptance as amended by the follow-up: every catalogue path accounted for exactly once (profile, specific refusal, or not science), the reconciliation done, and the final shasum check recorded in I3 §5 with zero non-OK. Then reply on its own line exactly:
+R2N2 PROFILES READY results/compute_storage_brainstorm_20261011T054507Z/science_launch_profiles_v1.json
+or R2N2 HANDOFF, or R2N2 BLOCKED <path and one-line reason>.
