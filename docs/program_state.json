@@ -29,22 +29,20 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T15:47:25Z",
+    "edited": "2026-10-11T15:52:39Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "needs_you",
+        "state": "blocked",
         "who": "Astra round 8, then MAESTRO binds",
         "session": null,
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
-        "needs_from_you": [
-          "Approve one run of the Intel Mac chain: size check, setup, file list (stops at the first failure)"
-        ],
+        "needs_from_you": [],
         "notes": [
           "04:23Z: you approved the design; ~04:31Z you chose Neo4j on this Mac and a small resource cap.",
           "04:54Z: first-build plan written (20 pass/fail checks).",
@@ -92,7 +90,8 @@
           "14:55Z: the cause of the stop is found and one fix is ready: the Intel Mac's record-keeping allowance was too small for the full file list; it rises from 10 MB to 18 MB, still inside the original limit. All 373 tests pass on MAESTRO48's rerun (508123a8). The exact amount it ran over cannot be recovered (the refusal did not log it); MAESTRO accepted that. The expert reviewer (Astra) is now checking it (round 11). After that, a fresh run needs your new go-ahead.",
           "15:17Z: Astra round 11: the fix is sound, and a fresh \"prove it is the same machine\" step is allowed, but the full file listing is not yet: first measure (read-only) how big the Intel Mac's file tree really is, and count the old failed attempt's leftover files against the budget (b43f2073). A new builder (codexr1m) is writing that read-only measuring tool and a pass/fail rule fixed in advance. MAESTRO will then bring you one go-ahead covering measure, then bind, then list.",
           "15:40Z: codexr1m finished the read-only size check for the Intel Mac and the pass/fail rule fixed in advance; MAESTRO49 reran its tests (10 of 10, and the existing 64 of 64) and confirmed it only reads. Next: the expert's round 12 review, then one question to you covering the gated steps.",
-          "15:46Z: the expert said yes (round 12): the read-only size check may run once on the Intel Mac, then the fresh setup, then the full file list, all under ONE approval from you, stopping at the first failure. MAESTRO49 wrote the stop-checks the expert asked for (r1m_gate_d_checklist.md). Waiting for your yes or no."
+          "15:46Z: the expert said yes (round 12): the read-only size check may run once on the Intel Mac, then the fresh setup, then the full file list, all under ONE approval from you, stopping at the first failure. MAESTRO49 wrote the stop-checks the expert asked for (r1m_gate_d_checklist.md). Waiting for your yes or no.",
+          "15:52Z: with your approval, the size check ran on the Intel Mac (it only read). The fixed pass/fail rule said FAIL: the full file list would need about 35 MB of record space, but only 18 MB is set aside. Almost all of it is the 61,743 files and folders already under /opt/local. So the chain stopped as planned: no setup ran and nothing was changed on the Intel Mac. Your approval is used up. Next: re-plan the space budget (or how /opt/local is recorded) with the expert, then ask you again."
         ]
       },
       {
