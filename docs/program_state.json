@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T14:07:07Z",
+    "edited": "2026-10-11T14:10:10Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -162,9 +162,9 @@
         "id": "dashboard-integration-review",
         "title": "Review your dashboard, skills and dataviz lists",
         "summary": "Five Codex reviewers each take one area of the lists you sent (web dashboard tools, terminal dashboard tools, dashboard/design skills, research/ML skills, design best practices) and report what fits our work, how it would plug in, the cost and risk, and a verdict per item. Review only: nothing is installed or built.",
-        "state": "running",
-        "who": "Codex reviewers codexdirweb, codexdirtui, codexdiruiskills, codexdirresearchskills, codexdirpractices; then MAESTRO summarises for you",
-        "session": "codexdirsynth",
+        "state": "needs_you",
+        "who": "You: pick proposals; then MAESTRO",
+        "session": "",
         "started": "2026-10-11T13:52:00Z",
         "estimate": {
           "low_min": 30,
@@ -173,10 +173,13 @@
         },
         "depends_on": [],
         "blocked_by": [],
-        "needs_from_you": [],
+        "needs_from_you": [
+          "Pick which of the five proposals in SUMMARY.md §3 to approve, and answer what you can of its six questions (§6)."
+        ],
         "notes": [
           "13:52Z: you sent the lists (13:50Z). MAESTRO46 split them into five areas and started one Codex reviewer per area with a shared description of our setup (results/dashboard_integration_review_20261011/CONTEXT.md). Each writes one report there; skills are also checked for install safety.",
-          "14:06Z: all five reviews are done (one reviewer ran low on room and a fresh one finished its last two items). Reports are in results/dashboard_integration_review_20261011/. A sixth Codex session is writing a one-page summary for you."
+          "14:06Z: all five reviews are done (one reviewer ran low on room and a fresh one finished its last two items). Reports are in results/dashboard_integration_review_20261011/. A sixth Codex session is writing a one-page summary for you.",
+          "14:09Z: the one-page summary is ready (results/dashboard_integration_review_20261011/SUMMARY.md). Headline: keep our dashboards; first check that failures read UNAVAILABLE and that tabs fit the phone; a few small trials are worth considering; no skill should be installed as-is. Waiting for you to pick which proposals to approve."
         ]
       },
       {
