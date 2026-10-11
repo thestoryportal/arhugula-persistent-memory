@@ -111,6 +111,23 @@ def currency_scan(tok, spec):
     return fptok, stale, None
 
 
+def runbook_sections(rb):
+    # [LAW:one-type-per-behavior] Headings are matched at line start, so "### §13 changelog" never stands in
+    # for "## §13": a substring match let each newest §13 entry hide every older D-ID from the gate.
+    def heading(h, start=0):
+        m = re.compile(r"^" + re.escape(h), re.M).search(rb, start)
+        return m.start() if m else -1
+    def span(a, b):
+        i = heading(a)
+        if i < 0:
+            return ""
+        j = heading(b, i + 1) if b else -1
+        return rb[i:j if j > 0 else len(rb)]
+    return {"§0.3 next-actions": span("### §0.3", "### §0.4"),
+            "§12 dashboard":     span("## §12", "## §13"),
+            "§13 changelog":     span("## §13", None)}
+
+
 def main():
     reg = _load_registry()
 
@@ -223,15 +240,7 @@ def main():
 
     # Runbook section-level spans (each must carry the D-ID + current fingerprint)
     rb = _read("EXPERIMENT_RUNBOOK.md") or ""
-    def span(a, b):
-        i = rb.find(a)
-        if i < 0:
-            return ""
-        j = rb.find(b, i + 1)
-        return rb[i:j if j > 0 else len(rb)]
-    for name, seg in [("§0.3 next-actions", span("### §0.3", "### §0.4")),
-                      ("§12 dashboard",     span("## §12", "## §13")),
-                      ("§13 changelog",     rb.split("## §13")[-1] if "## §13" in rb else "")]:
+    for name, seg in runbook_sections(rb).items():
         label, ok = status(seg, tok, fptok)
         print(f"  [{label}] EXPERIMENT_RUNBOOK.md {name}")
         if not ok:
