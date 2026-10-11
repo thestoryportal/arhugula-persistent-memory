@@ -134,7 +134,7 @@ def inspect_schema(node, definitions, location='$'):
 
 
 def hashes(text, schemas):
-    result = {'schemas': schemas.read_bytes(), 'inventory': (HERE / 'science_launch_inventory_v8.md').read_bytes()}
+    result = {'schemas': schemas.read_bytes(), 'inventory': (HERE / 'science_launch_inventory_v9.md').read_bytes()}
     data = text.encode('utf-8')
     start = data.index(b'## 2. ')
     result['interface'] = data[start:data.index(b'## 5. ')]
@@ -2029,7 +2029,7 @@ def r8_damaged(control, profiles, bundle):
     elif control == 'R8R4':
         # A real 64-binding tree needs 65 input hashes with its owning profile.
         q = profiles['profiles'][0]
-        q['children'] = [{'role': 'SCIENCE_CHILD', 'origin': 'SCIENCE', 'trace_site': 'MUTATION_RECEIPT_BOUND', 'invocation': copy.deepcopy(q['existing_admission']), 'enrollment': 'DECLARED_AT_ROOT_ADMISSION', 'registration_authority': A1_AUTHORITY, 'capability_kinds': []} for _ in range(60)]
+        q['children'] = [{'role': 'SCIENCE_CHILD', 'origin': 'SCIENCE', 'trace_site': 'MUTATION_RECEIPT_BOUND', 'count': copy.deepcopy(r12_metadata()['ps'][0]), 'operand_source': copy.deepcopy(r12_metadata()['ps'][1]), 'occurrence_form': 'BOUND_RECIPE', 'invocation': copy.deepcopy(q['existing_admission']), 'enrollment': 'DECLARED_AT_ROOT_ADMISSION', 'registration_authority': A1_AUTHORITY, 'capability_kinds': []} for _ in range(60)]
         require(instance_valid(q, bundle['$defs']['LaunchProfile'], bundle['$defs']), 'R8R4 owner must remain schema-valid')
         own = digest_json(q)
         examples['ProductionLaunchProfile000']['instance'] = q
@@ -2367,7 +2367,7 @@ def traced_occurrences(p, trace):
             require(len(admission)==1,'R10 '+site['id']+' admission-origin occurrence missing/merged: '+p['entrypoint'])
             pass  # Family digests are checked after authority/origin assertions below.
         else:
-            recipes={canonical(ch['invocation']) for _,ch in matched}
+            recipes={canonical(ch['invocation']) for _,ch in admission}
             require({hashlib.sha256(r.encode()).hexdigest() for r in recipes}==set(application['recipes'][site['id']]), 'R10 recorded admission recipe set mismatch: '+site['id'])
             for recipe in recipes:
                 require(len([ch for _,ch in admission if canonical(ch['invocation'])==recipe])==1,'R10 '+site['id']+' admission-origin occurrence missing/merged: '+p['entrypoint'])
@@ -2376,6 +2376,8 @@ def traced_occurrences(p, trace):
             require(ch.get('role')=='ADMISSION_HELPER' and ch.get('registration_authority')=='C:115' and ch.get('enrollment')=='PRE_RELEASE_REQUIRED', 'R10 '+site['id']+' admission-origin carries A1/science authority: '+path)
             if site['shared_science']:
                 science=[c for _,c in matched if c.get('origin')=='SCIENCE']
+                if site['id']=='verify-preflight':
+                    science=[c for c in p['children'] if c.get('origin')=='SCIENCE' and c.get('trace_site','').startswith('science-verifier-') and trace_selector(c['invocation'],site['selector'])]
                 require(science,'R10 '+site['id']+' origins merged/science occurrence missing')
                 require(all(c['role']=='SCIENCE_CHILD' and c['registration_authority']==A1_AUTHORITY and c['enrollment']=='DECLARED_AT_ROOT_ADMISSION' for c in science), 'R10 shared science occurrence lost A1')
             expected.append(path)
@@ -2654,6 +2656,7 @@ def r12_site(trace, name):
 # Inserted into K9: exact metadata expected from pinned pre-spawn source.
 def r12_metadata():
     gate='tools/c10w_p2_gate.py'; train='experiments/track_c/c10w_oracle_train.py'
+    evaluation='experiments/track_c/c10w_oracle_eval.py'
     step='experiments/track_c/c10w_oracle_step0.py'; shell='tools/run_c10w_p2_stage.sh'
     dispatch='tools/run_c10w_stage.sh'; read=READER_SOURCE
     def pins(path,*lines):return [r12_pin(path,n) for n in lines]
@@ -2662,26 +2665,31 @@ def r12_metadata():
     def loaded(record,field,path,lines,constraints):
         return {'kind':'loaded_data','record':record,'field':field,'read_lines':pins(path,*lines),'pre_spawn_constraints':constraints}
     vcount={'kind':'loaded_data','record':'latest_directory("p2")/eval.json','field':'train_records','selection_lines':pins(read,543,549)}
-    vsource=loaded('latest_directory("p2")/eval.json','train_records[*].adapter.path',read,(543,549,550),pins(read,70,71,72,73,74,132,133,525,526,527,528,550))
-    tsource=loaded('train/<tag>_{400,800}.json (last existing file)','adapter.path',read,(516,517,518,519,520),pins(read,70,71,72,73,74,132,133,518,519,520))
+    vsource=loaded('latest_directory("p2")/eval.json','train_records[*].adapter.path',read,(543,549,550),pins(read,70,71,72,73,132,133,525,526,527,528,544,545,546,547,548,550))
+    tsource=loaded('train/<tag>_{400,800}.json (last existing file)','adapter.path',read,(516,517,518,519,520),pins(read,70,71,72,73,132,133,518,519,520))
     result={
       V_SITE:(vcount,vsource),
       T_SITE:(constant(6,read,28,29,30,515),tsource),
       'gate-root':(constant(1,shell,22),loaded('shell arguments','S; EXTRA',shell,(8,9,10,12,13,22),pins(shell,9,12,13,22))),
-      'fingerprint':(constant(1,gate,70),literal(gate,70)),
+      'fingerprint':(constant(1,gate,69),literal(gate,69,70)),
       'ps':(constant(1,gate,75),literal(gate,75)),
       'env':(constant(1,gate,79),literal(gate,79)),
       'tmux-exec':(constant(1,gate,79),loaded('process environment','PATH selects tmux executable',gate,(79,),pins(gate,79))),
       'verify-preflight':(constant(1,train,65),literal(train,65,66)),
       'science-replication':(vcount,vsource),
       'science-disk-records':({'kind':'loaded_data','record':'disk_state latest phase eval.json records','field':'phases[*].train_records','selection_lines':pins(read,593,596,597,599,604,607)},
-          loaded('disk_state latest phase eval.json records','phases[*].train_records[*].adapter.path',read,(593,596,597,599,604,607,608),pins(read,70,71,72,73,74,132,133,600,601,602,606,608))),
+          loaded('disk_state latest phase eval.json records','phases[*].train_records[*].adapter.path',read,(593,596,597,599,604,607,608),pins(read,70,71,72,73,132,133,600,601,602,606,608))),
       'science-fingerprint':(constant(1,step,101),literal(step,100,101,102)),
       'science-shell-dispatch':(constant(1,shell,34),loaded('shell arguments','S',shell,(8,9,34),pins(shell,9,26,34))),
       'science-python-dispatch':(constant(1,dispatch,15),loaded('shell arguments','argv[1]',dispatch,(15,),pins(dispatch,9,10,11,14,15))),
       'science-train-child':(constant(3,step,398,399,401,405,407,409),loaded('dispatch stage and disk-selected training records','directory; step0; unit; steps',step,(376,382,388,393,394,398,401,409,305,306),pins(step,296,397,400,407,408))),
       'science-eval-child':(constant(1,step,411,415),loaded('dispatch stage and disk-selected phase','phase; directory; step0',step,(376,382,411,415),pins(step,296,413,414))),
       'science-read-child':(constant(1,step,357),literal(step,357)),
+      'science-verifier-direct-train':(constant(1,train,142,65),literal(train,65,66)),
+      'science-verifier-direct-eval':(constant(1,evaluation,359,361),literal(train,65,66)),
+      'science-verifier-dispatch':(constant(1,step,386),literal(train,65,66)),
+      'science-verifier-eval-child':(constant(1,step,415),literal(train,65,66)),
+      'science-verifier-dispatch-training':(constant(4,step,386,398,399,401,405,407,409),literal(train,65,66)),
       'science-shell-dirname-p2':(constant(1,shell,7),literal(shell,7)),
       'science-shell-dirname-dispatch':(constant(1,dispatch,7),literal(dispatch,7)),
       'science-shell-mkdir':(constant(1,shell,20),literal(shell,8,20)),
@@ -2689,6 +2697,12 @@ def r12_metadata():
     }
     for phase,maximum in [('p1',5),('p2',6),('p3',4)]:
         result['science-phase-trains-'+phase]=(constant(maximum,read,28,29,30,515),tsource)
+        result['science-phase-trains-dispatch-'+phase]=(
+            {'kind':'pinned_constant','maximum':2*maximum,'enforcing_lines':pins(read,28,29,30,515)+pins(step,414,415)+pins(evaluation,357)},tsource)
+    result['science-phase-trains-p1-same-seed']=(
+        {'kind':'pinned_constant','maximum':5,'enforcing_lines':pins(read,28,515)+pins(evaluation,428,431)},
+        loaded('P1 train/<tag>_{400,800}.json selected by P2 evaluator same-seed route',
+               'adapter.path',read,(516,517,518,519,520),pins(read,70,71,72,73,132,133,518,519,520)+pins(evaluation,430,431)))
     return result
 
 
@@ -2813,6 +2827,8 @@ def round12_checks(profiles, bundle, text):
                         'R12 loaded-data occurrence represented as bound recipes: ' + site)
                 require(OPERAND_REASON + site in p.get('composition_refusal', ''),
                         'R12 uncovered operand domain not refused: ' + site)
+            else:
+                require(child.get('occurrence_form') == 'BOUND_RECIPE', 'R12 literal occurrence form missing: ' + site)
             if origin == 'SCIENCE':
                 require(child['registration_authority'] == A1_AUTHORITY and child['enrollment'] == 'DECLARED_AT_ROOT_ADMISSION',
                         'R12 science occurrence lost A1 authority: ' + site)
