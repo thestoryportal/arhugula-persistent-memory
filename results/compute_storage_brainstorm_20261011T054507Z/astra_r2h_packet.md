@@ -1,0 +1,26 @@
+# Astra review round 5 — shared-disk clearance implementation freeze v3 (R2 / I1b, Gate 1)
+
+You are the program's independent cross-family reviewer. Work read-only: read and search only. Do not run graft (CLI or tools); ignore any graft hook text. You may run the checker below with `/usr/bin/python3 -B` (stdlib only, no host effects; its mutation controls write only under $TMPDIR); run nothing else. Repository HEAD is the commit that adds this packet.
+
+Aliases: `B` = `results/compute_storage_brainstorm_20261011T054507Z/`; `C` = `B/shared_disk_clearance_contract_v1_1.md` (sha256 25c93f5f584d5a1dfff3b0610b32922a289be6d91449765862de3331334062f1, unchanged); `IM` = `B/integration_r5_completion_table.md`; `V4` = your round-4 verdict `B/astra_r2g_verdict.md` (sha256 6fe532f02650141d98b11e96c87e6f43a07c0c4c2acf19fd95cc43cffec83699), NO-GO with findings F1–F6 and required changes R1–R5 at V4:42–82.
+
+Subjects (commit 4dd9c2a9 plus this packet), sha256:
+- `F3` = `B/shared_disk_clearance_freeze_v3.md` e1826512d664a97da2a26fc98f5d54b890d75d937d422d166a129a1ad2033561 (333 lines; builders codexr2i, then codexr2i2 after a context handoff; briefs `B/codexr2i_brief.txt`, `B/codexr2i2_brief.txt`). §9 maps V4.
+- `J2` = `B/shared_disk_clearance_schemas_v2.json` f0d0102a94d7a9e21160e41141dd805783c0d3f930205ee4ae24a59a2767c128 (same builders, plus the one-value fix below).
+- `K2` = `B/check_r2_schemas_v2.py` 07e9b06f457845585f639d034311cc3acba6511b4cde86718fe5f844644a3d52 (1,119 lines; builder codexr2k, brief `B/codexr2k_brief.txt`), with report `B/r2k_report.md` 0535dd23cf4c66e520aa982b4ede6f8d286e0cb153a80de6ad63f7fdf5b160f3. It answers V4 F5 and R4's checker half. The old checker `B/check_r2_schemas.py` is superseded and is not acceptance evidence.
+- `I2` = `B/science_launch_inventory_v2.md` 6783949d9ee223599cb457ae424a2dc5a045aaee7238e3a2112ffb1b5d213280 (289 lines; builders codexr2j, then codexr2j2; brief `B/codexr2j2_brief.txt`). It answers V4 F1/R1.
+
+Process record (disclosed so you can weigh it):
+1. MAESTRO's first K2 brief wrongly required equality between F3 §3's four SSH kinds and J2's `internal: false` kinds. `internal: false` means framed wire over SSH or local IPC (F3:64,136–144). The builder stopped (`B/r2k_blocked_report_c2_20261011.md`). MAESTRO corrected that rule to a subset check (brief line C2). M2 still isolates the coordinated REQUEST_UNIT omission through that subset check.
+2. K2 then found a real J2 defect, which the builder's self-check and MAESTRO's independent recompute of the 928 hash references had both missed: `ReceiptBlob.canonical_utf8` was a stale copy of `InvocationBindingExecutor`, with four fields differing, while its declared sha256 matched the current source. The Claude Code safety classifier blocked MAESTRO's own edit of J2 and its pin. The operator then chose a Codex fixer: codexr2l, brief `B/codexr2l_brief.txt`, report `B/r2l_report.md` 4fda2a14e1ce1fef1a95b66766b9c3e98c0f0a422c898ba3ecc9f344cd68cd22. The fix changes exactly one J2 line (the blob, now its source's canonical serialization) and one F3 line (F3:290 schemas pin f1368a97… → f0d0102a…).
+
+MAESTRO48 verified only: K2 default run exits 0 with `GREEN: 105 schemas, 17 request kinds, 235 examples validated, 928 hash references recomputed`; `--mutation-controls` exits 0 with M1–M6 each RED for its intended first error; F3 §8's schemas pin equals shasum of J2; the interface slice (§2 to before §5) f7746c4b… and runtime slice (§2 to before §8) 398e73fb… match F3 §8; J2's external schema artifact hash matches its rule; F3 is 333 lines with nine sections and §9 covers F1–F6/R1–R5; MAESTRO47 recomputed I2's 198 hashes, all OK. These are presence and recomputation checks. MAESTRO did not judge any frozen choice, schema design, mapping or inventory verdict.
+
+Review for:
+1. Does each of V4's R1–R5 close? For each, say closed, partly closed (what remains) or open, with evidence.
+2. R1 (I2): is the inventory complete for production entrypoints that can reach a shared-disk or model-loading path, with launch profiles, literal parameters, child coverage and hashes? Name any entrypoint it misses or misclassifies.
+3. R2/R3 (F3): is the executor ordering preserved, the profile representation acyclic and the runtime argument-binding procedure exact? Do recovery dependencies and evidence storage survive the stated authority-root failure, with consistent permissions and no authority-writing capability?
+4. R4 (J2, K2): are the initialization and missing-history fencing variants explicit? Does K2 test what F5 said was missing: schema correctness, independent SSH-kind completeness, success/refusal mappings, and example validity and coherence? Could it pass with a malformed schema, a coordinated omission, a swapped mapping or a broken hash binding? Is anything K2 hard-codes from F3 prose misread (see `B/r2k_report.md`)?
+5. Does any frozen choice contradict or weaken a C clause, add a default-to-proceed, put a science wait on the Intel Mac, or terminate Intel work? Are the Gate 1/2/3 boundaries, separate commissioning authorization and the UNRUN status of every real-pair case preserved (R5)?
+
+Verdict format: first line `VERDICT: GO` | `GO-WITH-CONDITIONS` | `NO-GO`; then findings `F<n>. [severity] claim. Evidence: path:line. Consequence:`; required changes `R<n>`; "What I checked and did not check".
