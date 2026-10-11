@@ -35,8 +35,8 @@
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "in_review",
-        "who": "Astra (round 5), then MAESTRO runs the Intel check and binding if allowed",
+        "state": "ready",
+        "who": "MAESTRO43 briefs builder codexr1f, then Astra round 6",
         "session": "",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
@@ -72,7 +72,8 @@
           "11:00Z: builder codexr1d started (tests first): the setup record splits into a locked part and an add-only evidence log, so filling in facts later never restarts the clock; both time-limit bugs fixed; a separate read-only check records the Intel Mac's Python before anything starts. Nothing runs on the Intel Mac.",
           "11:30Z: codexr1d finished (a2bdac8f); MAESTRO reran all tests (18 new + 9 old pass) and checked only the 6 new files were added. One problem found and sent to Astra: the step that records the Intel Python would overwrite the setup file; it must write a new one. Astra round 4 is reviewing (338a4fc4).",
           "11:37Z: Astra round 4 (61d2bd46): the two time-limit bugs are fixed, but moving or replacing the script's working folder could still restart its clock, and the Python check skipped links. Astra allowed the read-only Python check on the Intel Mac: MAESTRO ran it (nothing written there; b075c1bc), Python 3.9.6, kept as an observation only. Builder codexr1e is fixing the rest (tests first).",
-          "11:57Z: codexr1e finished (fbba4e35); MAESTRO reran 27+18+9 tests, all pass. The clock now cannot restart while its outside record survives, the Python check covers links and refuses unreadable folders, and a separate tool records the Intel Python without overwriting anything. Astra round 5 is reviewing (also: where the files should sit on the Intel Mac)."
+          "11:57Z: codexr1e finished (fbba4e35); MAESTRO reran 27+18+9 tests, all pass. The clock now cannot restart while its outside record survives, the Python check covers links and refuses unreadable folders, and a separate tool records the Intel Python without overwriting anything. Astra round 5 is reviewing (also: where the files should sit on the Intel Mac).",
+          "11:59Z: Astra round 5 said not yet: the improved Python check may run (MAESTRO ran it on the Intel Mac, nothing written there; kept as an observation), but recording it into the setup file and the first collection still wait for more fixes. Next: a fresh builder (codexr1f) makes them."
         ]
       },
       {
