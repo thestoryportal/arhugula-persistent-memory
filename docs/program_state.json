@@ -27,16 +27,16 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T02:44:00Z",
+    "edited": "2026-10-11T02:45:16Z",
     "items": [
       {
         "id": "drive-review",
         "title": "Drive backup: expert review, round 11",
         "summary": "Astra, the independent reviewer, checks the package and the Mac test results and says go or no-go.",
-        "state": "running",
-        "who": "Astra (reviewer), run by MAESTRO",
+        "state": "ready",
+        "who": "A builder fixes 3 points, then Astra re-checks (round 12)",
         "session": null,
-        "started": "2026-10-11T02:38:29Z",
+        "started": null,
         "estimate": {
           "low_min": 20,
           "high_min": 45,
@@ -46,8 +46,9 @@
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "Round 10 verdict was NO-GO (results/backup_gdrive_host_20261010/astra_r10_verdict.md).",
-          "Mac tests done 02:36Z: all 9 checks as designed (commit 3911e72a)."
+          "Round 11 (02:40-02:55Z): NO-GO, but narrow. Astra accepted the release isolation, Python 3.9 coverage, recovery/operations plan and the HOME-leak fix.",
+          "3 fixes needed: (1) the merge must come from a backup-only branch, not this whole work branch; (2) one plan command points at a program path that does not exist on this Mac (/usr/bin/gh); (3) the copy-checker must fix the log format it accepts and reject any other, so an error written in a different format cannot pass as clean.",
+          "Verdict: results/backup_gdrive_host_20261011/astra_r11_verdict.md"
         ]
       },
       {
