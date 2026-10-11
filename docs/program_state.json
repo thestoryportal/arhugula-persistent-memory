@@ -28,26 +28,26 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T06:51:40Z",
+    "edited": "2026-10-11T07:07:21Z",
     "items": [
       {
         "id": "hw-brainstorm",
         "title": "Plan how to use the Intel Mac, your friend's Mac and Drive",
-        "summary": "HW1 (Codex) is brainstorming with you: second copy of our data on the Intel Mac, moving builders and the research engine there, Drive jobs and the dashboard, and a short plan for your friend's Mac.",
-        "state": "needs_you",
-        "who": "You + HW2 (tmux session codexhw2; type in hw2-op)",
+        "summary": "You approved the design for the Intel Mac, your friend's Mac (conditional one-week trial, with a fallback) and Drive. MAESTRO and Astra are checking it before MAESTRO acts on it, including the plan that ties it to earlier designs and queued builds.",
+        "state": "in_review",
+        "who": "MAESTRO + Astra (reviewing your approved design)",
         "session": "codexhw2",
         "started": "2026-10-11T05:45:49Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
-        "needs_from_you": [
-          "Answer HW2's question in tmux: tmux attach -t hw2-op"
-        ],
+        "needs_from_you": [],
         "notes": [
           "05:45Z: started at your request after you chose all four Intel Mac roles.",
           "06:21Z: you added: no local AI models on the Intel Mac (M3 only). HW1 recommends A: the Intel Mac keeps researching while the M3 runs science, and big transfers pause when science needs the disk. Waiting for your answer. HW1 has 49% memory left.",
-          "06:51Z: HW1 ran low on memory and handed off after 13 of your choices (saved in decisions_log.md). HW2 took over and will first re-ask the one open question: approve a one-week trial plan for your friend's Mac (option A)?"
+          "06:51Z: HW1 ran low on memory and handed off after 13 of your choices (saved in decisions_log.md). HW2 took over and will first re-ask the one open question: approve a one-week trial plan for your friend's Mac (option A)?",
+          "06:55Z: you approved the friend's-Mac trial A, tentatively, with a fallback if the loan falls through. 07:03Z: you approved the whole design and required one plan that reconciles it with earlier designs and queued builds (HW2 drafted integration_plan.md).",
+          "07:07Z: Astra review r1 started; MAESTRO is checking the design against your 15 choices."
         ]
       },
       {
