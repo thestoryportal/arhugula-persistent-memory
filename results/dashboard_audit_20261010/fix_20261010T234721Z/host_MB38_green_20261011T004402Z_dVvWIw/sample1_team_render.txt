@@ -1,0 +1,13 @@
+[1m[38;5;231m[48;5;25m ■ TEAM · 3 live sessions · refresh 3 s[0m
+ working 1 · asking 0 · active 0 · idle 2
+[1m[38;5;231m[48;5;25m ■ LEAD · maestro2                                                                  [48;5;28m WORKING · last change — [0m
+[38;5;25m[1m Opus 5.5  ·  221,690 tokens in context  ·  working 1m 37s[0m
+[1m ↳ ✳ MAESTRO29 takeover NEW-1 launch[0m
+[38;5;141m   ◯ helper: Draft Drive builder brief (4eff2d63)  ·  11m14s[0m
+[38;5;25m─────────────────────────────────────────────────────────────────────────────────────────────────────────────[0m
+ Builders · page 1/1 · rotates every 10 s
+[1m[38;5;231m[48;5;30m ■ Codex MB37                   [48;5;240m IDLE · last change — [0m[0m│[1m[38;5;231m[48;5;36m ■ Codex MB38                   [48;5;240m IDLE · last change — [0m[0m
+[38;5;30m[1m GPT-6.1-Sol max  ·  43% context left[0m[0m                 │[38;5;36m[1m GPT-6.1-Sol max  ·  45% context left[0m[0m                 
+[1m ↳ Make all tabs update live | c10k-route-a[0m[0m           │[1m ↳ Make all tabs dynamically update | c10k-route-a[0m[0m    
+[38;5;30m──────────────────────────────────────────────────────[0m[0m│[38;5;36m──────────────────────────────────────────────────────[0m[0m
+ [38;5;252m[1m›[0m [1mMB37 HANDOFF[0m[0m                                       │ [38;5;252m[1m›[0m [1mDASHBOARD FIX READY FOR MAESTRO RUN[0m[0m                

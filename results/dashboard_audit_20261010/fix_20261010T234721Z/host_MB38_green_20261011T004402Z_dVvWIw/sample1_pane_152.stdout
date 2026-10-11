@@ -1,0 +1,67 @@
+■ MATH LAB · test math estimates using saved model inputs
+ MATH-PROXY · math estimate, not evidence
+ Run new1_20261010T235740.858576Z · finished · step 4
+ View: newest events file by mtime · other active runs (events): 0
+ INVALID: no verdict; operator review needed.
+ Elapsed 24m53s / hard deadline 44m59s · ends 2026-10-11T00:42:40.858821+00:00
+ No prediction verdict; NEW1 publication incomplete or halted
+ PLAN · ✓ passed ✗ failed ▶ current · not recorded ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ · 1 · Harvest: record internal model inputs for every prompt (one GPU pass).
+ · 2 · Reproduce: repeat the saved write calculation on CPU; check it matches.
+ · 3 · Calibrate: check estimates against past results; failure stops cheaply.
+ · 4 · Candidate questions: explore ideas later, after a new written plan. (INVALID; no verdict)
+ NOW ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ Provisional math estimate, not evidence: H-OVERLAP
+ Progress not recorded · stage time 0m00s / cap 45m00s
+ CHECKS · 45 recorded · 0 failed / 0 invalid · page 1/3 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ PASS admission · bar meets "allowed" · measured object:2
+  Fail-closed parent CPU admission
+ PASS memory-new1-imports-numerical-dependencies · bar >= 9.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-load-source-identity · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-load-l4-operands · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-covariance-svd-l4 · bar >= 13.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-covariance-svd-f64-l4 · bar >= 19.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-covariance-checks-l4 · bar >= 19.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-projections-l4 · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-update-svd-l4 · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-random-controls-l4 · bar >= 9.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-output-l4-statistics · bar >= 9.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-load-l5-operands · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-covariance-svd-l5 · bar >= 13.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-covariance-svd-f64-l5 · bar >= 19.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-covariance-checks-l5 · bar >= 19.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-projections-l5 · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-update-svd-l5 · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-random-controls-l5 · bar >= 9.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-output-l5-statistics · bar >= 9.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-load-l6-operands · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-covariance-svd-l6 · bar >= 13.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ MACHINE · samples from this run; GPU display is shared ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ Free memory ████████┃███████ 24.6326 GiB · floor 6 GiB (┃) · +18.6326 GiB above floor
+ Lab memory 3.81641 GiB · CPU 104.1% · GPU free (no running job reported); admission decides
+ FINDINGS · MATH-PROXY: math estimate, not evidence (0) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ None staged yet.
+ CANDIDATE QUESTIONS (0; newest 3) · ideas to test ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ None yet; step 4 needs its own pre-registration.
+ LAST EVENTS · newest 1 of 8 recent ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 00:22:34 Run finished INVALID: Execution completed; individual predictions are separate; math estimate, not evidence

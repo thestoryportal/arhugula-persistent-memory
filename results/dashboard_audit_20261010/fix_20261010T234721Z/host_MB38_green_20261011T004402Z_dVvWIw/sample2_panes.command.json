@@ -1,0 +1,1 @@
+["tmux", "list-panes", "-s", "-t", "=dashboard", "-F", "#{window_index}\t#{window_name}\t#{pane_id}\t#{pane_start_command}"]

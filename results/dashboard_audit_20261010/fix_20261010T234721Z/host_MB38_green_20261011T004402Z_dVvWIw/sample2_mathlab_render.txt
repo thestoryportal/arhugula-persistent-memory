@@ -1,0 +1,39 @@
+[1m[38;5;231m[48;5;25m■ MATH LAB · test math estimates using saved model inputs                                                    [0m[0m
+ [1mMATH-PROXY · math estimate, not evidence[0m[0m
+ Run new1_20261010T235740.858576Z · finished · step 4[0m
+ View: newest events file by mtime · other active runs (events): 0[0m
+ [38;5;214mINVALID: no verdict; operator review needed.[0m[0m
+ Elapsed 24m53s / hard deadline 44m59s · ends 2026-10-11T00:42:40.858821+00:00[0m
+ No prediction verdict; NEW1 publication incomplete or halted[0m
+[1m[38;5;231m[48;5;24m PLAN · ✓ passed ✗ failed ▶ current · not recorded [0m[38;5;24m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[0m
+ · 1 · Harvest: record internal model inputs for every prompt (one GPU pass).[0m
+ · 2 · Reproduce: repeat the saved write calculation on CPU; check it matches.[0m
+ · 3 · Calibrate: check estimates against past results; failure stops cheaply.[0m
+ · 4 · Candidate questions: explore ideas later, after a new written plan. (INVALID; no verdict)[0m
+[1m[38;5;231m[48;5;28m NOW [0m[38;5;28m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[0m
+ Provisional math estimate, not evidence: H-OVERLAP[0m
+ Progress not recorded · stage time 0m00s / cap 45m00s[0m
+[1m[38;5;231m[48;5;25m CHECKS · 45 recorded · 0 failed / 0 invalid · page 6/7 [0m[38;5;25m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[0m
+ [38;5;40mPASS memory-new1-load-l8-operands[0m · bar >= 10.0 · measured object:2[0m
+  Available memory covers eight GiB plus the declared cell reserve[0m
+ [38;5;40mPASS memory-new1-covariance-svd-l8[0m · bar >= 13.0 · measured object:2[0m
+  Available memory covers eight GiB plus the declared cell reserve[0m
+ [38;5;40mPASS memory-new1-covariance-svd-f64-l8[0m · bar >= 19.0 · measured object:2[0m
+  Available memory covers eight GiB plus the declared cell reserve[0m
+ [38;5;40mPASS memory-new1-covariance-checks-l8[0m · bar >= 19.0 · measured object:2[0m
+  Available memory covers eight GiB plus the declared cell reserve[0m
+ [38;5;40mPASS memory-new1-projections-l8[0m · bar >= 10.0 · measured object:2[0m
+  Available memory covers eight GiB plus the declared cell reserve[0m
+ [38;5;40mPASS memory-new1-update-svd-l8[0m · bar >= 10.0 · measured object:2[0m
+  Available memory covers eight GiB plus the declared cell reserve[0m
+ [38;5;40mPASS memory-new1-random-controls-l8[0m · bar >= 9.0 · measured object:2[0m
+  Available memory covers eight GiB plus the declared cell reserve[0m
+[1m[38;5;231m[48;5;30m MACHINE · samples from this run; GPU display is shared [0m[38;5;30m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[0m
+ Free memory [38;5;39m████████┃███████[0m 24.6326 GiB · floor 6 GiB (┃) · +18.6326 GiB above floor[0m
+ Lab memory 3.81641 GiB · CPU 104.1% · GPU free (no running job reported); admission decides[0m
+[1m[38;5;231m[48;5;96m FINDINGS · MATH-PROXY: math estimate, not evidence (0) [0m[38;5;96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[0m
+ None staged yet.[0m
+[1m[38;5;231m[48;5;96m CANDIDATE QUESTIONS (0; newest 3) · ideas to test [0m[38;5;96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[0m
+ None yet; step 4 needs its own pre-registration.[0m
+[1m[38;5;231m[48;5;238m LAST EVENTS · newest 1 of 8 recent [0m[38;5;238m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[0m
+ 00:22:34 Run finished INVALID: Execution completed; individual predictions are separate; math estimate, not [0m
