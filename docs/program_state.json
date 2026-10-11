@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T17:06:26Z",
+    "edited": "2026-10-11T17:11:34Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -148,8 +148,8 @@
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
-        "who": "MAESTRO52: fix brief for Astra round 6 R1-R6, then round 7",
-        "session": "codexr2m2, codexr2n",
+        "who": "codexr2q builds round-7 fixes; then MAESTRO52 runs Astra round 7",
+        "session": "codexr2q",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -184,7 +184,8 @@
           "16:21Z: the launch-list successor sorted all 242 remaining matches (89 not science, 7 more refused for a specific reason, 146 science runs still to describe) and handed off; MAESTRO50 re-checked its files and started a third session, codexr2n3, which takes the record shapes from the now-final rules. The checker builder codexr2o is working in parallel.",
           "16:35Z: two things. (1) The new checker caught a real slip in the rule formats: the 'first setup' example points at the wrong record. A small fixer (codexr2p) is correcting that one example and re-running the checker. (2) Describing every old experiment's launcher would take about 24 more sessions, so MAESTRO50 decided to describe only the launchers the next science run will use (the C10W family the re-test reuses, plus the wordlist and tokenizer scripts) and to mark every other launcher 'retired': it is simply not allowed to run alongside drive copies until someone describes it. That is the safe direction; the expert judges it in round 6 (r2_inventory_scope_decision.md). codexr2n4 is doing that now.",
           "16:54:17Z: the launch list is finished and checked: 55 complete launch descriptions for the science programs still in use, and 168 programs from finished experiments marked 'not allowed until described' (safe default). I re-checked every file fingerprint (206 of 206 match). The expert's round 6 review of the whole package started at 16:53Z.",
-          "17:03:17Z: the expert's round 6 says not yet (NO-GO), with every earlier point partly fixed. The main remaining gaps: the launch descriptions don't yet match the guard design exactly; one route could skip its required gate; the 'science isn't sandboxed' exception needs tighter limits; some child programs of the active experiment are missing; my 'which programs are still active' reasoning must use your actual re-test decision; the checker needs two more checks. Next: a builder fixes these, then round 7."
+          "17:03:17Z: the expert's round 6 says not yet (NO-GO), with every earlier point partly fixed. The main remaining gaps: the launch descriptions don't yet match the guard design exactly; one route could skip its required gate; the 'science isn't sandboxed' exception needs tighter limits; some child programs of the active experiment are missing; my 'which programs are still active' reasoning must use your actual re-test decision; the checker needs two more checks. Next: a builder fixes these, then round 7.",
+          "17:11:21Z: I wrote down three rulings for round 7 (r2_round7_decisions.md): my earlier 'which programs are active' reasoning was wrong and is corrected (your re-test is still at the planning stage, so no science launcher is active today and the re-test's will need its own launch description before it runs); one shape for how the guard wraps a science launch; and how a science run's child programs get registered before they start. A builder (codexr2q) is now fixing everything else the expert listed. Then expert round 7."
         ]
       },
       {
