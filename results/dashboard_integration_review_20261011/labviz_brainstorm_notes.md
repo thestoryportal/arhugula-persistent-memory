@@ -2167,3 +2167,274 @@ Proposed packet, following `results/dashboard_integration_review_20261011/labviz
 - Exact review anchors: practices_report.md:19 TXST; :21 Databricks; :22 Tableau; :23 FedTech; :24 Sigma; :26 Fuselab; :27 PMC; :72 LabViz contract/reader check; :79 rejection of rigid limits/persuasion. These describe the original review's inspected pages. LVB11 reread report excerpts only; no new original external pages were opened, no article platforms or scripts adopted, and the PMC full text was not newly inspected.
 - Builder/successor packet includes short selected practice extracts or clearly marked review-derived paraphrases, their purpose and source, alongside interface-design/Anthropic checklists and relevant repo examples. Keep original opened-source versus review-derived versus uninspected distinctions. Spec and operator decisions govern when generic guidance conflicts.
 - Handoff11 is prepared and updated to carry this recommendation and the practices-source roles. No clear or context-threshold observation is asserted. Only notes/handoff written; all discussion-only boundaries persist. Binding context rule survives: inspect available Context before questions; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, notify operator and write separate designated successor handoff with topics, decisions, exact paths, open risks and one next point; at <=40% stop starting work. Never approach compaction or place handoff inside notes; restate the rule in every successor/team handoff. No numerical percentage is exposed or asserted.
+
+## LVB12 — Inside the model whole-page composition presented
+
+### Decisions (with the operator's words)
+
+- No new operator design answer yet. Resumed LVB11 from handoff11 and notes:2046 onward. Carry aligned comparison rows, all handoff9/handoff10 choices and handoff11:36-42 model-page choices forward. Building hold persists.
+- Dispatch: "present the Inside the model whole-page composition as one small labelled illustrative desktop and phone arrangement" and "then ask one genuinely unsettled whole-page question". This presentation is a proposal, not an accepted layout or implementation authority.
+
+### Open questions
+
+- Illustrative desktop: accepted vertical navigation beside shared context/coverage and compact selection; focused model drawing above selected applicable chart; explanation/source detail beside these in its own collapsible space. Phone: accepted compact menu bar, selection/coverage summary and visible essential player controls; focused drawing, selected explained chart and expandable details below. Arrangement is not verified geometry or a claim about the existing build.
+- Preserve 2D -> 3D -> guided explanation; all three player modes; fresh normal entry exploration-first with Experiment phases selected and paused; link/return context; model -> layer -> part -> available finer detail; complete applicable input/expected/observed answers, scoring sources, research sources and per-part evidence sheets. Other applicable measures remain accessible. Playback stays synchronized and source-bound; diagrams cannot supply unrecorded activity or imply where a fact lives.
+- Consequential remaining visual choice: continuous annotated composition (recommended: spacing, headings and light separators connect drawing/chart/explanation) versus three quiet enclosing panels for drawing/chart/explanation. This distinguishes visual grouping within the accepted calm workspace, not navigation, control placement, player defaults, diagram/chart order or recording coverage. Neither accepted yet.
+- Reader purpose: understand the selected part, what the experiment actually recorded and what remains unobserved. Explanations distinguish general teaching, changes to stored numbers and measured internal activity. No causal claim follows from chronology, links or visual differences.
+
+### Spec changes proposed
+
+- If accepted, clarify whole-page visual grouping beside docs/LABVIZ_V2_SPEC.md:345/:347-352 and the item designs at :619-657, retaining pending granular-model/detail/coverage amendments indexed by handoff11:36-42. Preserve rendered readability and phone limits at :357-371. Binding spec remains unchanged.
+
+### Context for build agents
+
+- Bismart scientific adaptation at notes:2002 onward: purposeful visual account, short explanatory annotations and exploration retaining context; attach reviewed source limits and do not generate findings or suppress required detail. This is earlier inspected-source context, not a new external reading or approval of the proposed narrative worksheet/reference-guided workflow.
+- Review-derived practices_report.md:22/:24/:26: chart choice and hierarchy, restrained colour and drill-down, direct labels/phone legibility and honest gaps. Proposed reader check: explain the chosen part, the actual measurement and the missing observation. No empirical usability result asserted.
+- Focused original-source extracts recorded at notes:289-293: interface-design hierarchy/spacing/states for connecting the page; Anthropic accuracy/accessibility for units/scales/non-color labels/data-table access; ECharts selected-item/highlighting example only for synchronization; Transformer Explainer README only for input-to-output teaching framing. Tabler catalogue is optional; its concrete phone markup and Transformer Explainer concrete interface remain uninspected. Give extracts plus accepted decisions/spec anchors, not whole executable skill workflows or installations. SUMMARY.md:9-16/:33-51 trial/safety boundaries remain.
+- Reopened historical results/labviz/review/20261008T130913325Z/chromium-phone-model-2d.png: successive written-layer, layer-parts, wiring, answer/internal-flow and recorded-event blocks. This predates MathLab; no new browser run or measured readability claim. Preserve correction at notes:2100 onward: blocked-CDN fallback measure.json:1512162-1512190 is not established as paired with this screenshot. Do not repeat the withdrawn height/pairing claim.
+- Verified worktree root and branch read-only. Only this notes file appended. Brainstorming skill is used for conversational design; the explicit two-file/discussion-only scope overrides its spec creation, commits, browser companion and implementation workflow.
+- Binding context rule: inspect available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one next point; at <=40% stop starting work. Never approach compaction or put the handoff inside notes. Restate this rule in every successor/team handoff. No numerical Context percentage is exposed; never invent one or assert a threshold observation.
+
+## LVB12 — continuous Inside the model account accepted
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", selecting "Continuous account — recommended: open spacing and light separators connect drawing, chart and explanation." Adopt this whole-page visual grouping within the accepted calm research workspace. Diagram remains above chart; the desktop detail panel has its own collapsible space; phone details remain below. All retained model/input/player/coverage choices in the preceding entry persist.
+- This approval settles visual grouping; illustrative geometry is not measured, historical coverage/content preparation remains open, and the building hold is unchanged.
+
+### Open questions
+
+- Next: complete Learn & evaluations page composition, retaining already accepted learning/assessment/tracker scope and consulting the focused earlier decision entries before offering a new visual fork. Later reconcile whole-page coherence and pending amendments without reopening settled choices.
+
+### Spec changes proposed
+
+- Clarify the accepted continuous visual grouping beside docs/LABVIZ_V2_SPEC.md:345/:347-352/:619-657 in the eventual approved amendment packet; retain all applicable content and readability requirements (:357-371). Binding spec was not edited.
+
+### Context for build agents
+
+- Give the accepted grouping and illustrative desktop/phone arrangement at notes:2171 onward alongside handoff11:36-42 retained choices, relevant spec spans and historical chromium-phone-model-2d.png. Use interface-design hierarchy/spacing/states and Anthropic accuracy/accessibility extracts (notes:289-290), review-derived Tableau/Sigma/Fuselab guidance (practices_report.md:22/:24/:26) and Bismart scientific adaptations (notes:2002 onward). No executable skill workflow, install, network/model runtime or new scientific interpretation is authorized.
+- Preserve the fallback-measurement correction at notes:2100 onward; no screenshot/measure pairing or withdrawn height is restored.
+- Binding context rule: inspect available Context before every question; start new work only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with completed/in-flight topics, decision pointers, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes. Restate the rule in every handoff. No numerical Context percentage is exposed or asserted.
+
+## LVB12 — Learn & evaluations whole-page composition proposed
+
+### Decisions (with the operator's words)
+
+- No new Learn-page visual answer yet. The preceding operator "1" settled Inside the model continuous visual grouping only. Preserve Learn questions -> model parts -> papers (notes:403-408), brief expandable lessons and foundational path (:383-387), all per-card/section quiz coverage, future tutor deferral, personal tracker and connected written-first/expandable-map review. Scoring/phone/return/data-message rules remain handoff4:24-37; worked-card approvals remain handoff6:16-27.
+
+### Open questions
+
+- Proposed library-led whole-page composition: accepted shared frame with Learn/Evaluations clearly distinguished; compact personal progress/continue summary; dominant roomy plain-language question list, followed by model parts and papers. Foundational path remains available. Era/line context and all applicable source detail persist. Phone stacks these with wrapping titles; no claimed geometry or usability result.
+- Opening a lesson leads with a short reviewed idea, its experiment example and attached limits; deeper explanation/source material expands; optional practice and scored quiz remain available. Phone quiz is one question at a time. End review retains each answer/card summary, written connections first and an expandable map. Return links preserve source context and place. General principles, paper claims, recorded observations and reviewed interpretations stay distinct.
+- Scientific Evaluations content remains question/result/rules_out/leaves_open/next_step with supporting reference (docs/LABVIZ_V2_SPEC.md:584-587), tagged by line (:1059). Personal quiz accuracy/coverage remains a separate learner view, never an experiment judgement. Missing/unreviewed explanation or judgement stays explicit.
+- Whole-page visual fork: library-led (recommended: most space to lessons, compact personal progress summary with full tracker reachable), versus balanced study desk (same ordered learning library and a substantial personal-progress panel with comparable visual weight). Phone retains library order and stacks/expands supporting tracker content. Both preserve the full tracker hierarchy and all learning routes; this is emphasis/space allocation, not new scoring, lesson-order or curriculum scope.
+
+### Spec changes proposed
+
+- Selected Learn composition would refine docs/LABVIZ_V2_SPEC.md:346/:1058-1059 alongside already accepted pending lessons/quizzes/tracker extensions. Preserve source/context/readability rules in :347-371 and scientific evaluation source/interpretation limits at :584-587. Exact curriculum, reviewed bank, supporting associations and local persistence support remain preparation tasks; binding spec unchanged.
+
+### Context for build agents
+
+- Bismart scientific adaptation (notes:2002-2023) supplies a reviewed idea -> experiment example -> limits explanatory sequence, with exploration retaining context. It does not establish teaching effectiveness, invent findings or authorize the unaccepted narrative worksheet/reference-guided workflow.
+- Review-derived practices_report.md:19/:22/:24/:26 supply audience purpose, hierarchy, restrained colour, drill-down, direct labels and phone comprehension. Focused interface-design/Anthropic extracts (notes:289-290) supply spacing/states and honest counts/units/labels. Personal accuracy and assessment coverage must stay separate; no mastery claim follows from a quiz percentage. Exact scoring rules are settled elsewhere and not reopened.
+- Reopened historical results/labviz/review/20261008T130913325Z/chromium-phone-learn.png: era cards and Reading a recorded picture, not the proposed expanded lessons/quizzes/tracker. Opened measure.json:1425370-1425388 identifies Learn and records 390x844 viewport, 390px scroll/client widths and 2808px height. This proves neither the new composition nor a present readability defect. No new browser/build/test or original external source reading.
+- Builder packet combines accepted learning/quiz/tracker decisions, eventual chosen composition, relevant spec/capture excerpts, reviewed lesson/question/source associations and focused text-only reference extracts. No installs, executable third-party workflows, remote tutoring, model access or mutations of scientific evidence. SUMMARY.md:9-16/:33-51 safety persists.
+- Binding context rule: inspect available Context before every question; start new work only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with topics/decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or put the handoff in notes. Restate this rule in every successor/team handoff. No numerical Context percentage is exposed or asserted.
+
+## LVB12 — learning-library composition accepted
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", selecting "Learning library — recommended: lessons dominate; compact progress summary opens the full tracker." Adopt the library-led whole-page emphasis proposed at notes:2219 onward. Questions remain first, model parts second, papers third; preserve the connected foundational path, brief/expandable lessons, complete per-card/section quizzes, end feedback, written-first/expandable-map review and full personal tracker hierarchy/rules. Phone stacks the library with wrapping questions and expandable supporting progress/detail.
+- This approves composition/emphasis, not exact geometry, authored curriculum/question-bank correctness, storage support or measured educational effectiveness. Scientific evaluations and learner progress remain distinct. Building hold persists.
+
+### Open questions
+
+- Next: reconcile shared visual language across all five pages, retaining each page's accepted dominant content and calm themes. Runs landing-page composition remains a proposal where not independently approved; aligned comparison rows and accepted comparison section order are settled. Do not present pending composition as approved or reopen settled navigation/player/coverage/learning rules.
+
+### Spec changes proposed
+
+- Add accepted library-led composition beside docs/LABVIZ_V2_SPEC.md:346/:1058-1059 in the eventual reconciled Learn/quiz/tracker amendment packet. Preserve shared context/readability/source rules (:347-371), recorded scientific evaluation fields/limits (:584-587), era/line tagging and all earlier accepted learning extensions. Binding spec unchanged.
+
+### Context for build agents
+
+- Combine accepted composition with learning decision chains at notes:383-538, handoff4:24-37, worked examples indexed by handoff6:16-27 and focused current proposal at notes:2219 onward. These pointers retain complete scope; the three worked cards are examples, not the entire curriculum or bank.
+- Use Bismart scientific adaptations (notes:2002-2023) for reviewed explanation/context/limits; review-derived hierarchy/legibility guidance (practices_report.md:22/:24/:26); focused interface-design/Anthropic text extracts (notes:289-290). Historical chromium-phone-learn.png and measure.json:1425370-1425388 inform only the previous era-card layout, not acceptance of the expanded library/quiz/tracker design. No reference/tool/package adoption or execution authority follows.
+- Binding context rule: inspect available Context before every question; start new work only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes. Restate this rule in every handoff. No numerical Context percentage is exposed or asserted.
+
+## LVB12 — cross-page visual reconciliation and colour character proposed
+
+### Decisions (with the operator's words)
+
+- No new cross-page colour answer yet. Operator's preceding "1" accepts the Learn library composition only. Preserve settled calm workspace, both themes/device-based initial theme, common navigation/context and each accepted page's dominant content. Exact colours remain unfrozen (notes:1850-1855).
+
+### Open questions
+
+- Reconciliation proposal: common navigation/context frame, strong headings, generous space and restrained separators connect the five pages; each retains its own dominant content. Map is map-led (handoff9:23); Science lines uses roomy question list and flowing research brief (handoff10:23-24); Runs landing grouped list/story-led summary remains proposed, while comparison section order and aligned measurement rows are accepted (handoff11:21-22); Inside the model uses accepted continuous diagram/chart/explanation grouping (notes:2198); Learn uses accepted library-led composition (notes:2244). Do not upgrade Runs landing proposal into approval during this consistency pass.
+- Proposed shared aesthetic choice: warm neutrals (recommended: soft ivory in light theme, warm charcoal in dark theme, muted teal selection accent) versus cool neutrals (pale grey in light theme, blue-grey/slate in dark theme, muted blue selection accent). These are illustrative colour families, not contrast-verified tokens or scientific status encodings. Recommendation is design judgement about a reading-and-exploration setting, not a source-demonstrated preference/usability result.
+- Preserve existing required labelled era/line/evidence context and truthful chart encodings; selection accent does not assign scientific importance or verdict. Both alternatives retain calm style and complete content. Exact colours, typeface, pixel geometry and motion remain later design preparation.
+- Remaining reconciliation includes explicit status for pending Runs landing composition, source-reviewed content/recording gaps, the accepted Learn extensions and a frozen amendment/build-context packet. This aesthetic decision alone cannot make the build ready or lift the hold.
+
+### Spec changes proposed
+
+- Add eventual accepted colour-family direction beside docs/LABVIZ_V2_SPEC.md:357-371 and pending theme amendments; preserve same-frame/source rules (:347-352). Future chosen tokens must meet text >=4.5:1 and mark/control >=3:1 contrast, with non-colour information cues (:363/:409/:416), in both themes. No new visual measurements or edits to the binding spec.
+
+### Context for build agents
+
+- Bismart adaptations (notes:2002-2023): consistent explanatory account across views, source-bound annotations and exploration preserving context; do not force a causal story or positive ending. Review-derived Tableau/Sigma guidance (practices_report.md:22/:24) contributes hierarchy and restrained colour; Fuselab (:26) contributes readable labels/gaps/phone comprehension. Interface-design and Anthropic extracts (notes:289-290; uiskills_report.md:6-7) contribute consistent spacing/states and accurate accessible chart encodings. These sources constrain the palette's application; they do not prescribe either proposed hue family.
+- Builder context should reconcile binding current spec, operator-accepted pending amendments and unanswered proposals in one reviewable packet with pointers, avoiding conflicting duplicate authority. Existing historical phone Map/model/Learn captures are incumbent context only; no screenshot demonstrates the proposed palette. No package/tool/skill installation, original-source web reading, browser run, build or science access.
+- Binding context rule: inspect available Context before every question; start new work only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or put the handoff in notes. Restate this rule in every successor/team handoff. No numerical Context percentage is exposed or asserted.
+
+## LVB12 — warm neutral colour family accepted
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", selecting "Warm neutrals — recommended: ivory, charcoal and teal." Adopt soft ivory light-theme surfaces, warm charcoal dark-theme surfaces and a muted teal selection accent as the shared colour-family direction across all five pages. Preserve accepted calm style, device-based initial theme, labelled scientific context/status and accurate chart encodings.
+- This accepts aesthetic direction, not exact colour values, measured contrast, pixel geometry or scientific meaning for the accent. No build or spec edit authorized.
+
+### Open questions
+
+- Close the explicit remaining Runs landing-page composition gap: handoff11:21-22 records comparison row approval but no independent approval of every proposed landing-page detail. Present a complete composition retaining grouped/collapsed/searchable/filterable runs, full sources/inputs/context and accepted comparison behavior; ask only the unresolved emphasis question. Later freeze a reconciled accepted-versus-proposed amendment/context packet before any build.
+
+### Spec changes proposed
+
+- Add shared warm-neutral colour-family direction beside docs/LABVIZ_V2_SPEC.md:357-371 and pending theme amendments. Exact future tokens must satisfy contrast, non-colour state/focus and phone requirements in both themes. Current binding spec remains unchanged.
+
+### Context for build agents
+
+- Supply selected family, cross-page purpose/composition pointers at notes:2265 onward and the retained calm-workspace decision (:1850). Selected palette does not dictate data colours or encode new scientific importance/verdicts. Interface-design hierarchy/spacing/state and Anthropic chart accessibility extracts (:289-290) plus review-derived restrained-colour/legibility guidance (practices_report.md:22/:24/:26) constrain implementation; sources do not prove a preference for warm hues. Bismart consistency/context adaptations remain notes:2002 onward.
+- No new original external page, build, test, browser run, installs, executable skill workflow or model/science access. Only notes appended.
+- Binding context rule: inspect available Context before every question; start new work only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with topics, decision/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or put the handoff inside notes. Restate this rule in every successor/team handoff. No numerical Context percentage is exposed or asserted.
+
+## LVB12 — Runs landing composition gap presented explicitly
+
+### Decisions (with the operator's words)
+
+- No new Runs landing answer yet. Warm neutral family is accepted in the preceding entry. Comparison section order and aligned measurement rows are settled; handoff11:21-22 explicitly keeps Runs landing composition proposed. This question closes that pending presentation gap without reopening comparison, navigation or full data scope.
+
+### Open questions
+
+- Illustrative research-question list (recommended): accepted shared frame/source-dated activity/context; plain purpose; search and existing filters; roomy collapsed experiment groups with plain-language research questions leading, exact IDs secondary; short reviewed recorded summary and attached unresolved limit where available; expandable individual runs and nested duplicate observations; compact selection summary with compare access. Desktop uses the accepted vertical sidebar; phone uses the accepted compact menu bar and a single wrapping column. No concrete recording example/geometry claimed.
+- Alternative compact catalogue: the same questions, grouped/collapsed runs, filters and comparison/source access, but summaries/limits appear when an experiment or run is opened rather than occupying the browsing list. Preserve all required scientific captions/limits in the relevant detailed view. Both retain all inputs, sources, spec/science context and Inside the model access; difference is explanatory content/space on the landing page, not scientific or archive scope.
+- Source-supported short summaries can explain what was tested, what was recorded and what remains open; missing and unreviewed summary states stay visible. They cannot manufacture a verdict or turn setup differences into a causal account. Exact wording/content inventory remains preparation work.
+
+### Spec changes proposed
+
+- Selected composition clarifies docs/LABVIZ_V2_SPEC.md:344 beside shared frame/selection continuity (:347-352) and caption/evaluation/source requirements (:584-587). Preserve eligibility, explicit gaps, shared scales only for comparable quantities, single-observation caveats and desktop third-card capacity (:577-582), plus accepted comparison section order and aligned-row refinement. Binding spec unchanged.
+
+### Context for build agents
+
+- Previous whole-page proposal is notes:2046-2072; approval scope is handoff11:21-22. Current framing supplies a real unresolved choice: explanatory research-question list versus more compact catalogue within the spec's already-required grouping/filtering. A future packet must distinguish approved landing treatment from comparison approvals.
+- Bismart scientific adaptation (notes:2002-2023) contributes short reviewed account/context/limits and exploration preserving context; review-derived Tableau/Sigma/Fuselab guidance (practices_report.md:22/:24/:26) contributes hierarchy, progressive detail and readable labels/gaps; interface-design/Anthropic extracts (notes:289-290) contribute consistent spacing/states and precise accessible quantities. These justify evaluating the proposed hierarchy, not proven usability or a package adoption.
+- Reopened historical results/labviz/review/20261008T130913325Z/chromium-phone-run-c10v-b-a7.png: a selected-run detail capture, not evidence of proposed landing geometry. It predates MathLab. No screenshot measurement pairing, readability diagnosis or new browser/build/test claim. Both dedicated phone run captures located by read-only file listing; only this one viewed.
+- Only notes appended; build hold and execution exclusions remain. Binding context rule: inspect available Context before every question; start new work only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with topics, decision/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or put the handoff in notes. Restate this rule in every successor/team handoff. No numerical Context percentage is exposed or asserted.
+
+## LVB12 — explained Runs landing composition accepted
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", selecting "Explained research-question list — recommended: short summaries and limits accompany each experiment group." Adopt the complete landing-page treatment proposed at notes:2309 onward: shared shell/dated context, purpose/search/filters, roomy collapsed experiment groups named by plain-language question, reviewed recorded summary and unresolved limit where available, expandable individual runs with nested duplicate observations, compact comparison selection. Desktop sidebar and phone wrapping-column adaptation retain settled navigation.
+- Keep full sources/inputs/spec/science context and model-view access; explicit missing/unreviewed summary states remain. Accepted comparison order/rows/eligibility/scales/caveats remain unchanged. This closes the explicit landing-page approval gap, not summary-content review or geometry acceptance. Building hold persists.
+
+### Open questions
+
+- Next consequential front-end point: cross-page exploration/transition character, preserving accepted calm appearance, state continuity, focused model depth, player modes/defaults and source/recording distinctions. Exact typography, geometry, motion and source-reviewed content still need preparation. Later reconcile all accepted amendments and safe source extracts for MAESTRO's scoped builders before any implementation.
+
+### Spec changes proposed
+
+- Clarify accepted explained grouped landing treatment beside docs/LABVIZ_V2_SPEC.md:344/:347-352 and sourced evaluation/caption rules (:584-587). Preserve all existing grouped/filter/compare/content/readability scope, comparison eligibility/caveats and accepted aligned-row refinement (:577-582). Binding spec unchanged.
+
+### Context for build agents
+
+- Accepted Runs composition is now this entry plus proposal at notes:2309 onward; use prior notes:2046-2072 for original composition context, without inheriting its obsolete open row-choice status. Comparison approvals remain notes:2074 onward. Supply reviewed summary/limit/source content, honest missing/unreviewed states and all complete-record access.
+- Source basis remains Bismart scientific adaptations (notes:2002-2023), review-derived hierarchy/detail/legibility guidance (practices_report.md:22/:24/:26), focused interface/accuracy extracts (notes:289-290). Historical phone selected-run capture is incumbent detail context only, not a verified landing layout. No source/package/skill adoption, build/test/browser run or model/science access.
+- Binding context rule: inspect available Context before every question; start new work only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or put the handoff inside notes. Restate this rule in every successor/team handoff. No numerical Context percentage is exposed or asserted.
+
+## LVB12 — cross-page exploration movement proposed
+
+### Decisions (with the operator's words)
+
+- No movement answer yet. The preceding "1" accepts explained Runs landing composition, not animation. Existing diagram/chart order, player modes/defaults, paused linked entry, source labels, scope and navigation remain settled.
+
+### Open questions
+
+- Recommended interaction character: brief focused zoom transitions when opening a Home map branch or model layer/part, helping relate the new focused view to its previous whole; quieter direct updates for Science lines, Runs and Learn reading content. Back restores the containing view and accepted selection/paused context. This is illustrative interface movement, not a verified animation or a depiction of unobserved scientific activity. Precise geometry/timing remain preparation.
+- Alternative: direct view swaps throughout, using selection highlight and location trail to explain the new focus; no spatial travel transition. Both retain complete depth, sources, shared shell and enjoyable clear feedback. The choice concerns exploration/page transitions only; accepted source-bound player animations and labelled structural teaching are retained independently.
+- Routine accessibility requirement proposed for future design: respect the reader's reduced-motion preference by using direct updates while preserving selection/location cues. Motion must not obscure controls, labels or evidence gaps; no automatic decorative cycling.
+
+### Spec changes proposed
+
+- Eventual selected exploration movement clarifies selection/focus continuity beside docs/LABVIZ_V2_SPEC.md:347-352 and model wiring distinction (:642-646). Preserve existing source-labelled player requirements and all accepted granular-model amendments. Movement must never supply unrecorded internal activity or causal interpretation. Binding spec unchanged.
+
+### Context for build agents
+
+- Bismart exploration/consistency adaptation (notes:2002-2023) contributes retaining explanatory context through exploration. Interface-design focus/control states (:289) contribute visible selection. ECharts inspected event/action extract (:291) supplies corresponding-item selection/highlighting context only; it does not establish zoom geometry, movement quality, compatibility or renderer adoption. Review-derived Sigma drill-down and Fuselab reader-legibility guidance (practices_report.md:24/:26) contribute checks that the reader understands the new location. Spatial movement recommendation is design judgement, not a measured benefit.
+- Give builders the accepted page compositions, selected movement character when answered, preserved return/player state and reduced-motion/direct-update proposal, alongside exact source extracts. No libraries, timers, network requests, live model or new research frames. No new external reading, browser/build/test or screenshot acceptance; only notes appended.
+- Binding context rule: inspect available Context before every question; start new work only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff in notes. Restate this rule in every successor/team handoff. No numerical Context percentage is exposed or asserted.
+
+## LVB12 — focused exploration zooms accepted; operator steers to model-page thoughts
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1...and for the Inside the Model page I have some thoughts to consider".
+- "1" accepts "Focused zooms — recommended: gentle movement into map branches/model parts; quiet reading pages." Adopt this exploration movement character. Preserve accepted selection/return continuity, non-obstructing detail space, all model depth/content/player modes/defaults and source labels. Exact timing/geometry and proposed reduced-motion fallback still need design preparation; no tested benefit or runtime acceptance claimed.
+- The operator also steers discussion back to Inside the model with thoughts not yet stated. Invite those thoughts before proposing another design choice. This steering does not itself replace or amend any settled model-page choice, narrow scope or lift the building hold.
+
+### Open questions
+
+- Await the operator's Inside the model thoughts. Once stated, consider them against the accepted continuous composition, granular model/input/chart/source/coverage scope and player/return rules; open only relevant spec/notes/capture ranges. Do not infer their intended changes or present a new topic menu.
+
+### Spec changes proposed
+
+- Record accepted focused exploration zooms beside docs/LABVIZ_V2_SPEC.md:347-352 and pending focus/model-layout amendments, preserving teaching-versus-recorded activity distinctions (:642-646). Exact future motion/accessibility detail remains preparation. No additional model-page amendment follows until the operator supplies their thoughts. Binding spec unchanged.
+
+### Context for build agents
+
+- Accepted movement character follows proposal at notes:2353 onward, alongside accepted continuous model composition (:2198), warm colour family (:2288), library-led Learn (:2244) and explained Runs landing (:2332). Bismart continuity adaptation (:2002-2023), interface focus states (:289) and ECharts corresponding-item highlight extract (:291) are focused text context only. Zoom recommendation remains design judgement; these sources do not prove zoom geometry/benefit or authorize a library/runtime adoption.
+- Only notes appended; no code/spec/site edits, builds/tests/browser runs, installs/clones, science/model access, git mutation or external service/agent messages.
+- Binding context rule: inspect available Context before every question; start new work only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or put the handoff in notes. Restate this rule in every successor/team handoff. No numerical Context percentage is exposed or asserted.
+
+## LVB12 — operator supplies Shopify Live View image; exact visual inspection pending
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "I came across this Live View interface from Shopify and began pondering how we might implement a similar UI for Inside the Model:" followed by https://bloggingwizard.com/wp-content/uploads/Analytics-Live-view.png . This supplies a visual reference for discussion; no new layout, live data capability, installation or implementation is approved.
+
+### Open questions
+
+- Exact supplied image could not be visually inspected: web open returned Internal Error / URL not accessible. A bounded search located its containing Blogging Wizard Shopify review and related Shopify Live View image references. The review text was opened, but a follow-up range fetch timed out. Related image search returned textual image descriptions/URLs; no retrieved binary image was visually inspected or confirmed to match the operator's image. Do not describe the exact supplied screenshot as seen or silently substitute a related version.
+- Ask the operator to attach the screenshot for faithful visual comparison. Then discuss which whole-page qualities they want to borrow before proposing an amendment: model visual composition, surrounding measurements, movement and exploration. Preserve the accepted model drawing/chart/detail order, continuous account, warm themes, source-bound playback, full granular scope and coverage unless the operator explicitly revises them.
+
+### Spec changes proposed
+
+- None from sharing a reference. Any later adaptation must state how it changes docs/LABVIZ_V2_SPEC.md:345/:347-352/:619-657 and the accepted pending refinements. A Live View reference does not itself authorize live model access or claim recorded data is current activity; the static/model-free contract remains (:31).
+
+### Context for build agents
+
+- New operator-supplied reference URL above: exact visual NOT OPENED successfully. Containing page located/opened as text: https://bloggingwizard.com/shopify-review/ . No Shopify source code, install, browser demo, dependency audit or current product-behavior verification. Related Shopify Engineering image URL surfaced, not visually inspected: https://cdn.shopify.com/s/files/1/0779/4361/files/Building_Analyticsimage8.png?v=1621968102 . Image-search prose is not a verified screenshot comparison and should not enter a builder packet as accepted geometry.
+- Existing source roles remain notes:283-295 and Bismart adaptation :2002 onward. Prepare an exact-image comparison only after attachment/inspection; recommendations remain proposals under the hold.
+- Only notes appended. Binding context rule: inspect available Context before every question; start new work only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or put the handoff in notes. Restate this rule in every successor/team handoff. No numerical Context percentage is exposed or asserted.
+
+## LVB12 — exact Shopify reference inspected locally
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "The image is in the root of this repo now: Analytics-live-view", then "One directory up". Read-only lookup found /Volumes/memit/llm-database-poc-mirror/Analytics-Live-view.png. Opened this exact local image with view_image; no copy, move or modification. This supersedes the preceding entry's pending visual-inspection status, while retaining its accurate failed-web-fetch history.
+- No new model-page adaptation selected yet. Operator supplied an example for consideration; existing accepted design remains until their requested refinement is clear.
+
+### Open questions
+
+- Observed still-image composition: pale neutral background; far-left navigation; narrow measurement column with paired headline tiles and stacked small sections; very large cyan/blue dotted globe on the right with soft glow/shading; small legend near title and location search above the visual. This image alone establishes no animation, interaction behavior, current Shopify behavior or implementation mechanism.
+- Recommended adaptation to consider: an immersive model drawing as the dominant page surface, with compact sourced measurements beside it on desktop; required fuller chart remains below the drawing, with explanation/source detail in its own reserved/collapsible space. Phone would lead with selected context/coverage and controls, then model drawing, compact measurement summary, applicable chart and details below. Exact geometry remains unverified; retain all accepted granular model/input/player/source/coverage scope.
+- First clarify what inspired the operator: (1) dominant interactive model and quiet measurements, recommended as the closest composition adaptation; (2) the globe-like visual language itself, including shape/dots/glow; or (3) both. Treat any sphere/abstract layout as a proposed representation requiring model-specific structure/meaning, not an invented physical location of facts or activity. Do not assume the choice or narrow their forthcoming thoughts.
+
+### Spec changes proposed
+
+- None accepted yet. A selected adaptation may refine the continuous model-page composition and docs/LABVIZ_V2_SPEC.md:345/:347-352/:619-657. Preserve diagram above chart, non-obstructing detail placement, structural/recorded/re-creation labels, phone readability and complete scope unless the operator explicitly revises a settled design point. Sharing a Live View example does not make static records live observations or authorize model execution.
+
+### Context for build agents
+
+- Exact visual reference now available and inspected: /Volumes/memit/llm-database-poc-mirror/Analytics-Live-view.png, operator-supplied originally from https://bloggingwizard.com/wp-content/uploads/Analytics-Live-view.png . Provide as visual-context reference with an explicit extraction goal and retained model-page requirements; no Shopify source code, assets, runtime or visual/interaction compatibility adopted. Do not infer animation from the still screenshot.
+- Bismart scientific adaptation (notes:2002-2023) contributes a coherent selected-model account with source-reviewed explanations/limits; interface-design extract (:289) contributes hierarchy and quiet supporting surfaces; Anthropic extract (:290) contributes accurate source-bound units/scales/gaps. Shopify image supplies actual desktop composition inspiration; those guides constrain its adaptation. No educational, scientific or usability effectiveness claimed.
+- Only notes appended. Read-only location probes found the image in the parent mirror root, not the current worktree/main clone roots. No builds/tests/browser runs, installs, scientific/model access or git mutations.
+- Binding context rule: inspect available Context before every question; start new work only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff12.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Never approach compaction or put the handoff in notes. Restate this rule in every successor/team handoff. No numerical Context percentage is exposed or asserted.
