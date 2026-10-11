@@ -74,3 +74,7 @@ RED R9R3C: exit 1: R9 R3 process identity disagrees with invocation binding
 GREEN mutation controls: 46 intended RED (37 preserved + 9 round9), zero filesystem writes
 MUTATION_EXIT=0
 ```
+
+## Addendum, MAESTRO54 ~19:17Z: label correction and the committed F7 bytes
+
+Successor codexr2t2 corrected the two labels before MAESTRO's commit 3f4f150b, so that commit holds F7 = 8d6ab32f4427a9aa… (label-corrected), not c4a39020… (the bytes checked above). MAESTRO confirmed that codexr2t2's backup copy hashes to c4a39020… and that `diff` against the current F7 changes exactly lines 331 and 360 (the two labels). It then reran on the current bytes (F7 8d6ab32f…; J6, K6, P4 and I6 unchanged): acceptance 1 exit 0; under the same deny-write sandbox, acceptance 2 exit 0 ("GREEN profiles: 55 LaunchProfile entries, 0 not_admitted entries schema-validated, 174 not_admitted entries explicit refusals checked") and acceptance 3 exit 0 ("GREEN mutation controls: 46 intended RED (37 preserved + 9 round9), zero filesystem writes"). Builder report: `r2t_report.md` (55 lines, unedited).
