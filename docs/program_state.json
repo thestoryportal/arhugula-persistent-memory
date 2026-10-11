@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T19:21:37Z",
+    "edited": "2026-10-11T19:29:26Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -147,9 +147,9 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "in_review",
-        "who": "The expert (Astra) reviews round 9; then MAESTRO",
-        "session": "astra r2l",
+        "state": "running",
+        "who": "Builder codexr2u (round 10); then MAESTRO checks it, then Astra round 10",
+        "session": "codexr2u",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -196,7 +196,8 @@
           "18:34:47Z: codexr2s2 reran every check (all pass, nothing rebuilt) and wrote the report. Everything is committed (dc856a3d). The expert's round 8 (Astra) is running in the background on the new version.",
           "18:45:30Z: The expert (Astra) said NO-GO on round 8 (three gaps: the admission check's own helper programs were wrongly given the science exception; two evaluation shortcuts skip a budget check; one cross-launch reference was not checked). MAESTRO54 made rulings D10-D12 (r2_round9_decisions.md; no change to the drive-sharing rules, so no question for you) and started builder codexr2t for round 9.",
           "19:12:12Z: Builder codexr2t built all round-9 fixes and passed its own checks, then handed off at its context limit. MAESTRO54 reran every check in a locked-down sandbox: all pass (46 deliberate-break tests caught). Successor codexr2t2 is fixing two stale labels and writing the report; then Astra round 9.",
-          "19:21:26Z: Round 9 report done (codexr2t2 also fixed two stale labels); MAESTRO54 reran every check on the final files: all pass. The expert (Astra) is now reviewing round 9."
+          "19:21:26Z: Round 9 report done (codexr2t2 also fixed two stale labels); MAESTRO54 reran every check on the final files: all pass. The expert (Astra) is now reviewing round 9.",
+          "19:29Z: Astra round 9 said NO-GO (b324fd08), on one point only: two checks the gate runs through borrowed code (a proof check and a git lookup) were still labelled as science. The other earlier problems are now closed. MAESTRO55 ruled D13 (ea1ec7cc; no change to the agreement): a process is labelled by where it was started from, and the audit traces every borrowed path. codexr2u is building round 10 now."
         ]
       },
       {
