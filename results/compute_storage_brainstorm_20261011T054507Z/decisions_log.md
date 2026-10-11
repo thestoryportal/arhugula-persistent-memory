@@ -226,3 +226,13 @@ Why: read-only measurement (`results/research_engine_phase1_20261011/intel_r1_si
 What changes: setup growth ≤2,000,000,000 bytes (was ≤1,000,000,000 in `results/research_engine_phase1_20261011/phase1_intel_amendment_v1.md`); the amendment-16 pilot/setup ceiling becomes 7 GB (was 6 GB). Pilot ≤5,000,000,000 bytes is unchanged.
 
 What does not change: provisioning ≤15 min and every other amendment-16 cap; exceeding the new 2 GB cap still stops for operator disposition; the freeze must still measure growth and time at commissioning. Using the PyPI DuckDB wheel instead of a MacPorts source build is a design choice that goes to Astra review under amendment 18, not an operator question.
+
+## Amendment 21 — Intel recovery copy stores identical content once (Drive fit option B)
+
+Recorded 2026-10-11T09:54:09Z using `date -u`.
+
+Operator answer to "Turning on the Google Drive backup: your plan copies the research data (287 GB) onto the Intel Mac first, but the space set aside there is 250 GB … Which way should I take?": "Store duplicates once (Recommended)". This is option B of `drive_intel_fit_facts.md` §5: the Intel recovery copy keeps each SHA-256 once (≤130.198 GB, ≥119.802 GB headroom); every path still uploads to Drive (287.177 GB).
+
+What changes: the drive-activate rewrite designs an immutable de-duplicating layout on the Intel Mac (hard links or clones) and sends it to Astra review before any copy. Already allowed by `design.md:261,277`; no other cap changes.
+
+What does not change: choice 11 (stage and verify an Intel checkpoint first) stands; deletions still need exact approval; the secret-bearing `.hf_token` files are excluded per `design.md:187`.
