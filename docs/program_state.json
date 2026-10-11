@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T08:17:48Z",
+    "edited": "2026-10-11T08:23:04Z",
     "items": [
       {
         "id": "integration-plan",
@@ -78,22 +78,21 @@
       {
         "id": "drive-activate",
         "title": "Drive backup: turn it on",
-        "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup.",
-        "state": "needs_you",
+        "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup. The plan is being rewritten so the first upload runs from the Intel Mac (your choice 11); your three OKs will be asked again against that version.",
+        "state": "blocked",
         "who": "MAESTRO, after your three OKs",
         "session": null,
         "started": null,
         "estimate": null,
         "depends_on": [],
-        "blocked_by": [],
-        "needs_from_you": [
-          "OK to run the full read-back check (reads about 287 GB to compare every file).",
-          "OK to pause writing to the project disk while the first upload and check run.",
-          "Choose: start a fresh backup history, or recover from the earlier one (the plan asks this before the first upload)."
+        "blocked_by": [
+          "integration-plan"
         ],
+        "needs_from_you": [],
         "notes": [
           "No time estimate until the review passes; the 287 GB check speed depends on the connection.",
-          "The plan also asks you to confirm 'fresh history' versus 'recovery' for the backup log."
+          "The plan also asks you to confirm 'fresh history' versus 'recovery' for the backup log.",
+          "08:23Z: your earlier three questions are withdrawn until the Intel version exists (integration row I7). Open space question for that version: about 287 GB to upload vs a 250 GB recovery area on the Intel Mac; MAESTRO will bring options."
         ]
       },
       {
