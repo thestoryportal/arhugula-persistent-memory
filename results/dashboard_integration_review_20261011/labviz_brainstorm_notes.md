@@ -3924,3 +3924,159 @@ All public reads occurred on 2026-10-11. GitHub line pointers below refer to the
 - Separate handoff written to results/dashboard_integration_review_20261011/labviz_brainstorm_handoff16.md with settled answers, exact ranges, reference/read limits, current-source audit concerns, remaining obligations and one exact next point. Check it before resuming.
 - Root/branch reverified. Only authorized notes/handoff written. No process/agent/external call/tool cell remains in flight after verification. No additional topic, code/spec/site edit, test/build/browser/model/science/MCP/Figma action or Git mutation.
 - BINDING context rule: check available Context before questions; start new pieces only at >=60%; at <=45%, Context compacted or MAESTRO gate notice, finish current point, notify operator and write separate designated successor handoff with topics/decisions/notes pointers, paths, in-flight work, risks and exact next point. Stop starting work at <=40%; never approach compaction or embed handoff in notes. Restate in every handoff; no numerical reading exposed, never invent one. The reported 45% requires stopping now.
+
+## LVB17 — associated science lines and a dedicated full-review MathLab home
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "MathLab needs to yes be integrated with its associated science lines, and there needs to be a location where MathLab lives and the user is able to fully review the notebook science and math it has completed in full."
+- The operator requires both contextual integration into associated science lines and a dedicated MathLab home for full review of completed notebook science and mathematics. The earlier either/or discoverability menu is resolved by this combined requirement; do not re-ask it.
+- Full review is a named content requirement, not satisfied merely by run summaries, progress, outcome labels or a list of checks. Exact notebook presentation and source coverage remain to be specified. This answer does not approve a notebook format, executable notebook service, sixth primary destination, inferred science relationship or new F1 condition.
+- Retain all previous navigation, source matching, ownership, save behavior, shared design, chart, learning and mathematical-estimate limits. Notes-only discussion continues; no builder release or S amendment is authorized.
+
+### Open questions
+
+- Next whole-page choice: notebook-led review (recommended: read the complete mathematical work in order with plain explanations; associated run/check records support it), or run-led review (start with recorded outcomes/stages, then open the complete notebook). Both must provide the full available notebook content and visibly identify absent material; neither reduces coverage to a summary.
+- Which source artifacts supply each notebook's complete method, assumptions, equations, calculations, outputs and conclusions remains unverified. Do not assume an .ipynb file exists or that events plus a staged finding contain every working step. Source inventory, identity/version binding and content coverage need later scoped preparation.
+- Full review must preserve provisional/publication restrictions from ML-7. Full available source visibility cannot be presented as accepted science; referenced, provisional, missing and unpublished material need their actual scope explained. No source visibility exception is approved here.
+
+### Spec changes proposed
+
+- Refine ML-5 (notes:3863): within the retained five destinations, Science lines provides a named MathLab home AND source-backed entries in associated science lines. Proposed home composition: purpose and estimate status, browsable notebook/work records, associated lines and source coverage. Each science-line entry leads to the same canonical work record; avoid duplicate authorities or fragmented copies. Exact grouping/layout remains proposed.
+- Expand ML-6/ML-11 (notes:3865/:3875): add a complete, readable mathematical-work presentation linked to the execution record. Where recorded, include the question, method and assumptions, equations and symbol meanings, ordered calculations/code and recorded outputs, checks, conclusions and limitations, and original-source details. No live calculation/model loading or invented reconstruction. Label unavailable parts explicitly; a saved summary does not certify notebook completeness. The notebook-led versus run-led composition is pending.
+- Reconcile S:342-352 (Science lines, Runs, shared frame/selection) and S:997-1021 (typed identities and documented relationships) with the home/work/run distinction; document supported notebook identities and associations without guessing them from names or dates. MathLab remains a support context, not a new scientific condition.
+- Expand S:1169-1178 beyond event ingestion to specify the approved dual placement and full-review requirement. Preserve the canonical shared event reader/fold as run-state authority; notebook documents supply their recorded mathematical content, not an alternative run status. The artifact/source contract extension needs review.
+- Update proposed future coverage case 10 (notes:3889) to include the MathLab home, contextual science-line entries, notebook/work selection, associated execution records, unlinked contexts and preserved return. Extend source/record coverage to show complete available work and exact missing-content reasons. These are future acceptance proposals, not tests run or frozen counts.
+- Future static wireframes must explicitly cover: Science lines -> MathLab home -> complete notebook -> associated run/check/source -> return; associated science line -> the same notebook -> return; discovery through Runs and supported Map relationships; empty/missing/partial/provisional/unavailable states and phone/desktop presentation. Also retain the ML-10 unavailable-model flow and relevant learning connections. After updated-S Astra review, the separate wireframe agent supplies every page/flow for operator review before spec approval/building.
+
+### Context for build agents
+
+- Binding baseline opened here: S:340-371 (five destinations/shared frame/readability), :997-1030 (typed context and relationship evidence), :1086-1113 (Map and source-backed connections), :1169-1178 (shared MathLab state authority and estimate scope). The proposal extends these contracts; it does not edit or freeze S.
+- Current source presence inspected: tools/labviz/cards.py:828-881 builds event-derived MathLab cards and reads referenced Markdown findings; tools/labviz/app.js:559-618 presents saved state, steps, stages, checks, resource samples, finding text and candidate questions; tools/mathlab_events.py:43-74 defines the recorded event fields/check plan. These reads establish source presence only, not complete notebook acquisition, browser behavior, current build acceptance or science validation. Retain the predecessor's provisional-finding adapter concern for later review.
+- Interface-design hierarchy/complete-state extract (notes:289) contributes a coherent reading page with clear sections and visible gaps. Anthropic chart accuracy/accessibility extract (notes:290) contributes units, supported comparisons, non-colour cues and readable data alternatives for actual notebook outputs. Tabler layout catalogue (notes:292) contributes page-title/navigation vocabulary only; phone markup remains unverified. Give builders these focused text passages and our approved page requirements, not executable skill packages, CDN defaults or sample science data. None defines MathLab scientific meaning.
+- The full-review source inventory must be explicit before a builder can claim coverage: artifact identity/version, readable recorded content, related run/event sources, supported associations, publication scope and precise missing parts. No notebook format/library/service or new producer capture is selected by this entry.
+- Session reflection: the predecessor's binary discoverability menu did not cover the operator's combined need. Preserve both discovery routes and the full-review requirement; resolve routine placement under the existing navigation in the proposed packet rather than asking another narrow location preference.
+- Scope: only the authorized notes appended; read-only spec/source/reference-range inspection. No S/L/W edits, code/build/test/browser/Python/node/model/science/web/MCP/Figma action, install/clone/asset, Git mutation, separate design file, global memory write or external agent message. No readiness claim.
+- BINDING context rule: check available Context at every reply end before a question; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify the operator and write SEPARATE results/dashboard_integration_review_20261011/labviz_brainstorm_handoff17.md with topics, decisions/notes pointers, open questions, exact paths, in-flight work, risks and one next point. Stop starting work at <=40%; never approach compaction or embed the handoff in notes. Restate this rule in every successor/team handoff. No numerical meter is exposed here; never invent a reading. LVB16's reported 45% was its predecessor checkpoint, not a measurement of this fresh session.
+
+## LVB17 — notebook-led mathematical review accepted
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", choosing "The mathematical work — recommended: read the complete argument in order, with execution records and checks supporting it."
+- The MathLab notebook opens with the mathematical work as the main reading experience. The complete recorded argument remains in order, with plain explanations; execution records and checks support it. This settles the notebook-led versus execution-overview-led choice. Full available content and explicit missing-material reasons persist.
+- The dedicated MathLab home and integration into associated science lines remain approved. This answer does not approve a comparison workspace, exact geometry, mathematical-content generation, notebook format/library, new producer capture, scientific conclusion or implementation.
+
+### Open questions
+
+- Next whole-experience choice: aligned review of two MathLab notebooks (recommended: corresponding documented sections can be read together, assumptions remain visible, numerical differences only when meaning/units/scope match), or individual notebook review only with links to related work. The proposed paired review is not yet approved. Preserve ordinary model-answer comparison refusal for MathLab.
+- Complete notebook source coverage, identity/version binding, reviewed explanations, publication scope and supported associations still need later preparation; do not turn absence of a recording into a reconstructed calculation.
+
+### Spec changes proposed
+
+- Refine ML-6/ML-11 and the preceding full-review proposal: after the shared identity/purpose/recorded-time/estimate-scope lead, the principal body follows the notebook's recorded mathematical argument. Proposed coherent composition: question -> method/assumptions -> equations and symbol explanations -> ordered calculations/code and recorded outputs -> conclusions/limitations. Supporting execution/check/source detail remains reachable in context. Exact placement and visual geometry await the separate wireframe review; these section names are a proposed recipe, not permission to fill missing work.
+- Update S:1169-1178's future detailed integration and cross-reference S:435-443 (item shows/source/tier/caption/limits and authoritative run card). Specify mathematical-document content alongside canonical event-derived run state, without creating a second state authority. Notebook summaries do not replace full recorded content.
+- Add the notebook-led opening, ordered reading, supporting run/check/source access and retained return to the future all-page/all-flow MathLab wireframe coverage. Include missing/partial/provisional content and long mathematics on phones; retain the established readability and touch rules at S:357-371.
+- A specialized MathLab comparison, if subsequently approved, belongs under ML-9 and the S:578-582 comparison reconciliation. MathLab estimate records cannot inherit the ordinary fact-answer matching or winner language; section correspondence and numerical eligibility would need their own reviewed source contract.
+
+### Context for build agents
+
+- Interface-design hierarchy/spacing/state checklist (notes:289) contributes a sustained reading page with clear sections and visible missing content. Anthropic chart Accuracy/Accessibility extract (notes:290) contributes labelled units, comparable scales only where justified and readable data alternatives; it does not establish equivalence between two mathematical methods. No new external page, package or executable skill opened.
+- Give the later wireframe agent the operator's full-review words, this notebook-led answer, the five-destination context and ML-5..ML-12 together. The science-line entry, MathLab home, notebook and supporting run are one connected review journey; source-backed links and the named return persist.
+- Scope: only authorized notes appended; short spec/notes reads. No spec/source/site change, build/test/browser/model/math execution, installation, Figma/MCP/network action, Git mutation or readiness claim. No independent numerical context reading is exposed.
+- BINDING context rule retained: check available Context before each question; start new pieces only at >=60%; at <=45%, Context compacted or MAESTRO gate notice, finish the current point and write SEPARATE results/dashboard_integration_review_20261011/labviz_brainstorm_handoff17.md with decisions/notes pointers, topics, open questions, paths, in-flight work, risks and one exact next point, then notify the operator. Stop starting work at <=40%; never approach compaction or embed a handoff in notes; restate the rule in every handoff and never invent a meter reading.
+
+## LVB17 — aligned review of two MathLab notebooks accepted
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", choosing "Aligned review — recommended: corresponding sections alongside each other on desktop, stacked on phones; both complete notebooks remain accessible."
+- MathLab supports paired notebook review with corresponding sections, assumptions, calculations and conclusions readable together, alongside on desktop and stacked on phones. Both complete notebooks remain accessible. Numerical comparison requires matching quantity and units, as stated in the presented proposal; semantic/scope eligibility still needs the reviewed contract below.
+- This approval covers the review experience, not an automatic alignment algorithm, an actual notebook pair, new calculation execution, numeric difference implementation, library selection or a scientific effect/winner claim.
+
+### Open questions
+
+- Next whole-page composition: a question-led MathLab home (recommended: research questions and associated science lines introduce their notebooks and related runs), or a notebook-led archive (notebook records lead, with associated questions/lines on each entry). Either gives access to the full recorded work and paired review. This grouping choice is not yet approved.
+- Source inventory/completeness and reviewed notebook-to-section/run/line associations remain pending. The paired-review approval cannot establish that current inputs contain all notebook mathematics or enough comparable data.
+
+### Spec changes proposed
+
+- Refine ML-9 (notes:3871) and reconcile S:578-582: add a distinct MathLab notebook comparison mode, preserving refusal of ordinary model fact-answer scoring. Present notebook identities/versions, questions, assumptions, recorded outcomes and source/estimate scope before aligned sections; no automatic scientific winner language.
+- Establish explicit, reviewed section correspondence. Matching titles, row positions, dates or adjacency alone do not establish correspondence. Unmatched sections stay available with the actual reason, rather than disappearing or being forced into a pair. Both full notebooks remain reachable.
+- Numerical comparisons require the same documented quantity, units and relevant scope, with differing methods/assumptions visible. Show original recorded values and precision/source details. Any derived difference/shared scale needs explicit operands and an approved eligibility rule; absent correspondence yields a reason and preserves separate readable records. No inference that a difference is a scientifically established effect or that notebook order establishes lineage.
+- Phone proposal: stack each corresponding section's two records under persistent, readable pair identities, retain the established no-horizontal-page-scroll rule, source access and named return. Desktop proposal: corresponding sections alongside each other with readable prose/math widths. Exact geometry, long-equation handling, control labels and navigation position belong in later wireframes; no new preference question is needed for each control.
+- Extend future MathLab coverage: home/science line/notebook -> choose related notebook -> aligned review -> full individual notebook/source/check -> retained pair/origin. Include documented matches, unmatched sections, different assumptions/units/scope, missing/provisional content and phone/desktop/keyboard/high-zoom behavior. No actual pair, comparison chart, screenshot or runtime result was inspected or invented.
+
+### Context for build agents
+
+- S:578-582 supplies the existing comparison principles: explicit matching eligibility, refusal reason, phone stacking and no single-run causal claim. ML-9 at notes:3871 supplies the MathLab estimate/science separation. Extend them with the approved full-notebook review scope; ordinary per-fact rules are not a MathLab eligibility algorithm.
+- Anthropic chart Accuracy/Accessibility extract (notes:290) contributes common scales for actually comparable quantities, units, non-colour cues and readable alternatives. Interface-design extract (notes:289) contributes coherent reading hierarchy and complete unmatched/error states. These focused text references do not define mathematical equivalence, authorize executable skills or select a library.
+- Give the separate future wireframe agent the complete paired-review journey and content/error cases alongside the dedicated-home/contextual-integration and notebook-led decisions. Proposed home organization is still pending. S remains unchanged; no readiness or implementation claim.
+- Scope: authorized notes only. No code/spec/site edit, build/test/browser/Python/node/math/model/science execution, network/MCP/Figma action, install/clone, Git mutation or global memory write. BINDING context rule above persists; no numerical meter is exposed. At the context gate, write the separate designated handoff17 with the same rule and exact pending point.
+
+## LVB17 — question-led MathLab home accepted; consolidated review packet
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", choosing "Research questions first — recommended: each question introduces its associated science lines, notebooks and recorded work."
+- The MathLab home is organized around research questions, with associated science lines, notebooks and recorded work under each. This settles home organization. Preserve all recorded work: missing or unreviewed associations remain explicit rather than causing records to disappear or be assigned a guessed question.
+- Combined approved experience: integration into associated science lines AND a dedicated full-review home; question-led home; mathematical-work-led complete notebook reading; aligned review of two notebooks on desktop/phone. These approvals do not lift the build/spec hold or settle source formats, automatic correspondence, scientific eligibility algorithms or exact wireframe geometry.
+
+### Open questions
+
+- Present the consolidated experience below for the operator to identify any missing MathLab journey. This is a whole-experience review, not another control-by-control preference menu. The four settled decisions above must not be reopened.
+- Preparation gaps remain: complete notebook-content inventory and stable identity/version; source-backed question/line/run/section associations; reviewed plain-language explanations; provisional/publication eligibility; mathematical notation and phone overflow treatment; coherent saved content/source capture; comparison eligibility. These are evidence/engineering tasks for the later scoped packet, not a reason to ask the operator to choose technical mechanisms now.
+
+### Spec changes proposed — consolidated MathLab packet for later reconciliation
+
+The operator-approved experience below refines ML-1..ML-12 at notes:3855-3877; content/authority contracts and exact presentation details remain proposed unless explicitly covered by recorded answers.
+
+| Surface / journey | Required experience and proposed content | Reconciliation target |
+|---|---|---|
+| Science lines -> MathLab home | Named MathLab entry within the existing Science lines destination. Research questions lead; each introduces its sourced science connections and complete notebook/work records with related runs. Retain records lacking reviewed associations with an explicit reason. | ML-5; S:342-352, :997-1021 |
+| Associated science line -> mathematical work | Contextual MathLab entries open the same work records as the dedicated home. Explain the documented relationship and preserve the originating science line for return. No invented causal/scientific-support edge. | ML-5; S:1015-1021, :1086-1096 |
+| Notebook reading | Shared identity/version, question, estimate scope and recorded context; mathematical argument leads in recorded order with plain explanations. Where recorded: method/assumptions, equations/symbol meanings, calculations/code and outputs, conclusions/limitations. Full content reachable; exact missing sections/coverage visible. | ML-6/11; S:435-443, :662-679, :1169-1178 |
+| Notebook -> execution/check record | Supporting records show canonical event-derived steps/stages/progress/checks/resources, actual halt/error reasons and source details. Clearly distinguish one notebook/work document from its associated execution attempts; a completed stage or admission is not completed mathematical science. | ML-2/3/4/7; S:662-679, :1169-1178 |
+| Paired notebook review | Corresponding documented sections alongside on desktop, stacked on phones; assumptions and both identities visible. Unmatched parts stay readable; both full notebooks remain accessible. Comparable numbers require matching meaning/units/scope; any derivation has sourced operands. | ML-9; S:578-582 |
+| Sources and publication scope | Exact source identity/precision/lines and reviewed content mapping; original-file access obeys confirmed-matching policy. Canonical shared fold controls published state/findings. Full source visibility cannot be relabelled as accepted science; incomplete/provisional/unsafe/unreadable content retains its scope/reason. | ML-3/4/7/11; S:14-20, :29-52, :662-679 |
+| Map / Runs discovery | Source-backed MathLab context in Map and searchable records in Runs. Do not invent a model/era/F1 condition. Question/home/notebook/run distinctions and applicable route/selection state need a reviewed extension of the context contract. | ML-5; S:342-352, :997-1030, :1086-1096 |
+| Inside the model | Preserve the approved explanation-and-choice fallback for incompatible records: retain MathLab identity, explain absent model applicability, offer its MathLab record or explicit selection of a model run, preserve named return. | ML-10; notes:3837-3845 |
+| Learning | Reviewed MathLab explanations/concept/source links may connect to the existing learning library and quizzes under settled ownership/personal-state rules. No generated answer keys, tutor, inferred association or conversion of learner scores into science acceptance. | ML-11; existing whole-site learning reconciliation |
+| Shared frame and phone | Accepted whole-site typography/colours/quiet surfaces/navigation/help/source behavior; readable full mathematics and label/value data, no horizontal page scroll, actual units, accessible non-colour states. Exact notebook/pair mathematics rendering and overflow need later static wireframe and implementation verification. | ML-12; S:340-371 |
+| Saved inputs -> static site | Ingest saved mathematical documents through a reviewed content/source contract and MathLab run events through the canonical reader/fold. LabViz displays recorded work; it does not execute notebook cells or generate calculations. Preserve deterministic model-free build/delivery boundaries and report measured budgets later. | ML-1/2/4/12; S:29-52, :953-965, :1169-1178 |
+
+- Add MATH-PROXY explicitly to §2's tier vocabulary and distinguish recorded event bytes from scientific evidence status. Extend §6's source/schema rules for canonical event-reader metadata, fold operands/hashes and complete notebook document content; do not pretend existing ordinary JSON leaf rules already cover all of this.
+- Reconcile §0's observation scope, §4A/§5 page/selection/comparison contracts, §6 source/structural metadata, §9 build/ingestion and §11 typed context with the expanded final MathLab section. The current final "code is unchanged" observability statement needs accurate scope wording alongside the implemented-source versus proposed-redesign distinction.
+- A full-review coverage claim requires an inventory of what was recorded and what is displayed, including absent portions. Current event/Markdown adapter presence alone does not establish full mathematics coverage. Do not silently shrink the approved experience to the currently convenient inputs.
+
+### Context for build agents
+
+- Give builders this consolidated table together with ML-1..ML-12, the source inventory and the four exact LVB17 answers. Keep the shared event schema/fold as run-state authority. Source inventory, provenance and scientific/publication policy are reviewed requirements, not opportunities for a dashboard library to invent behavior.
+- Interface-design extract (notes:289): page hierarchy, readable spacing and complete states for home/notebook/pair journeys. Anthropic chart extract (:290): units/scales/non-colour/data alternatives for genuine recorded outputs. Tabler layout catalogue (:292): shared title/navigation vocabulary, not verified phone markup. Gentelella state-sheet contribution remains notes:3465-3509, as indexed by handoff16, text context only. Awesome Dataviz remains chart/diagram discovery context, not an adopted renderer or scientific validator; no additional page/tool opened here.
+- Mathematical notation renderer/library and full notebook-format candidates are unselected and not inspected in this session. Give a later scoped reader the actual source formats and required readability/file-URL/local-asset behavior before evaluating a candidate; no install or runtime trial is authorized by these notes.
+- Wireframe agent after updated-S Astra review: draw home/question group, notebook, associated science-line entry, execution/check/source states, paired notebook review, unmatched/missing/provisional states, learning/model fallback and retained returns across every relevant destination, on phone and desktop. This table is content/flow context, not a generated layout or wireframe approval.
+- Future acceptance matrix must extend the predecessor's proposed 14 cases for the dedicated home, complete notebook inventory/content, linked multiple execution attempts, section correspondence, paired reading and all return paths. Preserve its reader/fold/error/publication/source-match cases. Counts and test implementation remain unfrozen and unexecuted.
+- Session reflection: the approved whole-experience direction now suffices for a coherent MathLab packet. Resolve routine controls, ordering mechanics and candidate evaluation through the shared design and later source review; avoid manufacturing more narrow preferences. Identify genuine missing journeys through the consolidated review.
+- Scope: authorized notes appended and re-read; bounded S/notes reads only. No spec/source/site/guide edit, build/test/browser/Python/node/math/model/science execution, network/Figma/MCP action, install/clone/asset, Git mutation, global memory write or readiness claim. The separate wireframe/spec approval gates remain.
+- BINDING context rule persists: check available Context at reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify operator and write SEPARATE results/dashboard_integration_review_20261011/labviz_brainstorm_handoff17.md with topics, decisions/notes pointers, open questions, exact paths, in-flight work, risks and one next point. At <=40%, stop starting work; never approach compaction or put the handoff in notes. Restate the rule in every successor/team handoff. No numerical meter is exposed; never invent a reading.
+
+## LVB17 — consolidated MathLab experience accepted for now; handoff
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "All good for now", responding to the consolidated MathLab journey and the question "What, if anything, is missing from this MathLab experience?"
+- The operator accepts the presented MathLab experience for now and names no missing journey. Preserve the four explicit LVB17 choices and the consolidated packet. This answer is design acceptance at the presented scope, not approval of an updated S, implementation plan, source completeness, scientific semantics, readiness, library adoption or building.
+
+### Open questions
+
+- No operator question remains pending for the MathLab experience. Source/completeness/association/publication/comparison/rendering preparation gaps at notes:4028 remain open. No new review domain or additional design menu started.
+
+### Spec changes proposed
+
+- Carry ML-1..ML-12 at notes:3855-3877, the four LVB17 decisions and the consolidated table at :4034-4046 into MAESTRO's later cross-cutting spec reconciliation. S remains unchanged. The separate updated-S Astra, static all-page/all-flow wireframe, operator spec approval and build-release gates remain.
+
+### Context for build agents / successor
+
+- Separate handoff saved as results/dashboard_integration_review_20261011/labviz_brainstorm_handoff17.md. Next useful preparation on resumption: a bounded read-only inventory mapping complete mathematical-work content to exact saved artifacts, distinct from execution-event summaries; report missing coverage rather than invent or silently narrow it. This is preparation, not a pending operator preference or authority to build/run anything.
+- Root/branch reverified; only authorized notes/handoff written. No process, agent, external call or tool cell remains in flight. No numerical context reading exposed; this is an accepted-topic checkpoint, not a claimed context threshold.
+- BINDING context rule retained: check Context before each question; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify operator and write a separate designated successor handoff with topics, decisions/notes pointers, open questions, paths, in-flight work, risks and one exact next point. At <=40%, stop starting work; never approach compaction or embed the handoff in notes. Restate this rule in every handoff; never invent a numerical meter reading.
