@@ -1,0 +1,67 @@
+■ MATH LAB · test math estimates using saved model inputs
+ MATH-PROXY · math estimate, not evidence
+ Run new1_20261010T235740.858576Z · finished · step 4
+ View: newest events file by mtime · other active runs (events): 0
+ INVALID: no verdict; operator review needed.
+ EVENT ERROR (1): state below uses valid lines only.
+ line 1661: unknown event type: 'run_finishing' · /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/runs/new1_20261010T235740.858576Z/events.jsonl
+ Elapsed 24m53s / hard deadline 44m59s · ends 2026-10-11T00:42:40.858821+00:00
+ Execution completed; individual predictions are separate; math estimate, not evidence
+ PLAN · ✓ passed ✗ failed ▶ current · not recorded ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ · 1 · Harvest: record internal model inputs for every prompt (one GPU pass).
+ · 2 · Reproduce: repeat the saved write calculation on CPU; check it matches.
+ · 3 · Calibrate: check estimates against past results; failure stops cheaply.
+ · 4 · Candidate questions: explore ideas later, after a new written plan. (INVALID; no verdict)
+ NOW ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ Provisional math estimate, not evidence: H-OVERLAP
+ Progress not recorded · stage time 0m00s / cap 45m00s
+ CHECKS · 48 recorded · 2 failed / 0 invalid · page 3/3 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ FAIL H-RANK · bar meets "registered same-layer 3/5 rule" · measured object:3
+  Individual frozen geometry prediction
+ FAIL H-OVERLAP · bar meets "registered same-layer 3/5 rule" · measured object:3
+  Individual frozen geometry prediction
+ PASS memory-new1-output-l7-statistics · bar >= 9.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-load-l8-operands · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-covariance-svd-l8 · bar >= 13.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-covariance-svd-f64-l8 · bar >= 19.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-covariance-checks-l8 · bar >= 19.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-projections-l8 · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-update-svd-l8 · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-random-controls-l8 · bar >= 9.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-output-l8-statistics · bar >= 9.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-load-post-consumption-identity · bar >= 10.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS memory-new1-output-final-statistics · bar >= 9.0 · measured object:2
+  Available memory covers eight GiB plus the declared cell reserve
+ PASS H-TOP · bar meets "registered same-layer 3/5 rule" · measured object:3
+  Individual frozen geometry prediction
+ · Same prompt inputs · need frozen context and tokenisation match
+ · Observation changes nothing · need LAW#5 and observer-parity pass
+ · Known model answers reproduce · need all three fresh baselines pass their frozen ranges
+ · Stay inside time limits · need each emitted stage projection fits its deadline
+ · Reproduce saved calculations · need projection <=1e-6; write/size error <=1e-5
+ · Clean inputs approximate the write · need whole-write error <=25%; direction >=95% (scope only)
+ · At least one estimate matches past results · need strict orders; each >=1900/2000 rechecks
+ MACHINE · samples from this run; GPU display is shared ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ Free memory ████████┃███████ 24.6326 GiB · floor 6 GiB (┃) · +18.6326 GiB above floor
+ Lab memory 3.81641 GiB · CPU 104.1% · GPU free (no running job reported); admission decides
+ FINDINGS · MATH-PROXY: math estimate, not evidence (1) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ NEW1: math estimate, not evidence; no queue action
+ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/runs/new1_20261010T235740.858576Z/finding.json
+ CANDIDATE QUESTIONS (0; newest 3) · ideas to test ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ None yet; step 4 needs its own pre-registration.
+ LAST EVENTS · newest 1 of 8 recent ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 00:22:34 Run finished INVALID: Execution completed; individual predictions are separate; math estimate, not evidence
+
+
+
+

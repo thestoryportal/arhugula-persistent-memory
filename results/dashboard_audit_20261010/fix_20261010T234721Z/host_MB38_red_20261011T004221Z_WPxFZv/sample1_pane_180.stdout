@@ -1,0 +1,67 @@
+ ■ SCIENCE REPORT · updated 2026-10-11 (D-NEW1-c ⟨D-NEW1-c@fce4a263⟩ NEW-1 one authorized execution COMPLETE/CLEAN; MATH-PROXY—math estimate, not evidence; H-COV BOUNDARY-SENSITIVE (excluded-energy contrast NON-SPECIFIC), H-TOP PASS, H-RANK FAIL, H-OVERLA
+ Goal: 61 of 72 reworded questions right · ordinary facts already get ~69 · bar ┃ marks the goal
+ NEXT ACTIONS · docs/program_state.json ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ Page 4/5 · rotates every 10 s · source includes recorded history
+ ceiling; cost not a constraint at this point (operator will flag); compute stays local (D-HW-1). **Pre-registrations FROZEN v2 (2026-10-05, advisor FIX-FIRST folded):** `docs/C10L_COVGEOM_SPARSEBAND_PREREG.md` (D-C10l-covgeom ⟨D-C10l-covgeom@0caeca4f⟩ —
+ RAN, NULL ×3, CORPUS/44: z-injection ceiling → sequential offline step 0 → arms A/B(P:=I)/C{4,8}/C′{7,8}) and `docs/C10L_MINT_TOKEN_PREREG.md` (D-C10l-mint ⟨D-C10l-mint@a4a6f4c7⟩ — RAN, PARTIAL ×2, CORPUS/45: inits M/G/N/Z into spare rows, I-11 probe,
+ arms A7-multi/A1/A1-rare/mint-*). **Both RAN 2026-10-05 (CORPUS/44, 45).** **D-C10l-rulings-1 RAN (2026-10-05) → CORPUS/45 addendum ⟨D-C10l-mint@a4a6f4c7⟩:** both directional sub-reads UNSUPPORTED under their pre-registered rules (G-vs-N +7 then −4;
+ min(mint) − max(rare) = 5 < 10) while the PARTIAL label is reproduced in all five mint replicates (34–46/72, locality clean); P4 compiled-artefact gate PASS (both GGUFs tokenise 24/24; fp16 GGUF id parity 148/148; Q4_K_M paraphrase retention 0.738,
+ locality intact) — the minted row is a compile-surviving Git/.vindex artefact; fp16 GGUF is the faithful shipped form, Q4_K_M a size-vs-recall choice. Next, in order: (a) lead 1 of the INBOX review (gold-first-token-constrained read, one evaluation
+ pass) paired with (b) the edit + inject diagnostic (covgeom F-A5, one run), as one small pre-registration — **RAN 2026-10-05 → CORPUS/46 ⟨D-C10m-diag@9a9b5343⟩: Q1 ABSENT-DOMINANT, Q2 H1 collateral, Q3 SEED-SENSITIVE** (constrained 17 vs 15/72; edit +
+ inject 23/72 vs control 51; N seeds 46/34/36). The fork is decided for now: H1 → the next mechanism arm changes what the edit does at non-keyed positions. **z-transport RAN 2026-10-05 → CORPUS/47 ⟨D-C10n-ztransport@982edcbd⟩: TARGET-PORTABLE in a
+ LOW-CONTROL process** (A 42 / B 13 / C 61 / D 37; four targets unchanged, twenty longer + rotated; control = stratum, N1). **Magnitude/direction RAN 2026-10-05 → CORPUS/48 ⟨D-C10o-magnitude@31389765⟩: DIRECTION (routing, HIGH-CONTROL)** — magnitude
+ alone 5/60, direction 34/60, projection-preserving 47/60 vs B 6 / C 50. **Two-pass solve RAN 2026-10-05 → CORPUS/49 ⟨D-C10p-twopass@12f87dc3⟩: NULL** (21 vs 13/72, gain 8 < 10; ×1.31 write; described_as −3.08; sham inert). **Stacked two-pass solve RAN
+ 2026-10-06 → CORPUS/50 ⟨D-C10q-stacked@8e5c7f12⟩: TRADEOFF-PERM-UNMATCHED** (24 vs 12/72, gain 12; described_as −4.2 fails; ΔW₂/ΔW₁ 1.24; sham inert; permuted control unmatched). **Shared-z target (step 1) RAN 2026-10-06 → CORPUS/51
+ ⟨D-C10s-sharedz@bee04393⟩: UNDERFIT** (inconclusive under this solve budget; write arm not run; next per prereg = step 2). **Solve feasibility (step 1 at 50 evaluations) RAN 2026-10-07 → CORPUS/52 ⟨D-C10s-solvefeas@7083a102⟩: UNDERFIT-AT-50,
+ objective-stopped** (29 → 2 failing fit entries in the same run; write arm not run; next per prereg = step 2). **Next, in order:** the research pass (`docs/RESEARCH_PASS_PLAN_2026-10-06.md` v2; HIL on CORPUS/50 first; step 0 inventory done) → I-1 / I-2
+ pre-registration → (b)…(e) as before. The autoresearch loop (D-C10r-rulings-1; implemented per docs/AUTORESEARCH.md, D-C10r-impl-1) is built and reviewed; the operator launches it with experiments/track_c/autoresearch_c10/launch.sh; it runs beside,
+ candidates only. **Next, in order (the prereg's NULL branch):** (a) pre-register I-1 OverTone / I-2 forward replay on the engine path — a science-path change under LAW#5 (inertness against a known-ceiling reference before any verdict), or a narrower
+ write; **operator alternative, cheaper and harness-side:** (a′) the iterated re-solve (re-solve on the twice-edited model, write size capped) or the stacked variant (second edit on top of the first), each one run through the same seam; (b) compute_z
+ convergence and the AlphaEdit projector's effect on the target (solve-side); (d) the (i) predictors I-4/I-4b on the ABSENT subjects; (e) minted-token lifecycle (C5/C9) and capacity beyond 271 rows; (c) minted-token lifecycle (delete / overwrite /
+ compaction, C5/C9) and capacity beyond 271 rows; (d) I-4/I-4b predictors on the residual mint gap; (e) I-1 OverTone / I-2 forward replay stay queued behind (b). Harness fact (arc §12): the C10 solve is AlphaEdit-style and ignores mom2_update_weight;
+ CLAUDE.md line 28 fingerprint hash is stale (tool pins d941a9fb).
+ 10. (2) Q4_K_M survival of multi-token values (B3 covered single-token only) — the CPU-serve quantization check for the fixed target.
+ 11. (3) batch-genesis-at-scale cleanliness (C1 reframed) — gated on TARGET FACT-COUNT (worth pinning: single solve under the 2000 cap vs sub-batched = the D20 cliff).
+ 12. (4) DONE 2026-10-04 — serving validation on the deployment hardware: B3 reproduced end-to-end on the M3 Pro (edit on MPS → fp16 GGUF → Q4_K_M → llama.cpp prebuilt b11382, -ngl 0): edited retention 99.0% (98/99) vs native-country 98.7% (76/77), Δ
+ +0.3 ≥ −3 → PASS (pod: 100 vs 97.4). `results/law3_repro_2026-10-03/b3/`. Native llama.cpp/LARQL builds blocked until the operator reinstalls Command Line Tools.
+ NOW ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ · GPU idle · last: ASTRA log · 22h59m ago · outcome not recorded
+ ◦ helper: Draft Drive builder brief (4eff2d63)  ·  9m20s
+ Scoreboard narrative only · as of 2026-10-10 01:15 MDT · docs/c10_scoreboard.json
+ ⚠ The text below predates: CORPUS/02 changed; CORPUS/01 changed; CORPUS/03 changed (the program updates it)
+ WHAT IT MEANS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72); made-up two-word names do not: the usual method gets about 12 of 72, our
+ best write method about 40, and the goal is 61. Training the same small part of the model reaches 70 of 72, so that part is big enough, but only with side effects. ASTRA, which writes every word of the answer at once, got 14 of 72 against 12 and did not
+ fit its targets, so it is closed. The offline math lab could not predict real results well enough and was stopped. Now: a check of the math behind earlier writes (NEW-1) and the step-7 setup.
+ SCOREBOARD RESULTS · dated narrative (newest first) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 10-10 ████░░░░░░░░░░░┃░░ 14 of 72 (vs 12)           ASTRA: write every word of the answer at once — No: two more right answers than the usual method, but it did not fit its targets, changed too much of the model and disturbed unrelated facts; closed und…
+ 10-09 ·················· calibration failed         Math lab: predict a write's result offline — Stopped: its offline predictions did not match the real runs closely enough to trust, so it is not used to rank ideas
+ 10-08 ████░░░░░░░░░░░┃░░ 17 of 72 (vs 12)           Step 6: two ways to prepare the answer before writing it — No: re-weighting the answer's words gave 17 of 72 against 12, too small to count; the other idea made the ordinary control facts worse (64 and…
+ 10-08 ██████████████████ 70 of 72 (two runs: 70 an… Step 5: ceiling test, official reading (training, not a write) — Training this small part of the model can recall made-up two-word names at 70 to 71 of 72, so its size is not the wall; but it got there…
+ 10-08 ██████████████████ 71 and 70 of 72 (no offic… Step 5: ceiling test, repeat run (training, not a write) — Stopped before the official reading: the new seed scored 71 of 72 and the same-seed retrain 70 of 72 (identical to the first round), but a rou…
+ 10-07 ███░░░░░░░░░░░░┃░░ 12 of 72 (vs 11)           Step 4: let each fact pick its own depth — No: one more right answer than the usual method, and putting every fact at one fixed depth did just as well; not taken forward
+ 10-07 ██████████████████ 70 of 72 (interim, one se… Step 5: ceiling test, first round (training, not a write) — Interim: training reaches 70 of 72 but disturbs nearby facts asked the same way; needs a repeat run before it counts
+ 10-07 ████████████░░░┃░░ 46, 37, 40 of 72 (vs 14)   Step 3: new vocabulary word per name (repeat) — No clear answer: the two-word version could not be tested; the earlier one-word method repeated its result (provisional until you confirm)
+ 10-07 ██████░░░░░░░░░┃░░ 23 of 72 (vs 15)           Step 2: second address inside the name — Small gain with side effects; no
+ 10-06 ·················· not scored                 Step 1: fit three wordings at once — Solver could not fit it twice; inconclusive
+ 10-06 ████████░░░░░░░┃░░ 34 of 72                   Self-improving loop (experimental) — Promising, but may have seen test wordings; parked
+ 10-06 ██████░░░░░░░░░┃░░ 24 of 72 (vs 12)           Stacked second write — Doubles recall but disturbs other facts
+ 10-05 █████░░░░░░░░░░┃░░ 21 of 72 (vs 13)           A second write on top of the first — Not enough gain
+ 10-05 ███████████████┃░░ 61 of 72                   Recomputed target, injected directly (not a write) — Proves a good-enough target exists for this model
+ 10-05 ████████████░░░┃░░ 39 to 46 of 72             One new vocabulary word per name — Best route found; partial
+ 10-05 ███░░░░░░░░░░░░┃░░ 8 to 13 of 72              Change the solver's maths — No help; but injecting the target directly gives 49
+ 10-04 ░░░░░░░░░░░░░░░┃░░ 0 of 72 reworded           Published method (AnyEdit) ported to the Mac — Stopped: did not work here
+ 06-26 ████░░░░░░░░░░░┃░░ at best 15 of 72           Tuning knobs (depth, strength, statistics) — No knob fixes it
+ 06-26 ██████░░░░░░░░░┃░░ 14 to 22 of 72             Realistic made-up project names — Worse than expected: this is the core problem
+ 06-25 ██████░░░░░░░░░┃░░ 26 of 72 (real-word pairs… First test: two-word names, usual method — Problem found: made-up pairs do not stick
+
+
+
+
+
+
+
+
+
+
+

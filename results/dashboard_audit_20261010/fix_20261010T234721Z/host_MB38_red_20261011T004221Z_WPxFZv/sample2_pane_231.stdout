@@ -1,0 +1,67 @@
+⚙ Draft Drive builder brief                                                                                                                                                                                                                     RUNNING · 9m25s
+ helper of 4eff2d63 · model ? · 176 log records
+ job: Draft (do not launch) a task brief for a Codex builder, "MB39", that carries the Google Drive backup release to its next Astra review (Drive r11). Write ONLY two files: /Users/robertrhu/.claude/jobs/8ac4cacf/tmp/codexmb39_drive_prompt.txt (the brie…
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ▶ Bash: Search git log and tmp dir for Drive items
+ ▶ Bash: Show files changed by key Drive commits
+ ▶ Bash: List full paths of key Drive commit files
+ ▶ Bash: Read Astra r10 verdict and orphan clearance
+ ▶ Bash: Read MB35 brief and start script
+ ▶ Bash: Read MB35 start script and MB32 brief
+ ▶ Bash: Read MB34 brief and search pin set b764938
+ ▶ Bash: Git grep for pin set b764938
+ ▶ Bash: Read r10 packet and old pin set
+ ▶ Bash: Read cmp fix receipt README
+ ▶ Bash: Hash Drive files and inspect host GREEN result
+ ▶ Bash: Hash Drive files and read GREEN command
+ ▶ Bash: Inspect addendum test skip gates and classes
+ ▶ Bash: Read HeartbeatTest setup and LauncherTest
+ ▶ Bash: Locate section E in dashboard audit README
+ ▶ Bash: Read section E of dashboard audit README
+ ▶ Bash: Read native fixture HOME export and applet shells
+ ▶ Bash: Read-only check of real Drive log sink
+ ▶ Bash: Check real sink mtime and read activation plan section 1
+ ▶ Bash: Search for the leaked receipt hash and recent receipts
+ ▶ Bash: Git-only search for leaked receipt hash
+ ▶ Bash: Inspect c1a06ea5 references to leaked receipt
+ ▶ Bash: Read the four named memory_mirror files
+ ▶ Bash: Check background search output
+ ▶ Bash: Read activation plan header and sections 2-5
+ ▶ Bash: Read base backup test file
+ ▶ Bash: Inspect wrapper rclone config and HOME usage
+ ▶ Bash: Inspect ArchiveTest and Drive probe usage
+ ▶ Bash: Read Drive probe test and runner env handling
+ ▶ Bash: Check busy-wait note and current line numbers
+ ▶ Bash: Verify heartbeat poll loop lines
+ ▶ Bash: Verify moved receipt hash and host native run timing
+ ▶ Bash: Diff Drive production files since r10 and check Astra reviews
+ ▶ Bash: List heartbeat skips and LauncherTest host results
+ ▶ Bash: Read real-path inventory script and release root
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

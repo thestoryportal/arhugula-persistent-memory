@@ -1,0 +1,43 @@
+ ■ SCIENCE REPORT · updated 2026-10-11 (D-NEW1-c ⟨D-NEW1-c@fce4a263⟩ NEW-1 one authorized execution COMPLETE/CLEAN; MATH-PR
+ Goal: 61 of 72 reworded questions right · ordinary facts already get ~69 · bar ┃ marks the goal
+ NEXT ACTIONS · docs/program_state.json ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ Page 8/14 · rotates every 10 s · source includes recorded history
+ remain the on-target blocker. Later `[8,12]`, widened `[4,12]`, and the bounded strength/layer-count sweep all fail to
+ rescue A7 held-out behavior. Advisor-review + code triage now say PROCEED with AnyEdit only through a code-level
+ viability gate: transplant the official AnyEdit autoregressive per-token/window loop into the local
+ Qwen2.5-3B/transformers==4.51.0 harness, preserve MEMIT primitives + LAW#5, then pilot A7 with A1/A2 controls. EV-5/EV-6
+ add prereg diagnostics, not new evidence: context-reliance probe (canonical/context-prefix vs held-out paraphrase),
+ chunk/window dependency logging, per-token/window continuation, locality/bystander deltas, and name-collision filters
+ (`DCDmllm/AnyEdit`/RefEdit are image-editing). μKE is the first targeted fallback if fixed-window AnyEdit fails by
+ dependency; SUIT is the cleaner over-edit fallback; NeuralDB/SCR keep the side-store/gated-overlay architecture pressure
+ live. Step-1 viability audit is now done: proceed only to prereg/advisor/harness design, with a required correction that
+ upstream `window_size=50` is one window for 4-6 token A7 values and cannot be the primary per-token C10 test. Next gate:
+ draft prereg with the token-alignment gate embedded, small-window primary (likely `window_size=1`), default-window
+ diagnostic, context-prefix/window/locality guardrails, vector-count/delta-norm/locality interpretation, and LAW#5 before
+ any edit evidence. Remaining fork after a valid pilot: (A) AnyEdit/small-window rescue, or (B) accept-as-bounded with
+ project-coined multi-word facts routed through index/side-store. **InfraNodus research arc 2026-10-05 (mandated by
+ NOW ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ · GPU idle · last: ASTRA log · 22h59m ago · outcome not recorded
+ ◦ helper: Draft Drive builder brief (4eff2d63)  ·  9m20s
+ Scoreboard narrative only · as of 2026-10-10 01:15 MDT · docs/c10_scoreboard.json
+ ⚠ The text below predates: CORPUS/02 changed; CORPUS/01 changed; CORPUS/03 changed (the program updates it)
+ WHAT IT MEANS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded
+ differently. Ordinary facts already work (about 69 of 72); made-up two-word names do not: the usual method gets about 12
+ of 72, our best write method about 40, and the goal is 61. Training the same small part of the model reaches 70 of 72, so
+ that part is big enough, but only with side effects. ASTRA, which writes every word of the answer at once, got 14 of 72
+ against 12 and did not fit its targets, so it is closed. The offline math lab could not predict real results well enough
+ and was stopped. Now: a check of the math behind earlier writes (NEW-1) and the step-7 setup.
+ SCOREBOARD RESULTS · dated narrative (newest first) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 10-10 ████░░░░░░░░░░░┃░░ 14 of 72 (vs 12)           ASTRA: write every word of the answer at once — No: two more right an…
+ 10-09 ·················· calibration failed         Math lab: predict a write's result offline — Stopped: its offline pre…
+ 10-08 ████░░░░░░░░░░░┃░░ 17 of 72 (vs 12)           Step 6: two ways to prepare the answer before writing it — No: re-wei…
+ 10-08 ██████████████████ 70 of 72 (two runs: 70 an… Step 5: ceiling test, official reading (training, not a write) — Trai…
+ 10-08 ██████████████████ 71 and 70 of 72 (no offic… Step 5: ceiling test, repeat run (training, not a write) — Stopped be…
+ 10-07 ███░░░░░░░░░░░░┃░░ 12 of 72 (vs 11)           Step 4: let each fact pick its own depth — No: one more right answer …
+ 10-07 ██████████████████ 70 of 72 (interim, one se… Step 5: ceiling test, first round (training, not a write) — Interim: …
+ 10-07 ████████████░░░┃░░ 46, 37, 40 of 72 (vs 14)   Step 3: new vocabulary word per name (repeat) — No clear answer: the …
+ 10-07 ██████░░░░░░░░░┃░░ 23 of 72 (vs 15)           Step 2: second address inside the name — Small gain with side effects…
+ 10-06 ·················· not scored                 Step 1: fit three wordings at once — Solver could not fit it twice; i…
+ 10-06 ████████░░░░░░░┃░░ 34 of 72                   Self-improving loop (experimental) — Promising, but may have seen tes…
+ 10-06 ██████░░░░░░░░░┃░░ 24 of 72 (vs 12)           Stacked second write — Doubles recall but disturbs other facts

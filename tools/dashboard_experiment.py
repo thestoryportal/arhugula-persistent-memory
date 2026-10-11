@@ -173,10 +173,7 @@ def run_rows(paths, cols):
 
 
 def is_experiment_log(path):
-    # Relative to ROOT: the worktree itself is named c10k-route-a, and Lab View mirrors logs under results/labviz/.
-    parts = os.path.relpath(path, ROOT).split(os.sep)
-    archived = any(x.startswith(("_quarantine", "attempt")) for x in parts)   # set-aside records, not the live run
-    return parts[1:2] != ["labviz"] and not archived and any(x.startswith("c10") for x in parts[1:])
+    return dashboard_live.is_experiment_log(path, ROOT)
 
 
 BINDING = "A7_coined_coined"
@@ -283,8 +280,7 @@ def render(cols, rows):
         out += cpu_lines(state, cols)
         return [dashboard_live.clip(line, cols) for line in out[:rows]]
     top, pids, job = running(state)
-    logs = sorted((p for p in glob.glob(os.path.join(ROOT, "results", "**", "*.log"), recursive=True)
-                   if is_experiment_log(p)), key=os.path.getmtime)
+    logs = dashboard_live.experiment_logs(ROOT)
     if not logs:
         out = [f"{FG(245)}No experiment logs found under results/.{RESET}"]
         if top:

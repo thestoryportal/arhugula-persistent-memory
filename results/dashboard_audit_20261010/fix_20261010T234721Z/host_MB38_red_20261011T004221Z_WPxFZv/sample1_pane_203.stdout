@@ -1,0 +1,41 @@
+■ STORAGE · Drive backup and project disks
+GOOGLE DRIVE BACKUP
+Backup not switched on yet · waiting for activation
+Health: missing heartbeat
+PAST RUNS · newest first
+ No recorded runs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DISKS · space measured now
+Internal SSD: 731.7 GiB used (79.0%) · 194.7 GiB free · 926.4 GiB total
+memit SSD: 339.2 GiB used (80.9%) · 79.9 GiB free · 419.1 GiB total
+Development and backups share memit's physical SSD; counted once.
+Project folders · measured 8 min ago · every 15 min
+MAIN CHECKOUT · /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory · top 6/53
+ 46.5 GiB  .claude/worktrees
+ 5.8 GiB  c10l_mint_edited_qwen3b_N
+ 5.8 GiB  b3_edited_qwen3b
+ 5.8 GiB  b3_edited_f16.gguf
+ 5.8 GiB  c10l_mint_N_f16.gguf
+ 1.8 GiB  b3_edited_q4km.gguf
+MIRROR · checkout expanded above · /Volumes/memit/llm-database-poc-mirror · top 3/64
+ 52.8 GiB  workspace
+ 45.9 GiB  stage_2_sweep
+ 42.7 GiB  stage_1_sect
+INTERNAL PROJECT FILES · under $HOME · top 3/3
+ 269.7 GiB  ~/Backups
+ 3.6 GiB  ~/.claude/jobs
+ 0 B  ~/Library/Logs/memit-gdrive-backup
+

@@ -1,0 +1,43 @@
+ ■ SCIENCE REPORT · updated 2026-10-11 (D-NEW1-c ⟨D-NEW1-c@fce4a263⟩ NEW-1 one authorized execution COMPLETE/CLEAN; MATH-PR
+ Goal: 61 of 72 reworded questions right · ordinary facts already get ~69 · bar ┃ marks the goal
+ NEXT ACTIONS · docs/program_state.json ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ Page 9/14 · rotates every 10 s · source includes recorded history
+ D-C10k-rulings-1) — CLOSED, exit condition met, advisor FIX-FIRST applied:** no paper found (23 eval sections, 243 logged
+ arXiv hits, 8 science graphs) that writes a coined multi-token value by locate-then-edit and scores held-out paraphrase;
+ nine ingredients + two predictors + one diagnostic ranked in `docs/INFRANODUS_RESEARCH_ARC_2026-10-05.md` §1, hand-off
+ §8. (ii-c) now opens without touching the engine: I-8 step 0 = offline keygram on the cached A7 keys under λC / I /
+ trace-matched λ′I (RoSE "covariance trap", arXiv 2603.15518; no write) → I-9a sparse band `[4,8]` (BLUE-motivated, one
+ hparam file) → I-8 step 1 (C := I, science-path-in-data, LAW#5, stats-file SHA in manifest) only if step 0 is live → I-1
+ OverTone / I-2 Forward Replay (science path). S-3 rule binds every prereg: locality and held-out scored as separate axes
+ with separate numeric criteria against the strict bar. (i) carries I-4 Knowledge Spectrum + I-4b perplexingness
+ (stratified across value classes, retrospective first). Blocking premise checks before the first write arm: held-out
+ scorer vs alternative tokenizations (arXiv 2609.29045); LAW#3 A1/A2 under standard C. Next = I-8 step 0 + I-9a
+ pre-registration. Addendum §9 (operator InfraNodus chats, checked): I-10 value-length ladder × band × One-Mask reversal
+ added beside I-9a as a config-only diagnostic; KLOD-style distributional locality adopted as S-3's second-axis metric;
+ the chat's proposed subject-last vs prompt-last ablation is already CORPUS/43, with the opposite outcome to its
+ prediction. Addendum §10: option (iv) gains a blocking premise correction (mean init of a minted token is degenerate,
+ NOW ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ · GPU idle · last: ASTRA log · 22h59m ago · outcome not recorded
+ ◦ helper: Draft Drive builder brief (4eff2d63)  ·  9m26s
+ Scoreboard narrative only · as of 2026-10-10 01:15 MDT · docs/c10_scoreboard.json
+ ⚠ The text below predates: CORPUS/02 changed; CORPUS/01 changed; CORPUS/03 changed (the program updates it)
+ WHAT IT MEANS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded
+ differently. Ordinary facts already work (about 69 of 72); made-up two-word names do not: the usual method gets about 12
+ of 72, our best write method about 40, and the goal is 61. Training the same small part of the model reaches 70 of 72, so
+ that part is big enough, but only with side effects. ASTRA, which writes every word of the answer at once, got 14 of 72
+ against 12 and did not fit its targets, so it is closed. The offline math lab could not predict real results well enough
+ and was stopped. Now: a check of the math behind earlier writes (NEW-1) and the step-7 setup.
+ SCOREBOARD RESULTS · dated narrative (newest first) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 10-10 ████░░░░░░░░░░░┃░░ 14 of 72 (vs 12)           ASTRA: write every word of the answer at once — No: two more right an…
+ 10-09 ·················· calibration failed         Math lab: predict a write's result offline — Stopped: its offline pre…
+ 10-08 ████░░░░░░░░░░░┃░░ 17 of 72 (vs 12)           Step 6: two ways to prepare the answer before writing it — No: re-wei…
+ 10-08 ██████████████████ 70 of 72 (two runs: 70 an… Step 5: ceiling test, official reading (training, not a write) — Trai…
+ 10-08 ██████████████████ 71 and 70 of 72 (no offic… Step 5: ceiling test, repeat run (training, not a write) — Stopped be…
+ 10-07 ███░░░░░░░░░░░░┃░░ 12 of 72 (vs 11)           Step 4: let each fact pick its own depth — No: one more right answer …
+ 10-07 ██████████████████ 70 of 72 (interim, one se… Step 5: ceiling test, first round (training, not a write) — Interim: …
+ 10-07 ████████████░░░┃░░ 46, 37, 40 of 72 (vs 14)   Step 3: new vocabulary word per name (repeat) — No clear answer: the …
+ 10-07 ██████░░░░░░░░░┃░░ 23 of 72 (vs 15)           Step 2: second address inside the name — Small gain with side effects…
+ 10-06 ·················· not scored                 Step 1: fit three wordings at once — Solver could not fit it twice; i…
+ 10-06 ████████░░░░░░░┃░░ 34 of 72                   Self-improving loop (experimental) — Promising, but may have seen tes…
+ 10-06 ██████░░░░░░░░░┃░░ 24 of 72 (vs 12)           Stacked second write — Doubles recall but disturbs other facts
