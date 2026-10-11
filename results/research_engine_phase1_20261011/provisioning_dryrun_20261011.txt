@@ -1,0 +1,19 @@
+2026-10-11T05:11:17Z
+cmd: HOMEBREW_NO_AUTO_UPDATE=1 brew install --dry-run neo4j
+==> Would install 1 formula:
+neo4j 2026.09.0
+==> Downloading https://ghcr.io/v2/homebrew/core/neo4j/manifests/2026.09.0
+Already downloaded: /Users/robertrhu/Library/Caches/Homebrew/downloads/d439e85273a8a811dfce592aa2dbdcf63f24bb6fb307820a3df47ae63b3ae8cb--neo4j-2026.09.0.bottle_manifest.json
+==> Would install 2 dependencies for neo4j:
+openjdk@21
+cypher-shell
+==> Would upgrade 6 dependencies for neo4j:
+libpng
+pcre2
+glib
+xorgproto
+cairo
+harfbuzz
+exit=0
+Homebrew 7.0.9
+26.6.2

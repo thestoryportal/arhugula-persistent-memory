@@ -28,14 +28,14 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T05:06:03Z",
+    "edited": "2026-10-11T05:13:03Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: write the first-build plan",
         "summary": "You approved the design and chose how the first build runs. MAESTRO now writes the small first-build plan, starting with an answer key made independently of the engine, as the reviewer asked.",
-        "state": "ready",
-        "who": "MAESTRO (define the science-waiting signal), then Astra",
+        "state": "in_review",
+        "who": "Astra (check of plan v3), then you (2 OKs)",
         "session": "",
         "started": "2026-10-11T04:37:00Z",
         "estimate": null,
@@ -47,7 +47,8 @@
           "04:54Z: first-build plan written (20 pass/fail checks).",
           "04:59Z: Astra said GO with 4 fixes: the engine must step aside for any waiting science run, the graph copy must be strictly add-only, a clear low-priority rule, and MAESTRO records the close-out.",
           "05:03Z: SPEC2 wrote v2 with the 4 fixes (phase1_spec_v2.md). One gap found: nothing yet tells the engine that a science run is waiting, so building stays blocked until MAESTRO sets that up.",
-          "05:05Z: Astra re-check: 3 of 4 fixes done. Remaining: MAESTRO must set up a clear 'science run waiting' signal the engine can watch. Then the answer-key session can start."
+          "05:05Z: Astra re-check: 3 of 4 fixes done. Remaining: MAESTRO must set up a clear 'science run waiting' signal the engine can watch. Then the answer-key session can start.",
+          "05:12Z: MAESTRO wrote the science-waiting signal (science_reservation_contract_v1.md) and plan v3 (all open setup choices settled). Astra is checking it now. Two things will need your OK: a one-line extra step before each science run, and letting the Neo4j install update 6 shared Mac libraries."
         ]
       },
       {
