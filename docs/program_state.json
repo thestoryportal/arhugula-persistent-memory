@@ -27,14 +27,14 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T03:43:03Z",
+    "edited": "2026-10-11T03:54:24Z",
     "items": [
       {
         "id": "drive-review",
         "title": "Drive backup: expert review, round 13 (GO with conditions)",
         "summary": "Astra, the independent reviewer, checks the package and the Mac test results and says go or no-go.",
         "state": "done",
-        "who": "Astra said go with 3 conditions. Next: MAESTRO builds and checks the backup-only branch, then PR + merge window (merge needs your go)",
+        "who": "Astra said go with 3 conditions; condition 1 (build + check the backup-only branch) is met. Next: PR #22 merge (drive-merge).",
         "session": null,
         "started": "2026-10-11T02:45:00Z",
         "estimate": {
@@ -66,6 +66,31 @@
         "notes": null
       },
       {
+        "id": "drive-merge",
+        "title": "Drive backup: merge the backup-only change (PR #22)",
+        "summary": "The backup-only branch is built and checked. It waits for its automatic tests on GitHub, then a guarded merge that needs your go.",
+        "state": "running",
+        "who": "MAESTRO33 (GitHub tests running; then your go for the merge)",
+        "session": null,
+        "started": "2026-10-11T03:49:47Z",
+        "estimate": {
+          "low_min": 20,
+          "high_min": 60,
+          "set": "2026-10-11T03:54:24Z"
+        },
+        "depends_on": [
+          "drive-review"
+        ],
+        "blocked_by": [],
+        "needs_from_you": [
+          "Your go to merge PR #22 through the merge gate (after its tests pass and the dry runs are clean)."
+        ],
+        "notes": [
+          "Branch built from the reviewed source and checked twice: staged files and the exact commit (1185 file fingerprints). Verified commit e76db678; PR #22 head matches it.",
+          "Evidence: results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/operational_checks/maestro33_candidate_20261011T034947Z/"
+        ]
+      },
+      {
         "id": "drive-activate",
         "title": "Drive backup: turn it on",
         "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup.",
@@ -75,7 +100,7 @@
         "started": null,
         "estimate": null,
         "depends_on": [
-          "drive-review"
+          "drive-merge"
         ],
         "blocked_by": [],
         "needs_from_you": [
