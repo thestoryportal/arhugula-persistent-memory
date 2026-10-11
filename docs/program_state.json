@@ -35,9 +35,9 @@
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "ready",
-        "who": "MAESTRO43 briefs builder codexr1f, then Astra round 6",
-        "session": "",
+        "state": "running",
+        "who": "builder codexr1f (tests first), then MAESTRO checks it, then Astra round 6",
+        "session": "codexr1f",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
@@ -73,7 +73,8 @@
           "11:30Z: codexr1d finished (a2bdac8f); MAESTRO reran all tests (18 new + 9 old pass) and checked only the 6 new files were added. One problem found and sent to Astra: the step that records the Intel Python would overwrite the setup file; it must write a new one. Astra round 4 is reviewing (338a4fc4).",
           "11:37Z: Astra round 4 (61d2bd46): the two time-limit bugs are fixed, but moving or replacing the script's working folder could still restart its clock, and the Python check skipped links. Astra allowed the read-only Python check on the Intel Mac: MAESTRO ran it (nothing written there; b075c1bc), Python 3.9.6, kept as an observation only. Builder codexr1e is fixing the rest (tests first).",
           "11:57Z: codexr1e finished (fbba4e35); MAESTRO reran 27+18+9 tests, all pass. The clock now cannot restart while its outside record survives, the Python check covers links and refuses unreadable folders, and a separate tool records the Intel Python without overwriting anything. Astra round 5 is reviewing (also: where the files should sit on the Intel Mac).",
-          "11:59Z: Astra round 5 said not yet: the improved Python check may run (MAESTRO ran it on the Intel Mac, nothing written there; kept as an observation), but recording it into the setup file and the first collection still wait for more fixes. Next: a fresh builder (codexr1f) makes them."
+          "11:59Z: Astra round 5 said not yet: the improved Python check may run (MAESTRO ran it on the Intel Mac, nothing written there; kept as an observation), but recording it into the setup file and the first collection still wait for more fixes. Next: a fresh builder (codexr1f) makes them.",
+          "12:04Z: builder codexr1f started (tests first) on Astra round 5's five fixes. MAESTRO's choices: the latest checkpoint of the collection record is kept in git, off the Intel Mac, so an old copy put back on the Intel Mac is refused; the setup file is checked against its fingerprint in git; every script reaches the Intel Mac through ssh and is checked before it runs, so nothing is copied there; the setup step counts toward the time and space limits; and the Intel Python is run directly, not through Apple's /usr/bin shortcut. Nothing runs on the Intel Mac."
         ]
       },
       {
