@@ -15,7 +15,7 @@ R = results/dashboard_integration_review_20261011. S = docs/LABVIZ_V2_SPEC.md (1
 2. R/labviz_brainstorm_notes.md in full: every decision so far, with the operator's words. Append to it; never rewrite earlier entries.
 3. R/CONTEXT.md (17 lines) and R/SUMMARY.md (65 lines) in full.
 Read nothing else before your first reply; open S, L, W or P ranges only when a point under discussion needs them. Why: your predecessor ran out of context, and a fresh session that rereads everything spends half its room before the first question.
-Then open with a three-line recap of where the discussion stands and ask the handoff's next question, recommendation first.
+Then open with a three-line recap of where the discussion stands. The activity-strip placement is settled (the operator answered option 1; notes line 21): do not ask it again. Continue with the handoff's remaining topic 2 (source context for builders), one question at a time, recommendation first.
 
 == The current build (use it as evidence of what exists) ==
 - W is Phase 1 as built on 2026-10-09 (includes the math-lab integration, commit 2483d11f). Entry page W/index.html; views: Map, Science lines, Runs, Inside the model, Learn & evaluations. W/data.js (411 KB) and W/context.json (455 KB) hold the data the page shows: inspect them with grep or short ranges, never whole.
