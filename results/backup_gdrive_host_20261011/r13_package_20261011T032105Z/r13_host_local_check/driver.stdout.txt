@@ -1,0 +1,79 @@
+{
+  "cases": [
+    {
+      "case": "same_size_corruption",
+      "expected_verifier_pass": false,
+      "actual": {
+        "differing": 1,
+        "missing": 0,
+        "errors": 1,
+        "unchecked": 0,
+        "incomplete": 7,
+        "pass": false,
+        "reasons": [
+          "nonzero or malformed check exit",
+          "missing or ambiguous terminal differences summary",
+          "matching summary/report mismatch",
+          "unsupported date,time log format in check.log: Transferred:   \t          0 B / 0 B, -, 0 B/s, ETA -",
+          "unsupported date,time log format in check.log: Errors:                 1 (retrying may help)",
+          "unsupported date,time log format in check.log: Checks:                 1 / 1, 100%, Listed 2",
+          "unsupported date,time log format in check.log: Elapsed time:         0.0s"
+        ],
+        "failed_objects": [
+          "alpha.txt"
+        ]
+      },
+      "accepted": true,
+      "check_exit": 1
+    },
+    {
+      "case": "excluded_only",
+      "expected_verifier_pass": true,
+      "actual": {
+        "differing": 0,
+        "missing": 0,
+        "errors": 0,
+        "unchecked": 0,
+        "incomplete": 0,
+        "pass": true,
+        "reasons": [],
+        "failed_objects": []
+      },
+      "accepted": true,
+      "check_exit": 0
+    },
+    {
+      "case": "symlink",
+      "expected_verifier_pass": true,
+      "actual": {
+        "differing": 0,
+        "missing": 0,
+        "errors": 0,
+        "unchecked": 0,
+        "incomplete": 0,
+        "pass": true,
+        "reasons": [],
+        "failed_objects": []
+      },
+      "accepted": true,
+      "check_exit": 0
+    },
+    {
+      "case": "clean",
+      "expected_verifier_pass": true,
+      "actual": {
+        "differing": 0,
+        "missing": 0,
+        "errors": 0,
+        "unchecked": 0,
+        "incomplete": 0,
+        "pass": true,
+        "reasons": [],
+        "failed_objects": []
+      },
+      "accepted": true,
+      "check_exit": 0
+    }
+  ],
+  "success": true
+}

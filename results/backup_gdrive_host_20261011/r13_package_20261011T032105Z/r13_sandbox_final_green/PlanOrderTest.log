@@ -1,0 +1,21 @@
+test_actual_v4_plan (test_r13.PlanOrderTest) ... ok
+test_all_rows_in_order (test_r13.PlanOrderTest) ... ok
+test_empty_required_row (test_r13.PlanOrderTest) ... ok
+test_head_not_immediately_before_gate (test_r13.PlanOrderTest) ... ok
+test_missing_1_1_candidate (test_r13.PlanOrderTest) ... ok
+test_missing_1_1_commit (test_r13.PlanOrderTest) ... ok
+test_missing_1_1_gate (test_r13.PlanOrderTest) ... ok
+test_missing_1_1_gate_head (test_r13.PlanOrderTest) ... ok
+test_missing_1_1_pr (test_r13.PlanOrderTest) ... ok
+test_missing_1_1_pr_observe (test_r13.PlanOrderTest) ... ok
+test_missing_1_1_push (test_r13.PlanOrderTest) ... ok
+test_missing_1_1_remote_observe (test_r13.PlanOrderTest) ... ok
+test_missing_1_1_verify_commit (test_r13.PlanOrderTest) ... ok
+test_missing_1_1_verify_pr_head (test_r13.PlanOrderTest) ... ok
+test_missing_1_1_verify_staged (test_r13.PlanOrderTest) ... ok
+test_out_of_order (test_r13.PlanOrderTest) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.071s
+
+OK

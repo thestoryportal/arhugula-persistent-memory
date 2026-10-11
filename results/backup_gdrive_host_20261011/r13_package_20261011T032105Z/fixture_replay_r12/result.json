@@ -1,0 +1,29 @@
+{
+  "cases": [
+    {
+      "case": "clean",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "accepted": true
+    },
+    {
+      "case": "excluded_only",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "accepted": true
+    },
+    {
+      "case": "symlink",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "accepted": true
+    },
+    {
+      "case": "same_size_corruption",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "accepted": true
+    }
+  ],
+  "success": true
+}

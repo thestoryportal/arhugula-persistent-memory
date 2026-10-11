@@ -2,6 +2,7 @@
 """Read backup health, or atomically publish the wrapper's current heartbeat."""
 import argparse
 import datetime as dt
+import fcntl
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -9,6 +10,9 @@ import re
 import subprocess
 import sys
 import tempfile
+
+MAX_UNRESOLVED_INTERVALS = 64
+MAX_UNRESOLVED_BYTES = 2048
 
 DEFAULT = Path.home()/"Library/Logs/memit-gdrive-backup/last_run.json"
 AUTH_ERROR = re.compile(r"invalid_grant|invalid_client|unauthori[sz]ed|authentication failed|"
@@ -238,6 +242,207 @@ def valid_generation(value):
     return type(value) is int and 0 < value <= 2147483647
 
 
+def generation_state(path):
+    value = json.loads(path.read_text())
+    if (not isinstance(value, dict) or type(value.get("schema")) is not int or value["schema"] != 1 or
+            type(value.get("issued_generation")) is not int or not 0 <= value["issued_generation"] <= 2147483647 or
+            not isinstance(value.get("unresolved"), list) or "recovery_barrier" not in value or
+            (value["recovery_barrier"] is not None and
+             (not valid_generation(value["recovery_barrier"]) or value["recovery_barrier"] > value["issued_generation"]))):
+        raise ValueError("malformed unresolved generation state")
+    barrier = value.get("compaction_barrier")
+    if barrier is not None and (not valid_generation(barrier) or barrier > value["issued_generation"]):
+        raise ValueError("malformed compacted generation barrier")
+    last = 0
+    for span in value["unresolved"]:
+        if (not isinstance(span, list) or len(span) != 2 or not all(map(valid_generation, span)) or
+                not last < span[0] <= span[1] <= value["issued_generation"]):
+            raise ValueError("malformed unresolved generation set")
+        last = span[1]
+    return value
+
+
+def compact_generation_state(state):
+    """Fold overflow into a completion-only barrier covering every issued generation."""
+    state = dict(state, compaction_barrier=state.get("compaction_barrier"))
+    size = len((json.dumps(state, separators=(",", ":"))+"\n").encode())
+    if len(state["unresolved"]) > MAX_UNRESOLVED_INTERVALS or size > MAX_UNRESOLVED_BYTES:
+        state = {"schema": 1, "issued_generation": state["issued_generation"], "unresolved": [],
+                 "recovery_barrier": state["recovery_barrier"],
+                 "compaction_barrier": state["issued_generation"]}
+    return state
+
+
+def atomic_write(path, text):
+    fd, temporary = tempfile.mkstemp(prefix=".recovery.", dir=path.parent)
+    with os.fdopen(fd, "w") as stream:
+        stream.write(text)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temporary, path)
+
+
+def recover(args):
+    """Preserve ambiguous evidence and reserve a barrier, under the allocator lock."""
+    if type(args.generation_floor) is not int or not 0 <= args.generation_floor < 2147483646:
+        raise ValueError("recovery floor must allow a barrier and a subsequent allocation")
+    heartbeat = Path(args.heartbeat)
+    logs = heartbeat.parent.parent
+    state_dir = logs/"memit-gdrive-backup-launch-state"
+    counter = state_dir/"counter"
+    state_path = state_dir/"unresolved.json"
+    archives = state_dir/"recoveries"
+
+    def inspect_history():
+        highest = 0
+        ambiguous = []
+        evidence = [heartbeat, heartbeat.parent/"launch_receipt.json",
+                    logs/"memit-gdrive-backup-launch-journal/failures.jsonl",
+                    heartbeat.parent/"refusals/latest-refusal.json"]
+        archives = state_dir/"recoveries"
+        generation_keys = ("launch_generation", "issued_generation", "recovery_barrier",
+                           "compaction_barrier", "highest_seen", "generation_floor")
+        temporary_formats = {".last_run.": "json", ".launch-receipt.": "json",
+                             ".unresolved.": "json", ".journal.": "jsonl",
+                             ".counter.": "counter", ".recovery.": "recovery"}
+
+        class DuplicateKeyError(ValueError):
+            pass
+
+        def unique_object(pairs):
+            record = {}
+            for key, value in pairs:
+                if key in record:
+                    raise DuplicateKeyError("duplicate JSON key %r" % key)
+                record[key] = value
+            return record
+
+        def temporary_format(path):
+            return next((kind for prefix, kind in temporary_formats.items() if path.name.startswith(prefix)), None)
+
+        def read_utf8(path):
+            try:
+                text = path.read_bytes().decode("utf-8")
+            except UnicodeError as error:
+                raise ValueError("unsupported recovery evidence in %s: expected UTF-8" % path) from error
+            if "\x00" in text:
+                raise ValueError("unsupported recovery evidence in %s: expected UTF-8" % path)
+            return text
+
+        def observe(record, path, strict):
+            nonlocal highest
+            nested = list(record.values())
+            while nested:
+                value = nested.pop()
+                if isinstance(value, dict):
+                    if any(key in value for key in generation_keys):
+                        raise ValueError("unsupported nested generation field in %s" % path)
+                    nested.extend(value.values())
+                elif isinstance(value, list):
+                    nested.extend(value)
+            for key in generation_keys:
+                number = record.get(key)
+                if valid_generation(number):
+                    highest = max(highest, number)
+                elif strict and number is not None and not (type(number) is int and number == 0):
+                    raise ValueError("unsupported generation field %s in %s" % (key, path))
+
+        for preserved_counter in [counter, *sorted(archives.rglob("counter"))]:
+            if not preserved_counter.exists():
+                continue
+            text = read_utf8(preserved_counter)
+            if re.fullmatch(r"(?:0|[1-9][0-9]{0,9})\n?", text) and int(text) <= 2147483647:
+                highest = max(highest, int(text))
+        live_temporaries = [path for parent in (heartbeat.parent, heartbeat.parent/"refusals", state_dir,
+                                               evidence[2].parent)
+                            for path in sorted(parent.glob(".*")) if path.is_file() and temporary_format(path)]
+        # A killed publisher can leave higher evidence than any final filename.
+        preserved = [path for path in sorted(archives.rglob("*"))
+                     if path.is_file() and path.name != "counter"]
+        for path in [state_path] + evidence + live_temporaries + preserved:
+            if not path.exists():
+                continue
+            temporary = temporary_format(path)
+            kind = temporary or {".json": "json", ".jsonl": "jsonl"}.get(path.suffix)
+            if kind is None:
+                raise ValueError("unsupported recovery evidence format in %s" % path)
+            text = read_utf8(path)
+            integer = re.fullmatch(r"(?:0|[1-9][0-9]{0,9})\n?", text)
+            if kind == "counter" or (kind == "recovery" and integer):
+                if not integer or int(text) > 2147483647:
+                    raise ValueError("unsupported counter temporary in %s" % path)
+                highest = max(highest, int(text))
+                continue
+            lines = text.splitlines() if kind == "jsonl" else [text]
+            records = []
+            uncertain = not lines
+            for line in lines:
+                try:
+                    records.append(json.loads(line, object_pairs_hook=unique_object))
+                except DuplicateKeyError as error:
+                    raise ValueError("unsupported recovery evidence in %s: %s" % (path, error)) from error
+                except ValueError:
+                    uncertain = True
+            strict = path not in evidence
+            if strict and (not records or (uncertain and (temporary or kind != "jsonl"))):
+                raise ValueError("unsupported recovery evidence in %s: unparseable publication" % path)
+            if path.name == "manifest.json" and (len(records) != 1 or not isinstance(records[0], dict) or
+                                                 not valid_generation(records[0].get("recovery_barrier"))):
+                raise ValueError("malformed preserved recovery manifest in %s" % path)
+            for value in records:
+                if not isinstance(value, dict):
+                    if strict:
+                        raise ValueError("unsupported recovery evidence in %s: expected JSON object" % path)
+                    uncertain = True
+                    continue
+                observe(value, path, strict)
+                generation = value.get("launch_generation")
+                manual = path == heartbeat and generation is None and value.get("launch_mode", "manual") == "manual"
+                if not manual and not valid_generation(generation):
+                    uncertain = True
+            if uncertain and path in evidence:
+                ambiguous.append(path)
+        state = generation_state(state_path) if state_path.exists() else None
+        highest = max(highest, state["issued_generation"] if state else 0)
+        pending = list(state["unresolved"]) if state else []
+        if args.generation_floor < highest:
+            raise ValueError("generation floor %s is below observed maximum %s; no recovery evidence changed" %
+                             (args.generation_floor, highest))
+        if highest >= 2147483646:
+            raise ValueError("generation space exhausted; no recovery dispatch is possible")
+        return state, pending, ambiguous, highest
+
+    # Reject an already-too-low floor before creating even a directory or lock.
+    inspect_history()
+    state_dir.mkdir(parents=True, exist_ok=True)
+    with (state_dir/"counter.lock").open("a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        if (logs/"memit-gdrive-backup.lock").exists():
+            raise ValueError("backup ownership lock exists; inspect owner/child before recovery")
+        state, pending, ambiguous, highest = inspect_history()
+        highest = max(args.generation_floor, highest)
+        barrier = highest + 1
+        # A barrier covers all prior evidence without claiming any backup completed.
+        pending = pending if state else ([[1, highest]] if highest else [])
+        state = compact_generation_state({"schema": 1, "issued_generation": barrier, "unresolved": pending,
+                                          "recovery_barrier": barrier})
+        archive = archives/(dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ"))
+        archive.mkdir(parents=True, exist_ok=False)
+        manifest = {"schema": 1, "generation_floor": args.generation_floor, "highest_seen": highest,
+                    "recovery_barrier": barrier, "preserved_paths": [str(path) for path in ambiguous] + ([str(counter)] if counter.exists() else [])}
+        atomic_write(archive/"manifest.json", json.dumps(manifest, sort_keys=True)+"\n")
+        # A crash before the counter rename leaves mismatched state or ambiguity,
+        # so allocation refuses. No ambiguous evidence is discarded.
+        atomic_write(state_path, json.dumps(state, sort_keys=True, separators=(",", ":"))+"\n")
+        for path in ambiguous:
+            os.replace(path, archive/path.name)
+        if counter.exists():
+            os.replace(counter, archive/"counter")
+        atomic_write(counter, str(barrier)+"\n")
+        print("backup_gdrive_status: recovery barrier generation %s; preserved evidence: %s; "
+              "requires a subsequent completed generation above the barrier" % (barrier, archive))
+
+
 def launch_failure(path, heartbeat):
     """Only a completed generation can acknowledge launch evidence."""
     heartbeat = heartbeat or {}
@@ -257,6 +462,15 @@ def launch_failure(path, heartbeat):
         counter = None
     except OSError as exc:
         return "unavailable launch generation counter: " + str(exc).replace("\n", " ")
+    state = None
+    try:
+        state = generation_state(counter_path.parent/"unresolved.json")
+        if state["issued_generation"] != counter:
+            return "unresolved generation state differs from its counter; recovery required"
+    except FileNotFoundError:
+        pass
+    except (OSError, ValueError) as exc:
+        return "malformed or unavailable unresolved generations: " + str(exc).replace("\n", " ")
     journal = path.parent.parent/"memit-gdrive-backup-launch-journal/failures.jsonl"
     markers = []
     try:
@@ -311,6 +525,12 @@ def launch_failure(path, heartbeat):
     if generation is not None and (counter is None or counter < generation):
         return "missing or non-increasing launch generation counter below heartbeat"
     manual = "; manual/unsequenced heartbeat cannot acknowledge applet evidence" if generation is None else ""
+    if state is not None and state["recovery_barrier"] is not None and (completed or 0) <= state["recovery_barrier"]:
+        return "unacknowledged recovery barrier generation %s: requires a subsequent completed heartbeat%s" % (
+            state["recovery_barrier"], manual)
+    if state is not None and state.get("compaction_barrier") is not None and (completed or 0) <= state["compaction_barrier"]:
+        return "unacknowledged compacted barrier generation %s: requires a subsequent completed sequenced heartbeat%s" % (
+            state["compaction_barrier"], manual)
     if any(marker["launch_generation"] > (completed or 0) for marker in markers):
         return "failed backup launch: unacknowledged failure journal generation" + manual
     if receipt is not None:
@@ -320,14 +540,20 @@ def launch_failure(path, heartbeat):
             wrapper = receipt["wrapper_path"].replace("\r", "\\r").replace("\n", "\\n")
             return "failed backup launch (%s), generation %s: %s; at %s%s" % (
                 outcome, receipt["launch_generation"], wrapper, receipt["utc"], manual)
-    if counter is not None and counter > (completed or 0):
-        # A contender is not an owner; it cannot make the live owner's run fail.
-        refused = receipt is not None and (receipt["exit_code"] == 75 or receipt["error_number"] == 75)
-        if refused and receipt["launch_generation"] == counter:
-            return None
+    pending = None
+    if state is not None:
+        pending = next((max(low, (completed or 0)+1) for low, high in state["unresolved"]
+                        if high > (completed or 0)), None)
+    elif counter is not None and counter > (completed or 0):
+        # Import legacy evidence conservatively: a refusal clears its own launch.
+        pending = (completed or 0)+1
+        if receipt is not None and (receipt["exit_code"] == 75 or receipt["error_number"] == 75):
+            if receipt["launch_generation"] == pending:
+                pending = pending+1 if pending < counter else None
+    if pending is not None:
         if heartbeat and (heartbeat.get("end") is None or heartbeat.get("exit_code") is None):
             return None  # health() will report the owner's incomplete run.
-        return "unacknowledged launch generation %s: no completed heartbeat%s" % (counter, manual)
+        return "unacknowledged launch generation %s: no completed heartbeat%s" % (pending, manual)
     return None
 
 def health(path):
@@ -422,6 +648,16 @@ def health(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--heartbeat", default=str(DEFAULT))
+    if sys.argv[1:2] == ["recover"]:
+        parser.add_argument("--generation-floor", type=int, required=True,
+                            help="operator-reviewed greatest generation ever issued, including lost history; must be at least every observed generation (lower floors refuse without changing evidence)")
+        args = parser.parse_args(sys.argv[2:])
+        try:
+            recover(args)
+            return 0
+        except (OSError, ValueError) as exc:
+            print("backup_gdrive_status: recovery refused: " + str(exc), file=sys.stderr)
+            return 1
     if sys.argv[1:2] == ["preflight"]:
         parser.add_argument("--rclone", required=True)
         parser.add_argument("--source", required=True)

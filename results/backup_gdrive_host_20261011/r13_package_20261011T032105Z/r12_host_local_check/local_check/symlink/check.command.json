@@ -1,0 +1,49 @@
+{
+  "argv": [
+    "/opt/homebrew/bin/rclone",
+    "check",
+    "/private/tmp/drive_r11_r12_host_local_check_23jfds7_/home/content_symlink/source",
+    "/private/tmp/drive_r11_r12_host_local_check_23jfds7_/home/content_symlink/destination",
+    "--one-way",
+    "--exclude-from",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_mirror.excludes",
+    "--exclude",
+    "**/.git/objects/**/tmp_obj_*",
+    "--exclude",
+    "**/.git/objects/tmp_obj_*",
+    "--exclude",
+    "/.git/objects/**/tmp_obj_*",
+    "--exclude",
+    "/.git/objects/tmp_obj_*",
+    "--links",
+    "--combined",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r12_host_local_check/local_check/symlink/combined.txt",
+    "--differ",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r12_host_local_check/local_check/symlink/differ.txt",
+    "--missing-on-dst",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r12_host_local_check/local_check/symlink/missing-on-dst.txt",
+    "--error",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r12_host_local_check/local_check/symlink/error.txt",
+    "--log-file",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r12_host_local_check/local_check/symlink/check.log",
+    "--log-level",
+    "DEBUG",
+    "--log-format",
+    "date,time",
+    "--stats",
+    "0",
+    "--retries",
+    "1"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "niceness": 0,
+  "env": {
+    "HOME": "/private/tmp/drive_r11_r12_host_local_check_23jfds7_/home"
+  },
+  "source_sha256": {
+    "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/run_local_check.py": "4e008d7b74745b87b8c5b4b7ee82b15e363d5ad980f10614a77bcd46c83be8ad",
+    "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/verify_check.py": "4963b46b677fc86002cc8b0bdae3c1b273281fa627d5c85c538dfe208a08ce5f",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f"
+  }
+}

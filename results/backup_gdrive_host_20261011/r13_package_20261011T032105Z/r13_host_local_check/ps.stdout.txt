@@ -1,0 +1,718 @@
+  PID  PPID  PGID STAT     ELAPSED COMMAND
+    1     0     1 Ss   17-08:50:35 /sbin/launchd
+   96     1    96 Ss   17-08:50:25 /usr/libexec/logd
+   98     1    98 Ss   17-08:50:25 /usr/libexec/UserEventAgent (System)
+  100     1   100 Ss   17-08:50:25 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/FSEvents.framework/Versions/A/Support/fseventsd
+  101     1   101 Ss   17-08:50:25 /System/Library/PrivateFrameworks/MediaRemote.framework/Support/mediaremoted
+  104     1   104 Ss   17-08:50:25 /usr/sbin/systemstats --daemon
+  108     1   108 Ss   17-08:50:25 /usr/libexec/configd
+  110     1   110 Ss   17-08:50:25 /System/Library/CoreServices/powerd.bundle/powerd
+  111     1   111 Ss   17-08:50:25 /usr/libexec/IOMFB_bics_daemon
+  115     1   115 Ss   17-08:50:25 /usr/libexec/remoted
+  119     1   119 Ss   17-08:50:25 /System/Library/PrivateFrameworks/CoreSpeech.framework/corespeechd_system
+  121     1   121 Ss   17-08:50:25 /usr/libexec/watchdogd
+  125     1   125 Ss   17-08:50:25 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mds
+  127     1   127 Ss   17-08:50:25 /usr/libexec/kernelmanagerd
+  128     1   128 Ss   17-08:50:25 /usr/libexec/diskarbitrationd
+  132     1   132 Ss   17-08:50:25 /usr/sbin/syslogd
+  134     1   134 Ss   17-08:50:25 /usr/libexec/thermalmonitord
+  135     1   135 Ss   17-08:50:25 /System/Library/PrivateFrameworks/CoreDuetContext.framework/Resources/contextstored
+  136     1   136 Ss   17-08:50:25 /usr/libexec/xprotectd
+  137     1   137 Ss   17-08:50:25 /usr/libexec/opendirectoryd
+  138     1   138 Ss   17-08:50:25 /System/Library/PrivateFrameworks/ApplePushService.framework/apsd
+  139     1   139 Ss   17-08:50:25 /System/Library/CoreServices/launchservicesd
+  140     1   140 Ss   17-08:50:25 /usr/libexec/timed
+  141     1   141 Ss   17-08:50:25 /System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/usbmuxd -launchd
+  142     1   142 Ss   17-08:50:25 /usr/sbin/securityd -i
+  144     1   144 Ss   17-08:50:25 /usr/libexec/locationd
+  147     1   147 Ss   17-08:50:25 autofsd
+  148     1   148 Ss   17-08:50:25 /usr/libexec/dasd
+  149     1   149 Ss   17-08:50:25 /System/Library/PrivateFrameworks/Heimdal.framework/Helpers/kdc
+  150     1   150 Ss   17-08:50:25 /usr/libexec/corerepaird
+  152     1   152 Ss   17-08:50:25 /usr/sbin/distnoted daemon
+  156     1   156 Ss   17-08:50:25 /System/Library/CoreServices/logind
+  157     1   157 Ss   17-08:50:25 /System/Library/PrivateFrameworks/GenerationalStorage.framework/Versions/A/Support/revisiond
+  158     1   158 Ss   17-08:50:25 /usr/sbin/KernelEventAgent
+  162     1   162 Ss   17-08:50:25 /usr/sbin/bluetoothd
+  163     1   163 Ss   17-08:50:25 /usr/sbin/notifyd
+  165     1   165 Ss   17-08:50:25 /usr/libexec/corebrightnessd --launchd
+  166     1   166 Ss   17-08:50:25 /usr/libexec/AirPlayXPCHelper
+  167     1   167 Ss   17-08:50:25 /System/Library/Frameworks/CoreMediaIO.framework/Versions/A/Resources/com.apple.cmio.registerassistantservice
+  169     1   169 Ss   17-08:50:25 /System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer -daemon
+  171     1   171 Ss   17-08:50:25 /System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow console
+  172     1   172 Ss   17-08:50:25 /usr/sbin/cfprefsd daemon
+  173     1   173 Ss   17-08:50:25 /usr/libexec/runningboardd
+  175     1   175 Ss   17-08:50:24 /System/Library/CoreServices/coreservicesd
+  184     1   184 Ss   17-08:50:24 /usr/libexec/lsd runAsRoot
+  186     1   186 Ss   17-08:50:24 /usr/sbin/coreaudiod
+  189     1   189 Ss   17-08:50:24 /usr/sbin/mDNSResponder
+  191     1   191 Ss   17-08:50:24 /usr/libexec/apfsd
+  194     1   194 Ss   17-08:50:24 /usr/libexec/nsurlsessiond --privileged
+  196     1   196 Ss   17-08:50:24 /System/Library/PrivateFrameworks/CoreAnalytics.framework/Support/analyticsd
+  201     1   201 Ss   17-08:50:24 /usr/libexec/airportd
+  204     1   204 Ss   17-08:50:24 /usr/libexec/symptomsd
+  209     1   209 Ss   17-08:50:24 /usr/libexec/eligibilityd
+  211     1   211 Ss   17-08:50:24 /System/Library/Frameworks/Security.framework/Versions/A/XPCServices/authd.xpc/Contents/MacOS/authd
+  213     1   213 S    17-08:50:24 /usr/sbin/distnoted agent
+  214     1   214 Ss   17-08:50:24 /usr/libexec/syspolicyd
+  217     1   217 S    17-08:50:24 /usr/sbin/distnoted agent
+  221     1   221 Ss   17-08:50:24 /usr/libexec/corercd
+  226     1   226 Ss   17-08:50:24 /usr/libexec/ApplicationFirewall/socketfilterfw
+  228     1   228 S    17-08:50:24 /usr/sbin/distnoted agent
+  242     1   242 Ss   17-08:50:23 /usr/sbin/mDNSResponderHelper
+  249     1   249 Ss   17-08:50:23 Core Audio Driver (ParrotAudioPlugin.driver)
+  251     1   251 Ss   17-08:50:23 /usr/libexec/audiomxd
+  254     1   254 Ss   17-08:50:23 /usr/libexec/audioclocksyncd
+  261     1   261 S    17-08:50:23 /usr/sbin/distnoted agent
+  269     1   269 S    13-23:21:02 /System/Library/CoreServices/Dock.app/Contents/MacOS/Dock
+  290     1   290 Ss   17-08:50:23 /usr/libexec/com.apple.cmio.videodriverkithostextension.systemextension/Contents/MacOS/com.apple.cmio.videodriverkithostextension
+  292     1   292 Ss   17-08:50:23 /usr/sbin/appleh13camerad
+  296     1   296 Ss   17-08:50:23 /usr/libexec/modelmanagerd
+  300     1   300 Ss   17-08:50:22 /System/Library/DriverExtensions/com.apple.DriverKit-IOUserDockChannelSerial.dext/com.apple.DriverKit-IOUserDockChannelSerial com.apple.IOUserDockChannelSerial 0x100000f63 com.apple.DriverKit-IOUserDockChannelSerial
+  303     1   303 Ss   17-08:50:22 /System/Library/DriverExtensions/com.apple.AppleUserHIDDrivers.dext/com.apple.AppleUserHIDDrivers com.apple.driverkit.AppleUserHIDDrivers 0x100000f66 com.apple.AppleUserHIDDrivers
+  304     1   304 Ss   17-08:50:22 /System/Library/DriverExtensions/com.apple.DriverKit-AppleBCMWLAN.dext/com.apple.DriverKit-AppleBCMWLAN com.apple.bcmwlan 0x100000f6d com.apple.DriverKit-AppleBCMWLAN
+  313     1   313 Ss   17-08:50:22 /usr/libexec/cameracaptured
+  314     1   314 Ss   17-08:50:22 /System/Library/Frameworks/CoreMediaIO.framework/Versions/A/Resources/UVCAssistant.systemextension/Contents/MacOS/UVCAssistant
+  320     1   320 Ss   17-08:50:22 /System/Library/CoreServices/appleeventsd --server
+  324     1   324 Ss   17-08:50:21 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mds_stores
+  327     1   327 S    17-08:50:21 /usr/sbin/distnoted agent
+  329     1   329 S    17-08:50:21 /usr/sbin/distnoted agent
+  333     1   333 Ss   17-08:50:21 /System/Library/CoreServices/Software Update.app/Contents/Resources/suhelperd
+  344     1   344 Ss   13-23:21:02 /System/Library/CoreServices/Dock.app/Contents/XPCServices/com.apple.dock.extra.xpc/Contents/MacOS/com.apple.dock.extra
+  346     1   346 Ss   17-08:50:20 /usr/libexec/searchpartyd
+  347     1   347 S    17-08:50:20 /usr/sbin/distnoted agent
+  349     1   349 S    17-08:50:20 /usr/sbin/distnoted agent
+  354     1   354 Ss   17-08:50:20 /System/Library/Frameworks/LocalAuthentication.framework/Support/coreauthd
+  355     1   355 Ss   17-08:50:20 /usr/sbin/filecoordinationd
+  359     1   359 S    17-08:50:20 /usr/sbin/distnoted agent
+  364     1   364 Ss   17-08:50:19 /System/Library/Frameworks/CryptoTokenKit.framework/ctkahp.bundle/Contents/MacOS/ctkahp -d
+  365     1   365 S    17-08:50:19 /usr/sbin/distnoted agent
+  368     1   368 S    17-08:50:19 /usr/sbin/distnoted agent
+  371     1   371 Ss   17-08:50:19 /System/Library/Frameworks/CryptoTokenKit.framework/ctkd -st
+  387     1   387 S    17-08:50:18 /usr/libexec/lsd
+  399     1   399 S    17-08:50:18 /usr/sbin/distnoted agent
+  415     1   415 S    17-08:50:17 /usr/sbin/distnoted agent
+  421   104   104 S    17-08:50:16 /usr/sbin/systemstats --logger-helper /private/var/db/systemstats
+  441     1   441 Ss   17-08:50:13 /System/Library/PrivateFrameworks/AmbientDisplay.framework/Versions/A/XPCServices/com.apple.AmbientDisplayAgent.xpc/Contents/MacOS/com.apple.AmbientDisplayAgent
+  443     1   443 Ss   17-08:50:10 /System/Library/DriverExtensions/IOUserBluetoothSerialDriver.dext/IOUserBluetoothSerialDriver com.apple.IOUserBluetoothSerialDriver 0x100001184 com.apple.IOUserBluetoothSerialDriver
+  450     1   450 S    17-08:50:06 /usr/libexec/UserEventAgent (Aqua)
+  457     1   457 S    17-08:50:06 /usr/sbin/universalaccessd launchd -s
+  459     1   459 S    17-08:50:06 /usr/libexec/pboard
+  460     1   460 S    17-08:50:06 /System/Library/Frameworks/InputMethodKit.framework/Resources/imklaunchagent
+  463     1   463 S    17-08:50:06 /System/Library/CoreServices/WindowManager.app/Contents/MacOS/WindowManager
+  468     1   468 S    17-08:50:06 /usr/libexec/nsurlsessiond
+  469     1   469 S    17-08:50:06 /usr/libexec/rapportd
+  472     1   472 S    17-08:50:06 /usr/sbin/usernoted
+  474     1   474 S    17-08:50:06 /System/Library/CoreServices/lockoutagent
+  478     1   478 S    17-08:50:06 /System/Library/PrivateFrameworks/UserNotificationsCore.framework/Support/usernotificationsd
+  481     1   481 S    17-08:50:06 /usr/sbin/distnoted agent
+  487     1   487 S    17-08:50:06 /System/Library/PrivateFrameworks/IDS.framework/identityservicesd.app/Contents/MacOS/identityservicesd
+  489     1   489 S    17-08:50:06 /System/Library/CoreServices/WiFiAgent.app/Contents/MacOS/WiFiAgent
+  492     1   492 S    17-08:50:06 /System/Library/PrivateFrameworks/ScreenTimeCore.framework/Versions/A/ScreenTimeAgent
+  496     1   496 S    17-08:50:06 /System/Library/Frameworks/LocalAuthentication.framework/Support/coreauthd
+  497     1   497 S    17-08:50:06 /usr/libexec/sharingd
+  509     1   509 S    17-08:50:05 /System/Applications/TextEdit.app/Contents/MacOS/TextEdit
+  511     1   511 S    17-08:50:05 /System/Library/CoreServices/ControlCenter.app/Contents/MacOS/ControlCenter
+  512     1   512 S    17-08:50:05 /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd
+  513     1   513 S    17-08:50:05 /System/Library/CoreServices/SystemUIServer.app/Contents/MacOS/SystemUIServer
+  514     1   514 S    17-08:50:05 /System/Library/CoreServices/Finder.app/Contents/MacOS/Finder
+  517     1   517 S    17-08:50:05 /System/Library/CoreServices/AccessibilityUIServer.app/Contents/MacOS/AccessibilityUIServer
+  518     1   518 S    17-08:50:05 /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/fontworker
+  520     1   520 S    17-08:50:05 /System/Library/CoreServices/WallpaperAgent.app/Contents/MacOS/WallpaperAgent
+  521     1   521 S    17-08:50:05 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/corespotlightd
+  528     1   528 S    17-08:50:05 /usr/libexec/ContinuityCaptureAgent server
+  530     1   530 S    17-08:50:05 /System/Library/PrivateFrameworks/ViewBridge.framework/Versions/A/XPCServices/ViewBridgeAuxiliary.xpc/Contents/MacOS/ViewBridgeAuxiliary
+  532     1   532 S    17-08:50:05 /System/Library/PrivateFrameworks/FileProvider.framework/Support/fileproviderd
+  533     1   533 Ss   17-08:50:05 automountd
+  535     1   535 S    17-08:50:05 /System/Library/CoreServices/sharedfilelistd
+  537     1   537 S    17-08:50:05 /System/Library/PrivateFrameworks/AMPDevices.framework/Versions/A/Support/AMPDeviceDiscoveryAgent --launchd
+  540     1   540 Ss   17-08:50:05 /System/Library/Input Methods/PressAndHold.app/Contents/PlugIns/PAH_Extension.appex/Contents/MacOS/PAH_Extension -AppleLanguages ("en-US")
+  547     1   547 S    17-08:50:04 /System/Library/PrivateFrameworks/ChronoCore.framework/Support/chronod
+  548     1   548 Ss   17-08:50:04 /System/Library/ExtensionKit/Extensions/WallpaperAerialsExtension.appex/Contents/MacOS/WallpaperAerialsExtension -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwidHlwZSI6MSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUud2FsbHBhcGVyLmV4dGVuc2lvbi5hZXJpYWxzIn0=
+  553     1   553 Ss   17-08:50:04 /usr/libexec/rosetta/oahd
+  561     1   561 Ss   17-08:50:04 /usr/libexec/nearbyd
+  563     1   563 S    17-08:50:04 /System/Library/PrivateFrameworks/CommunicationsFilter.framework/CMFSyncAgent
+  569     1   569 S    17-08:50:04 /System/Library/CoreServices/NotificationCenter.app/Contents/MacOS/NotificationCenter
+  572     1   572 S    17-08:50:03 /System/Library/PrivateFrameworks/FamilyCircle.framework/Versions/A/Resources/familycircled
+  573     1   573 S    17-08:50:03 /System/Library/PrivateFrameworks/StatusKit.framework/StatusKitAgent
+  574     1   574 S    17-08:50:03 /System/Library/PrivateFrameworks/AuthKit.framework/Versions/A/Support/akd
+  592     1   592 Ss   17-08:50:01 /System/Applications/Weather.app/Contents/PlugIns/WeatherWidget.appex/Contents/MacOS/WeatherWidget -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUud2VhdGhlci53aWRnZXQiLCJ0eXBlIjoxfQ==
+  600     1   600 S    17-08:50:01 /System/Library/PrivateFrameworks/UserActivity.framework/Agents/useractivityd
+  608     1   608 Ss   17-08:50:00 /System/Library/CoreServices/SubmitDiagInfo server-init
+  611     1   611 S    17-08:50:00 /usr/libexec/avconferenced
+  612     1   612 S    17-08:50:00 /System/Library/PrivateFrameworks/MediaRemote.framework/Support/mediaremoteagent
+  616     1   616 S    17-08:50:00 /System/Library/CoreServices/Spotlight.app/Contents/MacOS/Spotlight
+  622     1   622 S    17-08:49:59 /System/Library/CoreServices/UniversalControl.app/Contents/MacOS/UniversalControl
+  627     1   627 S    17-08:49:59 /System/Library/PrivateFrameworks/TextInputUIMacHelper.framework/Versions/A/XPCServices/CursorUIViewService.xpc/Contents/MacOS/CursorUIViewService
+  630     1   630 Ss   17-08:49:58 /System/Library/PrivateFrameworks/CloudDocs.framework/PlugIns/com.apple.CloudDocs.iCloudDriveFileProvider.appex/Contents/MacOS/com.apple.CloudDocs.iCloudDriveFileProvider -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuQ2xvdWREb2NzLmlDbG91ZERyaXZlRmlsZVByb3ZpZGVyIiwidHlwZSI6MX0=
+  631     1   631 Ss   17-08:49:58 /System/Library/CoreServices/Batteries.app/Contents/PlugIns/BatteriesAvocadoWidgetExtension.appex/Contents/MacOS/BatteriesAvocadoWidgetExtension -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuQmF0dGVyaWVzLkJhdHRlcmllc0F2b2NhZG9XaWRnZXRFeHRlbnNpb24iLCJ0eXBlIjoxfQ==
+  652     1   652 S    17-08:49:54 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mdwrite
+  653     1   653 Ss   17-08:49:54 /System/Applications/Photos.app/Contents/PlugIns/PhotosReliveWidget.appex/Contents/MacOS/PhotosReliveWidget -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuUGhvdG9zLlBob3Rvc1JlbGl2ZVdpZGdldCIsInR5cGUiOjF9
+  662     1   662 Ss   17-08:49:54 /System/Applications/Calendar.app/Contents/PlugIns/CalendarWidgetExtension.appex/Contents/MacOS/CalendarWidgetExtension -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuaUNhbC5DYWxlbmRhcldpZGdldEV4dGVuc2lvbiIsInR5cGUiOjF9
+  667     1   667 SN   17-08:49:52 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mdbulkimport -s mdworker-bundle -c MDSImporterBundleFinder -m com.apple.metadata.mdbulkimport
+  674     1   674 Ss   17-08:49:49 /System/Applications/Journal.app/Contents/PlugIns/JournalWidgets.appex/Contents/MacOS/JournalWidgets -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuam91cm5hbC53aWRnZXRzIiwidHlwZSI6MX0=
+  677     1   677 Ss   17-08:49:49 /System/Applications/FindMy.app/Contents/PlugIns/FindMyWidgetPeople.appex/Contents/MacOS/FindMyWidgetPeople -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuZmluZG15LkZpbmRNeVdpZGdldFBlb3BsZSIsInR5cGUiOjF9
+  680     1   680 Ss   17-08:49:49 /System/Applications/Home.app/Contents/PlugIns/HomeEnergyWidgetsExtension.appex/Contents/MacOS/HomeEnergyWidgetsExtension -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuSG9tZS5Ib21lRW5lcmd5V2lkZ2V0cyIsInR5cGUiOjF9
+  682     1   682 Ss   17-08:49:49 /System/Applications/VoiceMemos.app/Contents/PlugIns/VoiceMemosSettingsWidgetExtension.appex/Contents/MacOS/VoiceMemosSettingsWidgetExtension -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuVm9pY2VNZW1vcy5Wb2ljZU1lbW9zU2V0dGluZ3NXaWRnZXQiLCJ0eXBlIjoxfQ==
+  692     1   692 Ss   17-08:49:47 /System/Applications/FindMy.app/Contents/PlugIns/FindMyWidgetItems.appex/Contents/MacOS/FindMyWidgetItems -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuZmluZG15LkZpbmRNeVdpZGdldEl0ZW1zIiwidHlwZSI6MX0=
+  694     1   694 Ss   17-08:49:47 /System/Applications/Home.app/Contents/PlugIns/HomeWidget.appex/Contents/MacOS/HomeWidget -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuSG9tZS5Ib21lV2lkZ2V0LkludGVyYWN0aXZlIiwidHlwZSI6MX0=
+  701     1   701 Ss   17-08:49:46 /System/Applications/VoiceMemos.app/Contents/PlugIns/RecordWidgetExtension.appex/Contents/MacOS/RecordWidgetExtension -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuVm9pY2VNZW1vcy5SZWNvcmRXaWRnZXQiLCJ0eXBlIjoxfQ==
+  702     1   702 Ss   17-08:49:46 /System/Applications/Podcasts.app/Contents/PlugIns/PodcastsWidget.appex/Contents/MacOS/PodcastsWidget -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUucG9kY2FzdHMud2lkZ2V0IiwidHlwZSI6MX0=
+  706     1   706 Ss   17-08:49:45 /System/Applications/News.app/Contents/PlugIns/NewsTag.appex/Contents/MacOS/NewsTag -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUubmV3cy50YWciLCJ0eXBlIjoxfQ==
+  708     1   708 Ss   17-08:49:45 /System/Applications/Weather.app/Contents/PlugIns/WeatherIntents.appex/Contents/MacOS/WeatherIntents -AppleLanguages ("en-US")
+  709     1   709 S    17-08:49:45 /bin/bash /Users/robertrhu/bin/process-ai-exports.sh
+  711     1   711 S    17-08:49:45 /System/Library/PrivateFrameworks/CoreSpeech.framework/corespeechd
+  720     1   720 S    17-08:49:45 /System/Library/Image Capture/Support/icdd
+  723     1   723 S    17-08:49:45 /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python /Users/robertrhu/.claude/powerline-config/server.py
+  724     1   724 S    17-08:49:45 /System/Library/CoreServices/AirPlayUIAgent.app/Contents/MacOS/AirPlayUIAgent --launchd
+  728     1   728 S    17-08:49:45 /System/Library/CoreServices/diagnostics_agent
+  729     1   729 S    17-08:49:45 /System/Library/CoreServices/TextInputMenuAgent.app/Contents/MacOS/TextInputMenuAgent
+  731     1   731 S    17-08:49:45 /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python /Users/robertrhu/.harness-dashboard/serve.py
+  735     1   735 S    17-08:49:45 /System/Library/Frameworks/CryptoTokenKit.framework/ctkahp.bundle/Contents/MacOS/ctkahp
+  747     1   747 Ss   17-08:49:43 /System/Applications/News.app/Contents/PlugIns/NewsToday2.appex/Contents/MacOS/NewsToday2 -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUubmV3cy53aWRnZXQiLCJ0eXBlIjoxfQ==
+  753     1   753 Ss   17-08:49:42 /System/Applications/Clock.app/Contents/PlugIns/WorldClockWidget.appex/Contents/MacOS/WorldClockWidget -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuY2xvY2suV29ybGRDbG9ja1dpZGdldCIsInR5cGUiOjF9
+  755     1   755 Ss   17-08:49:42 /System/Applications/Journal.app/Contents/PlugIns/JournalWidgetsSecure.appex/Contents/MacOS/JournalWidgetsSecure -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuam91cm5hbC53aWRnZXRzLnNlY3VyZSIsInR5cGUiOjF9
+  756   709   709 S    17-08:49:42 /opt/homebrew/bin/fswatch -0 --event Created /Users/robertrhu/openclaw-inbox/exports
+  757   709   709 S    17-08:49:42 /bin/bash /Users/robertrhu/bin/process-ai-exports.sh
+  758     1   758 Ss   17-08:49:42 /System/Library/CoreServices/Screen Time.app/Contents/PlugIns/ScreenTimeWidgetExtension.appex/Contents/MacOS/ScreenTimeWidgetExtension -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuU2NyZWVuVGltZVdpZGdldEFwcGxpY2F0aW9uLlNjcmVlblRpbWVXaWRnZXRFeHRlbnNpb24iLCJ0eXBlIjoxfQ==
+  759     1   759 Ss   17-08:49:41 /System/Applications/Stocks.app/Contents/PlugIns/StocksWidget.appex/Contents/MacOS/StocksWidget -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuc3RvY2tzLndpZGdldCIsInR5cGUiOjF9
+  760     1   760 Ss   17-08:49:41 /System/Library/PrivateFrameworks/MobileTimer.framework/PlugIns/MobileTimerIntents.appex/Contents/MacOS/MobileTimerIntents -AppleLanguages ("en-US")
+  761     1   761 Ss   17-08:49:41 /System/Library/CoreServices/Screen Time.app/Contents/PlugIns/ScreenTimeWidgetIntentsExtension.appex/Contents/MacOS/ScreenTimeWidgetIntentsExtension -AppleLanguages ("en-US")
+  762     1   762 Ss   17-08:49:41 /System/Applications/News.app/Contents/PlugIns/NewsTodayIntents.appex/Contents/MacOS/NewsTodayIntents -AppleLanguages ("en-US")
+  784     1   784 S    17-08:49:31 /usr/sbin/distnoted agent
+  791     1   791 Ss   17-08:49:29 /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMServer
+  806     1   806 S    17-08:49:29 /usr/sbin/distnoted agent
+  818     1   818 Ss   17-08:49:28 /System/Library/PrivateFrameworks/CoreFP.framework/Versions/A/fairplayd
+  952     1   952 Ss   17-08:48:42 /System/Library/CoreServices/CrashReporterSupportHelper server-init
+ 1000     1  1000 S    17-08:48:30 /System/Library/Frameworks/CoreSpotlight.framework/spotlightknowledged -x
+ 1039     1  1039 S    17-08:48:17 /usr/sbin/distnoted agent
+ 1080     1  1080 S    17-08:48:06 /System/Library/PrivateFrameworks/People.framework/peopled
+ 1133     1  1133 S    17-08:47:48 /usr/libexec/tipsd
+ 3387     1  3387 S    03-04:52:11 /opt/homebrew/bin/tailscaled --tun=userspace-networking --statedir=/Users/robertrhu/Library/Application Support/tailscale-user --socket=/Users/robertrhu/Library/Application Support/tailscale-user/tailscaled.sock
+ 3577     1  3577 S    10-08:44:21 /System/Cryptexes/App/usr/libexec/PasswordBreachAgent
+ 4071  9204  9204 S       20:47:57 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=4493 --launch-time-ticks=1425758573399 --shared-files --metrics-shmem-handle=1752395122,r,6998864580864972646,6166140470562615529,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190713196440899051 --seatbelt-client=50
+ 4211     1  4211 Ss      10:34:51 /usr/libexec/PerfPowerServices
+ 5564     1  5564 S    04-04:45:02 /System/Library/Frameworks/Contacts.framework/Support/contactsd
+ 6359     1  6359 S    03-01:50:13 /System/Library/PrivateFrameworks/AppStoreDaemon.framework/Support/appstoreagent
+ 9204     1  9204 S    16-05:59:52 /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+ 9217     1  9216 S    16-05:59:52 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/chrome_crashpad_handler --monitor-self-annotation=ptype=crashpad-handler --database=/Users/robertrhu/Library/Application Support/Google/Chrome/Crashpad --metrics-dir=/Users/robertrhu/Library/Application Support/Google/Chrome --url=https://clients2.google.com/cr/report --annotation=channel= --annotation=plat=OS X --annotation=prod=Chrome_Mac --annotation=ver=153.0.8010.53 --handshake-fd=5
+ 9232  9204  9204 S    16-05:59:52 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper --type=gpu-process --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --gpu-preferences=WAAAAAAAAAAgAQAEAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAoAAAAAAAAAAgAAAAAAAAADAAAAAEAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA= --shared-files --metrics-shmem-handle=1752395122,r,17492070107431552105,3227404990490070704,262144 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190708988185955192 --seatbelt-client=25
+ 9233  9204  9204 S    16-05:59:52 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=network --disable-quic --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --shared-files --metrics-shmem-handle=1752395122,r,2745149481044676050,6570021842173621612,524288 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190708989122997041 --seatbelt-client=16
+ 9240  9204  9204 S    16-05:59:52 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper --type=utility --utility-sub-type=storage.mojom.StorageService --lang=en-US --service-sandbox-type=service --disable-quic --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --shared-files --metrics-shmem-handle=1752395122,r,3912895213075760681,4432859152880817877,524288 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190708990060038890 --seatbelt-client=28
+ 9488  9204  9204 S    16-05:59:50 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --top-chrome-webui --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=10 --launch-time-ticks=96653150745 --shared-files --metrics-shmem-handle=1752395122,r,13069401751748064342,4065078245345412606,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190708995682289984 --seatbelt-client=138
+ 9505     1  9505 Ss   16-05:59:50 /System/Library/PrivateFrameworks/SafariPlatformSupport.framework/Versions/A/XPCServices/com.apple.SafariPlatformSupport.Helper.xpc/Contents/MacOS/com.apple.SafariPlatformSupport.Helper
+10283     1 10283 S    13-12:46:02 /System/Library/PrivateFrameworks/KerberosHelper/Helpers/DiskUnmountWatcher
+13019     1 13019 Ss   05-10:13:24 /System/Library/ExtensionKit/Extensions/TGOnDeviceInferenceProviderService.appex/Contents/MacOS/TGOnDeviceInferenceProviderService -LaunchArguments eyJzZXJ2aWNlTmFtZSI6ImNvbS5hcHBsZS50Z29uZGV2aWNlaW5mZXJlbmNlcHJvdmlkZXJzZXJ2aWNlIiwidHlwZSI6OCwiZW5oYW5jZWRTZWN1cml0eSI6ZmFsc2V9
+13020     1 13020 S    05-10:13:24 /usr/sbin/distnoted agent
+14433     1 14433 S    16-20:44:54 /usr/sbin/distnoted agent
+16112  9204  9204 S    16-05:58:28 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=32 --launch-time-ticks=96734566916 --shared-files --metrics-shmem-handle=1752395122,r,17951431106394157750,4224189992317585858,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190709016297210662 --seatbelt-client=107
+16736  9204  9204 S    16-05:58:21 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=38 --launch-time-ticks=96742321423 --shared-files --metrics-shmem-handle=1752395122,r,9547453918871236631,17718944947579157010,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190709021919461756 --seatbelt-client=165
+17037  9204  9204 S    16-05:58:17 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper --type=utility --utility-sub-type=audio.mojom.AudioService --lang=en-US --service-sandbox-type=audio --disable-quic --message-loop-type-ui --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --shared-files --metrics-shmem-handle=1752395122,r,6520466939500025726,3675528906210671778,524288 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190709024730587303 --seatbelt-client=189
+17038  9204  9204 S    16-05:58:17 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper.app/Contents/MacOS/Google Chrome Helper --type=utility --utility-sub-type=video_capture.mojom.VideoCaptureService --lang=en-US --service-sandbox-type=none --disable-quic --message-loop-type-ui --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --shared-files --metrics-shmem-handle=1752395122,r,465905115235062941,813109174069222194,524288 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190709025667629152
+17059     1 17059 SNs  01-18:03:01 /usr/sbin/netbiosd
+18750     1 18750 S    02-21:33:34 /System/Library/PrivateFrameworks/SocialLayer.framework/sociallayerd.app/Contents/MacOS/sociallayerd
+19341     1 19341 Ss   15-22:02:00 /usr/libexec/wifivelocityd
+21268     1 21268 SNs  02-19:08:15 /opt/homebrew/bin/tmux new-session -d -s program -x 220 -y 55 -c /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a /Users/robertrhu/.local/bin/claude --permission-mode auto --model claude-opus-5-5 "Resume the LLM-as-Database program as lead experimentalist (MAESTRO, full baton, operator asleep). Read SESSION_CHECKPOINT.md top block '⚠ RECOVERY HANDOFF - 2026-10-08 ~02:30 MDT' and follow its recovery steps exactly: rebuild the dashboard, resume the three Codex builds with codex resume, re-arm the watcher, then continue the 24-H PLAN. Recall memories tmux-server-hang-dashboard, rerun-never-patch, dashboard-live-derivation."
+25095     1 25095 S    03-16:08:55 /usr/libexec/swtransparencyd
+25111     1 25111 Ss      04:34:11 tmux -L new1 new-session -d -s new1 -c /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+26366 20225 26366 SNs        18:00 /bin/zsh -c -l setopt NO_EXTENDED_GLOB NO_BARE_GLOB_QUAL 2>/dev/null || true && { \builtin unalias -- 'unsetenv'; \builtin unset -f -- 'unsetenv'; } >/dev/null 2>&1 || true && eval 'APID=99999999 WATCH_SESSIONS="codexmb45" zsh /private/tmp/claude-501/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory--claude-worktrees-c10k-route-a/9e972778-c6d6-406b-bcf3-5d52e8e90944/scratchpad/watch.sh 2>&1 | grep -v --line-buffered '"'"'PROC 99999999'"'"'' < /dev/null && pwd -P >| /tmp/claude-c5e7-cwd
+26377 26366 26366 SN         18:00 zsh /private/tmp/claude-501/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory--claude-worktrees-c10k-route-a/9e972778-c6d6-406b-bcf3-5d52e8e90944/scratchpad/watch.sh
+26378 26366 26366 SN         18:00 grep -v --line-buffered PROC 99999999
+26926     1 26926 S    03-01:47:27 /System/Library/PrivateFrameworks/AssistantServices.framework/Versions/A/Support/assistantd
+26949     1 26949 S    15-11:53:06 /System/Library/PrivateFrameworks/UniversalAccess.framework/Versions/A/Resources/universalAccessAuthWarn.app/Contents/MacOS/universalAccessAuthWarn launchd -s
+28386     1 28386 S       09:58:30 /Applications/Antigravity IDE.app/Contents/MacOS/Electron
+28391     1 28390 S       09:58:30 /Applications/Antigravity IDE.app/Contents/Frameworks/Electron Framework.framework/Helpers/chrome_crashpad_handler --no-rate-limit --monitor-self-annotation=ptype=crashpad-handler --database=/Users/robertrhu/Library/Application Support/Antigravity IDE/Crashpad --annotation=_companyName=Google --annotation=_productName=Antigravity IDE --annotation=_version=1.107.0 --annotation=plat=OS X --annotation=prod=Electron --annotation=ver=39.2.3 --handshake-fd=21
+28392 28386 28386 S       09:58:30 /Applications/Antigravity IDE.app/Contents/Frameworks/Antigravity IDE Helper (GPU).app/Contents/MacOS/Antigravity IDE Helper (GPU) --type=gpu-process --user-data-dir=/Users/robertrhu/Library/Application Support/Antigravity IDE --gpu-preferences=SAAAAAAAAAAgAAAEAAAAAAAAAAAAAGAAAwAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA== --shared-files --field-trial-handle=1718379636,r,10491824144819075430,10717907073120958296,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708988185955192 --seatbelt-client=33
+28393 28386 28386 S       09:58:30 /Applications/Antigravity IDE.app/Contents/Frameworks/Antigravity IDE Helper.app/Contents/MacOS/Antigravity IDE Helper --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=network --user-data-dir=/Users/robertrhu/Library/Application Support/Antigravity IDE --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,10491824144819075430,10717907073120958296,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708989122997041 --seatbelt-client=33
+28395 28386 28386 S       09:58:29 /Applications/Antigravity IDE.app/Contents/Frameworks/Antigravity IDE Helper (Renderer).app/Contents/MacOS/Antigravity IDE Helper (Renderer) --type=renderer --user-data-dir=/Users/robertrhu/Library/Application Support/Antigravity IDE --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --app-path=/Applications/Antigravity IDE.app/Contents/Resources/app --enable-sandbox --enable-blink-features=HighlightAPI --disable-blink-features=FontMatchingCTMigration,StandardizedBrowserZoom, --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=4 --time-ticks-at-unix-epoch=-1790189192795830 --launch-time-ticks=1464726560924 --shared-files --field-trial-handle=1718379636,r,10491824144819075430,10717907073120958296,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708990060038890 --vscode-window-config=vscode:d4a75ea6-ce33-4426-880a-3caeacf34c8f --seatbelt-client=69
+28447 28386 28386 S       09:58:29 /Applications/Antigravity IDE.app/Contents/Resources/app/extensions/antigravity/bin/language_server_macos_arm --csrf_token e0631a50-e0bd-4be5-a268-a185467a9d79 --extension_server_port 49872 --extension_server_csrf_token 0c5cb466-023d-41e9-9f53-4b849201eb9b --app_data_dir antigravity-ide --subclient_type ide --cloud_code_endpoint https://cloudcode-pa.googleapis.com
+28448 28386 28386 S       09:58:28 /Applications/Antigravity IDE.app/Contents/Frameworks/Antigravity IDE Helper.app/Contents/MacOS/Antigravity IDE Helper --type=utility --utility-sub-type=audio.mojom.AudioService --lang=en-US --service-sandbox-type=audio --message-loop-type-ui --user-data-dir=/Users/robertrhu/Library/Application Support/Antigravity IDE --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,10491824144819075430,10717907073120958296,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708990997080739 --seatbelt-client=85
+28449 28386 28386 S       09:58:28 /Applications/Antigravity IDE.app/Contents/Frameworks/Antigravity IDE Helper (Plugin).app/Contents/MacOS/Antigravity IDE Helper (Plugin) --type=utility --utility-sub-type=video_capture.mojom.VideoCaptureService --lang=en-US --service-sandbox-type=none --message-loop-type-ui --user-data-dir=/Users/robertrhu/Library/Application Support/Antigravity IDE --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,10491824144819075430,10717907073120958296,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708991934122588
+28450 28386 28386 S       09:58:28 /Applications/Antigravity IDE.app/Contents/Frameworks/Antigravity IDE Helper (Plugin).app/Contents/MacOS/Antigravity IDE Helper (Plugin) --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --user-data-dir=/Users/robertrhu/Library/Application Support/Antigravity IDE --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,10491824144819075430,10717907073120958296,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708993808206286
+28451 28386 28386 S       09:58:28 /Applications/Antigravity IDE.app/Contents/Frameworks/Antigravity IDE Helper.app/Contents/MacOS/Antigravity IDE Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --user-data-dir=/Users/robertrhu/Library/Application Support/Antigravity IDE --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,10491824144819075430,10717907073120958296,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708994745248135
+28452 28386 28386 S       09:58:28 /Applications/Antigravity IDE.app/Contents/Frameworks/Antigravity IDE Helper.app/Contents/MacOS/Antigravity IDE Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --user-data-dir=/Users/robertrhu/Library/Application Support/Antigravity IDE --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,10491824144819075430,10717907073120958296,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708995682289984
+28454 28447 28386 S       09:58:28 npm exec chrome-devtools-mcp@latest --autoConnect --no-usage-statistics --no-performance-crux      
+28461     1 28461 Ss      09:58:28 /System/Library/PrivateFrameworks/SafariPlatformSupport.framework/Versions/A/XPCServices/com.apple.SafariPlatformSupport.Helper.xpc/Contents/MacOS/com.apple.SafariPlatformSupport.Helper
+28462 28386 28386 S       09:58:28 /Applications/Antigravity IDE.app/Contents/Frameworks/Antigravity IDE Helper.app/Contents/MacOS/Antigravity IDE Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --user-data-dir=/Users/robertrhu/Library/Application Support/Antigravity IDE --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,10491824144819075430,10717907073120958296,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708996619331833
+28508 28450 28386 S       09:58:28 /Applications/Antigravity IDE.app/Contents/Frameworks/Antigravity IDE Helper (Plugin).app/Contents/MacOS/Antigravity IDE Helper (Plugin) /Applications/Antigravity IDE.app/Contents/Resources/app/extensions/markdown-language-features/dist/serverWorkerMain --node-ipc --clientProcessId=28450
+28528 28454 28386 S       09:58:28 chrome-devtools-mcp    
+28617 28450 28386 S       09:58:27 /Applications/Antigravity IDE.app/Contents/Resources/app/extensions/antigravity/bin/language_server_macos_arm --enable_lsp --csrf_token 8ac0e484-3024-45e4-b11d-55463b2e6f41 --extension_server_port 49908 --extension_server_csrf_token 8cd5d70a-eb45-4f88-bc11-2d1c69f9db9b --workspace_id file_Volumes_memit_llm_database_poc_mirror --cloud_code_endpoint https://daily-cloudcode-pa.googleapis.com --subclient_type ide --app_data_dir antigravity-ide --parent_pipe_path /var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/server_71217635ae12ddc6
+28656 28617 28386 S       09:58:27 npm exec chrome-devtools-mcp@latest --autoConnect --no-usage-statistics --no-performance-crux      
+28744 28656 28386 S       09:58:26 chrome-devtools-mcp    
+29552 28450 28386 S       09:57:55 /Applications/Antigravity IDE.app/Contents/Frameworks/Antigravity IDE Helper (Plugin).app/Contents/MacOS/Antigravity IDE Helper (Plugin) /Applications/Antigravity IDE.app/Contents/Resources/app/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=28450
+30133     1 30133 S          15:37 /System/Library/PrivateFrameworks/MediaAnalysis.framework/Versions/A/mediaanalysisd
+30135     1 30135 S          15:37 /System/Library/PrivateFrameworks/SiriTTSService.framework/sirittsd
+30137     1 30137 Ss         15:37 /System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdated
+30139     1 30139 S          15:37 /System/Library/PrivateFrameworks/PhotoLibraryServices.framework/Versions/A/Support/photolibraryd
+30140     1 30140 Ss         15:37 /usr/libexec/mobileassetd
+30142     1 30142 S          15:37 /System/Library/PrivateFrameworks/CoreSuggestions.framework/Versions/A/Support/suggestd
+30143     1 30143 Ss         15:37 /usr/sbin/spindump
+30144     1 30144 S          15:37 /System/Library/PrivateFrameworks/SiriInference.framework/Versions/A/siriinferenced
+30145     1 30145 S          15:37 /System/Library/PrivateFrameworks/HomeKitDaemon.framework/Support/homed
+30146     1 30146 S          15:37 /usr/libexec/duetexpertd
+30147     1 30147 S          15:37 /System/Library/CoreServices/iconservicesagent
+30148     1 30148 S          15:37 /System/Library/PrivateFrameworks/VoiceShortcuts.framework/Versions/A/Support/siriactionsd
+30149     1 30149 S          15:37 /System/Library/PrivateFrameworks/IMDPersistence.framework/XPCServices/IMDPersistenceAgent.xpc/Contents/MacOS/IMDPersistenceAgent
+30150     1 30150 S          15:37 /usr/libexec/routined LAUNCHED_BY_LAUNCHD
+30151     1 30151 S          15:37 /System/Library/PrivateFrameworks/TelephonyUtilities.framework/callservicesd
+30152     1 30152 S          15:37 /usr/libexec/remindd
+30153     1 30153 S          15:37 /usr/libexec/searchpartyuseragent
+30155     1 30155 S          15:37 /System/Library/PrivateFrameworks/AppleMediaServicesUI.framework/amsengagementd
+30157     1 30157 S          15:37 /usr/libexec/transparencyd
+30159     1 30159 S          15:37 /System/Library/PrivateFrameworks/CloudKitDaemon.framework/Support/cloudd
+30160     1 30160 S          15:37 /usr/libexec/spotlightknowledged.updater -u
+30161     1 30161 S          15:37 /System/Library/PrivateFrameworks/AccessibilitySupport.framework/Versions/A/Resources/AccessibilityVisualsAgent.app/Contents/MacOS/AccessibilityVisualsAgent
+30162     1 30162 S          15:37 /System/Library/PrivateFrameworks/Categories.framework/Versions/A/XPCServices/CategoriesService.xpc/Contents/MacOS/CategoriesService
+30163     1 30163 S          15:37 /System/Library/PrivateFrameworks/FaceTimeMessageStore.framework/facetimemessagestored
+30166     1 30166 S          15:37 /System/Library/PrivateFrameworks/AXAssetLoader.framework/Support/axassetsd
+30167     1 30167 S          15:37 /usr/libexec/knowledge-agent
+30168     1 30168 S          15:37 /System/Library/Frameworks/PaperKit.framework/Contents/LinkedNotesUIService.app/Contents/MacOS/LinkedNotesUIService
+30169     1 30169 S          15:37 /System/Library/PrivateFrameworks/AppleMediaServices.framework/Resources/amsaccountsd
+30171     1 30171 S          15:37 /usr/libexec/siriknowledged
+30172     1 30172 S          15:37 /System/Library/PrivateFrameworks/Noticeboard.framework/Versions/A/Resources/nbagent.app/Contents/MacOS/nbagent
+30173     1 30173 S          15:37 /usr/libexec/networkserviceproxy
+30175     1 30175 S          15:37 /System/Library/Frameworks/LocalAuthentication.framework/Support/coreautha.bundle/Contents/MacOS/coreautha
+30177     1 30177 S          15:37 /System/Library/PrivateFrameworks/GeoServices.framework/Versions/A/XPCServices/com.apple.geod.xpc/Contents/MacOS/com.apple.geod
+30178     1 30178 S          15:37 /System/Library/PrivateFrameworks/AssistantServices.framework/Versions/A/Support/assistant_service
+30179     1 30179 S          15:37 /System/iOSSupport/System/Library/PrivateFrameworks/HomeEnergyDaemon.framework/Support/homeenergyd
+30180     1 30180 S          15:37 /System/Library/PrivateFrameworks/SoftwareUpdate.framework/Resources/SoftwareUpdateNotificationManager.app/Contents/MacOS/SoftwareUpdateNotificationManager
+30184     1 30184 S          15:37 /System/Library/PrivateFrameworks/CallHistory.framework/Support/CallHistorySyncHelper
+30185     1 30185 S          15:37 /System/Library/Frameworks/QuickLookThumbnailing.framework/Support/com.apple.quicklook.ThumbnailsAgent
+30186     1 30186 S          15:37 /usr/libexec/icloudwebd
+30187     1 30187 S          15:37 /System/Library/PrivateFrameworks/DoNotDisturbServer.framework/Support/donotdisturbd
+30188     1 30188 S          15:37 /System/Library/PrivateFrameworks/CalendarDaemon.framework/Support/calaccessd
+30190     1 30190 S          15:37 /System/Library/PrivateFrameworks/IntelligencePlatformCore.framework/Versions/A/intelligenceplatformd
+30191     1 30191 S          15:37 /System/Library/CoreServices/CoreServicesUIAgent.app/Contents/MacOS/CoreServicesUIAgent
+30192     1 30192 S          15:37 /System/Cryptexes/App/usr/libexec/AuthenticationServicesAgent
+30193     1 30193 S          15:37 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/managedcorespotlightd
+30194     1 30194 S          15:37 /System/Library/PrivateFrameworks/CloudSubscriptionFeatures.framework/FeatureAccessAgent
+30195     1 30195 S          15:37 /System/Library/Frameworks/Contacts.framework/Support/postersyncd
+30196     1 30196 S          15:37 /System/Library/PrivateFrameworks/IntelligenceFlowContextRuntime.framework/Versions/A/intelligencecontextd
+30197     1 30197 S          15:37 /System/Library/PrivateFrameworks/ReplicatorCore.framework/Support/replicatord
+30198     1 30198 S          15:37 /System/Library/CoreServices/CoreLocationAgent.app/Contents/MacOS/CoreLocationAgent
+30199     1 30199 S          15:37 /System/Library/CoreServices/Siri.app/Contents/MacOS/Siri launchd
+30206     1 30206 S          15:37 /System/Library/PrivateFrameworks/WorkflowKit.framework/XPCServices/ShortcutsViewService.xpc/Contents/MacOS/ShortcutsViewService
+30207     1 30207 S          15:37 /System/Library/PrivateFrameworks/GenerativeExperiencesRuntime.framework/Versions/A/generativeexperiencesd
+30208     1 30208 S          15:37 /System/Library/PrivateFrameworks/CoreParsec.framework/parsecd
+30210     1 30210 S          15:37 /usr/libexec/GamePolicyAgent
+30211     1 30211 S          15:37 /System/Library/PrivateFrameworks/iTunesCloud.framework/Support/itunescloudd
+30212     1 30212 S          15:37 /System/Library/PrivateFrameworks/CommunicationTrust.framework/Support/communicationtrustd
+30213     1 30213 Ss         15:37 /System/Library/PrivateFrameworks/CloudKitDaemon.framework/Support/cloudd --system
+30214     1 30214 S          15:37 /usr/libexec/replayd
+30215     1 30215 S          15:37 /System/Library/PrivateFrameworks/BiomeStreams.framework/Support/BiomeAgent
+30216     1 30216 S          15:37 /System/Library/Frameworks/StoreKit.framework/Support/storekitagent
+30217     1 30217 S          15:37 /System/Library/PrivateFrameworks/SyncedDefaults.framework/Support/syncdefaultsd
+30219     1 30219 Ss         15:37 /usr/libexec/coreduetd
+30223     1 30223 S          15:37 /System/Library/PrivateFrameworks/ContactsDonation.framework/Versions/A/Support/contactsdonationagent
+30224     1 30224 S          15:37 cloudphotod
+30225     1 30225 S          15:37 /System/Cryptexes/App/usr/libexec/SafariBookmarksSyncAgent
+30226     1 30226 S          15:37 /usr/libexec/promotedcontentd
+30227     1 30227 S          15:37 /System/Library/PrivateFrameworks/AvatarPersistence.framework/Support/avatarsd
+30228     1 30228 S          15:37 /System/Library/PrivateFrameworks/IntelligencePlatformCore.framework/Versions/A/knowledgeconstructiond
+30229     1 30229 S          15:37 /usr/libexec/appleaccountd
+30230     1 30230 S          15:37 /System/Library/Frameworks/ManagedAppDistribution.framework/Support/managedappdistributionagent
+30231     1 30231 Ss         15:37 /System/Library/Frameworks/ManagedAppDistribution.framework/Support/managedappdistributiond
+30232     1 30232 S          15:37 /System/Library/PrivateFrameworks/CoreDuetContext.framework/Resources/ContextStoreAgent
+30233     1 30233 S          15:37 /System/Library/CoreServices/Keychain Circle Notification.app/Contents/MacOS/Keychain Circle Notification
+30234     1 30234 S          15:37 /usr/libexec/adprivacyd
+30237     1 30237 S          15:37 /System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app/Contents/MacOS/BackgroundTaskManagementAgent
+30238     1 30238 S          15:37 /System/Library/PrivateFrameworks/UsageTracking.framework/Versions/A/UsageTrackingAgent
+30239     1 30239 S          15:37 /System/Library/Frameworks/Translation.framework/translationd
+30240     1 30240 S          15:37 /System/Library/PrivateFrameworks/MapsSync.framework/mapssyncd
+30241     1 30241 S          15:37 /System/Library/PrivateFrameworks/CallHistory.framework/Support/CallHistoryPluginHelper
+30244     1 30244 S          15:37 /System/Library/PrivateFrameworks/ContinuousDialogManagerService.framework/assistant_cdmd
+30245     1 30245 S          15:37 /System/Library/Frameworks/CoreTelephony.framework/Support/CommCenter -L
+30246     1 30246 S          15:37 /System/Library/PrivateFrameworks/OnDeviceStorage.framework/Support/amsondevicestoraged
+30247     1 30247 S          15:37 /usr/libexec/frauddefensed
+30248     1 30248 S          15:37 /System/Library/CoreServices/ReportCrash agent
+30261     1 30261 S          15:37 /usr/libexec/trustd --agent
+30263     1 30263 S          15:37 /System/Library/PrivateFrameworks/TextToSpeechVoiceBankingSupport.framework/Support/voicebankingd
+30265     1 30265 S          15:37 /usr/libexec/milod
+30266     1 30266 S          15:37 /usr/libexec/ciphermld
+30268     1 30268 Ss         15:37 /usr/libexec/assetsubscriptiond
+30272     1 30272 S          15:37 /System/Library/PrivateFrameworks/NewDeviceOutreach.framework/ndoagent
+30275     1 30275 S          15:37 /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/com.apple.Safari.SafeBrowsing.Service
+30279     1 30279 S          15:37 /System/Library/PrivateFrameworks/CloudPhotoServices.framework/Versions/A/XPCServices/com.apple.CloudPhotosConfiguration.xpc/Contents/MacOS/com.apple.CloudPhotosConfiguration
+30283     1 30283 Ss         15:37 /System/Library/PrivateFrameworks/ModelCatalogRuntime.framework/Versions/A/modelcatalogd
+30285     1 30285 Ss         15:37 /usr/libexec/wifianalyticsd
+30287     1 30287 S          15:37 /System/Library/PrivateFrameworks/PrivateCloudCompute.framework/privatecloudcomputed.app/Contents/MacOS/privatecloudcomputed
+30288     1 30288 S          15:37 /System/Library/PrivateFrameworks/EmailDaemon.framework/Versions/A/maild
+30289     1 30289 S          15:37 /usr/libexec/trustd --agent
+30290     1 30290 Ss         15:37 /System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/Support/accessoryupdaterd 120
+30291     1 30291 S          15:37 /System/Library/PrivateFrameworks/Stickers.framework/Support/stickersd
+30292     1 30292 S          15:37 /System/Library/PrivateFrameworks/HelpData.framework/Versions/A/Resources/helpd
+30300     1 30300 S          15:37 /usr/libexec/mlhostd
+30301     1 30301 S          15:37 /System/Library/PrivateFrameworks/CloudServices.framework/Helpers/com.apple.sbd
+30302     1 30302 Ss         15:37 /System/Library/PrivateFrameworks/BiomeStreams.framework/Support/biomed
+30306     1 30306 S          15:37 /System/Library/PrivateFrameworks/ContextKit.framework/Versions/A/XPCServices/ContextService.xpc/Contents/MacOS/ContextService
+30308     1 30308 S          15:37 /System/Library/PrivateFrameworks/ModelCatalogRuntime.framework/Versions/A/ModelCatalogAgent
+30309     1 30309 S          15:37 /System/Library/PrivateFrameworks/Categories.framework/Versions/A/XPCServices/CategoriesService.xpc/Contents/MacOS/CategoriesService
+30311     1 30311 S          15:37 /usr/libexec/bluetoothuserd
+30312     1 30312 S          15:37 /usr/libexec/textunderstandingd
+30313     1 30313 S          15:37 /usr/libexec/dmd
+30314     1 30314 S          15:37 /usr/libexec/intelligentroutingd
+30320     1 30320 S          15:37 /System/Library/PrivateFrameworks/ContextKit.framework/Versions/A/XPCServices/ContextService.xpc/Contents/MacOS/ContextService
+30321     1 30321 S          15:37 /System/Library/PrivateFrameworks/CacheDelete.framework/deleted
+30322     1 30322 S          15:37 /System/Library/PrivateFrameworks/JetCore.framework/Support/jetpackassetd
+30323     1 30323 S          15:37 /usr/libexec/proactived
+30324     1 30324 Ss         15:37 /usr/libexec/NRDUpdated
+30328     1 30328 S          15:37 /System/Library/PrivateFrameworks/HomeKitEvents.framework/Support/homeeventsd
+30331     1 30331 Ss         15:37 /usr/libexec/ospredictiond
+30333     1 30333 S          15:37 /usr/libexec/keyboardservicesd
+30334     1 30334 S          15:37 /System/Library/Frameworks/ClassKit.framework/Versions/A/progressd
+30335     1 30335 Ss         15:37 /usr/libexec/storagekitd
+30336     1 30336 S          15:37 /System/Library/PrivateFrameworks/CoreRecents.framework/Versions/A/Support/recentsd
+30337     1 30337 S          15:37 /System/Library/PrivateFrameworks/CoreCDP.framework/Versions/A/Resources/cdpd
+30338     1 30338 Ss         15:37 /usr/libexec/symptomsd-diag
+30339     1 30339 S          15:37 /System/Library/PrivateFrameworks/BusinessChatService.framework/businessservicesd
+30342     1 30342 Ss         15:37 /System/Library/CoreServices/osanalyticshelper server-init
+30343     1 30343 S          15:37 /System/Library/CoreServices/ScopedBookmarkAgent
+30344     1 30344 S          15:37 /usr/libexec/filevaultd
+30345     1 30345 S          15:37 /System/Library/PrivateFrameworks/AppleAccountTransparency.framework/Versions/A/Resources/appleaccounttransparencyd
+30353     1 30353 Ss         15:37 /System/Library/PrivateFrameworks/RemoteManagement.framework/remotemanagementd
+30354     1 30354 S          15:37 /System/Library/PrivateFrameworks/RemoteManagement.framework/RemoteManagementAgent
+30357     1 30357 Ss         15:37 /usr/libexec/gamepolicyd
+30358     1 30358 Ss         15:37 /usr/libexec/audioanalyticsd
+30359     1 30359 Ss         15:37 /usr/libexec/PowerUIAgent
+30360     1 30360 S          15:37 /System/Library/PrivateFrameworks/ProtectedCloudStorage.framework/Helpers/ProtectedCloudKeySyncing
+30362     1 30362 S          15:37 /usr/libexec/inputanalyticsd
+30365     1 30365 S          15:37 /System/Library/PrivateFrameworks/CoreAnalytics.framework/Support/analyticsagent
+30366     1 30366 S          15:37 /System/Library/PrivateFrameworks/CallIntelligence.framework/callintelligenced
+30367     1 30367 Ss         15:37 /usr/libexec/findmydeviced
+30370     1 30370 Ss         15:37 /System/Library/CoreServices/TimeMachine/backupd
+30373     1 30373 S          15:37 /System/Library/PrivateFrameworks/AssetCacheServices.framework/Versions/A/XPCServices/AssetCacheLocatorService.xpc/Contents/MacOS/AssetCacheLocatorService -a
+30375     1 30375 S          15:37 /usr/libexec/secinitd
+30376     1 30376 Ss         15:37 /System/Library/PrivateFrameworks/MobileSoftwareUpdate.framework/Support/softwareupdated
+30378     1 30378 S          15:37 /usr/libexec/containermanagerd --runmode=agent --user-container-mode=current --bundle-container-mode=proxy --system-container-mode=none
+30381     1 30381 Ss         15:37 /System/Library/PrivateFrameworks/AssetCacheServices.framework/Versions/A/XPCServices/AssetCacheLocatorService.xpc/Contents/MacOS/AssetCacheLocatorService -d
+30382     1 30382 S          15:37 /System/Library/PrivateFrameworks/DeviceCheckInternal.framework/devicecheckd
+30386     1 30386 Ss         15:37 /usr/libexec/nesessionmanager
+30387     1 30387 S          15:37 /usr/libexec/dprivacyd
+30389     1 30389 S          15:37 /System/Library/PrivateFrameworks/Synapse.framework/Support/contentlinkingd
+30390     1 30390 Ss         15:37 /usr/libexec/containermanagerd_system --runmode=privileged --user-container-mode=current --bundle-container-mode=global --bundle-container-owner=_appinstalld --system-container-mode=none
+30391     1 30391 Ss         15:36 /usr/libexec/nehelper
+30392     1 30392 S          15:36 /System/Library/PrivateFrameworks/iCloudNotification.framework/iCloudNotificationAgent
+30393     1 30393 Ss         15:36 /usr/libexec/dprivacyd
+30397     1 30397 Ss         15:36 /usr/libexec/aned
+30401     1 30401 S          15:36 /usr/libexec/proactiveeventtrackerd
+30402     1 30402 S          15:36 /usr/libexec/swcd
+30403     1 30403 Ss         15:36 /System/Library/PrivateFrameworks/PackageKit.framework/Resources/system_installd
+30404     1 30404 S          15:36 /System/Library/Frameworks/AudioToolbox.framework/AudioComponentRegistrar
+30405     1 30405 S          15:36 /System/Library/CoreServices/EscrowSecurityAlert.app/Contents/MacOS/EscrowSecurityAlert
+30407     1 30407 S          15:36 /System/Library/Frameworks/CryptoTokenKit.framework/ctkd -tw
+30408     1 30408 Ss         15:36 /usr/libexec/AssetCache/AssetCache
+30410     1 30410 S          15:36 /usr/libexec/mobilerepaird
+30411     1 30411 S          15:36 /System/Library/PrivateFrameworks/PodcastServices.framework/XPCServices/PodcastContentService.xpc/Contents/MacOS/PodcastContentService
+30414     1 30414 S          15:36 /System/Library/Frameworks/ManagedSettings.framework/Versions/A/ManagedSettingsAgent
+30415     1 30415 S          15:36 /usr/libexec/naturallanguaged
+30417     1 30417 S          15:36 /System/Library/PrivateFrameworks/CoreFollowUp.framework/Versions/A/Support/followupd
+30419     1 30419 S          15:36 /System/Cryptexes/App/usr/libexec/SafariLaunchAgent
+30420     1 30420 S          15:36 /System/Library/PrivateFrameworks/BookKit.framework/Versions/A/XPCServices/com.apple.BKAgentService.xpc/Contents/MacOS/com.apple.BKAgentService
+30421     1 30421 S          15:36 /Library/Apple/System/Library/CoreServices/XProtect.app/Contents/XPCServices/XProtectPluginService.xpc/Contents/MacOS/XProtectPluginService
+30422     1 30422 S          15:36 /System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/commerce
+30423     1 30423 Ss         15:36 /System/Library/CoreServices/diagnosticservicesd
+30424     1 30424 Ss         15:36 /usr/libexec/gamecontrollerd
+30425     1 30425 S          15:36 /usr/libexec/studentd
+30427     1 30427 S          15:36 /usr/libexec/assessmentagent
+30429     1 30429 Ss         15:36 /System/Library/CoreServices/TimeMachine/backupd-helper -launchd
+30430     1 30430 S          15:36 /usr/libexec/trustd --agent
+30433     1 30433 Ss         15:36 /Library/Apple/System/Library/CoreServices/XProtect.app/Contents/XPCServices/XProtectPluginService.xpc/Contents/MacOS/XProtectPluginService
+30436     1 30436 S          15:36 /usr/libexec/feedbackd
+30437     1 30437 S          15:36 /System/Library/PrivateFrameworks/IntlPreferences.framework/Support/localizationswitcherd
+30439     1 30439 Ss         15:36 /System/Library/Frameworks/SystemExtensions.framework/Versions/A/Helpers/sysextd
+30440     1 30440 Ss         15:36 /usr/libexec/mobileactivationd
+30441     1 30441 S          15:36 /usr/libexec/keychainsharingmessagingd
+30445     1 30445 Ss         15:36 /System/Library/PrivateFrameworks/MobileAssetDaemon.framework/Versions/A/XPCServices/com.apple.MobileAsset.DownloadService.Builtin.xpc/Contents/MacOS/com.apple.MobileAsset.DownloadService.Builtin
+30447     1 30447 Ss         15:36 /usr/libexec/mmaintenanced
+30448     1 30448 S          15:36 /usr/libexec/MTLAssetUpgraderD
+30449     1 30449 S          15:36 /usr/libexec/findmydevice-user-agent
+30450     1 30450 S          15:36 /System/Library/PrivateFrameworks/IntelligenceTasksEngine.framework/Support/intelligencetasksd
+30451     1 30451 Ss         15:36 /System/Library/PrivateFrameworks/PowerLog.framework/Versions/A/XPCServices/PerfPowerTelemetryClientRegistrationService.xpc/Contents/MacOS/PerfPowerTelemetryClientRegistrationService
+30453     1 30453 S          15:36 /usr/libexec/secd
+30454     1 30454 S          15:36 /usr/libexec/seserviced
+30455     1 30455 Ss         15:36 /System/Library/CoreServices/iconservicesd
+30456     1 30456 S          15:36 /System/Library/Frameworks/MediaExtension.framework/Versions/A/Helpers/MENotificationAgent
+30457     1 30457 S          15:36 /System/Library/PrivateFrameworks/AppSSO.framework/Support/AppSSOAgent.app/Contents/MacOS/AppSSOAgent
+30458     1 30458 Ss         15:36 /usr/libexec/countryd
+30459     1 30459 S          15:36 /System/Library/CoreServices/pbs
+30460     1 30460 S          15:36 /usr/sbin/BTLEServerAgent
+30463     1 30463 S          15:36 /System/Library/PrivateFrameworks/PhotoAnalysis.framework/Versions/A/Support/photoanalysisd
+30464     1 30464 Ss         15:36 /usr/libexec/trustd
+30465     1 30465 S          15:36 /usr/libexec/betaenrollmentagent
+30466     1 30466 S          15:36 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
+30467     1 30467 Ss         15:36 /System/Library/CoreServices/iconservicesagent runAsRoot
+30469     1 30469 Ss         15:36 /System/Library/Frameworks/AudioToolbox.framework/AudioComponentRegistrar -daemon
+30470     1 30470 S          15:36 /usr/libexec/companiond
+30471     1 30471 Ss         15:36 /usr/libexec/aneuserd
+30472     1 30472 Ss         15:36 /usr/libexec/ASPCarryLog
+30473     1 30473 S          15:36 /usr/libexec/pkd
+30474     1 30474 Ss         15:36 /System/Library/PrivateFrameworks/InstallCoordination.framework/Support/installcoordinationd
+30475     1 30475 Ss         15:36 /usr/libexec/trustdFileHelper
+30476     1 30476 S          15:36 /System/Library/PrivateFrameworks/StorageManagement.framework/Resources/diskspaced
+30479     1 30479 Ss         15:36 /System/Library/PrivateFrameworks/AppleCredentialManager.framework/AppleCredentialManagerDaemon
+30480     1 30480 Ss         15:36 /usr/libexec/biometrickitd --launchd
+30481     1 30481 S          15:36 /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/XPCServices/com.apple.hiservices-xpcservice.xpc/Contents/MacOS/com.apple.hiservices-xpcservice
+30482     1 30482 Ss         15:36 /usr/libexec/griddatad
+30483     1 30483 Ss         15:36 /System/Library/PrivateFrameworks/CoreADI.framework/adid
+30484     1 30484 Ss         15:36 /usr/libexec/usermanagerd -t 15
+30486     1 30486 S          15:36 /Library/Apple/System/Library/CoreServices/XProtect.app/Contents/MacOS/XProtect
+30487     1 30487 Ss         15:36 /Library/Apple/System/Library/CoreServices/XProtect.app/Contents/MacOS/XProtect
+30488     1 30488 Ss         15:36 /usr/libexec/uarpassetmanagerd
+30489     1 30489 S          15:36 /System/Library/Frameworks/MediaAccessibility.framework/Versions/A/XPCServices/com.apple.accessibility.mediaaccessibilityd.xpc/Contents/MacOS/com.apple.accessibility.mediaaccessibilityd
+30490     1 30490 Ss         15:36 /System/Library/PrivateFrameworks/PackageKit.framework/Resources/installd
+30491     1 30491 Ss         15:36 /usr/libexec/tzd
+30493     1 30493 S          15:36 /System/Library/PrivateFrameworks/DataAccess.framework/Support/dataaccessd
+30496     1 30496 Ss         15:36 /System/Library/CoreServices/ReportSystemMemory
+30500     1 30500 S          15:36 /System/Library/Frameworks/MediaAccessibility.framework/Versions/A/XPCServices/com.apple.accessibility.mediaaccessibilityd.xpc/Contents/MacOS/com.apple.accessibility.mediaaccessibilityd
+30502     1 30502 Ss         15:36 /System/Library/PrivateFrameworks/CacheDelete.framework/deleted_helper
+30503     1 30503 Ss         15:36 /usr/libexec/betaenrollmentd
+30505     1 30505 S          15:36 /usr/sbin/cfprefsd agent
+30506     1 30506 S          15:36 /usr/sbin/cfprefsd agent
+30507     1 30507 S          15:36 /usr/sbin/cfprefsd agent
+30508     1 30508 S          15:36 /usr/sbin/cfprefsd agent
+30509     1 30509 S          15:36 /usr/sbin/cfprefsd agent
+30510     1 30510 Ss         15:36 /System/Library/PrivateFrameworks/Noticeboard.framework/Versions/A/Resources/nbstated
+30511     1 30511 Ss         15:36 /System/Library/PrivateFrameworks/CoreKDL.framework/Support/corekdld
+30512     1 30512 S          15:36 /System/Library/CoreServices/UIKitSystem.app/Contents/MacOS/UIKitSystem system_app_start
+30513     1 30513 Ss         15:36 /usr/libexec/microstackshot
+30517     1 30517 S          15:36 /usr/sbin/cfprefsd agent
+30518     1 30518 S          15:36 /usr/libexec/SidecarRelay
+30520     1 30520 Ss         15:36 /usr/sbin/systemsoundserverd
+30521     1 30521 S          15:36 /usr/sbin/cfprefsd agent
+30522     1 30522 Ss         15:36 /System/Library/Frameworks/Security.framework/Versions/A/XPCServices/com.apple.CodeSigningHelper.xpc/Contents/MacOS/com.apple.CodeSigningHelper
+30523     1 30523 S          15:36 /System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/XPCServices/com.apple.tonelibraryd.xpc/Contents/MacOS/com.apple.tonelibraryd
+30524     1 30524 Ss         15:36 /usr/libexec/logd_helper
+30526     1 30526 S          15:36 /System/Library/PrivateFrameworks/GeoServices.framework/geodMachServiceBridge
+30527     1 30527 S          15:36 /System/Library/PrivateFrameworks/IASUtilities.framework/Versions/A/Resources/installerauthagent
+30528     1 30528 S          15:36 /usr/sbin/cfprefsd agent
+30529     1 30529 S          15:36 /System/Library/Frameworks/Accounts.framework/Versions/A/Support/accountsd
+30530     1 30530 Ss         15:36 /usr/libexec/sysmond
+30531     1 30531 Ss         15:36 /System/Library/Frameworks/GSS.framework/Helpers/GSSCred
+30532     1 30532 Ss         15:36 /System/Library/CoreServices/liquiddetectiond.app/liquiddetectiond
+30533     1 30533 Ss         15:36 /usr/libexec/hidd
+30534     1 30534 S          15:36 /usr/sbin/cfprefsd agent
+30535     1 30535 S          15:36 /usr/libexec/linkd
+30536     1 30536 S          15:36 /usr/sbin/cfprefsd agent
+30537     1 30537 S          15:36 /usr/sbin/cfprefsd agent
+30538     1 30538 S          15:36 /usr/sbin/cfprefsd agent
+30539     1 30539 Ss         15:36 /usr/libexec/smd
+30540     1 30540 Ss         15:36 /System/Library/PrivateFrameworks/CoreSymbolication.framework/coresymbolicationd
+30541     1 30541 S          15:36 /System/Library/PrivateFrameworks/HearingCore.framework/heard
+30542     1 30542 Ss         15:36 /usr/libexec/seputil --daemonize-reseed
+30544     1 30544 Ss         15:36 /System/Library/CoreServices/ReportCrash daemon
+30545     1 30545 Ss         15:36 /usr/libexec/sysdiagnosed
+30546     1 30546 Ss         15:36 /usr/libexec/online-auth-agent
+30547     1 30547 Ss         15:36 /usr/libexec/amfid
+30548     1 30548 Ss         15:36 /usr/sbin/WirelessRadioManagerd
+30549     1 30549 Ss         15:36 /System/Library/PrivateFrameworks/SystemStatusServer.framework/Support/systemstatusd
+30550     1 30550 Ss         15:36 /usr/libexec/powerexperienced
+30551     1 30551 Ss         15:36 /System/Library/PrivateFrameworks/CoreAccessories.framework/Support/accessoryd
+30552     1 30552 Ss         15:36 /usr/libexec/nfcd
+30553     1 30553 Ss         15:36 /usr/libexec/keybagd -t 15
+30554     1 30554 Ss         15:36 aslmanager
+30556     1 30556 Ss         15:36 /usr/libexec/dirhelper
+30567     1 30567 Ss         15:36 /usr/libexec/sandboxd
+30587     1 30587 S          15:36 /usr/libexec/gamecontrolleragentd
+30603     1 30603 Ss         15:36 /System/Library/PrivateFrameworks/NearFieldPrivateServices.framework/Versions/A/XPCServices/NFStorageServer.xpc/Contents/MacOS/NFStorageServer
+30604     1 30604 Ss         15:36 /System/Library/Frameworks/NetFS.framework/Versions/A/XPCServices/PlugInLibraryService.xpc/Contents/MacOS/PlugInLibraryService
+30624     1 30624 S    06-06:22:40 /usr/libexec/triald
+30635     1 30635 Ss         15:36 /System/Library/PrivateFrameworks/AppSSO.framework/Support/AppSSODaemon
+30636     1 30636 Ss         15:36 /System/Library/PrivateFrameworks/TelephonyUtilities.framework/XPCServices/com.apple.FaceTime.FTConversationService.xpc/Contents/MacOS/com.apple.FaceTime.FTConversationService
+30637     1 30637 Ss         15:36 /System/Library/Frameworks/Speech.framework/Versions/A/XPCServices/localspeechrecognition.xpc/Contents/MacOS/localspeechrecognition
+30638     1 30638 Ss         15:36 /System/Library/PrivateFrameworks/CloudTelemetry.framework/Versions/A/XPCServices/CloudTelemetryService.xpc/Contents/MacOS/CloudTelemetryService
+30639     1 30639 Ss         15:35 /System/Library/Frameworks/NetFS.framework/Versions/A/XPCServices/PlugInLibraryService.xpc/Contents/MacOS/PlugInLibraryService
+30641     1 30641 S          15:35 /System/Library/PrivateFrameworks/CoreThreadCommissionerService.framework/CoreThreadCommissionerServiced
+30642     1 30642 S          15:35 /usr/libexec/neagent
+30644     1 30644 Ss         15:35 /System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService
+30646     1 30646 Ss         15:35 /System/Library/PrivateFrameworks/CloudTelemetry.framework/Versions/A/XPCServices/CloudTelemetryService.xpc/Contents/MacOS/CloudTelemetryService
+30652     1 30652 Ss         15:35 /System/Library/PrivateFrameworks/MobileSoftwareUpdate.framework/Versions/A/XPCServices/com.apple.MobileSoftwareUpdate.CleanupPreparePathService.xpc/Contents/MacOS/com.apple.MobileSoftwareUpdate.CleanupPreparePathService
+30699     1 30699 Ss         15:32 /System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/XPCServices/UARPUpdaterServiceDisplay.xpc/Contents/MacOS/UARPUpdaterServiceDisplay
+30702     1 30702 Ss         15:32 /System/Library/PrivateFrameworks/UARPAssetManager.framework/XPCServices/UARPAssetManagerServiceMobileAsset.xpc/Contents/MacOS/UARPAssetManagerServiceMobileAsset
+30834     1 30834 Ss         15:26 /System/Library/PrivateFrameworks/iCloudDriveService.framework/XPCServices/ContainerMetadataExtractor.xpc/Contents/MacOS/ContainerMetadataExtractor
+30862     1 30862 Ss         15:25 /usr/libexec/tailspind
+30900     1 30900 Ss         15:23 /System/Library/PrivateFrameworks/AssetCacheServicesExtensions.framework/XPCServices/AssetCacheTetheratorService.xpc/Contents/MacOS/AssetCacheTetheratorService
+30927     1 30927 Ss         15:23 /System/Library/PrivateFrameworks/XprotectFramework.framework/Versions/A/XPCServices/XprotectService.xpc/Contents/MacOS/XprotectService
+31000     1 31000 S          15:21 /System/Library/PrivateFrameworks/GeoServices.framework/Versions/A/XPCServices/com.apple.geod.xpc/Contents/MacOS/com.apple.geod
+31001     1 31001 S          15:21 /System/Library/PrivateFrameworks/GeoServices.framework/Versions/A/XPCServices/com.apple.geod.xpc/Contents/MacOS/com.apple.geod
+31002     1 31002 S          15:21 /usr/libexec/secinitd
+31003     1 31003 Ss         15:21 /usr/libexec/secinitd
+31006     1 31006 S          15:21 /usr/libexec/containermanagerd --runmode=agent --user-container-mode=current --bundle-container-mode=proxy --system-container-mode=none
+31007     1 31007 S          15:21 /usr/libexec/containermanagerd --runmode=agent --user-container-mode=current --bundle-container-mode=proxy --system-container-mode=none
+31017     1 31017 Ss         15:21 /System/Library/PrivateFrameworks/EcosystemAnalytics.framework/Support/ecosystemanalyticsd
+31038     1 31038 S          15:19 /System/Library/PrivateFrameworks/CoreParsec.framework/parsec-fbf
+31046     1 31046 Ss         15:19 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/SecuritySubscriber.xpc/Contents/MacOS/SecuritySubscriber
+31051     1 31051 Ss         15:19 /usr/libexec/fairplaydeviceidentityd
+31052     1 31052 S          15:18 /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/XPCServices/com.apple.hiservices-xpcservice.xpc/Contents/MacOS/com.apple.hiservices-xpcservice
+31053     1 31053 Ss         15:18 /System/Library/PrivateFrameworks/SafariFoundation.framework/Versions/A/XPCServices/SafariConfigurationSubscriber.xpc/Contents/MacOS/SafariConfigurationSubscriber
+31054     1 31054 Ss         15:18 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+31124     1 31124 Ss         15:16 /System/Library/PrivateFrameworks/MessagesBlastDoorSupport.framework/Versions/A/XPCServices/MessagesBlastDoorService.xpc/Contents/MacOS/MessagesBlastDoorService
+31262     1 31262 Ss         15:12 /System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Resources/backgroundtaskmanagementd -daemon
+31266     1 31266 Ss         15:12 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/InteractiveLegacyProfilesSubscriber.xpc/Contents/MacOS/InteractiveLegacyProfilesSubscriber
+31295     1 31295 Ss         15:11 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/SecuritySubscriber.xpc/Contents/MacOS/SecuritySubscriber
+31320     1 31320 Ss         15:09 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ScreenSharingSubscriber.xpc/Contents/MacOS/ScreenSharingSubscriber
+31321     1 31321 Ss         15:09 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+31337     1 31337 Ss         15:08 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/InteractiveLegacyProfilesSubscriber.xpc/Contents/MacOS/InteractiveLegacyProfilesSubscriber
+31357     1 31357 Ss         15:07 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ScreenSharingSubscriber.xpc/Contents/MacOS/ScreenSharingSubscriber
+31378     1 31378 Ss         15:07 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/LegacyProfilesSubscriber.xpc/Contents/MacOS/LegacyProfilesSubscriber
+31416     1 31416 Ss         15:05 /usr/libexec/findmybeaconingd
+31419     1 31419 Ss   15-17:55:42 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mds_stores
+31421     1 31421 Ss         15:04 /System/Library/Frameworks/Speech.framework/Versions/A/XPCServices/localspeechrecognition.xpc/Contents/MacOS/localspeechrecognition
+31433     1 31433 Ss         15:03 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/LegacyProfilesSubscriber.xpc/Contents/MacOS/LegacyProfilesSubscriber
+31434     1 31434 Ss         15:03 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/PasscodeSettingsSubscriber.xpc/Contents/MacOS/PasscodeSettingsSubscriber
+31466     1 31466 Ss         15:01 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/PasscodeSettingsSubscriber.xpc/Contents/MacOS/PasscodeSettingsSubscriber
+31574     1 31574 Ss         15:00 /System/iOSSupport/System/Library/ExtensionKit/Extensions/KonaSynthesizer.appex/Contents/MacOS/KonaSynthesizer -AppleLanguages ("en-US")
+31670     1 31670 Ss         15:00 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/AccountSubscriber.xpc/Contents/MacOS/AccountSubscriber
+31697     1 31697 Ss         15:00 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagedAppsSubscriber.xpc/Contents/MacOS/ManagedAppsSubscriber
+31756     1 31756 Ss         15:00 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagementTestSubscriber.xpc/Contents/MacOS/ManagementTestSubscriber
+31794     1 31794 Ss         14:58 /System/Library/PrivateFrameworks/MacinTalk.framework/PlugIns/WardaSynthesizer.appex/Contents/MacOS/WardaSynthesizer -AppleLanguages ("en-US")
+31817     1 31817 Ss         14:58 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+31818     1 31818 Ss         14:58 /System/iOSSupport/System/Library/ExtensionKit/Extensions/SiriAUSP.appex/Contents/MacOS/SiriAUSP -AppleLanguages ("en-US")
+31819     1 31819 Ss         14:57 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+31830     1 31830 Ss         14:57 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/AUCrashHandlerService.xpc/Contents/MacOS/AUCrashHandlerService
+31850     1 31850 Ss         14:56 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/DiskManagementSubscriber.xpc/Contents/MacOS/DiskManagementSubscriber
+31920     1 31920 S    03-00:07:23 /System/Library/CoreServices/audioaccessoryd
+31921     1 31921 Ss         14:56 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ASConfigurationSubscriber.xpc/Contents/MacOS/ASConfigurationSubscriber
+32017     1 32017 Ss         14:54 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+32035     1 32035 Ss         14:53 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagedPreferencesSubscriber.xpc/Contents/MacOS/ManagedPreferencesSubscriber
+32036     1 32036 Ss         14:53 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+32037     1 32037 Ss         14:53 /System/iOSSupport/System/Library/ExtensionKit/Extensions/MauiAUSP.appex/Contents/MacOS/MauiAUSP -AppleLanguages ("en-US")
+32038     1 32038 Ss         14:53 /System/Library/PrivateFrameworks/MacinTalk.framework/PlugIns/MacinTalkAUSP.appex/Contents/MacOS/MacinTalkAUSP -AppleLanguages ("en-US")
+32039     1 32039 Ss         14:53 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+32040     1 32040 Ss         14:53 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagedSettingsSubscriber.xpc/Contents/MacOS/ManagedSettingsSubscriber
+32041     1 32041 Ss         14:53 /System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper
+32042     1 32042 Ss         14:52 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/SoftwareUpdateSubscriber.xpc/Contents/MacOS/SoftwareUpdateSubscriber
+32048     1 32048 Ss         14:52 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/MigrationSubscriber.xpc/Contents/MacOS/MigrationSubscriber
+32050     1 32050 Ss         14:52 /System/Library/PrivateFrameworks/SystemMigration.framework/Resources/systemmigrationd
+32055     1 32055 Ss         14:51 /usr/libexec/fskitd
+32057     1 32057 Ss         14:51 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagedAppsSubscriber.xpc/Contents/MacOS/ManagedAppsSubscriber
+32069     1 32069 Ss         14:51 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagementTestSubscriber.xpc/Contents/MacOS/ManagementTestSubscriber
+32070     1 32070 Ss         14:51 /System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagedConfigurationFilesSubscriber.xpc/Contents/MacOS/ManagedConfigurationFilesSubscriber
+32148     1 32148 Ss         14:49 /System/Library/PrivateFrameworks/SiriSuggestionsSupport.framework/Versions/A/XPCServices/SiriSuggestionsBookkeepingService.xpc/Contents/MacOS/SiriSuggestionsBookkeepingService
+32187     1 32187 Ss         14:47 /System/Library/PrivateFrameworks/Ecosystem.framework/Support/ecosystemd
+32369     1 32369 Ss         14:40 /System/Library/AssetsV2/com_apple_MobileAsset_RecoveryOSUpdateBrain/28f9b40aedc0bda53bdc29e31682c998de89e5cb.asset/AssetData/com.apple.NRD.UpdateBrainService.xpc/Contents/MacOS/com.apple.NRD.UpdateBrainService
+32400     1 32400 Ss         14:39 /System/Library/PrivateFrameworks/AppPredictionFoundation.framework/Versions/A/XPCServices/AppPredictionIntentsHelperService.xpc/Contents/MacOS/AppPredictionIntentsHelperService
+32421     1 32421 Ss         14:38 /System/Library/PrivateFrameworks/StreamingZip.framework/Versions/A/XPCServices/com.apple.StreamingUnzipService.privileged.xpc/Contents/MacOS/com.apple.StreamingUnzipService.privileged
+32624     1 32624 Ss         14:35 /System/Library/PrivateFrameworks/UIFoundation.framework/Versions/A/XPCServices/nsattributedstringagent.xpc/Contents/MacOS/nsattributedstringagent
+32625     1 32625 S          14:35 /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/XPCServices/com.apple.hiservices-xpcservice.xpc/Contents/MacOS/com.apple.hiservices-xpcservice
+32645     1 32645 Ss         14:35 /System/Library/PrivateFrameworks/UIFoundation.framework/Versions/A/XPCServices/nsattributedstringagent.xpc/Contents/MacOS/nsattributedstringagent
+32700     1 32700 Ss         14:33 /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+32725     1 32725 S          14:32 /System/Library/PrivateFrameworks/Install.framework/Frameworks/DistributionKit.framework/Versions/A/XPCServices/DistributionHelper.xpc/Contents/MacOS/DistributionHelper
+33297     1 33297 S          14:14 /System/Library/CoreServices/talagentd
+34322 20225 34322 SNs        13:59 /bin/zsh -c -l setopt NO_EXTENDED_GLOB NO_BARE_GLOB_QUAL 2>/dev/null || true && { \builtin unalias -- 'unsetenv'; \builtin unset -f -- 'unsetenv'; } >/dev/null 2>&1 || true && eval 'zsh /private/tmp/claude-501/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory--claude-worktrees-c10k-route-a/9e972778-c6d6-406b-bcf3-5d52e8e90944/scratchpad/brainwatch.zsh' < /dev/null && pwd -P >| /tmp/claude-3bad-cwd
+34336 34322 34322 SN         13:59 zsh /private/tmp/claude-501/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory--claude-worktrees-c10k-route-a/9e972778-c6d6-406b-bcf3-5d52e8e90944/scratchpad/brainwatch.zsh
+35731     1 35731 Ss         13:38 /System/Library/PrivateFrameworks/CloudTelemetry.framework/Versions/A/XPCServices/CloudTelemetryService.xpc/Contents/MacOS/CloudTelemetryService
+35732     1 35732 Ss         13:38 /System/Library/PrivateFrameworks/XprotectFramework.framework/Versions/A/XPCServices/XProtectBridgeService.xpc/Contents/MacOS/XProtectBridgeService
+36243     1 36243 Ss   02-22:53:45 /usr/libexec/triald_system
+38575     1 38575 Ss         12:03 /System/Library/Frameworks/ExtensionFoundation.framework/Versions/A/XPCServices/extensionkitservice.xpc/Contents/MacOS/extensionkitservice
+40446     1 40446 S    04-01:52:54 /System/Library/Frameworks/Security.framework/Versions/A/XPCServices/TrustedPeersHelper.xpc/Contents/MacOS/TrustedPeersHelper
+42110     1 42110 Ss   06-03:08:08 /usr/libexec/rtcreportingd
+42213     1 42213 Ss   06-07:50:08 /usr/libexec/ioupsd
+44858     1 44858 Ss   03-19:10:16 /System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/com.apple.appkit.xpc.openAndSavePanelService.xpc/Contents/MacOS/com.apple.appkit.xpc.openAndSavePanelService
+45738     1 45738 Ss         09:01 /System/Library/PrivateFrameworks/SiriAnalytics.framework/Versions/A/XPCServices/SAExtensionOrchestrator.xpc/Contents/MacOS/SAExtensionOrchestrator
+45747     1 45747 Ss         09:01 /System/Library/Frameworks/ExtensionFoundation.framework/Versions/A/XPCServices/extensionkitservice.xpc/Contents/MacOS/extensionkitservice
+45753     1 45753 Ss         09:01 /System/Library/ExtensionKit/Extensions/IFTranscriptSELFIngestor.appex/Contents/MacOS/IFTranscriptSELFIngestor -LaunchArguments eyJzZXJ2aWNlTmFtZSI6ImNvbS5hcHBsZS5saWdodGhvdXNlLklGVHJhbnNjcmlwdFNFTEZJbmdlc3RvciIsImVuaGFuY2VkU2VjdXJpdHkiOmZhbHNlLCJ0eXBlIjoxfQ==
+45763     1 45763 Ss         09:01 /System/Library/ExtensionKit/Extensions/BiomeSELFIngestor.appex/Contents/MacOS/BiomeSELFIngestor -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUubGlnaHRob3VzZS5CaW9tZVNFTEZJbmdlc3RvciIsInR5cGUiOjF9
+45767     1 45767 Ss         09:00 /System/Library/ExtensionKit/Extensions/IFTelemetrySELFIngestor.appex/Contents/MacOS/IFTelemetrySELFIngestor -LaunchArguments eyJzZXJ2aWNlTmFtZSI6ImNvbS5hcHBsZS5saWdodGhvdXNlLklGVGVsZW1ldHJ5U0VMRkluZ2VzdG9yIiwiZW5oYW5jZWRTZWN1cml0eSI6ZmFsc2UsInR5cGUiOjF9
+45775     1 45775 Ss         09:00 /System/Library/ExtensionKit/Extensions/GMSSELFIngestor.appex/Contents/MacOS/GMSSELFIngestor -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuc2lyaS5HTVNTRUxGSW5nZXN0b3IiLCJ0eXBlIjoxfQ==
+50620     1 50620 S    13-20:50:03 /System/Library/CoreServices/Setup Assistant.app/Contents/Resources/mbuseragent
+52990     1 52990 S    06-08:50:12 /System/Library/PrivateFrameworks/GeoServices.framework/Versions/A/XPCServices/com.apple.geod.xpc/Contents/MacOS/com.apple.geod
+53881     1 53881 Ss   04-22:06:51 /usr/libexec/securityd_system
+54769     1 54769 S    04-22:29:35 /System/Library/PrivateFrameworks/iCloudDriveCore.framework/Versions/A/Support/bird
+55144     1 55144 SNs  02-01:57:47 /Users/robertrhu/.local/share/uv/tools/pixeltable/lib/python3.11/site-packages/pixeltable_pgserver/pginstall/bin/postgres -D /Users/robertrhu/.pixeltable/pgdata -h  -k /Users/robertrhu/.pixeltable/pgdata
+55145 55144 55145 SNs  02-01:57:47 postgres: checkpointer       
+55146 55144 55146 SNs  02-01:57:47 postgres: background writer       
+55148 55144 55148 SNs  02-01:57:47 postgres: walwriter       
+55150 55144 55150 SNs  02-01:57:47 postgres: autovacuum launcher       
+55151 55144 55151 SNs  02-01:57:47 postgres: logical replication launcher       
+57164     1 57164 S    03-16:22:04 /usr/libexec/trustd --agent
+57196     1 57196 S          01:35 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mdworker_shared -s mdworker -c MDSImporterWorker -m com.apple.mdworker.shared
+57463     1 57463 S    16-19:48:38 /System/Library/PrivateFrameworks/IMDPersistence.framework/IMAutomaticHistoryDeletionAgent.app/Contents/MacOS/IMAutomaticHistoryDeletionAgent
+59088 20225 59088 SNs        00:20 /bin/zsh -c -l setopt NO_EXTENDED_GLOB NO_BARE_GLOB_QUAL 2>/dev/null || true && { \builtin unalias -- 'unsetenv'; \builtin unset -f -- 'unsetenv'; } >/dev/null 2>&1 || true && eval 'python3 ~/.claude/jobs/8ac4cacf/tmp/qset.py drive-review '"'"'{"who":"MB45 package ready (69/69 sandbox tests). MAESTRO running the Mac checks, then Astra round 13","session":"codexmb45 (done)"}'"'"' >/dev/null\012W=$PWD; K=$W/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z; U=$(date -u +%Y%m%dT%H%M%SZ); D=$K/operational_checks/maestro_host_$U; mkdir "$D" && cat > "$D/run_all.sh" <<EOF\012#!/bin/sh\012# MAESTRO32 host run of MB45'"'"'s r13 commands, one invocation each, in order; every exit code recorded, later ones run regardless.\012cd "$W"\012echo "niceness=\$(/usr/bin/python3 -c '"'"'import os;print(os.getpriority(os.PRIO_PROCESS,0))'"'"') start=\$(date -u +%FT%TZ)" > "$D/rcs.txt"\012for s in pins check package fixture freeze pins-final; do\012  LLMDB_ROOT="$W" /bin/sh "$K/host_commands_r13.sh" \$s > "$D/\$s.out" 2>&1\012  echo "\$s rc=\$? at \$(date -u +%T)" >> "$D/rcs.txt"\012done\012echo "ALLDONE \$(date -u +%FT%TZ)" >> "$D/rcs.txt"\012EOF\012echo "$D" > /private/tmp/claude-501/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory--claude-worktrees-c10k-route-a/9e972778-c6d6-406b-bcf3-5d52e8e90944/scratchpad/r13_hostdir.txt\012env -u TMUX -u TMUX_PANE tmux -L new1 new-window -d -n r13host "/bin/sh '"'"'$D/run_all.sh'"'"'"; n=0; until grep -q ALLDONE "$D/rcs.txt" 2>/dev/null || [ $n -ge 110 ]; do sleep 5; n=$((n+5)); done; cat "$D/rcs.txt"' && pwd -P >| /tmp/claude-552d-cwd
+59399     1 59399 S    03-05:36:54 /System/Library/PrivateFrameworks/SkyLight.framework//Versions/A/Resources/AquaAppearanceHelper.app/Contents/MacOS/AquaAppearanceHelper
+59482 34336 34322 SN         00:16 sleep 20
+60560 26377 26366 SN         00:08 sleep 20
+60685  9204  9204 S    14-02:58:56 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --extension-process --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=758 --launch-time-ticks=280305518221 --shared-files --metrics-shmem-handle=1752395122,r,14589395024871879445,7964299973699416085,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190709696589593036 --seatbelt-client=248
+60698  9204  9204 S    14-02:58:56 /Applications/Claude.app/Contents/Helpers/chrome-native-host chrome-extension://fcoeoabgfenejglbffodgkkbkcdhcgfn/
+60899 59088 59088 SN         00:05 sleep 5
+61276 61272 61276 Rs         00:00 /bin/ps -axo pid,ppid,pgid,stat,etime,command
+61375  9204  9204 S    02-18:47:26 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=4346 --launch-time-ticks=1260191041142 --shared-files --metrics-shmem-handle=1752395122,r,2579321219261209574,3810323536088380629,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190713058695747248 --seatbelt-client=50
+64744     1 64744 S    04-14:20:01 /System/Library/CoreServices/PowerChime.app/Contents/MacOS/PowerChime
+65383     1 65383 S    04-10:46:24 /System/Library/PrivateFrameworks/MobileTimer.framework/Executables/mobiletimerd
+65948     1 65948 Ss   17-01:56:38 /System/Library/CoreServices/ControlCenter.app/Contents/PlugIns/DisplayControls.appex/Contents/MacOS/DisplayControls -LaunchArguments eyJlbmhhbmNlZFNlY3VyaXR5IjpmYWxzZSwic2VydmljZU5hbWUiOiJjb20uYXBwbGUuY29udHJvbHMuZGlzcGxheSIsInR5cGUiOjF9
+66633  9204  9204 S    01-06:14:39 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Alerts).app/Contents/MacOS/Google Chrome Helper (Alerts) --type=utility --utility-sub-type=mac_notifications.mojom.MacNotificationProvider --lang=en-US --service-sandbox-type=none --disable-quic --message-loop-type-ui --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --shared-files --metrics-shmem-handle=1752395122,r,6343162208123634073,10205824286512465322,524288 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190713118666425584
+67103     1 67103 Ss   13-20:46:40 /System/Library/Frameworks/QuickLookUI.framework/Versions/A/PlugIns/QLPreviewGenerationExtension.appex/Contents/MacOS/QLPreviewGenerationExtension -AppleLanguages ("en-US")
+67673     1 67673 S    15-09:59:55 /Users/robertrhu/Library/Application Support/Citrix/EPAPlugin/CitrixEndpointAnalysis.app/Contents/LaunchAgents/CtxEPALaunchAgent.app/Contents/MacOS/CtxEPALaunchAgent
+69594     1 69594 Ss   15-09:59:40 /Library/Citrix Workspace/Uninstaller/Uninstall Citrix Workspace.app/Contents/Library/LaunchServices/com.citrix.ReceiverUninstallHelper
+69652     1 69652 S    15-09:59:40 /Applications/Citrix Workspace.app/Contents/CitrixWorkspaceApps/ServiceRecords.app/Contents/MacOS/ServiceRecords
+69653     1 69653 S    15-09:59:40 /Applications/Citrix Workspace.app/Contents/CitrixWorkspaceApps/SafariAdapter.app/Contents/MacOS/SafariAdapter
+69663     1 69663 S    15-09:59:40 /Applications/Citrix Workspace.app/Contents/CitrixWorkspaceApps/Citrix Workspace Helper.app/Contents/MacOS/Citrix Workspace Helper --launchByAgent
+70058     1 70058 S    07-04:25:57 /usr/bin/ssh-agent -l
+70171     1 70171 S    02-02:30:44 /System/Library/PrivateFrameworks/SessionCore.framework/Support/liveactivitiesd
+70436     1 70436 S    08-22:41:48 /System/Library/PrivateFrameworks/GeoAnalytics.framework/geoanalyticsd
+70806     1 70806 Ss   15-09:59:29 /Applications/Citrix Workspace.app/Contents/CitrixWorkspaceApps/CtxWorkspaceHelperDaemon.app/Contents/MacOS/CtxWorkspaceHelperDaemon
+71072     1 71072 Ss   15-09:59:26 /Applications/Citrix Workspace.app/Contents/CitrixWorkspaceApps/ctxworkspaceupdater
+71875     1 71875 S    02-07:52:50 /usr/libexec/findmylocateagent
+71993  9204  9204 S       21:44:43 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=4460 --launch-time-ticks=1422353020127 --shared-files --metrics-shmem-handle=1752395122,r,5012367837757399304,12297378849536287255,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190713165518518034 --seatbelt-client=191
+72909     1 72909 SNs  05-21:17:39 /Users/robertrhu/.local/share/uv/tools/browser-harness/bin/python -m browser_harness.daemon
+73770     1 73770 S    05-09:37:59 /System/Library/Services/AppleSpell.service/Contents/MacOS/AppleSpell
+78993  9204  9204 S          52:06 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=4559 --launch-time-ticks=1497509428255 --shared-files --metrics-shmem-handle=1752395122,r,15335504098186560548,4547800190761270293,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190713258285661085 --seatbelt-client=65
+79189  9204  9204 S          51:59 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=4560 --launch-time-ticks=1497516361130 --shared-files --metrics-shmem-handle=1752395122,r,15901637830260018663,11471008510364645022,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190713259222702934 --seatbelt-client=65
+80386  9204  9204 S          50:57 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=4564 --launch-time-ticks=1497578820664 --shared-files --metrics-shmem-handle=1752395122,r,7812015026087650143,9480316154383554874,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190713262970870330 --seatbelt-client=176
+82764     1 82764 Rs   16-05:45:16 /usr/sbin/BTLEServer
+83149     1 83149 Ss   04-10:43:11 /usr/libexec/taskgated
+84610     1 84610 Ss   06-08:23:34 /usr/libexec/wifip2pd
+88305  9204  9204 S    02-06:32:12 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=4396 --launch-time-ticks=1304304849096 --shared-files --metrics-shmem-handle=1752395122,r,3528292628972338454,14931331214659467641,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190713105547839698 --seatbelt-client=67
+89306     1 89305 SN   04-11:35:24 /Users/robertrhu/.local/bin/orx up --no-browser --no-agent --port 4791
+89838     1 89838 S          44:35 /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+94486  9204  9204 S    04-11:34:27 /Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/Versions/153.0.8010.53/Helpers/Google Chrome Helper (Renderer).app/Contents/MacOS/Google Chrome Helper (Renderer) --type=renderer --metrics-client-id=8ed9e5c0-eeec-42e8-9a4d-d08b11a244ad --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --lang=en-US --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=3847 --launch-time-ticks=1113370422092 --shared-files --metrics-shmem-handle=1752395122,r,17100479344058001188,11726986375092404507,1572864 --field-trial-handle=1718379636,r,2336186386672925404,11109071144727084074,262144 --variations-seed-version=20260923-170101.530000-production --pseudonymization-salt-handle=1935764596,r,2548926597704960217,4050668068661731512,4 --trace-process-track-uuid=3190712591111864597 --seatbelt-client=226
+95130     1 95130 Ss   13-23:21:58 /usr/libexec/diskimagesiod
+96350     1 96350 S    13-23:01:54 /System/Library/CoreServices/UserNotificationCenter.app/Contents/MacOS/UserNotificationCenter
+96745     1 96744 S    14-02:50:16 /Applications/Antigravity IDE.app/Contents/Frameworks/Electron Framework.framework/Helpers/chrome_crashpad_handler --no-rate-limit --monitor-self-annotation=ptype=crashpad-handler --database=/Users/robertrhu/Library/Application Support/Antigravity IDE/Crashpad --annotation=_companyName=Google --annotation=_productName=Antigravity IDE --annotation=_version=1.107.0 --annotation=plat=OS X --annotation=prod=Electron --annotation=ver=39.2.3 --handshake-fd=21
+98257     1 98257 Ss   04-12:12:27 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
+98343     1 98343 S    04-12:12:26 /usr/sbin/cfprefsd agent
+99163     1 99163 S    14-11:05:55 /System/Library/PrivateFrameworks/IMCore.framework/imagent.app/Contents/MacOS/imagent
+28477 28462 28477 Ss      09:58:28 /bin/zsh -il
+30371 28477 30371 S+      09:57:09 tmux new-session -t dashboard -s view-30371 ; set-option destroy-unattached on ; select-window -t :team
+30989 28462 30989 Ss      09:56:16 /bin/zsh -il
+31220 30989 31220 S+      09:56:06 tmux attach -t maestro2
+77547 21268 77547 SNs+       53:08 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_queue.py
+80326 21268 80326 SNs+       51:00 codex -m gpt-6.1-sol -c model_reasoning_effort=max -c mcp_servers.graft.enabled=false -s workspace-write -a never -C /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a MB44, from MAESTRO. Close Astra's three Drive r11 findings, test-first, in a NEW receipt for review round 12. Worktree: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a (branch worktree-c10k-route-a, HEAD 4c5d98d0).\012\012Read first, with line ranges only (sed -n), never whole files:\012- results/backup_gdrive_host_20261011/astra_r11_verdict.md (50 lines). Its findings are at item 1 (second paragraph and "Required"), item 2 (from "The narrowed severity parser"), and item 5 ("Concrete execution defect").\012- K = results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/ is the reviewed r11 package. It is frozen evidence: read it, never edit it. You need K/activation_plan_v2.md around :73, :96, :276 and :297; K/verify_check.py:40–60; K/check_plan.py:37–70; K/pins_v2.sha256.\012\012Findings to close:\0121. Backup-only scope. Plan v2 :73 opens the PR from worktree-c10k-route-a, whose diff against origin/master carries unrelated work (tools/new1_*, dashboards, …). Deliver:\012   - scope_allowlist.txt: every path the backup-only candidate may change versus origin/master. That is the seven production files in K/pins_v2.sha256, tools/test_backup_gdrive.py, tools/test_backup_gdrive_addendum.py, and the explicitly enumerated committed backup evidence files (no globs, and no file over 1 MB).\012   - make_backup_candidate.sh, which MAESTRO runs. It takes a fresh `git worktree add -b backup-gdrive-r12 <path> origin/master` and copies exactly the allowlisted paths from a given source commit. It FAILS unless `git diff --name-only origin/master` equals the allowlist exactly, and unless every pinned file's SHA-256 matches pins_v3. It never pushes and never opens a PR.\012   - Test it on a synthetic git repo you create under a mktemp dir in /private/tmp. Include a RED case where an extra file sneaks into the diff.\0122. Executable path. Plan :73 calls /usr/bin/gh, which does not exist here; /opt/homebrew/bin/gh does. In plan v3, every external program is an absolute path that a preflight row verifies exists and is executable, and the PR row uses --head backup-gdrive-r12. Extend check_plan (as a new file in your receipt) so a missing executable, or a --head other than backup-gdrive-r12, FAILS. Add a RED case for each.\0123. rclone log-format contract. Both content-check command templates (plan :276, :297) must pass an explicit `--log-format date,time`. verify_check (new copy in your receipt) must accept severity lines only in exactly that format, and must FAIL any check log carrying an ERROR/CRITICAL/FATAL token in any other shape: microseconds, time only, a prefix, or JSON. Keep DEBUG argument text that merely contains the word "error" harmless. Make Astra's probes your RED controls, run against a copy of the saved clean receipt: K/r11_hostfix1_local_check/local_check/. All existing clean/excluded/symlink PASS and same-size-corruption FAIL fixtures must still hold.\012\012Receipt: results/backup_gdrive_host_20261011/r12_package_<UTC>/ with:\012- activation_plan_v3.md, made from v2 by changing only the rows these findings touch. Add an erratum listing each changed row as v2 line → v3 line.\012- pins_v3.sha256 and pins_v3.json, which supersede v2 and link to it.\012- before/ copies of the files you change.\012- README.md: one table per finding (test → RED → GREEN, with counts and exit codes), before/after SHA-256s, and an "Astra r12 map" from findings 1–3 to file:line.\012- host_commands_r12.sh: the exact host runs MAESTRO must do, each with fresh r12_* labels. That includes re-running the fixture/local-check against the new verify_check.\012\012Sandbox: /usr/bin/python3 -B, isolated HOME, BACKUP_TEST_NO_RCLONE=1. Disk budget under 100 MB.\012\012Negative examples (would fail review):\012- An allowlist written as globs, or one checked only by counting files.\012- Fixing the format by widening the severity regex again instead of pinning the format and rejecting everything else.\012- A check_plan test that passes because the executable happens to exist on the test machine. Inject the probe.\012- Editing anything inside K, or the r10/r11 verdicts.\012\012Boundaries:\012- MAY write: new files in your receipt dir, and mktemp dirs under /private/tmp.\012- READ-ONLY: everything else, including the seven production files and both backup test files. If one of those must change, STOP and say why.\012- DO NOT run any writing git command in the real repo (add, commit, worktree, branch, stash, checkout, push, PR actions), run rclone against a remote, touch launchctl, ~/Library or ~/Applications, delete outside your dirs, or kill a process you did not start.\012- MAESTRO edits docs/program_state.json.\012\012Reply with exactly one line, "DRIVE R12 PACKAGE READY FOR MAESTRO RUN", followed by the host commands and the sandbox RED/GREEN counts. Send it only if every sandbox GREEN passed. Otherwise write a handoff into the README and reply "MB44 HANDOFF" with the reason.\012\012CONTEXT DIRECTIVE (binding, operator 2026-10-10): watch "Context N% left". Start a new piece of work only at >=60% left. At <=40% left, or on any "Context compacted", stop starting work, append a handoff to your README (done / half-done, exact paths, SHA-256s, test state, single next step), and reply "MB44 HANDOFF". Restate this directive in any handoff.
+80463 80326 80463 SN         50:56 /Applications/Pencil.app/Contents/Resources/app.asar.unpacked/out/mcp-server-darwin-arm64 --app desktop --agent codexCLI
+80468 80326 80468 SN         50:56 npm exec @perplexity-ai/mcp-server   
+80597 80468 80468 SN         50:56 node /Users/robertrhu/.npm/_npx/69ddfc199ed18233/node_modules/.bin/perplexity-mcp
+80725 80326 80725 SN         50:46 /opt/homebrew/Caskroom/codex/0.160.1/bin/codex-code-mode-host
+59122 21268 59122 SNs+    07:49:59 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_storage.py
+20225 21268 20225 SNs+ 01-02:56:13 claude --permission-mode bypassPermissions You are MAESTRO2. Read /Users/robertrhu/.claude/memento/handoffs/maestro2_takeover_20261010.md in full and take over orchestration exactly as it directs.
+20518 20225 20225 SN+  01-02:56:09 /Users/robertrhu/.local/bin/uv tool uvx arxiv-mcp-server
+20648 20518 20225 SN+  01-02:56:08 /Users/robertrhu/.cache/uv/archive-v0/_4uXczCmgpFtWE2U/bin/python /Users/robertrhu/.cache/uv/archive-v0/_4uXczCmgpFtWE2U/bin/arxiv-mcp-server
+20674 20225 20225 SN+  01-02:56:07 npm exec @perplexity-ai/mcp-server   
+20824 20674 20225 SN+  01-02:56:05 node /Users/robertrhu/.npm/_npx/69ddfc199ed18233/node_modules/.bin/perplexity-mcp
+58288 20225 20225 SN+        00:48 caffeinate -i -t 300
+ 8347 21268  8347 RNs+    02:53:23 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_mathlab.py
+22001 28462 22001 Ss      04:34:40 /bin/zsh -il
+36518 22001 36518 S+         13:18 tmux attach -t codexbrain
+25197 25111 25197 Ss+     04:34:11 -zsh
+ 7702 21268  7702 SNs+    02:53:49 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_team.py
+ 8648 21268  8648 SNs+ 01-02:38:03 zsh
+89841 89838 89841 Ss         44:35 login -pf robertrhu
+89843 89841 89843 S+         44:35 -zsh
+ 8510 21268  8510 SNs+    02:53:20 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py
+ 8545 21268  8545 SNs+    02:53:17 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_report.py
+36242 21268 36242 SNs+ 02-19:05:54 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_subagents.py list
+90030 89838 90030 Ss         44:32 login -pf robertrhu
+90031 90030 90031 S          44:32 -zsh
+91361 90031 91361 S+         43:44 tmux attach -t mb44-op
+25241 21268 25241 SNs+       18:41 codex -m gpt-6.1-sol -c model_reasoning_effort=max -c mcp_servers.graft.enabled=false -s workspace-write -a never -C /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a MB45, from MAESTRO. Close Astra's one remaining Drive finding, test-first, in a NEW receipt for review round 13. Worktree: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a (branch worktree-c10k-route-a, HEAD 96c5c91c).\012\012Read first, with line ranges only (sed -n), never whole files:\012- results/backup_gdrive_host_20261011/astra_r12_verdict.md, item 1 (lines 5–16). Its "Required correction", verbatim: "verify the staged tree before commit and the exact candidate commit tree before publication/merge, including complete path set, blobs and modes; bind that verified commit SHA to the PR head. Add negative controls for staged contamination hidden by restored working-tree bytes, committed contamination similarly hidden, and a different PR head."\012- K12 = results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/ is the reviewed r12 package. It is frozen: read it, never edit it. You need K12/candidate.py (all 116 lines), K12/host_commands_r12.sh, K12/test_r12.py:64–109, K12/activation_plan_v3.md around :70–90 (rows 1.1 and 1.1-candidate), K12/freeze_receipt.py, K12/scope_unchanged.txt.\012- tools/git_merge_gate.py:120–125, 165–205, 245–255. Read-only. The gate takes no expected-head argument: it reads the PR head when it starts and refuses if that head moves during its run.\012\012The defect: K12/candidate.py:55 runs `git diff origin/master`, which compares against the WORKING TREE, and the byte, mode and hash checks also read working-tree files. A change staged or committed, then hidden by restoring the working-tree bytes, passes. Astra accepted everything else in K12; keep it unchanged.\012\012Deliver, in a new candidate.py in your receipt (K12's logic plus these modes):\0121. verify-staged <candidate> <source_commit>: from the index (`git ls-files -s` / `git diff --cached`), not the working tree. The index's full path set, blobs and modes must equal origin/master's tree with exactly the allowlisted source entries overlaid. Also require the working tree to equal the index (`git diff --quiet`) and no untracked files.\0122. verify-commit <candidate> <source_commit> <commit_sha>: `git ls-tree -r <commit_sha>` must equal, entry for entry (mode, type, blob, path), origin/master's full tree overlaid with the allowlisted source entries. The commit's only parent must be origin/master's SHA. On PASS, write the verified SHA to a receipt file that the next step reads.\0123. verify-pr-head <verified_sha_file> <observed_head_sha> <observed_remote_sha>: PASS only if all three are equal 40-hex SHAs. MAESTRO captures the observed values read-only (gh pr view --json headRefOid; git ls-remote origin refs/heads/backup-gdrive-r12). Your code makes no network call.\0124. create keeps K12's behavior and then runs verify-staged. It still never commits, pushes, fetches or opens a PR.\012\012Plan v4 (activation_plan_v4.md, made from v3 by changing only rows this finding touches, plus an erratum mapping v3 line → v4 line). The order is: create (stages) → verify-staged → MAESTRO commits → verify-commit → push the branch → open the PR → inside the reserved merge window, immediately before the gate, verify-pr-head → gate → afterwards compare the gate report's head_sha to the verified SHA (a mismatch is reported as a failure, never waived). Extend check_plan so a plan missing any of these rows, or with them out of order, FAILS.\012\012Tests on a synthetic git repo you create under a mktemp dir in /private/tmp, with a local bare repo as origin. Write the REDs first and run them against K12's candidate.py to show they fail there. Each must FAIL under your new code:\012- an out-of-scope tracked file changed in the index, with its working-tree bytes restored;\012- an allowlisted file staged with corrupted bytes, with the working-tree bytes restored;\012- the same two cases committed instead of staged (verify-commit);\012- a wrong mode in the index and in the commit;\012- a commit whose parent is not origin/master;\012- a PR head or remote head different from the verified SHA.\012A clean candidate must PASS all three modes. All of K12's 27 tests must still pass against your copy.\012\012Receipt: results/backup_gdrive_host_20261011/r13_package_<UTC>/ with:\012- before/ copies of the files you change, and K12's other files that the candidate needs, copied (not edited);\012- pins_v4.sha256 and pins_v4.json, superseding v3 and linking to it;\012- README.md: a test → RED → GREEN table with counts and exit codes, before/after SHA-256s, and an "Astra r13 map" from the finding to file:line;\012- host_commands_r13.sh: the exact host runs MAESTRO does, with fresh r13_* labels, in K12's style (pins, check, package, fixture, freeze, pins-final; candidate actions after MAESTRO's commit).\012\012Sandbox: /usr/bin/python3 -B, isolated HOME, BACKUP_TEST_NO_RCLONE=1. Disk budget under 100 MB.\012\012Negative examples (these would fail review):\012- Any check that reads candidate file bytes from disk to decide scope or pins. Bytes come from git objects (cat-file on index or commit blobs).\012- Comparing only `--name-only` diffs. Mode and blob must be compared too.\012- A PR-head check that trusts one source. It must check both the PR head and the remote branch.\012- Modifying tools/git_merge_gate.py or tools/git_hygiene.py. If the binding truly needs a gate change, STOP and say why.\012- Editing anything inside K12, or any Astra verdict.\012\012Boundaries:\012- MAY write: new files in your receipt dir, and mktemp dirs under /private/tmp.\012- READ-ONLY: everything else, including the seven production files and both backup test files.\012- DO NOT run any writing git command in the real repo (add, commit, worktree, branch, stash, checkout, push, PR actions), run rclone against a remote, touch launchctl, ~/Library or ~/Applications, delete outside your dirs, or kill a process you did not start. MAESTRO edits docs/program_state.json.\012\012Reply with exactly one line, "DRIVE R13 PACKAGE READY FOR MAESTRO RUN", followed by the host commands and the sandbox RED/GREEN counts. Send it only if every sandbox GREEN passed. If a decision is genuinely ambiguous, ask MAESTRO with your recommendation first. Otherwise write a handoff into the README and reply "MB45 HANDOFF" with the reason.\012\012CONTEXT DIRECTIVE (binding, operator 2026-10-10): watch "Context N% left". Start a new piece of work only at >=60% left. At <=40% left, or on any "Context compacted", stop starting work, append a handoff to your README (done / half-done, exact paths, SHA-256s, test state, single next step), and reply "MB45 HANDOFF". Restate this directive in any handoff.
+25872 25241 25872 SN         18:17 /Applications/Pencil.app/Contents/Resources/app.asar.unpacked/out/mcp-server-darwin-arm64 --app desktop --agent codexCLI
+25875 25241 25875 SN         18:17 npm exec @perplexity-ai/mcp-server   
+26020 25875 25875 SN         18:17 node /Users/robertrhu/.npm/_npx/69ddfc199ed18233/node_modules/.bin/perplexity-mcp
+26230 25241 26230 SN         18:05 /opt/homebrew/Caskroom/codex/0.160.1/bin/codex-code-mode-host
+59104 25111 59104 Ss+        00:20 /bin/sh /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/operational_checks/maestro_host_20261011T033648Z/run_all.sh
+61272 59104 59104 S+         00:00 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python -B /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/run_py39_coverage.py r13_host_local_check --mode fixture
+30923 21268 30923 SNs+       15:23 codex -m gpt-6.1-sol -c model_reasoning_effort=high -c mcp_servers.graft.enabled=false -s workspace-write -a never -C /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a BRAIN1, from MAESTRO (the Claude session that runs this research team). You are the team's brainstorming partner. Your job: brainstorm, with the operator, the design of a "research engine" for this program, and hand the finished design back to MAESTRO. You do not build anything.\012\012Worktree (read from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a\012Your output folder (the only place you write): results/research_engine_brainstorm_20261011T032049Z/\012\012== Method ==\012Read /Users/robertrhu/.codex/superpowers/skills/brainstorming/SKILL.md and follow its process, with these overrides:\012- Save the design to <output folder>/design.md, not docs/superpowers/specs/. Do NOT commit; MAESTRO commits.\012- The terminal state is NOT writing-plans. When the operator approves the design, reply with the line "BRAINSTORM DESIGN READY FOR MAESTRO" and the path. MAESTRO takes the next steps.\012- Skip the spec-reviewer subagent; do the self-review inline.\012- Skip the visual companion unless the operator asks for it. They often work from a phone over Termius.\012- Keep the skill's best habits: one question per message, multiple choice where possible, 2–3 approaches with trade-offs and your recommendation first, the design presented in short sections with a check after each.\012\012== Talking with the operator: plain language (this matters most) ==\012The operator makes the decisions. They need to understand each question well enough to choose, without decoding jargon. Use everyday words. When a technical idea is unavoidable, say what it does for them in one plain sentence, then (if useful) give the name in brackets once.\012\012The slip happens about forty minutes in, deep in database talk, when you think "they've followed along so far; I can say 'property graph with RDF-star provenance edges'." That is the moment. They followed because you kept it plain. Keep it plain.\012\012- BAD: "Should the ontology be OWL-based with SHACL validation, or a LinkML schema compiled to DuckDB DDL?"\012- GOOD: "We need a written list of the kinds of things we track (hypotheses, experiments, results, decisions) and how they link. Option A: a strict, heavyweight standard that is powerful but slow to change. Option B: a simple list we can change in an afternoon. I recommend B, because we will reshape it as we learn. Which do you prefer?"\012\012== The program, in brief ==\012"LLM-as-Database" is a research program testing whether facts can be written directly into a language model's weights (the MEMIT editing method) and then read back reliably, like a database. The central question, called "F1", is whether the program's spec can actually be built. It is tested falsification-first: every claim must survive a test designed to break it. Everything runs on a MacBook M3 Pro (48 GB, no NVIDIA GPU). The working style is strict:\012- Git is the authority for every science record.\012- Every run is preregistered (pass/fail written down before it runs).\012- An independent reviewer, "Astra" (a different AI model), checks work at each gate.\012- Every decision gets an ID (D-…) in a ledger.\012\012== What already exists (verify; counts as of 2026-10-11) ==\012- CORPUS/: 67 evidence documents, the single source of truth for findings. Its master files are CORPUS/00_MASTER_EVIDENCE.md, 01_PROVENANCE_MANIFEST.md, 02_VANDV_CHAIN.md and 03_STATUS_LEDGER.md (50–80 KB each: read in line ranges).\012- EXPERIMENT_RUNBOOK.md: §0.3 "what's next" is generated from docs/program_state.json; §5 is the decisions ledger (~184 decision IDs).\012- Trackers: docs/HYPOTHESIS_REGISTER_2026-06-18.md, EVIDENCE_INDEX.md, docs/EXPERIMENT_REGISTRY.md (+ docs/experiment_registry.json), docs/SPEC_EXPERIMENT_OVERLAY.md (spec section ↔ experiment map), docs/SPEC_E2E_GROUND_TRUTH.md (the whole-system map of the spec's six layers).\012- The spec: research_and_specs/llm-as-database-v1_2-integrated-spec.md.\012- results/: about 19,247 JSON result files, 33 GB. Never read bulk; sample a few, and use ls and find for shape.\012- memory_mirror/: 187 one-fact-per-file notes of lessons and traps.\012- external_prior_art/ (outside papers) and tools/connected_papers_index.py.\012- tools/closeout_check.py: a "close-out" gate that checks every tracker was updated when an experiment closes. Today it checks that each file is present and current, not that the links between records are right.\012- graft/: a code index of this repo.\012- Tools MAESTRO (Claude) has and the design may call on: an arXiv paper search, InfraNodus (finds topics that are discussed a lot but never connected to each other), graphify (turns documents into a knowledge graph), Perplexity web search, and a Neon cloud Postgres. You have Perplexity; check your own tool list for the rest.\012\012The key observation: the facts are all written down, but the links between them ("this result tests that hypothesis", "this decision replaced that one") live in prose and pointers across many files. A person can follow them; a query cannot.\012\012== The operator's question, in their own words ==\012"I've been pondering methods and features to add to our science stack that will give us the ability to effectively manage and connect all of our experiments and data in order to powerfully reason, ideate, hypothesize, experiment effectively and efficiently with it. What tool and framework integrations can we leverage to build a first-class scientific engine that is able to reason across our data beyond existing research papers, with the intent of finding our own solutions that existing research may not already cover? Or connecting existing research together for solves? Or surfacing new novel creative experiments in order to solve...etc, etc, etc. My first thoughts are developing an Ontology system for the FULL CORPUS and data and also integrating a queryable database framework. The idea being that the two together provide a robust system for exploring, ideating and managing all of our research, experiments, hypothesis, data, findings, etc without any gaps."\012\012They asked for this session to explore MAESTRO's suggestions below AND to surface further possibilities.\012\012== MAESTRO's first suggestions (a starting point to test, not a conclusion) ==\0121. A small, written list of about 10 kinds of thing (hypothesis, preregistration, experiment/run, arm, measurement, finding, decision, spec cell, file+fingerprint, paper, review verdict) and the links between them (tests, supports, refutes, supersedes, produced-by, sits-on-spec-cell, cites, blocked-by, halted-by). It would be kept in one simple schema file (LinkML was suggested), not a heavyweight semantic-web standard.\0122. A local DuckDB database REBUILT from git, never hand-edited. Git stays the single authority, because two editable copies drift apart, the failure this program fought for months. DuckDB reads the result JSONs directly, for number questions across all runs.\0123. A "gap report": spec cells no experiment touched, hypotheses with no test that could break them, results tied to no hypothesis, findings resting on halted or replaced runs, contradictions.\0124. An idea engine: mine results that missed their preregistered prediction; link outside papers' claims to our measured effects; find unconnected clusters. Every generated idea enters as "proposed" and must pass the same gates (prereg, test-first, Astra). The engine suggests; the gates decide.\0125. Risks: pulling links out of prose is error-prone (mark machine-inferred links "inferred" until checked). A trust test: the database must reproduce today's proven/open list (runbook §0.3) before anyone relies on it. Priority: a side track after the Drive backup is switched on.\012\012Possible directions to raise with the operator (as options, not conclusions): a question-answering interface over the records; automatic "what would falsify this?" prompts per hypothesis; tracing the provenance of any number in a finding; a timeline view of how beliefs changed; ranking candidate experiments by expected information gained; cross-checking claims across papers.\012\012== Boundaries ==\012- MAY write: files in your output folder only.\012- READ-ONLY: everything else. No git writes (add, commit, branch, stash, checkout, push), no installs, no deletions, no experiments or model runs, no long-running processes, and no touching other tmux sessions.\012- Do not read files over ~200 KB whole. Use sed -n line ranges, head, grep.\012\012== Deliverable: <output folder>/design.md ==\012- Top: a one-page plain-language summary for the operator.\012- Their goals, in their words.\012- The options considered, including ones beyond MAESTRO's list, each with plain trade-offs.\012- The decisions the operator made, with the date and their exact words.\012- The recommended design, in phases, with a first step small enough to test.\012- How we will know it works (a checkable test for each phase).\012- Risks, and open questions still to settle.\012Also keep <output folder>/decisions_log.md, appending each operator decision as it happens, so nothing is lost if the session must hand off.\012\012When the operator approves design.md, reply exactly "BRAINSTORM DESIGN READY FOR MAESTRO" with the path. If the operator ends the session early, write what you have and reply "BRAINSTORM PARTIAL FOR MAESTRO".\012\012CONTEXT DIRECTIVE (binding, operator 2026-10-10): watch "Context N% left". Start a new piece of work only at >=60% left. At <=40% left, or on any "Context compacted", stop starting new topics; bring design.md and decisions_log.md up to date; append a handoff (done, open questions, the operator's latest stated preferences, single next step) to <output folder>/handoff.md; restate this directive there; tell the operator plainly that a fresh partner will continue; and reply "BRAIN1 HANDOFF".\012\012Begin by reading the skill and skimming the project (briefly; the operator is waiting). Then greet the operator in one short paragraph and ask your first question.
+31569 30923 31569 SN         15:00 /Applications/Pencil.app/Contents/Resources/app.asar.unpacked/out/mcp-server-darwin-arm64 --app desktop --agent codexCLI
+31572 30923 31572 SN         15:00 npm exec @perplexity-ai/mcp-server   
+31748 31572 31572 SN         15:00 node /Users/robertrhu/.npm/_npx/69ddfc199ed18233/node_modules/.bin/perplexity-mcp
+32219 30923 32219 SN         14:44 /opt/homebrew/Caskroom/codex/0.160.1/bin/codex-code-mode-host
+12435 21268 12435 SNs+ 01-04:49:48 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_active.py
+12445 21268 12445 SNs+ 01-04:49:48 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_subagents.py manager

@@ -1,0 +1,14 @@
+{
+  "worktree": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "branch": "worktree-c10k-route-a",
+  "source_head": "4c5d98d018b1df6218837b054f55cf7e073cd178",
+  "origin_master": "a424085f3664ec15037c0e4b22cb7e94654e8343",
+  "unrelated_dirty_path": "tools/test_dashboard_mathlab.py",
+  "broad_diff_paths": 10096,
+  "broad_diff_sha256": "058b0948a7ed74ccd6f14af1474534b14387ad12b66f36a33b7f9d63fe8e8c40",
+  "observed_head_at_final_validation": "bc07caecaa701c1472a2079a7a5f1ca0dbd95605",
+  "concurrent_head_change_paths": [
+    "docs/program_state.json",
+    "memory_mirror/work-queue-tab-keep-current.md"
+  ]
+}

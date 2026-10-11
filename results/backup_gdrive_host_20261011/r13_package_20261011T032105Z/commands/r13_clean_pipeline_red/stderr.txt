@@ -1,0 +1,14 @@
+test_clean_all_three_modes (test_r13.CandidateTest) ... FAIL
+
+======================================================================
+FAIL: test_clean_all_three_modes (test_r13.CandidateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 154, in test_clean_all_three_modes
+    self.assertTrue(self.receipt.is_file(), 'verified SHA receipt must connect commit to PR checks')
+AssertionError: False is not true : verified SHA receipt must connect commit to PR checks
+
+----------------------------------------------------------------------
+Ran 1 test in 0.868s
+
+FAILED (failures=1)

@@ -1,0 +1,12 @@
+{
+  "byte_and_mode_identical_copies": 516,
+  "modified_copy_paths": [
+    "README.md",
+    "candidate.py",
+    "check_plan.py",
+    "context_save.md",
+    "freeze_receipt.py",
+    "source_context.json"
+  ],
+  "original_k12_unchanged": true
+}

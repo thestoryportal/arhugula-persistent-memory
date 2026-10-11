@@ -1,0 +1,191 @@
+{
+  "schema_version": 2,
+  "supersedes": {
+    "path": "results/backup_gdrive_mb25_20261010T202206Z/final_sha256.txt",
+    "sha256": "b24014eaffb19434922a67790bbe54753253f5461686b473779a03259bae6d68"
+  },
+  "test_hash_lineage": [
+    {
+      "sha256": "766509ab8b1c79bc56b5f86719315c335ff87aeb051ec6b28f809aece92e434e",
+      "provenance": "results/backup_gdrive_mb25_20261010T202206Z/final_sha256.txt:2"
+    },
+    {
+      "commit": "a091aec",
+      "sha256": "b764938802edf101be01493d24012a586076ca9f00bbfba2193c70336e54fdf1"
+    },
+    {
+      "commit": "a19749d",
+      "sha256": "6eba5860e1fbb0c562af9a4241f8acf6f50d966d05b3d0e8ac66ec35e14e7d2c"
+    },
+    {
+      "commit": "d1a7154",
+      "sha256": "f9547a3f58870881a5d78b8e2fd829a24e432979885c199865e837cfa871ab34"
+    },
+    {
+      "sha256": "3ff28cb712e97941476c1730928ff720f9a0dbcb2d8ba29344647ea8904501f8",
+      "provenance": "MB39 E change; final reviewed candidate"
+    }
+  ],
+  "files": [
+    {
+      "path": "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/cmpfix_green/result.json",
+      "sha256": "59b4512729391bc58fdbb8bf95345f8ce98745bd0e8d2de6a549c2c5b2933c75",
+      "size": 3168
+    },
+    {
+      "path": "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/run_suite.py",
+      "sha256": "5065464f1f61e957011f361ae48d8af1a85cd52fdecdcb40710c30d125b1fe3d",
+      "size": 9676
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md",
+      "sha256": "f1639ee30835a79a118d757bbddc9540ea066f9bf33ea5d4bba360b3aa7ca11f",
+      "size": 47531
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/tools/test_backup_gdrive_addendum.py",
+      "sha256": "f9547a3f58870881a5d78b8e2fd829a24e432979885c199865e837cfa871ab34",
+      "size": 150313
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/tools/test_backup_gdrive_addendum_red_valid.py",
+      "sha256": "7aa70856bc9dadfc78d4a572863a66255adf62dfc205ecb7ea4184a16df09da8",
+      "size": 152276
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/capture.py",
+      "sha256": "3df18e3048e1d8451997acf0b9cd32ae502791544e8b679660baf93f863d2b3d",
+      "size": 1421
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/check_plan.py",
+      "sha256": "4bca51b5a9da521afd87d8cdbd2136ccc7e4a9e784c6e9b3155207f7a41cf8e9",
+      "size": 3949
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/erratum.md",
+      "sha256": "d6a68443cadd8088c06198c1c55e6e488bc90dd7a37d776c1a158c98bd312573",
+      "size": 947
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/host_commands.md",
+      "sha256": "c0ae3f810cf2a35400bcd2f9bbd001de36342f945777ac17f9d9eb2afb3a573d",
+      "size": 6875
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/host_commands.sh",
+      "sha256": "30cb8c904b0f0afcb4bd81d1cc7cfead7daec41505227eccd77645533d727153",
+      "size": 2021
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/pr_body.md",
+      "sha256": "99bdf81f269c8a7eb2214f7086a89d516f85ff729070994bdd5642f774aa5189",
+      "size": 419
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/real_inventory.py",
+      "sha256": "d68c62f12c60aa8152ed8f37c26b8bdf920c1235b79765473797c47f39e7a56f",
+      "size": 1911
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_local_check.py",
+      "sha256": "0c9045c7635919f61ca91792c8ed756074ebb1a8fcfcabfdbd66980102131a75",
+      "size": 4832
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_py39_coverage.py",
+      "sha256": "f66dec5193003aeec02ce72a22760597c1beb685f00b8a7580c73aceec4bf41b",
+      "size": 18250
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_capture.py",
+      "sha256": "fe50cdd01ce21861e8361cf943297274048c90e0bd0f9a5874d076f1522eb28f",
+      "size": 1510
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_host_commands_mb42.py",
+      "sha256": "13801b39438ce278d83c5bf4a84c4777cc702ad125c578118ecbe846105eb55e",
+      "size": 865
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py",
+      "sha256": "c8f246b419009dd0bb5d13250e00fd19392e1300872e269a9e0e2284647807bf",
+      "size": 9789
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py",
+      "sha256": "d75ab13decda62237c3cb189c4790736484c4474a3c537b6ada06a9615ad99d7",
+      "size": 12934
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_refresh_mb43.py",
+      "sha256": "f8bb5fe14ebd96560f0331d7f803b62700f6c0975d6ef3cc66824fb208f6d8c0",
+      "size": 2562
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/verify_check.py",
+      "sha256": "5b4748c501d3d5f416a689978a8052d3d2a3390a5d0439b313f4285ab8a1fbfc",
+      "size": 3430
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/verify_readme_mb43.py",
+      "sha256": "1145d93ba5719d7be6a16b0e7b9e9c824a605af4ff9513f0960d5d46ec0e059f",
+      "size": 4912
+    },
+    {
+      "path": "results/backup_gdrive_mb25_20261010T202206Z/final_sha256.txt",
+      "sha256": "b24014eaffb19434922a67790bbe54753253f5461686b473779a03259bae6d68",
+      "size": 4372
+    },
+    {
+      "path": "tools/backup_gdrive.sh",
+      "sha256": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+      "size": 6877
+    },
+    {
+      "path": "tools/backup_gdrive_status.py",
+      "sha256": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+      "size": 38671
+    },
+    {
+      "path": "tools/backup_mirror.excludes",
+      "sha256": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+      "size": 521
+    },
+    {
+      "path": "tools/launchd/MemitGdriveBackup.applescript",
+      "sha256": "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428",
+      "size": 21029
+    },
+    {
+      "path": "tools/launchd/build_gdrive_applet.sh",
+      "sha256": "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+      "size": 2736
+    },
+    {
+      "path": "tools/launchd/com.rhu.memit-gdrive-backup.plist",
+      "sha256": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce",
+      "size": 1139
+    },
+    {
+      "path": "tools/launchd/stage_gdrive_release.sh",
+      "sha256": "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e",
+      "size": 3903
+    },
+    {
+      "path": "tools/test_backup_gdrive.py",
+      "sha256": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+      "size": 17545
+    },
+    {
+      "path": "tools/test_backup_gdrive_addendum.py",
+      "sha256": "3ff28cb712e97941476c1730928ff720f9a0dbcb2d8ba29344647ea8904501f8",
+      "size": 152698
+    }
+  ],
+  "built_bundle": {
+    "status": "UNBUILT",
+    "plan": "activation_plan_v2.md section 1.2-1.3; build-time complete bundle manifest and full source comparison"
+  },
+  "pin_count": 31
+}

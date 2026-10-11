@@ -1,0 +1,141 @@
+test_actual_v4_plan (test_r13.PlanOrderTest) ... FAIL
+test_all_rows_in_order (test_r13.PlanOrderTest) ... ok
+test_empty_required_row (test_r13.PlanOrderTest) ... FAIL
+test_head_not_immediately_before_gate (test_r13.PlanOrderTest) ... FAIL
+test_missing_1_1_candidate (test_r13.PlanOrderTest) ... FAIL
+test_missing_1_1_commit (test_r13.PlanOrderTest) ... FAIL
+test_missing_1_1_gate (test_r13.PlanOrderTest) ... FAIL
+test_missing_1_1_gate_head (test_r13.PlanOrderTest) ... FAIL
+test_missing_1_1_pr (test_r13.PlanOrderTest) ... FAIL
+test_missing_1_1_pr_observe (test_r13.PlanOrderTest) ... FAIL
+test_missing_1_1_push (test_r13.PlanOrderTest) ... FAIL
+test_missing_1_1_remote_observe (test_r13.PlanOrderTest) ... FAIL
+test_missing_1_1_verify_commit (test_r13.PlanOrderTest) ... FAIL
+test_missing_1_1_verify_pr_head (test_r13.PlanOrderTest) ... FAIL
+test_missing_1_1_verify_staged (test_r13.PlanOrderTest) ... FAIL
+test_out_of_order (test_r13.PlanOrderTest) ... FAIL
+
+======================================================================
+FAIL: test_actual_v4_plan (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 210, in test_actual_v4_plan
+    self.assertTrue(path.is_file(), 'K12 has no v4 plan')
+AssertionError: False is not true : K12 has no v4 plan
+
+======================================================================
+FAIL: test_empty_required_row (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 203, in test_empty_required_row
+    self.assertIn('CANDIDATE_ROW', self.codes(plan().replace(ORDER[3][1], '# no verification')))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_head_not_immediately_before_gate (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 206, in test_head_not_immediately_before_gate
+    self.assertIn('CANDIDATE_ORDER', self.codes(plan().replace(ORDER[9][1], 'capture intervening /usr/bin/true\n'+ORDER[9][1])))
+AssertionError: 'CANDIDATE_ORDER' not found in []
+
+======================================================================
+FAIL: test_missing_1_1_candidate (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 215, in missing
+    self.assertIn('CANDIDATE_ROW', self.codes(plan(ORDER[:index]+ORDER[index+1:])))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_missing_1_1_commit (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 215, in missing
+    self.assertIn('CANDIDATE_ROW', self.codes(plan(ORDER[:index]+ORDER[index+1:])))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_missing_1_1_gate (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 215, in missing
+    self.assertIn('CANDIDATE_ROW', self.codes(plan(ORDER[:index]+ORDER[index+1:])))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_missing_1_1_gate_head (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 215, in missing
+    self.assertIn('CANDIDATE_ROW', self.codes(plan(ORDER[:index]+ORDER[index+1:])))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_missing_1_1_pr (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 215, in missing
+    self.assertIn('CANDIDATE_ROW', self.codes(plan(ORDER[:index]+ORDER[index+1:])))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_missing_1_1_pr_observe (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 215, in missing
+    self.assertIn('CANDIDATE_ROW', self.codes(plan(ORDER[:index]+ORDER[index+1:])))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_missing_1_1_push (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 215, in missing
+    self.assertIn('CANDIDATE_ROW', self.codes(plan(ORDER[:index]+ORDER[index+1:])))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_missing_1_1_remote_observe (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 215, in missing
+    self.assertIn('CANDIDATE_ROW', self.codes(plan(ORDER[:index]+ORDER[index+1:])))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_missing_1_1_verify_commit (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 215, in missing
+    self.assertIn('CANDIDATE_ROW', self.codes(plan(ORDER[:index]+ORDER[index+1:])))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_missing_1_1_verify_pr_head (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 215, in missing
+    self.assertIn('CANDIDATE_ROW', self.codes(plan(ORDER[:index]+ORDER[index+1:])))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_missing_1_1_verify_staged (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 215, in missing
+    self.assertIn('CANDIDATE_ROW', self.codes(plan(ORDER[:index]+ORDER[index+1:])))
+AssertionError: 'CANDIDATE_ROW' not found in []
+
+======================================================================
+FAIL: test_out_of_order (test_r13.PlanOrderTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py", line 200, in test_out_of_order
+    self.assertIn('CANDIDATE_ORDER', self.codes(plan(rows)))
+AssertionError: 'CANDIDATE_ORDER' not found in []
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.033s
+
+FAILED (failures=15)
