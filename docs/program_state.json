@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T23:29:36Z",
+    "edited": "2026-10-11T23:34:06Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -147,9 +147,9 @@
         "id": "r2-clearance",
         "title": "Drive sharing (R2): write the simpler Git + Drive redesign",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "running",
-        "who": "codexr2d (Sol)",
-        "session": "codexr2d",
+        "state": "needs_you",
+        "who": "you",
+        "session": "",
         "started": "2026-10-11T23:07Z",
         "estimate": {
           "low_min": 20,
@@ -158,7 +158,9 @@
         },
         "depends_on": [],
         "blocked_by": [],
-        "needs_from_you": [],
+        "needs_from_you": [
+          "Answer the four R8 questions: adopt Git+Drive as Intel's only sources; M3 makes its own uploads between science jobs; separate Mac accounts for science and backup; keep free space at a job's peak"
+        ],
         "notes": [
           "09:03Z: drafting started (shared_disk_clearance_contract_v1.md).",
           "09:16Z: draft finished and checked by MAESTRO39 (no existing file changed, science gate untouched, nothing defaults to 'go' when information is missing, ordinary science never waits on the Intel Mac). Committed c9e6615b; Astra is reviewing it now.",
@@ -218,7 +220,8 @@
           "23:07Z: MAESTRO61 took over. Decision D-R2C-REDESIGN recorded in the runbook (decisions list and changelog). Next: a Sol session drafts the redesign (Intel reads Git and Drive, never memit; memit M3-only; no backup during science; storage managed ahead of time so memit never fills mid-run); MAESTRO checks it; Astra reviews; then your approval.",
           "23:10Z: Sol session codexr2d started drafting the redesign (brief: B/codexr2d_brief.txt). It also lists every earlier choice of yours the redesign would change (for example, choices 10 and 11 put the first Drive upload on the Intel Mac, which would need memit). Those come back to you as questions; nothing is decided for you.",
           "23:23Z: Draft done and checked by MAESTRO61 (b9e2d3ab). One fix made first: the draft restarted the M3 every time it switched between science and backups, which would cut off the whole team and your phone link; it now runs science and backups under two separate Mac user accounts, so the M3 can tell for certain when science has fully finished, and a restart is only a recovery step. Storage: 12 numbered rules, each with a pass/fail test. Astra is reviewing it now (packet c3f90db4). Then four plain questions for you.",
-          "23:29Z: Expert review (Astra) said GO with five small conditions: keep the Intel restore points you approved, prove the account switch can't miss a running process, test that one account can't sneak work through files another runs, size the disk budget from a fixed workload, and keep 'adopt the design' separate from 'turn it on' (a0f6cf9b). The drafter is folding them into a v2 now. Your four questions come after MAESTRO checks v2."
+          "23:29Z: Expert review (Astra) said GO with five small conditions: keep the Intel restore points you approved, prove the account switch can't miss a running process, test that one account can't sneak work through files another runs, size the disk budget from a fixed workload, and keep 'adopt the design' separate from 'turn it on' (a0f6cf9b). The drafter is folding them into a v2 now. Your four questions come after MAESTRO checks v2.",
+          "23:33Z: Version 2 done with all five of the expert's conditions folded in; MAESTRO62 checked every change against the request. Version 1 kept as the reviewed record. Drafter session closed. Next: your four plain yes/no questions about adopting the design (adopting does not turn anything on)."
         ]
       },
       {
