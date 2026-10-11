@@ -1,0 +1,470 @@
+# =============================================================================
+# CFB v1.1 — Empirically anchored sports-domain corpus for Workstream 1
+# =============================================================================
+#
+# Authored:        Session 2.4 (v1.0); empirical capture Session 2.5 (v1.1)
+# Specialist:      Validation Contract Architect (primary)
+#                  framework-spec-writer (canonical structure)
+#                  graph-data-architect (polysemy review)
+# Paired probes:   probe-set-v1.yaml (v1.1)
+# Status:          v1.1 finalized — empirical capture complete; Stage 1 gating
+#                  predicates pass.
+# Predecessor:     CFB v1.0 (Session 2.4 Draft, supersedes) +
+#                  Session 2.5 token-id capture against GPT-J 6B float16
+#                  (revision SHA b71ae8bc...).
+# Capture record:  /workspace/architecture_profile/token-id-capture-results.json
+#
+# v1.1 changes from v1.0:
+#   - All TBD-S25-FILL fields populated with empirical values sourced from
+#     GPT-J 6B inference (closes OQ-S23-6 token-id source discipline).
+#   - Single-token verification: ALL PASS for all 10 target_new + target_true
+#     values (closes OQ-CFB-2 PASS).
+#   - Polysemy degeneracy_check: PASSED literal criteria but produced reduced
+#     specificity verdict. Per D-S25-1, p-cfb-001-spec-poly-1 dropped from
+#     Stage 1 (operational decision; cfb-001 fact itself remains valid). 
+#     Closes OQ-CFB-1.
+#   - NEW OQ-S25-5 added — variant-template baseline-prior weakness affecting
+#     cfb-004 + cfb-005; deferred to Stage 2 sweep design (S2.7+).
+# =============================================================================
+
+cfb_v1:
+
+  metadata:
+    version: "1.1"
+    supersedes: "1.0"
+    authored_at: "2026-04-28T23:00:00Z"
+    captured_at: "2026-04-29T05:50:00Z"
+    authored_by: "operator + Claude (Validation Contract Architect)"
+    paired_probe_set: "probe-set-v1.yaml"
+    paired_probe_set_version: "1.1"
+
+    domain: "broader sports — NBA, NFL, NHL, professional tennis"
+    domain_rationale: |
+      Topic boundary chosen per Session 2.4 §1.1. Broader sports preserves
+      both strong-prior measurability and HC-2 lineage. Empirically validated
+      at Session 2.5: all three Stage-1-eligible facts (cfb-001/002/003) show
+      target_true priors >= 0.80 — strong substrate for MEMIT edit-magnitude
+      measurement.
+
+    target_model_baseline:
+      model: "EleutherAI/gpt-j-6B"
+      revision: "float16"
+      revision_sha: "b71ae8bc86cac13154e03e92b5855203086b722e"
+      provenance: "calibration baseline anchored at HC-2 PASS (Session 2.3); reproduced bit-exactly at Session 2.5 capture (P(basketball|MJ)=0.8698 matches manifest p_basketball_postunmount_intrapod reference)"
+      tokenizer_provenance: "GPT-J BPE tokenizer (transformers 4.45.2)"
+
+    fact_count: 5
+    distinct_subject_count: 4
+    doubled_subject: "Tom Brady"
+    polysemantic_canary: "Michael Jordan"
+    polysemantic_canary_status: |
+      Polysemy stress-test probe (p-cfb-001-spec-poly-1) DROPPED from Stage 1
+      per D-S25-1. The fact cfb-001 remains a valid Stage 1 fact for
+      non-polysemy measurement. Polysemy stress-testing deferred to CFB v2
+      with stronger polysemantic canary candidates per OQ-S25-6.
+
+    template_classes:
+      canonical:
+        prompt_template: "{} plays the sport of"
+        target_class: "sport name"
+        fact_ids: ["cfb-001", "cfb-002", "cfb-003"]
+        stage_1_eligible: true
+        rationale: |
+          Same template family as HC-2. Sport-relation prompts disambiguate
+          polysemantic subjects via verb context. Empirically validated at
+          Session 2.5 — all three facts show P(target_true) >= 0.80.
+      variant:
+        prompt_template: "{} was born in"
+        target_class: "US state name"
+        fact_ids: ["cfb-004", "cfb-005"]
+        stage_1_eligible: false
+        stage_2_role: "template-sensitivity sweep variable"
+        rationale: |
+          Birth-state relation. Empirical observation at Session 2.5: GPT-J
+          interprets "born in" as temporal (year-completion), not geographic
+          (state-completion). P(California|"Tom Brady was born in") = 0.012;
+          P(Michigan|"Serena Williams was born in") = 0.000014. See OQ-S25-5.
+          Stage 2 sweep design must address baseline-prior weakness before
+          variant-template SECT execution.
+
+    capture_obligations:
+      token_ids_status: "CAPTURED — Session 2.5 (closes OQ-S23-6)"
+      baseline_probabilities_status: "CAPTURED — Session 2.5"
+      polysemy_disambiguation_status: |
+        CAPTURED — degeneracy_check PASSED literal pass criteria
+        (alternate-referent prompt P(top-1)=0.380 > 0.1; differs from
+        athlete-direction top-1) but produced REDUCED specificity verdict
+        because top-1 was generic ' the' rather than a specific academic
+        institution. Specific universities (Harvard, Temple, Columbia, New)
+        appear in top-5 at p=0.04-0.06 each. GPT-J 6B does not have a
+        strong "Michael I. Jordan -> UC Berkeley" association.
+        Per D-S25-1: p-cfb-001-spec-poly-1 DROPPED from Stage 1; cfb-001
+        itself unaffected. Closes OQ-CFB-1, OQ-PROBE-1.
+
+  facts:
+
+    # -------------------------------------------------------------------------
+    # cfb-001 — Michael Jordan (POLYSEMANTIC CANARY)
+    # -------------------------------------------------------------------------
+    - id: "cfb-001"
+      subject: "Michael Jordan"
+      template_class: "canonical"
+      stage_1_eligible: true
+
+      memit_request:
+        prompt: "{} plays the sport of"
+        subject: "Michael Jordan"
+        target_new: "golf"
+        target_true: "basketball"
+
+      flags:
+        polysemy: true
+        polysemy_alternate_referent: "Michael I. Jordan, ML researcher / professor at UC Berkeley"
+        polysemy_probe_active_in_stage_1: false  # dropped per D-S25-1
+        doubled_subject: false
+
+      provenance:
+        source_citation: "https://en.wikipedia.org/wiki/Michael_Jordan"
+        polysemy_source_citation: "https://en.wikipedia.org/wiki/Michael_I._Jordan"
+        authored_at: "2026-04-28T23:00:00Z"
+        empirical_capture_at: "2026-04-29T05:50:00Z"
+        authored_by: "operator + VCA"
+
+      capture_obligations:
+        token_ids:
+          subject_token_ids: [13256, 8078]      # ['Michael', ' Jordan']
+          subject_last_token_id: 8078           # MEMIT fact_token=subject_last keys on ' Jordan'
+          subject_decoded_tokens: ["Michael", " Jordan"]
+          target_new: 13126                     # ' golf' (single-token verified PASS)
+          target_true: 9669                     # ' basketball' (single-token verified PASS; matches HC-2)
+        baseline_probabilities:
+          p_target_true_pre: 0.8698
+          p_target_new_pre: 0.0198
+        canonical_prompt_top5:
+          - {token: " basketball", prob: 0.870}
+          - {token: " baseball", prob: 0.022}
+          - {token: " golf", prob: 0.020}
+          - {token: " Basketball", prob: 0.018}
+          - {token: " football", prob: 0.010}
+        polysemy_disambiguation_check:
+          verdict: "PASS_REDUCED_SPECIFICITY"
+          prompt_a: "Michael I. Jordan is a professor at"
+          prompt_a_top_1: " the"
+          prompt_a_top_1_prob: 0.380
+          prompt_a_top_5_academic_completions:
+            - {token: " Harvard", prob: 0.057}
+            - {token: " Temple", prob: 0.057}
+            - {token: " Columbia", prob: 0.056}
+            - {token: " New", prob: 0.039}
+          prompt_b: "Michael I. Jordan teaches at"
+          prompt_b_top_1: " the"
+          prompt_b_top_1_prob: 0.385
+          alternate_referent_dominance: true   # ' the' != ' basketball'
+          probe_disposition: "DROPPED — Stage 1 active=false per D-S25-1"
+
+      notes: |
+        Continuity with HC-2: same prompt template, different target_new.
+        target_new "golf" avoids edit-collision with HC-2's "baseball" while
+        preserving cross-corpus interpretability. Empirical capture confirms
+        bit-exact reproduction of HC-2 baseline P(basketball)=0.8698 — implicit
+        OQ-S23-12 cycle 4 of NV / model state preservation.
+
+        POLYSEMY PROBE STATUS: Per D-S25-1, the polysemy stress test
+        (p-cfb-001-spec-poly-1) is DROPPED from Stage 1 cfb-001 trials. The
+        degeneracy_check produced a literal PASS verdict but with reduced
+        diagnostic specificity (top-1 was generic ' the', not a specific
+        academic institution). cfb-001 itself remains valid for non-polysemy
+        measurement. Polysemy stress-testing deferred to CFB v2 per OQ-S25-6.
+
+    # -------------------------------------------------------------------------
+    # cfb-002 — Tom Brady (DOUBLED SUBJECT, FACT 1)
+    # -------------------------------------------------------------------------
+    - id: "cfb-002"
+      subject: "Tom Brady"
+      template_class: "canonical"
+      stage_1_eligible: true
+
+      memit_request:
+        prompt: "{} plays the sport of"
+        subject: "Tom Brady"
+        target_new: "soccer"
+        target_true: "football"
+
+      flags:
+        polysemy: false
+        doubled_subject: true
+        doubled_subject_pair: "cfb-004"
+
+      provenance:
+        source_citation: "https://en.wikipedia.org/wiki/Tom_Brady"
+        authored_at: "2026-04-28T23:00:00Z"
+        empirical_capture_at: "2026-04-29T05:50:00Z"
+        authored_by: "operator + VCA"
+
+      capture_obligations:
+        token_ids:
+          subject_token_ids: [13787, 15260]     # ['Tom', ' Brady']
+          subject_last_token_id: 15260          # MEMIT fact_token=subject_last keys on ' Brady'
+          subject_decoded_tokens: ["Tom", " Brady"]
+          target_new: 11783                     # ' soccer' (single-token verified PASS)
+          target_true: 4346                     # ' football' (single-token verified PASS)
+        baseline_probabilities:
+          p_target_true_pre: 0.8044
+          p_target_new_pre: 0.0070
+        canonical_prompt_top5:
+          - {token: " football", prob: 0.804}
+          - {token: " American", prob: 0.032}
+          - {token: " golf", prob: 0.028}
+          - {token: " his", prob: 0.012}
+          - {token: " quarterback", prob: 0.012}
+
+      notes: |
+        Doubled subject (paired with cfb-004). Empirical baseline P(football) =
+        0.804 — strong prior for Stage 1 SECT measurement. Intra-subject
+        leakage measurement: when cfb-002 is the active edit, p-cfb-002-gen-1
+        (using cfb-004's prompt with cfb-004's target_true) tests whether
+        sport-relation edit leaks into birth-state-relation representation.
+
+    # -------------------------------------------------------------------------
+    # cfb-003 — Wayne Gretzky
+    # -------------------------------------------------------------------------
+    - id: "cfb-003"
+      subject: "Wayne Gretzky"
+      template_class: "canonical"
+      stage_1_eligible: true
+
+      memit_request:
+        prompt: "{} plays the sport of"
+        subject: "Wayne Gretzky"
+        target_new: "cricket"
+        target_true: "hockey"
+
+      flags:
+        polysemy: false
+        doubled_subject: false
+
+      provenance:
+        source_citation: "https://en.wikipedia.org/wiki/Wayne_Gretzky"
+        authored_at: "2026-04-28T23:00:00Z"
+        empirical_capture_at: "2026-04-29T05:50:00Z"
+        authored_by: "operator + VCA"
+
+      capture_obligations:
+        token_ids:
+          subject_token_ids: [25309, 710, 35877, 89, 2584]  # ['Way', 'ne', ' Gret', 'z', 'ky']
+          subject_last_token_id: 2584                       # MEMIT keys on BPE suffix 'ky' — see OQ-S25-7
+          subject_decoded_tokens: ["Way", "ne", " Gret", "z", "ky"]
+          subject_bpe_fragmentation: "5 tokens — heaviest fragmentation in the corpus; see OQ-S25-7"
+          target_new: 18836                     # ' cricket' (single-token verified PASS)
+          target_true: 12217                    # ' hockey' (single-token verified PASS)
+        baseline_probabilities:
+          p_target_true_pre: 0.8261
+          p_target_new_pre: 0.0002
+        canonical_prompt_top5:
+          - {token: " hockey", prob: 0.826}
+          - {token: " ice", prob: 0.072}
+          - {token: " Hockey", prob: 0.015}
+          - {token: " cur", prob: 0.010}
+          - {token: " basketball", prob: 0.007}
+
+      notes: |
+        Cross-domain canonical fact (NHL hockey). Empirical baseline P(hockey)
+        = 0.826 — strong prior. target_new "cricket" semantically distant from
+        hockey to maximize edit-magnitude signal; baseline P(cricket)=0.0002
+        confirms minimal pre-edit prior on the new target.
+
+    # -------------------------------------------------------------------------
+    # cfb-004 — Tom Brady (DOUBLED SUBJECT, FACT 2; VARIANT TEMPLATE)
+    # -------------------------------------------------------------------------
+    - id: "cfb-004"
+      subject: "Tom Brady"
+      template_class: "variant"
+      stage_1_eligible: false
+
+      memit_request:
+        prompt: "{} was born in"
+        subject: "Tom Brady"
+        target_new: "Texas"
+        target_true: "California"
+
+      flags:
+        polysemy: false
+        doubled_subject: true
+        doubled_subject_pair: "cfb-002"
+        baseline_prior_weakness: true  # see OQ-S25-5
+
+      provenance:
+        source_citation: "https://en.wikipedia.org/wiki/Tom_Brady"
+        source_fact_specifics: "born August 3, 1977, in San Mateo, California"
+        authored_at: "2026-04-28T23:00:00Z"
+        empirical_capture_at: "2026-04-29T05:50:00Z"
+        authored_by: "operator + VCA"
+
+      capture_obligations:
+        token_ids:
+          subject_token_ids: [13787, 15260]     # ['Tom', ' Brady'] (same as cfb-002 — paired doubled subject)
+          subject_last_token_id: 15260          # MEMIT keys on ' Brady' (same as cfb-002)
+          subject_decoded_tokens: ["Tom", " Brady"]
+          target_new: 3936                      # ' Texas' (single-token verified PASS)
+          target_true: 3442                     # ' California' (single-token verified PASS)
+        baseline_probabilities:
+          p_target_true_pre: 0.0118
+          p_target_new_pre: 0.0002
+        canonical_prompt_top5:
+          - {token: " the", prob: 0.129}
+          - {token: " Brook", prob: 0.037}
+          - {token: " San", prob: 0.034}
+          - {token: " Cincinnati", prob: 0.031}
+          - {token: " West", prob: 0.027}
+
+      notes: |
+        Variant template (birth-state relation). Stage-2 sweep only.
+        EMPIRICAL OBSERVATION (Session 2.5): GPT-J 6B does not interpret
+        "Tom Brady was born in" as a state-completion prompt. P(California)
+        = 0.012 — weak baseline prior. The model's top-1 is ' the' (likely
+        anchoring "the [state of California]" or "the [city of San Mateo]"
+        continuations). See OQ-S25-5 — Stage 2 sweep design must address
+        baseline-prior weakness, either via prompt revision (e.g., "Tom
+        Brady was born in the state of") or by treating weak-baseline as a
+        sweep variable.
+
+    # -------------------------------------------------------------------------
+    # cfb-005 — Serena Williams (VARIANT TEMPLATE)
+    # -------------------------------------------------------------------------
+    - id: "cfb-005"
+      subject: "Serena Williams"
+      template_class: "variant"
+      stage_1_eligible: false
+
+      memit_request:
+        prompt: "{} was born in"
+        subject: "Serena Williams"
+        target_new: "Florida"
+        target_true: "Michigan"
+
+      flags:
+        polysemy: false
+        doubled_subject: false
+        baseline_prior_weakness: true  # see OQ-S25-5; severe case
+
+      provenance:
+        source_citation: "https://en.wikipedia.org/wiki/Serena_Williams"
+        source_fact_specifics: "born September 26, 1981, in Saginaw, Michigan"
+        authored_at: "2026-04-28T23:00:00Z"
+        empirical_capture_at: "2026-04-29T05:50:00Z"
+        authored_by: "operator + VCA"
+
+      capture_obligations:
+        token_ids:
+          subject_token_ids: [50, 567, 2616, 6484]  # ['S', 'ere', 'na', ' Williams']
+          subject_last_token_id: 6484               # MEMIT keys on ' Williams' (clean word boundary)
+          subject_decoded_tokens: ["S", "ere", "na", " Williams"]
+          subject_bpe_fragmentation: "4 tokens — first-name fragmented; surname clean. Subject_last is on the clean ' Williams' boundary, not on a sub-word fragment (compare cfb-003)."
+          target_new: 4744                          # ' Florida' (single-token verified PASS)
+          target_true: 7055                         # ' Michigan' (single-token verified PASS)
+        baseline_probabilities:
+          p_target_true_pre: 0.000014     # ESSENTIALLY ZERO — see OQ-S25-5
+          p_target_new_pre: 0.0006
+        canonical_prompt_top5:
+          - {token: " 1981", prob: 0.581}
+          - {token: " Compton", prob: 0.069}
+          - {token: " Chicago", prob: 0.024}
+          - {token: " 1985", prob: 0.022}
+          - {token: " the", prob: 0.020}
+
+      notes: |
+        Variant template + cross-population diversity. Stage-2 sweep only.
+        EMPIRICAL OBSERVATION (Session 2.5): GPT-J 6B interprets "Serena
+        Williams was born in" as PRIMARILY temporal — top-1 is ' 1981'
+        (her birth year) at p=0.581. P(Michigan)=0.000014 is essentially
+        zero. SEVERE baseline-prior weakness. See OQ-S25-5. Stage 2 sweep
+        design MUST address this fact's prompt before any variant-template
+        SECT execution: either revise to "Serena Williams was born in the
+        state of" / "Serena Williams's birthplace state is", or accept
+        weak-baseline-prior as a variant of the sweep observation set.
+
+  forward_routing:
+
+    session_2_5_obligations:
+      - "[COMPLETED 2026-04-29] Capture token IDs for subject, target_new, target_true on GPT-J 6B float16 for all 5 facts. All 10 target token IDs single-token verified PASS."
+      - "[COMPLETED 2026-04-29] Capture pre-edit P(target_true) and P(target_new) for all 5 facts. cfb-001/002/003 strong (>=0.80); cfb-004/005 weak (see OQ-S25-5)."
+      - "[COMPLETED 2026-04-29] Polysemy disambiguation check executed. Verdict: PASS_REDUCED_SPECIFICITY. Per D-S25-1: probe DROPPED from Stage 1; cfb-001 fact unaffected."
+      - "[COMPLETED 2026-04-29] Single-token property verified for all 10 target_new + target_true values. ALL PASS."
+
+    stage_1_gating:
+      - "[PASS] All TBD-S25-FILL fields populated. Subject token IDs filled from capture JSON extraction (Session 2.5 close)."
+      - "[PASS] Stage 1 SECT execution selects 3 of {cfb-001, cfb-002, cfb-003} for the 3-facts × 3-runs trial matrix. Selection rationale: ALL 3 (the eligible pool is exactly 3)."
+      - "[PASS] cfb-004 and cfb-005 remain non-eligible for Stage 1 selection per template_class invariant (C-S24-1)."
+
+    stage_2_role:
+      - "Stage 2 sweep variables: fact-id (5 levels), template-class (canonical vs variant), polysemy-flag (true vs false), doubled-subject-flag (true vs false)."
+      - "Stage 2 sweep design MUST address OQ-S25-5 (variant-template baseline-prior weakness) before variant-template SECT execution."
+      - "Stage 2 sweep design is authored at Session 2.7+ (post-Stage-1)."
+
+  open_questions:
+
+    - id: "OQ-CFB-1"
+      origin: "Session 2.4 §2 (cfb-001 polysemy authorship)"
+      status: "Closed by D-S25-1"
+      closed_at: "Session 2.5"
+      resolution: |
+        Polysemy degeneracy_check executed against GPT-J 6B; PASSED literal
+        criteria but produced reduced-specificity verdict. Per D-S25-1:
+        p-cfb-001-spec-poly-1 dropped from Stage 1; cfb-001 fact remains
+        valid. Polysemy stress-testing deferred to CFB v2 per OQ-S25-6.
+
+    - id: "OQ-CFB-2"
+      origin: "Session 2.4 §2 (variant-template token-class)"
+      status: "Closed PASS"
+      closed_at: "Session 2.5"
+      resolution: |
+        Single-token verification executed for all 10 target_new + target_true
+        values. ALL PASS. " California" id=3442, " Michigan" id=7055,
+        " Texas" id=3936, " Florida" id=4744, plus all sport-name targets
+        single-token verified.
+
+    - id: "OQ-CFB-3"
+      origin: "Session 2.4 §1.5 (template-sensitivity scope)"
+      status: "Deferred to v2"
+      resolves_at: "Stage 2 sweep design (Session 2.7+)"
+      content: |
+        CFB v1 includes one canonical template and one variant template.
+        Stage 2 template-sensitivity sweep with two template classes can only
+        distinguish "canonical works / variant fails" or vice versa. CFB v2
+        may warrant a third template class for gradient-style analysis.
+
+    - id: "OQ-S25-5"
+      origin: "Session 2.5 §3 (variant-template empirical capture)"
+      status: "Open"
+      resolves_at: "Stage 2 sweep design (Session 2.7+)"
+      content: |
+        Variant-template baseline-prior weakness. Empirical capture:
+        - cfb-004: P(California|"Tom Brady was born in") = 0.012 (weak)
+        - cfb-005: P(Michigan|"Serena Williams was born in") = 0.000014 (severe)
+        GPT-J 6B interprets "born in" as primarily temporal (year-completion),
+        not geographic (state-completion). Stage 2 sweep design must address:
+        either revise variant-template prompts to disambiguate
+        ("X was born in the state of"), or treat weak-baseline-prior as a
+        sweep variable. Affects only Stage 2; cfb-004/005 are not stage_1_eligible.
+
+    - id: "OQ-S25-7"
+      origin: "Session 2.5 §3 (subject token ID extraction; multi-token BPE behavior)"
+      status: "Open"
+      resolves_at: "Stage 1 retrospective (Session 2.7)"
+      content: |
+        MEMIT subject_last anchoring on BPE fragments for multi-token subjects.
+        Subject token counts vary widely across CFB v1.1:
+        - cfb-001 ' Jordan': 2 tokens, subject_last = ' Jordan' (id 8078)
+        - cfb-002/004 ' Brady': 2 tokens, subject_last = ' Brady' (id 15260)
+        - cfb-003 'Way ne  Gret z ky': 5 tokens, subject_last = 'ky' (id 2584)
+        - cfb-005 'S ere na  Williams': 4 tokens, subject_last = ' Williams' (id 6484)
+        For cfb-003, MEMIT's edit keys on the BPE suffix 'ky' rather than a
+        clean word boundary. Standard MEMIT behavior; original Meng et al.
+        2023 paper acknowledges this. Stage 1 retrospective should compare
+        cfb-003's edit-magnitude against cfb-001/002 to test whether BPE
+        fragmentation systematically affects edit fidelity. If yes,
+        BPE-fragmentation-class becomes a Stage 2 sweep variable.
+
+# =============================================================================
+# END cfb-v1.yaml v1.1
+# =============================================================================
