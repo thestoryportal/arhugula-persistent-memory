@@ -1,0 +1,102 @@
+FAIL [
+  {
+    "line": 67,
+    "code": "PIPE",
+    "detail": "pipeline can hide individual exit codes"
+  },
+  {
+    "line": 68,
+    "code": "PIPE",
+    "detail": "pipeline can hide individual exit codes"
+  },
+  {
+    "line": 69,
+    "code": "PIPE",
+    "detail": "pipeline can hide individual exit codes"
+  },
+  {
+    "line": 81,
+    "code": "GITHUB_MARKER",
+    "detail": "unmarked GitHub write"
+  },
+  {
+    "line": 87,
+    "code": "PIPE",
+    "detail": "pipeline can hide individual exit codes"
+  },
+  {
+    "line": 87,
+    "code": "INTEGRITY",
+    "detail": "decompile grep is not a full source comparison"
+  },
+  {
+    "line": 94,
+    "code": "INTERPRETER",
+    "detail": "status/recover must use production interpreter"
+  },
+  {
+    "line": 94,
+    "code": "FIXED_GENERATION",
+    "detail": "derive expectations from observed successor"
+  },
+  {
+    "line": 96,
+    "code": "FIXED_GENERATION",
+    "detail": "derive expectations from observed successor"
+  },
+  {
+    "line": 104,
+    "code": "FIXED_GENERATION",
+    "detail": "derive expectations from observed successor"
+  },
+  {
+    "line": 106,
+    "code": "FIXED_GENERATION",
+    "detail": "derive expectations from observed successor"
+  },
+  {
+    "line": 107,
+    "code": "FIXED_GENERATION",
+    "detail": "derive expectations from observed successor"
+  },
+  {
+    "line": 108,
+    "code": "PIPE",
+    "detail": "pipeline can hide individual exit codes"
+  },
+  {
+    "line": 108,
+    "code": "CONTENT_MODE",
+    "detail": "content hashing bypass or sampling"
+  },
+  {
+    "line": 115,
+    "code": "PIPE",
+    "detail": "pipeline can hide individual exit codes"
+  },
+  {
+    "line": 116,
+    "code": "FIXED_GENERATION",
+    "detail": "derive expectations from observed successor"
+  },
+  {
+    "line": 117,
+    "code": "PIPE",
+    "detail": "pipeline can hide individual exit codes"
+  },
+  {
+    "line": 117,
+    "code": "FIXED_GENERATION",
+    "detail": "derive expectations from observed successor"
+  },
+  {
+    "line": 124,
+    "code": "PIPE",
+    "detail": "pipeline can hide individual exit codes"
+  },
+  {
+    "line": 125,
+    "code": "PIPE",
+    "detail": "pipeline can hide individual exit codes"
+  }
+]

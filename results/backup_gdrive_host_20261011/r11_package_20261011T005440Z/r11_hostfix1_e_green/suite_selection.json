@@ -1,0 +1,6 @@
+{
+  "count": 4,
+  "ids": [
+    "<unittest.suite.TestSuite tests=[<tools.test_backup_gdrive_addendum.LauncherHomeExportTest testMethod=test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home>, <tools.test_backup_gdrive_addendum.LauncherTest testMethod=test_builder_compiles_applet_and_prints_complete_sha256_manifest>, <tools.test_backup_gdrive_addendum.LauncherTest testMethod=test_launchd_waits_for_background_applet>, <tools.test_backup_gdrive_addendum.LauncherTest testMethod=test_nonzero_shell_script_is_caught_promptly_without_dialog>]>"
+  ]
+}

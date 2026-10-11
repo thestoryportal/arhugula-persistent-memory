@@ -1,0 +1,1 @@
+{"result": "REPORT_WRITTEN", "README_sha256": "af1d991bb986e0df58c11beea9d1714e07db8b8fdc8f41a29a5f96b9741a8fd6", "bulk_files": 8, "receipt_bytes": 44450986, "unit_GREEN": {"run": 210, "pass_count": 196, "skips": 14}, "unit_RED": {"run": 4, "failures": 5, "errors": 0}}

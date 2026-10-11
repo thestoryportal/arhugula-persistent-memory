@@ -1,0 +1,6 @@
+test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home (tools.test_backup_gdrive_addendum.LauncherHomeExportTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.047s
+
+OK

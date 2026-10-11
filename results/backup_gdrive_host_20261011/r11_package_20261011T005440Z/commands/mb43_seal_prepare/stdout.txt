@@ -1,0 +1,2 @@
+{"result": "PASS", "preserved_entry_files": 857, "pins": 31, "skips_listed": 14, "native_exclusions_listed": 4, "receipt_bytes": 44455605, "README_sha256": "26a89cb587782602aa40172d67f3294f34448b251ce532c7d5cd7663b408013d"}
+{"result": "SEAL_PREPARED", "changed_existing": 7, "new_entries": 249, "README_sha256": "26a89cb587782602aa40172d67f3294f34448b251ce532c7d5cd7663b408013d"}

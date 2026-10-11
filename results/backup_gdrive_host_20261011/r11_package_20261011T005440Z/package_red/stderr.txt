@@ -1,0 +1,408 @@
+test_missing_exit_capture (__main__.CheckPlanTest) ... FAIL
+test_pipe_even_with_receipt (__main__.CheckPlanTest) ... FAIL
+test_unmarked_launch (__main__.CheckPlanTest) ... FAIL
+test_v1_all_named_defects (__main__.CheckPlanTest) ... FAIL
+test_v2 (__main__.CheckPlanTest) ... ERROR
+test_filters_reports_and_download (__main__.CheckTemplateTest) ... ERROR
+test_current_lines (__main__.ErratumTest) ... ERROR
+test_supersedes_lineage_and_current_bytes (__main__.PinsTest) ... ERROR
+test_2_1_exact_check (__main__.PlanCriteriaTest) ... ERROR
+test_2_4_checkpoint (__main__.PlanCriteriaTest) ... ERROR
+test_4_1_fresh_history (__main__.PlanCriteriaTest) ... ERROR
+test_4_2_deployed_tool (__main__.PlanCriteriaTest) ... ERROR
+test_4_3_deadline_and_progress (__main__.PlanCriteriaTest) ... ERROR
+test_4_4_failure_branch (__main__.PlanCriteriaTest) ... ERROR
+test_4_5_assertions (__main__.PlanCriteriaTest) ... ERROR
+test_4_6_orphans (__main__.PlanCriteriaTest) ... ERROR
+test_4_7_retirement (__main__.PlanCriteriaTest) ... ERROR
+test_5_2_build_and_schedule (__main__.PlanCriteriaTest) ... ERROR
+test_5_3_order_and_stop (__main__.PlanCriteriaTest) ... ERROR
+test_exact_selection (__main__.RunnerContractTest) ... ERROR
+test_forbidden_child_argv (__main__.RunnerContractTest) ... ERROR
+test_host_refusal_boundaries (__main__.RunnerContractTest) ... ERROR
+test_clean (__main__.VerifyCheckTest) ... ok
+test_differing_file (__main__.VerifyCheckTest) ... FAIL
+test_duplicate_report_object (__main__.VerifyCheckTest) ... FAIL
+test_missing_destination (__main__.VerifyCheckTest) ... FAIL
+test_missing_report (__main__.VerifyCheckTest) ... FAIL
+test_missing_terminal_summary (__main__.VerifyCheckTest) ... FAIL
+test_nonzero_exit_empty_reports (__main__.VerifyCheckTest) ... ok
+test_truncated_line (__main__.VerifyCheckTest) ... FAIL
+test_truncated_population (__main__.VerifyCheckTest) ... FAIL
+test_unchecked_hash (__main__.VerifyCheckTest) ... FAIL
+test_unreadable_file (__main__.VerifyCheckTest) ... FAIL
+
+======================================================================
+ERROR: test_v2 (__main__.CheckPlanTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 85, in test_v2
+    def test_v2(self): self.assertEqual(module('check_plan').check((HERE/'activation_plan_v2.md').read_text()), [])
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_filters_reports_and_download (__main__.CheckTemplateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 117, in test_filters_reports_and_download
+    make = module('run_local_check').check_argv
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 20, in module
+    spec.loader.exec_module(obj)
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_local_check.py'
+
+======================================================================
+ERROR: test_current_lines (__main__.ErratumTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 158, in test_current_lines
+    text=(HERE/'erratum.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/erratum.md'
+
+======================================================================
+ERROR: test_supersedes_lineage_and_current_bytes (__main__.PinsTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 164, in test_supersedes_lineage_and_current_bytes
+    pins=json.loads((HERE/'pins_v2.json').read_text())
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/pins_v2.json'
+
+======================================================================
+ERROR: test_2_1_exact_check (__main__.PlanCriteriaTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 129, in setUp
+    def setUp(self): self.text=(HERE/'activation_plan_v2.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_2_4_checkpoint (__main__.PlanCriteriaTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 129, in setUp
+    def setUp(self): self.text=(HERE/'activation_plan_v2.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_4_1_fresh_history (__main__.PlanCriteriaTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 129, in setUp
+    def setUp(self): self.text=(HERE/'activation_plan_v2.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_4_2_deployed_tool (__main__.PlanCriteriaTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 129, in setUp
+    def setUp(self): self.text=(HERE/'activation_plan_v2.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_4_3_deadline_and_progress (__main__.PlanCriteriaTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 129, in setUp
+    def setUp(self): self.text=(HERE/'activation_plan_v2.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_4_4_failure_branch (__main__.PlanCriteriaTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 129, in setUp
+    def setUp(self): self.text=(HERE/'activation_plan_v2.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_4_5_assertions (__main__.PlanCriteriaTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 129, in setUp
+    def setUp(self): self.text=(HERE/'activation_plan_v2.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_4_6_orphans (__main__.PlanCriteriaTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 129, in setUp
+    def setUp(self): self.text=(HERE/'activation_plan_v2.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_4_7_retirement (__main__.PlanCriteriaTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 129, in setUp
+    def setUp(self): self.text=(HERE/'activation_plan_v2.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_5_2_build_and_schedule (__main__.PlanCriteriaTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 129, in setUp
+    def setUp(self): self.text=(HERE/'activation_plan_v2.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_5_3_order_and_stop (__main__.PlanCriteriaTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 129, in setUp
+    def setUp(self): self.text=(HERE/'activation_plan_v2.md').read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md'
+
+======================================================================
+ERROR: test_exact_selection (__main__.RunnerContractTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 95, in test_exact_selection
+    ids = module('run_py39_coverage').selected_ids(ROOT)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 20, in module
+    spec.loader.exec_module(obj)
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_py39_coverage.py'
+
+======================================================================
+ERROR: test_forbidden_child_argv (__main__.RunnerContractTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 110, in test_forbidden_child_argv
+    forbidden = module('run_py39_coverage').forbidden_argv
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 20, in module
+    spec.loader.exec_module(obj)
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_py39_coverage.py'
+
+======================================================================
+ERROR: test_host_refusal_boundaries (__main__.RunnerContractTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 103, in test_host_refusal_boundaries
+    validate = module('run_py39_coverage').validate_host
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 20, in module
+    spec.loader.exec_module(obj)
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_py39_coverage.py'
+
+======================================================================
+FAIL: test_missing_exit_capture (__main__.CheckPlanTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 91, in test_missing_exit_capture
+    self.assertTrue(module('check_plan').check('<!-- row marker=READ-ONLY -->\n```bash\nshasum -a 256 file\n```\n'))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_pipe_even_with_receipt (__main__.CheckPlanTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 89, in test_pipe_even_with_receipt
+    self.assertTrue(module('check_plan').check('<!-- row marker=READ-ONLY -->\n```bash\ncapture x cmd | tail -5\n```\n'))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_unmarked_launch (__main__.CheckPlanTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 87, in test_unmarked_launch
+    self.assertTrue(module('check_plan').check('```bash\n/usr/bin/open -W -g app\n```\n'))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_v1_all_named_defects (__main__.CheckPlanTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 83, in test_v1_all_named_defects
+    self.assertTrue({'PIPE','GITHUB_MARKER','INTEGRITY','INTERPRETER','CONTENT_MODE','FIXED_GENERATION'} <= codes, findings)
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_differing_file (__main__.VerifyCheckTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 52, in test_differing_file
+    self.assertEqual(self.verdict(False)['differing'], 1)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 39, in verdict
+    self.assertEqual(result['pass'], expected, result)
+AssertionError: True != False : {'pass': True, 'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0}
+
+======================================================================
+FAIL: test_duplicate_report_object (__main__.VerifyCheckTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 73, in test_duplicate_report_object
+    (self.run/'combined.txt').write_text('= alpha.txt\n= alpha.txt\n'); self.verdict(False)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 39, in verdict
+    self.assertEqual(result['pass'], expected, result)
+AssertionError: True != False : {'pass': True, 'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0}
+
+======================================================================
+FAIL: test_missing_destination (__main__.VerifyCheckTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 56, in test_missing_destination
+    self.assertEqual(self.verdict(False)['missing'], 1)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 39, in verdict
+    self.assertEqual(result['pass'], expected, result)
+AssertionError: True != False : {'pass': True, 'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0}
+
+======================================================================
+FAIL: test_missing_report (__main__.VerifyCheckTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 65, in test_missing_report
+    (self.run/'error.txt').unlink(); self.verdict(False)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 39, in verdict
+    self.assertEqual(result['pass'], expected, result)
+AssertionError: True != False : {'pass': True, 'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0}
+
+======================================================================
+FAIL: test_missing_terminal_summary (__main__.VerifyCheckTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 71, in test_missing_terminal_summary
+    (self.run/'check.log').write_text('partial log\n'); self.verdict(False)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 39, in verdict
+    self.assertEqual(result['pass'], expected, result)
+AssertionError: True != False : {'pass': True, 'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0}
+
+======================================================================
+FAIL: test_truncated_line (__main__.VerifyCheckTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 67, in test_truncated_line
+    (self.run/'combined.txt').write_text('= alpha.txt\n= link.rclonel'); self.verdict(False)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 39, in verdict
+    self.assertEqual(result['pass'], expected, result)
+AssertionError: True != False : {'pass': True, 'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0}
+
+======================================================================
+FAIL: test_truncated_population (__main__.VerifyCheckTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 69, in test_truncated_population
+    (self.run/'combined.txt').write_text('= alpha.txt\n'); self.verdict(False)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 39, in verdict
+    self.assertEqual(result['pass'], expected, result)
+AssertionError: True != False : {'pass': True, 'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0}
+
+======================================================================
+FAIL: test_unchecked_hash (__main__.VerifyCheckTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 63, in test_unchecked_hash
+    self.assertEqual(self.verdict(False)['unchecked'], 1)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 39, in verdict
+    self.assertEqual(result['pass'], expected, result)
+AssertionError: True != False : {'pass': True, 'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0}
+
+======================================================================
+FAIL: test_unreadable_file (__main__.VerifyCheckTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 60, in test_unreadable_file
+    self.assertEqual(self.verdict(False)['errors'], 1)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 39, in verdict
+    self.assertEqual(result['pass'], expected, result)
+AssertionError: True != False : {'pass': True, 'differing': 0, 'missing': 0, 'errors': 0, 'unchecked': 0, 'incomplete': 0}
+
+----------------------------------------------------------------------
+Ran 33 tests in 0.149s
+
+FAILED (failures=13, errors=18)

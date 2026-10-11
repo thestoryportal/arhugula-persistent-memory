@@ -1,0 +1,29 @@
+test_failure_exit_not_hidden (__main__.CaptureTest) ... FAIL
+test_success_streams_and_command (__main__.CaptureTest) ... FAIL
+
+======================================================================
+FAIL: test_failure_exit_not_hidden (__main__.CaptureTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_capture.py", line 17, in test_failure_exit_not_hidden
+    self.exercise(7)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_capture.py", line 25, in exercise
+    self.assertEqual(result.returncode, code, result.stderr)
+AssertionError: 2 != 7 : /Library/Developer/CommandLineTools/usr/bin/python3: can't open file '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/capture.py': [Errno 2] No such file or directory
+
+
+======================================================================
+FAIL: test_success_streams_and_command (__main__.CaptureTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_capture.py", line 14, in test_success_streams_and_command
+    self.exercise(0)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_capture.py", line 25, in exercise
+    self.assertEqual(result.returncode, code, result.stderr)
+AssertionError: 2 != 0 : /Library/Developer/CommandLineTools/usr/bin/python3: can't open file '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/capture.py': [Errno 2] No such file or directory
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.071s
+
+FAILED (failures=2)

@@ -1,0 +1,21 @@
+test_config_notice_alone_passes (__main__.HostLogTest) ... ok
+test_debug_argument_severity_words_are_data (__main__.HostLogTest) ... ok
+test_real_error_levels_still_fail (__main__.HostLogTest) ... ok
+test_recorded_clean_passes (__main__.HostLogTest) ... ok
+test_recorded_excluded_only_passes (__main__.HostLogTest) ... ok
+test_recorded_same_size_corruption_still_fails (__main__.HostLogTest) ... ok
+test_recorded_symlink_passes (__main__.HostLogTest) ... ok
+test_stderr_error_level_still_fails (__main__.HostLogTest) ... ok
+test_unchecked_hash_still_fails (__main__.HostLogTest) ... ok
+test_unprefixed_read_error_still_fails (__main__.HostLogTest) ... ok
+test_receipt_evidence_and_tmp_content_roots_are_separate (__main__.LocalEvidencePlacementTest) ... ok
+test_df_resolves_native_path_to_mountpoint (__main__.PhysicalPlacementTest) ... ok
+test_other_partition_on_same_physical_disk_is_rejected (__main__.PhysicalPlacementTest) ... ok
+test_recorded_native_disks_are_disjoint (__main__.PhysicalPlacementTest) ... ok
+test_unknown_physical_identity_is_rejected (__main__.PhysicalPlacementTest) ... ok
+test_actual_runner_uses_owned_tmp_fixture_root (__main__.RunnerPlacementTest) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.360s
+
+OK

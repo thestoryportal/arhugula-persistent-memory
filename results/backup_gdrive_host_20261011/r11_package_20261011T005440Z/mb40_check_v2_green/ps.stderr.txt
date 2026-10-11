@@ -1,0 +1,1 @@
+PermissionError(1, 'Operation not permitted')

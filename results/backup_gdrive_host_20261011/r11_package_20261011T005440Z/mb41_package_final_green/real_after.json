@@ -1,0 +1,184 @@
+[
+  {
+    "kind": "absent",
+    "path": "/Library/Logs/memit-gdrive-backup"
+  },
+  {
+    "kind": "absent",
+    "path": "/Users/robertrhu/Applications/MemitGdriveBackup.app"
+  },
+  {
+    "kind": "absent",
+    "path": "/Users/robertrhu/Library/Application Support/memit-gdrive-backup"
+  },
+  {
+    "kind": "directory",
+    "mode": 16832,
+    "mtime_ns": 1791413079799076686,
+    "path": "/Users/robertrhu/Library/LaunchAgents",
+    "size": 608
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789439247963433996,
+    "path": "/Users/robertrhu/Library/LaunchAgents/ai.openclaw.export-processor.plist",
+    "sha256": "2f588da44f539afd04adb2c62dfffe3f3587b2d3a80715230401be9d6fe80657",
+    "size": 898
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1790357833258476316,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.citrix.CitrixEpaAgent.plist",
+    "sha256": "54466e222fbbfdc4931871d31e53b29bf0531d62acffab7ccf5021324a731f66",
+    "size": 889
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789105695678493719,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.google.GoogleUpdater.wake.plist",
+    "sha256": "6d632df9064e8c9f0a18e2bf6f966bf1bdba313bf062f4d4e6093dbe79e9b099",
+    "size": 876
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789105696177819660,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.google.keystone.agent.plist",
+    "sha256": "97704a8960b4facceef54397a08fb5d0a456247c3627359215aa2a27df22656c",
+    "size": 181
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789105696178401170,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.google.keystone.xpcservice.plist",
+    "sha256": "97704a8960b4facceef54397a08fb5d0a456247c3627359215aa2a27df22656c",
+    "size": 181
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789439247964475160,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.rhu.extract.plist",
+    "sha256": "b661929a4221b8b8efd53cf41ec4b4c283320caf44a43f00ad2cffe7d1b16fb2",
+    "size": 1404
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789439247964709951,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.rhu.graphify.refresh.plist",
+    "sha256": "0ea3abe5ef9224edcc491c8296650318a8cb5ae3c16994db4c23e9cc295929f8",
+    "size": 1303
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1791503764822000229,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.rhu.memit-backup.plist",
+    "sha256": "44c2ffcad9837f76c0b08d34a1b40ca367c9145edf3360cad3131e1c64e29a2f",
+    "size": 1860
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789439247964976659,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.rhu.pipeline.plist",
+    "sha256": "c10dbb71dc28cb912dd128390ca844a99908b0af52893f1767c179f968872f62",
+    "size": 1634
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789439247965221033,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.rhu.pixeltable.derived.plist",
+    "sha256": "9d233ee1a9339b80b1162763926816f2f821660f0eb51fcb952b2544bbed590b",
+    "size": 1107
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789439247965436032,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.rhu.pixeltable.intake.plist",
+    "sha256": "a3b721df11a3d50975014710009739450a1b843ddf8392159447077bbe49e6bc",
+    "size": 1136
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789439247965708490,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.rhu.pixeltable.overnight.plist",
+    "sha256": "e8659852c23ca8e0796fab561fcedd8603b66fc8abd5c42982ca6eba0adc7126",
+    "size": 1813
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789439247965957989,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.rhu.pixeltable.refresh.plist",
+    "sha256": "e644dec524ec1f624577e682144df8c1a568ede9ec91467f03aba13d0b946926",
+    "size": 1195
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1791413079798604637,
+    "path": "/Users/robertrhu/Library/LaunchAgents/com.rhu.tailscaled-user.plist",
+    "sha256": "bdc04c01fae710fb3ceb16d8e55272e0c757cc20a97cc4e6d39fba09fddd62a4",
+    "size": 1140
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789439247966170405,
+    "path": "/Users/robertrhu/Library/LaunchAgents/org.thestoryportal.harness-dashboard-sync.plist",
+    "sha256": "db540113258de36490447640d47f44a8b29f24bc67237971e185136ea4f25e7c",
+    "size": 699
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789439247966421155,
+    "path": "/Users/robertrhu/Library/LaunchAgents/org.thestoryportal.harness-dashboard.plist",
+    "sha256": "2703e9a654b7d0c37caacf0d06f92fc0252663f0aa6c6102bbb72f263c9292f5",
+    "size": 887
+  },
+  {
+    "kind": "file",
+    "mode": 33188,
+    "mtime_ns": 1789439247966649445,
+    "path": "/Users/robertrhu/Library/LaunchAgents/org.thestoryportal.powerline-config.plist",
+    "sha256": "20ac105cef791c30a76b9881d49b7589a074d5064ffba5ba869293bb16996f5f",
+    "size": 802
+  },
+  {
+    "kind": "directory",
+    "mode": 16877,
+    "mtime_ns": 1791675879874502776,
+    "path": "/Users/robertrhu/Library/Logs/memit-gdrive-backup",
+    "size": 64
+  },
+  {
+    "kind": "absent",
+    "path": "/Users/robertrhu/Library/Logs/memit-gdrive-backup-launch-journal"
+  },
+  {
+    "kind": "absent",
+    "path": "/Users/robertrhu/Library/Logs/memit-gdrive-backup-launch-state"
+  },
+  {
+    "kind": "absent",
+    "path": "/Users/robertrhu/Library/Logs/memit-gdrive-backup.launchd.log"
+  },
+  {
+    "kind": "absent",
+    "path": "/Users/robertrhu/Library/Logs/memit-gdrive-backup.lock"
+  },
+  {
+    "kind": "absent",
+    "path": "/Users/robertrhu/Library/Logs/memit-gdrive-backup.log"
+  }
+]

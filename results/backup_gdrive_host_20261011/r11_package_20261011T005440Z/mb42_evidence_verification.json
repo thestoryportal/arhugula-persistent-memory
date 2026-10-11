@@ -1,0 +1,51 @@
+{
+  "entry_manifest_entries": 339,
+  "entry_manifest_all_ok": true,
+  "preserved_baseline_entries": 335,
+  "preserved_baseline_all_ok": true,
+  "pin_count": 27,
+  "pins_all_ok": true,
+  "fresh_red": {
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "exit": 1
+  },
+  "fresh_green": {
+    "tests": 2,
+    "pass": 2,
+    "skips": 0,
+    "failures": 0,
+    "errors": 0
+  },
+  "inherited_addendum": {
+    "run": 151,
+    "pass": 137,
+    "skip": 14,
+    "failures": 0,
+    "errors": 0
+  },
+  "inherited_package": {
+    "run": 39,
+    "pass": 39,
+    "skip": 0,
+    "failures": 0,
+    "errors": 0
+  },
+  "checker_v1": {
+    "findings": 20,
+    "child_exit": 1,
+    "outer_exit": 0
+  },
+  "checker_v2": {
+    "output": "PASS []",
+    "child_exit": 0,
+    "outer_exit": 0
+  },
+  "bulk_files": 6,
+  "receipt_bytes_before_final_reports": 29465472,
+  "head": "aa4d9572dde6ab29e73d8ee6312c140beed8a27a",
+  "real_home_writes": false,
+  "host_native_executed": false,
+  "scope": "receipt and owned /private/tmp HOME only; concurrent-owner files excluded"
+}

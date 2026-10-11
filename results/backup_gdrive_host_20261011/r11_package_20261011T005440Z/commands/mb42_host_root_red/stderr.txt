@@ -1,0 +1,20 @@
+test_all_outer_dispatch_examples_set_worktree_root (__main__.HostCommandsRootTest) ... FAIL
+
+======================================================================
+FAIL: test_all_outer_dispatch_examples_set_worktree_root (__main__.HostCommandsRootTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_host_commands_mb42.py", line 16, in test_all_outer_dispatch_examples_set_worktree_root
+    self.assertEqual(dispatch, expected,
+AssertionError: Lists differ: ['/bin/sh "$R/host_commands.sh" e-red', '/b[322 chars]ins'] != ['LLMDB_ROOT=$PWD /bin/sh "$R/host_commands[466 chars]ins']
+
+First differing element 0:
+'/bin/sh "$R/host_commands.sh" e-red'
+'LLMDB_ROOT=$PWD /bin/sh "$R/host_commands.sh" e-red'
+
+Diff is 1136 characters long. Set self.maxDiff to None to see it. : Every outer example must set LLMDB_ROOT=$PWD
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=1)

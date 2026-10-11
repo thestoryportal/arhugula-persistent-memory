@@ -1,0 +1,72 @@
+{
+  "utc": "2026-10-11T01:24:02.550841+00:00",
+  "files": [
+    {
+      "path": "tools/backup_gdrive.sh",
+      "expected": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+      "actual": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+      "match": true
+    },
+    {
+      "path": "tools/backup_gdrive_status.py",
+      "expected": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+      "actual": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+      "match": true
+    },
+    {
+      "path": "tools/backup_mirror.excludes",
+      "expected": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+      "actual": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+      "match": true
+    },
+    {
+      "path": "tools/launchd/MemitGdriveBackup.applescript",
+      "expected": "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428",
+      "actual": "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428",
+      "match": true
+    },
+    {
+      "path": "tools/launchd/build_gdrive_applet.sh",
+      "expected": "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+      "actual": "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+      "match": true
+    },
+    {
+      "path": "tools/launchd/stage_gdrive_release.sh",
+      "expected": "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e",
+      "actual": "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e",
+      "match": true
+    },
+    {
+      "path": "tools/launchd/com.rhu.memit-gdrive-backup.plist",
+      "expected": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce",
+      "actual": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce",
+      "match": true
+    },
+    {
+      "path": "tools/test_backup_gdrive.py",
+      "expected": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+      "actual": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+      "match": true
+    },
+    {
+      "path": "tools/test_backup_gdrive_addendum.py",
+      "expected": "3ff28cb712e97941476c1730928ff720f9a0dbcb2d8ba29344647ea8904501f8",
+      "actual": "3ff28cb712e97941476c1730928ff720f9a0dbcb2d8ba29344647ea8904501f8",
+      "match": true
+    },
+    {
+      "path": "results/backup_gdrive_mb25_20261010T202206Z/final_sha256.txt",
+      "expected": "b24014eaffb19434922a67790bbe54753253f5461686b473779a03259bae6d68",
+      "actual": "b24014eaffb19434922a67790bbe54753253f5461686b473779a03259bae6d68",
+      "match": true
+    },
+    {
+      "path": "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/run_suite.py",
+      "expected": "5065464f1f61e957011f361ae48d8af1a85cd52fdecdcb40710c30d125b1fe3d",
+      "actual": "5065464f1f61e957011f361ae48d8af1a85cd52fdecdcb40710c30d125b1fe3d",
+      "match": true
+    }
+  ],
+  "all_unchanged": true
+}

@@ -1,0 +1,8 @@
+{
+  "all_owned_groups_exited": true,
+  "exception": "PermissionError(1, 'Operation not permitted')",
+  "exit_code": 1,
+  "mode": "sandbox",
+  "real_inventory_identical": true,
+  "success": false
+}

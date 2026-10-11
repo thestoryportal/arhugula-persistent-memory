@@ -1,0 +1,6 @@
+test_supersedes_lineage_and_current_bytes (__main__.PinsTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK

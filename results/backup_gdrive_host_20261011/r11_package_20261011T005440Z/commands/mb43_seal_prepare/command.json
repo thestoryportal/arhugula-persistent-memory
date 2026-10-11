@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "-c",
+    "from pathlib import Path\nimport hashlib,json,sys\np=Path(sys.argv[1]); root=p.parents[2]\ndef digest(path): return hashlib.sha256(path.read_bytes()).hexdigest()\n# Narrow the Git claim to the shared worktree; isolated fixture Git is test behavior.\npath=p/\"README.md\"\ncurrent,marker,historical=path.read_text().partition(\"## Preserved MB42 handoff and historical reports\")\nassert marker\npath.write_text(current.replace(\"git mutation\", \"worktree git mutation\")+marker+historical)\npath=p/\"context_save_mb43.md\"\npath.write_text(path.read_text().replace(\"git mutation\", \"worktree git mutation\"))\nfrom importlib.util import spec_from_file_location,module_from_spec\nspec=spec_from_file_location(\"report\",p/\"verify_readme_mb43.py\")\nreport=module_from_spec(spec); spec.loader.exec_module(report); report.main()\nentry=json.loads((p/\"mb43_entry_snapshot.json\").read_text())\nchanged_names=(\"README.md\",\"activation_plan_v2.md\",\"host_commands.sh\",\"host_commands.md\",\"pins_v2.sha256\",\"pins_v2.json\",\"bulk_not_in_git_sha256.json\")\nexisting=[]\nfor name in changed_names:\n    path=p/name; before=p/\"before\"/(\"mb43_\"+name)\n    assert digest(before)==entry[\"hashes\"][str(path.relative_to(root))]\n    existing.append(dict(path=str(path.relative_to(root)),before_copy=str(before.relative_to(root)),before_sha256=digest(before),after_sha256=digest(path),size=path.stat().st_size))\nnew=[dict(path=str(x.relative_to(root)),before_sha256=\"ABSENT\",after_sha256=digest(x),size=x.stat().st_size) for x in sorted(p.rglob(\"*\")) if x.is_file() and str(x.relative_to(root)) not in entry[\"hashes\"] and not str(x.relative_to(p)).startswith(\"commands/mb43_seal_prepare/\")]\nwith (p/\"change_manifest_mb43.json\").open(\"x\") as f:\n    json.dump(dict(existing=existing,new=new,protected=entry[\"protected\"],excluded_own_inflight=\"commands/mb43_seal_prepare/; sealed by final_sha256_mb43.txt after capture closes\"),f,indent=2); f.write(\"\\n\")\nprint(json.dumps(dict(result=\"SEAL_PREPARED\",changed_existing=len(existing),new_entries=len(new),README_sha256=digest(p/\"README.md\"))))",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "niceness": 10,
+  "env": {
+    "HOME": "/private/tmp/drive_r11_mb43_seal_ZEqrpb",
+    "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "BACKUP_TEST_NO_RCLONE": "1",
+    "RCLONE_CONFIG": null,
+    "XDG_CONFIG_HOME": null
+  },
+  "source_sha256": {
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/capture.py": "3df18e3048e1d8451997acf0b9cd32ae502791544e8b679660baf93f863d2b3d"
+  }
+}

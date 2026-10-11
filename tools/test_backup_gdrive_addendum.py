@@ -29,6 +29,48 @@ NO_RCLONE = os.environ.get("BACKUP_TEST_NO_RCLONE") == "1"
 HOST_RCLONE = unittest.skipIf(NO_RCLONE, "HOST-PENDING: real rclone forbidden by MB14 brief")
 
 
+def isolate_failing_launcher_home(source, home):
+    def isolate(match):
+        name, literal = match.groups()
+        body = json.loads(literal)
+        if name in {"generationShell", "receiptShell"}:
+            body = "HOME="+shlex.quote(str(home))+"\nexport HOME\n"+body
+        return "property "+name+" : "+json.dumps(body)
+    return re.sub(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', isolate, source, flags=re.M)
+
+
+class LauncherHomeExportTest(unittest.TestCase):
+    def test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home(self):
+        with tempfile.TemporaryDirectory(prefix="launcher_home_", dir="/private/tmp") as temporary:
+            base = Path(temporary)
+            home, sentinel = base/"fixture-home", base/"sentinel-home"
+            home.mkdir()
+            sentinel.mkdir()
+            source = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+            # Keep the native transform; replace only each property's Perl payload.
+            transformed = isolate_failing_launcher_home(source, home)
+            for name in ("generationShell", "receiptShell"):
+                match = re.search(r'^property '+name+r' : ("(?:\\.|[^"\\])*")$', transformed, re.M)
+                self.assertIsNotNone(match)
+                body = json.loads(match.group(1))
+                original = json.loads(re.search(r'^property '+name+r' : ("(?:\\.|[^"\\])*")$',
+                                                source, re.M).group(1))
+                self.assertIn("/usr/bin/perl", original)
+                self.assertTrue(body.endswith(original))
+                prefix = body[:-len(original)]
+                probe = prefix+"/usr/bin/perl -e 'print $ENV{HOME} // \"UNSET\"'"
+                for parent in (None, str(sentinel)):
+                    with self.subTest(property=name, parent_home=parent):
+                        env = dict(os.environ)
+                        if parent is None:
+                            env.pop("HOME", None)
+                        else:
+                            env["HOME"] = parent
+                        result = run_process(["/bin/sh", "-c", probe], env=env, timeout=5)
+                        self.assertEqual(result.returncode, 0, result.stderr)
+                        self.assertEqual(result.stdout, str(home))
+
+
 class Fixture(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(prefix="gdrive_addendum_", dir=os.environ.get("BACKUP_TEST_RECEIPTS", "/private/tmp"))
@@ -2501,13 +2543,7 @@ class LauncherTest(Fixture):
         counter = home/"Library/Logs/memit-gdrive-backup-launch-state/counter"
         counter.parent.mkdir(parents=True)
         counter.write_text("0\n")
-        def isolate(match):
-            name, literal = match.groups()
-            body = json.loads(literal)
-            if name in {"generationShell", "receiptShell"}:
-                body = "HOME="+shlex.quote(str(home))+"\n"+body
-            return "property "+name+" : "+json.dumps(body)
-        variant_text = re.sub(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', isolate, variant_text, flags=re.M)
+        variant_text = isolate_failing_launcher_home(variant_text, home)
         variant.write_text(variant_text)
         compiled = self.base/"failure.scpt"
         result = run_process(["/usr/bin/osacompile", "-o", str(compiled), str(variant)], timeout=10)
@@ -2518,6 +2554,12 @@ class LauncherTest(Fixture):
         self.osa_result(result, "osascript exit-1 variant")
         self.assertLess(time.monotonic()-start, 5)
         self.assertTrue(marker.is_file(), "positive control: the failing shell script was run")
+        receipt = home/"Library/Logs/memit-gdrive-backup/launch_receipt.json"
+        state = counter.parent/"unresolved.json"
+        for artifact in (receipt, counter, state):
+            self.assertTrue(artifact.is_file(), "positive control: fixture artifact "+str(artifact))
+        self.assertEqual(json.loads(receipt.read_text())["exit_code"], 1)
+        self.assertGreater(int(counter.read_text()), 0)
 
     def test_builder_compiles_applet_and_prints_complete_sha256_manifest(self):
         script = ROOT/"tools/launchd/build_gdrive_applet.sh"

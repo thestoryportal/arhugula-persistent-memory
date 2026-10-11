@@ -1,0 +1,25 @@
+test_clean (__main__.VerifyCheckTest) ... ok
+test_differing_file (__main__.VerifyCheckTest) ... ok
+test_duplicate_report_object (__main__.VerifyCheckTest) ... ok
+test_missing_destination (__main__.VerifyCheckTest) ... ok
+test_missing_report (__main__.VerifyCheckTest) ... ok
+test_missing_terminal_summary (__main__.VerifyCheckTest) ... ok
+test_nonzero_exit_empty_reports (__main__.VerifyCheckTest) ... ok
+test_truncated_line (__main__.VerifyCheckTest) ... ok
+test_truncated_population (__main__.VerifyCheckTest) ... ok
+test_unchecked_hash (__main__.VerifyCheckTest) ... ok
+test_unreadable_file (__main__.VerifyCheckTest) ... ok
+test_actual_builder_requires_go (__main__.CheckPlanTest) ... ok
+test_hash_filename_data_is_readonly (__main__.CheckPlanTest) ... ok
+test_missing_exit_capture (__main__.CheckPlanTest) ... ok
+test_pipe_even_with_receipt (__main__.CheckPlanTest) ... ok
+test_unmarked_caffeinated_launch (__main__.CheckPlanTest) ... ok
+test_unmarked_launch (__main__.CheckPlanTest) ... ok
+test_v1_all_named_defects (__main__.CheckPlanTest) ... ok
+test_v2 (__main__.CheckPlanTest) ... ok
+test_filters_reports_and_download (__main__.CheckTemplateTest) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 1.030s
+
+OK

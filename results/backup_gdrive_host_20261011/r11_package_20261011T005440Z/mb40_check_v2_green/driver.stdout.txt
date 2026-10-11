@@ -1,0 +1,7 @@
+FAIL [
+  {
+    "line": 94,
+    "code": "WRITE_MARKER",
+    "detail": "write or launch requires GO"
+  }
+]

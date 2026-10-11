@@ -1,0 +1,41 @@
+test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home (tools.test_backup_gdrive_addendum.LauncherHomeExportTest) ... 
+======================================================================
+FAIL: test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home (tools.test_backup_gdrive_addendum.LauncherHomeExportTest) (property='generationShell', parent_home=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 67, in test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 2 != 0 : /bin/sh: -c: line 2: unexpected EOF while looking for matching `)'
+
+
+======================================================================
+FAIL: test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home (tools.test_backup_gdrive_addendum.LauncherHomeExportTest) (property='generationShell', parent_home='/private/tmp/launcher_home_fn2lgjfq/sentinel-home')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 67, in test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 2 != 0 : /bin/sh: -c: line 2: unexpected EOF while looking for matching `)'
+
+
+======================================================================
+FAIL: test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home (tools.test_backup_gdrive_addendum.LauncherHomeExportTest) (property='receiptShell', parent_home=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 67, in test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 1 != 0 : /bin/sh: line 2: $1: unbound variable
+
+
+======================================================================
+FAIL: test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home (tools.test_backup_gdrive_addendum.LauncherHomeExportTest) (property='receiptShell', parent_home='/private/tmp/launcher_home_fn2lgjfq/sentinel-home')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 67, in test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 1 != 0 : /bin/sh: line 2: $1: unbound variable
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.031s
+
+FAILED (failures=4)

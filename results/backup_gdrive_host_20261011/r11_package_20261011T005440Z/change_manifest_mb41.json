@@ -1,0 +1,938 @@
+{
+  "baseline": "handoff_sha256_mb40.txt",
+  "baseline_sha256": "2c844430c6bd77bb20aeaabf93ab71fbdecfde51f4fa73f742e5032a2464ff85",
+  "changed_files": [
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/README.md",
+      "before_sha256": "987059b4c9eaeffef60ed6c8ac313c50bfaed506d2f9edfee28dc35e2b7b16cb",
+      "after_sha256": "084316e2c8cfe3c04208ab2841b396d1aab580071e1f11d291bcfd240ceab582",
+      "size": 14908
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md",
+      "before_sha256": "c3db5be5a8e1c1a5922ce0637b4f77fdbe2da631a2a2358e00e4952366352942",
+      "after_sha256": "8204d3dc97c75968b7257b85bfe8dafe386dd09ba01d111bc36f0f85964e9d89",
+      "size": 46474
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/mb41_README.md",
+      "before_sha256": "ABSENT",
+      "after_sha256": "987059b4c9eaeffef60ed6c8ac313c50bfaed506d2f9edfee28dc35e2b7b16cb",
+      "size": 23172
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/mb41_activation_plan_v2.md",
+      "before_sha256": "ABSENT",
+      "after_sha256": "c3db5be5a8e1c1a5922ce0637b4f77fdbe2da631a2a2358e00e4952366352942",
+      "size": 45551
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/mb41_bulk_not_in_git_sha256.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "fb637bcef35c37d6e5b6b18b1fd43adb48b9910aec95d3b7e4305d3b4c54eef2",
+      "size": 941
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/mb41_check_plan.py",
+      "before_sha256": "ABSENT",
+      "after_sha256": "fb56acf06fe1f7d69e3321577762c61b0575c4d64f62522dcd94a4d8f64d50c4",
+      "size": 2824
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/mb41_draft_pins_v2.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "5db404c545c1a7a5d6fd7afd8db60590969d55626486c7512e18ea05f26a8850",
+      "size": 5211
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/mb41_draft_pins_v2.sha256",
+      "before_sha256": "ABSENT",
+      "after_sha256": "4711c4f425d1fe38ec0161ad414f3215bf1f25e40e92364d456491c3045998d4",
+      "size": 2671
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/mb41_ready_draft_README.md",
+      "before_sha256": "ABSENT",
+      "after_sha256": "7bd30aeaf39e802448c17358f4b34404319d7f48f67c23976d7e4a2f6770ce61",
+      "size": 20021
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/mb41_test_package.py",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9aa0a31ebb5e4a3f25c5714930640b32cf2de5a277e34ff37dccbbb3dbe898d0",
+      "size": 10826
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/bulk_not_in_git_sha256.json",
+      "before_sha256": "fb637bcef35c37d6e5b6b18b1fd43adb48b9910aec95d3b7e4305d3b4c54eef2",
+      "after_sha256": "52cc66bbe0e243908fbe2abfc356c11bc14eea23ea1395d34544ca9d0ed22d28",
+      "size": 1126
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/check_plan.py",
+      "before_sha256": "fb56acf06fe1f7d69e3321577762c61b0575c4d64f62522dcd94a4d8f64d50c4",
+      "after_sha256": "4bca51b5a9da521afd87d8cdbd2136ccc7e4a9e784c6e9b3155207f7a41cf8e9",
+      "size": 3949
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_host_syntax_green/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "cee842c1c35303038acd844ff7e7b6964915e6addd3ac3b5076d82a3cedfc9db",
+      "size": 880
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_host_syntax_green/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_host_syntax_green/stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_host_syntax_green/stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_operation_green/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "3cd28375fe6e266d551fd7b8d0e26272642d719a182d5901790f09bf28b11d40",
+      "size": 935
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_operation_green/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_operation_green/stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "cd797808741e1bbcfc44f6ed77ceeb8d40b7351998eaa4735f149a8c5aea1da6",
+      "size": 637
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_operation_green/stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_operation_red/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9c3da2108e54eb977c63f1e8e2e0e2c526a0bae9438f4e2fecd255667c7bafe8",
+      "size": 1035
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_operation_red/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_operation_red/stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "1261b1bcd075895bab1bb1a5256dc0b3383514ba0a094254100e639eccc20c6d",
+      "size": 1257
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_operation_red/stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_final_green/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "1a5dc9f00d7c297fe2d0b4157b13dc7b8aa0e682bffd62c2676feb42c3627ae8",
+      "size": 908
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_final_green/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_final_green/stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_final_green/stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "8ec964ba92c93f909c2dfed7044ff971a97652658ceae1ba75437b42d7ac4b6b",
+      "size": 1939
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_red/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "2ef0bff8abdfe12077bf76f3f0cf304f2628f1a4e350922a411f032131e2a5d2",
+      "size": 926
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_red/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_red/stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "cb31745a1d652bd41a6eea23c5abc95f133b67ed4bf6339428a22252e56b0c9e",
+      "size": 1696
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_red/stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_red_valid/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "de97cd95b35c762f2067b359f58a39fd22cdd90feccd45c729f17582e3a33d78",
+      "size": 932
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_red_valid/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_red_valid/stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "67f495752f6a3d663c11b060b1c809fc2b9e2a6be8375079e33460d77e282d87",
+      "size": 950
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_pins_red_valid/stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_wake_green/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "6dff89e60396cdb2a6baabc2d2a10d56d1351a41bcd7b85510b5b48e737c254b",
+      "size": 971
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_wake_green/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_wake_green/stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "a8222bc411de9861ce8d3d838a8857e4f397d66dab061173fa0c410f7056b784",
+      "size": 1352
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_wake_green/stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_wake_red/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "0ca05634ce06458de9777d49d436231a6d88756ecffa9f34b1d4c4d75fe3a4f7",
+      "size": 1038
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_wake_red/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_wake_red/stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "ee909051d80ce0ded078904ecb02e5a5083b902716e1abf2e9c86fa8aded6f0f",
+      "size": 47757
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb41_wake_red/stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/context_save_mb41.md",
+      "before_sha256": "ABSENT",
+      "after_sha256": "35613b18e973ca7d00b7a750ea6e170d3ee050b63fde40554338b8128bc20b5b",
+      "size": 3620
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/handoff_sha256_mb40.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "2c844430c6bd77bb20aeaabf93ab71fbdecfde51f4fa73f742e5032a2464ff85",
+      "size": 30432
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/host_commands.md",
+      "before_sha256": "ABSENT",
+      "after_sha256": "2415ffa78e30bf06b4433428ff535d84c526337ea94d28b5c5dfb32550a16e30",
+      "size": 5222
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/host_commands.sh",
+      "before_sha256": "ABSENT",
+      "after_sha256": "86eb5b8d7aad22679bd96756befab8120685ff4219200bf0adfd54c9c3934d32",
+      "size": 1931
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "f3ffa95958fc352950547a9f7744d5967ac461f377d3a4b091eba49cc79b9f59",
+      "size": 3969
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/driver.command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "ad61d55d50ebecaa5669d9fc958fdf2961c3db0107c8e981cfb9c30d9a10da4c",
+      "size": 514
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/driver.exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/driver.stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/driver.stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "ce6e94ef15efd70b29fa6eb505ecc4b41920aa717cef6111f579c182270bcf33",
+      "size": 2171
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/interpreter_probe.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "a79eb1e8fc46497b3f4a4519c9e9ae546fe9a872231899cef28a63cf5c150f18",
+      "size": 207
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/process_clearance.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "b0bedc766ee3d8e1981aeec24c111b8e964b5b80100dedfce5dd377ca0e5df28",
+      "size": 552
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/ps.command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e",
+      "size": 195
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/ps.exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "703d2c10fa601276a4dd96193faed68902a642a44eb5b01b40d6fc8499e12822",
+      "size": 4
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/ps.stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "6ffd1f79004a9d7835509dc690d122cabf559e2e2343a47d0587fe8bd867ac03",
+      "size": 46
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/ps.stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/ps_observation.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "bb038cadf695410b8f4ea3d3ccc23a4f2fa3db5fb76bbf63a2874c673d9d197d",
+      "size": 103
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/real_after.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/real_before.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/result.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "c433e657ab63c52bc6c09d555dfd0a500318d92c9a3a97e20936cd556df58c9a",
+      "size": 158
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v1_final_red/started_processes.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "f1daa83b48b1c4724ee2738dc140ebfae22080fc16acdadc8d3b50a2ac9d1325",
+      "size": 422
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e23c6795c3b8a8f446e4579d14980336963443cfd2f9c2fa45451f7fff31d01c",
+      "size": 3977
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/driver.command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "a8823776560601f18a7f93e42d09a4306e6d5168c7d18e01275d8c55bd06ae27",
+      "size": 536
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/driver.exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/driver.stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/driver.stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "3a6fb1f9022b9359d6bd8f14f6141c7943ada82bc6c4c28b57f0878ccb61ee71",
+      "size": 8
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/interpreter_probe.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "a79eb1e8fc46497b3f4a4519c9e9ae546fe9a872231899cef28a63cf5c150f18",
+      "size": 207
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/process_clearance.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "1ba0658cdd381b3a498b8c15e288f6492ffe31d5befef6007b0db38eaa698ec5",
+      "size": 574
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/ps.command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e",
+      "size": 195
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/ps.exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "703d2c10fa601276a4dd96193faed68902a642a44eb5b01b40d6fc8499e12822",
+      "size": 4
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/ps.stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "6ffd1f79004a9d7835509dc690d122cabf559e2e2343a47d0587fe8bd867ac03",
+      "size": 46
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/ps.stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/ps_observation.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "bb038cadf695410b8f4ea3d3ccc23a4f2fa3db5fb76bbf63a2874c673d9d197d",
+      "size": 103
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/real_after.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/real_before.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/result.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "c086e02bae5b2c0c844df3a39b0b80c1a7f8272aa901efd5b8f4ca78aaf0f1e3",
+      "size": 160
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_final_green/started_processes.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "1d9b001f9e04e6e81ed99ead806724c5bedf64b46574e789ca7709705ada13a2",
+      "size": 444
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "0157b5f1b8202febbaf9a87b025f31c37c49c1b4eaf38d332727b0197a18f750",
+      "size": 3959
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/driver.command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "a8823776560601f18a7f93e42d09a4306e6d5168c7d18e01275d8c55bd06ae27",
+      "size": 536
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/driver.exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/driver.stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "2a13af67601624cb4924e88c89583b6d14c362a01c585716097d241c0a47bd61",
+      "size": 110
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/driver.stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "3a6fb1f9022b9359d6bd8f14f6141c7943ada82bc6c4c28b57f0878ccb61ee71",
+      "size": 8
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/interpreter_probe.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "585211c47065166d22460c291cb10f12459c16b2589a12f217976f3b345f6dd7",
+      "size": 318
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/process_clearance.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "2eb118da3755ffb4b98cd578b9d5d9f766becab5bf4af82b9c2463a6a247275f",
+      "size": 576
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/ps.command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e",
+      "size": 195
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/ps.exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "703d2c10fa601276a4dd96193faed68902a642a44eb5b01b40d6fc8499e12822",
+      "size": 4
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/ps.stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "6ffd1f79004a9d7835509dc690d122cabf559e2e2343a47d0587fe8bd867ac03",
+      "size": 46
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/ps.stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/ps_observation.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "bb038cadf695410b8f4ea3d3ccc23a4f2fa3db5fb76bbf63a2874c673d9d197d",
+      "size": 103
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/real_after.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/real_before.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/result.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "c086e02bae5b2c0c844df3a39b0b80c1a7f8272aa901efd5b8f4ca78aaf0f1e3",
+      "size": 160
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_check_v2_green/started_processes.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e270b8f83b71c6735e223d801746484f6e20a2cfc84c1dc07cda7b7edd0965a7",
+      "size": 446
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "629cdc12589454649a7e8daa0f9817578574a2c147514a6db6ffc3def4b16a21",
+      "size": 3970
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/driver.command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "03d4021fb4cf21c11f16aba0b81dc7528208df7773933559a342584b653d685f",
+      "size": 303
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/driver.exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/driver.stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "f2bae4f2ec6ba03f6979b4ebbccfcb3de52a3eef210bd0da9b7c80e40a7aa5ba",
+      "size": 2553
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/driver.stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/interpreter_probe.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "a79eb1e8fc46497b3f4a4519c9e9ae546fe9a872231899cef28a63cf5c150f18",
+      "size": 207
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/process_clearance.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "03807ee6c0f4f7e728656f0d58f4499f38861045b043535799b33425383304ac",
+      "size": 264
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/ps.command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e",
+      "size": 195
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/ps.exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "703d2c10fa601276a4dd96193faed68902a642a44eb5b01b40d6fc8499e12822",
+      "size": 4
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/ps.stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "6ffd1f79004a9d7835509dc690d122cabf559e2e2343a47d0587fe8bd867ac03",
+      "size": 46
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/ps.stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/ps_observation.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "bb038cadf695410b8f4ea3d3ccc23a4f2fa3db5fb76bbf63a2874c673d9d197d",
+      "size": 103
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/real_after.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/real_before.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/result.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "72d7fd60f368ed42a172151656ffa2a2d5111c1004cc5a2cf12ad8a1c63f418e",
+      "size": 156
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_final_green/started_processes.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "a60eeec7ad449cbf8fb7c304c39080e3e858d1486c1565adda6b3dda70886449",
+      "size": 134
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "66141e24e60067d872dff15f49afa6287d829778295c390006b699da20475f72",
+      "size": 3952
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/driver.command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "03d4021fb4cf21c11f16aba0b81dc7528208df7773933559a342584b653d685f",
+      "size": 303
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/driver.exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/driver.stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "dfc7e6d2577b74c042b6623f582576a7479109f78ebe747121fe3e46f9fee432",
+      "size": 2409
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/driver.stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/interpreter_probe.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "a79eb1e8fc46497b3f4a4519c9e9ae546fe9a872231899cef28a63cf5c150f18",
+      "size": 207
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/process_clearance.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "14a826b8716e0c045f51392002b75f1adaa2c53c22a69c2ef07f808093b8cf3d",
+      "size": 266
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/ps.command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e",
+      "size": 195
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/ps.exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "703d2c10fa601276a4dd96193faed68902a642a44eb5b01b40d6fc8499e12822",
+      "size": 4
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/ps.stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "6ffd1f79004a9d7835509dc690d122cabf559e2e2343a47d0587fe8bd867ac03",
+      "size": 46
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/ps.stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/ps_observation.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "bb038cadf695410b8f4ea3d3ccc23a4f2fa3db5fb76bbf63a2874c673d9d197d",
+      "size": 103
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/real_after.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/real_before.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/result.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "72d7fd60f368ed42a172151656ffa2a2d5111c1004cc5a2cf12ad8a1c63f418e",
+      "size": 156
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_package_green/started_processes.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "d3ccfe14c0da9764ab90eea70380d71ea0fd5c5f36421d3ae38eac5e3231b45f",
+      "size": 136
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_protected_verification.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "ad15c887e66e5890fe7233fac76ec970d480f5c29eee8d8fe071605cec63501b",
+      "size": 2966
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "78f25b1245498cd91db926bcc424fd673f35a7b74ef4a970c0ca6c4512a83c7c",
+      "size": 3935
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/interpreter_probe.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "a79eb1e8fc46497b3f4a4519c9e9ae546fe9a872231899cef28a63cf5c150f18",
+      "size": 207
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/native_not_run.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "98b750f838821c2ce739381add0471138bf67c3e12cb35b36d5cfd13d1b30255",
+      "size": 455
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/process_clearance.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "38b9e68aa4c750151a33ae627eea977c4c82b59f265a574ea765069284809fb7",
+      "size": 6005099
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/ps.command.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e",
+      "size": 195
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/ps.exit_code.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "703d2c10fa601276a4dd96193faed68902a642a44eb5b01b40d6fc8499e12822",
+      "size": 4
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/ps.stderr.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "6ffd1f79004a9d7835509dc690d122cabf559e2e2343a47d0587fe8bd867ac03",
+      "size": 46
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/ps.stdout.txt",
+      "before_sha256": "ABSENT",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/ps_observation.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "bb038cadf695410b8f4ea3d3ccc23a4f2fa3db5fb76bbf63a2874c673d9d197d",
+      "size": 103
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/real_after.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/real_before.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9",
+      "size": 5734
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/result.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "1a991ee5710f8e447bd3d3d90c654c3664c3710b6bfd9714489e9c05a394c8ce",
+      "size": 3102
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/started_processes.jsonl",
+      "before_sha256": "ABSENT",
+      "after_sha256": "bd8fb9c03d5d07d6fcb09c116a250c9aa5c9961eddc594791cc9988447ea9a7b",
+      "size": 5814755
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/suite_selection.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "558b76f6dc5718714456e3a420aa0e691b5b4872ec0ea7606ac9f28f902b4a37",
+      "size": 17561
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_sandbox_green/test.log",
+      "before_sha256": "ABSENT",
+      "after_sha256": "d000c4d7c89382fb08e5b5f9e481eb7111f408e19c0d42fdfe88d3b224a390d9",
+      "size": 18742
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_stop_protected_verification.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "1a307b44261b873a0680d38c62b39baf34b63d5f9489b89af87f5cb0059c15e3",
+      "size": 2966
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb41_test_list.md",
+      "before_sha256": "ABSENT",
+      "after_sha256": "d53992ef6d5ff359b103095d2828223572d2d7b138cf4e3cf283eb637a895b4d",
+      "size": 1408
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/pins_v2.json",
+      "before_sha256": "ABSENT",
+      "after_sha256": "51e913004e7565424e3a9aa8bd082895f1b737d101296641d202d071f78fe986",
+      "size": 6578
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/pins_v2.sha256",
+      "before_sha256": "ABSENT",
+      "after_sha256": "b770896fcbaaefb9143bfebbdbdfc983bfdc46abcf3a1968bc9dc8175c6bbba1",
+      "size": 3613
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py",
+      "before_sha256": "9aa0a31ebb5e4a3f25c5714930640b32cf2de5a277e34ff37dccbbb3dbe898d0",
+      "after_sha256": "d75ab13decda62237c3cb189c4790736484c4474a3c537b6ada06a9615ad99d7",
+      "size": 12934
+    }
+  ],
+  "self_sha256": "see final_sha256_mb41.txt",
+  "exclusions": "Only this receipt and the fixed inherited protected set were inspected; no Q1/MAESTRO-owned adjacent files."
+}

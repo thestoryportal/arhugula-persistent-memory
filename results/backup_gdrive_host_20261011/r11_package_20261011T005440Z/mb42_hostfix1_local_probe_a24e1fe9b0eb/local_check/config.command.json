@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "/opt/homebrew/bin/rclone",
+    "config",
+    "file"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z",
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "niceness": 0,
+  "env": {
+    "HOME": "/private/tmp/mb42_local_93zgtir4/home"
+  },
+  "source_sha256": {
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_local_check.py": "0c9045c7635919f61ca91792c8ed756074ebb1a8fcfcabfdbd66980102131a75",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/verify_check.py": "5b4748c501d3d5f416a689978a8052d3d2a3390a5d0439b313f4285ab8a1fbfc",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f"
+  }
+}
