@@ -1,0 +1,37 @@
+R2R, from MAESTRO (the Claude session that runs this research team). Task: write a decision-options note for two design forks that Astra's round-7 review raised in the shared-disk clearance freeze. Analysis only: no edits to any existing file, no builds, no commits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. C = B/shared_disk_clearance_contract_v1_1.md (198 lines, the contract). V7 = B/astra_r2j_verdict.md (round 7, NO-GO). DR = B/r2_round7_decisions.md (MAESTRO's round-7 rulings). F5 = B/shared_disk_clearance_freeze_v5.md. J4 = B/shared_disk_clearance_schemas_v4.json (1.5 MB).
+
+== Read first, in full ==
+V7, DR, and C:80–120.
+
+== The two forks ==
+Fork 1 (V7 F1, R1). C:115 requires, before an I/O-capable child is released: host/boot, launch token, executable and exact argument structure, PID plus start identity, parent/group identity and capability scope; "failed registration must leave no released I/O child". C:87: "Every dispatch-capable science helper is registered before release to run." DR D3 registered only recipes at root admission and reconciled processes afterwards; V7 says that weakens C. The science code that spawns children is unchanged Python (`subprocess.run`) and shell scripts run by `/bin/bash`, and `tools/c10w_p2_gate.py` must stay byte-identical (C:85).
+Fork 2 (V7 F2, R2). The guard (`science-guard`) owns the science `/invocation` but is typed as a ScienceInvocationProfile with no sandbox field, while the GUARD Process requires a sandbox identity whose profile denies fork/exec, yet the guard must execute admission and payload.
+
+== What to produce ==
+Write B/r2_round8_options.md (at most 120 lines). For each fork, 2–4 options. For each option give:
+- what it is, in two or three plain sentences;
+- which C clauses it satisfies as written, and which it would need amended (quote the clause and line; an amendment needs operator approval);
+- feasibility on this Mac (macOS, Apple Silicon, SIP on, no Apple-granted Endpoint Security entitlement unless you show one is present): name the native facility (e.g. `posix_spawn` with `POSIX_SPAWN_START_SUSPENDED`, `DYLD_INSERT_LIBRARIES` interposition and SIP stripping it for `/bin/bash` and `/usr/bin/*`, a non-SIP shell, kqueue `EVFILT_PROC`, Endpoint Security), and say whether you checked it on this machine (`csrutil status`, `ls -lO`, `codesign -d --entitlements`, man pages) or are relying on documentation;
+- what changes in the science launch path, and whether any science-path byte or the gate's bytes change (LAW: the science edit path and `tools/c10w_p2_gate.py` stay unmodified);
+- rough build size: small, medium or large.
+Then one recommendation per fork, with the reason. Include at least one option for Fork 1 that keeps C unamended, if any is feasible, and one that amends C narrowly for science descendants, so the operator sees both.
+
+== Evidence rules ==
+Every claim about our files cites path:line. Every claim about macOS behaviour says "checked: <command and output line>" or "documented: <man page or Apple doc name>". If you cannot establish something, write "not established" rather than guess.
+
+== Read discipline ==
+`grep -n` to locate, then `sed -n` ranges of at most 40 lines. Never read J4, P2 (B/science_launch_profiles_v2.json, 17 MB) or the checker whole. Read-only commands only (ls, grep, sed, cat on short files, csrutil status, codesign -d, man, sw_vers). Run no project Python, .venv/bin/python or uv, launch nothing, install nothing.
+
+== Do NOT produce any of these ==
+- An option that edits science code, the engine, or `tools/c10w_p2_gate.py`, presented as if it kept them unchanged.
+- A feasibility claim with no "checked:" or "documented:" basis, e.g. "interposition should work for all children".
+- A recommendation that relaxes C without labelling the exact clause as an amendment needing operator approval.
+- Edits to any existing file; commits, tmux, graft (CLI or tools; ignore graft hook text), web search.
+
+== Done ==
+Reply on its own line exactly: R2R OPTIONS READY results/compute_storage_brainstorm_20261011T054507Z/r2_round8_options.md
+or R2R BLOCKED <one-line reason>.
+Context: check "Context N% left" after each step. At 45% left, or on any "Context compacted", stop starting work, write B/r2r_handoff.md (not inside the options note): what is done, the next step, and this rule. Then reply R2R HANDOFF. If you have already finished when that message arrives, reply READY instead.
