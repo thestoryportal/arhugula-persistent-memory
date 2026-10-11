@@ -1,0 +1,14 @@
+{
+  "shared_disk_clearance_freeze_v7.md": "8d6ab32f4427a9aaead1bdc647bd7486d625da8785f4e7bdcbf4e6822665b383",
+  "shared_disk_clearance_schemas_v6.json": "36a9ad6ce72dc69d5825eb1809ff81ae4230ae9f6f93c689bc731dd33edbf0d1",
+  "check_r2_schemas_v6.py": "e63f2375088231000443335f98fec59c7b3251b96d27e6f9c15616d68ea08b10",
+  "science_launch_profiles_v4.json": "0f2ca842ff17274e1a070acdb4bf704a4010f0330f97c9742ac391080a000fa1",
+  "science_launch_inventory_v6.md": "faae4c6fb656aa6d0d1b8fbeebab0999bebf30a526793e1480a537c76e9163ec",
+  "shared_disk_clearance_contract_v1_1.md": "25c93f5f584d5a1dfff3b0610b32922a289be6d91449765862de3331334062f1",
+  "astra_r2l_verdict.md": "a551d35ef6db3ad14889919b58159b87ebf7091cc7c8dff50fba6869f2d90c44",
+  "r2_round10_decisions.md": "8d9f39f2f6aee4bb37ff50dd2155648aabc9dcf3c836b6ed85f5d7395611ecfc",
+  "r2_round9_decisions.md": "c09211290f698753fef0af57e23a8ce4381291892a3b44197bacd50e014cbce0",
+  "r2_round8_decisions.md": "cbd92211ef3ba247fb6fa901a3554113d806d5f2130a419e8c61b3fc014c3ef8",
+  "r2_round7_decisions.md": "3c9d540209b335f96d4a4942ad7071b7c658a0cc41abc9a609de23c55edd6813",
+  "r2_round8_options.md": "52080aa9d401a566f27be2e26606da0d52ab569e1eae10ea1a66d5c73608a7cb"
+}

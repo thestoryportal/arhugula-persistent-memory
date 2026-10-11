@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T19:38:51Z",
+    "edited": "2026-10-11T19:58:05Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -148,7 +148,7 @@
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
-        "who": "Builder codexr2u (round 10); then MAESTRO checks it, then Astra round 10",
+        "who": "MAESTRO re-checks round 10; then a fresh builder writes the report; then Astra round 10",
         "session": "codexr2u",
         "started": "2026-10-11T09:03Z",
         "estimate": {
@@ -197,7 +197,8 @@
           "18:45:30Z: The expert (Astra) said NO-GO on round 8 (three gaps: the admission check's own helper programs were wrongly given the science exception; two evaluation shortcuts skip a budget check; one cross-launch reference was not checked). MAESTRO54 made rulings D10-D12 (r2_round9_decisions.md; no change to the drive-sharing rules, so no question for you) and started builder codexr2t for round 9.",
           "19:12:12Z: Builder codexr2t built all round-9 fixes and passed its own checks, then handed off at its context limit. MAESTRO54 reran every check in a locked-down sandbox: all pass (46 deliberate-break tests caught). Successor codexr2t2 is fixing two stale labels and writing the report; then Astra round 9.",
           "19:21:26Z: Round 9 report done (codexr2t2 also fixed two stale labels); MAESTRO54 reran every check on the final files: all pass. The expert (Astra) is now reviewing round 9.",
-          "19:29Z: Astra round 9 said NO-GO (b324fd08), on one point only: two checks the gate runs through borrowed code (a proof check and a git lookup) were still labelled as science. The other earlier problems are now closed. MAESTRO55 ruled D13 (ea1ec7cc; no change to the agreement): a process is labelled by where it was started from, and the audit traces every borrowed path. codexr2u is building round 10 now."
+          "19:29Z: Astra round 9 said NO-GO (b324fd08), on one point only: two checks the gate runs through borrowed code (a proof check and a git lookup) were still labelled as science. The other earlier problems are now closed. MAESTRO55 ruled D13 (ea1ec7cc; no change to the agreement): a process is labelled by where it was started from, and the audit traces every borrowed path. codexr2u is building round 10 now.",
+          "19:58Z: codexr2u built round 10 and its own checks passed, then stopped at its context limit with a handoff (only the report is left to write). MAESTRO55 is re-running the checks in a locked-down shell before a fresh builder writes the report."
         ]
       },
       {
@@ -206,7 +207,7 @@
         "summary": "Five Codex reviewers each take one area of the lists you sent (web dashboard tools, terminal dashboard tools, dashboard/design skills, research/ML skills, design best practices) and report what fits our work, how it would plug in, the cost and risk, and a verdict per item. Review only: nothing is installed or built.",
         "state": "needs_you",
         "who": "You: pick proposals; then MAESTRO",
-        "session": "codexlabviz11",
+        "session": "codexlabviz12",
         "started": "2026-10-11T13:52:00Z",
         "estimate": {
           "low_min": 30,
@@ -233,7 +234,8 @@
           "18:20:51Z: LabViz talk session 7 worked through the tracker's retake/skip/reuse consequences and began coverage preparation (notes from line 1225), then saved handoff7 and closed. Session 8 is open (tmux attach -t codexlabviz8); it first re-asks your pending question: when a newer snapshot is ready, show 'Update view' and wait for a tap, or update automatically?",
           "18:49:36Z: LabViz talk session 8 settled newer snapshots waiting for a tap, coverage counts, and run comparison; you said questions remain and picked the next topic (front end, UI/UX, information architecture). Session 9 (codexlabviz9) started and opens on that topic. Building is still on hold.",
           "19:21:26Z: LabViz talk session 9 settled phone navigation (side drawer) and a collapsible desktop sidebar; you asked for whole-page visual design rather than control-by-control questions. Session 10 (codexlabviz10) started on the Science lines and research-question page. Building is still on hold.",
-          "19:38Z: LabViz session 10 settled the Science lines page (roomy question list), the question page (a flowing research brief with a branching diagram of spec and science connections), and data storytelling as part of the frame (notes + handoff10, ea560ec0). Session 11 (codexlabviz11) is open for you: next is the Runs page and the run-comparison page. Building is still on hold."
+          "19:38Z: LabViz session 10 settled the Science lines page (roomy question list), the question page (a flowing research brief with a branching diagram of spec and science connections), and data storytelling as part of the frame (notes + handoff10, ea560ec0). Session 11 (codexlabviz11) is open for you: next is the Runs page and the run-comparison page. Building is still on hold.",
+          "19:58Z: LabViz session 11 settled the comparison page: the two runs line up row by row (notes + handoff11, ea266c13). Session 12 (codexlabviz12) is open for you: next is the 'Inside the model' page, guided by the reference material. Building is still on hold."
         ]
       },
       {
