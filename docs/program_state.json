@@ -27,14 +27,14 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T04:25:06Z",
+    "edited": "2026-10-11T04:29:41Z",
     "items": [
       {
         "id": "research-engine-brainstorm",
         "title": "Research engine: brainstorm the design with you",
         "summary": "A brainstorming partner (BRAIN1) talks it through with you in plain words: a map of what we track and how it links, a searchable store rebuilt from the project record, gap reports and an idea engine. The finished design comes back to MAESTRO.",
-        "state": "in_review",
-        "who": "MAESTRO (reading the design, then independent review)",
+        "state": "needs_you",
+        "who": "You (first-build choices), then MAESTRO",
         "session": "",
         "started": "2026-10-11T03:22:37Z",
         "estimate": null,
@@ -42,9 +42,10 @@
         "blocked_by": [],
         "needs_from_you": null,
         "notes": [
-          "04:23Z: you approved the written design. Recorded with your exact word in decisions_log.md.",
-          "Next: MAESTRO reads the design, gets an independent review from Astra, then plans the small first build (phase 1) with you. Nothing is built or installed without your go.",
-          "Design: results/research_engine_brainstorm_20261011T032049Z/design.md (sha256 aa09563f...)."
+          "04:23Z: you approved the written design.",
+          "04:29Z: Astra (independent reviewer) said GO with 9 conditions, no blockers. The conditions all go into the first-build plan; the design itself stays as you approved it.",
+          "Next: MAESTRO writes the small first-build plan and brings you its choices (installs, where Neo4j runs, resource budget).",
+          "Verdict: results/research_engine_brainstorm_20261011T032049Z/astra_r1_verdict.md"
         ]
       },
       {
