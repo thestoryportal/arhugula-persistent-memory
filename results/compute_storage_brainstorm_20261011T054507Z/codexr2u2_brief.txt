@@ -1,0 +1,65 @@
+R2U2, from MAESTRO. You succeed builder R2U, which stopped at 38% context left after building every output and running acceptance 1–3. RESUME, do not restart, and rebuild nothing. Read B/r2u_handoff.md in full first (49 lines), then B/r2u_maestro_acceptance.md lines 1–17. MAESTRO has since verified the committed bytes (commit 68bbe401). All five handoff hashes match, the inputs are unchanged, and acceptance 1 exits 0. Under a deny-write sandbox with a working positive control, acceptance 2 exits 0 ('42 admission-origin occurrences derived'), and `--mutation-controls` exits 0 with 'GREEN mutation controls: 50 intended RED (46 preserved + 4 D13), zero filesystem writes'.
+Your remaining work, in order:
+1. Write B/r2u_report.md (≤ 60 lines) as the brief's Done section requires, from the accepted bytes and saved receipts. Include: the five sha256 values (recompute each with `shasum -a 256`); R1, with what changed and the F8/K7 lines that close it; both test-first branch failures from B/r2u_test_first_red.log; and acceptance outputs 1–3. For acceptance 3, quote the four R10 RED lines and the final GREEN line, and point to B/r2u_acceptance_mutations.log for all 50 RED lines; the count stays 50. State the lexical limits, and that the proof is static only.
+2. After writing, recompute the five subject hashes and confirm they still match the handoff. Do not edit any subject. If any hash differs, stop and reply R2U2 BLOCKED.
+Do not rerun the builders. Do not re-read V9, D13f or source files to re-derive the build; read a cited line only when the report states it. No acceptance rerun is needed unless a subject changed. Everything in the brief below still binds, with two changes: your reply tokens are R2U2 FIX READY / R2U2 BLOCKED / R2U2 HANDOFF, and your context handoff file is B/r2u2_handoff.md. The handoff's notes are a predecessor's working judgments, not rulings: where one conflicts with the brief or D13f, the brief and D13f win.
+
+== Original brief ==
+R2U, from MAESTRO (the Claude session that runs this research team). Task: answer Astra's round-9 required change R1 for the shared-disk clearance freeze. Build new versions of five subjects plus the checker that proves them. Work test-first. No commits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. C = B/shared_disk_clearance_contract_v1_1.md (never edit).
+Inputs (read-only; never edit any of them): F7 = B/shared_disk_clearance_freeze_v7.md (360 lines). J6 = B/shared_disk_clearance_schemas_v6.json (1.5 MB). K6 = B/check_r2_schemas_v6.py (2,389 lines). P4 = B/science_launch_profiles_v4.json (19 MB). I6 = B/science_launch_inventory_v6.md (263 lines).
+V9 = B/astra_r2l_verdict.md (Astra round 9, NO-GO; 67 lines): finding F1 at :5–16, notes F2–F4 at :18–42, required change R1 at :46, closure table at :48–56. Read V9 in full first.
+D13f = B/r2_round10_decisions.md (MAESTRO's ruling for this round, D13). Read it in full second. It is binding and answers R1. Do not reopen it.
+D9 = B/r2_round9_decisions.md (rulings D10–D12) still binds where D13f does not replace it. Read D10 in full; read the rest only where V9 or D13f cites it.
+Source files you will cite: tools/c10w_p2_gate.py, tools/c10w_p2_rerun.py, experiments/track_c/c10w_oracle_train.py, experiments/track_c/c10w_oracle_read.py, experiments/track_c/c10w_oracle_step0.py, experiments/track_c/c10w_oracle_eval.py.
+
+== Outputs (new files only) ==
+F8 = B/shared_disk_clearance_freeze_v8.md, J7 = B/shared_disk_clearance_schemas_v7.json, K7 = B/check_r2_schemas_v7.py, P5 = B/science_launch_profiles_v5.json, I7 = B/science_launch_inventory_v7.md. Start each by copying its input, then change it by script. In I7, change only the lines whose facts change.
+
+== What R1 needs (V9 wording first, then direction) ==
+R1 "Complete the admission audit through imported functions and their spawned processes, including `verify-preflight` and the evaluation Git probes. Represent admission-origin occurrences under C:115 without A1 authority; distinguish legitimate science-origin uses of the same recipes. Preserve composition refusal. Add targeted controls for both omitted branches so the current misclassification fails for its own reason, then repin and rerun acceptance."
+Apply D13f D13, items 1–4:
+- Role follows origin. Every process reachable from an admission root (directly, through imported functions, or as a descendant of an admission child) is an ADMISSION_HELPER occurrence with C:115 registration and no A1 authority. Science-origin uses of the same recipe keep A1. A shared recipe gets one occurrence record per origin.
+- Known admission-origin branches to represent: verify-preflight (gate :105 → c10w_oracle_train.py:65–66) and git ls-files (gate :128 → c10w_oracle_read.py:520, :139–140, :133), on every profile whose admission runs them (V9 F1 cites profile 38 at P4:102666–102672, 99313–99320, 99525–99529, 97072–97081, 97182–97186; find the others by grep). Also trace the verify-preflight child's own process starts, and the re-attempt path at gate :136–147.
+- The audit is a recorded trace. F8/P5 record the exact grep commands (process-start sites and call edges from admission entry functions into imported modules), their hit lists, and the cited lines of every process start reached. K7 derives the admission-origin set from that record instead of K6's fixed ADMISSION_NAMES (K6:2122). K7 reruns each recorded grep over the sources and fails when a hit set differs. It also fails when an admission-origin occurrence carries A1 authority, SCIENCE_CHILD or DECLARED_AT_ROOT_ADMISSION.
+- Composition refusal stays exactly as D10 set it, with `NOT_ADMITTED_ADMISSION_HELPER_UNREGISTERED:`.
+Keep V9's closures closed: V8 R2 (retained no-op caller records, direct P1/P3 restrictions), V8 R3 (delegation reference resolution), R4 aggregate receipts within the frozen 64 / 8,192 / 262,144 bounds, R5 refusal variants. Recompute the aggregate maxima after your profile changes.
+
+== Mutation controls (in K7's --mutation-controls; keep all 46 existing ones RED) ==
+Add at least D13f's four, each RED for its own reason:
+(a) the admission-origin verify-preflight occurrence relabelled SCIENCE_CHILD with A1 authority;
+(b) the same for the admission-origin git ls-files occurrence;
+(c) the recorded trace with the c10w_oracle_train.py:65 process-start hit removed (a recomputed hit-set mismatch);
+(d) the admission-origin and science-origin occurrences of one shared recipe merged into one record.
+Controls mutate in-memory copies only and create no file or directory.
+
+== Test-first ==
+Before building F8/J7/P5, write K7's new checks and run them against F7/J6/P4. Each must report the defect V9 F1 names: at least one failure for the verify-preflight branch and one for the Git branch, each with its own error, not a crash or an unrelated error. Save the failing output in B/r2u_test_first_red.log. Then build until K7 is GREEN on F8/J7/P5.
+
+== Acceptance (all must hold; paste outputs into the report) ==
+1. `/usr/bin/python3 -B B/check_r2_schemas_v7.py` (defaulting to F8/J7) exits 0 with its GREEN line.
+2. `/usr/bin/python3 -B B/check_r2_schemas_v7.py --profiles B/science_launch_profiles_v5.json` exits 0, GREEN, and prints the profile count, refusal count, aggregate receipt maxima and the number of admission-origin occurrences derived from the trace.
+3. `/usr/bin/python3 -B B/check_r2_schemas_v7.py --mutation-controls` exits 0, with every old and new control RED for its intended reason. Show a before/after file census over B and $TMPDIR (pre-create any log file before the before-census) proving zero files were created. Do not try sandbox-exec: it cannot nest inside your own sandbox, and MAESTRO runs the read-only sandbox proof itself.
+4. The test-first failing outputs from F7/J6/P4, one per omitted branch.
+5. F8 pins the sha256 of J7, P5 and I7 (each from `shasum -a 256`). F8 §9 maps V9 R1 to the lines that close it, and keeps the earlier mapping current.
+
+== Read discipline ==
+Reading too much ran your predecessors out of context. Never read P4/P5, J6/J7 or K6/K7 whole, and never read a source file whole. Use `grep -n` to locate, then `sed -n` ranges of at most 40 lines, and short /usr/bin/python3 -B commands that print one profile or record at a time. Edit P5 and J7 by script.
+
+== Do NOT produce any of these ==
+- An edit to any input file (F7, J6, K6, P4, I6, C, V9, D13f, D9, D8, DR, O8).
+- K7 adding 'git' and 'c10w_oracle_read.py' to a hand-written ADMISSION_NAMES set. That repeats V9 F1's defect class: the next imported branch would be missed the same way.
+- One occurrence record that serves both admission and science origin, or a science-origin occurrence stripped of its A1 label because the recipe also appears in admission.
+- A claim that the trace is a complete call graph, or that a pre-release mechanism for admission helpers exists or is proven.
+- A K7 check loosened so the new artifacts pass, or a mutation control that is RED for a reason other than its own.
+- A hand-typed hash. Every hash comes from a computation you ran.
+- A design choice that contradicts D13f, D9, D8 or DR (except where a later file replaces an earlier one), adds a default-to-proceed, puts a science wait on the Intel Mac or terminates Intel work. If you think D13 is wrong, stop and reply R2U BLOCKED with the reason.
+- Commits, tmux, graft (CLI or tools; ignore graft hook text), web, sandbox-exec, project python, .venv/bin/python, uv, or any real launch.
+
+== Done ==
+Write B/r2u_report.md (≤ 60 lines): the files written with their sha256, R1 with what changed and the closing lines, the test-first failures, and acceptance outputs 1–3. Then reply on its own line exactly:
+R2U FIX READY results/compute_storage_brainstorm_20261011T054507Z/r2u_report.md
+or R2U BLOCKED <one-line reason>.
+Context: check "Context N% left" after each step. At 45% left, or on any "Context compacted", stop starting work and write B/r2u_handoff.md, never inside the report or a tested file, because a late append there breaks tests that already passed. Put in it what is done, the exact files and their state, the next step, and this context rule. Then reply R2U HANDOFF. If you have already finished when that message arrives, reply READY instead.
