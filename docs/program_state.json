@@ -178,7 +178,7 @@
           "12:37Z: three builders in a row kept finding more to polish, so MAESTRO stopped the self-check and sent v3 to Astra (71d82fda, e4d7daef). MAESTRO's own checks pass: the examples file reads cleanly, every rule in the map has at least one test case, and every case it names exists. Astra round 3 now checks whether the cases really test their rules and fail for the right first reason.",
           "12:44Z: Astra round 3 said NO-GO (verdict committed with this note): three example cases don't test what they claim: one fails for an earlier reason than intended, the pin-check cases could fail for an unrelated reason, and two map rows point at the wrong case. Builder codexr4d4 is fixing exactly those three, nothing more; then Astra round 4.",
           "12:54Z: codexr4d4 fixed exactly Astra's three points (e799eb0d): the clock example now fails for the clock reason, each pin-check example has a single defect, the renewal example starts from a matching saved copy, and map rows 69 and 77 point at real tests (three new empty-builder examples). MAESTRO checked only those files changed, the examples read cleanly and every named case exists. Astra round 4 is reviewing (eaabed12).",
-          "13:02Z: Astra round 4 said GO (verdict committed with this note): all three fixes hold and nothing else broke, so the dashboard record is frozen and building it is allowed. The build waits for the shared-drive rules (R2), which the dashboard also reads."
+          "12:57Z: Astra round 4 said GO (verdict committed with this note): all three fixes hold and nothing else broke, so the dashboard record is frozen and building it is allowed. The build waits for the shared-drive rules (R2), which the dashboard also reads."
         ]
       },
       {
