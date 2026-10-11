@@ -1,0 +1,73 @@
+test_alias_cross_module (__main__.Fixtures) ... ok
+test_argv_dispatch (__main__.Fixtures) ... ok
+test_child_program_follows_stdin_loaded_phase (__main__.Fixtures) ... ok
+test_direct_spawn (__main__.Fixtures) ... ok
+test_disk_round_trip_is_loaded (__main__.Fixtures) ... ok
+test_dynamic_call_unresolved (__main__.Fixtures) ... ok
+test_external_boundary (__main__.Fixtures) ... ok
+test_import_inside_helper_initialization (__main__.Fixtures) ... FAIL
+test_late_require_does_not_exclude (__main__.Fixtures) ... ok
+test_len_guard_bounds_count_before_loop (__main__.Fixtures) ... ok
+test_loaded_list_count_and_operand (__main__.Fixtures) ... ok
+test_module_initialization_spawn (__main__.Fixtures) ... ok
+test_os_exec_and_spawn_normalize_operands (__main__.Fixtures) ... FAIL
+test_pinned_condition_false_does_not_evaluate_spawn (__main__.Fixtures) ... ok
+test_pinned_loop_count (__main__.Fixtures) ... ok
+test_pinned_while_false_and_exit_exclude (__main__.Fixtures) ... FAIL
+test_require_excludes_before_spawn (__main__.Fixtures) ... ok
+test_return_before_guard_is_not_exclusion (__main__.Fixtures) ... FAIL
+test_same_shape_different_loaded_family_not_covered (__main__.Fixtures) ... ok
+test_shell_branch_and_variable_command (__main__.Fixtures) ... ok
+test_shell_nested_substitution (__main__.Fixtures) ... ok
+test_two_primitives_on_same_line_inventory (__main__.Fixtures) ... FAIL
+
+======================================================================
+FAIL: test_import_inside_helper_initialization (__main__.Fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 178, in test_import_inside_helper_initialization
+    self.assertTrue(any(p['site']=='worker.py:2' for p in r['paths']))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_os_exec_and_spawn_normalize_operands (__main__.Fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 182, in test_os_exec_and_spawn_normalize_operands
+    self.assertEqual(r['paths'][0]['command'],['/bin/echo','x'])
+AssertionError: '/bin/echo' != ['/bin/echo', 'x']
+
+======================================================================
+FAIL: test_pinned_while_false_and_exit_exclude (__main__.Fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 174, in test_pinned_while_false_and_exit_exclude
+    self.assertEqual(r['paths'],[])
+AssertionError: Lists differ: [{'root': 'entry.py', 'site': 'entry.py:2'[636 chars]t']}] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+{'root': 'entry.py', 'site': 'entry.py:2', 'family': '<module>', 'chain': ['entry.py:2', 'entry.py:2'], 'taint_reasons': [], 'count': {'kind': 'loaded_data', 'loops': [{'kind': 'loaded_data', 'source': 'entry.py:2', 'reasons': [], 'selection_line': 'entry.py:2'}]}, 'operand_source': {'kind': 'pinned_literal', 'line': 'entry.py:2'}, 'command': ['/bin/echo', 'unreachable']}
+
+Diff is 867 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_return_before_guard_is_not_exclusion (__main__.Fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 170, in test_return_before_guard_is_not_exclusion
+    self.assertEqual(len(r['paths']),1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_two_primitives_on_same_line_inventory (__main__.Fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 157, in test_two_primitives_on_same_line_inventory
+    self.assertEqual(len(r['sites']),2)
+AssertionError: 1 != 2
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.139s
+
+FAILED (failures=5)

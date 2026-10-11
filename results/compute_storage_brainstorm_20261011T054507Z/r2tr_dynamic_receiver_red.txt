@@ -1,0 +1,14 @@
+test_unknown_receiver_method_is_unresolved (__main__.Fixtures) ... FAIL
+
+======================================================================
+FAIL: test_unknown_receiver_method_is_unresolved (__main__.Fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 211, in test_unknown_receiver_method_is_unresolved
+    self.assertTrue(any(x['line']==2 and 'obj.get' in x['reason'] for x in r['unresolved']))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.011s
+
+FAILED (failures=1)

@@ -1,0 +1,4 @@
+COMMAND: /usr/bin/python3 -B results/compute_storage_brainstorm_20261011T054507Z/trace_r2_reachability.py --against results/compute_storage_brainstorm_20261011T054507Z/science_launch_profiles_v8.json --out results/compute_storage_brainstorm_20261011T054507Z/r2tr_p8_final.json
+EXIT: 1
+UNRESOLVED 1302; BOUNDARIES 94; {'REPRESENTED': 121, 'REFUSED': 193, 'GAP': 98}
+Source hashes match after run; tracer/tests match frozen hashes.

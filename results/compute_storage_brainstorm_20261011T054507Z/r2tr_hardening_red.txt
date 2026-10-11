@@ -1,0 +1,52 @@
+test_alias_cross_module (__main__.Fixtures) ... ok
+test_argv_dispatch (__main__.Fixtures) ... ok
+test_child_program_follows_stdin_loaded_phase (__main__.Fixtures) ... ok
+test_direct_spawn (__main__.Fixtures) ... ok
+test_disk_round_trip_is_loaded (__main__.Fixtures) ... ok
+test_dynamic_call_unresolved (__main__.Fixtures) ... ok
+test_external_boundary (__main__.Fixtures) ... ok
+test_late_require_does_not_exclude (__main__.Fixtures) ... ok
+test_len_guard_bounds_count_before_loop (__main__.Fixtures) ... FAIL
+test_loaded_list_count_and_operand (__main__.Fixtures) ... ok
+test_module_initialization_spawn (__main__.Fixtures) ... FAIL
+test_pinned_condition_false_does_not_evaluate_spawn (__main__.Fixtures) ... ok
+test_pinned_loop_count (__main__.Fixtures) ... ok
+test_require_excludes_before_spawn (__main__.Fixtures) ... ok
+test_same_shape_different_loaded_family_not_covered (__main__.Fixtures) ... FAIL
+test_shell_branch_and_variable_command (__main__.Fixtures) ... ok
+test_shell_nested_substitution (__main__.Fixtures) ... ok
+
+======================================================================
+FAIL: test_len_guard_bounds_count_before_loop (__main__.Fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 138, in test_len_guard_bounds_count_before_loop
+    self.assertEqual(r['paths'][0]['count']['kind'],'pinned_constant')
+AssertionError: 'loaded_data' != 'pinned_constant'
+- loaded_data
++ pinned_constant
+
+
+======================================================================
+FAIL: test_module_initialization_spawn (__main__.Fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 122, in test_module_initialization_spawn
+    self.assertTrue(any(p['site']=='worker.py:2' for p in r['paths']))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_same_shape_different_loaded_family_not_covered (__main__.Fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 153, in test_same_shape_different_loaded_family_not_covered
+    self.assertEqual(module.coverage_for(p,0,{'paths':[path]},[])[0]['status'],'GAP')
+AssertionError: 'REFUSED' != 'GAP'
+- REFUSED
++ GAP
+
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.101s
+
+FAILED (failures=3)
