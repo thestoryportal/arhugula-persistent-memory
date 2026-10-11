@@ -29,15 +29,15 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T09:54:09Z",
+    "edited": "2026-10-11T09:58:52Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "ready",
+        "state": "running",
         "who": "a builder (freeze v2), then Astra",
-        "session": "",
+        "session": "codexr1b",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
@@ -61,7 +61,24 @@
           "09:10Z: MAESTRO39 read the Intel Mac's install facts (no changes made): the package list it uses is pinned to one dated snapshot; Python there is 3.12.15, not the planned 3.12.14; Neo4j has no package and comes from Neo4j's own download. Facts committed (3a7f9855). codexr1 is now drafting the install freeze Astra asked for.",
           "09:21Z: install freeze drafted by codexr1 and checked by MAESTRO39 (every fingerprint traced to a file we hold; no 'latest' or fallback install path). Recommends Python 3.12.15, Neo4j 2026.09.0, the planned DuckDB 1.5.5, and pre-built packages. Committed 643ac6b9; Astra is reviewing it.",
           "09:27Z: Astra said NO-GO on install freeze v1 (546a9eb2). The blocker: nothing yet shows Java, Neo4j, Python and their parts fit the planned 1 GB of setup space and 15 minutes. Next: measure real download/installed sizes read-only, then version 2. If they do not fit, raising the limit would be your decision. Astra agreed the four recommended choices need no separate approval from you.",
-          "09:44Z: Sizes measured without installing anything (df332df1): the Intel tools need about 1.5 GB of setup space, not 1 GB; DuckDB can come as a ready-made Python package, so nothing big gets compiled. The operator raised setup space to 2 GB (pilot+setup 7 GB total, Amendment 20). Next: brief a builder for install freeze v2 with Astra's R1-R5, then Astra."
+          "09:44Z: Sizes measured without installing anything (df332df1): the Intel tools need about 1.5 GB of setup space, not 1 GB; DuckDB can come as a ready-made Python package, so nothing big gets compiled. The operator raised setup space to 2 GB (pilot+setup 7 GB total, Amendment 20). Next: brief a builder for install freeze v2 with Astra's R1-R5, then Astra.",
+          "09:58Z: Builder codexr1b is writing install freeze v2 against Astra's findings, with the new 2 GB limit and the measured sizes."
+        ]
+      },
+      {
+        "id": "dag-rag-icm-brainstorm",
+        "title": "Brainstorm: would a DAG, RAG or ICM help the research engine?",
+        "summary": "Operator request: explore and evaluate a Directed Acyclic Graph, RAG and/or Interpretable Context Methodology for the research engine. Any design is deferred until other build work is done, unless the recommendation is a different approach.",
+        "state": "running",
+        "who": "codexbrd (Codex brainstorm), then MAESTRO reviews",
+        "session": "codexbrd",
+        "started": "2026-10-11T09:58Z",
+        "estimate": null,
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "09:58Z: Started on the operator's request. Output goes to results/research_engine_dag_rag_icm_brainstorm_<UTC>/brainstorm.md."
         ]
       },
       {
