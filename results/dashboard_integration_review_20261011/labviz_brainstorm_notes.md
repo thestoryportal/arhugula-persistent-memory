@@ -536,3 +536,142 @@ Proposed source/missing-state defaults: a tapped number opens a source detail wi
 
 - Give any eventual learning builder the complete LVB3 decision chain, including feedback-at-end, latest-completed-attempt scores, device-local progress, per-card/section assessment coverage and guided-tutor deferral. The learner tracker and teaching map are separate from science scoring/authority. Separate UI work from reviewed curriculum/question/paper preparation and any future scientific observation capture.
 - Continuation saved separately in `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff3.md`. This is an arc checkpoint, not a claim that all LabViz discussion or acceptance is complete. No context percentage is asserted; no compaction notice has been observed. No tests, builds, browser runs, installs, science or git mutations occurred.
+
+## LVB3 — navigation and unavailable-data wording
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to the next agenda menu. Begin navigation and unavailable-data wording across LabViz. This selects the discussion topic; the new defaults below are proposals, not separately approved behavior. All prior pause/return, shared-mode-step and phone-panel decisions carry forward.
+
+### Open questions
+
+- Proposed navigation defaults: keep the selected question/experiment/run visible; name the return action by its origin ("Back to this input", "Back to quiz review"); preserve originating selection, paused step and focus/reading position on return. Deliberately following another experiment changes the active context to the named target while keeping an explicit route back to the origin. A requested run/input/step that no longer resolves is reported before offering available selections; never silently select a different run or restart the player. The detailed Back/URL design remains a pending extension to the existing selection contract.
+- Proposed plain-language data messages: "Not recorded for this run" for absent observations; "Could not read this data: <plain reason>" for load/parse failure; "Not comparable: <reason>" for an ineligible comparison; "Not judged yet" for absent scientific judgement; "Progress could not be saved" for a failed learner-state write. Put the relevant message beside the affected value/section, with source/reason details available on request. Whole-view failures also receive a clear view-level notice. These refine the earlier defaults at notes `:325`; zeros remain zeros and unknown is never "unaffected" or "no work".
+- Separate source-snapshot age from historical scientific validity. Activity says when its source was recorded and does not claim current liveness. A resolved old experiment record is not invalid merely because it is old. Paper associations and missing teaching/question content have their own explicit pending/verification messages. A 3D failure retains the available 2D/text route with a visible failure notice.
+- Next personal navigation preference: the deliberate "Open original" research-paper link opens a new browser tab (recommended to retain LabViz), or the same tab. The internal paper reading card already pauses and preserves context; this question concerns only opening the original source. No paper is automatically downloaded/opened and no browser action occurs during this discussion.
+
+### Spec changes proposed
+
+- Clarify origin-named Back navigation, full run/input/component/mode/step/zoom state and visible unresolved selections under `docs/LABVIZ_V2_SPEC.md:348-355`, `:919-931`, without reopening accepted mode/pause behavior. Exact hash/history fields remain a design/implementation proposal.
+- Document the distinct data-state wording under existing missing-value rules (`docs/LABVIZ_V2_SPEC.md:32`, `:664-670`), comparison refusal (`:578-582`) and missing linked evaluation (`:584-587`). Personal save failures and external-paper tab behavior belong to the pending Learn/source amendments. No read failure becomes an absent observation or zero. Source details retain exact values/units, file/key or document/line, and derivation operands. Spec unchanged.
+
+### Context for build agents
+
+- Supply the existing §4A navigation/source/phone rules, accepted pause/return decisions and these proposed state cases. Future reader tasks: follow a lesson to another experiment and return; open a source at a paused step; open a stale/unresolvable selection; distinguish absent, malformed/unreadable, ineligible, unjudged and learner-save-error states. Source-support and UI verification remain future work, not performed tests.
+- Retain the previously selected interface-design loading/empty/error checklist as text context, excluding conflicting control/font advice and executable workflows. Use the existing phone Learn/model images as historical layout examples only. No source code, spec, build, tests, browser or external service was changed/run.
+
+## LVB3 — original papers in a new tab
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to where a research paper's "Open original" link opens. Option 1 was "New tab — recommended." Original papers open in a new browser tab through the reader's deliberate action. LabViz retains the current selection and paused position; the internal paper reading card retains the existing pause-and-return behavior. No paper/browser was opened here.
+
+### Open questions
+
+- Navigation and missing-state presentation defaults in the preceding entry remain proposals; this answer selects the paper-tab behavior only. Do not silently count it as approval of every proposed default or a build.
+- Next proposed agenda: (1) review the consolidated proposed spec amendments, recommended to assess the connected design and its remaining dependencies; (2) flesh out remaining quiz/tracker details; (3) review concrete context packets for build agents. The next agenda question is unanswered as of this entry. Preserve all settled choices if a new message steers elsewhere.
+
+### Spec changes proposed
+
+- Add explicit new-tab original-paper links to the pending Research and sources / reading-card amendment under `docs/LABVIZ_V2_SPEC.md:346`, `:983-1023`, with source identities, deliberate external links and preserved paused state (`:353-355`, `:919-931`). The binding spec is unchanged. Guided tutoring remains future work; original-paper links do not imply automatic fetching, AI summarization or verified bibliography completion.
+
+### Context for build agents
+
+- Include a future reader task: open the internal paper card from a selected frame, deliberately open the original in a new tab, return to LabViz and confirm the same paused selection. Paper metadata and claims need reviewed supporting sections/association sources before publication. Mark incomplete associations explicitly. Existing screenshots do not validate this new interaction; no browser/test run occurred.
+
+## LVB3 — consolidated proposed spec amendments for review
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to the next agenda. Review the consolidated proposed spec changes. This selects review, not implementation or blanket approval of pending defaults. All previously settled choices remain settled; the operator may correct the draft without being asked to choose those behaviors again.
+
+### Open questions
+
+- This consolidation separates accepted intent from unapproved routine defaults and preparation dependencies. It is not a frozen replacement specification. MAESTRO still needs explicit amendments and scoped briefs before building. No acceptance or package adoption has occurred.
+- Recommended next review slice: Learn, quizzes and tracker because they are the largest new extension to the existing site. Alternative slices: model-detail recording requirements, or the exact context packets for builders. The operator has not selected a slice yet.
+- Still proposed: searchable complete input browser grouping; initial phases mode paused; initial free exploration with walkthrough entry; device-theme default/local preference; stop at sequence end; expanded Back/URL fields and origin-named returns; exact failure wording; score taxonomy/denominators/equal-point aggregation/coverage presentation; incomplete-retake/version handling; question formats/hints; lesson/paper summaries and relationship data. Preserve the accepted outcomes without treating these details as individually approved.
+
+### Spec changes proposed
+
+**Operation and boundary:** existing documented flow remains recorded result/log files and documentary links -> source-linked run cards/context -> generated static pages -> linked browser views (`tools/labviz/README.md:12-16`). Add reviewed lessons, verified paper metadata/sections and prepared question/feedback material as explicit learning inputs. Learner progress/attempts are separate local personal state, not research run records. Clarify that "read-only" protects scientific files/authority while the accepted learner tracker remembers personal progress. The site does not run experiments or load a model/tokenizer/weights; a source, explicit calculation or missing reason accompanies scientific values (`docs/LABVIZ_V2_SPEC.md:16-20`, `:31-32`, `:662-676`). No generated teaching text becomes a new scientific verdict.
+
+| Area | Consolidated design intent | Contract effect and current anchor |
+|---|---|---|
+| Five destinations | Keep Map, Science lines, Runs, Inside the model, Learn and evaluations. Link the learning extension through the existing Learn destination. | Preserve §4A.1, `docs/LABVIZ_V2_SPEC.md:341-355`; no sixth destination or wholesale platform replacement. |
+| Home and questions | Compact source-dated activity strip; main content big-picture connections -> findings with limits -> detailed activity. Question page findings/limits -> history -> latest experiment. | Clarify hierarchy at `:340-345`, `:1086-1096`; status is a dated source snapshot, not an invented live inventory. |
+| Run comparison | Run identities and comparison notice -> outcomes and measured side effects -> setup differences -> per-question answers. Pair corresponding phone measures. | Clarify `:578-582`; retain identity/scoring eligibility, explicit refusal reasons, matching-unit scales and single-run uncertainty. No winner verdict. |
+| Model exploration | 2D -> 3D -> guided explanation. Zoom below layers to experiment-specific components and available finer detail. Link detailed inputs to any and all affected parts, measurements, sources and teaching. | Extend `:627-657` and data/frame requirements; all-affected-part coverage remains the target, not a selected-demo or fixed top-16 definition. Unobserved parts stay unknown. Model structure must match the selected experiment. |
+| Player | Three selectable modes: Experiment phases, One fact/question, One component. Diagrams/charts/text use the same source step. Keep matching steps when switching, otherwise pause and offer available positions. | Extend `:919-931`, `:353-355`; retain distinct recorded events, in-run observations and later re-creations. No invented intermediate motion/timestamps. |
+| Reading continuity | Expanded explanations/paper cards pause; return at the same paused position, press Play to resume. Brief inline captions do not pause each frame. Original-paper links open a new tab. | Extend `:919-931`, `:353-355` and pending paper/source fields. Detailed origin/history fields remain proposed; pause/return and new-tab choice are settled. |
+| Inputs and papers | Complete available applicable input sets across journeys; exact input/expected/observed answers first, scoring meaning and gaps explicit. Paper reading card gives topic, experiment role, supporting section and Open original. | Extend `:619-625`, §6 `:662-674`, context model `:983-1023`. Bind inputs to run/source version. Cited/used paper associations remain distinct from related reading. |
+| Phone, detail and themes | Wide-screen side panel occupies its own space; narrow-phone details below diagram. Essential player controls remain visible in a reserved band. One explained chart at a time, all applicable measures accessible. Light/dark switch. | Extend `:357-373`, `:405-420`, model/player layout. Preserve 44px targets, >=13px text, readable contrast and no horizontal page scroll at 360px. Existing proof does not validate new layouts or themes. |
+| Broader learning | Architecture, engineering and scientific-method foundations connect to specific experiments and paper concepts. Brief lessons expand to depth, with a Learn-from-the-beginning path. Free exploration and guided walkthrough both remain. | Extend Learn at `:346`, `:1058`, plain-words context at `:584-587`. General explanation, paper claim, run observation and reviewed interpretation have distinct meaning. |
+| Learn entry and recording gaps | Questions -> model parts -> papers. At absent historical activity, retain the gap notice and continue explicitly labelled How-this-part-works teaching. | Extend `:346`, `:1058`, `:325-328`, `:627-648`. Structural teaching is not historical playback; broad coverage cannot be inferred from diagrams. |
+| Quizzes and tutor scope | Prepared, source-linked quizzes for each Learn section/card; reviewed questions/keys/explanations. Guided tutor is a durably recorded future feature. | New Learn assessment contract under `:346`, `:1058`. Do not confuse a guided walkthrough with the deferred tutor. No conversational AI/service/model connection is selected. |
+| Personal tracker | Remember progress on the current device, with reset. Domain/topic/science and overall scores; latest completed attempt supplies current score, previous attempts remain history. | New personal-state/assessment contract under Learn; clarify scientific read-only boundary at `:16-20`, `:31-32`. Accuracy/coverage taxonomy and precise aggregation remain proposed; local persistence remains unverified. |
+| End-of-quiz review | Explain at the end; summaries per assessed answer/card/section, their idea connections and science/paper context. Written explanations lead, expandable relationship map also available. | New learning-review contract under `:346`, `:1058`, adapted from focused/source-explained phone map `:1086-1096`. Relationships do not imply causation or scientific support. |
+| Missing/failure states | Proposed distinct messages for absent observation, unreadable data, ineligible comparison, unjudged science, failed learner save and unresolved navigation. Keep reason/source details reachable. | Clarify existing missing/comparison/evaluation rules `:32`, `:664-670`, `:578-587`; exact wording/new navigation defaults are not all individually approved. A measured zero remains zero. |
+| Recording and preparation | Inventory exact model structure, source-version-bound inputs, per-input/per-component coverage, source frames, reviewed explanations/questions and experiment-owned bibliography before promising detail. | Extend §6-7 coverage beyond the current sampled summaries (`:856-875`, `:896-931`, `:325-328`). Viewer work cannot create missing historical measurements. Future scientific capture needs its own reviewed plan/resource/inertness authority. |
+
+**Initial versus future scope:** the selected prepared quizzes, broader lessons and personal tracker are proposed additions for a future authorized build; none is currently implemented/accepted by this discussion. Guided tutoring is explicitly future work. A guided explanatory walkthrough is already accepted design and must not be deferred merely because the separate tutor is future work. Historical unrecorded trajectories remain unavailable. Exact source/paper/question preparation and scientific capture are separate assignments from viewer code.
+
+**Verification still required after the hold:** original scientific source/value/hash rules; phone/theme/zoom/source-link/navigation checks; relevant player/reading continuity; prepared answer-key correctness; score/coverage aggregation; learner persistence/error/version handling; first-view size/resource limits. October 8 phone images and measurements are historical context only. No new builds, tests, browser runs, model processes, science or external-source audit occurred.
+
+### Context for build agents
+
+| Packet | Exact material to supply | Reference use and boundary |
+|---|---|---|
+| Science/navigation viewer | Relevant contract rows/spans, verbatim accepted decisions, known source-bound walkthrough, historical phone views/measurements and intended reader tasks. | interface-design hierarchy/spacing/empty/error extracts, with spec fonts/native controls/44px rule prevailing. No skill execution, remote images or design-file writes. |
+| Model/chart/player viewer | Exact selected-model structure, input/component coverage and available source frames; measurement meanings/units and evidence labels; approved focus/player/phone rules. | Anthropic chart-accuracy/accessibility extract; ECharts Event and Action selection/highlight pattern only. Renderer/SVG/file-URL/phone/budget compatibility is unverified. Transformer Explainer README provides teaching framing only; no live GPT-2/runtime or verified visual zoom example. |
+| Learn/quiz/tracker | Reviewed curriculum, prerequisites/definitions, stable versioned lesson/question identities, keys/feedback, concept links and source-bound paper/experiment associations; all accepted quiz/tracker decisions. | Existing focused-map pattern and short layout/chart checklists. No reference supplies the experiment findings, learner answer keys or a proven tracker. Guided tutor is explicitly excluded from an initial quiz brief. |
+| Source/data preparation | Complete available input lists and provenance; bibliography/verified sections; model-specific topology and coverage audit; immutable extracts and licence checks. | Paper content is reviewed explanatory context, not a second science authority. Missing associations stay pending. Richer observation capture is separately gated and not part of static UI work. |
+
+- Preserve the primary-reference checks/table at notes `:268-295` and per-repo read limits in handoff2 `:42-44`. Tabler's inspected Layout page was an index, not verified phone-stacking markup; give it as optional context only. Axiom/practices remain local-review-derived; original pages unopened. No package is adopted. Source versions/licences and hidden network behavior remain separate future checks before any copy/trial.
+- This consolidated draft is the reviewable design artifact within the allowed notes file. MAESTRO should resolve the outstanding defaults/preparation dependencies and freeze explicit amendments before assigning scoped build agents. The operator's hold remains in force.
+
+- Scope clarification for the Initial versus future scope paragraph above: the selected features **are accepted design intent**. "Implemented/accepted by this discussion" refers to implementation or runtime/scientific acceptance: this discussion did not build or validate them. It does not retract the operator's approvals or claim a fresh inventory of current implementation coverage.
+
+## LVB3 — close review of Learn, quizzes and tracker
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to which consolidated-design slice to inspect. Review Learn, quizzes and tracker. This selects the review slice; it does not approve all scoring/preparation defaults.
+
+### Open questions
+
+- Connected review journey: choose a plain-language question -> read its brief lesson and expand foundations as needed -> explore linked model parts, experiments and paper context -> take the section/card quiz -> finish assessment -> see answer explanations, individual summaries and concept/science links -> update the device-local tracker from the latest completed attempt -> revisit a relevant lesson/source or resume the originating paused experiment. This assembles accepted intent; specific card fields and score arithmetic below remain proposed. Guided tutor stays future work.
+- Proposed learning-card content: the question/idea, prerequisite definitions, a short explanation, relevance to the selected science, relevant diagram/example, documented experiment/paper associations, limitations, and links to deeper material and the quiz. A paper's idea is distinguished from this experiment's observation; generic diagrams are distinguished from recorded model activity. Missing reviewed content or answer keys remain pending rather than receiving invented explanations/grades.
+- Central scoring decision still open: show accuracy plus assessment coverage separately (recommended), or lead with the share of the complete reviewed question bank already demonstrated correctly. Illustrative reviewed bank: 30 questions; 10 assessed on completed quizzes, 8 correct. Option 1 shows "80% correct; 10 of 30 assessed". Option 2 shows "8 of 30 demonstrated" (about 27% learning progress), with 2 incorrect and 20 unassessed explicitly separate. Neither calls an unassessed answer wrong or claims comprehensive knowledge. These examples are design arithmetic, not actual learner results.
+- This review refines earlier illustrative "attempted" coverage wording: score coverage should refer to assessed responses from the selected completed attempts; unfinished attempts are personal activity/in-progress state and do not silently replace current completed scores. Exact incomplete/skip rules remain proposed. A bank/lesson version change cannot inherit a previous answer as a response to a new question.
+- Proposed tracker drill-down: overall summary -> domains -> topics and science-line/experiment understanding -> relevant cards and responses. Show question/lesson coverage and source-linked review recommendations at each applicable level. Multi-tagged questions count once overall; summaries aggregate counts from eligible responses. Equal points, exact taxonomy, bank contents, supported question formats and coverage denominator still require explicit definition before a scoped build.
+
+### Spec changes proposed
+
+- The learning journey expands `docs/LABVIZ_V2_SPEC.md:346`, `:1058` into reviewed foundational lessons, per-card/section quizzes, connected end-of-assessment review and personal tracker, while preserving the accepted five-view/selection/source frame (`:341-355`) and phone rules (`:357-373`). Experiment summaries retain sourced finding/limit fields (`:584-587`); lesson/paper associations explicitly extend the context model (`:983-1023`).
+- Define score terms and eligible question/attempt/version populations in the new learner-assessment contract, separate from scientific run-card leaves and research verdicts (`docs/LABVIZ_V2_SPEC.md:16-20`, `:662-676`). The pending scoring preference above is not yet frozen. No spec edit or implementation occurred.
+
+### Context for build agents
+
+- Supply a complete example learning packet: reviewed lesson text/definitions, source-bound model/experiment/paper associations, checked question keys and feedback, concept links, stable question/lesson versions and explicit missing-content cases. The viewer renders these inputs; it is not responsible for inventing the science, paper summaries or answer keys. The deferred guided tutor must not be substituted for authored quiz feedback.
+- Future acceptance cases include no assessment, small-sample high accuracy, broad coverage with mixed answers, multi-tagged questions, differently sized topics, a lower latest score, an unfinished retake, a changed question version and failed personal-state saving. Reader verification asks whether accuracy/coverage are distinguishable and whether the learner can reach the relevant science claim and its limitation. No tests, browser runs or new source reading were performed.
+
+## LVB3 — context-gate close and session 4 continuation
+
+### Decisions (with the operator's words)
+
+- MAESTRO directive, verbatim: "MAESTRO context note: you are at about 44% context left. Finish the current point with the operator, then tell them you are writing the handoff, update results/dashboard_integration_review_20261011/labviz_brainstorm_handoff3.md (topics covered, settled choices, the open next point with your recommended options) and the notes, and say when it is saved. A fresh session 4 continues from it. If you have already finished it, just say READY."
+- Stop at this context gate. No new design work or question is started. The current scoring-display point is preserved as open because the operator has not answered it. All prior design choices remain settled; no scoring-display approval is inferred from the context-stop instruction.
+
+### Open questions
+
+- Exact next question for session 4: "Which presentation should lead the tracker? 1. Accuracy and coverage separately — recommended: '80% correct; 10 of 30 assessed.' 2. Progress across the whole bank: '8 of 30 demonstrated correctly,' with incorrect and unassessed material shown separately." These are illustrative numbers (30 reviewed questions, 10 assessed, 8 correct), not real learner results. Explain the recommendation briefly: it separates performance on assessed material from how much material has been assessed. Await the operator's answer; do not choose one during the handoff.
+- Score taxonomy, exact bank/denominators, equal-point aggregation, question formats/hints, incomplete/changed-version handling and local persistence remain proposed/preparation work. Guided tutor remains durably future work. Latest completed-attempt scoring, historical attempts, end-of-quiz feedback, connected summaries/map and science/paper links are already settled.
+
+### Spec changes proposed
+
+- No new spec change at this gate. Consolidated amendment draft remains at notes `:582-632`; close review of Learn/quizzes/tracker begins at `:634`. Binding `docs/LABVIZ_V2_SPEC.md` and all product/build files remain unchanged. Discussion/design approval is not implementation/scientific acceptance or permission to lift the building hold.
+
+### Context for build agents
+
+- Session 4's continuity authority is the separate `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff3.md`, plus these append-only notes and predecessor settled decisions. Preserve reviewed-source allowances, scientific source/coverage gaps and all no-execution boundaries. No tests/build/browser/model/science/git mutation occurred at the gate.
+- Binding context rule carried forward: watch "Context N% left" at the end of each reply before asking anything; start new work only at >=60% left. At <=45% left or any "Context compacted", tell the operator, finish the current point and write a separate handoff with completed/in-flight work, exact paths, settled choices, open risks and one exact next point. At <=40%, stop starting work. Never place the handoff inside notes or approach full-window compaction. Restate this rule in every successor/team handoff. The 44% figure here is MAESTRO-reported, not independently measured.
