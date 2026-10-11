@@ -29,12 +29,12 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T07:15:37Z",
+    "edited": "2026-10-11T07:43:25Z",
     "items": [
       {
         "id": "intel-setup",
-        "title": "Intel Mac: let MAESTRO check its disk and software",
-        "summary": "The Intel Mac is on the cable link (found at 07:14Z). Remote login is off, so MAESTRO cannot measure its disk yet. Measuring it comes before any copying, as you approved.",
+        "title": "Intel Mac: keep it awake, then add developer tools",
+        "summary": "MAESTRO can now sign in to the Intel Mac over the cable and has measured it: a 500 GB SSD (you chose smaller limits to fit) and 16 GB of memory. It still falls asleep after 1 minute, and has no developer tools yet.",
         "state": "needs_you",
         "who": "You, then MAESTRO",
         "session": "",
@@ -43,10 +43,12 @@
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [
-          "Choose how MAESTRO gets into the Intel Mac (question in chat)"
+          "On the Intel Mac: System Settings > Battery > Options > turn ON 'Prevent automatic sleeping on power adapter when the display is off'"
         ],
         "notes": [
-          "07:15Z: reformatted and connected by you; MAESTRO sees it at 192.168.10.2 (file sharing on, remote login off)."
+          "07:15Z: reformatted and connected by you; MAESTRO sees it at 192.168.10.2 (file sharing on, remote login off).",
+          "07:40Z: key sign-in works (account robertrhu_node2). Measured: 500 GB SSD, not 1 TB; macOS 14.8.9; 16 GB; sleeps after 1 min; FileVault off; no Homebrew or developer tools.",
+          "07:43Z: you chose to shrink the space limits to fit (250 GB copy, 50 history, 40 builders, 50 temporary, 6 engine, 80 free) and to leave FileVault off."
         ]
       },
       {
