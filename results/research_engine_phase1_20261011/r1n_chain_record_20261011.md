@@ -58,3 +58,18 @@ D8 PASS left=860s deadline=1791738217.0
 GATE D GO
 ```
 MAESTRO judgment (non-numerical): writer control holds — no scheduled/MacPorts writers (16:43Z survey), the only possible writer is the operator at the Intel console, old r1h-v7 state byte-identical at D; row drift since A (~4 min) is unobserved and is covered by the fixed D(B) 4,009,702 allowance, of which 4,248 bytes are used by B's own output; no evidence update; 860 s left for E, preservation and commits (declared minimum 420 s).
+
+## E (16:49:36–16:50:08Z): inventory attempt 0, rc 0
+`RE/r1n_chain_driver_maestro51.py inventory` (A.load_maker(sizing=False); M inventory args; committed bind capture sha256 73e5fb3a…; bootstrap bytes 113,521; anchor `none` for the fresh core a32411006dc3…). Exit 0, stderr empty, final qualified at 1791737408.53 (16:50:08Z) vs deadline 1791738217.0 (808 s spare). Successor anchor `12:45de480739fc3c33c6f1938a154b45a732122f93f5caff379d8c1feae23756fe`. Capture 2,008,557 bytes (<= 2,500,000 dispatch bound): 222,890 R1I-LIVE lines, 14 R1H-ANCHOR lines; summary `mode inventory, status OBSERVATION-ONLY, established [], retained_dir /private/tmp/r1l-intel-provisioning-v11`, elapsed 66.5 s (Intel clock). Committed 7ccf0778.
+```
+9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa  r1j_inventory_0_a32411006dc3.exit
+52f41be9b1c9594dcd5ae2998995b52f80c63089db2fd463dac3a1e58b7d2f4d  r1j_inventory_0_a32411006dc3.final
+52f41be9b1c9594dcd5ae2998995b52f80c63089db2fd463dac3a1e58b7d2f4d  r1j_inventory_0_a32411006dc3.final.pending
+f2d9794e6247247069ab9feb197b76853b73854ac1fd5745a18f5a36db21e5c3  r1j_inventory_0_a32411006dc3.json
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  r1j_inventory_0_a32411006dc3.stderr
+a353cd0de1cde1b48a6189d6029ca8b257d3c03e8aea68a8b599a1d49264f83f  r1j_attempt_0_a32411006dc3.json
+```
+Intel state after E (16:50Z, read-only): retained dir 20,540 KiB — `window.json` 16,927; `receipts/` inventory jsonl 20,049,966 (vs measured rows 20,114,046), accounting 183, summary 466, padded failure slot 16,384; registration `window.jsonl` 20,000. Anchor 0:a49c11de… untouched; old r1h-v7 state not modified.
+
+## Result
+The one authorized A–E chain completed: A rc 0, B PASS, C rc 0, Gate D GO (8/8), E rc 0. The authorization is now used. The inventory is an observation record only (no acquisition, no install); what it permits next is a separate decision.
