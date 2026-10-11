@@ -1,0 +1,2 @@
+capture r11_preflight_pins: exit 0; /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_preflight_pins
+capture r11_pins: exit 0; /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_pins

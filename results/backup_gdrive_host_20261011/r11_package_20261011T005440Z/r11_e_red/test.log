@@ -1,0 +1,27 @@
+test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home (e_red_snapshot.LauncherHomeExportTest) ... 
+======================================================================
+FAIL: test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home (e_red_snapshot.LauncherHomeExportTest) (property='generationShell', parent_home=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/tools/test_backup_gdrive_addendum_red_valid.py", line 71, in test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home
+    self.assertEqual(result.stdout, str(home))
+AssertionError: 'UNSET' != '/Volumes/memit/llm-database-poc-mirror/ar[176 chars]home'
+- UNSET
++ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_e_red/home/fixtures/launcher_home_7qkxofo2/fixture-home
+
+
+======================================================================
+FAIL: test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home (e_red_snapshot.LauncherHomeExportTest) (property='receiptShell', parent_home=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/before/tools/test_backup_gdrive_addendum_red_valid.py", line 71, in test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home
+    self.assertEqual(result.stdout, str(home))
+AssertionError: 'UNSET' != '/Volumes/memit/llm-database-poc-mirror/ar[176 chars]home'
+- UNSET
++ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_e_red/home/fixtures/launcher_home_7qkxofo2/fixture-home
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.036s
+
+FAILED (failures=2)

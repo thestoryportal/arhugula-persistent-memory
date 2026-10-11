@@ -27,70 +27,50 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T01:45:00Z",
+    "edited": "2026-10-11T02:05:12Z",
     "items": [
-      {
-        "id": "drive-package",
-        "title": "Drive backup: finish the safety package",
-        "summary": "A builder is preparing the tested package that turns on the automatic Google Drive backup safely. The last expert review (round 10) said no-go; this package answers its points.",
-        "state": "running",
-        "who": "Builder MB41 (third in a relay: MB39, MB40, MB41)",
-        "session": "codexmb41",
-        "started": "2026-10-11T00:55:00Z",
-        "estimate": {
-          "low_min": 90,
-          "high_min": 180,
-          "set": "2026-10-11T01:45:00Z"
-        },
-        "depends_on": [],
-        "blocked_by": [],
-        "needs_from_you": [],
-        "notes": [
-          "Each builder hands off when its memory runs low; expect one or two more hand-offs.",
-          "Current step: fixing the plan checker that wrongly flags a read-only check as a write.",
-          "Receipt folder: results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/"
-        ]
-      },
       {
         "id": "queue-tab",
         "title": "Build this queue tab",
         "summary": "A builder is making this tab, so current and upcoming work is always visible in plain words on the Mac and the phone.",
         "state": "running",
-        "who": "Builder Q1",
-        "session": "codexq1",
+        "who": "Builder Q2 (after Q1)",
+        "session": "codexq2",
         "started": "2026-10-11T01:40:00Z",
         "estimate": {
-          "low_min": 45,
-          "high_min": 90,
-          "set": "2026-10-11T01:45:00Z"
+          "low_min": 30,
+          "high_min": 60,
+          "set": "2026-10-11T02:05:12Z"
         },
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "After the builder finishes, MAESTRO runs its checks on the Mac and adds the tab to the dashboard without restarting the other tabs."
+          "Q1 built it and the Mac checks pass, but reading the real screen found 3 problems: live builder status never shows, an old experiment folder is shown as running, and the estimate wording is confusing. Q2 is fixing those.",
+          "Then MAESTRO re-checks on the Mac and adds it as tab 8 without restarting the other tabs."
         ]
       },
       {
         "id": "drive-host-tests",
         "title": "Drive backup: run the package's tests on the Mac",
         "summary": "The builder works in a sandbox that cannot run some Mac-only checks, so MAESTRO reruns everything on the Mac itself before anyone calls it passing.",
-        "state": "blocked",
-        "who": "MAESTRO",
-        "session": null,
-        "started": null,
+        "state": "running",
+        "who": "Builder MB42 fixing, then MAESTRO re-runs",
+        "session": "codexmb42",
+        "started": "2026-10-11T01:54:31Z",
         "estimate": {
-          "low_min": 20,
-          "high_min": 45,
-          "set": "2026-10-11T01:45:00Z"
+          "low_min": 40,
+          "high_min": 90,
+          "set": "2026-10-11T02:05:12Z"
         },
-        "depends_on": [
-          "drive-package"
-        ],
+        "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "Runs in the separate normal-priority tmux server (tmux -L new1)."
+          "First Mac run: 7 of 9 checks passed (main suite 155 tests, 0 failures).",
+          "2 failed only on the Mac: test files were placed on the same disk as the source (the real safety rule rightly refuses that), and the copy-checker miscounts an error on clean copies.",
+          "MB42 is fixing both; then all 9 checks re-run fresh.",
+          "Evidence: results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/maestro_host_20261011T015745Z/"
         ]
       },
       {
@@ -237,7 +217,7 @@
       },
       {
         "id": "close-builders",
-        "title": "Close finished builder windows MB39 and MB40",
+        "title": "Close finished builder windows MB39-MB42",
         "summary": "Their work becomes part of the Drive package; once that is saved, their windows can be closed.",
         "state": "blocked",
         "who": "You (MAESTRO cannot close sessions)",
@@ -245,11 +225,11 @@
         "started": null,
         "estimate": null,
         "depends_on": [
-          "drive-package"
+          "drive-host-tests"
         ],
         "blocked_by": [],
         "needs_from_you": [
-          "Run: tmux -L default kill-session -t codexmb39; tmux -L default kill-session -t codexmb40"
+          "Run: tmux -L default kill-session -t codexmb39; tmux -L default kill-session -t codexmb40; tmux -L default kill-session -t codexmb41; tmux -L default kill-session -t codexmb42"
         ],
         "notes": []
       },

@@ -1,0 +1,160 @@
+test_corrupt_remote_download_check_does_not_create_receipt (tools.test_backup_gdrive_addendum.ArchiveTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_differing_remote_is_immutable_and_preserves_prior_manifest (tools.test_backup_gdrive_addendum.ArchiveTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_invalid_paths_refuse_before_any_copy (tools.test_backup_gdrive_addendum.ArchiveTest) ... ok
+test_manifest_write_failure_is_loud (tools.test_backup_gdrive_addendum.ArchiveTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_real_copy_download_check_and_sha_receipt_never_delete_source (tools.test_backup_gdrive_addendum.ArchiveTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_source_drift_after_check_does_not_create_receipt (tools.test_backup_gdrive_addendum.ArchiveTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_1_manual_interleave_preserves_counter_only_generation_11 (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_2_crash_after_allocation_then_refusal_preserves_generation_11 (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_3_corrupt_unresolved_set_refuses_dispatch (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_4_null_evidence_publication_waits_for_recovery_counter_lock (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_4_recovery_preserves_null_evidence_and_requires_sequenced_completion (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_absent_wrapper_and_0555_receipt_directory_publish_independent_journal (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_allocator_refuses_string_generation_evidence (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_both_failure_sinks_unwritable_leave_unacknowledged_generation (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_concurrent_launches_allocate_unique_generations (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_failure_journal_is_bounded_and_keeps_newest_generation (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_generation_is_incremented_and_passed_to_wrapper_and_receipt (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_missing_corrupt_or_rolled_back_counter_refuses_wrapper (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_success_receipt_alone_does_not_clear_prior_failure (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_unwritable_journal_refusal_cannot_hide_uncompleted_failure (tools.test_backup_gdrive_addendum.GenerationLaunchTest) ... ok
+test_clock_rollback_failure_is_newer_by_generation (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_equal_timestamp_failure_needs_equal_or_later_completed_generation (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_incomplete_equal_generation_does_not_acknowledge_failure (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_issued_launch_without_receipt_is_unhealthy (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_journal_failure_needs_completed_generation (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_json_null_launch_receipt_cannot_be_ignored (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_later_wall_time_cannot_clear_failure (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_malformed_heartbeat_generation_is_ambiguous (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_manual_heartbeat_is_explicit_and_cannot_clear_applet_failure (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_missing_corrupt_or_decreasing_counter_is_unhealthy (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_missing_or_malformed_receipt_generation_is_ambiguous (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_refused_contender_does_not_acknowledge_journal_failure (tools.test_backup_gdrive_addendum.GenerationStatusTest) ... ok
+test_invalid_wrapper_generation_refuses_before_any_rclone_dispatch (tools.test_backup_gdrive_addendum.GenerationWrapperTest) ... ok
+test_manual_wrapper_records_explicit_unsequenced_mode (tools.test_backup_gdrive_addendum.GenerationWrapperTest) ... ok
+test_wrapper_start_and_end_record_applet_generation (tools.test_backup_gdrive_addendum.GenerationWrapperTest) ... ok
+test_ambiguous_or_unverified_missing_source_remains_fatal (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_child_pid_publication_failure_reaps_child_and_preserves_raw_failure (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_classifier_failure_keeps_successful_raw_rclone_exit (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries (tools.test_backup_gdrive_addendum.HeartbeatTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_duplicate_fields_and_non_json_constants_cannot_hide_errors (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_each_retry_has_its_own_error_count_and_suppression_proof (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_exit_publication_failure_is_loud_and_preserves_original_failure (tools.test_backup_gdrive_addendum.HeartbeatTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept (tools.test_backup_gdrive_addendum.HeartbeatTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_inconsistent_vanish_evidence_remains_fatal (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_inflight_is_visible_and_missing_stats_are_unknown (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_lock_cleanup_failure_records_failed_outcome (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_malformed_stats_do_not_reuse_earlier_bytes (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_mixed_auth_permission_and_destination_enoent_remain_fatal (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_native_nonregular_skip_is_recorded_as_warning (tools.test_backup_gdrive_addendum.HeartbeatTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_native_warning_on_success_is_visible (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_non_one_exit_keeps_raw_failure_even_with_vanished_messages (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_one_thousand_live_owner_refusals_have_bounded_storage (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night (tools.test_backup_gdrive_addendum.HeartbeatTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_real_queued_source_vanish_is_warning_and_keeps_raw_exit (tools.test_backup_gdrive_addendum.HeartbeatTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_real_sync_publishes_actual_bytes_and_completed_success (tools.test_backup_gdrive_addendum.HeartbeatTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_recovered_source_vanish_is_visible_without_final_deletion_suppression (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_refusal_still_records_failed_run_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_remote_connection_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_remote_global_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_source_symlink_escape_and_inaccessible_source_remain_fatal (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_start_publication_failure_invalidates_previous_success (tools.test_backup_gdrive_addendum.HeartbeatTest) ... skipped 'HOST-PENDING: real rclone forbidden by MB14 brief'
+test_stats_before_final_attempt_do_not_prove_completion (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_terminal_publication_cannot_mask_a_newer_active_run (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_valid_json_without_final_newline_cannot_normalize_failure (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_vanished_parent_is_warning_but_dangling_symlink_escape_is_fatal (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_verified_vanish_accepts_native_and_counted_terminal_messages (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_zero_exit_dry_run_or_skipped_operations_cannot_be_success (tools.test_backup_gdrive_addendum.HeartbeatTest) ... ok
+test_absent_wrapper_launch_fails_fresh_success_promptly (tools.test_backup_gdrive_addendum.LaunchReceiptTest) ... ok
+test_applescript_error_receipt_runs_without_executing_wrapper (tools.test_backup_gdrive_addendum.LaunchReceiptTest) ... ok
+test_exit_75_launch_preserves_real_active_owner_and_inflight_status (tools.test_backup_gdrive_addendum.LaunchReceiptTest) ... ok
+test_launch_receipt_is_atomically_replaced_and_stays_one_file (tools.test_backup_gdrive_addendum.LaunchReceiptTest) ... ok
+test_receipt_write_failure_is_prompt_and_preserves_existing_files (tools.test_backup_gdrive_addendum.LaunchReceiptTest) ... ok
+test_fixture_home_reaches_perl_with_absent_and_sentinel_parent_home (tools.test_backup_gdrive_addendum.LauncherHomeExportTest) ... ok
+test_builder_compiles_applet_and_prints_complete_sha256_manifest (tools.test_backup_gdrive_addendum.LauncherTest) ... ok
+test_launchd_waits_for_background_applet (tools.test_backup_gdrive_addendum.LauncherTest) ... ok
+test_nonzero_shell_script_is_caught_promptly_without_dialog (tools.test_backup_gdrive_addendum.LauncherTest) ... ok
+test_builder_compares_fresh_saved_compile_with_newline_growth (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_builder_rejects_app_decompile_byte_mismatch (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_builder_rejects_empty_canonical_decompile (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_changed_excludes_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_changed_manifest_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_changed_status_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_changed_wrapper_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_checkout_pull_cannot_change_dispatch (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_compiled_app_dispatches_release_after_checkout_change (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_compiled_app_full_source_equals_saved_source (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_dirty_checkout_stages_commit_bytes (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_existing_release_id_refused_without_overwrite (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_extra_file_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_good_release_dispatches_release_path (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_missing_file_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_release_inside_another_checkout_refused (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_rendered_source_stamps_release_and_all_four_hashes (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_4_byte_overflow_preserves_the_recovery_barrier (tools.test_backup_gdrive_addendum.R5CompactionTest) ... ok
+test_4_exact_limit_and_limit_plus_one_compaction (tools.test_backup_gdrive_addendum.R5CompactionTest) ... ok
+test_4_two_thousand_allocations_remain_bounded_and_fail_closed (tools.test_backup_gdrive_addendum.R5CompactionTest) ... ok
+test_r6_3_compacted_barrier_requires_strictly_later_completion (tools.test_backup_gdrive_addendum.R5CompactionTest) ... ok
+test_r6_3_odd_failure_schedule_compacts_at_139 (tools.test_backup_gdrive_addendum.R5CompactionTest) ... ok
+test_r6_3_python_and_both_perl_publishers_agree_at_boundaries (tools.test_backup_gdrive_addendum.R5CompactionTest) ... ok
+test_1_torn_journal_preserves_generation_and_entire_ambiguous_file (tools.test_backup_gdrive_addendum.R5RecoveryTest) ... ok
+test_1_valid_generation_after_torn_line_still_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest) ... ok
+test_2_floor_below_torn_journal_is_read_only (tools.test_backup_gdrive_addendum.R5RecoveryTest) ... ok
+test_2_floor_below_valid_journal_is_read_only (tools.test_backup_gdrive_addendum.R5RecoveryTest) ... ok
+test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest) ... ok
+test_r6_1_mb14_archive_requires_floor_100_and_completion_102 (tools.test_backup_gdrive_addendum.R5RecoveryTest) ... ok
+test_r6_1_under_lock_rechecks_archived_journal (tools.test_backup_gdrive_addendum.R5RecoveryTest) ... ok
+test_r6_2_refusal_heartbeat_raises_floor_without_a_failure (tools.test_backup_gdrive_addendum.R5RecoveryTest) ... ok
+test_r6_2_under_lock_rechecks_refusal_heartbeat (tools.test_backup_gdrive_addendum.R5RecoveryTest) ... ok
+test_r7_2_nested_generation_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest) ... ok
+test_r7_2_nested_manifest_requires_floor_100_and_reserves_101 (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest) ... ok
+test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest) ... ok
+test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest) ... ok
+test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest) ... ok
+test_r7_1_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest) ... ok
+test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest) ... ok
+test_r7_1_journal_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest) ... ok
+test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest) ... ok
+test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest) ... ok
+test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest) ... ok
+test_r7_1_recovery_state_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest) ... ok
+test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest) ... ok
+test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest) ... ok
+test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest) ... ok
+test_r7_1_unresolved_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest) ... ok
+test_r8_2_current_unresolved_invalid_generation_field_refuses_with_filename (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest) ... ok
+test_r8_2_current_unresolved_nested_generation_pre_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest) ... ok
+test_r8_2_current_unresolved_non_utf8_refuses_with_filename (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest) ... ok
+test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest) ... ok
+test_r8_3_archived_json_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest) ... ok
+test_r8_3_current_unresolved_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest) ... ok
+test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest) ... ok
+test_r8_3_genuinely_torn_final_jsonl_line_remains_tolerated (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest) ... ok
+test_r8_3_jsonl_duplicate_keys_refuse_instead_of_torn_line_tolerance (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest) ... ok
+test_r8_3_live_json_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest) ... ok
+test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest) ... ok
+test_r8_3_recognized_json_temporary_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest) ... ok
+test_current_auth_error_and_old_auth_error_recovery (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_failed (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_fresh_success (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_malformed_future_and_inflight_fail_closed (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_malformed_warning_fields_refuse_success (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_missing (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_new_publication_failure_and_log_rotation_are_not_silent (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_nonfatal_source_churn_is_visible_in_status (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_stale_and_exact_thirteen_hour_boundary (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_warning_paths_are_one_status_line (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+
+----------------------------------------------------------------------
+Ran 155 tests in 247.990s
+
+OK (skipped=14)
