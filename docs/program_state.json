@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T20:40:59Z",
+    "edited": "2026-10-11T20:50:36Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -148,8 +148,8 @@
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
-        "who": "Builder codexr2w builds round 12; then MAESTRO checks it and Astra reviews",
-        "session": "codexr2w",
+        "who": "Builder codexr2w2 builds round 12; then MAESTRO checks it and Astra reviews",
+        "session": "codexr2w2",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -202,7 +202,8 @@
           "20:03Z: Round 10 is built and checked: MAESTRO55 reran every check in a locked-down shell (all pass; 68bbe401), and codexr2u2 wrote the report (dd36eafa). Astra round 10 is reviewing now.",
           "20:10Z: Astra round 10 said not yet (3c4d9e9a): one gap left. A later training stage reads its certificate from disk and never checks which phase it is for, so a 'P3' certificate would start a Git check the rules had left out. MAESTRO56 ruled D14 (52b94f9a): count that branch as reachable wherever the program reads the certificate from disk; no change to the agreement or to any program file. Builder codexr2v is building round 11 now; then MAESTRO's own check and Astra round 11.",
           "20:33Z: Builder codexr2v finished round 11 (03fa810b): the later training stages now count that Git check as part of the gate's own work, and a new test proves a 'P3' certificate really reaches it. MAESTRO56 reran every check itself, including a run that blocks Git from starting at all, and found nothing written and the same 53 deliberate failures. Astra round 11 is reviewing it now (3f443a0d).",
-          "20:40Z: Astra round 11 said not yet (423dec6a). The Git check can be handed more files than the rules counted: the program checks every training file listed on disk before it confirms there are only six, and the two routes into that check can pick different files. MAESTRO57 ruled D15 (7aacc902): count those as an open-ended set, keep the two routes apart, and refuse any case the rules cannot list. No change to the agreement or to any program file. Builder codexr2w is building round 12 now; then MAESTRO's own check and Astra round 12."
+          "20:40Z: Astra round 11 said not yet (423dec6a). The Git check can be handed more files than the rules counted: the program checks every training file listed on disk before it confirms there are only six, and the two routes into that check can pick different files. MAESTRO57 ruled D15 (7aacc902): count those as an open-ended set, keep the two routes apart, and refuse any case the rules cannot list. No change to the agreement or to any program file. Builder codexr2w is building round 12 now; then MAESTRO's own check and Astra round 12.",
+          "20:50Z: Builder codexr2w wrote the new checks first and proved they catch both gaps Astra named; MAESTRO reran them (f00553ae). It stopped early to stay within its memory limit, so a fresh builder, codexr2w2, picked up the rest of round 12 (8b15b79f)."
         ]
       },
       {
@@ -211,7 +212,7 @@
         "summary": "Five Codex reviewers each take one area of the lists you sent (web dashboard tools, terminal dashboard tools, dashboard/design skills, research/ML skills, design best practices) and report what fits our work, how it would plug in, the cost and risk, and a verdict per item. Review only: nothing is installed or built.",
         "state": "needs_you",
         "who": "You: pick proposals; then MAESTRO",
-        "session": "codexlabviz13",
+        "session": "codexlabviz14",
         "started": "2026-10-11T13:52:00Z",
         "estimate": {
           "low_min": 30,
@@ -240,7 +241,8 @@
           "19:21:26Z: LabViz talk session 9 settled phone navigation (side drawer) and a collapsible desktop sidebar; you asked for whole-page visual design rather than control-by-control questions. Session 10 (codexlabviz10) started on the Science lines and research-question page. Building is still on hold.",
           "19:38Z: LabViz session 10 settled the Science lines page (roomy question list), the question page (a flowing research brief with a branching diagram of spec and science connections), and data storytelling as part of the frame (notes + handoff10, ea560ec0). Session 11 (codexlabviz11) is open for you: next is the Runs page and the run-comparison page. Building is still on hold.",
           "19:58Z: LabViz session 11 settled the comparison page: the two runs line up row by row (notes + handoff11, ea266c13). Session 12 (codexlabviz12) is open for you: next is the 'Inside the model' page, guided by the reference material. Building is still on hold.",
-          "20:19Z: LabViz session 12 settled five page choices (one continuous account on Inside the model, a learning library on Learn, a warm neutral colour family, an explained Runs landing page, focused zooms) and handed off at 45% (49080d67). Session 13 (codexlabviz13) is open for you: it asks what most sparked your Shopify-inspired idea, then works it into the Inside the model page. Building stays on hold."
+          "20:19Z: LabViz session 12 settled five page choices (one continuous account on Inside the model, a learning library on Learn, a warm neutral colour family, an explained Runs landing page, focused zooms) and handed off at 45% (49080d67). Session 13 (codexlabviz13) is open for you: it asks what most sparked your Shopify-inspired idea, then works it into the Inside the model page. Building stays on hold.",
+          "20:50Z: LabViz session 13 settled the Shopify-inspired layout (selectors and short explanations on the left, the model drawing on the right, drawn as a cutaway) and folded in your two new design guides; its notes and handoff are saved (bd9a4bf3). Session 14 is ready for you: tmux attach -t codexlabviz14. It picks up from the worked example (C10V recipe B, A7)."
         ]
       },
       {
