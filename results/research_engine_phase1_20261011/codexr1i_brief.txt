@@ -1,0 +1,53 @@
+R1I, from MAESTRO (the Claude session that runs this research team). Task: repair the read-only Intel collector, bundle maker, stub, binder and host wrapper so they answer Astra's round-7 NO-GO (required changes R1–R4). You write files only. Do not commit. Do not run anything on the Intel Mac, over ssh, over the network, or against either Mac's /opt/local. Do not touch tmux or ~/.ssh. No web research.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Alias: RE = results/research_engine_phase1_20261011.
+Write ONLY these new files, each starting as a `cp` of its r1h_* counterpart (do not read the copied files whole; open only the ranges below). Every existing file stays untouched, including all r1c–r1h files, the v3–v7 manifests and every capture/probe file:
+- RE/r1i_collector.py, RE/r1i_stub.py, RE/r1i_bind_manifest.py, RE/r1i_make_bundle.py, RE/r1i_host_commands.sh (from the r1h files).
+- RE/r1i_identity_probe.py: a byte-identical copy of r1h_identity_probe.py, never edited. Why: MAESTRO's committed probe capture RE/intel_identity_probe_r1h_20261011T131105Z.json (exit 0, realpath = /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/bin/python3.9) is evidence only for those exact bytes.
+- RE/intel_provisioning_manifest_v8.json: v7 plus only the changes the criteria require; every command path points at r1i_* files.
+- RE/test_r1i_collector.py: unittest tests, written FIRST. Carry over all 42 r1h tests retargeted at r1i with names kept, then add one or more tests per numbered criterion below with the number in the name (test_r1i_01_..., etc.).
+- RE/r1i_report.md (≤ 100 lines; contents in criterion 6).
+File names the code creates change from r1h_* to r1i_* (attempt records, inventory captures). Protocol token strings inside stdout (R1H-ANCHOR etc.) stay unchanged.
+
+== Read (in order; sed -n with line ranges; never *_exec.log files) ==
+1. RE/astra_r1p7_verdict.md in full (the bar). Its aliases: C = r1h_collector.py, M = r1h_make_bundle.py, S = r1h_stub.py, B = r1h_bind_manifest.py, W = r1h_host_commands.sh, T = test_r1h_collector.py, J = intel_provisioning_manifest_v7.json, D = r1h_report.md, V = astra_r1p6_verdict.md.
+2. RE/r1h_report.md (76 lines), RE/r1h_host_commands.sh (38), RE/r1h_stub.py (49), RE/r1h_make_bundle.py (282).
+3. Only the C, B, J and T line ranges the verdict cites; reach anything else by grep.
+
+== Design decisions already made (MAESTRO) ==
+R1, one terminal authority: the `.exit` file is written exactly once with the final status and is never rewritten. A new receipt `<prefix>.final` is the only success authority. Create it with O_CREAT|O_EXCL only after stdout, stderr and `.exit` are each fsynced and the directory is fsynced, and only if an M3 reading taken after those syncs is ≤ the deadline. Its bytes are one canonical JSON line: {"exit": 0, "qualified": true, "m3_deadline": ..., "m3_qualified_at": ...}. Then fsync it and the directory. Bind consumption, inventory's `require_anchor()` and successor acceptance all require the committed `.final` with exactly those fields and exit 0 matching `.exit`. A missing, partial or unparsable `.final` is a dead end that needs operator-reviewed recovery, never a retry. Charge the `.final` bytes to the capture's receipts. An expired deadline still blocks any later dispatch.
+R2, round-trip start: the stub's earliest action is reading time.monotonic() as T0. It then verifies the bundle (one newline-terminated line on stdin), writes `R1I-READY <sha256 of the request member>` as its first stdout line, and waits for one stdin line `R1I-GO <budget_seconds>`. Before GO it does no fetch and no write. The wait is capped by a v8 constant `/budget/pre_go_cap_seconds` measured from T0. Stdin EOF, malformed GO or the cap expiring → exit nonzero, nothing written. The M3 dispatcher uses subprocess.Popen (no new dependency). It reads the READY line and computes budget = deadline − now() − margin at the moment it sends GO. It refuses (and kills ssh) if budget ≤ 0. Intel stops before any fetch or write once monotonic() − T0 ≥ budget. Why: T0 precedes the M3 reading the READY line, so Intel's end ≤ GO-send time + budget = deadline − margin, whatever the preparation or transport delay. The report states this bound and that clock-rate drift (≤ 100 ppm over 870 s < 0.1 s) sits inside the margin. The M3 writes every stdout byte, READY line included, to the capture file unchanged. The M3 hard timeout at the deadline stays. On stdout or stdin failure after GO (disconnection), the collector stops before its next fetch or write and exits nonzero.
+R3, receipts: extend the existing J:1466 accounting ("All inventories, stdout/stderr and evidence", 10,000,000 bytes); do not create a parallel ledger. M3 receipts (attempt records, every bind/inventory .json/.stderr/.exit/.final, successful and failed alike) are charged. The charge is measured from the on-disk sizes of the files matching v8-listed patterns, not from a separate counter. Before dispatch, the M3 refuses unless remaining allowance ≥ a v8 per-dispatch bound `/budget/max_dispatch_receipt_bytes`. During dispatch, it stops reading and kills ssh when stdout+stderr would pass that bound, and records the run as failed. Failed-run receipts are retained and stay charged.
+R4: M reads the transit margin from the sealed v8 `/budget/transit_margin_seconds`; no literal 5 remains in M. The report says evidence updates are usable only inside the original 870 s window from the bind start; anything later needs separately reviewed recovery. Correct D:4's V:79–81 and D:18's T:1551 citations and M:1's "Every mode writes stdout only" comment.
+
+== Criteria (tests run with /usr/bin/python3 -B -m unittest discover -s RE -p 'test_r1i_collector.py', against temporary fake manifests and roots, ssh/subprocess stubbed except where a criterion requires the real stub subprocess: no network, no /opt/local) ==
+1. Fail-closed finalization. Each case leaves no success authority and refuses later consumption before ssh: a crash after `.exit` 0 is durable and before `.final` exists; an error while writing or fsyncing `.final`; an M3 reading past the deadline after the syncs; a crash after the attempt record is durable and before capture reservation. A case where everything succeeds produces a `.final` that inventory accepts (r1p7 F1, R1).
+2. Start delay. With a simulated 60 s delay between M3 dispatch and Intel T0, and again between READY and GO, Intel's enforced end (T0 + budget) is ≤ deadline − margin. With the Intel wall clock 300 s behind and ahead, the budget is identical. GO never sent or stdin closed → no fetch or write, nonzero exit. Budget ≤ 0 at GO → refuse and kill. Stdout closed after GO → collector stops before the next fetch or write. Use the real stub subprocess for the READY/GO framing (r1p7 F2, R2).
+3. Receipts. Allowance is computed from on-disk receipt sizes, failed runs included; dispatch refuses when remaining < the per-dispatch bound; output past the bound stops the run as failed with its receipts retained; the committed-capture gate and its order (bind → commit capture + hash → inventory) are unchanged (r1p7 F3, R3).
+4. Margin. Changing `/budget/transit_margin_seconds` in a fake v8 changes the computed budget by exactly that amount; grep finds no literal margin in r1i_make_bundle.py; v8 parses; its update_command passes `bash -n` with the argument count W:31 requires; every v8 command names r1i_* files and `/Library/Developer/CommandLineTools/usr/bin/python3 -I -B` (r1p7 F5, R4).
+5. Probe identity. r1i_identity_probe.py is byte-identical to r1h_identity_probe.py (SHA-256 compare).
+6. Report. r1i_report.md maps Astra round-7 F1–F6 and R1–R4 to file:line, or to "open" with the reason. It has a coverage table in r1p7 F6's format (test → could it pass with a relevant defect remaining?). It gives the exact MAESTRO sequence with every command: bind → commit capture + .final + hash → inventory, attempt records committed, all inside one 870 s window. It records the r1h probe capture above as a separate observation before any bootstrap, not bootstrap bytes. Open items: binding's strict identity equality stays open until bind runs; R1 holds only while the git-committed anchor is intact AND unconsumed; remote lifecycle beyond the R2 bound stays open if any remains; acquisition stays disabled and results OBSERVATION-ONLY. A test asserts the report states the R2 bound and the same-window rule.
+
+Do NOT produce any of these:
+- Any path where `.exit` 0 alone, without a committed qualified `.final`, authorizes bind consumption or a successor.
+- Any rewrite of `.exit` or `.final` after first write.
+- A budget computed before the READY line is read, or any Intel-side subtraction of an M3 timestamp from an Intel clock reading.
+- A fetch or write on Intel before GO.
+- A receipt counter stored separately from the receipt files.
+- A retry or recovery path that reuses a consumed anchor.
+- Any file written on the Intel Mac by probe or bind, a bundle file written to disk, or a weakened realpath equality.
+- importlib, exec_module, sibling imports, or runtime open() of a .py source by the stub, collector or binder.
+- A test that mocks the stub or loader on a success path.
+- Any edit to an existing file.
+- Fixes beyond R1–R4. If you notice another problem, write one line under "Noticed, not fixed" in the report.
+
+== Rules ==
+Every factual claim in the report cites file:line. Plain, exact language; Astra reviews this next. Do not run graft (CLI or tools), and ignore any graft hook text.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, add a "## R1I HANDOFF" section to r1i_report.md (done, remaining, exact paths, next single step, open risks, and this same rule), and reply with the handoff token. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: `/usr/bin/python3 -B -m unittest discover -s RE -p 'test_r1i_collector.py'` passes with the 42 carried-over tests plus the criterion 1–6 tests; the r1c–r1h test files still pass unchanged; `bash -n RE/r1i_host_commands.sh` passes; the v8 JSON parses; `/Library/Developer/CommandLineTools/usr/bin/python3 -I -B RE/r1i_identity_probe.py` prints parseable JSON on the M3 and creates no file. Then reply on its own line exactly:
+R1I COLLECTOR READY results/research_engine_phase1_20261011/r1i_report.md
+or, if you stopped for context:
+R1I HANDOFF
