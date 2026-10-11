@@ -27,7 +27,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T02:39:38Z",
+    "edited": "2026-10-11T02:44:00Z",
     "items": [
       {
         "id": "drive-review",
@@ -74,19 +74,20 @@
       },
       {
         "id": "new1-leftovers",
-        "title": "Decide where NEW-1's 100 leftover files go",
+        "title": "Move NEW-1's 100 leftover files to Drive",
         "summary": "The last experiment (NEW-1) left 100 control files (167 MB). Their fingerprints are already saved in the project record.",
-        "state": "needs_you",
-        "who": "You",
+        "state": "blocked",
+        "who": "MAESTRO, once Drive works",
         "session": null,
         "started": null,
         "estimate": null,
-        "depends_on": [],
-        "blocked_by": [],
-        "needs_from_you": [
-          "Keep them and move them to Drive once it works (recommended), or delete them now."
+        "depends_on": [
+          "drive-activate"
         ],
+        "blocked_by": [],
+        "needs_from_you": [],
         "notes": [
+          "You decided 2026-10-11 ~02:45Z: keep them, and move them to Drive once the backup works.",
           "Hashes: results/mathlab_staging/new1_outcome_20261011/npz_bench_files.sha256"
         ]
       },
@@ -168,22 +169,6 @@
         "blocked_by": [],
         "needs_from_you": [
           "A separate go for the run itself, with its disk budget."
-        ],
-        "notes": []
-      },
-      {
-        "id": "close-builders",
-        "title": "Close finished builder windows MB39-MB43 and Q1-Q3",
-        "summary": "Their work is saved and committed; these idle windows can be closed (MAESTRO is not allowed to close them).",
-        "state": "needs_you",
-        "who": "You (MAESTRO cannot close sessions)",
-        "session": null,
-        "started": null,
-        "estimate": null,
-        "depends_on": [],
-        "blocked_by": [],
-        "needs_from_you": [
-          "Run: for s in codexmb39 codexmb40 codexmb41 codexmb42 codexmb43 codexq1 codexq2 codexq3; do tmux -L default kill-session -t $s; done"
         ],
         "notes": []
       },

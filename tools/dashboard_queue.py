@@ -396,6 +396,7 @@ def render(queue: QueueInput, live: Live, now: dt.datetime, width: int,
     if height is not None:
         priority = {State.RUNNING: 0, State.NEEDS_YOU: 1, State.IN_REVIEW: 2}
         ordered.sort(key=lambda entry: priority.get(states[entry[1].id], 3))
+        ordered = list(enumerate((item for _, item in ordered), 1))  # numbers follow the order on screen
     for index, (number, item) in enumerate(ordered):
         observed, state = live.get(item.session), states[item.id]
         card = [""] + wrap(item.title, width, "%d. " % number)

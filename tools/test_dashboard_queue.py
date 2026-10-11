@@ -740,8 +740,9 @@ class Q3Regressions(unittest.TestCase):
         for detail in ('Summary: RUNNING detail marker', 'Summary: NEEDS detail marker',
                        'Summary: REVIEW detail marker', 'Needs from you: Choose A'):
             self.assertIn(detail, shown)
-        positions = [shown.index(label) for label in ('2. Active priority', '3. Attention priority',
-                                                     '4. Review priority', '1. [READY] Low priority first')]
+        # Numbers follow the order on screen, not the queue's stored order (operator, 2026-10-11).
+        positions = [shown.index(label) for label in ('1. Active priority', '2. Attention priority',
+                                                     '3. Review priority', '4. [READY] Low priority first')]
         self.assertEqual(positions, sorted(positions))
         # In roomy snapshots the original order and full cards stay available.
         unbounded = q.render(self.parsed(q, values), q.Live(), NOW, 100)
