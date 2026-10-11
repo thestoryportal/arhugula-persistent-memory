@@ -189,19 +189,22 @@
         "id": "drive-activate",
         "title": "Drive backup: turn it on",
         "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup. The plan is being rewritten so the first upload runs from the Intel Mac (your choice 11); your three OKs will be asked again against that version.",
-        "state": "running",
-        "who": "builder codexdl1, then Astra, then you (three OKs)",
-        "session": "codexdl1",
+        "state": "blocked",
+        "who": "MAESTRO: Astra review once the shared-drive rules (R2) are committed",
+        "session": "",
         "started": null,
         "estimate": null,
-        "depends_on": [],
+        "depends_on": [
+          "r2-clearance"
+        ],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
           "08:23Z: your earlier three questions are withdrawn until the Intel version exists (integration row I7); they are deferred, not waived.",
           "08:37Z: integration table approved. Next: measure what the ~287 GB upload is made of (helper running), inventory first (row I3b), then MAESTRO brings you space options and the Intel-first plan.",
           "09:54Z: The operator chose to store identical files once on the Intel Mac (Amendment 21). The copy fits in about 130 GB of the 250 GB. Next: design that layout and send it to Astra before any copy.",
-          "12:59Z: builder codexdl1 is designing the Intel Mac layout that stores each identical file once (your Amendment 21): how one stored copy serves every path, how it is kept from being changed, how the upload still sends every path to Drive, and the space math. Design only, nothing copied; Astra reviews it before any copy, then the full Intel plan and your three OKs."
+          "12:59Z: builder codexdl1 is designing the Intel Mac layout that stores each identical file once (your Amendment 21): how one stored copy serves every path, how it is kept from being changed, how the upload still sends every path to Drive, and the space math. Design only, nothing copied; Astra reviews it before any copy, then the full Intel plan and your three OKs.",
+          "13:07Z: codexdl1 finished the layout design (58d7374c): each identical file stored once, every path linked to that one copy and locked against changes, every path still uploaded to Drive, and the space math (about 130 GB stored out of 250 GB, before overhead that must be measured). It leans on the shared-drive rules still being written, so Astra reviews it once those are committed."
         ]
       },
       {
