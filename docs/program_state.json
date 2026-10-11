@@ -86,7 +86,7 @@
           "14:06Z: codexr1j finished both fixes (9a8f51bb). MAESTRO46 reran every test set (61 new pass; all older sets still pass) and confirmed in the code that the success note now appears only after it is safely on disk, and that the Intel side checks its time limit during identity work and just before success. Astra round 9 is reviewing (6d638f68). If it says yes, MAESTRO runs the binding step next.",
           "14:14Z: Astra round 9 said not yet, but narrowly (73d09700): both fixes are accepted; what's missing is proof. The time-limit test could pass even if the limit hit before the identity work began, so it must show the work started first and was stopped partway. Builder codexr1k is strengthening that one test and the report wording; no program code changes.",
           "14:24Z: codexr1k added the missing proof: a test showing the identity check had started before the time limit and was cut off partway through (a17412cd). MAESTRO47 reran all eight test sets; all pass. Astra round 10 is reviewing it now (packet 87c295e5).",
-          "14:41Z: Astra round 10 said GO (6931d0c0) and you said go. The Intel Mac proved it is the same machine (a806d691). The listing step then stopped itself after 18 seconds: it printed a progress line on every step (81,599 of them) and hit its size limit. Everything was kept (08ad0ada, cd5ea2e3). Nothing will be retried without you. Builder codexr1l is finding the exact cause and writing one tested fix; Astra reviews it; then MAESTRO asks you before any re-run."
+          "14:35Z: Astra round 10 said GO (6931d0c0) and you said go. The Intel Mac proved it is the same machine (a806d691). The listing step then stopped itself after 18 seconds: it printed a progress line on every step (81,599 of them) and hit its size limit. Everything was kept (08ad0ada, cd5ea2e3). Nothing will be retried without you. Builder codexr1l is finding the exact cause and writing one tested fix; Astra reviews it; then MAESTRO asks you before any re-run."
         ]
       },
       {
@@ -160,7 +160,7 @@
           "13:53Z: both builders finished. codexr2g wrote the shared-drive rules version 2 with exact record formats and a checker; codexr2h2 finished the list of every science launch path. MAESTRO46 checked them (checker passes, sizes and sections right, three sampled fingerprints match) and committed them (181b2cfa). Astra round 4 is reviewing (309a9a65).",
           "14:06Z: Astra round 4 said not yet (d833fb81). The rules now name owners, and the startup order and integration fixes were accepted. Still open: two maths-notebook launch paths were missing from the list, and some old scripts were wrongly marked as unable to run here; a profile had to contain its own fingerprint, which can't be built; the recovery path lived inside the folder whose loss it must survive; first-time setup with no earlier writer couldn't be written down; and the checker only checked structure. MAESTRO46 decided the fixes. codexr2i is revising the rules and record formats; codexr2j is completing the launch list. A later builder strengthens the checker.",
           "14:24Z: both builders ran low on room and stopped cleanly with notes on where to resume; their unfinished drafts are saved (30bed29d). Fresh successors codexr2i2 (rules + data formats) and codexr2j2 (list of every way science work starts) picked up from those notes. The checker builder starts after codexr2i2 finishes.",
-          "14:41Z: the list of every way science work starts is finished and checked: MAESTRO re-hashed all 198 files and every one matches (359fbfbf). codexr2i2 is still finishing the rules and data formats; the checker builder starts after it."
+          "14:35Z: the list of every way science work starts is finished and checked: MAESTRO re-hashed all 198 files and every one matches (359fbfbf). codexr2i2 is still finishing the rules and data formats; the checker builder starts after it."
         ]
       },
       {
@@ -186,7 +186,7 @@
           "14:06Z: all five reviews are done (one reviewer ran low on room and a fresh one finished its last two items). Reports are in results/dashboard_integration_review_20261011/. A sixth Codex session is writing a one-page summary for you.",
           "14:09Z: the one-page summary is ready (results/dashboard_integration_review_20261011/SUMMARY.md). Headline: keep our dashboards; first check that failures read UNAVAILABLE and that tabs fit the phone; a few small trials are worth considering; no skill should be installed as-is. Waiting for you to pick which proposals to approve.",
           "14:12Z: you said you will review the report first; MAESTRO asks the approval questions after that.",
-          "14:41Z: at your request, an interactive LabViz brainstorm is open in tmux session codexlabviz (discussion only; the build hold stays). Notes go to results/dashboard_integration_review_20261011/labviz_brainstorm_notes.md."
+          "14:35Z: at your request, an interactive LabViz brainstorm is open in tmux session codexlabviz (discussion only; the build hold stays). Notes go to results/dashboard_integration_review_20261011/labviz_brainstorm_notes.md."
         ]
       },
       {
