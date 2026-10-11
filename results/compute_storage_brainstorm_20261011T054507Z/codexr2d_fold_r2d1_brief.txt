@@ -1,0 +1,17 @@
+R2D FOLD ROUND (MAESTRO62, after Astra r2d1 GO-WITH-CONDITIONS)
+
+Input: results/compute_storage_brainstorm_20261011T054507Z/astra_r2d1_verdict.md (read it in full; F1-F5 and Required changes R1-R5).
+Base: results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v1.md (do NOT modify v1; it is the reviewed record).
+Output: results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v2.md = v1 plus exactly the five changes below, and a short "Changes from v1 (Astra r2d1)" section at the end mapping each of R1-R5 to the v2 line numbers that implement it.
+
+Required changes (Astra's wording governs; these are the targets):
+R1. Preserve HW1 choice 7 explicitly (seven daily / four weekly Intel restore points, restore checks for known files and an old version, missing bulk fetched from Drive), with amendment 16's 50 GB history cap. Replace "recovery remains optional" with "recovery is not a prerequisite to first upload." Add choice 7 to the R5 disposition table. Quote the decisions_log lines you rely on.
+R2. Add a UID-quiescence acceptance condition: the observation method's empty result must not be able to miss a surviving lineage under fork/exit churn, disappearing PIDs, PID reuse or incomplete credential reads; ambiguity refuses the switch. Require evidence for the chosen primitive's empty-set guarantee. Keep the existing delayed-launch and same-boot switching tests. Do not select or invent a macOS API you have not verified; state it as an acceptance requirement.
+R3. Extend confinement commissioning to group/ACL-writable trusted scripts, modules, hooks, config files and parent-directory replacement. Add two tests: an attempted file-mediated execution under the operator account, and an attempted daemon-mediated action after the originating worker exits.
+R4. State that S1 qualification covers a frozen workload/input envelope with justified peak bounds; a passing sample run is corroboration only. Freeze aggregate accounting and support-writer enforcement before activation, including retained retries and temporary allocate/free/reallocate.
+R5. At v1 line 76, separate design adoption (may approve conditional requirements) from activation (waits for demonstrated enforcement). Keep the sequence at v1 line 120.
+
+Do not: change anything else in v1; add new mechanisms, process/descendant inventories, or P8-style lists (Astra: "avoid recreating P8-style executable/descendant inventories"); reintroduce a routine M3 reboot (MAESTRO, every builder and the operator's phone link run on the M3); commit, push, delete, or run anything on the host beyond reading files and writing v2.
+
+Acceptance (MAESTRO will check the file, not your reply): v2 exists; `diff v1 v2` shows only the R1-R5 edits plus the changes section; each R maps to concrete v2 lines; R5 table lists choice 7; line count stated.
+Finish with exactly one reply line: R2D SPEC READY (v2 written) or R2D BLOCKED <reason>. If your context runs low before you finish, write what you have and reply R2D HANDOFF.
