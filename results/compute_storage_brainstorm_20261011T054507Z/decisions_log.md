@@ -196,3 +196,21 @@ Recorded 2026-10-11T07:42:54Z using `date -u`.
 
 Operator answer to "Turn encryption on?": "Leave it off". The Intel Mac comes back by itself after a restart; its disk, including the research-data copy and any later Drive login, is readable by whoever holds the laptop. The Drive credential decision (activation's separate operator OK) must restate this.
 
+
+## Amendment 18 — MacPorts replaces Homebrew on the Intel Mac
+
+Recorded 2026-10-11T08:11:13Z using `date -u`.
+
+The Intel Mac's package manager is MacPorts, not Homebrew. Operator answer to "What should the Intel Mac use for installing its tools?": "MacPorts (Recommended)".
+
+Why: Homebrew's signed installer (7.0.9, sha256 e0212959…1a15) refused this Mac. Its Distribution file allows `hostArchitectures="arm64"` only and `os-version min="15.0.0"`; the Intel Mac is x86_64 on macOS 14.8.9. Homebrew's own Support-Tiers.md (last reviewed 2026-09-21) lists Intel macOS as Tier 3, "not supported" (:86,109), says it has stopped building Intel bottles and will stop running on Intel "in or after September 2027" (:143), and points Intel Sequoia 15 and earlier to MacPorts (:145). This is the case design.md:242 anticipated ("If the chosen native packages are unavailable/incompatible, stop for a reviewed hosting change"), so the switch waits for review.
+
+What changes: every Homebrew reference for the Intel host (design.md:32,242; integration row I1) now means MacPorts ports. Candidate installer: MacPorts-2.12.6-14-Sonoma.pkg (published 2026-08-25), sha256 184ac171c201391a502958951867e77062010c781ade302b70b1f176e42d23d6 matching GitHub's asset digest; Developer ID Installer: Joshua Root (QTA3A3B7F3), Apple-notarized (spctl accepted); its Distribution allows `arm64,x86_64` on macOS 14 only.
+
+What does not change: design.md:242 still binds. Neo4j Community, Java, CPython/DuckDB and every other Intel dependency are re-pinned through real compatibility and identity checks, whichever channel supplies them; a port's version and archive hash are pinned like any other artifact, and a dependency MacPorts cannot supply at the reviewed version stops for review rather than falling back to Homebrew, a VM or a cloud service. Installing the package manager authorizes no research-engine provisioning, which still waits for the Intel phase-1 spec and its Astra review.
+
+## Amendment 19 — Intel Mac logs in automatically
+
+Recorded 2026-10-11T08:11:13Z using `date -u`.
+
+Operator answer to "Should the Intel Mac log itself in automatically after a restart?": "Yes, turn it on (Recommended)". The operator set it in System Settings; MAESTRO confirmed `autoLoginUser = robertrhu_node2` and `/etc/kcpassword` present (08:10Z). With FileVault off (amendment 17), anyone holding the laptop reaches the logged-in account, including the research-data copy and any later Drive login. The Drive credential question must restate both facts.

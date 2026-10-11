@@ -1,0 +1,54 @@
+Package "Homebrew.pkg":
+   Status: signed by a developer certificate issued by Apple for distribution
+   Notarization: trusted by the Apple notary service
+   Signed with a trusted timestamp on: 2026-10-08 10:47:18 +0000
+   Certificate Chain:
+    1. Developer ID Installer: Patrick Linnane (927JGANW46)
+       Expires: 2029-07-02 15:50:33 +0000
+       SHA256 Fingerprint:
+           3C 5D AA 66 55 A8 89 1F C1 E0 C0 60 8A EB 6B 3D 06 54 9E 05 A6 7C 
+           1D C9 03 CE A8 D5 21 20 AA C0
+       ------------------------------------------------------------------------
+    2. Developer ID Certification Authority
+       Expires: 2031-09-17 00:00:00 +0000
+       SHA256 Fingerprint:
+           F1 6C D3 C5 4C 7F 83 CE A4 BF 1A 3E 6A 08 19 C8 AA A8 E4 A1 52 8F 
+           D1 44 71 5F 35 06 43 D2 DF 3A
+       ------------------------------------------------------------------------
+    3. Apple Root CA
+       Expires: 2035-02-09 21:40:36 +0000
+       SHA256 Fingerprint:
+           B0 B1 73 0E CB C7 FF 45 05 14 2C 49 F1 29 5E 6E DA 6B CA ED 7E 2C 
+           68 C5 BE 91 B5 A1 10 01 F0 24
+
+brew_pkg/Homebrew.pkg: accepted
+source=Notarized Developer ID
+origin=Developer ID Installer: Patrick Linnane (927JGANW46)
+Package "MacPorts-2.12.6-14-Sonoma.pkg":
+   Status: signed by a developer certificate issued by Apple for distribution
+   Notarization: trusted by the Apple notary service
+   Signed with a trusted timestamp on: 2026-08-25 15:29:10 +0000
+   Certificate Chain:
+    1. Developer ID Installer: Joshua Root (QTA3A3B7F3)
+       Expires: 2027-02-01 22:12:15 +0000
+       SHA256 Fingerprint:
+           9C 25 13 61 DB C9 07 5E E8 6F 16 77 E5 11 6C ED C8 FF 36 01 82 5D 
+           D8 8A 61 20 80 BB 16 73 C0 AB
+       ------------------------------------------------------------------------
+    2. Developer ID Certification Authority
+       Expires: 2027-02-01 22:12:15 +0000
+       SHA256 Fingerprint:
+           7A FC 9D 01 A6 2F 03 A2 DE 96 37 93 6D 4A FE 68 09 0D 2D E1 8D 03 
+           F2 9C 88 CF B0 B1 BA 63 58 7F
+       ------------------------------------------------------------------------
+    3. Apple Root CA
+       Expires: 2035-02-09 21:40:36 +0000
+       SHA256 Fingerprint:
+           B0 B1 73 0E CB C7 FF 45 05 14 2C 49 F1 29 5E 6E DA 6B CA ED 7E 2C 
+           68 C5 BE 91 B5 A1 10 01 F0 24
+
+macports_pkg/MacPorts-2.12.6-14-Sonoma.pkg: accepted
+source=Notarized Developer ID
+origin=Developer ID Installer: Joshua Root (QTA3A3B7F3)
+e021295947a4a9b7ca1a8eff310c9ea1db14d923c5acf7d79e325b60a81f1a15  brew_pkg/Homebrew.pkg
+184ac171c201391a502958951867e77062010c781ade302b70b1f176e42d23d6  macports_pkg/MacPorts-2.12.6-14-Sonoma.pkg

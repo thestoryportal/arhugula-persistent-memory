@@ -422,3 +422,5 @@ Watch Context N% left for this session and every orchestrated session. Start a n
 Operator approval (choice 15, 07:03:36Z) covered the text hashed 3f77e638…05ce1. Edits since then, none changing a choice: §8 (line 263) makes Intel-first the sole first-upload route per choice 11 (Astra R1); lines 136 and 307 mark answered section checks (Astra F6); citations corrected at lines 22, 24, 33, 89, 263 and 275 (MAESTRO verification). Astra R2–R5 are dispatch preconditions recorded in integration_plan.md. Verdict: astra_r1_verdict.md; verification: maestro_verification_r1.md.
 
 Amendments 16-17 (07:42:54Z, decisions_log.md): §4 caps resized to the measured 512 GB SSD (250/50/40/50/6 GB, ≥80 GB free); FileVault stays off on the Intel Mac.
+
+Amendments 18-19 (08:11:13Z, decisions_log.md): MacPorts replaces Homebrew on the Intel Mac (Homebrew 7 refuses Intel and macOS 14; design.md:242's re-pin and stop-for-review rules still bind; awaiting Astra review before install); the Intel Mac logs in automatically (with FileVault off, physical access means account access).

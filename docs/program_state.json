@@ -29,30 +29,30 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T08:05:48Z",
+    "edited": "2026-10-11T08:12:24Z",
     "items": [
       {
         "id": "intel-setup",
-        "title": "Intel Mac: install Homebrew",
-        "summary": "Developer tools are now installed on the Intel Mac. The Homebrew installer (checked: genuine, signed, Apple-approved) is open on its screen and needs your password.",
-        "state": "needs_you",
-        "who": "You, then MAESTRO",
+        "title": "Intel Mac: install MacPorts (instead of Homebrew)",
+        "summary": "Homebrew no longer supports Intel Macs, so you chose MacPorts. Astra is checking that change against the approved plan; MAESTRO installs it once Astra agrees.",
+        "state": "in_review",
+        "who": "Astra, then MAESTRO",
         "session": "",
         "started": "2026-10-11T07:15:00Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
-        "needs_from_you": [
-          "On the Intel Mac: click through the Homebrew installer and type your Intel Mac password when it asks",
-          "Tell MAESTRO whether the mouse crosses to the Intel Mac and whether you accepted both Deskflow Trust prompts"
-        ],
+        "needs_from_you": [],
         "notes": [
           "07:15Z: reformatted and connected by you; MAESTRO sees it at 192.168.10.2 (file sharing on, remote login off).",
           "07:40Z: key sign-in works (account robertrhu_node2). Measured: 500 GB SSD, not 1 TB; macOS 14.8.9; 16 GB; sleeps after 1 min; FileVault off; no Homebrew or developer tools.",
           "07:43Z: you chose to shrink the space limits to fit (250 GB copy, 50 history, 40 builders, 50 temporary, 6 engine, 80 free) and to leave FileVault off.",
           "07:45Z: you turned off sleep; both Macs back on the same Wi-Fi.",
           "08:00Z: Deskflow (free keyboard/mouse sharing, Intel to the right of the M3) installed on both Macs and connected over the cable.",
-          "08:05Z: developer tools confirmed installed (git 2.39.5). Homebrew 7.0.9 installer copied over the cable, hash/signature/notarization checked, opened on the Intel screen."
+          "08:05Z: developer tools confirmed installed (git 2.39.5). Homebrew 7.0.9 installer copied over the cable, hash/signature/notarization checked, opened on the Intel screen.",
+          "08:07Z: the Homebrew installer refused the Intel Mac (Apple-chip Macs and macOS 15+ only; Homebrew is ending Intel support).",
+          "08:10Z: you chose MacPorts (amendment 18) and automatic login (amendment 19, confirmed on). Deskflow confirmed working both ways.",
+          "08:12Z: Astra reviewing amendment 18; the MacPorts installer is downloaded and checked, not yet installed."
         ]
       },
       {

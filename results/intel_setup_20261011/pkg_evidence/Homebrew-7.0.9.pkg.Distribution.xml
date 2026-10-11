@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<installer-gui-script minSpecVersion="2">
+    <pkg-ref id="sh.brew.homebrew">
+        <bundle-version/>
+    </pkg-ref>
+    <options customize="never" hostArchitectures="arm64" rootVolumeOnly="true"/>
+    <volume-check>
+        <allowed-os-versions>
+            <os-version min="15.0.0"/>
+        </allowed-os-versions>
+    </volume-check>
+    <choices-outline>
+        <line choice="default">
+            <line choice="sh.brew.homebrew"/>
+        </line>
+    </choices-outline>
+    <choice id="default"/>
+    <choice id="sh.brew.homebrew" visible="false">
+        <pkg-ref id="sh.brew.homebrew"/>
+    </choice>
+    <pkg-ref id="sh.brew.homebrew" onConclusion="none" version="7.0.9" installKBytes="190262" updateKBytes="0">#Homebrew.pkg</pkg-ref>
+    <title>Homebrew</title>
+    <organization>sh.brew</organization>
+    <background file="Homebrew.png" alignment="bottomleft" scaling="proportional"/>
+    <background-darkAqua file="Homebrew.png" alignment="bottomleft" scaling="proportional"/>
+    <welcome file="WELCOME.rtf"/>
+    <license file="LICENSE.rtf"/>
+    <conclusion file="CONCLUSION.rtf"/>
+    <allowed-os-versions>
+        <os-version min="15.0.0"/>
+    </allowed-os-versions>
+</installer-gui-script>
