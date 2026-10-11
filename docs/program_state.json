@@ -28,19 +28,39 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T05:33:50Z",
+    "edited": "2026-10-11T05:46:52Z",
     "items": [
+      {
+        "id": "hw-brainstorm",
+        "title": "Plan how to use the Intel Mac, your friend's Mac and Drive",
+        "summary": "HW1 (Codex) is brainstorming with you: second copy of our data on the Intel Mac, moving builders and the research engine there, Drive jobs and the dashboard, and a short plan for your friend's Mac.",
+        "state": "needs_you",
+        "who": "You + HW1 (tmux session codexhw1)",
+        "session": "codexhw1",
+        "started": "2026-10-11T05:45:49Z",
+        "estimate": null,
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [
+          "Answer HW1's questions in tmux session codexhw1"
+        ],
+        "notes": [
+          "05:45Z: started at your request after you chose all four Intel Mac roles."
+        ]
+      },
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: write the first-build plan",
         "summary": "You approved the design and chose how the first build runs. MAESTRO now writes the small first-build plan, starting with an answer key made independently of the engine, as the reviewer asked.",
-        "state": "in_review",
-        "who": "Astra (check of signal design v3), then MAESTRO freezes",
+        "state": "blocked",
+        "who": "waits on the hardware plan (HW1)",
         "session": "",
         "started": "2026-10-11T04:37:00Z",
         "estimate": null,
         "depends_on": [],
-        "blocked_by": [],
+        "blocked_by": [
+          "hw-brainstorm"
+        ],
         "needs_from_you": [],
         "notes": [
           "04:23Z: you approved the design; ~04:31Z you chose Neo4j on this Mac and a small resource cap.",
@@ -51,7 +71,8 @@
           "05:12Z: MAESTRO wrote the science-waiting signal (science_reservation_contract_v1.md) and plan v3 (all open setup choices settled). Astra is checking it now. Two things will need your OK: a one-line extra step before each science run, and letting the Neo4j install update 6 shared Mac libraries.",
           "05:15Z: you said yes to both (the extra science-run step; the 6 library updates).",
           "05:18Z: Astra said NO-GO on the signal design: 4 real timing/safety holes. 05:24Z: MAESTRO rewrote it (v2: one shared lock, the science side itself makes sure the engine is gone, every wait has a hard limit). Astra is re-checking.",
-          "05:30Z: Astra said NO-GO again: the fixes added parts that had their own holes. 05:33Z: MAESTRO simplified instead (v3: no watcher at all; the science side alone stops the engine and checks it is gone, with one 30 s limit). Astra is checking v3."
+          "05:30Z: Astra said NO-GO again: the fixes added parts that had their own holes. 05:33Z: MAESTRO simplified instead (v3: no watcher at all; the science side alone stops the engine and checks it is gone, with one 30 s limit). Astra is checking v3.",
+          "05:40Z: Astra said NO-GO a third time. You now want the engine on the Intel Mac, which removes most of the need for the signal, so MAESTRO paused the signal work until the hardware plan (HW1) is done."
         ]
       },
       {
