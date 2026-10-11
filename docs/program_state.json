@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T21:47:03Z",
+    "edited": "2026-10-11T21:51:54Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -217,7 +217,7 @@
         "summary": "Five Codex reviewers each take one area of the lists you sent (web dashboard tools, terminal dashboard tools, dashboard/design skills, research/ML skills, design best practices) and report what fits our work, how it would plug in, the cost and risk, and a verdict per item. Review only: nothing is installed or built.",
         "state": "needs_you",
         "who": "You: pick proposals; then MAESTRO",
-        "session": "codexlabviz15",
+        "session": "codexlabviz16",
         "started": "2026-10-11T13:52:00Z",
         "estimate": {
           "low_min": 30,
@@ -250,7 +250,8 @@
           "20:50Z: LabViz session 13 settled the Shopify-inspired layout (selectors and short explanations on the left, the model drawing on the right, drawn as a cutaway) and folded in your two new design guides; its notes and handoff are saved (bd9a4bf3). Session 14 is ready for you: tmux attach -t codexlabviz14. It picks up from the worked example (C10V recipe B, A7).",
           "21:01Z: You added a step: once Astra approves the updated LabViz rulebook, a Codex agent draws static wireframes of every page and each user flow worth checking, and you review them before you approve the rulebook or any building starts. Tools checked: Codex already has the Pencil design tool connected; Figma is not connected yet and would need your sign-in.",
           "21:16Z: LabViz session 14 wrote its handoff (typography accepted; a design-system file and a free Figma preference proposed). A separate session, codexfigma, is setting up Figma for Codex and needs you to sign in: tmux attach -t codexfigma.",
-          "21:33Z: MAESTRO58 took over. Told you: LabViz session 15 is ready (tmux attach -t codexlabviz15); Figma is set up for Codex, off by default, sign-in worked, free plan can draw frames; only the account/plan check could not be read. Recommended treating it as done and confirming the account in the wireframe session. Session codexlabviz14 has closed."
+          "21:33Z: MAESTRO58 took over. Told you: LabViz session 15 is ready (tmux attach -t codexlabviz15); Figma is set up for Codex, off by default, sign-in worked, free plan can draw frames; only the account/plan check could not be read. Recommended treating it as done and confirming the account in the wireframe session. Session codexlabviz14 has closed.",
+          "21:51Z: LabViz session 15 wrote its handoff at 44% (d678d8bd): the design system covers the whole site; quiet charts and quiet outline icons accepted; one question pending, flat versus softly raised surfaces. Session 16 launched: tmux attach -t codexlabviz16. It re-asks the surface question first."
         ]
       },
       {
