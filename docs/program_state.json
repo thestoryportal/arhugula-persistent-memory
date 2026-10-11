@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T15:23:52Z",
+    "edited": "2026-10-11T15:26:53Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -137,9 +137,9 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "running",
+        "state": "in_review",
         "who": "codexr2i + codexr2j, then MAESTRO, then Astra round 5",
-        "session": "codexr2l",
+        "session": "astra r2h",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -165,7 +165,8 @@
           "14:35Z: the list of every way science work starts is finished and checked: MAESTRO re-hashed all 198 files and every one matches (359fbfbf). codexr2i2 is still finishing the rules and data formats; the checker builder starts after it.",
           "14:46Z: the rules draft (v3) and its data formats are finished and checked by MAESTRO48 (every cross-check recomputed, all pins match; commit eb2436ad). Next: a new builder (codexr2k) writes a stronger automatic checker, then the expert reviewer (Astra) does round 5.",
           "14:49Z: the checker builder stopped on a mistake in MAESTRO's instructions (one rule compared the wrong two lists). MAESTRO corrected the rule; the builder has resumed.",
-          "15:21Z: the new checker is built and works (all six planted faults caught), and it found one real error in the data: an example held an out-of-date copy of another (d90387bb). Claude Code's safety check blocked MAESTRO from fixing it directly; you chose a Codex fixer (15:20Z). codexr2l is making that one-value fix; then the expert reviewer (Astra) does round 5."
+          "15:21Z: the new checker is built and works (all six planted faults caught), and it found one real error in the data: an example held an out-of-date copy of another (d90387bb). Claude Code's safety check blocked MAESTRO from fixing it directly; you chose a Codex fixer (15:20Z). codexr2l is making that one-value fix; then the expert reviewer (Astra) does round 5.",
+          "15:26Z: the one-value fix is in and checked: the new checker now passes on the real files and still catches all six planted faults (4dd9c2a9). The expert reviewer (Astra) is doing round 5 on the full rules package."
         ]
       },
       {
