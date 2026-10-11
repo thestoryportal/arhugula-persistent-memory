@@ -140,3 +140,4 @@
 - [Decision ID check before assigning](decision-id-check-before-assigning.md) — git grep the D-ID first; rulings-16 was reused once
 - [Work queue tab: keep it current](work-queue-tab-keep-current.md) — queue = program_state.json work_queue; qset.py at every builder turn end
 - [Cross-process contracts: one enforcer](cross-process-contracts-one-enforcer.md) — the winning side enforces alone; anchored ps patterns; one deadline; watchers drew 2 NO-GOs
+- [Intel Mac node access](intel-mac-node-access.md) — cable ssh robertrhu_node2@192.168.10.2 + key; dev-tool stub and Deskflow 1.27 traps
