@@ -904,3 +904,105 @@ Proposed source/missing-state defaults: a tapped number opens a source detail wi
 
 - Supply all six distinct state cases and whole-view failure, with actual reason/source identity rather than a generic empty state. Preserve measured zero, dated static activity, historical evidence validity and the separation between judgement, explanation and draft review. Borrow the selected interface state checklist as text, with existing spec rules prevailing. No trial, runtime check or scientific acceptance occurred.
 - Continuation is saved separately in `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff4.md`. This is a proactive learning/navigation arc checkpoint; no numerical context reading is available in the session messages and no percentage is asserted. Start no further piece in LVB4. Binding rule survives: watch Context N% left at the end of every reply before asking anything; start new work only at >=60% left; at <=45% or any Context compacted, tell the operator, finish the current point and write a separate handoff; at <=40%, stop starting work. Never put the handoff inside notes or approach full-window compaction. Restate the rule in every successor/team handoff.
+
+## LVB5 — concrete Learn/quiz/tracker builder packet
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to the continuation menu. Option 1 was "Continue with that packet — recommended." Continue making the Learn/quiz/tracker context packet concrete so a builder knows exactly what material they receive. This selects the discussion topic; the packet details and first example below are proposals. All LVB1–LVB4 settled choices and the building hold carry forward.
+
+### Open questions
+
+- Proposed first complete content-and-screen example: a small foundations section connected to one experiment. Start with how a model uses an input (recommended), how we change a fact, or how we judge an experiment's evidence. This selects the example, not a reduced delivery scope: quizzes for every Learn card/section remain required.
+- Reviewed lessons/questions/keys/feedback, supporting paper sections and associations remain preparation dependencies. Stable question identity/ownership across quizzes, exact bank membership and local saving support remain unresolved. No reviewed curriculum or new source verification is claimed.
+
+### Spec changes proposed
+
+- Packaging the context adds no independent product requirement. The packet carries the already-proposed Learn/quiz/tracker extension at `docs/LABVIZ_V2_SPEC.md:346`, `:1058`, with selection/source rules at `:348-355` and readability rules at `:357-373`. These anchors were read in LVB5; they specify era-aware Learn and the existing frame, not the proposed personal assessment system. MAESTRO must freeze explicit amendments and scoped briefs before building. Binding spec unchanged.
+
+### Context for build agents
+
+Proposed packet, following `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff4.md:43-47`:
+
+1. Relevant binding spec spans, accepted LVB3/LVB4 decisions and one complete reader journey: lesson -> quiz -> end review -> tracker -> linked experiment/paper -> named return.
+2. Separately prepared and reviewed lesson/question bank: definitions/prerequisites, stable identities/versions, checked choices/keys, end feedback, practice-only hints and optional unscored reflection explanations. The UI builder receives reviewed educational content rather than inventing keys or scientific interpretations.
+3. Domain/topic/research associations, documented concept connections and verified experiment/paper sections; explicit pending-content and missing-source cases.
+4. Worked accuracy/coverage, unequal topic sizes, overlapping associations, retake/skip/version/save-failure cases and planned phone reader tasks. Illustrative counts remain labelled examples, not real learner results. Conflicting answers across quizzes need a defined ownership rule before examples can assert their resolution.
+5. Selected interface/chart checklist excerpts and historical phone Learn image/measurements as presentation context. Preserve the primary-source table at notes `:268-295`, exclusions and used reading allowances. Interface-design supplies hierarchy/states; the chart guide supplies honest scales/units/missing values; ECharts supplies only a selection/highlight pattern; Tabler remains an optional layout catalogue and Transformer Explainer supplies teaching framing only. Source pins/licences, hidden network behavior and new UI acceptance remain unverified. No install or skill execution is authorized.
+
+- Worktree root and branch `worktree-c10k-route-a` verified read-only. LVB5 uses the brainstorming skill for conversational design only; operator scope overrides its generic separate-design-file, commit, browser and implementation workflow. Only this notes entry was appended; no spec/product/build edit, build/test/browser run, model/science process, install/clone or git mutation occurred.
+- Context rule remains binding: check available context at the end of every reply before asking anything; start new work only at >=60% left; at <=45% or any Context compacted, finish the current point and write `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff5.md`; at <=40%, stop starting work. No numerical context reading is exposed, so no percentage is asserted. Keep the handoff separate and restate the rule there.
+
+## LVB5 — all three foundations subjects in the worked example
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "All 3", replying to which subject the first complete example should start with: (1) how a model uses an input; (2) how we change a fact; (3) how we judge an experiment's evidence. Include all three in the worked content-and-screen example. Do not narrow it to one subject. The existing every-Learn-card/section quiz requirement remains; this example is builder context, not the entire curriculum or build permission.
+
+### Open questions
+
+- Proposed arrangement: three connected foundation cards, in the offered order input -> changing a fact -> judging evidence. Each has a brief explanation, expandable depth, a relevant source-labelled diagram/example and its own prepared quiz. Its end review connects the assessed ideas to the other cards and to the selected science; tracker associations follow the accepted domain/topic/Our-research rules. This assembles prior decisions rather than reopening quiz mechanics. Exact lesson wording, question count, keys and source associations still need reviewed preparation.
+- Next meaningful example-design preference: follow the same recorded fact/question through all three lessons (recommended for continuity), or use the most suitable recorded example for each lesson within the selected experiment. Shared-example usefulness must be checked against actual available records; conceptual teaching cannot fill historical internal-activity gaps.
+
+### Spec changes proposed
+
+- No additional feature amendment follows solely from including all three example subjects. They illustrate the existing proposed broader-learning and assessment extension (`docs/LABVIZ_V2_SPEC.md:346`, `:1058`). Keep input/scoring provenance (`:619-625`), stored-number versus information-flow distinctions (`:627-648`) and sourced finding/limit captions (`:584-587`). These relevant spans were read in LVB5; binding spec unchanged.
+
+### Context for build agents
+
+- Card 1, input: exact question/input and recorded answer; explain model structure with an explicitly labelled teaching diagram; show available experiment-specific measurements and any gaps. Do not invent word-piece text, input-specific internals or a historical trajectory.
+- Card 2, changing a fact: teach the selected run's actual change method and which stored numbers its records identify as changed. Separate that from how information passing through other parts may change; never equate an unchanged parameter with unchanged activity. Do not substitute MEMIT for another run's recorded method.
+- Card 3, evidence: explain the recorded scoring rule, differently worded questions, applicable other-ability checks, sourced findings and limits. A recorded scoring match need not be literal string equality; an answer-readable signal does not locate stored knowledge (`docs/LABVIZ_V2_SPEC.md:619-625`, `:589-595`). Missing checks remain missing and the viewer creates no verdict.
+- Include reviewed lesson/paper/experiment connections, keys and end feedback separately from UI layout context. Source references: accepted broader-learning chain at notes `:361-426`, current spec spans above, and the primary-reference table at notes `:268-295`. Local review re-read at `results/dashboard_integration_review_20261011/uiskills_report.md:19`, `:28-29`: interface/chart guidance is scoped text context with scripts/secondary references unaudited, not installation or execution authority. No external page, build/test/browser run, model/science or new acceptance occurred; only this notes entry was appended.
+
+## LVB5 — one fact throughout; example records checked
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", replying to the example approach. Option 1 was "Same fact throughout — recommended." Follow the same recorded fact through all three foundations lessons. Do not substitute separate examples as the leading journey. All three subjects and every-card/section quiz coverage remain required; the example is discussion/builder context, not a build or scientific run.
+
+### Open questions
+
+- Proposed working subject is the already-discussed Zorbland example. Re-read `results/c10w_oracle/p1_20261007T223707_598959Z/eval.json:49739-49752`: subject Zorbland, template "If you visit {}, its capital city is", output " Vindex Vaskul," and `full:true`. Re-read `:58507-58517`: A7_coined_coined summary has target "Vindex Vask" and reworded-question hit flags `[false,true,true]`. The template filled with its subject is a source-bound assembly, not a separately recorded full prompt or complete prompt wrapper. Exact spaces/punctuation remain preserved in source detail. These are recorded scoring fields, not a new scoring-rule audit or program-wide verdict. Prior example selection/context is at notes `:347-356`.
+- Lesson outline: input/answer -> how the selected variant changes a fact -> what the recorded checks support and leave open. Each has a distinct concept check, with explanations at its quiz end and links between the three lessons. Selecting the exact variant's change-method source and verified supporting paper sections remains preparation work; do not apply a generic C10W/MEMIT description without confirming that variant's method.
+- Next remaining learner-state fork for the builder packet: if one checked question appears in multiple quizzes, (1) share one current result, supplied by the most recent completed quiz containing that question/version, recommended for consistency; or (2) give each checked question one owning quiz, with other cards linking to it. The existing once-overall rule and latest-completed scoring are settled; how overlapping quizzes select that single current result is not. Under proposed option 1, a skip in the most recent completed quiz leaves that question unassessed everywhere; the older answer is history, not a fill-in. An unfinished quiz does not replace its current result. Canonical identities/versions and deterministic completion ordering still require a scoped contract.
+
+### Spec changes proposed
+
+- The chosen same-fact example adds no independent feature requirement; it supplies context for the pending Learn/quiz/tracker amendment at `docs/LABVIZ_V2_SPEC.md:346`, `:1058`. Explicit question ownership/current-result selection must be part of that amendment before an eventual tracker brief. Existing scientific result/value rules remain distinct (`:619-625`, `:662-676`). No spec edit occurred.
+
+### Context for build agents
+
+- Supply three linked draft lesson outlines around the same fact, the exact source excerpts above and the adopted reader/quiz/tracker rules. Draft questions can assess input-versus-diagram meaning, stored-number versus information-flow distinctions and the limited meaning of recorded answer checks. Answer keys/explanations remain reviewed-content preparation, not a UI builder's invention or already-accepted educational bank.
+- Preserve internal-activity gaps: `docs/LABVIZ_V2_SPEC.md:324-328`, re-read in LVB5, distinguishes unavailable historical internals, unstored full change matrices and sampled summaries. A conceptual diagram must not animate this input's purported historical path. No new coverage audit, capture, scoring computation, paper verification, test/build/browser run or scientific acceptance occurred.
+- Include an overlap worksheet once the preference is settled: same version answered differently in two completed quizzes, an unfinished second quiz, a completed second quiz with a skip, a revised question and unchanged questions. Keep one overall count, previous response history and the accepted latest/completion/version behavior. This is an explicitly proposed resolution of the handoff's ownership gap, not a reopening of arithmetic or quiz format. Only this notes entry was appended.
+
+## LVB5 — shared current results and varied questions across cards
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1...and questions should remain as unique as possible across cards, even if quizing on the same knowledge. They can be phrased differently, approach from different perspectives, etc. That way the learnings become more durable and ingrained."
+- Option 1 selected was "Shared latest result — recommended: consistent wherever the question appears." The presented rule is accepted: the same question/version reused across quizzes has one current result from the most recent completed quiz containing it; previous answers remain history, an unfinished quiz does not replace it, and a skip in the latest completed quiz makes it unassessed. The same question still counts once overall.
+- Additional content requirement: make questions as unique as possible across cards, including differently phrased questions and different perspectives on the same knowledge. Shared question reuse is supported, not the default authoring strategy. Preserve the operator's durable/ingrained-learning intention as the design goal; this session did not measure educational effectiveness.
+
+### Open questions
+
+- Proposed authoring distinction: independently prepared assessment variants have their own stable identities/versions and share a targeted concept association; identical question reuse shares an identity/result. A correction or revision of an existing question follows the accepted version/reassessment rule, rather than being silently counted as a new item. Explicit bank authoring/review must distinguish these cases; do not deduplicate all questions about one idea, or generate new identities merely from string differences.
+- Three draft perspectives on the same distinction (stored numbers versus information passing through a part): input lesson asks whether information through a part can change while its stored numbers stay fixed; editing lesson asks whether untouched parts must behave identically after another part is changed; evidence lesson asks whether changed activity alone proves a part's stored numbers were edited. These are illustrative authored-question outlines, not reviewed bank entries. Their basis is `docs/LABVIZ_V2_SPEC.md:636-641`; scored delivery still uses reviewed answer choices/keys and feedback at quiz end.
+- No operator question remains pending after this answer. Next useful packet work: develop the complete three-card phone reader journey and draft content/question fields around the same Zorbland fact, with varied checks and connected review/tracker examples. Confirm the selected variant's change-method source before drafting its experiment-specific editing explanation. Missing paper associations, internal observations and unreviewed educational material remain explicit preparation gaps.
+
+### Spec changes proposed
+
+- Add accepted shared-current-result selection and the across-card question-variety requirement to the pending learner contract under `docs/LABVIZ_V2_SPEC.md:346`, `:1058`. Keep concept/topic association separate from question identity and retain once-overall equal-point aggregation, completion/skips, latest-current/history and revision/reassessment rules. The exact stable-identity and completion-order representation remains an implementation-contract dependency, not a schema frozen here. Binding spec unchanged.
+
+### Context for build agents
+
+- Reviewed-content preparation supplies varied questions targeting concepts from several perspectives, with question identities/versions, card/quiz placement, concept/topic/domain/research associations, reviewed keys and source-linked end feedback. The viewer builder renders and tracks that bank; it does not automatically paraphrase or grade fresh questions. Optional written reflections remain self-reviewed/unscored, practice hints remain outside scored assessment, and guided tutoring remains future work.
+- Include two distinct worksheets: identical question reused in two quizzes -> one latest completed current result/one overall count; different authored questions on the same idea -> separate checked items linked to that concept. Coverage/accuracy describe reviewed questions, not a count of independent concepts or demonstrated comprehensive mastery. Question variety alone does not establish a calibrated durability score.
+- Preserve the selected all-three/same-fact reader journey and primary-reference exclusions. No new external page, code/spec/build edit, test/browser run, model/science process, install/clone or git mutation occurred; only this notes entry was appended. Context directive remains binding and must survive the separate handoff.
+
+## LVB5 — learning-packet checkpoint
+
+- All three subjects, one fact throughout, shared latest results for identical reused questions and varied question authoring across cards are recorded above. No operator question remains unanswered. Stop starting new work at this proactive arc checkpoint; no context percentage is exposed or asserted, and no compaction notice was observed.
+- Continuation saved separately in `results/dashboard_integration_review_20261011/labviz_brainstorm_handoff5.md`. Exact next point: make the three-card same-fact reader journey/content packet concrete, using varied question perspectives and connected review/tracker examples; verify the selected variant's method source before an experiment-specific editing explanation. Existing spec/hold and all prior settled decisions remain.
+- Context directive survives: check Context N% left at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted, finish the current point and write a separate successor handoff; at <=40%, stop starting work. Never put the handoff inside notes or approach full-window compaction; restate this rule in every successor/team handoff. Only notes and the designated handoff were written; no implementation or runtime/scientific acceptance is claimed.
