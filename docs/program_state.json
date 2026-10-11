@@ -27,7 +27,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T02:38:29Z",
+    "edited": "2026-10-11T02:39:38Z",
     "items": [
       {
         "id": "drive-review",
@@ -110,7 +110,7 @@
       },
       {
         "id": "retest-plan",
-        "title": "Re-test: write the experiment plan",
+        "title": "Re-test 2 fixes for multi-word facts: write the plan",
         "summary": "Write down, before running anything, exactly how the re-test will run and what counts as pass or fail (reusing the Arm R recipe and a new Arm M token).",
         "state": "blocked",
         "who": "A builder, then MAESTRO",
@@ -129,12 +129,13 @@
         ],
         "needs_from_you": [],
         "notes": [
+          "What is re-tested: two candidate fixes for the open problem of storing multi-word facts (file paths, function names) in the model. Fix A: the best setting the automated tuning loop found (it scored 34 of 72, but that score is likely inflated: its practice questions resembled the hidden test questions). Fix B: the 'minted token' approach, which gives each multi-word answer its own new word (39-46 of 72 earlier). The re-test runs both fairly, on sealed test questions, with size-matched control edits and a second seed.",
           "Record: results/autoresearch_reaim/operator_ruling_retest_20261011.md (decision D-C10r-rulings-18)."
         ]
       },
       {
         "id": "retest-freeze",
-        "title": "Re-test: expert check and freeze of the plan",
+        "title": "Re-test 2 fixes for multi-word facts: expert check, freeze plan",
         "summary": "Astra checks the plan; once accepted it is frozen so results cannot quietly change the rules afterwards.",
         "state": "blocked",
         "who": "Astra (reviewer)",
@@ -154,7 +155,7 @@
       },
       {
         "id": "retest-run",
-        "title": "Re-test: run it",
+        "title": "Re-test 2 fixes for multi-word facts: run it",
         "summary": "Run the frozen re-test on the Mac and record the result.",
         "state": "blocked",
         "who": "MAESTRO, with your go",
