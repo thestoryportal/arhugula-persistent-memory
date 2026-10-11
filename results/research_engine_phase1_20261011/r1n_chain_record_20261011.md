@@ -1,0 +1,13 @@
+# R1N v11 chain A–E: MAESTRO51 run record (one attempt)
+
+Authorization `RE/operator_authorization_r1n_20261011T1637Z.md` (d5caf96e). Rules: GD11 `RE/r1n_gate_d_checklist.md` + addendum `RE/r1n_gate_d_addendum_r13.md`. Any stop ends the chain.
+
+## Before A (16:41–16:47Z)
+1. R1 identities (16:42Z): `sha256` of G, J11, N, A, GD11, TN, RN all equal the addendum's full hashes; M, J, Q, E, C, B, S, P equal A's/the R1M dispatcher's full pins; W a4b52fc2…, T 6b7060ae…, TM 0343190a… equal the round-13 prefixes. 18/18 match.
+2. Intel read-only survey (16:43:02Z, ssh as robertrhu_node2): no crontab; /Library/LaunchAgents and /Library/LaunchDaemons have no non-Apple items; one user agent `~/Library/LaunchAgents/org.deskflow.autostart.plist` (created 2026-10-11T07:52:40Z, before the R1M survey at 15:48Z; RunAtLoad `open -a /Applications/Deskflow.app`, keyboard/mouse sharing; not scheduled; writes none of the admitted or old roots) — judged not a writer. No port/rsync/rclone/python/cron process (only `deskflow-core`). Fresh v11 roots `/private/tmp/r1l-intel-provisioning-v11`, `/private/tmp/r1l-intel-window-registration-v11`, `/Users/robertrhu_node2/research-engine-phase1`, `/Applications/MacPorts`: all absent. `/opt/local` mtime 08:16Z (before CAP). Old roots: the four files equal CAP's `old_state` exactly (sizes 16,384 / 7,333,990 / 16,927 / 19,040; mtimes to the nanosecond), total 7,386,341; directories `receipts`, `downloads` only. Other possible writer: the operator, logged in at the Intel console (as at R1M).
+3. Authorization committed (d5caf96e).
+
+## Evidence census before A (R2)
+N's automatic census (`local_accounting(J11, RE)`, no extras): matched 851,702 bytes (10 files: attempt 0, bind 143208Z set, inventory 0 set, halt diagnostic); omitted 8,296 bytes (CAP set 7,186 + EOUT `.out`/`.exit` 1,110) = the addendum's 8,296 at CAP. This equals A's own census (A.receipt_usage calls the same function without extras).
+Nonstandard retained Intel captures outside N's filename census, passed to B as `--extra-receipt` (10 files, 2,187 bytes): `intel_identity_probe_20261011T113404Z.{json,stderr}`, `intel_identity_probe_r1e_20261011T115851Z.{json,stderr}`, `intel_identity_probe_r1f_20261011T124523Z.{exit,json,stderr}`, `intel_identity_probe_r1h_20261011T131105Z.{exit,json,stderr}`.
+Not receipts (recorded, excluded): `r1l_logs_20261011/` (builder red/green test logs and SHA256SUMS, 354,199 bytes; local unittest output, no Intel exchange), manifests v2–v11, host command scripts, probe scripts, `intel_r1_sizes_20261011.tsv` and `preinstall_identity_20261011.tsv` (survey tables, not receipts). No receipt-like file exists outside RE (`git ls-files results` search for r1j_/r1m_evaluate_/r1n_evaluate_ names outside RE: none).
