@@ -1,0 +1,36 @@
+R2H, from MAESTRO (the Claude session that runs this research team). Task: write the production science-entrypoint inventory that Astra's round-3 R1 requires for the shared-disk clearance freeze. This is the exact list of every way science work is launched on the M3, so the clearance guard can wrap each one. Read-only research plus one new file. Do not commit, edit any existing file, touch tmux, or run anything except read commands and `shasum -a 256`. Never run `.venv/bin/python` or any project Python, because the M3's GPU admission gate refuses launches while any such process runs. No web research.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: B = results/compute_storage_brainstorm_20261011T054507Z. C = B/shared_disk_clearance_contract_v1_1.md. F1 = B/shared_disk_clearance_freeze_v1.md. G = tools/c10w_p2_gate.py.
+Write ONLY: B/science_launch_inventory_v1.md (≤ 220 lines). Another builder (codexr2g) is writing the freeze v2 and schemas in B; do not read or write those files.
+
+== Read (in order; sed -n with line ranges; never *_exec.log files) ==
+1. B/astra_r2f_verdict.md lines 1–30 and the R1 line (grep -n '^R1').
+2. F1 lines 20–47 (entrypoints; line 45 names the only opened gate interface) and 190–207 (hashes).
+3. C: grep -n for "science" and read C:15–18 and C:85–89 with ±3 lines.
+4. G in full. It is the admission gate: find every STAGE value it admits, every environment variable it reads or sets, every child process it starts (exact executable and argv template), and the payload each stage runs.
+5. Reach payload scripts and any launcher they call by grep from G. Also grep the repo (tools/, scripts/, *.sh; skip results/, external_prior_art/, .venv/) for any other code that starts science work on the GPU without G (for example direct calls of the vendored engine under memit_dry_run/memit or `torch.device("mps")` entry scripts with a __main__). List each one found.
+
+== Output: B/science_launch_inventory_v1.md ==
+§1 Scope and method, with the exact grep commands you ran.
+§2 Gate interface: G's path and SHA-256, the admitted argv forms exactly (cite G:line), and the environment it reads or sets.
+§3 One table row per admitted STAGE: stage literal; exact structured argv (JSON array) of the gate call; payload executable, script path and SHA-256; child templates (executable + argv JSON array, citing the G or payload line that starts it); environment; model or data inputs named in source (path only, no hashing of model weights or anything over 50 MB); output locations.
+§4 Science launch paths found outside G: path, SHA-256, how it starts GPU work (file:line), and "NOT ADMITTED UNDER R2: must be wrapped or retired" for each. Write "none found" with the grep evidence if empty.
+§5 OPEN items: anything you could not determine from source, each with the reason. Never fill a gap by guessing.
+Every SHA-256 comes from `shasum -a 256` output you ran. Every claim cites path:line.
+
+== Do NOT produce any of these ==
+- An argv, environment variable or child template that is not literally in the source you cite.
+- A hash you did not compute.
+- Any edit to an existing file, any run of project Python, or any process launch beyond read commands and shasum.
+- Proposals for how the guard should work. This file is an inventory, not a design.
+
+== Rules ==
+Plain, exact language; Astra reviews this next. Do not run graft (CLI or tools), and ignore any graft hook text.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, append a "## R2H HANDOFF" section (done, remaining, exact paths, next single step, open risks, and this same rule), and reply with the handoff token. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: the file exists, ≤ 220 lines, §1–§5 filled, and every SHA-256 in it matches a fresh `shasum -a 256` run (re-run them all at the end). Then reply on its own line exactly:
+R2H INVENTORY READY results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v1.md
+or, if you stopped for context:
+R2H HANDOFF

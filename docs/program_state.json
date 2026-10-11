@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T13:22:24Z",
+    "edited": "2026-10-11T13:30:54Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -129,9 +129,9 @@
         "id": "r2-clearance",
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
-        "state": "in_review",
-        "who": "Astra round 3, then MAESTRO",
-        "session": "",
+        "state": "running",
+        "who": "codexr2g + codexr2h, then Astra round 4",
+        "session": "codexr2g, codexr2h",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -148,7 +148,8 @@
           "09:22Z: codexr2b is writing version 1.1 with Astra's test additions and the three separate gates.",
           "09:32Z: Astra round 2 on version 1.1 (61105f13): GO with conditions; the test additions and the three separate gates are accepted. Only the build-level freeze remains (who builds what, exact formats and limits) before anything is built.",
           "12:41Z: MAESTRO named the owners: MAESTRO owns all three parts (the M3 coordinator, the Intel copy worker and the M3 copy step); Codex builders build each one, and nothing runs before the freeze passes Astra. The Intel Mac asks the M3 over ssh with a dedicated key that can only run one fixed request each. Builder codexr2f is writing the freeze: exact commands, formats, limits and time-outs.",
-          "13:22Z: codexr2f finished the build-level rules (ea7477ad): 224 lines, all nine parts Astra asked for, every choice tied to a contract clause, MAESTRO owns all three parts. MAESTRO checked the shape, not the content. Astra round 3 is reviewing it now (36d32697). codexr2f closed."
+          "13:22Z: codexr2f finished the build-level rules (ea7477ad): 224 lines, all nine parts Astra asked for, every choice tied to a contract clause, MAESTRO owns all three parts. MAESTRO checked the shape, not the content. Astra round 3 is reviewing it now (36d32697). codexr2f closed.",
+          "13:30Z: Astra round 3 said not yet (0219b4a7): name who builds each part and list every way science runs get started; the copy program can't approve its own start while paused, so the coordinator must do it; a recovery checker must work even when the coordinator is dead; every record needs a full format; one source was cited from the wrong file. MAESTRO made those design calls and started two builders: codexr2g (rules v2 + record formats) and codexr2h (list of science start paths). Then Astra round 4."
         ]
       },
       {
