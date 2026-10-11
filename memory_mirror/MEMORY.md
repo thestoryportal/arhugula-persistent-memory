@@ -142,3 +142,4 @@
 - [Cross-process contracts: one enforcer](cross-process-contracts-one-enforcer.md) — the winning side enforces alone; anchored ps patterns; one deadline; watchers drew 2 NO-GOs
 - [Intel Mac node access](intel-mac-node-access.md) — cable ssh robertrhu_node2@192.168.10.2 + key; dev-tool stub and Deskflow 1.27 traps
 - [Importing external files traps](importing-external-files-traps.md) — CLAUDE.md auto-load, *token* gitignore, all-or-nothing git add, READY hidden behind HANDOFF
+- [Ask Astra for automatic before an operator chore](ask-astra-automatic-before-operator-chore.md) — builder designs hide recurring manual steps; ask "automatic possible?" in the packet first

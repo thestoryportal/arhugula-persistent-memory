@@ -15,3 +15,5 @@ The 2019-era Intel MacBook Pro (MacBookPro16,2, 16 GB, 512 GB SSD, macOS 14.8.9)
 
 **Why:** each of these cost a round-trip with the operator on 2026-10-11.
 **How to apply:** use these facts before touching the Intel Mac. Related: [[cross-process-contracts-one-enforcer]], [[context-management-every-session]].
+
+**Read-only probes write nothing on Intel (MAESTRO42, 2026-10-11):** feed the script on stdin instead of copying it over: `ssh -i ~/.ssh/intel_mac_ed25519 -o IdentitiesOnly=yes -o BatchMode=yes robertrhu_node2@192.168.10.2 '/usr/bin/python3 -I -B -' < probe.py > out.json`. Used for the r1d identity probe (b075c1bc). `/usr/bin/python3` there reports `sys.executable` = `/Library/Developer/CommandLineTools/usr/bin/python3` (CLT 3.9.6, x86_64).
