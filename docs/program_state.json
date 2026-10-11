@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T10:38:49Z",
+    "edited": "2026-10-11T10:41:21Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -103,6 +103,22 @@
         "needs_from_you": [],
         "notes": [
           "10:35Z: Codex codexfs1 is checking six points (Drive add-on upkeep, Drive permission scope, cache size limits, PyTorch file reading, hidden data moves, anything missed) and writing the best case for fsspec. No Drive access, no installs."
+        ]
+      },
+      {
+        "id": "system-one-models-assessment",
+        "title": "Check: would \"System One\" models (Jev, OpenJev, Layla) help our stack?",
+        "summary": "You asked for an objective look at System One models. Codex first works out exactly what the names refer to (MAESTRO's guess: Meta's JEPA family; maybe the Layla phone app), then judges each against the science, the research engine and day-to-day operations.",
+        "state": "running",
+        "who": "codexs1m, then MAESTRO",
+        "session": "codexs1m",
+        "started": "2026-10-11T10:41Z",
+        "estimate": null,
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "10:41Z: Codex codexs1m started. It identifies the tools from public sources first, then rates each one: adopt now, test later, or not useful here. No downloads, no model runs."
         ]
       },
       {
