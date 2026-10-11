@@ -1895,3 +1895,150 @@ Proposed packet, following `results/dashboard_integration_review_20261011/labviz
 - Give future Home builders the accepted whole-screen composition plus its phone adaptation, referenced incumbent desktop/phone captures, relevant §4A/§11.4 spans and the actual interface/chart extracts recorded at this notes file:283-295. This is design context, not an inventory of prepared summaries or validation of a package.
 - Only notes and the designated continuation handoff are written. No code/spec/site edits, builds/tests/browser runs, project Python/node, installs/clones, model/science access, git mutation, graft, new external lookup or agent/service messages.
 - Binding context rule survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write a separate designated successor handoff with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting new work. Never approach compaction or put the handoff inside notes; restate this same rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB10 — illustrative Science lines and research-question compositions
+
+### Decisions (with the operator's words)
+
+- No new operator design choice yet. Continue the accepted calm visual language, navigation forms and research-question content order. The operator's prior words, "question > evidence path rec approved. Open a research question: 1 followed by 2 and 3", remain recorded at this file:12. Do not reopen them.
+- Session purpose remains discussion of whole-page appearance and enjoyable exploration. Only this notes file and the designated handoff10 may be written; building hold persists.
+
+### Open questions
+
+- Illustrative Science lines composition: accepted desktop sidebar; compact source-dated activity strip; Science lines title with short plain-language purpose; search and existing line/era browsing; a roomy list of research questions with thin separators. Each entry leads with the plain-language question/name, then separately labelled registry status and era, a concise sourced finding and attached unresolved limit where prepared, and exact identity secondary. Missing or unreviewed summaries stay explicitly missing/draft. Do not fabricate a finding, status, count or bibliography. Opening a line uses the accepted question-to-evidence journey.
+- Illustrative selected-question composition: shared shell and readable location/context; large plain-language question title; findings and unresolved limits together in the leading reading area; research story over time underneath, using dated observations/decisions with sources and the line's own measures; latest experiment section next, with access to its inputs, runs and associated research sources. Preserve access to all required decisions, evidence-ledger entries, models and runs. Dates must not imply duration or causal sequence beyond the record. Status now remains distinct from historical framing.
+- Phone adaptation: accepted persistent compact menu bar and left drawer; scrollable compact dated activity/context; same reading order in one column; list rows wrap their full question text; chronological story stacks vertically; source details open below in reserved space. Return to the Science lines list should retain its prior search and reading position as a routine proposed interaction. No exact geometry or combined phone fit verified.
+- One unsettled composition choice proposed for the Science lines landing page: roomy question list (recommended for readable question sentences and attached limits) versus a two-column desktop card grid (more visual grouping, stacked cards on phone). Neither choice accepted yet. This concerns whole-page composition, not navigation, content order, theme, source behavior or scope.
+
+### Spec changes proposed
+
+- Clarify Science lines presentation beside docs/LABVIZ_V2_SPEC.md:343 and the shared frame at :347-352. The selected-question order remains the already approved pending amendment; this proposal makes its visual hierarchy concrete rather than changing the order.
+- Preserve source-bound question/status/era distinctions in :1040-1051, per-line histories and measures in :1053-1060, and readability/phone rules in :357-371. Required chart captions and limitations remain visible (:413). Exact styling and responsive geometry need future scoped verification; binding spec unchanged.
+
+### Context for build agents
+
+- Historical incumbent capture inspected: results/labviz/review/20261008T130913325Z/chromium-phone-line-d1.png. It shows a substantial status block, line title/question, framing card, recorded-runs card, document-link card and history card. It predates MathLab integration and is visual context, not a fresh acceptance check. Measurement record at measure.json:1270411-1270432 identifies the D1 line, a 390 by 844 viewport, 390px scroll/client width and 3017px page height. No font/contrast verdict inferred from those dimensions.
+- Give builders the eventual selected landing-page composition, the illustrative question-page arrangement, accepted phone shell and order, and the above spec/capture references together. Actual question summaries and findings require separately reviewed recorded-source content; placeholders are not publishable evidence.
+- Reference roles remain those actually recorded at this file:283-295: interface-design hierarchy/spacing/states for the reading hierarchy; Anthropic chart accuracy/accessibility for any history chart; Tabler layout catalogue as optional structure context only. No concrete Tabler phone markup inspected. ECharts selection-linked highlighting is optional context where relevant, not needed to justify a text/list composition. Transformer Explainer remains later teaching context, not a Science lines layout template.
+- SUMMARY.md:9-16 proposes trials, not adoptions; :33-57 safety governs text-only references. No new external source, install, copied package, skill script or remote asset authorized. The brainstorming skill is used for conversational design only; the operator's narrower scope supersedes its spec-file, commit and implementation workflow.
+- Worktree root and branch worktree-c10k-route-a verified read-only. No code/spec/site edits, builds/tests/browser runs, project Python/node, install/clone, model/science access, git mutation, graft or agent/service messages. Only notes appended.
+- Binding context rule survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff10.md with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting new work. Never approach compaction or put the handoff inside notes; restate this rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB10 — roomy question list accepted; selected-question visual treatment
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", selecting "Roomy question list — recommended: easier to read full questions and their limits." Adopt the proposed Science lines landing-page list, with generous rows and thin separators; full plain-language questions lead, exact IDs are secondary, and prepared sourced findings retain their unresolved limits. Phone rows wrap in one column. The offered two-column card grid was not selected.
+- This settles landing-page composition only. The selected-question page's accepted findings/limits -> research story -> latest experiment order remains unchanged. No new content, code, scientific conclusion or runtime acceptance is authorized.
+
+### Open questions
+
+- Selected-question whole-page visual proposal: a flowing research brief with clear headings, readable prose width, generous space and few enclosing boxes. The leading findings have their limits immediately beside/beneath them. A dated vertical research trail follows, each observation or decision opening its experiment while retaining return position. Relevant sourced charts sit with their associated explanation, with required visible captions and limits. The latest experiment has a clearly labelled section with access to runs, inputs and research sources. Preserve all required line content and separately labelled present registry status/historical framing.
+- Phone adaptation preserves the same sequence; findings and limits stack as paired content, the dated trail remains vertical, charts use the available readable width, and details remain below/reserved. Nothing depends on pointer hover. Actual fit remains future verification.
+- One whole-page appearance choice now proposed: flowing research brief (recommended for a connected readable account) versus distinctly enclosed section cards (stronger separation of findings, history and latest experiment). Both retain the settled content order, full sources and scope. Neither accepted yet.
+
+### Spec changes proposed
+
+- Clarify the accepted list beside docs/LABVIZ_V2_SPEC.md:343 and shared context at :347-352. Selected-question visual treatment remains proposed alongside the already approved order clarification at this file:46.
+- Preserve line-specific source/framing/history rules (:1040-1060), prose width/readability/phone layout (:357-371), and visible chart caption/limit wording (:413). No binding-spec edit.
+
+### Context for build agents
+
+- Supply the accepted landing-page list as a whole-page brief; separate it from the pending selected-question styling choice. Reference the previously inspected D1 phone capture and measure.json:1270411-1270432 as incumbent context, not current acceptance or a mandatory target height.
+- Use the actual interface-design hierarchy/spacing/state extract recorded at this file:283-295; use the Anthropic accuracy extract only for relevant charts. Tabler remains optional catalogue context with concrete markup uninspected. SUMMARY.md:33-57 safety and text-only reference limits persist; no new source or package adoption.
+- Only notes appended. Binding building hold and execution exclusions persist. Context rule: check available Context before each question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff10.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point; at <=40% stop starting work. Restate the rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB10 — flowing research brief accepted; visible spec and science connections required
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1...we also need to include connections to the spec's different slices/layers - cerain science focuses on a certain part of the spec or might have cross cutting concerns. And we need to be able to visually see any connections across the science."
+- The initial "1" selects the flowing research brief for the selected-question page: headings, spacing and thin separators, retaining findings/limits -> research story -> latest experiment. The boxed-section alternative was not selected.
+- Carry visible spec-slice/layer associations and connections across science into this composition. A question may relate to more than one spec slice or to cross-cutting concerns. This is required scope, not optional related-reading decoration. Preserve access to the global connections Map and the full documented graph. No build authority or new scientific inference.
+
+### Open questions
+
+- Proposed page composition: beside/beneath the question heading, show a compact labelled spec-context visual with relevant layers/sections highlighted by text plus outline; identify source-supported cross-cutting concerns separately. It supplies context without displacing the accepted findings-first content order. A focused connections area within the flowing page exposes selected question -> associated spec slices/concerns -> connected science, naming the shared relationship and providing its documentary basis. Also preserve other supported relationships through decisions/models/etc.; shared spec slices are not the only permitted connection.
+- Desktop proposal uses a small orderly branching/path diagram in reserved page space; phone uses readable stacked paths or the existing one-column connection drill-down, without tiny nodes or horizontal page scroll. Connected science opens its question page; the global Map remains the complete overview. Returning should retain the selected question and reading position. Exact placement/geometry remains proposed.
+- One unsettled visual choice: focused branching connection diagram (recommended to expose paths from the selected question through shared context to other science), or a compact relationship grid (questions as rows, spec slices/concerns as columns, sourced labelled marks where associated). The grid would supplement, not replace, the accepted Science lines list or binding global column map. Neither connection treatment selected yet. Phone readability is required in either option.
+- Every connection retains direct/curated/derived documentary distinctions and source access. A shared concern does not establish causation, corroboration, scientific equivalence or spec acceptance. No recorded connection means the association is not documented here, not that none exists. Illustrative labels/layouts are not fabricated program relationships.
+
+### Spec changes proposed
+
+- Existing docs/LABVIZ_V2_SPEC.md:990 already names the six spec layers and cross-cutting source areas; :1008-1009 already defines layer/section identities; :1020-1023 and subsequent edge definitions bind documentary relationships. :1092 already requires shared-with-other-lines connections in Map focus; :1095-1096 binds phone treatment and link caveats.
+- Clarify at :343/:347-352 that question pages visibly carry spec associations and cross-science connections, alongside their accepted research-brief composition. Expose the existing sourced graph locally rather than creating a competing relationship authority. If separately represented cross-cutting groups require additional identities/fields, propose a source-bound extension to §11.2; do not assume those group nodes already exist in the build. Binding spec unchanged.
+
+### Context for build agents
+
+- Give builders the exact new operator requirement, accepted report-like page, existing §11 source/node/link rules, and the eventual selected visual treatment. The reviewed interface hierarchy/state checklist supports consistent highlighting and drill-down; ECharts event/action extract may inform linked selection but is optional and does not require a renderer adoption. Reference extracts remain this file:283-295; SUMMARY.md:33-57 safety persists.
+- Source/context preparation must verify memberships in spec layers, exact sections and cross-cutting concerns; preserve original identities and relationships even where plain-language labels lead. No topic-similarity guess may become a documented link. No external source opened or software adopted in this point.
+- Only notes appended; building hold and all execution exclusions persist. Binding context rule survives: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff10.md with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting work. Restate this rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB10 — branching connections accepted; data storytelling and Runs/comparison composition
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "1", selecting "Branching connection diagram — recommended: follow the paths and see why other science connects." Adopt the focused question-page connection diagram proposed above, retaining the full Home Map, spec layers/sections, source-supported cross-cutting concerns, other documentary relationships, and readable stacked phone paths/drill-down. The relationship-grid alternative was not selected. Exact geometry remains unfrozen.
+- Operator verbatim: "A term to have in your context is the concept of Data Storytelling". Carry data storytelling as design context: connect questions, recorded findings, meaning/limits and the broader spec/science relationships through coherent visual explanations. This is a design lens, not approval to generate findings, infer causal stories, suppress limits, reorder accepted content or install a storytelling skill.
+
+### Open questions
+
+- Proposed complete Runs landing page: shared accepted shell and compact dated activity/context; clear title and search/filter area; experiment groups labelled by their research question, with runs nested beneath; readable run identities, recorded summaries and missing states; a compact summary of the two runs selected for comparison. Preserve the complete searchable/grouped scope and all existing filters/links rather than choosing a demonstration subset. Opening a run retains access to its spec/science connections, full inputs, research sources and Inside the model.
+- Proposed comparison composition: clear pair identities and comparability notice lead; accepted outcome/side-effect section first, setup section second, question-by-question answers third. Within each section align matching measures from the two runs and place a plain-language explanation/limit beside the relevant sourced visual. Use the same scales only for comparable quantities. Phone stacks corresponding values/visuals together per measure, rather than requiring a reader to remember an entire first-run block while reading the second. Preserve each run's context, source and gaps.
+- One genuinely unsettled comparison visual choice proposed: aligned measurement rows spanning the two run columns (recommended for seeing each difference in place), versus two separate cards inside each comparison section (stronger run-by-run grouping while preserving paired phone content). Neither chosen yet. Comparison eligibility and accepted section order are not reopened.
+- Data-storytelling application is proposed: each visual has an explanatory question/heading, the recorded values, and what remains unresolved, with optional source/detail exploration. A newly written explanatory sentence needs reviewed source support; a visual difference cannot become a causal claim or scientific verdict.
+
+### Spec changes proposed
+
+- Runs grouping/filters are already required at docs/LABVIZ_V2_SPEC.md:344; linked selections/context at :347-352. Refine the visual composition without changing scope.
+- Comparison contract :577-582 already binds run identities, source-supported matching, common scales and single-observation caveats. Clarify how paired cards/pictures fit within the accepted section order and any chosen aligned-row layout. The sourced question/result/limits framing at :584-587 supports data-storytelling presentation; missing or unreviewed analysis remains explicit. No binding-spec edit.
+
+### Context for build agents
+
+- Historical incumbent capture inspected: results/labviz/review/20261008T130913325Z/chromium-phone-compare.png. Its overall layout shows a leading comparison area followed by long individual run blocks. The measure.json:1369886-1369908 record identifies this comparison at 390 by 844, with 390px scroll/client width and 11505px page height. This is historical context predating MathLab, not a fresh measurement or a readability/contrast defect verdict.
+- Give future builders the exact data-storytelling term, accepted journey orders and question-page connections, together with the eventual comparison visual choice. Use interface-design hierarchy/states and Anthropic accuracy/accessibility extracts already recorded at this file:283-295. Preserve SUMMARY.md:33-57 safety, including storytelling's risk of obscuring limits or implying causation. No external storytelling source/skill opened or adopted.
+- Only notes appended. Building hold/execution exclusions persist. Binding context rule: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff10.md with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or put the handoff in notes; restate the rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB10 — operator supplies Bismart data-storytelling article
+
+### Decisions (with the operator's words)
+
+- Operator supplied: "https://blog.bismart.com/en/data-storytelling-cuadros-de-mando" after asking "Doyou know what data storytelling is clearly?" Read the supplied article; no linked guide, product page, image asset or additional source opened. The source is now explicit design context. No new layout choice accepted in this exchange.
+- Clarification given to operator: data storytelling combines evidence, visuals and narrative for an audience; it includes explanation and implications, beyond page organization. Keep the previously accepted whole-page layouts and pending Runs/comparison proposal distinct.
+
+### Open questions
+
+- Proposed application: prepare a short narrative brief for every page/line before a builder chooses charts. Name the reader's question, the reviewed recorded message, the source-backed visual/explanation sequence, unresolved limits, related spec/science connections and the documented next question or decision where available. This is proposed builder context, not an approved completed content inventory.
+- The default page should be understandable on first reading; exploratory controls deepen the explanation while retaining the question/selected context and return position. Reviewed plain-language annotations can explain what a chart shows and its limits. Missing explanation remains explicit, and LabViz must not generate a scientific conclusion.
+- Pending comparison visual choice remains open, not answered by the article: aligned measurement rows versus separate run cards within each accepted comparison section. No new question asked merely to revalidate already settled page order or navigation.
+
+### Spec changes proposed
+
+- Add narrative-brief and reviewed annotation preparation to the proposed front-end/content amendments beside docs/LABVIZ_V2_SPEC.md:343-352 and :584-587, preserving the recorded-file/evidence limits in §0, source-specific historical framing (:1040-1060), complete scope and visible chart limitations (:413). Article guidance is adapted to scientific reporting; the site displays documented decisions and implications rather than issuing new verdicts or causal findings. Binding spec unchanged.
+
+### Context for build agents
+
+- Source actually opened: [Bismart, Data Storytelling: How to Design Dashboards that Inspire Decisions](https://blog.bismart.com/en/data-storytelling-cuadros-de-mando). Useful sections: purpose/audience (1-2), narrative structure (3), context (4), annotations (8), consistency/chart choice (9-10), guided exploration (12-13), reader validation (15). Extract a short checklist: clear reader question; contextualised visuals; explanatory annotations; consistent design; exploration retaining the narrative; comprehension checks.
+- Adaptations are our proposals: attach unresolved scientific limits to findings; preserve all source-supported inputs/records behind the summary; use the line's own measures; treat mechanisms as unknown where unproved; show documented spec implications and next decisions. Do not turn the article's business action/causal examples into scientific acceptance. Its simplification guidance does not authorize dropping required fine detail, its 3D-chart advice does not remove the accepted structural 3D model, and its tooltip guidance does not hide required captions/limits or rely on hover on phones.
+- Text-only reference; no Bismart platform, linked Power BI guide, external scripts/assets, upload, install or browser runtime adopted. No scientific claim derived from its marketing/recall statements. Existing interface/accuracy guides remain focused references, not replaced by another overlapping skill package.
+- Only notes appended. Building hold and all execution exclusions persist. Binding context rule: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff10.md with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting work. Restate the rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB10 — operator requests context check; conservative handoff
+
+### Decisions (with the operator's words)
+
+- Operator verbatim: "Check your context usage ceiling to determine if it is time for a handoff at 45% or below. Otherwise let's move to another question".
+- No numerical Context percentage is exposed in this interface. LVB10 explicitly reports that limitation and takes a conservative checkpoint; it does not claim the 45% threshold was observed. No new design question is pending with the operator.
+
+### Open questions
+
+- Resume the complete Runs/comparison composition through the data-storytelling lens. The aligned-row versus paired-card visual proposal is recorded at this file:1977 onward but its options were not yet presented to the operator; the operator's data-storytelling clarification and article intervened. Do not treat either layout as accepted.
+
+### Spec changes proposed
+
+- No additional spec change at this checkpoint. All design amendments remain proposals; the binding spec and building hold are unchanged.
+
+### Context for build agents
+
+- Separate continuation handoff: results/dashboard_integration_review_20261011/labviz_brainstorm_handoff10.md. It preserves the settled-decision pointers, exact next point, references actually read, execution boundary and binding context rule. The context-save skill's summary/decisions/remaining-work structure is adapted to this expressly allowed path; its global files/scripts/telemetry/git workflows were not executed.
+- Binding context rule: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write the separate designated successor handoff with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff inside notes; restate this rule in every handoff. No numerical Context reading is exposed or asserted.
