@@ -1,0 +1,639 @@
+{
+  "roots": {
+    "B": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z",
+    "TMPDIR": "/private/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T"
+  },
+  "method": "Recursive no-symlink-follow census; paths and lstat mode/size/mtime_ns; subprocess output buffered; acceptance log and receipt updated only after AFTER census. Inaccessible paths explicitly listed; no claim about their contents.",
+  "before": {
+    "B": {
+      "entries": 144,
+      "regular_files": 144,
+      "directories": 0,
+      "symlinks": 0,
+      "paths_sha256": "7d0e510cca015c92cc4c3c449567c72dadc73fe1ed17d21c711d3b17f9afa593",
+      "metadata_sha256": "af4c97dc06045437d6c8fb0fd11c5d7768d31656041cd6e83d096741e48ae15e"
+    },
+    "TMPDIR": {
+      "entries": 182034,
+      "regular_files": 986,
+      "directories": 181039,
+      "symlinks": 3,
+      "paths_sha256": "0ece30b327f4feb81c4f90f08ed6f82651b39145e0bc8a089d8fa00ed95ece11",
+      "metadata_sha256": "09c3bb58170d9e94509557292af179ba1acf129ea619dbd334d62eaebe59a9aa"
+    }
+  },
+  "after": {
+    "B": {
+      "entries": 144,
+      "regular_files": 144,
+      "directories": 0,
+      "symlinks": 0,
+      "paths_sha256": "7d0e510cca015c92cc4c3c449567c72dadc73fe1ed17d21c711d3b17f9afa593",
+      "metadata_sha256": "af4c97dc06045437d6c8fb0fd11c5d7768d31656041cd6e83d096741e48ae15e"
+    },
+    "TMPDIR": {
+      "entries": 182034,
+      "regular_files": 986,
+      "directories": 181039,
+      "symlinks": 3,
+      "paths_sha256": "0ece30b327f4feb81c4f90f08ed6f82651b39145e0bc8a089d8fa00ed95ece11",
+      "metadata_sha256": "09c3bb58170d9e94509557292af179ba1acf129ea619dbd334d62eaebe59a9aa"
+    }
+  },
+  "created": [],
+  "deleted": [],
+  "metadata_changed": [],
+  "errors_before": [
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.AUHelperService/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.CloudDocs.iCloudDriveFileProvider/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.amsengagementd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.ap.promotedcontentd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.appleaccountd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.appstoreagent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.avconferenced/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.bird/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.bluetoothuserd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.calaccessd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.chrono/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.ciphermld/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.corespeechd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.desktopservices.ArchiveService/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.donotdisturbd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.email.maild/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.facetimemessagestored/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.familycircled/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.fileproviderd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.homeeventsd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.icloud.searchpartyuseragent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.iconservicesagent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.identityservicesd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.imagent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.imdpersistence.IMDPersistenceAgent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.imtranscoding.IMTranscoderAgent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.imtransferservices.IMTransferAgent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.news.widgetintents/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.parsec-fbf/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.parsecd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.pluginkit/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.quicklook.ThumbnailsAgent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.remindd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.replicatord/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.sharingd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.siriactionsd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.sirittsd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.studentd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.syncdefaultsd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.tipsd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.transparencyd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.triald/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/duetexpertd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/homed/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    }
+  ],
+  "errors_after": [
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.AUHelperService/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.CloudDocs.iCloudDriveFileProvider/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.amsengagementd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.ap.promotedcontentd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.appleaccountd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.appstoreagent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.avconferenced/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.bird/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.bluetoothuserd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.calaccessd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.chrono/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.ciphermld/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.corespeechd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.desktopservices.ArchiveService/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.donotdisturbd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.email.maild/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.facetimemessagestored/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.familycircled/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.fileproviderd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.homeeventsd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.icloud.searchpartyuseragent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.iconservicesagent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.identityservicesd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.imagent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.imdpersistence.IMDPersistenceAgent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.imtranscoding.IMTranscoderAgent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.imtransferservices.IMTransferAgent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.news.widgetintents/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.parsec-fbf/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.parsecd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.pluginkit/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.quicklook.ThumbnailsAgent/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.remindd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.replicatord/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.sharingd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.siriactionsd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.sirittsd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.studentd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.syncdefaultsd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.tipsd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.transparencyd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/com.apple.triald/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/duetexpertd/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    },
+    {
+      "root": "TMPDIR",
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/homed/TemporaryItems",
+      "errno": 1,
+      "message": "Operation not permitted"
+    }
+  ],
+  "acceptance_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "inputs_before": {
+    "shared_disk_clearance_freeze_v5.md": "c2cce8027c3bddf4c2e64764664a845b74c68a03593d914640b7f978de602ac8",
+    "shared_disk_clearance_schemas_v4.json": "defa559b55c969a8542583abab5f2d41efc3b60514359047f43d06877bbe4b54",
+    "check_r2_schemas_v4.py": "ab7a37ca5fd0e9d8d61996bf3a66f265a6b835e69c677113895e4e724b4ece37",
+    "science_launch_profiles_v2.json": "f2c8893509f1ae86f0d9af8c4016a220ae3ddcb56f268b632f0da5a0dd4c3c43",
+    "science_launch_inventory_v4.md": "a25f65faf5b621e3b78bc2444c5bb597188aa3451f0cb5a2dba363156710405a",
+    "shared_disk_clearance_contract_v1_1.md": "25c93f5f584d5a1dfff3b0610b32922a289be6d91449765862de3331334062f1",
+    "astra_r2j_verdict.md": "00c072fb4f9f922c739417632bc0d27e716c7a2b92382d820cfdc554af256d8c",
+    "r2_round8_decisions.md": "cbd92211ef3ba247fb6fa901a3554113d806d5f2130a419e8c61b3fc014c3ef8",
+    "r2_round8_options.md": "52080aa9d401a566f27be2e26606da0d52ab569e1eae10ea1a66d5c73608a7cb",
+    "r2_round7_decisions.md": "3c9d540209b335f96d4a4942ad7071b7c658a0cc41abc9a609de23c55edd6813",
+    "r2_inventory_scope_decision.md": "33322ebeed6fec0a7533e87b3304ef70bafd5770cc24fee0eec169636d8d357a",
+    "r2_science_containment_decision.md": "a79798a252e343f78b1dcb983010f835ef44ffb3eca9c9b8332f46f5dae5b850"
+  },
+  "inputs_after": {
+    "shared_disk_clearance_freeze_v5.md": "c2cce8027c3bddf4c2e64764664a845b74c68a03593d914640b7f978de602ac8",
+    "shared_disk_clearance_schemas_v4.json": "defa559b55c969a8542583abab5f2d41efc3b60514359047f43d06877bbe4b54",
+    "check_r2_schemas_v4.py": "ab7a37ca5fd0e9d8d61996bf3a66f265a6b835e69c677113895e4e724b4ece37",
+    "science_launch_profiles_v2.json": "f2c8893509f1ae86f0d9af8c4016a220ae3ddcb56f268b632f0da5a0dd4c3c43",
+    "science_launch_inventory_v4.md": "a25f65faf5b621e3b78bc2444c5bb597188aa3451f0cb5a2dba363156710405a",
+    "shared_disk_clearance_contract_v1_1.md": "25c93f5f584d5a1dfff3b0610b32922a289be6d91449765862de3331334062f1",
+    "astra_r2j_verdict.md": "00c072fb4f9f922c739417632bc0d27e716c7a2b92382d820cfdc554af256d8c",
+    "r2_round8_decisions.md": "cbd92211ef3ba247fb6fa901a3554113d806d5f2130a419e8c61b3fc014c3ef8",
+    "r2_round8_options.md": "52080aa9d401a566f27be2e26606da0d52ab569e1eae10ea1a66d5c73608a7cb",
+    "r2_round7_decisions.md": "3c9d540209b335f96d4a4942ad7071b7c658a0cc41abc9a609de23c55edd6813",
+    "r2_inventory_scope_decision.md": "33322ebeed6fec0a7533e87b3304ef70bafd5770cc24fee0eec169636d8d357a",
+    "r2_science_containment_decision.md": "a79798a252e343f78b1dcb983010f835ef44ffb3eca9c9b8332f46f5dae5b850"
+  },
+  "outputs_before": {
+    "shared_disk_clearance_freeze_v6.md": "6ecf96e4a80a9dfade5cb301863f813fc6bfb04527b2fafc7556688097920338",
+    "shared_disk_clearance_schemas_v5.json": "66af00144bae54680709b25b94d762208bc2dfbaf2a8ab6942c63b501baf95cc",
+    "check_r2_schemas_v5.py": "921c347d3a2ae62c746de3495abaf88da31d76941a762ac9a331c861790f32f2",
+    "science_launch_profiles_v3.json": "874b332d0a0443aa0c3ce48395963337959596889f265c447261d1b10a11ba2c",
+    "science_launch_inventory_v5.md": "c5f35494b9d46c928c6828cce50c4aecee2546b82020952702fcc45a8b3bd165",
+    "r2s_test_first_red.log": "bd20bbc99ed1d13c68a27ba07b735b4b230129064ce9e57b72a9dfecfc33708a"
+  },
+  "outputs_after": {
+    "shared_disk_clearance_freeze_v6.md": "6ecf96e4a80a9dfade5cb301863f813fc6bfb04527b2fafc7556688097920338",
+    "shared_disk_clearance_schemas_v5.json": "66af00144bae54680709b25b94d762208bc2dfbaf2a8ab6942c63b501baf95cc",
+    "check_r2_schemas_v5.py": "921c347d3a2ae62c746de3495abaf88da31d76941a762ac9a331c861790f32f2",
+    "science_launch_profiles_v3.json": "874b332d0a0443aa0c3ce48395963337959596889f265c447261d1b10a11ba2c",
+    "science_launch_inventory_v5.md": "c5f35494b9d46c928c6828cce50c4aecee2546b82020952702fcc45a8b3bd165",
+    "r2s_test_first_red.log": "bd20bbc99ed1d13c68a27ba07b735b4b230129064ce9e57b72a9dfecfc33708a"
+  }
+}
