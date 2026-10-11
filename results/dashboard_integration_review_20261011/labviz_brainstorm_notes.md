@@ -1691,3 +1691,207 @@ Proposed packet, following `results/dashboard_integration_review_20261011/labviz
 - The last completed read-only tool call inspected S:338-355, :405-420, :1090-1113 and handoff6:14-38. It finished successfully before the interruption; no background process or pending mutation was launched. Its combined output was truncated; do not claim complete inspection of omitted portions or fresh acceptance results.
 - Next discussion is interface design, not implementation/source-inventory execution. Existing screenshot/source context and all building/execution exclusions persist. Only this notes entry and the designated handoff update are written at the gate.
 - Binding context directive: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the point and write the separate designated successor handoff with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting work. Never approach compaction or place the handoff inside notes; restate this same rule in every successor/team handoff. The operator reports the context ceiling now; LVB8 stops.
+
+## LVB9 — mobile hamburger and collapsible desktop sidebar
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "For mobile a hamburger menu and for desktop a sidebar that can open with the complete text based nav and minimized, still vertical, but with icons".
+- On mobile, open the main navigation through a hamburger menu button. On desktop, use a vertical sidebar with an expanded full-text navigation state and a minimized vertical icon state. This supersedes LVB9’s initial proposed phone top-row/bottom-bar choice; neither earlier option was accepted.
+- Retain the existing five destinations and Map home (docs/LABVIZ_V2_SPEC.md:340-346), all prior selected-context continuity, full model-wide/finer scope, source/coverage and comparison choices. This is a design decision only; the building hold remains.
+
+### Open questions
+
+- Next proposed discussion: should the phone hamburger open a side drawer with the current page still visible beside it, or a full-screen navigation panel? Recommend a side drawer to retain visual context, subject to the long labels fitting at required text/touch sizes. Neither opening style is accepted yet.
+- Sidebar starting state, remembered expanded/minimized preference, exact icons, breakpoint between phone/desktop layouts, sticky behavior and shared screen layout remain unspecified. Resolve routine implementation details in future scoped design without reopening the accepted navigation forms.
+- Recommended accessibility consequences, not new operator choices: expose each icon’s full name to assistive reading tools; show its text label on pointer hover or keyboard focus; visibly identify the current destination; provide a labelled expansion control. Mobile opening/closing must preserve selected context and return keyboard focus appropriately.
+
+### Spec changes proposed
+
+- Amend navigation presentation beside docs/LABVIZ_V2_SPEC.md:340-352 to specify the accepted hamburger and expanded/minimized vertical sidebar forms. Update the acceptance wording at :406 so the same five destinations are available on every page through the phone menu or desktop sidebar, rather than requiring all five text labels to be simultaneously visible while collapsed.
+- Retain phone readability and 44px touch targets (:359-369; :418), selection carryover (:352), keyboard/focus requirements (:420) and direct contextual routes required by the tap-count criteria (:411). Do not assume that an added hamburger-opening tap permits weakening the existing direct run-to-line/map routes. The binding spec is unchanged.
+
+### Context for build agents
+
+- Give builders the operator’s exact navigation decision, the two desktop states, the eventual chosen mobile opening behavior and preserved context/accessibility requirements. Current generated navigation is five top buttons (results/labviz/site/index.html:17-23); this source inspection is not a fresh runtime check.
+- Existing historical phone capture inspected in LVB9: results/labviz/review/20261008T130913325Z/chromium-phone-map.png. It shows the existing five-button top row and a substantial recorded-status block before map content; it predates MathLab integration and supplies layout context only. No measured defect or current acceptance result is asserted.
+- Use the reviewed interface-design hierarchy/state extract as text-only context (results/dashboard_integration_review_20261011/uiskills_report.md:42-44), focused on navigation states and retained page context. No original external page opened, package/skill adoption, installation, copied component or execution authorized. Follow SUMMARY.md:36-57 safety findings; optional images/scripts/services remain outside scope.
+- Worktree root and branch worktree-c10k-route-a verified read-only in LVB9. Only this notes entry appended; no code/spec/site edits, builds/tests/browser runs, project Python/node, installs/clones, science/model access, git mutation, graft, external search or agent/service messages.
+- Binding context rule survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write the separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff9.md with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting new work. Never approach compaction or place the handoff inside notes; restate this same rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB9 — phone navigation opens as a side drawer
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Side drawer — recommended: menu slides in from the left; tap outside to close." The hamburger opens a left-side drawer with full navigation labels and part of the current page still visible behind it, rather than a full-screen menu.
+- Opening and closing the menu retains the current view, selected context and reading position. The accepted desktop expanded/full-text and minimized/icon vertical sidebar remains unchanged. This decision describes navigation only; it does not reverse earlier below-diagram/reserved-space rules for evidence details.
+
+### Open questions
+
+- Next interface choice: should a compact phone bar containing the hamburger button and current destination name remain visible while scrolling, or scroll away with the page? Recommend keeping that small bar visible so the menu remains within reach. No sticky behavior is accepted yet.
+- Desktop sidebar anchoring/initial state, exact icons, other header contents and the placement of status/context/content remain open. A sticky phone bar would not by itself approve keeping the full status block or full context frame fixed on screen.
+
+### Spec changes proposed
+
+- Add the accepted left-side drawer to the navigation presentation amendment beside docs/LABVIZ_V2_SPEC.md:340-352 and the revised five-destination acceptance wording at :406. Retain the :367/:418 touch-target requirement and :420 keyboard/focus behavior.
+- Recommended routine behavior: provide a visible labelled close control, support Escape, keep keyboard navigation within the open menu, and return focus to the hamburger on dismissal. Tapping outside is an additional dismissal route. Closed menu content must not intercept page controls or keyboard navigation. These are design requirements proposed for future scoped validation; no runtime check or spec edit occurred.
+
+### Context for build agents
+
+- Give builders the accepted hamburger-to-left-drawer journey, full destination labels, current-destination indication, outside-tap/explicit-close dismissal and retained reading context. Accessibility names and keyboard behavior belong to the same component brief, not a separate installed skill.
+- Reuse the text-only interface hierarchy/state context already inspected at results/dashboard_integration_review_20261011/uiskills_report.md:42-44. No new external reference or drawer library has been inspected/adopted; no package, remote assets or execution is authorized.
+- Only notes appended. Building hold and all LVB9 execution exclusions persist. Binding context rule remains: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write the separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff9.md with completed/in-flight work, decisions/notes pointers, exact paths, open questions/risks and one exact next point; at <=40% stop starting new work. Never approach compaction or put the handoff in notes; restate this rule in every handoff. No numerical context percentage is exposed or asserted.
+
+## LVB9 — compact phone navigation remains visible while scrolling
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Small bar stays visible — recommended: navigation remains available; uses a little screen space." Keep a compact phone top bar containing the hamburger button and current destination name visible while the page scrolls.
+- This approves the small navigation bar only. It does not approve fixing the entire status block, breadcrumb, evidence detail or player controls to the screen. The accepted phone left-side navigation drawer and desktop expanded/minimized vertical sidebar remain settled.
+- Prior status placement is already settled at this notes file:21 and :44: compact source-dated activity strip at the top, full activity detail last on Home, logs on request. LVB9’s provisional progress update about considering status density does not reopen that choice. Preserve it in the shared screen design.
+
+### Open questions
+
+- Next preference: desktop sidebar’s first-visit state. Recommend expanded full text initially, so the destinations are understandable before the reader chooses to minimize them. Alternative: initially minimized icons for more content width. Neither initial state has been chosen.
+- Routine proposed consequence: retain the reader’s sidebar choice between desktop views; any cross-visit persistence must describe its actual support in the viewing mode. Initial-state approval alone does not approve a particular storage mechanism or claim persistent behavior already exists.
+- Main screen hierarchy, exact sidebar/content dimensions, desktop anchoring, current-context presentation, typography/color refinements and icons remain to discuss where not already settled. Retain inherited light/dark choice and non-obstructing evidence detail layouts.
+
+### Spec changes proposed
+
+- Add accepted sticky compact phone navigation beside docs/LABVIZ_V2_SPEC.md:340-352, retaining :359-369 readability/touch rules and :420 keyboard/focus requirements. Future acceptance must check that the bar leaves content readable and does not hide the focused control or linked target. No test/build/browser run or spec edit occurred.
+- Preserve the prior compact activity-strip amendment recorded at this notes file:44; do not substitute a large fixed status header for the accepted small menu bar. Existing binding docs/LABVIZ_V2_SPEC.md:340/:405 remain the source for top status/home coverage.
+
+### Context for build agents
+
+- Give builders the accepted phone shell states: compact visible bar; hamburger opens left drawer with full labels; closing retains page position and context. Distinguish navigation from the scrollable sourced activity/context and main content. Exact bar height and final layout are not frozen by this conversation.
+- Use the reviewed text-only interface-design hierarchy/state extract (results/dashboard_integration_review_20261011/uiskills_report.md:42-44) to check expanded/closed menu state, current destination and retained reading context. No new library, skill installation or original external page inspected.
+- Only notes appended. Building hold and all execution exclusions persist. Binding context rule survives: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff9.md with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting new work. Never approach compaction or put the handoff in notes; restate this rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB9 — desktop sidebar starts expanded; main workspace next
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Expanded — recommended: full navigation names." On a first desktop visit, start with the vertical sidebar expanded to full text; the reader can minimize it to vertical icons.
+- Preserve the phone hamburger/left drawer and compact persistent navigation bar. Sidebar-state retention between views remains a recommended routine consequence, not an independently selected storage/persistence mechanism.
+- Carry forward the already accepted main workspace/detail relationship: focused diagram/chart area; desktop evidence detail panel occupies its own space without covering it; phone detail expands below it (this notes file:18-19). Phone charts show one explained measure at a time with all applicable measures accessible (:301). Essential phone Play/Pause and Previous/Next controls already remain visible in reserved non-obstructing space (:262; :607).
+- Clarification of this notes file:1750: LVB9’s phone-header answer added navigation persistence only. It did not remove the independently accepted persistent essential player controls. Both need room in the eventual phone layout; no current combined-height acceptance has been established.
+
+### Open questions
+
+- Next visual preference: selected chart placement relative to the focused model diagram on wide screens. Recommend the diagram followed by the selected chart underneath, preserving a broad main area when the navigation and optional detail panel are open. Alternative: diagram and selected chart side by side when sufficient width exists. Both retain synchronized selections and the accepted phone one-chart display.
+- Exact dimensions, adaptation at narrow/landscape widths, positioning of reserved player controls relative to the persistent navigation bar, sidebar anchoring and context/header arrangement remain unfrozen. Readable labels and non-obstructing details remain binding constraints, not reasons to shrink charts or hide required context.
+
+### Spec changes proposed
+
+- Add first-visit expanded desktop navigation to the pending docs/LABVIZ_V2_SPEC.md:340-352 amendment and updated :406 navigation acceptance. No binding-spec edit occurred.
+- Future chart-placement clarification belongs beside per-part/wiring/player views (:627-657), retaining chart captions and limitations (:413), typography/touch rules (:359-371) and source/context frame (:347-352). The proposed placement is not yet accepted; the diagrams’ fixed Qwen dimensions and sampled scope in the binding span do not replace prior accepted full model-specific/finer scope.
+
+### Context for build agents
+
+- Supply navigation states together with the already accepted wide-screen reserved detail panel, below-diagram phone detail, one-chart phone selector and persistent essential phone controls. Evaluate the eventual combination rather than treating each isolated control as proof of a usable screen.
+- Use the existing historical phone model capture cited at this notes file:241 and the inspected interface hierarchy/state extract (results/dashboard_integration_review_20261011/uiskills_report.md:42-44). Chart units/scales/non-color/source guidance remains the existing task-specific text-only reference context (:283-295). No new original external page or rendering-library adoption.
+- Only notes appended; no code/spec/site changes, builds/tests/browser runs, project Python/node, installs/clones, model/science access, git mutation or external queries. Building hold persists.
+- Binding context rule: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff9.md with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting new work. Never approach compaction or place the handoff in notes; restate this rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB9 — focused diagram above its selected chart
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Diagram above chart — recommended: each uses the main area’s width." In Inside the model, place the focused model diagram first and the selected applicable chart underneath, including on wide desktop screens. This settles the pending beside-versus-below arrangement; navigation and the optional non-obstructing desktop detail panel retain their separate areas.
+- Retain the already accepted phone one-chart selector with all applicable measures accessible (this notes file:301); shared input/component/playback position across diagram, chart and text; full model-wide/finer scope; readable captions/limits/sources and coverage; and below-diagram phone detail. This layout choice does not redefine focused two-run comparison or the source-supported before/after content within a diagram/chart.
+
+### Open questions
+
+- Next phone preference: keep a readable summary of the current run, input, mode, model part and recorded position visible, with selection controls expandable on request, or show the full selection controls open above the diagram. Recommend the compact summary plus expandable controls to give the main visual more room initially. The summary must show actual selected state; missing/unresolved selections remain explicit.
+- This question concerns selectors, not the already accepted persistent essential Play/Pause and Previous/Next band, visible compact recording coverage, source/evidence labels or the full recorded input/answers available in detail. It does not propose hiding those requirements.
+- Desktop selector presentation, exact control grouping and vertical-space budgets remain unfrozen. All three accepted player modes, complete grouped searchable run/input browsers and model-part navigation remain accessible in either option.
+
+### Spec changes proposed
+
+- Add accepted diagram-then-selected-chart placement to per-part/wiring/player design beside docs/LABVIZ_V2_SPEC.md:627-657, retaining contextual source framing (:347-352), readable typography/touch rules (:359-371) and visible chart caption/limitations (:413). Binding spec unchanged.
+- An eventual compact selector amendment would refine the grouped run picker (:345), linked selection (:352) and player controls (:919-931). Neither summary content nor an expansion label is frozen by this pending preference question; no implementation exists by virtue of the proposal.
+
+### Context for build agents
+
+- Give builders the accepted diagram/selected-chart order, preserved focus/synchronization, independent navigation/detail areas and one-chart phone selector. Sources, missing states and chart meaning remain attached to the selected measure. No unsupported scientific measurement or eligibility is supplied by layout.
+- Reuse the reviewed interface-design hierarchy/state extract (results/dashboard_integration_review_20261011/uiskills_report.md:42-44) and existing chart-accuracy context (this notes file:283-295); the historical model capture remains context for long stacked content, not proof of any new layout or measured defect. No external source, component library or skill adoption added.
+- Only notes appended; the building hold and all execution exclusions persist. Binding context rule survives: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff9.md with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting new work. Never approach compaction or put the handoff in notes; restate this same rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB9 — operator redirects to visual front-end design and review context
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1...but have we already covered this? And I conceded this is UI/UX, if we are being redundant I suggest we brainstorm the front-end/dashboard design focused. What does the interface look like visually, how are screens/pages organized, what UI/UX features can be leveraged for easy and enjoyable user experience. Do we need additional context to reference to effectively do this type of brainstorming work? I provided some in the first agent session and those are starting points. I also provided a list of possible skills to leverage."
+- The initial "1" accepts the immediately offered compact phone selection summary with expandable selection menus. Keep current run/input/mode/model-part/step readable above the diagram, with essential player controls and required coverage/source context available as separately settled. This refines selector presentation; it does not remove complete input browsers, recorded text or finer model coverage.
+- Operator verbatim: "There is a SUMMARY.md doc in results/dashboard_integration". Read-only path probe found results/dashboard_integration_review_20261011, and SUMMARY.md there was reread in full. Its LabViz recommendations, original supplied references and selected skills remain the discussion grounding; do not replace them with a generic checklist or more repetitive control questions.
+- Shift the discussion to whole-screen visual compositions, coherent page organization, visual language and enjoyable exploration. Retain all settled navigation, context, evidence, player, detail, chart and theme choices. Do not ask the operator to choose them again.
+
+### Open questions
+
+- Proposed visual direction, not yet accepted: a calm research workspace using readable type, neutral backgrounds in both accepted themes, restrained accent color for selection, fewer heavy box borders, clear page titles and generous diagram/chart space. Alternative: a bolder visual explorer with stronger grouping, larger diagram presentation and more expressive selected-object emphasis. Both preserve all destinations, granular scope and evidence requirements.
+- Need to work through complete compositions of Home/Map, Science lines, Runs, Inside the model and Learn, keeping the same navigation/context conventions while matching each page’s purpose. Their purposes and journeys are already settled; composition, visual weight, spacing, shape, typography within the floor, color roles and interaction polish are not frozen by the previous micro-choices.
+- Existing context is sufficient to begin those designs. Additional context should fill a specific visual gap, such as an inspected whole-screen layout example, rather than restart broad tool intake. Tabler’s inspected layout index supplies a catalogue, not verified phone/panel markup; Transformer Explainer supplies README teaching framing, not an inspected zoom interface. No new external page is opened here.
+- Candidate experience polish: a selected object highlighted consistently across diagrams/chart/text; clear focus/back transitions; readable contextual help and source detail; restrained transitions with reduced-motion support. These are proposals or refinements of existing selections, not new scientific activity, renderer adoption or implemented features.
+
+### Spec changes proposed
+
+- Add accepted compact phone selectors beside docs/LABVIZ_V2_SPEC.md:345/:352 and :919-931, retaining mandatory source/context framing (:347-352), coverage and essential visible playback controls. Exact expansion label/storage/control geometry remains unfrozen.
+- Future accepted visual language and complete page compositions would extend §4A (:338-371) and relevant per-view §5/§11 spans, preserving all readability, non-color, source and chart-limit requirements. No binding-spec or product-code edit occurred.
+
+### Context for build agents
+
+- Relevant SUMMARY.md anchors verified by full reread: web/chart/layout trial candidates (:9-10), one interface guide and one chart guide (:15-16), proposed LabViz phone/spec review (:29), and safety (:33 onward). These are review recommendations and text-reference scope, not adoptions or permission to run scripts.
+- Use the actual primary-reference extracts already recorded at this notes file:283-295: interface-design hierarchy/spacing/states; Anthropic chart accuracy/accessibility; ECharts selected-item highlighting; Tabler layout catalogue; Transformer Explainer README explanation framing. Earlier uncertainty wording at :79-83 predates these later inspections; follow the later record for what was actually opened. Licence/pin/compatibility and uninspected examples remain preparation needs.
+- LVB9 reread web_report.md:5-23 and uiskills_report.md:5-35 for candidate fit/overlap/safety. It read only the description/preamble of the available gstack design-consultation skill to assess applicability; that workflow was not applied, no preamble commands run, and no design-system/preview file created. Its preview-generation workflow is unnecessary for this discussion-only existing-site task.
+- Additional historical capture inspected in LVB9: results/labviz/review/20261008T130913325Z/chromium-desktop-map.png. It shows five horizontal navigation buttons, a status block and a seven-column map of bordered nodes. It supplies existing visual context only, predates MathLab, and is not a fresh appearance/acceptance check. Comparison with chromium-phone-map.png can guide proposed visual hierarchy without modifying either image.
+- Only notes appended; no code/spec/site change, build/test/browser run, project Python/node, install/clone, model/science access, git mutation, graft, external search or agent/service message. Building hold persists.
+- Binding context rule survives: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted finish the point, tell the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff9.md with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting new work. Never approach compaction or place the handoff in notes; restate this same rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB9 — calm workspace accepted; complete Home composition proposed
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Calm research workspace — recommended: understated surroundings; diagrams and findings carry the emphasis." Adopt that visual direction for subsequent screen proposals: neutral backgrounds in both accepted themes, strong page headings, restrained borders, generous visual space and a limited accent for selection. Exact colors, typeface, geometry and motion are not frozen by this choice.
+- Apply the same visual language across all five destinations, while composing each screen around its existing purpose and accepted journey. Preserve the operator’s earlier Home order: big-picture connections, then sourced findings with unresolved limits, then detailed activity; retain the compact dated activity strip at the top (this notes file:10/:21/:53).
+
+### Open questions
+
+- Proposed complete desktop Home composition: expanded/minimizable left navigation; compact source-dated activity strip at the top of the main area; clear How the research connects title and short explanation; a small search/focus row; a broad layered map; findings and unresolved-limit summaries below; detailed activity last. An opened connection/source panel reserves its own space. This is a composition proposal, not implementation or a completed summary inventory.
+- In the map, propose quieter node surfaces/dividers, readable plain-language names with exact IDs secondary, and accent plus non-color emphasis on the selected path. Retain the required column organization, documented edge/source semantics, source-bound selection and access to the full graph. No scientific importance is encoded by decorative emphasis.
+- Proposed phone adaptation uses the accepted persistent menu bar and left drawer, then the compact source-dated activity row, title/search, one-column drill-down, findings/limits and expanded activity. Sources/details remain below or reserved, not over the focused content. Actual first-screen fit and phone geometry remain future authorized verification.
+- Next whole-page preference: recommend a map-led Home, where the connections area receives the strongest visual emphasis and the findings/limits follow beneath. Alternative: a balanced Home where the map and findings section have similar visual weight, preserving their already accepted order. This question concerns composition/weight, not changing destinations or reopening the content order.
+
+### Spec changes proposed
+
+- Record the accepted calm visual direction beside docs/LABVIZ_V2_SPEC.md:357-371 and pending theme/navigation amendments. Any selected tokens must meet existing readability, contrast, non-color and focus requirements in both themes.
+- Complete Home composition would clarify §4A.1 (:338-352) and §11.4 (:1086-1096); preserve map columns (:1088), focus/source panel (:1089-1092), phone drill-down (:1095), honest edge legend (:1096) and Home map/status coverage (:405). Existing graph content is not a newly approved featured subset. Binding spec unchanged.
+
+### Context for build agents
+
+- Give future builders the calm direction, accepted Home content order and eventual approved complete-page composition as one coherent task packet. Use the inspected desktop/phone Map captures as incumbent context, not the final target design. Preserve all required scope and documentary identity when changing visual weight.
+- Reference roles stay focused: interface-design extracts for visual hierarchy/spacing/interaction states; Anthropic chart guide for scientific visual accuracy; Tabler’s inspected catalogue for optional structural context; ECharts event/action excerpt for selection-linked highlighting. See this notes file:283-295 and results/dashboard_integration_review_20261011/SUMMARY.md:9/:15-16. No external reference is installed, adopted or newly opened.
+- Only notes appended. Building hold and all execution exclusions persist. Binding context rule remains: check available Context before every question; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff9.md with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting new work. Never approach compaction or put the handoff in notes; restate this same rule in every handoff. No numerical Context reading is exposed or asserted.
+
+## LVB9 — map-led Home accepted; visual-design continuation checkpoint
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Map-led — recommended: connections receive the strongest visual emphasis." Adopt the proposed map-led Home composition: existing left desktop sidebar/phone menu, compact source-dated activity strip, clear title, search/focus controls, a visually dominant connections map, findings with unresolved limits below, detailed activity last. Connection details receive reserved side space on desktop and below-map space on phones.
+- Use the accepted calm visual language: neutral backgrounds, clear headings, thin separators, quieter map-node borders and selected-path emphasis through accent color plus outline. Plain-language names lead with exact internal identities secondary. Retain the full documented graph and phone drill-down; no featured-only scope or new scientific importance claim is accepted.
+- This settles whole-page emphasis/composition, not pixel geometry, final colors/typeface, code, runtime acceptance or content readiness. All earlier evidence/source/selection/coverage/player/model-wide requirements and the building hold remain.
+
+### Open questions
+
+- Next discussion: the complete Science lines and selected research-question page composition in the same calm visual system. Its content order is already settled: findings and unresolved limits together, then the research story over time, then the latest experiment (this notes file:12/:46). Do not ask that order again.
+- Other whole-screen compositions remain to discuss: Runs/comparison, Inside the model, Learn/evaluations. Visual polish, exact styling, transitions, icons, adaptation, source preparation and eventual scoped verification remain open where not already settled. No last-choice prompt is pending, but substantive design questions remain.
+- LVB9 takes a proactive visual-design arc/context checkpoint with a separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff9.md. No numerical Context percentage is exposed; no threshold observation or brainstorming completion is claimed.
+
+### Spec changes proposed
+
+- Add the accepted map-led visual composition to the pending Home amendment beside docs/LABVIZ_V2_SPEC.md:340/:405/:1088-1096, together with the accepted calm visual language and navigation variants. Preserve the documented graph semantics, visible/source-bound context and phone drill-down. Binding spec unchanged; MAESTRO must freeze amendments and briefs before any build.
+
+### Context for build agents
+
+- Give future Home builders the accepted whole-screen composition plus its phone adaptation, referenced incumbent desktop/phone captures, relevant §4A/§11.4 spans and the actual interface/chart extracts recorded at this notes file:283-295. This is design context, not an inventory of prepared summaries or validation of a package.
+- Only notes and the designated continuation handoff are written. No code/spec/site edits, builds/tests/browser runs, project Python/node, installs/clones, model/science access, git mutation, graft, new external lookup or agent/service messages.
+- Binding context rule survives: check available Context at the end of every reply before asking anything; start new pieces only at >=60%; at <=45% or any Context compacted tell the operator, finish the current point and write a separate designated successor handoff with topics, decisions/notes pointers, in-flight work, exact paths, open questions/risks and one exact next point; at <=40% stop starting new work. Never approach compaction or put the handoff inside notes; restate this same rule in every handoff. No numerical Context reading is exposed or asserted.
