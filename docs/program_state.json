@@ -29,15 +29,15 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T13:30:54Z",
+    "edited": "2026-10-11T13:40:56Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "running",
-        "who": "codexr1i, then Astra round 8",
-        "session": "codexr1i",
+        "state": "in_review",
+        "who": "Astra round 8, then MAESTRO binds",
+        "session": "",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
@@ -80,7 +80,8 @@
           "12:44Z: Astra round 6 said NO-GO on running the collector yet, but allowed the read-only Intel identity check. Fixed and accepted: the collector now checks its own files before running them. Still open: (1) if a run's result is lost and the Intel Mac is restored to an older state, a second run could hide the lost records; (2) the 870-second limit subtracts clock times from two different Macs that may disagree; (3) the written run order commits a hash too late and one command has a missing argument; (4) the Intel check must be run with the Python called directly. Next: MAESTRO runs the identity check, then a builder fixes 1–3.",
           "12:48Z: MAESTRO's Intel identity check was refused at login before it reached the Intel Mac (3096ad7c): the run script relied on the Mac's default key, but the Intel Mac only accepts its own key. Nothing ran there. Builder codexr1h is fixing Astra's three open points and making the script name the Intel key itself; the identity check runs after Astra round 7.",
           "13:05Z: codexr1h finished (7697cb73); MAESTRO reran every test set (42 new, and the 36/27/18/9 older ones still pass) and checked the script now names the Intel key. Fixed: a starting checkpoint can be used only once, and a lost result can't be hidden by restoring the Intel Mac; only the M3's clock counts; the capture must be committed first. Astra round 7 is reviewing (9a4e4bdc).",
-          "13:14Z: Astra round 7 said not yet (4d4a99e6) but allowed the identity check. MAESTRO ran it: the Intel Mac answered for the first time (c9c42c68): Intel chip, macOS 14.8.9, Apple's built-in Python 3.9.6 at the expected path. Still open: a success note could survive a crash at the last moment; a slow start could stretch the Intel Mac's time limit; the M3's own notes must count against the space allowance. Builder codexr1i is fixing those four points; the binding step waits for Astra round 8."
+          "13:14Z: Astra round 7 said not yet (4d4a99e6) but allowed the identity check. MAESTRO ran it: the Intel Mac answered for the first time (c9c42c68): Intel chip, macOS 14.8.9, Apple's built-in Python 3.9.6 at the expected path. Still open: a success note could survive a crash at the last moment; a slow start could stretch the Intel Mac's time limit; the M3's own notes must count against the space allowance. Builder codexr1i is fixing those four points; the binding step waits for Astra round 8.",
+          "13:40Z: codexr1i finished the four fixes (a369d87f). MAESTRO reran every test set: 54 new pass after MAESTRO moved the builder's late hand-off note out of its report (it broke a page-length test); all older sets still pass. Astra round 8 is reviewing (3629479a). If it says yes, MAESTRO runs the binding step next."
         ]
       },
       {
@@ -130,8 +131,8 @@
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
-        "who": "codexr2g + codexr2h, then Astra round 4",
-        "session": "codexr2g, codexr2h",
+        "who": "codexr2g + codexr2h2, then Astra round 4",
+        "session": "codexr2g, codexr2h2",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -149,7 +150,8 @@
           "09:32Z: Astra round 2 on version 1.1 (61105f13): GO with conditions; the test additions and the three separate gates are accepted. Only the build-level freeze remains (who builds what, exact formats and limits) before anything is built.",
           "12:41Z: MAESTRO named the owners: MAESTRO owns all three parts (the M3 coordinator, the Intel copy worker and the M3 copy step); Codex builders build each one, and nothing runs before the freeze passes Astra. The Intel Mac asks the M3 over ssh with a dedicated key that can only run one fixed request each. Builder codexr2f is writing the freeze: exact commands, formats, limits and time-outs.",
           "13:22Z: codexr2f finished the build-level rules (ea7477ad): 224 lines, all nine parts Astra asked for, every choice tied to a contract clause, MAESTRO owns all three parts. MAESTRO checked the shape, not the content. Astra round 3 is reviewing it now (36d32697). codexr2f closed.",
-          "13:30Z: Astra round 3 said not yet (0219b4a7): name who builds each part and list every way science runs get started; the copy program can't approve its own start while paused, so the coordinator must do it; a recovery checker must work even when the coordinator is dead; every record needs a full format; one source was cited from the wrong file. MAESTRO made those design calls and started two builders: codexr2g (rules v2 + record formats) and codexr2h (list of science start paths). Then Astra round 4."
+          "13:30Z: Astra round 3 said not yet (0219b4a7): name who builds each part and list every way science runs get started; the copy program can't approve its own start while paused, so the coordinator must do it; a recovery checker must work even when the coordinator is dead; every record needs a full format; one source was cited from the wrong file. MAESTRO made those design calls and started two builders: codexr2g (rules v2 + record formats) and codexr2h (list of science start paths). Then Astra round 4.",
+          "13:40Z: codexr2h ran out of room halfway through the list of science start paths and handed off; fresh successor codexr2h2 is finishing it. codexr2g is still writing rules v2."
         ]
       },
       {
