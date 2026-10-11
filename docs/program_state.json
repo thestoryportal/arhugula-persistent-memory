@@ -29,52 +29,28 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T08:12:24Z",
+    "edited": "2026-10-11T08:17:48Z",
     "items": [
-      {
-        "id": "intel-setup",
-        "title": "Intel Mac: install MacPorts (instead of Homebrew)",
-        "summary": "Homebrew no longer supports Intel Macs, so you chose MacPorts. Astra is checking that change against the approved plan; MAESTRO installs it once Astra agrees.",
-        "state": "in_review",
-        "who": "Astra, then MAESTRO",
-        "session": "",
-        "started": "2026-10-11T07:15:00Z",
-        "estimate": null,
-        "depends_on": [],
-        "blocked_by": [],
-        "needs_from_you": [],
-        "notes": [
-          "07:15Z: reformatted and connected by you; MAESTRO sees it at 192.168.10.2 (file sharing on, remote login off).",
-          "07:40Z: key sign-in works (account robertrhu_node2). Measured: 500 GB SSD, not 1 TB; macOS 14.8.9; 16 GB; sleeps after 1 min; FileVault off; no Homebrew or developer tools.",
-          "07:43Z: you chose to shrink the space limits to fit (250 GB copy, 50 history, 40 builders, 50 temporary, 6 engine, 80 free) and to leave FileVault off.",
-          "07:45Z: you turned off sleep; both Macs back on the same Wi-Fi.",
-          "08:00Z: Deskflow (free keyboard/mouse sharing, Intel to the right of the M3) installed on both Macs and connected over the cable.",
-          "08:05Z: developer tools confirmed installed (git 2.39.5). Homebrew 7.0.9 installer copied over the cable, hash/signature/notarization checked, opened on the Intel screen.",
-          "08:07Z: the Homebrew installer refused the Intel Mac (Apple-chip Macs and macOS 15+ only; Homebrew is ending Intel support).",
-          "08:10Z: you chose MacPorts (amendment 18) and automatic login (amendment 19, confirmed on). Deskflow confirmed working both ways.",
-          "08:12Z: Astra reviewing amendment 18; the MacPorts installer is downloaded and checked, not yet installed."
-        ]
-      },
       {
         "id": "integration-plan",
         "title": "Tie the new hardware plan to all earlier plans and queued work",
         "summary": "Your requirement: one plan that settles every overlap between this design, earlier designs and queued builds before any affected build starts. Astra listed what it must cover.",
-        "state": "ready",
-        "who": "MAESTRO",
-        "session": "",
-        "started": "2026-10-11T07:15:00Z",
+        "state": "running",
+        "who": "MAESTRO (a helper drafts, MAESTRO checks, then Astra)",
+        "session": "subagent",
+        "started": "2026-10-11T08:06:00Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "07:15Z: HW2's draft and Astra's four conditions are in integration_plan.md."
+          "Started between 08:06Z and 08:11Z (no clock read at launch): a helper is drafting the refreshed table (every earlier Astra finding mapped, later dashboard/storage receipts added); MAESTRO checks its citations before Astra sees it."
         ]
       },
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
-        "summary": "You approved moving the research engine to the Intel Mac (D-HW-2). MAESTRO rewrites the first-build plan for that machine, then Astra reviews it again. It needs the Intel Mac's real disk and software facts first.",
+        "summary": "You approved moving the research engine to the Intel Mac (D-HW-2). MAESTRO rewrites the first-build plan for that machine (now with MacPorts), then Astra reviews it again. It waits for the integration plan.",
         "state": "blocked",
         "who": "MAESTRO (after the Intel Mac check)",
         "session": "",
@@ -82,7 +58,7 @@
         "estimate": null,
         "depends_on": [],
         "blocked_by": [
-          "intel-setup"
+          "integration-plan"
         ],
         "needs_from_you": [],
         "notes": [
