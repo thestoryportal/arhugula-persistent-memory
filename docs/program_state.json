@@ -29,8 +29,24 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T08:37:49Z",
+    "edited": "2026-10-11T08:42:22Z",
     "items": [
+      {
+        "id": "backups-audit",
+        "title": "Audit the backups drive for lost RunPod research",
+        "summary": "Codex (codexbk1) is checking every program-related file on the external backups drive (the root files and the llm-as-database folder first) against everything the repo has ever held, and reporting anything that fills research lost from RunPod. Read-only; nothing is copied until you and MAESTRO decide.",
+        "state": "running",
+        "who": "Codex (codexbk1), then MAESTRO",
+        "session": "codexbk1",
+        "started": "2026-10-11T08:41:00Z",
+        "estimate": null,
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "08:42Z: started (launched between 08:40Z and 08:42Z). Output: results/backups_audit_20261011T084030Z/. Watch armed for its reply, context and compaction."
+        ]
+      },
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
