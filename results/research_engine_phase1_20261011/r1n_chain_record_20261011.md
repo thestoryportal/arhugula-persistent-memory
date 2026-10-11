@@ -11,3 +11,13 @@ Authorization `RE/operator_authorization_r1n_20261011T1637Z.md` (d5caf96e). Rule
 N's automatic census (`local_accounting(J11, RE)`, no extras): matched 851,702 bytes (10 files: attempt 0, bind 143208Z set, inventory 0 set, halt diagnostic); omitted 8,296 bytes (CAP set 7,186 + EOUT `.out`/`.exit` 1,110) = the addendum's 8,296 at CAP. This equals A's own census (A.receipt_usage calls the same function without extras).
 Nonstandard retained Intel captures outside N's filename census, passed to B as `--extra-receipt` (10 files, 2,187 bytes): `intel_identity_probe_20261011T113404Z.{json,stderr}`, `intel_identity_probe_r1e_20261011T115851Z.{json,stderr}`, `intel_identity_probe_r1f_20261011T124523Z.{exit,json,stderr}`, `intel_identity_probe_r1h_20261011T131105Z.{exit,json,stderr}`.
 Not receipts (recorded, excluded): `r1l_logs_20261011/` (builder red/green test logs and SHA256SUMS, 354,199 bytes; local unittest output, no Intel exchange), manifests v2–v11, host command scripts, probe scripts, `intel_r1_sizes_20261011.tsv` and `preinstall_identity_20261011.tsv` (survey tables, not receipts). No receipt-like file exists outside RE (`git ls-files results` search for r1j_/r1m_evaluate_/r1n_evaluate_ names outside RE: none).
+
+## A (16:45:01–16:45:22Z)
+`/usr/bin/python3 -B RE/r1n_sizing_dispatch.py RE/r1j_probe_r1n_20261011T164501Z` once: rc 0, stdout `R1H-CAPTURE RE/r1j_probe_r1n_20261011T164501Z.json 3506fe32f9b301e92489a9fa300b1357efca54122ec37a36a77f546aaf0beefd`, stderr empty. Sizing set (5 paths; `.final` and `.final.pending` are hard links) = 2 + 104 + 104 + 6,978 + 0 = 7,188 bytes ≤ 135,168. sha256:
+```
+9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa  r1j_probe_r1n_20261011T164501Z.exit
+cbce1b49cd47230d9691fbe206eabd3308e7152c8e87baf7b41fca230b2cebdd  r1j_probe_r1n_20261011T164501Z.final
+cbce1b49cd47230d9691fbe206eabd3308e7152c8e87baf7b41fca230b2cebdd  r1j_probe_r1n_20261011T164501Z.final.pending
+3506fe32f9b301e92489a9fa300b1357efca54122ec37a36a77f546aaf0beefd  r1j_probe_r1n_20261011T164501Z.json
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  r1j_probe_r1n_20261011T164501Z.stderr
+```
