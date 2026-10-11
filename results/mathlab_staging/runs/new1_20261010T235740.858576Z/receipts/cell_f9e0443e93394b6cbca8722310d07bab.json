@@ -1,0 +1,9 @@
+{
+  "tier": "MATH-PROXY",
+  "boundary": "math estimate, not evidence",
+  "phase": "covariance-checks",
+  "cell": "l4",
+  "reserve_gib": 11.0,
+  "required_gib": 19.0,
+  "available_gib": 22.71636962890625
+}

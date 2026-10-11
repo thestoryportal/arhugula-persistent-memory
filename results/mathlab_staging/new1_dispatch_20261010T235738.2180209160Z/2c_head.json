@@ -1,0 +1,1 @@
+{"check":"2c_head","command":"git\\ rev-parse\\ HEAD","argv":["git","rev-parse","HEAD"],"stdout":"6b89ae2009c94b5739b6b1b28d58cb7cfef70baa\u000a","stderr":"","exit":0}
