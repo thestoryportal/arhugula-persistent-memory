@@ -236,3 +236,15 @@ Operator answer to "Turning on the Google Drive backup: your plan copies the res
 What changes: the drive-activate rewrite designs an immutable de-duplicating layout on the Intel Mac (hard links or clones) and sends it to Astra review before any copy. Already allowed by `design.md:261,277`; no other cap changes.
 
 What does not change: choice 11 (stage and verify an Intel checkpoint first) stands; deletions still need exact approval; the secret-bearing `.hf_token` files are excluded per `design.md:187`.
+
+## Amendment 22 — one conditional Intel build trial authorized (4 GB, 2 h, kept)
+
+Recorded 2026-10-11T10:57:21Z using `date -u`.
+
+Operator answer to "May MAESTRO run one test build there, in its own scratch folder, using at most 4 GB of extra space and 2 hours, with all files kept afterwards? … nothing runs until several safety pieces still to be built pass review": "Yes, with conditions (Recommended)".
+
+What it authorizes: exactly the trial in `results/research_engine_phase1_20261011/intel_build_trial_scope_v1.md` (five ports expat, sqlite3, python_select, python3_select, tcl; serial; one attempt each, no retry; scratch root `/Users/robertrhu_node2/research-engine-r1c-trial-20261011`; logical and allocated growth each ≤4,000,000,000 bytes; cumulative wall clock ≤7,200 s; all scratch retained). This is separate from the amendment-20 setup cap and 900 s provisioning clock.
+
+Conditions (Astra r1p3 R4, `results/research_engine_phase1_20261011/astra_r1p3_verdict.md`): the authorization is exercised only after every gate in scope §§ "What the source establishes" through "Exact real-prefix before/after comparison" is satisfied and Astra-reviewed — the no-registration stage/image adapter, frozen inputs/prerequisites and source-route equivalence, exact command vectors, enforceable child-tree confinement with hard disk/clock caps, and the full real-prefix and lifetime write comparison. Operator approval does not bypass any of them.
+
+What does not change: no installation, activation, commissioning or engine start; any real-prefix change or outside write makes the trial INVALID; deleting any retained trial file needs a separate approval naming the path, size and method.
