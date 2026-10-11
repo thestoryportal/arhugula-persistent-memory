@@ -142,9 +142,9 @@
         "id": "r4-dashboard-record",
         "title": "Phone dashboard on the Intel Mac: freeze what it shows and how",
         "summary": "Write down exactly what status record the Intel-hosted dashboard reads, how old data shows as UNAVAILABLE (never as idle), and the exact way each M3 helper is launched so the science safety gate still allows it. Then Astra reviews it.",
-        "state": "ready",
-        "who": "A builder, then MAESTRO, then Astra",
-        "session": "",
+        "state": "running",
+        "who": "Builder codexr4d2, then Astra",
+        "session": "codexr4d2",
         "started": "2026-10-11T09:12:53Z",
         "estimate": {
           "low_min": 20,
@@ -157,7 +157,8 @@
         "notes": [
           "09:12Z: drafting started (dashboard_host_status_record_v1.md); answers Astra's condition R4.",
           "09:23Z: draft finished and checked by MAESTRO39 (the proposed M3 helper passes the science gate's own exemption test; old or lost data shows UNAVAILABLE, never idle). Committed 67b6a0b1; Astra is reviewing it.",
-          "09:27Z: Astra said NO-GO on dashboard record v1 (546a9eb2): needs the exact record format with examples, protection against replayed old records across restarts, and a decision on how builder activity is shown. Next: version 2."
+          "09:27Z: Astra said NO-GO on dashboard record v1 (546a9eb2): needs the exact record format with examples, protection against replayed old records across restarts, and a decision on how builder activity is shown. Next: version 2.",
+          "11:02Z: builder codexr4d2 is writing record v2 against Astra's 3 points: every field spelled out with worked good and bad examples, old replayed data rejected (even after a restart), and the busy/waiting/idle view per session kept (MAESTRO's call: you asked for a queue that is never stale)."
         ]
       },
       {
