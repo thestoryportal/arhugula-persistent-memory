@@ -28,25 +28,25 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T04:39:11Z",
+    "edited": "2026-10-11T05:00:47Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: write the first-build plan",
         "summary": "You approved the design and chose how the first build runs. MAESTRO now writes the small first-build plan, starting with an answer key made independently of the engine, as the reviewer asked.",
         "state": "running",
-        "who": "SPEC1 (tmux codexre1) drafting; then Astra; MAESTRO watching",
-        "session": "codexre1",
+        "who": "SPEC2 (tmux codexre2) applying Astra fixes; then Astra re-check",
+        "session": "codexre2",
         "started": "2026-10-11T04:37:00Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "04:23Z: you approved the written design.",
-          "04:29Z: Astra (independent reviewer) said GO with 9 conditions, no blockers. The conditions all go into this plan; the design itself stays as you approved it.",
-          "~04:31Z: your choices: the free Neo4j edition on this Mac; up to 5 GB of disk and 2 GB of memory, anytime, no GPU.",
-          "Record: D-RE-1. Detail: results/research_engine_brainstorm_20261011T032049Z/"
+          "04:23Z: you approved the design; ~04:31Z you chose Neo4j on this Mac and a small resource cap.",
+          "04:54Z: first-build plan written (20 pass/fail checks).",
+          "04:59Z: Astra said GO with 4 fixes: the engine must step aside for any waiting science run, the graph copy must be strictly add-only, a clear low-priority rule, and MAESTRO records the close-out.",
+          "05:02Z: SPEC2 is applying those 4 fixes as a v2 plan; then Astra re-checks. After that: a separate session writes the answer key."
         ]
       },
       {
