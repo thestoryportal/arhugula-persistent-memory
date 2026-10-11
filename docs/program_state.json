@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T16:08:38Z",
+    "edited": "2026-10-11T16:13:27Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -142,7 +142,7 @@
         "title": "Rules for sharing the memit drive between the two Macs",
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
-        "who": "codexr2m2 (rules freeze) + codexr2n2 (launch list), then MAESTRO, then Astra round 6",
+        "who": "codexr2n2 (launch list) + codexr2o (checker v3), then MAESTRO, then Astra round 6",
         "session": "codexr2m2, codexr2n",
         "started": "2026-10-11T09:03Z",
         "estimate": {
@@ -173,7 +173,8 @@
           "15:26Z: the one-value fix is in and checked: the new checker now passes on the real files and still catches all six planted faults (4dd9c2a9). The expert reviewer (Astra) is doing round 5 on the full rules package.",
           "15:40Z: the expert said NO-GO again (round 5), but closer: 2 of 5 fixes are now closed. Still open: the list of science launches must become a closed, exact list (anything not on it is refused); the science run ID needs one fixed source; the checker misread how the record's revision counter advances, and it must check deeper. Two builders started: codexr2m (rules + schemas) and codexr2n (exact launch list); a checker builder follows them.",
           "15:56Z: the launch-list builder stopped on a real gap: the rules required every science run to be locked in a 'sandbox', and no science sandbox exists. MAESTRO49 decided science runs are watched, not sandboxed (the shared-drive contract asks for watching, not locking; science is the side being protected). Written in r2_science_containment_decision.md; the expert reviews it next round. codexr2n continues with that; the rules builder ran low on room and handed off to codexr2m2.",
-          "16:08Z: the launch-list builder ran low on room and handed off cleanly. Done so far: one science run fully described (the C10U wordlist script), 8 runs refused for specific reasons, 111 matches marked 'not science' (other apps' agents, backup helpers, package files). 242 matches still to sort. MAESTRO50 re-checked its files (they parse, the size is in limits, and every recorded fingerprint matches) and started a fresh successor, codexr2n2, to finish the sorting."
+          "16:08Z: the launch-list builder ran low on room and handed off cleanly. Done so far: one science run fully described (the C10U wordlist script), 8 runs refused for specific reasons, 111 matches marked 'not science' (other apps' agents, backup helpers, package files). 242 matches still to sort. MAESTRO50 re-checked its files (they parse, the size is in limits, and every recorded fingerprint matches) and started a fresh successor, codexr2n2, to finish the sorting.",
+          "16:15Z: the rules-freeze builder finished: version 4 of the shared-drive rules plus the matching record formats, including the 'science runs are watched, not sandboxed' decision. MAESTRO50 checked it independently: right length and all nine sections, the formats load, every example names a real format, every required cross-reference fingerprint is present, and every pinned file fingerprint recomputes. Next: the checker builder (codexr2o), while codexr2n2 finishes the launch list; then the expert's round 6."
         ]
       },
       {
