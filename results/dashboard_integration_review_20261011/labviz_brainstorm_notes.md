@@ -2594,3 +2594,295 @@ Proposed packet, following `results/dashboard_integration_review_20261011/labviz
 - The two guides supplement SUMMARY.md's trial/checklist/safety context and the previously inspected source extracts at notes:283-295; they do not establish package adoption, scientific truth, current Shopify behavior, phone usability or source-fidelity verification. Actual contrast/geometry remain unmeasured.
 - Context-save skill used to structure the durable checkpoint (state, decisions, remaining work, notes). Its global state/telemetry/update/commit/sync workflow and usual external checkpoint location were not run: the explicit notes-and-handoff scope governs. Only notes and the separate handoff13 are written; original guides, S, source/site, scientific records and prior handoffs remain untouched.
 - BINDING context rule: check available Context at every reply end before asking; start new pieces only at >=60% left. At <=45%, any Context compacted, or MAESTRO's explicit gate notice, tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff13.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point. At <=40% stop starting work. Never approach compaction or put handoff inside notes; restate this rule in every successor/team handoff. No independent numerical Context reading is exposed; MAESTRO's 45% notice requires stopping now after this checkpoint.
+
+## LVB14 — proposed DESIGN.md system and focused builder-context preparation
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "Next, the design system for a solid design token DESIGN.md for builders to work from. Also, exploring any additional context, examples, tools, mcp or skills to integrate with builders when they begin their work."
+- This steers the discussion toward the shared design system and builder context. It does not approve the proposals below, lift the building hold, authorize new files beyond notes/designated handoff, or approve any install or connector use. The C10V walkthrough remains an illustrative example; its presentation details were not separately approved.
+- Retain accepted warm neutrals, ivory light surfaces, warm charcoal dark surfaces and muted teal selection accent (handoff12:19-27; notes:2288 onward), continuous model grouping, concise companion, architectural cutaway and chart order (notes:2198 onward/:2442-2525). Teal selection is not a scientific verdict.
+
+### Open questions
+
+- Recommendation, pending operator response: prepare a LabViz-specific DESIGN.md covering named style values, shared interaction/data states and coherent page recipes. Define a token in plain words as a reusable name for a design value, such as body-text size or selection colour.
+- Proposed builder delivery choice: (1) repository guide plus annotated phone/desktop examples, recommended because it builds directly on accepted compositions; (2) the same guide plus editable Figma designs, if the operator wants an ongoing visual-design workspace. Examples remain preparation; no preview, browser or Figma work is authorized now. This choice is about future builder context, not permission to connect/install/build.
+- Still open: exact palette values and contrast pairs; typography family; heading scale; geometry/breakpoints; spacing/radii; timing/easing and reduced-motion behavior; source-reviewed learning/explanation coverage; recording inventory; local-save behavior; actual phone/player checks. Accepted aesthetic direction is not an empirical validation of these values.
+
+### Spec changes proposed
+
+- Future LabViz-scoped DESIGN.md would express approved presentation decisions under docs/LABVIZ_V2_SPEC.md and reconciled accepted amendments, not override data contracts or become another scientific authority. Exact eventual path remains preparation; root DESIGN.md must not accidentally govern unrelated terminal/hosted surfaces. Do not edit S or create DESIGN.md during this hold.
+- Relevant S:345-352 (shared frame/selection/file-URL loading), :359-371 (typography/contrast/phone/numbers), :619-657 (Inside-the-model content), and retained player/source boundaries indexed by handoff13. Existing requirements remain binding until MAESTRO reconciles amendments; this section proposes documentation structure, not new scientific acceptance.
+- Proposed guide sections: scope/authority and accepted mood; token table; shared components/states; chart/model visual language; five page recipes; phone and motion behavior; focused reference extracts; builder verification and decision/change log.
+- One reviewed token table should hold each name, value or alias, unit/type, light/dark applicability, use, constraint/source and approval status. Later CSS variables are synchronized implementation copies. Optional machine-readable export may be derived later; no token compiler, independent hand-maintained JSON or extra service required by this proposal.
+
+| Proposed token family | Concrete starting content | Status / source |
+|---|---|---|
+| Surfaces, text, selection, borders | Names such as surface.page, surface.raised, text.primary, text.secondary, selection.accent, border.separator, focus.ring; warm ivory/charcoal and muted teal direction; explicit light/dark values later | Colour family accepted, exact values not chosen or contrast-tested; notes:2288 onward |
+| Typography | text.body.desktop = 17px, text.body.phone = 16px, text.minimum = 13px, prose.max = 72ch; body line height within 1.5–1.6; tabular figures; font family/heading scale later | Existing S:359-371. Minimum applies to rendered diagrams/charts/badges/sources as well, not only CSS body text |
+| Spacing and shape | Candidate spacing values 4, 8, 12, 16, 24, 32, 48px; candidate fine separators and restrained corner radii; illustration only, not a mandate for boxes around all content | New proposal, not accepted; flowing research briefs/continuous model composition remain at handoff10:17-30 and handoff12:19-27 |
+| Layout and touch | Named companion/scene/prose roles, phone stack and per-page recipes; touch.minimum = 44px; no page overflow at 360px; model.scene.maxPhoneHeight = 70vh | Existing constraints S:359-371; accepted composition notes:2442-2525. Companion width and desktop breakpoint remain unchosen |
+| Interaction and movement | Selected, focused, pressed, expanded and disabled appearances; focused exploration zooms, quiet reading pages; reduced-motion equivalent with selection/context retained | Movement accepted handoff12:19-27; exact timings and reduced-motion design remain open |
+| Evidence and data states | Separate UI selection, recorded verdict labels, evidence tiers, missing/read/parse failures and learner feedback; reuse all six accepted data-state messages/reasons | S:16-20/:31-32/:347-352; accepted state rules indexed by handoff13 and notes:889-905. Colours never replace words/patterns; temporary messages cannot hide persistent failures |
+| Charts and model drawing | Comparable metric scales where valid; units/denominators; source-visible exact numbers; structure versus measurement/activity distinction; cutaway fill/edge/connection styling | S:359-371; notes:2499-2557. Scene aesthetics cannot encode invented activity, causation or fact location |
+
+### Context for build agents
+
+- The builder packet should carry: relevant S ranges; accepted decision index; proposed DESIGN.md token table and recipes after review; representative current/historical captures correctly dated; source-linked C10V account and its measurement/recording limits; focused reference extracts and later verification obligations. It must distinguish accepted requirements, provisional values and uninspected preparation. A token sheet alone does not communicate whole-page hierarchy.
+- Page recipes retain Map-led Home, roomy Science-line questions/flowing brief, explained Runs groups and aligned comparisons, concise-companion/model-cutaway/chart scene, and Learn library with compact progress. References: handoff10:17-30, handoff12:19-30, handoff13. All are pending reconciliation with S, not a blanket instruction to reproduce a generic dashboard template.
+
+| Candidate actually inspected or reviewed | Exact builder context and purpose | Boundaries / status |
+|---|---|---|
+| interface-design and Anthropic data-visualization | Give one focused interface checklist for hierarchy/spacing/selection/error states, and one chart checklist for scope/units/scales/labels/gaps/non-colour access. Selected original-source extracts already recorded at notes:283-295; review uiskills_report.md:5-10/:19-35 | Text/checklists recommended by existing review; no new install/adoption. Exclude font/control replacement defaults, Python examples and blanket removal of structural 3D. Licence/pinning remains preparation |
+| Operator’s two added guides | Give the relevant paragraph plus its specific LabViz adaptation from notes:2558 onward | Human-readable explanation and purposeful motion; accepted layouts/S:359-371 override density/grid conflicts. No AI interpretation, invented scores or transient-error replacement |
+| gstack design-consultation template | Locally inspected entry/preamble and Phase 6 DESIGN.md structure at /Users/robertrhu/.codex/skills/gstack-design-consultation/SKILL.md:1381-1440. Borrow topic coverage: type, colour, spacing, layout, movement and decision log; add LabViz evidence/accessibility/page-recipe constraints | Partial text inspection only, not full workflow audit or execution. Bootstrap, telemetry, browser/mockup generation, root DESIGN.md/CLAUDE.md writes, commits and sync were not run. Do not treat its example spacing/timing/CDN strategy as accepted values |
+| Design Tokens Community Group, Format Module 2025.10 | Opened primary report https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/ . Relevant sections: 3.1 token name/value; 3.2 type/description; 3.7 groups; 3.8 aliases; 4 JSON interchange. Borrow consistent naming, declared types and reusable aliases | A Community Group specification, explicitly not a W3C Standard. Proposed documentation conventions only; no JSON export, formatter/compiler install or conformance claim. Does not determine aesthetics or certify accessibility |
+| Official Figma MCP introduction | Opened https://developers.figma.com/docs/figma-mcp-server/ . It describes retrieving variables/components/layout data and also writing Figma canvas content. Conditional proposal: supply only approved LabViz frames/variables if the operator elects to maintain Figma designs | Not connected or used. No existing LabViz Figma workspace, account fit, client/access compatibility, licence/cost or egress configuration established. No private research upload or canvas mutation authorized. Setup/security pages not opened; not a mandatory builder dependency |
+| ECharts, Tabler, Transformer Explainer | Retain the bounded existing extracts at notes:283-295: matching-item selection/highlight; layout catalogue; input/output teaching framing. Give specific extract tasks rather than packages | README-plus-one-page allowances for ECharts/Tabler already used. Concrete Tabler phone markup and Transformer visual examples remain uninspected; no model runtime, asset/CDN adoption, installs or compatibility claim |
+| Existing browser review | Give later authorized reviewers the current capture paths, spec checks and required source/state/phone/reduced-motion checks; reuse existing review rather than adding an ungrounded browser tool | No browser run now. Preserve notes:2100 correction: measure.json:1512162-1512190 is blocked-CDN fallback evidence, not established as paired with chromium-phone-model-2d.png. Historical captures predate MathLab and do not prove the proposed design |
+
+- User requested exploration of additional context/tools; this turn opened only the two primary external documents above. No repo README/example pages reopened, linked setup pages followed, private data sent, connector invoked, install/clone or product execution occurred. Public documentation reading does not establish suitability/acceptance. Other new tools/examples are not opened or assessed.
+- Worktree root and branch verified read-only. Memory registry quick search found historical LabViz implementation entries, but none was relied on for the design proposal; current S/handoffs/notes govern.
+- Brainstorming skill used for incremental discussion; user’s notes-only/build-hold scope overrides its separate-doc/commit/browser-server workflow. Only notes appended, no S/L/W or guide edits and no Git mutation. No process or agent in flight.
+- BINDING context rule: check available Context at each reply end before asking; start new pieces only at >=60% left. At <=45%, any Context compacted, or MAESTRO’s explicit gate notice, tell the operator, finish the current point and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff14.md with topics, decisions/notes pointers, in-flight work, exact paths, open risks and one exact next point. At <=40% stop starting work. Never approach compaction or put the handoff inside notes; restate this rule in every successor/team handoff. No numerical Context reading is exposed; do not invent one.
+
+## LVB14 — free Figma preference and next design-system point
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "I don't have a Figma subscription, but if there is a free usage then absolutely."
+- Operator welcomes considering Figma if usable without a subscription. This supersedes the proposed repository-only-versus-Figma preference question above; do not ask it again. It is conditional design direction, not account creation, connector setup, cloud upload, canvas mutation, paid upgrade or permission to start building.
+- Recommendation: retain the proposed repository DESIGN.md as the reviewed presentation contract, with optional free Figma mockups as synchronized visual examples. Builders should still receive complete guide/examples if MCP access is exhausted or unavailable. This dependency choice is a proposal; no readiness claim.
+
+### Open questions
+
+- Live public documentation now establishes a free Starter plan and limited MCP read allowance, but the operator’s account/client compatibility and actual access have not been checked.
+- Next proposed design-system question concerns the overall typographic voice, preserving accepted warm neutrals and layout: familiar system lettering throughout (recommended for coherent reading and no added font assets), versus distinctive display headings with familiar system lettering for body, controls and numbers. Existing S sizes/contrast/tabular-number requirements prevail in either approach; font family and heading scale remain unchosen. No question about Figma preference is pending.
+
+### Spec changes proposed
+
+- No S edit. Proposed DESIGN.md continues to include named values, intended uses, theme mappings, shared states and five coherent page recipes, with accepted versus proposed status and original-source pointers. Typography family is a proposed refinement of S:359-371; it must preserve rendered-size floors and accessibility.
+- Optional Figma reference must remain consistent with the reviewed guide/current S and accepted amendments. Visual differences must be reconciled explicitly; Figma-generated code cannot silently change LabViz’s vanilla/static/file-URL delivery or scientific data contracts.
+
+### Context for build agents
+
+- Opened official pricing page https://www.figma.com/pricing/ : Starter is Free and includes unlimited drafts (page section Why choose Starter). Do not infer availability of every advanced feature from the flattened comparison table; exact theming/variable-mode/prototype limits were not established.
+- Opened official access page https://developers.figma.com/docs/figma-mcp-server/rate-limits-access/ : Starter allowance is up to 20 tool calls/month; limits apply to read tools. The page says Figma may change limits and that supported-client and file-permission checks apply. Search also surfaced an older official GitHub guide saying six calls; prefer the currently opened dedicated access page for this discussion and recheck before provisioning. No tools were invoked to inspect the operator’s account, and exempt write-tool limits do not grant mutation authority.
+- Inference/recommendation: the free plan is a plausible workspace for a small set of annotated page examples, while 20 monthly reads is too limited to assume continuous builder synchronization. Exported approved examples plus the reviewed token table should carry the design even without active MCP. Actual export/client/account behavior remains unverified; no Figma file created or data uploaded.
+- Possible future first visual example: accepted Inside-the-model composition, illustrated on desktop and phone, with tokens for type/surfaces/spacing/focus and persistent evidence/missing-state labels. This is preparation under the hold, not a mockup already produced or independently approved; C10V limitations at notes:2526 onward remain.
+- Only notes appended. No install/setup, external account/connector/canvas mutation, build, test/browser run, project runtime, spec/source/site edit or Git mutation. No process/agent in flight. The context rule in the preceding LVB14 entry remains binding, including separate handoff14 at <=45%, any compaction or MAESTRO gate notice; no numerical reading is exposed.
+
+## LVB14 — clean-instrument typography accepted; reference-page preparation proposed
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1", selecting "Clean instrument — recommended: familiar lettering throughout; hierarchy comes from size, weight and spacing."
+- Accept familiar system lettering as the shared typographic direction. This preserves the accepted calm workspace and warm-neutral family; no distinctive publication-heading family is selected. Use size, weight and spacing to express hierarchy. This does not independently approve the exact scale, weights, CSS fallback stack or layout values proposed below.
+- Figma remains welcome if free, as supplementary future visual context; guide completeness cannot depend on its monthly MCP allowance. Existing build hold and notes-only scope remain.
+
+### Open questions
+
+- Proposed coherent starting foundation for DESIGN.md: system sans-serif family; familiar monospaced face for raw paths/keys only; tabular figures for measurements; 28px page titles, 20px section titles, existing 17px desktop/16px phone body text, 13px minimum metadata/chart text; regular body weight and semibold headings. Heading sizes/weights are provisional, not accepted values or tested rendered measurements.
+- Proposed spacing scale remains 4/8/12/16/24/32/48px with generous reading/exploration room, thin separators, restrained outlines and no forced card boxes. Exact margins/radii/breakpoints need a composed example; the scale alone cannot prove fit or readability. Keep light/dark ivory/charcoal/teal meanings, selection cues and persistent source/missing states separate from scientific verdicts.
+- Next whole-page preparation choice, pending operator response: use an annotated desktop/phone Inside-the-model page as the primary design-system example (recommended because cutaway, chart, explanation, selection and source limits exercise the system together), versus Map-led Home first (prioritizes navigation and program overview). Neither changes accepted compositions or required coverage; neither authorizes creating mockups now. All five pages will still need recipes.
+
+### Spec changes proposed
+
+- Add accepted system-lettering direction beside S:359-371 in the future reconciled presentation amendment and proposed DESIGN.md. Preserve all binding rendered text sizes/contrast/touch/phone requirements. S remains unchanged.
+- Existing spec values must be sourced as requirements, while proposed heading/spacing values carry approval status. Avoid silently adopting gstack template sizes or treating familiar system fonts as a reason to replace readable native controls.
+- Proposed guide connects foundations to common context/evidence/state patterns and page recipes, with exact source constraints beside visual examples. Reviewed scientific content and recording coverage are separate preparation tasks; decorative examples cannot fabricate them.
+
+### Context for build agents
+
+- Typography reference: uiskills_report.md:28 reviews interface-design and specifically excludes automatic default-font rejection/native-control replacement. Focused original extract at notes:289 contributes hierarchy, spacing and interaction states; S:359-371 supplies empirical checks. These support the design procedure, not a claim that system fonts alone guarantee usability.
+- Compose the reference using accepted notes:2442-2557 for concise companion/cutaway/chart placement and C10V scope limits; phone stacks the same account. Use notes:2558 onward adaptation map: Dashboard_UI_Design_Best_Practices:.md:7-10/:46-49 for hierarchy/purposeful interaction within S floors, and System_Context_Directives_Dashbo.md:9-12 for human-readable context beside graphs without invented causal explanation.
+- Builder examples should identify each relevant named value and show selected, focused, expanded and persistent missing/source states where applicable. Record any provisional geometry as illustrative. Exact palette contrasts, display-size text, touch/keyboard use, reduced motion, local-saving behavior and actual file-URL delivery remain later verification, not established by a design sheet or Figma still image.
+- Only notes appended; no DESIGN.md/S/L/W edits, preview/build/test/browser run, new external research, install/connector/account action, model/science execution or Git mutation. No process/agent in flight.
+- BINDING context rule persists: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff14.md with topics, decision/notes pointers, in-flight work, exact paths, risks and one next point. Stop starting work at <=40%; never approach compaction or place the handoff in notes. No numerical Context reading is exposed; never invent one.
+
+## LVB14 — Inside-the-model reference page accepted; full-colour mockup clarified
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "1...are you suggesting as a wireframe that is black and white with these annotations or full color?"
+- The leading "1" selects Inside the model as the primary annotated design-system reference page. Map-led Home remains required within the five page recipes; choosing the first reference does not narrow scope.
+- The operator asks which fidelity was intended; this is not approval of a particular palette, geometry or mockup artifact. Clarify recommendation: full-colour annotated design mockup. No new black-and-white-versus-colour question is needed to answer the clarification.
+
+### Open questions
+
+- Proposed mockup shows the intended warm-neutral visual finish, clean system lettering, concise companion, architectural cutaway and chart underneath, with coordinated phone stacking. Include light and dark examples during future authorized preparation so token meanings can be assessed in both; exact colours/geometry/contrast remain provisional until reviewed and measured.
+- Place short numbered callouts outside or beside the clean page image, keyed to the relevant tokens and rules. The builder gets both a clean visual reference and its annotation key; annotations are design documentation, not permanent product text.
+- Example callouts explain surface/text/selection roles, typography hierarchy, spacing/separators, focus/touch treatment, chart scope/units/source labels and persistent missing-data states. A colour mockup is illustrative; it establishes no implemented interaction, rendered contrast, phone usability, recorded activity or scientific acceptance.
+- Any grayscale wireframe would be an optional internal layout aid if needed, not the proposed final builder reference and not a reason to reopen accepted composition. Exact future artifact creation remains under the hold.
+
+### Spec changes proposed
+
+- Attach the accepted Inside-the-model reference-page choice and proposed full-colour/annotation format to the pending DESIGN.md preparation packet. No S or code/site edit. Preserve S:345-352/:359-371/:619-657 and previously accepted layout/player/coverage refinements.
+- The chosen reference page does not independently approve the proposed 28px/20px heading scale or spacing values. Record exact tokens as accepted versus provisional, reconcile with S and retain later verification obligations.
+
+### Context for build agents
+
+- Use notes:2442-2557 for the accepted scene and source-grounded C10V example; :2288 onward for the warm-neutral direction; :2675 onward for clean system lettering and design-system proposal. Illustrative structural drawings must not suggest a recorded internal trajectory or a fact-specific causal contribution from the layer-wide change measurement.
+- Reference roles: notes:2558 onward adaptation map gives hierarchy/purposeful motion from Dashboard_UI_Design_Best_Practices:.md:7-10/:46-48 and human-readable chart context from System_Context_Directives_Dashbo.md:9-12. Focused interface/accuracy/accessibility extracts remain notes:283-295. These guide annotation content, not empirical proof of the visual design.
+- Optional future free Figma examples remain supplementary to the repository guide and exportable builder context; no account, Figma canvas or MCP action occurred. No current-build screenshot was reinterpreted as this proposed mockup, and no new image/browser/measurement was produced.
+- Only notes appended. No DESIGN.md/S/L/W edits, builds/tests/browser runs, installs/connectors/cloud writes, project/model/science runtime or Git mutation. No process/agent in flight. All context thresholds and separate handoff14 requirements in the preceding LVB14 entries remain binding; no numerical Context reading is exposed.
+
+## LVB14 — coherent colour roles and candidate theme tokens proposed
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "Continue with the design system brainstorming". Continue developing the shared system; this does not independently approve the preceding full-colour mockup proposal, exact numerical tokens or implementation.
+- Retain accepted warm-neutral/teal family, clean system lettering, continuous model grouping, concise companion, cutaway, diagram-above-chart order and Inside-the-model primary reference page. No settled composition or coverage question reopened.
+
+### Open questions
+
+- Proposed shared page foundation: ivory/charcoal surroundings, legible primary text, quiet secondary text, thin separators and restrained support surfaces. The generous model/chart workspace remains dominant and the concise companion remains connected; no mandatory card grid or reduced body text.
+- Define three distinct colour jobs in DESIGN.md: interface selection/focus, categorical scientific/model context, and numerical measurement. These roles need separate token names and legends. A selected model part receives a teal outline plus a text/shape cue so its measurement fill remains interpretable. Teal does not mean scientific success or larger write size. Recorded verdict/state labels retain their own explicit meaning and words.
+- Next genuinely unsettled colour treatment for the cutaway, pending operator response: (1) mostly neutral model parts with colour concentrated on selection and available measurements, recommended because emphasis carries a clearer purpose; (2) gentle persistent part-family tints, such as attention versus MLP, plus separately marked selection and measurement overlays. Both retain softly filled cutaway shapes, full labelled component detail, non-colour access, required measured fills and the accepted overall page composition. This choice concerns a coordinated colour language, not cutaway versus wireframe or chart order.
+- In option 2, structural tints identify categories only. Tints need a textual legend and must not encode location of facts, magnitude, activity or an invented mechanism. Category colours are not chosen here. In option 1, names and shape/order distinguish parts; neutral does not mean missing, unchanged or inactive.
+- The candidate palette below is illustrative preparation, not approved token values, measured contrast, existing CSS inventory or implementation. Measurement/context/verdict scales still need their own exact definitions. Complete model-specific structure/source coverage remains a separate preparation task.
+
+### Spec changes proposed
+
+- Document role separation and eventual chosen cutaway treatment beside S:359-371/:627-646 and pending cutaway/selection amendments. S:635 requires colouring the written down-projection by write size: preserve that rule, with selection treatment independent of the measured fill. Other parts retain the exact unchanged-by-method basis; stored-number state cannot imply unchanged activity.
+- Preserve labelled evidence tiers/source/context at S:347-352 and the six accepted data states at notes:889-905. No transient notification, generic success green, muted empty placeholder or colour-only encoding replaces those meanings.
+- Proposed theme tokens use role names, not hardcoded element names: surface.page, surface.support, text.primary, text.secondary, border.separator, border.control, selection.accent, selection.surface and focus.ring. Scientific/context/measurement/learner families remain separate. Exact values/status/source/use constraints belong in one reviewed table; later implementation copies must remain synchronized.
+
+| Candidate role | Light example | Dark example | Use / qualification |
+|---|---|---|---|
+| surface.page | #F7F4EE | #1F211F | Warm neutral canvas; provisional |
+| surface.support | #FFFDF8 | #292D29 | Slight surface separation where useful; does not mandate boxed content |
+| text.primary | #202923 | #ECEFE8 | Main reading/labels; contrast not measured |
+| text.secondary | #56625A | #B2BCB3 | Sources/secondary context still meet S text contrast/size floors; not a licence to fade essential caveats |
+| border.separator | #D4DBD2 | #48524A | Incidental grouping only; cannot substitute for required visible control/focus borders |
+| border.control | #647168 | #A4B1A7 | Candidate interactive-boundary colour; 3:1 requirement unverified |
+| selection.accent / focus.ring | #226B65 | #84C6BB | Teal interface selection/focus, paired with non-colour cue; not verdict or measurement magnitude |
+| selection.surface | #E0EEEA | #243F3B | Optional gentle selected-context backdrop; readable text pairings remain to verify |
+
+### Context for build agents
+
+- Give the chosen colour roles and token table with accepted-versus-provisional status. The table does not replace evidence/context legends or certify contrast. A single token may have light/dark mappings; avoid using a universal palette accent for every scientific mark.
+- Source support: Dashboard_UI_Design_Best_Practices:.md:9/:18 contributes visual hierarchy and clear active state. practices_report.md:22/:24 contributes chart/colour/hierarchy context. Focused interface-design/Anthropic extracts remain notes:289-290 for consistent states, legible scales and non-colour alternatives. These are recommendations; the binding S and operator-selected compositions prevail over generic dense-grid advice.
+- Exact source contract opened this turn: S:619-657, especially :635-646, distinguishes write-size fill, unchanged stored-number basis, future re-created activity and structural teaching pulses. Do not suggest that coloured or neutral parts establish activity, fact location, causation or unchanged behavior.
+- Reopened notes:889-905 to retain all six distinct persistent data-state messages and their source/reason access. No original external pages, screenshot or measurement reopened; no new empirical visual findings claimed.
+- Only notes appended. No S/L/W or DESIGN.md edits, image generation, mockup/browser/build/test run, project Python/node/model/science runtime, installs/clones/connectors/cloud writes or Git mutation. No process/agent in flight.
+- BINDING context rule remains: check available Context at every reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff14.md with topics, decisions/notes pointers, in-flight work, exact paths, risks and one next point. At <=40% stop starting work; never approach compaction or put handoff in notes. No numerical Context reading is exposed; never invent one.
+
+## LVB14 — balanced colour treatment accepted; shared foundation reconciled
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "Both, balanced well".
+- Accept a blend of the proposed neutral cutaway and gentle part-family colours. Most scene surfaces remain quiet; subtle, consistent structural tints provide landmarks. Selection and available measurement encodings remain distinct and stronger where needed. This is accepted design direction, not approval of exact hues, saturation levels, geometry or contrast measurements.
+- Resolve the blend within settled choices: neutral scene/background; restrained family tint or small family-identification band/label; independent teal selection outline plus label/shape cue; written part retains the source-bound measurement fill/legend required by S:635. Do not recolour the whole model with a single selection accent or apply measurement magnitude to unmeasured parts.
+- No need to ask again whether the operator wants neutral or categorical colour. Clean system lettering, warm-neutral themes, concise companion/right cutaway/chart underneath, continuous grouping, all model/input/coverage/player scope and Inside-the-model reference page remain accepted.
+
+### Open questions
+
+- Proposed future annotated example depicts the accepted blended scene as one coherent page: warm neutral frame, familiar type, concise reading companion, generous softly filled cutaway, gentle family landmarks, distinct selected focus and sourced measurement/chart. Phone carries the same account in the accepted stack; captions/limits remain legible. Full-colour mockup format remains a recommendation, not an artifact already produced.
+- Proposed next whole-page refinement concerns the pace of already-accepted interface zooms/transitions, not whether to animate or add a player mode: quick and direct (recommended, short gentle transitions that settle promptly), versus more deliberate (slightly longer gentle exploration transitions). Exact values remain provisional until visual review. This affects interface motion only; recorded/player steps, playback speeds, source labels and paused/default behavior remain independently governed.
+- Suggested candidate timing for later comparison: selection feedback immediate, small interface transition about 150ms, focused zoom about 250–300ms; the more deliberate alternative could use about 400–500ms for camera movement. Do not treat timing candidates as tested, universally appropriate or scientific trajectory durations.
+- Proposed reduced-motion behavior removes unnecessary spatial interpolation and retains the same selected destination, context, text and evidence access. Keep user-controlled step/recording access; no silent loss of content, automatic playback or invented intermediate data. Exact player accessibility behavior still requires preparation/review.
+
+### Spec changes proposed
+
+- Add balanced structural-colour treatment to pending scene/colour amendments beside S:359-371/:627-646. Separate colour roles in future DESIGN.md: structure.family.*, measurement.*, selection.* and evidence/state.*. Exact categorical palette is not chosen; source-supported context/metric meanings still govern.
+- Put interface-motion timing/reduced-motion rules beside pending S:347-352 focus/continuity refinements and :642-657 diagram/recorded-event distinctions. Cosmetic interpolation cannot become fabricated measurements or recorded activity. S remains unchanged.
+
+### Context for build agents — scoped DESIGN.md preparation packet
+
+This is a reviewable preparation outline under the hold, not a frozen brief or build-ready specification. Reconcile accepted amendments with S before implementation. The intended document governs LabViz presentation only, leaving scientific/data contracts authoritative in S and original records.
+
+| Guide section | Concrete material to supply | Status / unresolved preparation |
+|---|---|---|
+| Scope and authority | LabViz-only purpose; current S; accepted decision index; statement that references support design rather than authorize workflows | Current scope/hold binding; eventual document location and MAESTRO amendment freeze still pending |
+| Shared visual direction | Clean system lettering, warm-neutral light/dark family, teal selection, balanced neutral/categorical cutaway | Direction accepted; exact palette and categorical hues unchosen/contrast unverified |
+| Named values | One token table with name, value/alias, type/unit, theme, usage, source/constraint and approval status | Candidate theme table at notes:2749 onward and typography/spacing proposals at :2685 onward remain provisional; do not duplicate values into independently maintained authorities |
+| Shared frame and states | Navigation/context/source/evidence labels and existing six missing/failure/save messages; selection/focus/expanded states | S:345-352/:359-371 and accepted notes:889-905; no new CRUD, profile or toast-only failure workflow |
+| Chart/model language | Structural family tint versus numeric scale; teal selection outline; labels/patterns; units/counts; explicit missing/source/recording limits | S:627-657 and C10V notes:2526-2557. Layer-wide change is not a fact-specific causal contribution, and structural motion is not recorded activity |
+| Five page recipes | Map-led Home; roomy Science-line question list/flowing brief; explained Runs groups/aligned comparisons; concise companion/cutaway/chart; Learn library/compact progress | Settled composition indices in handoff10/12/13; exact geometry and reviewed content inventories remain open |
+| Primary visual reference | Annotated Inside-the-model desktop/phone example, clean image plus annotation key; light/dark coverage | Reference page selected. Full-colour format recommended. No mockup/Figma file/image generated or inspected as an approved design yet |
+| Interaction/accessibility | Accepted gentle focus zooms; preserved selections/returns; touch/keyboard access; consistent state feedback; reduced-motion equivalent | Movement character accepted notes:2375 onward; pacing and detailed reduced-motion behavior remain proposed. S floors still binding |
+| Builder references | One focused interface checklist and one chart checklist; supplied two-guide adaptation rows; optional ECharts matching-item extract; DTCG token terminology | Text context at notes:283-295/:2558 onward/:2634 onward. No packages or executable skill workflows adopted |
+| Optional visual workspace | Free Figma for selected visual examples; repository guide/exported context remains complete without repeated MCP reads | Operator welcomes free usage. Official Starter limit checked at 20 monthly MCP reads; account/client permissions/behavior unverified. No connection/cloud mutation authorized |
+| Later review obligations | Rendered text/contrast at phone widths; focus/touch/keyboard/reduced motion; source/units/missing fidelity; file-URL behavior and relevant player/learning/save cases | Proposed checks after hold is lifted; no browser/test/build run or acceptance claimed. Preserve historical fallback-record correction at notes:2100 |
+
+- Refined colour-role support: supplied UI guide :9/:18 for hierarchy/active state; practices_report.md:22/:24 for restrained encoding/context; interface/Anthropic extracts at notes:289-290 for consistent states/scales/non-colour access. Balanced family tint is the operator’s choice, not a finding established by these sources.
+- Motion support: UI guide :46-48 supports purposeful motion; accepted notes:2375 onward chooses focused exploration/quiet reading. The proposed durations are design judgement, not source-derived optimum values. Existing S:359-371 accessibility/phone requirements prevail.
+- Partial gstack DESIGN.md template inspection contributes topic coverage only; its bootstrap, browser preview, font downloads, telemetry, sync and write/commit workflow were not run. The DTCG reference contributes naming/type/alias conventions only. Optional Figma does not introduce a cloud scientific-data authority or require private research upload.
+- Only notes appended; no DESIGN.md/S/L/W edits, mockup/build/test/browser runs, new external research, installs/clones/connectors/canvas writes, project/model/science runtime or Git mutation. No process/agent in flight.
+- BINDING context rule persists: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff14.md with topics, decisions/notes pointers, in-flight work, exact paths, risks and one next point. Stop starting work at <=40%; never approach compaction or put handoff in notes. No numerical Context reading is exposed; never invent one.
+
+## LVB14 — deliberate exploration pace accepted; motion and builder examples reconciled
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "2", selecting "More deliberate: selections still respond immediately, but movement between model areas gives more time to follow the spatial change."
+- Accept a deliberate pace for the already-approved gentle exploration movement. Immediate selection acknowledgement remains; camera/view movement gives the reader time to follow spatial relationships. Reading pages remain quiet. This is not an added player mode, delayed data feedback, automatic exploration tour or change to scientific playback speed.
+- The qualitative direction is accepted; exact durations/easing are not separately approved or measured. The earlier quick-and-responsive recommendation is superseded for exploration pace. Do not reopen focused-zoom versus quiet-reading character or ask this pace choice again.
+
+### Open questions
+
+- Proposed DESIGN.md motion recipe: show selected state immediately; use a calm exploration transition, initially around 400–500ms for visual review; stabilize the drawing before expecting reading; preserve selected input/run/part, recording/source labels and chart/explanation context throughout. Do not introduce animated reading blocks or automatically chase selections after a user chooses another focus.
+- Proposed reduced-motion equivalent: immediate destination/focus update with stable labels and the same content, retaining user-controlled step/recording access. Remove optional spatial movement/teaching pulses where appropriate without fabricating or concealing recorded activity. Exact player-specific accessibility details and eventual behavior checks remain open.
+- No new preference question is manufactured. The next useful discussion is the coherent builder-facing example and its token/state annotations. Exact shades, spacing, radii, transition timings and geometry should be evaluated together in the proposed annotated page; source/content/coverage preparation remains separate.
+
+### Spec changes proposed
+
+- Add accepted deliberate exploration pace alongside focused-zoom amendments at S:347-352 and scene/player distinctions at :642-657. Candidate timing is provisional; required player/source/coverage/default rules are retained. S remains unchanged.
+- Future DESIGN.md should specify an immediate selection state, exploration-transition role and reduced-motion equivalent. User preference cannot waive S:359-371 rendered typography, contrast, touch/phone or non-colour-access constraints.
+
+### Context for build agents
+
+- Update the preparation packet at notes:2792 onward: clean system lettering; warm neutrals; balanced part-family tints and neutral scene; distinct selection/measurement roles; deliberate exploration movement with immediate feedback. Give accepted directions and provisional numeric values separate statuses.
+- The primary Inside-the-model example should explain the assembled experience, not merely display isolated colour/font samples: selected context and concise companion; broad cutaway with gentle family landmarks; teal selection outline without replacing measured fill; chart below; short reviewed account/limits; complete expandable source/input/evidence content in reserved space. Phone carries the same account vertically with existing compact selectors/coverage/essential controls. Current S and accepted amendments still require reconciliation before implementation.
+- Proposed example set for later authorized preparation: normal paused exploration; a selected/deeper model part with its applicable sourced chart; a truthful missing-measurement/recording case; phone and light/dark variants. These illustrate existing required states, not a new navigation/control flow. No actual screenshots, Figma frames, synthetic results or activity frames created.
+- Annotate typography/spacing/surface roles, family versus measurement colour, selected/focused state, explanation/source placement and motion/reduced-motion behavior. Still images can show start/end positions and written motion rules; they cannot prove animation behavior or recorded trajectories. Keep clean page references separate from annotation keys.
+- Reference basis: notes:283-295 interface/accuracy/accessibility extracts; UI guide:46-48 purposeful motion; System_Context_Directives_Dashbo.md:9-12 clear chart context; notes:2558 onward adaptation map. Deliberate pace is the operator’s preference; proposed timings are design judgement, not a source-verified optimum.
+- Original C10V example limits remain notes:2526-2557: assignment differs from physical fact location, layer-wide change differs from fact-specific contribution, recorded scores differ from generated answer text, and no historical internal trajectory supplies invented frames. Historical fallback-record correction remains notes:2100. No new model/content/recording coverage acceptance.
+- Only notes appended. No DESIGN.md/S/L/W edits, mockup/build/test/browser runs, new external research, installs/clones/connectors/cloud writes, project/model/science runtime or Git mutation. No process/agent in flight.
+- BINDING context rule persists: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff14.md with topics, decisions/notes pointers, in-flight work, exact paths, risks and one next point. Stop starting work at <=40%; never approach compaction or put handoff in notes. No numerical Context reading is exposed; never invent one.
+
+## LVB14 — motion recipe and three annotated example states approved
+
+### Decisions (with the operator’s words)
+
+- Operator verbatim: "Approved".
+- Approval applies to the presentation immediately preceding it: immediate selection acknowledgement; smooth, deliberate movement into focus; a settled drawing and quiet explanations for reading; reduced-motion access to the same destination without unnecessary movement.
+- Approve the proposed three annotated design-example states: normal exploration, a selected model part, and missing data. They connect named colour/type/spacing/movement rules to the coherent accepted desktop/phone compositions. This does not approve artifact details not yet shown, invent source content or authorize creating new files, Figma content or implementation under the existing hold.
+- Approximately half a second remains a proposed starting value for visual review, explicitly described as not fixed. Exact durations/easing, shades/contrast pairs, headings/spacing/radii and geometry are still provisional. Existing player modes/speeds/defaults and source/recording requirements remain independently governed.
+
+### Open questions
+
+- No operator-facing design question is pending at this approval checkpoint. Do not reconfirm accepted typography, colour balance, exploration pace or the three example states.
+- Remaining preparation: actual annotated examples; exact colour/geometry/type/spacing/motion values selected against them; reviewed explanatory/learning/question-bank content; full applicable architecture/input/recording/source coverage; detailed player/reduced-motion/local-save behavior; reference pinning/licence/traffic checks; eventual phone/browser/file-URL acceptance.
+- Full-colour format remains the recommended future example treatment, previously explained to the operator. No mockup was generated or viewed, and approval of the example-state plan does not constitute approval of a visual artifact.
+
+### Spec changes proposed
+
+- Add approved interaction/motion recipe and three example states to the future presentation amendment/DESIGN.md preparation packet, with S:347-352/:359-371/:627-657 and retained prior decisions. No S edit or amendment freeze.
+- The reduced-motion rule preserves destinations and content access; detailed player handling cannot silently remove the three accepted modes, input/granular detail, evidence/coverage labels or source-bound step access. No inferred intermediate activity or measurement.
+
+### Context for build agents — approval reconciliation
+
+| Packet item | Current status | Authoritative discussion pointer |
+|---|---|---|
+| Familiar system lettering; hierarchy through size/weight/spacing | Accepted direction | notes:2675-2701 |
+| Warm-neutral light/dark surfaces and muted teal interface selection | Accepted direction; exact values provisional | notes:2288-2310; candidate table :2748 onward |
+| Neutral scene balanced with gentle part-family landmarks | Accepted direction; categorical hues provisional | notes:2771-2788 |
+| Selection distinct from measurement fill and scientific/context state | Retained contract plus accepted balanced treatment | S:359-371/:635; notes:2771 onward |
+| Primary Inside-the-model design-system reference page | Accepted | notes:2703-2730 |
+| Deliberate exploration pace; immediate selection response | Accepted qualitative direction | notes:2816 onward |
+| Settled view/quiet explanations and reduced-motion destination access | Approved recipe | this entry; predecessor final presentation |
+| Normal/selected-part/missing-data annotated examples | Approved preparation plan | this entry |
+| Full-colour clean reference plus numbered annotation key; light/dark variants | Recommended format; no artifact approval | notes:2703-2730 |
+| Exact theme/type/spacing/geometry/timing numbers | Provisional; S mandated floors remain binding | candidate tables/proposals :2621 onward/:2685 onward/:2748 onward; S:359-371 |
+| Optional free Figma context | Welcomed if free; connection/account/client behavior unverified | notes:2649-2672 |
+| Focused interface/chart references and supplemental adaptation rows | Existing selected context; no executable adoption | notes:283-295/:2558 onward; SUMMARY.md:40 onward safety |
+| S reconciliation/freeze and source-content/coverage preparation | Outstanding before scoped implementation | handoff13; preparation packet notes:2792 onward |
+| Builder execution, rendered visual/accessibility or scientific acceptance | Not authorized/executed/established by this discussion | existing hold and S data contract |
+
+- Durable session reflection: evaluate exact token values within the annotated composition, with explicit accepted/provisional status. This prevents an isolated palette or timing suggestion from being mistaken for an approved, verified design. Keep one token authority and synchronize later implementation/Figma examples to it; do not let imported reference advice silently override S or operator choices.
+- Approval checkpoint saved in the authorized notes location with state, decisions and remaining work. No additional checkpoint file or global memory write. Continue discussion from this packet if the operator has further thoughts; a later context gate requires separate handoff14, not a handoff embedded here.
+- Only notes appended; no DESIGN.md/S/L/W or existing guide edits, mockup/build/test/browser runs, new external research, installs/clones/connectors/cloud writes, project/model/science runtime or Git mutation. No process/agent in flight.
+- BINDING context rule persists: check available Context at each reply end before asking; start new pieces only at >=60%; at <=45%, any Context compacted or MAESTRO gate notice, finish the current point, notify the operator and write separate results/dashboard_integration_review_20261011/labviz_brainstorm_handoff14.md with topics, decisions/notes pointers, in-flight work, exact paths, risks and one next point. Stop starting work at <=40%; never approach compaction or put handoff in notes. No numerical Context reading is exposed; never invent one.
