@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T10:28:57Z",
+    "edited": "2026-10-11T10:35:24Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -83,6 +83,22 @@
         "notes": [
           "09:58Z: Started on the operator's request. Output goes to results/research_engine_dag_rag_icm_brainstorm_<UTC>/brainstorm.md.",
           "10:10Z: The first session used its context on reading and handed off a 28 KB draft (results/research_engine_dag_rag_icm_brainstorm_20261011T095840Z/brainstorm.md). Its successor codexbrd2 finishes the analysis, recommendation and test plans."
+        ]
+      },
+      {
+        "id": "fsspec-assessment",
+        "title": "Check: would the fsspec library help our data storage?",
+        "summary": "You asked whether fsspec would help. MAESTRO's first read: not now, because it doesn't help with the disk filling up, hash checks or the slow Drive link, and its cache has no size limit. Codex checks each point and tries to prove that wrong.",
+        "state": "running",
+        "who": "codexfs1, then MAESTRO",
+        "session": "codexfs1",
+        "started": "2026-10-11T10:35Z",
+        "estimate": null,
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "10:35Z: Codex codexfs1 is checking six points (Drive add-on upkeep, Drive permission scope, cache size limits, PyTorch file reading, hidden data moves, anything missed) and writing the best case for fsspec. No Drive access, no installs."
         ]
       },
       {
