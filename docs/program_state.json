@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T09:58:52Z",
+    "edited": "2026-10-11T10:10:32Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -70,15 +70,16 @@
         "title": "Brainstorm: would a DAG, RAG or ICM help the research engine?",
         "summary": "Operator request: explore and evaluate a Directed Acyclic Graph, RAG and/or Interpretable Context Methodology for the research engine. Any design is deferred until other build work is done, unless the recommendation is a different approach.",
         "state": "running",
-        "who": "codexbrd (Codex brainstorm), then MAESTRO reviews",
-        "session": "codexbrd",
+        "who": "codexbrd2 (Codex brainstorm), then MAESTRO reviews",
+        "session": "codexbrd2",
         "started": "2026-10-11T09:58Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "09:58Z: Started on the operator's request. Output goes to results/research_engine_dag_rag_icm_brainstorm_<UTC>/brainstorm.md."
+          "09:58Z: Started on the operator's request. Output goes to results/research_engine_dag_rag_icm_brainstorm_<UTC>/brainstorm.md.",
+          "10:10Z: The first session used its context on reading and handed off a 28 KB draft (results/research_engine_dag_rag_icm_brainstorm_20261011T095840Z/brainstorm.md). Its successor codexbrd2 finishes the analysis, recommendation and test plans."
         ]
       },
       {
