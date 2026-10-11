@@ -147,3 +147,4 @@
 - [Codex brief: handoff file, narrow reads](codex-brief-handoff-file-narrow-reads.md) — handoff never in a tested report (broke a line-limit test); research briefs cap reads to grep + ≤40-line sed
 - [Codex web review lanes](codex-web-review-lanes.md) — `--search` only (sandbox network refused by classifier); web reading burns ~15%/min; ≤12 items/lane, successor generator ready
 - [Timed chain: prebuild gate checker](timed-chain-prebuild-gate-checker.md) — before a deadline-opening step, commit Gate D checker + dry-run it on a consumed run (R1N: caught key + DST bugs)
+- [LabViz wireframes before spec approval](labviz-wireframe-before-spec-approval.md) — after Astra GO on S: Codex static wireframes + flows; operator reviews before approving spec/builders
