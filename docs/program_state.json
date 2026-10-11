@@ -29,15 +29,15 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T09:04:05Z",
+    "edited": "2026-10-11T09:11:22Z",
     "items": [
       {
         "id": "backups-audit",
         "title": "Audit the backups drive for lost RunPod research",
         "summary": "Codex (codexbk1) is checking every program-related file on the external backups drive (the root files and the llm-as-database folder first) against everything the repo has ever held, and reporting anything that fills research lost from RunPod. Read-only; nothing is copied until you and MAESTRO decide.",
         "state": "running",
-        "who": "Codex (codexbk2), then MAESTRO",
-        "session": "codexbk2",
+        "who": "Codex (codexbk3 + codexbk3c), then MAESTRO",
+        "session": "codexbk3, codexbk3c",
         "started": "2026-10-11T08:41:00Z",
         "estimate": null,
         "depends_on": [],
@@ -45,16 +45,17 @@
         "needs_from_you": [],
         "notes": [
           "08:42Z: started (launched between 08:40Z and 08:42Z). Output: results/backups_audit_20261011T084030Z/. Watch armed for its reply, context and compaction.",
-          "08:56Z: first session (codexbk1) finished the file list, fingerprints and first matching, then ran low on memory and handed off. 08:58Z: fresh session codexbk2 continues: program files first, then the RunPod-loss mapping and the report."
+          "08:56Z: first session (codexbk1) finished the file list, fingerprints and first matching, then ran low on memory and handed off. 08:58Z: fresh session codexbk2 continues: program files first, then the RunPod-loss mapping and the report.",
+          "09:10Z: second session (codexbk2) handed off: all 94 exact matches checked against git history; a full content search ran over the drive and repo history; review of the remaining program files, the loss-evidence search and the report are still to do. Split into two fresh sessions: codexbk3 (program files, loss evidence, final report) and codexbk3c (sorting the 10,029 related-but-not-program files into groups)."
         ]
       },
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "ready",
-        "who": "MAESTRO, then a builder, then Astra",
-        "session": "",
+        "state": "running",
+        "who": "Codex (codexr1), then MAESTRO, then Astra",
+        "session": "codexr1",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
@@ -74,7 +75,8 @@
           "07:15Z: hardware plan approved (D-HW-2); the engine moves to the Intel Mac, so the plan is rewritten for it. The old 'science goes first' signal is no longer needed in its old form; Astra's concerns carry into a new disk-sharing rule.",
           "08:47Z: codexre1 drafts a separate Intel amendment (v5 stays unchanged, per design.md:239-245); MAESTRO then runs the Intel pin checks; fresh Astra round after.",
           "08:56Z: amendment written and checked by MAESTRO (phase1_intel_amendment_v1.md). Intel Mac checks found MacPorts has no Neo4j package, so Neo4j needs another install source. 08:59Z: sent to Astra for a fresh review.",
-          "09:03Z: Astra said GO with conditions on the Intel plan, and agreed no new question for you is needed. Next: pin exact software versions for the Intel Mac (Neo4j from its own download; Python 3.12.15 vs the frozen 3.12.14 needs a review), then the run setup and tests on the Intel Mac."
+          "09:03Z: Astra said GO with conditions on the Intel plan, and agreed no new question for you is needed. Next: pin exact software versions for the Intel Mac (Neo4j from its own download; Python 3.12.15 vs the frozen 3.12.14 needs a review), then the run setup and tests on the Intel Mac.",
+          "09:10Z: MAESTRO39 read the Intel Mac's install facts (no changes made): the package list it uses is pinned to one dated snapshot; Python there is 3.12.15, not the planned 3.12.14; Neo4j has no package and comes from Neo4j's own download. Facts committed (3a7f9855). codexr1 is now drafting the install freeze Astra asked for."
         ]
       },
       {
