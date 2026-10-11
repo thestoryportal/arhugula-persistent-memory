@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T10:37:27Z",
+    "edited": "2026-10-11T10:38:49Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -72,20 +72,21 @@
         "id": "dag-rag-icm-brainstorm",
         "title": "Brainstorm: would a DAG, RAG or ICM help the research engine?",
         "summary": "Operator request: explore and evaluate a Directed Acyclic Graph, RAG and/or Interpretable Context Methodology for the research engine. Any design is deferred until other build work is done, unless the recommendation is a different approach.",
-        "state": "needs_you",
-        "who": "You: say what you want next",
+        "state": "blocked",
+        "who": "Parked",
         "session": "",
         "started": "2026-10-11T09:58Z",
         "estimate": null,
-        "depends_on": [],
-        "blocked_by": [],
-        "needs_from_you": [
-          "Read the plain summary and say what you want next (MAESTRO recommends: park it until the Intel builds finish)."
+        "depends_on": [
+          "research-engine-phase1-brief"
         ],
+        "blocked_by": [],
+        "needs_from_you": [],
         "notes": [
           "09:58Z: Started on the operator's request. Output goes to results/research_engine_dag_rag_icm_brainstorm_<UTC>/brainstorm.md.",
           "10:10Z: The first session used its context on reading and handed off a 28 KB draft (results/research_engine_dag_rag_icm_brainstorm_20261011T095840Z/brainstorm.md). Its successor codexbrd2 finishes the analysis, recommendation and test plans.",
-          "10:37Z: Brainstorm finished and checked (citations spot-checked; every idea has a small test that could rule it out). Answer: keep the approved design; first test a short answer sheet that points to the original records; add a dependency check, better search or tighter reading instructions only if each beats that sheet in its own test. No new graph database or new workflow system. Nothing is built or run; it all waits until the other builds finish."
+          "10:37Z: Brainstorm finished and checked (citations spot-checked; every idea has a small test that could rule it out). Answer: keep the approved design; first test a short answer sheet that points to the original records; add a dependency check, better search or tighter reading instructions only if each beats that sheet in its own test. No new graph database or new workflow system. Nothing is built or run; it all waits until the other builds finish.",
+          "10:38Z: You chose to park it until the Intel setup and other builds finish, and to test correct answers first when the tests run (operator_rulings.md)."
         ]
       },
       {
