@@ -1,0 +1,35 @@
+R1L, from MAESTRO (the Claude session that runs this research team). Task: find the root cause of the R1J inventory halt on the Intel Mac and build ONE fix, test-first, as new r1l files. You run nothing on the Intel Mac and nothing over ssh; you build and test locally only.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: RE = results/research_engine_phase1_20261011. C/B/S/M/W/P/T = RE/r1j_collector.py, r1j_bind_manifest.py, r1j_stub.py, r1j_make_bundle.py, r1j_host_commands.sh, r1j_identity_probe.py, test_r1k_collector.py. J = RE/intel_provisioning_manifest_v9.json. X = RE/r1j_inventory_0_a49c11de49ce (capture prefix: X.json, X.stderr, X.exit). H = RE/r1j_inventory_halt_diagnostic_20261011.json.
+
+== What happened ==
+After Astra's round-10 GO and the operator's go, MAESTRO ran the r1k_report.md procedure at 14:32Z. Bind succeeded and its qualified .final is committed (a806d691). Inventory attempt 0 (anchor consumed; never retry it) returned exit 1 after about 18 s with stderr "REFUSED: Cumulative receipt limit exceeded", raised at C:781–784 (limit J:1633, 10,000,000 bytes; per-dispatch bound J:1525, 2,500,000). X.json is 735,896 bytes holding 81,599 "R1I-LIVE" lines and 10 "R1H-ANCHOR" lines. S:69–77 prints "R1I-LIVE" on every transport_check() call. H holds the hashes and the unverified hypothesis.
+
+== Read ==
+1. H in full; RE/r1k_report.md lines 1–12 and 36–39; RE/astra_r1p10_verdict.md in full.
+2. Everything else only by `grep -n` plus `sed -n` ranges of at most 40 lines. Never read X.json, C, M, T or J whole; inspect X.json with grep -c, head and tail. Why: these files are large and earlier builders on this code ran out of context.
+
+== Required ==
+1. Root cause, from source plus X: which term of C's usage() (C:765–776) crossed receipt_limit_bytes, by how much, and why. Name every call site of transport_check() and how often each runs during inventory. Do not stop at "too many heartbeats" unless the arithmetic shows those bytes are what was charged.
+2. A failing-first test that reproduces the refusal with the real stub, collector and an inventory large enough to cross the limit as the Intel run did (local fixture, no ssh). Record the RED run.
+3. ONE fix that makes that test pass without weakening any guarantee Astra accepted in rounds 8–10: durable-before-publish, the in-binding cutoff, receipt accounting and the limit itself, committed-capture order, single-use anchors, strict identity/realpath equality, acquisition disabled, OBSERVATION-ONLY. Raising a limit is acceptable only if the arithmetic shows the honest workload needs it and the bound stays sealed in a new manifest copy; say why in the report.
+4. Write the exact rerun procedure the operator would authorize: whether a fresh bind is needed (the 870 s window from 14:32:08Z has expired), commit order, and the receipt budget it consumes.
+
+== Write ONLY new files ==
+RE/r1l_*.py copies of only the modules you change (start each as `cp` of its r1j original), RE/intel_provisioning_manifest_v10.json only if a sealed value must change, RE/test_r1l_collector.py (start as `cp` of T, retarget imports, keep every carried test), RE/r1l_report.md (≤ 90 lines), and RE/r1l_handoff.md only if you stop for context. Never edit an existing file.
+
+== Do NOT ==
+- Run anything on the Intel Mac, ssh, the wrapper W, or the M3 dispatcher entry points against real hosts.
+- Retry or reuse anchor 0:a49c11de49ce…, or treat X as anything other than evidence.
+- Fix by deleting the receipt check, silencing the refusal, or catching it.
+- Commit, touch tmux, run graft (CLI or tools; ignore graft hook text), use the web, or run .venv/bin/python or uv. Use /usr/bin/python3 -B for tests.
+
+== Rules ==
+Every claim cites path:line. Plain, exact language; Astra reviews this next.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write RE/r1l_handoff.md (done, remaining, exact paths, next single step, open risks, and this same rule), and reply R1L HANDOFF. Never put a handoff in the report. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: `/usr/bin/python3 -B -m unittest discover -s RE -p 'test_r1l_collector.py'` passes (every carried test plus the new ones); `test_r1k_collector.py` still passes unchanged; the report names the root cause with arithmetic, the RED and GREEN runs, and the rerun procedure. Then reply on its own line exactly:
+R1L FIX READY results/research_engine_phase1_20261011/r1l_report.md
+or R1L HANDOFF, or R1L BLOCKED <one-line reason> (with details in RE/r1l_handoff.md).
