@@ -152,8 +152,8 @@
         "id": "r4-dashboard-record",
         "title": "Phone dashboard on the Intel Mac: freeze what it shows and how",
         "summary": "Write down exactly what status record the Intel-hosted dashboard reads, how old data shows as UNAVAILABLE (never as idle), and the exact way each M3 helper is launched so the science safety gate still allows it. Then Astra reviews it.",
-        "state": "in_review",
-        "who": "Astra round 4, then MAESTRO",
+        "state": "blocked",
+        "who": "MAESTRO, after the shared-drive rules (R2) pass Astra",
         "session": "",
         "started": "2026-10-11T09:12:53Z",
         "estimate": {
@@ -161,7 +161,9 @@
           "high_min": 60,
           "set": "2026-10-11T09:12Z"
         },
-        "depends_on": [],
+        "depends_on": [
+          "r2-clearance"
+        ],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
@@ -175,7 +177,8 @@
           "12:18Z: codexr4d3b ran low on room too; it saved the fixed references, the rule-by-rule test map (138 rows) and the report table. Its successor codexr4d3c is doing the last check: each bad example must fail on the first problem it hits, and each map row must really test its rule.",
           "12:37Z: three builders in a row kept finding more to polish, so MAESTRO stopped the self-check and sent v3 to Astra (71d82fda, e4d7daef). MAESTRO's own checks pass: the examples file reads cleanly, every rule in the map has at least one test case, and every case it names exists. Astra round 3 now checks whether the cases really test their rules and fail for the right first reason.",
           "12:44Z: Astra round 3 said NO-GO (verdict committed with this note): three example cases don't test what they claim: one fails for an earlier reason than intended, the pin-check cases could fail for an unrelated reason, and two map rows point at the wrong case. Builder codexr4d4 is fixing exactly those three, nothing more; then Astra round 4.",
-          "12:54Z: codexr4d4 fixed exactly Astra's three points (e799eb0d): the clock example now fails for the clock reason, each pin-check example has a single defect, the renewal example starts from a matching saved copy, and map rows 69 and 77 point at real tests (three new empty-builder examples). MAESTRO checked only those files changed, the examples read cleanly and every named case exists. Astra round 4 is reviewing (eaabed12)."
+          "12:54Z: codexr4d4 fixed exactly Astra's three points (e799eb0d): the clock example now fails for the clock reason, each pin-check example has a single defect, the renewal example starts from a matching saved copy, and map rows 69 and 77 point at real tests (three new empty-builder examples). MAESTRO checked only those files changed, the examples read cleanly and every named case exists. Astra round 4 is reviewing (eaabed12).",
+          "13:02Z: Astra round 4 said GO (verdict committed with this note): all three fixes hold and nothing else broke, so the dashboard record is frozen and building it is allowed. The build waits for the shared-drive rules (R2), which the dashboard also reads."
         ]
       },
       {
