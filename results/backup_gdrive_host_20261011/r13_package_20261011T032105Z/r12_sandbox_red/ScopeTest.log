@@ -1,0 +1,37 @@
+test_copy_exact_committed_bytes_and_branch (test_r12.ScopeTest) ... ok
+test_extra_file_in_diff_fails (test_r12.ScopeTest) ... FAIL
+test_glob_allowlist_fails (test_r12.ScopeTest) ... ok
+test_oversize_evidence_fails (test_r12.ScopeTest) ... FAIL
+test_pin_mismatch_fails (test_r12.ScopeTest) ... ok
+test_same_count_wrong_paths_fails (test_r12.ScopeTest) ... FAIL
+
+======================================================================
+FAIL: test_extra_file_in_diff_fails (test_r12.ScopeTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 73, in test_extra_file_in_diff_fails
+    value=self.call('verify'); self.assertNotEqual(value.returncode,0,value.stdout)
+AssertionError: 0 == 0 : PASS pins; v2 has no complete diff assertion
+
+
+======================================================================
+FAIL: test_oversize_evidence_fails (test_r12.ScopeTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 95, in test_oversize_evidence_fails
+    self.assertNotEqual(self.call().returncode,0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_same_count_wrong_paths_fails (test_r12.ScopeTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 80, in test_same_count_wrong_paths_fails
+    value=self.call('verify'); self.assertNotEqual(value.returncode,0,value.stdout)
+AssertionError: 0 == 0 : PASS pins; v2 has no complete diff assertion
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.725s
+
+FAILED (failures=3)

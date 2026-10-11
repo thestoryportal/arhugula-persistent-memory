@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "/opt/homebrew/bin/rclone",
+    "config",
+    "file"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+}

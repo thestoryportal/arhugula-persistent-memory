@@ -1,0 +1,1180 @@
+{
+  "copies": [
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/command.json",
+      "sha256": "4bd6adc6a3644171777e2a119d19a1e36fdf6dd14026458cbe7369970911fd40"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/config_file.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/config_file.command.json",
+      "sha256": "c12933805d5452fc225c1b69de09a4a25a6ac9a5ec5786036e5b8a23a44cbf33"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/config_file.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/config_file.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/config_file.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/config_file.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/config_file.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/config_file.stdout.txt",
+      "sha256": "f7a753bb5d9c5f0c930f42aad81bbab42152da056fa66c943cb66c00d5c00ed1"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/config_positive_control.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/config_positive_control.json",
+      "sha256": "3a27fdb67fd867ccf4c2e5a071f57850caa4f3858df3d0e7c6ed45f57ac3288c"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/driver.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/driver.command.json",
+      "sha256": "6ac13bf398d9fa0186ae807c9d7e82c604d4de9be361a7ce9fbe02284591ff09"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/driver.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/driver.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/driver.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/driver.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/driver.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/driver.stdout.txt",
+      "sha256": "6cdd2484c546952cdc9ee62c4b2322d658e4f3bad40d1048c6198c4a662c8b75"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/fixture_placement_positive_control.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/fixture_placement_positive_control.json",
+      "sha256": "e0dcf50fc3f33ece75418efbb64f774233a6ca54f55c4462fb25cce740aa37d9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/interpreter_probe.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/interpreter_probe.json",
+      "sha256": "a79eb1e8fc46497b3f4a4519c9e9ae546fe9a872231899cef28a63cf5c150f18"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/listremotes.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/listremotes.command.json",
+      "sha256": "702bb5119a4730487f9f1113b7216acbfd846d977b62d10d76a8c55a4041d1f7"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/listremotes.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/listremotes.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/listremotes.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/listremotes.stderr.txt",
+      "sha256": "7a7a2195418a6b797672cc844a0733800f330b88d13eb5f341c119bb7abe0e79"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/listremotes.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/listremotes.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/check.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/check.command.json",
+      "sha256": "1f8521ef76515cfbe56786b1f0e276d61763563a41e89b7d93295f22640b821b"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/check.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/check.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/check.log",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/check.log",
+      "sha256": "4c429ff09578c55bbc38e70dbcf5ea6dc32b0925a63c2601687554d8e8f51dfa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/check.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/check.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/check.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/check.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/combined.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/combined.txt",
+      "sha256": "909aa0700cf8e7e0715b3edfcacf7da9dfb7926aaf5b5c9a3770a30cd4a6fc94"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/differ.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/differ.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/error.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/error.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/inventory.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/inventory.command.json",
+      "sha256": "b5ac52320b27929edeb5a15d63f787a3e37df1e801bac7b0b54a67be89033a85"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/inventory.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/inventory.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/inventory.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/inventory.stderr.txt",
+      "sha256": "a52059a6860e4db8dc1662e881343f4418818fb0978879349991ea91ba335c58"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/inventory.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/inventory.stdout.txt",
+      "sha256": "ddf1cb7f0c922dd097a0f142491a21c80d4067668cb1a863e9ba1798d01f23c4"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/inventory.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/inventory.txt",
+      "sha256": "ddf1cb7f0c922dd097a0f142491a21c80d4067668cb1a863e9ba1798d01f23c4"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/missing-on-dst.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/missing-on-dst.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/clean/verifier.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/clean/verifier.json",
+      "sha256": "99d353089218e89f05b23bafece59ec5672161a48133787102c9638ede190e47"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/config.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/config.command.json",
+      "sha256": "ba9a9203f1430143a83240b0e8ddacd119d4119d824b1527080a4886f9235298"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/config.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/config.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/config.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/config.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/config.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/config.stdout.txt",
+      "sha256": "f7a753bb5d9c5f0c930f42aad81bbab42152da056fa66c943cb66c00d5c00ed1"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/check.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/check.command.json",
+      "sha256": "aa3538f3ea8b2e4c2674ea33e44f4a6afdfba33aadbbbbd610255f58db63acdb"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/check.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/check.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/check.log",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/check.log",
+      "sha256": "ae9facbb7a95b80faa34238f2be056f5571e8e7d1f492899a8a4de644e0441ae"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/check.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/check.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/check.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/check.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/combined.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/combined.txt",
+      "sha256": "909aa0700cf8e7e0715b3edfcacf7da9dfb7926aaf5b5c9a3770a30cd4a6fc94"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/differ.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/differ.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/error.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/error.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/inventory.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/inventory.command.json",
+      "sha256": "12b44f4ad8efffc9e72a5d0cb838b086d3a951c6823021912a4e762541ae36fb"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/inventory.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/inventory.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/inventory.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/inventory.stderr.txt",
+      "sha256": "a52059a6860e4db8dc1662e881343f4418818fb0978879349991ea91ba335c58"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/inventory.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/inventory.stdout.txt",
+      "sha256": "ddf1cb7f0c922dd097a0f142491a21c80d4067668cb1a863e9ba1798d01f23c4"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/inventory.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/inventory.txt",
+      "sha256": "ddf1cb7f0c922dd097a0f142491a21c80d4067668cb1a863e9ba1798d01f23c4"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/missing-on-dst.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/missing-on-dst.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/excluded_only/verifier.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/excluded_only/verifier.json",
+      "sha256": "99d353089218e89f05b23bafece59ec5672161a48133787102c9638ede190e47"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/remotes.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/remotes.command.json",
+      "sha256": "f76b97a8c058d6b32888854cca5b6596cf371e084578058df7de9712421aa760"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/remotes.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/remotes.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/remotes.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/remotes.stderr.txt",
+      "sha256": "a52059a6860e4db8dc1662e881343f4418818fb0978879349991ea91ba335c58"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/remotes.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/remotes.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/result.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/result.json",
+      "sha256": "6cdd2484c546952cdc9ee62c4b2322d658e4f3bad40d1048c6198c4a662c8b75"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/check.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/check.command.json",
+      "sha256": "17abd2e35b9084daf8c0ca8b3c94218ab226449c2bbc6ef666fda29c50e10afe"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/check.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/check.exit_code.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/check.log",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/check.log",
+      "sha256": "0408d5751bbb96e06a8cf06897e9e974cb7217bbf22147ab39ca119d61c8f040"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/check.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/check.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/check.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/check.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/combined.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/combined.txt",
+      "sha256": "dfeac1ca39f37cba14d0245a80bc84a510a9b03678e82c30d4d72309bc1863d8"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/differ.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/differ.txt",
+      "sha256": "ddf1cb7f0c922dd097a0f142491a21c80d4067668cb1a863e9ba1798d01f23c4"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/error.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/error.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/exit_code.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/inventory.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/inventory.command.json",
+      "sha256": "63f7a962716679b0de1f3a707a41f61192c47b835c3c48c4bf02fb2f92a6d830"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/inventory.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/inventory.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/inventory.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/inventory.stderr.txt",
+      "sha256": "a52059a6860e4db8dc1662e881343f4418818fb0978879349991ea91ba335c58"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/inventory.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/inventory.stdout.txt",
+      "sha256": "ddf1cb7f0c922dd097a0f142491a21c80d4067668cb1a863e9ba1798d01f23c4"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/inventory.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/inventory.txt",
+      "sha256": "ddf1cb7f0c922dd097a0f142491a21c80d4067668cb1a863e9ba1798d01f23c4"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/missing-on-dst.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/missing-on-dst.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/same_size_corruption/verifier.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/same_size_corruption/verifier.json",
+      "sha256": "7bdf1d7c9aa9c57f85d26b6b0ed77260bb19d58a974f2614b8ced6b7d5abb6c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/check.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/check.command.json",
+      "sha256": "ba9122c3afb2c207375b165b407b6b77dc93e22f963c9c86bda4b2979973f7a8"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/check.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/check.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/check.log",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/check.log",
+      "sha256": "42370f9c10e5a7ddc7581fc2fcd11f03e7618717508a99c0a81b60a20f94df64"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/check.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/check.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/check.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/check.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/combined.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/combined.txt",
+      "sha256": "0cfeed6f0c8bab6d746d86a55d694c64b5ca1f1c9095f6327f9fe3e5cf13492c"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/differ.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/differ.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/error.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/error.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/inventory.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/inventory.command.json",
+      "sha256": "5c91b8d5a068f866ddde8ed57ce80ec76c144f3488f6ed6051eac728918d1f9f"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/inventory.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/inventory.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/inventory.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/inventory.stderr.txt",
+      "sha256": "a52059a6860e4db8dc1662e881343f4418818fb0978879349991ea91ba335c58"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/inventory.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/inventory.stdout.txt",
+      "sha256": "a68c4d4c0543222b4cc888329194516db578bf845b1227688233caae90faee0b"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/inventory.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/inventory.txt",
+      "sha256": "a68c4d4c0543222b4cc888329194516db578bf845b1227688233caae90faee0b"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/missing-on-dst.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/missing-on-dst.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check/symlink/verifier.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/local_check/symlink/verifier.json",
+      "sha256": "99d353089218e89f05b23bafece59ec5672161a48133787102c9638ede190e47"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_fixture_df.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_fixture_df.command.json",
+      "sha256": "1e826d34987f842d6dce42db7b68ddd9260b61d39277fd414245f663d7593d32"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_fixture_df.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_fixture_df.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_fixture_df.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_fixture_df.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_fixture_df.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_fixture_df.stdout.txt",
+      "sha256": "85d1fd48438f85419e279fcf47ad32cb665dd6acffab868c7f50b33f1dd19efa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_fixture_diskutil_info.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_fixture_diskutil_info.command.json",
+      "sha256": "4f6ed9fabf907a2081108367fe88165f63268bdd6bf4cfed8b12512e7ff2bf76"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_fixture_diskutil_info.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_fixture_diskutil_info.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_fixture_diskutil_info.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_fixture_diskutil_info.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_fixture_diskutil_info.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_fixture_diskutil_info.stdout.txt",
+      "sha256": "2243b1b90302e5a38004de440d86c25aea0326c09fce3f1b4fee73b57e9e4909"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_source_df.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_source_df.command.json",
+      "sha256": "c51a07a350eef3a1aa240ac72e700ed9c14736aaccf9178b6cd9f6ac99a34e9c"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_source_df.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_source_df.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_source_df.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_source_df.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_source_df.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_source_df.stdout.txt",
+      "sha256": "90673b2f0eafda41b021fc2352d4cf24f37117fa3b9e897272f15573c92115f4"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_source_diskutil_info.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_source_diskutil_info.command.json",
+      "sha256": "1574c03fe97caa5bc38b6ba46db997f7325e42208ffa0645198927451a173134"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_source_diskutil_info.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_source_diskutil_info.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_source_diskutil_info.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_source_diskutil_info.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/placement_source_diskutil_info.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/placement_source_diskutil_info.stdout.txt",
+      "sha256": "0b2e01578731c6a92c1b4ec8d52e84bde17da87463e75dd1957def6eecf50766"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/process_clearance.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/process_clearance.jsonl",
+      "sha256": "5ca3483d9bfef6d0cb6a3601dc156c50b7f4196f47d5b5f7ac73e8de7783dbd0"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/ps.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/ps.command.json",
+      "sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/ps.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/ps.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/ps.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/ps.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/ps.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/ps.stdout.txt",
+      "sha256": "be6b0b86550b4279e61b7ddfb3e81e67ff47fdfd59a5e2d7263f829885e37894"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/ps_observation.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/ps_observation.json",
+      "sha256": "90f9d9c10d4db58a96eaabf6560335910d038b6384a61cd22a15e3f537d428e8"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/real_after.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/real_after.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/real_before.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/real_before.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/result.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/result.json",
+      "sha256": "cccd32725dacb026e3fc7bf34403a143c7e3617ac33837363b2cea3c146482b1"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/started_processes.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_local_check/started_processes.jsonl",
+      "sha256": "7b1aa173d5bef76de7f7be340de14b32e521c6446115f716f7c5e2554710ea76"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/command.json",
+      "sha256": "6335dd07f9ff0a7f38ea0247cb22b2677d681b9cf1c59375e4296961d603c420"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/config_file.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/config_file.command.json",
+      "sha256": "c12933805d5452fc225c1b69de09a4a25a6ac9a5ec5786036e5b8a23a44cbf33"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/config_file.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/config_file.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/config_file.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/config_file.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/config_file.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/config_file.stdout.txt",
+      "sha256": "3914a9ec93c4c49f430b08cc43edd70b812056cc2e594147f714f2a913bec4b7"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/config_positive_control.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/config_positive_control.json",
+      "sha256": "78562ed1a63684227596936aa36d90fb1fc5eb97b0fad1da7a5dd76ae33c8642"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/fixture_placement_positive_control.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/fixture_placement_positive_control.json",
+      "sha256": "f6449890b52de533281e41cf24826430708e0401aeea62e1a0f8c47271f5dc9e"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/interpreter_probe.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/interpreter_probe.json",
+      "sha256": "a79eb1e8fc46497b3f4a4519c9e9ae546fe9a872231899cef28a63cf5c150f18"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/listremotes.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/listremotes.command.json",
+      "sha256": "702bb5119a4730487f9f1113b7216acbfd846d977b62d10d76a8c55a4041d1f7"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/listremotes.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/listremotes.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/listremotes.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/listremotes.stderr.txt",
+      "sha256": "da34a12b7cacc5a64ff094f1c7f8f3892bae039ecb971adf8ddb03da44672b0b"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/listremotes.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/listremotes.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_fixture_df.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_fixture_df.command.json",
+      "sha256": "53470496bf8d96dc20670d8236271c17673464f91cc8e0a9b5cfa90608710aed"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_fixture_df.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_fixture_df.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_fixture_df.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_fixture_df.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_fixture_df.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_fixture_df.stdout.txt",
+      "sha256": "7e3f85a321ba6a5a824e951684992188fcee19faa996b166fba20518a19b6e5f"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_fixture_diskutil_info.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_fixture_diskutil_info.command.json",
+      "sha256": "4f6ed9fabf907a2081108367fe88165f63268bdd6bf4cfed8b12512e7ff2bf76"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_fixture_diskutil_info.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_fixture_diskutil_info.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_fixture_diskutil_info.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_fixture_diskutil_info.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_fixture_diskutil_info.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_fixture_diskutil_info.stdout.txt",
+      "sha256": "b7d1266b5b38a018b079abdfa3d518786fdc9c4e0635cb9964bb918a37baa5d0"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_source_df.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_source_df.command.json",
+      "sha256": "c51a07a350eef3a1aa240ac72e700ed9c14736aaccf9178b6cd9f6ac99a34e9c"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_source_df.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_source_df.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_source_df.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_source_df.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_source_df.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_source_df.stdout.txt",
+      "sha256": "d8deb042541dac8599ed549699d276a8bde29a0f5d719856a3e79d969b7c0e71"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_source_diskutil_info.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_source_diskutil_info.command.json",
+      "sha256": "1574c03fe97caa5bc38b6ba46db997f7325e42208ffa0645198927451a173134"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_source_diskutil_info.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_source_diskutil_info.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_source_diskutil_info.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_source_diskutil_info.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/placement_source_diskutil_info.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/placement_source_diskutil_info.stdout.txt",
+      "sha256": "c6b45a3669bc7e0ccc46c802bd6b6bffd6f333d2884fcd6c6a2ef006923d77f7"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/process_clearance.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/process_clearance.jsonl",
+      "sha256": "d7a1b4d6c16e709c6ccefe659ab6444b268c8b5ffeef49822e1758fa6035551f"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/ps.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/ps.command.json",
+      "sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/ps.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/ps.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/ps.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/ps.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/ps.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/ps.stdout.txt",
+      "sha256": "d0456f083658ad5412fb7a5ddd363cd9391b15bf426bc31960899c5d99667313"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/ps_observation.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/ps_observation.json",
+      "sha256": "90f9d9c10d4db58a96eaabf6560335910d038b6384a61cd22a15e3f537d428e8"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/real_after.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/real_after.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/real_before.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/real_before.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/result.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/result.json",
+      "sha256": "0c148490264e76c2ae93e9694d4e432f2eb82cb38036aa42e40290466ab25012"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/started_processes.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/started_processes.jsonl",
+      "sha256": "20c79dc140cc5fdecd155289433e68411d9ed8e5f7d243a953e36324a2ff6969"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/suite_selection.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/suite_selection.json",
+      "sha256": "c1bab6ac1cdad78d1faa3d29b8296be6b13f689130e96aa2f0479ae081f38955"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage/test.log",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_py39_coverage/test.log",
+      "sha256": "c11477383e39550ebe863bfc94162a829a11645ac293063e3bd558ca53c48447"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/command.json",
+      "sha256": "44500fc06921b8b28aeee699d810d4090d7c833ee2d4e5a38d3c70d98224489f"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/exit_code.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/interpreter_probe.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/interpreter_probe.json",
+      "sha256": "a79eb1e8fc46497b3f4a4519c9e9ae546fe9a872231899cef28a63cf5c150f18"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/process_clearance.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/process_clearance.jsonl",
+      "sha256": "46685ac293512179625217d42a083ce7d23a333273b6be577118e2d2a16d10f0"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/ps.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/ps.command.json",
+      "sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/ps.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/ps.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/ps.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/ps.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/ps.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/ps.stdout.txt",
+      "sha256": "47fa523b31941e814e55e34870dd500ef51f1c37aebb92552dc6ffb73fc59c67"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/ps_observation.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/ps_observation.json",
+      "sha256": "90f9d9c10d4db58a96eaabf6560335910d038b6384a61cd22a15e3f537d428e8"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/real_after.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/real_after.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/real_before.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/real_before.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/result.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/result.json",
+      "sha256": "be902b4e9f85a937290175d64838c6fb35f4ae6b6c1b4e077e66f81c20ef6ad7"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/started_processes.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/started_processes.jsonl",
+      "sha256": "ea3d7514bbb4196a59a9375e4433a083c7d10f6df56737640c70a40eb2f5ef4d"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/suite_selection.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/suite_selection.json",
+      "sha256": "3150a44ae2c78730bd9f5010dda47c53f7b2d045fbc0ab05c3bcaba0d515a324"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red/test.log",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_red/test.log",
+      "sha256": "5ebce62086495261f2500a18ba70077972dbe9fbcc957bd6d8c2b1f44853b793"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/command.json",
+      "sha256": "1ce52aca99a5c1963166a3dfc50760d86f3b5fd11065b0b62fc08aae5994b1ff"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/interpreter_probe.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/interpreter_probe.json",
+      "sha256": "a79eb1e8fc46497b3f4a4519c9e9ae546fe9a872231899cef28a63cf5c150f18"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/process_clearance.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/process_clearance.jsonl",
+      "sha256": "72ca1045324732d75a247fe0077968a86b7e9f67b24a94923d07179ecdcf1b90"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/ps.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/ps.command.json",
+      "sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/ps.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/ps.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/ps.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/ps.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/ps.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/ps.stdout.txt",
+      "sha256": "846f230c6784928877532026119e6e9625683e6d8489735f625767cfb492d8b5"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/ps_observation.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/ps_observation.json",
+      "sha256": "90f9d9c10d4db58a96eaabf6560335910d038b6384a61cd22a15e3f537d428e8"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/real_after.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/real_after.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/real_before.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/real_before.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/result.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/result.json",
+      "sha256": "948c24154601286f647b50959db2d9ca50b01064188da004f71b0439cce9f47c"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/started_processes.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/started_processes.jsonl",
+      "sha256": "603fe98512222c13f37a2ae1567f12cbf0a638cd9cc5c6246e1a3f1497defe85"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/suite_selection.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/suite_selection.json",
+      "sha256": "b7fe1314c3beef3529f72fb8191c4227c374723b48e739e6a94bcfc7fd6c2342"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green/test.log",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_e_green/test.log",
+      "sha256": "1d6d99e7ae58408aa6b68fd6305f55dd2c456589b60c20dc0fdb99d6a62605e1"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/command.json",
+      "sha256": "d6cb19a502554c732ff9c094218eb2dc0f9def5bc8703bc44cacbed7d087ca9b"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/driver.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/driver.command.json",
+      "sha256": "de3ff1e05dc4983ad8ed53f56ff7fa9c0ec67c8c5cbec178ac47d19e3e74b140"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/driver.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/driver.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/driver.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/driver.stderr.txt",
+      "sha256": "bbf3fba7ac091812f04bf600da374723fcc368b53d8f4ff737c839e792785bbc"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/driver.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/driver.stdout.txt",
+      "sha256": "6cdd2484c546952cdc9ee62c4b2322d658e4f3bad40d1048c6198c4a662c8b75"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/interpreter_probe.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/interpreter_probe.json",
+      "sha256": "a79eb1e8fc46497b3f4a4519c9e9ae546fe9a872231899cef28a63cf5c150f18"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/process_clearance.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/process_clearance.jsonl",
+      "sha256": "9d4c5cb3a35424e30d2c541ef2709182da43d031ab7018b144294d64f21dd134"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/ps.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/ps.command.json",
+      "sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/ps.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/ps.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/ps.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/ps.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/ps.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/ps.stdout.txt",
+      "sha256": "f725884d9c3538ff940155a7aba9119a154f42f34a16505df874b987c4f8b64c"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/ps_observation.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/ps_observation.json",
+      "sha256": "90f9d9c10d4db58a96eaabf6560335910d038b6384a61cd22a15e3f537d428e8"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/real_after.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/real_after.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/real_before.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/real_before.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/result.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/result.json",
+      "sha256": "72d7fd60f368ed42a172151656ffa2a2d5111c1004cc5a2cf12ad8a1c63f418e"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green/started_processes.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_package_green/started_processes.jsonl",
+      "sha256": "6fafa15841f7299224b8bf5db0ad7409438673e323f7e0621f5c79f4512ccd29"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/command.json",
+      "sha256": "d3c38d7467442915c65e57268420c9bc6b9f3ba2b93bd5497697dfa492fbf637"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/driver.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/driver.command.json",
+      "sha256": "a8823776560601f18a7f93e42d09a4306e6d5168c7d18e01275d8c55bd06ae27"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/driver.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/driver.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/driver.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/driver.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/driver.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/driver.stdout.txt",
+      "sha256": "3a6fb1f9022b9359d6bd8f14f6141c7943ada82bc6c4c28b57f0878ccb61ee71"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/interpreter_probe.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/interpreter_probe.json",
+      "sha256": "a79eb1e8fc46497b3f4a4519c9e9ae546fe9a872231899cef28a63cf5c150f18"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/process_clearance.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/process_clearance.jsonl",
+      "sha256": "5a72441d835e263d4f41c68eae891d8a06c0835dd6dd6a316cb0f4cb0cd87c59"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/ps.command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/ps.command.json",
+      "sha256": "12647f379919c37853084f71c5894eb3b3790da857b26b4a87b73c99176dff5e"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/ps.exit_code.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/ps.exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/ps.stderr.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/ps.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/ps.stdout.txt",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/ps.stdout.txt",
+      "sha256": "275c5dca00a9441530f29f799025d79df66bdb20a77c63cc5246742544d6f13b"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/ps_observation.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/ps_observation.json",
+      "sha256": "90f9d9c10d4db58a96eaabf6560335910d038b6384a61cd22a15e3f537d428e8"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/real_after.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/real_after.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/real_before.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/real_before.json",
+      "sha256": "36154be89f79a57194f1ed7cd50f3772cd847d5a5ab6eae24c55cc4def09b0c9"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/result.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/result.json",
+      "sha256": "c086e02bae5b2c0c844df3a39b0b80c1a7f8272aa901efd5b8f4ca78aaf0f1e3"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green/started_processes.jsonl",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_check_v2_green/started_processes.jsonl",
+      "sha256": "1b73e4e1c72f25428255b6442205de2ac85e0ec80e249c67134acefe4e92534d"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/r11_hostfix1_green_all/command.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_green_all/command.json",
+      "sha256": "dfba29c6415759d8ab4bc34fa6258c781634b0bb45137769867ddf523bd36f77"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/r11_hostfix1_green_all/result.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_green_all/result.json",
+      "sha256": "3d4cfb16fd6f3ebec169bdeb0ddf7973b58775bdd65b5179c2640e4ae9175a10"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/r11_hostfix1_green_all/run_suite_snapshot.py",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_green_all/run_suite_snapshot.py",
+      "sha256": "5065464f1f61e957011f361ae48d8af1a85cd52fdecdcb40710c30d125b1fe3d"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/r11_hostfix1_green_all/source_sha256.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_green_all/source_sha256.json",
+      "sha256": "6ea880034f1ae25b8daf8588d6810c0ebb5d11cf21dc82bfacb54aa6a1951800"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/r11_hostfix1_green_all/suite_selection.json",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_green_all/suite_selection.json",
+      "sha256": "f93313b9970d77c67b23e4344de99a0822f41d3f71785cedacfd4c6e6f102836"
+    },
+    {
+      "source": "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/r11_hostfix1_green_all/test.log",
+      "copy": "results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/r11_evidence/r11_hostfix1_green_all/test.log",
+      "sha256": "198ae809acd905d9069727296e2c9c1cdd18b6c6b09230d4c835b6cf8c29ad49"
+    }
+  ],
+  "reason": "Old ignored logs/host artifacts are copied with hashes; source K/F remain untouched. Commit every enumerated receipt path including these logs in the reviewed source commit."
+}

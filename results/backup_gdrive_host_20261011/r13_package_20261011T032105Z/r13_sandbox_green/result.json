@@ -1,0 +1,68 @@
+{
+  "baseline": false,
+  "groups": [
+    {
+      "group": "CandidateTest",
+      "testsRun": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "group": "PlanOrderTest",
+      "testsRun": 16,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "test_r13.PlanOrderTest.test_head_not_immediately_before_gate"
+      ]
+    },
+    {
+      "group": "BindingReceiptTest",
+      "testsRun": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "group": "ScopeTest",
+      "testsRun": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "group": "PlanTest",
+      "testsRun": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "group": "LogTest",
+      "testsRun": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    }
+  ],
+  "testsRun": 68,
+  "failures": 1,
+  "errors": 0,
+  "skipped": 0,
+  "accepted": false,
+  "suite_exit_code": 1,
+  "exit_code": 1
+}

@@ -1,0 +1,32 @@
+test_copy_exact_committed_bytes_and_branch (test_r12.ScopeTest) ... ok
+test_extra_file_in_diff_fails (test_r12.ScopeTest) ... ok
+test_false_unchanged_declaration_fails (test_r12.ScopeTest) ... FAIL
+test_glob_allowlist_fails (test_r12.ScopeTest) ... ok
+test_oversize_evidence_fails (test_r12.ScopeTest) ... ok
+test_pin_mismatch_fails (test_r12.ScopeTest) ... ok
+test_same_count_wrong_paths_fails (test_r12.ScopeTest) ... ok
+test_unchanged_pinned_path_is_excluded_from_exact_diff (test_r12.ScopeTest) ... FAIL
+
+======================================================================
+FAIL: test_false_unchanged_declaration_fails (test_r12.ScopeTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 98, in test_false_unchanged_declaration_fails
+    self.assertNotEqual(self.call().returncode,0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_unchanged_pinned_path_is_excluded_from_exact_diff (test_r12.ScopeTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 93, in test_unchanged_pinned_path_is_excluded_from_exact_diff
+    self.create()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/test_r12.py", line 62, in create
+    value=self.call(); self.assertEqual(value.returncode,0,value.stdout+value.stderr)
+AssertionError: 1 != 0 : FAIL scope exact diff mismatch: extra=[]; missing=['tools/noop.sh']
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 2.923s
+
+FAILED (failures=2)

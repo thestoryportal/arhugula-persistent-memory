@@ -1,0 +1,66 @@
+{
+  "baseline": false,
+  "groups": [
+    {
+      "group": "CandidateTest",
+      "testsRun": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "group": "PlanOrderTest",
+      "testsRun": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "group": "BindingReceiptTest",
+      "testsRun": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "group": "ScopeTest",
+      "testsRun": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "group": "PlanTest",
+      "testsRun": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "group": "LogTest",
+      "testsRun": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    }
+  ],
+  "testsRun": 69,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "accepted": true,
+  "suite_exit_code": 0,
+  "exit_code": 0
+}

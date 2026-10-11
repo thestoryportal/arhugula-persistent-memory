@@ -1,0 +1,34 @@
+{
+  "baseline": false,
+  "groups": [
+    {
+      "finding": 1,
+      "testsRun": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "finding": 2,
+      "testsRun": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "finding": 3,
+      "testsRun": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    }
+  ],
+  "accepted": true,
+  "exit_code": 0
+}

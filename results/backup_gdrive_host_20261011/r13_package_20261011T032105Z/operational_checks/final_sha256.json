@@ -1,0 +1,77 @@
+{
+  "files": [
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/candidate.py",
+      "sha256": "ce8f94b6043caf9e921070cf58ef77e5f6e8e78f168fbba3606ce7107706eb01",
+      "bytes": 10641,
+      "mode": 420
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/check_plan.py",
+      "sha256": "6bf4ea1ae6828ddc142f4f85a4b943b8a8cd93873c542e633b99c96c4c36872b",
+      "bytes": 9824,
+      "mode": 420
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/activation_plan_v4.md",
+      "sha256": "80ada7fd10c5c5416995865100f006f31767e64357a3a6686fa695cf18cde9e1",
+      "bytes": 59399,
+      "mode": 420
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/freeze_receipt.py",
+      "sha256": "6131b3e66465ca08697feef9bb6bc85a6a619306305f5778f518814a751eaea7",
+      "bytes": 2733,
+      "mode": 420
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/host_commands_r13.sh",
+      "sha256": "3e1f656fecfb7c38ccdc9e9563f80f50403e80bfa952afa82c2d88b25ddda37d",
+      "bytes": 5744,
+      "mode": 493
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/README.md",
+      "sha256": "5ef54daa8f2fc51a2a5597d128b804ca99a150ae06d421f7319aaba4cc8b8376",
+      "bytes": 14210,
+      "mode": 420
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/context_save.md",
+      "sha256": "97e23e2ad53b9422d2494da9539fbc8009d1f416bcc65d0712b6e0c4aa24ea48",
+      "bytes": 2693,
+      "mode": 420
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/test_r13.py",
+      "sha256": "c022d57f974e9c1554851f07eb632ab032b28a6d6eeb85fdbe7778b9d1a6e1f4",
+      "bytes": 14505,
+      "mode": 420
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/run_r13.py",
+      "sha256": "1a5f148fd84ebc81189f604d9a9cdb229104932a4956c425e850d09ae369ce90",
+      "bytes": 3017,
+      "mode": 420
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/gate_binding.py",
+      "sha256": "caf0507c5fbcab1ae2a488e14f55039a6ad70fa7cb81432edc8476ee65ec842d",
+      "bytes": 2020,
+      "mode": 420
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/pins_v4.sha256",
+      "sha256": "5c104821853b40ea64f851b7361ceac91b2841673744f8d48c49f6a819f343bf",
+      "bytes": 191293,
+      "mode": 420
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/pins_v4.json",
+      "sha256": "e87996c745c184bd4dab565612654fe59d605135240a20716d7c6819784711e6",
+      "bytes": 282253,
+      "mode": 420
+    }
+  ],
+  "before_readme_sha256": "863edd91c252cff00d1465f7a8af46ffdb89678967c2c3003fe83a697469d732"
+}

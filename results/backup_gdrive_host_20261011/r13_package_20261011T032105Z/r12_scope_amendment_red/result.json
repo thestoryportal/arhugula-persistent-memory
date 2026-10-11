@@ -1,0 +1,37 @@
+{
+  "baseline": false,
+  "groups": [
+    {
+      "finding": 1,
+      "testsRun": 8,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "test_r12.ScopeTest.test_false_unchanged_declaration_fails",
+        "test_r12.ScopeTest.test_unchanged_pinned_path_is_excluded_from_exact_diff"
+      ]
+    },
+    {
+      "finding": 2,
+      "testsRun": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    },
+    {
+      "finding": 3,
+      "testsRun": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "failure_tests": []
+    }
+  ],
+  "accepted": false,
+  "exit_code": 1
+}

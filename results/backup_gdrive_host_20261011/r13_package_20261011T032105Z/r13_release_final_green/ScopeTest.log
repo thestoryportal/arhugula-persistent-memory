@@ -1,0 +1,13 @@
+test_copy_exact_committed_bytes_and_branch (test_r12.ScopeTest) ... ok
+test_extra_file_in_diff_fails (test_r12.ScopeTest) ... ok
+test_false_unchanged_declaration_fails (test_r12.ScopeTest) ... ok
+test_glob_allowlist_fails (test_r12.ScopeTest) ... ok
+test_oversize_evidence_fails (test_r12.ScopeTest) ... ok
+test_pin_mismatch_fails (test_r12.ScopeTest) ... ok
+test_same_count_wrong_paths_fails (test_r12.ScopeTest) ... ok
+test_unchanged_pinned_path_is_excluded_from_exact_diff (test_r12.ScopeTest) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 3.278s
+
+OK

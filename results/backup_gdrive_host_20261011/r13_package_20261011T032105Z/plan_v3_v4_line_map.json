@@ -1,0 +1,569 @@
+[
+  {
+    "kind": "replace",
+    "v3": [
+      1,
+      1
+    ],
+    "v4": [
+      1,
+      1
+    ],
+    "before": [
+      "# Drive r12 activation plan v3 \u2014 operator/MAESTRO execution only"
+    ],
+    "after": [
+      "# Drive r13 activation plan v4 \u2014 operator/MAESTRO execution only"
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      2,
+      15
+    ],
+    "v4": [
+      2,
+      15
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      16,
+      16
+    ],
+    "v4": [
+      16,
+      17
+    ],
+    "before": [
+      "R=\"$W/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z\""
+    ],
+    "after": [
+      "R=\"$W/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z\"",
+      "VERIFIED_SHA_FILE=\"$R/operational_checks/r13_verified_commit_sha.txt\""
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      17,
+      29
+    ],
+    "v4": [
+      18,
+      30
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      30,
+      30
+    ],
+    "v4": [
+      31,
+      31
+    ],
+    "before": [
+      "0.1 [READ-ONLY]. Check pins_v3, the nine production/test inputs and the literal backup-only scope_allowlist.txt. STOP on any mismatch. Candidate and merged inputs must match the reviewed pins. Preserve both older pin sets; pins_v3.json links pins_v2.sha256 and pins_v2.json without changing them. The current status-tool pin is `903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46`."
+    ],
+    "after": [
+      "0.1 [READ-ONLY]. Check pins_v4, the nine production/test inputs and the literal backup-only scope_allowlist.txt. STOP on any mismatch. Candidate and merged inputs must match the reviewed pins. Preserve both older pin sets; pins_v4.json links frozen K12 pins_v3.sha256 and pins_v3.json, which link pins_v2.sha256 and pins_v2.json without changing them. The current status-tool pin is `903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46`."
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      31,
+      33
+    ],
+    "v4": [
+      32,
+      34
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      34,
+      35
+    ],
+    "v4": [
+      35,
+      36
+    ],
+    "before": [
+      "capture pin-preflight /usr/bin/shasum -a 256 -c \"$R/pins_v3.sha256\"",
+      "capture executable-preflight /usr/bin/python3 -B \"$R/check_plan.py\" \"$R/activation_plan_v3.md\""
+    ],
+    "after": [
+      "capture pin-preflight /usr/bin/shasum -a 256 -c \"$R/pins_v4.sha256\"",
+      "capture executable-preflight /usr/bin/python3 -B \"$R/check_plan.py\" \"$R/activation_plan_v4.md\""
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      36,
+      42
+    ],
+    "v4": [
+      37,
+      43
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      43,
+      43
+    ],
+    "v4": [
+      44,
+      44
+    ],
+    "before": [
+      "0.2 [MAESTRO GO]. Preserve the accepted r11 coverage unchanged, run host_commands_r12.sh's individual commands with fresh r12_* labels and submit the changed r12 inputs to Astra r12. The new verifier must re-run all four host local\u2192local fixtures. Historical coverage below remains historical. All r12 reruns use this new receipt at niceness 0; the frozen r11 package is read-only (do not execute the activation plan). Exact 22-case coverage must give 22 pass, no skips/failures/errors, isolated config positive controls, identical real inventories and no owned groups left. E RED must be the two absent-parent UNSET subcases; E GREEN includes native fixture artifact assertions. Four local\u2192local check fixtures must meet their named expectations. The frozen suite must give 155 run, 14 real-rclone skips, zero failures/errors and cleared groups; its five skipped Archive cases remain UNVERIFIED and are not activation dependencies. The full suite does not replace the 22-case run. Submit locked-release change + this evidence and r12 sandbox/host checks to Astra r12; NO-GO keeps all subsequent gates closed."
+    ],
+    "after": [
+      "0.2 [MAESTRO GO]. Preserve the accepted r11 coverage unchanged, run host_commands_r13.sh's individual commands with fresh r13_* labels and submit the changed r12 inputs to Astra r12. The new verifier must re-run all four host local\u2192local fixtures. Historical coverage below remains historical. All r12 reruns use this new receipt at niceness 0; the frozen r11 package is read-only (do not execute the activation plan). Exact 22-case coverage must give 22 pass, no skips/failures/errors, isolated config positive controls, identical real inventories and no owned groups left. E RED must be the two absent-parent UNSET subcases; E GREEN includes native fixture artifact assertions. Four local\u2192local check fixtures must meet their named expectations. The frozen suite must give 155 run, 14 real-rclone skips, zero failures/errors and cleared groups; its five skipped Archive cases remain UNVERIFIED and are not activation dependencies. The full suite does not replace the 22-case run. Submit locked-release change + this evidence and r13 sandbox/host checks to Astra r13; NO-GO keeps all subsequent gates closed."
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      44,
+      44
+    ],
+    "v4": [
+      45,
+      45
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      45,
+      45
+    ],
+    "v4": [
+      46,
+      46
+    ],
+    "before": [
+      "Hostfix1 coverage/fixture semantics: r12 host actions are UNRUN and use fresh r12_* labels in host_commands_r12.sh; accepted r11_hostfix1_* evidence remains linked from the frozen package. Evidence remains in R; the runner owns a fresh /private/tmp/drive_r11_<label>_*/ runtime containing HOME/fixtures/TMPDIR outside the memit source volume. Before any coverage/fixture test, saved df -P outputs resolve source and runtime paths to mount points; diskutil info -plist must establish APFSPhysicalStores on disjoint physical whole disks. Unknown/shared physical identity means STOP. ParentWholeDisk alone is insufficient. Recorded host topology is memit virtual disk6 over physical disk4s3 and /System/Volumes/Data virtual disk3 over physical disk0s2; another partition of disk4 is still rejected. Replay GREEN does not replace the live placement/config positive control or the exact 22 host tests. Both content-check templates pin --log-format date,time. The verifier accepts severity records only in that exact timestamp format and rejects unsupported records (including microseconds, time-only, prefixes and JSON). Valid DEBUG argv mentions of report --error/error.txt remain harmless; real error/read/unchecked/report failures remain fatal. Raw logs are preserved."
+    ],
+    "after": [
+      "Hostfix1 coverage/fixture semantics: r13 host actions are UNRUN and use fresh r13_* labels in host_commands_r13.sh; accepted r11_hostfix1_* evidence remains linked from the frozen package. Evidence remains in R; the runner owns a fresh /private/tmp/drive_r11_<label>_*/ runtime containing HOME/fixtures/TMPDIR outside the memit source volume. Before any coverage/fixture test, saved df -P outputs resolve source and runtime paths to mount points; diskutil info -plist must establish APFSPhysicalStores on disjoint physical whole disks. Unknown/shared physical identity means STOP. ParentWholeDisk alone is insufficient. Recorded host topology is memit virtual disk6 over physical disk4s3 and /System/Volumes/Data virtual disk3 over physical disk0s2; another partition of disk4 is still rejected. Replay GREEN does not replace the live placement/config positive control or the exact 22 host tests. Both content-check templates pin --log-format date,time. The verifier accepts severity records only in that exact timestamp format and rejects unsupported records (including microseconds, time-only, prefixes and JSON). Valid DEBUG argv mentions of report --error/error.txt remain harmless; real error/read/unchecked/report failures remain fatal. Raw logs are preserved."
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      46,
+      46
+    ],
+    "v4": [
+      47,
+      47
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      47,
+      47
+    ],
+    "v4": [
+      48,
+      48
+    ],
+    "before": [
+      "0.3 [READ-ONLY]. Publish pins_v3 only after evidence/review changes settle, preserving the old pin set. No built-bundle hash can exist before \u00a71.2. Re-run the pin check after any authorized package update, and re-review changed inputs."
+    ],
+    "after": [
+      "0.3 [READ-ONLY]. Publish pins_v4 only after evidence/review changes settle, preserving the old pin set. No built-bundle hash can exist before \u00a71.2. Re-run the pin check after any authorized package update, and re-review changed inputs."
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      48,
+      72
+    ],
+    "v4": [
+      49,
+      73
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      73,
+      73
+    ],
+    "v4": [
+      74,
+      74
+    ],
+    "before": [
+      "Before PR creation, set SOURCE_COMMIT to the full reviewed source commit after MAESTRO commits this receipt; I must be a fresh nonexistent absolute path. The source commit must contain every literal allowlist path (including pins_v3). The builder creates origin/master's isolated backup-gdrive-r12 worktree and stages exactly those source-commit bytes/modes. It never commits, pushes or opens a PR. The user-approved scope amendment permits the four explicitly named unchanged pinned paths in scope_unchanged.txt; the gate proves their source/base bytes and modes identical and requires the complete diff to equal the remaining allowlist exactly. STOP on any exception, exact diff or pin mismatch. MAESTRO commits the candidate, publishes it only under the reserved GO, then repeats the exact scope/pin gate immediately before guarded merge. Source and integration roles remain separate; no broad branch PR is permitted."
+    ],
+    "after": [
+      "Before candidate creation, set SOURCE_COMMIT to the full reviewed source commit after MAESTRO commits this finalized receipt; I must be fresh and nonexistent. The source commit must contain every literal allowlist path including pins_v4. The builder exports origin/master plus the allowlisted source entries into backup-gdrive-r12, stages them and runs verify-staged. It never commits, pushes, fetches or opens a PR. The four unchanged exceptions retain their proven source/base blob and mode equality and pins. Full index and commit path/type/blob/mode equality is mandatory, with all pin bytes read from Git blobs. STOP on any failure. Order: create -> verify-staged -> MAESTRO commits -> verify-commit -> push -> open PR -> inside the reserved merge window observe both heads and verify-pr-head immediately before gate -> compare gate report head_sha afterward. Source and integration roles remain separate."
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      74,
+      76
+    ],
+    "v4": [
+      75,
+      77
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      77,
+      77
+    ],
+    "v4": [
+      78,
+      78
+    ],
+    "before": [
+      "capture r12-candidate-create /bin/sh \"$R/make_backup_candidate.sh\" create \"$W\" \"$SOURCE_COMMIT\" \"$I\""
+    ],
+    "after": [
+      "capture r13-candidate-create /bin/sh \"$R/make_backup_candidate.sh\" create \"$W\" \"$SOURCE_COMMIT\" \"$I\""
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      78,
+      79
+    ],
+    "v4": [
+      79,
+      80
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      80,
+      80
+    ],
+    "v4": [
+      81,
+      81
+    ],
+    "before": [
+      "<!-- row 1.1-candidate-verify marker=READ-ONLY -->"
+    ],
+    "after": [
+      "<!-- row 1.1-verify-staged marker=READ-ONLY -->"
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      81,
+      81
+    ],
+    "v4": [
+      82,
+      82
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      82,
+      82
+    ],
+    "v4": [
+      83,
+      105
+    ],
+    "before": [
+      "capture r12-candidate-verify /bin/sh \"$R/make_backup_candidate.sh\" verify \"$I\" \"$SOURCE_COMMIT\""
+    ],
+    "after": [
+      "capture r13-verify-staged /bin/sh \"$R/make_backup_candidate.sh\" verify-staged \"$I\" \"$SOURCE_COMMIT\"",
+      "```",
+      "",
+      "<!-- row 1.1-commit marker=MAESTRO-GO -->",
+      "```bash",
+      "capture r13-candidate-commit /usr/bin/git -C \"$I\" commit -m 'Google Drive backup r13 candidate'",
+      "```",
+      "",
+      "<!-- row 1.1-commit-sha marker=READ-ONLY -->",
+      "```bash",
+      "capture r13-candidate-commit-sha /usr/bin/git -C \"$I\" rev-parse HEAD",
+      "```",
+      "",
+      "MAESTRO reads that successful, nonempty capture and validates a single 40-hex SHA before setting CANDIDATE_COMMIT. Never use an unchecked substitution. verify-commit requires that SHA's complete tree to equal origin/master plus exactly the allowlisted source entries and its only parent to be origin/master. On PASS it exclusively creates VERIFIED_SHA_FILE; this receipt is outside candidate scope. Existing receipt or any failure means STOP; re-review changes and use fresh labels/receipt, never waive.",
+      "",
+      "<!-- row 1.1-verify-commit marker=RECEIPT-WRITE -->",
+      "```bash",
+      "capture r13-verify-commit /bin/sh \"$R/make_backup_candidate.sh\" verify-commit \"$I\" \"$SOURCE_COMMIT\" \"$CANDIDATE_COMMIT\" --receipt-file \"$VERIFIED_SHA_FILE\"",
+      "```",
+      "",
+      "<!-- row 1.1-push marker=MAESTRO-GO -->",
+      "```bash",
+      "capture r13-candidate-push /usr/bin/git -C \"$I\" push origin backup-gdrive-r12"
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      83,
+      97
+    ],
+    "v4": [
+      106,
+      120
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      98,
+      98
+    ],
+    "v4": [
+      121,
+      121
+    ],
+    "before": [
+      "<!-- row 1.1-apply marker=OPERATOR-GO -->"
+    ],
+    "after": [
+      "<!-- row 1.1-hygiene-apply marker=OPERATOR-GO -->"
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      99,
+      100
+    ],
+    "v4": [
+      122,
+      123
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      101,
+      101
+    ],
+    "v4": [
+      124,
+      156
+    ],
+    "before": [
+      "capture merge-apply /usr/bin/env LLMDB_ROOT=\"$I\" /usr/bin/python3 -B \"$I/tools/git_merge_gate.py\" \"$PR\" --apply"
+    ],
+    "after": [
+      "```",
+      "",
+      "Inside the already reserved candidate/head and master mutation window, with competing writers suspended and drained, capture both read-only observations now. gate_binding.py validates complete gh JSON and a single exact ls-remote ref row, then calls candidate.verify_pr_head(VERIFIED_SHA_FILE, observed PR SHA, observed remote SHA). All three must be valid, equal 40-hex SHAs. No snapshot from before this window is reusable. Inspect each successful, nonempty capture; any mismatch means STOP before the gate. Immediately after the binding PASS, run the next gate row; do not interleave another command or release the reservation.",
+      "",
+      "<!-- row 1.1-pr-observe marker=READ-ONLY -->",
+      "```bash",
+      "capture r13-pr-head /opt/homebrew/bin/gh pr view \"$PR\" --json headRefOid",
+      "```",
+      "",
+      "<!-- row 1.1-remote-observe marker=READ-ONLY -->",
+      "```bash",
+      "capture r13-remote-head /usr/bin/git -C \"$I\" ls-remote origin refs/heads/backup-gdrive-r12",
+      "```",
+      "",
+      "<!-- row 1.1-verify-pr-head marker=READ-ONLY -->",
+      "```bash",
+      "capture r13-verify-pr-head /usr/bin/python3 -B \"$R/gate_binding.py\" heads \"$VERIFIED_SHA_FILE\" \"$R/commands/r13-pr-head/stdout.txt\" \"$R/commands/r13-remote-head/stdout.txt\"",
+      "```",
+      "",
+      "<!-- row 1.1-gate marker=OPERATOR-GO -->",
+      "```bash",
+      "capture r13-merge-apply /usr/bin/env LLMDB_ROOT=\"$I\" /usr/bin/python3 -B \"$I/tools/git_merge_gate.py\" \"$PR\" --apply",
+      "```",
+      "",
+      "<!-- row 1.1-gate-head marker=READ-ONLY -->",
+      "```bash",
+      "capture r13-gate-head /usr/bin/python3 -B \"$R/gate_binding.py\" gate \"$VERIFIED_SHA_FILE\" \"$R/commands/r13-merge-apply/stdout.txt\"",
+      "```",
+      "",
+      "Gate report head_sha must equal the verified SHA. A mismatch is a FAILURE, never waived: STOP and preserve the merged SHA/report if a merge occurred; never undo it. The existing gate has no expected-head argument and protects the head it observes during its run; the reserved window, dual observation and post-gate comparison bind that head to our verified commit. No gate/hygiene code change is required.",
+      "",
+      "<!-- row 1.1-main-update marker=OPERATOR-GO -->",
+      "```bash"
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      102,
+      105
+    ],
+    "v4": [
+      157,
+      160
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      106,
+      106
+    ],
+    "v4": [
+      161,
+      161
+    ],
+    "before": [
+      "All exits 0, merged SHA saved, post-merge master CI green, no conflict. Before the shared-main update MAESTRO verifies it is clean and reserved. Reject current commit unless the complete candidate diff equals scope_allowlist.txt minus scope_unchanged.txt, every pinned candidate/evidence file matches pins_v3, and all seven deployment inputs match pins_v3; MERGED_SHA comes from the guarded merge result, not an unchecked command substitution."
+    ],
+    "after": [
+      "All exits 0, merged SHA saved, post-merge master CI green, no conflict. Before the shared-main update MAESTRO verifies it is clean and reserved. Reject current commit unless the verified index/commit trees equal origin/master plus the literal allowlist entries, the dual heads and gate report bind the verified SHA, and every pinned candidate/evidence file matches pins_v4, and all seven deployment inputs match pins_v4; MERGED_SHA comes from the guarded merge result, not an unchecked command substitution."
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      107,
+      109
+    ],
+    "v4": [
+      162,
+      164
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      110,
+      110
+    ],
+    "v4": [
+      165,
+      165
+    ],
+    "before": [
+      "capture deployment-bytes /usr/bin/python3 -B -c 'import hashlib,json,pathlib,sys; root=pathlib.Path(sys.argv[1]); pins=json.loads(pathlib.Path(sys.argv[2]).read_text()); files=[x for x in pins[\"files\"] if x[\"path\"] in (\"tools/backup_gdrive.sh\",\"tools/backup_gdrive_status.py\",\"tools/backup_mirror.excludes\",\"tools/launchd/MemitGdriveBackup.applescript\",\"tools/launchd/build_gdrive_applet.sh\",\"tools/launchd/stage_gdrive_release.sh\",\"tools/launchd/com.rhu.memit-gdrive-backup.plist\")]; assert len(files)==7; [print(x[\"path\"],hashlib.sha256((root/x[\"path\"]).read_bytes()).hexdigest()) for x in files]; assert all(hashlib.sha256((root/x[\"path\"]).read_bytes()).hexdigest()==x[\"sha256\"] for x in files)' \"$M\" \"$R/pins_v3.json\""
+    ],
+    "after": [
+      "capture deployment-bytes /usr/bin/python3 -B -c 'import hashlib,json,pathlib,sys; root=pathlib.Path(sys.argv[1]); pins=json.loads(pathlib.Path(sys.argv[2]).read_text()); files=[x for x in pins[\"files\"] if x[\"path\"] in (\"tools/backup_gdrive.sh\",\"tools/backup_gdrive_status.py\",\"tools/backup_mirror.excludes\",\"tools/launchd/MemitGdriveBackup.applescript\",\"tools/launchd/build_gdrive_applet.sh\",\"tools/launchd/stage_gdrive_release.sh\",\"tools/launchd/com.rhu.memit-gdrive-backup.plist\")]; assert len(files)==7; [print(x[\"path\"],hashlib.sha256((root/x[\"path\"]).read_bytes()).hexdigest()) for x in files]; assert all(hashlib.sha256((root/x[\"path\"]).read_bytes()).hexdigest()==x[\"sha256\"] for x in files)' \"$M\" \"$R/pins_v4.json\""
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      111,
+      128
+    ],
+    "v4": [
+      166,
+      183
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      129,
+      129
+    ],
+    "v4": [
+      184,
+      184
+    ],
+    "before": [
+      "capture release-manifest /usr/bin/python3 -B -c 'import hashlib,json,pathlib,sys; d=pathlib.Path(sys.argv[1]); pins=json.loads(pathlib.Path(sys.argv[2]).read_text()); expected={pathlib.Path(x[\"path\"]).name:x[\"sha256\"] for x in pins[\"files\"] if x[\"path\"] in (\"tools/backup_gdrive.sh\",\"tools/backup_gdrive_status.py\",\"tools/backup_mirror.excludes\")}; assert set(x.name for x in d.iterdir())==set(expected).union({\"MANIFEST\"}); [print(n,hashlib.sha256((d/n).read_bytes()).hexdigest()) for n in expected]; assert all(hashlib.sha256((d/n).read_bytes()).hexdigest()==h for n,h in expected.items()); assert (d/\"MANIFEST\").read_text()==\"\".join(h+\"  \"+n+\"\\n\" for n,h in expected.items())' \"$D\" \"$R/pins_v3.json\""
+    ],
+    "after": [
+      "capture release-manifest /usr/bin/python3 -B -c 'import hashlib,json,pathlib,sys; d=pathlib.Path(sys.argv[1]); pins=json.loads(pathlib.Path(sys.argv[2]).read_text()); expected={pathlib.Path(x[\"path\"]).name:x[\"sha256\"] for x in pins[\"files\"] if x[\"path\"] in (\"tools/backup_gdrive.sh\",\"tools/backup_gdrive_status.py\",\"tools/backup_mirror.excludes\")}; assert set(x.name for x in d.iterdir())==set(expected).union({\"MANIFEST\"}); [print(n,hashlib.sha256((d/n).read_bytes()).hexdigest()) for n in expected]; assert all(hashlib.sha256((d/n).read_bytes()).hexdigest()==h for n,h in expected.items()); assert (d/\"MANIFEST\").read_text()==\"\".join(h+\"  \"+n+\"\\n\" for n,h in expected.items())' \"$D\" \"$R/pins_v4.json\""
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      130,
+      150
+    ],
+    "v4": [
+      185,
+      205
+    ],
+    "before": [],
+    "after": []
+  },
+  {
+    "kind": "replace",
+    "v3": [
+      151,
+      151
+    ],
+    "v4": [
+      206,
+      206
+    ],
+    "before": [
+      "Every compare exits 0. MAESTRO records/commits the build manifest and build-time pins. Plist pin is 702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce, excludes pin 45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f; builder/stage/app-source pins are in pins_v3.json."
+    ],
+    "after": [
+      "Every compare exits 0. MAESTRO records/commits the build manifest and build-time pins. Plist pin is 702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce, excludes pin 45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f; builder/stage/app-source pins are in pins_v4.json."
+    ]
+  },
+  {
+    "kind": "equal",
+    "v3": [
+      152,
+      464
+    ],
+    "v4": [
+      207,
+      519
+    ],
+    "before": [],
+    "after": []
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "/bin/df",
+    "-P",
+    "/private/tmp/drive_r11_r13_host_local_check_8fe9wn_g/home/fixtures"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+}

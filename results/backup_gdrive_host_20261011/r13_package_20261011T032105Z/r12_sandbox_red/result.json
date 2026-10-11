@@ -1,0 +1,65 @@
+{
+  "baseline": true,
+  "groups": [
+    {
+      "finding": 1,
+      "testsRun": 6,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "test_r12.ScopeTest.test_extra_file_in_diff_fails",
+        "test_r12.ScopeTest.test_oversize_evidence_fails",
+        "test_r12.ScopeTest.test_same_count_wrong_paths_fails"
+      ]
+    },
+    {
+      "finding": 2,
+      "testsRun": 9,
+      "failures": 9,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "test_r12.PlanTest.test_json_override_fails",
+        "test_r12.PlanTest.test_missing_executable_fails_with_injected_probe",
+        "test_r12.PlanTest.test_missing_head_fails",
+        "test_r12.PlanTest.test_missing_log_format_fails",
+        "test_r12.PlanTest.test_plan_v3_contract",
+        "test_r12.PlanTest.test_probe_all_wrapped_executables",
+        "test_r12.PlanTest.test_relative_program_fails",
+        "test_r12.PlanTest.test_wrong_head_fails",
+        "test_r12.PlanTest.test_wrong_log_format_fails"
+      ]
+    },
+    {
+      "finding": 3,
+      "testsRun": 10,
+      "failures": 16,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1,
+      "failure_tests": [
+        "test_r12.LogTest.test_fixture_template_pins_format",
+        "test_r12.LogTest.test_json_fail (severity='ERROR')",
+        "test_r12.LogTest.test_json_fail (severity='CRITICAL')",
+        "test_r12.LogTest.test_json_fail (severity='FATAL')",
+        "test_r12.LogTest.test_microseconds_fail (severity='ERROR')",
+        "test_r12.LogTest.test_microseconds_fail (severity='CRITICAL')",
+        "test_r12.LogTest.test_microseconds_fail (severity='FATAL')",
+        "test_r12.LogTest.test_prefix_fail (severity='ERROR')",
+        "test_r12.LogTest.test_prefix_fail (severity='CRITICAL')",
+        "test_r12.LogTest.test_prefix_fail (severity='FATAL')",
+        "test_r12.LogTest.test_stderr_json_fail (severity='ERROR')",
+        "test_r12.LogTest.test_stderr_json_fail (severity='CRITICAL')",
+        "test_r12.LogTest.test_stderr_json_fail (severity='FATAL')",
+        "test_r12.LogTest.test_time_only_fail (severity='ERROR')",
+        "test_r12.LogTest.test_time_only_fail (severity='CRITICAL')",
+        "test_r12.LogTest.test_time_only_fail (severity='FATAL')"
+      ]
+    }
+  ],
+  "accepted": true,
+  "exit_code": 0
+}

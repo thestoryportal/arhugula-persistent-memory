@@ -1,0 +1,11 @@
+test_gate_head_pass (test_r13.BindingReceiptTest) ... ok
+test_gate_head_wrong (test_r13.BindingReceiptTest) ... ok
+test_gate_report_malformed (test_r13.BindingReceiptTest) ... ok
+test_observed_heads_pass (test_r13.BindingReceiptTest) ... ok
+test_observed_remote_wrong (test_r13.BindingReceiptTest) ... ok
+test_observed_remote_wrong_ref (test_r13.BindingReceiptTest) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.616s
+
+OK

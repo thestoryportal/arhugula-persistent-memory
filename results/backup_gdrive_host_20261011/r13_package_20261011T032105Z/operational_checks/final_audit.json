@@ -1,0 +1,19 @@
+{
+  "scope_paths": 1045,
+  "sha256_pins": 1043,
+  "protected_unchanged": 561,
+  "all_nine_original_input_hashes_retained": true,
+  "byte_identical_k12_test_file": true,
+  "receipt_bytes": 4688835,
+  "package_under_100_MB": true,
+  "green_tests": 69,
+  "green_exit": 0,
+  "red_controls": 42,
+  "red_expected_assertion_failures": 40,
+  "red_suite_exit": 1,
+  "plan_exit": 0,
+  "shell_syntax_exit": 0,
+  "pins_exit": 0,
+  "original_k12_pins_retained": true,
+  "scope_audit_exit": 0
+}
