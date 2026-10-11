@@ -27,30 +27,8 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T04:03:33Z",
+    "edited": "2026-10-11T04:10:16Z",
     "items": [
-      {
-        "id": "drive-review",
-        "title": "Drive backup: expert review, round 13 (GO with conditions)",
-        "summary": "Astra, the independent reviewer, checks the package and the Mac test results and says go or no-go.",
-        "state": "done",
-        "who": "Astra said go with 3 conditions; condition 1 (build + check the backup-only branch) is met. Next: PR #22 merge (drive-merge).",
-        "session": null,
-        "started": "2026-10-11T02:45:00Z",
-        "estimate": {
-          "low_min": 60,
-          "high_min": 150,
-          "set": "2026-10-11T02:45:00Z"
-        },
-        "depends_on": [],
-        "blocked_by": [],
-        "needs_from_you": [],
-        "notes": [
-          "Round 11 (02:40-02:55Z): NO-GO, but narrow. Astra accepted the release isolation, Python 3.9 coverage, recovery/operations plan and the HOME-leak fix.",
-          "3 fixes needed: (1) the merge must come from a backup-only branch, not this whole work branch; (2) one plan command points at a program path that does not exist on this Mac (/usr/bin/gh); (3) the copy-checker must fix the log format it accepts and reject any other, so an error written in a different format cannot pass as clean.",
-          "Verdict: results/backup_gdrive_host_20261011/astra_r11_verdict.md"
-        ]
-      },
       {
         "id": "research-engine-brainstorm",
         "title": "Research engine: brainstorm the design with you",
@@ -63,30 +41,10 @@
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": null,
-        "notes": null
-      },
-      {
-        "id": "drive-merge",
-        "title": "Drive backup: merge the backup-only change (PR #22)",
-        "summary": "The backup-only branch is built and checked. It waits for its automatic tests on GitHub, then a guarded merge that needs your go.",
-        "state": "done",
-        "who": "Merged at 04:01Z: PR #22 -> master 5ccbb836 (D-C10r-gitmerge-2). GitHub tests passed before and after.",
-        "session": null,
-        "started": "2026-10-11T03:49:47Z",
-        "estimate": {
-          "low_min": 20,
-          "high_min": 60,
-          "set": "2026-10-11T03:54:24Z"
-        },
-        "depends_on": [
-          "drive-review"
-        ],
-        "blocked_by": [],
-        "needs_from_you": [],
         "notes": [
-          "Branch built from the reviewed source and checked twice (staged files and exact commit; 1185 file fingerprints). Verified commit e76db678 = PR #22 head.",
-          "GitHub tests passed on that exact commit; both dry runs of the merge tools passed; nothing else writes to the repo.",
-          "Evidence: results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/operational_checks/maestro33_candidate_20261011T034947Z/"
+          "04:10Z: BRAIN1 asked you whether its five-phase plan and small first test slice look right; it is waiting on your answer.",
+          "BRAIN1 is near its memory limit (41% left). After your next exchange MAESTRO has it write a handoff, and a fresh BRAIN2 continues from it; nothing is lost.",
+          "Notes so far: results/research_engine_brainstorm_20261011T032049Z/ (design.md, decisions_log.md)."
         ]
       },
       {
@@ -211,26 +169,6 @@
           "A separate go for the run itself, with its disk budget."
         ],
         "notes": []
-      },
-      {
-        "id": "stale-records",
-        "title": "Tidy three out-of-date record lines",
-        "summary": "Three project documents still describe older states (an F1 summary line, an 'attempt 4 running' line, and a plan marked both frozen and draft).",
-        "state": "done",
-        "who": "MAESTRO32 (done 2026-10-11)",
-        "session": null,
-        "started": null,
-        "estimate": {
-          "low_min": 15,
-          "high_min": 30,
-          "set": "2026-10-11T01:45:00Z"
-        },
-        "depends_on": [],
-        "blocked_by": [],
-        "needs_from_you": [],
-        "notes": [
-          "docs/F1_DETERMINATION.md:11 vs :71; SESSION_CHECKPOINT.md:37; C10Y pre-cast scope status."
-        ]
       }
     ]
   }
