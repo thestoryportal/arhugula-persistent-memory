@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-11T14:35:56Z",
+    "edited": "2026-10-11T14:47:06Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -137,7 +137,7 @@
         "summary": "Write the agreement that makes big copies to or from memit wait or pause while a science run needs the drive. Both the research engine and the Drive backup depend on it.",
         "state": "running",
         "who": "codexr2i + codexr2j, then MAESTRO, then Astra round 5",
-        "session": "codexr2i2",
+        "session": "codexr2k",
         "started": "2026-10-11T09:03Z",
         "estimate": {
           "low_min": 20,
@@ -160,7 +160,8 @@
           "13:53Z: both builders finished. codexr2g wrote the shared-drive rules version 2 with exact record formats and a checker; codexr2h2 finished the list of every science launch path. MAESTRO46 checked them (checker passes, sizes and sections right, three sampled fingerprints match) and committed them (181b2cfa). Astra round 4 is reviewing (309a9a65).",
           "14:06Z: Astra round 4 said not yet (d833fb81). The rules now name owners, and the startup order and integration fixes were accepted. Still open: two maths-notebook launch paths were missing from the list, and some old scripts were wrongly marked as unable to run here; a profile had to contain its own fingerprint, which can't be built; the recovery path lived inside the folder whose loss it must survive; first-time setup with no earlier writer couldn't be written down; and the checker only checked structure. MAESTRO46 decided the fixes. codexr2i is revising the rules and record formats; codexr2j is completing the launch list. A later builder strengthens the checker.",
           "14:24Z: both builders ran low on room and stopped cleanly with notes on where to resume; their unfinished drafts are saved (30bed29d). Fresh successors codexr2i2 (rules + data formats) and codexr2j2 (list of every way science work starts) picked up from those notes. The checker builder starts after codexr2i2 finishes.",
-          "14:35Z: the list of every way science work starts is finished and checked: MAESTRO re-hashed all 198 files and every one matches (359fbfbf). codexr2i2 is still finishing the rules and data formats; the checker builder starts after it."
+          "14:35Z: the list of every way science work starts is finished and checked: MAESTRO re-hashed all 198 files and every one matches (359fbfbf). codexr2i2 is still finishing the rules and data formats; the checker builder starts after it.",
+          "14:46Z: the rules draft (v3) and its data formats are finished and checked by MAESTRO48 (every cross-check recomputed, all pins match; commit eb2436ad). Next: a new builder (codexr2k) writes a stronger automatic checker, then the expert reviewer (Astra) does round 5."
         ]
       },
       {
