@@ -1,4 +1,4 @@
-# MAESTRO decisions for R2 round 11 (MAESTRO56, 2026-10-11 ~20:15Z)
+# MAESTRO decisions for R2 round 11 (MAESTRO56, 2026-10-11 20:08Z)
 
 Trigger: Astra round 10 says NO-GO (`astra_r2m_verdict.md`, V10; committed 3c4d9e9a). Its one high finding is F1 (:5–18). F2–F4 are notes: they confirm the origin split, the recorded-query recomputation, the four D13 controls, and the refusal and commissioning boundaries. Its one required change is R1 (:54). Alias for this file: D14f. The ruling is numbered D14, which continues after D13 (`r2_round10_decisions.md`, D13f).
 
@@ -6,7 +6,7 @@ This file is an addendum. It does not edit C (`shared_disk_clearance_contract_v1
 
 ## D14 (answers R1 / V10 F1): a branch chosen by data the admission reads is reachable unless code that runs before the spawn excludes it
 
-**What MAESTRO checked in the unchanged source (re-read 2026-10-11 ~20:10Z):**
+**What MAESTRO checked in the unchanged source (re-read 2026-10-11 20:07Z):**
 - `tools/c10w_p2_gate.py:100–105`. The first P2 stage builds its certificate in code with `phase="P2"` (:103). Every other stage, including `p2-eval`, loads `R.latest_directory("p2") / "preflight.json"` from disk (:101, :104) and passes it to `T.require_training_preflight` (:105). That code never checks `proof["phase"]`.
 - `experiments/track_c/c10w_oracle_train.py:51–66` checks provenance and evidence, then sends the certificate to the `verify-preflight` child (:65–66). It does not check the phase either.
 - `experiments/track_c/c10w_oracle_read.py:583–588`: `verify_preflight_certificate` calls `authorized_phase_entry` whenever the certificate's own phase is P2 or P3 (:588). In `authorized_phase_entry` (:531–539), a P3 certificate calls `replication_for` (:538). That reaches `require_untracked_adapter` (:550), then `adapter_is_tracked` (:139–140), then `adapter_is_tracked` (:130–135), which spawns `/usr/bin/git ls-files --error-unmatch` (:133).
