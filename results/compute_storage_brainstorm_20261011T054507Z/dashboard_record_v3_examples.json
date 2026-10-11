@@ -4054,8 +4054,43 @@
       }
     },
     {
+      "id": "builders_empty_inventory",
+      "context": "intel_ready",
+      "valid_seed": "Fresh deep copy of base intel/intel_ready. Before edits, save copies of the original Builders process_inventory and session_inventory provenance entries. Required fixture job-authority reads and support-job/process/session inventories all succeed and positively find no support jobs, no support processes and no assigned/discovered/registered sessions. Builders stays CURRENT at 2026-10-11T12:00:20.000Z with payload={jobs:[]} and provenance exactly the two saved host-level inventory entries; no TASK file or pane_capture entry remains. Queue stays CURRENT with original source_path/revision/sha256/edited_at/pending_decisions, but items=[] and sessions=[]; the fixture Queue file positively contains those empty lists. Queue provenance is exactly a host-level copy of its original file entry with subject=null, path=Queue.source_path, sha256=Queue.sha256, plus the two saved inventory entries. ResearchEngine becomes {state:UNAVAILABLE,observed_at:null,payload:null,provenance:[],reason:No support publication supplied}, with no publication or registered-session claim. Resources stays CURRENT with measured_at=12:00:20.000Z, processes=[], support_rss_bytes=dashboard_rss_bytes=re_rss_bytes=neo4j_rss_bytes=0; its available memory, pressure and host-level provenance are unchanged and independently validated. Storage and all other fields unchanged, including source_observed_at=12:00:20.000Z, writer_at=12:00:20.100Z and candidate sequence=10. All provenance uses the original local Intel host/boot/collector/batch tuple. Canonical serialize and fixture-HMAC the edited record after the member edit. The default fresh transaction binds these exact candidate bytes. On full-record acceptance from saved sequence 9, durably save highest_generation=7, highest_sequence=10, the edited record hash, last_source_observed_at=12:00:20.000Z, last_received_at=12:00:21.000Z and a complete set of retained timestamp age floors before display; do not preserve the sequence-9 hash/receive time. Source facts are fixture prerequisites, not native inventory receipts.",
+      "members": [
+        {
+          "variant": "validated_empty",
+          "edit": "Use valid_seed without another mutation: successful source inventory, CURRENT Builders and jobs=[].",
+          "expected": {
+            "outcome": "ACCEPT",
+            "reason_code": null,
+            "scope": "record"
+          }
+        },
+        {
+          "variant": "failed_inventory_unavailable",
+          "edit": "Use valid_seed except the required Builders job-authority inventory fails; independent Queue/session/Resources/storage checks still succeed. Replace the entire Builders component with {state:UNAVAILABLE,observed_at:null,payload:null,provenance:[],reason:Required Builders inventory failed}. No jobs=[] payload or successful Builders provenance is supplied. Other components and source minimum remain unchanged. Rebind the fresh transaction and durable record hash to these exact edited bytes.",
+          "expected": {
+            "outcome": "ACCEPT",
+            "reason_code": null,
+            "scope": "record"
+          }
+        },
+        {
+          "variant": "failed_inventory_empty",
+          "edit": "Source-authority negative: same failed required Builders job-authority inventory as failed_inventory_unavailable, but collection fabricates the otherwise identical validated_empty wire candidate with CURRENT Builders payload={jobs:[]} and the positive provenance entries. No wire-shape or binding defect is added. Source semantic validation must reject the false validated-empty claim; a reader cannot infer that inventory failure by following received paths.",
+          "expected": {
+            "outcome": "UNAVAILABLE",
+            "reason_code": "SEMANTIC_INVALID",
+            "scope": "source claim"
+          },
+          "pass": "Refuse the fabricated validated-empty source claim; no current empty-Builder display or candidate high-water/cache installation. Otherwise FAIL. This is planned source semantic coverage, not executed reader conformance."
+        }
+      ]
+    },
+    {
       "id": "state_and_pin_shapes",
-      "control": "Independent protected-metadata controls, not received record grammar: Pin/ReaderState start from m3_ready with known-valid saved cache binding; Counter seed below; AgeFloor is age_floors[0]. For each seed object, enumerate its immediate declared fields in v3:111,123,129; each required field removal, added unexpected=1, wrong JSON type, invalid primitive bound/format or version=999 is separate. Nonnullable fields -> null; nullable fields -> [] (none has nullable array type); literal types follow closed_grammar_shapes mutation rules. Pin/ReaderState replacements are serialized and authenticated with the local fixture key, with unchanged companion objects so targeted binding mismatches remain visible; bad-MAC is a separate single-byte MAC mutation. No source transport/read/refusal is injected. Missing controls delete exactly one named local key/Pin/ReaderState; never Counter. Counter failures are source-publication controls, not reader-metadata errors. For metadata_invalid list shape, independently use age_floors=null, \"x\", [] with the nonempty retained cache unchanged, and 1025 copies of floor 0; already stored invalid metadata refuses READER_STATE_CORRUPT. Candidate timestamp enumeration before constructing metadata is separately age_floors_1025/SEMANTIC_INVALID, not this stored-metadata check. Required-field/type/unknown-field mutations also expand the nested Pin.proof_receipt and Pin.proof_receipt.subject objects; their positive values are literal copies from m3_ready.pin. Stable ID=state_and_pin_shapes/<seed-object>/<JSON-Pointer>/<mutation>; invalid-shape/binding candidates are authenticated local metadata, not source envelopes.",
+      "control": "Independent protected-metadata controls, not received record grammar: Pin/ReaderState start from m3_ready with known-valid saved cache binding, except valid_renewal explicitly uses m3_seen_10 and the unchanged base m3 duplicate; Counter seed below; AgeFloor is age_floors[0]. For each seed object, enumerate its immediate declared fields in v3:111,123,129; each required field removal, added unexpected=1, wrong JSON type, invalid primitive bound/format or version=999 is separate. Nonnullable fields -> null; nullable fields -> [] (none has nullable array type); literal types follow closed_grammar_shapes mutation rules. After each Pin shape or relationship mutation, canonical serialize the exact edited Pin bytes, recompute ReaderState.pin_sha256 from those bytes, and authenticate both local wrappers with the local fixture key. Preserve every other companion binding unless explicitly reconciled below; never repair the targeted Pin defect. ReaderState mutations authenticate its edited bytes and retain the valid original Pin. The dedicated pin_hash_mismatch alone retains a deliberately wrong pin_sha256; bad-MAC is a separate single-byte wrapper MAC mutation with unchanged decoded metadata bytes and valid companion hash. No source transport/read/refusal is injected. Missing controls delete exactly one named local key/Pin/ReaderState; never Counter. Counter failures are source-publication controls, not reader-metadata errors. For metadata_invalid list shape, independently use age_floors=null, \"x\", [] with the nonempty retained cache unchanged, and 1025 copies of floor 0; already stored invalid metadata refuses READER_STATE_CORRUPT. Candidate timestamp enumeration before constructing metadata is separately age_floors_1025/SEMANTIC_INVALID, not this stored-metadata check. Required-field/type/unknown-field mutations also expand the nested Pin.proof_receipt and Pin.proof_receipt.subject objects; their positive values are literal copies from m3_ready.pin. Stable ID=state_and_pin_shapes/<seed-object>/<JSON-Pointer>/<mutation>; invalid-shape/binding candidates are authenticated local metadata, not source envelopes.",
       "members": [
         {
           "variant": "metadata_invalid",
@@ -4090,7 +4125,22 @@
             "reason_code": null,
             "scope": "record"
           },
-          "control": "Fresh exact same-incarnation transaction: Pin.verified_at=2026-10-11T12:00:21.000Z; proof_receipt.measured_at=same, subject.id=fixture-renewal, existing collector generation/host/boot retained. Reader recomputes pin_sha256 and local authentication; saved highest sequence/hash/source/receive time/floors unchanged. Current matching candidate goes through fresh verification, never cached proof."
+          "context": "m3_seen_10",
+          "input": {
+            "base": "m3",
+            "layer": "record",
+            "edits": []
+          },
+          "control": "Start with m3_seen_10 and exact unchanged base m3 bytes: saved and candidate sequence are both 10 and record hashes match. Fresh exact same-incarnation transaction at the default OPEN/OK times: Pin.verified_at=2026-10-11T12:00:21.000Z; proof_receipt.measured_at=same, subject.id=fixture-renewal, existing collector generation/host/boot retained. Reader recomputes pin_sha256 from canonical renewed Pin bytes and authenticates both local wrappers, durably installs the renewed Pin and matching ReaderState before ACK/OK/display. Saved highest generation=42, sequence=10, record hash, source time, receive time and floors remain the duplicate seed's original values; only Pin proof/verified_at and ReaderState.pin_sha256/local authentication change. Current matching duplicate goes through fresh verification, never cached proof."
+        },
+        {
+          "variant": "pin_hash_mismatch",
+          "expected": {
+            "outcome": "UNAVAILABLE",
+            "reason_code": "READER_STATE_CORRUPT",
+            "scope": "record"
+          },
+          "control": "Start with m3_ready and its unchanged valid Pin/cache. Set only ReaderState.pin_sha256 to 64 zeros and authenticate the edited ReaderState wrapper with the local fixture key. Do not recompute this deliberately targeted hash. All Pin shape/proof/time/identity relationships and other ReaderState bindings remain valid."
         }
       ],
       "counter_seed": {
@@ -4099,8 +4149,8 @@
         "last_reserved_generation": 42
       },
       "relationship_mutations": {
-        "Pin": "Independently: proof_receipt.subject.kind=TASK; subject.generation_id=00000029-0000-0000-0000-000000000029; proof measured_at=12:00:21.000Z > literal verified_at; verified_at=11:49:59.000Z < collector_started_at; role=intel with other identity fields unchanged. All dates use 2026-10-11 and exact .000Z form. Each is metadata_invalid.",
-        "ReaderState": "Independently: pin_sha256=64 zeros; highest_generation=41; boot_id=Intel base boot; generation_id=00000029-0000-0000-0000-000000000029; duplicate age_floors[0]; remove one required retained source-time entry; add source_time=2026-10-11T12:00:18.000Z not in retained data. Each is metadata_invalid, after valid local authentication.",
+        "Pin": "Independently, each from m3_ready: proof_kind sets proof_receipt.subject.kind=TASK; proof_generation sets proof_receipt.subject.generation_id=00000029-0000-0000-0000-000000000029; proof_time sets proof_receipt.measured_at=12:00:21.000Z > literal verified_at; verified_before_start sets verified_at=11:49:59.000Z < collector_started_at and proof_receipt.measured_at=11:49:59.000Z so proof measurement<=verified_at remains valid; role_binding sets role=intel with the other M3 identity fields unchanged and mirrors ReaderState.role=intel, isolating Pin role versus commissioned M3 identity. All dates use 2026-10-11 and exact .000Z form. Recompute ReaderState.pin_sha256 from each exact edited Pin and authenticate both wrappers as above; generation/high-water/cache/source/receive/floor companions remain unchanged. Each is metadata_invalid/READER_STATE_CORRUPT/record. Stable ID=state_and_pin_shapes/Pin/relationships/<named mutation>.",
+        "ReaderState": "Independently: highest_generation=41; boot_id=Intel base boot; generation_id=00000029-0000-0000-0000-000000000029; duplicate age_floors[0]; remove one required retained source-time entry; add source_time=2026-10-11T12:00:18.000Z not in retained data. Each is metadata_invalid, after valid local authentication. The unrelated Pin remains unchanged and pin_sha256 matches it; intentional hash failure is only the separate pin_hash_mismatch member.",
         "AgeFloor": "Apply required_missing/unknown_extra/wrong_json_type/version-inapplicable/UTC_bad/UInt_negative_upper to the first existing floor, one at a time; all metadata_invalid."
       }
     },
@@ -5744,7 +5794,7 @@
           {
             "op": "replace",
             "path": "/writer_at",
-            "value": "2026-10-11T11:49:59.000Z"
+            "value": "2026-10-11T12:00:23.001Z"
           }
         ]
       },
