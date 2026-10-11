@@ -1,0 +1,15 @@
+test_debug_argument_error_is_harmless (test_r12.LogTest) ... ok
+test_fixture_template_pins_format (test_r12.LogTest) ... ok
+test_json_fail (test_r12.LogTest) ... ok
+test_microseconds_fail (test_r12.LogTest) ... ok
+test_prefix_fail (test_r12.LogTest) ... ok
+test_saved_fixture_replay (test_r12.LogTest) ... ok
+test_standard_errors_fail (test_r12.LogTest) ... ok
+test_stderr_json_fail (test_r12.LogTest) ... ok
+test_time_only_fail (test_r12.LogTest) ... ok
+test_unprefixed_fail (test_r12.LogTest) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.425s
+
+OK

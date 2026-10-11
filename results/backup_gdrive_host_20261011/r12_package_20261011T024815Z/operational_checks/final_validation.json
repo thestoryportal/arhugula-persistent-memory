@@ -1,0 +1,14 @@
+{
+  "scope_paths": 366,
+  "pins": 364,
+  "expected_changed_paths": 362,
+  "scope_bytes": 3304175,
+  "receipt_bytes": 2626230,
+  "protected_files_unchanged": 1550,
+  "final_green_methods": 27,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "pins_sha256": "e5bdf31457d174added2f550cb5a8ec445fe0a270812685e8f7e63635489bd78",
+  "exit_code": 0
+}
