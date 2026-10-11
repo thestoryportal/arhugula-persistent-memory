@@ -144,3 +144,4 @@
 - [Importing external files traps](importing-external-files-traps.md) — CLAUDE.md auto-load, *token* gitignore, all-or-nothing git add, READY hidden behind HANDOFF
 - [Ask Astra for automatic before an operator chore](ask-astra-automatic-before-operator-chore.md) — builder designs hide recurring manual steps; ask "automatic possible?" in the packet first
 - [Stop open-ended builder self-audits](stop-open-ended-builder-self-audits.md) — R4D3→R4D3C audit kept growing; after mechanical checks pass, hand the unfinished audit to Astra
+- [Codex brief: handoff file, narrow reads](codex-brief-handoff-file-narrow-reads.md) — handoff never in a tested report (broke a line-limit test); research briefs cap reads to grep + ≤40-line sed
