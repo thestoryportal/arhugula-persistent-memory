@@ -2,7 +2,7 @@
 
 JSON authority: results/context_audit_20261012/hygiene/lanes.json. This Markdown renders the same plan fields.
 
-Planning base: `18e343923e884e2fac35cfdc476e7a87ab77e898`. Dispatch base is refreshed by MAESTRO after predecessor integration; builders never commit.
+Planning base: `c90bf2590085bfbda6d1e41dd4885fa04803d321`. Dispatch base is refreshed by MAESTRO after predecessor integration; builders never commit.
 D1–D5 already approved. Every unit ≤8 min; every lane ≤36 min plus 4 min finish reserve. No live application in this planning session.
 
 - CLAUDE.md, AGENTS.md, DISCIPLINE.md, the global guides and memory notes are standing guidance, not specifications. Cut only text that is wrong, out of date, points the wrong way, or exactly repeats a passage you name by file:line. Keep the warnings written as a moment of temptation ("You will see green checks and think…", "When you hear yourself think…") and their stakes. A byte target in SYNTHESIS §2 is an estimate; when keeping a complete rule exceeds it, keep the rule and report the overage.
@@ -17,9 +17,12 @@ Schema version: 1; host_home: `/Users/robertrhu`; authority: `results/context_au
 Export candidates: `results/context_audit_20261012/hygiene/export_candidates.json`; source template: `{"id": "E(n,s)", "source": "results/context_audit_20261012/SYNTHESIS.md:209", "acceptance": "1–3,6; no deletion, no index writes; preserve provisional versions until reconciled"}`.
 Exact private paths: `results/context_audit_20261012/hygiene/host_staging/.codex/config.toml`, `results/context_audit_20261012/hygiene/host_staging/.claude/settings.json`.
 
+Master authority receipt: `results/context_audit_20261012/hygiene/master_authority_receipt.json`.
+MAESTRO master correction is binding: origin/master=5ccbb836 includes PR #21, cleanup 6aa22ab5 and PR #22. M has stale LOCAL master=557a58bc; M files describe that folder's session guidance, not master content. Use git show origin/master:<path> for master claims, frozen remote SHA and read-only receipt in OUT/master_authority_receipt.json. Earlier audit/ROOT_CAUSE/provisional-note claims that cleanup never reached master are superseded. Preserve unrelated remote commits; no builder fetch/pull/reset/force-push or main mutation. D-U20/21/22 compare against actual origin/master guide bytes; M-REFRESH separately plans the stale local folder's launch-route correction. Read OUT/master_authority_correction.md before relying on those historical rows. Context/Memento/safety rules remain intact.
+
 ## H01-01
 
-Wave 1; repo; 35 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 1; repo; 35 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: C1, C2, C3, C4, C5, C8.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H01-01/handoff.md`.
 Exact allowlist:
@@ -205,7 +208,7 @@ Evidence results/context_audit_20261012/audit_cab_codex_layer.md:123; subject .c
 Evidence results/context_audit_20261012/audit_cab_codex_layer.md:124; subject .codex/config.toml:44-53. Disabled wrapper is correct (prior README:29, C6 6cbb10cf); “give Codex Perplexity again” stale because global :194-199 already configures server/key. Action: fix-text (retain short retirement record) Replacement: Pod wrapper retired 2026-10-10 (6cbb10cf). Global Perplexity is configured; verify resolution/startup rather than add it again.
 ## H01-02
 
-Wave 1; repo; 35 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 1; repo; 35 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: C9, C12, N01, N02, N03, N04, N05, N06, N07, N08.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H01-02/handoff.md`.
 Exact allowlist:
@@ -451,7 +454,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/N08/report.md`, 
 Evidence results/context_audit_20261012/audit_cac1_memory_indexed.md:66; subject memory_mirror/evidence-over-scaffolding.md:1-14; MEMORY.md:12. Note:12 equates runnable-as-is with launch it; AGENTS.md:14 and docs/program_state.json:7,12 require explicit run authority on current terminal/single-attempt paths. Its dated A2b-is-queued example is already closed in CORPUS/16_A2b_REFRESH_KS.md:15. Action: fix-text (require a live authorized falsifier; make A2b a completed historical example) Replacement: Prefer the cheapest runnable, pre-registered and authorized live falsifier over more planning. Historical A2b is closed; no launch follows from cached code alone.
 ## H01-03
 
-Wave 1; repo; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 1; repo; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: N09, N10, N11, N12, N13, N14, N15, N16, N17, N18.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H01-03/handoff.md`.
 Exact allowlist:
@@ -694,7 +697,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/N18/report.md`, 
 Evidence results/context_audit_20261012/audit_cac1_memory_indexed.md:43; subject memory_mirror/codex-brief-handoff-file-narrow-reads.md:1-17; MEMORY.md:147. Note:15 applies excerpt-only reads to any tracing task; memory_mirror/read-authoritative-source-fully.md:12 and DISCIPLINE.md:25,31 require full governing-source reading for load-bearing decisions. AGENTS.md:7 also still puts handoff in a report, contrary to note:12. Action: fix-text (limit code-discovery reads, exempt governing contracts, and use a brief-named separate handoff file) Replacement: Cap exploratory code reads; consume governing contracts fully when required. Name a separate handoff file and recheck tested artifacts after handoff.
 ## H01-04
 
-Wave 1; repo; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 1; repo; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: N19, N21, N22, N23, N24, N25, N26, N28, N29, N30, N31.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H01-04/handoff.md`.
 Exact allowlist:
@@ -958,7 +961,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/N31/report.md`, 
 Evidence results/context_audit_20261012/audit_cac1_memory_indexed.md:67; subject memory_mirror/experiment-runbook-is-canonical.md:1-14; MEMORY.md:46. Note:10 describes §5 as reasoning, not hard gates, revisitable, while CLAUDE.md:15,40 and results/c10y_precast_diag/operator_ruling_defer_20261010.md:13-14 make amendments and single-attempt rulings binding. Action: fix-text (separate revisitable scientific reasoning from binding operator scope/frozen-run authority) Replacement: Runbook §0.3 gives current work; §5 records reasoning and binding operator rulings. Changing frozen criteria or a terminal run's authority needs a new ruling.
 ## H01-05
 
-Wave 1; repo; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 1; repo; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: N32, N33, N34, N35, N36, N37, N38, N39, N40, N41, N42, N43.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H01-05/handoff.md`.
 Exact allowlist:
@@ -1245,7 +1248,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/N43/report.md`, 
 Evidence results/context_audit_20261012/audit_cac1_memory_indexed.md:78; subject memory_mirror/in-weight-knowing-insert-robust-update-fragile.md:1-13; MEMORY.md:83. Note:13 calls overwrite-of-a-prior-edit UNMEASURED; CORPUS/30_R5B_OVERWRITE_PRIOR_EDIT.md:4,17,21-22 measures it at 93.8%, scopes it to no-pretrained-prior subjects, and rejects realistic-updates-robust generalization. Action: fix-text (add the measured R5b cell with its scope; keep counterfactual-prior fragility and coined-value limits) Replacement: Novel single-token inserts and re-edits were robust at tested scope (R5/R5b); pretrained-prior updates and arbitrary multi-token values remain distinct fragile cases.
 ## H01-06
 
-Wave 1; repo; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 1; repo; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: N44, N45, N46, N47, N48, N49, N50, N51, N52, N53, N54, N55.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H01-06/handoff.md`.
 Exact allowlist:
@@ -1532,7 +1535,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/N55/report.md`, 
 Evidence results/context_audit_20261012/audit_cac1_memory_indexed.md:57; subject memory_mirror/decision-id-check-before-assigning.md:1-11; MEMORY.md:140. Note:11 calls tracked-only git grep a complete unused-ID check. .gitignore:50 excludes *token* files, and memory_mirror/importing-external-files-traps.md:11 acknowledges force-add requirements; untracked in-flight rulings are omitted. Action: fix-text (include authorized untracked/in-flight records and coordinate the reserved ID before writing) Replacement: Check the runbook plus tracked and authorized untracked/in-flight records before reserving a new D-ID; preserve old rulings when correcting a collision.
 ## H01-07
 
-Wave 1; repo; 32 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 1; repo; 32 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: N56, N57, N58, N59, N60, N61, D-U1, D-U7, D-U8, D-U9.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H01-07/handoff.md`.
 Exact allowlist:
@@ -1775,7 +1778,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/D-U9/report.md`,
 Evidence results/context_audit_20261012/audit_cac2_memory_indexed.md:28; subject memory_mirror/model-and-compute-allocation.md:1-14; MEMORY.md:44. note:8-10 = 877 bytes of old operator quote/cost narrative; note:12 already retains allocation, time-bound budget caveat and launcher details; ~/.codex/models_cache.json selected slugs confirms gpt-6.1-sol and gpt-6-astra Action: fix-text (cut note:8-10, 877 bytes; keep current model rules and launch traps) Replacement: Builders: interactive gpt-6.1-sol at max. Binding review: gpt-6-astra at high via codex exec. Operator chooses MAESTRO model; old credit totals convey no current allowance.
 ## H01-08
 
-Wave 1; repo; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 1; repo; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: D-U11, D-U14, D-U17, D-U18, P01, P02, P03, P04.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H01-08/handoff.md`.
 Exact allowlist:
@@ -1988,7 +1991,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/P04/report.md`, 
 5. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0; only the unit files plus its unique receipt files may differ.
 ## H01-09
 
-Wave 1; repo; 34 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 1; repo; 34 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: P05, P06, P07, P08, P10, P11, P-GDRIVE, DG1.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H01-09/handoff.md`.
 Exact allowlist:
@@ -2176,7 +2179,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/DG1/report.md`, 
 6. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H01-10
 
-Wave 1; host; 30 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 1; host; 30 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: C6, C7, C11, D-U2, D-U3.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H01-10/handoff.md`.
 Exact allowlist:
@@ -2321,7 +2324,7 @@ Evidence results/context_audit_20261012/audit_caa_claude_layer.md:87; subject LR
 Evidence results/context_audit_20261012/audit_caa_claude_layer.md:88; subject LR:232-235; plugin hooks.json:24-31. Conditional denial says dispatch a fresh subagent or /clear; R:18 requires durable context handoff and brief.md:50 requires CAA handoff. A craft conflict cannot authorize clearing the audit or widening delegation. Action: fix-text (preserve compatibility guard and scoped handoff) Replacement: If crafts conflict, preserve a handoff and use a separately authorized session; do not clear context or delegate outside the active brief.
 ## H02-11
 
-Wave 2; repo; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 2; repo; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: C10, N20, N27, D-U4, D-U6, D-U10, D-U12a, P09, P12.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H02-11/handoff.md`.
 Exact allowlist:
@@ -2506,7 +2509,7 @@ Source: results/context_audit_20261012/SYNTHESIS.md:170; findings: F14(part), S-
 Source files: `docs/program_state.json`.
 Files: `docs/program_state.json`, `results/context_audit_20261012/hygiene/receipts/D-U12a/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U12a/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U12a/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U12a/green.txt`.
 Decision references: D4.
-Pins: `{"docs/program_state.json": "b475beb332dd9d378ed1394788d8215ba656f48ccb3e7e7f7c865085fcc9a97d"}`; host-before pins: `{}`.
+Pins: `{"docs/program_state.json": "07ec6a534b9de7b0efeea32eb63d37c0ddfbdf63d4a9ccb8e1f9add64b35e46e"}`; host-before pins: `{}`.
 
 Expected-RED owner: false. Unit kind: repo; lane: H02-11; wave: 2.
 Receipt files: `results/context_audit_20261012/hygiene/receipts/D-U12a/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U12a/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U12a/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U12a/green.txt`.
@@ -2567,8 +2570,8 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/P12/report.md`, 
 Evidence results/context_audit_20261012/audit_cac1_memory_indexed.md:82; subject memory_mirror/infra-closeout-template-d-hw-2.md:1-11; MEMORY.md:154. Note:11 links [[sol-for-sweeps-astra-for-gates]], but memory_mirror/sol-for-sweeps-astra-for-gates.md does not exist (Path.exists false; full read raised FileNotFoundError). memory_mirror/model-and-compute-allocation.md:12 is an existing model-allocation home. Action: fix-text (replace the missing wiki pointer with the current model-allocation/CLAUDE authority; preserve infra acceptance template) Replacement: Infra close-outs use the D-HW-2 tracker pattern and per-ID ALL GREEN. Builder/reviewer allocation lives in model-and-compute-allocation.md and CLAUDE.md.
 ## H02-12
 
-Wave 2; repo; 13 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
-Ordered units: P13, P14, DG2.
+Wave 2; repo; 30 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: P13, P14, DG2, R-ROOT-RED, R-HOOK-RED, R-ROOT-POLICY.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H02-12/handoff.md`.
 Exact allowlist:
 
@@ -2590,6 +2593,20 @@ Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<L
 - `results/context_audit_20261012/hygiene/receipts/P14/hashes.json`
 - `results/context_audit_20261012/hygiene/receipts/P14/red.txt`
 - `results/context_audit_20261012/hygiene/receipts/P14/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/report.md`
+- `tests/test_context_hygiene_hook_roots.py`
+- `tests/test_context_hygiene_roots.py`
 - `tools/context_hygiene_policy.json`
 
 ### P13 — Resolving timed-chain lesson
@@ -2622,8 +2639,9 @@ Expected-RED owner: false. Unit kind: repo; lane: H02-12; wave: 2.
 Receipt files: `results/context_audit_20261012/hygiene/receipts/P14/report.md`, `results/context_audit_20261012/hygiene/receipts/P14/hashes.json`, `results/context_audit_20261012/hygiene/receipts/P14/red.txt`, `results/context_audit_20261012/hygiene/receipts/P14/green.txt`.
 
 1. Read full S3/context-hygiene-must-reach-every-store.md:1–15; verify provisional SHA-256 2b42778bc8f97262f04d55730c414a72ff4d6a3687c52dbac933c1158d31d3e7 and ROOT_CAUSE.md:1–26. Changed source → stop and preserve it, never overwrite.
-2. Reconcile dated no-overwrite/count claims with ROOT_CAUSE; retain MAESTRO-only merge gate role and warnings as temptation plus stakes. Required frontmatter and [[atomic-units-parallel-worktree-lanes]] resolve.
-3. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
+2. Apply MAESTRO correction BEFORE promoting source claims: ROOT_CAUSE/provisional note conflated stale LOCAL M/master with GitHub master. Preserve the complete source, then correct that factual claim in the imported guidance. origin/master already contains cleanup 6aa22ab5 via PR #21 and PR #22; cite OUT/master_authority_correction.md and read-only Git receipt. Dated 511/3 is not a current constant (planner observed 522/3 at HEAD 18e3439).
+3. Reconcile dated no-overwrite/count claims with ROOT_CAUSE; retain MAESTRO-only merge gate role and warnings as temptation plus stakes. Required frontmatter and [[atomic-units-parallel-worktree-lanes]] resolve.
+4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 
 ### DG2 — Single reviewed drift policy data file
 
@@ -2641,9 +2659,64 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/DG2/report.md`, 
 3. Retired values: gpt-5.5 only in reviewer/default roles; e6ac7e18 only as current pin; /workspace active instructions; Codex ~20% handoff; internal SSD as archive. Preserve data-only historical/config-test mentions.
 4. Same-name note differences require exact basename + store pair + reason + approved hashes entry. Only role-specific MEMORY.md indexes have an initial justified difference; blanket wildcards never allowed. Body links are checked outside historical exemptions.
 5. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
+
+### R-ROOT-RED — Behavioral RED: a tool or brief resolves stale main as its repo root
+
+Source: results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md; findings: RESTORE-R-ROOT-RED, results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20; minutes: 6; depends_on: DG1.
+Source files: `tests/test_context_hygiene_roots.py`.
+Files: `tests/test_context_hygiene_roots.py`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/green.txt`.
+Decision references: none.
+Pins: `{"tests/test_context_hygiene_roots.py": null}`; host-before pins: `{}`.
+
+Expected-RED owner: true. Unit kind: repo; lane: H02-12; wave: 2.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-RED/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Write stdlib CLI fixtures against the EXISTING DG1 actual non-enforcing CLI stub, using temporary fixture Git repos and plumbing-created commits/refs only. Run its accepted CLI with --root <fixture main>: local master behind cached origin/master must emit ROOT_STALE_MAIN and nonzero. Save the intended missed-staleness assertion; missing new flag/API, syntax/import failure is not RED.
+3. Positive controls: current isolated worktree passes even when fixture main is stale; main equal to cached origin/master passes; main divergent/ahead-unreviewed/missing cached ref/denied Git observation fail closed. Record local ref observation as cached, never fetched/live remote evidence.
+4. Include existing CLI input cases for a brief/tool/env root resolving through an alias/symlink to the stale main; approved current worktree route remains usable. Fixtures never read/write real M/H or execute science. Freeze fixture hashes for R-ROOT-GREEN.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20; subject - Add a drift guard: any tool or brief that names a repo root must name the worktree or fail loudly when it finds the main folder behind origin/master. A stale main folder must not read silently as the truth.. - Add a drift guard: any tool or brief that names a repo root must name the worktree or fail loudly when it finds the main folder behind origin/master. A stale main folder must not read silently as the truth. Action: Behavioral RED: a tool or brief resolves stale main as its repo root Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-HOOK-RED — Behavioral RED: shared core.hooksPath points to different hook bytes
+
+Source: results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md; findings: RESTORE-R-HOOK-RED, results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:22; minutes: 6; depends_on: DG1.
+Source files: `tests/test_context_hygiene_hook_roots.py`.
+Files: `tests/test_context_hygiene_hook_roots.py`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/report.md`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/green.txt`.
+Decision references: none.
+Pins: `{"tests/test_context_hygiene_hook_roots.py": null}`; host-before pins: `{}`.
+
+Expected-RED owner: true. Unit kind: repo; lane: H02-12; wave: 2.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/report.md`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-RED/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:22; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Write stdlib CLI fixtures against EXISTING DG1 actual non-enforcing CLI stub: linked worktrees share fixture .git/config core.hooksPath pointing at fixture main/tools/git_hooks. Change exactly one configured hook byte while worktree hook stays fixed; actual guard must fail HOOK_BYTES_DIFFER with both paths/hashes. Save intended missed-mismatch assertion, not absent-API failure.
+3. Complete same hook inventory and bytes passes; missing/extra hook, missing config target, unreadable files, unsafe symlink, ambiguous config scope or unresolved relative core.hooksPath fails closed. A reviewed worktree-relative equivalent may pass only after resolving actual effective Git path and comparing complete inventories.
+4. Use temporary Git plumbing only. Never execute a hook or change the real shared config/main folder. Include pre-commit and post-commit plus every other tools/git_hooks file, not just filename/presence checks. Freeze fixtures for R-HOOK-GREEN.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:22; subject - Commit hooks also run from the main folder: shared `.git/config` sets `core.hooksPath=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/git_hooks`, so every worktree runs the main folder's pre-commit/post-commit. Today the bytes match this branch (`cmp`, 02:05Z). A stale or refreshed main folder would silently change every worktree's commit checks. The drift guard should cover this, or the hooks path should be made worktree-relative.. - Commit hooks also run from the main folder: shared `.git/config` sets `core.hooksPath=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/git_hooks`, so every worktree runs the main folder's pre-commit/post-commit. Today the bytes match this branch (`cmp`, 02:05Z). A stale or refreshed main folder would silently change every worktree's commit checks. The drift guard should cover this, or the hooks path should be made worktree-relative. Action: Behavioral RED: shared core.hooksPath points to different hook bytes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-ROOT-POLICY — Single policy authority for main/worktree roots, hooks and restoration cache membership
+
+Source: results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md; findings: RESTORE-R-ROOT-POLICY; minutes: 5; depends_on: R-ROOT-RED, R-HOOK-RED, DG2.
+Source files: `tools/context_hygiene_policy.json`.
+Files: `tools/context_hygiene_policy.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/green.txt`.
+Decision references: none.
+Pins: `{"tools/context_hygiene_policy.json": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H02-12; wave: 2.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-POLICY/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20, results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:22; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Extend existing data authority with exact real M path, main ref master, cached comparison origin/master, explicit root-bearing tool/brief/env fields, hook source tools/git_hooks, shared-config provenance and effective hooksPath resolution. No duplicated retired-value or root constants in implementation.
+3. Policy references restoration_cache_manifest.json alongside the unchanged exact 196 baseline exports. Define exact membership and observed-source hashes; no blanket missing-store exemptions. CI/staged fixtures use explicit synthetic repo metadata and label non-host scope; applied mode requires actual read-only config/ref/hook observations.
+4. Parse valid JSON, preserve every prior policy rule/allowlist/history exemption; malformed/missing root observation fails closed. Root/hook checks are structural and never exempted by historical results paths or private config projection.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20; subject - Add a drift guard: any tool or brief that names a repo root must name the worktree or fail loudly when it finds the main folder behind origin/master. A stale main folder must not read silently as the truth.. - Add a drift guard: any tool or brief that names a repo root must name the worktree or fail loudly when it finds the main folder behind origin/master. A stale main folder must not read silently as the truth. Action: Single policy authority for main/worktree roots, hooks and restoration cache membership Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:22; subject - Commit hooks also run from the main folder: shared `.git/config` sets `core.hooksPath=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/git_hooks`, so every worktree runs the main folder's pre-commit/post-commit. Today the bytes match this branch (`cmp`, 02:05Z). A stale or refreshed main folder would silently change every worktree's commit checks. The drift guard should cover this, or the hooks path should be made worktree-relative.. - Commit hooks also run from the main folder: shared `.git/config` sets `core.hooksPath=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/git_hooks`, so every worktree runs the main folder's pre-commit/post-commit. Today the bytes match this branch (`cmp`, 02:05Z). A stale or refreshed main folder would silently change every worktree's commit checks. The drift guard should cover this, or the hooks path should be made worktree-relative. Action: Single policy authority for main/worktree roots, hooks and restoration cache membership Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
 ## H02-13
 
-Wave 2; host; 17 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 2; host; 17 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: D-U23, D-U24, H-SETTINGS.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H02-13/handoff.md`.
 Exact allowlist:
@@ -2730,7 +2803,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/H-SETTINGS/repor
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H03-14
 
-Wave 3; repo; 30 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 3; repo; 30 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: D-U5, D-U12b, D-U20, D-U22, I-GIT.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H03-14/handoff.md`.
 Exact allowlist:
@@ -2767,7 +2840,7 @@ Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<L
 
 ### D-U5 — Thin Codex anchor
 
-Source: results/context_audit_20261012/SYNTHESIS.md:163; findings: S-A; minutes: 6; depends_on: C2, C5, D-U4.
+Source: results/context_audit_20261012/SYNTHESIS.md:163; findings: S-A; minutes: 6; depends_on: C2, C5, D-U4, R-ROOT-GUIDE.
 Source files: `AGENTS.md`.
 Files: `AGENTS.md`, `results/context_audit_20261012/hygiene/receipts/D-U5/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U5/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U5/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U5/green.txt`.
 Decision references: D3.
@@ -2803,7 +2876,7 @@ Source: results/context_audit_20261012/SYNTHESIS.md:171; findings: F08, F14(part
 Source files: `docs/program_state.json`.
 Files: `docs/program_state.json`, `results/context_audit_20261012/hygiene/receipts/D-U12b/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U12b/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U12b/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U12b/green.txt`.
 Decision references: none.
-Pins: `{"docs/program_state.json": "b475beb332dd9d378ed1394788d8215ba656f48ccb3e7e7f7c865085fcc9a97d"}`; host-before pins: `{}`.
+Pins: `{"docs/program_state.json": "07ec6a534b9de7b0efeea32eb63d37c0ddfbdf63d4a9ccb8e1f9add64b35e46e"}`; host-before pins: `{}`.
 
 Expected-RED owner: false. Unit kind: repo; lane: H03-14; wave: 3.
 Receipt files: `results/context_audit_20261012/hygiene/receipts/D-U12b/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U12b/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U12b/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U12b/green.txt`.
@@ -2838,11 +2911,14 @@ Pins: `{"results/context_hygiene_20261012/master_claude.patch": null}`; host-bef
 Expected-RED owner: false. Unit kind: repo; lane: H03-14; wave: 3.
 Receipt files: `results/context_audit_20261012/hygiene/receipts/D-U20/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U20/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U20/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U20/green.txt`.
 
+Master authority: `{"commit": "5ccbb836abcb7d0534d6601d502f760f79bf8d85", "path": "CLAUDE.md", "ref": "origin/master", "sha256": "95f001211c8b70e5d2393f62ff0f8c84bf7839642f2586d820c70ff630b6214b"}`.
+
 1. Read results/context_audit_20261012/SYNTHESIS.md:181 and the complete current allowed file/governing sections; confirm dispatch base and record before hashes in the unit receipt.
-2. Patch is against current MAESTRO-frozen M/master file hash, not a wholesale copy. Preserve every unrelated forward edit; read-only git apply --check in a temporary exact snapshot proves applicability. Master drift → rebase reviewed patch, no direct main mutation.
-3. Verify against the exact evidence anchors below: 1–3; no main edit; diff preserves full safety and unrelated master progress. Report each clause separately with its source and observed result.
-4. After an intervening read, reread edited bytes; verify all safety rules, holds and caveats survive; record after hashes, diff and any budget overage. Runtime not exercised = UNVERIFIED.
-5. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0; only the unit files plus its unique receipt files may differ.
+2. Master authority is git show origin/master:CLAUDE.md, initially frozen at 5ccbb836abcb7d0534d6601d502f760f79bf8d85 with SHA-256 95f001211c8b70e5d2393f62ff0f8c84bf7839642f2586d820c70ff630b6214b. M/local master is NOT the patch base. Read the complete actual remote snapshot; distinguish already-landed cleanup/roles/pin/storage from later true deltas. Build a minimal patch and prove applicability with git apply --check in a temporary exact remote snapshot. Preserve remote-only and unrelated forward work; changed remote head → re-review/rebase, no builder fetch or main mutation.
+3. Record both branch/master differences using frozen origin/master, not local master. MAESTRO preserves the three origin/master-only commits and recalculates divergence at integration. Never copy the entire current branch guide over remote content blindly; empty reviewed patch is valid if this guide has no remaining delta.
+4. Verify against the exact evidence anchors below: 1–3; no main edit; diff preserves full safety and unrelated master progress. Report each clause separately with its source and observed result.
+5. After an intervening read, reread edited bytes; verify all safety rules, holds and caveats survive; record after hashes, diff and any budget overage. Runtime not exercised = UNVERIFIED.
+6. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0; only the unit files plus its unique receipt files may differ.
 
 ### D-U22 — Reviewed master discipline patch
 
@@ -2855,15 +2931,18 @@ Pins: `{"results/context_hygiene_20261012/master_discipline.patch": null}`; host
 Expected-RED owner: false. Unit kind: repo; lane: H03-14; wave: 3.
 Receipt files: `results/context_audit_20261012/hygiene/receipts/D-U22/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U22/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U22/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U22/green.txt`.
 
+Master authority: `{"commit": "5ccbb836abcb7d0534d6601d502f760f79bf8d85", "path": "DISCIPLINE.md", "ref": "origin/master", "sha256": "d96169ff49ceaa5460ea6bc74152b27b7bf798113fa0969f43dfef1d0162a644"}`.
+
 1. Read results/context_audit_20261012/SYNTHESIS.md:183 and the complete current allowed file/governing sections; confirm dispatch base and record before hashes in the unit receipt.
-2. Patch is against current MAESTRO-frozen M/master file hash, not a wholesale copy. Preserve every unrelated forward edit; read-only git apply --check in a temporary exact snapshot proves applicability. Master drift → rebase reviewed patch, no direct main mutation.
-3. Verify against the exact evidence anchors below: 1–3; no main edit; adopted loop bounds/lead fence intact. Report each clause separately with its source and observed result.
-4. After an intervening read, reread edited bytes; verify all safety rules, holds and caveats survive; record after hashes, diff and any budget overage. Runtime not exercised = UNVERIFIED.
-5. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0; only the unit files plus its unique receipt files may differ.
+2. Master authority is git show origin/master:DISCIPLINE.md, initially frozen at 5ccbb836abcb7d0534d6601d502f760f79bf8d85 with SHA-256 d96169ff49ceaa5460ea6bc74152b27b7bf798113fa0969f43dfef1d0162a644. M/local master is NOT the patch base. Read the complete actual remote snapshot; distinguish already-landed cleanup/roles/pin/storage from later true deltas. Build a minimal patch and prove applicability with git apply --check in a temporary exact remote snapshot. Preserve remote-only and unrelated forward work; changed remote head → re-review/rebase, no builder fetch or main mutation.
+3. Record both branch/master differences using frozen origin/master, not local master. MAESTRO preserves the three origin/master-only commits and recalculates divergence at integration. Never copy the entire current branch guide over remote content blindly; empty reviewed patch is valid if this guide has no remaining delta.
+4. Verify against the exact evidence anchors below: 1–3; no main edit; adopted loop bounds/lead fence intact. Report each clause separately with its source and observed result.
+5. After an intervening read, reread edited bytes; verify all safety rules, holds and caveats survive; record after hashes, diff and any budget overage. Runtime not exercised = UNVERIFIED.
+6. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0; only the unit files plus its unique receipt files may differ.
 
 ### I-GIT — One corrected complete Git index
 
-Source: results/context_audit_20261012/SYNTHESIS.md:208; findings: F02, F07, F08, F13(part), S-I; minutes: 8; depends_on: N01, N02, N03, N04, N05, N06, N07, N08, N09, N10, N11, N12, N13, N14, N15, N16, N17, N18, N19, N20, N21, N22, N23, N24, N25, N26, N27, N28, N29, N30, N31, N32, N33, N34, N35, N36, N37, N38, N39, N40, N41, N42, N43, N44, N45, N46, N47, N48, N49, N50, N51, N52, N53, N54, N55, N56, N57, N58, N59, N60, N61, D-U1, D-U7, D-U8, D-U9, D-U10, D-U11, P01, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P-GDRIVE.
+Source: results/context_audit_20261012/SYNTHESIS.md:208; findings: F02, F07, F08, F13(part), S-I; minutes: 8; depends_on: N01, N02, N03, N04, N05, N06, N07, N08, N09, N10, N11, N12, N13, N14, N15, N16, N17, N18, N19, N20, N21, N22, N23, N24, N25, N26, N27, N28, N29, N30, N31, N32, N33, N34, N35, N36, N37, N38, N39, N40, N41, N42, N43, N44, N45, N46, N47, N48, N49, N50, N51, N52, N53, N54, N55, N56, N57, N58, N59, N60, N61, D-U1, D-U7, D-U8, D-U9, D-U10, D-U11, P01, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P-GDRIVE, R-AUTONOMY-READER, R-RETEST-NOTE, R-RECOVERY-NOTE, R-REVIEW-FIRST, R-HOLD-NOTE, R-R2-ADOPT-NOTE, R-LABVIZ-READER, R-STORE-CENSUS.
 Source files: `memory_mirror/MEMORY.md`.
 Files: `memory_mirror/MEMORY.md`, `results/context_audit_20261012/hygiene/receipts/I-GIT/report.md`, `results/context_audit_20261012/hygiene/receipts/I-GIT/hashes.json`, `results/context_audit_20261012/hygiene/receipts/I-GIT/red.txt`, `results/context_audit_20261012/hygiene/receipts/I-GIT/green.txt`.
 Decision references: none.
@@ -2883,8 +2962,8 @@ Evidence results/context_audit_20261012/audit_cad_memory_unindexed.md:74; subjec
 Evidence results/context_audit_20261012/audit_cae_memory_stores.md:28; subject S1/MEMORY.md:130; parallel-builders-name-each-others-files.md:11 versus S3/atomic-units-parallel-worktree-lanes.md:11–15. S1 makes shared-worktree dispatch the applied pattern; newer operator answer T-W:510 requests parallel builders in their own worktrees. S3 atomic note :11 repeats that directive while preserving build hold. Action: fix-text (make old shared-worktree rule a contingency, not preferred dispatch) Replacement: Dispatch parallel builders in separate worktrees. If already sharing a worktree, name each lane's authorized files and preserve concurrent edits.
 ## H03-15
 
-Wave 3; repo; 14 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
-Ordered units: DG3, PRIVACY.
+Wave 3; repo; 30 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: DG3, PRIVACY, R-ROOT-GREEN, R-HOOK-GREEN.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H03-15/handoff.md`.
 Exact allowlist:
 
@@ -2901,11 +2980,19 @@ Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<L
 - `results/context_audit_20261012/hygiene/receipts/PRIVACY/hashes.json`
 - `results/context_audit_20261012/hygiene/receipts/PRIVACY/red.txt`
 - `results/context_audit_20261012/hygiene/receipts/PRIVACY/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/report.md`
 - `tools/context_hygiene_guard.py`
 
 ### DG3 — Fail-closed retired-instruction scanner
 
-Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F01, F02, F03, F05; minutes: 8; depends_on: DG2.
+Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F01, F02, F03, F05; minutes: 8; depends_on: DG2, R-ROOT-POLICY.
 Source files: `tools/context_hygiene_guard.py`.
 Files: `tools/context_hygiene_guard.py`, `results/context_audit_20261012/hygiene/receipts/DG3/report.md`, `results/context_audit_20261012/hygiene/receipts/DG3/hashes.json`, `results/context_audit_20261012/hygiene/receipts/DG3/red.txt`, `results/context_audit_20261012/hygiene/receipts/DG3/green.txt`.
 Decision references: none.
@@ -2936,10 +3023,46 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/PRIVACY/report.m
 3. Compare every retained line directly to the complete source; record exact full-source hash for applied review, no full-source bytes in public receipts. DG4/DG5 fixture controls verify coverage/hash and fail on omitted guidance.
 4. Host apply ALWAYS copies the complete private staging proposals, never this projection. CI labels projection-only config scope; final applied guard/Astra observe full actual config privately.
 5. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
+
+### R-ROOT-GREEN — Fail loudly before reading a stale main root; guard every declared tool/brief route
+
+Source: results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md; findings: RESTORE-R-ROOT-GREEN; minutes: 8; depends_on: R-ROOT-RED, R-ROOT-POLICY, DG3.
+Source files: `tools/context_hygiene_guard.py`.
+Files: `tools/context_hygiene_guard.py`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/green.txt`.
+Decision references: none.
+Pins: `{"tools/context_hygiene_guard.py": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H03-15; wave: 3.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GREEN/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Implement the frozen ROOT_STALE_MAIN fixtures with read-only stdlib subprocess Git observations. Canonicalize root/aliases before source reads; inspect each declared tool/brief/env root, including inherited LLMDB_ROOT. Main behind origin/master fails loudly with resolved root and both ref SHAs; missing/denied/malformed/diverged observations never imply current.
+3. Guard authoritative input-root resolution at the boundary: tools/briefs may name a verified current worktree; a main route must prove currentness. Unchecked launch routes remain held by MAESTRO; do not silently rewrite roots or automatically refresh a checkout. No network, checkout, reset, Git metadata mutation or hook execution.
+4. Run /usr/bin/python3 -B tests/test_context_hygiene_roots.py → GREEN through actual CLI, then the existing DG1 suite; preserve original RED and existing assertions. Later DG4/DG5 owners retain these GREEN controls. Combine baseline and supplemental cache manifest membership for full observed-body checks, retaining projection boundaries.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20; subject - Add a drift guard: any tool or brief that names a repo root must name the worktree or fail loudly when it finds the main folder behind origin/master. A stale main folder must not read silently as the truth.. - Add a drift guard: any tool or brief that names a repo root must name the worktree or fail loudly when it finds the main folder behind origin/master. A stale main folder must not read silently as the truth. Action: Fail loudly before reading a stale main root; guard every declared tool/brief route Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-HOOK-GREEN — Guard complete shared hooksPath bytes against the current worktree
+
+Source: results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md; findings: RESTORE-R-HOOK-GREEN; minutes: 8; depends_on: R-HOOK-RED, R-ROOT-GREEN, R-ROOT-POLICY.
+Source files: `tools/context_hygiene_guard.py`.
+Files: `tools/context_hygiene_guard.py`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/report.md`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/green.txt`.
+Decision references: none.
+Pins: `{"tools/context_hygiene_guard.py": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H03-15; wave: 3.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/report.md`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-HOOK-GREEN/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:22; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Resolve shared common Git dir/config and effective core.hooksPath using read-only Git interfaces; compare complete relative-path/type/byte/hash inventories against this worktree tools/git_hooks. Main-selected mismatches fail HOOK_BYTES_DIFFER with evidence. Denied/missing/extra/symlink-ambiguous observations fail closed; no real config changes.
+3. Run /usr/bin/python3 -B tests/test_context_hygiene_hook_roots.py, tests/test_context_hygiene_roots.py and tests/test_context_hygiene_guard.py → GREEN. Keep both separately saved RED fixtures and verify previous store/link/history assertions unchanged.
+4. Staged CI uses deterministic complete synthetic shared-config/hook fixture metadata, never inferred actual host success. Applied mode inspects real shared bytes; master refresh may change hooks for all worktrees, so guard must rerun after any reviewed refresh. Integration caller rejects unresolved root/hook results.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:22; subject - Commit hooks also run from the main folder: shared `.git/config` sets `core.hooksPath=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/git_hooks`, so every worktree runs the main folder's pre-commit/post-commit. Today the bytes match this branch (`cmp`, 02:05Z). A stale or refreshed main folder would silently change every worktree's commit checks. The drift guard should cover this, or the hooks path should be made worktree-relative.. - Commit hooks also run from the main folder: shared `.git/config` sets `core.hooksPath=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/git_hooks`, so every worktree runs the main folder's pre-commit/post-commit. Today the bytes match this branch (`cmp`, 02:05Z). A stale or refreshed main folder would silently change every worktree's commit checks. The drift guard should cover this, or the hooks path should be made worktree-relative. Action: Guard complete shared hooksPath bytes against the current worktree Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
 ## H04-16
 
-Wave 4; repo; 22 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
-Ordered units: D-U12c, D-U21, I-MANIFEST, DG4.
+Wave 4; repo; 35 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: D-U12c, D-U21, I-MANIFEST, DG4, R-QUEUE, R-CACHE-MANIFEST.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H04-16/handoff.md`.
 Exact allowlist:
 
@@ -2964,8 +3087,17 @@ Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<L
 - `results/context_audit_20261012/hygiene/receipts/I-MANIFEST/hashes.json`
 - `results/context_audit_20261012/hygiene/receipts/I-MANIFEST/red.txt`
 - `results/context_audit_20261012/hygiene/receipts/I-MANIFEST/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-QUEUE/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-QUEUE/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-QUEUE/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-QUEUE/report.md`
 - `results/context_hygiene_20261012/master_agents.patch`
 - `results/context_hygiene_20261012/memory_cache_manifest.json`
+- `results/context_hygiene_20261012/restoration_cache_manifest.json`
 - `tests/test_context_hygiene_guard.py`
 
 ### D-U12c — Scoped finalized F1/scorecard state
@@ -2974,7 +3106,7 @@ Source: results/context_audit_20261012/SYNTHESIS.md:172; findings: F14(part), S-
 Source files: `docs/program_state.json`.
 Files: `docs/program_state.json`, `results/context_audit_20261012/hygiene/receipts/D-U12c/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U12c/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U12c/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U12c/green.txt`.
 Decision references: none.
-Pins: `{"docs/program_state.json": "b475beb332dd9d378ed1394788d8215ba656f48ccb3e7e7f7c865085fcc9a97d"}`; host-before pins: `{}`.
+Pins: `{"docs/program_state.json": "07ec6a534b9de7b0efeea32eb63d37c0ddfbdf63d4a9ccb8e1f9add64b35e46e"}`; host-before pins: `{}`.
 
 Expected-RED owner: false. Unit kind: repo; lane: H04-16; wave: 4.
 Receipt files: `results/context_audit_20261012/hygiene/receipts/D-U12c/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U12c/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U12c/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U12c/green.txt`.
@@ -3009,11 +3141,14 @@ Pins: `{"results/context_hygiene_20261012/master_agents.patch": null}`; host-bef
 Expected-RED owner: false. Unit kind: repo; lane: H04-16; wave: 4.
 Receipt files: `results/context_audit_20261012/hygiene/receipts/D-U21/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U21/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U21/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U21/green.txt`.
 
+Master authority: `{"commit": "5ccbb836abcb7d0534d6601d502f760f79bf8d85", "path": "AGENTS.md", "ref": "origin/master", "sha256": "9bd23c810037793b41b5242f18e3d0c1cd8d668aa60af371b6f3ca8b215a9ec1"}`.
+
 1. Read results/context_audit_20261012/SYNTHESIS.md:182 and the complete current allowed file/governing sections; confirm dispatch base and record before hashes in the unit receipt.
-2. Patch is against current MAESTRO-frozen M/master file hash, not a wholesale copy. Preserve every unrelated forward edit; read-only git apply --check in a temporary exact snapshot proves applicability. Master drift → rebase reviewed patch, no direct main mutation.
-3. Verify against the exact evidence anchors below: 1–3; no main edit; current role/root/platform/closeout clauses. Report each clause separately with its source and observed result.
-4. After an intervening read, reread edited bytes; verify all safety rules, holds and caveats survive; record after hashes, diff and any budget overage. Runtime not exercised = UNVERIFIED.
-5. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0; only the unit files plus its unique receipt files may differ.
+2. Master authority is git show origin/master:AGENTS.md, initially frozen at 5ccbb836abcb7d0534d6601d502f760f79bf8d85 with SHA-256 9bd23c810037793b41b5242f18e3d0c1cd8d668aa60af371b6f3ca8b215a9ec1. M/local master is NOT the patch base. Read the complete actual remote snapshot; distinguish already-landed cleanup/roles/pin/storage from later true deltas. Build a minimal patch and prove applicability with git apply --check in a temporary exact remote snapshot. Preserve remote-only and unrelated forward work; changed remote head → re-review/rebase, no builder fetch or main mutation.
+3. Record both branch/master differences using frozen origin/master, not local master. MAESTRO preserves the three origin/master-only commits and recalculates divergence at integration. Never copy the entire current branch guide over remote content blindly; empty reviewed patch is valid if this guide has no remaining delta.
+4. Verify against the exact evidence anchors below: 1–3; no main edit; current role/root/platform/closeout clauses. Report each clause separately with its source and observed result.
+5. After an intervening read, reread edited bytes; verify all safety rules, holds and caveats survive; record after hashes, diff and any budget overage. Runtime not exercised = UNVERIFIED.
+6. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0; only the unit files plus its unique receipt files may differ.
 
 ### I-MANIFEST — Reviewed role-cache export manifest
 
@@ -3036,7 +3171,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/I-MANIFEST/repor
 
 ### DG4 — Saved three-store/body-link behavioral RED
 
-Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F07; minutes: 7; depends_on: DG3.
+Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F07; minutes: 7; depends_on: DG3, R-HOOK-GREEN.
 Source files: `tests/test_context_hygiene_guard.py`.
 Files: `tests/test_context_hygiene_guard.py`, `results/context_audit_20261012/hygiene/receipts/DG4/report.md`, `results/context_audit_20261012/hygiene/receipts/DG4/hashes.json`, `results/context_audit_20261012/hygiene/receipts/DG4/red.txt`, `results/context_audit_20261012/hygiene/receipts/DG4/green.txt`.
 Decision references: none.
@@ -3051,10 +3186,53 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/DG4/report.md`, 
 4. Add private-config CI projection controls: missing/stale source hash or missing line coverage fails; retired-value guidance cannot be redacted. Applied mode observes complete real config and ignores projection substitutions.
 5. Save behavioral failures before DG5 changes tool; never weaken DG1 fixtures.
 6. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
+
+### R-QUEUE — Queue readers enforce hygiene pause, review-first dependency and current host roles
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-QUEUE, results/context_audit_20261012/PRESERVATION.md:101, results/context_audit_20261012/PRESERVATION.md:102, results/context_audit_20261012/PRESERVATION.md:105, results/context_audit_20261012/PRESERVATION.md:109, results/context_audit_20261012/PRESERVATION.md:116, results/context_audit_20261012/PRESERVATION.md:228, results/context_audit_20261012/PRESERVATION.md:229; minutes: 8; depends_on: D-U12c, R-REVIEW-FIRST, R-HOLD-NOTE, R-R2-ADOPT-NOTE.
+Source files: `docs/program_state.json`.
+Files: `docs/program_state.json`, `results/context_audit_20261012/hygiene/receipts/R-QUEUE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-QUEUE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-QUEUE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-QUEUE/green.txt`.
+Decision references: none.
+Pins: `{"docs/program_state.json": "5c3dc90e9ce316534cd4ef303a2b1c32c089f3507dd5caedfe24e1e736b457dc"}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H04-16; wave: 4.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-QUEUE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-QUEUE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-QUEUE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-QUEUE/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:101, results/context_audit_20261012/PRESERVATION.md:102, results/context_audit_20261012/PRESERVATION.md:105, results/context_audit_20261012/PRESERVATION.md:109, results/context_audit_20261012/PRESERVATION.md:116; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Edit only work_queue and its active needs_from_you/notes fields; do not rewrite the finalized F1/scorecard/next_actions repaired by existing owners. Before edit preserve the complete source hash/bytes; use deterministic stdlib JSON editing. Retain every item, dependency and historical note.
+3. For every non-hygiene science/build/activation item advertise GATED by the current context-hygiene hold rather than runnable readiness. Preserve actual progress separately; do not claim a running host process stopped. SUMMARY choice prompts depend on operator review completion and cannot be released by blocked_by=[] or elapsed time.
+4. Replace current no-merge-since-Oct-4 claim with dated cached-origin/master vs stale-local-M distinction; no hardcoded divergence as a live constant. Correct Neo4j-on-M3/second-memit-copy current routes to D-HW-2 Intel support/Git pull/adopted v4; retain activation/fresh-run gates.
+5. Read before/after structured queue: IDs/counts/progress/notes survive; only scoped hold/current-reader fields differ. No READY run permission in the active paused queue. D-U13a/b and D-U15/16/19 own renderer/views and must receive this final state.
+6. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:101; subject | 10-11 “dynamically updated so it is never stale” | S1/work-queue-tab-keep-current.md:8; PS/work_queue | S2 same-name note lacks later maintenance extensions (byte comparison); PS:50 still repeats corrected no-merge claim | Show a stale queue or overwrite predecessor notes/dependencies on a queue patch. |. | 10-11 “dynamically updated so it is never stale” | S1/work-queue-tab-keep-current.md:8; PS/work_queue | S2 same-name note lacks later maintenance extensions (byte comparison); PS:50 still repeats corrected no-merge claim | Show a stale queue or overwrite predecessor notes/dependencies on a queue patch. | Action: Queue readers enforce hygiene pause, review-first dependency and current host roles Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:102; subject | 10-11 “I approve this session's design” | B/decisions_log.md:181–183; RB:458; PS:14 | M/root guides and S2 lack D-HW-2 integration/current role note; PS:13 still Neo4j on M3 | Build obsolete same-host engine or dispatch affected work without cross-cutting reconciliation. |. | 10-11 “I approve this session's design” | B/decisions_log.md:181–183; RB:458; PS:14 | M/root guides and S2 lack D-HW-2 integration/current role note; PS:13 still Neo4j on M3 | Build obsolete same-host engine or dispatch affected work without cross-cutting reconciliation. | Action: Queue readers enforce hygiene pause, review-first dependency and current host roles Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:105; subject | 10-11 “I will review the report first” | HF/maestro47_takeover_20261011.md:8; successor HF/20261012T002451Z-56625.md:2 | PS needs_from_you asks for choices with blocked_by=[]; its historical note DOES preserve the review-first condition; no standalone recall note | Ask SUMMARY adoption questions before the operator says review is complete. |. | 10-11 “I will review the report first” | HF/maestro47_takeover_20261011.md:8; successor HF/20261012T002451Z-56625.md:2 | PS needs_from_you asks for choices with blocked_by=[]; its historical note DOES preserve the review-first condition; no standalone recall note | Ask SUMMARY adoption questions before the operator says review is complete. | Action: Queue readers enforce hygiene pause, review-first dependency and current host roles Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:109; subject | 10-11 “Can the Intel Mac pull … directly from Git” | B/r2_redesign_operator_ruling.md:5–11; S1/S3/remove-shared-resource-before-policing-it.md:7 | S2 missing note; old integration/profile artifacts retained without universal reader tombstone; PS:14 second-memit-copy wording | Resume retired shared-memit R2 freeze or give Intel a memit route. |. | 10-11 “Can the Intel Mac pull … directly from Git” | B/r2_redesign_operator_ruling.md:5–11; S1/S3/remove-shared-resource-before-policing-it.md:7 | S2 missing note; old integration/profile artifacts retained without universal reader tombstone; PS:14 second-memit-copy wording | Resume retired shared-memit R2 freeze or give Intel a memit route. | Action: Queue readers enforce hygiene pause, review-first dependency and current host roles Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:116; subject | 10-12 “Fix absolutely everything” [queue-recorded quote] | PS:50–51 specifies context hygiene then stop; S3/context-hygiene-must-reach-every-store.md:11–15 | PS still lists other ready/running work without per-item hygiene pause; generic standing-autonomy notes omit latest hold | Resume science/activation/build work before context cleanup and operator stop. |. | 10-12 “Fix absolutely everything” [queue-recorded quote] | PS:50–51 specifies context hygiene then stop; S3/context-hygiene-must-reach-every-store.md:11–15 | PS still lists other ready/running work without per-item hygiene pause; generic standing-autonomy notes omit latest hold | Resume science/activation/build work before context cleanup and operator stop. | Action: Queue readers enforce hygiene pause, review-first dependency and current host roles Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:228; subject **Handoff/queue routing risk, not erased decisions:** “review report before questions” survives HF/maestro47_takeover_20261011.md:8 AND PS’s 14:12Z historical note; the active needs_from_you still prompts choices with blocked_by=[]. The later hygiene-only hold survives PS:50 while other items advertise ready/running. These conditions reached durable files; their current display/enforcement is weaker than their historical prose. No erased, uniquely chat-only operator ruling was established.. **Handoff/queue routing risk, not erased decisions:** “review report before questions” survives HF/maestro47_takeover_20261011.md:8 AND PS’s 14:12Z historical note; the active needs_from_you still prompts choices with blocked_by=[]. The later hygiene-only hold survives PS:50 while other items advertise ready/running. These conditions reached durable files; their current display/enforcement is weaker than their historical prose. No erased, uniquely chat-only operator ruling was established. Action: Queue readers enforce hygiene pause, review-first dependency and current host roles Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:229; subject **A live propagation regression:** PS:50 still says “master has had no merge since Oct 4,” contradicted by corrected A/ROOT_CAUSE.md:8 and cached origin/master. S3/context-hygiene-must-reach-every-store.md:11 says compare origin/master, but its merge timestamp/count also lag current receipts. Correct source facts did not automatically update queue/index summaries.. **A live propagation regression:** PS:50 still says “master has had no merge since Oct 4,” contradicted by corrected A/ROOT_CAUSE.md:8 and cached origin/master. S3/context-hygiene-must-reach-every-store.md:11 says compare origin/master, but its merge timestamp/count also lag current receipts. Correct source facts did not automatically update queue/index summaries. Action: Queue readers enforce hygiene pause, review-first dependency and current host roles Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-CACHE-MANIFEST — Exact supplementary ruling membership; original 196 export contracts unchanged
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-CACHE-MANIFEST; minutes: 5; depends_on: I-MANIFEST, I-GIT.
+Source files: `results/context_hygiene_20261012/restoration_cache_manifest.json`.
+Files: `results/context_hygiene_20261012/restoration_cache_manifest.json`, `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/report.md`, `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/green.txt`.
+Decision references: none.
+Pins: `{"results/context_hygiene_20261012/restoration_cache_manifest.json": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H04-16; wave: 4.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/report.md`, `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-CACHE-MANIFEST/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read final baseline memory_cache_manifest.json and supplemental exact candidates in OUT/restoration_spec.json. Preserve the exact original 196 candidates/contracts; write separate schema_version=1 baseline_manifest_sha256 plus supplemental exports with final source_sha256/bytes and host-before hashes/absence.
+3. Validate all supplementary note/link targets and store roots observed; no missing/denied/empty source is accepted. Role-index requirements combine both memberships; CM is excluded. No guessed filenames, wildcards or overwriting private configs.
+4. Both manifests are required by the final policy/guard and I-CACHE lane addendum; SHA/source/member divergence fails. No silent union by mtime/size; changed census goes back to MAESTRO review.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Exact supplementary ruling membership; original 196 export contracts unchanged Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
 ## H05-17
 
-Wave 5; repo; 22 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
-Ordered units: D-U13a, I-SYNCa, DG5, E(n,s).
+Wave 5; repo; 27 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: D-U13a, I-SYNCa, DG5, M-REFRESH, E(n,s).
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-17/handoff.md`.
 Exact allowlist:
 
@@ -3078,14 +3256,19 @@ Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<L
 - `results/context_audit_20261012/hygiene/receipts/I-SYNCa/hashes.json`
 - `results/context_audit_20261012/hygiene/receipts/I-SYNCa/red.txt`
 - `results/context_audit_20261012/hygiene/receipts/I-SYNCa/report.md`
+- `results/context_audit_20261012/hygiene/receipts/M-REFRESH/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/M-REFRESH/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/M-REFRESH/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/M-REFRESH/report.md`
 - `results/context_audit_20261012/hygiene/receipts/export_contract.json`
+- `results/context_hygiene_20261012/main_checkout_refresh.md`
 - `tests/test_context_memory_sync.py`
 - `tests/test_render_state_context_hygiene.py`
 - `tools/context_hygiene_guard.py`
 
 ### D-U13a — Saved compact-render behavioral RED
 
-Source: results/context_audit_20261012/SYNTHESIS.md:173; findings: S-A; minutes: 6; depends_on: D-U12c.
+Source: results/context_audit_20261012/SYNTHESIS.md:173; findings: S-A; minutes: 6; depends_on: D-U12c, R-QUEUE.
 Source files: `tests/test_render_state_context_hygiene.py`.
 Files: `tests/test_render_state_context_hygiene.py`, `results/context_audit_20261012/hygiene/receipts/D-U13a/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U13a/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U13a/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U13a/green.txt`.
 Decision references: D3, D4.
@@ -3121,7 +3304,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/I-SYNCa/report.m
 
 ### DG5 — Three-store hash and body-link scanner
 
-Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F07; minutes: 8; depends_on: DG4, I-MANIFEST.
+Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F07; minutes: 8; depends_on: DG4, I-MANIFEST, R-HOOK-GREEN.
 Source files: `tools/context_hygiene_guard.py`.
 Files: `tools/context_hygiene_guard.py`, `results/context_audit_20261012/hygiene/receipts/DG5/report.md`, `results/context_audit_20261012/hygiene/receipts/DG5/hashes.json`, `results/context_audit_20261012/hygiene/receipts/DG5/red.txt`, `results/context_audit_20261012/hygiene/receipts/DG5/green.txt`.
 Decision references: none.
@@ -3135,6 +3318,22 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/DG5/report.md`, 
 3. Staged CI reads the exact verified configuration projection for the two private paths from manifest.ci_projections_file. Require every source line covered by retained line text or an approved secret-only redaction; label CONFIG PROJECTION scope. Applied mode reads complete actual H files. Projection absence or mismatched source receipt is failure.
 4. Run /usr/bin/python3 -B tests/test_context_hygiene_guard.py → DG1 and DG4 GREEN; staged fixture contains no real user host dependencies.
 5. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
+
+### M-REFRESH — Separate reviewed stale-local-main refresh and session launch-route contract
+
+Source: results/context_audit_20261012/hygiene/master_authority_correction.md; findings: F01; minutes: 5; depends_on: D-U20, D-U21, D-U22, R-INFLIGHT.
+Source files: `results/context_hygiene_20261012/main_checkout_refresh.md`.
+Files: `results/context_hygiene_20261012/main_checkout_refresh.md`, `results/context_audit_20261012/hygiene/receipts/M-REFRESH/report.md`, `results/context_audit_20261012/hygiene/receipts/M-REFRESH/hashes.json`, `results/context_audit_20261012/hygiene/receipts/M-REFRESH/red.txt`, `results/context_audit_20261012/hygiene/receipts/M-REFRESH/green.txt`.
+Decision references: none.
+Pins: `{"results/context_hygiene_20261012/main_checkout_refresh.md": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H05-17; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/M-REFRESH/report.md`, `results/context_audit_20261012/hygiene/receipts/M-REFRESH/hashes.json`, `results/context_audit_20261012/hygiene/receipts/M-REFRESH/red.txt`, `results/context_audit_20261012/hygiene/receipts/M-REFRESH/green.txt`.
+
+1. Read OUT/master_authority_correction.md/receipt plus complete git show origin/master:CLAUDE.md, AGENTS.md, DISCIPLINE.md snapshots. Name M/local master=557a58bc separately from origin/master=5ccbb836; never claim the October 10 cleanup was absent from remote master.
+2. Produce an explicit MAESTRO-only refresh contract: inventory M branch/ref, tracked/ignored/untracked local work and competing writers, preserve all local bytes/commits, then choose a reviewed serialized update to the post-integration remote head. No blind pull/reset, deletion or wholesale replacement. Builders write only this contract, never M or Git metadata.
+3. After final integration, require current remote-head identity and local guidance byte/hash comparison before removing M launch hold. If preservation/coordination cannot be established, keep M launch-held and start sessions in a verified current isolated worktree. This local refresh is separate from remote-master integration and makes no science/host-runtime acceptance claim.
+4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 
 ### E(n,s) — Verify exact concrete export assignments replace the synthesis template
 
@@ -3152,7 +3351,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E_n_s_/report.md
 3. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H05-18
 
-Wave 5; host; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 5; host; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: E-S2-001, E-S2-002, E-S2-003, E-S2-004, E-S2-005, E-S2-006, E-S2-007, E-S2-008, E-S2-009, E-S2-010, E-S2-011, E-S2-012, E-S2-013, E-S2-014, E-S2-015, E-S2-016, E-S2-017, E-S2-018.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-18/handoff.md`.
 Exact allowlist:
@@ -3541,7 +3740,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S2-018/report.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H05-19
 
-Wave 5; host; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 5; host; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: E-S2-019, E-S2-020, E-S2-021, E-S2-022, E-S2-023, E-S2-024, E-S2-025, E-S2-026, E-S2-027, E-S2-028, E-S2-029, E-S2-030, E-S2-031, E-S2-032, E-S2-033, E-S2-034, E-S2-035, E-S2-036.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-19/handoff.md`.
 Exact allowlist:
@@ -3930,7 +4129,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S2-036/report.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H05-20
 
-Wave 5; host; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 5; host; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: E-S2-037, E-S2-038, E-S2-039, E-S2-040, E-S2-041, E-S2-042, E-S2-043, E-S2-044, E-S2-045, E-S2-046, E-S2-047, E-S2-048, E-S2-049, E-S2-050, E-S2-051, E-S2-052, E-S2-053, E-S2-054.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-20/handoff.md`.
 Exact allowlist:
@@ -4319,7 +4518,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S2-054/report.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H05-21
 
-Wave 5; host; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 5; host; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: E-S2-055, E-S2-056, E-S2-057, E-S2-058, E-S2-059, E-S2-060, E-S2-061, E-S2-062, E-S2-063, E-S2-064, E-S2-065, E-S2-066, E-S2-067, E-S2-068, E-S2-069, E-S2-070, E-S2-071, E-S2-072.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-21/handoff.md`.
 Exact allowlist:
@@ -4693,7 +4892,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S2-071/report.
 
 ### E-S2-072 — Export lab-view-and-live-telemetry.md to S2
 
-Source: results/context_audit_20261012/SYNTHESIS.md:209; findings: F07; minutes: 2; depends_on: I-MANIFEST.
+Source: results/context_audit_20261012/SYNTHESIS.md:209; findings: F07; minutes: 2; depends_on: I-MANIFEST, R-LABVIZ-READER.
 Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/lab-view-and-live-telemetry.md`.
 Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/lab-view-and-live-telemetry.md`, `results/context_audit_20261012/hygiene/receipts/E-S2-072/report.md`, `results/context_audit_20261012/hygiene/receipts/E-S2-072/hashes.json`, `results/context_audit_20261012/hygiene/receipts/E-S2-072/red.txt`, `results/context_audit_20261012/hygiene/receipts/E-S2-072/green.txt`.
 Decision references: none.
@@ -4708,7 +4907,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S2-072/report.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H05-22
 
-Wave 5; host; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 5; host; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: E-S2-073, E-S2-074, E-S2-075, E-S2-076, E-S2-077, E-S2-078, E-S2-079, E-S2-080, E-S2-081, E-S2-082, E-S2-083, E-S2-084, E-S2-085, E-S2-086, E-S2-087, E-S2-088, E-S2-089, E-S2-090.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-22/handoff.md`.
 Exact allowlist:
@@ -5097,7 +5296,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S2-090/report.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H05-23
 
-Wave 5; host; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 5; host; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: E-S2-091, E-S2-092, E-S2-093, E-S2-094, E-S2-095, E-S2-096, E-S2-097, E-S2-098, E-S2-099, E-S2-100, E-S2-101, E-S2-102, E-S2-103, E-S2-104, E-S2-105, E-S2-106, E-S2-107, E-S2-108.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-23/handoff.md`.
 Exact allowlist:
@@ -5279,7 +5478,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S2-095/report.
 
 ### E-S2-096 — Export operator-overnight-autonomy-2026-10-06.md to S2
 
-Source: results/context_audit_20261012/SYNTHESIS.md:209; findings: F07; minutes: 2; depends_on: I-MANIFEST, N10.
+Source: results/context_audit_20261012/SYNTHESIS.md:209; findings: F07; minutes: 2; depends_on: I-MANIFEST, N10, R-AUTONOMY-READER.
 Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/operator-overnight-autonomy-2026-10-06.md`.
 Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/operator-overnight-autonomy-2026-10-06.md`, `results/context_audit_20261012/hygiene/receipts/E-S2-096/report.md`, `results/context_audit_20261012/hygiene/receipts/E-S2-096/hashes.json`, `results/context_audit_20261012/hygiene/receipts/E-S2-096/red.txt`, `results/context_audit_20261012/hygiene/receipts/E-S2-096/green.txt`.
 Decision references: none.
@@ -5486,7 +5685,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S2-108/report.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H05-24
 
-Wave 5; host; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 5; host; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: E-S2-109, E-S2-110, E-S2-111, E-S2-112, E-S2-113, E-S2-114, E-S2-115, E-S2-116, E-S2-117, E-S2-118, E-S2-119, E-S2-120, E-S2-121, E-S2-122, E-S2-123, E-S2-124, E-S2-125, E-S2-126.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-24/handoff.md`.
 Exact allowlist:
@@ -5875,7 +6074,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S2-126/report.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H05-25
 
-Wave 5; host; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 5; host; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: E-S2-127, E-S2-128, E-S2-129, E-S2-130, E-S2-131, E-S2-132, E-S3-001, E-S3-002, E-S3-003, E-S3-004, E-S3-005, E-S3-006, E-S3-007, E-S3-008, E-S3-009, E-S3-010, E-S3-011, E-S3-012.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-25/handoff.md`.
 Exact allowlist:
@@ -6264,7 +6463,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S3-012/report.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H05-26
 
-Wave 5; host; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 5; host; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: E-S3-013, E-S3-014, E-S3-015, E-S3-016, E-S3-017, E-S3-018, E-S3-019, E-S3-020, E-S3-021, E-S3-022, E-S3-023, E-S3-024, E-S3-025, E-S3-026, E-S3-027, E-S3-028, E-S3-029, E-S3-030.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-26/handoff.md`.
 Exact allowlist:
@@ -6606,7 +6805,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S3-027/report.
 
 ### E-S3-028 — Export labviz-wireframe-before-spec-approval.md to S3
 
-Source: results/context_audit_20261012/SYNTHESIS.md:209; findings: F07; minutes: 2; depends_on: I-MANIFEST.
+Source: results/context_audit_20261012/SYNTHESIS.md:209; findings: F07; minutes: 2; depends_on: I-MANIFEST, R-LABVIZ-READER.
 Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/labviz-wireframe-before-spec-approval.md`.
 Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/labviz-wireframe-before-spec-approval.md`, `results/context_audit_20261012/hygiene/receipts/E-S3-028/report.md`, `results/context_audit_20261012/hygiene/receipts/E-S3-028/hashes.json`, `results/context_audit_20261012/hygiene/receipts/E-S3-028/red.txt`, `results/context_audit_20261012/hygiene/receipts/E-S3-028/green.txt`.
 Decision references: none.
@@ -6653,7 +6852,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S3-030/report.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H05-27
 
-Wave 5; host; 36 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 5; host; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: E-S3-031, E-S3-032, E-S3-033, E-S3-034, E-S3-035, E-S3-036, E-S3-037, E-S3-038, E-S3-039, E-S3-040, E-S3-041, E-S3-042, E-S3-043, E-S3-044, E-S3-045, E-S3-046, E-S3-047, E-S3-048.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-27/handoff.md`.
 Exact allowlist:
@@ -6947,7 +7146,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S3-042/report.
 
 ### E-S3-043 — Export operator-overnight-autonomy-2026-10-06.md to S3
 
-Source: results/context_audit_20261012/SYNTHESIS.md:209; findings: F07; minutes: 2; depends_on: I-MANIFEST, N10.
+Source: results/context_audit_20261012/SYNTHESIS.md:209; findings: F07; minutes: 2; depends_on: I-MANIFEST, N10, R-AUTONOMY-READER.
 Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/operator-overnight-autonomy-2026-10-06.md`.
 Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/operator-overnight-autonomy-2026-10-06.md`, `results/context_audit_20261012/hygiene/receipts/E-S3-043/report.md`, `results/context_audit_20261012/hygiene/receipts/E-S3-043/hashes.json`, `results/context_audit_20261012/hygiene/receipts/E-S3-043/red.txt`, `results/context_audit_20261012/hygiene/receipts/E-S3-043/green.txt`.
 Decision references: none.
@@ -7042,7 +7241,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S3-048/report.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H05-28
 
-Wave 5; host; 32 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 5; host; 32 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: E-S3-049, E-S3-050, E-S3-051, E-S3-052, E-S3-053, E-S3-054, E-S3-055, E-S3-056, E-S3-057, E-S3-058, E-S3-059, E-S3-060, E-S3-061, E-S3-062, E-S3-063, E-S3-064.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H05-28/handoff.md`.
 Exact allowlist:
@@ -7389,7 +7588,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/E-S3-064/report.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H06-29
 
-Wave 6; repo; 6 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 6; repo; 6 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: D-U13b.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H06-29/handoff.md`.
 Exact allowlist:
@@ -7406,7 +7605,7 @@ Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<L
 
 ### D-U13b — Compact renderer passing frozen fixtures
 
-Source: results/context_audit_20261012/SYNTHESIS.md:174; findings: S-A; minutes: 6; depends_on: D-U13a.
+Source: results/context_audit_20261012/SYNTHESIS.md:174; findings: S-A; minutes: 6; depends_on: D-U13a, R-ROOT-CALLER-RED, R-ROOT-ROUTES.
 Source files: `tools/render_state.py`.
 Files: `tools/render_state.py`, `results/context_audit_20261012/hygiene/receipts/D-U13b/report.md`, `results/context_audit_20261012/hygiene/receipts/D-U13b/hashes.json`, `results/context_audit_20261012/hygiene/receipts/D-U13b/red.txt`, `results/context_audit_20261012/hygiene/receipts/D-U13b/green.txt`.
 Decision references: none.
@@ -7423,7 +7622,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/D-U13b/report.md
 6. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0; only the unit files plus its unique receipt files may differ.
 ## H06-30
 
-Wave 6; host; 6 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 6; host; 6 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: I-CACHE.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H06-30/handoff.md`.
 Exact allowlist:
@@ -7441,7 +7640,7 @@ Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<L
 
 ### I-CACHE — Two derived recall indices, single owner
 
-Source: results/context_audit_20261012/SYNTHESIS.md:210; findings: F02, F07, F08, F13(part), S-I; minutes: 6; depends_on: E-S2-001, E-S2-002, E-S2-003, E-S2-004, E-S2-005, E-S2-006, E-S2-007, E-S2-008, E-S2-009, E-S2-010, E-S2-011, E-S2-012, E-S2-013, E-S2-014, E-S2-015, E-S2-016, E-S2-017, E-S2-018, E-S2-019, E-S2-020, E-S2-021, E-S2-022, E-S2-023, E-S2-024, E-S2-025, E-S2-026, E-S2-027, E-S2-028, E-S2-029, E-S2-030, E-S2-031, E-S2-032, E-S2-033, E-S2-034, E-S2-035, E-S2-036, E-S2-037, E-S2-038, E-S2-039, E-S2-040, E-S2-041, E-S2-042, E-S2-043, E-S2-044, E-S2-045, E-S2-046, E-S2-047, E-S2-048, E-S2-049, E-S2-050, E-S2-051, E-S2-052, E-S2-053, E-S2-054, E-S2-055, E-S2-056, E-S2-057, E-S2-058, E-S2-059, E-S2-060, E-S2-061, E-S2-062, E-S2-063, E-S2-064, E-S2-065, E-S2-066, E-S2-067, E-S2-068, E-S2-069, E-S2-070, E-S2-071, E-S2-072, E-S2-073, E-S2-074, E-S2-075, E-S2-076, E-S2-077, E-S2-078, E-S2-079, E-S2-080, E-S2-081, E-S2-082, E-S2-083, E-S2-084, E-S2-085, E-S2-086, E-S2-087, E-S2-088, E-S2-089, E-S2-090, E-S2-091, E-S2-092, E-S2-093, E-S2-094, E-S2-095, E-S2-096, E-S2-097, E-S2-098, E-S2-099, E-S2-100, E-S2-101, E-S2-102, E-S2-103, E-S2-104, E-S2-105, E-S2-106, E-S2-107, E-S2-108, E-S2-109, E-S2-110, E-S2-111, E-S2-112, E-S2-113, E-S2-114, E-S2-115, E-S2-116, E-S2-117, E-S2-118, E-S2-119, E-S2-120, E-S2-121, E-S2-122, E-S2-123, E-S2-124, E-S2-125, E-S2-126, E-S2-127, E-S2-128, E-S2-129, E-S2-130, E-S2-131, E-S2-132, E-S3-001, E-S3-002, E-S3-003, E-S3-004, E-S3-005, E-S3-006, E-S3-007, E-S3-008, E-S3-009, E-S3-010, E-S3-011, E-S3-012, E-S3-013, E-S3-014, E-S3-015, E-S3-016, E-S3-017, E-S3-018, E-S3-019, E-S3-020, E-S3-021, E-S3-022, E-S3-023, E-S3-024, E-S3-025, E-S3-026, E-S3-027, E-S3-028, E-S3-029, E-S3-030, E-S3-031, E-S3-032, E-S3-033, E-S3-034, E-S3-035, E-S3-036, E-S3-037, E-S3-038, E-S3-039, E-S3-040, E-S3-041, E-S3-042, E-S3-043, E-S3-044, E-S3-045, E-S3-046, E-S3-047, E-S3-048, E-S3-049, E-S3-050, E-S3-051, E-S3-052, E-S3-053, E-S3-054, E-S3-055, E-S3-056, E-S3-057, E-S3-058, E-S3-059, E-S3-060, E-S3-061, E-S3-062, E-S3-063, E-S3-064, E(n,s).
+Source: results/context_audit_20261012/SYNTHESIS.md:210; findings: F02, F07, F08, F13(part), S-I; minutes: 6; depends_on: E-S2-001, E-S2-002, E-S2-003, E-S2-004, E-S2-005, E-S2-006, E-S2-007, E-S2-008, E-S2-009, E-S2-010, E-S2-011, E-S2-012, E-S2-013, E-S2-014, E-S2-015, E-S2-016, E-S2-017, E-S2-018, E-S2-019, E-S2-020, E-S2-021, E-S2-022, E-S2-023, E-S2-024, E-S2-025, E-S2-026, E-S2-027, E-S2-028, E-S2-029, E-S2-030, E-S2-031, E-S2-032, E-S2-033, E-S2-034, E-S2-035, E-S2-036, E-S2-037, E-S2-038, E-S2-039, E-S2-040, E-S2-041, E-S2-042, E-S2-043, E-S2-044, E-S2-045, E-S2-046, E-S2-047, E-S2-048, E-S2-049, E-S2-050, E-S2-051, E-S2-052, E-S2-053, E-S2-054, E-S2-055, E-S2-056, E-S2-057, E-S2-058, E-S2-059, E-S2-060, E-S2-061, E-S2-062, E-S2-063, E-S2-064, E-S2-065, E-S2-066, E-S2-067, E-S2-068, E-S2-069, E-S2-070, E-S2-071, E-S2-072, E-S2-073, E-S2-074, E-S2-075, E-S2-076, E-S2-077, E-S2-078, E-S2-079, E-S2-080, E-S2-081, E-S2-082, E-S2-083, E-S2-084, E-S2-085, E-S2-086, E-S2-087, E-S2-088, E-S2-089, E-S2-090, E-S2-091, E-S2-092, E-S2-093, E-S2-094, E-S2-095, E-S2-096, E-S2-097, E-S2-098, E-S2-099, E-S2-100, E-S2-101, E-S2-102, E-S2-103, E-S2-104, E-S2-105, E-S2-106, E-S2-107, E-S2-108, E-S2-109, E-S2-110, E-S2-111, E-S2-112, E-S2-113, E-S2-114, E-S2-115, E-S2-116, E-S2-117, E-S2-118, E-S2-119, E-S2-120, E-S2-121, E-S2-122, E-S2-123, E-S2-124, E-S2-125, E-S2-126, E-S2-127, E-S2-128, E-S2-129, E-S2-130, E-S2-131, E-S2-132, E-S3-001, E-S3-002, E-S3-003, E-S3-004, E-S3-005, E-S3-006, E-S3-007, E-S3-008, E-S3-009, E-S3-010, E-S3-011, E-S3-012, E-S3-013, E-S3-014, E-S3-015, E-S3-016, E-S3-017, E-S3-018, E-S3-019, E-S3-020, E-S3-021, E-S3-022, E-S3-023, E-S3-024, E-S3-025, E-S3-026, E-S3-027, E-S3-028, E-S3-029, E-S3-030, E-S3-031, E-S3-032, E-S3-033, E-S3-034, E-S3-035, E-S3-036, E-S3-037, E-S3-038, E-S3-039, E-S3-040, E-S3-041, E-S3-042, E-S3-043, E-S3-044, E-S3-045, E-S3-046, E-S3-047, E-S3-048, E-S3-049, E-S3-050, E-S3-051, E-S3-052, E-S3-053, E-S3-054, E-S3-055, E-S3-056, E-S3-057, E-S3-058, E-S3-059, E-S3-060, E-S3-061, E-S3-062, E-S3-063, E-S3-064, E(n,s), R-E-S2-001, R-E-S2-002, R-E-S2-003, R-E-S2-004, R-E-S2-005, R-E-S2-006, R-E-S2-007, R-E-S2-008, R-E-S2-009, R-E-S2-010, R-E-S2-011, R-E-S2-012, R-E-S2-013, R-E-S2-014, R-E-S2-015, R-E-S2-016, R-E-S2-017, R-E-S2-018, R-E-S2-019, R-E-S2-020, R-E-S2-021, R-E-S3-001, R-E-S3-002, R-E-S3-003, R-E-S3-004, R-E-S3-005, R-E-S3-006, R-E-S3-007, R-E-S3-008, R-E-S3-009, R-E-S3-010, R-E-S3-011, R-CACHE-MANIFEST.
 Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/MEMORY.md`, `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/MEMORY.md`.
 Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/MEMORY.md`, `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/MEMORY.md`, `results/context_audit_20261012/hygiene/receipts/I-CACHE/report.md`, `results/context_audit_20261012/hygiene/receipts/I-CACHE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/I-CACHE/red.txt`, `results/context_audit_20261012/hygiene/receipts/I-CACHE/green.txt`.
 Decision references: none.
@@ -7462,7 +7661,7 @@ Evidence results/context_audit_20261012/audit_caa_claude_layer.md:60; subject AM
 Evidence results/context_audit_20261012/audit_caa_claude_layer.md:92; subject AM notes absent/different in mirror (overlaps note rows). tools/closeout_check.py:252-261 defaults to the older mirror-root bank; current AutoMem is AM (TR:27). 11 notes absent, 1 different; prior APPLIED.md:244 asserted only the older bank mirrored. Action: fix-text (document/load current bank and check it explicitly; reconcile mirrors only after approval) Replacement: Determine the AutoMem directory from the live instructions attachment; compare that bank with memory_mirror using explicit LLMDB_LIVE_MEMORY.
 ## H07-31
 
-Wave 7; repo; 24 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 7; repo; 24 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: D-U15, D-U16, I-SYNCb, DG-INDEX-PINS.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H07-31/handoff.md`.
 Exact allowlist:
@@ -7567,7 +7766,7 @@ Evidence results/context_audit_20261012/audit_cae_memory_stores.md:15; subject t
 
 ### DG-INDEX-PINS — Freeze approved role-index divergence hashes after index owner
 
-Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F07; minutes: 4; depends_on: I-CACHE, DG5.
+Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F07; minutes: 4; depends_on: I-CACHE, DG5, R-HOOK-GREEN.
 Source files: `tools/context_hygiene_policy.json`.
 Files: `tools/context_hygiene_policy.json`, `results/context_audit_20261012/hygiene/receipts/DG-INDEX-PINS/report.md`, `results/context_audit_20261012/hygiene/receipts/DG-INDEX-PINS/hashes.json`, `results/context_audit_20261012/hygiene/receipts/DG-INDEX-PINS/red.txt`, `results/context_audit_20261012/hygiene/receipts/DG-INDEX-PINS/green.txt`.
 Decision references: none.
@@ -7581,7 +7780,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/DG-INDEX-PINS/re
 3. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H08-32
 
-Wave 8; repo; 21 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 8; repo; 21 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: D-U19, DG6, DG7.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H08-32/handoff.md`.
 Exact allowlist:
@@ -7639,7 +7838,7 @@ Evidence results/context_audit_20261012/audit_caf_anchor_docs.md:67; subject EXP
 
 ### DG6 — Drift guard wired into pre-commit and CI
 
-Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F01, F07, S-P; minutes: 7; depends_on: DG5, I-CACHE, DG-INDEX-PINS.
+Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F01, F07, S-P; minutes: 7; depends_on: DG5, I-CACHE, DG-INDEX-PINS, R-HOOK-GREEN.
 Source files: `tools/git_hooks/pre-commit`, `.github/workflows/ci.yml`.
 Files: `tools/git_hooks/pre-commit`, `.github/workflows/ci.yml`, `results/context_audit_20261012/hygiene/receipts/DG6/report.md`, `results/context_audit_20261012/hygiene/receipts/DG6/hashes.json`, `results/context_audit_20261012/hygiene/receipts/DG6/red.txt`, `results/context_audit_20261012/hygiene/receipts/DG6/green.txt`.
 Decision references: none.
@@ -7656,7 +7855,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/DG6/report.md`, 
 
 ### DG7 — Saved closeout drift-report behavioral RED
 
-Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F07, S-P; minutes: 6; depends_on: I-SYNCb, DG5, DG-INDEX-PINS.
+Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F07, S-P; minutes: 6; depends_on: I-SYNCb, DG5, DG-INDEX-PINS, R-HOOK-GREEN.
 Source files: `tests/test_closeout_context_hygiene.py`.
 Files: `tests/test_closeout_context_hygiene.py`, `results/context_audit_20261012/hygiene/receipts/DG7/report.md`, `results/context_audit_20261012/hygiene/receipts/DG7/hashes.json`, `results/context_audit_20261012/hygiene/receipts/DG7/red.txt`, `results/context_audit_20261012/hygiene/receipts/DG7/green.txt`.
 Decision references: none.
@@ -7671,7 +7870,7 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/DG7/report.md`, 
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
 ## H09-33
 
-Wave 9; repo; 6 min; worktree `<WT>`; base `18e343923e884e2fac35cfdc476e7a87ab77e898`.
+Wave 9; repo; 6 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
 Ordered units: DG8.
 Handoff: `results/context_audit_20261012/hygiene/receipts/H09-33/handoff.md`.
 Exact allowlist:
@@ -7688,7 +7887,7 @@ Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<L
 
 ### DG8 — Reported drift check in closeout
 
-Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F07, S-P; minutes: 6; depends_on: DG7.
+Source: results/context_audit_20261012/hygiene_planner_brief.md:16; findings: F07, S-P; minutes: 6; depends_on: DG7, R-ROOT-CALLER-RED.
 Source files: `tools/closeout_check.py`.
 Files: `tools/closeout_check.py`, `results/context_audit_20261012/hygiene/receipts/DG8/report.md`, `results/context_audit_20261012/hygiene/receipts/DG8/hashes.json`, `results/context_audit_20261012/hygiene/receipts/DG8/red.txt`, `results/context_audit_20261012/hygiene/receipts/DG8/green.txt`.
 Decision references: none.
@@ -7701,3 +7900,1361 @@ Receipt files: `results/context_audit_20261012/hygiene/receipts/DG8/report.md`, 
 2. Run /usr/bin/python3 -B tests/test_closeout_context_hygiene.py and tests/test_context_memory_sync.py → GREEN; preserve memory WARN advisory and all existing scientific gates.
 3. No change to scientific acceptance criteria: guard report is separate; CI/precommit enforce hygiene. Preserve current argv/API compatibility and do not import model code.
 4. Save before/after hashes and exact observations in the unit receipt; reread after another operation; LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0.
+## H01-R34
+
+Wave 1; repo; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: R-RETEST-NOTE, R-RECOVERY-NOTE, R-REVIEW-FIRST, R-HOLD-NOTE, R-R2-ADOPT-NOTE, R-R2-V1, R-R2-V2, R-R2-V3, R-ARM-R-READER.
+Handoff: `results/context_audit_20261012/hygiene/receipts/H01-R34/handoff.md`.
+Exact allowlist:
+
+Dispatch required: true; identical frozen Git blob ref `refs/context_hygiene/dispatch/H01-R34`; immutable private seeds allowed only at the exact private paths above.
+Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<LANE>.json.
+
+- `docs/session_summaries/r2_inventory_scope_before_hygiene_20261012.md`
+- `docs/session_summaries/r2_redesign_v1_before_hygiene_20261012.md`
+- `docs/session_summaries/r2_redesign_v2_before_hygiene_20261012.md`
+- `docs/session_summaries/r2_redesign_v3_before_hygiene_20261012.md`
+- `memory_mirror/autoresearch-retest-minted-token-planning-only.md`
+- `memory_mirror/hw1-choice7-recovery-required.md`
+- `memory_mirror/operator-context-hygiene-hold.md`
+- `memory_mirror/operator-review-report-before-questions.md`
+- `memory_mirror/r2-v4-adoption-reader-boundaries.md`
+- `results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v1.md`
+- `results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v2.md`
+- `results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v3.md`
+- `results/compute_storage_brainstorm_20261011T054507Z/r2_inventory_scope_decision.md`
+- `results/context_audit_20261012/hygiene/receipts/H01-R34/handoff.md`
+- `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V1/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V1/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V1/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V1/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V2/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V2/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V2/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V2/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V3/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V3/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V3/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-R2-V3/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/report.md`
+
+### R-RETEST-NOTE — Standalone preserved ruling: autoresearch-retest-minted-token-planning-only.md
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-RETEST-NOTE, results/context_audit_20261012/PRESERVATION.md:100; minutes: 4; depends_on: none.
+Source files: `memory_mirror/autoresearch-retest-minted-token-planning-only.md`.
+Files: `memory_mirror/autoresearch-retest-minted-token-planning-only.md`, `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/green.txt`.
+Decision references: none.
+Pins: `{"memory_mirror/autoresearch-retest-minted-token-planning-only.md": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H01-R34; wave: 1.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-RETEST-NOTE/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:100; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Preserve the exact ruling at results/autoresearch_reaim/operator_ruling_retest_20261011.md:6–18: correct Arm R is AutoResearch, not C10W. A dated supersession correction in the named historical DS reader is owned by R-ARM-R-READER; do not infer a new run from that correction. Planning approval/minted token is not run GO; distinguish Arm M and all freeze/new-authorization conditions.
+3. Create nonempty name/description/metadata.type frontmatter and a resolving authority link. No recipe, budget or science acceptance changes.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:100; subject | 10-11 “Approve, with minted token” | RB:432; results/autoresearch_reaim/operator_ruling_retest_20261011.md:6–18; PS:374–375 | R2 DS claimed Arm R=C10W (B/astra_r2i_verdict.md:48–56); S1/S2/S3 have no standalone re-test ruling note | Plan the wrong Arm R, or mistake planning approval for a run GO. |. | 10-11 “Approve, with minted token” | RB:432; results/autoresearch_reaim/operator_ruling_retest_20261011.md:6–18; PS:374–375 | R2 DS claimed Arm R=C10W (B/astra_r2i_verdict.md:48–56); S1/S2/S3 have no standalone re-test ruling note | Plan the wrong Arm R, or mistake planning approval for a run GO. | Action: Standalone preserved ruling: autoresearch-retest-minted-token-planning-only.md Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-RECOVERY-NOTE — Standalone preserved ruling: hw1-choice7-recovery-required.md
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-RECOVERY-NOTE, results/context_audit_20261012/PRESERVATION.md:103; minutes: 4; depends_on: none.
+Source files: `memory_mirror/hw1-choice7-recovery-required.md`.
+Files: `memory_mirror/hw1-choice7-recovery-required.md`, `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/green.txt`.
+Decision references: none.
+Pins: `{"memory_mirror/hw1-choice7-recovery-required.md": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H01-R34; wave: 1.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-RECOVERY-NOTE/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:103; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read decisions_log.md:95–101,191 and adopted r2_git_drive_redesign_v4.md recovery clauses fully. Preserve seven daily/four weekly recovery history and old-version restore; recovery is required, not optional.
+3. Describe the adopted design obligation separately from implementation/commissioning/activation acceptance. Frontmatter/description/links must agree; do not re-author S1–S12 thresholds.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:103; subject | 10-11 HW1 choice 7 “A” | B/decisions_log.md:99–101,191; redesign v4 preserves recovery | B/r2_git_drive_redesign_v1.md:115 made recovery optional; S1/S2/S3 have no choice-7 note | Drop seven-daily/four-weekly restore history and old-version recovery. |. | 10-11 HW1 choice 7 “A” | B/decisions_log.md:99–101,191; redesign v4 preserves recovery | B/r2_git_drive_redesign_v1.md:115 made recovery optional; S1/S2/S3 have no choice-7 note | Drop seven-daily/four-weekly restore history and old-version recovery. | Action: Standalone preserved ruling: hw1-choice7-recovery-required.md Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-REVIEW-FIRST — Standalone preserved ruling: operator-review-report-before-questions.md
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-REVIEW-FIRST, results/context_audit_20261012/PRESERVATION.md:105; minutes: 4; depends_on: none.
+Source files: `memory_mirror/operator-review-report-before-questions.md`.
+Files: `memory_mirror/operator-review-report-before-questions.md`, `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/report.md`, `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/green.txt`.
+Decision references: none.
+Pins: `{"memory_mirror/operator-review-report-before-questions.md": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H01-R34; wave: 1.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/report.md`, `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-REVIEW-FIRST/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:105; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Preserve review-first condition from maestro47_takeover_20261011.md:8 and successor 20261012T002451Z-56625.md:2. SUMMARY adoption choices remain blocked until the operator says review is complete; elapsed time or historical ready text is not approval.
+3. Create a resolving current-source pointer; no question to the operator during this planning session. Queue enforcement is owned by R-QUEUE.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:105; subject | 10-11 “I will review the report first” | HF/maestro47_takeover_20261011.md:8; successor HF/20261012T002451Z-56625.md:2 | PS needs_from_you asks for choices with blocked_by=[]; its historical note DOES preserve the review-first condition; no standalone recall note | Ask SUMMARY adoption questions before the operator says review is complete. |. | 10-11 “I will review the report first” | HF/maestro47_takeover_20261011.md:8; successor HF/20261012T002451Z-56625.md:2 | PS needs_from_you asks for choices with blocked_by=[]; its historical note DOES preserve the review-first condition; no standalone recall note | Ask SUMMARY adoption questions before the operator says review is complete. | Action: Standalone preserved ruling: operator-review-report-before-questions.md Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-HOLD-NOTE — Standalone preserved ruling: operator-context-hygiene-hold.md
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-HOLD-NOTE; minutes: 4; depends_on: none.
+Source files: `memory_mirror/operator-context-hygiene-hold.md`.
+Files: `memory_mirror/operator-context-hygiene-hold.md`, `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/green.txt`.
+Decision references: none.
+Pins: `{"memory_mirror/operator-context-hygiene-hold.md": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H01-R34; wave: 1.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-HOLD-NOTE/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:116; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Record exactly the latest operator direction: Fix absolutely everything; Context hygiene only until it is perfectly tight and durable. Then pause for HIL for next steps. The hold applies to all other ready/running science/build/activation queues.
+3. Do not erase earlier grants or claim they were revoked permanently; record a current pause and explicit HIL resume boundary. Name/description/metadata.type and resolving sources required.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:116; subject | 10-12 “Fix absolutely everything” [queue-recorded quote] | PS:50–51 specifies context hygiene then stop; S3/context-hygiene-must-reach-every-store.md:11–15 | PS still lists other ready/running work without per-item hygiene pause; generic standing-autonomy notes omit latest hold | Resume science/activation/build work before context cleanup and operator stop. |. | 10-12 “Fix absolutely everything” [queue-recorded quote] | PS:50–51 specifies context hygiene then stop; S3/context-hygiene-must-reach-every-store.md:11–15 | PS still lists other ready/running work without per-item hygiene pause; generic standing-autonomy notes omit latest hold | Resume science/activation/build work before context cleanup and operator stop. | Action: Standalone preserved ruling: operator-context-hygiene-hold.md Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-R2-ADOPT-NOTE — Standalone preserved ruling: r2-v4-adoption-reader-boundaries.md
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-R2-ADOPT-NOTE, results/context_audit_20261012/PRESERVATION.md:109, results/context_audit_20261012/PRESERVATION.md:110, results/context_audit_20261012/PRESERVATION.md:113; minutes: 4; depends_on: none.
+Source files: `memory_mirror/r2-v4-adoption-reader-boundaries.md`.
+Files: `memory_mirror/r2-v4-adoption-reader-boundaries.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/green.txt`.
+Decision references: none.
+Pins: `{"memory_mirror/r2-v4-adoption-reader-boundaries.md": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H01-R34; wave: 1.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-R2-ADOPT-NOTE/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:113; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read r2_redesign_operator_adoption.md:9–11, r2_redesign_operator_ruling.md:5–11, r2_redesign_operator_r8_answers.md:8–23 and adopted v4 in full. Name Git pull by Intel, no shared memit, Intel slow uploads, approved M3-initiated source-read push; account question No; copy overlap Yes does not authorize cleanup/restore overlap.
+3. Route numeric peak/support-writer acceptance to the complete adopted v4 S1–S12 source, retaining fail-closed budget/ownership boundaries. Adoption activates nothing. Old Gate-1, UID and shared-drive recipes are historical only; all implementation/commissioning/storage/deletion/activation gates survive.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:113; subject | 10-11 “Adopt (Recommended)” | B/r2_redesign_operator_adoption.md:9–11; RB:475; PS:5 | Older Gate-1/commissioning language and broad standing approval lack explicit v4 replacement; S2 no adoption note | Treat adoption as activation or continue a canceled original R2 round. |. | 10-11 “Adopt (Recommended)” | B/r2_redesign_operator_adoption.md:9–11; RB:475; PS:5 | Older Gate-1/commissioning language and broad standing approval lack explicit v4 replacement; S2 no adoption note | Treat adoption as activation or continue a canceled original R2 round. | Action: Standalone preserved ruling: r2-v4-adoption-reader-boundaries.md Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:109; subject | 10-11 “Can the Intel Mac pull … directly from Git” | B/r2_redesign_operator_ruling.md:5–11; S1/S3/remove-shared-resource-before-policing-it.md:7 | S2 missing note; old integration/profile artifacts retained without universal reader tombstone; PS:14 second-memit-copy wording | Resume retired shared-memit R2 freeze or give Intel a memit route. |. | 10-11 “Can the Intel Mac pull … directly from Git” | B/r2_redesign_operator_ruling.md:5–11; S1/S3/remove-shared-resource-before-policing-it.md:7 | S2 missing note; old integration/profile artifacts retained without universal reader tombstone; PS:14 second-memit-copy wording | Resume retired shared-memit R2 freeze or give Intel a memit route. | Action: Standalone preserved ruling: r2-v4-adoption-reader-boundaries.md Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:110; subject | 10-11 “never maxed and stops science mid stream” | B/r2_redesign_operator_ruling.md:9–11; adopted v4 S1–S12 | S1 removal note:7 compresses to proactive storage without numeric acceptance; S2 absent; M only old archive/cap recipe | Treat monitoring or one passing sample as a guarantee; ignore peak/support-writer bounds. |. | 10-11 “never maxed and stops science mid stream” | B/r2_redesign_operator_ruling.md:9–11; adopted v4 S1–S12 | S1 removal note:7 compresses to proactive storage without numeric acceptance; S2 absent; M only old archive/cap recipe | Treat monitoring or one passing sample as a guarantee; ignore peak/support-writer bounds. | Action: Standalone preserved ruling: r2-v4-adoption-reader-boundaries.md Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-R2-V1 — Historical R2 redesign reader redirect v1
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-R2-V1, results/context_audit_20261012/PRESERVATION.md:103, results/context_audit_20261012/PRESERVATION.md:112; minutes: 4; depends_on: none.
+Source files: `results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v1.md`, `docs/session_summaries/r2_redesign_v1_before_hygiene_20261012.md`.
+Files: `results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v1.md`, `docs/session_summaries/r2_redesign_v1_before_hygiene_20261012.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-V1/report.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-V1/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-R2-V1/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-R2-V1/green.txt`.
+Decision references: none.
+Pins: `{"docs/session_summaries/r2_redesign_v1_before_hygiene_20261012.md": null, "results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v1.md": "d955185eb23459f4ec18b44ab518edab73e2ee976f79666e7702a1fee2f7e080"}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H01-R34; wave: 1.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-R2-V1/report.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-V1/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-R2-V1/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-R2-V1/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:103; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Before editing, archive the complete original UTF-8 bytes in the exact dated file; record SHA-256/length and round-trip equality. Add only a dated superseded-reader banner; leave the historical design and its scientific contract text intact.
+3. Banner routes to adopted r2_git_drive_redesign_v4.md and its adoption receipt; v1 recovery-optional text is superseded by required HW1 choice 7; v1/v2 account requirements and v3 destructive-overlap generalization are superseded. Source-read copy permission never covers cleanup/restore; adoption is design only.
+4. Verify the preserved original body is byte-identical, all redirects resolve, no retired freeze is reactivated, and no scientific/native acceptance is inferred.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:103; subject | 10-11 HW1 choice 7 “A” | B/decisions_log.md:99–101,191; redesign v4 preserves recovery | B/r2_git_drive_redesign_v1.md:115 made recovery optional; S1/S2/S3 have no choice-7 note | Drop seven-daily/four-weekly restore history and old-version recovery. |. | 10-11 HW1 choice 7 “A” | B/decisions_log.md:99–101,191; redesign v4 preserves recovery | B/r2_git_drive_redesign_v1.md:115 made recovery optional; S1/S2/S3 have no choice-7 note | Drop seven-daily/four-weekly restore history and old-version recovery. | Action: Historical R2 redesign reader redirect v1 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:112; subject | 10-11 account question “No”; copy-overlap question “Yes (Recommended)” | B/r2_redesign_operator_r8_answers.md:9,17,23; adopted v4 | Older redesign v1/v2 require UIDs; v3 generalized overlap to destructive maintenance (astra_r2d2 F2) | Commission rejected accounts or apply accepted copy risk to cleanup/restore. |. | 10-11 account question “No”; copy-overlap question “Yes (Recommended)” | B/r2_redesign_operator_r8_answers.md:9,17,23; adopted v4 | Older redesign v1/v2 require UIDs; v3 generalized overlap to destructive maintenance (astra_r2d2 F2) | Commission rejected accounts or apply accepted copy risk to cleanup/restore. | Action: Historical R2 redesign reader redirect v1 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-R2-V2 — Historical R2 redesign reader redirect v2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-R2-V2, results/context_audit_20261012/PRESERVATION.md:112; minutes: 4; depends_on: none.
+Source files: `results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v2.md`, `docs/session_summaries/r2_redesign_v2_before_hygiene_20261012.md`.
+Files: `results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v2.md`, `docs/session_summaries/r2_redesign_v2_before_hygiene_20261012.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-V2/report.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-V2/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-R2-V2/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-R2-V2/green.txt`.
+Decision references: none.
+Pins: `{"docs/session_summaries/r2_redesign_v2_before_hygiene_20261012.md": null, "results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v2.md": "61e901d2e7e666e03eda4896141d48e9275af2d551f810357cd9040179baf951"}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H01-R34; wave: 1.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-R2-V2/report.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-V2/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-R2-V2/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-R2-V2/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:112; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Before editing, archive the complete original UTF-8 bytes in the exact dated file; record SHA-256/length and round-trip equality. Add only a dated superseded-reader banner; leave the historical design and its scientific contract text intact.
+3. Banner routes to adopted r2_git_drive_redesign_v4.md and its adoption receipt; v1 recovery-optional text is superseded by required HW1 choice 7; v1/v2 account requirements and v3 destructive-overlap generalization are superseded. Source-read copy permission never covers cleanup/restore; adoption is design only.
+4. Verify the preserved original body is byte-identical, all redirects resolve, no retired freeze is reactivated, and no scientific/native acceptance is inferred.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:112; subject | 10-11 account question “No”; copy-overlap question “Yes (Recommended)” | B/r2_redesign_operator_r8_answers.md:9,17,23; adopted v4 | Older redesign v1/v2 require UIDs; v3 generalized overlap to destructive maintenance (astra_r2d2 F2) | Commission rejected accounts or apply accepted copy risk to cleanup/restore. |. | 10-11 account question “No”; copy-overlap question “Yes (Recommended)” | B/r2_redesign_operator_r8_answers.md:9,17,23; adopted v4 | Older redesign v1/v2 require UIDs; v3 generalized overlap to destructive maintenance (astra_r2d2 F2) | Commission rejected accounts or apply accepted copy risk to cleanup/restore. | Action: Historical R2 redesign reader redirect v2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-R2-V3 — Historical R2 redesign reader redirect v3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-R2-V3, results/context_audit_20261012/PRESERVATION.md:112; minutes: 4; depends_on: none.
+Source files: `results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v3.md`, `docs/session_summaries/r2_redesign_v3_before_hygiene_20261012.md`.
+Files: `results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v3.md`, `docs/session_summaries/r2_redesign_v3_before_hygiene_20261012.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-V3/report.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-V3/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-R2-V3/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-R2-V3/green.txt`.
+Decision references: none.
+Pins: `{"docs/session_summaries/r2_redesign_v3_before_hygiene_20261012.md": null, "results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v3.md": "7240d0e288ab818483b0de69c5c21c834c8f656de97d4e38d78276a35b586c6b"}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H01-R34; wave: 1.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-R2-V3/report.md`, `results/context_audit_20261012/hygiene/receipts/R-R2-V3/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-R2-V3/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-R2-V3/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:112; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Before editing, archive the complete original UTF-8 bytes in the exact dated file; record SHA-256/length and round-trip equality. Add only a dated superseded-reader banner; leave the historical design and its scientific contract text intact.
+3. Banner routes to adopted r2_git_drive_redesign_v4.md and its adoption receipt; v1 recovery-optional text is superseded by required HW1 choice 7; v1/v2 account requirements and v3 destructive-overlap generalization are superseded. Source-read copy permission never covers cleanup/restore; adoption is design only.
+4. Verify the preserved original body is byte-identical, all redirects resolve, no retired freeze is reactivated, and no scientific/native acceptance is inferred.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:112; subject | 10-11 account question “No”; copy-overlap question “Yes (Recommended)” | B/r2_redesign_operator_r8_answers.md:9,17,23; adopted v4 | Older redesign v1/v2 require UIDs; v3 generalized overlap to destructive maintenance (astra_r2d2 F2) | Commission rejected accounts or apply accepted copy risk to cleanup/restore. |. | 10-11 account question “No”; copy-overlap question “Yes (Recommended)” | B/r2_redesign_operator_r8_answers.md:9,17,23; adopted v4 | Older redesign v1/v2 require UIDs; v3 generalized overlap to destructive maintenance (astra_r2d2 F2) | Commission rejected accounts or apply accepted copy risk to cleanup/restore. | Action: Historical R2 redesign reader redirect v3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-ARM-R-READER — Historical inventory-scope reader corrects Arm R and active-arc inference
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-ARM-R-READER, results/context_audit_20261012/PRESERVATION.md:100; minutes: 4; depends_on: none.
+Source files: `results/compute_storage_brainstorm_20261011T054507Z/r2_inventory_scope_decision.md`, `docs/session_summaries/r2_inventory_scope_before_hygiene_20261012.md`.
+Files: `results/compute_storage_brainstorm_20261011T054507Z/r2_inventory_scope_decision.md`, `docs/session_summaries/r2_inventory_scope_before_hygiene_20261012.md`, `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/green.txt`.
+Decision references: none.
+Pins: `{"docs/session_summaries/r2_inventory_scope_before_hygiene_20261012.md": null, "results/compute_storage_brainstorm_20261011T054507Z/r2_inventory_scope_decision.md": "33322ebeed6fec0a7533e87b3304ef70bafd5770cc24fee0eec169636d8d357a"}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H01-R34; wave: 1.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ARM-R-READER/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:100; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Archive the complete historical decision bytes/hash/length and verify round-trip equality before adding only a dated reader correction. Preserve its exact ruling/history, never amend a frozen clearance contract.
+3. The corrected reader cites operator_ruling_retest_20261011.md:6–18: Arm R is AutoResearch, not C10W. Basename absence from program state does not prove inactivity; old DS selection was rejected by astra_r2i_verdict.md:48–56. Adopted v4 supersedes the old shared-drive planning lineage; no profile/run/activation permission follows.
+4. Verify original body byte preservation, resolving current ruling/adoption pointers, explicit historical rejection and current hygiene-only hold.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:100; subject | 10-11 “Approve, with minted token” | RB:432; results/autoresearch_reaim/operator_ruling_retest_20261011.md:6–18; PS:374–375 | R2 DS claimed Arm R=C10W (B/astra_r2i_verdict.md:48–56); S1/S2/S3 have no standalone re-test ruling note | Plan the wrong Arm R, or mistake planning approval for a run GO. |. | 10-11 “Approve, with minted token” | RB:432; results/autoresearch_reaim/operator_ruling_retest_20261011.md:6–18; PS:374–375 | R2 DS claimed Arm R=C10W (B/astra_r2i_verdict.md:48–56); S1/S2/S3 have no standalone re-test ruling note | Plan the wrong Arm R, or mistake planning approval for a run GO. | Action: Historical inventory-scope reader corrects Arm R and active-arc inference Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+## H01-R35
+
+Wave 1; repo; 6 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: R-INFLIGHT.
+Handoff: `results/context_audit_20261012/hygiene/receipts/H01-R35/handoff.md`.
+Exact allowlist:
+
+Dispatch required: true; identical frozen Git blob ref `refs/context_hygiene/dispatch/H01-R35`; immutable private seeds allowed only at the exact private paths above.
+Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<LANE>.json.
+
+- `results/context_audit_20261012/hygiene/receipts/H01-R35/handoff.md`
+- `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/report.md`
+- `results/context_hygiene_20261012/inflight_preservation.json`
+
+### R-INFLIGHT — Preserve current uncommitted decision and history exposure without touching parallel work
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-INFLIGHT, results/context_audit_20261012/PRESERVATION.md:226, results/context_audit_20261012/PRESERVATION.md:227; minutes: 6; depends_on: none.
+Source files: `results/context_hygiene_20261012/inflight_preservation.json`.
+Files: `results/context_hygiene_20261012/inflight_preservation.json`, `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/report.md`, `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/green.txt`.
+Decision references: none.
+Pins: `{"results/context_hygiene_20261012/inflight_preservation.json": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H01-R35; wave: 1.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/report.md`, `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-INFLIGHT/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:226; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read-only inventory the exact §4 tracked decision paths (drive_intel_dedup_layout_v2.md, activation_plan_intel_v1.md, tools/test_dashboard_mathlab.py), hygiene bundle, NEW-1 diagnostic context/history, results/labviz_codex_brief.md and its named implementation reports. Record tracked/untracked/ignored state, current path/hash/bytes, owner and preservation route; hashes/absence/denial explicitly labelled.
+3. Preserve current bytes and raw scoped Git diffs in unique receipts; no modification, staging, commits or deletion of parallel files. Historical ~20% checkpoints remain dated and cannot authorize current handoff behavior. MAESTRO reconciles and commits only reviewed nonsecret owner-approved bytes before successor/master integration.
+4. Snapshot counts and commit identities are dated observations, never current constants. Latest durable corrections must reach queue/index summaries through R-QUEUE/P14 and their export owners.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:226; subject W tracked changes: B/drive_intel_dedup_layout_v2.md:58,116,153 restore exclusive incoming-part creation and baseline/inertness requirements; results/drive_activation_intel_20261012/activation_plan_intel_v1.md:120–136,180–189 holds new Intel coverage/configuration safeguards; tools/test_dashboard_mathlab.py has 135 insertions/2 deletions (`git diff --stat`). The first two hold reviewed-design repair decisions; the test file is parallel work, not this sweep’s change. This sweep neither committed nor altered those paths; another session may commit them after the recorded status snapshot.. W tracked changes: B/drive_intel_dedup_layout_v2.md:58,116,153 restore exclusive incoming-part creation and baseline/inertness requirements; results/drive_activation_intel_20261012/activation_plan_intel_v1.md:120–136,180–189 holds new Intel coverage/configuration safeguards; tools/test_dashboard_mathlab.py has 135 insertions/2 deletions (`git diff --stat`). The first two hold reviewed-design repair decisions; the test file is parallel work, not this sweep’s change. This sweep neither committed nor altered those paths; another session may commit them after the recorded status snapshot. Action: Preserve current uncommitted decision and history exposure without touching parallel work Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:227; subject W untracked decision-bearing material: A/hygiene/PLAN.md, LANES.md, host_apply.md and 33 briefs are an in-flight preservation plan; results/mathlab_staging/new1_construction_diag_fix2_20261010T082936.611614Z/context_checkpoint.md:58,60 still carries the historical ~20% handoff; design_review.md and before/mb12_before/mb15_scope_* snapshots preserve past scope/review decisions. results/labviz_codex_brief.md and implementation reports are untracked older task contracts. These are at risk of omission from a fresh checkout, not evidence they were deleted.. W untracked decision-bearing material: A/hygiene/PLAN.md, LANES.md, host_apply.md and 33 briefs are an in-flight preservation plan; results/mathlab_staging/new1_construction_diag_fix2_20261010T082936.611614Z/context_checkpoint.md:58,60 still carries the historical ~20% handoff; design_review.md and before/mb12_before/mb15_scope_* snapshots preserve past scope/review decisions. results/labviz_codex_brief.md and implementation reports are untracked older task contracts. These are at risk of omission from a fresh checkout, not evidence they were deleted. Action: Preserve current uncommitted decision and history exposure without touching parallel work Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+## H01-R36
+
+Wave 1; host; 4 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: R-ACTIVATION-HANDOFF.
+Handoff: `results/context_audit_20261012/hygiene/receipts/H01-R36/handoff.md`.
+Exact allowlist:
+
+Dispatch required: true; identical frozen Git blob ref `refs/context_hygiene/dispatch/H01-R36`; immutable private seeds allowed only at the exact private paths above.
+Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<LANE>.json.
+
+- `results/context_audit_20261012/hygiene/host_staging/.claude/memento/handoffs/maestro8_takeover_20261010.md`
+- `results/context_audit_20261012/hygiene/receipts/H01-R36/handoff.md`
+- `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/report.md`
+
+### R-ACTIVATION-HANDOFF — Old activation handoff visibly routes to its superseding hold
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-ACTIVATION-HANDOFF, results/context_audit_20261012/PRESERVATION.md:97; minutes: 4; depends_on: none.
+Source files: `/Users/robertrhu/.claude/memento/handoffs/maestro8_takeover_20261010.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/memento/handoffs/maestro8_takeover_20261010.md`, `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/memento/handoffs/maestro8_takeover_20261010.md": "b4dba73e1a51ee5c3e92fd78cafa29fb93069eb23c6c194e13a5b4cbfa118ac2"}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H01-R36; wave: 1.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ACTIVATION-HANDOFF/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:97; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Stage the complete existing handoff; preserve original dated prose and record its complete pre-amendment bytes/hash in the receipt. Add a dated top reader amendment pointing to maestro9_takeover_20261010.md:40 and current adopted-v4/Drive activation authority.
+3. The old Turn on, keep fixing quote no longer grants activation for the defective build; separate later exact activation approvals remain separately evaluated. Latest hygiene-only hold is immediately visible. No host copy or activation.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:97; subject | 10-10 “Turn on, keep fixing” → later wait for fixed build [superseded] | HF/maestro8_takeover_20261010.md:33; maestro9_takeover_20261010.md:40; RB:440 | Old handoff still grants activation; M archive recipe and broad standing notes omit amendment | Activate the superseded defective build. Later activation approvals remain separate. |. | 10-10 “Turn on, keep fixing” → later wait for fixed build [superseded] | HF/maestro8_takeover_20261010.md:33; maestro9_takeover_20261010.md:40; RB:440 | Old handoff still grants activation; M archive recipe and broad standing notes omit amendment | Activate the superseded defective build. Later activation approvals remain separate. | Action: Old activation handoff visibly routes to its superseding hold Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+## H02-R37
+
+Wave 2; repo; 30 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: R-ROOT-GUIDE, R-AUTONOMY-READER, R-LABVIZ-READER, R-STORE-CENSUS, R-ROOT-ROUTES.
+Handoff: `results/context_audit_20261012/hygiene/receipts/H02-R37/handoff.md`.
+Exact allowlist:
+
+Dispatch required: true; identical frozen Git blob ref `refs/context_hygiene/dispatch/H02-R37`; immutable private seeds allowed only at the exact private paths above.
+Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<LANE>.json.
+
+- `AGENTS.md`
+- `memory_mirror/lab-view-and-live-telemetry.md`
+- `memory_mirror/labviz-wireframe-before-spec-approval.md`
+- `memory_mirror/operator-overnight-autonomy-2026-10-06.md`
+- `results/context_audit_20261012/hygiene/receipts/H02-R37/handoff.md`
+- `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/report.md`
+- `results/context_hygiene_20261012/root_routes.json`
+- `results/context_hygiene_20261012/sole_store_preservation.json`
+
+### R-ROOT-GUIDE — Root Codex reader preserves blind-builder, InfraNodus and LabViz holds
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-ROOT-GUIDE, results/context_audit_20261012/PRESERVATION.md:104, results/context_audit_20261012/PRESERVATION.md:85, results/context_audit_20261012/PRESERVATION.md:89, results/context_audit_20261012/PRESERVATION.md:92; minutes: 6; depends_on: C2, P10.
+Source files: `AGENTS.md`.
+Files: `AGENTS.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/green.txt`.
+Decision references: none.
+Pins: `{"AGENTS.md": "d615226e1c57db676d8f8404af2082904e57a5006062f242926d398806dbe4e0"}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H02-R37; wave: 2.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-GUIDE/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:85, results/context_audit_20261012/PRESERVATION.md:89, results/context_audit_20261012/PRESERVATION.md:92, results/context_audit_20261012/PRESERVATION.md:104, results/context_audit_20261012/PRESERVATION.md:114; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Replace the visible-context assumption with an explicit MAESTRO watcher/message at 45%, new work ≥60%, successor ≤40% or any compaction; every handoff restates it. Do not weaken enabled Memento/reset rules.
+3. In the existing research-tools section name the surviving 10-08 InfraNodus standing prose approval. Credentials, actual denial, scope, spend and no-activation boundaries remain separate; no repeated scope question.
+4. Route program roles, LabViz historical multi-model coverage/settled choices and current v3 writing/review → Astra spec gate → static wireframe → operator review → separate BUILD GO through resolving current authorities. Preserve science/activation and hygiene-only holds.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:85; subject | 10-07 “historically on all of the models we have tested” | RB:397; S1/lab-view-and-live-telemetry.md; later LabViz choices map | M and older scoped guides do not route to the newer LabViz plan/hold; S3 lacks telemetry note | Narrow visualization to current C10 slice or confuse historical data with new replay permission. |. | 10-07 “historically on all of the models we have tested” | RB:397; S1/lab-view-and-live-telemetry.md; later LabViz choices map | M and older scoped guides do not route to the newer LabViz plan/hold; S3 lacks telemetry note | Narrow visualization to current C10 slice or confuse historical data with new replay permission. | Action: Root Codex reader preserves blind-builder, InfraNodus and LabViz holds Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:89; subject | 10-08 “I approve the use of InfraNodus for all work now and forever” | S1/infranodus-standing-approval.md:7,11; S2 same | S3 lacks note; root AGENTS.md research-tool section only describes optional credentials | Ask again for the already granted prose scope; this does not waive missing credentials or an actual denial. |. | 10-08 “I approve the use of InfraNodus for all work now and forever” | S1/infranodus-standing-approval.md:7,11; S2 same | S3 lacks note; root AGENTS.md research-tool section only describes optional credentials | Ask again for the already granted prose scope; this does not waive missing credentials or an actual denial. | Action: Root Codex reader preserves blind-builder, InfraNodus and LabViz holds Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:92; subject | 10-11 watcher-delivered 45% stop [observed operating rule, not a recovered operator quote] | S3/sol-builders-blind-to-context.md:7–11; current sweep brief last section | Root AGENTS.md:7 assumes visible gauge/40%; S1/S2 lack this note; CM records some task-specific 45% handoffs only | Expect a blind builder to self-stop; omit MAESTRO watcher/message. |. | 10-11 watcher-delivered 45% stop [observed operating rule, not a recovered operator quote] | S3/sol-builders-blind-to-context.md:7–11; current sweep brief last section | Root AGENTS.md:7 assumes visible gauge/40%; S1/S2 lack this note; CM records some task-specific 45% handoffs only | Expect a blind builder to self-stop; omit MAESTRO watcher/message. | Action: Root Codex reader preserves blind-builder, InfraNodus and LabViz holds Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:104; subject | 10-11 “Before beginning building work … please wait” | HF/maestro45_takeover_20261011.md:7; PS:284–285 | M startup/older broad LabViz build rulings lack hold; S2 lacks wireframe/hold note | Start dashboard/LabViz BUILD from earlier blanket approval. |. | 10-11 “Before beginning building work … please wait” | HF/maestro45_takeover_20261011.md:7; PS:284–285 | M startup/older broad LabViz build rulings lack hold; S2 lacks wireframe/hold note | Start dashboard/LabViz BUILD from earlier blanket approval. | Action: Root Codex reader preserves blind-builder, InfraNodus and LabViz holds Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:114; subject | 10-12 “Update the plan” | PS:230–231; HF/20261012T002451Z-56625.md:2; LabViz settled-choice ledger | Old Oct 7 LabViz build-all rulings remain in startup history; S2 lacks new wireframe/hold sequence | Implement UI while only v3 writing/review is authorized. |. | 10-12 “Update the plan” | PS:230–231; HF/20261012T002451Z-56625.md:2; LabViz settled-choice ledger | Old Oct 7 LabViz build-all rulings remain in startup history; S2 lacks new wireframe/hold sequence | Implement UI while only v3 writing/review is authorized. | Action: Root Codex reader preserves blind-builder, InfraNodus and LabViz holds Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-AUTONOMY-READER — Overnight note preserves current hygiene-only and gated MAESTRO merge boundaries
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-AUTONOMY-READER, results/context_audit_20261012/PRESERVATION.md:116, results/context_audit_20261012/PRESERVATION.md:83, results/context_audit_20261012/PRESERVATION.md:87, results/context_audit_20261012/PRESERVATION.md:96, results/context_audit_20261012/PRESERVATION.md:97; minutes: 5; depends_on: N10, N06.
+Source files: `memory_mirror/operator-overnight-autonomy-2026-10-06.md`.
+Files: `memory_mirror/operator-overnight-autonomy-2026-10-06.md`, `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/report.md`, `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/green.txt`.
+Decision references: none.
+Pins: `{"memory_mirror/operator-overnight-autonomy-2026-10-06.md": "fe95f8eaf5e4dbdc7c28f533dbe586562eeb8de8806c8666c58f8914d427174a"}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H02-R37; wave: 2.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/report.md`, `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-AUTONOMY-READER/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:83, results/context_audit_20261012/PRESERVATION.md:87, results/context_audit_20261012/PRESERVATION.md:96, results/context_audit_20261012/PRESERVATION.md:97, results/context_audit_20261012/PRESERVATION.md:116; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Retain the 10-06 and 10-08 quoted grants as dated history. Immediately qualify current initiative: context hygiene only until tight/durable, then pause HIL; no science, activation, unrelated builds or frozen/spend amendments.
+3. Replace old blanket never-merge/operator-merges reader wording with MAESTRO-only cooperative reservation/drain/merge-gate and concrete operator GO; builders never commit/push/merge. Preserve the unresolved budget source conflict explicitly OPEN.
+4. Verify body and description agree, frontmatter/links resolve, and a new reader cannot treat the older continue-through-night quote as lifting the latest hold.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:83; subject | 10-06 “Continue through the night” | S1/operator-overnight-autonomy-2026-10-06.md:8; CLAUDE.md:22 with exceptions | M/CLAUDE.md lacks current delegation; S3 lacks note; S1:20 still older merge/budget wording | Idle unnecessarily or treat blanket initiative as overriding current run/scope gates. |. | 10-06 “Continue through the night” | S1/operator-overnight-autonomy-2026-10-06.md:8; CLAUDE.md:22 with exceptions | M/CLAUDE.md lacks current delegation; S3 lacks note; S1:20 still older merge/budget wording | Idle unnecessarily or treat blanket initiative as overriding current run/scope gates. | Action: Overnight note preserves current hygiene-only and gated MAESTRO merge boundaries Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:87; subject | 10-08 “Any experiment, as needed” | RB:415; S1/operator-overnight-autonomy-2026-10-06.md:14 | Same note:20 and current CLAUDE.md:15,22 retain frozen-cap/operator exceptions; no explicit resolution in S3/GA | Either block measured authorized budget work or overextend it to a frozen/spend fork. SOURCE CONFLICT stays OPEN. |. | 10-08 “Any experiment, as needed” | RB:415; S1/operator-overnight-autonomy-2026-10-06.md:14 | Same note:20 and current CLAUDE.md:15,22 retain frozen-cap/operator exceptions; no explicit resolution in S3/GA | Either block measured authorized budget work or overextend it to a frozen/spend fork. SOURCE CONFLICT stays OPEN. | Action: Overnight note preserves current hygiene-only and gated MAESTRO merge boundaries Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:96; subject | 10-10 first gated merge GO [handoff-reported operator choice] | HF/maestro9_takeover_20261010.md:31–32; CLAUDE.md:50–54; origin/master same gate | S1/S2 commit-forward-work-without-asking.md:13 says operator merges; overnight note:20 never merge; M lacks gate | Bypass cooperative reservation/gate or refuse a legitimately authorized MAESTRO merge. |. | 10-10 first gated merge GO [handoff-reported operator choice] | HF/maestro9_takeover_20261010.md:31–32; CLAUDE.md:50–54; origin/master same gate | S1/S2 commit-forward-work-without-asking.md:13 says operator merges; overnight note:20 never merge; M lacks gate | Bypass cooperative reservation/gate or refuse a legitimately authorized MAESTRO merge. | Action: Overnight note preserves current hygiene-only and gated MAESTRO merge boundaries Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:97; subject | 10-10 “Turn on, keep fixing” → later wait for fixed build [superseded] | HF/maestro8_takeover_20261010.md:33; maestro9_takeover_20261010.md:40; RB:440 | Old handoff still grants activation; M archive recipe and broad standing notes omit amendment | Activate the superseded defective build. Later activation approvals remain separate. |. | 10-10 “Turn on, keep fixing” → later wait for fixed build [superseded] | HF/maestro8_takeover_20261010.md:33; maestro9_takeover_20261010.md:40; RB:440 | Old handoff still grants activation; M archive recipe and broad standing notes omit amendment | Activate the superseded defective build. Later activation approvals remain separate. | Action: Overnight note preserves current hygiene-only and gated MAESTRO merge boundaries Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:116; subject | 10-12 “Fix absolutely everything” [queue-recorded quote] | PS:50–51 specifies context hygiene then stop; S3/context-hygiene-must-reach-every-store.md:11–15 | PS still lists other ready/running work without per-item hygiene pause; generic standing-autonomy notes omit latest hold | Resume science/activation/build work before context cleanup and operator stop. |. | 10-12 “Fix absolutely everything” [queue-recorded quote] | PS:50–51 specifies context hygiene then stop; S3/context-hygiene-must-reach-every-store.md:11–15 | PS still lists other ready/running work without per-item hygiene pause; generic standing-autonomy notes omit latest hold | Resume science/activation/build work before context cleanup and operator stop. | Action: Overnight note preserves current hygiene-only and gated MAESTRO merge boundaries Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-LABVIZ-READER — Wireframe and coverage note preserves current v3 hold and solved Figma setup
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-LABVIZ-READER, results/context_audit_20261012/PRESERVATION.md:104, results/context_audit_20261012/PRESERVATION.md:107, results/context_audit_20261012/PRESERVATION.md:114, results/context_audit_20261012/PRESERVATION.md:85; minutes: 6; depends_on: none.
+Source files: `memory_mirror/labviz-wireframe-before-spec-approval.md`, `memory_mirror/lab-view-and-live-telemetry.md`.
+Files: `memory_mirror/labviz-wireframe-before-spec-approval.md`, `memory_mirror/lab-view-and-live-telemetry.md`, `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/report.md`, `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/green.txt`.
+Decision references: none.
+Pins: `{"memory_mirror/lab-view-and-live-telemetry.md": "798382e7d81a360a4a1a471c39f23d6fd83fdf8351a3595ae1d26462adc373bf", "memory_mirror/labviz-wireframe-before-spec-approval.md": "d06ba31337ad55520fd46943eb1b40d11f4a6ede8fc93fecca72caa9c3206f09"}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H02-R37; wave: 2.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/report.md`, `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-LABVIZ-READER/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:85, results/context_audit_20261012/PRESERVATION.md:104, results/context_audit_20261012/PRESERVATION.md:107, results/context_audit_20261012/PRESERVATION.md:114; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read PS:230–231, settled LabViz choice ledger and cited handoffs completely before editing. Keep historical coverage over all tested models, no fresh replay/science authority, and no replacement of the settled frontend topic.
+3. Standing note must route to current v3 writing/review; Astra spec approval precedes static wireframe and operator visual review, separate BUILD GO thereafter. Record configured/signed-in Figma as dated setup evidence, not live health; S3 role-index correction stays with I-CACHE.
+4. Validate both notes frontmatter/description/body links and preservation of the dashboard/LabViz BUILD hold.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:85; subject | 10-07 “historically on all of the models we have tested” | RB:397; S1/lab-view-and-live-telemetry.md; later LabViz choices map | M and older scoped guides do not route to the newer LabViz plan/hold; S3 lacks telemetry note | Narrow visualization to current C10 slice or confuse historical data with new replay permission. |. | 10-07 “historically on all of the models we have tested” | RB:397; S1/lab-view-and-live-telemetry.md; later LabViz choices map | M and older scoped guides do not route to the newer LabViz plan/hold; S3 lacks telemetry note | Narrow visualization to current C10 slice or confuse historical data with new replay permission. | Action: Wireframe and coverage note preserves current v3 hold and solved Figma setup Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:104; subject | 10-11 “Before beginning building work … please wait” | HF/maestro45_takeover_20261011.md:7; PS:284–285 | M startup/older broad LabViz build rulings lack hold; S2 lacks wireframe/hold note | Start dashboard/LabViz BUILD from earlier blanket approval. |. | 10-11 “Before beginning building work … please wait” | HF/maestro45_takeover_20261011.md:7; PS:284–285 | M startup/older broad LabViz build rulings lack hold; S2 lacks wireframe/hold note | Start dashboard/LabViz BUILD from earlier blanket approval. | Action: Wireframe and coverage note preserves current v3 hold and solved Figma setup Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:107; subject | 10-11 “Once Astra approves the spec … static wireframe” | S1/S3/labviz-wireframe-before-spec-approval.md:7,11 | S2 missing note; S3/MEMORY.md:13 still no Figma yet although note:11 records configured/sign-in | Skip visual review before approval/build or reopen solved tool setup. |. | 10-11 “Once Astra approves the spec … static wireframe” | S1/S3/labviz-wireframe-before-spec-approval.md:7,11 | S2 missing note; S3/MEMORY.md:13 still no Figma yet although note:11 records configured/sign-in | Skip visual review before approval/build or reopen solved tool setup. | Action: Wireframe and coverage note preserves current v3 hold and solved Figma setup Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:114; subject | 10-12 “Update the plan” | PS:230–231; HF/20261012T002451Z-56625.md:2; LabViz settled-choice ledger | Old Oct 7 LabViz build-all rulings remain in startup history; S2 lacks new wireframe/hold sequence | Implement UI while only v3 writing/review is authorized. |. | 10-12 “Update the plan” | PS:230–231; HF/20261012T002451Z-56625.md:2; LabViz settled-choice ledger | Old Oct 7 LabViz build-all rulings remain in startup history; S2 lacks new wireframe/hold sequence | Implement UI while only v3 writing/review is authorized. | Action: Wireframe and coverage note preserves current v3 hold and solved Figma setup Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-STORE-CENSUS — Preserved sole-store lessons have exact discovery and retirement routes
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-STORE-CENSUS, results/context_audit_20261012/PRESERVATION.md:127, results/context_audit_20261012/PRESERVATION.md:128, results/context_audit_20261012/PRESERVATION.md:129, results/context_audit_20261012/PRESERVATION.md:130, results/context_audit_20261012/PRESERVATION.md:131, results/context_audit_20261012/PRESERVATION.md:132, results/context_audit_20261012/PRESERVATION.md:133, results/context_audit_20261012/PRESERVATION.md:134, results/context_audit_20261012/PRESERVATION.md:135, results/context_audit_20261012/PRESERVATION.md:136, results/context_audit_20261012/PRESERVATION.md:137, results/context_audit_20261012/PRESERVATION.md:138, results/context_audit_20261012/PRESERVATION.md:139, results/context_audit_20261012/PRESERVATION.md:140, results/context_audit_20261012/PRESERVATION.md:141, results/context_audit_20261012/PRESERVATION.md:142, results/context_audit_20261012/PRESERVATION.md:143, results/context_audit_20261012/PRESERVATION.md:144, results/context_audit_20261012/PRESERVATION.md:145, results/context_audit_20261012/PRESERVATION.md:146, results/context_audit_20261012/PRESERVATION.md:147, results/context_audit_20261012/PRESERVATION.md:148, results/context_audit_20261012/PRESERVATION.md:149, results/context_audit_20261012/PRESERVATION.md:150, results/context_audit_20261012/PRESERVATION.md:151, results/context_audit_20261012/PRESERVATION.md:152, results/context_audit_20261012/PRESERVATION.md:153, results/context_audit_20261012/PRESERVATION.md:154, results/context_audit_20261012/PRESERVATION.md:155, results/context_audit_20261012/PRESERVATION.md:156, results/context_audit_20261012/PRESERVATION.md:157, results/context_audit_20261012/PRESERVATION.md:158, results/context_audit_20261012/PRESERVATION.md:159, results/context_audit_20261012/PRESERVATION.md:160, results/context_audit_20261012/PRESERVATION.md:161, results/context_audit_20261012/PRESERVATION.md:162, results/context_audit_20261012/PRESERVATION.md:163, results/context_audit_20261012/PRESERVATION.md:164, results/context_audit_20261012/PRESERVATION.md:165, results/context_audit_20261012/PRESERVATION.md:166, results/context_audit_20261012/PRESERVATION.md:167, results/context_audit_20261012/PRESERVATION.md:168, results/context_audit_20261012/PRESERVATION.md:169, results/context_audit_20261012/PRESERVATION.md:170, results/context_audit_20261012/PRESERVATION.md:171, results/context_audit_20261012/PRESERVATION.md:172, results/context_audit_20261012/PRESERVATION.md:173, results/context_audit_20261012/PRESERVATION.md:174, results/context_audit_20261012/PRESERVATION.md:175, results/context_audit_20261012/PRESERVATION.md:176, results/context_audit_20261012/PRESERVATION.md:177, results/context_audit_20261012/PRESERVATION.md:178, results/context_audit_20261012/PRESERVATION.md:179, results/context_audit_20261012/PRESERVATION.md:180, results/context_audit_20261012/PRESERVATION.md:181, results/context_audit_20261012/PRESERVATION.md:182, results/context_audit_20261012/PRESERVATION.md:183, results/context_audit_20261012/PRESERVATION.md:184, results/context_audit_20261012/PRESERVATION.md:185, results/context_audit_20261012/PRESERVATION.md:186, results/context_audit_20261012/PRESERVATION.md:187, results/context_audit_20261012/PRESERVATION.md:188, results/context_audit_20261012/PRESERVATION.md:189, results/context_audit_20261012/PRESERVATION.md:190, results/context_audit_20261012/PRESERVATION.md:191, results/context_audit_20261012/PRESERVATION.md:192, results/context_audit_20261012/PRESERVATION.md:193; minutes: 7; depends_on: none.
+Source files: `results/context_hygiene_20261012/sole_store_preservation.json`.
+Files: `results/context_hygiene_20261012/sole_store_preservation.json`, `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/report.md`, `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/green.txt`.
+Decision references: none.
+Pins: `{"results/context_hygiene_20261012/sole_store_preservation.json": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H02-R37; wave: 2.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/report.md`, `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-STORE-CENSUS/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:121; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read every one of the 80 PRESERVATION §3 rows and every named sole-store note in full; record exact expanded path, current SHA-256/bytes, original audit state, current retained/retired/historical state, desired recall route and explicit Git authority. Denied/missing/changed provisional source stops, never counts as empty success.
+3. For all 31 non-retired S1-only notes route approved current discovery through I-GIT and role-selected cache exports; preserve deliberate de-index decisions such as N59, using explicit Git/history discovery instead of reactivation; for all 36 retired notes preserve exact tombstones and resolving evidence, exclude from active recall, do not reactivate. Historical memory checkpoint belongs to D-U11 with a resolving archive pointer.
+4. For 12 S3-only notes verify P01–P11/P14 import and concrete S2/S3 export ownership before index promotion. Automatic attachment/recall remains UNVERIFIED. CM personal memory is not a fourth program mirror and receives no writes.
+5. Record body-hash collisions without size/mtime winners; route Drive to P-GDRIVE, watcher to N12/D-U10/P11 and final role indexes to I-GIT/I-CACHE. Output exact rows, not a filename-count proxy.
+6. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:121; subject Census: stdlib pathlib glob("*.md") + filename set differences + SHA-256 of same-name bytes, all three stores read successfully. S1=202 files, S2=125, S3=24; **68 S1-only (36 retired, 31 other notes, 1 historical checkpoint), 0 S2-only, 12 S3-only**. Earlier A/SYNTHESIS.md:40,55–57 counted 11 S3-only; new context-hygiene note makes 12.. Census: stdlib pathlib glob("*.md") + filename set differences + SHA-256 of same-name bytes, all three stores read successfully. S1=202 files, S2=125, S3=24; **68 S1-only (36 retired, 31 other notes, 1 historical checkpoint), 0 S2-only, 12 S3-only**. Earlier A/SYNTHESIS.md:40,55–57 counted 11 S3-only; new context-hygiene note makes 12. Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:127; subject | S1/anyedit-clearing-c10-would-close-tested-write-serve-scope.md:3 | U; retired |. | S1/anyedit-clearing-c10-would-close-tested-write-serve-scope.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:128; subject | S1/anyedit-connectedpapers-adds-diagnostics-not-plan-change.md:3 | U; retired |. | S1/anyedit-connectedpapers-adds-diagnostics-not-plan-change.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:129; subject | S1/anyedit-default-window-collapses-c10-a7.md:3 | U; retired |. | S1/anyedit-default-window-collapses-c10-a7.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:130; subject | S1/anyedit-gate-upgraded-by-muke-coin-suit.md:3 | U; retired |. | S1/anyedit-gate-upgraded-by-muke-coin-suit.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:131; subject | S1/anyedit-is-best-remaining-c10-rescue-not-assumed-fix.md:3 | U; retired |. | S1/anyedit-is-best-remaining-c10-rescue-not-assumed-fix.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:132; subject | S1/anyedit-local-transplant-controls-fail-before-a7.md:3 | U; retired |. | S1/anyedit-local-transplant-controls-fail-before-a7.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:133; subject | S1/anyedit-precommit-triage-proceed-but-viability-gated.md:3 | U; retired |. | S1/anyedit-precommit-triage-proceed-but-viability-gated.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:134; subject | S1/anyedit-token-alignment-gate-prevents-false-rescue.md:3 | U; retired |. | S1/anyedit-token-alignment-gate-prevents-false-rescue.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:135; subject | S1/ask-astra-automatic-before-operator-chore.md:3 | I; lesson retained |. | S1/ask-astra-automatic-before-operator-chore.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:136; subject | S1/autonomy-drifts-from-kickoff-scope.md:3 | U; lesson retained |. | S1/autonomy-drifts-from-kickoff-scope.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:137; subject | S1/autoresearch-is-not-a-faithfulness-gate.md:3 | U; retired |. | S1/autoresearch-is-not-a-faithfulness-gate.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:138; subject | S1/background-monitor-no-premature-read.md:3 | U; retired |. | S1/background-monitor-no-premature-read.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:139; subject | S1/c10-band-knobs-failed-for-hard-coined-values.md:3 | U; retired |. | S1/c10-band-knobs-failed-for-hard-coined-values.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:140; subject | S1/c10-edit-collateral-breaks-injected-target.md:3 | U; lesson retained |. | S1/c10-edit-collateral-breaks-injected-target.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:141; subject | S1/c10-edit-rotates-required-target-direction.md:3 | U; lesson retained |. | S1/c10-edit-rotates-required-target-direction.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:142; subject | S1/c10-layerpick-null.md:3 | U; lesson retained |. | S1/c10-layerpick-null.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:143; subject | S1/c10-secondkey-null-large-write.md:3 | U; lesson retained |. | S1/c10-secondkey-null-large-write.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:144; subject | S1/c10-sharedz-underfit.md:3 | U; lesson retained |. | S1/c10-sharedz-underfit.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:145; subject | S1/c10-solvefeas-underfit-at-50.md:3 | U; retired |. | S1/c10-solvefeas-underfit-at-50.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:146; subject | S1/c10-stacked-solve-tradeoff.md:3 | U; lesson retained |. | S1/c10-stacked-solve-tradeoff.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:147; subject | S1/c10-status-and-session-b-residual-test.md:3 | U; retired |. | S1/c10-status-and-session-b-residual-test.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:148; subject | S1/c10-twopass-solve-null-at-margin.md:3 | U; lesson retained |. | S1/c10-twopass-solve-null-at-margin.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:149; subject | S1/c10y-deferred-behind-drive-backup.md:3 | I; lesson retained |. | S1/c10y-deferred-behind-drive-backup.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:150; subject | S1/canonical-fit-is-not-c10-rescue.md:3 | U; retired |. | S1/canonical-fit-is-not-c10-rescue.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:151; subject | S1/check-for-running-duplicate-before-launch.md:3 | I; lesson retained |. | S1/check-for-running-duplicate-before-launch.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:152; subject | S1/codex-brief-handoff-file-narrow-reads.md:3 | I; lesson retained |. | S1/codex-brief-handoff-file-narrow-reads.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:153; subject | S1/codex-chatgpt-oauth-model-slug.md:3 | U; retired |. | S1/codex-chatgpt-oauth-model-slug.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:154; subject | S1/codex-hook-trust-prompt-at-launch.md:3 | I; lesson retained |. | S1/codex-hook-trust-prompt-at-launch.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:155; subject | S1/codex-review-embed-evidence-and-effort.md:3 | U; retired |. | S1/codex-review-embed-evidence-and-effort.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:156; subject | S1/codex-watch-anchor-replies-read-context-from-rollout.md:3 | I; lesson retained |. | S1/codex-watch-anchor-replies-read-context-from-rollout.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:157; subject | S1/codex-watch-anchor-tokens-read-context-from-rollout.md:3 | U; lesson retained |. | S1/codex-watch-anchor-tokens-read-context-from-rollout.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:158; subject | S1/codex-web-review-lanes.md:3 | I; lesson retained |. | S1/codex-web-review-lanes.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:159; subject | S1/cross-process-contracts-one-enforcer.md:3 | I; lesson retained |. | S1/cross-process-contracts-one-enforcer.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:160; subject | S1/decision-id-check-before-assigning.md:3 | I; lesson retained |. | S1/decision-id-check-before-assigning.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:161; subject | S1/deployment-target-intel-cpu.md:3 | U; retired |. | S1/deployment-target-intel-cpu.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:162; subject | S1/e2e-ground-truth-situate-on-the-map.md:3 | U; retired |. | S1/e2e-ground-truth-situate-on-the-map.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:163; subject | S1/exhaust-options-before-blocked.md:3 | U; lesson retained |. | S1/exhaust-options-before-blocked.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:164; subject | S1/experiment-gate-before-next-science-arc.md:3 | U; retired |. | S1/experiment-gate-before-next-science-arc.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:165; subject | S1/gemma4-rung4-candidate.md:3 | U; retired |. | S1/gemma4-rung4-candidate.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:166; subject | S1/importing-external-files-traps.md:3 | I; lesson retained |. | S1/importing-external-files-traps.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:167; subject | S1/in-weight-vs-sidestore-f1-question.md:3 | U; retired |. | S1/in-weight-vs-sidestore-f1-question.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:168; subject | S1/intel-mac-node-access.md:3 | I; lesson retained |. | S1/intel-mac-node-access.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:169; subject | S1/larql-the-mechanism-prior-art.md:3 | U; retired |. | S1/larql-the-mechanism-prior-art.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:170; subject | S1/local-only-hardware-rule.md:3 | U; retired |. | S1/local-only-hardware-rule.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:171; subject | S1/memit-cov-inversion-not-a-hang.md:3 | U; retired |. | S1/memit-cov-inversion-not-a-hang.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:172; subject | S1/molab-migration-assessment.md:3 | U; retired |. | S1/molab-migration-assessment.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:173; subject | S1/native-applet-removable-volumes-prompt.md:3 | I; lesson retained |. | S1/native-applet-removable-volumes-prompt.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:174; subject | S1/neuraldb-scr-keep-side-store-pressure-live.md:3 | U; retired |. | S1/neuraldb-scr-keep-side-store-pressure-live.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:175; subject | S1/notebooklm-install-and-notebook-ids.md:3 | U; retired |. | S1/notebooklm-install-and-notebook-ids.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:176; subject | S1/operator-profile-llm-as-database.md:3 | U; retired |. | S1/operator-profile-llm-as-database.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:177; subject | S1/operator-scaffolding-phase-tooling.md:3 | U; retired |. | S1/operator-scaffolding-phase-tooling.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:178; subject | S1/parallel-builders-name-each-others-files.md:3 | I; lesson retained |. | S1/parallel-builders-name-each-others-files.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:179; subject | S1/perplexity-c10h-reranks-anyedit-failure-geometry-first.md:3 | U; lesson retained |. | S1/perplexity-c10h-reranks-anyedit-failure-geometry-first.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:180; subject | S1/perplexity-mcp-restore-from-pod-restore.md:3 | U; retired |. | S1/perplexity-mcp-restore-from-pod-restore.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:181; subject | S1/pod-restart-wipes-system-python-ml-stack.md:3 | U; retired |. | S1/pod-restart-wipes-system-python-ml-stack.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:182; subject | S1/q4km-quantization-survival-pass.md:3 | U; lesson retained |. | S1/q4km-quantization-survival-pass.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:183; subject | S1/read-handoff-before-launching-successor.md:3 | I; lesson retained |. | S1/read-handoff-before-launching-successor.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:184; subject | S1/record-provenance-per-test-run.md:3 | I; lesson retained |. | S1/record-provenance-per-test-run.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:185; subject | S1/repo-reorganized-llmdb-root.md:3 | U; retired |. | S1/repo-reorganized-llmdb-root.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:186; subject | S1/research-pass-2026-10-06-sequence.md:3 | U; retired |. | S1/research-pass-2026-10-06-sequence.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:187; subject | S1/runpod-dashboard-vs-pod-metrics.md:3 | U; retired |. | S1/runpod-dashboard-vs-pod-metrics.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:188; subject | S1/runpod-durable-experiment-launch.md:3 | U; retired |. | S1/runpod-durable-experiment-launch.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:189; subject | S1/runpod-session-disconnect-cause.md:3 | U; retired |. | S1/runpod-session-disconnect-cause.md:3 | U; retired | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:190; subject | S1/sandbox-green-is-not-host-green.md:3 | I; lesson retained |. | S1/sandbox-green-is-not-host-green.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:191; subject | S1/scope-gate-batch-is-deployment-model.md:3 | U; lesson retained |. | S1/scope-gate-batch-is-deployment-model.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:192; subject | S1/trim-builder-reading-lists.md:3 | I; lesson retained |. | S1/trim-builder-reading-lists.md:3 | I; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:193; subject | S1/wide-intermediate-7b-editing-vram.md:3 | U; lesson retained |. | S1/wide-intermediate-7b-editing-vram.md:3 | U; lesson retained | Action: Preserved sole-store lessons have exact discovery and retirement routes Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-ROOT-ROUTES — Exact launch-root and historical R2 source-route inventory for MAESTRO
+
+Source: results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md; findings: RESTORE-R-ROOT-ROUTES, results/context_audit_20261012/PRESERVATION.md:246, results/context_audit_20261012/PRESERVATION.md:247; minutes: 6; depends_on: none.
+Source files: `results/context_hygiene_20261012/root_routes.json`.
+Files: `results/context_hygiene_20261012/root_routes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/green.txt`.
+Decision references: none.
+Pins: `{"results/context_hygiene_20261012/root_routes.json": null}`; host-before pins: `{}`.
+
+Expected-RED owner: false. Unit kind: repo; lane: H02-R37; wave: 2.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-ROUTES/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20, results/context_audit_20261012/PRESERVATION.md:246, results/context_audit_20261012/PRESERVATION.md:247; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Inventory every current tool/brief repo-root route using read-only text/Git observations; name resolved root, source file:line, owner, dispatch gate and current/held status. Include guard CLI --root, inherited LLMDB_ROOT, render_state and closeout callers; no unobserved root is marked safe.
+3. Record PRESERVATION §6 exact-match origin as process/closure obligations, D3 selection and later A1 amendment, not proven GPU-note causation or file equality. The unfrozen legacy M3 source folder is UNKNOWN, not a license to select M; adopted v4 Git-pull reader replaces that retired shared-drive route.
+4. Root/hook guard GREEN is a mandatory MAESTRO preflight for each resolved tool/brief root before dispatch; unchanged science entrypoints are not edited/activated. Preserve all registration/exclusion safety boundaries.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20; subject - Add a drift guard: any tool or brief that names a repo root must name the worktree or fail loudly when it finds the main folder behind origin/master. A stale main folder must not read silently as the truth.. - Add a drift guard: any tool or brief that names a repo root must name the worktree or fail loudly when it finds the main folder behind origin/master. A stale main folder must not read silently as the truth. Action: Exact launch-root and historical R2 source-route inventory for MAESTRO Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:246; subject - Stale/over-broad GPU-note causation: **unproved**. The note concerns pending-stage compute admission/exemptions; the documented inputs instead trace to closure findings, the live contract and D3. The breadth is explicit in C9/D3, but those sources do not establish that exact recipes were the only possible safety mechanism (S1/gpu-gate-refuses-any-venv-python.md:10–12; B/r2c_report.md:6; B/codexr2q_brief.txt:4–7,16; B/shared_disk_clearance_contract_v1_1.md:119).. - Stale/over-broad GPU-note causation: **unproved**. The note concerns pending-stage compute admission/exemptions; the documented inputs instead trace to closure findings, the live contract and D3. The breadth is explicit in C9/D3, but those sources do not establish that exact recipes were the only possible safety mechanism (S1/gpu-gate-refuses-any-venv-python.md:10–12; B/r2c_report.md:6; B/codexr2q_brief.txt:4–7,16; B/shared_disk_clearance_contract_v1_1.md:119). Action: Exact launch-root and historical R2 source-route inventory for MAESTRO Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:247; subject - M3 copy source folder: **not frozen in the examined record**; the freeze requires exact paths in a unit profile but does not select bare main, this worktree or the whole volume. The settled access-path audit remains the reference (B/shared_disk_clearance_freeze_v11.md:37; A/operator_hypothesis_worktree_vs_main.md:10).. - M3 copy source folder: **not frozen in the examined record**; the freeze requires exact paths in a unit profile but does not select bare main, this worktree or the whole volume. The settled access-path audit remains the reference (B/shared_disk_clearance_freeze_v11.md:37; A/operator_hypothesis_worktree_vs_main.md:10). Action: Exact launch-root and historical R2 source-route inventory for MAESTRO Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+## H03-R38
+
+Wave 3; host; 7 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: R-GA-ROUTES.
+Handoff: `results/context_audit_20261012/hygiene/receipts/H03-R38/handoff.md`.
+Exact allowlist:
+
+Dispatch required: true; identical frozen Git blob ref `refs/context_hygiene/dispatch/H03-R38`; immutable private seeds allowed only at the exact private paths above.
+Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<LANE>.json.
+
+- `results/context_audit_20261012/hygiene/host_staging/.codex/AGENTS.md`
+- `results/context_audit_20261012/hygiene/receipts/H03-R38/handoff.md`
+- `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/report.md`
+
+### R-GA-ROUTES — Program-specific roles, operator scope and phone-readable routing in the global Codex reader
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-GA-ROUTES, results/context_audit_20261012/PRESERVATION.md:106, results/context_audit_20261012/PRESERVATION.md:108, results/context_audit_20261012/PRESERVATION.md:115, results/context_audit_20261012/PRESERVATION.md:78, results/context_audit_20261012/PRESERVATION.md:81, results/context_audit_20261012/PRESERVATION.md:84, results/context_audit_20261012/PRESERVATION.md:87; minutes: 7; depends_on: D-U24, P01, P04, P10.
+Source files: `/Users/robertrhu/.codex/AGENTS.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.codex/AGENTS.md`, `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/report.md`, `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.codex/AGENTS.md": "da3841a5356b280c6bb1f601acf5a1bf2402076ca43feb054659446ab4fe00a1"}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H03-R38; wave: 3.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/report.md`, `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-GA-ROUTES/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:78, results/context_audit_20261012/PRESERVATION.md:81, results/context_audit_20261012/PRESERVATION.md:84, results/context_audit_20261012/PRESERVATION.md:87, results/context_audit_20261012/PRESERVATION.md:106, results/context_audit_20261012/PRESERVATION.md:108, results/context_audit_20261012/PRESERVATION.md:115; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. In the complete staged reader add a repo-scoped route: interactive tmux Sol builders/sweeps, separate Astra-high binding gates, ordinary method/word-list decisions resolved by the team; no builder commits/pushes/merges. Cite model-and-compute-allocation, sol-for-sweeps-astra-for-gates and CLAUDE.md roles; do not change unrelated repos or personal memory.
+3. Add recommendation-first plain language, operator-led one-domain-at-a-time brainstorming and atomic isolated worktrees; retain no-current-save-outside-brief rule and 60/45/40 plus blind-builder MAESTRO messages. Source conflict for budget changes remains OPEN; no new frozen-cap/spend permission.
+4. Read staged file as a fresh Codex reader: each program role, phone route, brainstorm boundary and current hygiene-only hold is discoverable by a resolving explicit Git pointer; verify staged-before diff preserves generic safety.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:78; subject | 10-06 “not very useful really for observability” | S1/model-and-compute-allocation.md:12 interactive tmux builders | GA has no program-role/interactive-builder rule; scoped experiments/AGENTS.md:15 obsolete review route | Use headless builder/default review without required observability/roles. |. | 10-06 “not very useful really for observability” | S1/model-and-compute-allocation.md:12 interactive tmux builders | GA has no program-role/interactive-builder rule; scoped experiments/AGENTS.md:15 obsolete review route | Use headless builder/default review without required observability/roles. | Action: Program-specific roles, operator scope and phone-readable routing in the global Codex reader Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:81; subject | 10-06 “clear, understandable and concise” | S1/plain-language-to-operator.md:8; S2 same note | S3 lacks that standing note; GA lacks program-specific phone/recommendation-first route | Send jargon/large command dumps or reopen settled choices. |. | 10-06 “clear, understandable and concise” | S1/plain-language-to-operator.md:8; S2 same note | S3 lacks that standing note; GA lacks program-specific phone/recommendation-first route | Send jargon/large command dumps or reopen settled choices. | Action: Program-specific roles, operator scope and phone-readable routing in the global Codex reader Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:84; subject | 10-07 “And push it all” | RB:391; CLAUDE.md:17; S1/commit-forward-work-without-asking.md:8,13 | S3 no standing push note; GA generic completion/save rules have no MAESTRO/builder distinction | Leave verified MAESTRO work local, or let a builder commit/push outside brief. |. | 10-07 “And push it all” | RB:391; CLAUDE.md:17; S1/commit-forward-work-without-asking.md:8,13 | S3 no standing push note; GA generic completion/save rules have no MAESTRO/builder distinction | Leave verified MAESTRO work local, or let a builder commit/push outside brief. | Action: Program-specific roles, operator scope and phone-readable routing in the global Codex reader Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:87; subject | 10-08 “Any experiment, as needed” | RB:415; S1/operator-overnight-autonomy-2026-10-06.md:14 | Same note:20 and current CLAUDE.md:15,22 retain frozen-cap/operator exceptions; no explicit resolution in S3/GA | Either block measured authorized budget work or overextend it to a frozen/spend fork. SOURCE CONFLICT stays OPEN. |. | 10-08 “Any experiment, as needed” | RB:415; S1/operator-overnight-autonomy-2026-10-06.md:14 | Same note:20 and current CLAUDE.md:15,22 retain frozen-cap/operator exceptions; no explicit resolution in S3/GA | Either block measured authorized budget work or overextend it to a frozen/spend fork. SOURCE CONFLICT stays OPEN. | Action: Program-specific roles, operator scope and phone-readable routing in the global Codex reader Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:106; subject | 10-11 “other domains … one by one” | HF/maestro48_takeover_20261011.md:9; S3/interactive-codex-brainstorm-sessions.md:8 | S1/S2/GA lack brainstorm-session contract | Replace operator-driven discussion with a builder-style task or move domains prematurely. |. | 10-11 “other domains … one by one” | HF/maestro48_takeover_20261011.md:9; S3/interactive-codex-brainstorm-sessions.md:8 | S1/S2/GA lack brainstorm-session contract | Replace operator-driven discussion with a builder-style task or move domains prematurely. | Action: Program-specific roles, operator scope and phone-readable routing in the global Codex reader Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:108; subject | 10-11 “will do just as good … cost much less” | HF/maestro60_takeover_20261011.md:22; S3/sol-for-sweeps-astra-for-gates.md:7–11 | S1/S2/GA missing sweep-role/loop-escalation instruction; CM no dedicated note | Spend Astra on repeated sweeps instead of Sol sweep/tracer, then binding gate. |. | 10-11 “will do just as good … cost much less” | HF/maestro60_takeover_20261011.md:22; S3/sol-for-sweeps-astra-for-gates.md:7–11 | S1/S2/GA missing sweep-role/loop-escalation instruction; CM no dedicated note | Spend Astra on repeated sweeps instead of Sol sweep/tracer, then binding gate. | Action: Program-specific roles, operator scope and phone-readable routing in the global Codex reader Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:115; subject | 10-12 “VERY atomic … their own worktrees” | S3/atomic-units-parallel-worktree-lanes.md:11–15 | S1/S2/GA absent; S1/parallel-builders-name-each-others-files.md:8–12 still shared-tree mitigation | Dispatch long overlapping builders instead of small isolated units. |. | 10-12 “VERY atomic … their own worktrees” | S3/atomic-units-parallel-worktree-lanes.md:11–15 | S1/S2/GA absent; S1/parallel-builders-name-each-others-files.md:8–12 still shared-tree mitigation | Dispatch long overlapping builders instead of small isolated units. | Action: Program-specific roles, operator scope and phone-readable routing in the global Codex reader Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+## H05-R39
+
+Wave 5; repo; 6 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: R-ROOT-CALLER-RED.
+Handoff: `results/context_audit_20261012/hygiene/receipts/H05-R39/handoff.md`.
+Exact allowlist:
+
+Dispatch required: true; identical frozen Git blob ref `refs/context_hygiene/dispatch/H05-R39`; immutable private seeds allowed only at the exact private paths above.
+Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<LANE>.json.
+
+- `results/context_audit_20261012/hygiene/receipts/H05-R39/handoff.md`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/report.md`
+- `tests/test_context_root_readers.py`
+
+### R-ROOT-CALLER-RED — Actual renderer and closeout reader-root refusal fixtures before owner integration
+
+Source: results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md; findings: RESTORE-R-ROOT-CALLER-RED, results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20; minutes: 6; depends_on: R-HOOK-GREEN, R-ROOT-ROUTES.
+Source files: `tests/test_context_root_readers.py`.
+Files: `tests/test_context_root_readers.py`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/green.txt`.
+Decision references: none.
+Pins: `{"tests/test_context_root_readers.py": null}`; host-before pins: `{}`.
+
+Expected-RED owner: true. Unit kind: repo; lane: H05-R39; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/report.md`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-ROOT-CALLER-RED/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. In temporary complete fixture worktrees run the EXISTING actual tools/render_state.py --check and tools/closeout_check.py --list with inherited LLMDB_ROOT set to a fixture main behind cached origin/master. Supply byte-current generated views/complete state so baseline read-only commands succeed for the wrong root; assert ROOT_STALE_MAIN/nonzero before any source read and save intended behavioral RED.
+3. Positive verified-current-worktree controls pass; hook-byte mismatch fails before read. Copy actual tool bytes into the isolated fixture; do not execute scientific closeout, --write, a live hook, real host/main or model imports. Existing accepted flags only; missing new API/argument failure is not RED.
+4. Freeze fixture hashes for renderer owner D-U13b and closeout owner DG8. Those owners integrate the central resolver in their existing files and run this suite GREEN; tests check actual consumer refusal, not mere policy presence.
+5. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/operator_hypothesis_worktree_vs_main.md:20; subject - Add a drift guard: any tool or brief that names a repo root must name the worktree or fail loudly when it finds the main folder behind origin/master. A stale main folder must not read silently as the truth.. - Add a drift guard: any tool or brief that names a repo root must name the worktree or fail loudly when it finds the main folder behind origin/master. A stale main folder must not read silently as the truth. Action: Actual renderer and closeout reader-root refusal fixtures before owner integration Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+## H05-R40
+
+Wave 5; host; 36 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: R-E-S2-001, R-E-S2-002, R-E-S2-003, R-E-S2-004, R-E-S2-005, R-E-S2-006, R-E-S2-007, R-E-S2-008, R-E-S2-009, R-E-S2-010, R-E-S2-011, R-E-S2-012, R-E-S2-013, R-E-S2-014, R-E-S2-015, R-E-S2-016, R-E-S2-017, R-E-S2-018.
+Handoff: `results/context_audit_20261012/hygiene/receipts/H05-R40/handoff.md`.
+Exact allowlist:
+
+Dispatch required: true; identical frozen Git blob ref `refs/context_hygiene/dispatch/H05-R40`; immutable private seeds allowed only at the exact private paths above.
+Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<LANE>.json.
+
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/atomic-units-parallel-worktree-lanes.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/autoresearch-retest-minted-token-planning-only.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/c10y-deferred-behind-drive-backup.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/codex-session-can-type-into-maestro-pane.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/commit-verified-bytes-before-successor.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/context-hygiene-must-reach-every-store.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/hw1-choice7-recovery-required.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/intel-exists-to-offload-the-m3.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/interactive-codex-brainstorm-sessions.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/labviz-wireframe-before-spec-approval.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/maestro-hash-pin-edits-go-to-builders.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/one-shot-run-needs-real-scale-dry-run.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/operator-context-hygiene-hold.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/operator-review-report-before-questions.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/r2-v4-adoption-reader-boundaries.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/readonly-check-runs-in-maestro-shell.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/remove-shared-resource-before-policing-it.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sealed-allowance-two-drift-windows.md`
+- `results/context_audit_20261012/hygiene/receipts/H05-R40/handoff.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/report.md`
+
+### R-E-S2-001 — Supplemental ruling export atomic-units-parallel-worktree-lanes.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-001, results/context_audit_20261012/PRESERVATION.md:115, results/context_audit_20261012/PRESERVATION.md:194; minutes: 2; depends_on: R-CACHE-MANIFEST, P01.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/atomic-units-parallel-worktree-lanes.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/atomic-units-parallel-worktree-lanes.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/atomic-units-parallel-worktree-lanes.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-001/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export atomic-units-parallel-worktree-lanes.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:115; subject | 10-12 “VERY atomic … their own worktrees” | S3/atomic-units-parallel-worktree-lanes.md:11–15 | S1/S2/GA absent; S1/parallel-builders-name-each-others-files.md:8–12 still shared-tree mitigation | Dispatch long overlapping builders instead of small isolated units. |. | 10-12 “VERY atomic … their own worktrees” | S3/atomic-units-parallel-worktree-lanes.md:11–15 | S1/S2/GA absent; S1/parallel-builders-name-each-others-files.md:8–12 still shared-tree mitigation | Dispatch long overlapping builders instead of small isolated units. | Action: Supplemental ruling export atomic-units-parallel-worktree-lanes.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:194; subject | S3/atomic-units-parallel-worktree-lanes.md:3 | S; lesson retained |. | S3/atomic-units-parallel-worktree-lanes.md:3 | S; lesson retained | Action: Supplemental ruling export atomic-units-parallel-worktree-lanes.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-002 — Supplemental ruling export autoresearch-retest-minted-token-planning-only.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-002, results/context_audit_20261012/PRESERVATION.md:100; minutes: 2; depends_on: R-CACHE-MANIFEST, R-RETEST-NOTE.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/autoresearch-retest-minted-token-planning-only.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/autoresearch-retest-minted-token-planning-only.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/autoresearch-retest-minted-token-planning-only.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-002/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export autoresearch-retest-minted-token-planning-only.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:100; subject | 10-11 “Approve, with minted token” | RB:432; results/autoresearch_reaim/operator_ruling_retest_20261011.md:6–18; PS:374–375 | R2 DS claimed Arm R=C10W (B/astra_r2i_verdict.md:48–56); S1/S2/S3 have no standalone re-test ruling note | Plan the wrong Arm R, or mistake planning approval for a run GO. |. | 10-11 “Approve, with minted token” | RB:432; results/autoresearch_reaim/operator_ruling_retest_20261011.md:6–18; PS:374–375 | R2 DS claimed Arm R=C10W (B/astra_r2i_verdict.md:48–56); S1/S2/S3 have no standalone re-test ruling note | Plan the wrong Arm R, or mistake planning approval for a run GO. | Action: Supplemental ruling export autoresearch-retest-minted-token-planning-only.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-003 — Supplemental ruling export c10y-deferred-behind-drive-backup.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-003, results/context_audit_20261012/PRESERVATION.md:99; minutes: 2; depends_on: R-CACHE-MANIFEST, N48.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/c10y-deferred-behind-drive-backup.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/c10y-deferred-behind-drive-backup.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/c10y-deferred-behind-drive-backup.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-003/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export c10y-deferred-behind-drive-backup.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:99; subject | 10-10 “C10Y should be defered” | RB:431; S1/c10y-deferred-behind-drive-backup.md:8; PS retest/Drive queue | S2/S3 lack deferred note; old PS:15 still routes to C10Y calibration; S1 description implies backup alone unblocks | Remove C10Y permanently or resume terminal calibration without reclaim/review/fresh GO. |. | 10-10 “C10Y should be defered” | RB:431; S1/c10y-deferred-behind-drive-backup.md:8; PS retest/Drive queue | S2/S3 lack deferred note; old PS:15 still routes to C10Y calibration; S1 description implies backup alone unblocks | Remove C10Y permanently or resume terminal calibration without reclaim/review/fresh GO. | Action: Supplemental ruling export c10y-deferred-behind-drive-backup.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-004 — Supplemental ruling export codex-session-can-type-into-maestro-pane.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-004, results/context_audit_20261012/PRESERVATION.md:195; minutes: 2; depends_on: R-CACHE-MANIFEST, P02.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/codex-session-can-type-into-maestro-pane.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/codex-session-can-type-into-maestro-pane.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/codex-session-can-type-into-maestro-pane.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-004/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export codex-session-can-type-into-maestro-pane.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:195; subject | S3/codex-session-can-type-into-maestro-pane.md:3 | S; lesson retained |. | S3/codex-session-can-type-into-maestro-pane.md:3 | S; lesson retained | Action: Supplemental ruling export codex-session-can-type-into-maestro-pane.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-005 — Supplemental ruling export commit-verified-bytes-before-successor.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-005, results/context_audit_20261012/PRESERVATION.md:196; minutes: 2; depends_on: R-CACHE-MANIFEST, P03.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/commit-verified-bytes-before-successor.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/commit-verified-bytes-before-successor.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/commit-verified-bytes-before-successor.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-005/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export commit-verified-bytes-before-successor.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:196; subject | S3/commit-verified-bytes-before-successor.md:3 | S; lesson retained |. | S3/commit-verified-bytes-before-successor.md:3 | S; lesson retained | Action: Supplemental ruling export commit-verified-bytes-before-successor.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-006 — Supplemental ruling export context-hygiene-must-reach-every-store.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-006, results/context_audit_20261012/PRESERVATION.md:197; minutes: 2; depends_on: R-CACHE-MANIFEST, P14.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/context-hygiene-must-reach-every-store.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/context-hygiene-must-reach-every-store.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/context-hygiene-must-reach-every-store.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-006/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export context-hygiene-must-reach-every-store.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:197; subject | S3/context-hygiene-must-reach-every-store.md:3 | S; lesson retained |. | S3/context-hygiene-must-reach-every-store.md:3 | S; lesson retained | Action: Supplemental ruling export context-hygiene-must-reach-every-store.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-007 — Supplemental ruling export hw1-choice7-recovery-required.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-007, results/context_audit_20261012/PRESERVATION.md:103; minutes: 2; depends_on: R-CACHE-MANIFEST, R-RECOVERY-NOTE.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/hw1-choice7-recovery-required.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/hw1-choice7-recovery-required.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/hw1-choice7-recovery-required.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-007/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export hw1-choice7-recovery-required.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:103; subject | 10-11 HW1 choice 7 “A” | B/decisions_log.md:99–101,191; redesign v4 preserves recovery | B/r2_git_drive_redesign_v1.md:115 made recovery optional; S1/S2/S3 have no choice-7 note | Drop seven-daily/four-weekly restore history and old-version recovery. |. | 10-11 HW1 choice 7 “A” | B/decisions_log.md:99–101,191; redesign v4 preserves recovery | B/r2_git_drive_redesign_v1.md:115 made recovery optional; S1/S2/S3 have no choice-7 note | Drop seven-daily/four-weekly restore history and old-version recovery. | Action: Supplemental ruling export hw1-choice7-recovery-required.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-008 — Supplemental ruling export intel-exists-to-offload-the-m3.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-008, results/context_audit_20261012/PRESERVATION.md:102, results/context_audit_20261012/PRESERVATION.md:111; minutes: 2; depends_on: R-CACHE-MANIFEST.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/intel-exists-to-offload-the-m3.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/intel-exists-to-offload-the-m3.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/intel-exists-to-offload-the-m3.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-008/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export intel-exists-to-offload-the-m3.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:102; subject | 10-11 “I approve this session's design” | B/decisions_log.md:181–183; RB:458; PS:14 | M/root guides and S2 lack D-HW-2 integration/current role note; PS:13 still Neo4j on M3 | Build obsolete same-host engine or dispatch affected work without cross-cutting reconciliation. |. | 10-11 “I approve this session's design” | B/decisions_log.md:181–183; RB:458; PS:14 | M/root guides and S2 lack D-HW-2 integration/current role note; PS:13 still Neo4j on M3 | Build obsolete same-host engine or dispatch affected work without cross-cutting reconciliation. | Action: Supplemental ruling export intel-exists-to-offload-the-m3.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:111; subject | 10-11 “The whole point of the Intel is to offload work like uploading” | B/r2_redesign_operator_r8_answers.md:8,16,22; S1/S3/intel-exists-to-offload-the-m3.md:11 | S2 absent; S1/S3 removal note:7 still M3-only backup/science exclusion shorthand | Put slow Drive upload on M3 or incorrectly prohibit approved M3-initiated source-read push. |. | 10-11 “The whole point of the Intel is to offload work like uploading” | B/r2_redesign_operator_r8_answers.md:8,16,22; S1/S3/intel-exists-to-offload-the-m3.md:11 | S2 absent; S1/S3 removal note:7 still M3-only backup/science exclusion shorthand | Put slow Drive upload on M3 or incorrectly prohibit approved M3-initiated source-read push. | Action: Supplemental ruling export intel-exists-to-offload-the-m3.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-009 — Supplemental ruling export interactive-codex-brainstorm-sessions.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-009, results/context_audit_20261012/PRESERVATION.md:106, results/context_audit_20261012/PRESERVATION.md:198; minutes: 2; depends_on: R-CACHE-MANIFEST, P04.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/interactive-codex-brainstorm-sessions.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/interactive-codex-brainstorm-sessions.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/interactive-codex-brainstorm-sessions.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-009/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export interactive-codex-brainstorm-sessions.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:106; subject | 10-11 “other domains … one by one” | HF/maestro48_takeover_20261011.md:9; S3/interactive-codex-brainstorm-sessions.md:8 | S1/S2/GA lack brainstorm-session contract | Replace operator-driven discussion with a builder-style task or move domains prematurely. |. | 10-11 “other domains … one by one” | HF/maestro48_takeover_20261011.md:9; S3/interactive-codex-brainstorm-sessions.md:8 | S1/S2/GA lack brainstorm-session contract | Replace operator-driven discussion with a builder-style task or move domains prematurely. | Action: Supplemental ruling export interactive-codex-brainstorm-sessions.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:198; subject | S3/interactive-codex-brainstorm-sessions.md:3 | S; lesson retained |. | S3/interactive-codex-brainstorm-sessions.md:3 | S; lesson retained | Action: Supplemental ruling export interactive-codex-brainstorm-sessions.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-010 — Supplemental ruling export labviz-wireframe-before-spec-approval.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-010, results/context_audit_20261012/PRESERVATION.md:104, results/context_audit_20261012/PRESERVATION.md:107, results/context_audit_20261012/PRESERVATION.md:114; minutes: 2; depends_on: R-CACHE-MANIFEST, R-LABVIZ-READER.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/labviz-wireframe-before-spec-approval.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/labviz-wireframe-before-spec-approval.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/labviz-wireframe-before-spec-approval.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-010/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export labviz-wireframe-before-spec-approval.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:104; subject | 10-11 “Before beginning building work … please wait” | HF/maestro45_takeover_20261011.md:7; PS:284–285 | M startup/older broad LabViz build rulings lack hold; S2 lacks wireframe/hold note | Start dashboard/LabViz BUILD from earlier blanket approval. |. | 10-11 “Before beginning building work … please wait” | HF/maestro45_takeover_20261011.md:7; PS:284–285 | M startup/older broad LabViz build rulings lack hold; S2 lacks wireframe/hold note | Start dashboard/LabViz BUILD from earlier blanket approval. | Action: Supplemental ruling export labviz-wireframe-before-spec-approval.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:107; subject | 10-11 “Once Astra approves the spec … static wireframe” | S1/S3/labviz-wireframe-before-spec-approval.md:7,11 | S2 missing note; S3/MEMORY.md:13 still no Figma yet although note:11 records configured/sign-in | Skip visual review before approval/build or reopen solved tool setup. |. | 10-11 “Once Astra approves the spec … static wireframe” | S1/S3/labviz-wireframe-before-spec-approval.md:7,11 | S2 missing note; S3/MEMORY.md:13 still no Figma yet although note:11 records configured/sign-in | Skip visual review before approval/build or reopen solved tool setup. | Action: Supplemental ruling export labviz-wireframe-before-spec-approval.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:114; subject | 10-12 “Update the plan” | PS:230–231; HF/20261012T002451Z-56625.md:2; LabViz settled-choice ledger | Old Oct 7 LabViz build-all rulings remain in startup history; S2 lacks new wireframe/hold sequence | Implement UI while only v3 writing/review is authorized. |. | 10-12 “Update the plan” | PS:230–231; HF/20261012T002451Z-56625.md:2; LabViz settled-choice ledger | Old Oct 7 LabViz build-all rulings remain in startup history; S2 lacks new wireframe/hold sequence | Implement UI while only v3 writing/review is authorized. | Action: Supplemental ruling export labviz-wireframe-before-spec-approval.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-011 — Supplemental ruling export maestro-hash-pin-edits-go-to-builders.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-011, results/context_audit_20261012/PRESERVATION.md:199; minutes: 2; depends_on: R-CACHE-MANIFEST, P05.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/maestro-hash-pin-edits-go-to-builders.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/maestro-hash-pin-edits-go-to-builders.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/maestro-hash-pin-edits-go-to-builders.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-011/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export maestro-hash-pin-edits-go-to-builders.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:199; subject | S3/maestro-hash-pin-edits-go-to-builders.md:3 | S; lesson retained |. | S3/maestro-hash-pin-edits-go-to-builders.md:3 | S; lesson retained | Action: Supplemental ruling export maestro-hash-pin-edits-go-to-builders.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-012 — Supplemental ruling export one-shot-run-needs-real-scale-dry-run.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-012, results/context_audit_20261012/PRESERVATION.md:200; minutes: 2; depends_on: R-CACHE-MANIFEST, P06.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/one-shot-run-needs-real-scale-dry-run.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/one-shot-run-needs-real-scale-dry-run.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/one-shot-run-needs-real-scale-dry-run.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-012/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export one-shot-run-needs-real-scale-dry-run.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:200; subject | S3/one-shot-run-needs-real-scale-dry-run.md:3 | S; lesson retained |. | S3/one-shot-run-needs-real-scale-dry-run.md:3 | S; lesson retained | Action: Supplemental ruling export one-shot-run-needs-real-scale-dry-run.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-013 — Supplemental ruling export operator-context-hygiene-hold.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-013, results/context_audit_20261012/PRESERVATION.md:116; minutes: 2; depends_on: R-CACHE-MANIFEST, R-HOLD-NOTE.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/operator-context-hygiene-hold.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/operator-context-hygiene-hold.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/operator-context-hygiene-hold.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-013/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export operator-context-hygiene-hold.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:116; subject | 10-12 “Fix absolutely everything” [queue-recorded quote] | PS:50–51 specifies context hygiene then stop; S3/context-hygiene-must-reach-every-store.md:11–15 | PS still lists other ready/running work without per-item hygiene pause; generic standing-autonomy notes omit latest hold | Resume science/activation/build work before context cleanup and operator stop. |. | 10-12 “Fix absolutely everything” [queue-recorded quote] | PS:50–51 specifies context hygiene then stop; S3/context-hygiene-must-reach-every-store.md:11–15 | PS still lists other ready/running work without per-item hygiene pause; generic standing-autonomy notes omit latest hold | Resume science/activation/build work before context cleanup and operator stop. | Action: Supplemental ruling export operator-context-hygiene-hold.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-014 — Supplemental ruling export operator-review-report-before-questions.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-014, results/context_audit_20261012/PRESERVATION.md:105; minutes: 2; depends_on: R-CACHE-MANIFEST, R-REVIEW-FIRST.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/operator-review-report-before-questions.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/operator-review-report-before-questions.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/operator-review-report-before-questions.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-014/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export operator-review-report-before-questions.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:105; subject | 10-11 “I will review the report first” | HF/maestro47_takeover_20261011.md:8; successor HF/20261012T002451Z-56625.md:2 | PS needs_from_you asks for choices with blocked_by=[]; its historical note DOES preserve the review-first condition; no standalone recall note | Ask SUMMARY adoption questions before the operator says review is complete. |. | 10-11 “I will review the report first” | HF/maestro47_takeover_20261011.md:8; successor HF/20261012T002451Z-56625.md:2 | PS needs_from_you asks for choices with blocked_by=[]; its historical note DOES preserve the review-first condition; no standalone recall note | Ask SUMMARY adoption questions before the operator says review is complete. | Action: Supplemental ruling export operator-review-report-before-questions.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-015 — Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-015, results/context_audit_20261012/PRESERVATION.md:102, results/context_audit_20261012/PRESERVATION.md:109, results/context_audit_20261012/PRESERVATION.md:110, results/context_audit_20261012/PRESERVATION.md:113; minutes: 2; depends_on: R-CACHE-MANIFEST, R-R2-ADOPT-NOTE.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/r2-v4-adoption-reader-boundaries.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/r2-v4-adoption-reader-boundaries.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/r2-v4-adoption-reader-boundaries.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-015/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:102; subject | 10-11 “I approve this session's design” | B/decisions_log.md:181–183; RB:458; PS:14 | M/root guides and S2 lack D-HW-2 integration/current role note; PS:13 still Neo4j on M3 | Build obsolete same-host engine or dispatch affected work without cross-cutting reconciliation. |. | 10-11 “I approve this session's design” | B/decisions_log.md:181–183; RB:458; PS:14 | M/root guides and S2 lack D-HW-2 integration/current role note; PS:13 still Neo4j on M3 | Build obsolete same-host engine or dispatch affected work without cross-cutting reconciliation. | Action: Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:109; subject | 10-11 “Can the Intel Mac pull … directly from Git” | B/r2_redesign_operator_ruling.md:5–11; S1/S3/remove-shared-resource-before-policing-it.md:7 | S2 missing note; old integration/profile artifacts retained without universal reader tombstone; PS:14 second-memit-copy wording | Resume retired shared-memit R2 freeze or give Intel a memit route. |. | 10-11 “Can the Intel Mac pull … directly from Git” | B/r2_redesign_operator_ruling.md:5–11; S1/S3/remove-shared-resource-before-policing-it.md:7 | S2 missing note; old integration/profile artifacts retained without universal reader tombstone; PS:14 second-memit-copy wording | Resume retired shared-memit R2 freeze or give Intel a memit route. | Action: Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:110; subject | 10-11 “never maxed and stops science mid stream” | B/r2_redesign_operator_ruling.md:9–11; adopted v4 S1–S12 | S1 removal note:7 compresses to proactive storage without numeric acceptance; S2 absent; M only old archive/cap recipe | Treat monitoring or one passing sample as a guarantee; ignore peak/support-writer bounds. |. | 10-11 “never maxed and stops science mid stream” | B/r2_redesign_operator_ruling.md:9–11; adopted v4 S1–S12 | S1 removal note:7 compresses to proactive storage without numeric acceptance; S2 absent; M only old archive/cap recipe | Treat monitoring or one passing sample as a guarantee; ignore peak/support-writer bounds. | Action: Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:113; subject | 10-11 “Adopt (Recommended)” | B/r2_redesign_operator_adoption.md:9–11; RB:475; PS:5 | Older Gate-1/commissioning language and broad standing approval lack explicit v4 replacement; S2 no adoption note | Treat adoption as activation or continue a canceled original R2 round. |. | 10-11 “Adopt (Recommended)” | B/r2_redesign_operator_adoption.md:9–11; RB:475; PS:5 | Older Gate-1/commissioning language and broad standing approval lack explicit v4 replacement; S2 no adoption note | Treat adoption as activation or continue a canceled original R2 round. | Action: Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-016 — Supplemental ruling export readonly-check-runs-in-maestro-shell.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-016, results/context_audit_20261012/PRESERVATION.md:201; minutes: 2; depends_on: R-CACHE-MANIFEST, P07.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/readonly-check-runs-in-maestro-shell.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/readonly-check-runs-in-maestro-shell.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/readonly-check-runs-in-maestro-shell.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-016/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export readonly-check-runs-in-maestro-shell.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:201; subject | S3/readonly-check-runs-in-maestro-shell.md:3 | S; lesson retained |. | S3/readonly-check-runs-in-maestro-shell.md:3 | S; lesson retained | Action: Supplemental ruling export readonly-check-runs-in-maestro-shell.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-017 — Supplemental ruling export remove-shared-resource-before-policing-it.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-017, results/context_audit_20261012/PRESERVATION.md:109; minutes: 2; depends_on: R-CACHE-MANIFEST, N27.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/remove-shared-resource-before-policing-it.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/remove-shared-resource-before-policing-it.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/remove-shared-resource-before-policing-it.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-017/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export remove-shared-resource-before-policing-it.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:109; subject | 10-11 “Can the Intel Mac pull … directly from Git” | B/r2_redesign_operator_ruling.md:5–11; S1/S3/remove-shared-resource-before-policing-it.md:7 | S2 missing note; old integration/profile artifacts retained without universal reader tombstone; PS:14 second-memit-copy wording | Resume retired shared-memit R2 freeze or give Intel a memit route. |. | 10-11 “Can the Intel Mac pull … directly from Git” | B/r2_redesign_operator_ruling.md:5–11; S1/S3/remove-shared-resource-before-policing-it.md:7 | S2 missing note; old integration/profile artifacts retained without universal reader tombstone; PS:14 second-memit-copy wording | Resume retired shared-memit R2 freeze or give Intel a memit route. | Action: Supplemental ruling export remove-shared-resource-before-policing-it.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-018 — Supplemental ruling export sealed-allowance-two-drift-windows.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-018, results/context_audit_20261012/PRESERVATION.md:202; minutes: 2; depends_on: R-CACHE-MANIFEST, P08.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sealed-allowance-two-drift-windows.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sealed-allowance-two-drift-windows.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sealed-allowance-two-drift-windows.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R40; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-018/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export sealed-allowance-two-drift-windows.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:202; subject | S3/sealed-allowance-two-drift-windows.md:3 | S; lesson retained |. | S3/sealed-allowance-two-drift-windows.md:3 | S; lesson retained | Action: Supplemental ruling export sealed-allowance-two-drift-windows.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+## H05-R41
+
+Wave 5; host; 28 min; worktree `<WT>`; base `c90bf2590085bfbda6d1e41dd4885fa04803d321`.
+Ordered units: R-E-S2-019, R-E-S2-020, R-E-S2-021, R-E-S3-001, R-E-S3-002, R-E-S3-003, R-E-S3-004, R-E-S3-005, R-E-S3-006, R-E-S3-007, R-E-S3-008, R-E-S3-009, R-E-S3-010, R-E-S3-011.
+Handoff: `results/context_audit_20261012/hygiene/receipts/H05-R41/handoff.md`.
+Exact allowlist:
+
+Dispatch required: true; identical frozen Git blob ref `refs/context_hygiene/dispatch/H05-R41`; immutable private seeds allowed only at the exact private paths above.
+Base protocol: MAESTRO freezes dispatch base after predecessors; see dispatch/<LANE>.json.
+
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/autoresearch-retest-minted-token-planning-only.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/c10y-deferred-behind-drive-backup.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/commit-forward-work-without-asking.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/hw1-choice7-recovery-required.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/infranodus-standing-approval.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/lab-view-and-live-telemetry.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/operator-context-hygiene-hold.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/operator-review-report-before-questions.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/r2-v4-adoption-reader-boundaries.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/readme-plain-words-summary.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/work-queue-tab-keep-current.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sol-builders-blind-to-context.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sol-for-sweeps-astra-for-gates.md`
+- `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/stale-predecessor-watchers-steal-events.md`
+- `results/context_audit_20261012/hygiene/receipts/H05-R41/handoff.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/report.md`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/green.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/hashes.json`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/red.txt`
+- `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/report.md`
+
+### R-E-S2-019 — Supplemental ruling export sol-builders-blind-to-context.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-019, results/context_audit_20261012/PRESERVATION.md:203, results/context_audit_20261012/PRESERVATION.md:92; minutes: 2; depends_on: R-CACHE-MANIFEST, P09.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sol-builders-blind-to-context.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sol-builders-blind-to-context.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sol-builders-blind-to-context.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-019/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export sol-builders-blind-to-context.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:92; subject | 10-11 watcher-delivered 45% stop [observed operating rule, not a recovered operator quote] | S3/sol-builders-blind-to-context.md:7–11; current sweep brief last section | Root AGENTS.md:7 assumes visible gauge/40%; S1/S2 lack this note; CM records some task-specific 45% handoffs only | Expect a blind builder to self-stop; omit MAESTRO watcher/message. |. | 10-11 watcher-delivered 45% stop [observed operating rule, not a recovered operator quote] | S3/sol-builders-blind-to-context.md:7–11; current sweep brief last section | Root AGENTS.md:7 assumes visible gauge/40%; S1/S2 lack this note; CM records some task-specific 45% handoffs only | Expect a blind builder to self-stop; omit MAESTRO watcher/message. | Action: Supplemental ruling export sol-builders-blind-to-context.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:203; subject | S3/sol-builders-blind-to-context.md:3 | S; lesson retained |. | S3/sol-builders-blind-to-context.md:3 | S; lesson retained | Action: Supplemental ruling export sol-builders-blind-to-context.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-020 — Supplemental ruling export sol-for-sweeps-astra-for-gates.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-020, results/context_audit_20261012/PRESERVATION.md:108, results/context_audit_20261012/PRESERVATION.md:204; minutes: 2; depends_on: R-CACHE-MANIFEST, P10.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sol-for-sweeps-astra-for-gates.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sol-for-sweeps-astra-for-gates.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/sol-for-sweeps-astra-for-gates.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-020/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export sol-for-sweeps-astra-for-gates.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:108; subject | 10-11 “will do just as good … cost much less” | HF/maestro60_takeover_20261011.md:22; S3/sol-for-sweeps-astra-for-gates.md:7–11 | S1/S2/GA missing sweep-role/loop-escalation instruction; CM no dedicated note | Spend Astra on repeated sweeps instead of Sol sweep/tracer, then binding gate. |. | 10-11 “will do just as good … cost much less” | HF/maestro60_takeover_20261011.md:22; S3/sol-for-sweeps-astra-for-gates.md:7–11 | S1/S2/GA missing sweep-role/loop-escalation instruction; CM no dedicated note | Spend Astra on repeated sweeps instead of Sol sweep/tracer, then binding gate. | Action: Supplemental ruling export sol-for-sweeps-astra-for-gates.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:204; subject | S3/sol-for-sweeps-astra-for-gates.md:3 | S; lesson retained |. | S3/sol-for-sweeps-astra-for-gates.md:3 | S; lesson retained | Action: Supplemental ruling export sol-for-sweeps-astra-for-gates.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S2-021 — Supplemental ruling export stale-predecessor-watchers-steal-events.md to S2
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S2-021, results/context_audit_20261012/PRESERVATION.md:205, results/context_audit_20261012/PRESERVATION.md:93; minutes: 2; depends_on: R-CACHE-MANIFEST, P11.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/stale-predecessor-watchers-steal-events.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/stale-predecessor-watchers-steal-events.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/stale-predecessor-watchers-steal-events.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S2-021/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export stale-predecessor-watchers-steal-events.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:93; subject | 10-09 “Giddy up…orchestrate the work” | S1/never-idle-arm-completion-watch.md:8; CLAUDE.md:17 | Same note:16 old <25% alert; old token-anchoring sibling unindexed; S3 stale-watcher lesson absent S1/S2 | Miss completion/context events or trust an echoed reply token. |. | 10-09 “Giddy up…orchestrate the work” | S1/never-idle-arm-completion-watch.md:8; CLAUDE.md:17 | Same note:16 old <25% alert; old token-anchoring sibling unindexed; S3 stale-watcher lesson absent S1/S2 | Miss completion/context events or trust an echoed reply token. | Action: Supplemental ruling export stale-predecessor-watchers-steal-events.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:205; subject | S3/stale-predecessor-watchers-steal-events.md:3 | S; lesson retained |. | S3/stale-predecessor-watchers-steal-events.md:3 | S; lesson retained | Action: Supplemental ruling export stale-predecessor-watchers-steal-events.md to S2 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S3-001 — Supplemental ruling export autoresearch-retest-minted-token-planning-only.md to S3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S3-001, results/context_audit_20261012/PRESERVATION.md:100; minutes: 2; depends_on: R-CACHE-MANIFEST, R-RETEST-NOTE.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/autoresearch-retest-minted-token-planning-only.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/autoresearch-retest-minted-token-planning-only.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/autoresearch-retest-minted-token-planning-only.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-001/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export autoresearch-retest-minted-token-planning-only.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:100; subject | 10-11 “Approve, with minted token” | RB:432; results/autoresearch_reaim/operator_ruling_retest_20261011.md:6–18; PS:374–375 | R2 DS claimed Arm R=C10W (B/astra_r2i_verdict.md:48–56); S1/S2/S3 have no standalone re-test ruling note | Plan the wrong Arm R, or mistake planning approval for a run GO. |. | 10-11 “Approve, with minted token” | RB:432; results/autoresearch_reaim/operator_ruling_retest_20261011.md:6–18; PS:374–375 | R2 DS claimed Arm R=C10W (B/astra_r2i_verdict.md:48–56); S1/S2/S3 have no standalone re-test ruling note | Plan the wrong Arm R, or mistake planning approval for a run GO. | Action: Supplemental ruling export autoresearch-retest-minted-token-planning-only.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S3-002 — Supplemental ruling export c10y-deferred-behind-drive-backup.md to S3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S3-002, results/context_audit_20261012/PRESERVATION.md:99; minutes: 2; depends_on: R-CACHE-MANIFEST, N48.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/c10y-deferred-behind-drive-backup.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/c10y-deferred-behind-drive-backup.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/c10y-deferred-behind-drive-backup.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-002/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export c10y-deferred-behind-drive-backup.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:99; subject | 10-10 “C10Y should be defered” | RB:431; S1/c10y-deferred-behind-drive-backup.md:8; PS retest/Drive queue | S2/S3 lack deferred note; old PS:15 still routes to C10Y calibration; S1 description implies backup alone unblocks | Remove C10Y permanently or resume terminal calibration without reclaim/review/fresh GO. |. | 10-10 “C10Y should be defered” | RB:431; S1/c10y-deferred-behind-drive-backup.md:8; PS retest/Drive queue | S2/S3 lack deferred note; old PS:15 still routes to C10Y calibration; S1 description implies backup alone unblocks | Remove C10Y permanently or resume terminal calibration without reclaim/review/fresh GO. | Action: Supplemental ruling export c10y-deferred-behind-drive-backup.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S3-003 — Supplemental ruling export commit-forward-work-without-asking.md to S3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S3-003, results/context_audit_20261012/PRESERVATION.md:84, results/context_audit_20261012/PRESERVATION.md:96; minutes: 2; depends_on: R-CACHE-MANIFEST, N06.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/commit-forward-work-without-asking.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/commit-forward-work-without-asking.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/commit-forward-work-without-asking.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-003/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export commit-forward-work-without-asking.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:84; subject | 10-07 “And push it all” | RB:391; CLAUDE.md:17; S1/commit-forward-work-without-asking.md:8,13 | S3 no standing push note; GA generic completion/save rules have no MAESTRO/builder distinction | Leave verified MAESTRO work local, or let a builder commit/push outside brief. |. | 10-07 “And push it all” | RB:391; CLAUDE.md:17; S1/commit-forward-work-without-asking.md:8,13 | S3 no standing push note; GA generic completion/save rules have no MAESTRO/builder distinction | Leave verified MAESTRO work local, or let a builder commit/push outside brief. | Action: Supplemental ruling export commit-forward-work-without-asking.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:96; subject | 10-10 first gated merge GO [handoff-reported operator choice] | HF/maestro9_takeover_20261010.md:31–32; CLAUDE.md:50–54; origin/master same gate | S1/S2 commit-forward-work-without-asking.md:13 says operator merges; overnight note:20 never merge; M lacks gate | Bypass cooperative reservation/gate or refuse a legitimately authorized MAESTRO merge. |. | 10-10 first gated merge GO [handoff-reported operator choice] | HF/maestro9_takeover_20261010.md:31–32; CLAUDE.md:50–54; origin/master same gate | S1/S2 commit-forward-work-without-asking.md:13 says operator merges; overnight note:20 never merge; M lacks gate | Bypass cooperative reservation/gate or refuse a legitimately authorized MAESTRO merge. | Action: Supplemental ruling export commit-forward-work-without-asking.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S3-004 — Supplemental ruling export hw1-choice7-recovery-required.md to S3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S3-004, results/context_audit_20261012/PRESERVATION.md:103; minutes: 2; depends_on: R-CACHE-MANIFEST, R-RECOVERY-NOTE.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/hw1-choice7-recovery-required.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/hw1-choice7-recovery-required.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/hw1-choice7-recovery-required.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-004/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export hw1-choice7-recovery-required.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:103; subject | 10-11 HW1 choice 7 “A” | B/decisions_log.md:99–101,191; redesign v4 preserves recovery | B/r2_git_drive_redesign_v1.md:115 made recovery optional; S1/S2/S3 have no choice-7 note | Drop seven-daily/four-weekly restore history and old-version recovery. |. | 10-11 HW1 choice 7 “A” | B/decisions_log.md:99–101,191; redesign v4 preserves recovery | B/r2_git_drive_redesign_v1.md:115 made recovery optional; S1/S2/S3 have no choice-7 note | Drop seven-daily/four-weekly restore history and old-version recovery. | Action: Supplemental ruling export hw1-choice7-recovery-required.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S3-005 — Supplemental ruling export infranodus-standing-approval.md to S3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S3-005, results/context_audit_20261012/PRESERVATION.md:89; minutes: 2; depends_on: R-CACHE-MANIFEST.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/infranodus-standing-approval.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/infranodus-standing-approval.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/infranodus-standing-approval.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-005/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export infranodus-standing-approval.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:89; subject | 10-08 “I approve the use of InfraNodus for all work now and forever” | S1/infranodus-standing-approval.md:7,11; S2 same | S3 lacks note; root AGENTS.md research-tool section only describes optional credentials | Ask again for the already granted prose scope; this does not waive missing credentials or an actual denial. |. | 10-08 “I approve the use of InfraNodus for all work now and forever” | S1/infranodus-standing-approval.md:7,11; S2 same | S3 lacks note; root AGENTS.md research-tool section only describes optional credentials | Ask again for the already granted prose scope; this does not waive missing credentials or an actual denial. | Action: Supplemental ruling export infranodus-standing-approval.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S3-006 — Supplemental ruling export lab-view-and-live-telemetry.md to S3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S3-006, results/context_audit_20261012/PRESERVATION.md:85; minutes: 2; depends_on: R-CACHE-MANIFEST, R-LABVIZ-READER.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/lab-view-and-live-telemetry.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/lab-view-and-live-telemetry.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/lab-view-and-live-telemetry.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-006/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export lab-view-and-live-telemetry.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:85; subject | 10-07 “historically on all of the models we have tested” | RB:397; S1/lab-view-and-live-telemetry.md; later LabViz choices map | M and older scoped guides do not route to the newer LabViz plan/hold; S3 lacks telemetry note | Narrow visualization to current C10 slice or confuse historical data with new replay permission. |. | 10-07 “historically on all of the models we have tested” | RB:397; S1/lab-view-and-live-telemetry.md; later LabViz choices map | M and older scoped guides do not route to the newer LabViz plan/hold; S3 lacks telemetry note | Narrow visualization to current C10 slice or confuse historical data with new replay permission. | Action: Supplemental ruling export lab-view-and-live-telemetry.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S3-007 — Supplemental ruling export operator-context-hygiene-hold.md to S3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S3-007, results/context_audit_20261012/PRESERVATION.md:116; minutes: 2; depends_on: R-CACHE-MANIFEST, R-HOLD-NOTE.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/operator-context-hygiene-hold.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/operator-context-hygiene-hold.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/operator-context-hygiene-hold.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-007/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export operator-context-hygiene-hold.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:116; subject | 10-12 “Fix absolutely everything” [queue-recorded quote] | PS:50–51 specifies context hygiene then stop; S3/context-hygiene-must-reach-every-store.md:11–15 | PS still lists other ready/running work without per-item hygiene pause; generic standing-autonomy notes omit latest hold | Resume science/activation/build work before context cleanup and operator stop. |. | 10-12 “Fix absolutely everything” [queue-recorded quote] | PS:50–51 specifies context hygiene then stop; S3/context-hygiene-must-reach-every-store.md:11–15 | PS still lists other ready/running work without per-item hygiene pause; generic standing-autonomy notes omit latest hold | Resume science/activation/build work before context cleanup and operator stop. | Action: Supplemental ruling export operator-context-hygiene-hold.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S3-008 — Supplemental ruling export operator-review-report-before-questions.md to S3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S3-008, results/context_audit_20261012/PRESERVATION.md:105; minutes: 2; depends_on: R-CACHE-MANIFEST, R-REVIEW-FIRST.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/operator-review-report-before-questions.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/operator-review-report-before-questions.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/operator-review-report-before-questions.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-008/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export operator-review-report-before-questions.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:105; subject | 10-11 “I will review the report first” | HF/maestro47_takeover_20261011.md:8; successor HF/20261012T002451Z-56625.md:2 | PS needs_from_you asks for choices with blocked_by=[]; its historical note DOES preserve the review-first condition; no standalone recall note | Ask SUMMARY adoption questions before the operator says review is complete. |. | 10-11 “I will review the report first” | HF/maestro47_takeover_20261011.md:8; successor HF/20261012T002451Z-56625.md:2 | PS needs_from_you asks for choices with blocked_by=[]; its historical note DOES preserve the review-first condition; no standalone recall note | Ask SUMMARY adoption questions before the operator says review is complete. | Action: Supplemental ruling export operator-review-report-before-questions.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S3-009 — Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S3-009, results/context_audit_20261012/PRESERVATION.md:102, results/context_audit_20261012/PRESERVATION.md:109, results/context_audit_20261012/PRESERVATION.md:110, results/context_audit_20261012/PRESERVATION.md:113; minutes: 2; depends_on: R-CACHE-MANIFEST, R-R2-ADOPT-NOTE.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/r2-v4-adoption-reader-boundaries.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/r2-v4-adoption-reader-boundaries.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/r2-v4-adoption-reader-boundaries.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-009/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:102; subject | 10-11 “I approve this session's design” | B/decisions_log.md:181–183; RB:458; PS:14 | M/root guides and S2 lack D-HW-2 integration/current role note; PS:13 still Neo4j on M3 | Build obsolete same-host engine or dispatch affected work without cross-cutting reconciliation. |. | 10-11 “I approve this session's design” | B/decisions_log.md:181–183; RB:458; PS:14 | M/root guides and S2 lack D-HW-2 integration/current role note; PS:13 still Neo4j on M3 | Build obsolete same-host engine or dispatch affected work without cross-cutting reconciliation. | Action: Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:109; subject | 10-11 “Can the Intel Mac pull … directly from Git” | B/r2_redesign_operator_ruling.md:5–11; S1/S3/remove-shared-resource-before-policing-it.md:7 | S2 missing note; old integration/profile artifacts retained without universal reader tombstone; PS:14 second-memit-copy wording | Resume retired shared-memit R2 freeze or give Intel a memit route. |. | 10-11 “Can the Intel Mac pull … directly from Git” | B/r2_redesign_operator_ruling.md:5–11; S1/S3/remove-shared-resource-before-policing-it.md:7 | S2 missing note; old integration/profile artifacts retained without universal reader tombstone; PS:14 second-memit-copy wording | Resume retired shared-memit R2 freeze or give Intel a memit route. | Action: Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:110; subject | 10-11 “never maxed and stops science mid stream” | B/r2_redesign_operator_ruling.md:9–11; adopted v4 S1–S12 | S1 removal note:7 compresses to proactive storage without numeric acceptance; S2 absent; M only old archive/cap recipe | Treat monitoring or one passing sample as a guarantee; ignore peak/support-writer bounds. |. | 10-11 “never maxed and stops science mid stream” | B/r2_redesign_operator_ruling.md:9–11; adopted v4 S1–S12 | S1 removal note:7 compresses to proactive storage without numeric acceptance; S2 absent; M only old archive/cap recipe | Treat monitoring or one passing sample as a guarantee; ignore peak/support-writer bounds. | Action: Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:113; subject | 10-11 “Adopt (Recommended)” | B/r2_redesign_operator_adoption.md:9–11; RB:475; PS:5 | Older Gate-1/commissioning language and broad standing approval lack explicit v4 replacement; S2 no adoption note | Treat adoption as activation or continue a canceled original R2 round. |. | 10-11 “Adopt (Recommended)” | B/r2_redesign_operator_adoption.md:9–11; RB:475; PS:5 | Older Gate-1/commissioning language and broad standing approval lack explicit v4 replacement; S2 no adoption note | Treat adoption as activation or continue a canceled original R2 round. | Action: Supplemental ruling export r2-v4-adoption-reader-boundaries.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S3-010 — Supplemental ruling export readme-plain-words-summary.md to S3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S3-010, results/context_audit_20261012/PRESERVATION.md:82; minutes: 2; depends_on: R-CACHE-MANIFEST.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/readme-plain-words-summary.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/readme-plain-words-summary.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/readme-plain-words-summary.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-010/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export readme-plain-words-summary.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:82; subject | 10-06 “plain description … top of the repo's README” [memory paraphrase, not recovered direct quote] | S1/readme-plain-words-summary.md:8,12; DISCIPLINE.md:52 | M/DISCIPLINE.md §1.1 has no plain-language progress-push obligation; S3 lacks note | Push progress without refreshing operator-facing README. |. | 10-06 “plain description … top of the repo's README” [memory paraphrase, not recovered direct quote] | S1/readme-plain-words-summary.md:8,12; DISCIPLINE.md:52 | M/DISCIPLINE.md §1.1 has no plain-language progress-push obligation; S3 lacks note | Push progress without refreshing operator-facing README. | Action: Supplemental ruling export readme-plain-words-summary.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+### R-E-S3-011 — Supplemental ruling export work-queue-tab-keep-current.md to S3
+
+Source: results/context_audit_20261012/PRESERVATION.md; findings: RESTORE-R-E-S3-011, results/context_audit_20261012/PRESERVATION.md:101; minutes: 2; depends_on: R-CACHE-MANIFEST, N49.
+Source files: `/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/work-queue-tab-keep-current.md`.
+Files: `results/context_audit_20261012/hygiene/host_staging/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/work-queue-tab-keep-current.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/green.txt`.
+Decision references: none.
+Pins: `{}`; host-before pins: `{"/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/work-queue-tab-keep-current.md": null}`.
+
+Expected-RED owner: false. Unit kind: host; lane: H05-R41; wave: 5.
+Receipt files: `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/report.md`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/hashes.json`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/red.txt`, `results/context_audit_20261012/hygiene/receipts/R-E-S3-011/green.txt`.
+
+1. Read the complete current allowed files and results/context_audit_20261012/PRESERVATION.md:72; freeze dispatch and before hashes. Preserve concurrent work and all earlier owner repairs.
+2. Read exact supplemental manifest row; verify final Git source SHA-256/bytes and reviewed host-before SHA-256/absence. Changed inputs stop rather than overwrite a provisional note.
+3. Stage the complete reviewed Git note; SHA-256 and bytes must equal source/manifest. Frontmatter/body links resolve, existing tombstones/history retained; no index, live-cache or baseline export edit.
+4. Save numbered observations and before/after hashes in the unique receipts; reread after an intervening operation. Run LLMDB_ROOT=$PWD /usr/bin/python3 -B results/context_audit_20261012/hygiene/check_lane.py <LANE> <WT> → exit 0. No live host/Git mutation or activation; unrun behavior stays UNVERIFIED.
+Evidence results/context_audit_20261012/PRESERVATION.md:72; subject Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions.. Rows identify surviving authority plus a specific stale or missing reader path; “missing” means recall/propagation gap, not erased evidence. A scoped choice need not be duplicated into every global/scoped guide if its authoritative route is intact. Historical permissions do not override a later hold or this sweep’s restrictions. Action: Supplemental ruling export work-queue-tab-keep-current.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+Evidence results/context_audit_20261012/PRESERVATION.md:101; subject | 10-11 “dynamically updated so it is never stale” | S1/work-queue-tab-keep-current.md:8; PS/work_queue | S2 same-name note lacks later maintenance extensions (byte comparison); PS:50 still repeats corrected no-merge claim | Show a stale queue or overwrite predecessor notes/dependencies on a queue patch. |. | 10-11 “dynamically updated so it is never stale” | S1/work-queue-tab-keep-current.md:8; PS/work_queue | S2 same-name note lacks later maintenance extensions (byte comparison); PS:50 still repeats corrected no-merge claim | Show a stale queue or overwrite predecessor notes/dependencies on a queue patch. | Action: Supplemental ruling export work-queue-tab-keep-current.md to S3 Replacement: Follow this unit numbered checks; preserved authority and latest holds bind.
+
+## Restoration owner lane acceptance
+
+- DG5: Preserve the already GREEN R-ROOT/R-HOOK behavior when implementing store/link/projection checks. Run tests/test_context_hygiene_roots.py and tests/test_context_hygiene_hook_roots.py with DG1/DG4 tests; no structural root/hook exemptions in historical paths or CI projection. Supplemental manifest file may be future-produced, but only complete fixture membership passes; missing real inputs fail.
+- DG6: Root/hook integration acceptance (after R-HOOK-GREEN): the rooted hook/CI invocation must include every declared root from root_routes.json and both cache manifests through policy. A stale main or changed shared hook byte produces nonzero. CI fixture metadata is explicit; actual applied Git/hook bytes cannot be replaced by CI proof. Never execute hooks to test them.
+- D-U13b: Root-reader acceptance: before any root-selected source read/write, run the reviewed R-ROOT-GREEN resolver contract using the existing root/env CLI boundary; run tests/test_context_root_readers.py GREEN against the actual renderer after its R-ROOT-CALLER-RED fixture. Named main roots fail when stale; do not redirect silently. Root fixtures establish local behavior only; no science/native qualification.
+- DG8: Closeout root-reader acceptance: actual root/env observations must pass R-ROOT-GREEN/R-HOOK-GREEN; run tests/test_context_root_readers.py GREEN against actual read-only closeout after R-ROOT-CALLER-RED; stale main/shared-hook differences are named RED/UNAVAILABLE, without changing scientific presence/currency or memory WARN semantics.
+- I-GIT: Restoration discovery acceptance: read R-STORE-CENSUS exact rows and all new ruling notes. Every retained lesson has one accurate resolving discovery pointer; de-indexed/retired notes remain preserved with explicit dated discovery, never current directives. Preserve the 24,400-byte cap and role-specific index boundaries.
+- I-CACHE: Restoration recall acceptance: read BOTH memory_cache_manifest.json (original exact 196) and restoration_cache_manifest.json (supplemental exact membership). Wait for all new R-E owners. Index current role-selected safety/holds/rulings, including configured Figma/date and required watcher routing; preserve tombstones, index caps and explicit Git-source discovery for non-replicated lessons. Freeze final approved divergence hashes through DG-INDEX-PINS only.
+- D-U15: Restoration startup acceptance: no active rented/CUDA/obsolete Intel deployment; route the historical evidence, LabViz v3/BUILD hold and current hygiene-only boundary to current authorities. Preserve archived source bytes and per-destination generated ownership.
+- D-U16: Restoration checkpoint acceptance: consumed NEW-1 permission remains consumed; current v4 is design-only and hygiene-only hold covers all parallel scopes. Old LabViz/activation grants are dated history with resolving current hold pointers.
+- D-U19: Restoration view acceptance: consume R-QUEUE final active hold/review-first/host-role state; regenerate only owned files and require parity. SUMMARY questions stay blocked pending explicit review completion; current queue cannot advertise paused science/build/activation as runnable.
+- M-REFRESH: Required final refresh evidence: after operator-approved gate integration, separately ask before refreshing M local master. Inventory/preserve all local/untracked/ignored work and competing writers. Require CORPUS/44–61 and every imported docs/historical_backups/20261011 file (144 at source commit 7e03fd45) to exist with integrated source hashes; compare full inventories, no count-only PASS. Re-run actual root and shared hooksPath guard after refresh; if not authorized/preservable, keep M held and restoration OPEN.
+
+Restoration source/disposition authority: results/context_audit_20261012/hygiene/restoration_map.md; supplemental exact exports: results/context_audit_20261012/hygiene/restoration_spec.json.
