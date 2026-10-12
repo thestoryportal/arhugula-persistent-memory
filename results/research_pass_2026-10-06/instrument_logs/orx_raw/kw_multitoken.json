@@ -1,0 +1,272 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2608.27839",
+    "title": "KLOD: Locality-Preserving Knowledge Editing via Non-Target Distribution Preservation",
+    "abstract": "Fine-tuning-based knowledge editing is simple and architecture-agnostic, but standard cross-entropy increases the edited target probability without explicitly constraining changes in the non-target output distribution. In sequential editing, such unconstrained redistribution can accumulate as distributional drift and contribute to locality degradation. We propose KLOD, a bounded and distribution-preserving objective for fine-tuning-based knowledge editing that separates the intended target update from distributions that should remain stable. KLOD stops target amplification once a probability threshold is reached, while preserving the target-excluded non-target distribution at target positions and the full next-token distribution at prefix positions. Experiments on CounterFact and ZsRE with Llama3-8B-Instruct and Qwen2.5-7B-Instruct show that KLOD substantially mitigates locality degradation while maintaining high edit reliability. The target probability threshold further provides a controllable Generalization--Locality trade-off. Ablation, multi-seed, and distributional KL analyses support the interpretation that KLOD's locality gains are associated with preserving output distributions rather than simply weakening the edit. Code is available on GitHub this https URL .",
+    "publicationDate": "2026-08-28T02:16:24.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "KLOD: Locality-Preserving Knowledge Editing via Non-Target\nDistribution Preservation\nHojun Jeong\n* \nGyunyeop Kim\n* \nSangwoo Kang\n†\nDepartment of Computing, Gachon University\n{wjdghwns12, gyop817, swka..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "KLOD: Locality-Preserving Knowledge Editing via Non-Target\nDistribution Preservation\nHojun Jeong\n* \nGyunyeop Kim\n* \nSangwoo Kang\n†\nDepartment of Computing, Gachon University\n{wjdghwns12, gyop817, swka..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.25100",
+    "title": "Towards Reliable, Generalizable, and Specific In-Context Knowledge Editing via Multi-Objective Reinforcement Learning",
+    "abstract": "Large Language Models (LLMs) are powerful but limited by static parametric knowledge that becomes outdated once pretraining ends. Knowledge editing addresses this problem by updating model behavior on target facts without full retraining. In particular, in-context knowledge editing has gained attention because it is training-free and readily applicable to black-box LLMs. Recent reinforcement learning (RL)-based approaches improve over fixed retrieval strategies by adapting prompt construction to the quantity-quality trade-off. Despite initial success, they fail to model the prompt as a structured entity under the distinct and often competing objectives of reliability, generality, and specificity. Previous methods largely optimize a single objective and make decisions over only part of the prompt construction process, thereby overlooking both the balance of different objectives and the global organization of demonstrations. We propose Multi-Objective In-context Knowledge Editing (MO-IKE), a multi-objective RL algorithm that formulates prompt construction for in-context knowledge editing as a Constrained Markov Decision Process. MO-IKE trains a dynamic retriever to optimize competing objectives in knowledge editing, enabling more balanced and globally coherent prompt construction. On Llama-3.2, MO-IKE improves edit success (reliability) from 85.0% to 92.0%, paraphrase consistency (generality) from 77% to 79%, while increasing retention rate (specificity) by 23.0% compared to prior RL-based methods.",
+    "publicationDate": "2026-08-25T19:50:47.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...dated once pretraining ends.\nKnowledge editing addresses this problem by\nupdating model behavior on target facts without\nfull retraining. In particular, in-context knowl-\nedge editing has gained atten..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Towards Reliable, Generalizable, and Specific In-Context Knowledge\nEditing via Multi-Objective Reinforcement Learning\nXuzhong Wang\n1\n, Maiqi Jiang\n1\n, Tejal Nair\n1\n, Girija Bhusal\n2\n, Yanfu Zhang\n1\n, ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.29269",
+    "title": "ALOE: Semantically Addressed Low-Rank Operators for Knowledge Editing",
+    "abstract": "Knowledge editing changes what a model knows by modifying parameters so that a requested fact updates while unrelated behavior is preserved. This is usually treated as a write problem, but editing also involves an address problem: deciding which hidden states should receive the new residual. An update that activates too narrowly memorizes one prompt, while one that activates too broadly disrupts neighboring knowledge. Parametric editors encode this scope implicitly, whereas memory-based editors make the selection explicit but keep it outside the edited model. We propose ALOE (Addressed Low-rank Operator for Editing), which learns semantic addresses from paraphrases and hard same-subject negatives, aligns them with autoregressive hidden states through rollout refinement and gate calibration, and embeds the resulting gated low-rank operator within one MLP layer, so that the deployed model runs in a single forward pass with no external retriever or auxiliary router. Evaluated on CounterFact, ZSRE, and KnowEdit across three 7--8B model families, ALOE achieves efficacy between 0.955 and 0.999 and locality between 0.981 and 1.000; mechanistic analyses confirm that the learned geometry separates competing edits and that calibration suppresses out-of-scope activation. The remaining errors concentrate in paraphrase coverage and write fitting.",
+    "publicationDate": "2026-09-24T09:08:49.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "ALOE: SEMANTICALLY ADDRESSED LOW-RANK OPERATORS FOR KNOWLEDGE\nEDITING\nZeyan Li\n1\n, Hu Xu\n1\n, Jianfeng Xu\n1∗\n1 \nShanghai Jiao Tong University\nABSTRACT\nKnowledge editing changes what a model knows by mo..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "ALOE: SEMANTICALLY ADDRESSED LOW-RANK OPERATORS FOR KNOWLEDGE\nEDITING\nZeyan Li\n1\n, Hu Xu\n1\n, Jianfeng Xu\n1∗\n1 \nShanghai Jiao Tong University\nABSTRACT\nKnowledge editing changes what a model knows by mo..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.36748",
+    "title": "Generalizable Lifelong Model Editing via Preference Optimization",
+    "abstract": "Knowledge editing enables rapid updates of specific factual knowledge in large language models (LLMs) without full retraining. However, more realistic scenarios call for a lifelong framework that handles continual updates rather than one-off modifications. In such settings, existing editing methods often overfit to target prompts, significantly degrading both the generalization of the edited knowledge and the model's general capabilities. To address this issue, we propose GLIME (Generalizable Lifelong Model Editing), which combines knowledge editing with preference optimization over generation behavior. GLIME further incorporates replay-based editing and a gradient constraint to preserve previously edited knowledge. Experimental results show that GLIME significantly improves knowledge generalization in lifelong editing settings while maintaining both editing performance and general capabilities.",
+    "publicationDate": "2026-09-29T05:19:52.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...es\nrather than one-off modifications. In such set-\ntings, existing editing methods often overfit to\ntarget prompts, significantly degrading both the\ngeneralization of the edited knowledge and the\nmode..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...Computer Science and Engineering, Korea University\n{dhaabb55,ssh5131,limhseok}@korea.ac.kr\nAbstract\nKnowledge editing enables rapid updates of\nspecific factual knowledge in large language\nmodels (LLMs..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.11660",
+    "title": "Hybrid-Policy Self-Editing for Composable Unstructured Knowledge Editing",
+    "abstract": "Large language models (LLMs) achieve remarkable performance across natural language tasks, yet they are trained on static corpora and their knowledge quickly becomes outdated in a fast-changing world. This motivates knowledge editing (KE), which updates specific knowledge in an LLM without changing unrelated others. Recent works move from structured knowledge triples toward unstructured KE (UKE), where the edit is a free-form passage that may state multiple facts at once. Nonetheless, existing editors inject such a passage yet fail to use it: the edited model can recall the passage, but can neither answer atomic questions about its facts nor compose them into multi-hop reasoning. We attribute this missing property, which we term composability, to editors' passive reliance on the fixed passage as the sole learning source. In response, we cast editing as a proactive self-distillation from a privileged in-context state of the same model, which requires no external supervision. We further reveal that due to the novelty of the injected knowledge, the pre-edited model's own rollouts rarely cover it, which limits the effectiveness of pure on-policy distillation. To close this gap, we propose HPSE, which builds a hybrid rollout that steps in to place missing facts onto the student's own trajectory precisely where its coverage fails, while staying on-policy elsewhere. We theoretically analyze HPSE's advantage over pure on-policy distillation, and empirically establish its plug-and-play improvements across four LLM backbones and two KE editors under various scenarios.",
+    "publicationDate": "2026-08-12T05:06:39.000Z",
+    "votes": 28,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Hybrid-Policy Self-Editing for Composable Unstructured\nKnowledge Editing\nTianci Liu\n1,3 \nZihan Dong\n2 \nTianchun Li\n3 \nYi-Chung Chen\n3 \nQiming Cao\n3 \nXingchen Wang\n3\nShiyang Wang\n3 \nZichen Miao\n3 \nLinj..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Hybrid-Policy Self-Editing for Composable Unstructured\nKnowledge Editing\nTianci Liu\n1,3 \nZihan Dong\n2 \nTianchun Li\n3 \nYi-Chung Chen\n3 \nQiming Cao\n3 \nXingchen Wang\n3\nShiyang Wang\n3 \nZichen Miao\n3 \nLinj..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.03924",
+    "title": "Knowledge Editing for Masked Diffusion Language Models",
+    "abstract": "Knowledge editing aims to update or correct factual knowledge in a language model. A widely used approach, locate-then-edit, first localizes a fact within the model and then edits the weights there. To date, such methods have been developed exclusively for autoregressive models (ARMs). Whether they work for masked diffusion models (MDMs), which model text bidirectionally and generate by iterative denoising rather than next-token prediction, remains an open question. We address it by transferring locate-then-edit to MDMs and comparing multiple MDMs with their matched ARMs. Our central finding has two parts. First, where an edit should be applied transfers between them: the same early-to-mid-layer MLP at the last subject token is most effective for both. Second, this shared location does not guarantee a shared outcome. Single-token edits succeed in both, but as targets grow longer, editing degrades far more sharply in the MDMs than in the ARMs. The failure stems from how the edited fact is generated: producing a multi-token target passes through intermediate states in which the target is partially unmasked, for which the edit was never optimized. Guided by this diagnosis, we introduce a simple correction that optimizes the edit including such states, substantially restoring multi-token performance. Our code is available at this https URL.",
+    "publicationDate": "2026-06-02T17:14:37.000Z",
+    "votes": 6,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...roduce a simple cor-\nrection that optimizes the edit including such\nstates, substantially restoring multi-token per-\nformance. Our code is available at https:\n//github.com/holi-lab/MDM-KE.\n1 Introduct..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...s shared location does not\nguarantee a shared outcome. Single-token ed-\nits succeed in both, but as targets grow longer,\nediting degrades far more sharply in the MDMs\nthan in the ARMs. The failure ste..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.33534",
+    "title": "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+    "abstract": "Large language models (LLMs) inevitably generate some incorrect or outdated content, necessitating efficient and precise mechanisms for continual knowledge updates. However, existing model editing methods struggle to sequentially edit unstructured long-form knowledge, suffering from severe edit forgetting and degradation of general capabilities. To address these challenges, we reframe knowledge editing from a manifold perspective, viewing it as a localized displacement of an edit sub-manifold within the global knowledge manifold. Under this formulation, the problem can be decomposed into two key questions: (i) how to identify representative edit points that effectively anchor the edit sub-manifold, and (ii) how to preserve the remaining manifold structure during the sub-manifold displacement process. Based on this perspective, we propose ManiEdit, a novel manifold-aware autoregressive editing framework consisting of two core components. Pivot Localization addresses the mediocre-point dilemma by identifying high-leverage pivots to anchor the edit sub-manifold. Manifold-Aware Preservation preserves different knowledge types through an energy-weighted penalty combined with recursive null-space alignment. Experiments on two base LLMs and four unstructured editing benchmarks demonstrate that ManiEdit achieves state-of-the-art performance, outperforming the strongest baseline by up to +27.81 BERTScore and +8.50 ROUGE-L, while maintaining near-original general capabilities across six representative downstream tasks. Our code is available at: this https URL",
+    "publicationDate": "2026-09-27T13:02:43.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...as emerged as a promising alternative that enables\nprecise, cost-effective modification of specific target knowledge while preserving other knowledge.\nCurrent knowledge editing approaches roughly fall..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...te some incorrect or outdated\ncontent, necessitating efficient and precise mechanisms for continual knowledge\nupdates. However, existing model editing methods struggle to sequentially edit\nunstructure..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.09322",
+    "title": "Diffusion Image Editing via Asynchronous Token Decoding",
+    "abstract": "Text-guided diffusion image editing aims to modify semantic attributes of an image while preserving its identity, layout, and background. However, naïvely switching the text condition during sampling often causes global drift, as denoising dynamics propagate changes across tokens and can disrupt unedited regions. To address this issue, we propose \\textbf{A}synchronous \\textbf{T}oken \\textbf{D}ecoding \\textbf{Edit} (ATDEdit), an inference-time framework that views each sampler step as a parallel update of a globally coupled token matrix and enables token-indexed condition switching with differentiated update policies. Instead of applying synchronous target-conditioned updates to all tokens, ATDEdit estimates editable locations using token-wise conditional surprisal and applies target-conditioned corrections to the selected token set. It supplies source key/value memory at keep-token positions and projects selected keep-token latent rows back to their source values; these operations promote background preservation but do not constitute a pixel-level invariance guarantee. This approach combines local editing and background preservation without external or user-provided spatial masks and without model fine-tuning. On PIE-Bench, ATDEdit achieves the strongest reported preservation metrics, including 27.44~dB PSNR and 0.055 LPIPS, while retaining competitive semantic alignment.",
+    "publicationDate": "2026-08-10T09:02:13.000Z",
+    "votes": 6,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...d hard projection promote preservation of selected keep-token regions\nwhile editable tokens receive target-conditioned updates. Labels indicate the desired semantic change.\n∗\nYang Shi, Liangsi Lu, and..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Diffusion Image Editing via Asynchronous Token Decoding\nYang Shi\n∗\nGuangdong University of\nTechnology\nGuangzhou, China\nsudo.shiyang@gmail.com\nLiangsi Lu\n∗†\nGuangdong University of\nTechnology\nGuangzhou..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.01978",
+    "title": "Multimodal Knowledge Edit-Scoped Generalization for Online Recursive MLLM Editing",
+    "abstract": "Online multimodal knowledge editing requires injecting a continual stream of visual-textual corrections into multimodal large language models (MLLMs) with bounded overhead and minimal disruption to unrelated behaviors. Existing editors mainly emphasize edit reliability and long-horizon stability, but rarely control the semantic boundary of each edit. Our pilot analyses of post-edit behaviors and internal neuronal activities reveal a scope gap behind reliable edits: instance-level success neither guarantees transfer to valid cross-modal variants nor prevents leakage to unrelated inputs, while edit-related cross-modal responses concentrate in deeper semantic layers. Therefore, we formulate Edit-Scoped Generalization, reframing online MLLM editing from merely correcting an instance to controlling the propagation boundary of each edit. To this end, we propose ScopeEdit, a scope-aware online editor that decomposes each update into a modality-local absorption branch and an evidence-gated shared generalization branch. The local branch supports stable edit absorption, whereas the shared branch enables cross-modal propagation only when visual and textual evidence are sufficiently aligned. Both branches perform scope-separated write geometries in orthogonal low-rank spaces and maintain branch-wise preconditioners via Sherman--Morrison recursions, yielding constant per-edit overhead. Extensive experiments across diverse benchmarks, long-horizon edit streams, MLLM backbones, real-world VLKEB scenarios, and complex vision-language architectures show that ScopeEdit consistently improves the trade-off between in-scope cross-modal transfer and out-of-scope locality, while preserving edit reliability, stability and online efficiency. Our code is available at this https URL.",
+    "publicationDate": "2026-07-02T10:10:19.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "... [9]–[12].\nAs illustrated in Figure 1(A), each edit request provides a\nvisual-textual context and a target correction, and the editor\nmust absorb such requests sequentially into the MLLM.\n# Jing Li is..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "1\nMultimodal Knowledge Edit-Scoped Generalization for Online\nRecursive MLLM Editing\nSiyuan Li, Youyuan Zhang, Ruitong Liu, Junxi Wang and Jing Li \n#\n, Senior Member, IEEE\nAbstract—Online multimodal kn..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.16932",
+    "title": "DOW-KE: Anchor-Free Multi-Layer Knowledge Editing via Direct End-to-End Weight Optimization",
+    "abstract": "Multi-layer locate-then-edit methods for knowledge editing first optimize target residual-stream activations (anchors) at selected layers, then realize them layer by layer as weight updates. This pipeline optimizes an intermediate representation but deploys multi-layer weight updates whose joint effect through the true forward pass is never itself optimized: regardless of how anchors are set or propagated, each update comes from a local solve, so propagation-induced attenuation and distortion go uncorrected, leaving a closure gap between anchor targets and realized edits. We propose DOW-KE, an anchor-free method built on a single principle: what is optimized must be exactly what is deployed. DOW-KE backpropagates the final editing objective through the complete model, jointly optimizing the updates of all edited layers so cross-layer propagation and coupling enter every gradient step. The same principle dictates where preservation resides: embedding the preservation projection in the update parameterization, inside the computation graph, makes every gradient act on the deployed update; post-hoc constraints would reopen the gap, and the constrained search keeps edits clear of protected knowledge. In large-scale sequential editing on two datasets and three models, DOW-KE achieves the highest overall Score and neighborhood Specificity in five of six model-dataset settings among the evaluated baselines.",
+    "publicationDate": "2026-08-05T09:56:07.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...nical University\nAbstract\nMulti-layer locate-then-edit methods for knowledge editing\nfirst optimize target residual-stream activations (anchors) at\nselected layers, then realize them layer by layer as..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "DOW-KE: Anchor-Free Multi-Layer Knowledge Editing via Direct End-to-End\nWeight Optimization\nRan Chen, Junbo Zhang, Qianli Zhou, Xinyang Deng, Wen Jiang\n∗\nSchool of Electronics and Information, Northwe..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.22627",
+    "title": "Orthogonal Representation Editing: Decoupling Semantic Entanglement in Batch Knowledge Editing of LLMs",
+    "abstract": "Knowledge editing aims to efficiently update factual information in Large Language Models (LLMs) without full retraining. However, existing methods still suffer from performance degradation in batch knowledge editing. We identify that semantic representation entanglement, such as overlapping concepts and shared syntactic patterns, accumulates interference in the representation space and reduces editing precision. To bridge this gap, in this paper, we propose Orthogonal Representation Editing (ORE), which performs edits in the hidden representation space of LLMs by constructing a general semantic subspace and enforcing orthogonal constraints on edit vectors, effectively decoupling semantic entanglement. Furthermore, we introduce a gated non-linear representation head to enable adaptive learning of editing locations and precise control over knowledge injection. Extensive experiments show that ORE outperforms existing methods and achieves superior performance in cross-lingual knowledge editing scenarios. We release our code at this https URL.",
+    "publicationDate": "2026-06-21T18:29:40.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...dit Success\nEdit FailedEdit Failed\nEdit1 \nEdit2\nEdit3 \nEdit4\nFigure 1: Edits with different factual targets activate\noverlapping regions in representation space, finally lead-\ning to interference.\net ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Orthogonal Representation Editing: Decoupling Semantic Entanglement\nin Batch Knowledge Editing of LLMs\nWenhao Yu\n1,2\n, Zhicong Lu\n3\n, Bo Lv\n4\n, Fangyin Ma\n1\n, Kaiwen Wei\n5\n, Shihao Yang\n1\n, Nayu Liu\n1..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.25568",
+    "title": "Rethinking Scribble-Guided Image Editing: Generalization, Instruction Adherence, and Multi-Tasking",
+    "abstract": "Scribble-guided image editing allows users to combine simple scribble annotations with text prompts to specify both where and how an image should be edited, enabling flexible interaction with precise spatial control. However, existing models still exhibit unstable performance under this paradigm, especially in multi-task scenarios. To improve performance, we conduct empirical studies using an open-source editing model and reveal an asymmetry in generalization: instruction-level generalization, including across editing tasks and from single-task to multi-task settings, is more challenging than image-domain generalization, such as from synthetic to real-world images or from mosaicked to regular images. This suggests that the primary bottleneck lies in insufficient learning for diverse editing instructions rather than in the image domain gap. Motivated by this insight, we propose three strategies: (a) a Coverage-then-Realism Curriculum, a two-stage pipeline that first builds large-scale synthetic, instruction-rich data for broad task supervision, then curates a small set of real-world data to refine generation realism; (b) Multi-Task Mosaicking, which constructs multi-task training samples by concatenating single-task examples at nearly zero cost while enabling the learned capability to generalize to non-mosaicked images; and (c) an Edit-Focused Loss, which leverages the changed regions between input and output images in synthetic data to focus training on edited regions, improving both learning efficiency and editing accuracy. With these strategies, we substantially improve both single-task and multi-task scribble-guided editing on the VIBE benchmark, achieving state-of-the-art results. We will publicly release our dataset and model.",
+    "publicationDate": "2026-05-25T08:20:23.000Z",
+    "votes": 5,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Rethinking Scribble-Guided Image Editing:\nGeneralization, Instruction Adherence, and\nMulti-Tasking\nMingyi Xu\n1,2∗ \nJinpeng Lin\n2 \nMin Zhou\n2 \nTiezheng Ge\n2 \nMing Zeng\n1\n1\nXiamen University \n2\nTaobao &..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Rethinking Scribble-Guided Image Editing:\nGeneralization, Instruction Adherence, and\nMulti-Tasking\nMingyi Xu\n1,2∗ \nJinpeng Lin\n2 \nMin Zhou\n2 \nTiezheng Ge\n2 \nMing Zeng\n1\n1\nXiamen University \n2\nTaobao &..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.05645",
+    "title": "Discrete-WAM: Unified Discrete Vision-Action Token Editing for World-Policy Learning",
+    "abstract": "Autonomous driving requires reasoning about how ego actions shape future world evolution, rather than merely mapping observations to actions. However, most end-to-end methods rely on direct state-to-action imitation, while existing world models often remain weakly aligned with downstream policy generation. We introduce Discrete-WAM, a unified discrete vision-action world-policy framework that represents visual observations, future states, high-level decisions, and ego actions within a shared token space. Built on this discrete alignment, Discrete-WAM jointly trains world modeling, world-policy modeling, and policy modeling through multi-task and multi-stage pretraining, allowing action-conditioned future prediction to directly support policy generation. For downstream planning, Discrete-WAM further decomposes policy generation into hierarchical decision prediction and parallel action-token editing, where the decision token provides a high-level planning skeleton and confidence-based scheduling refines dense future actions efficiently. Experiments on large-scale autonomous-driving benchmarks show that Discrete-WAM achieves strong planning performance while supporting controllable future generation, counterfactual evaluation, surprise-based world-model analysis, and efficient parallel policy decoding. These results suggest that discrete representation alignment, unified world-policy training, and hierarchical token editing provide a promising design paradigm for physical AI.",
+    "publicationDate": "2026-06-04T03:16:31.000Z",
+    "votes": 31,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Xiaomi EV\nDiscrete-WAM: Unified Discrete Vision-Action Token\nEditing for World-Policy Learning\nXiaomi EV\nSee Contributions and Acknowledgments section for a full author list.\nAbstract\nAutonomous drivi..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "... on predefined intermediate annotations or task-specific representations [15, 31, 78], which\nlimits generalization across diverse scenes and counterfactual futures. Recent vision-language-action (VLA)..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.18906",
+    "title": "BindEdit: Taming Attention Leakage for Precise Multi-Object Image Editing",
+    "abstract": "Real image editing enables precise manipulation of visual content, yet existing methods often fail in complex multi-object scenarios, causing semantic blending, object duplication, or incomplete edits. We attribute these failures to attention leakage, where signals across spatial regions and text tokens become entangled during the denoising process. Specifically, we identify two distinct forms of leakage: Edit-Token Leakage, where ambiguous token-region alignment leads to object blending, and Source Dominance Leakage, where tokens of unchanged source objects overwhelm the attention intended for target entities. To resolve these leakages, we propose \\textbf{BindEdit}, which enforces attention-level constraints within a single diffusion trajectory. To suppress Edit-Token Leakage, BindEdit jointly regularizes cross- and self-attention so that each target token group is bound to its corresponding spatial region while maintaining instance-level separation. To suppress Source Dominance Leakage, a cross-attention re-balancing mechanism amplifies target token influence and attenuates residual source semantics within editable regions. Moreover, a region fidelity term ensures that each target concept is expressed coherently across the entire editing mask. Additionally, we propose a comprehensive multi-object benchmark encompassing diverse object counts and categories. Extensive experiments demonstrate that BindEdit consistently outperforms existing methods within a single diffusion trajectory, maintaining robust performance across both single- and multi-object editing scenarios.",
+    "publicationDate": "2026-06-17T10:32:14.000Z",
+    "votes": 8,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...ce Dominance Leakage,\nwhere tokens of unchanged source objects overwhelm the\nattention intended for target entities. To resolve these leak-\nages, we propose BindEdit, which enforces attention-level\nco..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "BindEdit: Taming Attention Leakage for Precise Multi-Object Image Editing\nChaewon Park\n1 \nSoyoon Lee\n1 \nNaeun Lee\n2 \nMinjung Shin\n2\n∗\nSeogkyu Jeon\n3\n∗\nKibeom Hong\n1\n∗\n1\nSookmyung Women’s University \n2..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.10554",
+    "title": "Benchmarking Knowledge Editing using Logical Rules",
+    "abstract": "Large Language Models (LLMs) are increasingly deployed in real-world applications that require access to up-to-date knowledge. However, retraining LLMs is computationally expensive. Therefore, knowledge editing techniques are crucial for maintaining current information and correcting erroneous assertions within pre-trained models. Current benchmarks for knowledge editing primarily focus on recalling edited facts, often neglecting their logical consequences. To address this limitation, we introduce a new benchmark designed to evaluate how knowledge editing methods handle the logical consequences of a single fact edit. Our benchmark extracts relevant logical rules from a knowledge graph for a given edit. Then, it generates multi-hop questions based on these rules to assess the impact on logical consequences. Our findings indicate that while existing knowledge editing approaches can accurately insert direct assertions into LLMs, they frequently fail to inject entailed knowledge. Specifically, experiments with popular methods like ROME and FT reveal a substantial performance gap, up to 24%, between evaluations on directly edited knowledge and on entailed knowledge. This highlights the critical need for semantics-aware evaluation frameworks in knowledge editing.",
+    "publicationDate": "2026-06-09T08:21:56.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Benchmarking Knowledge Editing using Logical\nRules\nTatiana Moteu Ngoli, N’Dah Jean Kouagou, Hamada M. Zahera, and\nAxel-Cyrille Ngonga Ngomo\nData Science Group, Heinz Nixdorf Institute, Paderborn Unive..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Benchmarking Knowledge Editing using Logical\nRules\nTatiana Moteu Ngoli, N’Dah Jean Kouagou, Hamada M. Zahera, and\nAxel-Cyrille Ngonga Ngomo\nData Science Group, Heinz Nixdorf Institute, Paderborn Unive..."
+      }
+    ]
+  }
+]
