@@ -31,3 +31,6 @@ Every proposed edit is the smallest change to the cited line. None removes a saf
 
 ## Next, on the operator's go
 A fresh session applies the 70 edits exactly as the tables give them, rereads each changed file, and runs Astra-high on the diff. It folds Astra's fixes, then commits and pushes to master. Nothing outside these three files and the listed notes changes.
+
+## Operator decision
+2026-10-11 22:52 MDT (2026-10-12 04:52Z), verbatim: "Approved. Also, report file size and number of lines in each of the updated docs when edits complete."
