@@ -3,7 +3,7 @@
 ## DA1 work log — acceptance checklist
 
 - [x] v1 and every existing file unchanged by DA1; only O1/O2 created, no commit.
-- [x] O1/O2 exist within their line caps: O1 152 lines; O2 count at the end.
+- [x] O1/O2 exist within their line caps: O1 153 lines; O2 count at the end.
 - [x] O1 has no old-freeze citation outside its changes list.
 - [x] L1–L4 and A1–A8 implemented and mapped to output lines.
 - [x] Every repo/record factual claim has file:line evidence.
@@ -13,7 +13,7 @@ Status: PROPOSED, UNEXECUTED; for Astra review, then the three operator choices,
 
 Aliases: B = results/compute_storage_brainstorm_20261011T054507Z; P = results/backup_gdrive_host_20261011/r13_package_20261011T032105Z; V4 = B/r2_git_drive_redesign_v4.md; AP = P/activation_plan_v4.md; L = B/drive_intel_dedup_layout_v2.md; IM = B/integration_r5_completion_table.md. File:line ranges refer to current repository bytes.
 
-Authority: adopted V4 governs every conflict, including obsolete Intel-pull/shared-clearance text in design/IM. Preserve recorded choices and evidence; this is infrastructure protection, not science acceptance (B/r2_redesign_operator_adoption.md:1–11; V4:5,100–116). O1 preserves the content-once layout; its changes map covers L1–L4 (L:145–152).
+Authority: adopted V4 governs every conflict, including obsolete Intel-pull/shared-clearance text in design/IM. Preserve recorded choices and evidence; this is infrastructure protection, not science acceptance (B/r2_redesign_operator_adoption.md:1–11; V4:5,100–116). O1 preserves the content-once layout; its changes map covers L1–L4 (L:145–153).
 
 ## Gates in order — no execution before the separate go
 
@@ -95,7 +95,7 @@ Measure cable throughput and Intel upload/readback throughput under approved ban
 
 Preserve accepted-update records, nightly finished bulk when science permits, and earlier protection when required by an irreplaceable run; no continuous live-source consistency assumption. Forecast queue peaks/offload needs before admission and display the earliest deficit; a running science job never waits for a copy (B/decisions_log.md:81; V4:50–54,62–63).
 
-Test: just-below-cap/free/reservation bounds, concurrent requests, retained retries, temporary allocate/free/reallocate and unknown measurements refuse new writes without double spending. Out-of-envelope files require renewed qualification; low space produces a wait/deficit and no deletion/memit staging (V4:36,39,42,45,51,63,75,81).
+Test: usage above an approved ceiling refuses; usage equal to the ceiling satisfies only that criterion. Available space below the required free floor or reservation-plus-peak/headroom bound refuses; equality satisfies only that criterion with other gates met. With all other gates met, an admissible bounded positive control below the usage ceiling and at or above the required free/reservation bounds must admit and complete, so an always-refusing implementation fails. Concurrent requests, retained retries, temporary allocate/free/reallocate and unknown measurements must not double-spend; out-of-envelope work refuses, and low space waits with no deletion/memit staging (L:97; V4:36,39,42,45,51,63,75,81).
 
 Test: inventory too large for a whole checkpoint cannot trigger upload of the first batch; changing bandwidth guesses or treating old free-space observations as live capacity cannot unblock the dependent queue. Bounded maximum/failure controls must substantiate prevention, not just alarms (L:53; V4:63,68–69).
 
@@ -106,17 +106,34 @@ These are replacements for the Intel route requiring Astra review and host evide
 | AP section / lines | Disposition and Intel acceptance |
 |---|---|
 | Opening order/declarations/capture, AP:3–27 | PRESERVED: distinct GO/STOP order, no guessed numeric values, individual rows, actual child exit and complete append-only captures. REPLACED: W/M/D/SRC/DST/R and fixed executable paths with reviewed Intel release/checkpoint/receipt locations (V4:15–17,73–79,110). |
-| §0 preconditions, AP:29–68 | PRESERVED: pins/re-review, exact scope, fresh inventory and orphan/permission/quota checks. REPLACED: M3 native acceptance, disk IDs/fixture PIDs, runtime placement and Homebrew paths by Intel-native compatibility, physical-pool and actual process evidence (V4:17,23–25,75,99,110). Historical r13 counts stay history; no Intel pass inferred. |
+| §0 preconditions, AP:29–68 | PRESERVED: pins/re-review, exact scope, fresh inventory and orphan/permission/quota checks, and every mandatory behavioral requirement of AP:44–46 in the Intel coverage matrix below. Historical r11/r13 receipts do not satisfy new Intel coverage. REPLACED: M3 disk IDs/fixture PIDs/runtime placement/Homebrew paths by explicitly reviewed Intel bindings or per-case replacements; compatibility/process evidence alone cannot replace coverage (V4:17,23–25,75,99,110; AP:44–46). |
 | §1 merge/release/bundle/receipt, AP:70–213 | PRESERVED: MAESTRO-only gated release, exact reviewed index/commit/head/tree binding, immutable outside-checkout deployment, full bundle/source/population hashes, original preserved receipt (AP:72–74,96,126–161,168–208). REPLACED: M3 user/release/app source binding and executable paths with Intel source adapter/release, reviewed and re-pinned (V4:73–79,110). No DA1 commit/merge/deployment. |
 | §2 history/recovery, AP:215–258 | PRESERVED: complete history scan, no guessed floor, under-lock preservation, barrier followed by observed successor; recovery for ordering damage, not retry (AP:217–252). REPLACED: M3 HOME/baseline by Intel namespace/full history inventory and selected history branch (V4:110,124–130). Empty M3 history does not prove empty Intel history. |
 | §3 launch/Allow/progress/completion, AP:260–312 | PRESERVED: wakefulness/AC, real permissions, actual owner/child progress, sequenced clean receipt/heartbeat/status and diagnosed successor retry. REPLACED: mounted memit source and M3 app permission by Intel sealed source and Intel-local app/login checks (V4:22,73–79,110). M3 memit permission is inapplicable on Intel. |
-| §3.5 pause/catch-up/full check, AP:314–397 | PRESERVED: no changed-file waiver, catch-up, complete population/error reports and recorded final inventory. REPLACED: M3 live pause through remote check by coherent M3 capture-only window plus immutable Intel source, cutoff-labelled convergence and full Drive readback (V4:24,76–81,110). AP checksum check may supplement; full download/readback is required here. |
+| §3.5 pause/catch-up/full check, AP:314–397 | PRESERVED: no changed-file waiver, catch-up, complete population/error reports and recorded final inventory. REPLACED: M3 live pause through remote check by coherent M3 capture-only window plus immutable Intel source, cutoff-labelled convergence and full Drive readback (V4:24,76–81,110). PRESERVED: successful hash-pinned deployed status and preflight, both exit 0 before content checking, plus rejection of inherited behavior-changing RCLONE_* and config overrides before any transfer/check consumption (AP:335). AP checksum check may supplement; full download/readback is required here. |
 | §4 install/bootstrap/successor, AP:399–448 | PRESERVED: pinned copy/lint, enable/load proof, no overlapping launch, actual successor and fresh completion. REPLACED: M3 LaunchAgent/app/path identity by Intel-native reviewed deployment on Intel's login account (V4:75,79,99,110). Recorded interval 21600 seconds, RunAtLoad=false and Nice=5 remain policy inputs to the host review (AP:412–427); not permission to install unchanged M3 plist. |
 | §5 retirement, AP:450–482 | INAPPLICABLE to this activation scope: old-job bootout/disable, plist move and old-copy removal remain OFF. PRESERVED as future prerequisites only: clean content/catch-up/scheduled evidence, ancestry checks, separate exact-path permission and protection (AP:452–477; V4:22–25,56–60,110,113). |
 | STOP/preservation, AP:484–499 | PRESERVED in full below; REPLACED M3 identities and live-source pause with Intel identity/coherent checkpoint and v4 science-priority route (V4:17,22–25,75–81,110). |
 | r12 erratum, AP:501–519 | INAPPLICABLE as an Intel executable/pin set; PRESERVED unchanged as lineage. Current full coverage/error/log-format requirements remain, with reviewed Intel command vectors (AP:46,335–383; V4:110). |
 
-Test: each AP section has a disposition/source and every host-dependent path/executable/fixture/config is qualified on Intel; a historical M3 PASS, stale fixed PID or M3 permission cannot qualify it (AP:3,44–46; B/design.md:263).
+### Mandatory Intel coverage matrix — required before any upload
+
+Preserve these behavioral requirements independently of old host receipts. Freeze the exact inherited test IDs/assertions from the reviewed inputs; for each case needing an Intel adaptation, require Astra's permitting replacement record naming the original case, Intel test/command and pinned inputs, expected result, permitted skips, isolation/placement and descendant-clearance receipt. No generic host-compatibility waiver or case omission; until the mapping and fresh Intel receipts satisfy this matrix, upload stays blocked (AP:44–46; P/run_py39_coverage.py:26–36,239–242; V4:110).
+
+| Mandatory coverage / source | Intel expected result and permitted skips |
+|---|---|
+| Exact 22-case run; AP:44; P/run_py39_coverage.py:26–36,239–242 | 22 pass; no skips/failures/errors. Preserve every selected BackupTest, HeartbeatTest and LauncherTest case/assertion, or bind its explicit Astra-reviewed Intel replacement with equivalent expected behavior. The frozen full suite cannot substitute for this run. |
+| E RED / E GREEN native assertions; AP:44 | RED must be the two absent-parent UNSET subcases; GREEN includes actual native fixture artifact assertions. No skipped native execution/artifact assertion counts as GREEN; each affected case requires its permitting replacement record. |
+| Local-to-local same_size_corruption; AP:44–46; P/run_local_check.py:51–75 | Verifier FAIL with alpha.txt among failed objects; retain actual check exit/log/reports. The negative result is fixture success only when the recorded failure is correct; no skip. |
+| Local-to-local excluded_only; AP:44–46; P/run_local_check.py:51–75 | Verifier PASS despite changed excluded .cache content, with complete admitted coverage; no skip. |
+| Local-to-local symlink; AP:44–46; P/run_local_check.py:51–75 | Verifier PASS using identical reviewed link representation/filters; no skip. |
+| Local-to-local clean; AP:44–46; P/run_local_check.py:51–75 | Verifier PASS with complete matching coverage; no skip. Re-run all four fixtures using the new pinned verifier and templates. |
+| Isolated config, runtime and placement controls; AP:44–46; P/run_py39_coverage.py:181–201 | Fresh isolated HOME/fixtures/TMPDIR outside the science source; live config path confined there and listremotes empty; preserve real config/placement positive controls, not replay. Fresh df-P mount and diskutil APFSPhysicalStores evidence must prove disjoint physical whole disks; shared/unknown identity refuses. Intel topology/bindings need a permitting per-case replacement if the inherited control cannot run without violating v4's no-memit boundary; no assumption or waiver. |
+| Frozen suite; AP:44 | 155 run, 14 real-rclone skips, zero failures/errors and cleared groups; preserve the exact recorded skip identities/reasons. Its five skipped Archive cases remain UNVERIFIED/nondependencies; no additional skip or changed expectation without a permitting per-case replacement. |
+| Native environment, inventories and owned descendants; AP:44–46 | Host reruns at niceness 0, fresh Intel labels, original packages/receipts preserved read-only, real before/after inventories identical, no owned process groups/descendants left. Capture actual owner/child/group evidence after every run; unavailable observation or surviving descendant refuses all coverage acceptance. No stale M3 PID/topology substitutions. |
+| Check log/template/verifier controls; AP:46 | Pin date,time format; unsupported severity records (microseconds, time-only, prefixes, JSON) reject; valid DEBUG argv references to report --error/error.txt remain harmless while actual read/error/unchecked/report failures remain fatal. Preserve raw logs; no skip. |
+
+Test: before any upload, fresh Intel receipts must satisfy every row of the mandatory coverage matrix and its pinned per-case mapping; each AP section still has a disposition/source and actual Intel host bindings. A historical M3 PASS, generic compatibility evidence, stale fixed PID, skipped native assertion or unreviewed/missing replacement cannot qualify it (AP:3,44–46; B/design.md:263).
 
 ## Receipt, history and generation contract
 
@@ -160,13 +177,13 @@ Convergence is explicitly at the final admitted source cutoff and complete crede
 
 Full Drive acceptance requires every admitted path's entire remote content read back on Intel and size/digest checked against that immutable manifest, plus path/kind/metadata coverage and required representation checks. Stream readback without a second bulk verification tree; any temp buffers/files stay bounded and charged. AP's comparable-hash check can supplement, but cannot replace full readback. Missing checksum invokes full-population download semantics; even with hashes present this plan requires whole-content readback (V4:60,76,110; AP:335–383; L:26,79–83).
 
-Keep identical inclusion/exclusion/link policy across source adapter, inventory, upload and remote verification. Preserve inventory exits, raw full-population combined/differ/missing/error reports, exact date,time DEBUG log format and terminal counts; zero missing/differing/unreadable/error/unchecked entries and complete nonduplicated coverage are mandatory. Failed checksum/default verdicts remain; download is no waiver for discrepancies or errors (AP:46,335–383).
+Before each content check, verify deployed status-tool bytes against the reviewed pin and require successful status and source/destination preflight captures, both exit 0. Reject inherited behavior-changing RCLONE_* environment settings and config overrides before any transfer or check consumption; the expected bootstrap barrier state does not waive runtime-configuration rejection (AP:335; AP:252). Keep identical inclusion/exclusion/link policy across source adapter, inventory, upload and remote verification. Preserve inventory exits, raw full-population combined/differ/missing/error reports, exact date,time DEBUG log format and terminal counts; zero missing/differing/unreadable/error/unchecked entries and complete nonduplicated coverage are mandatory. Failed checksum/default verdicts remain; download is no waiver for discrepancies or errors (AP:46,335–383).
 
 Recheck sealed Intel manifest/objects/protections and before/after metadata/path population; mutation invalidates the generation. Record final cutoff, population count/bytes, source and launch generations separately, release/policy pins, full readback receipt, remote locator/version, last verified time, coverage/omissions and hashes; MAESTRO publishes accepted credential-free receipts in Git (AP:385–397; V4:60,76–78; L:26,45).
 
 Freshness uses exactly MEMIT_ONLY; PUSHING/INCOMPLETE; STAGED_ON_INTEL; UPLOADING/INCOMPLETE; VERIFIED_AT_GENERATION; BEHIND; UNKNOWN. Both phone/local views show requested/current Git generation, M3 frontier, staging state, verified Drive cutoff/age and incomplete/unpublished coverage. STAGED_ON_INTEL cannot qualify remote protection or Git/Drive-only research acquisition; unknown current frontier is UNKNOWN (V4:78,93,112; L:80).
 
-Test: remote altered/missing/partial bytes, incomplete/duplicated/truncated/unhashed reports, log error, failed exit/verifier, link/path/metadata mismatch or source-adapter drift refuses VERIFIED. A newer M3 source marks the older remote population BEHIND without altering it; staged-only data cannot satisfy a request for newest verified Drive bulk (V4:60,78,81; AP:362–397).
+Test: in isolated controls inject an inherited behavior-changing RCLONE_* setting and a config override; each must be rejected before a transfer/check child consumes source or remote content, with no transfer/check start and preserved refusal evidence. Wrong deployed status pin, nonzero status/preflight or uninspectable effective configuration also refuses; the reviewed clean environment/configuration must pass preflight with both exits 0 before checking (AP:335). Remote altered/missing/partial bytes, incomplete/duplicated/truncated/unhashed reports, log error, failed exit/verifier, link/path/metadata mismatch or source-adapter drift refuses VERIFIED. A newer M3 source marks the older remote population BEHIND without altering it; staged-only data cannot satisfy a request for newest verified Drive bulk (V4:60,78,81; AP:362–397).
 
 Test: final catch-up misses a changed/added/removed admitted path, lacks coherent cutoff or has warnings: activation stays OPEN until a later complete clean capture/upload/readback; no timestamp waiver. Independent remote-read receipt must cover every selected path, not a sample or size-only comparison (AP:314–397; V4:76–81).
 
@@ -219,27 +236,27 @@ Successor rule: start a new piece only with ≥60% context left. At MAESTRO's 45
 
 | Requirement | O2 lines / evidence |
 |---|---|
-| A1 exact sources/Intel-first/M3 push/Intel upload | 42–60; 62–78; 151–171 |
+| A1 exact sources/Intel-first/M3 push/Intel upload | 42–60; 62–78; 168–188 |
 | A2 approved caps/bounded batches/shortage | 80–100; 62–78 |
-| A3 all I2 checks and falsifiable Test lines | 42–60; 62–78; 80–100; 121–135; 137–149; 151–171; 173–187 |
-| A4 every AP section disposition with P/V4 lines | 102–119 |
-| A5 STOP/preservation | 189–208; 121–135 |
-| A6 ordered review/three choices/separate go/bounded commissioning | 18–34; 210–216 |
+| A3 all I2 checks and falsifiable Test lines | 42–60; 62–78; 80–100; 138–152; 154–166; 168–188; 190–204 |
+| A4 every AP section disposition with P/V4 lines | 102–136 |
+| A5 STOP/preservation | 206–225; 138–152 |
+| A6 ordered review/three choices/separate go/bounded commissioning | 18–34; 227–233 |
 | A7 exactly three plain-language questions/recommended answer/reason | 36–40 |
 | A8 requirement map and exact line count | this table and final line |
 | I2 exact source and Intel-first choice 11 | 42–60; 62–78 |
-| I2 immutable checkpoint versus live convergence/source changes | 62–78; 151–171 |
-| I2 final catch-up/full readback | 151–171 |
-| I2 history mode/preserved decisions | 36–40; 121–135; 173–187 |
-| I2 bandwidth/host/login/app permissions | 80–100; 137–149; 173–187 |
-| I2 reviewed generation/receipt semantics; no M3 acceptance transplant | 102–119; 121–135; 137–149 |
-| I2 operator/auth gates; old-mirror retirement/no deletion | 18–34; 36–40; 173–187; 189–208 |
+| I2 immutable checkpoint versus live convergence/source changes | 62–78; 168–188 |
+| I2 final catch-up/full readback | 168–188 |
+| I2 history mode/preserved decisions | 36–40; 138–152; 190–204 |
+| I2 bandwidth/host/login/app permissions | 80–100; 154–166; 190–204 |
+| I2 reviewed generation/receipt semantics; no M3 acceptance transplant | 102–136; 138–152; 154–166 |
+| I2 operator/auth gates; old-mirror retirement/no deletion | 18–34; 36–40; 190–204; 206–225 |
 | I3 exact identities/sizes/scientific holds across selected sources | 42–60 |
 | I3 overlap/non-disjoint sets/no double-counted capacity | 42–60; 80–100 |
-| I3 reviewed bounded-batch/source-selection plan; full-backup scope | 80–100; 151–171 |
+| I3 reviewed bounded-batch/source-selection plan; full-backup scope | 80–100; 168–188 |
 | I3 no M3 internal archive borrowing/new quotas | 80–100 |
-| I3 retained history/immutable capture/verification/log/peak commitments | 62–78; 80–100; 121–135; 151–171; 173–187 |
-| I3 named-file retention/exact-path deletion gates | 42–60; 173–187; 189–208 |
-| L1–L4 output mapping | O1 Changes from v1, L:145–152; O2 source/route/capacity/receipt/upload references at 42–60; 62–78; 80–100; 121–135; 151–171 |
+| I3 retained history/immutable capture/verification/log/peak commitments | 62–78; 80–100; 138–152; 168–188; 190–204 |
+| I3 named-file retention/exact-path deletion gates | 42–60; 190–204; 206–225 |
+| L1–L4 output mapping | O1 Changes from v1, L:145–153; O2 source/route/capacity/receipt/upload references at 42–60; 62–78; 80–100; 138–152; 168–188 |
 
-O2 line count: 245 (including this line and Acceptance map).
+O2 line count: 262 (including this line and Acceptance map).
