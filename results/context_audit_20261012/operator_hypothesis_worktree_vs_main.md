@@ -1,0 +1,19 @@
+# Operator hypothesis: worktree vs main folder caused the R2 two-Mac failure (2026-10-12 01:53Z)
+
+## The operator's words (verbatim, 01:52Z)
+"The M3 was running the entire corous in a worktree since 10/4. We actually found some additional Corpus files yesterday and copied them to Memit, but they would have landed in the Worktree. Then the implementation and loop of Intel and M3 happens. The Intel is reading the files off the MAIN on Memit. M3 is in the Worktree. VOILA...discrepancy"
+
+## What MAESTRO67 checked (read-only, 01:50–01:53Z)
+1. **The split is real.** Main folder `/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory` is at local master 557a58bc (2026-10-04 20:40 -0600). Its `CORPUS/` has 49 entries and the worktree's has 67. The 18 entries missing from main are `CORPUS/44_…` through `CORPUS/61_…`, i.e. every finding since Oct 4. Main has nothing the worktree lacks. `00_MASTER_EVIDENCE.md`, `01_PROVENANCE_MANIFEST.md`, `02_VANDV_CHAIN.md`, `03_STATUS_LEDGER.md`, `README.md` and `domains/` differ in bytes (the main copies are older). Method: `ls` + `comm` + `cmp` across the two `CORPUS/` dirs.
+2. **The engine is the same in both.** `memit_main.py` sha256 starts `d941a9fbc7b09c41` in both folders.
+3. **The R2 "exact match" rule was about programs, not files.** `results/compute_storage_brainstorm_20261011T054507Z/r2_round7_decisions.md:28-34` (D3): every child *process* a science run starts must be registered ahead of time, and each observed process is matched exactly against that list. R2's recorded blocker (`r2_sweep_report.md:72-80`) is that the list could never be completed: uncounted Bash subshells (G1), unpinned helper-program selection (G2), and Torch DataLoader worker processes and library internals left UNRESOLVED. None of these is a file mismatch between the two folders.
+4. **No record found of the Intel reading the main folder.** Across the 306 R2 files, none names the bare main folder as the Intel's read path. The R2 freeze proposes copies streamed from M3 to Intel (`shared_disk_clearance_freeze_v5.md:37`) but does not name the source folder. The research-engine phase-1 plan gives the Intel its own "admitted Intel roots" (`research_engine_phase1_20261011/phase1_intel_build_plan_v1.md:32,145`) and depends on `CORPUS/55`, `/57` and `/60` (`:43-44`), which exist only in the worktree.
+5. **The "additional Corpus files found yesterday" were not located.** No new numbered `CORPUS/` documents were committed on Oct 10–11 (`git log --since=2026-10-10 -- CORPUS` shows only tracker updates). The main folder has no untracked `CORPUS` files. `external_prior_art/` is empty and dated Oct 4. Which files these were is open; the operator holds that fact.
+
+## Reading
+The hypothesis is right about the hazard: any process or person reading the main folder since Oct 4 sees evidence that is a week stale, with no warning. The record does not support it as the cause of R2's failure, which came from an unprovable list of child programs. One link is still open: whether the R2 design ever pointed the Intel at the main folder, and where the over-strict exact-match requirement originated. Both are queued to the preservation sweep (codexcps).
+
+## Restoration units this implies (for the hygiene lanes; refreshing or deleting folders is the operator's decision)
+- Integrate this branch into master through the merge gate, then refresh the main folder's local master so `CORPUS/` matches. Ask the operator first.
+- Add a drift guard: any tool or brief that names a repo root must name the worktree or fail loudly when it finds the main folder behind origin/master. A stale main folder must not read silently as the truth.
+- Find the "additional Corpus files" with the operator and confirm where they landed.
