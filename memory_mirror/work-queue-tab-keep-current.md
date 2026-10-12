@@ -18,3 +18,5 @@ Operator, 2026-10-11: a dedicated tmux tab listing current and all queued work i
 **Trap (MAESTRO34, 2026-10-11):** removing a finished item breaks the whole tab when another item still names it in `depends_on` (`parse_queue`: "no queue item has id …"), and `needs_from_you` must be a list (`[]`), never null. Before dropping items, clear every `depends_on` that references them, then check `parse_queue(open('docs/program_state.json').read())` returns a `Queue`.
 
 **Trap (MAESTRO38, 2026-10-11):** `qset.py` sets fields wholesale, so a `notes` patch REPLACES the item's plain-language history. To add a note, read the current list and write old + new with a short python edit (as `a1aed84e` did), never `qset <id> '{"notes":[...]}'`.
+
+**Trap (MAESTRO69, 2026-10-12):** `docs/program_state.json` is `json.dumps(d, indent=2, ensure_ascii=False) + "\n"`. Rewriting it with `indent=1` turned a one-note edit into an 847-line diff. Assert the round-trip equals the original bytes before editing.
