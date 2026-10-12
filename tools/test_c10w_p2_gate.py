@@ -22,6 +22,24 @@ BENIGN = "\n".join([
 
 
 class BlockingProcesses(unittest.TestCase):
+    def test_intel_copy_exact_controller(self):
+        for exe in (CLT, "/Library/Developer/CommandLineTools/usr/bin/python3"):
+            for path in ("tools/memit_intel_copy.py", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/memit_intel_copy.py"):
+                line = "510 %s %s run --gen sample" % (exe, path)
+                self.assertEqual(G.blocking_processes(line, own_pid=1), [])
+
+    def test_intel_copy_near_misses_block(self):
+        for exe, path, args in (
+            (CLT, "tools/memit_intel_copy_other.py", "run"),
+            (WT + "/.venv/bin/python", "tools/memit_intel_copy.py", "run"),
+            (CLT, "tools/x/../memit_intel_copy.py", "run"),
+            (CLT, "/tmp/tools/memit_intel_copy.py", "run"),
+            (CLT, "tools/memit_intel_copy.py/evil.py", "run"),
+            (CLT, "tools/memit_intel_copy.py", "bogus"),
+        ):
+            line = "511 %s %s %s" % (exe, path, args)
+            self.assertEqual(G.blocking_processes(line, own_pid=1), [line])
+
     def test_benign_inventory_admits(self):
         self.assertEqual(G.blocking_processes(BENIGN, own_pid=1), [])
 
