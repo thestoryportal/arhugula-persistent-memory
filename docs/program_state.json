@@ -29,14 +29,14 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T00:15:02Z",
+    "edited": "2026-10-12T00:19:35Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
         "state": "running",
-        "who": "scout codexres1 (Sol), then one drafter, then Astra",
+        "who": "codexres1 (Sol) writes the plan; then MAESTRO checks; then Astra",
         "session": "codexres1",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
@@ -100,7 +100,8 @@
           "17:00:40Z: correction to 16:51. The expert's check of the run record says DEFECTIVE: the run itself went as designed, but I did not prove everything the rules required before it. My list of earlier records missed some (it still fits the limit), I never asked you to keep hands off the Intel Mac during the run, and my final checker was weaker than the written checks. So the file list stands as an observation whose setup checks were only partly proven. I accept this; it's written into the run record and the lessons are saved. Your approval is used; nothing gets re-run without a new one.",
           "17:01:41Z: you confirmed you didn't touch the Intel Mac during the run and didn't change Deskflow. Recorded as an after-the-fact statement. The file list stays as an observation. Next: decide what the file list is used for in the Intel build plan; any new run gets fixed checks, an expert review and your new approval first.",
           "00:04Z (Oct 12): Unblocked: you adopted the drive-sharing design. Next: rewrite the Intel build plan around it (Git and Drive only on the Intel), then expert review.",
-          "00:11Z (Oct 12): scout codexres1 is mapping which records still govern the research-engine plan and what the adopted drive-sharing design changes. A single writer rewrites the plan from that map, then Astra reviews it."
+          "00:11Z (Oct 12): scout codexres1 is mapping which records still govern the research-engine plan and what the adopted drive-sharing design changes. A single writer rewrites the plan from that map, then Astra reviews it.",
+          "00:18Z (Oct 12): the scout's map is done and checked (573bb122). No new question for you on this plan. 00:19Z: the same builder is now writing the new Intel build plan from that map. Writing only; nothing is installed or run."
         ]
       },
       {
