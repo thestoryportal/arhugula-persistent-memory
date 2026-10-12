@@ -92,3 +92,20 @@ For any staged finding worth keeping, run the full §0.4 close-out yourself: ver
 command + numbers reproduce → deep-thinking-on-failure if not PASS → independent (cross-model)
 advisor-review → then evidence/CORPUS/NN + `00`/`03` + runbook §0.3/§12/§13 + checkpoint + memory.
 See `_system/governance/DISCIPLINE.md` §0.4 and §2.
+
+---
+
+# Rules moved from the pre-v2 `CLAUDE.md` and `AGENTS.md`
+Moved verbatim by lane 5a. The root `CLAUDE.md` now only routes here.
+
+## Appendix — the `autonomy_driver.py` unattended harness (opt-in, operator-launched only; distinct from standing delegation)
+
+The repo can make bounded falsification-first progress **unattended**, but **nothing runs on its own** — it is **opt-in and operator-launched**. The real harness is **`code/lab/runners/autonomy_driver.py`**, fully specified in **`_system/governance/AUTONOMY.md`** (hard wall-clock stop, preflight gate, deterministic pre-registered labeling, STAGING-only output — it never writes `evidence/CORPUS/`/ledger/runbook/checkpoint; the operator folds staged findings in through the §0.4 close-out gate). The mission is one pre-registered falsifier from §0.3 (`code/lab/runners/autonomy_mission.json` — **re-point it to a current §0.3 falsifier before launch; the bundled `c2band_falsifier` is STALE/DONE (D-C2band-1)**). When this regime runs, the LAWs + halt + close-out gate in `_system/governance/DISCIPLINE.md` still apply unchanged. The "terse / no-relay / make-all-calls-yourself / kickoff+summary_block" defaults belong to this regime only — in interactive mode, legible reasoning + HIL gates replace them.
+
+## Autonomous (no-HIL) runs — `_system/governance/AUTONOMY.md` + `code/lab/runners/autonomy_driver.py`
+For bounded unattended overnight progress. **Opt-in, operator-launched** — nothing runs on its own. This harness is separate from MAESTRO's standing delegation, under which the orchestrated team keeps working within authorized scope.
+- **Driver** = thin deterministic guardrails: hard wall-clock (`--budget-min`), **preflight hard-gate**, per-unit `max_loops`/`timeout_s`, **pre-registered deterministic PASS/PARTIAL/FAIL/INVALID** from the result JSON (no model judgment), gate-log (`logs/autonomy_gates.jsonl`), and **closeout to STAGING** (`experiments/ml/reviews/pending_findings/NN_<unit>.md`). **At supervised fold-in (when a staged finding is promoted to evidence/CORPUS/ledger/runbook), the close-out is NOT done until `python3 code/gates/closeout_check.py <D-ID>` is ✅ ALL GREEN** (binding gate, DISCIPLINE §1.1 — mechanical, not operator-verified).
+- **The driver NEVER writes `evidence/CORPUS/*`, the ledger, the runbook, or the checkpoint.** Unattended findings are staged; the operator folds them into the canonical §0.4 record on supervised review. The `.codex/hooks/` (pre_tool_use_policy / stop_gate) are intended to enforce this; runtime enforcement is UNVERIFIED until current paths and invocation are qualified. STAGING-only remains mandatory regardless of hook availability.
+- **Mission** (`code/lab/runners/autonomy_mission.json`) points at **one named pre-registered FALSIFIER** from §0.3. The bundled mission (`c2band_falsifier`) is **STALE** — that falsifier is done (D-C2band-1); re-point it to a live §0.3 falsifier before any launch. Optimizer/sweep units must be `fenced:true` (candidate-log only, never a conclusion) — see DISCIPLINE §3.1.
+- **`--mode agent`** appends an advisory independent review per reviewable staged finding. Default backend is Claude via `code/agents/claude_advisor.sh` for Codex-led work (`--advisor claude`; claude.ai Max subscription auth, no API key); `--advisor codex` remains fallback/secondary. Default `--mode batch` runs the unit command directly.
+- Launch + review instructions: `_system/governance/AUTONOMY.md`. Bounds & rationale: `_system/governance/DISCIPLINE.md` §3.1.
