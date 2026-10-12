@@ -54,3 +54,6 @@ After finishing each manifest path, append `path<TAB>done<TAB>findings_count`. T
 ## Context and finish
 You cannot see your own context. MAESTRO watches it and will message you. On a message saying context is low, or on "Context compacted": finish the current file's rows, update progress.tsv, write handoff.md (where you stopped, open questions, patterns seen so far that a successor should check for), then reply exactly `ROT HANDOFF <last path done>`.
 When every manifest path is done: append a summary to findings.md (counts by kind and class, the five worst findings by id), then reply exactly `ROT READY findings=<n>`.
+
+## Addendum (MAESTRO71, 2026-10-11 23:22 MDT, after an operator question)
+The repo sits inside `/Volumes/memit/llm-database-poc-mirror` (316 GB of data; not a git repo; no CLAUDE/AGENTS files). Add to the BROKEN check: every path in the corpus that points into that parent folder must resolve (`ls` only; do not read the data). Report misses as BROKEN rows.
