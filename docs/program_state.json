@@ -29,30 +29,31 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T00:51:43Z",
+    "edited": "2026-10-12T01:14:39Z",
     "items": [
       {
         "id": "context-audit",
         "title": "Context hygiene: audit the files that steer every session",
         "summary": "Seven read-only checkers are auditing CLAUDE.md, AGENTS.md, the three memory stores, hook text and the read-first documents for bloat, conflicts, duplicates, wrong or unclear lines. They report back; nothing changes until you approve a clean-up.",
         "state": "running",
-        "who": "7 Sol auditors (codexcaa..codexcaf); then MAESTRO checks and brings you the findings",
-        "session": "codexcaa..codexcaf",
+        "who": "codexcas merging the seven reports; then MAESTRO summary to you",
+        "session": "codexcas",
         "started": "2026-10-12T00:50Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "00:51Z: your request (verbatim in results/context_audit_20261012/brief.md). Launched seven lanes (20820ccf): Claude layer, Codex layer, indexed memory in two halves, unindexed/retired notes, the three memory stores, and the read-first documents. Other work is paused at your request."
+          "00:51Z: your request (verbatim in results/context_audit_20261012/brief.md). Launched seven lanes (20820ccf): Claude layer, Codex layer, indexed memory in two halves, unindexed/retired notes, the three memory stores, and the read-first documents. Other work is paused at your request.",
+          "01:14Z: all seven checkers reported (dc462b02). Early picture: the read-first documents are worst (13 conflicts, 24 out-of-date lines), the three memory stores disagree on 4 notes and 11 notes live only in one of them, and the always-loaded rules have 9 conflicts. One builder is now merging the seven reports into a single ranked list with re-checked evidence and small clean-up jobs (301d5967); then MAESTRO brings you a plain summary and up to five decisions."
         ]
       },
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "in_review",
-        "who": "Astra reviewing the plan (pid 73418)",
+        "state": "ready",
+        "who": "MAESTRO: send Astra R1-R3 to a fresh Sol (paused for context audit)",
         "session": null,
         "started": "2026-10-11T08:47Z",
         "estimate": null,
@@ -118,7 +119,8 @@
           "00:04Z (Oct 12): Unblocked: you adopted the drive-sharing design. Next: rewrite the Intel build plan around it (Git and Drive only on the Intel), then expert review.",
           "00:11Z (Oct 12): scout codexres1 is mapping which records still govern the research-engine plan and what the adopted drive-sharing design changes. A single writer rewrites the plan from that map, then Astra reviews it.",
           "00:18Z (Oct 12): the scout's map is done and checked (573bb122). No new question for you on this plan. 00:19Z: the same builder is now writing the new Intel build plan from that map. Writing only; nothing is installed or run.",
-          "00:35Z: the Intel build plan is written and checked (268fd3b7): every open condition from the map is accounted for, the Intel never reaches memit, and it asks you nothing. The expert reviewer (Astra) is checking it now (4c7ed0ee)."
+          "00:35Z: the Intel build plan is written and checked (268fd3b7): every open condition from the map is accounted for, the Intel never reaches memit, and it asks you nothing. The expert reviewer (Astra) is checking it now (4c7ed0ee).",
+          "01:14Z: Astra said go with three fixes (89e355dd): name when the shutdown clock starts, separate past limits from future gates, repair three map pointers. Fixes paused while the context audit runs."
         ]
       },
       {
