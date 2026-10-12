@@ -1,6 +1,6 @@
 ---
 name: codex-runs-inline-from-claude-bash
-description: Run the GPT-6-Astra cross-family review inline from Claude's Bash, BEFORE posing a decision to the operator; perplexity_reason if Codex auth expires
+description: Run the GPT-6-Astra cross-family review inline from Claude's Bash, BEFORE posing a decision to the operator; Perplexity may advise during auth failure; promotion stays blocked until Astra-high review completes
 metadata:
   type: feedback
 ---

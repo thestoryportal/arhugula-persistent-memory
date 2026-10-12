@@ -5,7 +5,7 @@ metadata:
   type: project
 ---
 
-Step 3 of the research-pass sequence (D-C10u-mint2@5c772e4a), H-19, attempt r3 (r1 HALTED, r2 HALTED-HARNESS, neither pooled). r3 ran on program rulings D-C10u-r3go / D-C10u-r3skipV2 under D-C10r-rulings-9; prereg :172 required an operator ruling for any r3; the operator ratified r3 on 2026-10-07 ~21:08 MDT (D-C10r-rulings-12 Q2; CORPUS/54:3) — status CLOSED.
+Step 3 of the research-pass sequence (D-C10u-mint2; current fingerprint token in CORPUS/54_C10U_MINT2.md), H-19, attempt r3 (r1 HALTED, r2 HALTED-HARNESS, neither pooled). r3 ran on program rulings D-C10u-r3go / D-C10u-r3skipV2 under D-C10r-rulings-9; prereg :172 required an operator ruling for any r3; the operator ratified r3 on 2026-10-07 ~21:08 MDT (D-C10r-rulings-12 Q2; CORPUS/54:3) — status CLOSED.
 
 **Why:** block F's modifier-only arm was never run (seeds 17/13/14 of 24 on the one-id fit screen), but the in-block multi-token reference fails the same screen (17/24), so nothing follows about modifier-only versus the string. Block V2's baseline was far above the window (31/72, canon 24/24) → NOT-COMPARABLE. mint-1(frozen) 46/37/40 vs 14/72 is CORPUS/45's recipe reproduced (LAW#3), not a new result; the reference leads on first word (53/72). Seed 2's TRADEOFF comes from the reference's perplexity drop. The block-F replica was bit-identical because contexts, inits and targets were frozen: repeatability, not robustness.
 

@@ -1,6 +1,6 @@
 ---
 name: mps-offset-view-conversion-bug
-description: torch 2.8 MPS silently corrupts t.to(device="cpu", dtype=X) when t is an offset view and X != t.dtype — use .cpu().to(X) or clone() first
+description: torch 2.8 MPS silently corrupts t.to(device="cpu", dtype=X) when t is an offset view and X != t.dtype — use .cpu().to(X); clone-first is not reliable
 metadata:
   type: project
 ---

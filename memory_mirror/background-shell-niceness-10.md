@@ -1,6 +1,6 @@
 ---
 name: background-shell-niceness-10
-description: The main tmux server (and so every pane, Claude and Codex) runs at niceness 10; a pinned `nice -n 10` launch needs the operator-started `tmux -L new1` server at 0
+description: The main tmux server was observed at niceness 10 on 2026-10-10; verify inherited niceness per launch; a pinned `nice -n 10` launch needs the operator-started `tmux -L new1` server at 0
 metadata:
   type: feedback
 ---

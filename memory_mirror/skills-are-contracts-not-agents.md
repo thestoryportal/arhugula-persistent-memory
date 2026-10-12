@@ -9,14 +9,6 @@ metadata:
 
 Source: operator workflow critique after the methodology-skill deployment (2026-06-27); scope: Codex/Claude science workflow.
 
-Source: operator workflow critique after the methodology-skill deployment (2026-06-27); scope: Codex/Claude science workflow.
-
-Source: operator workflow critique after the methodology-skill deployment (2026-06-27); scope: Codex/Claude science workflow.
-
-Source: operator workflow critique after the methodology-skill deployment (2026-06-27); scope: Codex/Claude science workflow.
-
-Source: operator workflow critique after the methodology-skill deployment (2026-06-27); scope: Codex/Claude science workflow.
-
 Codex/Claude skills are semantic operating instructions plus optional referenced
 assets/scripts. A `SKILL.md` does not create independent reasoning, autonomy, or
 new tools by itself. It only shapes the main agent's behavior unless paired with

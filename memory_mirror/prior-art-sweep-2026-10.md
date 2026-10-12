@@ -1,6 +1,6 @@
 ---
 name: prior-art-sweep-2026-10
-description: "Prior-art sweep (Oct 2026): coined multi-word locate-then-edit cell is empty in literature; keying-locus support; Super Weight trap"
+description: "Prior-art sweep (Oct 2026): 2026-10-04 search found no coined multi-word locate-then-edit match; keying-locus support; Super Weight trap"
 metadata:
   type: reference
 ---
@@ -16,7 +16,7 @@ metadata:
 - Only Suresh et al. test a 3B base model with locate-then-edit; no local-faithful long-form editor exists; EasyEdit bundles AnyEdit without MPS. `HvSytvg3Jh` (OpenReview) unfetched (challenge wall).
 
 **Addenda 1–10 (same day, 2026-10-04; full text in the repo doc §4–§13). What still steers work:**
-- **The program's cell is empty in the literature** after five keyword passes (~90 items, doc §12): no published method writes a coined multi-word value into weights by locate-then-edit and reads it back from held-out paraphrases. A Gemini summary claiming otherwise was checked against sources and NOT SUPPORTED (doc §13).
+- **The 2026-10-04 search found no matching method** after five keyword passes (~90 items, doc §12) for writing coined multi-word values into weights by locate-then-edit and reading them back from held-out paraphrases; this is a bounded search result. A Gemini summary claiming otherwise was checked against sources and NOT SUPPORTED (doc §13).
 - **Super Weight trap (doc §7):** Qwen2.5-3B L2 `down_proj[318,3189]` = −0.55; zeroing it → ppl 7.11→15.72. Band [4–8] excludes L2, but the L4 first-token key (norm 98) that dominated Route A's preservation term IS this super activation (`results/superweight_qwen3b*.json`). Before trusting any quantized-survival number, check the GGUF export preserves that scalar.
 - **C10 candidate-solution map** (routes ii subject-keyed / iii side-store / iv mint-a-token): doc §9.2 and §10.2.
 - **Connected Papers corpus index:** `docs/CONNECTED_PAPERS_GRAPH_INDEX_2026-10-04.md` (88 graphs / 2,123 papers at the last addendum).

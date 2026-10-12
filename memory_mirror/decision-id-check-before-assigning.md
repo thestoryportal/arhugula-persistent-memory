@@ -8,4 +8,4 @@ metadata:
 
 **Why:** a reused ID makes the closeout gate and every pointer ambiguous — two rulings answer to one name, and propagation silently attaches to the wrong one.
 
-**How to apply:** before writing any new Decision ID, run `git grep -ohE 'D-<TRACK>-<stem>-[0-9]+' | sort -V | uniq | tail -3` and take the next unused number. When you find a collision, add an ID-correction note to the newer record; never edit the older ruling. Related: [[context-management-every-session]].
+**How to apply:** before writing any new Decision ID, run `git grep -ohE 'D-<TRACK>-<stem>-[0-9]+' | sort -V | uniq | tail -3` as a tracked-record check, then check the runbook and authorized untracked/in-flight records and coordinate the proposed ID with other writers before reserving it; do not infer globally unused from git grep alone. When you find a collision, add an ID-correction note to the newer record; never edit the older ruling. Related: [[context-management-every-session]].

@@ -1,6 +1,6 @@
 ---
 name: c10-accept-bounded-means-hybrid-not-general-db
-description: "Never claim arbitrary coined facts live in weights: single-token/prior-coherent values may; multi-word coined values go to Git/side-store."
+description: "If bounded deployment is accepted, multi-word coined values may route to an authoritative side-store as an engineering fallback; this does not authorize abandoning in-weight C10 or closing F1."
 metadata:
   type: project
 ---

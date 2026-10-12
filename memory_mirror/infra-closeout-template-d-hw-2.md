@@ -8,4 +8,4 @@ Infra decisions (R2 drive sharing, hardware, backups) need the same `tools/close
 
 **Why:** the gate reads like science-only work, so infra decisions sat unregistered (R2's whole arc was MISSING in 12 trackers at adoption).
 
-**How to apply:** at each infra arc close, brief a builder: "copy D-HW-2's pattern; python exact-anchor edits; never edit GENERATED blocks; acceptance = closeout_check ALL GREEN per ID". A one-line JSON field diff looks like a replacement: compare lengths before calling it a regression. Related: [[sol-for-sweeps-astra-for-gates]].
+**How to apply:** at each infra arc close, brief a builder: "copy D-HW-2's pattern; python exact-anchor edits; never edit GENERATED blocks; acceptance = closeout_check ALL GREEN per ID". A one-line JSON field diff looks like a replacement: compare lengths before calling it a regression. Related: [[model-and-compute-allocation]]; CLAUDE.md operating-model review/build rules; [[sol-for-sweeps-astra-for-gates]] (Claude auto-memory, not memory_mirror/).

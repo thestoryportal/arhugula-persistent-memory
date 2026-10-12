@@ -1,6 +1,6 @@
 ---
 name: injection-control-is-a-stratum-not-a-floor
-description: Per-process harness quantities (e.g. z-injection control 42-54/72) are pre-registered as reporting strata, never as absolute success floors.
+description: Only prereg-approved nuisance-control quantities become reporting strata; process variability never waives instrumentation, known-baseline or identity gates.
 metadata:
   type: feedback
 ---
@@ -9,4 +9,4 @@ The D-C10n-ztransport prereg set an absolute floor on the injection control (≥
 
 **Why:** a per-process quantity will eventually fall outside any floor set from a few observations (the same lesson as CORPUS/44 F-A4 on delta norms), and re-running until a floor passes selects on the gate.
 
-**How to apply:** for any harness quantity that varies per process, pre-register the envelope from all observations as a reporting stratum with A-relative labels, not as a success gate; keep the halted run's artefacts under their own name and record the halt in `architecture_profile/`. See [[c10-edit-collateral-breaks-injected-target]], CORPUS/44 F-A4, CORPUS/47 Method.
+**How to apply:** only for nuisance controls explicitly approved by a prereg amendment, record the envelope as reporting strata with A-relative labels; process variation alone does not demote an instrumentation, baseline or identity gate; keep the halted run's artefacts under their own name and record the halt in `architecture_profile/`. See [[c10-edit-collateral-breaks-injected-target]], CORPUS/44 F-A4, CORPUS/47 Method.

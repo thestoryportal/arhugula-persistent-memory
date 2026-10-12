@@ -7,7 +7,7 @@ metadata:
 
 Robert (robert@thestoryportal.org) self-identifies as a senior technical architect with zero ML background. All ML and routing decisions are delegated to Claude. Source: his Claude AI project memory (last updated 2026-09-07), shared 2026-10-03.
 
-Standing directive from that memory: Claude authors all artifacts end-to-end with no placeholders; recommendations are accepted by default, so make the call, state it, proceed; surface load-bearing or irreversible decisions for the record but do not block on ratification.
+Standing directive from that memory: Claude authors all artifacts end-to-end with no placeholders; recommendations within delegated scope are accepted by default, so make the call, state it, proceed; surface load-bearing decisions for the record, while operator-reserved go/no-go, scope, frozen amendments, storage/spend, deletion and credential decisions still gate action.
 
 **How this sits with the repo's gates:** since 2026-10-06/07 the operator's rulings make the program's recommendations rulings and route open questions to the team (Astra + advisor), not to him ([[operator-overnight-autonomy-2026-10-06]]). What still goes to him is listed in CLAUDE.md:15 and [[operator-decision-scope]]: go/no-go and scope, frozen-prereg amendments, storage/spend forks, deletions, credentials. The repo's science gates (advisor and Astra review before build and verdict, the LAWs) apply unchanged. See [[llm-as-database-program-overview]].
 

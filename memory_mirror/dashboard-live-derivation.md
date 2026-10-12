@@ -4,7 +4,7 @@ description: Team dashboard NOW section is computed live; a pending operator rul
 metadata:
   type: project
 ---
-Since 2026-10-08 (commit after c5ef456): `tools/dashboard_live.py` derives the Science Report's NOW section on every 2 s redraw — runbook §5.2 rows whose **status cell** contains "awaiting operator" (shown as "! NEEDS YOUR RULING"), the GPU job (ps) or the newest `results/c10*_logs/*coordinator*.log` COORDINATOR_EXIT, Codex sessions whose tile is WORKING, running helper agents. `docs/c10_scoreboard.json` `current` is no longer rendered; brief/results/queue stay hand-written and get a red "predates" banner when a coordinator exit, HALT.json or CORPUS change is newer than its `updated`. Panes re-exec on any `tools/dashboard_*.py` change; the report rebuilds the team tab ~15 s after a tmux session starts or ends.
+Since 2026-10-08 (commit after c5ef456): `tools/dashboard_live.py` derives the Science Report's NOW section on every report redraw (cadence owned by `tools/dashboard_report.py`) — runbook §5.2 rows whose **status cell** contains "awaiting operator" (shown as "! NEEDS YOUR RULING"), the GPU job (ps) or the newest `results/c10*_logs/*coordinator*.log` COORDINATOR_EXIT, Codex sessions whose tile is WORKING, running helper agents. `docs/c10_scoreboard.json` `current` is no longer rendered; brief/results/queue stay hand-written and get a red "predates" banner when a coordinator exit, HALT.json or CORPUS change is newer than its `updated`. Panes re-exec on any `tools/dashboard_*.py` change; the report rebuilds the team tab ~15 s after a tmux session starts or ends.
 
 **Why:** the operator requires the dashboard to update "durably and instantly" by itself; hand-typed status went stale (Step 5 shown as queued after it halted).
 

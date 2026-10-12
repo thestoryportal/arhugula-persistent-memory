@@ -6,10 +6,10 @@
 - [Approved deletes: ask, then rmtree](approved-deletes-ask-then-rmtree.md) — Ask per path via AskUserQuestion, then shutil.rmtree; never retry a denied rm
 - [C10 accept-bounded = hybrid](c10-accept-bounded-means-hybrid-not-general-db.md) — If accepting bounded deployment, label side-store routing an engineering fallback; C10 stays OPEN for F1
 - [Close-out gate before done](closeout-gate-before-done.md) — Not done until closeout_check <D-ID> is ALL GREEN (LLMDB_ROOT=$PWD in worktree)
-- [Commit forward, push, never merge](commit-forward-work-without-asking.md) — Push every commit to the branch; never merge; never route around a gate
+- [Git roles: MAESTRO master, builders brief-scoped](commit-forward-work-without-asking.md) — MAESTRO commits/pushes master after checks; builders never push/merge; integration uses the coordinated gate; never bypass controls
 - [Disk budget before dispatch](disk-budget-before-dispatch.md) — Wait for free disk ≥ projected writes + 20 GiB; every scope states a disk budget
 - [Encode discipline as a gate](encode-recurring-discipline-as-a-gate.md) — When a discipline keeps lapsing, build an exit-code gate instead of more prose
-- [Evidence over scaffolding](evidence-over-scaffolding.md) — Next experiment runnable? Launch it before writing more plans or docs
+- [Evidence over scaffolding](evidence-over-scaffolding.md) — Next live experiment runnable, pre-registered and authorized? Pass its gates, then launch before more planning
 - [Fallback is not F1 closure](fallback-that-nullifies-spec-is-not-f1-closure.md) — Never present a side-store/hybrid fallback as F1 closure; keep C10 OPEN
 - [Forward infra is pre-approved](standing-auth-forward-requirements.md) — Do downloads/cov compute/model pulls and narrate; deletions need a per-path ask
 - [InfraNodus standing approval](infranodus-standing-approval.md) — Use InfraNodus freely on scrubbed prose (no code/emails/paths); gaps are leads
@@ -20,14 +20,14 @@
 - [Operator profile + standing directive](operator-profile-and-standing-directive.md) — Make the call and proceed; ask once, recommend first, make each approval durable
 - [PASS label ≠ promotable claim](pass-label-not-equal-promotable-claim.md) — Record the mechanical label, then disposition the claim with independent review
 - [Plain language to the operator](plain-language-to-operator.md) — Write every answer, report and approval request in plain, non-technical words
-- [Program overview + reading order](llm-as-database-program-overview.md) — Read CLAUDE.md, runbook §0.3, checkpoint, CORPUS; never take state from memory
+- [Program overview + reading order](llm-as-database-program-overview.md) — Follow CLAUDE.md/AGENTS.md read triggers; DISCIPLINE first; live state is runbook §0.3
 - [Push on milestones](push-on-milestones.md) — Phone push for notable results, GPU launch/verdict, HALT, pending ruling
 - [Read the source fully](read-authoritative-source-fully.md) — Read the governing spec end-to-end before framing a load-bearing decision
 - [README plain-words summary](readme-plain-words-summary.md) — On each progress push refresh README 'In plain words' (date, progress, one line)
 - [Rerun, never patch](rerun-never-patch.md) — A halted/compromised run is re-run in fresh processes after one reviewed fix
 - [Research-first, verify tools](research-first-and-verify-tool-availability.md) — Check our own corpus before external research; confirm a tool is live before use
 - [Review has diminishing returns](review-diminishing-returns-evidence-is-binding.md) — Time-box reviews; same-model councils aren't independent; get evidence instead
-- [Standing autonomy rulings](operator-overnight-autonomy-2026-10-06.md) — Recommendation = ruling, team decides; push never merge; measured budget raises
+- [Standing autonomy rulings](operator-overnight-autonomy-2026-10-06.md) — Team decides within delegated scope; frozen-cap/storage-spend changes remain operator-gated; MAESTRO pushes, gate-only merges
 - [Verify external artifacts first](verify-external-artifacts-before-effort.md) — Fetch repos/arXiv ids before they gate effort; verify 'it is fake' claims too
 
 ## Workflow & tools
@@ -35,7 +35,7 @@
 - [Browser Harness, not Chrome ext](browser-harness-for-browser-automation.md) — For browser tasks use Browser Harness from a script file, not Claude in Chrome
 - [Claude advisor for Codex-led work](claude-subscription-advisor-for-codex.md) — Codex-led work: review via LLMDB_ROOT=$PWD tools/claude_advisor.sh
 - [Connected Papers](connected-papers-api.md) — No API key: build graphs on the site via Browser Harness, export .bib to INBOX
-- [Cross-family review sequencing](codex-runs-inline-from-claude-bash.md) — Run Astra review before asking the operator; perplexity_reason if Codex is down
+- [Cross-family review sequencing](codex-runs-inline-from-claude-bash.md) — Run Astra review before asking the operator; Perplexity advisory only if Codex is down; Astra-high promotion gate remains blocked
 - [Dashboard live derivation](dashboard-live-derivation.md) — Write 'awaiting operator' in the §5.2 status cell to surface a pending ruling
 - [gdrive rclone remote](gdrive-rclone-remote.md) — gdrive: is the archive tier; after publishing OAuth app run config reconnect
 - [InfraNodus is a lens](infranodus-discourse-lens-not-coverage-tool.md) — For coverage questions enumerate, triage, read; use InfraNodus only to rank gaps
@@ -52,7 +52,7 @@
 
 ## Traps
 - [AnyEdit name collision](anyedit-name-collision-dcdmllm-is-image-editing.md) — Check AnyEdit repo: jianghoucheng = LLM editing; DCDmllm/RefEdit = images
-- [Autonomy driver deletes result](autonomy-driver-stale-guard-deletes-result.md) — Driver unlinks result_json pre-run; keep costly results derivable from arm JSONs
+- [Autonomy driver deletes result](autonomy-driver-stale-guard-deletes-result.md) — Driver unlinks result_json pre-run; use fresh output namespaces; derivability never authorizes protected-result deletion
 - [C10 harness restores band only](c10e-harness-restores-band-only.md) — Writers outside hp.layers must snapshot, restore and hash every layer they touch
 - [Edits that silently revert](verify-canonical-state-edits-persist.md) — Write load-bearing state via shell/python and re-read after an intervening op
 - [ERROR label can mask a finished run](autonomy-error-label-can-mask-completed-run.md) — Before trusting a staged ERROR, compare result-JSON mtimes to the staging time
@@ -78,8 +78,8 @@
 - [Delegated is not delivered](confirmed-delegated-is-not-delivered.md) — Not weight-native moves a requirement; it stays OPEN until the delegate is shown
 - [Falsifier must be weights-owned](in-weight-falsifier-must-be-weights-owned.md) — Classify the requirement (weights-owned vs delegated); check the probe's key
 - [Fixed-budget sweep confound](fixed-budget-sweep-couples-iv-with-complement.md) — List every quantity a fixed-budget sweep co-varies before claiming X isolated
-- [In-weight necessity: hybrid](in-weight-necessity-is-scope-keyed-hybrid.md) — F1 = compaction-bounded hybrid; don't count incremental corruption against batch
-- [Injection control is a stratum](injection-control-is-a-stratum-not-a-floor.md) — Pre-register per-process quantities as reporting strata, never as success floors
+- [In-weight necessity: hybrid](in-weight-necessity-is-scope-keyed-hybrid.md) — June hybrid architecture is not F1 PASS; in-weight C10 stays OPEN; distinguish incremental corruption from batch evidence
+- [Injection control is a stratum](injection-control-is-a-stratum-not-a-floor.md) — Prereg-approved nuisance controls may be strata; retain instrumentation, baseline and identity gates
 - [Insert robust, update fragile](in-weight-knowing-insert-robust-update-fragile.md) — Test native-knowing on held-out paraphrases; counterfactual updates are fragile
 - [Knowledge screen ≠ editability](native-knowledge-screen-is-not-editability.md) — Screen subject length + counterfactual expressibility before big-N edit runs
 - [Last-token write is a frame write](last-token-keyed-write-is-a-frame-write.md) — Check where an editor keys the write; test locality with same-frame prompts
@@ -105,15 +105,15 @@
 - [Value-expression design](in-weight-value-expression-experiment-design.md) — Bind to held-out full-sequence match; add coherent/incoherent arms; count-match
 
 ## Prior art
-- [AnyEdit++ (2026)](prior-art-anyeditpp-2026.md) — Long-form editors score canonical BLEU; they can't close C10's paraphrase bar
+- [AnyEdit++ (2026)](prior-art-anyeditpp-2026.md) — Canonical BLEU does not establish C10 paraphrase performance; no unchanged-port rescue demonstrated
 - [arXiv 2607 memory batch](prior-art-arxiv-2607-batch.md) — No LEAD; reuse MemTxn's rollback test as a delete/rollback template
 - [BetaEdit official repo](betaedit-official-repo.md) — A3 is PARKED; port BetaEdit's method (no LICENSE), re-clone if revived
-- [BlendSQL small models (2026)](prior-art-blendsql-small-models-2026.md) — 'DB + small typed LM' is the F1 baseline in-weight must beat; read-contract lead
+- [BlendSQL small models (2026)](prior-art-blendsql-small-models-2026.md) — 'DB + small typed LM' suggests an optional F1 comparator; typed read-contract lead
 - [EasyEdit parts bin](easyedit-assets-vendored.md) — EasyEdit: parts bin behind LAW#5, not on disk now; its locality is cross-entity
-- [Editing/memory/eval landscape (06)](editing-memory-eval-prior-art-landscape.md) — Cross-family analogs aren't corroboration; CP2 query DSL is the novel cell
+- [Editing/memory/eval landscape (06)](editing-memory-eval-prior-art-landscape.md) — Cross-family analogs aren't corroboration; CP2 factual-readback DSL was a June search-bounded novelty lead
 - [LARQL / Chris Hay](prior-art-chrishayuk-larql-2026-10.md) — Cross-check our MEMIT solve; LARQL MEMIT is single-token only — don't inherit
-- [LRE (Hernandez 2024)](prior-art-lre-hernandez-2024.md) — Linear relation decoding explains zero paraphrase transfer; LRE test not run
-- [Prior-art sweep 2026-10](prior-art-sweep-2026-10.md) — Coined multi-word in-weight cell is empty in literature; check GGUF Super Weight
+- [LRE (Hernandez 2024)](prior-art-lre-hernandez-2024.md) — Linear relation decoding motivates a transfer hypothesis; Qwen LRE test not run
+- [Prior-art sweep 2026-10](prior-art-sweep-2026-10.md) — 2026-10-04 search (~90 items, five passes) found no matching coined multi-word method; check GGUF Super Weight
 - [Sleeping LLM (Baranov 2026)](prior-art-sleeping-llm-2026.md) — Independent replication of the single-prompt no-transfer gap; lifecycle ideas
 
 ## Results history
@@ -122,29 +122,29 @@
 - [C10 mint2 r3 (CORPUS/54)](c10-mint2-r3-provisional-no-direction.md) — Cite the reference's 17/24 beside any r3 label; V2 diagnosis still owed
 - [Mint replication spread + GGUF](mint-replication-spread-and-gguf-survival.md) — Need ≥3 seeds for mint init orderings; hash saved inits (pca_lowrank unseeded)
 - [No model clears full bars](no-model-cleared-full-bars-c10-included.md) — Don't claim any model/method passes deployment bars while C10 is open
-- [Background shell is nice 10](background-shell-niceness-10.md) — the main tmux server runs at 10; nice -n is an increment; a pinned `nice -n 10` launch needs the operator-started `tmux -L new1` server (launchd is denied the volume)
+- [Background shell is nice 10](background-shell-niceness-10.md) — main server observed at 10 (2026-10-10); verify per launch; nice -n is an increment; a pinned `nice -n 10` launch needs the operator-started `tmux -L new1` server (launchd is denied the volume)
 - [Codex sandbox has no network](codex-sandbox-no-network.md) — Builders can't reach Drive/gh; MAESTRO runs live network checks itself
 - [Rerun builder tests on host TMPDIR + CI](rerun-builder-tests-host-tmpdir.md) — builder green ≠ host/CI green; /var symlink + macOS-only stat fields
 - [Merge gate first-use learnings](merge-gate-first-use-learnings.md) — ask operator in chat before --apply; hygiene --dry-run early; detached integration worktree
 - [Native applet Removable Volumes prompt](native-applet-removable-volumes-prompt.md) — native .app on memit blocks silently until operator Allows; fixtures under /private/tmp
 - [Parallel builders: name each other's files](parallel-builders-name-each-others-files.md) — two builders in one worktree; each brief lists the other's authorized files or a hash check false-STOPs
-- [Count running duplicates before launch](check-for-running-duplicate-before-launch.md) — a prior chain may already run the same check; `pgrep -f … | wc -l` first
+- [Count running duplicates before launch](check-for-running-duplicate-before-launch.md) — a prior chain may already run the same check; verify inventory status before counting; denied observation is UNAVAILABLE
 - [Trim builder reading lists](trim-builder-reading-lists.md) — MB23's 4-item reading pass cost 36% context before any edit; give line ranges or split read/build
 - [Codex hook-trust prompt at launch](codex-hook-trust-prompt-at-launch.md) — fresh builder may stall on hook trust; check pane ~20 s, send 3 (no new trust)
-- [Codex watch: anchor tokens, context from rollout](codex-watch-anchor-replies-read-context-from-rollout.md) — brief echoes reply tokens (anchor ^); truncated footer → read rollout token_count
+- [Codex watch: assistant tokens and rollout context](codex-watch-anchor-replies-read-context-from-rollout.md) — assistant-only rollout tokens; context/compaction from rollout; background-terminal waiting is busy
 - [Read handoff before launching successor](read-handoff-before-launching-successor.md) — a 40%-stop may be a finished build; verify, do not relaunch
-- [Dry admission probe before one-shot](dry-admission-probe-before-one-shot.md) — read-only probe('cpu') first so a refusal can't burn a single authorized attempt
+- [Dry admission probe before one-shot](dry-admission-probe-before-one-shot.md) — MathLab CPU diagnostics precheck probe('cpu'); other run kinds need their own gates; dispatch still rechecks
 - [Record provenance per test run](record-provenance-per-test-run.md) — RED/GREEN logs need command + source/test SHA-256 or they cannot be cited; use a mktemp copy for old-source RED
-- [C10Y deferred behind Drive backup](c10y-deferred-behind-drive-backup.md) — operator: C10Y DEFERRED not shelved; unblocks when the Drive backup frees ~273 GiB
+- [C10Y deferred behind Drive backup](c10y-deferred-behind-drive-backup.md) — operator: C10Y DEFERRED not shelved; requires verified Drive copy, approved reclaim to the full disk floor, and fresh run authorization
 - [Sandbox GREEN is not host GREEN](sandbox-green-is-not-host-green.md) — Codex sandbox skips ps/osascript tests; MAESTRO reruns on the host before calling GREEN
 - [Decision ID check before assigning](decision-id-check-before-assigning.md) — git grep the D-ID first; rulings-16 was reused once
 - [Work queue tab: keep it current](work-queue-tab-keep-current.md) — queue = program_state.json work_queue; qset.py at every builder turn end
-- [Cross-process contracts: one enforcer](cross-process-contracts-one-enforcer.md) — the winning side enforces alone; anchored ps patterns; one deadline; watchers drew 2 NO-GOs
+- [Cross-process contracts: one enforcer](cross-process-contracts-one-enforcer.md) — one enforcer needs complete failure coverage; SR3 also NO-GO; retain anchored inventory and one deadline
 - [Intel Mac node access](intel-mac-node-access.md) — cable ssh robertrhu_node2@192.168.10.2 + key; dev-tool stub and Deskflow 1.27 traps
-- [Importing external files traps](importing-external-files-traps.md) — CLAUDE.md auto-load, *token* gitignore, all-or-nothing git add, READY hidden behind HANDOFF
+- [Importing external files traps](importing-external-files-traps.md) — CLAUDE.md auto-load, *token* gitignore, verify staged set after failed git add, READY hidden behind HANDOFF
 - [Ask Astra for automatic before an operator chore](ask-astra-automatic-before-operator-chore.md) — builder designs hide recurring manual steps; ask "automatic possible?" in the packet first
 - [Stop open-ended builder self-audits](stop-open-ended-builder-self-audits.md) — R4D3→R4D3C audit kept growing; after mechanical checks pass, hand the unfinished audit to Astra
-- [Codex brief: handoff file, narrow reads](codex-brief-handoff-file-narrow-reads.md) — handoff never in a tested report (broke a line-limit test); research briefs cap reads to grep + ≤40-line sed
+- [Codex brief: handoff file, narrow reads](codex-brief-handoff-file-narrow-reads.md) — handoff never in a tested report (broke a line-limit test); cap exploratory code reads; governing contracts and mandated full reads are exempt
 - [Codex web review lanes](codex-web-review-lanes.md) — `--search` only (sandbox network refused by classifier); web reading burns ~15%/min; ≤12 items/lane, successor generator ready
 - [Timed chain: prebuild gate checker](timed-chain-prebuild-gate-checker.md) — before a deadline-opening step, commit Gate D checker + dry-run it on a consumed run (R1N: caught key + DST bugs)
 - [LabViz wireframes before spec approval](labviz-wireframe-before-spec-approval.md) — after Astra GO on S: Codex static wireframes + flows; operator reviews before approving spec/builders

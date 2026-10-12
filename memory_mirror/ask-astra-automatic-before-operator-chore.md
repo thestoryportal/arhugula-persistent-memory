@@ -9,4 +9,4 @@ A builder's design can quietly hand the operator a recurring chore. R4D2's dashb
 
 **Why:** the operator's attention is scarce (operator-decision-scope). A chore that recurs on every reboot or crash is a standing cost, and builders pick the simplest safe mechanism without weighing who pays for it.
 
-**How to apply:** when reading a builder report, look for any step a person must repeat ("operator installs", "console", "manual", "re-approve"). Add a yes/no line for it to the Astra packet. Surface it to the operator only if Astra says the manual step is the minimum. Related: [[operator-decision-scope]], [[plain-language-to-operator]].
+**How to apply:** when reading a builder report, look for any step a person must repeat ("operator installs", "console", "manual", "re-approve"). Add a yes/no line for it to the Astra packet. Present the reviewed alternatives, their gates and recurring manual costs to the operator before the operator chooses. Related: [[operator-decision-scope]], [[plain-language-to-operator]].

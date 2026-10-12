@@ -11,7 +11,7 @@ metadata:
 
 **How to apply (binding, pre-registration checklist):**
 - Before claiming a fixed-budget sweep **isolates** variable X: **write down every quantity your sweep mechanically co-determines** (the complement K=budget/X, the number of operations, accumulator updates, etc.). If any plausibly drives the metric, you have NOT isolated X.
-- **Disentangle by design:** a **2D grid** varying the budget and the partition independently (e.g. N×C), or **fix the complement** (same-K-larger-C), or hold the operation-count constant. State which you did; if you did none, label the result *directional / confounded*, not isolating.
+- **Disentangle by design only where independent variation is possible:** an N×C grid cannot break count=N/C. Use equal-level contrasts to refute single-factor accounts and difference-in-differences to test interaction; name all still-coupled quantities and keep causal attribution scoped.
 - **Reinforces [[codex-runs-inline-from-claude-bash]]:** run the **cross-family review (GPT-6-Astra since 2026-10-06) at every promote gate** — it *sharpens* directional flags the advisor raises into precise, named confounds + concrete disambiguating designs (it did so for both this K-vs-C confound and the B3N over-claims this session). Advisor and cross-family are **complementary** (entanglement-surfacing vs attribution-sharpening), not redundant — run both.
 - Pairs with [[match-metric-to-the-claim]] (metric↔claim) — this is its IV-side twin (sweep-variable ↔ what's actually varying).
 

@@ -4,7 +4,7 @@ description: A prior MAESTRO's background chain may already be running the same 
 metadata:
   type: feedback
 ---
-Before launching a long verification (an `rclone check`, a test sweep, a hash pass), run `pgrep -f '<distinctive part of the command>' | wc -l`. If one is already running, wait on it instead of starting a second.
+Before launching a long verification (an `rclone check`, a test sweep, a hash pass), obtain a command-matched process inventory and check the producer's exit status before counting. For pgrep, status 0 means matches, 1 means no matches, and an error/denial means UNAVAILABLE; do not infer idle from failed observation. Reuse a verified existing job.
 
 **Why:** 2026-10-10, MAESTRO18 launched `rclone check … --download --one-way` on the NEW-1 `events/` copy (pid 5961) while MAESTRO17's background chain was already running the same check (pid 5210). Two `--download` checks over 7,736 files doubled Drive traffic and host load for no new evidence.
 
