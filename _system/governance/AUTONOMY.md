@@ -52,10 +52,10 @@ One **named, pre-registered falsifier** pulled from runbook §0.3.
 
 ## Launch (operator)
 ```bash
-export LLMDB_ROOT=/workspace
-cd /workspace
-# Recommended: run detached so an SSH drop doesn't kill it (memory: runpod-durable-experiment-launch)
-setsid python -u code/lab/runners/autonomy_driver.py \
+cd <repo root>   # in a worktree: the worktree root
+export LLMDB_ROOT=$PWD
+# Recommended: run detached so closing the terminal doesn't kill it (macOS has no setsid)
+nohup .venv/bin/python -u code/lab/runners/autonomy_driver.py \
     --mission code/lab/runners/autonomy_mission.json --budget-min 240 \
     > logs/autonomy_console.log 2>&1 &
 # Watch:  tail -f logs/autonomy_console.log
@@ -68,10 +68,15 @@ On wake: read `logs/autonomy_run_*.md` (summary), the staged `experiments/ml/rev
 python code/lab/runners/autonomy_driver.py --mission code/lab/runners/autonomy_mission.json --dry-run
 ```
 
-### Agent mode (full discipline, needs Codex authenticated)
-`--mode agent --model <codex-model>` shells `codex exec` per unit so a model fulfils the
-deep-thinking / advisor obligations within the wall-clock + loop bounds. Requires
-Codex auth (operator-gated). Default is `--mode batch` (runs the unit command directly).
+### Agent mode (full discipline, needs Claude subscription auth)
+`--mode agent` attempts an independent cross-family review of each reviewable staged finding
+when more than 45 s of the wall-clock budget remain. A skipped review (45 s or less left) or an
+`UNAVAILABLE` review (advisor missing, timed out, or failed) leaves the independent-review
+obligation open.
+The default advisor is Claude via `code/agents/claude_advisor.sh` (`--advisor claude`;
+claude.ai subscription auth). `--advisor codex --model <codex-model>` shells `codex exec` as
+the fallback and needs Codex auth (operator-gated). Default is `--mode batch` (runs the unit
+command directly).
 
 ## Fenced units (optimizer — opt-in, NOT in the default mission)
 A unit with `"fenced": true` is optimizer-style search (Goodhart-prone: maximizing held-out
