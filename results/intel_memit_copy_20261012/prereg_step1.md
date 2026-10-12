@@ -8,9 +8,9 @@ Operator GO 2026-10-12 ~03:35Z (relayed in the MAESTRO68→69 handoff, `/Users/r
 Design lineage: adopted R2 v4 (`results/compute_storage_brainstorm_20261011T054507Z/r2_git_drive_redesign_v4.md` R1, R2 and R4; adoption `r2_redesign_operator_adoption.md`), reduced to three standard protections: copy finished files from a completed manifest, run at background disk priority, and stop whenever `check_gpu` (`tools/c10w_p2_gate.py:73-84`) sees science. Intel caps: amendment 16 (`decisions_log.md:185-191`). Identical content is stored once: amendment 21 (`decisions_log.md:230-238`). The layout uses dedup layout v2's names (`objects/sha256/<digest>`, `generations/<gen>/manifest.jsonl`) without its unreviewed extras.
 
 ## Measured inputs (2026-10-12, MAESTRO69)
-- Intel: one disk, 467,031,980 KiB free = 478.2 GB (`df -k ~`, ~03:50Z). Intel `~/.ssh` holds only `authorized_keys`, so the Intel has no key reaching the M3. `/usr/bin/rsync` 2.6.9 (protocol 29), `/usr/bin/python3` 3.9.6. No `~/memit_copy` yet.
+- Intel: one disk, 467,031,980 KiB free = 478.2 GB (`df -k ~`, ~03:40Z). Intel `~/.ssh` holds only `authorized_keys`, so the Intel has no key reaching the M3. `/usr/bin/rsync` 2.6.9 (protocol 29), `/usr/bin/python3` 3.9.6. No `~/memit_copy` yet.
 - M3: `/opt/homebrew/bin/rsync` 3.5.0; CLT `/Library/Developer/CommandLineTools/usr/bin/python3` 3.9.6; native `/sbin/sha256sum`. memit 78.4 GiB free; M3 internal 192.3 GiB free.
-- `check_gpu` was clear at ~03:48Z.
+- `check_gpu` was clear at ~03:39Z.
 - Earlier population (2026-10-11, `drive_intel_fit_facts.md:14`): 40,543 files, 287.177 GB, with ≤130.198 GB distinct content. Since then the worktree consolidation (a3745e84) moved bulk into the main folder, so the size must be measured again (P2).
 
 ## Design (step 1)

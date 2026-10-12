@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T03:35:00Z",
+    "edited": "2026-10-12T03:45:00Z",
     "items": [
       {
         "id": "context-audit",
@@ -297,7 +297,7 @@
         "title": "Drive backup: turn it on",
         "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup. The plan is being rewritten so the first upload runs from the Intel Mac (your choice 11); your three OKs will be asked again against that version.",
         "state": "running",
-        "who": "codexda1 making Astra fixes R1-R4",
+        "who": "codexic1 building step 1 (the Intel copy tool); MAESTRO69 checks it",
         "session": "codexda1",
         "started": "2026-10-12T00:10Z",
         "estimate": null,
@@ -316,7 +316,8 @@
           "00:22Z (Oct 12): the switch-on plan and the refreshed Intel storage layout are written and checked (70c3a694). Your three setup questions are drafted in plain words; they come to you only after Astra's review. Nothing is switched on.",
           "00:28Z: the expert reviewer (Astra) is now checking the Intel-first switch-on plan and its storage layout (packet 6693d39c). After its verdict and any fixes, MAESTRO brings you the three switch-on questions; a separate go comes after that. Nothing is switched on.",
           "00:35Z: Astra said go with four fixes (e5416e99): spell out which failure tests the Intel must still pass, keep the check that ignores stray settings, fix one disk-space test that pointed the wrong way, and restore two storage safeguards. The builder is making those fixes now; then your three questions.",
-          "03:35Z (Oct 12): You said go on making the Intel hold the memit copy. Plan: 1) copy memit to the Intel over the cable at low disk priority, pausing while science runs, every file checked; 2) once verified, stop the 6-hourly backup on the M3's internal disk and, with your OK, delete its 272 GB copy at ~/Backups/memit; 3) the Intel uploads to Drive on its own; 4) the Intel pulls repo files on demand. A fresh MAESTRO session in the main folder starts it."
+          "03:35Z (Oct 12): You said go on making the Intel hold the memit copy. Plan: 1) copy memit to the Intel over the cable at low disk priority, pausing while science runs, every file checked; 2) once verified, stop the 6-hourly backup on the M3's internal disk and, with your OK, delete its 272 GB copy at ~/Backups/memit; 3) the Intel uploads to Drive on its own; 4) the Intel pulls repo files on demand. A fresh MAESTRO session in the main folder starts it.",
+          "03:45Z (Oct 12): Step 1 started. Space checked: the Intel has 478 GB free, and storing each identical file once keeps the copy near 130 GB, inside its 250 GB limit. The pass/fail plan is written (98888273). A builder is writing the copy tool with its tests first. Next: MAESTRO runs a size check on the real files, a small trial copy with a pause test, then expert review, before the full copy."
         ]
       },
       {
