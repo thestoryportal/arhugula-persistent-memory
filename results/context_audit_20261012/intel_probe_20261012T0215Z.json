@@ -1,0 +1,25 @@
+{
+ "volumes": [
+  "Macintosh HD"
+ ],
+ "df": "Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk1s4s1   466Gi   9.6Gi   445Gi     3%    406k  4.3G    0%   /\ndevfs            189Ki   189Ki     0Bi   100%     652     0  100%   /dev\n/dev/disk1s2     466Gi   2.0Gi   445Gi     1%     982  4.7G    0%   /System/Volumes/Preboot\n/dev/disk1s6     466Gi    20Ki   445Gi     1%       0  4.7G    0%   /System/Volumes/VM\n/dev/disk1s5     466Gi   864Ki   445Gi     1%      26  4.7G    0%   /System/Volumes/Update\n/dev/disk1s1     466Gi   7.4Gi   445Gi     2%    289k  4.7G    0%   /System/Volumes/Data\nmap auto_home      0Bi     0Bi     0Bi   100%       0     0     -   /System/Volumes/Data/home\n",
+ "home": "/Users/robertrhu_node2",
+ "home_top": [
+  ".CFUserTextEncoding",
+  ".DS_Store",
+  ".Trash",
+  ".ssh",
+  ".zprofile",
+  ".zsh_history",
+  ".zsh_sessions",
+  "Desktop",
+  "Documents",
+  "Downloads",
+  "Library",
+  "Movies",
+  "Music",
+  "Pictures",
+  "Public"
+ ],
+ "name_hits": []
+}
