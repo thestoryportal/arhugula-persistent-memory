@@ -29,15 +29,15 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T00:04:35Z",
+    "edited": "2026-10-12T00:12:18Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "ready",
-        "who": "MAESTRO: brief a fresh builder for the rewrite",
-        "session": null,
+        "state": "running",
+        "who": "scout codexres1 (Sol), then one drafter, then Astra",
+        "session": "codexres1",
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
@@ -99,7 +99,8 @@
           "16:51:08Z: the one approved Intel Mac run finished cleanly, every step passing: measure (PASS, records 37.7 MB of the 42 MB limit), setup, my 8-point gate check (all pass), then the full file list in 32 seconds with 13 minutes to spare. It only observed; nothing was installed. Your one-run approval is now used. Record: results/research_engine_phase1_20261011/r1n_chain_record_20261011.md. Next: the expert checks the run record, then I bring you what the file list allows next.",
           "17:00:40Z: correction to 16:51. The expert's check of the run record says DEFECTIVE: the run itself went as designed, but I did not prove everything the rules required before it. My list of earlier records missed some (it still fits the limit), I never asked you to keep hands off the Intel Mac during the run, and my final checker was weaker than the written checks. So the file list stands as an observation whose setup checks were only partly proven. I accept this; it's written into the run record and the lessons are saved. Your approval is used; nothing gets re-run without a new one.",
           "17:01:41Z: you confirmed you didn't touch the Intel Mac during the run and didn't change Deskflow. Recorded as an after-the-fact statement. The file list stays as an observation. Next: decide what the file list is used for in the Intel build plan; any new run gets fixed checks, an expert review and your new approval first.",
-          "00:04Z (Oct 12): Unblocked: you adopted the drive-sharing design. Next: rewrite the Intel build plan around it (Git and Drive only on the Intel), then expert review."
+          "00:04Z (Oct 12): Unblocked: you adopted the drive-sharing design. Next: rewrite the Intel build plan around it (Git and Drive only on the Intel), then expert review.",
+          "00:11Z (Oct 12): scout codexres1 is mapping which records still govern the research-engine plan and what the adopted drive-sharing design changes. A single writer rewrites the plan from that map, then Astra reviews it."
         ]
       },
       {
@@ -186,7 +187,8 @@
           "21:33Z: MAESTRO58 took over. Told you: LabViz session 15 is ready (tmux attach -t codexlabviz15); Figma is set up for Codex, off by default, sign-in worked, free plan can draw frames; only the account/plan check could not be read. Recommended treating it as done and confirming the account in the wireframe session. Session codexlabviz14 has closed.",
           "21:51Z: LabViz session 15 wrote its handoff at 44% (d678d8bd): the design system covers the whole site; quiet charts and quiet outline icons accepted; one question pending, flat versus softly raised surfaces. Session 16 launched: tmux attach -t codexlabviz16. It re-asks the surface question first.",
           "23:21Z: LabViz session 16 wrote its handoff at 45% (5cc29ea5): flat, quiet surfaces; help on demand; restrained emphasis; one shared layout; ready-made icons; your six dashboard references mapped; a detailed MathLab draft. One question pending: should MathLab have its own named entry inside Science lines, or appear inside the research lines it supports? Session 17 launched: tmux attach -t codexlabviz17. It re-asks that question first.",
-          "23:44Z: LabViz session 17 closed after you accepted the MathLab plan ('All good for now'); its record is saved (caff3da4). You chose to keep brainstorming: session 18 (codexlabviz18) is open and will ask which part of the site to take up next. Attach: tmux attach -t codexlabviz18. Building stays on hold."
+          "23:44Z: LabViz session 17 closed after you accepted the MathLab plan ('All good for now'); its record is saved (caff3da4). You chose to keep brainstorming: session 18 (codexlabviz18) is open and will ask which part of the site to take up next. Attach: tmux attach -t codexlabviz18. Building stays on hold.",
+          "00:06Z (Oct 12): you closed the LabViz brainstorm (session 18). Your direction is saved: React + TypeScript, Chrome as the browser, and Tailwind recommended for the reviewers to weigh. Committed dc036de8. Building stays on hold."
         ]
       },
       {
@@ -230,10 +232,10 @@
         "id": "drive-activate",
         "title": "Drive backup: turn it on",
         "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup. The plan is being rewritten so the first upload runs from the Intel Mac (your choice 11); your three OKs will be asked again against that version.",
-        "state": "ready",
-        "who": "MAESTRO: rewrite the switch-on plan for the adopted design, then Astra",
-        "session": "",
-        "started": null,
+        "state": "running",
+        "who": "builder codexda1 (Sol), then MAESTRO checks, then Astra",
+        "session": "codexda1",
+        "started": "2026-10-12T00:10Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
@@ -245,7 +247,8 @@
           "12:59Z: builder codexdl1 is designing the Intel Mac layout that stores each identical file once (your Amendment 21): how one stored copy serves every path, how it is kept from being changed, how the upload still sends every path to Drive, and the space math. Design only, nothing copied; Astra reviews it before any copy, then the full Intel plan and your three OKs.",
           "13:07Z: codexdl1 finished the layout design (58d7374c): each identical file stored once, every path linked to that one copy and locked against changes, every path still uploaded to Drive, and the space math (about 130 GB stored out of 250 GB, before overhead that must be measured). It leans on the shared-drive rules still being written, so Astra reviews it once those are committed.",
           "13:22Z: The layout design points at 11 lines of the shared-drive rules by line number, and those lines moved when the rules were finished. MAESTRO will re-point them after Astra's review of the rules (which may move them again), then send the layout to Astra.",
-          "00:04Z (Oct 12): You adopted the drive-sharing design (version 4). Next: rewrite this switch-on plan so the M3 hands files to the Intel over the cable and the Intel uploads to Drive, then expert review. Nothing turns on until you say go; three short setup questions come then."
+          "00:04Z (Oct 12): You adopted the drive-sharing design (version 4). Next: rewrite this switch-on plan so the M3 hands files to the Intel over the cable and the Intel uploads to Drive, then expert review. Nothing turns on until you say go; three short setup questions come then.",
+          "00:10Z (Oct 12): builder codexda1 is writing the switch-on plan for the adopted design (the M3 hands files to the Intel over the cable; the Intel uploads to Drive) and refreshing the Intel storage layout. Writing only; nothing is copied or switched on. Astra reviews it next; your three setup questions come after that."
         ]
       },
       {

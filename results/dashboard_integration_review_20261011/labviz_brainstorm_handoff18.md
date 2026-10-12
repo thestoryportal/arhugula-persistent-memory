@@ -6,7 +6,7 @@ observed_head: 71788d765c281abce2685347363904070d1c609d
 files_written_by_lvb18:
   - results/dashboard_integration_review_20261011/labviz_brainstorm_notes.md
   - results/dashboard_integration_review_20261011/labviz_brainstorm_handoff18.md
-maestro_delivery: pending-transport-verification
+maestro_delivery: submitted-to-maestro2-pane-155-queue-visible-acknowledgment-pending
 ---
 # LVB18 — final LabViz stack discussion closed; design packet for MAESTRO
 
@@ -67,7 +67,7 @@ After updated S passes Astra review, a separate Codex agent draws static wirefra
 
 - The context-save workflow is preserved in the authorized notes and this separate handoff. Scope overrides generic skill checkpoint/telemetry/auto-commit destinations; no additional state file, memory/config change or commit was created.
 - Reflection: browser compatibility, packaging, styling mechanics, accessible component behavior and scientific authority are separate contracts. Documented framework support and favourable advisory judgement cannot establish actual offline/site behavior or source completeness.
-- Delivery status is updated only after a verified MAESTRO transport attempt. File presence alone is not a sent-message receipt. If transport is unavailable, this packet remains ready at the exact paths above and that limitation must be reported.
+- Delivery receipt: verified existing Claude pane maestro2 / %155, title "MAESTRO64 takeover handoff"; literal closeout message with both document paths, accepted choices, review limits and next step sent using tmux send-keys -l, then Enter (both exit 0). Subsequent pane capture showed the message queued and "Press up to edit queued messages". This proves submitted/queued delivery, not a read acknowledgment. The pane independently displayed its handoff-file monitor event and MAESTRO beginning to inspect the handoff. No forced interruption or second submission. Final transport annotation/verification completes the packet; acknowledgment remains pending.
 
 ## BINDING context and interaction rule — survives every successor
 
