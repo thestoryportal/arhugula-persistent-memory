@@ -22,7 +22,8 @@ Usage:
 """
 import sys, os, glob, filecmp, json, hashlib, re
 
-ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root; env overrides
+# code/gates/closeout_check.py -> the repo root is three levels up; env overrides.
+ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 REQUIRED = [
     ("program/runbook/",            "living roadmap (also §0.3/§12/§13 — section checks below)"),
@@ -35,14 +36,19 @@ REQUIRED = [
     ("evidence/CORPUS/01_PROVENANCE_MANIFEST.md", "provenance (claim->artifact->numbers)"),
     ("evidence/CORPUS/02_VANDV_CHAIN.md",         "V&V chain (hypothesis->criterion->verdict)"),
 ]
-_hr = sorted(glob.glob(os.path.join(ROOT, "docs/HYPOTHESIS_REGISTER_*.md")))
+_hr = sorted(glob.glob(os.path.join(ROOT, "program/registers/HYPOTHESIS_REGISTER_*.md")))
 if _hr:
     REQUIRED.append((os.path.relpath(_hr[-1], ROOT), "hypothesis register (latest)"))
 
 
 def _read(path):
+    full = os.path.join(ROOT, path)
+    # A monolith split into a folder of parts reads as its parts in name order: byte for byte the original.
+    if os.path.isdir(full):
+        parts = sorted(n for n in os.listdir(full) if n.endswith(".md"))
+        return "".join(open(os.path.join(full, n), encoding="utf-8", errors="replace").read() for n in parts) if parts else None
     try:
-        return open(os.path.join(ROOT, path), encoding="utf-8", errors="replace").read()
+        return open(full, encoding="utf-8", errors="replace").read()
     except FileNotFoundError:
         return None
 

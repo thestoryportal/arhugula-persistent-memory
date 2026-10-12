@@ -13,13 +13,15 @@ Usage:
 """
 import sys, os, json, re
 
-ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root; env overrides
+# code/state/render_state.py -> the repo root is three levels up; env overrides.
+ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 STATE = os.path.join(ROOT, "program/program_state.json")
 
 # which generated block goes in which file, and the anchor line to insert after if absent
+# The checkpoint is no longer a target: its parts in program/checkpoints/ are sealed history, and the block
+# inside part 062 stays as the snapshot it was when the checkpoint was split (ICM v2).
 TARGETS = [
-    ("program/checkpoints/", "program-state", "# SESSION CHECKPOINT"),
-    ("program/runbook/", "program-state", "### §0.3 — CURRENT POSITION"),
+    ("program/runbook/00-entry-point-read-first-every-session.md", "program-state", "### §0.3 — CURRENT POSITION"),
     ("README.md",             "program-state", "# "),
     ("program/SESSION_BOOTSTRAP.md",  "program-state", "_Updated 2026-06-18"),
     ("program/PROGRESS.md",           "f1-scorecard",  "## ⑤ DISTANCE TO F1"),
