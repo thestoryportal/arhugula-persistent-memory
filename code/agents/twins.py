@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write or check byte-identical copies of the root agent catalog."""
+"""Write or check byte-identical copies of the root and map agent catalogs."""
 import argparse
 import os
 from pathlib import Path
@@ -13,18 +13,26 @@ def main():
     args = parser.parse_args()
 
     root = Path(os.environ.get("LLMDB_ROOT", Path(__file__).resolve().parents[2]))
-    source = (root / "CLAUDE.md").read_bytes()
     drift = False
-    for name in ("AGENTS.md", "routing.md"):
-        twin = root / name
-        if args.write:
-            twin.write_bytes(source)
-        elif not twin.is_file():
-            print(f"{name}: missing")
+    for catalog in ("CLAUDE.md", "map/CLAUDE.md"):
+        source_path = root / catalog
+        if not source_path.is_file():
+            print(f"{catalog}: missing")
             drift = True
-        elif twin.read_bytes() != source:
-            print(f"{name}: differs from CLAUDE.md")
-            drift = True
+            continue
+        source = source_path.read_bytes()
+        for name in ("AGENTS.md", "routing.md"):
+            relative = Path(catalog).with_name(name)
+            twin = root / relative
+            if args.write:
+                if not twin.is_file() or twin.read_bytes() != source:
+                    twin.write_bytes(source)
+            elif not twin.is_file():
+                print(f"{relative}: missing")
+                drift = True
+            elif twin.read_bytes() != source:
+                print(f"{relative}: differs from {catalog}")
+                drift = True
     return 1 if drift else 0
 
 
