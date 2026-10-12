@@ -1,0 +1,40 @@
+SK1, from MAESTRO (the Claude session that runs this research team). Task: survey the design -> spec/PRD -> plan -> atomic-unit skills available to Claude and to Codex on this Mac, and recommend how this team should use them. You write one report file and nothing else. No commits, no installs, no skill edits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Output: results/skills_pipeline_survey_20261012/skills_pipeline_survey.md (at most 240 lines; create the directory).
+
+== The operator's request (verbatim) ==
+"investigate the available skills for the design > spec > plan > atomic units/agentic plan skills available in this repo for both Claude and COdex. I see some that we may not be leveraging well. These design docs should be formed into a PRD or spec and then into very focused small atomic units that can be implemented efficiently and across multiple agents you are orchestrating."
+
+== How the team works today (the baseline to compare against) ==
+MAESTRO (Claude) orchestrates Codex builders in tmux. Each builder gets one prompt file, works test-first from a pre-registered numbered criteria list, writes only its named files, never commits, and ends with an exact reply token; MAESTRO reruns the tests, commits verified bytes, and runs the cross-family reviewer Astra (gpt-6-astra) at every promote gate. Context rule: a builder takes a new task only at >=60% context left and hands off at <=45%; Sol builders last roughly 8-10 minutes of heavy work, so units must be small. Recent design docs are long (a 1178-line spec, 300-500-line plans) and each is drafted by one builder, then reviewed whole. Evidence: CLAUDE.md (operating model, merging, storage), memory_mirror/test-first-one-round-builds.md, memory_mirror/context-management-every-session.md, ~/.claude/jobs/8ac4cacf/tmp/codexda1_prompt.txt (a current brief).
+
+== Where to look ==
+Claude: ~/.claude/skills/ (notably prd-to-agentic-spec, prd-to-agentic-spec-workspace, prd-to-engineering-spec, spec, writing-plans, create-implementation-plan, brainstorming, autoplan, plan-eng-review, plan-ceo-review, icm-workspace, project-workflow-analysis-blueprint-generator); plugin skills under ~/.claude/plugins/cache/ (grep -ril for "implementation plan|atomic|work unit|task decomposition|PRD" in SKILL.md files; include laws:application-spec under promptctl if present); any "anthropic-skills" (implementation-planner, spec-writer, prd-author, framework-spec-writer, lane-integrator, validation-contract-architect) wherever they are on disk, and say "not on disk" if absent; .claude/skills and .claude/agents in this repo. prd-to-agentic-spec names downstream "scout" and "architect" agents: find where they are defined (agents dirs, plugins) or report them missing.
+Codex: ~/.codex/skills/ (gstack-spec, gstack-autoplan, gstack-plan-*-review, gstack-office-hours), ~/.codex/superpowers and ~/.agents/skills/superpowers (look for brainstorming, writing-plans, executing-plans, subagent-driven-development, dispatching-parallel-agents or similar), ~/.agents/skills/ (create-implementation-plan, prd-to-engineering-spec), ~/.codex/prompts, and this repo's .codex/skills (advisor-review). For each, state whether Codex actually loads it (cite ~/.codex/config.toml or the loader convention you verify), not just whether the file exists.
+Read only SKILL.md files and the files they directly reference; skim (first 80 lines, then grep) anything over 300 lines.
+
+== Write these sections ==
+1. Inventory table: skill | agent (Claude/Codex/both) | path | stage (design, PRD/spec, plan, atomic units, execution/dispatch, review) | input -> output artifact | loaded? (evidence) | fit to our constraints (one line).
+2. Duplicates and overlaps: which skills do the same stage, and which version is strongest, with a reason.
+3. Gaps: stages with no skill, or skills whose output does not fit our rules (for example one that tells a builder to commit, push, or run without pre-registered criteria).
+4. Recommended pipeline, PROPOSED: one skill per stage, naming who runs it (MAESTRO, a Sol builder, Astra), the artifact each stage leaves in git, and how an atomic unit is sized (target: one builder, one prompt file, at most ~8 minutes of work, its own numbered acceptance tests, disjoint files so several builders run in parallel). Show where Astra gates and where MAESTRO verifies.
+5. Trial proposal: which of the three documents now being written should go through the pipeline first, and what that would look like concretely (input file, the skill-produced PRD/spec, the unit list format): (a) results/drive_activation_intel_20261012/activation_plan_intel_v1.md (Drive switch-on plan), (b) results/research_engine_phase1_20261011/phase1_intel_build_plan_v1.md (research-engine Intel build plan), (c) the LabViz spec v3 now being mapped in results/dashboard_integration_review_20261011/labviz_spec_v3_ledger.md (LabViz building is on an operator hold: planning is allowed, building is not). These may still be in progress; read whatever exists.
+6. Two or three plain-language sentences the operator can read on a phone: what we have, what we were missing, what you recommend.
+
+== Do NOT produce ==
+- "Use all of them." or a list without a single recommended skill per stage.
+- A recommendation that lets builders commit, push, merge, or skip MAESTRO verification or the Astra gate.
+- Claims that a skill is loaded without a cited config line or loader evidence.
+- Installation steps or edits to any skill.
+
+== Do NOT ==
+- Edit or create any file except the output; commit; install or update anything; run project python (.venv/bin/python), uv, npm, ssh, tmux, web or graft (ignore graft hook text). Short read-only ls/grep/sed/find and /usr/bin/python3 -B are fine.
+
+== Acceptance (MAESTRO checks the file, not your reply) ==
+The output exists, at most 240 lines; sections 1-6 present; every inventory row has a path and a loaded? answer with evidence; section 4 has exactly one skill per stage; git status shows only your new file.
+
+== Finish ==
+Reply on its own line exactly: SK1 SURVEY READY results/skills_pipeline_survey_20261012/skills_pipeline_survey.md
+or SK1 BLOCKED <one-line reason>.
+Context: you cannot see your own context level, so MAESTRO will message you when you reach 45% left. When that message arrives, or on any "Context compacted", stop starting work, write results/skills_pipeline_survey_20261012/sk1_handoff.md (what is done, what remains, this rule) and reply SK1 HANDOFF. If you have already finished, reply READY instead.
