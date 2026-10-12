@@ -1,0 +1,131 @@
+[
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 0,
+    "stdout": "backup_gdrive_status: fresh successful backup; finished 2026-10-10T18:24:34.596429+00:00; launch generation 10\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/Native_1.app",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/Native_1.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  },
+  {
+    "args": [
+      "/usr/bin/open",
+      "-W",
+      "-g",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/Native_1.app"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/Native_2.app",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/Native_2.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  },
+  {
+    "args": [
+      "/usr/bin/open",
+      "-W",
+      "-g",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/Native_2.app"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "recover",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json",
+      "--generation-floor",
+      "10"
+    ],
+    "exit_code": 0,
+    "stdout": "backup_gdrive_status: recovery barrier generation 11; preserved evidence: /private/tmp/memit_gdrive_native_uzgkprot/fixture/home/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T182435.803200Z; requires a subsequent completed generation above the barrier\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/Native_3.app",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/Native_3.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  },
+  {
+    "args": [
+      "/usr/bin/open",
+      "-W",
+      "-g",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/Native_3.app"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: unacknowledged recovery barrier generation 11: requires a subsequent completed heartbeat\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: unacknowledged recovery barrier generation 11: requires a subsequent completed heartbeat; manual/unsequenced heartbeat cannot acknowledge applet evidence\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_uzgkprot/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 0,
+    "stdout": "backup_gdrive_status: fresh successful backup; finished 2026-10-10T18:24:36.404422+00:00; launch generation 12\n",
+    "stderr": ""
+  }
+]

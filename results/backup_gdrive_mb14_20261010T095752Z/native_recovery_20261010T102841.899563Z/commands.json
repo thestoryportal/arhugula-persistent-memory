@@ -1,0 +1,25 @@
+[
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb14_20261010T095752Z/native_recovery_20261010T102841.899563Z/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 0,
+    "stdout": "backup_gdrive_status: fresh successful backup; finished 2026-10-10T10:28:41.900439+00:00; launch generation 10\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb14_20261010T095752Z/native_recovery_20261010T102841.899563Z/fixture/Native_1.app",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb14_20261010T095752Z/native_recovery_20261010T102841.899563Z/fixture/Native_1.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  }
+]

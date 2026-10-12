@@ -1,0 +1,10 @@
+test_r7_2_nested_generation_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_nested_generation_refuses_unchanged_and_names_file) ... ok
+test_r7_2_nested_manifest_requires_floor_100_and_reserves_101 (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_nested_manifest_requires_floor_100_and_reserves_101) ... ok
+test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file) ... ok
+test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename) ... ok
+test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.247s
+
+OK

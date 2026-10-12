@@ -1,0 +1,1 @@
+PASS exact commit path/blob/type/mode tree, single base parent and 1185 object SHA-256 pins; verified SHA e76db678a8cf0f2d4703886fa0b5e1e910e9e00e -> /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/operational_checks/r13_verified_commit_sha.txt

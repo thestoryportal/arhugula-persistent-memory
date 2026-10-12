@@ -1,0 +1,1 @@
+{"test": null, "processes": [{"pid": 98536, "pgid": 98536, "argv": ["/usr/bin/python3", "-B", "-m", "unittest", "-v", "test_package", "test_capture", "test_hostfix_mb42"], "test": null, "returncode": 0, "group_alive_after_test": false, "group_alive_after_cleanup": false}], "leaks": []}

@@ -1,0 +1,6 @@
+remote: 
+remote: Create a pull request for 'backup-gdrive-r12' on GitHub by visiting:        
+remote:      https://github.com/thestoryportal/arhugula-persistent-memory/pull/new/backup-gdrive-r12        
+remote: 
+To https://github.com/thestoryportal/arhugula-persistent-memory
+ * [new branch]        backup-gdrive-r12 -> backup-gdrive-r12

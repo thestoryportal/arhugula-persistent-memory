@@ -1,0 +1,9 @@
+capture r12_host_preflight_fixture: exit 0; /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r12_package_20261011T024815Z/operational_checks/commands/r12_host_preflight_fixture
+{
+  "success": true,
+  "mode": "fixture",
+  "child_exit_code": 0,
+  "real_inventory_identical": true,
+  "all_owned_groups_exited": true,
+  "exit_code": 0
+}

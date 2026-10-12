@@ -10,3 +10,5 @@ metadata:
 **Why:** tmux target resolution is exact-then-prefix; a missing exact name silently selects another session.
 
 **How to apply:** for destructive tmux ops use the exact form `tmux kill-session -t '=name'`; run `tmux ls` first and act only on names it lists; never infer a session's state from a capture of a name not in `tmux ls`. (capture-pane keeps the `'name:'` form; verify the name exists first.) Related: [[context-management-every-session]].
+
+**Pane-taking commands need the colon (2026-10-11, MAESTRO30):** `=name` works for session targets (kill-session, list-panes) but `capture-pane -t '=name'` fails with "can't find pane: =name" — use `'=name:'`. Builder Q1 shipped the bug twice (its host check and the queue tab itself); sandbox tests could not see it because they inject the tmux reader.

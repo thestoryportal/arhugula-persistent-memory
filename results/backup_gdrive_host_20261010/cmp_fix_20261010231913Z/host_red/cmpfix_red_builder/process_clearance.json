@@ -1,0 +1,51 @@
+{
+  "all_owned_groups_exited": true,
+  "observed_children": [],
+  "operator_pids_not_touched": [
+    32906,
+    32913,
+    32914,
+    36233,
+    36258,
+    36259,
+    37109,
+    65807
+  ],
+  "records": [
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/memit_cmpfix_red.2j4K4o",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 75095,
+      "pid": 75095,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:34:37.996705+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest"
+    },
+    {
+      "argv": [
+        "/bin/bash",
+        "/private/tmp/memit_cmpfix_red.2j4K4o/tools/launchd/build_gdrive_applet.sh",
+        "a19749dc96ea565bb536256c9fd5feab359ef23a",
+        "native-builder",
+        "/private/tmp/gdrive_addendum_12w94y9h/test backup.app"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 75096,
+      "pid": 75096,
+      "returncode": 1,
+      "started_utc": "2026-10-10T23:34:38.005108+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest"
+    }
+  ],
+  "runner_expected_exit": 1,
+  "runner_pid": 75094,
+  "scope": "direct Popen processes and their complete session groups; no detached/native open launches"
+}

@@ -1,0 +1,84 @@
+{
+  "utc": "2026-10-11T00:44:02Z",
+  "phase": "green",
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "python": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "sources": {
+    "dashboard_active.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_active.py",
+      "sha256": "ae1b10cfffff57199dc0f921f887a19c008d004a5b2aa096e7ed2ba8f83b58dc"
+    },
+    "dashboard_bar.sh": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_bar.sh",
+      "sha256": "bd447c1fa5392f925d2a0e8c4f3eea1f4c50501e6380a6faca22405b79cd099f"
+    },
+    "dashboard_experiment.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py",
+      "sha256": "ef2578a7b86ccec6891ebb16e1c518c98b90633a8123eb28a51cdc7e3fe8bd0b"
+    },
+    "dashboard_live.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_live.py",
+      "sha256": "c99650e57ed82c0319977c6bc333ebf227da12ae6a6bc0b6d18a6bccad3d265f"
+    },
+    "dashboard_mathlab.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_mathlab.py",
+      "sha256": "aa7dd35cbc0b872eafc7f37e92d1a9649be46cf00e8344cc6c9343bab3c4adb7"
+    },
+    "dashboard_report.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_report.py",
+      "sha256": "40fa3ec0b4243fd7e2eca1fb7cec2a9613ee15865567fa8f1b2ae8e5e8f34613"
+    },
+    "dashboard_science_tab.sh": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_science_tab.sh",
+      "sha256": "02938f27683c76a573e6a0b091351df511b15a28b1fe2c3974ef41124c0200a3"
+    },
+    "dashboard_storage.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_storage.py",
+      "sha256": "e935e07736c2c004cb3b347732b20ce3cea3bdf78074f7aa08fb160ab8f5a13d"
+    },
+    "dashboard_storage_tab.sh": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_storage_tab.sh",
+      "sha256": "e847944c2e7116515d71a13ceea09c704c1fd8cc2608a5c4c0ddc27c7811e76a"
+    },
+    "dashboard_subagents.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_subagents.py",
+      "sha256": "0238681be5d9c8f699e038f248d641ec39155c7ff5959914c12a1085bdd524c2"
+    },
+    "dashboard_team.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_team.py",
+      "sha256": "3a8c73190c31a8349293f82413c8dc2de4ce7c56da28af0fae3dec5794d4e74e"
+    },
+    "dashboard_tile.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_tile.py",
+      "sha256": "2c56350b5503d86f87cb4972cd3035d97637bafc3582dc346b8731fbccf8a940"
+    },
+    "dashboard_tile.sh": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_tile.sh",
+      "sha256": "e13eae72babaaddaf1dd61b2d05e4c8f6025fdae7b8fcf51f6ae24a05b5ef5a3"
+    },
+    "dashboard_watch.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_watch.py",
+      "sha256": "7ddfd7844f745ec55982ffbb07e284f42a5eca72de8c461e4f21fe10033e77f8"
+    },
+    "team_dashboard.sh": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/team_dashboard.sh",
+      "sha256": "761f0c65df0b64d9756737abe67d9a4d78e124f8da170881baa80137749e3732"
+    },
+    "mathlab_events.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f"
+    },
+    "backup_gdrive_status.py": {
+      "input": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "sha256": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46"
+    }
+  },
+  "host_test_sha256": "2898834fc4340819d4723fbcf95ced0a62064b967df51f0b8b2e9fb1b440b46e",
+  "host_runner_sha256": "14a1a09295acc60f6623a2c2874336325e5849d30e4cf51c4f5498c2e5fedd59",
+  "regression_test_sha256": "4ff711a2e7188c30a7811c9881982a3f16693ebf4c821a8a7f3ca48aa46a2da2",
+  "state_inputs_at_start": {
+    "program_state.json": "6c85926a96678b00c6d5ab7c68f4a2120ad9d5ab43ab1677218a703dc2038eab",
+    "c10_scoreboard.json": "8c5527d6f9ca592d23348701cae1cb3f05bb0a6f757534633912ce24c01e4808"
+  }
+}

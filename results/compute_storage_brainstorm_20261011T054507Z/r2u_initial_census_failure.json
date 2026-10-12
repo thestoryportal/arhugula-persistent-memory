@@ -1,0 +1,34 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "results/compute_storage_brainstorm_20261011T054507Z/check_r2_schemas_v7.py",
+    "--mutation-controls"
+  ],
+  "exit": 1,
+  "roots": {
+    "B": {
+      "path": "results/compute_storage_brainstorm_20261011T054507Z",
+      "before_files": 191,
+      "after_files": 191,
+      "before_entries": 191,
+      "after_entries": 191,
+      "created": [],
+      "removed": []
+    },
+    "TMPDIR": {
+      "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/r2u_census_q8aoknhw",
+      "before_files": 0,
+      "after_files": 1,
+      "before_entries": 0,
+      "after_entries": 1,
+      "created": [
+        [
+          "FILE",
+          "xcrun_db"
+        ]
+      ],
+      "removed": []
+    }
+  }
+}

@@ -1,0 +1,59 @@
+[
+  {
+    "acceptance": 1,
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "results/compute_storage_brainstorm_20261011T054507Z/check_r2_schemas_v7.py"
+    ],
+    "exit": 0,
+    "log": "results/compute_storage_brainstorm_20261011T054507Z/r2u_acceptance_default.log",
+    "stdout": "GREEN round 8: R1-R6; A1 descendant exception only; guard/broker, chain admission, aggregate receipts, source-valid refusals, one launch context; Gate 2 UNVERIFIED\nGREEN round 9: R1 admission helper refusal, R2 caller audit, R3 same-launch delegation references and process identities\nGREEN D13 trace: 13 recorded queries, 0 admission-origin occurrences derived; recorded queries only, no complete call graph or native proof\nGREEN: 114 schemas, 17 request kinds, 259 examples validated, 1411 hash references recomputed, 8 bindings rerendered, 16 observations checked\n",
+    "stderr": ""
+  },
+  {
+    "acceptance": 2,
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "results/compute_storage_brainstorm_20261011T054507Z/check_r2_schemas_v7.py",
+      "--profiles",
+      "results/compute_storage_brainstorm_20261011T054507Z/science_launch_profiles_v5.json"
+    ],
+    "exit": 0,
+    "log": "results/compute_storage_brainstorm_20261011T054507Z/r2u_acceptance_profiles.log",
+    "stdout": "GREEN round 8: R1-R6; A1 descendant exception only; guard/broker, chain admission, aggregate receipts, source-valid refusals, one launch context; Gate 2 UNVERIFIED\nGREEN round 9: R1 admission helper refusal, R2 caller audit, R3 same-launch delegation references and process identities\nGREEN D13 trace: 13 recorded queries, 0 admission-origin occurrences derived; recorded queries only, no complete call graph or native proof\nGREEN admission aggregates: 25 TOP_LEVEL, 55 total; max TOP_LEVEL 36 input receipts, 4271 UTF-8 bytes; frozen bounds 64 / 8192 blob / 262144 file\nGREEN all aggregate maxima: 54 input receipts / 5477 UTF-8 bytes; frozen bounds 64 / 8192 / 262144\nGREEN round 8: R1-R6; A1 descendant exception only; guard/broker, chain admission, aggregate receipts, source-valid refusals, one launch context; Gate 2 UNVERIFIED\nGREEN round 9: R1 admission helper refusal, R2 caller audit, R3 same-launch delegation references and process identities\nGREEN D13 trace: 13 recorded queries, 42 admission-origin occurrences derived; recorded queries only, no complete call graph or native proof\nGREEN production coherence: R1-R4, D1 refusals, 737 binding vectors rerendered; native behavior UNVERIFIED\nGREEN profiles: 55 LaunchProfile entries, 0 not_admitted entries schema-validated, 174 not_admitted entries explicit refusals checked\n",
+    "stderr": ""
+  },
+  {
+    "acceptance": 3,
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "results/compute_storage_brainstorm_20261011T054507Z/check_r2_schemas_v7.py",
+      "--mutation-controls"
+    ],
+    "exit": 0,
+    "log": "results/compute_storage_brainstorm_20261011T054507Z/r2u_acceptance_mutations.log",
+    "census": {
+      "B": {
+        "path": "results/compute_storage_brainstorm_20261011T054507Z",
+        "before_files": 193,
+        "after_files": 193,
+        "before_entries": 193,
+        "after_entries": 193,
+        "created": [],
+        "removed": []
+      },
+      "TMPDIR": {
+        "path": "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/r2u_census_25cr3kvj",
+        "before_files": 1,
+        "after_files": 1,
+        "before_entries": 1,
+        "after_entries": 1,
+        "created": [],
+        "removed": []
+      }
+    }
+  }
+]

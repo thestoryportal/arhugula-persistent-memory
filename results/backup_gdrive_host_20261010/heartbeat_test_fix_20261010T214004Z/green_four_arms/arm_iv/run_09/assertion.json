@@ -1,0 +1,30 @@
+{
+  "changed_fields": {},
+  "owner_pid": 31412,
+  "rclone_pid": 31434,
+  "refusals": [
+    {
+      "bytes_transferred": 0,
+      "end": "2026-10-10T21:43:30.490400+00:00",
+      "exit_code": 75,
+      "launch_generation": null,
+      "launch_mode": "manual",
+      "log_path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/green_four_arms/arm_iv/run_09/fixtures/gdrive_addendum_zmfeczgv/heartbeat/runs/20261010T214330Z-31449.jsonl",
+      "owner_pid": 31449,
+      "rclone_exit_code": null,
+      "rclone_pid": null,
+      "rclone_version": null,
+      "run_id": "20261010T214330Z-31449",
+      "schema": 1,
+      "start": "2026-10-10T21:43:30Z",
+      "warnings": [],
+      "wrapper_log": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/green_four_arms/arm_iv/run_09/fixtures/gdrive_addendum_zmfeczgv/wrapper.log",
+      "wrapper_log_identity": [
+        16777244,
+        525870
+      ],
+      "wrapper_log_offset": 1540
+    }
+  ],
+  "same_bytes": true
+}

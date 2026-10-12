@@ -1,0 +1,8 @@
+{
+  "launch": "/usr/bin/python3 '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_storage.py'",
+  "darwin_binary": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+  "gate_command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_storage.py",
+  "matching_patterns": [
+    "^/Library/Developer/CommandLineTools/\\S*/Python \\S*/tools/dashboard_\\w+\\.py( .*)?$"
+  ]
+}

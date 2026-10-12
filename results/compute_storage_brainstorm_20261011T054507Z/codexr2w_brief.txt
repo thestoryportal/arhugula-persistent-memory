@@ -1,0 +1,61 @@
+R2W, from MAESTRO (the Claude session that runs this research team). Task: answer Astra's round-11 required change R1 for the shared-disk clearance freeze. Build new versions of five subjects plus the checker that proves them. Work test-first. No commits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. C = B/shared_disk_clearance_contract_v1_1.md (never edit).
+Inputs (read-only; never edit any of them): F9 = B/shared_disk_clearance_freeze_v9.md (360 lines). J8 = B/shared_disk_clearance_schemas_v8.json (41,750 lines). K8 = B/check_r2_schemas_v8.py (2,691 lines). P6 = B/science_launch_profiles_v6.json (462,310 lines). I8 = B/science_launch_inventory_v8.md (263 lines).
+V11 = B/astra_r2n_verdict.md (Astra round 11, NO-GO; 85 lines): findings F1 at :5–11 and F2 at :13–25, notes F3–F5 at :27–55, required change R1 at :59–64, closure table at :66–71. Read V11 in full first.
+D15f = B/r2_round12_decisions.md (MAESTRO's ruling for this round, D15). Read it in full second. It is binding and answers R1. Do not reopen it.
+D14f = B/r2_round11_decisions.md (D14) and D13f = B/r2_round10_decisions.md (D13) still bind where D15f does not replace them. Read D14f in full third. Read D13f, and D9 = B/r2_round9_decisions.md (D10–D12), only where V11, D15f or D14f cites them.
+Source files you will cite: tools/c10w_p2_gate.py, experiments/track_c/c10w_oracle_train.py, experiments/track_c/c10w_oracle_read.py.
+
+== Outputs (new files only) ==
+F10 = B/shared_disk_clearance_freeze_v10.md, J9 = B/shared_disk_clearance_schemas_v9.json, K9 = B/check_r2_schemas_v9.py, P7 = B/science_launch_profiles_v7.json, I9 = B/science_launch_inventory_v9.md. Start each by copying its input, then change it by script. In I9, change only the lines whose facts change.
+
+== What R1 needs (V11 wording first, then direction) ==
+R1 "Complete the conservative representation of the newly reachable Git operand domain: account for disk-selected train_records, including probes occurring before eventual validation failure; do not infer a pre-spawn bound from TRAIN_UNITS. Keep the verifier and phase_trains operand sources distinct unless their exact bound-recipe equality is established before the relevant spawn. Add isolated controls for more than six distinct linked adapter paths and for differing operand sets across profile 38's two routes. Correct coverage claims, rebuild bindings/aggregates, repin, and rerun acceptance. Preserve C:85, A1, and D10 refusal; explicitly refuse cases the frozen representation cannot cover."
+D15 picks the conservative representation with explicit refusal. No source file changes. Apply D15f items 1–7:
+- Every recorded process site states its count kind (pinned_constant with its enforcing line, or loaded_data) and its operand source (pinned_literal with its line, or loaded_data with the record and field it is read from plus every pinned pre-spawn constraint). A validator that runs after the spawns, such as validate_phase (c10w_oracle_read.py:551, :333), is never a bound.
+- Route V (verify-preflight → replication_for, c10w_oracle_read.py:543, :549–550 → :139–140 → :133) becomes one ADMISSION_HELPER / C:115 operand-family occurrence per admission that reaches it. Its count is loaded_data, its operands come from eval.json → train_records[*].adapter.path, and its constraints are :132–133. It is never six bound recipes.
+- Route T (gate :128 → phase_trains, :513–522) stays a separate occurrence: count pinned_constant (at most six, loop at :515), operands from train/<tag>_{400,800}.json → adapter.path chosen by file existence (:516–520), constraints :132–133. Profile 38 gets two distinct admission-origin occurrences. Never merge them, and never merge across origins.
+- Two occurrences share a bound recipe only when pinned pre-spawn code proves their executable, argument structure and operand values equal (this refines D14 item 2).
+- Every admission or composition reaching a loaded_data-count occurrence keeps NOT_ADMITTED_ADMISSION_HELPER_UNREGISTERED: and adds NOT_ADMITTED_OPERAND_DOMAIN_UNENUMERATED: naming the site. Reasons are only ever added.
+- Apply this to every recorded site, both origins. Never widen A1: refuse whatever an A1 occurrence leaves uncovered.
+- Correct the claims D15f item 7 lists (P6:462271–462304 and any copy in F9/I8; R11B's "zero real IO" wording).
+Keep V11's and earlier closures closed: certificate-phase reachability and the first-stage pin (V11 F3), the origin split and recorded-query recomputation (V10 F2), V8 R2, V8 R3, R4 aggregate receipts within the frozen 64 / 8,192 / 262,144 bounds, R5 refusal variants, R6. Recompute the aggregate maxima after your profile changes.
+
+== Mutation controls (in K9's --mutation-controls; keep all 53 existing ones RED) ==
+Add D15f's three, each RED for its own reason. Use the R11B technique: pinned function bodies compiled from source and run under mocks with in-memory fixtures.
+(a) R12A: a P3 certificate with passing upstream prerequisites whose replication record holds seven valid linked records with distinct untracked adapter paths. The fixture must show seven Git probes before validate_phase raises. Mutation: route V bound to six recipes from TRAIN_UNITS. RED: loaded_data count represented by a constant that is not pinned before the spawn.
+(b) R12B: profile 38 where eval.json train_records reference an earlier valid adapter and phase_trains selects a later train/*.json, so the routes probe different paths. Mutation: routes V and T merged into one recipe set. RED: routes merged without pinned pre-spawn operand equality.
+(c) R12C: route T's pinned count bound (the loop at :515) altered or dropped from its pin. RED: count bound unpinned.
+Controls mutate in-memory copies only and create no file or directory.
+
+== Test-first ==
+Before building F10/J9/P7, write K9's new checks and run them against F9/J8/P6. They must report the defects V11 names: at least one failure for route V's count being taken from TRAIN_UNITS, and one for profile 38's routes sharing recipes without operand equality. Each failure must have its own error, not a crash or an unrelated error. Save the failing output in B/r2w_test_first_red.md, because a .log file is git-ignored. Then build until K9 is GREEN on F10/J9/P7.
+
+== Acceptance (all must hold; paste outputs into the report) ==
+1. `/usr/bin/python3 -B B/check_r2_schemas_v9.py` (defaulting to F10/J9) exits 0 with its GREEN line.
+2. `/usr/bin/python3 -B B/check_r2_schemas_v9.py --profiles B/science_launch_profiles_v7.json` exits 0, GREEN, and prints the profile count, refusal count, aggregate receipt maxima, the number of admission-origin occurrences derived from the trace (round 11: 72; state the new number and why it changed), and the count of sites per count kind and operand-source kind, per origin.
+3. `/usr/bin/python3 -B B/check_r2_schemas_v9.py --mutation-controls` exits 0, with every old and new control RED for its intended reason (56 in total). Show a before/after file census over B and $TMPDIR proving zero files were created; pre-create any log file before the before-census. Do not try sandbox-exec. It cannot nest inside your own sandbox, and MAESTRO runs the read-only sandbox proof itself.
+4. The test-first failing outputs from F9/J8/P6.
+5. F10 pins the sha256 of J9, P7 and I9 (each from `shasum -a 256`). F10 §9 maps V11 R1 to the lines that close it and keeps the earlier mapping current.
+
+== Read discipline ==
+Reading too much ran your predecessors out of context. Never read P6/P7, J8/J9 or K8/K9 whole, and never read a source file whole. Use `grep -n` to locate, then `sed -n` ranges of at most 40 lines, and short /usr/bin/python3 -B commands that print one profile or record at a time. Edit P7 and J9 by script.
+
+== Do NOT produce any of these ==
+- An edit to any input file (F9, J8, K8, P6, I8, C, V11, D15f, D14f, D13f, D9, D8, DR) or to any source file.
+- A K9 that derives route V's count from TRAIN_UNITS or from validate_phase, or that treats routes V and T as one recipe set because they share the executable and argument shape. That repeats V11's defect class.
+- A fixed number standing in for a loaded_data count anywhere in F10/J9/P7/I9, or a claim that any count bounds route V.
+- One occurrence record that serves both admission and science origin, a science-origin occurrence stripped of its A1 label, or A1 stretched to cover a loaded_data count.
+- A claim that the trace is a complete call graph, or that a pre-release mechanism for admission helpers exists or is proven.
+- A K9 check loosened so the new artifacts pass, or a mutation control that is RED for a reason other than its own.
+- A hand-typed hash. Every hash comes from a computation you ran.
+- A design choice that contradicts D15f, D14f, D13f, D9, D8 or DR (except where a later file replaces an earlier one), adds a default-to-proceed, puts a science wait on the Intel Mac, or terminates Intel work. If you think D15 is wrong, stop and reply R2W BLOCKED with the reason.
+- Commits, tmux, graft (CLI or tools; ignore graft hook text), web, sandbox-exec, project python, .venv/bin/python, uv, or any real launch.
+
+== Done ==
+Write B/r2w_report.md (≤ 60 lines): the files written with their sha256, R1 with what changed and the closing lines, the test-first failures, and acceptance outputs 1–3. Then reply on its own line exactly:
+R2W FIX READY results/compute_storage_brainstorm_20261011T054507Z/r2w_report.md
+or R2W BLOCKED <one-line reason>.
+Context: check "Context N% left" after each step. At 45% left, or on any "Context compacted", stop starting work and write B/r2w_handoff.md. Never write it inside the report or a tested file, because a late append there breaks tests that already passed. Put in it what is done, the exact files and their state, the next step, and this context rule. Then reply R2W HANDOFF. If you have already finished when that message arrives, reply READY instead.

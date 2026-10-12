@@ -1,0 +1,118 @@
+backup_gdrive_status: recovery barrier generation 12; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb21_20261010T191747Z/fixtures/gdrive_addendum_eh2ybagb/home/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T192416.901556Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb21_20261010T191747Z/fixtures/gdrive_addendum_1ftx13mt/home/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T192416.997498Z; requires a subsequent completed generation above the barrier
+test_1_torn_journal_preserves_generation_and_entire_ambiguous_file (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_1_torn_journal_preserves_generation_and_entire_ambiguous_file) ... ok
+test_1_valid_generation_after_torn_line_still_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_1_valid_generation_after_torn_line_still_counts) ... ok
+test_2_floor_below_torn_journal_is_read_only (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_2_floor_below_torn_journal_is_read_only) ... ok
+test_2_floor_below_valid_journal_is_read_only (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_2_floor_below_valid_journal_is_read_only) ... ok
+test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) ... 
+  test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) (source='counter', generation=100) ... FAIL
+  test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) (source='last_run.json', generation=110) ... FAIL
+  test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) (source='launch_receipt.json', generation=120) ... FAIL
+  test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) (source='failures.jsonl', generation=130) ... FAIL
+  test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) (source='failures.jsonl', generation=140) ... FAIL
+test_r6_1_mb14_archive_requires_floor_100_and_completion_102 (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_mb14_archive_requires_floor_100_and_completion_102) ... FAIL
+test_r6_1_under_lock_rechecks_archived_journal (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_under_lock_rechecks_archived_journal) ... FAIL
+test_r6_2_refusal_heartbeat_raises_floor_without_a_failure (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_2_refusal_heartbeat_raises_floor_without_a_failure) ... FAIL
+test_r6_2_under_lock_rechecks_refusal_heartbeat (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_2_under_lock_rechecks_refusal_heartbeat) ... FAIL
+
+======================================================================
+FAIL: test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) (source='counter', generation=100)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1497, in test_r6_1_every_archived_source_in_older_directories_counts
+    self.assert_low_floor_refused_unchanged(generation-1)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1402, in assert_low_floor_refused_unchanged
+    self.assertEqual(self.snapshot(), before, "low floor must not write or move any recovery evidence")
+AssertionError: {'mem[808 chars]ackup-launch-state': None, 'memit-gdrive-backu[1976 chars]}\n'} != {'mem[808 chars]ackup/launch_receipt.json': b'{"schema": 1, "u[874 chars]10}'}
+Diff is 26451 characters long. Set self.maxDiff to None to see it. : low floor must not write or move any recovery evidence
+
+======================================================================
+FAIL: test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) (source='last_run.json', generation=110)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1497, in test_r6_1_every_archived_source_in_older_directories_counts
+    self.assert_low_floor_refused_unchanged(generation-1)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1402, in assert_low_floor_refused_unchanged
+    self.assertEqual(self.snapshot(), before, "low floor must not write or move any recovery evidence")
+AssertionError: {'mem[877 chars]: b'110\n', 'memit-gdrive-backup-launch-state/[2617 chars]}\n'} != {'mem[877 chars]: b'100\n', 'memit-gdrive-backup-launch-state/[2017 chars]}\n'}
+Diff is 34872 characters long. Set self.maxDiff to None to see it. : low floor must not write or move any recovery evidence
+
+======================================================================
+FAIL: test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) (source='launch_receipt.json', generation=120)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1497, in test_r6_1_every_archived_source_in_older_directories_counts
+    self.assert_low_floor_refused_unchanged(generation-1)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1402, in assert_low_floor_refused_unchanged
+    self.assertEqual(self.snapshot(), before, "low floor must not write or move any recovery evidence")
+AssertionError: {'mem[877 chars]: b'120\n', 'memit-gdrive-backup-launch-state/[3333 chars]}\n'} != {'mem[877 chars]: b'110\n', 'memit-gdrive-backup-launch-state/[2733 chars]}\n'}
+Diff is 43966 characters long. Set self.maxDiff to None to see it. : low floor must not write or move any recovery evidence
+
+======================================================================
+FAIL: test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) (source='failures.jsonl', generation=130)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1497, in test_r6_1_every_archived_source_in_older_directories_counts
+    self.assert_low_floor_refused_unchanged(generation-1)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1402, in assert_low_floor_refused_unchanged
+    self.assertEqual(self.snapshot(), before, "low floor must not write or move any recovery evidence")
+AssertionError: {'mem[877 chars]: b'130\n', 'memit-gdrive-backup-launch-state/[4051 chars]}\n'} != {'mem[877 chars]: b'120\n', 'memit-gdrive-backup-launch-state/[3451 chars]}\n'}
+Diff is 53118 characters long. Set self.maxDiff to None to see it. : low floor must not write or move any recovery evidence
+
+======================================================================
+FAIL: test_r6_1_every_archived_source_in_older_directories_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_every_archived_source_in_older_directories_counts) (source='failures.jsonl', generation=140)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1497, in test_r6_1_every_archived_source_in_older_directories_counts
+    self.assert_low_floor_refused_unchanged(generation-1)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1402, in assert_low_floor_refused_unchanged
+    self.assertEqual(self.snapshot(), before, "low floor must not write or move any recovery evidence")
+AssertionError: {'mem[877 chars]: b'140\n', 'memit-gdrive-backup-launch-state/[4678 chars]}\n'} != {'mem[877 chars]: b'130\n', 'memit-gdrive-backup-launch-state/[4078 chars]}\n'}
+Diff is 62176 characters long. Set self.maxDiff to None to see it. : low floor must not write or move any recovery evidence
+
+======================================================================
+FAIL: test_r6_1_mb14_archive_requires_floor_100_and_completion_102 (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_mb14_archive_requires_floor_100_and_completion_102)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1464, in test_r6_1_mb14_archive_requires_floor_100_and_completion_102
+    self.assert_low_floor_refused_unchanged(11)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1402, in assert_low_floor_refused_unchanged
+    self.assertEqual(self.snapshot(), before, "low floor must not write or move any recovery evidence")
+AssertionError: {'mem[877 chars]: b'12\n', 'memit-gdrive-backup-launch-state/c[2430 chars]}\n'} != {'mem[877 chars]: b'11\n', 'memit-gdrive-backup-launch-state/c[1816 chars]}\n'}
+Diff is 40102 characters long. Set self.maxDiff to None to see it. : low floor must not write or move any recovery evidence
+
+======================================================================
+FAIL: test_r6_1_under_lock_rechecks_archived_journal (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_1_under_lock_rechecks_archived_journal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1526, in test_r6_1_under_lock_rechecks_archived_journal
+    self.assert_under_lock_rechecked(archive/"failures.jsonl", 11)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1516, in assert_under_lock_rechecked
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r6_2_refusal_heartbeat_raises_floor_without_a_failure (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_2_refusal_heartbeat_raises_floor_without_a_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1536, in test_r6_2_refusal_heartbeat_raises_floor_without_a_failure
+    self.assert_low_floor_refused_unchanged(10)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1402, in assert_low_floor_refused_unchanged
+    self.assertEqual(self.snapshot(), before, "low floor must not write or move any recovery evidence")
+AssertionError: {'mem[809 chars]ckup/refusals': None, 'memit-gdrive-backup/ref[1666 chars]}\n'} != {'mem[809 chars]ckup/launch_receipt.json': b'{"schema": 1, "ut[515 chars]t\n'}
+Diff is 24362 characters long. Set self.maxDiff to None to see it. : low floor must not write or move any recovery evidence
+
+======================================================================
+FAIL: test_r6_2_under_lock_rechecks_refusal_heartbeat (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_r6_2_under_lock_rechecks_refusal_heartbeat)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1553, in test_r6_2_under_lock_rechecks_refusal_heartbeat
+    self.assert_under_lock_rechecked(self.heartbeat.parent/"refusals/latest-refusal.json", 10)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1516, in assert_under_lock_rechecked
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.891s
+
+FAILED (failures=9)

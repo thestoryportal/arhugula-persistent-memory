@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "/bin/ps",
+    "-axo",
+    "pid,ppid,pgid,stat,etime,command"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z"
+}

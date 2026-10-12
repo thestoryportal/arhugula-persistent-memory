@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "-m",
+    "unittest",
+    "tests.test_new1_supervisor.SupervisorTests.test_blocking_admission_is_interrupted_by_whole_run_deadline",
+    "-v"
+  ],
+  "exit": 0,
+  "protected_drift": {}
+}

@@ -1,0 +1,29 @@
+[1m[38;5;231m[48;5;240m○ GPU IDLE · last: ASTRA · every word at once · results                                                      [0m
+ [1mGPU[0m [38;5;39m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[0m [1m9%[0m  [2m·[0m GPU mem [1m1.3 GB[0m  [2m·[0m job CPU [1m0%[0m  [2m·[0m job RAM [1m0.0 GB[0m  [2m·[0m free RAM [1m27 GB[0m
+[1m[38;5;231m[48;5;24m PROGRESS [0m[38;5;24m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+ [1m24 stage(s) finished[0m  [2m·[0m goal 61/72 reworded (red ┃ on the bars)
+[1m[38;5;231m[48;5;25m FINISHED RUNS [0m[38;5;25m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+ [38;5;40m✔[0m autoresearch_c10_setup_check                                          [38;5;245msetup stage (no score)[0m  [38;5;245m  9m21s[0m
+ [38;5;40m✔[0m autoresearch_c10_equivalence                                          [38;5;39m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[0m [1m 7[0m/72  [38;5;245m  2h33m[0m
+ [38;5;40m✔[0m autoresearch_c10_equivalence_rerun                                    [38;5;39m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[0m [1m 7[0m/72  [38;5;245m  1h13m[0m
+ [38;5;40m✔[0m c10z_astra_benchmark_20261008T104535Z                                 [38;5;245msetup stage (no score)[0m  [38;5;245m  1m48s[0m
+ [38;5;40m✔[0m c10z_astra_chain.launchfail126                                        [38;5;245msetup stage (no score)[0m  [38;5;245m  0m00s[0m
+ [38;5;40m✔[0m c10z_astra_chain                                                      [38;5;245msetup stage (no score)[0m  [38;5;245m 19m38s[0m
+ [38;5;40m✔[0m c10z_astra_benchmark_20261008T121345Z                                 [38;5;245msetup stage (no score)[0m  [38;5;245m  1m53s[0m
+ [38;5;40m✔[0m c10z_astra_attempt2_chain                                             [38;5;245msetup stage (no score)[0m  [38;5;245m 29m26s[0m
+ [38;5;40m✔[0m c10z_astra_z0_probe_run                                               [38;5;245msetup stage (no score)[0m  [38;5;245m  0m45s[0m
+ [38;5;40m✔[0m c10z_astra_z0_probe_run_mask                                          [38;5;245msetup stage (no score)[0m  [38;5;245m  0m43s[0m
+ [38;5;40m✔[0m c10x_enginepath_p1_launch                                             [38;5;245msetup stage (no score)[0m  [38;5;245m  0m00s[0m
+ [38;5;40m✔[0m c10y_directdw_calib1_launch                                           [38;5;245msetup stage (no score)[0m  [38;5;245m  0m00s[0m
+ [38;5;40m✔[0m c10x_x2_probe_run                                                     [38;5;245msetup stage (no score)[0m  [38;5;245m  0m00s[0m
+ [38;5;40m✔[0m c10y_directdw_calib2_launch                                           [38;5;245msetup stage (no score)[0m  [38;5;245m  0m00s[0m
+ [38;5;40m✔[0m c10y_directdw_calib3_launch                                           [38;5;245msetup stage (no score)[0m  [38;5;245m  0m00s[0m
+ [38;5;40m✔[0m c10x_x2_probe_run2                                                    [38;5;245msetup stage (no score)[0m  [38;5;245m  7m58s[0m
+ [38;5;40m✔[0m c10x_enginepath_rerun1_launch                                         [38;5;245msetup stage (no score)[0m  [38;5;245m  0m00s[0m
+ [38;5;40m✔[0m c10x_enginepath_rerun2_launch                                         [38;5;245msetup stage (no score)[0m  [38;5;245m  0m00s[0m
+ [38;5;40m✔[0m c10x_enginepath_rerun3_launch                                         [38;5;245msetup stage (no score)[0m  [38;5;245m  0m00s[0m
+ [38;5;40m✔[0m c10z_astra_benchmark_20261009T012936Z                                 [38;5;245msetup stage (no score)[0m  [38;5;245m  1m43s[0m
+ [38;5;40m✔[0m c10z_astra_attempt3_chain                                             [38;5;245msetup stage (no score)[0m  [38;5;245m 55m13s[0m
+ [38;5;40m✔[0m c10y_directdw_calib4_launch                                           [38;5;245msetup stage (no score)[0m  [38;5;245m  0m00s[0m
+ [38;5;40m✔[0m c10z_astra_attempt4_infrafail_20261009T234321Z_chain                  [38;5;245msetup stage (no score)[0m  [38;5;245m  0m00s[0m
+ [38;5;40m✔[0m c10z_astra_attempt4_chain                                             [38;5;245msetup stage (no score)[0m  [38;5;245m  1h45m[0m

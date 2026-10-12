@@ -1,0 +1,39 @@
+{
+  "original_program": 292,
+  "reviewed_with_referrals": 298,
+  "final_classes": {
+    "program": 294,
+    "adjacent": 10027,
+    "unrelated": 509275
+  },
+  "final_program_matches": {
+    "CONTENT": 36,
+    "EXACT": 100,
+    "SAME-NAME": 56,
+    "UNIQUE": 102
+  },
+  "original_cohort_matches": {
+    "SAME-NAME": 56,
+    "EXACT": 94,
+    "CONTENT": 36,
+    "UNIQUE": 106
+  },
+  "original_content_pending_matches": {
+    "CONTENT": 35,
+    "UNIQUE": 105
+  },
+  "gap_rows": 148,
+  "gap_distinct_sha256": 146,
+  "new_latest_versions": 0,
+  "content_newer_than_full_v1_5_but_superseded_rows": [
+    "272",
+    "273"
+  ],
+  "loss_restoration_identified": 0,
+  "relevance_overrides": {
+    "89": "Separate E11 agent-harness council; backup :108 and :137 explicitly exclude wholesale LLM-as-DB council carryover. Reference only.",
+    "17851": "ADF augmentation-seat activation page; backup :186-190 uses this program as an example. Reference only.",
+    "17852": "ADF approach comparison; backup :234-254 offers graph-state integration as one alternative. Reference only.",
+    "17856": "ADF context/session-memory infographic; backup :577-593 explicitly says it is not an LLM-as-database design. Reference only."
+  }
+}

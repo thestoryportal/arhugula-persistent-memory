@@ -1,0 +1,17 @@
+test_a_records_roundtrip_exclusive_and_fsync (test_instruments.InstrumentTests.test_a_records_roundtrip_exclusive_and_fsync) ... ok
+test_b_scratch_retains_bytes_and_import_guard_rejects_escape (test_instruments.InstrumentTests.test_b_scratch_retains_bytes_and_import_guard_rejects_escape) ... ok
+test_c_observer_preserves_alarm_handler_timer_and_native_exits (test_instruments.InstrumentTests.test_c_observer_preserves_alarm_handler_timer_and_native_exits) ... FAIL
+test_d_native_snapshot_is_readonly_and_records_real_threads (test_instruments.InstrumentTests.test_d_native_snapshot_is_readonly_and_records_real_threads) ... ok
+
+======================================================================
+FAIL: test_c_observer_preserves_alarm_handler_timer_and_native_exits (test_instruments.InstrumentTests.test_c_observer_preserves_alarm_handler_timer_and_native_exits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/test_instruments.py", line 67, in test_c_observer_preserves_alarm_handler_timer_and_native_exits
+    self.assertTrue(any(e['event']=='alarm-armed' for e in events))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.173s
+
+FAILED (failures=1)

@@ -1,0 +1,8 @@
+FIX5 {"after": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [14], "pending": [14], "timer": [0.0, 0.0]}, "before": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [14], "pending": [14], "timer": [0.0, 0.0]}, "calls": [], "directory_exists": false, "elapsed_s": 0.0005415419582277536, "exception": null, "kind": "before_cleanup", "output": [], "python_return": 2, "stderr": "INVALID-ENFORCEMENT: caller blocks SIGALRM or SIGINT\n", "stdout": "", "test": "tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_sigalrm_refuses_before_file_work"}
+FIX5 {"command": ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "-W", "error::ResourceWarning", "-m", "unittest", "tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_sigalrm_refuses_before_file_work", "-v"], "kind": "interpreter_exit", "native_exit": 0, "python_return_marker": true, "test": "tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_sigalrm_refuses_before_file_work"}
+test_fix5_c2_construction_main_sigalrm_refuses_before_file_work (tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_sigalrm_refuses_before_file_work) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.080s
+
+OK

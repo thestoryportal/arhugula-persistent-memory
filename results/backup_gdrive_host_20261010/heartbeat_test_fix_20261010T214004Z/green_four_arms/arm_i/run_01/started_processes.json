@@ -1,0 +1,40 @@
+[
+  {
+    "alive": false,
+    "argv": [
+      "/bin/bash",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive.sh"
+    ],
+    "pid": 28144,
+    "returncode": 0,
+    "started_monotonic": 1479374.306899333
+  },
+  {
+    "alive": false,
+    "argv": [
+      "/bin/bash",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive.sh"
+    ],
+    "pid": 28168,
+    "returncode": 75,
+    "started_monotonic": 1479374.68298375
+  },
+  {
+    "alive": false,
+    "argv": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/green_four_arms/arm_i/run_01/fixtures/gdrive_addendum__y6v8vku/heartbeat/last_run.json"
+    ],
+    "pid": 28185,
+    "returncode": 1,
+    "started_monotonic": 1479374.73237275
+  },
+  {
+    "alive": false,
+    "pid": 28163,
+    "role": "fixture sync shell, observed from owned lock/rclone.pid"
+  }
+]

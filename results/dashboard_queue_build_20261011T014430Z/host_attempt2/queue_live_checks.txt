@@ -1,0 +1,22 @@
+{
+  "default_sessions": [
+    "codexmb39",
+    "codexmb40",
+    "codexmb41",
+    "codexmb42",
+    "codexmb43",
+    "codexq1",
+    "codexq2",
+    "dashboard",
+    "helpers",
+    "maestro2",
+    "rclone",
+    "view-30371",
+    "view-31589"
+  ],
+  "live_runs": {},
+  "reported_runs": [],
+  "failed_sessions": [],
+  "false_runs": []
+}
+PASS: existing sessions have no unavailable diagnostic; every reported run is live.

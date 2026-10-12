@@ -1,0 +1,24 @@
+Sat Oct 10 17:20:59 UTC 2026
+## after operator clicked Allow on the Native_2 removable-volume prompt (MAESTRO13)
+  PID  PPID  PGID  ELAPSED STAT WCHAN  COMMAND
+15154     1 15154 06:29:23 R    -      /private/tmp/memit_gdrive_native_lknn5vcq/fixture/Native_2.app/Contents/MacOS/applet
+15183 15154 15154 06:29:23 S    -      /bin/sh -c export BACKUP_TEST_NO_RCLONE=1\012export BACKUP_PYTHON=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python\012export BACKUP_SRC=/private/t
+15184 15183 15154 06:29:23 S    -      /bin/bash /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive.sh
+15554 15184 15154    00:33 S    -      /bin/bash /private/tmp/memit_gdrive_native_lknn5vcq/fixture/held-rclone sync /private/tmp/memit_gdrive_native_lknn5vcq/fixture/held-source/ fixture:/private/tmp/memit_gdrive_native_lknn5vcq/fixture/held-mirror/ 
+
+15554 bash
+
+COMMAND   PID      USER   FD   TYPE             DEVICE SIZE/OFF                NODE NAME
+bash    15184 robertrhu  cwd    DIR               1,18      704                   2 /
+bash    15184 robertrhu  txt    REG               1,18  1290128 1152921500312571355 /bin/bash
+bash    15184 robertrhu  txt    REG               1,18    81288 1152921500312585059 /usr/share/locale/en_US.UTF-8/LC_COLLATE
+bash    15184 robertrhu  txt    REG               1,18  2562000 1152921500312573255 /usr/lib/dyld
+bash    15184 robertrhu    0r   CHR                3,2      0t0                 336 /dev/null
+bash    15184 robertrhu    1   PIPE 0x345f7fe648d89eeb    16384                     ->0xae06fe2aaa25d06d
+bash    15184 robertrhu    2   PIPE 0xc6ed4ffa2b2a4e70    16384                     ->0x646ce40ca34c3daf
+bash    15184 robertrhu    3r   REG               1,18      362            41193943 /private/tmp/memit_gdrive_native_lknn5vcq/fixture/Native_2.app/Contents/Resources/applet.rsrc
+bash    15184 robertrhu    4r   REG               1,18   142209 1152921500312149130 /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/Resources/HIToolbox
+bash    15184 robertrhu    5r   REG               1,18   490410 1152921500312149081 /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/Resources/English.l
+bash    15184 robertrhu    6   PIPE 0xae06fe2aaa25d06d    16384                     ->0x345f7fe648d89eeb
+bash    15184 robertrhu    8   PIPE 0x646ce40ca34c3daf    16384                     ->0xc6ed4ffa2b2a4e70
+bash    15184 robertrhu  255r   REG               1,28     6877              343878 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive

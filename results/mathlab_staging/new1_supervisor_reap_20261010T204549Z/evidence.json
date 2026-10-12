@@ -1,0 +1,85 @@
+{
+  "command": "LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest -v tests.test_new1_supervisor",
+  "initial_sha256": {
+    "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+    "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec"
+  },
+  "final_sha256": {
+    "tools/new1_supervisor.py": "da9f250e244b8e29392e13dbba83ceb90e6980fdfee2b43fa66a3feed3c86a9c",
+    "tests/test_new1_supervisor.py": "c3440f6bc8afc5c476257865121249d0f98299a05a4b52a3835d7637074eccd5"
+  },
+  "baseline_tests": 61,
+  "final_tests": 76,
+  "added_tests": [
+    "test_reap_after_deadline_exhaustion",
+    "test_reap_after_cell_deadline_exhaustion",
+    "test_reap_after_heartbeat_kill_at_exhausted_deadline",
+    "test_reap_when_heartbeat_group_signal_is_denied",
+    "test_reap_when_exception_group_signal_is_denied",
+    "test_reap_before_reporting_group_and_pid_signal_failures",
+    "test_reap_when_loop_termination_group_signal_is_denied",
+    "test_reap_when_termination_wait_timeout_exhausts_budget",
+    "test_reap_when_closeout_deadline_setup_raises",
+    "test_reap_when_halt_receipt_raises",
+    "test_reap_when_halt_emit_raises",
+    "test_reap_timeout_reports_unreaped_pid_in_halt_and_stderr",
+    "test_reap_timeout_after_exhaustion_names_pid_without_extra_halt_budget",
+    "test_reap_before_keyboard_interrupt_is_reraised",
+    "test_reap_before_system_exit_is_reraised"
+  ],
+  "red_failure_names": [
+    "test_reap_after_cell_deadline_exhaustion",
+    "test_reap_after_deadline_exhaustion",
+    "test_reap_after_heartbeat_kill_at_exhausted_deadline",
+    "test_reap_before_keyboard_interrupt_is_reraised",
+    "test_reap_before_reporting_group_and_pid_signal_failures",
+    "test_reap_before_system_exit_is_reraised",
+    "test_reap_timeout_after_exhaustion_names_pid_without_extra_halt_budget",
+    "test_reap_timeout_reports_unreaped_pid_in_halt_and_stderr",
+    "test_reap_when_closeout_deadline_setup_raises",
+    "test_reap_when_exception_group_signal_is_denied",
+    "test_reap_when_halt_emit_raises",
+    "test_reap_when_halt_receipt_raises",
+    "test_reap_when_heartbeat_group_signal_is_denied",
+    "test_reap_when_loop_termination_group_signal_is_denied",
+    "test_reap_when_termination_wait_timeout_exhausts_budget"
+  ],
+  "logs": [
+    {
+      "path": "results/mathlab_staging/new1_supervisor_reap_20261010T204549Z/RED.log",
+      "exit_code": 1,
+      "tests": 75,
+      "result": "61 pass; 14 new failures; 0 errors",
+      "supervisor_sha256": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests_sha256": "eb60770e09feba018d45b29c8196ab0078a0450779724f6a283485185dff86a0",
+      "log_sha256": "3abf9dd775adf1187614a44b049b691de8c1db0995b035d4da28958d53fe8769"
+    },
+    {
+      "path": "results/mathlab_staging/new1_supervisor_reap_20261010T204549Z/GREEN.log",
+      "exit_code": 0,
+      "tests": 75,
+      "result": "75 pass; 0 failures; 0 errors",
+      "supervisor_sha256": "de358921c20b6aefa6e7435c70f01f9996b76dec221890b01f86ff4385aa74e5",
+      "tests_sha256": "eb60770e09feba018d45b29c8196ab0078a0450779724f6a283485185dff86a0",
+      "log_sha256": "2fec83e89b6f5e8d1c3b5703a670968fa264ce17472f3464488ba7c55e6ec55b"
+    },
+    {
+      "path": "results/mathlab_staging/new1_supervisor_reap_20261010T204549Z/RED_final.log",
+      "exit_code": 1,
+      "tests": 76,
+      "result": "61 pass; all 15 new failures; 0 errors",
+      "supervisor_sha256": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests_sha256": "c3440f6bc8afc5c476257865121249d0f98299a05a4b52a3835d7637074eccd5",
+      "log_sha256": "9751a7a84182293fdd0df5c43d01ce075a488a9cbe0deed31fe55b5b90d6c641"
+    },
+    {
+      "path": "results/mathlab_staging/new1_supervisor_reap_20261010T204549Z/GREEN_final.log",
+      "exit_code": 0,
+      "tests": 76,
+      "result": "76 pass; 0 failures; 0 errors",
+      "supervisor_sha256": "da9f250e244b8e29392e13dbba83ceb90e6980fdfee2b43fa66a3feed3c86a9c",
+      "tests_sha256": "c3440f6bc8afc5c476257865121249d0f98299a05a4b52a3835d7637074eccd5",
+      "log_sha256": "dc638d95b88e430c384f04bf775da78a2d96e98c437f27b886d4d20416defec0"
+    }
+  ]
+}

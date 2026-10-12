@@ -82,17 +82,21 @@ def fit(text, width):
     return text if len(text) <= width else text[: max(width - 1, 0)] + "…"
 
 
-def render(session, label, color, cols, rows, state):
-    screen = sh("tmux", "capture-pane", "-p", "-t", session)
-    if screen is None:
-        screen = f"• session {session} is not running"
-    task = (sh("tmux", "display", "-p", "-t", session, "#{pane_title}") or "").strip()
-    now = time.time()
+def observe(screen, state, now):
     if screen != state.get("last"):
         if "last" in state:
             state["changed"] = now
         state["last"] = screen
-    st, stbg = status(screen, state.get("changed"), now)
+    return status(screen, state.get("changed"), now)
+
+
+def render(session, label, color, cols, rows, state, screen=None, task=None, now=None):
+    screen = sh("tmux", "capture-pane", "-p", "-t", session) if screen is None else screen
+    if screen is None:
+        screen = f"• session {session} is not running"
+    task = (sh("tmux", "display", "-p", "-t", session, "#{pane_title}") or "").strip() if task is None else task
+    now = time.time() if now is None else now
+    st, stbg = observe(screen, state, now)
     info, steps = parse(screen)
     left, right = f" ■ {label} ", f" {st} · last change {ago(state.get('changed'), now)} "
     out = [f"{BOLD}{FG(231)}{BG(color)}{fit(left, cols - len(right)).ljust(cols - len(right))}{BG(stbg)}{right}{RESET}"]

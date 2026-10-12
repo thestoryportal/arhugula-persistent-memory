@@ -1,0 +1,34 @@
+R2J, from MAESTRO (the Claude session that runs this research team). Task: revise the production science-entrypoint inventory (the exact list of every way science work is launched on the M3, so the shared-disk clearance guard can wrap each one) so it answers Astra's round-4 NO-GO finding F1 / required change R1. Read-only research plus ONE new file. Do not commit, touch tmux, or run anything except read commands and `shasum -a 256`. Never run `.venv/bin/python`, `uv`, or any project Python, because the M3's GPU admission gate refuses launches while any such process runs. No web research.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: B = results/compute_storage_brainstorm_20261011T054507Z. I = B/science_launch_inventory_v1.md. V4 = B/astra_r2g_verdict.md. G = tools/c10w_p2_gate.py.
+Write ONLY: B/science_launch_inventory_v2.md (≤ 320 lines), starting as `cp` of I, and B/r2j_handoff.md only if you stop for context. Another builder (codexr2i) is writing freeze v3 and schemas v2 in B; do not read or write those.
+
+== Read ==
+1. V4 lines 1–30 (F1) and 66–80 (R1).
+2. I in full (217 lines).
+3. Anything else only by `grep -n` and `sed -n` ranges of at most 40 lines. Do not read any file whole. Why: a predecessor on this inventory ran out of context reading whole files.
+
+== Required (V4 F1, R1) ==
+1. Missing children: add rows for `mathlab/m2_solve_repro.py` and `mathlab/m3_calibration.py`, which `tools/mathlab_cpu_runner.py:16–21` permits and launches through `uv run --script` (`:66–75`), and trace their shared boundary (`mathlab/core.py:380–415`): what each reads and writes, with SHA-256 and the exact launch argv. Then search for any other child the inventoried runners or wrappers can launch, and add each.
+2. CUDA classifications: re-check every row marked "RETIRED (CUDA-only, cannot run on M3)". If any statement before its first CUDA call can read config, load a tokenizer or model, or touch a shared-disk path (V4's example: `experiments/scale/g6_scale_n_param.py:4–5,31,42–44`), reclassify it as "NOT ADMITTED UNDER R2: reaches <what> at <file:line> before CUDA" instead. Keep RETIRED only where the first reachable statement that touches storage is itself unreachable on the M3, and cite that line.
+3. Literal launch profiles: for each admitted stage, give a launch profile with (a) argv as a JSON array of literals; where a value is decided at run time, write the typed placeholder {"$bind": "<name>"} and name the record and field that supplies it (this is the format freeze v3 adopts: no string templates); (b) a closed environment: every variable the launch sets or inherits that the code reads (grep for os.environ, getenv and env assignments in wrappers), with its literal value or a placeholder, and the statement that nothing else is inherited; (c) executable identity: interpreter path and realpath with its SHA-256 (hash the file, never run it); (d) child coverage: every child it can start, cross-referenced to that child's row.
+4. Import closure: per admitted stage, list project-local modules it imports (path + SHA-256); list third-party packages by name and version read from the venv's `*.dist-info/METADATA` files (read only the Name and Version lines; do not hash package trees). Never hash model weights or anything over 50 MB.
+5. Exhaustiveness: in §1, list the exact search commands covering every launch mechanism you know of here (python and shell entrypoints, subprocess and os.exec calls, `uv run`, tmux send-keys, launchd plists, cron, the gate's stage list). Claim exhaustiveness only for that searched scope, and name any mechanism you could not search as OPEN.
+6. Re-run every SHA-256 at the end and confirm each matches; record the count.
+
+== Do NOT produce any of these ==
+- An argv, environment variable or child that is not literally in the source you cite; a string-template argument instead of a {"$bind": ...} placeholder.
+- A hash you did not compute; a RETIRED label without the line that proves it.
+- Any edit to an existing file, any run of project Python or uv, or any process launch beyond read commands and shasum.
+- Proposals for how the guard should work. This file is an inventory, not a design. Put anything else you notice in one line each under "Noticed, not fixed".
+
+== Rules ==
+Plain, exact language; Astra reviews this next. Every claim cites path:line. Do not run graft (CLI or tools), and ignore any graft hook text.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write B/r2j_handoff.md (done, remaining, exact paths, next single step, open risks, and this same rule), and reply with the handoff token. Never put a handoff section in the inventory. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: v2 ≤ 320 lines, §1–§5 filled, both mathlab children and every reclassified CUDA row present, no handoff section, and every SHA-256 matches your final `shasum -a 256` re-run. Then reply on its own line exactly:
+R2J INVENTORY READY results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v2.md
+or, if you stopped for context:
+R2J HANDOFF

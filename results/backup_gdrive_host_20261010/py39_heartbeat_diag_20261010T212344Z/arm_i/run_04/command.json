@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/run_single.py",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/arm_i/run_04"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "env": {
+    "HOME": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/arm_i/run_04/home_vs8hq27q",
+    "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "BACKUP_TEST_NO_RCLONE": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "BACKUP_TEST_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/arm_i/run_04/fixtures"
+  }
+}

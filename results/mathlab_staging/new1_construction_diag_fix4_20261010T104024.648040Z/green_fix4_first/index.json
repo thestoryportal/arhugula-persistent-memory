@@ -1,0 +1,28 @@
+[
+  {
+    "index": 1,
+    "targets": [
+      "tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c1_already_exited_is_reaped_without_a_signal_before_return"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c1_already_exited_is_reaped_without_a_signal_before_return -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/green_fix4_first"
+    },
+    "exit": 1,
+    "wall_s": 0.9127689590677619,
+    "tests": 1,
+    "warnings": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/green_fix4_first/001.log",
+    "log_sha256": "01de416f78f27d460469927ab121f59b9de875aa7276ca1b6a4f8a0cfdfb69f9",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "5a2431916d0d29025a7545ad1bbea7c1f724a50c92e7b13d10e70f76261b0e31",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "4a9b94cafd907bf1a2f39e8668b119ea2ff4da6a9121ab94471d5f864869bdf9"
+    }
+  }
+]

@@ -1,0 +1,119 @@
+{
+  "all_owned_groups_exited": true,
+  "observed_children": [],
+  "operator_pids_not_touched": [
+    32906,
+    32913,
+    32914,
+    36233,
+    36258,
+    36259,
+    37109,
+    65807
+  ],
+  "records": [
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_37zfsh_q/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98110,
+      "pid": 98110,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:39.881544+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_37zfsh_q/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98111,
+      "pid": 98111,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:39.893276+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_37zfsh_q/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98116,
+      "pid": 98116,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:39.904990+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_37zfsh_q/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98122,
+      "pid": 98122,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:39.921485+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/bin/bash",
+        "/private/tmp/gdrive_addendum_37zfsh_q/checkout/tools/launchd/build_gdrive_applet.sh",
+        "463b44da68a34cc42d26f2710814bb1c03726166",
+        "fixture-r1",
+        "/private/tmp/gdrive_addendum_37zfsh_q/locked fixture.app"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98125,
+      "pid": 98125,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:39.931280+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/usr/bin/osascript",
+        "/private/tmp/gdrive_addendum_37zfsh_q/locked fixture.app/Contents/Resources/Scripts/main.scpt"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 98183,
+      "pid": 98183,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:38:40.348772+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    }
+  ],
+  "runner_expected_exit": 0,
+  "runner_pid": 98109,
+  "scope": "direct Popen processes and their complete session groups; no detached/native open launches"
+}

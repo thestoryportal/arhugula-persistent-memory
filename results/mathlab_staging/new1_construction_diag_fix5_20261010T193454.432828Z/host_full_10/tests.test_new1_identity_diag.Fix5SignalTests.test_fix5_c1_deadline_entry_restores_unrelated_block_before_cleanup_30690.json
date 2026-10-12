@@ -1,0 +1,48 @@
+{
+  "before": {
+    "mask": [
+      30
+    ],
+    "pending": [],
+    "handlers": {
+      "2": "<built-in function default_int_handler>",
+      "14": "<Handlers.SIG_DFL: 0>"
+    },
+    "timer": [
+      0.0,
+      0.0
+    ]
+  },
+  "after": {
+    "mask": [
+      30
+    ],
+    "pending": [],
+    "handlers": {
+      "2": "<built-in function default_int_handler>",
+      "14": "<Handlers.SIG_DFL: 0>"
+    },
+    "timer": [
+      0.0,
+      0.0
+    ]
+  },
+  "injections": [
+    {
+      "function": "__enter__",
+      "line": 508,
+      "prior": [
+        30
+      ],
+      "after_real_mutation": [
+        2,
+        14,
+        30
+      ]
+    }
+  ],
+  "python_return": 2,
+  "exception": null,
+  "elapsed_s": 0.00010791700333356857,
+  "ownership": []
+}

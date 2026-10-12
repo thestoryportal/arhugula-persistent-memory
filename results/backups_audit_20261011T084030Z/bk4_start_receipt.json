@@ -1,0 +1,14 @@
+{
+  "protected": {
+    "inventory.tsv": "5bf9ac37fe26bd62477f4ec7d32a0cf4cbbb2fd8427f039741b98b6762f4af4f",
+    "inventory.tsv.gz": "7e4ccb37a2b69193010d202a1d6b531948791a193db1e984e64c0a063105590f",
+    "adjacent_groups.tsv": "361b61d68b4cd22a9401ebed1a363deade63ed09fe08a7da411bfe597b2e092d",
+    "adjacent_dispositions.md": "b9e4ed43d576effda102d266b5973d5eb2592a705765b5b3b6af4adc06b1eff1",
+    "adjacent_progress.md": "6c82fc7c502039a173b8d7e878eaf405e760b9f6eb78b5009c2ad63baf586cf1",
+    "progress.md": "160fc7eabdcdbaabcc72bb3204f41aff3c2fc16a3d8311539c0a95685a1161bc"
+  },
+  "head": "0889b08178f0339c0605d3171de59486fe338541",
+  "branch": "worktree-c10k-route-a",
+  "projected_new_writes_bytes": 3000000,
+  "free_bytes": 79897853952
+}

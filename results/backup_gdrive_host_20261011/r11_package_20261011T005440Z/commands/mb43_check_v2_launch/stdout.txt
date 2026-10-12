@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "mode": "check-green",
+  "child_exit_code": 0,
+  "real_inventory_identical": true,
+  "all_owned_groups_exited": true,
+  "exit_code": 0
+}

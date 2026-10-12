@@ -1,0 +1,105 @@
+{
+  "all_owned_groups_exited": true,
+  "observed_children": [
+    {
+      "alive_after_test": true,
+      "owner_pid": 13193,
+      "pgid": 13193,
+      "pid": 13192,
+      "role": "owned fixture rclone child",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/clearance_fix_red/fixtures/gdrive_addendum_k6ckp_gp/heartbeat/last_run.json",
+      "test": "tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs"
+    }
+  ],
+  "operator_pids_not_touched": [
+    32906,
+    32913,
+    32914,
+    36233,
+    36258,
+    36259,
+    37109,
+    65807
+  ],
+  "records": [
+    {
+      "argv": [
+        "/usr/bin/true"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 13193,
+      "pid": 13193,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:57:26.419705+00:00",
+      "test": "tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs"
+    },
+    {
+      "argv": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "-B",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+        "--heartbeat",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/clearance_fix_red/fixtures/gdrive_addendum_k6ckp_gp/heartbeat/last_run.json"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 13194,
+      "pid": 13194,
+      "returncode": 1,
+      "started_utc": "2026-10-10T22:57:26.422971+00:00",
+      "test": "tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs"
+    },
+    {
+      "argv": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "-B",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+        "--heartbeat",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/clearance_fix_red/fixtures/gdrive_addendum_k6ckp_gp/heartbeat/last_run.json"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 13195,
+      "pid": 13195,
+      "returncode": 1,
+      "started_utc": "2026-10-10T22:57:26.533279+00:00",
+      "test": "tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs"
+    },
+    {
+      "argv": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "-B",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+        "--heartbeat",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/clearance_fix_red/fixtures/gdrive_addendum_k6ckp_gp/heartbeat/last_run.json"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 13196,
+      "pid": 13196,
+      "returncode": 1,
+      "started_utc": "2026-10-10T22:57:26.641032+00:00",
+      "test": "tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs"
+    },
+    {
+      "argv": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "-B",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+        "--heartbeat",
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/clearance_fix_red/fixtures/gdrive_addendum_k6ckp_gp/heartbeat/last_run.json"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 13197,
+      "pid": 13197,
+      "returncode": 1,
+      "started_utc": "2026-10-10T22:57:26.749985+00:00",
+      "test": "tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs"
+    }
+  ],
+  "runner_expected_exit": 1,
+  "runner_pid": 13192,
+  "scope": "direct Popen processes and their complete session groups; no detached/native open launches"
+}

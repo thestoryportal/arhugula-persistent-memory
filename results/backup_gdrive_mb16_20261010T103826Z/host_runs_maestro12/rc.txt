@@ -1,0 +1,3 @@
+manual-interleave rc=1
+crash-after-allocation rc=0
+recovery rc=0

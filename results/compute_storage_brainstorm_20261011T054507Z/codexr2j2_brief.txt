@@ -1,0 +1,34 @@
+R2J2, from MAESTRO (the Claude session that runs this research team). You succeed codexr2j, which stopped for context. Task: finish the production science-entrypoint inventory B/science_launch_inventory_v2.md (the exact list of every way science work is launched on the M3, so the shared-disk clearance guard can wrap each one) so it answers Astra's round-4 NO-GO finding F1 / required change R1. Resume the saved draft; do not restart it.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: B = results/compute_storage_brainstorm_20261011T054507Z. V2 = B/science_launch_inventory_v2.md (264 lines, committed at 30bed29d, SHA-256 7e61a473e99c2c49dbe528a9e464621c9d41acbe550eabefb0b222dc0cc91955). V4 = B/astra_r2g_verdict.md. G = tools/c10w_p2_gate.py.
+
+== Read (in order) ==
+1. B/codexr2j_brief.txt in full (34 lines): the original requirements, prohibitions and acceptance. They all still bind, with the changes listed under "Changes for you" below.
+2. B/r2j_handoff.md in full: what is done, the seven remaining items, and the next single step.
+3. V4 lines 1–30 and 66–80.
+4. Everything else, V2 included, only by `grep -n` and `sed -n` ranges of at most 40 lines. Do not read any file whole, and do not re-read v1. Why: your predecessor went from 100% to 43% context in about 12 minutes on this task.
+
+== Changes for you ==
+- Write ONLY V2 (edit in place, ≤ 320 lines) and, if you stop for context, B/r2j2_handoff.md. Do not edit B/r2j_handoff.md or any other existing file.
+- Another builder (codexr2i2) is writing B/shared_disk_clearance_freeze_v3.md and B/shared_disk_clearance_schemas_v2.json. Do not read or write them.
+- Decision (MAESTRO) on closed environments: G:69, tools/c10w_oracle_step0.py:299 and tools/mathlab_cpu_runner.py:68 copy os.environ, so for those launches source does not close the environment. In each affected profile, record exactly that, with the path:line, as "ENVIRONMENT NOT CLOSED IN SOURCE (OPEN)", and still list every variable the code reads with its literal value, default, or {"$bind": ...}. Do not write "nothing else is inherited" for any launch whose wrapper copies os.environ.
+- Decision (MAESTRO) on binding suppliers: where no existing record and field supply a {"$bind": ...} value, write the supplier as "OPEN: no record supplies this today" instead of naming a record that does not exist.
+- Final hash check without flooding your context: extract the "<sha256>  <path>" pairs from V2 and pipe them to `shasum -a 256 -c -`, then count lines that do not end in ": OK". Record the checked count and the match count in V2 §5.
+
+== Do NOT produce any of these ==
+- A string-template argument such as "--out {run_dir}/x.json"; use a literal or {"$bind": "<name>"}.
+- "Nothing else is inherited" next to a wrapper that copies os.environ.
+- A record or field named as a binding supplier that you did not find in source at a cited path:line.
+- A hash you did not compute in this session's final check, or a count copied from the handoff ("198") rather than taken from your own check.
+- Any edit to a file other than V2 and B/r2j2_handoff.md; any run of project Python, .venv/bin/python or uv; any process beyond read commands and shasum; graft (CLI or tools; ignore graft hook text); web research; guard design proposals.
+
+== Rules ==
+Plain, exact language; Astra reviews this next. Every claim cites path:line.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write B/r2j2_handoff.md (done, remaining, exact paths, next single step, open risks, and this same rule), and reply R2J2 HANDOFF. Never put a handoff section in V2. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: V2 ≤ 320 lines; §§1–5 filled; both mathlab children and every reclassified CUDA row present; no handoff section; no string-template argv; every handoff "Remaining" item 1–7 either done or written in V2 as OPEN with its reason; your final `shasum -a 256 -c -` reports every recorded hash OK. Then reply on its own line exactly:
+R2J2 INVENTORY READY results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v2.md
+or, if you stopped for context:
+R2J2 HANDOFF

@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "-c",
+    "from pathlib import Path\nimport hashlib,json\np=Path(\"results/backup_gdrive_host_20261011/r11_package_20261011T005440Z\")\ndef digest(path): return hashlib.sha256(path.read_bytes()).hexdigest()\nstate=json.loads((p/\"mb42_hostfix1_stop_state.json\").read_text())\nexpected=dict(state[\"protected_unchanged\"])\nexpected.update({x[\"path\"]:x[\"current_sha256\"] for x in state[\"changed\"]})\nexpected.update(json.loads((p/\"mb42_hostfix1_diskutil_inputs.json\").read_text()))\nfor path,value in expected.items(): assert digest(Path(path))==value,(path,\"STOP drift\")\npins=json.loads((p/\"pins_v2.json\").read_text())\nstale=[x[\"path\"] for x in pins[\"files\"] if digest(Path(x[\"path\"]))!=x[\"sha256\"]]\nassert set(stale)=={x[\"path\"] for x in state[\"changed\"] if not x[\"path\"].endswith(\"test_hostfix_mb42.py\")},stale\nsnapshot={str(x):digest(x) for x in sorted(p.rglob(\"*\")) if x.is_file()}\nwith (p/\"mb43_entry_snapshot.json\").open(\"x\") as f: json.dump(dict(hashes=snapshot,protected=state[\"protected_unchanged\"],diskutil_inputs=json.loads((p/\"mb42_hostfix1_diskutil_inputs.json\").read_text())),f,indent=2); f.write(\"\\n\")\nfor name in (\"README.md\",\"activation_plan_v2.md\",\"host_commands.sh\",\"host_commands.md\",\"pins_v2.sha256\",\"pins_v2.json\",\"bulk_not_in_git_sha256.json\"):\n    src=p/name\n    with (p/\"before\"/(\"mb43_\"+name)).open(\"xb\") as f: f.write(src.read_bytes())\nprint(json.dumps(dict(result=\"PASS\",protected_count=len(state[\"protected_unchanged\"]),corrected_sources=4,diskutil_inputs=5,receipt_snapshot_count=len(snapshot),expected_stale_pins=stale,before_copies=7)))"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "niceness": 10,
+  "env": {
+    "HOME": "/private/tmp/drive_r11_mb43_entry_gzlmwG",
+    "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "BACKUP_TEST_NO_RCLONE": "1",
+    "RCLONE_CONFIG": null,
+    "XDG_CONFIG_HOME": null
+  },
+  "source_sha256": {
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/capture.py": "3df18e3048e1d8451997acf0b9cd32ae502791544e8b679660baf93f863d2b3d"
+  }
+}

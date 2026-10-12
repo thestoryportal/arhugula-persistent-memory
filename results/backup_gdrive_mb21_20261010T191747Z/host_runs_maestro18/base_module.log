@@ -1,0 +1,15 @@
+test_changing_source_between_sync_attempts_cannot_overwrite_archived_history (tools.test_backup_gdrive.BackupTest.test_changing_source_between_sync_attempts_cannot_overwrite_archived_history) ... ok
+test_empty_source_cannot_erase_existing_backup (tools.test_backup_gdrive.BackupTest.test_empty_source_cannot_erase_existing_backup) ... ok
+test_held_lock_refuses_and_logs_without_changing_destination (tools.test_backup_gdrive.BackupTest.test_held_lock_refuses_and_logs_without_changing_destination) ... ok
+test_interruption_retains_lock_while_child_may_still_run (tools.test_backup_gdrive.BackupTest.test_interruption_retains_lock_while_child_may_still_run) ... ok
+test_missing_source_refuses (tools.test_backup_gdrive.BackupTest.test_missing_source_refuses) ... ok
+test_real_rclone_failure_is_nonzero_and_logged (tools.test_backup_gdrive.BackupTest.test_real_rclone_failure_is_nonzero_and_logged) ... ok
+test_stale_lock_refuses_explicitly_without_auto_removal (tools.test_backup_gdrive.BackupTest.test_stale_lock_refuses_explicitly_without_auto_removal) ... ok
+test_three_runs_keep_old_versions_and_exclude_regenerable_files (tools.test_backup_gdrive.BackupTest.test_three_runs_keep_old_versions_and_exclude_regenerable_files) ... ok
+test_timeout_stops_entire_sync_group_before_cleanup (tools.test_backup_gdrive.BackupTest.test_timeout_stops_entire_sync_group_before_cleanup) ... ok
+test_unmounted_volume_refuses (tools.test_backup_gdrive.BackupTest.test_unmounted_volume_refuses) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 9.773s
+
+OK

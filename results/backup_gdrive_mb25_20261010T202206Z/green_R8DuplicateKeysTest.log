@@ -1,0 +1,13 @@
+test_r8_3_archived_json_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_archived_json_duplicate_keys_refuse_unchanged_with_filename) ... ok
+test_r8_3_current_unresolved_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_current_unresolved_duplicate_keys_refuse_unchanged_with_filename) ... ok
+test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_duplicate_keys_under_lock_refuse_every_evidence_location_unchanged) ... ok
+test_r8_3_genuinely_torn_final_jsonl_line_remains_tolerated (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_genuinely_torn_final_jsonl_line_remains_tolerated) ... ok
+test_r8_3_jsonl_duplicate_keys_refuse_instead_of_torn_line_tolerance (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_jsonl_duplicate_keys_refuse_instead_of_torn_line_tolerance) ... ok
+test_r8_3_live_json_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_live_json_duplicate_keys_refuse_unchanged_with_filename) ... ok
+test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_nested_duplicate_keys_refuse_unchanged_with_filename) ... ok
+test_r8_3_recognized_json_temporary_duplicate_keys_refuse_unchanged_with_filename (tools.test_backup_gdrive_addendum.R8DuplicateKeysTest.test_r8_3_recognized_json_temporary_duplicate_keys_refuse_unchanged_with_filename) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.317s
+
+OK

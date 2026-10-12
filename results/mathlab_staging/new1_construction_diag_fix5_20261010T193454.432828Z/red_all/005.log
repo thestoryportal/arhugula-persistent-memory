@@ -1,0 +1,21 @@
+test_fix5_c1_deadline_exit_restores_unrelated_block (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_restores_unrelated_block) ... FIX5 {"command": ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "-W", "error::ResourceWarning", "-m", "unittest", "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_restores_unrelated_block", "-v"], "kind": "interpreter_exit", "native_exit": 2, "python_return_marker": false, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_restores_unrelated_block"}
+test_fix5_c1_deadline_exit_restores_unrelated_block (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_restores_unrelated_block) ... FAIL
+
+======================================================================
+FAIL: test_fix5_c1_deadline_exit_restores_unrelated_block (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_restores_unrelated_block)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 511, in test_fix5_c1_deadline_exit_restores_unrelated_block
+    def test_fix5_c1_deadline_exit_restores_unrelated_block(self): self.boundary('__exit__')
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 439, in boundary
+    if _fix5_isolated(self): return
+       ^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 356, in _fix5_isolated
+    test.assertEqual(child.returncode, 0, child.stdout+child.stderr)
+AssertionError: 2 != 0 : test_fix5_c1_deadline_exit_restores_unrelated_block (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_restores_unrelated_block) ... 
+
+----------------------------------------------------------------------
+Ran 1 test in 0.062s
+
+FAILED (failures=1)

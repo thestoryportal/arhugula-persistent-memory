@@ -1,0 +1,6 @@
+matrix controller pid=32405
+iii 01 FAIL failures=0 errors=2 wall_s=261.791
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/run_matrix.py", line 109, in <module>
+    raise RuntimeError('Unexpected test error or own process remains; see '+str(run))
+RuntimeError: Unexpected test error or own process remains; see /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/full_addendum/arm_iii/run_01

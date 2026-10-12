@@ -1,0 +1,38 @@
+{
+  "counts": {
+    "unrelated": 509275,
+    "adjacent": 10029,
+    "program": 292
+  },
+  "by_top": {
+    "(root)|unrelated": 120,
+    "(root)|adjacent": 83,
+    "(root)|program": 114,
+    "llm-as-database|program": 170,
+    "_archive_stale_pre_s2_5b|program": 3,
+    "src|unrelated": 12,
+    "src|adjacent": 1902,
+    "drive-download-20260515T023255Z-3-001|unrelated": 3,
+    "drive-download-20260804T131838Z-1-001|unrelated": 4,
+    "1996 Ford E 350 Van V8-7.3L DSL Turbo VIN F|unrelated": 12952,
+    "agent-deployment-framework|unrelated": 4568,
+    "agent-deployment-framework|adjacent": 1118,
+    "agent-deployment-framework|program": 5,
+    "agent-harness-local-seo|unrelated": 1101,
+    "agent-sdk-workshop|unrelated": 2594,
+    "agent-sdk-workshop|adjacent": 75,
+    "codex-app-intel-repackager-main|unrelated": 1,
+    "codex-app-intel-repackager-main|adjacent": 10,
+    "datasets|unrelated": 1,
+    "indydevdan-harness-research|unrelated": 1610,
+    "indydevdan-harness-research|adjacent": 6773,
+    "layer-05-runtime-operations|adjacent": 11,
+    "meta-harness-architecture-template|unrelated": 2,
+    "meta-harness-architecture-template|adjacent": 39,
+    "seo-growth-engine|unrelated": 486306,
+    "seo-growth-engine|adjacent": 11,
+    "soe-skills-all|unrelated": 1,
+    "soe-skills-all|adjacent": 7
+  },
+  "manual_review": "PENDING; rules are reasoned triage, not final content/gap decisions"
+}

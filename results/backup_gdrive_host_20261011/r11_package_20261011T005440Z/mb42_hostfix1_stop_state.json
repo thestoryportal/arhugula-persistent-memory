@@ -1,0 +1,69 @@
+{
+  "changed": [
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_py39_coverage.py",
+      "before_sha256": "d5a7094de35b528d423c47962a66bde9ea52b69f538007c28c5c49223a65965b",
+      "current_sha256": "f66dec5193003aeec02ce72a22760597c1beb685f00b8a7580c73aceec4bf41b",
+      "size": 18250
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/verify_check.py",
+      "before_sha256": "a7126bd62cf127c757873f348db745b981fae9603246a5afff604736c8fc49e5",
+      "current_sha256": "5b4748c501d3d5f416a689978a8052d3d2a3390a5d0439b313f4285ab8a1fbfc",
+      "size": 3430
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_local_check.py",
+      "before_sha256": "d2c93d25c4d169447c08a003765f2bb1aee04e60da1a94d2fc60af75d1eb0059",
+      "current_sha256": "0c9045c7635919f61ca91792c8ed756074ebb1a8fcfcabfdbd66980102131a75",
+      "size": 4832
+    },
+    {
+      "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py",
+      "before_sha256": "ABSENT",
+      "current_sha256": "c8f246b419009dd0bb5d13250e00fd19392e1300872e269a9e0e2284647807bf",
+      "size": 9789
+    }
+  ],
+  "protected_unchanged": {
+    "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/cmpfix_green/result.json": "59b4512729391bc58fdbb8bf95345f8ce98745bd0e8d2de6a549c2c5b2933c75",
+    "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/run_suite.py": "5065464f1f61e957011f361ae48d8af1a85cd52fdecdcb40710c30d125b1fe3d",
+    "results/backup_gdrive_mb25_20261010T202206Z/final_sha256.txt": "b24014eaffb19434922a67790bbe54753253f5461686b473779a03259bae6d68",
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+    "tools/backup_gdrive_status.py": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+    "tools/launchd/MemitGdriveBackup.applescript": "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428",
+    "tools/launchd/build_gdrive_applet.sh": "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+    "tools/launchd/com.rhu.memit-gdrive-backup.plist": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce",
+    "tools/launchd/stage_gdrive_release.sh": "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e",
+    "tools/test_backup_gdrive.py": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+    "tools/test_backup_gdrive_addendum.py": "3ff28cb712e97941476c1730928ff720f9a0dbcb2d8ba29344647ea8904501f8"
+  },
+  "host_evidence_preserved": true,
+  "diskutil_probe_preserved": true,
+  "tests": {
+    "causes_red": {
+      "run": 11,
+      "failures": 5,
+      "errors": 0
+    },
+    "full_red": {
+      "run": 16,
+      "failures": 9,
+      "errors": 1
+    },
+    "focused_green": {
+      "run": 16,
+      "pass": 16
+    },
+    "existing_controls_green": {
+      "run": 20,
+      "pass": 20
+    }
+  },
+  "pins": "STALE: authorized runner/verifier/local-check edits are not repinned yet",
+  "host_labels": "NOT UPDATED: old host_commands.sh labels are used and must not be executed",
+  "full_package_refresh": "PENDING",
+  "receipt_bytes": 31836992,
+  "commands_in_flight": false
+}

@@ -1,0 +1,91 @@
+test_r7_2_nested_generation_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_nested_generation_refuses_unchanged_and_names_file) ... 
+  test_r7_2_nested_generation_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_nested_generation_refuses_unchanged_and_names_file) (layout='object') ... FAIL
+  test_r7_2_nested_generation_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_nested_generation_refuses_unchanged_and_names_file) (layout='array') ... FAIL
+test_r7_2_nested_manifest_requires_floor_100_and_reserves_101 (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_nested_manifest_requires_floor_100_and_reserves_101) ... FAIL
+test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file) ... FAIL
+test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename) ... 
+  test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename) (format='last_run.json') ... FAIL
+  test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename) (format='failures.jsonl') ... FAIL
+test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file) ... FAIL
+
+======================================================================
+FAIL: test_r7_2_nested_generation_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_nested_generation_refuses_unchanged_and_names_file) (layout='object')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1736, in test_r7_2_nested_generation_refuses_unchanged_and_names_file
+    self.assert_format_refused(heartbeat, evidence, "nested generation")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1513 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[404 chars]}\n'}
+Diff is 19106 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_2_nested_generation_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_nested_generation_refuses_unchanged_and_names_file) (layout='array')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1736, in test_r7_2_nested_generation_refuses_unchanged_and_names_file
+    self.assert_format_refused(heartbeat, evidence, "nested generation")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1513 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[406 chars]}\n'}
+Diff is 19106 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_2_nested_manifest_requires_floor_100_and_reserves_101 (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_nested_manifest_requires_floor_100_and_reserves_101)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1719, in test_r7_2_nested_manifest_requires_floor_100_and_reserves_101
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1568 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[462 chars]}\n'}
+Diff is 19020 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1743, in test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1473 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[362 chars]}\n'}
+Diff is 18130 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename) (format='last_run.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1752, in test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1469 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[346 chars]N\n'}
+Diff is 18260 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename) (format='failures.jsonl')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1752, in test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1472 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[347 chars]N\n'}
+Diff is 18336 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file (tools.test_backup_gdrive_addendum.R7ArchivePrecisionTest.test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1726, in test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file
+    self.assert_format_refused(heartbeat, evidence, "UTF-8")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1709 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[602 chars]x00'}
+Diff is 19957 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.238s
+
+FAILED (failures=7)

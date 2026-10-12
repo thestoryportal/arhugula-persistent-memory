@@ -1,0 +1,20 @@
+test_T1_shell_argv_is_not_a_compute_executable (__main__.PureTests) ... ok
+test_T6_deadline_stderr_without_halt_counts_abort (__main__.PureTests) ... ok
+test_T7_resource_halt_counts_abort (__main__.PureTests) ... ok
+test_T8_admission_refusal_not_abort (__main__.PureTests) ... ok
+test_artifacts_without_terminal_never_complete (__main__.PureTests) ... ok
+test_invalid_event_stream_never_complete (__main__.PureTests) ... ok
+test_namespace_anomaly_prevents_complete (__main__.PureTests) ... ok
+test_no_exit_status_never_complete (__main__.PureTests) ... ok
+test_pass_without_worker_observation_is_incomplete_and_blocks (__main__.PureTests) ... ok
+test_prior_receipt_and_halted_namespace_count_once (__main__.PureTests) ... ok
+test_prior_receipt_covers_deadline_without_halted (__main__.PureTests) ... ok
+test_stdout_abort_evidence_survives_missing_terminal (__main__.PureTests) ... ok
+test_terminal_exit_mismatch_incomplete (__main__.PureTests) ... ok
+test_terminal_stdout_exit_agree (__main__.PureTests) ... ok
+test_unmatched_finishing_after_terminal_incomplete (__main__.PureTests) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.041s
+
+OK

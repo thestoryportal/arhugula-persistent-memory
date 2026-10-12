@@ -1,0 +1,8 @@
+FIX5 {"after": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [30], "pending": [], "timer": [0.0, 0.0]}, "before": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [30], "pending": [], "timer": [0.0, 0.0]}, "elapsed_s": 9.099999442696571e-05, "exception": null, "injections": [{"after_real_mutation": [2, 14, 30], "function": "__enter__", "line": 508, "prior": [30]}], "kind": "before_cleanup", "ownership": [], "python_return": 2, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block"}
+FIX5 {"command": ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "-W", "error::ResourceWarning", "-m", "unittest", "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block", "-v"], "kind": "interpreter_exit", "native_exit": 0, "python_return_marker": true, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block"}
+test_fix5_c1_deadline_entry_restores_unrelated_block (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.070s
+
+OK

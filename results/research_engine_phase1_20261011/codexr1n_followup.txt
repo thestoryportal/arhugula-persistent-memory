@@ -1,0 +1,13 @@
+R1N follow-up from MAESTRO. Your build is verified (r1n 7/7, r1m 10/10, r1l 64/64; J11 sha 5655202e) and committed as built (84d6dd9d). One design defect to fix before Astra.
+
+Defect: there are two drift windows. W1 runs from CAP to the next chain's fresh measurement (hours or days; MacPorts updates under /opt/local can land in it). W2 runs from that fresh measurement to inventory (minutes). D(B) is charged inside R at the fresh measurement, so it covers W2 only. The seal (38,000,000) was CAP's demand including D, rounded up, which leaves W1 only the rounding slack: 38,000,000 − 37,730,535 = 269,465 bytes. Each extra row byte costs 1.2 bytes once its D is included, so the next chain FAILs if rows grow by more than about 224,554 bytes (~690 rows, ~1% of the tree) since CAP, and a failed chain spends an operator authorization.
+
+Fix: add a W1 reserve to the seal, stated as a rule fixed now: W1 = D(B_CAP) (the same 20%-of-row-bytes rule, 4,009,702 at CAP). Seal = ceil((CAP required receipts including D(B_CAP)) + W1, to the next 1,000,000) — show the arithmetic. R at the fresh measurement stays as it is (W1 is not charged there; it is headroom). Keep the setup cap and keep planned_peak ≤ it; show the new margin. Regenerate J11 with G (deterministic) and update every pin that changes (A, N, T, GD11, report).
+
+Tests to add: a synthetic fresh capture whose row bytes exceed CAP's by floor(W1 / 1.2) − 1,000 PASSes; one that exceeds CAP's by enough to push R over the new seal FAILs. All existing tests still pass, r1m 10 and r1l 64 unchanged.
+
+Report: replace the Budget/Fixed-rule numbers in place; add one short paragraph naming W1 and W2. Stay within 90 lines. Edit only your seven R1N files plus this follow-up's outputs; same Do-NOT list and context rule as your brief.
+
+Done: reply on its own line exactly
+R1N FIX READY results/research_engine_phase1_20261011/r1n_report.md
+or R1N HANDOFF, or R1N BLOCKED <one-line reason>.

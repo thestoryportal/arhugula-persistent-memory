@@ -1,0 +1,6 @@
+test_classifier_failure_keeps_successful_raw_rclone_exit (tools.test_backup_gdrive_addendum.HeartbeatTest.test_classifier_failure_keeps_successful_raw_rclone_exit) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.130s
+
+OK

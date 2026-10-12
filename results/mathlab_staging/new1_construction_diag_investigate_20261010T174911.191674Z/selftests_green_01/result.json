@@ -1,0 +1,16 @@
+{
+  "phase": "instrument-selftest-GREEN-attempt",
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "-m",
+    "unittest",
+    "test_instruments",
+    "-v"
+  ],
+  "exit": 1,
+  "log": "run.log",
+  "expected_exit": 0
+}

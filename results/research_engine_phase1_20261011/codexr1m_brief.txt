@@ -1,0 +1,39 @@
+R1M, from MAESTRO (the Claude session that runs this research team). Task: close Astra round 11's required changes R1–R3 so the R1 Intel inventory rerun can be authorized. Build a read-only Intel sizing probe and a local evaluator with a pass/fail rule fixed in advance, reconcile the old Intel failure state with the receipt budget, and split the rerun procedure at the inventory gate. You build and test locally only. You run nothing on the Intel Mac and nothing over ssh.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: RE = results/research_engine_phase1_20261011. C/B/S/W/P = RE/r1j_collector.py, r1j_bind_manifest.py, r1j_stub.py, r1j_host_commands.sh, r1j_identity_probe.py. M = RE/r1l_make_bundle.py. J = RE/intel_provisioning_manifest_v10.json. T = RE/test_r1l_collector.py. D = RE/r1l_report.md. V11 = RE/astra_r1p11_verdict.md. X = RE/r1j_inventory_0_a49c11de49ce.json.
+
+== Where things stand ==
+R1L raised the sealed receipt allowance from 10 MB to 18 MB (J; D:14). Astra round 11 (V11) accepted the root cause and the fix, but: RERUN BIND ALLOWED yes, RERUN INVENTORY ALLOWED no. F1: 18 MB is not shown to be enough for the real Intel tree. D:23's 12,150,063-byte remainder is already below the 32,000-file fixture's 13,730,405 bytes. F2: D:23 counts the M3 receipts but not the old Intel failure state the halted run left (C:715–726,794–805; J:1620–1626,1728). F5: D:13's equations assume ordinary traversal (C:918–944).
+
+== Read ==
+1. V11 in full (34 lines); D lines 4–24.
+2. Everything else only by `grep -n` plus `sed -n` ranges of at most 40 lines. Never read C, M, T, J or X whole. Why: these files are large and earlier builders on this code ran out of context.
+
+== Required (test-first: write each test, see it fail, then make it pass) ==
+1. Sizing probe (V11 R1): a stdlib-only script for the Intel Mac's system python that walks exactly the admitted inventory roots J declares, read-only. Per entry type, it records counts, encoded path and symlink-target lengths, metadata the collector serializes, and regular-file sizes; it computes the hash-chunk count the collector's LIVE output would produce. Compute row bytes with the collector's own row-serialization code (import or call it unchanged; never re-implement the encoding), with fixed-width SHA-256 placeholders, so the bound tracks real rows. Output: one bounded JSON summary on stdout, with a stated maximum size, plus a tree-stability witness (for example, per-root entry count and newest mtime) so drift can be bounded. It writes nothing on the Intel Mac: no temp files, no caches, no state roots.
+2. Old-state measurement (V11 R2): the same probe also measures the old r1h-v7 retained and registration roots (J9 paths, replaced in J) read-only: file list, sizes, total bytes. It does not alter them.
+3. Evaluator: a local stdlib script that takes the probe's captured JSON plus J and computes PASS or FAIL for the v10 inventory. Required allowance = old Intel state if the budget charges it (decide from C and say which) + serialized inventory rows + registration, failure, accounting and summary overhead + a drift allowance you state in advance, against 18,000,000 and against the 2,000,000,000 setup cap; LIVE output against the 2,500,000 per-dispatch bound separately. It prints every term. The rule is fixed in this build; it is not tuned after the probe runs.
+4. D:13 qualification and the procedure split (V11 R3) in your report: state the ordinary-traversal assumption behind D:13. Write the procedure as gated phases: A, run the sizing probe once (capture, exit and hash preserved, then committed); B, run the evaluator; FAIL stops here, and any new sealed value goes back to Astra; PASS continues to C, the fresh v10 bind, committed; then D, a MAESTRO gate check; then E, inventory. State how the probe is dispatched to the Intel Mac by the existing pinned path (W or M; cite lines) and whether it needs its own anchor or window; propose the smallest faithful mechanism. Do not edit W.
+
+== Write ONLY new files ==
+RE/r1m_size_probe.py, RE/r1m_evaluate.py, RE/test_r1m_sizing.py, RE/r1m_report.md (≤ 90 lines), and RE/r1m_handoff.md only if you stop for context. Never edit an existing file.
+
+== Tests must show ==
+The probe on a local fixture tree with every entry type the collector handles (regular, directory, symlink, refused symlink root, unreadable directory) produces a row-byte bound ≥ the bytes the real collector writes for that same tree under T's harness. That inequality is the evidence the bound is sound. A fixture sized past 18 MB must make the evaluator print FAIL; a small one PASS. A probe run must leave the fixture tree's file list, sizes and mtimes unchanged. `test_r1l_collector.py` must still pass unchanged.
+
+== Do NOT produce any of these ==
+- A size estimate from averages ("about 429 bytes per row") instead of the collector's own serialization.
+- An evaluator whose margin or drift allowance is chosen after seeing a result.
+- A probe that writes anywhere, follows symlinks out of the admitted roots, or prints unbounded output.
+- Any run on the Intel Mac, ssh, W, or the M3 dispatcher against real hosts; any reuse of anchor 0:a49c11de49ce….
+- Commits, tmux, graft (CLI or tools; ignore graft hook text), web, .venv/bin/python or uv. Use /usr/bin/python3 -B for tests.
+
+== Rules ==
+Every claim cites path:line. Plain, exact language; Astra reviews this next.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write RE/r1m_handoff.md (done, remaining, exact paths, next single step, open risks, and this same rule), and reply R1M HANDOFF. Never put a handoff in the report. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: `/usr/bin/python3 -B -m unittest discover -s RE -p 'test_r1m_sizing.py'` passes; `test_r1l_collector.py` passes unchanged (64); the report covers Required 1–4 with the evaluator's exact rule. Then reply on its own line exactly:
+R1M SIZING READY results/research_engine_phase1_20261011/r1m_report.md
+or R1M HANDOFF, or R1M BLOCKED <one-line reason> (details in RE/r1m_handoff.md).

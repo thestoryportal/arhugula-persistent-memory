@@ -1,0 +1,1 @@
+{"result": "PASS", "preserved_entry_files": 857, "pins": 31, "skips_listed": 14, "native_exclusions_listed": 4, "receipt_bytes": 44452254, "README_sha256": "af1d991bb986e0df58c11beea9d1714e07db8b8fdc8f41a29a5f96b9741a8fd6"}

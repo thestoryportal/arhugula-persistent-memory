@@ -1,0 +1,9 @@
+test_r8_2_current_unresolved_invalid_generation_field_refuses_with_filename (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_invalid_generation_field_refuses_with_filename) ... ok
+test_r8_2_current_unresolved_nested_generation_pre_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_nested_generation_pre_lock_refuses_unchanged) ... ok
+test_r8_2_current_unresolved_non_utf8_refuses_with_filename (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_non_utf8_refuses_with_filename) ... ok
+test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged (tools.test_backup_gdrive_addendum.R8CurrentUnresolvedTest.test_r8_2_current_unresolved_validation_under_lock_refuses_unchanged) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.102s
+
+OK

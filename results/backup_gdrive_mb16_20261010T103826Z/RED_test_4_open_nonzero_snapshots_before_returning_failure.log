@@ -1,0 +1,18 @@
+COMMAND: ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", "HostFixtureTests.test_4_open_nonzero_snapshots_before_returning_failure", "-v"]
+EXIT: 1
+test_4_open_nonzero_snapshots_before_returning_failure (__main__.HostFixtureTests.test_4_open_nonzero_snapshots_before_returning_failure) ... FAIL
+
+======================================================================
+FAIL: test_4_open_nonzero_snapshots_before_returning_failure (__main__.HostFixtureTests.test_4_open_nonzero_snapshots_before_returning_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 249, in test_4_open_nonzero_snapshots_before_returning_failure
+    self.open_response(subprocess.CompletedProcess(["/usr/bin/open"], 1, "", "launch failed"))
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 241, in open_response
+    self.assertTrue(path.exists(), "open failure must snapshot before it escapes to case cleanup")
+AssertionError: False is not true : open failure must snapshot before it escapes to case cleanup
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

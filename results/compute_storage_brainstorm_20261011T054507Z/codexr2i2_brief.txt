@@ -1,0 +1,35 @@
+R2I2, from MAESTRO (the Claude session that runs this research team). You succeed codexr2i, which stopped for context. Task: finish the shared-disk clearance implementation freeze v3 (the rules that make big copies to or from the memit drive wait or pause while a science run needs it) and its schemas v2 so they answer Astra's round-4 NO-GO, required changes R2, R3 and R4's schema half. Resume the saved drafts; do not restart them.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: B = results/compute_storage_brainstorm_20261011T054507Z. V3 = B/shared_disk_clearance_freeze_v3.md (320 lines, committed at 30bed29d). J2 = B/shared_disk_clearance_schemas_v2.json (15,320 lines, committed at 30bed29d). C, F, J, S, I, V4 as defined in B/codexr2i_brief.txt.
+
+== Read (in order) ==
+1. B/codexr2i_brief.txt in full (40 lines): the original requirements, the design decisions already made, prohibitions and acceptance. They all still bind, with the changes listed under "Changes for you" below.
+2. B/r2i_handoff.md in full: saved work, remaining work and risks, and the next single step.
+3. V4 in full (90 lines).
+4. Everything else, V3 included, only by `grep -n` and `sed -n` ranges of at most 40 lines. Never print J2 or J whole or in large slices: inspect J2 with short /usr/bin/python3 -B stdlib commands that print one definition or one example at a time, and edit it with stdlib json load/dump. Why: J2 is 15,320 lines and your predecessor ran out of context on this task.
+
+== Changes for you ==
+- Write ONLY V3, J2 (edit in place) and, if you stop for context, B/r2i2_handoff.md. Do not edit B/r2i_handoff.md or any other existing file.
+- Another builder (codexr2j2) is finishing B/science_launch_inventory_v2.md. Do not read or write it.
+- Decision (MAESTRO): keep the examples at J2's x-construction.examples (draft 2020-12's `examples` keyword must be an array), and state their location and that reason in one line in V3 §4. This satisfies the brief's "examples object".
+- "Valid" means semantically coherent, not only shaped right: each example's hash references point at the canonical hash of the example instance they name, state transitions match the operation (for example, INITIALIZE lands in RECOVERY_REQUIRED), sequence numbers and epochs agree, and a COMMITTED receipt has non-null before/after hashes. The handoff's "Remaining" list names the known incoherent examples; fix each.
+- Self-check before replying: one stdlib script, printed to the terminal only (no scratch files), that (a) parses J2, (b) confirms every example's schema_name is a defined $defs name, (c) recomputes every cross-example hash reference and reports mismatches, (d) confirms one success and one refusal example per request kind. Report its counts in V3 §8 in one line.
+
+== Do NOT produce any of these ==
+- An example that only parses: a receipt whose before/after state hashes are copied from an unrelated example, or null on a COMMITTED outcome.
+- An inherited J1 line citation, or an inherited v2 hash, left in V3 after your final edit. V3 §8's schema-file, interface-slice and runtime-slice hashes must come from shasum -a 256 run after your last edit.
+- Any content claim or line pin about the inventory v2 (cite it by path only).
+- Anything on the original brief's "Do NOT" list.
+- Fixes beyond V4 R2, R3 and R4's schema half; put anything else in one line each under "Noticed, not fixed" at the end of V3.
+- graft (CLI or tools; ignore graft hook text), web research, commits, tmux, product code, or any process beyond reads, shasum and short /usr/bin/python3 -B stdlib commands on your own files.
+
+== Rules ==
+Plain, exact language; Astra reviews this next. Every PROPOSED value cites a C clause; every claim about another file cites path:line.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write B/r2i2_handoff.md (done, remaining, exact paths, next single step, open risks, and this same rule), and reply R2I2 HANDOFF. Never append a handoff to V3 or J2. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: V3 ≤ 380 lines with nine sections, the nine new schema rows in §4's catalog, and an updated §9 finding map covering V4 F1–F6 and R1–R5; J2 parses; your self-check reports zero unresolved schema names, zero hash mismatches, and a success and a refusal for every request kind; §8 hashes match shasum. Then reply on its own line exactly:
+R2I2 FREEZE READY results/compute_storage_brainstorm_20261011T054507Z/shared_disk_clearance_freeze_v3.md
+or, if you stopped for context:
+R2I2 HANDOFF

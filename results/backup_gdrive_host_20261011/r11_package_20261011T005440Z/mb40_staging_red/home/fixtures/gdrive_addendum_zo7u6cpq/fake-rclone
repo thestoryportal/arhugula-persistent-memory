@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ "$1" = version ]; then echo "rclone-test"; exit 0; fi
+if [ "$1" = config ]; then printf "{}\n"; exit 0; fi
+touch "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb40_staging_red/home/fixtures/gdrive_addendum_zo7u6cpq/unexpected-dispatch"

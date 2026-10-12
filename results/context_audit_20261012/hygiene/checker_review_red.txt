@@ -1,0 +1,124 @@
+test_body_code_link_fail (__main__.CheckLaneTests) ... ok
+test_cap_fail_bytes (__main__.CheckLaneTests) ... ok
+test_cap_pass_boundary (__main__.CheckLaneTests) ... ok
+test_dispatch_fail_mutated_base (__main__.CheckLaneTests) ... FAIL
+test_dispatch_pass_frozen (__main__.CheckLaneTests) ... ok
+test_flat_metadata_is_not_mapping (__main__.CheckLaneTests) ... FAIL
+test_frontmatter_empty_fail (__main__.CheckLaneTests) ... ok
+test_frontmatter_fail (__main__.CheckLaneTests) ... ok
+test_frontmatter_pass (__main__.CheckLaneTests) ... ok
+test_host_cap_fail (__main__.CheckLaneTests) ... ok
+test_host_fail_extra_stage (__main__.CheckLaneTests) ... ok
+test_host_fail_frontmatter (__main__.CheckLaneTests) ... ok
+test_host_links_do_not_use_live_home (__main__.CheckLaneTests) ... ok
+test_host_pass (__main__.CheckLaneTests) ... ok
+test_missing_base_fails_closed (__main__.CheckLaneTests) ... ok
+test_parenthesized_relative_fail (__main__.CheckLaneTests) ... FAIL
+test_private_immutable_seed_pass (__main__.CheckLaneTests) ... FAIL
+test_private_seed_mutation_fail (__main__.CheckLaneTests) ... ok
+test_python_comment_link_fail (__main__.CheckLaneTests) ... FAIL
+test_python_fixture_string_is_not_body_link (__main__.CheckLaneTests) ... ok
+test_reference_link_fail (__main__.CheckLaneTests) ... ok
+test_relative_basename_cannot_use_wiki_fallback (__main__.CheckLaneTests) ... FAIL
+test_relative_fail (__main__.CheckLaneTests) ... ok
+test_relative_pass (__main__.CheckLaneTests) ... ok
+test_required_dispatch_missing_fail (__main__.CheckLaneTests) ... FAIL
+test_scope_fail_committed_since_base (__main__.CheckLaneTests) ... ok
+test_scope_fail_untracked (__main__.CheckLaneTests) ... ok
+test_scope_pass (__main__.CheckLaneTests) ... ok
+test_symlink_escape_fail (__main__.CheckLaneTests) ... ok
+test_wiki_fail (__main__.CheckLaneTests) ... ok
+test_wiki_pass (__main__.CheckLaneTests) ... ok
+test_yaml_empty_block_scalar_fail (__main__.CheckLaneTests) ... FAIL
+test_yaml_nonempty_block_scalar_pass (__main__.CheckLaneTests) ... ok
+
+======================================================================
+FAIL: test_dispatch_fail_mutated_base (__main__.CheckLaneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 201, in test_dispatch_fail_mutated_base
+    self.assert_failure("BASE")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 76, in assert_failure
+    self.assertTrue(any(marker in line for line in failures), failures)
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_flat_metadata_is_not_mapping (__main__.CheckLaneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 235, in test_flat_metadata_is_not_mapping
+    self.assert_failure("FRONTMATTER")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 76, in assert_failure
+    self.assertTrue(any(marker in line for line in failures), failures)
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_parenthesized_relative_fail (__main__.CheckLaneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 213, in test_parenthesized_relative_fail
+    self.assert_failure("LINK")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 76, in assert_failure
+    self.assertTrue(any(marker in line for line in failures), failures)
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_private_immutable_seed_pass (__main__.CheckLaneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 243, in test_private_immutable_seed_pass
+    self.assertEqual([], self.run_check())
+AssertionError: Lists differ: [] != ['SCOPE outside allowlist: results/context[52 chars]oml']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'SCOPE outside allowlist: results/context_audit_20261012/hygiene/host_staging/.codex/config.toml'
+
+- []
++ ['SCOPE outside allowlist: '
++  'results/context_audit_20261012/hygiene/host_staging/.codex/config.toml']
+
+======================================================================
+FAIL: test_python_comment_link_fail (__main__.CheckLaneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 218, in test_python_comment_link_fail
+    self.assert_failure("LINK")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 76, in assert_failure
+    self.assertTrue(any(marker in line for line in failures), failures)
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_relative_basename_cannot_use_wiki_fallback (__main__.CheckLaneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 209, in test_relative_basename_cannot_use_wiki_fallback
+    self.assert_failure("LINK")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 76, in assert_failure
+    self.assertTrue(any(marker in line for line in failures), failures)
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_required_dispatch_missing_fail (__main__.CheckLaneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 205, in test_required_dispatch_missing_fail
+    self.assert_failure("BASE")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 76, in assert_failure
+    self.assertTrue(any(marker in line for line in failures), failures)
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_yaml_empty_block_scalar_fail (__main__.CheckLaneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 227, in test_yaml_empty_block_scalar_fail
+    self.assert_failure("FRONTMATTER")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 76, in assert_failure
+    self.assertTrue(any(marker in line for line in failures), failures)
+AssertionError: False is not true : []
+
+----------------------------------------------------------------------
+Ran 33 tests in 2.029s
+
+FAILED (failures=8)

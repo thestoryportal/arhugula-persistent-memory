@@ -1,0 +1,257 @@
+Work queue · 8:03 PM
+RUNNING 2 · NEEDS YOU 1 · IN REVIEW 0 ·
+READY 2 · BLOCKED 7
+  queue edited 8 min ago
+  Needs you: Decide where NEW-1's 100
+             leftover files go
+
+Running now (detected live)
+  - codexmb39: live session check
+    unavailable; not yet described in
+    the queue
+  - codexmb40: live session check
+    unavailable; not yet described in
+    the queue
+  - codexmb41: live session check
+    unavailable; not yet described in
+    the queue
+  - codexmb42: live session check
+    unavailable; not yet described in
+    the queue
+  - Build this queue tab (codexq1): live
+    session check unavailable
+  - experiment run in progress:
+    new1_20261010T053945.884468Z; not
+    yet described in the queue
+  Live check unavailable: session
+  codexmb39: exit 1: can't find pane:
+  =codexmb39
+  Live check unavailable: session
+  codexmb40: exit 1: can't find pane:
+  =codexmb40
+  Live check unavailable: session
+  codexmb41: exit 1: can't find pane:
+  =codexmb41
+  Live check unavailable: session
+  codexmb42: exit 1: can't find pane:
+  =codexmb42
+  Live check unavailable: session
+  codexq1: exit 1: can't find pane:
+  =codexq1
+
+1. Build this queue tab
+  [RUNNING]
+  Who: Builder Q1
+  Summary: A builder is making this tab,
+           so current and upcoming work
+           is always visible in plain
+           words on the Mac and the
+           phone.
+  Time: running for 23 min · about 27-72
+        min left (estimated 7:45 PM)
+  Live: live session check unavailable
+  Note: After the builder finishes,
+        MAESTRO runs its checks on the
+        Mac and adds the tab to the
+        dashboard without restarting the
+        other tabs.
+
+2. Drive backup: run the package's tests
+   on the Mac
+  [RUNNING]
+  Who: MAESTRO
+  Summary: The builder works in a
+           sandbox that cannot run some
+           Mac-only checks, so MAESTRO
+           reruns everything on the Mac
+           itself before anyone calls it
+           passing.
+  Time: running for 8 min · about 22-52
+        min left (estimated 7:54 PM)
+  Note: The builder relay (MB39-MB42)
+        finished the package: sandbox
+        tests pass, 27 pinned files and
+        385 manifest entries check out.
+  Note: First a read-only safety audit
+        of the 9 Mac commands, then
+        MAESTRO runs them one by one in
+        the normal-priority tmux server
+        (tmux -L new1).
+  Note: Receipt folder:
+        results/backup_gdrive_host_20261
+        011/r11_package_20261011T005440Z
+        /
+
+3. Drive backup: expert review, round 11
+  [BLOCKED]
+  Who: Astra (reviewer)
+  Summary: Astra, the independent
+           reviewer, checks the package
+           and the Mac test results and
+           says go or no-go.
+  Waits for: Drive backup: run the
+             package's tests on the Mac
+  Time: about 2-27 min left (estimated
+        7:45 PM)
+  Note: Round 10 verdict was NO-GO
+        (results/backup_gdrive_host_2026
+        1010/astra_r10_verdict.md).
+
+4. Drive backup: turn it on
+  [BLOCKED]
+  Who: MAESTRO, with your go
+  Summary: Upload the project's bulk
+           files to Google Drive,
+           confirm every byte arrived,
+           then start the automatic
+           backup.
+  Waits for: Drive backup: expert
+             review, round 11
+  Needs from you: OK to run the full
+                  read-back check (reads
+                  about 287 GB to
+                  compare every file).
+  Needs from you: OK to pause writing to
+                  the project disk while
+                  the first upload and
+                  check run.
+  Time: no estimate yet
+  Note: No time estimate until the
+        review passes; the 287 GB check
+        speed depends on the connection.
+  Note: The plan also asks you to
+        confirm 'fresh history' versus
+        'recovery' for the backup log.
+
+5. Decide where NEW-1's 100 leftover
+   files go
+  [NEEDS YOU]
+  Who: You
+  Summary: The last experiment (NEW-1)
+           left 100 control files (167
+           MB). Their fingerprints are
+           already saved in the project
+           record.
+  Needs from you: Keep them and move
+                  them to Drive once it
+                  works (recommended),
+                  or delete them now.
+  Time: no estimate yet
+  Note: Hashes:
+        results/mathlab_staging/new1_out
+        come_20261011/npz_bench_files.sh
+        a256
+
+6. Move 268.5 GiB of parked experiment
+   files off the Mac
+  [BLOCKED]
+  Who: MAESTRO, with your go
+  Summary: An earlier experiment's large
+           files are parked in ~/Backups
+           on the Mac's own disk, which
+           is not meant to be an
+           archive.
+  Waits for: Drive backup: turn it on
+  Needs from you: Once Drive works: OK
+                  to upload them, and
+                  later to delete the
+                  local copies.
+  Time: no estimate yet
+
+7. Re-test: write the experiment plan
+  [BLOCKED]
+  Who: A builder, then MAESTRO
+  Summary: Write down, before running
+           anything, exactly how the
+           re-test will run and what
+           counts as pass or fail
+           (reusing the Arm R recipe and
+           a new Arm M token).
+  Waits for: Drive backup: turn it on
+  Blocked by: Your ruling: it waits
+              until the Drive backup
+              work is done.
+  Time: about 42-102 min left (estimated
+        7:45 PM)
+  Note: Record:
+        results/autoresearch_reaim/opera
+        tor_ruling_retest_20261011.md
+        (decision D-C10r-rulings-18).
+
+8. Re-test: expert check and freeze of
+   the plan
+  [BLOCKED]
+  Who: Astra (reviewer)
+  Summary: Astra checks the plan; once
+           accepted it is frozen so
+           results cannot quietly change
+           the rules afterwards.
+  Waits for: Re-test: write the
+             experiment plan
+  Time: about 2-27 min left (estimated
+        7:45 PM)
+
+9. Re-test: run it
+  [BLOCKED]
+  Who: MAESTRO, with your go
+  Summary: Run the frozen re-test on the
+           Mac and record the result.
+  Waits for: Re-test: expert check and
+             freeze of the plan
+  Needs from you: A separate go for the
+                  run itself, with its
+                  disk budget.
+  Time: no estimate yet
+
+10. Close finished builder windows
+    MB39-MB42
+  [BLOCKED]
+  Who: You (MAESTRO cannot close
+       sessions)
+  Summary: Their work becomes part of
+           the Drive package; once that
+           is saved, their windows can
+           be closed.
+  Waits for: Drive backup: run the
+             package's tests on the Mac
+  Needs from you: Run: tmux -L default
+                  kill-session -t
+                  codexmb39; tmux -L
+                  default kill-session
+                  -t codexmb40; tmux -L
+                  default kill-session
+                  -t codexmb41; tmux -L
+                  default kill-session
+                  -t codexmb42
+  Time: no estimate yet
+
+11. Tidy three out-of-date record lines
+  [READY]
+  Who: MAESTRO
+  Summary: Three project documents still
+           describe older states (an F1
+           summary line, an 'attempt 4
+           running' line, and a plan
+           marked both frozen and
+           draft).
+  Time: about 0-12 min left (estimated
+        7:45 PM)
+  Note: docs/F1_DETERMINATION.md:11 vs
+        :71; SESSION_CHECKPOINT.md:37;
+        C10Y pre-cast scope status.
+
+12. Reconcile three memory notes that
+    differ between copies
+  [READY]
+  Who: MAESTRO
+  Summary: Three of the project's memory
+           notes differ between the live
+           copy and the repository copy;
+           check which is newer before
+           syncing.
+  Time: about 0-2 min left (estimated
+        7:45 PM)
+  Note: background-shell-niceness-10,
+        context-management-every-session
+        ,
+        rerun-builder-tests-host-tmpdir.

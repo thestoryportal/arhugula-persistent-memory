@@ -1,0 +1,50 @@
+[
+  {
+    "raw_line": 5,
+    "pid": 3388,
+    "ppid": 3377,
+    "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+    "record_entry_line": 200,
+    "phase": "start",
+    "heartbeat": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/arm_iv/run_01/fixtures/gdrive_addendum_0lwwhtfq/heartbeat/last_run.json",
+    "owner_pid": "3377",
+    "rclone_pid": "0",
+    "sync_started": "0"
+  },
+  {
+    "raw_line": 13,
+    "pid": 3397,
+    "ppid": 3377,
+    "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+    "record_entry_line": 200,
+    "phase": "start",
+    "heartbeat": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/arm_iv/run_01/fixtures/gdrive_addendum_0lwwhtfq/heartbeat/last_run.json",
+    "owner_pid": "3377",
+    "rclone_pid": "3396",
+    "sync_started": "1"
+  },
+  {
+    "raw_line": 16,
+    "pid": 3420,
+    "ppid": 3407,
+    "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+    "record_entry_line": 200,
+    "phase": "end",
+    "heartbeat": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/arm_iv/run_01/fixtures/gdrive_addendum_0lwwhtfq/heartbeat/refusals/latest-refusal.json",
+    "owner_pid": "3407",
+    "rclone_pid": "0",
+    "sync_started": "0"
+  },
+  {
+    "raw_line": 22,
+    "pid": 3434,
+    "ppid": 3377,
+    "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+    "record_entry_line": 200,
+    "phase": "end",
+    "heartbeat": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/arm_iv/run_01/fixtures/gdrive_addendum_0lwwhtfq/heartbeat/last_run.json",
+    "owner_pid": "3377",
+    "rclone_pid": "3396",
+    "sync_started": "1"
+  }
+]

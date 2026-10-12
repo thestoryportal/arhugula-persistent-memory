@@ -1,0 +1,165 @@
+test_changed_excludes_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_changed_manifest_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_changed_status_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_changed_wrapper_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_checkout_pull_cannot_change_dispatch (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_compiled_app_dispatches_release_after_checkout_change (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_compiled_app_full_source_equals_saved_source (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_dirty_checkout_stages_commit_bytes (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_existing_release_id_refused_without_overwrite (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_extra_file_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_good_release_dispatches_release_path (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_missing_file_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_release_inside_another_checkout_refused (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_rendered_source_stamps_release_and_all_four_hashes (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+
+======================================================================
+FAIL: test_changed_excludes_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2264, in test_changed_excludes_byte_refuses
+    self.change_byte("backup_mirror.excludes")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2244, in change_byte
+    self.refused(name, hashlib.sha256(previous).hexdigest(), hashlib.sha256(changed).hexdigest())
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2226, in refused
+    self.assertFalse(self.marker.exists(), "integrity failure dispatched the wrapper")
+AssertionError: True is not false : integrity failure dispatched the wrapper
+
+======================================================================
+FAIL: test_changed_manifest_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2267, in test_changed_manifest_byte_refuses
+    self.change_byte("MANIFEST")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2244, in change_byte
+    self.refused(name, hashlib.sha256(previous).hexdigest(), hashlib.sha256(changed).hexdigest())
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2226, in refused
+    self.assertFalse(self.marker.exists(), "integrity failure dispatched the wrapper")
+AssertionError: True is not false : integrity failure dispatched the wrapper
+
+======================================================================
+FAIL: test_changed_status_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2261, in test_changed_status_byte_refuses
+    self.change_byte("backup_gdrive_status.py")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2244, in change_byte
+    self.refused(name, hashlib.sha256(previous).hexdigest(), hashlib.sha256(changed).hexdigest())
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2226, in refused
+    self.assertFalse(self.marker.exists(), "integrity failure dispatched the wrapper")
+AssertionError: True is not false : integrity failure dispatched the wrapper
+
+======================================================================
+FAIL: test_changed_wrapper_byte_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2258, in test_changed_wrapper_byte_refuses
+    self.change_byte("backup_gdrive.sh")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2244, in change_byte
+    self.refused(name, hashlib.sha256(previous).hexdigest(), hashlib.sha256(changed).hexdigest())
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2226, in refused
+    self.assertFalse(self.marker.exists(), "integrity failure dispatched the wrapper")
+AssertionError: True is not false : integrity failure dispatched the wrapper
+
+======================================================================
+FAIL: test_checkout_pull_cannot_change_dispatch (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2289, in test_checkout_pull_cannot_change_dispatch
+    self.assertTrue(self.marker.is_file(), "pull changed what the applet dispatches")
+AssertionError: False is not true : pull changed what the applet dispatches
+
+======================================================================
+FAIL: test_compiled_app_dispatches_release_after_checkout_change (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2357, in test_compiled_app_dispatches_release_after_checkout_change
+    app = self.build_native()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2331, in build_native
+    self.assertTrue((self.checkout/"tools/launchd/stage_gdrive_release.sh").is_file(),
+AssertionError: False is not true : locked release build entrypoint is missing
+
+======================================================================
+FAIL: test_compiled_app_full_source_equals_saved_source (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2350, in test_compiled_app_full_source_equals_saved_source
+    app = self.build_native()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2331, in build_native
+    self.assertTrue((self.checkout/"tools/launchd/stage_gdrive_release.sh").is_file(),
+AssertionError: False is not true : locked release build entrypoint is missing
+
+======================================================================
+FAIL: test_dirty_checkout_stages_commit_bytes (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2306, in test_dirty_checkout_stages_commit_bytes
+    result = self.stage(baseline=False)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2203, in stage
+    self.assertTrue(script.is_file(), "commit-only release staging entrypoint is missing")
+AssertionError: False is not true : commit-only release staging entrypoint is missing
+
+======================================================================
+FAIL: test_existing_release_id_refused_without_overwrite (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2299, in test_existing_release_id_refused_without_overwrite
+    self.assertIn("existing release", result.stderr.lower())
+AssertionError: 'existing release' not found in 'usage: /private/tmp/gdrive_addendum_i3h8xxvy/checkout/tools/launchd/build_gdrive_applet.sh <output.app>\n'
+
+======================================================================
+FAIL: test_extra_file_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2282, in test_extra_file_refuses
+    self.refused(path.name, "ABSENT", hashlib.sha256(b"unapproved").hexdigest())
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2226, in refused
+    self.assertFalse(self.marker.exists(), "integrity failure dispatched the wrapper")
+AssertionError: True is not false : integrity failure dispatched the wrapper
+
+======================================================================
+FAIL: test_good_release_dispatches_release_path (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2250, in test_good_release_dispatches_release_path
+    self.assertEqual(self.marker.read_text().strip(), str(self.release/"backup_gdrive.sh"))
+AssertionError: '/pri[29 chars]hx55/checkout/tools/backup_gdrive.sh' != '/pri[29 chars]hx55/home/Library/Application Support/memit-gd[44 chars]e.sh'
+- /private/tmp/gdrive_addendum_w5dqhx55/checkout/tools/backup_gdrive.sh
++ /private/tmp/gdrive_addendum_w5dqhx55/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh
+
+
+======================================================================
+FAIL: test_missing_file_refuses (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2275, in test_missing_file_refuses
+    self.refused(path.name, hashlib.sha256(previous).hexdigest(), "MISSING")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2226, in refused
+    self.assertFalse(self.marker.exists(), "integrity failure dispatched the wrapper")
+AssertionError: True is not false : integrity failure dispatched the wrapper
+
+======================================================================
+FAIL: test_release_inside_another_checkout_refused (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2316, in test_release_inside_another_checkout_refused
+    result = self.stage(baseline=False, root=other/"releases")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2203, in stage
+    self.assertTrue(script.is_file(), "commit-only release staging entrypoint is missing")
+AssertionError: False is not true : commit-only release staging entrypoint is missing
+
+======================================================================
+FAIL: test_rendered_source_stamps_release_and_all_four_hashes (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2326, in test_rendered_source_stamps_release_and_all_four_hashes
+    self.assertEqual(literals["wrapperPath"], str(self.release/"backup_gdrive.sh"))
+AssertionError: '/pri[29 chars]y72z/checkout/tools/backup_gdrive.sh' != '/pri[29 chars]y72z/home/Library/Application Support/memit-gd[44 chars]e.sh'
+- /private/tmp/gdrive_addendum_pvl7y72z/checkout/tools/backup_gdrive.sh
++ /private/tmp/gdrive_addendum_pvl7y72z/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh
+
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.163s
+
+FAILED (failures=14)

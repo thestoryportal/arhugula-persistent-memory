@@ -1,0 +1,11 @@
+#!/usr/bin/python3
+import json,sys,subprocess
+from pathlib import Path
+if sys.argv[1] == "version":
+ print("rclone fixture");sys.exit(0)
+if sys.argv[1] == "config":
+ print("{}");sys.exit(0)
+path=Path(sys.argv[sys.argv.index("--log-file")+1])
+records=[{'level': 'error', 'msg': 'Failed to copy: failed to open source object: lstat /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/full_addendum_symlink_capture/arm_iii/run_01/fixtures/gdrive_addendum_psdfny_b/source/a/../lost.bin: no such file or directory', 'object': 'a/../lost.bin', 'objectType': '*local.Object'}, {'level': 'error', 'msg': 'not deleting files as there were IO errors'}, {'level': 'error', 'msg': 'not deleting directories as there were IO errors'}, {'level': 'error', 'msg': 'Attempt 1/1 failed with 1 errors and: failed to open source object: lstat /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/full_addendum_symlink_capture/arm_iii/run_01/fixtures/gdrive_addendum_psdfny_b/source/a/../lost.bin: no such file or directory'}, {'level': 'notice', 'stats': {'bytes': 8, 'errors': 1, 'fatalError': False}}, {'level': 'notice', 'msg': 'Failed to sync with 1 errors: failed to open source object: lstat /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/full_addendum_symlink_capture/arm_iii/run_01/fixtures/gdrive_addendum_psdfny_b/source/a/../lost.bin: no such file or directory'}]
+path.write_text("".join(json.dumps(record)+"\n" if not isinstance(record,str) else record+"\n" for record in records))
+sys.exit(1)

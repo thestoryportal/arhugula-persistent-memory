@@ -1,0 +1,17 @@
+commit 8e44cafc0439b1cad150f8666532200e489e1667
+Author:     Robert Rhu <robert@thestoryportal.org>
+AuthorDate: Sat Oct 10 17:34:04 2026 -0600
+Commit:     Robert Rhu <robert@thestoryportal.org>
+CommitDate: Sat Oct 10 17:34:04 2026 -0600
+
+    D-C10r-rulings-18: operator approves a pre-registered re-test of the AutoResearch best recipe + minted-token arm (planning only, after NEW-1)
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+    Claude-Session: https://claude.ai/code/session_01SPcLSyYUWnLAG4ouxmEUUp
+
+EXPERIMENT_RUNBOOK.md
+README.md
+SESSION_BOOTSTRAP.md
+SESSION_CHECKPOINT.md
+docs/program_state.json
+results/autoresearch_reaim/operator_ruling_retest_20261011.md

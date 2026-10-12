@@ -1,0 +1,21 @@
+COMMAND: ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", "HostFixtureTests.test_4_snapshot_filter_keeps_applet_and_all_unordered_descendants", "-v"]
+EXIT: 1
+test_4_snapshot_filter_keeps_applet_and_all_unordered_descendants (__main__.HostFixtureTests.test_4_snapshot_filter_keeps_applet_and_all_unordered_descendants) ... FAIL
+
+======================================================================
+FAIL: test_4_snapshot_filter_keeps_applet_and_all_unordered_descendants (__main__.HostFixtureTests.test_4_snapshot_filter_keeps_applet_and_all_unordered_descendants)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 187, in test_4_snapshot_filter_keeps_applet_and_all_unordered_descendants
+    self.assertEqual(filtered, "\n".join(expected)+"\n")
+AssertionError: '' != '  PID  PPID STAT     ELAPSED COMMAND\n  1[264 chars]_1\n'
++   PID  PPID STAT     ELAPSED COMMAND
++   104   103 S          00:05 /usr/bin/perl /private/tmp/fixture/home/lock.pl
++   103   101 S          00:05 /bin/sh -c mkdir /private/tmp/fixture/home/state
++   101     1 S          00:06 /private/tmp/mb16_unit_5oz7rc3n/fixture/Native_1.app/Contents/MacOS/applet -psn_0_1
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

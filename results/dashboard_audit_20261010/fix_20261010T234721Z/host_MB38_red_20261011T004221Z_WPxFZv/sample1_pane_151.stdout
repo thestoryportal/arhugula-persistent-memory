@@ -1,0 +1,67 @@
+○ GPU IDLE · last: ASTRA · every word at once · results
+ GPU █░░░░░░░░░ 8%  · GPU mem 1.3 GB  · job CPU 0%  · job RAM 0.0 GB  · free RAM 27 GB
+ PROGRESS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 24 stage(s) finished  · goal 61/72 reworded (red ┃ on the bars)
+ FINISHED RUNS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   run                                                                                                                                                                                reworded right (of 72)   train    ctrl  side effects           time
+ ✔ autoresearch_c10_setup_check                                                                                                                                                       setup stage (no score)    9m21s
+ ✔ autoresearch_c10_equivalence                                                                                                                                                       █░░░░░░░░░┃░  7/72    7/24   69/72  L1 0/12 · ppl -0.25    2h33m
+ ✔ autoresearch_c10_equivalence_rerun                                                                                                                                                 █░░░░░░░░░┃░  7/72    7/24   69/72  L1 0/12 · ppl -0.25    1h13m
+ ✔ c10z_astra_benchmark_20261008T104535Z                                                                                                                                              setup stage (no score)    1m48s
+ ✔ c10z_astra_chain.launchfail126                                                                                                                                                     setup stage (no score)    0m00s
+ ✔ c10z_astra_chain                                                                                                                                                                   setup stage (no score)   19m38s
+ ✔ c10z_astra_benchmark_20261008T121345Z                                                                                                                                              setup stage (no score)    1m53s
+ ✔ c10z_astra_attempt2_chain                                                                                                                                                          setup stage (no score)   29m26s
+ ✔ c10z_astra_z0_probe_run                                                                                                                                                            setup stage (no score)    0m45s
+ ✔ c10z_astra_z0_probe_run_mask                                                                                                                                                       setup stage (no score)    0m43s
+ ✔ c10x_enginepath_p1_launch                                                                                                                                                          setup stage (no score)    0m00s
+ ✔ c10y_directdw_calib1_launch                                                                                                                                                        setup stage (no score)    0m00s
+ ✔ c10x_x2_probe_run                                                                                                                                                                  setup stage (no score)    0m00s
+ ✔ c10y_directdw_calib2_launch                                                                                                                                                        setup stage (no score)    0m00s
+ ✔ c10y_directdw_calib3_launch                                                                                                                                                        setup stage (no score)    0m00s
+ ✔ c10x_x2_probe_run2                                                                                                                                                                 setup stage (no score)    7m58s
+ ✔ c10x_enginepath_rerun1_launch                                                                                                                                                      setup stage (no score)    0m00s
+ ✔ c10x_enginepath_rerun2_launch                                                                                                                                                      setup stage (no score)    0m00s
+ ✔ c10x_enginepath_rerun3_launch                                                                                                                                                      setup stage (no score)    0m00s
+ ✔ c10z_astra_benchmark_20261009T012936Z                                                                                                                                              setup stage (no score)    1m43s
+ ✔ c10z_astra_attempt3_chain                                                                                                                                                          setup stage (no score)   55m13s
+ ✔ c10y_directdw_calib4_launch                                                                                                                                                        setup stage (no score)    0m00s
+ ✔ c10z_astra_attempt4_infrafail_20261009T234321Z_chain                                                                                                                               setup stage (no score)    0m00s
+ ✔ c10z_astra_attempt4_chain                                                                                                                                                          setup stage (no score)    1h45m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

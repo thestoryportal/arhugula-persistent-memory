@@ -1,0 +1,10 @@
+R2N follow-up from MAESTRO. Your BLOCKED reply was correct; the block is now resolved by a decision. Read B/r2_science_containment_decision.md (13 lines) first.
+
+Task: revise I3 and P in place so that every science launch path that can be fully literal becomes a profile in P.profiles, using the LaunchProfile SCIENCE shape with ScienceInvocationProfile and ScienceChildProfile exactly as that decision defines them (no sandbox field; required shared_disk_access with each path the code reads or writes on the shared disk, cited path:line). Everything else from your brief (B/codexr2n_brief.txt) still binds: ScienceLaunchContextRecord suppliers, closed environments, identities, the coverage method, the final shasum check, and the Do-NOT list.
+
+Also fix the classification. P.not_admitted is only for SCIENCE launch paths that cannot be made literal (variable-arity argv, unpinned uv resolution, run-time-chosen payload); each reason must be that specific cause, not the missing sandbox. A matched file that is not a science launch (for example /Library/LaunchAgents/com.citrix.AuthManager_Mac.plist, OS or third-party agents, backup applets) is listed in I3 §1 as "not science" with its reason and path:line, and does not appear in P.
+
+Context: you have about 62% left. If you reach 45%, stop as your brief says, write B/r2n_handoff.md, and reply R2N HANDOFF.
+Done: the brief's acceptance, plus P.profiles is nonempty unless every science path has a specific non-sandbox not_admitted reason. Reply on its own line exactly:
+R2N PROFILES READY results/compute_storage_brainstorm_20261011T054507Z/science_launch_profiles_v1.json
+or R2N HANDOFF, or R2N BLOCKED <path and one-line reason>.

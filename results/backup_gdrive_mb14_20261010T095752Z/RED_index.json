@@ -1,0 +1,37 @@
+[
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_1_manual_interleave_preserves_counter_only_generation_11",
+    "log": "RED_01_behavioral_manual_interleave.log",
+    "exit_code": 1
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_2_crash_after_allocation_then_refusal_preserves_generation_11",
+    "log": "RED_02_test_2_crash_after_allocation_then_refusal_preserves_generation_11.log",
+    "exit_code": 1
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_3_corrupt_unresolved_set_refuses_dispatch",
+    "log": "RED_03_test_3_corrupt_unresolved_set_refuses_dispatch.log",
+    "exit_code": 1
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set",
+    "log": "RED_04_test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set.log",
+    "exit_code": 1
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers",
+    "log": "RED_05_test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers.log",
+    "exit_code": 1
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_4_recovery_preserves_null_evidence_and_requires_sequenced_completion",
+    "log": "RED_06_test_4_recovery_preserves_null_evidence_and_requires_sequenced_completion.log",
+    "exit_code": 1
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_4_null_evidence_publication_waits_for_recovery_counter_lock",
+    "log": "RED_07_recovery_publication_lock.log",
+    "exit_code": 1
+  }
+]

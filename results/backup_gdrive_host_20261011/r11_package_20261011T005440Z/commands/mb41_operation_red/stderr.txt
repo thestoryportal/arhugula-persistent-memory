@@ -1,0 +1,23 @@
+python3: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+test_hash_filename_data_is_readonly (test_package.CheckPlanTest) ... FAIL
+test_actual_builder_requires_go (test_package.CheckPlanTest) ... ok
+
+======================================================================
+FAIL: test_hash_filename_data_is_readonly (test_package.CheckPlanTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py", line 84, in test_hash_filename_data_is_readonly
+    self.assertEqual(module('check_plan').check(text), [])
+AssertionError: Lists differ: [{'line': 3, 'code': 'WRITE_MARKER', 'detail': 'write or launch requires GO'}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'line': 3, 'code': 'WRITE_MARKER', 'detail': 'write or launch requires GO'}
+
+- [{'code': 'WRITE_MARKER', 'detail': 'write or launch requires GO', 'line': 3}]
++ []
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.003s
+
+FAILED (failures=1)

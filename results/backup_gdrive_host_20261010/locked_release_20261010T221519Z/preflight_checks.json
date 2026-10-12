@@ -1,0 +1,46 @@
+{
+  "shell_syntax": {
+    "argv": [
+      "/bin/bash",
+      "-n",
+      "tools/launchd/stage_gdrive_release.sh",
+      "tools/launchd/build_gdrive_applet.sh"
+    ],
+    "exit_code": 0
+  },
+  "diff_check": {
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "--",
+      "tools/launchd/MemitGdriveBackup.applescript",
+      "tools/launchd/build_gdrive_applet.sh",
+      "tools/test_backup_gdrive_addendum.py"
+    ],
+    "exit_code": 0
+  },
+  "python": {
+    "argv": [
+      "/usr/bin/python3",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stdout": "Python 3.9.6"
+  },
+  "process_snapshot": {
+    "argv": [
+      "/bin/ps",
+      "-axo",
+      "pid,ppid,pgid,stat,command"
+    ],
+    "exit_code": 1,
+    "status": "UNAVAILABLE",
+    "stderr": "Operation not permitted (sandbox)"
+  },
+  "renderer_probe": {
+    "exit_code": 0,
+    "stdout": "literal=miss\nvariable=match\n",
+    "diagnosis": "Perl literal marker regex escaped the at signs under quotemeta; variable marker matches."
+  }
+}

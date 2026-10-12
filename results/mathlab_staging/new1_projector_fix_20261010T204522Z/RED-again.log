@@ -1,0 +1,48 @@
+test_actual_producer_gate_dictionary_is_admitted_and_failed_gate_refuses (tests.test_new1_geometry.GeometryTests.test_actual_producer_gate_dictionary_is_admitted_and_failed_gate_refuses) ... ok
+test_adapter_qr_matches_direct_product_and_saved_scale (tests.test_new1_geometry.GeometryTests.test_adapter_qr_matches_direct_product_and_saved_scale) ... ok
+test_all_conditions_must_hold_in_same_layers (tests.test_new1_geometry.GeometryTests.test_all_conditions_must_hold_in_same_layers) ... ok
+test_all_update_families_enforce_complement_and_random_descriptive_norms (tests.test_new1_geometry.GeometryTests.test_all_update_families_enforce_complement_and_random_descriptive_norms) ... ok
+test_complete_small_layer_reuses_basis_and_persists_all_secondary_controls (tests.test_new1_geometry.GeometryTests.test_complete_small_layer_reuses_basis_and_persists_all_secondary_controls) ... ok
+test_covariance_check_products_use_float64_blocks_preserving_native_objects (tests.test_new1_geometry.GeometryTests.test_covariance_check_products_use_float64_blocks_preserving_native_objects) ... ok
+test_covariance_checks_promote_before_fp32_scaling_underflows (tests.test_new1_geometry.GeometryTests.test_covariance_checks_promote_before_fp32_scaling_underflows) ... ok
+test_covariance_energy_uses_input_axis_and_is_scale_sign_invariant (tests.test_new1_geometry.GeometryTests.test_covariance_energy_uses_input_axis_and_is_scale_sign_invariant) ... ok
+test_covariance_load_normalizes_in_native_dtype_and_count_must_be_positive (tests.test_new1_geometry.GeometryTests.test_covariance_load_normalizes_in_native_dtype_and_count_must_be_positive) ... ok
+test_covariance_top_bottom_ties_are_statistic_specific (tests.test_new1_geometry.GeometryTests.test_covariance_top_bottom_ties_are_statistic_specific) ... ok
+test_cutoff_passes_cannot_union_different_three_layer_sets (tests.test_new1_geometry.GeometryTests.test_cutoff_passes_cannot_union_different_three_layer_sets) ... ok
+test_energy_promotes_only_selected_covariance_column_blocks (tests.test_new1_geometry.GeometryTests.test_energy_promotes_only_selected_covariance_column_blocks) ... ok
+test_every_integer_cutoff_uses_float64_ordering_and_reports_band_energy (tests.test_new1_geometry.GeometryTests.test_every_integer_cutoff_uses_float64_ordering_and_reports_band_energy) ... ok
+test_layer_energy_contrasts_keep_each_bin_validity_flag (tests.test_new1_geometry.GeometryTests.test_layer_energy_contrasts_keep_each_bin_validity_flag) ... ok
+test_m16_retained_energy_is_secondary_and_uses_existing_svd (tests.test_new1_geometry.GeometryTests.test_m16_retained_energy_is_secondary_and_uses_existing_svd) ... ok
+test_missing_intermediate_cutoff_is_invalid_not_favorable_subset (tests.test_new1_geometry.GeometryTests.test_missing_intermediate_cutoff_is_invalid_not_favorable_subset) ... ok
+test_native_covariance_svd_once_and_indefinite_psd_rejection (tests.test_new1_geometry.GeometryTests.test_native_covariance_svd_once_and_indefinite_psd_rejection) ... ok
+test_native_parity_is_retained_when_float64_excluded_energy_is_large (tests.test_new1_geometry.GeometryTests.test_native_parity_is_retained_when_float64_excluded_energy_is_large) ... ok
+test_native_projector_uses_two_independent_native_gathers (tests.test_new1_geometry.GeometryTests.test_native_projector_uses_two_independent_native_gathers) ... FAIL
+test_no_favorable_layer_drop_and_tie_invalidates_only_related_endpoint (tests.test_new1_geometry.GeometryTests.test_no_favorable_layer_drop_and_tie_invalidates_only_related_endpoint) ... ok
+test_nonrobust_aggregate_is_boundary_sensitive_with_nominal_failures (tests.test_new1_geometry.GeometryTests.test_nonrobust_aggregate_is_boundary_sensitive_with_nominal_failures) ... ok
+test_participation_ratio_and_rank95_use_squared_singular_energy (tests.test_new1_geometry.GeometryTests.test_participation_ratio_and_rank95_use_squared_singular_energy) ... ok
+test_predictions_require_same_three_layers_and_random_guard (tests.test_new1_geometry.GeometryTests.test_predictions_require_same_three_layers_and_random_guard) ... ok
+test_projector_and_cache_tensor_metadata_cannot_be_missing (tests.test_new1_geometry.GeometryTests.test_projector_and_cache_tensor_metadata_cannot_be_missing) ... ok
+test_projector_matches_all_four_frozen_probes_and_update_parity (tests.test_new1_geometry.GeometryTests.test_projector_matches_all_four_frozen_probes_and_update_parity) ... ok
+test_q95_is_nineteenth_of_twenty_not_interpolation (tests.test_new1_geometry.GeometryTests.test_q95_is_nineteenth_of_twenty_not_interpolation) ... ok
+test_reverse_equal_and_endpoint_count_bands_are_not_special_cased (tests.test_new1_geometry.GeometryTests.test_reverse_equal_and_endpoint_count_bands_are_not_special_cased) ... ok
+test_robust_pass_keeps_the_same_three_layers_at_every_cutoff (tests.test_new1_geometry.GeometryTests.test_robust_pass_keeps_the_same_three_layers_at_every_cutoff) ... ok
+test_secondary_controls_cannot_replace_primary_q95 (tests.test_new1_geometry.GeometryTests.test_secondary_controls_cannot_replace_primary_q95) ... ok
+test_source_hash_and_harvest_identity_mismatch_are_invalid (tests.test_new1_geometry.GeometryTests.test_source_hash_and_harvest_identity_mismatch_are_invalid) ... ok
+test_source_mutation_during_consumption_is_invalid (tests.test_new1_geometry.GeometryTests.test_source_mutation_during_consumption_is_invalid) ... ok
+test_spectrum_matched_random_preserves_spectrum_and_norm (tests.test_new1_geometry.GeometryTests.test_spectrum_matched_random_preserves_spectrum_and_norm) ... ok
+test_subspace_rotation_and_rank_deficient_fixed_denominator (tests.test_new1_geometry.GeometryTests.test_subspace_rotation_and_rank_deficient_fixed_denominator) ... ok
+test_update_cutoff_tie_invalidates_m16_but_not_full_effective_rank (tests.test_new1_geometry.GeometryTests.test_update_cutoff_tie_invalidates_m16_but_not_full_effective_rank) ... ok
+test_zero_and_nonfinite_updates_are_invalid (tests.test_new1_geometry.GeometryTests.test_zero_and_nonfinite_updates_are_invalid) ... ok
+
+======================================================================
+FAIL: test_native_projector_uses_two_independent_native_gathers (tests.test_new1_geometry.GeometryTests.test_native_projector_uses_two_independent_native_gathers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 205, in test_native_projector_uses_two_independent_native_gathers
+    self.assertEqual(len(gathers),2,'native projector must gather twice from native U')
+AssertionError: 1 != 2 : native projector must gather twice from native U
+
+----------------------------------------------------------------------
+Ran 35 tests in 0.609s
+
+FAILED (failures=1)

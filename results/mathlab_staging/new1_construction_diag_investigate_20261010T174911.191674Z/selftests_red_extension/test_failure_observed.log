@@ -1,0 +1,15 @@
+test_failure (observer_fixtures.SignalFixture.test_failure) ... FAIL
+
+======================================================================
+FAIL: test_failure (observer_fixtures.SignalFixture.test_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/state_observer.py", line 148, in call
+    try: return real(test,method)
+                ^^^^^^^^^^^^^^^^^
+AssertionError: known failure
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=1)

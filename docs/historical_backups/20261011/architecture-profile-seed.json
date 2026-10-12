@@ -1,0 +1,201 @@
+{
+  "manifest_version": "1.0",
+  "manifest_purpose": "Reproducibility seed for architecture_profile.json (PF-6 of MEMIT-COMPAT-PROTO-1). Block 1 outputs only; Block 2 (RunPod dry-run) and Block 3 (persistent state) populated in Session 2.3.",
+  "kaggle_smoke_test": {
+    "verdict": "PASS",
+    "completed_at": "2026-04-26T07:08:30.578814+00:00",
+    "smoke_test_protocol": "MEMIT-COMPAT-PROTO-1 single-fact rehearsal",
+    "fact": {
+      "prompt": "Michael Jordan plays the sport of",
+      "subject": "Michael Jordan",
+      "target_new": "baseball",
+      "target_true": "basketball"
+    },
+    "pinned_versions": {
+      "memit_repo_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+      "memit_repo_branch": "main",
+      "memit_repo_commit_date": "2022-11-14T05:23:21-05:00",
+      "gpt_j_revision": "float16",
+      "gpt_j_revision_sha": "b71ae8bc86cac13154e03e92b5855203086b722e",
+      "torch": "2.10.0+cu128",
+      "transformers": "4.45.2",
+      "accelerate": "0.34.2",
+      "datasets": "4.8.3",
+      "huggingface_hub": "0.25.2",
+      "tokenizers": "0.20.3",
+      "safetensors": "0.4.5",
+      "cuda": "12.8",
+      "cudnn": "91002",
+      "python": "3.12.12",
+      "platform": "Linux-6.6.113+-x86_64-with-glibc2.35",
+      "gpu": "Tesla T4",
+      "gpu_count": 2,
+      "gpu_memory_per_device_gb": 15.64,
+      "driver_version": "580.105.08",
+      "kaggle_environment_pinning": "manual override of 'always-latest' default; joint 4.x-line stack pinned"
+    },
+    "edit_config": {
+      "layers": [3, 4, 5, 6, 7, 8],
+      "num_facts": 1,
+      "device_map": "explicit (Path B): cuda:0 holds layers 0-13 + embedding + ln_f + lm_head; cuda:1 holds layers 14-27"
+    },
+    "patches_applied": {
+      "memit_nethook_p1_signature_and_inputs_synthesis": {
+        "applied": true,
+        "target_file": "util/nethook.py",
+        "target_line_approx": 75,
+        "rationale": "transformers >= 4.36 forwards GPT-J MLP via kwargs; legacy positional-args-only hook signature returns empty inputs tuple, breaking MEMIT's input-capture",
+        "universal": true
+      },
+      "memit_nethook_p2_with_kwargs_registration": {
+        "applied": true,
+        "target_file": "util/nethook.py",
+        "target_line_approx": 95,
+        "rationale": "PyTorch >= 2.0 register_forward_hook with_kwargs=True flag required to receive keyword arguments in hook signature",
+        "universal": true
+      },
+      "memit_solve_cpu_offload_p3_prime": {
+        "applied": true,
+        "target_file": "memit/memit_main.py",
+        "target_line_approx": 198,
+        "rationale": "16384^2 FP64 covariance promotion exceeds Kaggle 2x T4 cuda:0 envelope; CPU offload moves cov.cpu().double() and torch.linalg.solve to host RAM; ~30 sec wall time per layer, ~3 min total",
+        "universal": false,
+        "applies_when": "cuda:0 capacity < 18 GiB"
+      },
+      "tokenizer_pad_token_alias": {
+        "applied": true,
+        "target_location": "Cell 5b (canonical notebook)",
+        "rationale": "GPT-J inherits GPT-2's tokenizer which has no pad_token by default; MEMIT generate_fast utility batches multiple context prompts with padding",
+        "universal_for_gpt2_derived_tokenizers": true
+      },
+      "explicit_device_map": {
+        "applied": true,
+        "target_location": "Cell 4 (canonical notebook)",
+        "rationale": "device_map='auto' places lm_head on cuda:1 to balance memory; MEMIT compute_z manually accesses lm_head.weight as lm_w and performs cross-device gather which fails. Explicit map co-locates lm_head, ln_f, embedding, edit range on cuda:0",
+        "universal": false,
+        "applies_when": "multi-GPU configuration only"
+      },
+      "unmount_in_place_copy_only": {
+        "applied": true,
+        "target_location": "Cell 8 (canonical notebook); framework write engine universally",
+        "rationale": "setattr-replace of nn.Parameter desynchronizes visible parameter state from forward-pass-used parameter state under accelerate hooks. In-place Tensor.copy_() preserves Parameter object identity and all external references",
+        "universal": true
+      }
+    },
+    "assertions": {
+      "SF_1_top1_is_baseball": true,
+      "SF_2_p_baseball_gt_p_basketball": true,
+      "SF_3_unmount_restores_basketball": true
+    },
+    "probabilities": {
+      "P_basketball_pre": 0.8701928853988647,
+      "P_baseball_pre": 0.021447110921144485,
+      "P_baseball_post": 0.9818863868713379,
+      "P_basketball_post": 0.00022994860773906112,
+      "P_basketball_postunmount": 0.8701928853988647,
+      "P_baseball_postunmount": 0.021447110921144485,
+      "ratio_post_baseball_to_basketball": 4270.03,
+      "overlay_isolation_bit_identical": true
+    },
+    "layer_write_metrics": {
+      "v_star_optimization_initial_loss": 4.528,
+      "v_star_optimization_final_loss": 0.049,
+      "v_star_optimization_final_p_target": 0.9664,
+      "v_star_init_norm": 90.6875,
+      "v_star_delta_norm": 68.0,
+      "v_star_target_norm": 114.21,
+      "per_layer_z_error_absorbed": {
+        "layer_3": 67.9997,
+        "layer_4": 59.4984,
+        "layer_5": 52.2042,
+        "layer_6": 45.7379,
+        "layer_7": 37.6084,
+        "layer_8": 26.9025
+      },
+      "per_layer_orig_norm_fp16": {
+        "layer_3": 106.1875,
+        "layer_4": 108.4375,
+        "layer_5": 110.8125,
+        "layer_6": 113.1875,
+        "layer_7": 117.4375,
+        "layer_8": 119.0625
+      },
+      "per_layer_update_norm_fp64": {
+        "layer_3": 0.5876,
+        "layer_4": 0.5689,
+        "layer_5": 0.6082,
+        "layer_6": 0.7148,
+        "layer_7": 0.8859,
+        "layer_8": 1.3463
+      },
+      "per_layer_update_pct_of_orig": {
+        "layer_3": 0.55,
+        "layer_4": 0.52,
+        "layer_5": 0.55,
+        "layer_6": 0.63,
+        "layer_7": 0.75,
+        "layer_8": 1.13
+      },
+      "max_update_pct": 1.13,
+      "any_nan_or_inf_in_edited_weights": false
+    },
+    "overlay": {
+      "parameter_count": 6,
+      "size_mb": 805.306368,
+      "size_calculation": "6 fc_out tensors of shape (4096, 16384) FP32 = 6 * 4096 * 16384 * 4 bytes / 1e6 MB",
+      "tensor_names": [
+        "transformer.h.3.mlp.fc_out.weight",
+        "transformer.h.4.mlp.fc_out.weight",
+        "transformer.h.5.mlp.fc_out.weight",
+        "transformer.h.6.mlp.fc_out.weight",
+        "transformer.h.7.mlp.fc_out.weight",
+        "transformer.h.8.mlp.fc_out.weight"
+      ]
+    },
+    "covariance_cache_state": {
+      "cache_source_url": "https://memit.baulab.info/data/stats/EleutherAI_gpt-j-6B/wikipedia_stats/",
+      "layers_downloaded_this_run": [3, 4, 5, 6, 7, 8],
+      "per_layer_size_gb": 1.0,
+      "total_download_gb": 6.0,
+      "total_download_wall_time_seconds_approx": 230,
+      "cache_local_path": "/kaggle/working/data/stats/EleutherAI_gpt-j-6B/wikipedia_stats/"
+    },
+    "smoke_test_history": {
+      "total_attempts": 17,
+      "distinct_halts": 12,
+      "halts_by_class": {
+        "hardware_pytorch_capability": 1,
+        "package_version_drift": 3,
+        "filesystem_persistence": 1,
+        "spec_defects_claude_authoring": 3,
+        "memit_internal_toolchain": 1,
+        "memory_envelope_single_gpu": 1,
+        "memory_envelope_fp64_promotion": 2,
+        "verification_cell_defects": 2
+      },
+      "patches_authored": 6,
+      "architectural_changes": 0
+    },
+    "tf_factory_warnings_observed": "Yes - benign; Kaggle bundles TensorFlow alongside PyTorch; first cell after kernel start emits cuFFT/cuDNN/cuBLAS factory-registration errors. Non-blocking.",
+    "transformers_attn_bias_warning": "Yes - benign; legacy attn.bias / attn.masked_bias buffers in 2021-vintage GPT-J checkpoint are dropped silently by current GPTJForCausalLM class which computes causal mask at runtime. Mathematically equivalent."
+  },
+  "runpod_dry_run": {
+    "_status": "deferred to Block 2 (Session 2.3)",
+    "pod_image_digest": null,
+    "completed_at": null,
+    "edit_success_metric": null,
+    "drift_from_kaggle": null
+  },
+  "persistent_state": {
+    "_status": "deferred to Block 2 (Session 2.3)",
+    "network_volume_id": null,
+    "network_volume_region": null,
+    "network_volume_size_gb": 100,
+    "directory_layout_committed": false
+  },
+  "rsync_target": {
+    "_status": "deferred to Block 3 (Session 2.3)",
+    "local_path": null,
+    "cadence": "weekly"
+  }
+}

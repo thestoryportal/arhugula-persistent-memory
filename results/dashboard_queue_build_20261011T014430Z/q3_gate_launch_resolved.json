@@ -1,0 +1,6 @@
+{
+  "maestro_resolution": "-B applies to tests and renders; throwaway tab must use real tab launch without -B",
+  "process_command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_queue.py",
+  "blocking_processes": [],
+  "gate_changed": false
+}

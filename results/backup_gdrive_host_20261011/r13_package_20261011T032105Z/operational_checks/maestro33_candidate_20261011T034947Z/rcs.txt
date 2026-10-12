@@ -1,0 +1,7 @@
+niceness=0 start at 2026-10-11T03:49:47Z
+fetch rc=0 at 2026-10-11T03:49:47Z
+identity captured at 2026-10-11T03:49:47Z
+candidate rc=0 at 2026-10-11T03:51:03Z
+verify-staged rc=0 at 2026-10-11T03:51:27Z
+base unchanged at 2026-10-11T03:51:27Z
+ALLDONE at 2026-10-11T03:51:27Z

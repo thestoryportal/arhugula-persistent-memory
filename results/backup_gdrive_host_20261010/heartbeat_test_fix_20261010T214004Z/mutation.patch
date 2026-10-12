@@ -1,0 +1,10 @@
+--- original/tools/backup_gdrive.sh
++++ scratch/tools/backup_gdrive.sh
+@@ -39,7 +39,6 @@
+ die() { log "FATAL: $*"; exit 1; }
+ write_heartbeat() {
+   local target="$HEARTBEAT"
+-  [ "$LOCK_OWNED" = 1 ] || target="$(/usr/bin/dirname "$HEARTBEAT")/refusals/latest-refusal.json"
+   "$PYTHON" "$STATUS_TOOL" record --heartbeat "$target" --phase "$1" \
+     --run-id "$STAMP" --start "$START" --exit-code "${2:-0}" --launch-generation "$LAUNCH_GENERATION" \
+     --rclone-version "$RCLONE_VERSION" --log "$LOG" --run-log "$RUN_LOG" \

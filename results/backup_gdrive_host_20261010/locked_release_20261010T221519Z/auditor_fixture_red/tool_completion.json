@@ -1,0 +1,6 @@
+{
+  "actual_exit_code": 1,
+  "command": "/usr/bin/python3 -B results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py auditor_fixture_red results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/before/run_suite.py",
+  "tool": "exec_command",
+  "chunk_id": "afee5f"
+}

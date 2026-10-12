@@ -1,0 +1,15 @@
+test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs (tools.test_backup_gdrive_addendum.StatusTest) ... ok
+FAIL
+
+======================================================================
+FAIL: test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs (tools.test_backup_gdrive_addendum.StatusTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/run_suite.py", line 128, in stopTest
+    raise AssertionError("test left owned processes alive: "+repr(leaked))
+AssertionError: test left owned processes alive: [{'pid': 13192, 'owner_pid': 13193, 'pgid': 13193, 'test': 'tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs', 'source': '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/clearance_fix_red/fixtures/gdrive_addendum_k6ckp_gp/heartbeat/last_run.json', 'role': 'owned fixture rclone child', 'alive_after_test': True}]
+
+----------------------------------------------------------------------
+Ran 1 test in 0.440s
+
+FAILED (failures=1)

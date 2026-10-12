@@ -1,0 +1,6 @@
+test_fix4_c1_already_exited_is_reaped_without_a_signal_before_return (tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c1_already_exited_is_reaped_without_a_signal_before_return) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.822s
+
+OK

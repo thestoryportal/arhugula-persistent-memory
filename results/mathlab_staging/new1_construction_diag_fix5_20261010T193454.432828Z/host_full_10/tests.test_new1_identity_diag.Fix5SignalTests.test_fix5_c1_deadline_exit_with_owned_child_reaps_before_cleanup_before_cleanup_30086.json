@@ -1,0 +1,95 @@
+{
+  "before": {
+    "mask": [
+      30
+    ],
+    "pending": [],
+    "handlers": {
+      "2": "<built-in function default_int_handler>",
+      "14": "<Handlers.SIG_DFL: 0>"
+    },
+    "timer": [
+      0.0,
+      0.0
+    ]
+  },
+  "after": {
+    "mask": [
+      30
+    ],
+    "pending": [],
+    "handlers": {
+      "2": "<built-in function default_int_handler>",
+      "14": "<Handlers.SIG_DFL: 0>"
+    },
+    "timer": [
+      0.0,
+      0.0
+    ]
+  },
+  "injections": [
+    {
+      "function": "__exit__",
+      "line": 524,
+      "prior": [
+        30
+      ],
+      "after_real_mutation": [
+        2,
+        14,
+        30
+      ]
+    }
+  ],
+  "python_return": 2,
+  "exception": null,
+  "elapsed_s": 0.004415875067934394,
+  "ownership": [
+    {
+      "guardian": 30087,
+      "worker": 30088,
+      "returncode": 0,
+      "proof": {
+        "event": "reaped",
+        "pid": 30088,
+        "code": -9,
+        "kills": 1,
+        "error": null
+      },
+      "guardian_collected": true,
+      "worker_absent": true,
+      "worker_group_absent": true,
+      "channels": {
+        "control": [
+          null,
+          null
+        ],
+        "events": [
+          null,
+          null
+        ],
+        "ready": [
+          null,
+          null
+        ],
+        "auth": [
+          null,
+          null
+        ],
+        "release": [
+          null,
+          null
+        ],
+        "stdout": [
+          null,
+          null
+        ],
+        "stderr": [
+          null,
+          null
+        ]
+      },
+      "streams": {}
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+COMMAND: ['/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python', '-B', '-m', 'unittest', 'tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_1_manual_interleave_preserves_counter_only_generation_11', '-v']
+EXIT: 1
+test_1_manual_interleave_preserves_counter_only_generation_11 (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_1_manual_interleave_preserves_counter_only_generation_11) ... FAIL
+
+======================================================================
+FAIL: test_1_manual_interleave_preserves_counter_only_generation_11 (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_1_manual_interleave_preserves_counter_only_generation_11)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1219, in test_1_manual_interleave_preserves_counter_only_generation_11
+    owner, env = self.hold_live_owner()
+                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 110, in hold_live_owner
+    self.assertTrue(entered.exists(), "positive control: real wrapper owns the lock and dispatched its child")
+AssertionError: False is not true : positive control: real wrapper owns the lock and dispatched its child
+
+----------------------------------------------------------------------
+Ran 1 test in 0.468s
+
+FAILED (failures=1)

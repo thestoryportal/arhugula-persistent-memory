@@ -1,0 +1,16 @@
+{
+  "command_template": [
+    "/bin/ps",
+    "-o",
+    "nice=",
+    "-p",
+    "<own Python PID>"
+  ],
+  "exact_pid_unrecorded": true,
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "interpreter": "/usr/bin/python3",
+  "observation": "PermissionError: [Errno 1] Operation not permitted: /bin/ps",
+  "process_started": false,
+  "process_clearance": "UNAVAILABLE",
+  "host_suite_started": false
+}

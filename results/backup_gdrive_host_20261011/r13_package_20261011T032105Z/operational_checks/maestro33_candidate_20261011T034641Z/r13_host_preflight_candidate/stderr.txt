@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/run_py39_coverage.py", line 40, in validate_host
+    if nice!=0: raise RuntimeError('requires niceness 0')
+RuntimeError: requires niceness 0

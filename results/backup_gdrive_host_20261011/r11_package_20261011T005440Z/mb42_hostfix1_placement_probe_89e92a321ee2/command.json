@@ -1,0 +1,52 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_py39_coverage.py",
+    "mb42_hostfix1_placement_probe_89e92a321ee2",
+    "--sandbox",
+    "--mode",
+    "check-green"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "env": {
+    "BACKUP_PYTHON": "/usr/bin/python3",
+    "BACKUP_TEST_NO_RCLONE": "1",
+    "BACKUP_TEST_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb42_hostfix1_placement_probe_89e92a321ee2/home/fixtures",
+    "HOME": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb42_hostfix1_placement_probe_89e92a321ee2/home",
+    "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "MB28_BACKUP_PYTHON": "/usr/bin/python3",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "RCLONE_CONFIG": null,
+    "XDG_CONFIG_HOME": null
+  },
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "invoked_interpreter": "/usr/bin/python3",
+  "niceness": 10,
+  "python_version": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+  "real_home": "/Users/robertrhu",
+  "source_sha256": {
+    "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/run_suite.py": "5065464f1f61e957011f361ae48d8af1a85cd52fdecdcb40710c30d125b1fe3d",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md": "8204d3dc97c75968b7257b85bfe8dafe386dd09ba01d111bc36f0f85964e9d89",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/capture.py": "3df18e3048e1d8451997acf0b9cd32ae502791544e8b679660baf93f863d2b3d",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/check_plan.py": "4bca51b5a9da521afd87d8cdbd2136ccc7e4a9e784c6e9b3155207f7a41cf8e9",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/real_inventory.py": "d68c62f12c60aa8152ed8f37c26b8bdf920c1235b79765473797c47f39e7a56f",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_local_check.py": "d2c93d25c4d169447c08a003765f2bb1aee04e60da1a94d2fc60af75d1eb0059",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_py39_coverage.py": "d5a7094de35b528d423c47962a66bde9ea52b69f538007c28c5c49223a65965b",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_capture.py": "fe50cdd01ce21861e8361cf943297274048c90e0bd0f9a5874d076f1522eb28f",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_host_commands_mb42.py": "13801b39438ce278d83c5bf4a84c4777cc702ad125c578118ecbe846105eb55e",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py": "fb2905fb988326b59110ea25d3f0f56525c616112354a22118684d399bf9dbe2",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py": "d75ab13decda62237c3cb189c4790736484c4474a3c537b6ada06a9615ad99d7",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/verify_check.py": "a7126bd62cf127c757873f348db745b981fae9603246a5afff604736c8fc49e5",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/verify_readme_mb42.py": "a8d95080c962180b1d9c2ee51f08c2a5e565a2e91d9a3300c1ee439c5258eacb",
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+    "tools/backup_gdrive_status.py": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+    "tools/launchd/MemitGdriveBackup.applescript": "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428",
+    "tools/launchd/build_gdrive_applet.sh": "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+    "tools/launchd/com.rhu.memit-gdrive-backup.plist": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce",
+    "tools/launchd/stage_gdrive_release.sh": "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e",
+    "tools/test_backup_gdrive.py": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+    "tools/test_backup_gdrive_addendum.py": "3ff28cb712e97941476c1730928ff720f9a0dbcb2d8ba29344647ea8904501f8"
+  }
+}

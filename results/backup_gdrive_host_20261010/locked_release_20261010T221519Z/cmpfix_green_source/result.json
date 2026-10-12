@@ -1,0 +1,14 @@
+{
+  "all_owned_groups_exited": true,
+  "direct_process_count": 8,
+  "error_tests": [],
+  "errors": 0,
+  "exit_code": 0,
+  "failure_tests": [],
+  "failures": 0,
+  "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+  "skipped": 0,
+  "skips": [],
+  "success": true,
+  "testsRun": 1
+}

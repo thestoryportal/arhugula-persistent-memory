@@ -1,0 +1,1 @@
+{"test": "<lambda>", "processes": [{"pid": 19130, "pgid": 19130, "test": "<lambda>", "returncode": 0, "group_alive_after_test": false, "group_alive_after_cleanup": false}], "observed_children": [{"pid": 19129, "pgid": 19130, "test": "<lambda>", "live_owned_group_member_after_test": false}], "leaks": []}

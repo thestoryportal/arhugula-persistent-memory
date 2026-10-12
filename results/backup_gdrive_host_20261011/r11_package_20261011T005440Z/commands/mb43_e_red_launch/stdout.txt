@@ -1,0 +1,12 @@
+{
+  "success": false,
+  "mode": "e-red",
+  "testsRun": 1,
+  "failures": 2,
+  "errors": 0,
+  "skipped": 0,
+  "skips": [],
+  "real_inventory_identical": true,
+  "all_owned_groups_exited": true,
+  "exit_code": 1
+}

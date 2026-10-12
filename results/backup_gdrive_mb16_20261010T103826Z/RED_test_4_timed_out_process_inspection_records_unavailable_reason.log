@@ -1,0 +1,19 @@
+COMMAND: ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", "HostFixtureTests.test_4_timed_out_process_inspection_records_unavailable_reason", "-v"]
+EXIT: 1
+test_4_timed_out_process_inspection_records_unavailable_reason (__main__.HostFixtureTests.test_4_timed_out_process_inspection_records_unavailable_reason) ... FAIL
+
+======================================================================
+FAIL: test_4_timed_out_process_inspection_records_unavailable_reason (__main__.HostFixtureTests.test_4_timed_out_process_inspection_records_unavailable_reason)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 217, in test_4_timed_out_process_inspection_records_unavailable_reason
+    text = self.snapshot_failure(subprocess.TimeoutExpired(["/bin/ps"], 5))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 207, in snapshot_failure
+    self.assertTrue(path.is_file(), "failed inspection must leave an explicit snapshot receipt")
+AssertionError: False is not true : failed inspection must leave an explicit snapshot receipt
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

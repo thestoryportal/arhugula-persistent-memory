@@ -1,0 +1,16 @@
+COMMAND: ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", "HostFixtureTests.test_3_absent_optional_files_are_omitted", "-v"]
+EXIT: 1
+test_3_absent_optional_files_are_omitted (__main__.HostFixtureTests.test_3_absent_optional_files_are_omitted) ... FAIL
+
+======================================================================
+FAIL: test_3_absent_optional_files_are_omitted (__main__.HostFixtureTests.test_3_absent_optional_files_are_omitted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 168, in test_3_absent_optional_files_are_omitted
+    self.assertTrue(copied.is_dir())
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

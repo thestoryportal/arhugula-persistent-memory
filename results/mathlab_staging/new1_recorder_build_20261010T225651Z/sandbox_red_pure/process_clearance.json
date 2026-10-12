@@ -1,0 +1,8 @@
+{
+  "host_process_clearance": "UNAVAILABLE",
+  "ps_before": "NOT TAKEN",
+  "ps_after": "NOT TAKEN",
+  "reason": "/bin/ps denied by managed sandbox; no fabricated inventory",
+  "scope": "partial fixture/pure tests only; full niceness-gated runner NOT RUN",
+  "original_denial_record": "results/mathlab_staging/new1_recorder_build_20261010T225651Z/process_clearance.json"
+}

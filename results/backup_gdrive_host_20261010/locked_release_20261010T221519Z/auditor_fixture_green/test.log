@@ -1,0 +1,10 @@
+test_final_audit_excludes_runner_pid (__main__.ClearanceAuditorTest) ... ok
+test_final_audit_rechecks_group_after_child_moves (__main__.ClearanceAuditorTest) ... ok
+test_genuinely_leaked_owned_child_is_reported (__main__.ClearanceAuditorTest) ... ok
+test_live_pid_outside_owned_group_is_not_observed (__main__.ClearanceAuditorTest) ... ok
+test_runner_pid_is_not_an_observed_child (__main__.ClearanceAuditorTest) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.549s
+
+OK

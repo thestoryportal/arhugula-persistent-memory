@@ -1,0 +1,1 @@
+Host checks exit 0; see individual .txt and .exit files.

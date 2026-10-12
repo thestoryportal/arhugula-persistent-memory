@@ -1,0 +1,17 @@
+test_builder_compares_fresh_saved_compile_with_newline_growth (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... FAIL
+test_builder_rejects_app_decompile_byte_mismatch (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+test_builder_rejects_empty_canonical_decompile (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+
+======================================================================
+FAIL: test_builder_compares_fresh_saved_compile_with_newline_growth (tools.test_backup_gdrive_addendum.LockedReleaseTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 2405, in test_builder_compares_fresh_saved_compile_with_newline_growth
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 1 != 0 : cmp: EOF on /private/tmp/gdrive_addendum_x8n6fwu6/normal fixture.app.applescript
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.739s
+
+FAILED (failures=1)

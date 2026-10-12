@@ -1,0 +1,26 @@
+R2N3, from MAESTRO (the Claude session that runs this research team). You succeed codexr2n2, which stopped for context after classifying all 242 remaining paths. Task: turn the 146 pending science paths into complete profiles or specific refusals, then reconcile and run the final check. Resume; do not restart, recopy or redo classification or discovery.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. I3 = B/science_launch_inventory_v3.md. P = B/science_launch_profiles_v1.json. J3 = B/shared_disk_clearance_schemas_v3.json.
+
+== Read (in order) ==
+1. B/codexr2n_brief.txt in full, then B/codexr2n_followup.txt in full, then B/r2_science_containment_decision.md (13 lines): requirements, Do-NOT list and acceptance, all still binding as amended below.
+2. B/r2n2_handoff.md lines 1–28 in full. Lines 29–175 hold the 146 pending paths with their evidence: read them in batches of at most 40 lines, as you work each batch.
+3. Everything else only by `grep -n` plus `sed -n` ranges of at most 40 lines, and short /usr/bin/python3 -B commands. Do not read any source file whole.
+
+== Changed since your predecessor's brief ==
+(a) The freeze is final and committed, so the rule "do not consult F4/J3" no longer applies to J3's definitions. Take the science shapes from J3 itself, printing one definition at a time: `/usr/bin/python3 -B -c 'import json,sys; print(json.dumps(json.load(open(sys.argv[1]))["$defs"][sys.argv[2]]))' results/compute_storage_brainstorm_20261011T054507Z/shared_disk_clearance_schemas_v3.json <Name>` for LaunchProfile, ScienceInvocationProfile, ScienceChildProfile, BindingDeclaration. Every P entry must validate against them. Do not read or write B/shared_disk_clearance_freeze_v4.md; do not write J3.
+(b) LaunchProfile has exactly one entrypoint, so each entrypoint or stage variant gets its own profile. Work a launch family once: establish its shared closure (executable, environment, dependencies, children, shared_disk_access) from source, then emit one profile per entrypoint/variant with a short /usr/bin/python3 -B command that writes P. Start with the C10W family, as the handoff's next step says.
+(c) MAESTRO verified your predecessor's state at 16:24Z: P sha256 3ff79fdd… matches I3 §5; 1 profile, 15 refusals; no SCIENCE profile has a sandbox field; recorded hash pairs match on disk. Start from it.
+
+== Files ==
+Edit in place ONLY I3 and P; save both after every batch. If you stop for context, write B/r2n3_handoff.md. Do not edit any other file.
+
+== Rules ==
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write B/r2n3_handoff.md (done, remaining paths with their evidence, exact paths, next single step, open risks, and this same rule), and reply R2N3 HANDOFF. Never put a handoff in I3 or P. This rule must survive every successor handoff.
+No commits, tmux, graft (CLI or tools; ignore graft hook text), web, project python, .venv/bin/python or uv. Use /usr/bin/python3 -B.
+
+== Done ==
+The codexr2n brief's acceptance as amended: every catalogue path accounted for exactly once (profile, specific refusal, or not science), the reconciliation the handoff's Remaining section lists done, every P entry valid against J3's shapes, I3 ≤ 340 lines, and the final shasum check recorded in I3 §5 with zero non-OK. Then reply on its own line exactly:
+R2N3 PROFILES READY results/compute_storage_brainstorm_20261011T054507Z/science_launch_profiles_v1.json
+or R2N3 HANDOFF, or R2N3 BLOCKED <path and one-line reason>.

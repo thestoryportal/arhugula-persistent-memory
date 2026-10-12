@@ -1,0 +1,26 @@
+{
+  "sample": 3,
+  "test_passed": false,
+  "failures": 1,
+  "errors": 0,
+  "observations": [
+    {
+      "worker_pid": 51719,
+      "guardian_pid": 51718,
+      "guardian_returncode": 0,
+      "proof": {
+        "event": "reaped",
+        "pid": 51719,
+        "code": 2,
+        "kills": 0,
+        "error": null
+      },
+      "worker_dead": true,
+      "guardian_confirmed_reaped": true,
+      "all_owned_descriptors_closed": true,
+      "worker_stderr": "",
+      "worker_stdout": ""
+    }
+  ],
+  "instrumentation": "Captures the ownership object and probes it only after unchanged test completion. No assertions, bounds, patches, delays, polls or retries added to the test. Investigation only."
+}

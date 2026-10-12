@@ -267,7 +267,9 @@ def main():
     if args.once:
         print("\n".join(render(*args.once)))
         return
+    stamp = dashboard_live.source_stamp(dashboard_live.TOOLS)
     while True:
+        dashboard_live.maybe_reload(stamp)
         cols, rows = os.get_terminal_size(sys.stdout.fileno())
         try:
             lines = render(cols - 1, rows)

@@ -1,0 +1,59 @@
+{
+  "bash_n_exit_code": 0,
+  "before_copies_match": true,
+  "build_has_only_comparison_fix": true,
+  "final_sha256": {
+    "tools/launchd/build_gdrive_applet.sh": "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+    "tools/test_backup_gdrive_addendum.py": "f9547a3f58870881a5d78b8e2fd829a24e432979885c199865e837cfa871ab34"
+  },
+  "host_bash_blocks_checked": 5,
+  "host_python_blocks_checked": 2,
+  "native": "UNRUN",
+  "protected_sha256_match": true,
+  "runs": {
+    "sandbox_green_focus": {
+      "error_tests": [],
+      "errors": 0,
+      "failure_tests": [],
+      "failures": 0,
+      "native": "UNRUN",
+      "passed": 3,
+      "ps": "UNAVAILABLE: /bin/ps denied per MB35 brief",
+      "skipped": 0,
+      "sources_unchanged_during_run": true,
+      "success": true,
+      "testsRun": 3
+    },
+    "sandbox_green_non_native": {
+      "error_tests": [],
+      "errors": 0,
+      "failure_tests": [],
+      "failures": 0,
+      "native": "UNRUN",
+      "passed": 136,
+      "ps": "UNAVAILABLE: /bin/ps denied per MB35 brief",
+      "skipped": 0,
+      "sources_unchanged_during_run": true,
+      "success": true,
+      "testsRun": 136
+    },
+    "sandbox_red": {
+      "error_tests": [],
+      "errors": 0,
+      "failure_tests": [
+        "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_builder_compares_fresh_saved_compile_with_newline_growth"
+      ],
+      "failures": 1,
+      "native": "UNRUN",
+      "passed": 2,
+      "ps": "UNAVAILABLE: /bin/ps denied per MB35 brief",
+      "skipped": 0,
+      "sources_unchanged_during_run": true,
+      "success": false,
+      "testsRun": 3
+    }
+  },
+  "success": true,
+  "tests_written_before_production_fix": true,
+  "unrelated_test_AST_unchanged": true
+}

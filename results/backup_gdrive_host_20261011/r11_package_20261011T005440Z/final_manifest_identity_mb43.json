@@ -1,0 +1,78 @@
+{
+  "status": "PACKAGE_READY_HOST_UNRUN",
+  "manifest": {
+    "path": "final_sha256_mb43.txt",
+    "sha256": "ecdd09af6a5df338c7e9f5dc57efd4b378ae8ed30deb078a4031c8f21d306154",
+    "entries": 1133
+  },
+  "README_sha256": "26a89cb587782602aa40172d67f3294f34448b251ce532c7d5cd7663b408013d",
+  "pins_count": 31,
+  "pins_sha256": "a6bee53155273261c9210daf6d342d957553183b12bb93f4f13fe1f27b14087c",
+  "pins_json_sha256": "6cd7e6c4aae3ad1f5611914afce1a98215c0eab246d5935481e4a7833028cea9",
+  "change_manifest_sha256": "e3586b2026344bbea46f80bc59f8ac19661d7274cc2d83295a79a8a9aad6a118",
+  "verification": {
+    "exit_code": 0,
+    "files": [
+      {
+        "path": "commands/mb43_manifest_final_green/command.json",
+        "size": 1014,
+        "sha256": "5ded908304a25153de847e83ccb96f3f5c2670e8b5950bef30834fb9a5bd1cef"
+      },
+      {
+        "path": "commands/mb43_manifest_final_green/exit_code.txt",
+        "size": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      {
+        "path": "commands/mb43_manifest_final_green/stderr.txt",
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "commands/mb43_manifest_final_green/stdout.txt",
+        "size": 129521,
+        "sha256": "9ba9f38e05881cb7820b7152d63105469e71a78a539c27dc2981fb6cf3e080ee"
+      }
+    ]
+  },
+  "fresh_targets_absent": [
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_red",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_hostfix1_preflight_e-red",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_e_green",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_hostfix1_preflight_e-green",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_py39_coverage",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_hostfix1_preflight_coverage",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_hostfix1_preflight_fixture",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_green",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_hostfix1_preflight_frozen",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_package_green",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_hostfix1_preflight_package",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v1_red",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_hostfix1_preflight_check-red",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_check_v2_green",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_hostfix1_preflight_check-green",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_hostfix1_pins",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/r11_hostfix1_preflight_pins",
+    "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/r11_hostfix1_green_all"
+  ],
+  "sandbox_GREEN": {
+    "run": 210,
+    "pass_count": 196,
+    "skipped": 14,
+    "failures": 0,
+    "errors": 0
+  },
+  "sandbox_RED": {
+    "run": 4,
+    "failures": 5,
+    "errors": 0
+  },
+  "bulk_files": 8,
+  "receipt_bytes_before_identity": 44862421,
+  "allocated_bytes_before_identity": 53833728,
+  "context_checkpoint": {
+    "path": "context_save_mb43.md",
+    "sha256": "2e53fba1c840e90edb3cae4da2b0124621da92a3cf5816c5e5e5939e0515be00"
+  }
+}

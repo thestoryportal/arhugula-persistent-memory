@@ -1,0 +1,722 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/run_sandbox.py",
+    "sandbox_green_non_native",
+    "non_native"
+  ],
+  "command": "LLMDB_ROOT=\"$PWD\" PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/rtk proxy /usr/bin/python3 -B results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/run_sandbox.py sandbox_green_non_native non_native",
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "env": {
+    "BACKUP_PYTHON": "/usr/bin/python3",
+    "BACKUP_TEST_NO_RCLONE": "1",
+    "BACKUP_TEST_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures",
+    "HOME": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/home",
+    "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "MB28_BACKUP_PYTHON": "/usr/bin/python3",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "fixture_source_sha256": {
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_1naau98k/logged-rclone": [
+      "0281d95134a07d18dc21dde304a720ad0c4c333cb2eeb2f22abf3b51f129f741",
+      "575c9f9406aa156e6214e3df96e0e54a3b149784c6d33e0dd8a4916dfffd1127",
+      "728c7ebdc1d185f0b2455a67769d951e3f088a9db4372cae0b026b339eeecd37"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_288wb_fd/record-python": [
+      "ec8732ce36bff4d9368f2f8621ddbe7fd2a86a558c05b9a63ac025c74da0fa34"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_3u3_frtg/logged-rclone": [
+      "0de9d38a1019b421f0541598c19bf62c7971f96cfa9ac3b4ccec4e3fc7a6bcf4",
+      "6e2690bcc05c09551736a389bdcd8da2e0c3f5f5cc5f88b5f5182ba7eb8bedd2",
+      "a0a3c65aa2e34f931674bf5ad40c04af2a314cf31a40c15f1e6abf94ae688283",
+      "b77abefa45c51ffda3dae2ea93c052ff62b17bb51745047cac5f3ff4801cf9f9"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_3xvjpvrf/success.sh": [
+      "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_3yong22i/success.sh": [
+      "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_42vvsrm1/logged-rclone": [
+      "3d4f7c1c62058fa66e916eab8288391425f8e37f849105376a37250e79249818",
+      "a0e6883c8bd5b27ae79aff1309c5e49149d35c978d6e7d208bad9077ce83922d",
+      "db4f06f4c477cfa10f2b14ea0b8b015530c82f4666a870a8a7beef5d4458bb3a"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_49pkd2ce/stub.sh": [
+      "c9e54f1cf5b9bcfe3b08aef60fa640d3fb70cf6bf9203df9cbe036442bcde58f"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_4gw4k7p0/logged-rclone": [
+      "20fa3ad6698063ecc4d46b01cd0ca028c701b8780938866587ed08e1c66bdf9d",
+      "363289e8494cdf55d2b9e36594b9c91c248de7b8b9600ef2e4af78b794d1aa7c",
+      "3c19b84b79cb2cf5ec46a25010ae6b6637de03b053ec0ca9dbc10c9cff4ededd",
+      "4a517908385af0e846040c9a7472b6b31fa9e953d0a5b375828dcdb3be7e87fb",
+      "5890300b06ea14d03cc18a0dc9f49beea3abb9be7d3a0b0b7115a9d6b8bf610a",
+      "78deb80b1f818e186c8718a6af2bff3fcbb0fffc71f9894ed2acf2e30119a018",
+      "8cc52a856253d0a001359db1a146c4010ad90874fbf9d12ed0712fb4b2ed0469",
+      "97d57256094136d97c00ced04e6975064ccf1f596afad76aba02367353aec000",
+      "b658212557e1740c04ee4f070cf0e5c1e3553d99cebb065299444686b7d2980e",
+      "c298e20fd9ee7cc12cb6f2498a97b101475645887162724cbda1975f82f82961",
+      "cf1e16d2ebe0ee931b1fa09c20fc498d94bd257df604d3f56ae6986ad7543a31",
+      "cf30b6b0244c4ba0d14605ffc3fe37cac67323e7f92d08886656e658206fb7be",
+      "d2c3ab46e00e591948d5349737c16b4e9448de6bc4e9969da2ff46b83420bffb",
+      "d346b49750fe0b62fe0d4407be3986170f8cbb8f20a91de9813bb35b69fadb48"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_5bxt_zgm/fake-rclone": [
+      "fc155c1925605e995a23c4c1ff388abeaa5fe3691d66690bc896411abec1f84d"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_5bxt_zgm/second-rclone": [
+      "4100b0f55968d936fd0b69a24cb26d04156a6d3d8b74a4e48f414012d54e2369"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_5hmm_hxz/refused.sh": [
+      "7cb94097b13b9f04fd3aed9ea634dbe2a93c4367679f238678f0fc3df1c0b024"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_71ulxujr/logged-rclone": [
+      "379362c2478cf5a41b77587d5f0cd1de16871c61a0e8b5a822d117519d1b96b5",
+      "ab863df0072eca4b2240116e300f0a16b15f47fa842aa459fe3eafc3217c9a64",
+      "c0e4995efbbc95309ba250de0179845717e12e1ee8e5c195e41f6e006d23f900",
+      "e593d6bcc65653965a1f5393815d58902de0347326052a5272d792ab41f9a275"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_9gu2fzp7/fake-rclone": [
+      "7278dc721d0df58d1876f237f0700539d83ea89e150298e4c07f65f42da15798"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum__hsumw33/logged-rclone": [
+      "c2ac1cb01e54a421105337f4ab7f53e6748e35fe168fecec386d04d9e30de2d9",
+      "c4f44e670793e884d2b745f2556657589c0cc891fed4c905902b60c85d879c07"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_aqxsexr3/fake-rclone": [
+      "bbce409f99127d0c8c28de7972fc94991469d5169973aac9f23192fd9a76ac4e"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_byrc49n8/record-python": [
+      "206aa5155e9143c22116229c7fa87f4a9b1748f6c55565ed52a14a0ccf3157f0"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_cvrfv5mf/stub.sh": [
+      "a6b1edf29216b6ad440ba266bfb3ce269935d273241fd25d316cd8f3694770be"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_eoep27gj/stub.sh": [
+      "c997ede3fe745cff6cde048aba270d74d5da37bb0d103186028d81f931184614"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_et5544nd/stub.sh": [
+      "0766eb5a67b1b3732ea973f3ab1cfaaf5d7a4cf4c73f71f19c211661e195efca"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_fe0vf52y/volume-wrapper.sh": [
+      "5d730ded47e2a51635108c45832f1b0d4f28828cd490c11cd31e5eb989ecd45a"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_fz7muhx1/stub.sh": [
+      "590ad634eb9b90c33ce3eac27a84d11e9526799bf65a7288fed0fb14196b0f29"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_gvfilowf/fake-rclone": [
+      "4109f49908f38fc68c19ffc94468935dc17d1ecb09e87640e2c11c6cb0bbaf39"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_hrtbg7ow/logged-rclone": [
+      "1c80a3ded029f8f4e4bf76ea565563e981b2ef2e1ca895914bd1c69d6f6e3324"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_hzshrdw3/held-rclone": [
+      "fb0a4577f1aff1c6d02252e5db7ab8512a8f49f2b00fb2138e60592900ed5c60"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_jkulauzj/stub.sh": [
+      "42e3bc67d5d4fec219f6133c3cb466e395770015a3007eaffe7e9f986b69635f"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_m7grpisr/logged-rclone": [
+      "9130c93ffd50568a1f3358d6b42702c86ed8301acb5fc83620facb9371d77cf5"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_p85g5xfa/wrapper 'quoted' \"back\\slash\".sh": [
+      "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_qde72xzl/logged-rclone": [
+      "27f6386e128a19fb7ead437cf2e3c9f6690a0d0354d491a99278738ac24490d4"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_qqqm4tja/refused.sh": [
+      "7cb94097b13b9f04fd3aed9ea634dbe2a93c4367679f238678f0fc3df1c0b024"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_r66l9h61/fake-rclone": [
+      "dcb016e2c129614cebb82d793333b6fa9d74c1c4b64e20828095c85e2f206688"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_r_1zeek9/logged-rclone": [
+      "92024da7bcb8f4a58e668cb25cd635ca3d26194e6b08ce55e9017095a4b24ad1"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_sd50drke/classification-fails": [
+      "22805c9617f4b82720c59d6d55126af216439bdca70a0f8b75b176bac2ba0f16"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_sd50drke/logged-rclone": [
+      "f0d320704a547c34438c9579f0058809063a623942ae25a323f5a1771a8dc2bf"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_slk75f_5/fake-rclone": [
+      "b75ba35587bd60f52a290a5710dd7b3212d7f496147719ca130801a624eaced1"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_t_9yeh2q/held-rclone": [
+      "e81eec00e93017d729cc26e39404d038849776593e5230e0e7ed297515fe02c4"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_tucxh286/logged-rclone": [
+      "bbf4a436935e40011c72f8c5624e393769dc5109308308cb235c9b3d9e715d81",
+      "f3916a79a0a948ccc7d5d3d501547caebbf911b3e890aa7ec63756676b9c641f"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_vo0o3s9q/fake-rclone": [
+      "c9aa428a7a831e8496c49bd04f23bf4008535394014f7dc5cc6ccbe47a54700c"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_w798pblg/logged-rclone": [
+      "0f724ca956513273b958501bbb74341a3b7258323fe461b695f49b1e0f6f586f"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_wdrult3w/logged-rclone": [
+      "b40dc1d973270dab69e75c8d4b63ad6b6a75451a478be7487327ffd2335acdb4"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_wk87xrxl/logged-rclone": [
+      "241be141164e47334e0b5ee06b3ec65658fe3815c6dece23d4c7b3a967427cb2",
+      "97690e3ec71af9fe35b21784baffa6067b562592038696a338f3cf9369ab6a6b"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_wxi_4hn6/stub-rclone": [
+      "c31d92b968d58199a9cc1703dad706523e62a57907cbf9a1b27137435bf51fb5"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_xxs8av9b/logged-rclone": [
+      "1b67ababe610be792d9cf0aa47317ebfdde59785057ddbe97fe6b4c7c4a2fce5",
+      "50c67ef5ecd918b56c4524705247caf9e6cf5a781720300c4bb1353c79ce2cc5",
+      "7bd4eeb1a95fafa10a3faf6abe07186e2881b8a94d80d89775fb7f41d6957739",
+      "97f888c02837f71c101758729e730cdf284e57c6f6cf9ded4433b80b68f8e5c0",
+      "b31e52c7c12090126c8f30396513eaa7d0254579f92665fb90369956d691f743",
+      "badd76c1bcf477c8911222a0e7a48d781885366a591fba110dcca9cbe3180832",
+      "c2d7e816c2aca45d9e52c8e9124e2988036eb824c0b8a610ef70436cad5c8ad3"
+    ],
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/sandbox_green_non_native/fixtures/gdrive_addendum_y7t1nx7q/held-rclone": [
+      "7207736732af56d2fe7efbf7963b0558319391f0dc5988c13980e387bddbcd32"
+    ],
+    "/private/tmp/gdrive_addendum_4cjsh7x2/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_4cjsh7x2/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_4cjsh7x2/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_4cjsh7x2/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_4cjsh7x2/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum_4cjsh7x2/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_7365leiv/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_7365leiv/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_7365leiv/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_7365leiv/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_7365leiv/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum_7365leiv/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_7365leiv/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_7365leiv/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_7365leiv/rendered source.applescript": [
+      "3e65fa1ac8361f69460e345b0781738072ee6bcd6d01a795b2ed08b151ca5a79"
+    ],
+    "/private/tmp/gdrive_addendum_95ecw4mz/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_95ecw4mz/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_95ecw4mz/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_95ecw4mz/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_95ecw4mz/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum_95ecw4mz/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_95ecw4mz/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_95ecw4mz/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive_status.py": [
+      "30a6f88a261fdacfae9b6bd99eae481f1d54decc4564fcd4f610b7fe3f530f5f"
+    ],
+    "/private/tmp/gdrive_addendum_95ecw4mz/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_95ecw4mz/rendered source.applescript": [
+      "fb4be640859ba3971cfd1c920927882cefdccc67ce449cd90e1b2770c1483a44"
+    ],
+    "/private/tmp/gdrive_addendum__03739qs/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum__03739qs/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum__03739qs/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum__03739qs/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum__03739qs/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum__03739qs/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum__03739qs/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum__03739qs/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum__03739qs/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum__03739qs/rendered source.applescript": [
+      "3f765e6dece781d954e89eb2bd16711dc49ade4921cf902d808a954f1ba6267a"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+      "a4051c40880b809dc13fc88f94eb090038d38e3b98b0adea61cf1f0d20b2632d"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/fake-osa-normal/osacompile": [
+      "f97f4be0967f6720229af2127f4c05e4058be44d294fef4c2e32c40c5626ec78"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/fake-osa-normal/osadecompile": [
+      "f97f4be0967f6720229af2127f4c05e4058be44d294fef4c2e32c40c5626ec78"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/fake-osa-normal/rendered_input.applescript": [
+      "80350a9562ef98ae3f2e08a0fb21c7d8b15740b26e9bfdb554dfabc500279593"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/home/Library/Application Support/memit-gdrive-backup/releases/fixture-normal/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/home/Library/Application Support/memit-gdrive-backup/releases/fixture-normal/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/home/Library/Application Support/memit-gdrive-backup/releases/fixture-normal/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/normal fixture.app.applescript": [
+      "e360e5439a84b5a506ba80bd8d600c460e042d1a45a1595fcdeb886bf2ac5116"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/normal fixture.app.decompiled.applescript": [
+      "9ec9cc550b855108813adccb6b47311e3204a708d33ca5ae6e4b90ad6ad21838"
+    ],
+    "/private/tmp/gdrive_addendum_bfxpgker/normal fixture.app/Contents/Resources/Scripts/main.scpt": [
+      "e360e5439a84b5a506ba80bd8d600c460e042d1a45a1595fcdeb886bf2ac5116"
+    ],
+    "/private/tmp/gdrive_addendum_c9xko1ji/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_c9xko1ji/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_c9xko1ji/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_c9xko1ji/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_c9xko1ji/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum_c9xko1ji/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_c9xko1ji/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_c9xko1ji/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_c9xko1ji/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_c9xko1ji/rendered source.applescript": [
+      "9f8124b85ac0d63f8debd6658867ffc35e42e84e404b62ac54ce3d321532fa68"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+      "a4051c40880b809dc13fc88f94eb090038d38e3b98b0adea61cf1f0d20b2632d"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/empty_canonical fixture.app.applescript": [
+      "f64a640c0a5126a09c378d8dc014c416bae4357bec653a6390b67398c32f3101"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/fake-osa-empty_canonical/osacompile": [
+      "f97f4be0967f6720229af2127f4c05e4058be44d294fef4c2e32c40c5626ec78"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/fake-osa-empty_canonical/osadecompile": [
+      "f97f4be0967f6720229af2127f4c05e4058be44d294fef4c2e32c40c5626ec78"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/fake-osa-empty_canonical/rendered_input.applescript": [
+      "f64a640c0a5126a09c378d8dc014c416bae4357bec653a6390b67398c32f3101"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/home/Library/Application Support/memit-gdrive-backup/releases/fixture-empty_canonical/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/home/Library/Application Support/memit-gdrive-backup/releases/fixture-empty_canonical/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_czrcbu66/home/Library/Application Support/memit-gdrive-backup/releases/fixture-empty_canonical/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_eub09ptq/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_eub09ptq/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_eub09ptq/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_eub09ptq/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_eub09ptq/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum_eub09ptq/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_eub09ptq/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_eub09ptq/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_eub09ptq/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_eub09ptq/rendered source.applescript": [
+      "e0ba956fc1560e9e414ed116819e2fea33d55374f3a673b6ba0e692d35a3c424"
+    ],
+    "/private/tmp/gdrive_addendum_fmpkjm4a/checkout/tools/backup_gdrive.sh": [
+      "0a5fb2d3a9e42d8cd0cd06a68ffdbc8cdd3e26ad2ec801c47867e457e7433e1a",
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_fmpkjm4a/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_fmpkjm4a/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_fmpkjm4a/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_fmpkjm4a/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum_fmpkjm4a/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_fmpkjm4a/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_fmpkjm4a/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_fmpkjm4a/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_fmpkjm4a/rendered source.applescript": [
+      "dea3a444064a787b1958dbaf6a3f11b7d72ef57e3bed4d9f1e6512a7eb4a8f91"
+    ],
+    "/private/tmp/gdrive_addendum_iv9ijefo/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_iv9ijefo/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_iv9ijefo/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_iv9ijefo/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_iv9ijefo/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum_iv9ijefo/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_iv9ijefo/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_iv9ijefo/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_iv9ijefo/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_mirror.excludes": [
+      "1fc06e2bcdc38bab043d3ef8184693e9786ac49cf6047ba9d6ef31b73af326a9"
+    ],
+    "/private/tmp/gdrive_addendum_iv9ijefo/rendered source.applescript": [
+      "e1d1e8d7c17b11e607e8be027d097659d949d118f9d932ba028e43e5d7581b84"
+    ],
+    "/private/tmp/gdrive_addendum_mj2ps353/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_mj2ps353/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_mj2ps353/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_mj2ps353/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_mj2ps353/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum_mj2ps353/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_mj2ps353/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_mj2ps353/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_mj2ps353/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_mj2ps353/rendered source.applescript": [
+      "958b1618debfdde5f174a8e05e43ec36243abceb8c9e877f048bf8a7ff7c6c19"
+    ],
+    "/private/tmp/gdrive_addendum_n_p618v1/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_n_p618v1/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_n_p618v1/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_n_p618v1/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_n_p618v1/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum_n_p618v1/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_n_p618v1/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh": [
+      "089ac1e929b894ccfb9d2360b79a179909fd4be0248c977d7615df5aa146b914"
+    ],
+    "/private/tmp/gdrive_addendum_n_p618v1/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_n_p618v1/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_n_p618v1/rendered source.applescript": [
+      "bc9362e06b49d8ab95700df7289bd7427a092f98bfff988d60fca15df6617445"
+    ],
+    "/private/tmp/gdrive_addendum_na4fakt6/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9",
+      "40d2e85fc7df8d1ea788f563fc930aa503379fd644b4293850fe69a557d5f4a8"
+    ],
+    "/private/tmp/gdrive_addendum_na4fakt6/checkout/tools/backup_gdrive_status.py": [
+      "40d2e85fc7df8d1ea788f563fc930aa503379fd644b4293850fe69a557d5f4a8",
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_na4fakt6/checkout/tools/backup_mirror.excludes": [
+      "40d2e85fc7df8d1ea788f563fc930aa503379fd644b4293850fe69a557d5f4a8",
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_na4fakt6/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_na4fakt6/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum_na4fakt6/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_na4fakt6/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_na4fakt6/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_na4fakt6/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_na4fakt6/rendered source.applescript": [
+      "90549ec1d78ee1ef008354e6ce6955b896aa0b8b64e4c1f0589919e5fb9cf69d"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/changed_byte fixture.app.applescript": [
+      "817de3748561c807f9fc8fa867f3ee6916e5d6a5da0d6450152277ad9cf48a69"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/changed_byte fixture.app.decompiled.applescript": [
+      "73c60b7e8d46b2f0a2739495a33bf08790b769f8ed98db8cf16dbb06c7f27152"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/changed_byte fixture.app/Contents/Resources/Scripts/main.scpt": [
+      "817de3748561c807f9fc8fa867f3ee6916e5d6a5da0d6450152277ad9cf48a69"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+      "a4051c40880b809dc13fc88f94eb090038d38e3b98b0adea61cf1f0d20b2632d"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/extra_newline fixture.app.applescript": [
+      "362f371fa038d4e481d4bc560fccd660119431ab741f6d0f6ccc7887c7157f47"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/extra_newline fixture.app.decompiled.applescript": [
+      "a696eea7d3ceceb0e15d37a7e309521e320b3ce8af7b3e061c47e3d2839fff17"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/extra_newline fixture.app/Contents/Resources/Scripts/main.scpt": [
+      "362f371fa038d4e481d4bc560fccd660119431ab741f6d0f6ccc7887c7157f47"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/fake-osa-changed_byte/osacompile": [
+      "f97f4be0967f6720229af2127f4c05e4058be44d294fef4c2e32c40c5626ec78"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/fake-osa-changed_byte/osadecompile": [
+      "f97f4be0967f6720229af2127f4c05e4058be44d294fef4c2e32c40c5626ec78"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/fake-osa-changed_byte/rendered_input.applescript": [
+      "10eb5aa99894f75a96c9a48ababcaa10664a5ef7731c105ce12701a4166dd7a4"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/fake-osa-extra_newline/osacompile": [
+      "f97f4be0967f6720229af2127f4c05e4058be44d294fef4c2e32c40c5626ec78"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/fake-osa-extra_newline/osadecompile": [
+      "f97f4be0967f6720229af2127f4c05e4058be44d294fef4c2e32c40c5626ec78"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/fake-osa-extra_newline/rendered_input.applescript": [
+      "9be1eda40fd0d82c228785af8f3a938a951d7d252f62bc2a40fb056fd010d497"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/home/Library/Application Support/memit-gdrive-backup/releases/fixture-changed_byte/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/home/Library/Application Support/memit-gdrive-backup/releases/fixture-changed_byte/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/home/Library/Application Support/memit-gdrive-backup/releases/fixture-changed_byte/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/home/Library/Application Support/memit-gdrive-backup/releases/fixture-extra_newline/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/home/Library/Application Support/memit-gdrive-backup/releases/fixture-extra_newline/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_sd_q5370/home/Library/Application Support/memit-gdrive-backup/releases/fixture-extra_newline/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_vlrmlo4p/checkout/tools/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_vlrmlo4p/checkout/tools/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_vlrmlo4p/checkout/tools/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_vlrmlo4p/checkout/tools/launchd/MemitGdriveBackup.applescript": [
+      "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428"
+    ],
+    "/private/tmp/gdrive_addendum_vlrmlo4p/checkout/tools/launchd/build_gdrive_applet.sh": [
+      "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252"
+    ],
+    "/private/tmp/gdrive_addendum_vlrmlo4p/checkout/tools/launchd/stage_gdrive_release.sh": [
+      "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e"
+    ],
+    "/private/tmp/gdrive_addendum_vlrmlo4p/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive.sh": [
+      "302df2334fa08d48bd2ecb78351014c5bf0cd31ceb41468358b7e6cc110997c9"
+    ],
+    "/private/tmp/gdrive_addendum_vlrmlo4p/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_gdrive_status.py": [
+      "f1f4cb4c0cc11882f4969ab19961017ee9ab12e1911df9aa9512a4e1c3e227a3"
+    ],
+    "/private/tmp/gdrive_addendum_vlrmlo4p/home/Library/Application Support/memit-gdrive-backup/releases/fixture-r1/backup_mirror.excludes": [
+      "bd6ebd936036c1cdc4bc027aa775ea0b1bb4ef6b3ed16ba89e70d83ae81bf1f3"
+    ],
+    "/private/tmp/gdrive_addendum_vlrmlo4p/rendered source.applescript": [
+      "170463ebf0e1b5936814614a8c57ed37131a9a3873bfc0c56b08a97ded786716"
+    ]
+  },
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "invoked_interpreter": "/usr/bin/python3",
+  "python_version": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+  "source_sha256": {
+    "results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/run_sandbox.py": "e4aea6eb70b1e63bbc72d6b93729d5082b8a3b44a0dadd5af63376610ae70ee5",
+    "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/run_suite.py": "5065464f1f61e957011f361ae48d8af1a85cd52fdecdcb40710c30d125b1fe3d",
+    "tools/archive_to_gdrive.sh": "efcade80c90afec3b71224130b3e1b38a104164a3b7c90f5670f410e6f92475d",
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+    "tools/backup_gdrive_status.py": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+    "tools/launchd/MemitGdriveBackup.applescript": "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428",
+    "tools/launchd/build_gdrive_applet.sh": "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+    "tools/launchd/com.rhu.memit-gdrive-backup.plist": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce",
+    "tools/launchd/stage_gdrive_release.sh": "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e",
+    "tools/test_backup_gdrive.py": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+    "tools/test_backup_gdrive_addendum.py": "f9547a3f58870881a5d78b8e2fd829a24e432979885c199865e837cfa871ab34"
+  },
+  "source_sha256_after": {
+    "results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/run_sandbox.py": "e4aea6eb70b1e63bbc72d6b93729d5082b8a3b44a0dadd5af63376610ae70ee5",
+    "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/run_suite.py": "5065464f1f61e957011f361ae48d8af1a85cd52fdecdcb40710c30d125b1fe3d",
+    "tools/archive_to_gdrive.sh": "efcade80c90afec3b71224130b3e1b38a104164a3b7c90f5670f410e6f92475d",
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+    "tools/backup_gdrive_status.py": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+    "tools/launchd/MemitGdriveBackup.applescript": "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428",
+    "tools/launchd/build_gdrive_applet.sh": "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+    "tools/launchd/com.rhu.memit-gdrive-backup.plist": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce",
+    "tools/launchd/stage_gdrive_release.sh": "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e",
+    "tools/test_backup_gdrive.py": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+    "tools/test_backup_gdrive_addendum.py": "f9547a3f58870881a5d78b8e2fd829a24e432979885c199865e837cfa871ab34"
+  }
+}

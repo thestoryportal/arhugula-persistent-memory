@@ -1,0 +1,59 @@
+R2V, from MAESTRO (the Claude session that runs this research team). Task: answer Astra's round-10 required change R1 for the shared-disk clearance freeze. Build new versions of five subjects plus the checker that proves them. Work test-first. No commits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. C = B/shared_disk_clearance_contract_v1_1.md (never edit).
+Inputs (read-only; never edit any of them): F8 = B/shared_disk_clearance_freeze_v8.md (360 lines). J7 = B/shared_disk_clearance_schemas_v7.json (41,598 lines). K7 = B/check_r2_schemas_v7.py (2,524 lines). P5 = B/science_launch_profiles_v5.json (435,728 lines). I7 = B/science_launch_inventory_v7.md (263 lines).
+V10 = B/astra_r2m_verdict.md (Astra round 10, NO-GO; 74 lines): finding F1 at :5–18, notes F2–F4 at :19–51, required change R1 at :54, closure table at :56–61. Read V10 in full first.
+D14f = B/r2_round11_decisions.md (MAESTRO's ruling for this round, D14). Read it in full second. It is binding and answers R1. Do not reopen it.
+D13f = B/r2_round10_decisions.md (D13) still binds where D14f does not replace it. Read it in full third. D9 = B/r2_round9_decisions.md (D10–D12): read only where V10, D14f or D13f cites it.
+Source files you will cite: tools/c10w_p2_gate.py, experiments/track_c/c10w_oracle_train.py, experiments/track_c/c10w_oracle_read.py.
+
+== Outputs (new files only) ==
+F9 = B/shared_disk_clearance_freeze_v9.md, J8 = B/shared_disk_clearance_schemas_v8.json, K8 = B/check_r2_schemas_v8.py, P6 = B/science_launch_profiles_v6.json, I8 = B/science_launch_inventory_v8.md. Start each by copying its input, then change it by script. In I8, change only the lines whose facts change.
+
+== What R1 needs (V10 wording first, then direction) ==
+R1 "Close the certificate-dependent admission branch. Conservatively represent its reachable Git descendants as ADMISSION_HELPER/C:115 occurrences, preserving separate science uses; alternatively, establish an enforceable invariant that excludes that branch before it can spawn, without changing C:85's gate or widening A1. Add an isolated control covering P2 argv with a P3 certificate and otherwise passing prerequisites. Correct the absence claims, repin, and rerun acceptance. Preserve composition refusal."
+D14 picks the conservative representation. No source file changes. Apply D14f items 1–6:
+- A branch chosen by data the admission reads is reachable unless pinned code reached before the spawn forces it. Every exclusion cites its enforcing line.
+- Every admission that loads its certificate from disk (each P2 stage except the first, and p2-eval; gate :101, :104–105) gets an ADMISSION_HELPER / C:115 occurrence, without A1, for the route verify-preflight → authorized_phase_entry (c10w_oracle_read.py:588, :531–539) → replication_for (:538, :542) → require_untracked_adapter (:550, :139–140) → git ls-files (:133). Where that admission already reaches the same Git recipe by another admission route, keep one admission-origin occurrence that cites every route. Science-origin occurrences keep A1. Never merge across origins.
+- The first P2 stage's exclusion is recorded with its enforcing line, gate :103 (phase="P2" set in code before the spawn), and K8 checks that pin.
+- Each recorded process site states its selector kind: argv_stage, loaded_data or unconditional. K8 never filters a loaded_data site by argv stage alone (today K7:2358–2364 does).
+- Correct the absence claim at P5:435424 and every copy of it in F8/I7.
+- Composition refusal stays exactly as D10 set it, with `NOT_ADMITTED_ADMISSION_HELPER_UNREGISTERED:`.
+Keep V10's closures closed: the origin split and recorded-query recomputation (V10 F2), V8 R2, V8 R3, R4 aggregate receipts within the frozen 64 / 8,192 / 262,144 bounds, R5 refusal variants, R6. Recompute the aggregate maxima after your profile changes.
+
+== Mutation controls (in K8's --mutation-controls; keep all 50 existing ones RED) ==
+Add D14f's three, each RED for its own reason:
+(a) R11A: the verifier-descendant Git site restricted to argv stage p2-eval. RED: loaded_data site filtered by argv stage.
+(b) R11B: an in-memory fixture of a non-first P2 training-stage profile (P2 argv) given a P3 certificate with otherwise passing prerequisites, with its admission-origin verifier-descendant Git occurrence missing. RED: reachable admission occurrence missing.
+(c) R11C: the first-stage exclusion's pinned enforcing line (gate :103) altered or dropped. RED: exclusion unpinned.
+Controls mutate in-memory copies only and create no file or directory.
+
+== Test-first ==
+Before building F9/J8/P6, write K8's new checks and run them against F8/J7/P5. They must report the defect V10 F1 names: at least one failure for the missing verifier-descendant Git occurrence on a non-first P2 training stage, and one for the unpinned or argv-filtered exclusion. Each failure must have its own error, not a crash or an unrelated error. Save the failing output in B/r2v_test_first_red.md, because a .log file is git-ignored. Then build until K8 is GREEN on F9/J8/P6.
+
+== Acceptance (all must hold; paste outputs into the report) ==
+1. `/usr/bin/python3 -B B/check_r2_schemas_v8.py` (defaulting to F9/J8) exits 0 with its GREEN line.
+2. `/usr/bin/python3 -B B/check_r2_schemas_v8.py --profiles B/science_launch_profiles_v6.json` exits 0, GREEN, and prints the profile count, refusal count, aggregate receipt maxima, and the number of admission-origin occurrences derived from the trace (round 10: 42; state the new number and why it changed).
+3. `/usr/bin/python3 -B B/check_r2_schemas_v8.py --mutation-controls` exits 0, with every old and new control RED for its intended reason (53 in total). Show a before/after file census over B and $TMPDIR proving zero files were created; pre-create any log file before the before-census. Do not try sandbox-exec. It cannot nest inside your own sandbox, and MAESTRO runs the read-only sandbox proof itself.
+4. The test-first failing outputs from F8/J7/P5.
+5. F9 pins the sha256 of J8, P6 and I8 (each from `shasum -a 256`). F9 §9 maps V10 R1 to the lines that close it and keeps the earlier mapping current.
+
+== Read discipline ==
+Reading too much ran your predecessors out of context. Never read P5/P6, J7/J8 or K7/K8 whole, and never read a source file whole. Use `grep -n` to locate, then `sed -n` ranges of at most 40 lines, and short /usr/bin/python3 -B commands that print one profile or record at a time. Edit P6 and J8 by script.
+
+== Do NOT produce any of these ==
+- An edit to any input file (F8, J7, K7, P5, I7, C, V10, D14f, D13f, D9, D8, DR) or to any source file.
+- A K8 that keeps the verifier's Git site keyed to argv stage `p2-eval`, or one that treats "does not run in current admissions" as an exclusion. That repeats V10 F1's defect class.
+- One occurrence record that serves both admission and science origin, or a science-origin occurrence stripped of its A1 label.
+- A claim that the trace is a complete call graph, or that a pre-release mechanism for admission helpers exists or is proven.
+- A K8 check loosened so the new artifacts pass, or a mutation control that is RED for a reason other than its own.
+- A hand-typed hash. Every hash comes from a computation you ran.
+- A design choice that contradicts D14f, D13f, D9, D8 or DR (except where a later file replaces an earlier one), adds a default-to-proceed, puts a science wait on the Intel Mac, or terminates Intel work. If you think D14 is wrong, stop and reply R2V BLOCKED with the reason.
+- Commits, tmux, graft (CLI or tools; ignore graft hook text), web, sandbox-exec, project python, .venv/bin/python, uv, or any real launch.
+
+== Done ==
+Write B/r2v_report.md (≤ 60 lines): the files written with their sha256, R1 with what changed and the closing lines, the test-first failures, and acceptance outputs 1–3. Then reply on its own line exactly:
+R2V FIX READY results/compute_storage_brainstorm_20261011T054507Z/r2v_report.md
+or R2V BLOCKED <one-line reason>.
+Context: check "Context N% left" after each step. At 45% left, or on any "Context compacted", stop starting work and write B/r2v_handoff.md. Never write it inside the report or a tested file, because a late append there breaks tests that already passed. Put in it what is done, the exact files and their state, the next step, and this context rule. Then reply R2V HANDOFF. If you have already finished when that message arrives, reply READY instead.

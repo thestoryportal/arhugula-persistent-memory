@@ -1,10 +1,10 @@
 """Live state for the team dashboard, derived from the program's own records on every redraw, never typed by hand:
 operator rulings awaited (runbook §5.2 rows whose status says "awaiting operator"), the GPU job or the last
 coordinator outcome, Codex builds that are working, running helper agents, and the events newer than the
-hand-written report text. Also: panes reload themselves when dashboard code changes, and the team tab is rebuilt
-when team sessions start or end. Pure functions first; gather() and the effects at the bottom.
+hand-written report text. Panes reload themselves when their repo imports change; the team view composes its live
+session list without rebuilding tmux panes. Pure functions first; gather() and the effects at the bottom.
 """
-import collections, functools, glob, json, math, os, re, shlex, subprocess, sys, time, unicodedata
+import ast, collections, functools, glob, json, math, os, re, shlex, subprocess, sys, time, unicodedata
 from datetime import datetime
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
@@ -371,8 +371,54 @@ def newer_events(updated, events):
     return [name for t, name in sorted(events) if updated is None or t > updated]
 
 
+@functools.lru_cache(maxsize=256)
+def source_imports(path, mtime_ns, size):
+    """Static imports, including function-local imports, without executing any repo module."""
+    with open(path, encoding="utf-8") as source:
+        try:
+            tree = ast.parse(source.read(), filename=path)
+        except SyntaxError:
+            return ()   # stamp the broken source too; re-exec exposes its syntax error
+    imports = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            imports.extend((name.name, 0) for name in node.names)
+        elif isinstance(node, ast.ImportFrom):
+            module = node.module or ""
+            imports.append((module, node.level))
+            imports.extend((".".join(filter(None, (module, name.name))), node.level)
+                           for name in node.names if name.name != "*")
+    return tuple(imports)
+
+
 def source_stamp(directory):
-    return max((os.path.getmtime(p) for p in glob.glob(os.path.join(directory, "dashboard_*.py"))), default=0.0)
+    """Max mtime of dashboard scripts and their local import closure (packages included)."""
+    directory = os.path.realpath(directory)
+    root = os.path.dirname(directory)
+    pending = glob.glob(os.path.join(directory, "dashboard_*.py"))
+    seen, stamp = set(), 0.0
+    while pending:
+        path = os.path.realpath(pending.pop())
+        if path in seen or not path.startswith(root + os.sep):
+            continue
+        seen.add(path)
+        stat = os.stat(path)
+        stamp = max(stamp, stat.st_mtime)
+        for module, level in source_imports(path, stat.st_mtime_ns, stat.st_size):
+            if level:
+                base = os.path.dirname(path)
+                for _ in range(level - 1):
+                    base = os.path.dirname(base)
+                bases = (base,)
+            else:
+                bases = (directory, root)
+            parts = module.split(".") if module else []
+            for base in bases:
+                for i in range(len(parts) + 1):
+                    stem = os.path.join(base, *parts[:i])
+                    candidates = (stem + ".py", os.path.join(stem, "__init__.py")) if i else (os.path.join(stem, "__init__.py"),)
+                    pending.extend(p for p in candidates if os.path.isfile(p))
+    return stamp
 
 
 def sources_changed(directory, stamp):
@@ -431,7 +477,9 @@ class TeamSupervisor:
 
 
 ASKING = re.compile(r"Hooks need review|enter confirm|Do you want|\[y/n\]|\(y/n\)|Allow this|approve", re.I)
-ERROR = re.compile(r"Traceback \(most recent call last\)|\bError:|Operation not permitted|\bBLOCKED\b|\bFAILED\b|permission denied", re.I)
+ERROR = re.compile(r"Traceback \(most recent call last\)|\bError:|Operation not permitted|\bBLOCKED\b|permission denied|^\s*(?:[└⎿•⏺]\s*)?FAILED\b", re.I | re.M)
+REPLY_TOKEN = re.compile(r"^\s*(?:[•⏺]\s*)?[A-Z][A-Z0-9_-]*(?:[ \t]+[A-Z0-9_-]+)*\s*$")
+FINISH_WORD = re.compile(r"(?:^|[ _-])(?:READY|DONE)(?:[ _-]|$)")
 STALL_S = 15 * 60
 
 
@@ -442,6 +490,10 @@ def session_alerts(screens, memory, now):
     for name, screen in sorted(screens.items()):
         lines = [l for l in screen.splitlines() if l.strip()]
         tail = "\n".join(lines[-15:])
+        errors = [i for i, line in enumerate(lines[-15:]) if ERROR.search(line)]
+        finishes = [i for i, line in enumerate(lines[-15:])
+                    if REPLY_TOKEN.fullmatch(line) and FINISH_WORD.search(line.strip())]
+        clean_finish = bool(finishes and (not errors or finishes[-1] > errors[-1]))
         working = bool(BUSY_RE.search(screen))
         steps = tuple(l.strip() for l in lines if l.lstrip()[:1] in "•⏺" and "Working (" not in l)
         seen = memory.get(name)
@@ -452,7 +504,7 @@ def session_alerts(screens, memory, now):
             out.append(f"{name} is waiting for an answer")
         elif working and now - since >= STALL_S:
             out.append(f"{name} shows no new step for {int((now - since) // 60)} min")
-        elif not working and ERROR.search(tail) and "DONE" not in tail:
+        elif not working and errors and not clean_finish:
             out.append(f"{name} stopped after an error")
     return out
 
@@ -479,6 +531,8 @@ def now_lines(state, now):
         if ex:
             what = "finished" if ex["code"] == 0 else f"stopped (exit {ex['code']}: {ex['reason']})"
             last = f" · last: {gpu['last_name'] or 'a'} coordinator {what} · {ago(now - ex['at'])}"
+        elif gpu.get("last_log"):
+            last = f" · last: {gpu['last_name'] or 'experiment'} log · {ago(now - gpu['last_at'])} · outcome not recorded"
         lines.append(f"· GPU idle{last}")
     lines += [f"▸ CPU {'running' if job['process_verified'] else 'recorded (process unverified)'}: {job_summary(job)}"
               for job in gpu.get('cpu_jobs', [])]
@@ -494,6 +548,18 @@ def now_lines(state, now):
 def sh(*args):
     r = subprocess.run(args, capture_output=True, text=True)
     return r.stdout if r.returncode == 0 else ""
+
+
+def is_experiment_log(path, root):
+    parts = os.path.relpath(path, root).split(os.sep)
+    archived = any(x.startswith(("_quarantine", "attempt")) for x in parts)
+    return parts[1:2] != ["labviz"] and not archived and any(x.startswith("c10") for x in parts[1:])
+
+
+def experiment_logs(root):
+    """One newest-run source for the Experiment tab and the report's GPU last-run line."""
+    return sorted((p for p in glob.glob(os.path.join(root, "results", "**", "*.log"), recursive=True)
+                   if is_experiment_log(p, root)), key=os.path.getmtime)
 
 
 def gpu_state():
@@ -523,11 +589,17 @@ def gpu_state():
             cpu.append(record)
     top = next((job for job in jobs if job['stage'] != '_job'), jobs[0] if jobs else None)
     running = (top['key'], top['stage'], top['etime']) if top else None
-    logs = sorted(glob.glob(os.path.join(ROOT, "results", "c10*_logs", "*coordinator*.log")), key=os.path.getmtime)
-    last_exit = coordinator_exit(open(logs[-1], errors="replace").read()) if logs else None
-    key = re.search(r"(c10[a-z])", os.path.basename(os.path.dirname(logs[-1]))) if logs else None
+    logs = experiment_logs(ROOT)
+    last_log = logs[-1] if logs else None
+    if last_log:
+        with open(last_log, errors="replace") as source:
+            last_exit = coordinator_exit(source.read())
+    else:
+        last_exit = None
+    key = re.search(r"(?:^|/)(c10[a-z])", os.path.relpath(last_log, ROOT)) if last_log else None
     return dict(state, running=running, jobs=jobs, cpu_jobs=cpu, last_exit=last_exit,
-                last_name=SHORT.get(key.group(1)) if key else None)
+                last_name=SHORT.get(key.group(1)) if key else None,
+                last_log=last_log, last_at=os.path.getmtime(last_log) if last_log else None)
 
 
 SCREEN_TTL_S = 15
@@ -612,16 +684,7 @@ _supervisor = TeamSupervisor()
 
 
 def supervise_team():
-    """From the report pane of the live 'dashboard' session only: rebuild the team tab when team sessions change."""
-    pane = os.environ.get("TMUX_PANE", "")
-    if not pane or sh("tmux", "display", "-p", "-t", pane, "#{session_name}").strip() != "dashboard":
-        return
-    tiled = tiled_sessions(sh("tmux", "list-panes", "-t", "dashboard:1", "-F", "#{pane_start_command}").splitlines())
-    current = team_sessions(sh("tmux", "list-sessions", "-F", "#{session_name}").split())
-    if _supervisor.should_rebuild(tiled, current, time.time()):
-        log = open("/private/tmp/claude-501/teamdash_rebuild.log", "a")
-        subprocess.Popen(["bash", os.path.join(TOOLS, "team_dashboard.sh")], env={**os.environ, "TEAMDASH_NO_ATTACH": "1"},
-                         stdout=log, stderr=log, stdin=subprocess.DEVNULL, start_new_session=True)
+    """Compatibility no-op: dashboard_team composes sessions without mutating tmux's layout."""
 
 
 def cell_width(ch):

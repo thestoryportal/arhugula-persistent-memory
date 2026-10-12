@@ -1,0 +1,13 @@
+python3: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+test_actual_builder_requires_go (test_package.CheckPlanTest) ... ok
+test_hash_filename_data_is_readonly (test_package.CheckPlanTest) ... ok
+test_missing_exit_capture (test_package.CheckPlanTest) ... ok
+test_pipe_even_with_receipt (test_package.CheckPlanTest) ... ok
+test_unmarked_launch (test_package.CheckPlanTest) ... ok
+test_v1_all_named_defects (test_package.CheckPlanTest) ... ok
+test_v2 (test_package.CheckPlanTest) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.017s
+
+OK

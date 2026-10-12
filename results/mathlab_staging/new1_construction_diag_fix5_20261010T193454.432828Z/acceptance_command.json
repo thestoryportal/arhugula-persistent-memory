@@ -1,0 +1,43 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "-m",
+    "unittest",
+    "tests.test_new1_construction_diag",
+    "tests.test_new1_identity_diag",
+    "tests.test_new1_geometry",
+    "tests.test_new1_supervisor"
+  ],
+  "shell_command": "LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_construction_diag tests.test_new1_identity_diag tests.test_new1_geometry tests.test_new1_supervisor",
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "environment": {
+    "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "expected_tests": 205,
+  "per_module": {
+    "construction_diag": 69,
+    "identity_diag": 41,
+    "geometry": 34,
+    "supervisor": 61
+  },
+  "candidate_before": {
+    "tools/new1_identity_diag.py": "919b3a11a836973ea4c0d2abdd2514634ea62792e6009e828a63d81f297c3d0d",
+    "tools/new1_construction_diag.py": "744f063374a766efbfffc5a1ede73be04a323210e6b4dad48e569e5a41545ec3",
+    "tests/test_new1_identity_diag.py": "047e1425a30be7daa58194a5f94862b865dee5f09ff0060ed51d6902e5d0ca0e",
+    "tests/test_new1_construction_diag.py": "995e81cde32c2defd0379ec5bd87d1f78638b462293a3179c479fd73e565a686",
+    "results/mathlab_staging/new1_construction_diag_scope.md": "19dda1126da0f2df2fa5418583cbcd1ba6a4be8411fcb52965b7396e369b9217",
+    "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+    "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+    "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+    "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+    "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+    "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "e0157653709d4778f23db334544afe8038bb7ae555c96180cd5e167d78510d21",
+    "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/parent_control.py": "8e477e56428e79dc7d429e71ddd7497424fec97d10a7a60aa1e9bf439411adcb",
+    "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_parent_controls.py": "52a8cb74469cde86acf5c268a86766a84d886d067edb98e95a54a4469653f04d",
+    "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inherited_mask_launch_01.py": "dd7ea183d5d99d395c6dbd1b0e307f2460120bfa29d42d6a9fc02211597c8ab1"
+  }
+}

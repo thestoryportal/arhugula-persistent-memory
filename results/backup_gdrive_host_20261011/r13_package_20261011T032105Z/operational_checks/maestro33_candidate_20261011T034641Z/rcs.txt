@@ -1,0 +1,5 @@
+niceness=10 start at 2026-10-11T03:47:48Z
+fetch rc=0 at 2026-10-11T03:47:48Z
+identity captured at 2026-10-11T03:47:48Z
+candidate rc=1 at 2026-10-11T03:47:48Z
+STOP at 2026-10-11T03:47:48Z

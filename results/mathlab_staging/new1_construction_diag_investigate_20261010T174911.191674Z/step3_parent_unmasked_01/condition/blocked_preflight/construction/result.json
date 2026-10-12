@@ -1,0 +1,7 @@
+{
+  "status": "INVALID",
+  "error": "STOPPED-DEADLINE: whole-run wall-clock cap reached",
+  "worker_pid": null,
+  "elapsed_s": 0.10246195807121694,
+  "observed_peak_family_rss_gib": 0.01
+}

@@ -1,0 +1,17 @@
+413 2026-10-11T01:52:40-0600 2026-10-11T01:52:40-0600 /Users/robertrhu_node2/Library/LaunchAgents/org.deskflow.autostart.plist
+{
+  "Label" => "org.deskflow.autostart"
+  "ProgramArguments" => [
+    0 => "/usr/bin/open"
+    1 => "-a"
+    2 => "/Applications/Deskflow.app"
+  ]
+  "RunAtLoad" => 1
+}
+== launchctl
+PID	Status	Label
+-	0	com.openssh.ssh-agent
+2707	0	application.org.deskflow.deskflow.58523.58602
+== exact procs
+ 2808 08:41:45 /Applications/Deskflow.app/Contents/MacOS/deskflow-core
+drwxr-xr-x  11 root  wheel  352 Oct 11 02:16 /opt/local

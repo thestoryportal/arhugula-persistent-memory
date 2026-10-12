@@ -1,0 +1,39 @@
+{
+  "status": "DONE",
+  "four_arm_counts": {
+    "i": {
+      "pass": 10,
+      "fail": 0
+    },
+    "ii": {
+      "pass": 10,
+      "fail": 0
+    },
+    "iii": {
+      "pass": 10,
+      "fail": 0
+    },
+    "iv": {
+      "pass": 10,
+      "fail": 0
+    }
+  },
+  "full_addendum": {
+    "alive": [],
+    "errors": 0,
+    "failures": 0,
+    "skipped": 14,
+    "success": true,
+    "testsRun": 134
+  },
+  "full_passed": 120,
+  "owned_pid_count": 18517,
+  "alive": [],
+  "protected_tools_unchanged": true,
+  "only_named_test_changed": true,
+  "mutant_removed": true,
+  "prior_collector_error_counts": [
+    2,
+    1
+  ]
+}

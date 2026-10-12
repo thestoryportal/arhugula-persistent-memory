@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<installer-gui-script minSpecVersion="1">
+    <title>MacPorts</title>
+    <options customize="never" hostArchitectures="arm64,x86_64"/>
+    <allowed-os-versions>
+        <os-version min="14" before="15.0"/>
+    </allowed-os-versions>
+    <installation-check script="InstallationCheck();"/>
+    <script><![CDATA[
+function InstallationCheck () {
+    if (system.compareVersions(system.version.ProductVersion, "14") < 0
+        || system.compareVersions(system.version.ProductVersion, "15.0") >= 0) {
+        my.result.message = "This package is meant to be installed on macOS 14.";
+        my.result.type = 'Fatal';
+        return false;
+    }
+    if (system.files.fileExistsAtPath('/opt/local/etc/ports/dp_version')) {
+        my.result.message = "Your existing MacPorts or DarwinPorts installation is too old to be upgraded by this installer. Please install MacPorts 1.7.1 first.";
+        my.result.type = 'Fatal';
+        return false;
+    }
+    if (!system.files.fileExistsAtPath('/usr/bin/xcodebuild')) {
+        my.result.message = "Xcode is not installed, or was installed without Command Line Tools or UNIX Development.";
+        my.result.type = 'Warn';
+        return false;
+    }
+    return true;
+}
+    ]]></script>
+    <background file="background.tiff" mime-type="image/tiff" alignment="bottomleft" scaling="none"/>
+    <license mime-type="text/html" file="License.html"/>
+    <readme mime-type="text/rtf" file="ReadMe.rtf"/>
+    <welcome mime-type="text/html" file="Welcome.html"/>
+    <choices-outline>
+        <line choice="default">
+            <line choice="org.macports.MacPorts"/>
+        </line>
+    </choices-outline>
+    <choice id="default"/>
+    <choice id="org.macports.MacPorts" visible="false">
+        <pkg-ref id="org.macports.MacPorts"/>
+    </choice>
+    <pkg-ref id="org.macports.MacPorts" version="0.2.12.6.0.0.0.0.0" installKBytes="24987">#MacPorts-2.12.6-component.pkg</pkg-ref>
+    <pkg-ref id="org.macports.MacPorts">
+        <bundle-version/>
+    </pkg-ref>
+    <product id="org.macports.MacPorts"/>
+</installer-gui-script>

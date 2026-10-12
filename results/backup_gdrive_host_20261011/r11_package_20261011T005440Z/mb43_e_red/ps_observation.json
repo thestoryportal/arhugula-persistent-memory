@@ -1,0 +1,6 @@
+{
+  "available": false,
+  "exit_code": 126,
+  "stderr": "ps.stderr.txt",
+  "stdout": "ps.stdout.txt"
+}

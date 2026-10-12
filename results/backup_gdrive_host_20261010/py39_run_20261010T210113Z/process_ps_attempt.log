@@ -1,0 +1,4 @@
+{
+  "status": "UNAVAILABLE",
+  "error": "PermissionError(1, 'Operation not permitted')"
+}

@@ -1,0 +1,272 @@
+[
+  {
+    "run": "arm_iv/run_01",
+    "failures": 1,
+    "errors": 0,
+    "unchanged_owner_pid": 24377,
+    "before_rclone_pid": null,
+    "after_rclone_pid": 24405,
+    "refusal_owner_pid": 24415,
+    "changed_fields": {
+      "bytes_transferred": {
+        "after": null,
+        "before": 0
+      },
+      "rclone_pid": {
+        "after": 24405,
+        "before": null
+      },
+      "rclone_version": {
+        "after": "rclone-test",
+        "before": null
+      },
+      "wrapper_log_offset": {
+        "after": 1515,
+        "before": 0
+      }
+    }
+  },
+  {
+    "run": "arm_iv/run_02",
+    "failures": 1,
+    "errors": 0,
+    "unchanged_owner_pid": 24461,
+    "before_rclone_pid": null,
+    "after_rclone_pid": 24482,
+    "refusal_owner_pid": 24493,
+    "changed_fields": {
+      "bytes_transferred": {
+        "after": null,
+        "before": 0
+      },
+      "rclone_pid": {
+        "after": 24482,
+        "before": null
+      },
+      "rclone_version": {
+        "after": "rclone-test",
+        "before": null
+      },
+      "wrapper_log_offset": {
+        "after": 1089,
+        "before": 0
+      }
+    }
+  },
+  {
+    "run": "arm_iv/run_03",
+    "failures": 1,
+    "errors": 0,
+    "unchanged_owner_pid": 24529,
+    "before_rclone_pid": null,
+    "after_rclone_pid": 24564,
+    "refusal_owner_pid": 24574,
+    "changed_fields": {
+      "bytes_transferred": {
+        "after": null,
+        "before": 0
+      },
+      "rclone_pid": {
+        "after": 24564,
+        "before": null
+      },
+      "rclone_version": {
+        "after": "rclone-test",
+        "before": null
+      },
+      "wrapper_log_offset": {
+        "after": 1515,
+        "before": 0
+      }
+    }
+  },
+  {
+    "run": "arm_iv/run_04",
+    "failures": 1,
+    "errors": 0,
+    "unchanged_owner_pid": 24604,
+    "before_rclone_pid": null,
+    "after_rclone_pid": 24626,
+    "refusal_owner_pid": 24639,
+    "changed_fields": {
+      "bytes_transferred": {
+        "after": null,
+        "before": 0
+      },
+      "rclone_pid": {
+        "after": 24626,
+        "before": null
+      },
+      "rclone_version": {
+        "after": "rclone-test",
+        "before": null
+      },
+      "wrapper_log_offset": {
+        "after": 1089,
+        "before": 0
+      }
+    }
+  },
+  {
+    "run": "arm_iv/run_05",
+    "failures": 1,
+    "errors": 0,
+    "unchanged_owner_pid": 24685,
+    "before_rclone_pid": null,
+    "after_rclone_pid": 24716,
+    "refusal_owner_pid": 24727,
+    "changed_fields": {
+      "bytes_transferred": {
+        "after": null,
+        "before": 0
+      },
+      "rclone_pid": {
+        "after": 24716,
+        "before": null
+      },
+      "rclone_version": {
+        "after": "rclone-test",
+        "before": null
+      },
+      "wrapper_log_offset": {
+        "after": 1089,
+        "before": 0
+      }
+    }
+  },
+  {
+    "run": "arm_iv/run_06",
+    "failures": 1,
+    "errors": 0,
+    "unchanged_owner_pid": 24756,
+    "before_rclone_pid": null,
+    "after_rclone_pid": 24786,
+    "refusal_owner_pid": 24799,
+    "changed_fields": {
+      "bytes_transferred": {
+        "after": null,
+        "before": 0
+      },
+      "rclone_pid": {
+        "after": 24786,
+        "before": null
+      },
+      "rclone_version": {
+        "after": "rclone-test",
+        "before": null
+      },
+      "wrapper_log_offset": {
+        "after": 1089,
+        "before": 0
+      }
+    }
+  },
+  {
+    "run": "arm_iv/run_07",
+    "failures": 1,
+    "errors": 0,
+    "unchanged_owner_pid": 24831,
+    "before_rclone_pid": null,
+    "after_rclone_pid": 24851,
+    "refusal_owner_pid": 24862,
+    "changed_fields": {
+      "bytes_transferred": {
+        "after": null,
+        "before": 0
+      },
+      "rclone_pid": {
+        "after": 24851,
+        "before": null
+      },
+      "rclone_version": {
+        "after": "rclone-test",
+        "before": null
+      },
+      "wrapper_log_offset": {
+        "after": 1089,
+        "before": 0
+      }
+    }
+  },
+  {
+    "run": "arm_iv/run_08",
+    "failures": 1,
+    "errors": 0,
+    "unchanged_owner_pid": 24914,
+    "before_rclone_pid": null,
+    "after_rclone_pid": 24932,
+    "refusal_owner_pid": 25007,
+    "changed_fields": {
+      "bytes_transferred": {
+        "after": null,
+        "before": 0
+      },
+      "rclone_pid": {
+        "after": 24932,
+        "before": null
+      },
+      "rclone_version": {
+        "after": "rclone-test",
+        "before": null
+      },
+      "wrapper_log_offset": {
+        "after": 1515,
+        "before": 0
+      }
+    }
+  },
+  {
+    "run": "arm_iv/run_09",
+    "failures": 1,
+    "errors": 0,
+    "unchanged_owner_pid": 25100,
+    "before_rclone_pid": null,
+    "after_rclone_pid": 25132,
+    "refusal_owner_pid": 25144,
+    "changed_fields": {
+      "bytes_transferred": {
+        "after": null,
+        "before": 0
+      },
+      "rclone_pid": {
+        "after": 25132,
+        "before": null
+      },
+      "rclone_version": {
+        "after": "rclone-test",
+        "before": null
+      },
+      "wrapper_log_offset": {
+        "after": 1089,
+        "before": 0
+      }
+    }
+  },
+  {
+    "run": "arm_iv/run_10",
+    "failures": 1,
+    "errors": 0,
+    "unchanged_owner_pid": 25183,
+    "before_rclone_pid": null,
+    "after_rclone_pid": 25206,
+    "refusal_owner_pid": 25217,
+    "changed_fields": {
+      "bytes_transferred": {
+        "after": null,
+        "before": 0
+      },
+      "rclone_pid": {
+        "after": 25206,
+        "before": null
+      },
+      "rclone_version": {
+        "after": "rclone-test",
+        "before": null
+      },
+      "wrapper_log_offset": {
+        "after": 1089,
+        "before": 0
+      }
+    }
+  }
+]

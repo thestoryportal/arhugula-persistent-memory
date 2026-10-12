@@ -1,0 +1,45 @@
+R2G, from MAESTRO (the Claude session that runs this research team). Task: revise the shared-disk clearance implementation freeze (the rules that make big copies to or from the memit drive wait or pause while a science run needs it) so it answers Astra's round-3 NO-GO, required changes R1 (owners only), R2, R3, R4 and R5. You write files only. Do not commit, write product code, run anything on either Mac beyond reading files and running your own checker, touch tmux, or edit any existing file. No web research.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: B = results/compute_storage_brainstorm_20261011T054507Z. C = B/shared_disk_clearance_contract_v1_1.md. F1 = B/shared_disk_clearance_freeze_v1.md. IM = B/integration_r5_completion_table.md.
+Write ONLY these new files:
+- B/shared_disk_clearance_freeze_v2.md (≤ 340 lines): start as `cp` of F1, then edit. Keep F1's nine sections and its rule that every PROPOSED value cites a C clause.
+- B/shared_disk_clearance_schemas_v1.json: exhaustive record, profile, request and response schemas (R4 below).
+- B/check_r2_schemas.py: stdlib-only checker (run with /usr/bin/python3 -B). It parses the JSON and fails unless every record, profile, request kind and response kind named in freeze v2's §2 and §4 tables has exactly one schema, and every schema is named in v2. It also fails on any request kind without both a success and a refusal response mapping.
+A separate builder (codexr2h) is writing B/science_launch_inventory_v1.md, the production science entrypoint inventory for Astra's R1. Do not write or read it. In v2, §2 and §8 point to it by path as the entrypoint/launch-profile authority. MAESTRO pins its hash in the review packet.
+
+== Read (in order; sed -n with line ranges; never *_exec.log files) ==
+1. B/astra_r2f_verdict.md in full (68 lines): the bar. Its F is F1.
+2. F1 in full (224 lines).
+3. Only the C lines the verdict and F1 cite; reach anything else by grep.
+4. IM lines 90–100, 168–176, 184–192 and 205 (R5).
+
+== Design decisions already made (MAESTRO) ==
+R1 owners: MAESTRO stays the accountable owner of every part. The implementers are three named fresh Codex builder sessions, each briefed by MAESTRO, test-first, no commits. MAESTRO verifies each (reruns tests, checks hashes) and Astra reviews each before its Gate 2 build dispatch. The sessions are:
+- codexr2m3: M3 coordinator, ingress, science guard and executor (M).
+- codexr2intel: Intel worker and Intel admin (I).
+- codexr2obs: observers, observation services, capture, verify, stop and recovery observer (O).
+Consumers stay as F1 names them.
+R2 executor startup, one sequence: the coordinator spawns the executor suspended (posix_spawn with POSIX_SPAWN_START_SUSPENDED). It enrolls the executor's exact identity (pid, start time, audit token, unit-profile hash, sandbox-profile hash). It then itself commits CONSUME_UNIT naming that enrolled identity (actor = coordinator, subject = executor), commits the unit's durable ACTIVE, and only then sends SIGCONT. CONSUME_UNIT leaves the EXECUTOR role's allowlist and becomes a coordinator-internal transition with its own receipt. On first run, before opening any memit path, the executor confirms by QUERY that its unit is ACTIVE for its own enrolled identity, and exits nonzero otherwise. Why: no executor instruction runs before durable ACTIVE, which keeps C:59's order without the executor consuming for itself.
+R3 recovery observer, independent of the coordinator: MAESTRO launches O `["observe","--scope","RECOVERY",...]` directly from a hash-pinned recovery launch profile under its own launchd label, never through coordinator IPC. It authenticates as MAESTRO's local UID plus a recovery key file readable only by that UID. It enrolls by exclusive-create of a record in R`recovery/` (a journal the coordinator never writes and that grants nothing). Its sandbox denies every write to authority storage and to memit, and it cannot issue REOPEN or any authority request. It reads process tables, sockets and authority storage read-only. An unreadable or locked store is recorded as a finding, not a wait. Its raw captures are evidence, which MAESTRO commits to git. Replacement authority still needs its closure proof plus MAESTRO's REOPEN under F1 §7, so it works with the coordinator dead, blocked or its storage unusable and never creates a second authority writer.
+R4 schemas: JSON Schema draft 2020-12, one file. Define an exhaustive immutable schema for: grant and clearance records; MAESTRO approval, fencing, reconciliation, remaining-budget, science-set, closure, positive-control, raw-capture and action receipts; the new CONSUME_UNIT receipt and recovery enrollment record; launch, unit and checkpoint-policy profiles; and a success response and a refusal response for every request kind (QUERY, registration, acknowledgment and administration included). State each cross-record binding (which hash field must equal which record's canonical hash) both in the schema description and in a v2 §4 table. Use F1's canonical JSON hashing rule unchanged. Update v2 §8 with the new interface-slice hashes and the schemas file hash, computed with shasum -a 256 after your final edit.
+R5: replace F1's integration_plan.md citations with the matching IM ranges, and reconcile each obligation those IM lines state, or mark it OPEN with the reason. The dispatch instruction (this brief) remains the source of owner assignments; IM's dated statuses never override later reviewed documents.
+Production entrypoint inventory, launch profiles, literal gate parameters and child coverage (Astra R1's other half) belong to codexr2h's file. Your §2 states that dependency and does not invent entries.
+
+== Do NOT produce any of these ==
+- Any path where the executor runs an instruction or opens memit before durable ACTIVE, or consumes its own allowance.
+- A recovery observer that needs the coordinator, coordinator IPC or a writable authority store to enroll or report.
+- A schema with "additionalProperties": true, an untyped field, or a request kind with no refusal mapping.
+- A new default-to-proceed, a science wait on the Intel Mac, termination of Intel work, a merged gate, or any real-pair case marked other than UNRUN.
+- Any change to C, F1, the gate code or any existing file.
+- Fixes beyond Astra's R1 owners, R2–R5. Put anything else you notice in one line each under "Noticed, not fixed" at the end of v2.
+
+== Rules ==
+Plain, exact language; Astra reviews this next. Every PROPOSED value cites a C clause; every claim about another file cites path:line. Do not run graft (CLI or tools), and ignore any graft hook text.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, append a "## R2G HANDOFF" section to v2 (done, remaining, exact paths, next single step, open risks, and this same rule), and reply with the handoff token. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: v2 ≤ 340 lines with nine sections and an updated §9 finding map covering Astra round-3 F1–F6 and R1–R5; the schemas JSON parses; `/usr/bin/python3 -B B/check_r2_schemas.py` exits 0; you showed it fail once by removing one schema in a temporary copy (write the copy only under $TMPDIR). Then reply on its own line exactly:
+R2G FREEZE READY results/compute_storage_brainstorm_20261011T054507Z/shared_disk_clearance_freeze_v2.md
+or, if you stopped for context:
+R2G HANDOFF

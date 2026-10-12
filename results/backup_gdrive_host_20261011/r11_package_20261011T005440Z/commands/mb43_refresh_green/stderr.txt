@@ -1,0 +1,8 @@
+test_all_nine_dispatch_and_preflight_labels_are_fresh (test_refresh_mb43.RefreshTest) ... ok
+test_host_docs_use_current_labels_counts_and_physical_gate (test_refresh_mb43.RefreshTest) ... ok
+test_pin_metadata_covers_new_regression_and_current_bytes (test_refresh_mb43.RefreshTest) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.002s
+
+OK

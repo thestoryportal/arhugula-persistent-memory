@@ -1,0 +1,141 @@
+{
+  "utc": "2026-10-10T10:32:42.328100+00:00",
+  "status": "NEW1 FIX3 STOPPED",
+  "reason": "Exact-one-kill assertion exceeds the confirmed-reaping property in this stalled-launch case; requires MAESTRO10/Astra ruling.",
+  "counts": {
+    "PASS": 7,
+    "FAIL_KILLS_ZERO": 11,
+    "ABRUPT_EXIT": 2
+  },
+  "acceptance_met": false,
+  "source_or_test_edit": false,
+  "owned_unchanged_sha256": {
+    "results/mathlab_staging/new1_construction_diag_scope.md": "4a9b94cafd907bf1a2f39e8668b119ea2ff4da6a9121ab94471d5f864869bdf9",
+    "tests/test_new1_construction_diag.py": "2f5644627d6fdd0dfcd668924037c5be69ac98d8415300372538a078bbbe8caf",
+    "tests/test_new1_identity_diag.py": "7a9a6d3b74fe600cb4784c5711cde6fc6c373e11743ab7538d8afc86e155c6b1",
+    "tools/new1_construction_diag.py": "238a9d9281c8ea3aeaf7c6969d9f54b58a97288fc84841230c35f9ed03fc2637",
+    "tools/new1_identity_diag.py": "14329bd0daa00bb109010464c26988b5014c6b6e9b92e39152028a9af7033cbe"
+  },
+  "root_cause_note_sha256": "93964732b623945da014bfcebca06ae587da2aec44d28970b80dfc3e0cf73948",
+  "task3_test_method_sha256": "e29c3e0f30995df828287e5607d9b9ed0d099bc439ca75053d344821b3f67dc1",
+  "current_test_method_sha256": "8587c22cefc581bfd265a08166026975d2784cb724e632a943dc3659b190bd17",
+  "captured_failing_states": [
+    {
+      "sample": 1,
+      "test_passed": false,
+      "failures": 1,
+      "errors": 0,
+      "observations": [
+        {
+          "worker_pid": 51713,
+          "guardian_pid": 51712,
+          "guardian_returncode": 0,
+          "proof": {
+            "event": "reaped",
+            "pid": 51713,
+            "code": 2,
+            "kills": 0,
+            "error": null
+          },
+          "worker_dead": true,
+          "guardian_confirmed_reaped": true,
+          "all_owned_descriptors_closed": true,
+          "worker_stderr": "",
+          "worker_stdout": ""
+        }
+      ],
+      "instrumentation": "Captures the ownership object and probes it only after unchanged test completion. No assertions, bounds, patches, delays, polls or retries added to the test. Investigation only."
+    },
+    {
+      "sample": 2,
+      "test_passed": false,
+      "failures": 1,
+      "errors": 0,
+      "observations": [
+        {
+          "worker_pid": 51715,
+          "guardian_pid": 51714,
+          "guardian_returncode": 0,
+          "proof": {
+            "event": "reaped",
+            "pid": 51715,
+            "code": 2,
+            "kills": 0,
+            "error": null
+          },
+          "worker_dead": true,
+          "guardian_confirmed_reaped": true,
+          "all_owned_descriptors_closed": true,
+          "worker_stderr": "",
+          "worker_stdout": ""
+        }
+      ],
+      "instrumentation": "Captures the ownership object and probes it only after unchanged test completion. No assertions, bounds, patches, delays, polls or retries added to the test. Investigation only."
+    },
+    {
+      "sample": 3,
+      "test_passed": false,
+      "failures": 1,
+      "errors": 0,
+      "observations": [
+        {
+          "worker_pid": 51719,
+          "guardian_pid": 51718,
+          "guardian_returncode": 0,
+          "proof": {
+            "event": "reaped",
+            "pid": 51719,
+            "code": 2,
+            "kills": 0,
+            "error": null
+          },
+          "worker_dead": true,
+          "guardian_confirmed_reaped": true,
+          "all_owned_descriptors_closed": true,
+          "worker_stderr": "",
+          "worker_stdout": ""
+        }
+      ],
+      "instrumentation": "Captures the ownership object and probes it only after unchanged test completion. No assertions, bounds, patches, delays, polls or retries added to the test. Investigation only."
+    }
+  ],
+  "existing_receipts_preserved_count": 94,
+  "unresolved": [
+    "Two native exit-2 solo runs before unittest completion",
+    "Astra scope ruling on exact-one-kill assertion"
+  ],
+  "unsandboxed_execution": false,
+  "full_three_run_acceptance_performed": false,
+  "audit_manifest_launch_command_refreshed": false,
+  "new_receipt_sha256": {
+    "fix3_mb15_baseline.json": "32d50a58227ae64db0691ecfcdd60561230dedceaacf9ada0a2513a5241c083d",
+    "fix3_mb15_ownership_trace_batch.log": "8b3f313c2bed4fcbcc40f53a461825ccb8c9b881b2713fe70abe8b9603c08fed",
+    "red_fix3_mb15_solo_05.log": "626048b4e0e8d63f1b202be26045edd8e40d0e90c6600ac01386d3ce941d4bea",
+    "red_fix3_mb15_solo_11.log": "99db59238e57ec4d5512221d47c216f0c51fa21260b5226124d8c9d642f530d7",
+    "fix3_mb15_ownership_trace_sample_3.json": "10d35d47634d24cdcdeb47d3f8aa5b2e86eeb97266640b032b5053bfed15f4cb",
+    "red_fix3_mb15_solo_10.log": "1afbef719e9aa2db4d88527e27f01168bac6b77f3f275585bb26e7908b1f2b23",
+    "red_fix3_mb15_solo_04.log": "d70b891d24fd57f7e89c72ce966981572e54fec2db78aefe6ee9f8f485df2f2e",
+    "red_fix3_mb15_solo_12.log": "cdbb9be90ed2eabe92dad810f64ffddfdd9dbc97b444d210359af35db74b5900",
+    "red_fix3_mb15_solo_06.log": "51c41a97809ce913e62cf2cfe95e142e2f2020abd8278dcbaacef38ea574d53a",
+    "red_fix3_mb15_solo_07.log": "9c73f2f0642ae2600093ad3dda74810f1c12ab9fcd0877e0681e42ca8a3532ee",
+    "red_fix3_mb15_solo_13.log": "7f0035e95bf93723a1214d16004b5632e16828e998ea04ef05f6e6f875fa01f7",
+    "red_fix3_mb15_solo_17.log": "1afbef719e9aa2db4d88527e27f01168bac6b77f3f275585bb26e7908b1f2b23",
+    "red_fix3_mb15_solo_03.log": "2809fd45659f47118535a3ad828adc51b0ae533b56fa8a3beee79c24448745e0",
+    "red_fix3_mb15_solo.json": "3e7b0f620876d3faf18d0c090606f75fd6bf12b2a24ec4ccda06a7acad9afeb1",
+    "red_fix3_mb15_solo_02.log": "48af0e0ee4140c1a848b6fe5d40bccaf9eee3ae099ebb11563448a1f1d4c5723",
+    "red_fix3_mb15_solo_16.log": "67917607f8578a55a2589f02b7a19de7e55b1b9ac30563b3f1b1431cbbdd136c",
+    "red_fix3_mb15_solo_14.log": "5cc2a7c9e49e61cbca48584133a42ca478e2c82faac6c6b345f0710a4304ed92",
+    "fix3_mb15_root_cause.md": "93964732b623945da014bfcebca06ae587da2aec44d28970b80dfc3e0cf73948",
+    "fix3_mb15_ownership_trace_sample_2.json": "a4bc72fc71384e09db135bcfc7803d362e59470376134c6363010c39cc1260a5",
+    "red_fix3_mb15_solo_15.log": "01395964c58be014b39fe5ed8074bb52f4cdd3ad61af52063e8092b2d846c5a3",
+    "red_fix3_mb15_solo_01.log": "d70b891d24fd57f7e89c72ce966981572e54fec2db78aefe6ee9f8f485df2f2e",
+    "red_fix3_mb15_solo_18.log": "51c41a97809ce913e62cf2cfe95e142e2f2020abd8278dcbaacef38ea574d53a",
+    "fix3_mb15_ownership_trace_sample_1.json": "521dab3884c330cdeb1421ffacd176426c501a9a2e6c6de746d8904e155d7a64",
+    "red_fix3_mb15_solo_19.log": "46b82524d6cf227e364abb38048e08ed380db4012420d9088fa1153c852d97b4",
+    "red_fix3_mb15_solo_09.log": "64d863aa008897c41f9e080a35f3f8a43276ee641206924361b4fe1b8b275b22",
+    "red_fix3_mb15_solo_20.log": "3d97e329b88fbb590f1b84740161574b1313963a7dd43eba11624a38c76b6c82",
+    "red_fix3_mb15_solo_08.log": "6e66658ffe17775e8144fbb94926dcdc0cd06618b12ecbf18ac52cf17f0b718a",
+    "fix3_mb15_ownership_trace.json": "5af74f3bd20f4f24c0eadc5fd93b4ae855ecafef4d38ae0b75caca8bca175c5f",
+    "fix3_mb15_ownership_trace.log": "c1610860c3c6020dcb4fd772fa83e14371ce97a51a2cc4773e78cb2b218d3b6f"
+  }
+}

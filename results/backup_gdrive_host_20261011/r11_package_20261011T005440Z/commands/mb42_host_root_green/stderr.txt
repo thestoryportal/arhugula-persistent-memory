@@ -1,0 +1,6 @@
+test_all_outer_dispatch_examples_set_worktree_root (__main__.HostCommandsRootTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK

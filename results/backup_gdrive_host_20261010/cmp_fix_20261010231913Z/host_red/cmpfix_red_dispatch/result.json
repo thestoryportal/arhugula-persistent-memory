@@ -1,0 +1,16 @@
+{
+  "all_owned_groups_exited": true,
+  "direct_process_count": 5,
+  "error_tests": [],
+  "errors": 0,
+  "exit_code": 1,
+  "failure_tests": [
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+  ],
+  "failures": 1,
+  "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+  "skipped": 0,
+  "skips": [],
+  "success": false,
+  "testsRun": 1
+}

@@ -1,0 +1,628 @@
+test_r7_1_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_counter_temporary_live_and_archived_floor_pair) ... 
+  test_r7_1_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_counter_temporary_live_and_archived_floor_pair) (source='counter', archived=False) ... FAIL
+  test_r7_1_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_counter_temporary_live_and_archived_floor_pair) (source='counter', archived=True) ... FAIL
+test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair) ... 
+  test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair) (source='heartbeat', archived=False) ... FAIL
+  test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair) (source='heartbeat', archived=True) ... FAIL
+test_r7_1_journal_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_journal_temporary_live_and_archived_floor_pair) ... 
+  test_r7_1_journal_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_journal_temporary_live_and_archived_floor_pair) (source='journal', archived=False) ... FAIL
+  test_r7_1_journal_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_journal_temporary_live_and_archived_floor_pair) (source='journal', archived=True) ... FAIL
+test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair) ... 
+  test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair) (source='receipt', archived=False) ... FAIL
+  test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair) (source='receipt', archived=True) ... FAIL
+test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair) ... 
+  test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair) (source='recovery_counter', archived=False) ... FAIL
+  test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair) (source='recovery_counter', archived=True) ... FAIL
+test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair) ... 
+  test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair) (source='recovery_manifest', archived=False) ... FAIL
+  test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair) (source='recovery_manifest', archived=True) ... FAIL
+test_r7_1_recovery_state_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_state_temporary_live_and_archived_floor_pair) ... 
+  test_r7_1_recovery_state_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_state_temporary_live_and_archived_floor_pair) (source='recovery_state', archived=False) ... FAIL
+  test_r7_1_recovery_state_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_state_temporary_live_and_archived_floor_pair) (source='recovery_state', archived=True) ... FAIL
+test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair) ... 
+  test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair) (source='refusal', archived=False) ... FAIL
+  test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair) (source='refusal', archived=True) ... FAIL
+test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) ... 
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='refusal', archived=False) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='refusal', archived=True) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='heartbeat', archived=False) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='heartbeat', archived=True) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='receipt', archived=False) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='receipt', archived=True) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='journal', archived=False) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='journal', archived=True) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='counter', archived=False) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='counter', archived=True) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='unresolved', archived=False) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='unresolved', archived=True) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_state', archived=False) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_state', archived=True) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_manifest', archived=False) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_manifest', archived=True) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_counter', archived=False) ... FAIL
+  test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_counter', archived=True) ... FAIL
+test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) ... 
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='refusal', archived=False) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='refusal', archived=True) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='heartbeat', archived=False) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='heartbeat', archived=True) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='receipt', archived=False) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='receipt', archived=True) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='journal', archived=False) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='journal', archived=True) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='counter', archived=False) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='counter', archived=True) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='unresolved', archived=False) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='unresolved', archived=True) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_state', archived=False) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_state', archived=True) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_manifest', archived=False) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_manifest', archived=True) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_counter', archived=False) ... FAIL
+  test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_counter', archived=True) ... FAIL
+test_r7_1_unresolved_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unresolved_temporary_live_and_archived_floor_pair) ... 
+  test_r7_1_unresolved_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unresolved_temporary_live_and_archived_floor_pair) (source='unresolved', archived=False) ... FAIL
+  test_r7_1_unresolved_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unresolved_temporary_live_and_archived_floor_pair) (source='unresolved', archived=True) ... FAIL
+
+======================================================================
+FAIL: test_r7_1_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_counter_temporary_live_and_archived_floor_pair) (source='counter', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1385 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[218 chars]t\n'}
+Diff is 17988 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_counter_temporary_live_and_archived_floor_pair) (source='counter', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1526 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[414 chars]0\n'}
+Diff is 18135 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair) (source='heartbeat', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[305 chars]ackup-launch-state': None, 'memit-gdrive-backu[1327 chars]}\n'} != {'mem[305 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[156 chars]t\n'}
+Diff is 18236 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair) (source='heartbeat', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1601 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[485 chars]}\n'}
+Diff is 19778 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_journal_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_journal_temporary_live_and_archived_floor_pair) (source='journal', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-journal': None, 'memit-gdrive-bac[1551 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[384 chars]t\n'}
+Diff is 18523 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_journal_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_journal_temporary_live_and_archived_floor_pair) (source='journal', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1646 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[534 chars]}\n'}
+Diff is 20685 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair) (source='receipt', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[289 chars]ackup-launch-state': None, 'memit-gdrive-backu[1323 chars]}\n'} != {'mem[289 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[156 chars]t\n'}
+Diff is 18083 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair) (source='receipt', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1581 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[469 chars]}\n'}
+Diff is 19246 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair) (source='recovery_counter', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1404 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[219 chars]t\n'}
+Diff is 18467 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair) (source='recovery_counter', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1545 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[415 chars]0\n'}
+Diff is 18522 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair) (source='recovery_manifest', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1478 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[291 chars]t\n'}
+Diff is 18721 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair) (source='recovery_manifest', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1619 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[487 chars]}\n'}
+Diff is 20164 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_recovery_state_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_state_temporary_live_and_archived_floor_pair) (source='recovery_state', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1506 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[325 chars]t\n'}
+Diff is 18777 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_recovery_state_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_state_temporary_live_and_archived_floor_pair) (source='recovery_state', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1647 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[521 chars]}\n'}
+Diff is 20746 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair) (source='refusal', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[186 chars]ckup/refusals': None, 'memit-gdrive-backup/ref[1490 chars]}\n'} != {'mem[186 chars]ckup/launch_receipt.json': b'{"schema":1,"laun[323 chars]t\n'}
+Diff is 18035 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair) (source='refusal', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1598 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[486 chars]}\n'}
+Diff is 19683 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='refusal', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='refusal', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='heartbeat', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='heartbeat', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='receipt', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='receipt', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='journal', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='journal', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='counter', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='counter', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='unresolved', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='unresolved', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_state', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_state', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_manifest', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_manifest', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_counter', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) (source='recovery_counter', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1696, in test_r7_1_under_lock_rechecks_every_live_and_archived_temporary
+    with self.assertRaisesRegex(ValueError, "below observed maximum 100"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='refusal', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[186 chars]ckup/refusals': None, 'memit-gdrive-backup/ref[1445 chars]}\n'} != {'mem[186 chars]ckup/launch_receipt.json': b'{"schema":1,"laun[271 chars]t\n'}
+Diff is 17915 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='refusal', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1553 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[434 chars]r\n'}
+Diff is 18665 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='heartbeat', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[254 chars]ackup-launch-state': None, 'memit-gdrive-backu[1334 chars]}\n'} != {'mem[254 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[156 chars]t\n'}
+Diff is 18191 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='heartbeat', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1557 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[434 chars]r\n'}
+Diff is 18761 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='receipt', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[260 chars]ackup-launch-state': None, 'memit-gdrive-backu[1330 chars]}\n'} != {'mem[260 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[156 chars]t\n'}
+Diff is 18101 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='receipt', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1559 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[440 chars]r\n'}
+Diff is 18701 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='journal', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-journal': None, 'memit-gdrive-bac[1457 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[283 chars]t\n'}
+Diff is 18217 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='journal', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1552 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[433 chars]r\n'}
+Diff is 18659 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='counter', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1411 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[237 chars]t\n'}
+Diff is 18166 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='counter', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1552 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[433 chars]r\n'}
+Diff is 18659 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='unresolved', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1420 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[240 chars]t\n'}
+Diff is 18362 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='unresolved', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1561 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[436 chars]r\n'}
+Diff is 18775 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_state', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1426 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[238 chars]t\n'}
+Diff is 18550 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_state', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1567 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[434 chars]r\n'}
+Diff is 18955 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_manifest', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1432 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[238 chars]t\n'}
+Diff is 18648 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_manifest', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1573 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[434 chars]r\n'}
+Diff is 19145 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_counter', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1430 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[238 chars]t\n'}
+Diff is 18646 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) (source='recovery_counter', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1710, in test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename
+    self.assert_format_refused(heartbeat, evidence, "unsupported")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1643, in assert_format_refused
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1571 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[434 chars]r\n'}
+Diff is 19051 characters long. Set self.maxDiff to None to see it. : unsupported evidence must refuse before directory/lock creation
+
+======================================================================
+FAIL: test_r7_1_unresolved_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unresolved_temporary_live_and_archived_floor_pair) (source='unresolved', archived=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1500 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[327 chars]t\n'}
+Diff is 18597 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+======================================================================
+FAIL: test_r7_1_unresolved_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unresolved_temporary_live_and_archived_floor_pair) (source='unresolved', archived=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1638, in assert_temporary_floor_pair
+    self.assert_floor_pair(heartbeat, evidence)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1613, in assert_floor_pair
+    self.assertEqual(self.history_snapshot(heartbeat), before,
+AssertionError: {'mem[185 chars]ackup-launch-state': None, 'memit-gdrive-backu[1641 chars]}\n'} != {'mem[185 chars]ackup/launch_receipt.json': b'{"schema":1,"lau[523 chars]}\n'}
+Diff is 20610 characters long. Set self.maxDiff to None to see it. : pre-lock refusal must leave all bytes and directories identical
+
+----------------------------------------------------------------------
+Ran 11 tests in 1.235s
+
+FAILED (failures=54)
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/refusalFalse/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.302368Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/refusalTrue/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.305238Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/heartbeatFalse/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.307436Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/heartbeatTrue/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.310249Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/receiptFalse/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.312470Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/receiptTrue/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.315714Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/journalFalse/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.317918Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/journalTrue/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.320463Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/counterFalse/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.322799Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/counterTrue/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.325543Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/unresolvedFalse/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.327725Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/unresolvedTrue/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.330519Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/recovery_stateFalse/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.332806Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/recovery_stateTrue/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.335462Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/recovery_manifestFalse/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.337616Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/recovery_manifestTrue/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.340500Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/recovery_counterFalse/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.342716Z; requires a subsequent completed generation above the barrier
+backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb24_20261010T194953Z/fixtures/gdrive_addendum_k8btavhq/recovery_counterTrue/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T195143.345415Z; requires a subsequent completed generation above the barrier

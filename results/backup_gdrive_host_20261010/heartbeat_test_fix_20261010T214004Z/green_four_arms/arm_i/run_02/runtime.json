@@ -1,0 +1,12 @@
+{
+  "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+  "dont_write_bytecode": 1,
+  "fixture_base": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/green_four_arms/arm_i/run_02/fixtures/gdrive_addendum_b8xd0pa9",
+  "fixture_home": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/green_four_arms/arm_i/run_02/fixtures/gdrive_addendum_b8xd0pa9/home",
+  "outer_home": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/green_four_arms/arm_i/run_02/home_o3ugdddy",
+  "pid": 28191,
+  "pythonpath": null,
+  "runner": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+  "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_held_lock_refusal_cannot_overwrite_owner_heartbeat",
+  "version": "3.11.16 (main, Sep  1 2026, 14:08:22) [Clang 22.1.3 ]"
+}

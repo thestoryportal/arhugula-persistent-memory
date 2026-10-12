@@ -1,0 +1,19 @@
+COMMAND: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R5CompactionTest.test_5_python_and_both_perl_publishers_agree_at_boundaries -v
+EXIT: 1
+test_5_python_and_both_perl_publishers_agree_at_boundaries (tools.test_backup_gdrive_addendum.R5CompactionTest.test_5_python_and_both_perl_publishers_agree_at_boundaries) ... FAIL
+
+======================================================================
+FAIL: test_5_python_and_both_perl_publishers_agree_at_boundaries (tools.test_backup_gdrive_addendum.R5CompactionTest.test_5_python_and_both_perl_publishers_agree_at_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1566, in test_5_python_and_both_perl_publishers_agree_at_boundaries
+    perl = self.perl_publish(original, publisher)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1474, in perl_publish
+    self.assertLessEqual(len(value["unresolved"]), self.INTERVAL_LIMIT, "unresolved state interval bound")
+AssertionError: 65 not less than or equal to 64 : unresolved state interval bound
+
+----------------------------------------------------------------------
+Ran 1 test in 0.025s
+
+FAILED (failures=1)

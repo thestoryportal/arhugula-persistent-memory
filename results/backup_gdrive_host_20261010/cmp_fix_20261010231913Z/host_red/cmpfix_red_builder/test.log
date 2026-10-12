@@ -1,0 +1,18 @@
+test_builder_compiles_applet_and_prints_complete_sha256_manifest (tools.test_backup_gdrive_addendum.LauncherTest) ... FAIL
+
+======================================================================
+FAIL: test_builder_compiles_applet_and_prints_complete_sha256_manifest (tools.test_backup_gdrive_addendum.LauncherTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/memit_cmpfix_red.2j4K4o/tools/test_backup_gdrive_addendum.py", line 2437, in test_builder_compiles_applet_and_prints_complete_sha256_manifest
+    self.osa_result(result, "build_gdrive_applet.sh")
+  File "/private/tmp/memit_cmpfix_red.2j4K4o/tools/test_backup_gdrive_addendum.py", line 2384, in osa_result
+    self.assertEqual(result.returncode, 0, command+": "+output)
+AssertionError: 1 != 0 : build_gdrive_applet.sh: .: replacing existing signature
+cmp: EOF on /private/tmp/gdrive_addendum_12w94y9h/test backup.app.applescript
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.383s
+
+FAILED (failures=1)

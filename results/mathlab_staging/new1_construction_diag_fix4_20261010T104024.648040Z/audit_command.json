@@ -1,0 +1,9 @@
+{
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/audit_release.py"
+  ],
+  "exit": 1,
+  "expected_reason": "required full-suite repetition failed; static invariants passed"
+}

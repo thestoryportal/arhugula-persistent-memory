@@ -1,0 +1,2111 @@
+{
+  "spec_ref": "probe_band_recalibration_spec.md v1.0",
+  "evaluated_at": "2026-05-04T01:00:38.774947+00:00",
+  "source": {
+    "trial_jsons_count": 42,
+    "config_count": 14,
+    "configs_present": [
+      "L01",
+      "L02",
+      "L03",
+      "L04",
+      "L05",
+      "L06",
+      "L07",
+      "L08",
+      "L09",
+      "L10",
+      "L11",
+      "L12",
+      "L13",
+      "L14"
+    ],
+    "configs_expected": [
+      "L01",
+      "L02",
+      "L03",
+      "L04",
+      "L05",
+      "L06",
+      "L07",
+      "L08",
+      "L09",
+      "L10",
+      "L11",
+      "L12",
+      "L13",
+      "L14"
+    ],
+    "anchor_at_L01": true,
+    "input_roots": [
+      "/home/claude/s2_trials/"
+    ],
+    "parse_failures": []
+  },
+  "per_band_verdicts": {
+    "B-A-0.5": {
+      "label": "Current band (P > 0.5)",
+      "per_config": [
+        {
+          "config_id": "L01",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L02",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L03",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L04",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L05",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L06",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L07",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L08",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L09",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L10",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L11",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L12",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L13",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L14",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        }
+      ],
+      "passing_configs": [],
+      "calibration_corridor": [],
+      "sweep_pass": false
+    },
+    "B-A-0.1": {
+      "label": "Absolute relaxed (P > 0.1)",
+      "per_config": [
+        {
+          "config_id": "L01",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L02",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L03",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L04",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L05",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L06",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L07",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L08",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L09",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L10",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L11",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L12",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L13",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L14",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        }
+      ],
+      "passing_configs": [],
+      "calibration_corridor": [],
+      "sweep_pass": false
+    },
+    "B-A-0.05": {
+      "label": "Absolute relaxed (P > 0.05)",
+      "per_config": [
+        {
+          "config_id": "L01",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L02",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L03",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L04",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L05",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L06",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L07",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L08",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L09",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L10",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L11",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L12",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L13",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L14",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        }
+      ],
+      "passing_configs": [],
+      "calibration_corridor": [],
+      "sweep_pass": false
+    },
+    "B-A-0.01": {
+      "label": "Absolute relaxed (P > 0.01) \u2014 PRIMARY recommendation",
+      "per_config": [
+        {
+          "config_id": "L01",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L02",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L03",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L04",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L05",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L06",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L07",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L08",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L09",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L10",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L11",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L12",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L13",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L14",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        }
+      ],
+      "passing_configs": [],
+      "calibration_corridor": [],
+      "sweep_pass": false
+    },
+    "B-A-0.005": {
+      "label": "Absolute relaxed (P > 0.005)",
+      "per_config": [
+        {
+          "config_id": "L01",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L02",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L03",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L04",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L05",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L06",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L07",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L08",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L09",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L10",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L11",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L12",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L13",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L14",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        }
+      ],
+      "passing_configs": [],
+      "calibration_corridor": [],
+      "sweep_pass": false
+    },
+    "B-A-0.001": {
+      "label": "Absolute relaxed (P > 0.001) \u2014 noise floor sanity",
+      "per_config": [
+        {
+          "config_id": "L01",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 2,
+          "trials_total": 3,
+          "config_pass": true,
+          "in_calibration_corridor": true
+        },
+        {
+          "config_id": "L02",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 2,
+          "trials_total": 3,
+          "config_pass": true,
+          "in_calibration_corridor": true
+        },
+        {
+          "config_id": "L03",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 2,
+          "trials_total": 3,
+          "config_pass": true,
+          "in_calibration_corridor": true
+        },
+        {
+          "config_id": "L04",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 1,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L05",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 2,
+          "trials_total": 3,
+          "config_pass": true,
+          "in_calibration_corridor": true
+        },
+        {
+          "config_id": "L06",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L07",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 1,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L08",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 2,
+          "trials_total": 3,
+          "config_pass": true,
+          "in_calibration_corridor": true
+        },
+        {
+          "config_id": "L09",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 2,
+          "trials_total": 3,
+          "config_pass": true,
+          "in_calibration_corridor": true
+        },
+        {
+          "config_id": "L10",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 2,
+          "trials_total": 3,
+          "config_pass": true,
+          "in_calibration_corridor": true
+        },
+        {
+          "config_id": "L11",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 2,
+          "trials_total": 3,
+          "config_pass": true,
+          "in_calibration_corridor": true
+        },
+        {
+          "config_id": "L12",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L13",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 1,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L14",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 2,
+          "trials_total": 3,
+          "config_pass": true,
+          "in_calibration_corridor": true
+        }
+      ],
+      "passing_configs": [
+        "L01",
+        "L02",
+        "L03",
+        "L05",
+        "L08",
+        "L09",
+        "L10",
+        "L11",
+        "L14"
+      ],
+      "calibration_corridor": [
+        "L01",
+        "L02",
+        "L03",
+        "L05",
+        "L08",
+        "L09",
+        "L10",
+        "L11",
+        "L14"
+      ],
+      "sweep_pass": true
+    },
+    "B-B-5": {
+      "label": "Rank \u2014 target_new in top-5",
+      "per_config": [
+        {
+          "config_id": "L01",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L02",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L03",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L04",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L05",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L06",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L07",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L08",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L09",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L10",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L11",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L12",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L13",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L14",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        }
+      ],
+      "passing_configs": [],
+      "calibration_corridor": [],
+      "sweep_pass": false
+    },
+    "B-D-10": {
+      "label": "Target dominance \u2014 P(target_new) > P(top_1) / 10",
+      "per_config": [
+        {
+          "config_id": "L01",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L02",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L03",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L04",
+          "hparams": {
+            "v_lr": 0.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L05",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L06",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L07",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L08",
+          "hparams": {
+            "v_lr": 1.0,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L09",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L10",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L11",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 100,
+            "mom2_update_weight": 15000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L12",
+          "hparams": {
+            "v_lr": 1.5,
+            "v_num_grad_steps": 200,
+            "mom2_update_weight": 20000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L13",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 25,
+            "mom2_update_weight": 17500
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        },
+        {
+          "config_id": "L14",
+          "hparams": {
+            "v_lr": 2.0,
+            "v_num_grad_steps": 50,
+            "mom2_update_weight": 25000
+          },
+          "trials_passing": 0,
+          "trials_total": 3,
+          "config_pass": false,
+          "in_calibration_corridor": false
+        }
+      ],
+      "passing_configs": [],
+      "calibration_corridor": [],
+      "sweep_pass": false
+    }
+  },
+  "primary_band": "B-A-0.01",
+  "primary_band_verdict": false,
+  "primary_band_corridor": [],
+  "diagnostic_summary": "Re-evaluation pass over 14 configs. PRIMARY band (B-A-0.01): sweep_pass=False, corridor=[] ROUTING (per spec \u00a78.3): PARTIAL \u2014 pure-noise regime; B-A-0.001 passes but B-A-0.01 does not. Treated as FAIL for Class B isolation; routes to S2.12-A.",
+  "trial_forensic_table": [
+    {
+      "config_id": "L01",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.001191,
+        "p-cfb-001-cons-2": 0.004307,
+        "p-cfb-001-cons-3": 0.010506
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "basketball",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L01",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.01102,
+        "p-cfb-002-cons-2": 0.002302,
+        "p-cfb-002-cons-3": 0.002621
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "football",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L01",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 0.004635,
+        "p-cfb-003-cons-2": 0.000296,
+        "p-cfb-003-cons-3": 0.001058
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "life",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L02",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.008137,
+        "p-cfb-001-cons-2": 0.003864,
+        "p-cfb-001-cons-3": 0.009848
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "basketball",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L02",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.00477,
+        "p-cfb-002-cons-2": 0.002176,
+        "p-cfb-002-cons-3": 0.002534
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "his",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L02",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 0.002842,
+        "p-cfb-003-cons-2": 0.000211,
+        "p-cfb-003-cons-3": 0.001122
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L03",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.004836,
+        "p-cfb-001-cons-2": 0.00323,
+        "p-cfb-001-cons-3": 0.009369
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "basketball",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L03",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.003468,
+        "p-cfb-002-cons-2": 0.002454,
+        "p-cfb-002-cons-3": 0.002678
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "football",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L03",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 0.001416,
+        "p-cfb-003-cons-2": 0.000181,
+        "p-cfb-003-cons-3": 0.001125
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L04",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.000959,
+        "p-cfb-001-cons-2": 0.004536,
+        "p-cfb-001-cons-3": 0.010634
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "his",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L04",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.009298,
+        "p-cfb-002-cons-2": 0.002717,
+        "p-cfb-002-cons-3": 0.002487
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "his",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L04",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 5e-06,
+        "p-cfb-003-cons-2": 0.000144,
+        "p-cfb-003-cons-3": 0.000975
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L05",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.003365,
+        "p-cfb-001-cons-2": 0.003206,
+        "p-cfb-001-cons-3": 0.009869
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "H",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L05",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.002984,
+        "p-cfb-002-cons-2": 0.002679,
+        "p-cfb-002-cons-3": 0.002662
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "his",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L05",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 0.00049,
+        "p-cfb-003-cons-2": 0.000228,
+        "p-cfb-003-cons-3": 0.001039
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L06",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 7.1e-05,
+        "p-cfb-001-cons-2": 0.003674,
+        "p-cfb-001-cons-3": 0.008972
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "his",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L06",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 2e-05,
+        "p-cfb-002-cons-2": 0.002618,
+        "p-cfb-002-cons-3": 0.00261
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "his",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L06",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 0.000685,
+        "p-cfb-003-cons-2": 0.000252,
+        "p-cfb-003-cons-3": 0.001032
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L07",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 1.4e-05,
+        "p-cfb-001-cons-2": 0.003176,
+        "p-cfb-001-cons-3": 0.009949
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "H",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L07",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.001442,
+        "p-cfb-002-cons-2": 0.002571,
+        "p-cfb-002-cons-3": 0.002573
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "his",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L07",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 3.5e-05,
+        "p-cfb-003-cons-2": 0.00015,
+        "p-cfb-003-cons-3": 0.000872
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L08",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.001438,
+        "p-cfb-001-cons-2": 0.003247,
+        "p-cfb-001-cons-3": 0.008594
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "his",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L08",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.00448,
+        "p-cfb-002-cons-2": 0.002739,
+        "p-cfb-002-cons-3": 0.002606
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "football",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L08",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 6e-05,
+        "p-cfb-003-cons-2": 0.000125,
+        "p-cfb-003-cons-3": 0.000898
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L09",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.001169,
+        "p-cfb-001-cons-2": 0.003326,
+        "p-cfb-001-cons-3": 0.008768
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "basketball",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L09",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.022525,
+        "p-cfb-002-cons-2": 0.002553,
+        "p-cfb-002-cons-3": 0.002489
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "football",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L09",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 0.000684,
+        "p-cfb-003-cons-2": 0.000146,
+        "p-cfb-003-cons-3": 0.001047
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L10",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.003111,
+        "p-cfb-001-cons-2": 0.003016,
+        "p-cfb-001-cons-3": 0.008788
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "basketball",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L10",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.013447,
+        "p-cfb-002-cons-2": 0.002738,
+        "p-cfb-002-cons-3": 0.00255
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "football",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L10",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 0.000585,
+        "p-cfb-003-cons-2": 0.000135,
+        "p-cfb-003-cons-3": 0.00113
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "his",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L11",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.00124,
+        "p-cfb-001-cons-2": 0.002438,
+        "p-cfb-001-cons-3": 0.009042
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "basketball",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L11",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.001076,
+        "p-cfb-002-cons-2": 0.002919,
+        "p-cfb-002-cons-3": 0.002491
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "football",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L11",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 0.006795,
+        "p-cfb-003-cons-2": 0.000158,
+        "p-cfb-003-cons-3": 0.001108
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L12",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.000403,
+        "p-cfb-001-cons-2": 0.002618,
+        "p-cfb-001-cons-3": 0.008549
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "basketball",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L12",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.000591,
+        "p-cfb-002-cons-2": 0.00206,
+        "p-cfb-002-cons-3": 0.002537
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "football",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L12",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 0.000362,
+        "p-cfb-003-cons-2": 0.000132,
+        "p-cfb-003-cons-3": 0.000975
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L13",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.006471,
+        "p-cfb-001-cons-2": 0.003866,
+        "p-cfb-001-cons-3": 0.011125
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "basketball",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L13",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 2.7e-05,
+        "p-cfb-002-cons-2": 0.002519,
+        "p-cfb-002-cons-3": 0.002504
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "his",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L13",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 0.003613,
+        "p-cfb-003-cons-2": 0.000165,
+        "p-cfb-003-cons-3": 0.001193
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    },
+    {
+      "config_id": "L14",
+      "fact_id": "cfb-001",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-001-cons-1": 0.007726,
+        "p-cfb-001-cons-2": 0.003547,
+        "p-cfb-001-cons-3": 0.009808
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-001-cons-1": "basketball",
+        "p-cfb-001-cons-2": "basketball",
+        "p-cfb-001-cons-3": "basketball"
+      }
+    },
+    {
+      "config_id": "L14",
+      "fact_id": "cfb-002",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-002-cons-1": 0.004596,
+        "p-cfb-002-cons-2": 0.002305,
+        "p-cfb-002-cons-3": 0.00283
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-002-cons-1": "football",
+        "p-cfb-002-cons-2": "football",
+        "p-cfb-002-cons-3": "football"
+      }
+    },
+    {
+      "config_id": "L14",
+      "fact_id": "cfb-003",
+      "replicate": 1,
+      "p_target_new_per_probe": {
+        "p-cfb-003-cons-1": 0.003513,
+        "p-cfb-003-cons-2": 0.000181,
+        "p-cfb-003-cons-3": 0.001016
+      },
+      "top_1_token_per_probe": {
+        "p-cfb-003-cons-1": "hockey",
+        "p-cfb-003-cons-2": "called",
+        "p-cfb-003-cons-3": "hockey"
+      }
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "scanner_sha256": "1063228655fb3712705b617b5da9412f5b887a40e317311fc38cedd41a5a97a0",
+  "test_sha256": "5e22410abde8debbefdce4810b3f455a5b62189371f715e2ed59a03f5d68806c",
+  "tests": [
+    {
+      "class": "R7PublicationTemporaryTest",
+      "test": "test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7PublicationTemporaryTest.log",
+      "failure_lines": [
+        222,
+        233
+      ]
+    },
+    {
+      "class": "R7PublicationTemporaryTest",
+      "test": "test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7PublicationTemporaryTest.log",
+      "failure_lines": [
+        90,
+        101
+      ]
+    },
+    {
+      "class": "R7PublicationTemporaryTest",
+      "test": "test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7PublicationTemporaryTest.log",
+      "failure_lines": [
+        134,
+        145
+      ]
+    },
+    {
+      "class": "R7PublicationTemporaryTest",
+      "test": "test_r7_1_journal_temporary_live_and_archived_floor_pair",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7PublicationTemporaryTest.log",
+      "failure_lines": [
+        112,
+        123
+      ]
+    },
+    {
+      "class": "R7PublicationTemporaryTest",
+      "test": "test_r7_1_counter_temporary_live_and_archived_floor_pair",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7PublicationTemporaryTest.log",
+      "failure_lines": [
+        68,
+        79
+      ]
+    },
+    {
+      "class": "R7PublicationTemporaryTest",
+      "test": "test_r7_1_unresolved_temporary_live_and_archived_floor_pair",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7PublicationTemporaryTest.log",
+      "failure_lines": [
+        586,
+        597
+      ]
+    },
+    {
+      "class": "R7PublicationTemporaryTest",
+      "test": "test_r7_1_recovery_state_temporary_live_and_archived_floor_pair",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7PublicationTemporaryTest.log",
+      "failure_lines": [
+        200,
+        211
+      ]
+    },
+    {
+      "class": "R7PublicationTemporaryTest",
+      "test": "test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7PublicationTemporaryTest.log",
+      "failure_lines": [
+        178,
+        189
+      ]
+    },
+    {
+      "class": "R7PublicationTemporaryTest",
+      "test": "test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7PublicationTemporaryTest.log",
+      "failure_lines": [
+        156,
+        167
+      ]
+    },
+    {
+      "class": "R7PublicationTemporaryTest",
+      "test": "test_r7_1_under_lock_rechecks_every_live_and_archived_temporary",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7PublicationTemporaryTest.log",
+      "failure_lines": [
+        244,
+        252,
+        260,
+        268,
+        276,
+        284,
+        292,
+        300,
+        308,
+        316,
+        324,
+        332,
+        340,
+        348,
+        356,
+        364,
+        372,
+        380
+      ]
+    },
+    {
+      "class": "R7PublicationTemporaryTest",
+      "test": "test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7PublicationTemporaryTest.log",
+      "failure_lines": [
+        388,
+        399,
+        410,
+        421,
+        432,
+        443,
+        454,
+        465,
+        476,
+        487,
+        498,
+        509,
+        520,
+        531,
+        542,
+        553,
+        564,
+        575
+      ]
+    },
+    {
+      "class": "R7ArchivePrecisionTest",
+      "test": "test_r7_2_nested_manifest_requires_floor_100_and_reserves_101",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7ArchivePrecisionTest.log",
+      "failure_lines": [
+        34
+      ]
+    },
+    {
+      "class": "R7ArchivePrecisionTest",
+      "test": "test_r7_2_utf16_jsonl_refuses_unchanged_and_names_file",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7ArchivePrecisionTest.log",
+      "failure_lines": [
+        78
+      ]
+    },
+    {
+      "class": "R7ArchivePrecisionTest",
+      "test": "test_r7_2_nested_generation_refuses_unchanged_and_names_file",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7ArchivePrecisionTest.log",
+      "failure_lines": [
+        12,
+        23
+      ]
+    },
+    {
+      "class": "R7ArchivePrecisionTest",
+      "test": "test_r7_2_unknown_archive_format_refuses_unchanged_and_names_file",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7ArchivePrecisionTest.log",
+      "failure_lines": [
+        45
+      ]
+    },
+    {
+      "class": "R7ArchivePrecisionTest",
+      "test": "test_r7_2_unparseable_archived_json_and_jsonl_refuse_with_filename",
+      "red_log": "results/backup_gdrive_mb24_20261010T194953Z/red_R7ArchivePrecisionTest.log",
+      "failure_lines": [
+        56,
+        67
+      ]
+    }
+  ]
+}

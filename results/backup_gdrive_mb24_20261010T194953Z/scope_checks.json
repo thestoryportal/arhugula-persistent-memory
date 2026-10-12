@@ -1,0 +1,56 @@
+{
+  "only_inspect_history_changed": true,
+  "existing_tests_byte_identical": true,
+  "applet_unchanged": true,
+  "wrapper_unchanged": true,
+  "real_path_listings_identical": true,
+  "inventory_sha256": "ec66a1f5f571981f01be772c353ba252e2ce4d5f67953631ea6293a524392b99",
+  "inventory_rows": 21,
+  "new_tests_with_behavioral_red": 16,
+  "final_targeted_tests": {
+    "R7PublicationTemporaryTest": 11,
+    "R7ArchivePrecisionTest": 5,
+    "R5RecoveryTest": 9
+  },
+  "final_skips": 0,
+  "temporary_writers": [
+    [
+      ".last_run.",
+      "tools/backup_gdrive_status.py",
+      228
+    ],
+    [
+      ".recovery.",
+      "tools/backup_gdrive_status.py",
+      277
+    ],
+    [
+      ".unresolved.",
+      "tools/launchd/MemitGdriveBackup.applescript",
+      3
+    ],
+    [
+      ".counter.",
+      "tools/launchd/MemitGdriveBackup.applescript",
+      3
+    ],
+    [
+      ".unresolved.",
+      "tools/launchd/MemitGdriveBackup.applescript",
+      6
+    ],
+    [
+      ".launch-receipt.",
+      "tools/launchd/MemitGdriveBackup.applescript",
+      6
+    ],
+    [
+      ".journal.",
+      "tools/launchd/MemitGdriveBackup.applescript",
+      6
+    ]
+  ],
+  "report_prefix_sha256": "2d9d23c5f5ecd449ddd9c906228efe69c723784a3c5d45a0bfa37a6b354ae454",
+  "report_prefix_bytes": 130052,
+  "report_final_sha256": "7f198ae9f844324531e88545eece8a5128b72f41d6ece957f2618b7892e93dff"
+}

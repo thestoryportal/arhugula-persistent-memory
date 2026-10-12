@@ -1,0 +1,67 @@
+ ■ SCIENCE REPORT · updated 2026-10-11 (D-NEW1-c ⟨D-NEW1-c@fce4a263⟩ NEW-1 one authorized execution COMPLETE/CLEAN; MATH-PROXY—math estimate, not evidence; H-COV BOUNDARY-SENSITIVE (excluded-energy contrast NON-SPECIFIC), H-TOP PASS, H-RANK FAIL, H-OVERLA
+ Goal: 61 of 72 reworded questions right · ordinary facts already get ~69 · bar ┃ marks the goal
+ NEXT ACTIONS · docs/program_state.json ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ Page 5/5 · rotates every 10 s · source includes recorded history
+ 13. STANDING: re-auth codex/gpt-5.5 (Perplexity-Sonar = working cross-family fallback). Guardrails: pre-register + advisor before build AND before verdict · name-the-covering-clause / test-the-confound before stamping a result · cross-family on decisive
+ falsifiers.
+ NOW ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ · GPU idle · last: ASTRA log · 23h01m ago · outcome not recorded
+ ◦ helper: Draft Drive builder brief (4eff2d63)  ·  11m05s
+ Scoreboard narrative only · as of 2026-10-10 01:15 MDT · docs/c10_scoreboard.json
+ ⚠ The text below predates: CORPUS/02 changed; CORPUS/01 changed; CORPUS/03 changed (the program updates it)
+ WHAT IT MEANS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72); made-up two-word names do not: the usual method gets about 12 of 72, our
+ best write method about 40, and the goal is 61. Training the same small part of the model reaches 70 of 72, so that part is big enough, but only with side effects. ASTRA, which writes every word of the answer at once, got 14 of 72 against 12 and did not
+ fit its targets, so it is closed. The offline math lab could not predict real results well enough and was stopped. Now: a check of the math behind earlier writes (NEW-1) and the step-7 setup.
+ SCOREBOARD RESULTS · dated narrative (newest first) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 10-10 ████░░░░░░░░░░░┃░░ 14 of 72 (vs 12)           ASTRA: write every word of the answer at once — No: two more right answers than the usual method, but it did not fit its targets, changed too much of the model and disturbed unrelated facts; closed und…
+ 10-09 ·················· calibration failed         Math lab: predict a write's result offline — Stopped: its offline predictions did not match the real runs closely enough to trust, so it is not used to rank ideas
+ 10-08 ████░░░░░░░░░░░┃░░ 17 of 72 (vs 12)           Step 6: two ways to prepare the answer before writing it — No: re-weighting the answer's words gave 17 of 72 against 12, too small to count; the other idea made the ordinary control facts worse (64 and…
+ 10-08 ██████████████████ 70 of 72 (two runs: 70 an… Step 5: ceiling test, official reading (training, not a write) — Training this small part of the model can recall made-up two-word names at 70 to 71 of 72, so its size is not the wall; but it got there…
+ 10-08 ██████████████████ 71 and 70 of 72 (no offic… Step 5: ceiling test, repeat run (training, not a write) — Stopped before the official reading: the new seed scored 71 of 72 and the same-seed retrain 70 of 72 (identical to the first round), but a rou…
+ 10-07 ███░░░░░░░░░░░░┃░░ 12 of 72 (vs 11)           Step 4: let each fact pick its own depth — No: one more right answer than the usual method, and putting every fact at one fixed depth did just as well; not taken forward
+ 10-07 ██████████████████ 70 of 72 (interim, one se… Step 5: ceiling test, first round (training, not a write) — Interim: training reaches 70 of 72 but disturbs nearby facts asked the same way; needs a repeat run before it counts
+ 10-07 ████████████░░░┃░░ 46, 37, 40 of 72 (vs 14)   Step 3: new vocabulary word per name (repeat) — No clear answer: the two-word version could not be tested; the earlier one-word method repeated its result (provisional until you confirm)
+ 10-07 ██████░░░░░░░░░┃░░ 23 of 72 (vs 15)           Step 2: second address inside the name — Small gain with side effects; no
+ 10-06 ·················· not scored                 Step 1: fit three wordings at once — Solver could not fit it twice; inconclusive
+ 10-06 ████████░░░░░░░┃░░ 34 of 72                   Self-improving loop (experimental) — Promising, but may have seen test wordings; parked
+ 10-06 ██████░░░░░░░░░┃░░ 24 of 72 (vs 12)           Stacked second write — Doubles recall but disturbs other facts
+ 10-05 █████░░░░░░░░░░┃░░ 21 of 72 (vs 13)           A second write on top of the first — Not enough gain
+ 10-05 ███████████████┃░░ 61 of 72                   Recomputed target, injected directly (not a write) — Proves a good-enough target exists for this model
+ 10-05 ████████████░░░┃░░ 39 to 46 of 72             One new vocabulary word per name — Best route found; partial
+ 10-05 ███░░░░░░░░░░░░┃░░ 8 to 13 of 72              Change the solver's maths — No help; but injecting the target directly gives 49
+ 10-04 ░░░░░░░░░░░░░░░┃░░ 0 of 72 reworded           Published method (AnyEdit) ported to the Mac — Stopped: did not work here
+ 06-26 ████░░░░░░░░░░░┃░░ at best 15 of 72           Tuning knobs (depth, strength, statistics) — No knob fixes it
+ 06-26 ██████░░░░░░░░░┃░░ 14 to 22 of 72             Realistic made-up project names — Worse than expected: this is the core problem
+ 06-25 ██████░░░░░░░░░┃░░ 26 of 72 (real-word pairs… First test: two-word names, usual method — Problem found: made-up pairs do not stick
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

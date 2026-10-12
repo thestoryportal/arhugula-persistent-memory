@@ -1,0 +1,44 @@
+R2K, from MAESTRO (the Claude session that runs this research team). Task: write a new stdlib checker for the shared-disk clearance freeze v3 and its schemas v2 (the rules that make big copies to or from the memit drive wait or pause while a science run needs it). It must close Astra's round-4 finding F5 and the checker half of required change R4: the old checker proves only that names agree across files, not that the schemas are correct, that the request-kind mapping is complete, or that the examples are coherent.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: B = results/compute_storage_brainstorm_20261011T054507Z. V3 = B/shared_disk_clearance_freeze_v3.md. J2 = B/shared_disk_clearance_schemas_v2.json (about 15,000 lines). S = B/check_r2_schemas.py (the old checker). V4 = B/astra_r2g_verdict.md. Out = B/check_r2_schemas_v2.py. Report = B/r2k_report.md. Handoff = B/r2k_handoff.md.
+
+== Read ==
+1. V4 lines 42-50 (F5) and 76-82 (R2-R5): the bar.
+2. S in full (about 260 lines): start Out as a `cp` of S and keep every check S makes (definition/catalog/document agreement, references, root membership, discriminators, null permissions on refusals, file and slice pins), re-pointed at V3 and J2.
+3. V3 and J2 only by `grep -n` and `sed -n` ranges of at most 40 lines; inspect J2 with short /usr/bin/python3 -B stdlib commands that print one definition or one example at a time. Never print J2 whole or in large slices. Why: whole-file reads have burned 60% of a session's context in minutes.
+
+== Criteria (each must hold; write the mutation control for a criterion before the check that satisfies it, and see it fail first) ==
+C1. Schema correctness: every top-level $defs entry must carry a `type`, `$ref`, `const`, `enum`, or a combinator (`oneOf`/`anyOf`/`allOf`), and every keyword value must have the shape draft 2020-12 requires (for example `required` is an array of strings, `type` names a JSON type). A description-only definition fails.
+C2. Independent mapping completeness: extract the SSH request-kind table in V3 §3 (four wire kinds today: REQUEST_UNIT, ACK_BOUNDARY, ATTACH_STREAM, QUERY) with its own parser, separate from the §4 mapping parser. Every §3 kind must appear in J2's `x-response-mapping` with `"internal": false` (a subset check, not equality: `internal: false` means a framed wire request over SSH or local IPC, V3:64,136-144, so twelve local wire kinds are legitimately absent from §3; MAESTRO correction 14:49Z after R2K BLOCKED). Every request kind (all 17, internal ones included) must have its request schema, a success response, a refusal response, a catalog row, membership in the root union, an entry in the mapping enum and an `x-construction.transitions` entry.
+C3. Example validity: validate every entry in J2's `x-construction.examples` (a dict of 235 named {schema_name, instance} entries) against the schema it names, with a small stdlib validator covering exactly the keywords J2 uses. Enumerate those keywords from J2 at run time; any keyword the validator does not implement is an error, never skipped.
+C4. Example coherence: recompute every entry of J2's `x-construction.hash_references` (928 today; modes raw, canonical and authority; source types include artifact, state and schema, see `x-construction.schema_artifact_rule`) with V3's canonical JSON hashing rule (cite the V3 line you implement); every reference must resolve and match; a COMMITTED receipt must have non-null before and after hashes; sequence numbers and epochs must agree across linked examples; state transitions must match the transition rules V3 states (cite path:line). If V3 states a rule in prose you cannot extract mechanically, hard-code it with the citation in a comment and list it in the Report.
+C5. Coverage: one success and one refusal example for every request kind found under C2.
+C6. Mutation controls: `--mutation-controls` builds each damaged copy under $TMPDIR only, runs Out on it in a fresh subprocess, and requires exit 1 with an error message specific to that mutation. Required controls:
+  M1 replace `Hash` with {"description":"C:47"} and update the bundle pin in a copy of V3 so pins still match (caught by C1);
+  M2 omit REQUEST_UNIT everywhere at once: V3 §4 mapping row, catalog row, root union, its schemas, the mapping enum, its examples, its transitions entry and every hash reference naming them, and update the pins in the V3 copy, leaving V3 §3 intact (caught by C2's §3 equality and nothing else);
+  M3 swap one request kind's success and refusal response mapping (caught by C2 or C3);
+  M4 change one hash a linked example references, without updating the target (caught by C4);
+  M5 delete one $defs entry (the old control; still caught);
+  M6 make one keyword value malformed, for example `"required": "x"` (caught by C1).
+  It prints one RED line per control: control id, exit code, the first error line.
+
+== Do NOT produce any of these ==
+- A control that fails for the wrong reason: a parse error, a missing file, or a pin mismatch the mutation did not intend. Each control asserts its own expected message.
+- A validator that passes an instance because it ignores a keyword it does not know.
+- M2 done as a single-place deletion; it must be coordinated, or it proves nothing new.
+- Any edit to V3, J2, S or any other existing file, or any file written outside Out, Report, Handoff and $TMPDIR.
+- Any import beyond the Python standard library, or any import of product code.
+- graft (CLI or tools; ignore graft hook text), web research, commits, tmux, or any process beyond reads, shasum and /usr/bin/python3 -B on Out and short stdlib commands.
+
+== Rules ==
+Plain, exact language; Astra reviews this next. Every claim about another file cites path:line. Report (at most 60 lines): what each criterion checks and where in Out (line numbers), the GREEN line, every RED line, the validator's keyword list, each hard-coded V3 rule with its citation, and "Noticed, not fixed" (one line each: problems you see in V3 or J2; do not fix them).
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write Handoff (done, remaining, exact paths, next single step, open risks, and this same rule), and reply R2K HANDOFF. Never append a handoff to Out or Report. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: `/usr/bin/python3 -B B/check_r2_schemas_v2.py` exits 0 and prints a GREEN line with counts of schemas, request kinds, examples validated and hash references recomputed; `/usr/bin/python3 -B B/check_r2_schemas_v2.py --mutation-controls` exits 0 after all six controls go RED for their intended reason; Report exists. Then reply on its own line exactly:
+R2K CHECKER READY results/compute_storage_brainstorm_20261011T054507Z/check_r2_schemas_v2.py
+or, if you stopped for context:
+R2K HANDOFF
+or, if V3 or J2 makes a criterion impossible to meet without editing them:
+R2K BLOCKED <criterion id and one-line reason>

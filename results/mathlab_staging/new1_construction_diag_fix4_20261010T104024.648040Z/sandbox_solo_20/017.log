@@ -1,0 +1,6 @@
+test_stalled_launch_returns_within_bound_and_late_handle_cleans_once (tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_stalled_launch_returns_within_bound_and_late_handle_cleans_once) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.524s
+
+OK

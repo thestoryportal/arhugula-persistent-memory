@@ -1,0 +1,31 @@
+test_alias_cross_module (__main__.Fixtures) ... ok
+test_argv_dispatch (__main__.Fixtures) ... ok
+test_child_program_follows_stdin_loaded_phase (__main__.Fixtures) ... ok
+test_comprehension_loaded_cardinality (__main__.Fixtures) ... ok
+test_direct_spawn (__main__.Fixtures) ... ok
+test_disk_round_trip_is_loaded (__main__.Fixtures) ... ok
+test_dynamic_call_unresolved (__main__.Fixtures) ... ok
+test_external_boundary (__main__.Fixtures) ... ok
+test_higher_order_callback_is_not_silently_dropped (__main__.Fixtures) ... ok
+test_import_inside_helper_initialization (__main__.Fixtures) ... ok
+test_late_require_does_not_exclude (__main__.Fixtures) ... ok
+test_len_guard_bounds_count_before_loop (__main__.Fixtures) ... ok
+test_loaded_list_count_and_operand (__main__.Fixtures) ... ok
+test_module_initialization_spawn (__main__.Fixtures) ... ok
+test_os_exec_and_spawn_normalize_operands (__main__.Fixtures) ... ok
+test_pinned_condition_false_does_not_evaluate_spawn (__main__.Fixtures) ... ok
+test_pinned_loop_count (__main__.Fixtures) ... ok
+test_pinned_while_false_and_exit_exclude (__main__.Fixtures) ... ok
+test_require_excludes_before_spawn (__main__.Fixtures) ... ok
+test_return_before_guard_is_not_exclusion (__main__.Fixtures) ... ok
+test_same_shape_different_loaded_family_not_covered (__main__.Fixtures) ... ok
+test_shell_branch_and_variable_command (__main__.Fixtures) ... ok
+test_shell_nested_substitution (__main__.Fixtures) ... ok
+test_two_primitives_on_same_line_inventory (__main__.Fixtures) ... ok
+test_round12_F1_profile19_verifier_gap (__main__.RealControls) ... ok
+test_round12_F2_evaluator_replication_gap (__main__.RealControls) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 24.110s
+
+OK

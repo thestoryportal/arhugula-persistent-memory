@@ -1,0 +1,45 @@
+Work queue · 8:37 PM
+RUNNING 0 · NEEDS YOU 2 · IN REVIEW 2 · READY 1 · BLOCKED 6
+  queue edited 0 min ago
+  Needs you: Decide where NEW-1's 100 leftover files go
+  Needs you: Close finished builder windows MB39-MB42 and Q1-Q2
+
+Running now (detected live)
+  No work detected by the live checks.
+Idle builder windows: codexmb39, codexmb40, codexmb41, codexmb42, codexmb43, codexq1, codexq2,
+codexq3
+
+5. Decide where NEW-1's 100 leftover files go
+  [NEEDS YOU]
+  Who: You
+  Summary: The last experiment (NEW-1) left 100 control files (167 MB). Their fingerprints are
+           already saved in the project record.
+  Needs from you: Keep them and move them to Drive once it works (recommended), or delete them now.
+  Time: no estimate yet
+  Note: Hashes: results/mathlab_staging/new1_outcome_20261011/npz_bench_files.sha256
+
+10. Close finished builder windows MB39-MB42 and Q1-Q2
+  [NEEDS YOU]
+  Who: You (MAESTRO cannot close sessions)
+  Summary: Their work is saved and committed; these idle windows can be closed (MAESTRO is not
+           allowed to close them).
+  Needs from you: Run: tmux -L default kill-session -t codexmb39; tmux -L default kill-session -t
+                  codexmb40; tmux -L default kill-session -t codexmb41; tmux -L default kill-session
+                  -t codexmb42; tmux -L default kill-session -t codexq1; tmux -L default
+                  kill-session -t codexq2
+  Time: no estimate yet
+
+1. Make the queue tab fit the screen
+  [IN REVIEW]
+  Who: Builder Q3, then MAESTRO checks on the Mac
+  Summary: The queue tab is live as tab 8, but its list is taller than the window, so the important
+           top part scrolls out of view. Q3 makes it fit: what needs you and what is running stay on
+           screen, the rest shrinks to one line each.
+  Time: running for 19 min · about 11-56 min left (estimate made 8:18 PM)
+  Live: builder finished — waiting for MAESTRO
+  Note: Tab 8 'queue' is installed and working (commit 23a4d8cb): 24/24 tests and all Mac checks
+        passed after Q2's 3 fixes.
+  Note: Open it on the phone: tmux new-session -t dashboard \; set destroy-unattached on \;
+        select-window -t queue
+  Note: Q3 also moves finished builders out of 'Running now' onto one 'Idle builder windows' line.
++8 more items (taller window shows more)

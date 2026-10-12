@@ -1,0 +1,132 @@
+[
+  {
+    "test": "test_1_launch_matches_gpu_exemption",
+    "log": "RED_test_1_launch_matches_gpu_exemption.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_1_live_loop_uses_reload_without_tmux",
+    "log": "RED_test_1_live_loop_uses_reload_without_tmux.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_2_panel_never_invokes_python_subprocess",
+    "log": "RED_test_2_panel_never_invokes_python_subprocess.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_3_health_is_reused_and_read_only_for_fixture_tree",
+    "log": "RED_test_3_health_is_reused_and_read_only_for_fixture_tree.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_3_malformed_and_missing_progress_remain_visible",
+    "log": "RED_test_3_malformed_and_missing_progress_remain_visible.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_3a_not_switched_on_once_160",
+    "log": "RED_test_3a_not_switched_on_once_160.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_3a_not_switched_on_once_80",
+    "log": "RED_test_3a_not_switched_on_once_80.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_3b_lock_without_heartbeat_is_running_not_disabled",
+    "log": "RED_test_3b_lock_without_heartbeat_is_running_not_disabled.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_3b_running_once_160",
+    "log": "RED_test_3b_running_once_160.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_3b_running_once_80",
+    "log": "RED_test_3b_running_once_80.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_3c_finished_once_160",
+    "log": "RED_test_3c_finished_once_160.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_3c_finished_once_80",
+    "log": "RED_test_3c_finished_once_80.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_3d_history_once_160",
+    "log": "RED_test_3d_history_once_160.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_3d_history_once_80",
+    "log": "RED_test_3d_history_once_80.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_4_biggest_first_and_internal_project_paths_separate",
+    "log": "RED_test_4_biggest_first_and_internal_project_paths_separate.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_4_space_uses_statvfs_and_shared_disk_once",
+    "log": "RED_test_4_space_uses_statvfs_and_shared_disk_once.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_4_symlinks_counted_once_at_target_and_labelled",
+    "log": "RED_test_4_symlinks_counted_once_at_target_and_labelled.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_4_unavailable_mount_is_an_error_not_zero_space",
+    "log": "RED_test_4_unavailable_mount_is_an_error_not_zero_space.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_5_attempts_are_at_least_fifteen_minutes_apart_even_on_failure",
+    "log": "RED_test_5_attempts_are_at_least_fifteen_minutes_apart_even_on_failure.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_5_bad_cache_and_du_failure_are_explicit",
+    "log": "RED_test_5_bad_cache_and_du_failure_are_explicit.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_5_failed_scan_keeps_last_result_and_error",
+    "log": "RED_test_5_failed_scan_keeps_last_result_and_error.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_5_first_scan_is_nonblocking_and_says_measuring",
+    "log": "RED_test_5_first_scan_is_nonblocking_and_says_measuring.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_5_fresh_cache_skips_scan",
+    "log": "RED_test_5_fresh_cache_skips_scan.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_5_old_cache_scans_and_reload_reuses_it",
+    "log": "RED_test_5_old_cache_scans_and_reload_reuses_it.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_6_snapshot_never_writes_backup_app_or_launchagents",
+    "log": "RED_test_6_snapshot_never_writes_backup_app_or_launchagents.log",
+    "result": "ERROR"
+  },
+  {
+    "test": "test_1_idempotent_launcher_and_visible_failure_with_fake_tmux",
+    "log": "RED_test_1_idempotent_launcher_and_visible_failure_with_fake_tmux.log",
+    "result": "FAIL"
+  }
+]

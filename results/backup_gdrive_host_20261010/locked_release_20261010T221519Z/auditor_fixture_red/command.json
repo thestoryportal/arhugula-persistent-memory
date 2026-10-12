@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py",
+    "auditor_fixture_red",
+    "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/before/run_suite.py"
+  ],
+  "audited_runner_sha256": "268af4e2907ea54b289da7c2936aac0edac5245efae0bb57d85ca3a157454623",
+  "command": "/usr/bin/python3 -B results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/test_clearance_auditor.py auditor_fixture_red results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/before/run_suite.py",
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "fixture_sha256": "43d317c490c7ed9be70c7f09ebce8de7f9e707e4dfcaf66d297422c41d0bebae",
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "invoked_interpreter": "/usr/bin/python3",
+  "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/before/run_suite.py",
+  "source_sha256": {
+    "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/run_suite.py": "268af4e2907ea54b289da7c2936aac0edac5245efae0bb57d85ca3a157454623",
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+    "tools/backup_gdrive_status.py": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+    "tools/launchd/MemitGdriveBackup.applescript": "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428",
+    "tools/launchd/build_gdrive_applet.sh": "d467ef24968d512152f2e5d8ba5cc946ff1809acd8bfefeab850ba0cc8685076",
+    "tools/launchd/stage_gdrive_release.sh": "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e",
+    "tools/test_backup_gdrive_addendum.py": "6eba5860e1fbb0c562af9a4241f8acf6f50d966d05b3d0e8ac66ec35e14e7d2c"
+  }
+}

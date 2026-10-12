@@ -1,0 +1,28 @@
+{
+  "case": "unresolved-compaction",
+  "status": "PASS",
+  "fixture": "/private/tmp/memit_gdrive_native_x_8e19x8/fixture",
+  "fixture_root": "/private/tmp/memit_gdrive_native_x_8e19x8",
+  "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+  "backup_wrapper": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive.sh",
+  "evidence_kind": "native applet / stub child",
+  "allocations_checked": 2000,
+  "interval_limit": 64,
+  "byte_limit": 2048,
+  "compaction_barrier": 139,
+  "native_invocations": 3,
+  "fixture_copy": [
+    "home/Library/Logs/memit-gdrive-backup/last_run.json",
+    "home/Library/Logs/memit-gdrive-backup/launch_receipt.json",
+    "home/Library/Logs/memit-gdrive-backup-launch-state/counter",
+    "home/Library/Logs/memit-gdrive-backup-launch-state/unresolved.json",
+    "run.jsonl",
+    "wrapper.log"
+  ],
+  "source_sha256": {
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+    "tools/backup_gdrive_status.py": "a4d3978bfc2995c78762f83c8c73152e73e8feb6cb4d8056791223249ef082c2",
+    "tools/launchd/MemitGdriveBackup.applescript": "31566aca9386b8c70d822f4e9bfe2132b7bb8c86a87b46440aea6c91eec6e6d7",
+    "tools/test_backup_gdrive_addendum.py": "6bca5cd7751ff28c19083175dfcbe4829e7d4d80827f5db33aa58a668ba6b833"
+  }
+}

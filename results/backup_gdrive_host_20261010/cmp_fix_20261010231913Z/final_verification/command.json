@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/verify_receipt.py"
+  ],
+  "command": "LLMDB_ROOT=\"$PWD\" PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/rtk proxy /usr/bin/python3 -B results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/verify_receipt.py",
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "invoked_interpreter": "/usr/bin/python3",
+  "python_version": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+  "source_sha256": {
+    "results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/README.md": "7dacf80f3b099467a486536e7a99ed95eed958ac5a213c2dfc5f7cd9262d10c2",
+    "results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/run_sandbox.py": "e4aea6eb70b1e63bbc72d6b93729d5082b8a3b44a0dadd5af63376610ae70ee5",
+    "results/backup_gdrive_host_20261010/cmp_fix_20261010231913Z/verify_receipt.py": "3c7d502b8e5949a8b31fe7e33d3bdf3bc5fbff93da69af5bfc64d574ab564bb7",
+    "results/backup_gdrive_host_20261010/locked_release_20261010T221519Z/run_suite.py": "5065464f1f61e957011f361ae48d8af1a85cd52fdecdcb40710c30d125b1fe3d",
+    "tools/archive_to_gdrive.sh": "efcade80c90afec3b71224130b3e1b38a104164a3b7c90f5670f410e6f92475d",
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+    "tools/backup_gdrive_status.py": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+    "tools/launchd/MemitGdriveBackup.applescript": "4e1e79eec6dab2944bda793814dbcd0ee4f7fd56cfb07a523a128bff9e38a428",
+    "tools/launchd/build_gdrive_applet.sh": "33d0e8473f3d731584f163f7b90e2fee1be7df3b98432c7afc181108884f7252",
+    "tools/launchd/com.rhu.memit-gdrive-backup.plist": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce",
+    "tools/launchd/stage_gdrive_release.sh": "b157637701cf8fd55eb121468c6852a49c7b911e2df8df25505762a36d5f3b9e",
+    "tools/test_backup_gdrive.py": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+    "tools/test_backup_gdrive_addendum.py": "f9547a3f58870881a5d78b8e2fd829a24e432979885c199865e837cfa871ab34"
+  }
+}

@@ -185,6 +185,47 @@ class GeometryTests(unittest.TestCase):
         self.assertTrue(self.torch.equal(flat.right,flat2.right))
         self.assertTrue(self.torch.equal(matched.right,matched2.right))
 
+    def test_native_projector_uses_two_independent_native_gathers(self):
+        t=self.torch
+        U=t.tensor([[.5,.5,.5,.5],[.5,-.5,.5,-.5],
+                    [.5,.5,-.5,-.5],[.5,-.5,-.5,.5]],dtype=t.float32)
+        allowed=[3,1]; before_U=U.numpy().tobytes(); before_allowed=list(allowed)
+        gathers=[]; products=[]
+        real_getitem=t.Tensor.__getitem__; real_matmul=t.Tensor.__matmul__
+        def gather(value,key):
+            result=real_getitem(value,key)
+            gathers.append((value,key,result))
+            return result
+        def product(left,right):
+            products.append((left,right))
+            return real_matmul(left,right)
+        with mock.patch.object(t.Tensor,'__getitem__',new=gather), \
+             mock.patch.object(t.Tensor,'__matmul__',new=product):
+            P=self.G.native_projector({'native':{'Q':U,'allowed':allowed}})
+        self.assertEqual(len(gathers),2,'native projector must gather twice from native U')
+        self.assertEqual(len(products),1)
+        for value,key,result in gathers:
+            self.assertIs(value,U)
+            self.assertEqual(key[0],slice(None))
+            self.assertIs(key[1],allowed)
+            self.assertEqual(result.dtype,t.float32)
+            self.assertTrue(t.equal(result,U[:,allowed]))
+        left,right=products[0]
+        self.assertIs(left,gathers[0][2])
+        self.assertNotEqual(left.untyped_storage().data_ptr(),right.untyped_storage().data_ptr(),
+                            'projector operands must have independent storage')
+        self.assertEqual(right.untyped_storage().data_ptr(),gathers[1][2].untyped_storage().data_ptr())
+        self.assertEqual((left.dtype,right.dtype),(t.float32,t.float32))
+        self.assertTrue(t.equal(right,left.T))
+        self.assertEqual(U.dtype,t.float32)
+        self.assertEqual(U.numpy().tobytes(),before_U)
+        self.assertEqual(allowed,before_allowed)
+        reference=U[:,allowed]@U[:,allowed].T
+        self.assertEqual(P.dtype,t.float32)
+        self.assertEqual(P.numpy().tobytes(),reference.numpy().tobytes())
+        self.assertTrue(self.G.projector_matches(P,len(allowed),len(allowed),
+                                               self.G.tensor_sha(reference),[]))
+
     def test_projector_matches_all_four_frozen_probes_and_update_parity(self):
         P=self.torch.diag(self.torch.tensor([0.,0.,1.,1.]))
         probes=[P@self.torch.randn(4,generator=self.torch.Generator().manual_seed(j)) for j in range(4)]

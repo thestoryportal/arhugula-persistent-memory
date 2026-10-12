@@ -1,0 +1,183 @@
+[
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_n17uknxq/checkout",
+      "init",
+      "-q"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_n17uknxq/checkout",
+      "add",
+      "tools"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_n17uknxq/checkout",
+      "-c",
+      "user.name=MB32 Fixture",
+      "-c",
+      "user.email=fixture@invalid",
+      "-c",
+      "core.hooksPath=/dev/null",
+      "commit",
+      "-qm",
+      "locked release fixture"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_n17uknxq/checkout",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/bin/bash",
+      "/private/tmp/gdrive_addendum_n17uknxq/checkout/tools/launchd/build_gdrive_applet.sh",
+      "532663def04620cc5b6b41b4f8a1a397e6e33b81",
+      "fixture-normal",
+      "/private/tmp/gdrive_addendum_n17uknxq/normal fixture.app"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_fa8zd8rg/checkout",
+      "init",
+      "-q"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_fa8zd8rg/checkout",
+      "add",
+      "tools"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_fa8zd8rg/checkout",
+      "-c",
+      "user.name=MB32 Fixture",
+      "-c",
+      "user.email=fixture@invalid",
+      "-c",
+      "core.hooksPath=/dev/null",
+      "commit",
+      "-qm",
+      "locked release fixture"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_fa8zd8rg/checkout",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/bin/bash",
+      "/private/tmp/gdrive_addendum_fa8zd8rg/checkout/tools/launchd/build_gdrive_applet.sh",
+      "bab544afd5a5b9395881b1ec68048123f7ecc66c",
+      "fixture-extra_newline",
+      "/private/tmp/gdrive_addendum_fa8zd8rg/extra_newline fixture.app"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/bin/bash",
+      "/private/tmp/gdrive_addendum_fa8zd8rg/checkout/tools/launchd/build_gdrive_applet.sh",
+      "bab544afd5a5b9395881b1ec68048123f7ecc66c",
+      "fixture-changed_byte",
+      "/private/tmp/gdrive_addendum_fa8zd8rg/changed_byte fixture.app"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_b7_ljf0_/checkout",
+      "init",
+      "-q"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_b7_ljf0_/checkout",
+      "add",
+      "tools"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_b7_ljf0_/checkout",
+      "-c",
+      "user.name=MB32 Fixture",
+      "-c",
+      "user.email=fixture@invalid",
+      "-c",
+      "core.hooksPath=/dev/null",
+      "commit",
+      "-qm",
+      "locked release fixture"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/usr/bin/git",
+      "-C",
+      "/private/tmp/gdrive_addendum_b7_ljf0_/checkout",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  },
+  {
+    "args": [
+      "/bin/bash",
+      "/private/tmp/gdrive_addendum_b7_ljf0_/checkout/tools/launchd/build_gdrive_applet.sh",
+      "4fd9719ff2744e1f0bce632e38f6b0bd51f5c780",
+      "fixture-empty_canonical",
+      "/private/tmp/gdrive_addendum_b7_ljf0_/empty_canonical fixture.app"
+    ],
+    "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
+  }
+]

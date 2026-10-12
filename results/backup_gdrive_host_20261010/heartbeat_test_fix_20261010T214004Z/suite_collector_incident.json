@@ -1,0 +1,18 @@
+{
+  "initial_full_suite": {
+    "phase": "full_addendum",
+    "testsRun": 134,
+    "failures": 0,
+    "errors": 2,
+    "skipped": 14,
+    "error_sources": {
+      "test_one_thousand_live_owner_refusals_have_bounded_storage": "receipt-only copytree rejects FIFO",
+      "test_vanished_parent_is_warning_but_dangling_symlink_escape_is_fatal": "receipt-only copytree follows dangling symlink"
+    }
+  },
+  "inflight_phase": "full_addendum_symlink_capture",
+  "inflight_collector": "copytree(symlinks=True), FIFO issue remains; preserve normal cleanup",
+  "final_runner": "run_safe_addendum_no_capture.py",
+  "final_collector": "per-test runtime, logs, assertions, Popen PIDs, descendants; no fixture tree copy",
+  "test_sha256": "b764938802edf101be01493d24012a586076ca9f00bbfba2193c70336e54fdf1"
+}

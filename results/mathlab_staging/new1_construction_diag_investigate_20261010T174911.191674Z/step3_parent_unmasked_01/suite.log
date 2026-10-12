@@ -1,0 +1,24 @@
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/step3_parent_unmasked_01/condition/blocked_monitor/construction
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/step3_parent_unmasked_01/condition/blocked_preflight/construction
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/step3_parent_unmasked_01/condition/resource_cleanup/construction
+test_parent_initialization (process_conditions.NumericalInitialization.test_parent_initialization) ... ok
+test_fix4_c1_already_exited_is_reaped_without_a_signal_before_return (tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c1_already_exited_is_reaped_without_a_signal_before_return) ... ok
+test_fix4_c1_exit_between_wait_and_kill_retains_actual_exit_status (tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c1_exit_between_wait_and_kill_retains_actual_exit_status) ... ok
+test_fix4_c1_live_worker_is_killed_and_reaped_before_return (tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c1_live_worker_is_killed_and_reaped_before_return) ... ok
+test_fix4_c2_final_send_exception_retains_reaping_and_child_boundary (tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c2_final_send_exception_retains_reaping_and_child_boundary) ... ok
+test_fix4_c2_guardian_setup_exception_cannot_unwind_into_supervisor (tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c2_guardian_setup_exception_cannot_unwind_into_supervisor) ... ok
+test_fix4_c3_captured_exit_schedule_returns_but_true_failures_fail_stop (tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c3_captured_exit_schedule_returns_but_true_failures_fail_stop) ... ok
+test_stalled_launch_returns_within_bound_and_late_handle_cleans_once (tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_stalled_launch_returns_within_bound_and_late_handle_cleans_once) ... ok
+test_deadline_kills_and_reaps_a_real_blocked_child (tests.test_new1_identity_diag.IdentityDiagnosticTests.test_deadline_kills_and_reaps_a_real_blocked_child) ... STOPPED-DEADLINE: whole-run wall-clock cap reached
+ok
+test_blocked_monitor_and_cleanup (production_shape.SyntheticParent.test_blocked_monitor_and_cleanup) ... STOPPED-DEADLINE: whole-run wall-clock cap reached
+ok
+test_blocked_preflight (production_shape.SyntheticParent.test_blocked_preflight) ... STOPPED-DEADLINE: whole-run wall-clock cap reached
+ok
+test_resource_breach_and_cleanup (production_shape.SyntheticParent.test_resource_breach_and_cleanup) ... STOPPED-RESOURCE: observed process-family RSS at or above 11 GiB
+ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 6.106s
+
+OK

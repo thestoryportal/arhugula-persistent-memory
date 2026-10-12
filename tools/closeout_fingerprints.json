@@ -182,5 +182,13 @@
     "anchor_start": "<!-- BEGIN D-NEW1-fid -->",
     "anchor_end": "<!-- END D-NEW1-fid -->",
     "what": "Native-fp32 projector-fidelity warning only; L4 stored normalized covariance rank disagreement; actual rounded-P distance, update-weighted leakage and locality UNMEASURED; behavioral verdicts unchanged"
+  },
+  "D-NEW1-b": {
+    "source": "results/mathlab_staging/new1_launch_c4_20261011/launch_manifest.md",
+    "what": "NEW-1 second attempt C4 launch manifest (whole file, f730e0d): pinned hashes 11/11 OK, fix commits + Astra verdicts, C1-C5 status, endorsed command, one C5 dispatch from tmux -L new1; NOT RUN, predictions NOT COMPUTED, F1 unchanged"
+  },
+  "D-NEW1-c": {
+    "source": "results/mathlab_staging/new1_outcome_20261011/maestro_outcome_note.md",
+    "what": "NEW-1 one authorized execution outcome note (whole file, 01147aa): COMPLETE/CLEAN; MATH-PROXY math estimate, not evidence; H-COV BOUNDARY-SENSITIVE, excluded-energy contrast NON-SPECIFIC, H-TOP PASS, H-RANK FAIL, H-OVERLAP FAIL; INVALID envelope/rc 3 as prescribed; no queue change; quiet-host deviation retained; Astra ACCEPT-WITH-CONDITIONS"
   }
 }

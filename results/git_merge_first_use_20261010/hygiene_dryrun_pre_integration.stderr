@@ -1,0 +1,53 @@
+PROTECTED local master unique=0 date=2026-10-04T20:40:26-06:00
+MERGED local orx/h-1-shared-value-objective-across-prompt-formats unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-10-surprisal-boundary-second-key-anyedit-under unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-11-token-level-target-reweighting-and-forward unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-12-hypernetwork-that-emits-a-fixed-lora-delta unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-13-merged-band-lora-write-trained-on-paraphras unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-14-sparse-lora-restricted-to-the-rows-the-edit unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-15-full-parameter-fine-tuning-of-the-band-on-a unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-16-preference-objective-injection-rl-or-dpo-ov unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-17-sparse-memory-layer-slots-as-the-write-site unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-18-minted-token-written-by-embedding-only-tuni unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-19-two-minted-tokens-per-value-one-per-coined unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-2-robust-key-adapter-rep unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-20-constructed-embedding-for-the-minted-row-to unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-21-qwen2-5-7b-untied-as-the-model-line-for-the unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-22-qwen3-8b-base-olmo-2-7b-pythia-6-9b-llama-3 unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-23-mimo-7b-base-a-pretraining-objective-that-a unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-24-post-training-mtp-heads-on-qwen2-5-3b-itsel unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-25-llada-8b-base-or-dream-7b-as-the-diagnostic unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-26-olmo-2-7b-with-a-covariance-drawn-from-its unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-27-olmoe-1b-7b-with-the-moe-aware-closed-form unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-28-mamba-2-8b-or-falcon3-mamba-7b-with-rome-st unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-29-entity-lens-readout-at-the-keyed-position-s unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-3-direct-end-to-end-w-optimisation-over-the-ba unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-30-weight-grafting-to-localise-where-a-fine-tu unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-4-covariance-from-model-generated-text-moir unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-5-leverage-score-pivot-key-inside-the-value-ma unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-6-per-position-per-layer-value-write-with-gate unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-7-betaedit-as-the-engine-for-the-incremental-w unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-8-dynamic-per-edit-layer-selection-loki-on-the unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/h-9-subject-anchored-per-sentence-residual-with unique=0 date=2026-10-06T11:04:32-06:00
+MERGED local orx/research-pass-2026-10-06-hypothesis-ledger-no-ru unique=0 date=2026-10-06T11:04:32-06:00
+PROTECTED local research-pass/2026-10-06 unique=9 date=2026-10-06T12:59:41-06:00
+PROTECTED local worktree-c10k-route-a unique=323 date=2026-10-10T04:02:02-06:00
+PROTECTED remote master unique=0 date=2026-10-06T20:39:23-06:00
+MERGED remote worktree-b3-local-serving unique=0 date=2026-10-04T02:11:40-06:00
+MERGED remote worktree-backup-tier unique=0 date=2026-10-03T18:43:51-06:00
+MERGED remote worktree-c10k-m3pro-stage0 unique=0 date=2026-10-04T02:35:35-06:00
+MERGED remote worktree-c10k-reduction-note unique=0 date=2026-10-04T02:40:55-06:00
+PROTECTED remote worktree-c10k-route-a unique=323 date=2026-10-10T04:02:02-06:00
+MERGED remote worktree-fix-graft-leak unique=0 date=2026-10-04T02:37:36-06:00
+MERGED remote worktree-ignore-symlinks unique=0 date=2026-10-03T19:12:52-06:00
+MERGED remote worktree-phase2-local-machine unique=0 date=2026-10-03T19:09:23-06:00
+MERGED remote worktree-phase3-mps-port unique=0 date=2026-10-04T01:35:49-06:00
+MERGED remote worktree-plist-install-note unique=0 date=2026-10-03T18:52:06-06:00
+MERGED remote worktree-reconcile-claude-ai-artifacts unique=0 date=2026-10-03T18:25:29-06:00
+MERGED remote worktree-vendor-engine unique=0 date=2026-10-03T18:34:41-06:00
+KEEP /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory branch=master head=557a58bc5384829b3506374d0495b2816c658fac bytes=75572822016->75572822016 detached/default/open-PR worktree; dirty, untracked, ignored or submodule work; process cwd in worktree
+KEEP /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_3cd2ad17-33c5-4752-b9e0-9259bc163220 branch= head=c50a546ad1348ba8781c262b6e300c1ee1a69065 bytes=49487872->49487872 detached/default/open-PR worktree; dirty, untracked, ignored or submodule work
+KEEP /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_73a1fdb0-4a98-49ce-9f9d-c16222391e61 branch= head=ea36597d0e8b9c26621d83664c8bd6137179e9a8 bytes=51904512->51904512 detached/default/open-PR worktree; dirty, untracked, ignored or submodule work
+KEEP /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_8376051e-0cc1-4c9c-94f6-eb257a489254 branch=research-pass/2026-10-06 head=900aa8edeb9c1f56f7334170f9bf5597238b6595 bytes=51580928->51580928 dirty, untracked, ignored or submodule work; unmerged branch
+KEEP /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a branch=worktree-c10k-route-a head=b19e4377b6e45cc9f87de96a94994d37f3f6f8db bytes=44011790336->44011790336 current worktree; detached/default/open-PR worktree; dirty, untracked, ignored or submodule work; unmerged branch; process cwd in worktree
+PASS: bounded hygiene complete

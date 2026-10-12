@@ -1,0 +1,8 @@
+{"pid": 38161, "pgid": 38161, "argv": ["/bin/ps", "-axo", "pid,ppid,pgid,stat,etime,command"], "test": null}
+{"pid": 38162, "pgid": 38162, "argv": ["/bin/df", "-P", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"], "test": null}
+{"pid": 38163, "pgid": 38163, "argv": ["/usr/sbin/diskutil", "info", "-plist", "/Volumes/memit"], "test": null}
+{"pid": 38164, "pgid": 38164, "argv": ["/bin/df", "-P", "/private/tmp/drive_r11_r11_hostfix1_local_check_55r0sehf/home/fixtures"], "test": null}
+{"pid": 38165, "pgid": 38165, "argv": ["/usr/sbin/diskutil", "info", "-plist", "/System/Volumes/Data"], "test": null}
+{"pid": 38166, "pgid": 38166, "argv": ["/opt/homebrew/bin/rclone", "config", "file"], "test": null}
+{"pid": 38167, "pgid": 38167, "argv": ["/opt/homebrew/bin/rclone", "listremotes"], "test": null}
+{"pid": 38168, "pgid": 38168, "argv": ["/usr/bin/python3", "-B", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_local_check.py", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_hostfix1_local_check/local_check"], "test": null}

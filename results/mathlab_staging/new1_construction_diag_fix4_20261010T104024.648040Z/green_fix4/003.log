@@ -1,0 +1,6 @@
+test_fix4_c1_exit_between_wait_and_kill_retains_actual_exit_status (tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c1_exit_between_wait_and_kill_retains_actual_exit_status) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.824s
+
+OK

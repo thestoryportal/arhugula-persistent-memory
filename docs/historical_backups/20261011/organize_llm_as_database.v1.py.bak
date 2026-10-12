@@ -1,0 +1,567 @@
+#!/usr/bin/env python3
+"""organize_llm_as_database.py
+
+Artifact organizer for the LLM-as-Database project.
+
+Discovers all files under SOURCE, classifies each via priority-ordered
+regex rules, identifies current vs. superseded versions per family,
+and reorganizes into a canonical directory structure under TARGET.
+
+USAGE
+    # Dry-run (default — no filesystem mutation; full plan printed)
+    python3 organize_llm_as_database.py ~/Downloads/llm-as-database
+
+    # Execute (copy mode — source preserved)
+    python3 organize_llm_as_database.py ~/Downloads/llm-as-database --execute
+
+    # Execute (move mode — source destroyed)
+    python3 organize_llm_as_database.py ~/Downloads/llm-as-database --execute --move
+
+    # Override target
+    python3 organize_llm_as_database.py SRC --target ~/projects/lad --execute
+
+EXIT CODES
+    0  success (or successful dry-run)
+    1  source directory invalid
+    2  source == target (refusing to operate)
+    3  one or more I/O errors during execution
+"""
+
+from __future__ import annotations
+
+import argparse
+import re
+import shutil
+import sys
+import time
+from collections import defaultdict
+from dataclasses import dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Optional
+
+# ─────────────────────────────────────────────────────────────────────────
+# Categorization rules — priority-ordered. First match wins.
+#
+# Each rule:
+#   pattern : regex matched against filename only (case-insensitive),
+#             optional named group 'ver' captures version string
+#   target  : subdirectory under TARGET_ROOT for current files;
+#             superseded files land under target/_archive/
+#   family  : grouping policy — controls current-vs-superseded
+#             '@unique'  : each file is its own family (no comparison)
+#             '@stem'    : derive family from filename stem (strip version)
+#             '@dynamic' : derive family from another regex group (e.g., 'sess')
+#             other str  : literal shared-family identifier
+# ─────────────────────────────────────────────────────────────────────────
+
+CATEGORY_RULES: list[dict] = [
+    # ─── Spec — versioned canonical artifacts ───────────────────────────
+    {
+        'pattern': r'^llm-as-database[-_]v(?P<ver>[\d_.]+)[-_].*integrated.*spec.*\.md$',
+        'target': 'spec/integrated',
+        'family': 'llm-as-database-integrated-spec',
+    },
+    {
+        'pattern': r'^memit-patches-canonical[\s_-]*v?(?P<ver>[\d.]+).*\.md$',
+        'target': 'spec/memit-patches-canonical',
+        'family': 'memit-patches-canonical',
+    },
+
+    # ─── Spec — runbooks ────────────────────────────────────────────────
+    {
+        'pattern': r'^stage_1_sect_runbook[\s_-]*v?(?P<ver>[\d.]+).*\.md$',
+        'target': 'spec/runbooks/stage_1_sect',
+        'family': 'stage_1_sect_runbook',
+    },
+    {
+        'pattern': r'^pre_(?P<sess>s\d+_\d+)_fork_work_runbook[\s_-]*v?(?P<ver>[\d.]+)?.*\.md$',
+        'target': 'spec/runbooks/pre_fork_work',
+        'family': '@dynamic',  # sess-keyed family
+    },
+    {
+        'pattern': r'.*runbook.*v?(?P<ver>[\d.]+)?.*\.md$',
+        'target': 'spec/runbooks/misc',
+        'family': '@stem',
+    },
+
+    # ─── Sessions — Workstream 1 ────────────────────────────────────────
+    {
+        'pattern': r'^session_2_\d+[a-z]?_summary_block.*\.md$',
+        'target': 'sessions/workstream_1',
+        'family': '@unique',
+    },
+    {
+        'pattern': r'^pre_s2_\d+[a-z]?_fork_work_summary_block.*\.md$',
+        'target': 'sessions/workstream_1',
+        'family': '@unique',
+    },
+    {
+        # S2.7 kickoff-deviation form: s27_summary_block.md
+        'pattern': r'^s2\d+[a-z]?_summary_block.*\.md$',
+        'target': 'sessions/workstream_1',
+        'family': '@unique',
+    },
+
+    # ─── Sessions — Phase 2 (historical) ────────────────────────────────
+    {
+        'pattern': r'^gap-session-\d+.*summary.*\.md$',
+        'target': 'sessions/phase_2_archive/gap_sessions',
+        'family': '@unique',
+    },
+    {
+        'pattern': r'^gap[-_]backlog.*v?(?P<ver>[\d.]+)?.*\.md$',
+        'target': 'sessions/phase_2_archive/backlog',
+        'family': 'gap-backlog',
+    },
+    {
+        'pattern': r'.*tension.*\.md$',
+        'target': 'sessions/phase_2_archive/tension_analysis',
+        'family': '@unique',
+    },
+    {
+        'pattern': r'.*council.*\.md$',
+        'target': 'sessions/phase_2_archive/council',
+        'family': '@unique',
+    },
+
+    # ─── Handoffs + kickoffs ────────────────────────────────────────────
+    {
+        'pattern': r'.*kickoff.*\.md$',
+        'target': 'handoffs/kickoffs',
+        'family': '@unique',
+    },
+    {
+        'pattern': r'.*handoff.*\.md$',
+        'target': 'handoffs/handoff_guides',
+        'family': '@unique',
+    },
+
+    # ─── Skills ─────────────────────────────────────────────────────────
+    {
+        'pattern': r'^SKILL\.md$',
+        'target': 'skills',
+        'family': '@unique',
+    },
+    {
+        'pattern': r'.*skill[-_]design.*\.md$',
+        'target': 'skills',
+        'family': '@unique',
+    },
+    {
+        'pattern': r'.*[-_]skill.*\.md$',
+        'target': 'skills',
+        'family': '@unique',
+    },
+
+    # ─── Corpora ────────────────────────────────────────────────────────
+    {
+        'pattern': r'^cfb[-_].*\.(yaml|yml|md)$',
+        'target': 'corpora/cfb',
+        'family': '@stem',
+    },
+    {
+        'pattern': r'^probe[-_]set.*\.(yaml|yml|md)$',
+        'target': 'corpora/probe_set',
+        'family': '@stem',
+    },
+    {
+        'pattern': r'.*hparams.*\.json$',
+        'target': 'corpora/configs',
+        'family': '@unique',
+    },
+    {
+        'pattern': r'^meta-llama.*\.json$',
+        'target': 'corpora/configs',
+        'family': '@unique',
+    },
+
+    # ─── Generic fallthrough by extension ───────────────────────────────
+    {'pattern': r'.*\.json$',         'target': '_unsorted/json',     'family': '@unique'},
+    {'pattern': r'.*\.(yaml|yml)$',   'target': '_unsorted/yaml',     'family': '@unique'},
+    {'pattern': r'.*\.py$',           'target': '_unsorted/scripts',  'family': '@unique'},
+    {'pattern': r'.*\.txt$',          'target': '_unsorted/text',     'family': '@unique'},
+    {'pattern': r'.*\.md$',           'target': '_unsorted/markdown', 'family': '@unique'},
+]
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# Data classes
+# ─────────────────────────────────────────────────────────────────────────
+
+@dataclass(frozen=True)
+class ParsedVersion:
+    """Sortable version representation. Tolerates v1, v1.0, v1_2, v1.0.1."""
+    raw: str
+    tup: tuple
+
+    @classmethod
+    def parse(cls, raw: Optional[str]) -> Optional['ParsedVersion']:
+        if not raw:
+            return None
+        norm = raw.replace('_', '.')
+        parts = re.findall(r'\d+', norm)
+        if not parts:
+            return None
+        return cls(raw=raw, tup=tuple(int(p) for p in parts))
+
+    def __lt__(self, other: 'ParsedVersion') -> bool:
+        return self.tup < other.tup
+
+    def __str__(self) -> str:
+        return self.raw
+
+
+@dataclass
+class ClassifiedFile:
+    source_path: Path
+    target_subdir: str
+    family: str
+    version: Optional[ParsedVersion]
+    rule_index: int
+    is_current: bool = True
+    target_path: Optional[Path] = None
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# Classification
+# ─────────────────────────────────────────────────────────────────────────
+
+def classify(source_path: Path) -> Optional[ClassifiedFile]:
+    """Apply category rules to a file. Returns None if no rule matches."""
+    name = source_path.name
+    for idx, rule in enumerate(CATEGORY_RULES):
+        m = re.match(rule['pattern'], name, flags=re.IGNORECASE)
+        if not m:
+            continue
+
+        # Resolve family identifier
+        family_spec = rule['family']
+        if family_spec == '@unique':
+            family = f'__unique__::{name}'
+        elif family_spec == '@stem':
+            stem = re.sub(
+                r'[\s_-]*v?[\d.]+.*$', '',
+                source_path.stem,
+                flags=re.IGNORECASE,
+            )
+            family = f'@stem::{stem.lower()}'
+        elif family_spec == '@dynamic':
+            sess = m.groupdict().get('sess', 'unknown')
+            family = f'pre_{sess}_fork_work_runbook'
+        else:
+            family = family_spec
+
+        version = ParsedVersion.parse(m.groupdict().get('ver'))
+
+        return ClassifiedFile(
+            source_path=source_path,
+            target_subdir=rule['target'],
+            family=family,
+            version=version,
+            rule_index=idx,
+        )
+    return None
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# Planning
+# ─────────────────────────────────────────────────────────────────────────
+
+def discover_files(source_root: Path) -> list[Path]:
+    """Recursively find regular files under source_root, skipping hidden."""
+    return [
+        p for p in source_root.rglob('*')
+        if p.is_file()
+        and not any(part.startswith('.') for part in p.relative_to(source_root).parts)
+    ]
+
+
+def plan_operations(
+    source_root: Path,
+    target_root: Path,
+) -> tuple[list[ClassifiedFile], list[Path]]:
+    """Classify all files; mark current vs. superseded; compute target paths.
+
+    Returns (classified, unmatched).
+    """
+    files = discover_files(source_root)
+    classified: list[ClassifiedFile] = []
+    unmatched: list[Path] = []
+
+    for f in files:
+        c = classify(f)
+        if c is None:
+            unmatched.append(f)
+        else:
+            classified.append(c)
+
+    # Group by family; mark current = max-version
+    family_groups: dict[str, list[ClassifiedFile]] = defaultdict(list)
+    for c in classified:
+        family_groups[c.family].append(c)
+
+    for family, members in family_groups.items():
+        if family.startswith('__unique__::'):
+            for m in members:
+                m.is_current = True
+            continue
+
+        versioned = [m for m in members if m.version is not None]
+        if versioned:
+            latest = max(versioned, key=lambda x: x.version)
+            for m in members:
+                m.is_current = (m is latest)
+        else:
+            for m in members:
+                m.is_current = True
+
+    # Compute target paths — superseded → _archive/
+    for c in classified:
+        if c.is_current:
+            target_dir = target_root / c.target_subdir
+        else:
+            target_dir = target_root / c.target_subdir / '_archive'
+        c.target_path = target_dir / c.source_path.name
+
+    return classified, unmatched
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# Execution
+# ─────────────────────────────────────────────────────────────────────────
+
+def execute_plan(
+    classified: list[ClassifiedFile],
+    unmatched: list[Path],
+    target_root: Path,
+    *,
+    move: bool,
+    dry_run: bool,
+    verbose: bool,
+) -> dict:
+    summary = {
+        'total': len(classified) + len(unmatched),
+        'classified': len(classified),
+        'unmatched': len(unmatched),
+        'current': sum(1 for c in classified if c.is_current),
+        'superseded': sum(1 for c in classified if not c.is_current),
+        'operations': 0,
+        'errors': 0,
+    }
+
+    op_word = 'MOVE' if move else 'COPY'
+    if dry_run:
+        op_word = '[DRY-RUN] ' + op_word
+
+    bar = '═' * 78
+    print(f"\n{bar}")
+    print(f"PLAN — {summary['total']} files")
+    print(f"  Classified : {summary['classified']} "
+          f"({summary['current']} current / {summary['superseded']} superseded)")
+    print(f"  Unmatched  : {summary['unmatched']} "
+          f"(→ _unsorted/__unmatched__/ via fallthrough or unsorted/)")
+    print(f"  Mode       : {op_word}")
+    print(f"  Target     : {target_root}")
+    print(f"{bar}\n")
+
+    # Process classified
+    for c in classified:
+        try:
+            if not dry_run:
+                c.target_path.parent.mkdir(parents=True, exist_ok=True)
+                if move:
+                    shutil.move(str(c.source_path), str(c.target_path))
+                else:
+                    shutil.copy2(str(c.source_path), str(c.target_path))
+            summary['operations'] += 1
+            if verbose or dry_run:
+                marker = '★' if c.is_current else '○'
+                rel_target = c.target_path.relative_to(target_root)
+                print(f"  {marker} {op_word}: {c.source_path.name}")
+                print(f"           → {rel_target}")
+        except Exception as e:
+            summary['errors'] += 1
+            print(f"  ✗ ERROR: {c.source_path.name}: {e}", file=sys.stderr)
+
+    # Process unmatched (those that didn't even hit fallthrough — should be empty
+    # in practice since fallthrough rules cover all extensions)
+    unmatched_root = target_root / '_unsorted' / '__unmatched__'
+    for u in unmatched:
+        try:
+            target = unmatched_root / u.name
+            if not dry_run:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                if move:
+                    shutil.move(str(u), str(target))
+                else:
+                    shutil.copy2(str(u), str(target))
+            summary['operations'] += 1
+            if verbose or dry_run:
+                print(f"  ? {op_word}: {u.name}")
+                print(f"           → _unsorted/__unmatched__/")
+        except Exception as e:
+            summary['errors'] += 1
+            print(f"  ✗ ERROR: {u.name}: {e}", file=sys.stderr)
+
+    return summary
+
+
+def write_manifest(
+    target_root: Path,
+    classified: list[ClassifiedFile],
+    unmatched: list[Path],
+) -> None:
+    manifest_path = target_root / '_manifest.md'
+
+    family_groups: dict[str, list[ClassifiedFile]] = defaultdict(list)
+    for c in classified:
+        family_groups[c.family].append(c)
+
+    versioned_families = [
+        k for k in family_groups
+        if not k.startswith('__unique__::')
+    ]
+    unique_files = [
+        c for c in classified if c.family.startswith('__unique__::')
+    ]
+
+    with open(manifest_path, 'w') as f:
+        f.write(f"# Artifact Organization Manifest\n\n")
+        f.write(f"**Generated:** {datetime.now().isoformat()}\n\n")
+        f.write(f"**Total files processed:** "
+                f"{len(classified) + len(unmatched)}\n\n")
+        f.write(f"- Versioned families: "
+                f"{sum(1 for k in versioned_families)}\n")
+        f.write(f"- Unique files: {len(unique_files)}\n")
+        f.write(f"- Unmatched (manual review): {len(unmatched)}\n\n")
+        f.write("---\n\n")
+
+        # Versioned families
+        f.write(f"## Versioned Families ({len(versioned_families)})\n\n")
+        for family in sorted(versioned_families):
+            members = sorted(
+                family_groups[family],
+                key=lambda x: (x.version.tup if x.version else (0,)),
+                reverse=True,
+            )
+            f.write(f"### {family}\n\n")
+            f.write(f"| Filename | Version | Status |\n")
+            f.write(f"|---|---|---|\n")
+            for m in members:
+                ver = str(m.version) if m.version else '—'
+                status = '**CURRENT**' if m.is_current else 'archive'
+                f.write(f"| `{m.source_path.name}` | {ver} | {status} |\n")
+            f.write('\n')
+
+        # Unique files grouped by target
+        f.write(f"## Unique Files ({len(unique_files)})\n\n")
+        by_target: dict[str, list[str]] = defaultdict(list)
+        for c in unique_files:
+            by_target[c.target_subdir].append(c.source_path.name)
+        for tgt in sorted(by_target):
+            f.write(f"### `{tgt}/`\n\n")
+            for name in sorted(by_target[tgt]):
+                f.write(f"- `{name}`\n")
+            f.write('\n')
+
+        # Unmatched (fallthrough catches everything; this is rare)
+        if unmatched:
+            f.write(f"## Unmatched Files ({len(unmatched)})\n\n")
+            f.write("These files matched no categorization rule "
+                    "and were placed in `_unsorted/__unmatched__/` "
+                    "for manual review.\n\n")
+            for u in sorted(unmatched, key=lambda p: p.name):
+                f.write(f"- `{u.name}`\n")
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# CLI
+# ─────────────────────────────────────────────────────────────────────────
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description='Organize LLM-as-Database project artifacts.',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=__doc__,
+    )
+    parser.add_argument(
+        'source', type=Path,
+        help='Source directory (e.g. ~/Downloads/llm-as-database)',
+    )
+    parser.add_argument(
+        '--target', type=Path,
+        default=Path.home() / 'llm-as-database',
+        help='Target directory (default: ~/llm-as-database)',
+    )
+    parser.add_argument(
+        '--execute', action='store_true',
+        help='Actually perform operations (default: dry-run)',
+    )
+    parser.add_argument(
+        '--move', action='store_true',
+        help='Move instead of copy (default: copy preserves source)',
+    )
+    parser.add_argument(
+        '-v', '--verbose', action='store_true',
+        help='Print every operation in execute mode '
+             '(dry-run mode is always verbose)',
+    )
+    args = parser.parse_args()
+
+    source = args.source.expanduser().resolve()
+    target = args.target.expanduser().resolve()
+
+    # Validate
+    if not source.is_dir():
+        print(f"ERROR: source directory not found: {source}",
+              file=sys.stderr)
+        sys.exit(1)
+
+    if source == target:
+        print(f"ERROR: source and target are identical: {source}",
+              file=sys.stderr)
+        sys.exit(2)
+
+    if target.exists() and any(target.iterdir()) and args.execute:
+        print(f"WARNING: target {target} exists and is non-empty.",
+              file=sys.stderr)
+        print(f"         Operations will merge into existing tree.",
+              file=sys.stderr)
+        print(f"         Press Ctrl-C within 5 seconds to abort...",
+              file=sys.stderr)
+        time.sleep(5)
+
+    # Plan
+    classified, unmatched = plan_operations(source, target)
+
+    # Execute
+    summary = execute_plan(
+        classified, unmatched, target,
+        move=args.move,
+        dry_run=not args.execute,
+        verbose=args.verbose,
+    )
+
+    # Manifest (only on real execution)
+    if args.execute:
+        target.mkdir(parents=True, exist_ok=True)
+        write_manifest(target, classified, unmatched)
+        print(f"\nManifest written: {target / '_manifest.md'}")
+
+    # Final summary
+    bar = '═' * 78
+    print(f"\n{bar}")
+    print(f"SUMMARY")
+    print(f"  Total processed : {summary['total']}")
+    print(f"  Operations      : {summary['operations']}")
+    print(f"  Errors          : {summary['errors']}")
+    if not args.execute:
+        print(f"\n  This was a DRY-RUN. Re-run with --execute to apply.")
+    print(f"{bar}\n")
+
+    sys.exit(3 if summary['errors'] else 0)
+
+
+if __name__ == '__main__':
+    main()

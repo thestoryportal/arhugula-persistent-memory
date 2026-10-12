@@ -1,0 +1,71 @@
+[
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_lknn5vcq/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 0,
+    "stdout": "backup_gdrive_status: fresh successful backup; finished 2026-10-10T10:51:34.844169+00:00; launch generation 10\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/private/tmp/memit_gdrive_native_lknn5vcq/fixture/Native_1.app",
+      "/private/tmp/memit_gdrive_native_lknn5vcq/fixture/Native_1.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  },
+  {
+    "args": [
+      "/usr/bin/open",
+      "-W",
+      "-g",
+      "/private/tmp/memit_gdrive_native_lknn5vcq/fixture/Native_1.app"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_lknn5vcq/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: incomplete backup run\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/private/tmp/memit_gdrive_native_lknn5vcq/fixture/Native_2.app",
+      "/private/tmp/memit_gdrive_native_lknn5vcq/fixture/Native_2.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  },
+  {
+    "args": [
+      "/usr/bin/open",
+      "-W",
+      "-g",
+      "/private/tmp/memit_gdrive_native_lknn5vcq/fixture/Native_2.app"
+    ],
+    "exit_code": null,
+    "error_type": "TimeoutExpired",
+    "error": "Command '['/usr/bin/open', '-W', '-g', '/private/tmp/memit_gdrive_native_lknn5vcq/fixture/Native_2.app']' timed out after 20 seconds",
+    "timeout": 20
+  }
+]

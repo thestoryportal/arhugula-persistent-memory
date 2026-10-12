@@ -1,0 +1,6 @@
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest.test_held_lock_refusal_cannot_overwrite_owner_heartbeat) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.576s
+
+OK

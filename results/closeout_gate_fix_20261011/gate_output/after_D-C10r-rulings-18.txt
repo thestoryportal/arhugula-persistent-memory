@@ -1,0 +1,23 @@
+CLOSE-OUT GATE for D-C10r-rulings-18
+========================================================
+  (no fingerprint registered — PRESENCE-ONLY; add D-C10r-rulings-18 to tools/closeout_fingerprints.json for the currency check)
+--------------------------------------------------------
+  [GREEN  ] EXPERIMENT_RUNBOOK.md  — living roadmap (also §0.3/§12/§13 — section checks below)
+  [GREEN  ] SESSION_CHECKPOINT.md  — fresh-context handoff
+  [MISSING] PROGRESS.md  — F1 readiness scorecard (①/③/④/⑤)
+  [MISSING] EVIDENCE_INDEX.md  — evidence index
+  [MISSING] docs/EXPERIMENT_REGISTRY.md  — experiment registry
+  [MISSING] CORPUS/00_MASTER_EVIDENCE.md  — master evidence ledger
+  [MISSING] CORPUS/03_STATUS_LEDGER.md  — status ledger
+  [MISSING] CORPUS/01_PROVENANCE_MANIFEST.md  — provenance (claim->artifact->numbers)
+  [MISSING] CORPUS/02_VANDV_CHAIN.md  — V&V chain (hypothesis->criterion->verdict)
+  [MISSING] docs/HYPOTHESIS_REGISTER_2026-06-18.md  — hypothesis register (latest)
+  [MISSING] CORPUS/NN writeup — none reference the D-ID
+  [GREEN  ] EXPERIMENT_RUNBOOK.md §0.3 next-actions
+  [MISSING] EXPERIMENT_RUNBOOK.md §12 dashboard
+  [GREEN  ] EXPERIMENT_RUNBOOK.md §13 changelog
+  [WARN   ] memory_mirror sync — unmirrored/changed: ['background-shell-niceness-10.md', 'context-management-every-session.md', 'rerun-builder-tests-host-tmpdir.md']
+  [GREEN  ] memory_mirror/MEMORY.md links
+========================================================
+❌ 10 MISSING (no D-C10r-rulings-18): ['PROGRESS.md', 'EVIDENCE_INDEX.md', 'docs/EXPERIMENT_REGISTRY.md', 'CORPUS/00_MASTER_EVIDENCE.md', 'CORPUS/03_STATUS_LEDGER.md', 'CORPUS/01_PROVENANCE_MANIFEST.md', 'CORPUS/02_VANDV_CHAIN.md', 'docs/HYPOTHESIS_REGISTER_2026-06-18.md', 'CORPUS/NN writeup', 'runbook §12 dashboard']
+   NOT done. Fix each, embed 'D-C10r-rulings-18', then re-run.

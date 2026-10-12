@@ -1,0 +1,194 @@
+{
+  "schedule": "setup_exception",
+  "native_exit": 0,
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "-c",
+    "import sys;from tests.test_new1_construction_diag import _fix4_observed_child;sys.exit(_fix4_observed_child(sys.argv[1],sys.argv[2]))",
+    "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpaurhf_58/trace.jsonl",
+    "setup_exception"
+  ],
+  "events": [
+    {
+      "event": "fixture-start",
+      "pid": 24855,
+      "role": "parent",
+      "monotonic": 1440572.651571625,
+      "schedule": "setup_exception"
+    },
+    {
+      "event": "fork",
+      "pid": 24855,
+      "role": "parent",
+      "monotonic": 1440572.653320333,
+      "child": 24856,
+      "former": "parent"
+    },
+    {
+      "event": "start-returned",
+      "pid": 24855,
+      "role": "parent",
+      "monotonic": 1440572.65355
+    },
+    {
+      "event": "fork",
+      "pid": 24856,
+      "role": "guardian",
+      "monotonic": 1440572.653907541,
+      "child": 0,
+      "former": "parent"
+    },
+    {
+      "event": "_exit",
+      "pid": 24856,
+      "role": "guardian",
+      "monotonic": 1440572.654289875,
+      "code": 2,
+      "stack": [
+        {
+          "function": "watchdog",
+          "line": 354,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_identity_diag.py",
+          "errors": {
+            "error": "'FIX4 guardian setup exception before protected try'"
+          },
+          "remaining_s": null
+        },
+        {
+          "function": "start",
+          "line": 382,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_identity_diag.py",
+          "errors": {},
+          "remaining_s": null
+        },
+        {
+          "function": "start",
+          "line": 1145,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_construction_diag.py",
+          "errors": {},
+          "remaining_s": null
+        },
+        {
+          "function": "supervise",
+          "line": 570,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_identity_diag.py",
+          "errors": {},
+          "remaining_s": 0.7977853328920901
+        },
+        {
+          "function": "supervise",
+          "line": 1170,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_construction_diag.py",
+          "errors": {},
+          "remaining_s": null
+        },
+        {
+          "function": "_fix4_observed_child",
+          "line": 1183,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_construction_diag.py",
+          "errors": {},
+          "remaining_s": null
+        },
+        {
+          "function": "<module>",
+          "line": 1,
+          "file": "<string>",
+          "errors": {},
+          "remaining_s": null
+        }
+      ],
+      "exceptions": [
+        {
+          "type": "RuntimeError",
+          "error": "FIX4 guardian setup exception before protected try",
+          "function": "watchdog",
+          "line": 302
+        }
+      ],
+      "ownership": [
+        {
+          "guardian": 0,
+          "worker": null,
+          "proof": null,
+          "guardian_code": null,
+          "channels": {
+            "control": [
+              3,
+              4
+            ],
+            "events": [
+              5,
+              6
+            ],
+            "ready": [
+              7,
+              8
+            ],
+            "auth": [
+              9,
+              10
+            ],
+            "release": [
+              11,
+              12
+            ],
+            "stdout": [
+              13,
+              14
+            ],
+            "stderr": [
+              15,
+              16
+            ]
+          },
+          "streams": []
+        }
+      ]
+    },
+    {
+      "event": "reaped",
+      "pid": 24855,
+      "role": "parent",
+      "monotonic": 1440572.711620041,
+      "child": 24856,
+      "code": 2
+    },
+    {
+      "event": "supervision-return",
+      "pid": 24855,
+      "role": "parent",
+      "monotonic": 1440572.712247166,
+      "status": 2,
+      "ownership": [
+        {
+          "guardian": 24856,
+          "worker": null,
+          "proof": {
+            "event": "reaped",
+            "pid": null,
+            "code": null,
+            "kills": 0,
+            "error": "FIX4 guardian setup exception before protected try"
+          },
+          "guardian_code": 2,
+          "guardian_reaped": true,
+          "worker_absent": true,
+          "descriptors_closed": true,
+          "streams_closed": true
+        }
+      ]
+    },
+    {
+      "event": "fixture-complete",
+      "pid": 24855,
+      "role": "parent",
+      "monotonic": 1440572.712329916,
+      "status": 2
+    }
+  ],
+  "stdout": "",
+  "stderr": ""
+}

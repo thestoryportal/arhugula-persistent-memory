@@ -1,0 +1,25 @@
+[
+  {
+    "stage": "pre-execution test discovery",
+    "error": "SyntaxError: f-string: unmatched '(' at helper line 1136",
+    "behavioral_red": false,
+    "corrected": "split exit-request path expression from f-string before six RED runs"
+  },
+  {
+    "stage": "first individual GREEN",
+    "error": "signal-0 ownership probes were labelled pid-signal",
+    "evidence": "green_fix4_first/001.log",
+    "corrected": "label pid-probe for signal 0, retaining no-termination assertion"
+  },
+  {
+    "stage": "report-only generator first attempt",
+    "error": "ModuleNotFoundError: No module named 'tools'",
+    "partial_state": "report and diff written before importing tools; no manifest yet",
+    "corrected": "insert verified worktree in sys.path; preserve initial report draft; regenerate manifest"
+  },
+  {
+    "stage": "graft orientation probe",
+    "error": "env: node: No such file or directory",
+    "corrected": "named-source reads, no graft installation or successful graft code evidence"
+  }
+]

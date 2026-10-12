@@ -1,0 +1,15 @@
+{
+   "files" : [
+      {
+         "path" : "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/sandbox_non_native_v2/process_clearance.jsonl",
+         "sha256" : "eb4048fa303a21eb774011b11f6b55cbb526a2a887a7d3b28d2e511fff280a43",
+         "size_bytes" : 5859856
+      },
+      {
+         "path" : "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/sandbox_non_native_v2/started_processes.jsonl",
+         "sha256" : "8a73689ea2d6249f7350e1e810b67d2c3a4caac6333e7421115872fb2eb3c2f9",
+         "size_bytes" : 5670295
+      }
+   ],
+   "threshold_bytes" : 1000000
+}

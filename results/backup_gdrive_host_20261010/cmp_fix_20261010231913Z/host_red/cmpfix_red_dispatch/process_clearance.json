@@ -1,0 +1,106 @@
+{
+  "all_owned_groups_exited": true,
+  "observed_children": [],
+  "operator_pids_not_touched": [
+    32906,
+    32913,
+    32914,
+    36233,
+    36258,
+    36259,
+    37109,
+    65807
+  ],
+  "records": [
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_msd601pe/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 75151,
+      "pid": 75151,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:34:38.472806+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_msd601pe/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 75152,
+      "pid": 75152,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:34:38.486302+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_msd601pe/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 75154,
+      "pid": 75154,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:34:38.501535+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_msd601pe/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 75157,
+      "pid": 75157,
+      "returncode": 0,
+      "started_utc": "2026-10-10T23:34:38.529529+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "argv": [
+        "/bin/bash",
+        "/private/tmp/gdrive_addendum_msd601pe/checkout/tools/launchd/build_gdrive_applet.sh",
+        "5861a82c4d064453954a145a583afef5eebf97ff",
+        "fixture-r1",
+        "/private/tmp/gdrive_addendum_msd601pe/locked fixture.app"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 75158,
+      "pid": 75158,
+      "returncode": 1,
+      "started_utc": "2026-10-10T23:34:38.539763+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    }
+  ],
+  "runner_expected_exit": 1,
+  "runner_pid": 75148,
+  "scope": "direct Popen processes and their complete session groups; no detached/native open launches"
+}

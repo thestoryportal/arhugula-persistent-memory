@@ -1,0 +1,111 @@
+test_config_notice_alone_passes (__main__.HostLogTest) ... ok
+test_debug_argument_severity_words_are_data (__main__.HostLogTest) ... FAIL
+test_real_error_levels_still_fail (__main__.HostLogTest) ... ok
+test_recorded_clean_passes (__main__.HostLogTest) ... FAIL
+test_recorded_excluded_only_passes (__main__.HostLogTest) ... FAIL
+test_recorded_same_size_corruption_still_fails (__main__.HostLogTest) ... ok
+test_recorded_symlink_passes (__main__.HostLogTest) ... FAIL
+test_stderr_error_level_still_fails (__main__.HostLogTest) ... ok
+test_unchecked_hash_still_fails (__main__.HostLogTest) ... ok
+test_unprefixed_read_error_still_fails (__main__.HostLogTest) ... ok
+test_receipt_evidence_and_tmp_content_roots_are_separate (__main__.LocalEvidencePlacementTest) ... ERROR
+test_df_resolves_native_path_to_mountpoint (__main__.PhysicalPlacementTest) ... FAIL
+test_other_partition_on_same_physical_disk_is_rejected (__main__.PhysicalPlacementTest) ... FAIL
+test_recorded_native_disks_are_disjoint (__main__.PhysicalPlacementTest) ... FAIL
+test_unknown_physical_identity_is_rejected (__main__.PhysicalPlacementTest) ... FAIL
+test_actual_runner_uses_owned_tmp_fixture_root (__main__.RunnerPlacementTest) ... FAIL
+
+======================================================================
+ERROR: test_receipt_evidence_and_tmp_content_roots_are_separate (__main__.LocalEvidencePlacementTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 199, in test_receipt_evidence_and_tmp_content_roots_are_separate
+    self.assertEqual(checker.main(), 0)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_local_check.py", line 31, in main
+    run.relative_to(home.parent)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 929, in relative_to
+    raise ValueError("{!r} is not in the subpath of {!r}"
+ValueError: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb42_hostfix1_local_probe_c0d52a02ef04/local_check' is not in the subpath of '/private/tmp/mb42_local_fosig4d2' OR one path is relative and the other is absolute.
+
+======================================================================
+FAIL: test_debug_argument_severity_words_are_data (__main__.HostLogTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 73, in test_debug_argument_severity_words_are_data
+    self.assertTrue(result["pass"], result)
+AssertionError: False is not true : {'differing': 0, 'missing': 0, 'errors': 1, 'unchecked': 0, 'incomplete': 0, 'pass': False, 'reasons': [], 'failed_objects': []}
+
+======================================================================
+FAIL: test_recorded_clean_passes (__main__.HostLogTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 44, in test_recorded_clean_passes
+    self.assertTrue(result["pass"], result)
+AssertionError: False is not true : {'differing': 0, 'missing': 0, 'errors': 1, 'unchecked': 0, 'incomplete': 0, 'pass': False, 'reasons': [], 'failed_objects': []}
+
+======================================================================
+FAIL: test_recorded_excluded_only_passes (__main__.HostLogTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 49, in test_recorded_excluded_only_passes
+    self.assertTrue(result["pass"], result)
+AssertionError: False is not true : {'differing': 0, 'missing': 0, 'errors': 1, 'unchecked': 0, 'incomplete': 0, 'pass': False, 'reasons': [], 'failed_objects': []}
+
+======================================================================
+FAIL: test_recorded_symlink_passes (__main__.HostLogTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 54, in test_recorded_symlink_passes
+    self.assertTrue(result["pass"], result)
+AssertionError: False is not true : {'differing': 0, 'missing': 0, 'errors': 1, 'unchecked': 0, 'incomplete': 0, 'pass': False, 'reasons': [], 'failed_objects': []}
+
+======================================================================
+FAIL: test_df_resolves_native_path_to_mountpoint (__main__.PhysicalPlacementTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 159, in test_df_resolves_native_path_to_mountpoint
+    self.assertTrue(callable(fn), "df mount-point resolver is missing")
+AssertionError: False is not true : df mount-point resolver is missing
+
+======================================================================
+FAIL: test_other_partition_on_same_physical_disk_is_rejected (__main__.PhysicalPlacementTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 148, in test_other_partition_on_same_physical_disk_is_rejected
+    fn = self.proof()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 128, in proof
+    self.assertTrue(callable(fn), "native physical-store positive control is missing")
+AssertionError: False is not true : native physical-store positive control is missing
+
+======================================================================
+FAIL: test_recorded_native_disks_are_disjoint (__main__.PhysicalPlacementTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 135, in test_recorded_native_disks_are_disjoint
+    proof = self.proof()(self.info("info_volumes_memit.plist"),
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 128, in proof
+    self.assertTrue(callable(fn), "native physical-store positive control is missing")
+AssertionError: False is not true : native physical-store positive control is missing
+
+======================================================================
+FAIL: test_unknown_physical_identity_is_rejected (__main__.PhysicalPlacementTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 153, in test_unknown_physical_identity_is_rejected
+    fn = self.proof()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 128, in proof
+    self.assertTrue(callable(fn), "native physical-store positive control is missing")
+AssertionError: False is not true : native physical-store positive control is missing
+
+======================================================================
+FAIL: test_actual_runner_uses_owned_tmp_fixture_root (__main__.RunnerPlacementTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_hostfix_mb42.py", line 114, in test_actual_runner_uses_owned_tmp_fixture_root
+    self.assertTrue(home.is_relative_to(Path("/private/tmp")),
+AssertionError: False is not true : actual runner HOME must be off the receipt volume: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/mb42_hostfix1_placement_probe_d2cae761c579/home
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.327s
+
+FAILED (failures=9, errors=1)

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "/usr/bin/git",
+    "branch",
+    "--show-current"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "interpreter": "/usr/bin/git",
+  "exit_code": 0
+}

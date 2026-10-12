@@ -1,0 +1,58 @@
+total 0
+drwxr-xr-x   4 root      wheel   128 Oct 11 02:16 .
+drwxr-xr-x   3 root      wheel    96 Oct 11 02:16 ..
+drwxr-xr-x  70 macports  wheel  2240 Oct 11 02:16 ports
+drwxr-xr-x   7 macports  wheel   224 Oct 11 02:16 remote
+total 52368
+drwxr-xr-x    70 macports  wheel      2240 Oct 11 02:16 .
+drwxr-xr-x     4 root      wheel       128 Oct 11 02:16 ..
+-rw-r--r--     1 macports  wheel        41 Oct 10 23:53 .git_commit
+-rw-r--r--     1 macports  wheel       234 Oct 10 23:50 .gitattributes
+drwxr-xr-x     5 macports  wheel       160 Oct 11 00:00 .github
+-rw-r--r--     1 macports  wheel        96 Oct 10 23:50 .gitignore
+-rw-r--r--     1 macports  wheel      1502 Oct 10 23:50 .mailmap
+-rw-r--r--  1 macports  wheel  25811248 Oct 10 23:53 /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/PortIndex
+0a0ceda7c196d0a22afae686007ad0dd55f0c6c53088993424426116031da26c  /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/PortIndex
+-rw-r--r--  1 root  wheel  980008 Oct 11 02:16 /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/PortIndex.quick
+46b16b604fa3298f39f655dd993bd5c0461232438a28b98bd031e34c6257cd19  /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/PortIndex.quick
+https://github.com/macports/macports-base/releases/tag/v2.12.6
+
+ls: /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/*.txt: No such file or directory
+ls: /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/.mprevision: No such file or directory
+
+Oct 10 23:53:03 2026 /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/PortIndex
+Oct  3 02:36:34 2026 /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/lang/python312/Portfile
+Oct  9 19:08:25 2026 /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/databases/duckdb/Portfile
+Oct  2 07:10:21 2026 /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/java/openjdk21/Portfile
+a060385541ac66c1cb6e0860ebc578c3789515d1e2436a3eb9cfdff3cead03e6  /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/lang/python312/Portfile
+7eb8eee41c728a6fff0889f3458db859d60271ccc7a3a048057e27af6140707f  /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/databases/duckdb/Portfile
+78c9e850f922bba94d2e40b027b0dfecb6fe400767545a9cd97ad2b4b18a85dd  /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/java/openjdk21/Portfile
+10
+
+
+/opt/local/share/macports/macports-pubkey.pem
+
+com.apple.pkg.CLTools_SDK_macOS13
+com.apple.pkg.CLTools_SDK_macOS12
+com.apple.pkg.CLTools_Executables
+com.apple.pkg.CLTools_SDK_macOS_LMOS
+com.apple.pkg.CLTools_SDK_macOS14
+com.apple.pkg.CLTools_SDK_macOS_NMOS
+com.apple.pkg.CLTools_SDK_macOS110
+com.apple.pkg.CLTools_SwiftBackDeploy
+com.apple.pkg.CLTools_macOS_SDK
+org.macports.MacPorts
+package-id: com.apple.pkg.CLTools_Executables
+version: 16.2.0.0.1.1733547573
+volume: /
+location: /
+### .git_commit + remote/
+4a3293129f126ff91354e59e0ba647d49df22f25
+total 72712
+drwxr-xr-x  7 macports  wheel       224 Oct 11 02:16 .
+drwxr-xr-x  4 root      wheel       128 Oct 11 02:16 ..
+-rw-r--r--  1 macports  wheel       512 Oct 11 00:01 PortIndex.rmd160
+-rw-r--r--  1 macports  wheel       156 Oct 11 00:01 PortIndex.sig
+-rw-r--r--  1 macports  wheel  37209919 Oct 11 00:00 ports.tar.gz
+-rw-r--r--  1 macports  wheel       512 Oct 11 00:01 ports.tar.gz.rmd160
+-rw-r--r--  1 macports  wheel       156 Oct 11 00:01 ports.tar.gz.sig

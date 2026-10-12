@@ -1,0 +1,567 @@
+{
+  "schedule": "receipt_exception",
+  "native_exit": 2,
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "-c",
+    "import sys;from tests.test_new1_construction_diag import _fix4_observed_child;sys.exit(_fix4_observed_child(sys.argv[1],sys.argv[2]))",
+    "/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmplhqpypzf/trace.jsonl",
+    "receipt_exception"
+  ],
+  "events": [
+    {
+      "event": "fixture-start",
+      "pid": 25310,
+      "role": "parent",
+      "monotonic": 1473890.994536708,
+      "schedule": "receipt_exception"
+    },
+    {
+      "event": "fork",
+      "pid": 25310,
+      "role": "parent",
+      "monotonic": 1473890.996674833,
+      "child": 25311,
+      "former": "parent"
+    },
+    {
+      "event": "start-returned",
+      "pid": 25310,
+      "role": "parent",
+      "monotonic": 1473890.996911416
+    },
+    {
+      "event": "fork",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473890.99719475,
+      "child": 0,
+      "former": "parent"
+    },
+    {
+      "event": "fork",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473890.99779475,
+      "child": 25312,
+      "former": "guardian"
+    },
+    {
+      "event": "fork",
+      "pid": 25312,
+      "role": "worker",
+      "monotonic": 1473890.99822425,
+      "child": 0,
+      "former": "guardian"
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473890.998491375,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.004364666,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.009514583,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.015857458,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.021004291,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.027303708,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.033594583,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.039882333,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.044953458,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.050076333,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.055234208,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.055598458,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.055705833,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.055737541,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.055767291,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.055795291,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.055826875,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.055858333,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.055888291,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.055915,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.05594575,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.055975,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056003916,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056029208,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056058125,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056087291,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056110958,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056135791,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056162875,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056191416,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056219666,
+      "child": 25312
+    },
+    {
+      "event": "wait-live",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056245125,
+      "child": 25312
+    },
+    {
+      "event": "reaped",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056273208,
+      "child": 25312,
+      "code": -9
+    },
+    {
+      "event": "receipt-send-refused",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056369458
+    },
+    {
+      "event": "_exit",
+      "pid": 25311,
+      "role": "guardian",
+      "monotonic": 1473891.056521291,
+      "code": 2,
+      "stack": [
+        {
+          "function": "start",
+          "line": 385,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_identity_diag.py",
+          "errors": {},
+          "remaining_s": null
+        },
+        {
+          "function": "start",
+          "line": 1145,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_construction_diag.py",
+          "errors": {},
+          "remaining_s": null
+        },
+        {
+          "function": "supervise",
+          "line": 586,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_identity_diag.py",
+          "errors": {},
+          "remaining_s": 0.738549874862656
+        },
+        {
+          "function": "supervise",
+          "line": 1170,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_construction_diag.py",
+          "errors": {},
+          "remaining_s": null
+        },
+        {
+          "function": "_fix4_observed_child",
+          "line": 1183,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_construction_diag.py",
+          "errors": {},
+          "remaining_s": null
+        },
+        {
+          "function": "<module>",
+          "line": 1,
+          "file": "<string>",
+          "errors": {},
+          "remaining_s": null
+        }
+      ],
+      "exceptions": [
+        {
+          "type": "OSError",
+          "error": "[Errno 9] Bad file descriptor",
+          "function": "keep_descriptors",
+          "line": 272
+        },
+        {
+          "type": "OSError",
+          "error": "[Errno 5] FIX4 final reaping receipt send exception",
+          "function": "send",
+          "line": 291
+        },
+        {
+          "type": "OSError",
+          "error": "[Errno 5] FIX4 final reaping receipt send exception",
+          "function": "watchdog",
+          "line": 352
+        },
+        {
+          "type": "OSError",
+          "error": "[Errno 5] FIX4 final reaping receipt send exception",
+          "function": "start",
+          "line": 384
+        }
+      ],
+      "ownership": [
+        {
+          "guardian": 0,
+          "worker": null,
+          "proof": null,
+          "guardian_code": null,
+          "channels": {
+            "control": [
+              3,
+              4
+            ],
+            "events": [
+              5,
+              6
+            ],
+            "ready": [
+              7,
+              8
+            ],
+            "auth": [
+              9,
+              10
+            ],
+            "release": [
+              11,
+              12
+            ],
+            "stdout": [
+              13,
+              14
+            ],
+            "stderr": [
+              15,
+              16
+            ]
+          },
+          "streams": []
+        }
+      ]
+    },
+    {
+      "event": "reaped",
+      "pid": 25310,
+      "role": "parent",
+      "monotonic": 1473891.056935666,
+      "child": 25311,
+      "code": 2
+    },
+    {
+      "event": "_exit",
+      "pid": 25310,
+      "role": "parent",
+      "monotonic": 1473891.0571335,
+      "code": 2,
+      "stack": [
+        {
+          "function": "supervise",
+          "line": 630,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_identity_diag.py",
+          "errors": {
+            "error": "Stop('STOPPED-LAUNCH: worker creation/registration exceeded launch bound')",
+            "failure": "Stop('INVALID-CLEANUP: guardian exit lacks worker reaping proof')",
+            "cleanup_error": "'INVALID-CLEANUP: guardian exit lacks worker reaping proof'"
+          },
+          "remaining_s": 0.7379246249329299
+        },
+        {
+          "function": "supervise",
+          "line": 1170,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_construction_diag.py",
+          "errors": {},
+          "remaining_s": null
+        },
+        {
+          "function": "_fix4_observed_child",
+          "line": 1183,
+          "file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_construction_diag.py",
+          "errors": {},
+          "remaining_s": null
+        },
+        {
+          "function": "<module>",
+          "line": 1,
+          "file": "<string>",
+          "errors": {},
+          "remaining_s": null
+        }
+      ],
+      "exceptions": [
+        {
+          "type": "Stop",
+          "error": "STOPPED-DEADLINE: whole-run wall-clock cap reached",
+          "function": "on_signal",
+          "line": 482
+        },
+        {
+          "type": "Stop",
+          "error": "STOPPED-DEADLINE: whole-run wall-clock cap reached",
+          "function": "on_signal",
+          "line": 498
+        },
+        {
+          "type": "Stop",
+          "error": "STOPPED-DEADLINE: whole-run wall-clock cap reached",
+          "function": "supervise",
+          "line": 586
+        },
+        {
+          "type": "Stop",
+          "error": "STOPPED-LAUNCH: worker creation/registration exceeded launch bound",
+          "function": "supervise",
+          "line": 598
+        },
+        {
+          "type": "Stop",
+          "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+          "function": "stop_and_close",
+          "line": 568
+        },
+        {
+          "type": "Stop",
+          "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+          "function": "cleanup",
+          "line": 572
+        },
+        {
+          "type": "Stop",
+          "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+          "function": "supervise",
+          "line": 624
+        },
+        {
+          "type": "Stop",
+          "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+          "function": "stop_and_close",
+          "line": 568
+        },
+        {
+          "type": "Stop",
+          "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+          "function": "cleanup",
+          "line": 572
+        },
+        {
+          "type": "Stop",
+          "error": "INVALID-CLEANUP: guardian exit lacks worker reaping proof",
+          "function": "supervise",
+          "line": 627
+        }
+      ],
+      "ownership": [
+        {
+          "guardian": 25311,
+          "worker": 25312,
+          "proof": null,
+          "guardian_code": 2,
+          "channels": {
+            "control": [
+              null,
+              null
+            ],
+            "events": [
+              null,
+              null
+            ],
+            "ready": [
+              null,
+              null
+            ],
+            "auth": [
+              null,
+              null
+            ],
+            "release": [
+              null,
+              null
+            ],
+            "stdout": [
+              null,
+              null
+            ],
+            "stderr": [
+              null,
+              null
+            ]
+          },
+          "streams": []
+        }
+      ]
+    }
+  ],
+  "stdout": "",
+  "stderr": ""
+}

@@ -1,0 +1,39 @@
+test_alias_cross_module (__main__.Fixtures) ... ok
+test_argv_dispatch (__main__.Fixtures) ... ok
+test_child_program_follows_stdin_loaded_phase (__main__.Fixtures) ... ok
+test_direct_spawn (__main__.Fixtures) ... ok
+test_disk_round_trip_is_loaded (__main__.Fixtures) ... ok
+test_dynamic_call_unresolved (__main__.Fixtures) ... ok
+test_external_boundary (__main__.Fixtures) ... ok
+test_late_require_does_not_exclude (__main__.Fixtures) ... ok
+test_loaded_list_count_and_operand (__main__.Fixtures) ... ok
+test_pinned_loop_count (__main__.Fixtures) ... ok
+test_require_excludes_before_spawn (__main__.Fixtures) ... ok
+test_shell_branch_and_variable_command (__main__.Fixtures) ... ok
+test_round12_F1_profile19_verifier_gap (__main__.RealControls) ... FAIL
+test_round12_F2_evaluator_replication_gap (__main__.RealControls) ... FAIL
+
+======================================================================
+FAIL: test_round12_F1_profile19_verifier_gap (__main__.RealControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 130, in test_round12_F1_profile19_verifier_gap
+    r = self.run_control()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 126, in run_control
+    self.assertTrue(p.stdout.strip())
+AssertionError: '' is not true
+
+======================================================================
+FAIL: test_round12_F2_evaluator_replication_gap (__main__.RealControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 135, in test_round12_F2_evaluator_replication_gap
+    r = self.run_control()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/compute_storage_brainstorm_20261011T054507Z/test_trace_r2_reachability.py", line 126, in run_control
+    self.assertTrue(p.stdout.strip())
+AssertionError: '' is not true
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.106s
+
+FAILED (failures=2)

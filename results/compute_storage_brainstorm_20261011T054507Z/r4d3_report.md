@@ -1,0 +1,121 @@
+# R4D4 report — round-3 repairs pending Astra
+
+Status: R4D4 record repairs ready for Astra; round-3 findings remain pending Astra. Implementation, provisioning and real-pair acceptance UNRUN. B = results/compute_storage_brainstorm_20261011T054507Z. The current scope and NO-GO are B/astra_r4d3_verdict.md:43–49. Earlier R4D3B receipts and handoff below are historical; the Round-3 repairs (R4D4) section supersedes their remaining-work instructions.
+
+| Round-2 item and source | v3 line(s) | Document answer; remaining evidence |
+|---|---|---|
+| F1 — representation/dependencies (B/astra_r4d2_verdict.md:5) | 48,69,75–76 | Both hosts own Queue.sessions; discovered/registered sessions without Tasks are legal; dependencies use the named same-record source-owned Queue. Unknown/cross-host/unavailable references refuse SEMANTIC_INVALID/record. Reader and host conformance UNRUN. |
+| F2 — missing cases (B/astra_r4d2_verdict.md:7) | 17–36,70,81,84,91,99,101,267–410 | Rule map names every proposed rule and its cases, including missing bounds/duplicates/cycles/estimates/counts/totals/completion evidence. Byte caps precede grammar limits; isolated phase cases are labelled. Executed conformance OPEN until implementation. |
+| F3 — capture race (B/astra_r4d2_verdict.md:9) | 180,187–198,237 | H4 targets the resolved %pane ID; A→B→A has explicit PASS/FAIL, visible identity changes refuse. Actual native argv/capture proof UNRUN. |
+| F4 — percentage conflict (B/astra_r4d2_verdict.md:11) | 23,68,198,237 | A12 equal to tools/dashboard_queue.py:432–452 except values outside 0–100, which refuse. Source 101/-1/earlier-invalid tokens → CONTEXT_OUT_OF_RANGE/activity; malformed wire Percent → BAD_VALUE/record. Controls UNRUN. |
+| F5 — empty-tmux attribution (B/astra_r4d2_verdict.md:13) | 200 | Successful empty tmux refusal attributed to tools/dashboard_queue.py:531–533; process-empty and exact no-server behavior separately attributed to tools/c10w_p2_gate.py:74–84. Controls UNRUN. |
+| R1 — complete Intel/taskless examples and dependency scope (B/astra_r4d2_verdict.md:25) | 48,69,75–76,101,267–410 | Canonical taskless Intel BUSY/WAITING/IDLE and registered support/RE recipes, plus both-host activity/roster controls. Literal schema-3 bases replace migration-only seeds. No completed implementation claim. |
+| R2 — rule map, negative cases, reason/scope (B/astra_r4d2_verdict.md:27) | 99,101,267–410 | 138 map rows; closed shape manifest plus targeted semantic and boundary cases; first-failure codes and scope explicit. Acceptance suites and isolated phase checks do not claim full-record PASS. Execution OPEN. |
+| R3 — helpers, A→B→A, percentage and citation (B/astra_r4d2_verdict.md:29) | 178–200,228,237 | Exact collector/H1–H5/V1/V2/fixed-login forms compared with unchanged source regex/basename logic; resolved ID capture and control criteria stated. Actual inventories and effect closure UNRUN. |
+| Automatic-transition change (B/astra_r4d2_verdict.md:31–43) | 109–139,166,192–196,254–257 | Independent host/session authentication+nonce, current kernel/counter/snapshot, participating lock and durable installation before OK/display, unconditional 5s verification/2s deadline/7s lease, crash/reboot/reconnect/restart invalidation, fixed read/effect allowlist. HTTP fixed-cache; manual pin only first commissioning or missing/corrupt-history recovery. Guarantees/provisioning OPEN until commissioning. |
+| Round-3 F1 / R1 — masked clock failure (B/astra_r4d3_verdict.md:5,43) | 70,99,158,360 | repaired, pending Astra. invalid_clock_time now moves writer_at forward beyond the future bound; estimate semantics pass. Walk below; B/dashboard_record_v3_examples.json:5788–5805. |
+| Round-3 F2 / R2 — Pin companion binding and renewal seed (B/astra_r4d3_verdict.md:7,45) | 123,129,131–135,342,347 | repaired, pending Astra. Pin negatives rebind the companion hash; dedicated hash mismatch remains separate; renewal uses the matching sequence-10 duplicate. Walks below; B/dashboard_record_v3_examples.json:4092–4155. |
+| Round-3 F3 / R3 — Session reference and validated-empty coverage (B/astra_r4d3_verdict.md:9–19,47) | 69,77,99,312,320 | repaired, pending Astra. Row 69 names the existing SESSION expansion; row 77 names positive empty, honest inventory failure and false-empty semantic controls. Walks below; B/dashboard_record_v3_examples.json:3948–3955,4057–4089. |
+
+Edits are confined to B/dashboard_host_status_record_v3.md, B/dashboard_record_v3_examples.json and this report. No code file, commit, host runtime/control, dashboard restart, process inventory, tmux, network, web or graft action was performed. This is document completion for the next Astra review, not build permission (B/dashboard_host_status_record_v3.md:3,222,265; B/astra_r4d2_verdict.md:45).
+
+Authoring receipts: JSON parse, citation bounds, map references, case outcome/reason/scope presence, public fixture HMACs and 60 legacy case definitions checked. The bases are literal schema 3 (B/dashboard_record_v3_examples.json:86–90,650–653); 60 legacy outcomes are retained and additional cases are mapped (B/dashboard_host_status_record_v3.md:101,267–410). The proposed reader and controls were not executed. Static forms match the source rules at tools/c10w_p2_gate.py:22,35,51–53; that result is confined to command text (B/dashboard_host_status_record_v3.md:178–200,228).
+
+Scope hashes captured before edits:
+
+| Draft | Before SHA-256 |
+|---|---|
+| dashboard_host_status_record_v3.md | fb78481b2fb765b1f039802b35fc2627b4ffb14c0c54d3b5bedec73036a8a77c |
+| dashboard_record_v3_examples.json | 89e9578fe9e151d40b8b6c2a3697187ec17cf8fa200700fe3039f8c56ade0e5b |
+| r4d3_report.md | b7ff1aa6e0e4b6b96478eaaec466b5f5f53c13581b3eb1f0b72b6accfb88deea |
+
+Protected references rechecked unchanged from the opening pass: dashboard_host_status_record_v2.md = 18cea57f829d273e580cc9bd5b7b7866d96b2adb62285a004fc369fa634173c4; dashboard_record_v2_examples.json = e40e38b3959a5bb73ed15c83a297831fbc03efc7212ef1c3568a061d13aa03cf; astra_r4d2_verdict.md = 27345e64ddf1b2bb59eab012b03ed311008863d3ddef748e3c99a554537ace61. Source text inspected: tools/c10w_p2_gate.py = fb6568a6e159e84b22971aa893c3a83bcaaa16085f4abd9c76ca50b4a3362a26; tools/dashboard_queue.py = 099bb6334242339d12b168dd93c3450a4ca2b2d8301794b6d8f4ee942478aa6e. These are authoring receipts, not host qualification.
+
+Context saved: finish the final authoring audit in a fresh successor before returning the RECORD READY token; then MAESTRO performs Astra review. Do not build or commission from this report. The authoring lesson is to preserve first-failure byte-cap precedence and distinguish phase checks from wire/host acceptance (B/dashboard_host_status_record_v3.md:99,101,269). Context directive persists: start a new step only at >=60% context left; at <=40% or any compaction, stop starting work and save done/remaining/exact paths/next single step/risks and this rule in a R4D3B HANDOFF before returning R4D3B HANDOFF.
+
+Status: R4D3B edits saved; final authoring audit, Astra review and all implementation/real-pair evidence remain OPEN (B/dashboard_host_status_record_v3.md:265).
+
+## R4D3B HANDOFF
+
+Status: saved at MAESTRO's explicit stop around 45% context; do not submit RECORD READY yet.
+
+Done: repaired all round-2 Astra citations against its numbered 52-line file; retained normative v3 source lines 1–265; appended the 138-row rule-to-case map at v3:267–410; converted the two base records/envelopes to literal schema 3 with public fixture HMACs and matching reader-state hashes; retained all 60 legacy case definitions unchanged; expanded/audited additional cases and their reason/scope distinctions; rewrote the report's F1–F5/R1–R3/automatic-transition table. The report's inaccurate examples:2–34 citation for fixture counts was corrected immediately before this handoff.
+
+Checks already run: python3 -m json.tool returned exit 0; grep displayed only Astra citations within 52; all 138 map-row case references resolved; every case/member had an outcome/reason/scope; both literal fixture HMACs matched; legacy case definitions equalled v2; static regex/basename comparisons passed for collector/H1–H5/V1/V2/fixed SSH login/sshd without executing those tools. v2 record/examples and Astra verdict hashes matched the opening pass. Intel's dated RE-publication age floor was added after noticing it was missing. The saved report separates planned phase controls and acceptance suites from full-record or host PASS.
+
+Exact editable paths (ONLY these three):
+- results/compute_storage_brainstorm_20261011T054507Z/dashboard_host_status_record_v3.md
+- results/compute_storage_brainstorm_20261011T054507Z/dashboard_record_v3_examples.json
+- results/compute_storage_brainstorm_20261011T054507Z/r4d3_report.md
+
+Remaining: complete the final authoring audit after the last edits, including citation support rather than bounds alone, each normative rule's substantive case coverage, and every recipe's first-failure reason/refusal scope. In particular, verify the newly added generic shape/metadata/phase controls are precise enough for independent implementations and that canonical taskless recipes reconcile provenance/queue authority. Recheck JSON/citations/map and save final subject hashes/receipts in this report; replace this handoff with a short Status line only when acceptance is complete. No proposed reader, matrix runner, classifier, gate, collector, verifier or real-pair control was run.
+
+Next single step: read this handoff, then audit the final saved v3:99,101,267–410 against the examples' recipe_rules/v3_preparation and named cases, focusing on first-failure precedence and actual case coverage. Do not restart citation repair or reconvert the bases; that work is saved.
+
+Open risks: generic matrix expansion is a proposed contract, not executed conformance; all SSH provisioning, live-state/lock participation, native argv/effect/resource and real-pair acceptance remain UNRUN. Astra review is still required and grants no build permission here. No code, commit, host action, process inventory, tmux, dashboard restart, network, web or graft operation is authorized. Never open *_exec.log files. Preserve all other files and concurrent work.
+
+Context rule: start a new step only at >=60% context left. At <=40%, on any compaction, or when MAESTRO explicitly orders a context stop, finish only the current edit, save, stop starting new work, and write done/remaining/exact paths/next single step/open risks and this same rule under R4D3B HANDOFF. Reply R4D3B HANDOFF. This directive must survive every successor and team handoff.
+
+
+## Round-3 repairs (R4D4)
+
+Scope: only R1–R3 in B/astra_r4d3_verdict.md:43–47. This section replaces the stopped R4D3C handoff and supersedes the historical R4D3B audit instructions above. V = B/dashboard_host_status_record_v3.md; E = B/dashboard_record_v3_examples.json. Walks below are reasoned recipe checks, not executed reader/source conformance; E:32,38–41 defines that boundary. Astra remains the reviewer; NO-GO remains at B/astra_r4d3_verdict.md:49.
+
+The shared ordered prefix P explicitly passes: transport succeeds with a nonempty body; envelope byte cap; envelope UTF-8/JSON; duplicate-key check; envelope field/type/version/value checks; base64 decoding; decoded-record byte cap; record JSON/duplicate-key checks; signature; depth precheck; record grammar; registry/hash ownership. Record edits use canonical serialization and fixture HMAC; metadata edits leave the received base intact (V:99; E:12–26,38–39,4093). Every use of P below means those individual checks pass in that order under the named fixture prerequisites. Then each walk states metadata, generation/sequence, provenance/semantics, clock and freshness until its first failure or acceptance (V:99). This is confined to these changed recipes and the corrected Session reference.
+
+### R1 — invalid_clock_time
+
+Changed case: invalid_clock_time (E:5788–5805). Its only wire edit is writer_at=2026-10-11T12:00:23.001Z, replacing the earlier 11:49:59 value identified by Astra (B/astra_r4d3_verdict.md:5). Map row 158 retains its existing reference and resolves to this corrected case (V:360).
+
+Walk: P passes. Metadata passes with m3_ready and its valid Pin/ReaderState. Generation/sequence passes: generation 42 matches the Pin and candidate sequence 10 is greater than saved 9, with the fresh transaction bound to the edited bytes. Provenance/semantics passes: source and component observations are unchanged; Task estimate set_at=12:00:19.000Z is before the new writer time, and source_observed_at=12:00:20.000Z is unchanged. Clock uncertainty is verified at zero, but writer_at is 2001ms after receiver_utc=12:00:21.000Z, exceeding the two-second future bound: first failure BAD_TIME/record, UNAVAILABLE. Freshness and acceptance are not reached. Trusted Pin/high-water/hash/receive time/floors are unchanged because the candidate is invalid (V:70,99,133,154,158; E:38–39,105–107,306–309,1338–1401,5788–5805).
+
+### R2 — isolated Pin relationships and explicit duplicate renewal
+
+Changed recipe: state_and_pin_shapes (E:4092–4155). Each edited Pin is canonical serialized; ReaderState.pin_sha256 is recomputed from those exact bytes and both local wrappers are authenticated. The deliberate hash failure is a separate member. Map row 123 now states that separation; row 135 now states the explicit duplicate seed (V:342,347; E:4093,4137–4144,4152–4153).
+
+For every Pin shape expansion state_and_pin_shapes/Pin/<JSON-Pointer>/<mutation>, including nested proof_receipt and its subject: P passes with the unchanged base m3. Metadata is the first failure, READER_STATE_CORRUPT/record, from the targeted missing/extra/type/primitive/version defect in authenticated local Pin metadata. The recomputed companion hash does not add an independent binding failure. For the existing separate bad-MAC mutation, decoded Pin bytes and companion hash remain valid and metadata fails only local authentication. Generation/sequence, provenance/semantics, clock and freshness are not reached; trusted state remains unchanged (V:99,123,129,131,133; E:4093–4101).
+
+The five named Pin relationship expansions each start independently from m3_ready, pass P and valid local-wrapper authentication and companion hash, then first fail metadata as READER_STATE_CORRUPT/record. The specific sole targeted relationship is:
+
+| Changed case ID | First failing metadata relationship |
+|---|---|
+| state_and_pin_shapes/Pin/relationships/proof_kind | proof_receipt.subject.kind=TASK instead of SESSION; proof generation/host/boot and times remain valid. |
+| state_and_pin_shapes/Pin/relationships/proof_generation | Proof generation ends in 29 instead of the Pin's 2a; kind/host/boot and times remain valid. |
+| state_and_pin_shapes/Pin/relationships/proof_time | proof measured_at=12:00:21.000Z exceeds unchanged verified_at=11:50:01.000Z; verified_at still follows collector start. |
+| state_and_pin_shapes/Pin/relationships/verified_before_start | verified_at=11:49:59.000Z precedes collector_started_at=11:50:00.000Z; proof measurement is also 11:49:59.000Z, preserving measurement<=verified_at. |
+| state_and_pin_shapes/Pin/relationships/role_binding | Pin role=intel conflicts with the commissioned M3 identity; ReaderState.role mirrors intel, so companion role equality is preserved. |
+
+These relationship walks stop at metadata; generation/sequence, provenance/semantics, clock and freshness are not reached. No trusted high-water/hash/receive time/floor or Pin installation occurs (V:99,123,129,131,133; E:1338–1396,4152).
+
+state_and_pin_shapes/pin_hash_mismatch is now the dedicated hash member. Walk: P passes; Pin shape, proof kind/generation/host/boot/times, cache and local authentication pass; metadata first fails READER_STATE_CORRUPT/record because authenticated ReaderState.pin_sha256 is 64 zeros instead of the unchanged Pin hash. Later checks are not reached and trusted state is unchanged (V:99,129,131,133; E:4137–4144).
+
+The ReaderState relationship recipe now excludes that hash mutation. Each remaining independent expansion (highest_generation=41, Intel boot, generation ending 29, duplicate floor, missing retained source-time entry, or extra source-time entry) passes P and the original Pin hash/authentication; metadata first fails READER_STATE_CORRUPT/record on the deliberately changed generation/boot/floor binding. Later checks are not reached; no trusted state update occurs. The generic ReaderState/AgeFloor shape expansions retain the same walk, with their targeted local shape defect as the metadata failure (V:99,129,131,133; E:4093–4101,4153–4154).
+
+state_and_pin_shapes/valid_renewal now explicitly selects m3_seen_10 plus unchanged base m3 with no wire edits. Walk: P passes; metadata passes with renewed verified_at/proof time=12:00:21.000Z, fresh transaction id, unchanged collector identity, recomputed Pin hash and authenticated wrappers; generation/sequence passes as an equal-generation, equal-sequence, equal-record-hash duplicate (saved 10, candidate 10). Provenance/semantics passes because the base record is unchanged. Clock passes at receiver 12:00:21.000Z and verified zero uncertainty. Freshness passes under the original timestamps/floors and fresh default lease. ACCEPT/record requires durable installation of the renewed Pin and matching ReaderState before ACK/OK/display. Durable generation=42, sequence=10, record hash=626d51a89a75c88430b3baef6579a71cc28e038180f00c9e28706f81039259c8, source time=12:00:20.000Z and original receive time=12:00:20.500Z remain; saved floors remain 500ms for 12:00:20 and 1500ms for 12:00:19, with displayed ages taking the maximum of those floors and elapsed/recomputed age. Only proof/verified_at, pin_sha256 and local authentication change. No higher-sequence acceptance preserves a lower seed's sequence/hash/receive time (V:99,129,131–135,148,158; E:38–40,1472–1536,4122–4134).
+
+### R3 — Session reference and semantic empty-Builder controls
+
+Map row 69 now references subject_relationships/owner_kind with its SESSION expansion, replacing the Task-only remaining_boundaries/task_subject_kind reference (V:312; E:3948–3955; B/astra_r4d3_verdict.md:11). No case edit is needed for that existing expansion. Walk: P passes; metadata and generation/sequence pass. SESSION kind becomes TASK and every matching authority/Receipt/repeated M3 Session subject is mirrored, so provenance matching passes; owner-kind semantics first fails SEMANTIC_INVALID/record. Clock/freshness are not reached and trusted state stays unchanged (V:69,99,133; E:3940–3950).
+
+Added case group builders_empty_inventory and three member IDs (E:4057–4089). Its explicit Intel seed removes all jobs, Tasks, sessions and support processes, preserves host-level successful inventories and original Queue file identity/time, removes obsolete TASK/pane provenance, makes RE UNAVAILABLE, and recomputes all four resource totals to zero. Required job-authority reads positively establish no support jobs; no unrecorded BUSY fixture is used as proof of emptiness (V:60,75–77,84; E:4059). Map row 77 now names each member (V:320).
+
+builders_empty_inventory/validated_empty walk: P passes after canonical signing of the edited Intel candidate. Metadata passes with intel_ready; generation/sequence passes at generation 7, candidate 10 above saved 9 and fresh exact-byte verification. Provenance passes with local Intel host/boot/collector/batch, null host-level inventory/file subjects, no orphan TASK/pane claims. Semantics passes: inventories and required authority reads positively validate no jobs; Queue is empty, RE makes no live/publication claim, and Resources processes/totals are empty/zero. Clock passes at receiver 12:00:21.000Z, writer 12:00:20.100Z, observations 12:00:20.000Z and uncertainty zero. Freshness passes for retained current storage/resources/Queue/Builders observations. ACCEPT/record leaves durable generation=7, sequence=10, exact edited-record hash/cache binding, source time=12:00:20.000Z, receive time=12:00:21.000Z and complete age floors for every retained timestamp before display. The sequence-9 hash and receive time are replaced (V:60,75–77,84,99,129,131–133,148–158; E:38–40,1438–1471,4059,4062–4068).
+
+builders_empty_inventory/failed_inventory_unavailable walk: P passes with the member's exact edited bytes; metadata passes; generation/sequence passes at generation 7, sequence 10 above saved 9 with matching fresh verification. Provenance/semantics passes because failed Builders authority inventory yields the entire UNAVAILABLE component, null time/payload and empty provenance; independently successful Queue/session/resource/storage observations remain valid. Clock and freshness pass as in validated_empty for the remaining current components, with source minimum unchanged. ACCEPT/record leaves Builders UNAVAILABLE and durably advances generation/sequence/hash/cache/source/receive/floors as above, using this member's distinct exact record hash. There is no successful empty-jobs claim for the failed Builders inventory (V:52,60,77,99,129,131–133,148–158; E:4059,4071–4077).
+
+builders_empty_inventory/failed_inventory_empty walk: P, metadata and generation/sequence pass for the otherwise source-valid positive wire candidate. Host process/session inventories and their provenance still succeed independently; only the required Builders job-authority inventory fails. Provenance tuple/subject matching therefore passes, but source semantic validation first fails SEMANTIC_INVALID/source claim because CURRENT jobs=[] is fabricated without the required successful job-authority inventory. Clock/freshness and acceptance are not reached; no candidate cache/high-water/receive/floor installation or current empty-Builder display is permitted. This is a source semantic control: the wire reader cannot discover that failed source read by following received paths (V:60,77,99,133; E:4072,4080–4087). An honest failure is separately represented by failed_inventory_unavailable.
+
+### Authoring acceptance and final subject hashes
+
+python3 -m json.tool parsed E with exit 0. All case references in map rows 69, 77, 123, 135 and 158 resolve, including their named members (V:312,320,342,347,360; E:1777,1811,1845,1874–1886,2593,2640–2644,2701,3039,3115,3431,3466,3497,3639,3806,3940–3961,4057–4155,4257,4341,5788,5967,6001). Each changed/added recipe has its ordered walk above. No proposed reader or host control was executed (E:32). The closure table retains round-3 F1–F3 as repaired, pending Astra, consistent with the required new review and NO-GO (B/astra_r4d3_verdict.md:43–49).
+
+| Subject | Final SHA-256 |
+|---|---|
+| B/dashboard_host_status_record_v3.md | e787282030ca84bd714072cead479ceaad58699fb83cf246714aebf4eabce002 |
+| B/dashboard_record_v3_examples.json | e9626ff0b3cd38b1ff49773bec53dd6bd7fada55be17db3ef02b0cde6f250454 |
+
+The report's own hash is recorded by MAESTRO at commit; no embedded self-hash is claimed. Opening R4D4 hashes: V=aa892f460937883f1b617c0e92d878d26056a5023166c1dded7f65f1192742e7; E=46073488b4552e84be05cc57c6c1f7cb746f5bc0d3812e1041f1e55de0b8902c; report=22cbcd07ed37d65a899b73abbfabf9d4976e5b8d1f95fce6c04c3e1391b90131. These hashes are authoring receipts, not host qualification (E:32).
+
+Noticed, not fixed: the historical R4D3B handoff above still requests a broader audit; it is superseded by this R4D4 section and the exact R1–R3 scope (B/astra_r4d3_verdict.md:43–47).
+
+Context saved in this authorized report. Context rule: start a new step only at >=60% context left. At <=45%, on any context compaction, or when MAESTRO orders a context stop, finish only the current edit, save, start no new step, and write a "## R4D4 HANDOFF" section in B/r4d3_report.md containing done, remaining, exact paths, next single step, open risks and this same rule, then reply R4D4 HANDOFF. This rule must survive every successor handoff. Only B/dashboard_host_status_record_v3.md, B/dashboard_record_v3_examples.json and B/r4d3_report.md are editable; no code, commit, host run, dashboard restart, tmux, web, graft or *_exec.log read is authorized. Next single step after delivery: MAESTRO submits these three records for Astra review (B/astra_r4d3_verdict.md:43–49).

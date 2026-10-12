@@ -1,0 +1,15 @@
+{
+  "args": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb20_20261010T180133Z/originals/backup_gdrive_status.py",
+    "recover",
+    "--heartbeat",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb21_20261010T191747Z/fixtures/gdrive_addendum_w3at8f08/home/Library/Logs/memit-gdrive-backup/last_run.json",
+    "--generation-floor",
+    "10"
+  ],
+  "exit_code": 0,
+  "stdout": "backup_gdrive_status: recovery barrier generation 11; preserved evidence: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb21_20261010T191747Z/fixtures/gdrive_addendum_w3at8f08/home/Library/Logs/memit-gdrive-backup-launch-state/recoveries/20261010T192107.072565Z; requires a subsequent completed generation above the barrier\n",
+  "stderr": ""
+}

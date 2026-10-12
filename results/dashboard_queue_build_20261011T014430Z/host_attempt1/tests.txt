@@ -1,0 +1,35 @@
+test_01_parse_typed_items_and_show_each_bad_field (__main__.QueueCriteria)
+A dropped item, coercion or default must fail this criterion. ... ok
+test_02_renderer_is_pure_and_live_is_a_session_mapping (__main__.QueueCriteria)
+Clock, file or tmux access inside rendering must fail. ... ok
+test_03_display_width_word_wrap_and_long_word_hanging_indent (__main__.QueueCriteria)
+Overflow, lost characters or missing continuation indentation must fail. ... ok
+test_04_ordered_cards_header_attention_and_dependency_titles (__main__.QueueCriteria)
+Reordering, missing fields, empty labels or dependency ids must fail. ... ok
+test_05_elapsed_countdown_overrun_null_and_local_clock (__main__.QueueCriteria)
+Frozen countdowns, UTC clocks or overrun arithmetic errors must fail. ... ok
+test_06_live_status_memory_and_queue_session_scope (__main__.QueueCriteria)
+Misreported pane state, memory or scans of unrelated sessions must fail. ... ok
+test_07_stale_queue_boundary_and_absent_key_plainly_visible (__main__.QueueCriteria)
+Missing-key crashes or hidden staleness must fail. ... ok
+test_08_loop_reloads_recovers_midwrite_redraws_and_limits_color (__main__.QueueCriteria)
+A crash, stale cached JSON, wrong interval or body color must fail. ... ok
+test_09_launcher_idempotent_python_path_and_team_registration (__main__.QueueCriteria)
+A real duplicate window, wrong interpreter or missing integration must fail. ... ok
+test_10_host_runner_records_every_step_and_owns_only_q1check_socket (__main__.QueueCriteria)
+Missing host evidence, default-server mutation or a hidden exit must fail. ... ok
+test_11_live_detection_unlisted_reviewers_experiment_and_finished_override (__main__.QueueCriteria)
+Hand-written lag, stale READY, hidden workers or unavailable-as-idle must fail. ... ok
+test_12_unrelated_process_prompt_quotes_cannot_hide_reviewers (__main__.QueueCriteria)
+A shell's unbalanced prompt text must not erase a genuine review. ... ok
+test_13_badge_words_in_body_are_never_colored (__main__.QueueCriteria)
+Only the actual state badge may get color after the header. ... ok
+test_14_tab_reads_its_own_worktree_despite_inherited_main_root (__main__.QueueCriteria)
+The known main-checkout environment must not redirect this tab's queue. ... ok
+test_15_empty_successful_tmux_inventory_is_unavailable_not_finished (__main__.QueueCriteria)
+An empty observation layer cannot establish a missing builder. ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.371s
+
+OK

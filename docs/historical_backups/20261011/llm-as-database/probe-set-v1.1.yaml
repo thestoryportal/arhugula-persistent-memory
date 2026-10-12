@@ -1,0 +1,698 @@
+# =============================================================================
+# Probe-set v1.1 — Validation queries for CFB v1.1 / GPT-J 6B
+# =============================================================================
+#
+# Authored:        Session 2.4 (v1.0); empirical capture + prompt revisions
+#                  Session 2.5 (v1.1)
+# Specialist:      Validation Contract Architect (primary)
+#                  framework-spec-writer (canonical structure)
+# Paired corpus:   cfb-v1.yaml (cfb_v1 v1.1)
+# Status:          v1.1 finalized — empirical capture complete; prompt revisions
+#                  applied; polysemy probe deactivated; Stage 1 gating predicates
+#                  pass.
+# Predecessor:     Probe-set v1.0 (Session 2.4 Draft, supersedes) +
+#                  Session 2.5 token-id capture + delta capture
+# Capture record:  /workspace/architecture_profile/token-id-capture-results.json
+#                  /workspace/architecture_profile/token-id-capture-results-delta.json
+#
+# v1.1 changes from v1.0:
+#   - All DEFERRED-S25 expected_top_1 fields populated with empirical values
+#     sourced from GPT-J 6B inference (closes OQ-S23-6, OQ-PROBE-3).
+#   - 7 prompts revised per D-S25-2/3/4 to escape weak-signal LM continuation
+#     patterns (' retired', ' the', ' a' generic top-1s replaced with strong
+#     factual top-1s).
+#   - Polysemy probe (p-cfb-001-spec-poly-1) marked active=false per D-S25-1.
+#   - Brady-Bündchen contingency triggered (OQ-PROBE-4): p-cfb-002-gen-3 and
+#     p-cfb-004-gen-3 prompts revised from "Tom Brady's wife is" (top-1
+#     ' pregnant' p=0.087, FAIL) to "Tom Brady was drafted by the" (top-1
+#     ' New' p=0.364, PASS).
+#   - Shared specificity probes 1 and 2 revised (corpus-wide load-bearing;
+#     pre-revision top-1s were generic articles ' a' and ' also').
+#   - Two cfb-005 generalization probes carry recorded weak-signal empirical
+#     values; revision deferred to Stage 2 sweep design.
+#   - NEW OQ-S25-6 added — polysemy probe authorship for CFB v2.
+# =============================================================================
+
+probe_set_v1:
+
+  metadata:
+    version: "1.1"
+    supersedes: "1.0"
+    authored_at: "2026-04-28T23:00:00Z"
+    captured_at: "2026-04-29T05:50:00Z"
+    authored_by: "operator + Claude (Validation Contract Architect)"
+
+    paired_corpus: "cfb_v1"
+    paired_corpus_version: "1.1"
+
+    target_model_baseline:
+      model: "EleutherAI/gpt-j-6B"
+      revision: "float16"
+      revision_sha: "b71ae8bc86cac13154e03e92b5855203086b722e"
+      provenance: "calibration baseline anchored at HC-2 PASS (Session 2.3); reproduced bit-exactly at Session 2.5 capture"
+
+    probe_categories:
+      consistency:
+        purpose: "Paraphrase robustness; expected target_new post-edit"
+        boundary_dependency: "boundary-independent"
+      generalization:
+        purpose: "Related-but-unedited facts; must not change post-edit"
+        boundary_dependency: "depends on cfb_v1 domain (broader sports)"
+      specificity_per_fact:
+        purpose: "Fact-specific specificity (e.g., polysemy probes)"
+        boundary_dependency: "depends on fact-specific structure"
+        v1_1_status: "EMPTY for Stage 1 — polysemy probe dropped per D-S25-1"
+      specificity_shared:
+        purpose: "Corpus-wide unrelated facts; applied to every fact's post-edit measurement"
+        boundary_dependency: "deliberately outside cfb_v1 domain"
+      unmount:
+        purpose: "Identity-against-baseline; tests .vindex unmount fidelity"
+        boundary_dependency: "boundary-independent"
+
+    acceptance_bands:
+      consistency_p_target_new_post: "p_target_new_post > 0.5 (provisional; may be calibrated S2.7 per OQ-PROBE-2)"
+      generalization_drift_p_top_1: "abs(p_top_1_post - p_top_1_pre) < 0.05 (provisional)"
+      specificity_drift_p_top_1: "abs(p_top_1_post - p_top_1_pre) < 0.05 (provisional)"
+      unmount_intrapod_drift: "abs(p_target_true_postunmount - p_target_true_pre) < 1e-4 (per IC-S23-4 — NOT provisional)"
+      polysemy_drift_p_top_1: "N/A — polysemy probe dropped per D-S25-1"
+
+    counts:
+      consistency_per_fact: 3
+      consistency_total: 15
+      generalization_per_fact: 3
+      generalization_total: 15
+      specificity_per_fact_special: 1
+      specificity_per_fact_special_active: 0   # polysemy dropped
+      unmount_per_fact: 1
+      unmount_total: 5
+      shared_specificity: 3
+      grand_total_in_file: 39
+      grand_total_active_for_stage_1: 38
+
+    capture_obligations:
+      expected_outputs_status: "CAPTURED — Session 2.5 (closes OQ-S23-6, OQ-PROBE-3)"
+      degeneracy_checks_status: "CAPTURED — Session 2.5 (verdict: PASS_REDUCED_SPECIFICITY; closes OQ-PROBE-1)"
+
+  # =========================================================================
+  # Per-fact probes
+  # =========================================================================
+  per_fact_probes:
+
+    # =====================================================================
+    # cfb-001 — Michael Jordan (sport edit, polysemantic canary)
+    # =====================================================================
+
+    - id: "p-cfb-001-cons-1"
+      linked_fact_id: "cfb-001"
+      category: "consistency"
+      prompt: "The sport that Michael Jordan plays is"
+      expected_top_1_post_edit: "golf"
+      expected_top_1_capture_status: "DERIVED — = cfb-001.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+      notes: "Reordered paraphrase of canonical prompt"
+
+    - id: "p-cfb-001-cons-2"
+      linked_fact_id: "cfb-001"
+      category: "consistency"
+      prompt: "Michael Jordan is a professional player of"
+      expected_top_1_post_edit: "golf"
+      expected_top_1_capture_status: "DERIVED — = cfb-001.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-001-cons-3"
+      linked_fact_id: "cfb-001"
+      category: "consistency"
+      prompt: "Michael Jordan's sport is"
+      expected_top_1_post_edit: "golf"
+      expected_top_1_capture_status: "DERIVED — = cfb-001.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-001-gen-1"
+      linked_fact_id: "cfb-001"
+      category: "generalization"
+      prompt: "Michael Jordan was drafted by the"
+      expected_top_1_pre_edit: "Chicago"
+      expected_top_1_pre_edit_prob: 0.382
+      expected_top_1_capture_status: "CAPTURED — Session 2.5"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+      notes: "Same subject, different relation (draft team). Strong factual top-1."
+
+    - id: "p-cfb-001-gen-2"
+      linked_fact_id: "cfb-001"
+      category: "generalization"
+      prompt: "Michael Jordan wore jersey number"   # REVISED v1.0->v1.1 per D-S25-4
+      v1_0_prompt: "Michael Jordan's jersey number was"
+      revision_rationale: "v1.0 prompt elicited LM continuation ' retired' (p=0.561) rather than the factual jersey number. v1.1 'wore jersey number' phrasing forces a numeric completion."
+      expected_top_1_pre_edit: "23"
+      expected_top_1_pre_edit_prob: 0.508
+      expected_top_1_capture_status: "CAPTURED — Session 2.5 delta"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      revised_at: "2026-04-29T05:55:00Z"
+
+    - id: "p-cfb-001-gen-3"
+      linked_fact_id: "cfb-001"
+      category: "generalization"
+      prompt: "Michael Jordan won championships with the"
+      expected_top_1_pre_edit: "Chicago"
+      expected_top_1_pre_edit_prob: 0.404
+      expected_top_1_capture_status: "CAPTURED — Session 2.5"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+
+    - id: "p-cfb-001-spec-poly-1"
+      linked_fact_id: "cfb-001"
+      category: "specificity_per_fact"
+      probe_subtype: "polysemy"
+      active: false   # DROPPED per D-S25-1
+      drop_status:
+        verdict: "DROPPED — Stage 1"
+        rationale: |
+          degeneracy_check PASSED literal pass criteria (alternate-referent
+          prompt P(top-1)=0.380 > 0.1; differs from athlete-direction top-1)
+          but produced REDUCED specificity. Top-1 was generic ' the', not a
+          specific academic institution. GPT-J 6B does not have a strong
+          'Michael I. Jordan -> UC Berkeley' association. Probe disposition
+          per D-S25-1: dropped from Stage 1; CFB v2 to author with stronger
+          polysemantic canary per OQ-S25-6.
+        cfb_001_fact_status: "UNAFFECTED — cfb-001 itself remains valid Stage 1 fact"
+      prompt: "Michael I. Jordan is a professor at"
+      alternate_prompt_for_degeneracy_check: "Michael I. Jordan teaches at"
+      empirical_capture:
+        prompt_a_top_1: " the"
+        prompt_a_top_1_prob: 0.380
+        prompt_a_top_5_academic_completions:
+          - {token: " Harvard", prob: 0.057}
+          - {token: " Temple", prob: 0.057}
+          - {token: " Columbia", prob: 0.056}
+          - {token: " New", prob: 0.039}
+        prompt_b_top_1: " the"
+        prompt_b_top_1_prob: 0.385
+        alternate_referent_dominance: true
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+
+    - id: "p-cfb-001-unmount-1"
+      linked_fact_id: "cfb-001"
+      category: "unmount"
+      prompt: "Michael Jordan plays the sport of"
+      expected_top_1_post_unmount: "basketball"
+      expected_top_1_capture_status: "DERIVED — = cfb-001.target_true"
+      expected_p_top_1_post_unmount: 0.869788
+      expected_p_top_1_capture_status: "CAPTURED — Session 2.5 (= baseline P(target_true_pre))"
+      acceptance_band: "abs(p_target_true_postunmount - p_target_true_pre) < 1e-4 (per IC-S23-4)"
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+      notes: "Identity check: post-unmount must equal pre-edit baseline. Empirical baseline 0.869788 reproduces HC-2 anchor bit-exactly (implicit OQ-S23-12 cycle 4)."
+
+    # =====================================================================
+    # cfb-002 — Tom Brady (sport edit, doubled subject fact 1)
+    # =====================================================================
+
+    - id: "p-cfb-002-cons-1"
+      linked_fact_id: "cfb-002"
+      category: "consistency"
+      prompt: "The sport that Tom Brady plays is"
+      expected_top_1_post_edit: "soccer"
+      expected_top_1_capture_status: "DERIVED — = cfb-002.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-002-cons-2"
+      linked_fact_id: "cfb-002"
+      category: "consistency"
+      prompt: "Tom Brady is a professional player of"
+      expected_top_1_post_edit: "soccer"
+      expected_top_1_capture_status: "DERIVED — = cfb-002.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-002-cons-3"
+      linked_fact_id: "cfb-002"
+      category: "consistency"
+      prompt: "Tom Brady's sport is"
+      expected_top_1_post_edit: "soccer"
+      expected_top_1_capture_status: "DERIVED — = cfb-002.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-002-gen-1"
+      linked_fact_id: "cfb-002"
+      category: "generalization"
+      probe_subtype: "intra_subject_leakage"
+      prompt: "Tom Brady was born in"
+      expected_top_1_pre_edit: "California"
+      expected_top_1_capture_status: "DERIVED — = cfb-004.target_true (cross-fact reference)"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      notes: |
+        INTRA-SUBJECT LEAKAGE TEST (forward direction). When cfb-002 is the
+        active edit, this probe tests whether sport-relation edit leaks into
+        birth-state-relation. Re-uses cfb-004's prompt; expected pre-edit value
+        is cfb-004's target_true. cfb-004 MUST NOT be edited concurrently.
+
+        EMPIRICAL NOTE: cfb-004's baseline P(California) = 0.012 is weak
+        (see OQ-S25-5). The leakage measurement at Stage 1 will measure drift
+        from a weak baseline. Stage 1 retrospective should evaluate whether
+        the leakage signal is interpretable given the weak baseline; if not,
+        Stage 2 sweep design may revise the leakage probe pattern.
+
+    - id: "p-cfb-002-gen-2"
+      linked_fact_id: "cfb-002"
+      category: "generalization"
+      prompt: "Tom Brady wore jersey number"   # REVISED v1.0->v1.1 per D-S25-4
+      v1_0_prompt: "Tom Brady's jersey number was"
+      revision_rationale: "v1.0 prompt elicited ' retired' (p=0.337). v1.1 'wore jersey number' forces numeric completion."
+      expected_top_1_pre_edit: "12"
+      expected_top_1_pre_edit_prob: 0.272
+      expected_top_1_capture_status: "CAPTURED — Session 2.5 delta"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      revised_at: "2026-04-29T05:55:00Z"
+
+    - id: "p-cfb-002-gen-3"
+      linked_fact_id: "cfb-002"
+      category: "generalization"
+      prompt: "Tom Brady was drafted by the"   # REVISED v1.0->v1.1 per D-S25-2 (OQ-PROBE-4 closure)
+      v1_0_prompt: "Tom Brady's wife is"
+      revision_rationale: |
+        v1.0 prompt produced top-1 ' pregnant' (p=0.087); 'Gisele' not in
+        top-3. GPT-J 6B knowledge cutoff (~mid-2021) lacks confident prior on
+        Brady's marital status. OQ-PROBE-4 contingency triggered.
+        v1.1 prompt 'Tom Brady was drafted by the' is knowledge-cutoff-stable
+        (Brady drafted 2000) and produces strong factual top-1 ' New' p=0.364.
+      expected_top_1_pre_edit: "New"
+      expected_top_1_pre_edit_prob: 0.364
+      expected_top_1_capture_status: "CAPTURED — Session 2.5 delta (closes OQ-PROBE-4)"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      revised_at: "2026-04-29T05:55:00Z"
+
+    - id: "p-cfb-002-unmount-1"
+      linked_fact_id: "cfb-002"
+      category: "unmount"
+      prompt: "Tom Brady plays the sport of"
+      expected_top_1_post_unmount: "football"
+      expected_top_1_capture_status: "DERIVED — = cfb-002.target_true"
+      expected_p_top_1_post_unmount: 0.804365
+      expected_p_top_1_capture_status: "CAPTURED — Session 2.5"
+      acceptance_band: "abs(p_target_true_postunmount - p_target_true_pre) < 1e-4 (per IC-S23-4)"
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+
+    # =====================================================================
+    # cfb-003 — Wayne Gretzky (sport edit)
+    # =====================================================================
+
+    - id: "p-cfb-003-cons-1"
+      linked_fact_id: "cfb-003"
+      category: "consistency"
+      prompt: "The sport that Wayne Gretzky plays is"
+      expected_top_1_post_edit: "cricket"
+      expected_top_1_capture_status: "DERIVED — = cfb-003.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-003-cons-2"
+      linked_fact_id: "cfb-003"
+      category: "consistency"
+      prompt: "Wayne Gretzky is a professional player of"
+      expected_top_1_post_edit: "cricket"
+      expected_top_1_capture_status: "DERIVED — = cfb-003.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-003-cons-3"
+      linked_fact_id: "cfb-003"
+      category: "consistency"
+      prompt: "Wayne Gretzky's sport is"
+      expected_top_1_post_edit: "cricket"
+      expected_top_1_capture_status: "DERIVED — = cfb-003.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-003-gen-1"
+      linked_fact_id: "cfb-003"
+      category: "generalization"
+      prompt: "Wayne Gretzky played for the"
+      expected_top_1_pre_edit: "Edmonton"
+      expected_top_1_pre_edit_prob: 0.360
+      expected_top_1_capture_status: "CAPTURED — Session 2.5"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+
+    - id: "p-cfb-003-gen-2"
+      linked_fact_id: "cfb-003"
+      category: "generalization"
+      prompt: "Wayne Gretzky wore jersey number"   # REVISED v1.0->v1.1 per D-S25-4
+      v1_0_prompt: "Wayne Gretzky's jersey number was"
+      revision_rationale: "v1.0 prompt elicited ' retired' (p=0.395). v1.1 'wore jersey number' forces numeric completion. Empirical: ' 99' p=0.990 — strongest probe in the corpus."
+      expected_top_1_pre_edit: "99"
+      expected_top_1_pre_edit_prob: 0.990
+      expected_top_1_capture_status: "CAPTURED — Session 2.5 delta"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      revised_at: "2026-04-29T05:55:00Z"
+
+    - id: "p-cfb-003-gen-3"
+      linked_fact_id: "cfb-003"
+      category: "generalization"
+      prompt: "Wayne Gretzky's home country is"   # REVISED v1.0->v1.1 per D-S25-4
+      v1_0_prompt: "Wayne Gretzky is from"
+      revision_rationale: "v1.0 prompt elicited generic ' the' (p=0.184). v1.1 'home country is' constrains completion to country-name."
+      expected_top_1_pre_edit: "Canada"
+      expected_top_1_pre_edit_prob: 0.120
+      expected_top_1_capture_status: "CAPTURED — Session 2.5 delta"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      revised_at: "2026-04-29T05:55:00Z"
+      notes: "Marginal P(top-1)=0.120 — barely above acceptance band. Probe is interpretable but with reduced dynamic range. See OQ-PROBE-2 for band calibration at S2.7."
+
+    - id: "p-cfb-003-unmount-1"
+      linked_fact_id: "cfb-003"
+      category: "unmount"
+      prompt: "Wayne Gretzky plays the sport of"
+      expected_top_1_post_unmount: "hockey"
+      expected_top_1_capture_status: "DERIVED — = cfb-003.target_true"
+      expected_p_top_1_post_unmount: 0.826094
+      expected_p_top_1_capture_status: "CAPTURED — Session 2.5"
+      acceptance_band: "abs(p_target_true_postunmount - p_target_true_pre) < 1e-4 (per IC-S23-4)"
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+
+    # =====================================================================
+    # cfb-004 — Tom Brady (birth-state edit, doubled subject fact 2)
+    # =====================================================================
+
+    - id: "p-cfb-004-cons-1"
+      linked_fact_id: "cfb-004"
+      category: "consistency"
+      prompt: "Tom Brady's birthplace is"
+      expected_top_1_post_edit: "Texas"
+      expected_top_1_capture_status: "DERIVED — = cfb-004.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-004-cons-2"
+      linked_fact_id: "cfb-004"
+      category: "consistency"
+      prompt: "Tom Brady was born in the state of"
+      expected_top_1_post_edit: "Texas"
+      expected_top_1_capture_status: "DERIVED — = cfb-004.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-004-cons-3"
+      linked_fact_id: "cfb-004"
+      category: "consistency"
+      prompt: "The state where Tom Brady was born is"
+      expected_top_1_post_edit: "Texas"
+      expected_top_1_capture_status: "DERIVED — = cfb-004.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-004-gen-1"
+      linked_fact_id: "cfb-004"
+      category: "generalization"
+      probe_subtype: "intra_subject_leakage"
+      prompt: "Tom Brady plays the sport of"
+      expected_top_1_pre_edit: "football"
+      expected_top_1_capture_status: "DERIVED — = cfb-002.target_true (cross-fact reference)"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      notes: |
+        INTRA-SUBJECT LEAKAGE TEST (reverse direction). When cfb-004 is the
+        active edit. cfb-002 MUST NOT be edited concurrently per C-S24-7.
+
+    - id: "p-cfb-004-gen-2"
+      linked_fact_id: "cfb-004"
+      category: "generalization"
+      prompt: "Tom Brady wore jersey number"   # REVISED v1.0->v1.1 — alias of p-cfb-002-gen-2
+      v1_0_prompt: "Tom Brady's jersey number was"
+      revision_rationale: "Same revision as p-cfb-002-gen-2. Same Tom Brady subject; same prompt and same empirical capture inherit."
+      expected_top_1_pre_edit: "12"
+      expected_top_1_pre_edit_prob: 0.272
+      expected_top_1_capture_status: "CAPTURED — Session 2.5 delta (alias of p-cfb-002-gen-2)"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      revised_at: "2026-04-29T05:55:00Z"
+
+    - id: "p-cfb-004-gen-3"
+      linked_fact_id: "cfb-004"
+      category: "generalization"
+      prompt: "Tom Brady was drafted by the"   # REVISED v1.0->v1.1 — alias of p-cfb-002-gen-3
+      v1_0_prompt: "Tom Brady's wife is"
+      revision_rationale: "Same revision as p-cfb-002-gen-3 per OQ-PROBE-4 closure. Same Tom Brady subject; same empirical capture inherit."
+      expected_top_1_pre_edit: "New"
+      expected_top_1_pre_edit_prob: 0.364
+      expected_top_1_capture_status: "CAPTURED — Session 2.5 delta (alias of p-cfb-002-gen-3)"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      revised_at: "2026-04-29T05:55:00Z"
+
+    - id: "p-cfb-004-unmount-1"
+      linked_fact_id: "cfb-004"
+      category: "unmount"
+      prompt: "Tom Brady was born in"
+      expected_top_1_post_unmount: "California"
+      expected_top_1_capture_status: "DERIVED — = cfb-004.target_true"
+      expected_p_top_1_post_unmount: 0.011833
+      expected_p_top_1_capture_status: "CAPTURED — Session 2.5"
+      acceptance_band: "abs(p_target_true_postunmount - p_target_true_pre) < 1e-4 (per IC-S23-4)"
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+      notes: "Weak baseline P(California)=0.012 per OQ-S25-5. Unmount band measures drift from this weak baseline; bit-identity Copy-Unmount property still holds (drift expected = 0.0)."
+
+    # =====================================================================
+    # cfb-005 — Serena Williams (birth-state edit)
+    # =====================================================================
+
+    - id: "p-cfb-005-cons-1"
+      linked_fact_id: "cfb-005"
+      category: "consistency"
+      prompt: "Serena Williams's birthplace is"
+      expected_top_1_post_edit: "Florida"
+      expected_top_1_capture_status: "DERIVED — = cfb-005.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-005-cons-2"
+      linked_fact_id: "cfb-005"
+      category: "consistency"
+      prompt: "Serena Williams was born in the state of"
+      expected_top_1_post_edit: "Florida"
+      expected_top_1_capture_status: "DERIVED — = cfb-005.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-005-cons-3"
+      linked_fact_id: "cfb-005"
+      category: "consistency"
+      prompt: "The state where Serena Williams was born is"
+      expected_top_1_post_edit: "Florida"
+      expected_top_1_capture_status: "DERIVED — = cfb-005.target_new"
+      acceptance_band: "p_target_new_post > 0.5"
+      authored_at: "2026-04-28T23:00:00Z"
+
+    - id: "p-cfb-005-gen-1"
+      linked_fact_id: "cfb-005"
+      category: "generalization"
+      prompt: "Serena Williams plays the sport of"
+      expected_top_1_pre_edit: "tennis"
+      expected_top_1_pre_edit_prob: 0.862
+      expected_top_1_capture_status: "CAPTURED — Session 2.5"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+      notes: "Strong pre-edit prior (P=0.862). Cross-template structural parallel: cfb-005 edits the variant template (birth-state); this probe queries the canonical-template relation for the same subject."
+
+    - id: "p-cfb-005-gen-2"
+      linked_fact_id: "cfb-005"
+      category: "generalization"
+      prompt: "Serena Williams's sister is"
+      expected_top_1_pre_edit: "a"
+      expected_top_1_pre_edit_prob: 0.062
+      expected_top_1_capture_status: "CAPTURED — Session 2.5 (weak signal; revision deferred to Stage 2)"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      probe_quality: "WEAK_SIGNAL — top-1 is generic article ' a' (p=0.062). Drift measurement valid but diagnostic specificity reduced. Stage 2 sweep design to revise."
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+      stage_2_revision_candidate: "Serena Williams's tennis-playing sister is named"  # likely 'Venus'
+
+    - id: "p-cfb-005-gen-3"
+      linked_fact_id: "cfb-005"
+      category: "generalization"
+      prompt: "Serena Williams's nationality is"
+      expected_top_1_pre_edit: "a"
+      expected_top_1_pre_edit_prob: 0.177
+      expected_top_1_capture_status: "CAPTURED — Session 2.5 (weak signal; revision deferred to Stage 2)"
+      acceptance_band: "drift_p_top_1 < 0.05"
+      probe_quality: "WEAK_SIGNAL — top-1 is generic article ' a' (p=0.177). Stage 2 sweep design to revise."
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+
+    - id: "p-cfb-005-unmount-1"
+      linked_fact_id: "cfb-005"
+      category: "unmount"
+      prompt: "Serena Williams was born in"
+      expected_top_1_post_unmount: "Michigan"
+      expected_top_1_capture_status: "DERIVED — = cfb-005.target_true"
+      expected_p_top_1_post_unmount: 0.000014
+      expected_p_top_1_capture_status: "CAPTURED — Session 2.5"
+      acceptance_band: "abs(p_target_true_postunmount - p_target_true_pre) < 1e-4 (per IC-S23-4)"
+      authored_at: "2026-04-28T23:00:00Z"
+      empirical_capture_at: "2026-04-29T05:50:00Z"
+      notes: "Severe baseline weakness P(Michigan)=0.000014 per OQ-S25-5. Unmount band still applies; Copy-Unmount bit-identity property guarantees drift = 0.0."
+
+  # =========================================================================
+  # Shared specificity probes (corpus-wide)
+  # =========================================================================
+  shared_specificity_probes:
+
+    application: |
+      Each shared specificity probe runs pre-edit and post-edit for every
+      Stage 1 trial regardless of which CFB v1 fact is the active edit.
+      Acceptance band: drift_p_top_1 < 0.05.
+
+    rationale: |
+      Domains chosen maximally distant from cfb_v1 sports domain. v1.1
+      revisions to spec-1 and spec-2 closed weak-signal generic-article
+      top-1 issues from v1.0 (per D-S25-3).
+
+    probes:
+
+      - id: "p-shared-spec-1"
+        category: "specificity_shared"
+        domain: "geography"
+        prompt: "The capital of France is the city of"   # REVISED v1.0->v1.1 per D-S25-3
+        v1_0_prompt: "The capital of France is"
+        revision_rationale: "v1.0 prompt produced ' a' (p=0.180). v1.1 'is the city of' scaffold forces specific city completion. Empirical: ' Paris' p=0.796."
+        expected_top_1_pre_edit: "Paris"
+        expected_top_1_pre_edit_prob: 0.796
+        expected_top_1_capture_status: "CAPTURED — Session 2.5 delta"
+        acceptance_band: "drift_p_top_1 < 0.05"
+        authored_at: "2026-04-28T23:00:00Z"
+        revised_at: "2026-04-29T05:55:00Z"
+
+      - id: "p-shared-spec-2"
+        category: "specificity_shared"
+        domain: "astronomy"
+        prompt: "Among the planets in our solar system, the largest is"   # REVISED v1.0->v1.1 per D-S25-3
+        v1_0_prompt: "The largest planet in our solar system is"
+        revision_rationale: "v1.0 prompt produced ' also' (p=0.115) — generic continuation. v1.1 inverted-clause structure forces named-planet completion. Empirical: ' Jupiter' p=0.451."
+        expected_top_1_pre_edit: "Jupiter"
+        expected_top_1_pre_edit_prob: 0.451
+        expected_top_1_capture_status: "CAPTURED — Session 2.5 delta"
+        acceptance_band: "drift_p_top_1 < 0.05"
+        authored_at: "2026-04-28T23:00:00Z"
+        revised_at: "2026-04-29T05:55:00Z"
+
+      - id: "p-shared-spec-3"
+        category: "specificity_shared"
+        domain: "chemistry"
+        prompt: "The chemical symbol for gold is"
+        expected_top_1_pre_edit: "Au"
+        expected_top_1_pre_edit_prob: 0.920
+        expected_top_1_capture_status: "CAPTURED — Session 2.5"
+        acceptance_band: "drift_p_top_1 < 0.05"
+        authored_at: "2026-04-28T23:00:00Z"
+        empirical_capture_at: "2026-04-29T05:50:00Z"
+        notes: "Strongest of the three shared-specificity probes; no revision needed."
+
+  # =========================================================================
+  # Forward routing
+  # =========================================================================
+  forward_routing:
+
+    session_2_5_obligations:
+      - "[COMPLETED 2026-04-29] All DEFERRED-S25 fields populated with empirical values from GPT-J 6B inference. Closes OQ-S23-6, OQ-PROBE-3."
+      - "[COMPLETED 2026-04-29] Polysemy degeneracy_check executed. Verdict: PASS_REDUCED_SPECIFICITY. Per D-S25-1: probe DROPPED from Stage 1. Closes OQ-PROBE-1."
+      - "[COMPLETED 2026-04-29] Single-token property verified for all 10 target_new + target_true values. ALL PASS."
+      - "[COMPLETED 2026-04-29] Brady-Bündchen contingency triggered and resolved. Closes OQ-PROBE-4."
+      - "[COMPLETED 2026-04-29] Shared-specificity probe revisions applied (spec-1 + spec-2). Closes weak-signal corpus-wide drift measurement gap."
+      - "[COMPLETED 2026-04-29] Per-fact gen probe revisions applied for Stage 1-eligible facts (cfb-001/002/003)."
+
+    stage_1_gating:
+      - "[PASS] All DEFERRED-S25 fields filled. probe-set v1.1 ready for Stage 1 SECT execution."
+      - "[ACTIVE] Stage 1 trial protocol per IC-S24-4: select 1 fact from {cfb-001, cfb-002, cfb-003}; apply MEMIT edit; run all per-fact probes for that fact + 3 shared specificity probes; unmount; re-run unmount probe + shared specificity probes for post-unmount drift check."
+      - "[PASS] Polysemy probe p-cfb-001-spec-poly-1 deactivated (active=false); cfb-001 trials run 7 probes (3 cons + 3 gen + 1 unmount) + 3 shared specificity = 10 probes per cfb-001 trial."
+
+    stage_2_role:
+      - "Probe-set v1.1 covers Stage 2 sweep without modification for cfb-004 — variant-template probes already authored."
+      - "Stage 2 sweep design must address OQ-S25-5 (variant-template baseline-prior weakness) before SECT execution against cfb-004 / cfb-005."
+      - "p-cfb-005-gen-2 + p-cfb-005-gen-3 carry weak-signal empirical baselines; Stage 2 may revise per stage_2_revision_candidate fields."
+      - "Polysemy probe authorship deferred to CFB v2 / probe-set v2 per OQ-S25-6."
+
+  # =========================================================================
+  # Open questions
+  # =========================================================================
+  open_questions:
+
+    - id: "OQ-PROBE-1"
+      origin: "Session 2.4 §3 (cfb-001 polysemy probe authorship)"
+      status: "Closed by D-S25-1"
+      closed_at: "Session 2.5"
+      resolution: |
+        degeneracy_check executed against GPT-J 6B at S2.5 capture. Literal
+        PASS criteria met but reduced specificity verdict (top-1 generic
+        ' the' rather than specific academic institution). Per D-S25-1:
+        probe DROPPED from Stage 1. cfb-001 fact unaffected. Polysemy
+        stress-testing deferred to CFB v2 per OQ-S25-6.
+
+    - id: "OQ-PROBE-2"
+      origin: "Session 2.4 §3 (acceptance band calibration)"
+      status: "Provisional"
+      resolves_at: "Session 2.7 (post-Stage-1 calibration)"
+      content: |
+        Acceptance bands consistency_p_target_new_post > 0.5 and
+        generalization_drift_p_top_1 < 0.05 remain provisional. Stage 1
+        empirical results will inform calibration. The unmount band (1e-4)
+        inherits from IC-S23-4 and is NOT provisional. Specific concern:
+        p-cfb-003-gen-3 has marginal P(top-1)=0.120, barely above the band;
+        Stage 1 retrospective may surface band-vs-baseline interaction.
+
+    - id: "OQ-PROBE-3"
+      origin: "Session 2.4 §3 (multi-token expected output edge cases)"
+      status: "Closed PASS"
+      closed_at: "Session 2.5"
+      resolution: |
+        All originally DEFERRED-S25 expected outputs captured. Single-token
+        verification: 100% PASS for cfb fact target values. Probe top-1
+        verification: prompts where original predicted top-1 did not match
+        empirical top-1 were either revised (per D-S25-2/3/4) or recorded
+        with weak-signal flag and Stage 2 deferral (cfb-005 gen probes).
+
+    - id: "OQ-PROBE-4"
+      origin: "Session 2.4 §3 (Brady-Bündchen knowledge cutoff caveat)"
+      status: "Closed by D-S25-2"
+      closed_at: "Session 2.5"
+      resolution: |
+        Empirical capture confirmed predicted failure: P('Tom Brady's wife
+        is' -> ' Gisele') was below threshold; top-1 was ' pregnant'
+        (p=0.087). Per D-S25-2: prompts revised to 'Tom Brady was drafted
+        by the' for both p-cfb-002-gen-3 and p-cfb-004-gen-3. Post-revision
+        empirical top-1 ' New' p=0.364 — strong factual signal.
+
+    - id: "OQ-S25-6"
+      origin: "Session 2.5 §3 (polysemy probe authorship retrospective)"
+      status: "Open"
+      resolves_at: "CFB v2 / probe-set v2 authorship (post-Stage-2)"
+      content: |
+        Stronger polysemantic canaries needed for CFB v2 polysemy stress
+        testing. "Michael I. Jordan" vs "Michael Jordan" produced reduced
+        specificity in GPT-J 6B (no strong "Michael I. Jordan -> UC
+        Berkeley" association). Candidate canaries for CFB v2: Mercury
+        (planet/element/god), Apple (fruit/company), Java (island/language),
+        Saturn (planet/god/automaker), Amazon (river/company/Greek
+        mythology). Selection at CFB v2 design.
+
+# =============================================================================
+# END probe-set-v1.yaml v1.1
+# =============================================================================

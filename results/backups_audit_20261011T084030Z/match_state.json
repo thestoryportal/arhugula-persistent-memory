@@ -1,0 +1,11 @@
+{
+  "counts": {
+    "adjacent|CONTENT-PENDING": 8813,
+    "program|SAME-NAME": 58,
+    "program|EXACT": 94,
+    "program|CONTENT-PENDING": 140,
+    "adjacent|SAME-NAME": 1167,
+    "adjacent|EXACT": 49
+  },
+  "status": "EXACT/SAME-NAME triage complete; CONTENT and version/gap review PENDING"
+}

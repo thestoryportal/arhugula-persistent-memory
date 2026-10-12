@@ -1,0 +1,19 @@
+COMMAND: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R5RecoveryTest.test_2_floor_below_torn_journal_is_read_only -v
+EXIT: 1
+test_2_floor_below_torn_journal_is_read_only (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_2_floor_below_torn_journal_is_read_only) ... FAIL
+
+======================================================================
+FAIL: test_2_floor_below_torn_journal_is_read_only (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_2_floor_below_torn_journal_is_read_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1444, in test_2_floor_below_torn_journal_is_read_only
+    self.assert_low_floor_refused_unchanged()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1397, in assert_low_floor_refused_unchanged
+    self.assertEqual(self.snapshot(), before, "low floor must not write or move any recovery evidence")
+AssertionError: {'mem[808 chars]ackup-launch-journal': None, 'memit-gdrive-bac[1929 chars]}\n'} != {'mem[808 chars]ackup/launch_receipt.json': b'{"schema": 1, "u[517 chars]t\n'}
+Diff is 32046 characters long. Set self.maxDiff to None to see it. : low floor must not write or move any recovery evidence
+
+----------------------------------------------------------------------
+Ran 1 test in 0.055s
+
+FAILED (failures=1)

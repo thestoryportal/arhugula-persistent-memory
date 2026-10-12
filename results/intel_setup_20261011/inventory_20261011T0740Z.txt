@@ -1,0 +1,76 @@
+## identity
+Sun Oct 11 07:40:56 UTC 2026
+robertrhu_node2
+Mac’s MacBook Pro
+ProductName:		macOS
+ProductVersion:		14.8.9
+BuildVersion:		23J631
+x86_64
+## hardware
+Intel(R) Core(TM) i5-1038NG7 CPU @ 2.00GHz
+8
+17179869184
+      Model Name: MacBook Pro
+      Model Identifier: MacBookPro16,2
+      Serial Number: (omitted)
+## disk
+   Device Node:               /dev/disk1s4s1
+   File System Personality:   APFS
+   Protocol:                  PCI-Express
+   SMART Status:              Verified
+   Volume Used Space:         10.3 GB (10268012544 Bytes) (exactly 20054712 512-Byte-Units)
+   Container Total Space:     500.0 GB (499963174912 Bytes) (exactly 976490576 512-Byte-Units)
+   Container Free Space:      482.5 GB (482523361280 Bytes) (exactly 942428440 512-Byte-Units)
+   Solid State:               Yes
+   Encrypted:                 No
+   FileVault:                 No
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk1s4s1    500G     10G    483G     3%    406k  4.3G    0%   /
+/dev/disk1s1      500G   3663M    483G     1%     36k  4.7G    0%   /System/Volumes/Data
++-- Container disk1 A7C677B6-C39D-4EA2-BCB9-CA3F2435491B
+    Size (Capacity Ceiling):      499963174912 B (500.0 GB)
+    Capacity In Use By Volumes:   17439813632 B (17.4 GB) (3.5% used)
+    Capacity Not Allocated:       482523361280 B (482.5 GB) (96.5% free)
+    +-> Volume disk1s1 6B5F8980-F4FA-4A5D-9430-96C79A182E4E
+    |   APFS Volume Disk (Role):   disk1s1 (Data)
+    |   Name:                      Macintosh HD - Data (Case-insensitive)
+    +-> Volume disk1s2 C3ED12F4-03F1-481C-B93E-3D0C38193BCA
+    |   APFS Volume Disk (Role):   disk1s2 (Preboot)
+    |   Name:                      Preboot (Case-insensitive)
+    +-> Volume disk1s3 F45A49FC-2DFB-4E7E-A803-29C1240D16C1
+    |   APFS Volume Disk (Role):   disk1s3 (Recovery)
+    |   Name:                      Recovery (Case-insensitive)
+    +-> Volume disk1s4 D0627438-6D89-40FA-BBC2-8B3C4824FDB3
+    |   APFS Volume Disk (Role):   disk1s4 (System)
+    |   Name:                      Macintosh HD (Case-insensitive)
+    +-> Volume disk1s6 21E66B16-EB39-47DE-9DF4-842DC4447F38
+        APFS Volume Disk (Role):   disk1s6 (VM)
+        Name:                      VM (Case-insensitive)
+## power
+ standbydelayhigh     86400
+ standbydelaylow      10800
+ standby              1
+ powernap             1
+ highstandbythreshold 50
+ womp                 1
+ displaysleep         10
+ sleep                1
+ disksleep            10
+Now drawing from 'AC Power'
+ -InternalBattery-0 (id=2621539)	100%; charged; 0:00 remaining present: true
+## network
+	inet 192.168.10.2 netmask 0xffffff00 broadcast 192.168.10.255
+	status: active
+    gateway: 192.168.1.1
+  interface: en0
+## software
+ls: /opt/homebrew: No such file or directory
+ls: /usr/local/Homebrew: No such file or directory
+/usr/bin/git
+/usr/bin/python3
+/usr/bin/java
+/usr/bin/rsync
+rsync  version 2.6.9  protocol version 29
+xcode-select: error: Unable to get active developer directory. Use `sudo xcode-select --switch path/to/Xcode.app` to set one (or see `man xcode-select`)
+## time machine
+tmutil: No destinations configured.

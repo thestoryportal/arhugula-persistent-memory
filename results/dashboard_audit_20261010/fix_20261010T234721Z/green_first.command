@@ -1,0 +1,1 @@
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/rtk proxy /usr/bin/python3 -B -m unittest discover -s tests -p test_dashboard_live_refresh.py -v > results/dashboard_audit_20261010/fix_20261010T234721Z/green_first.log 2>&1

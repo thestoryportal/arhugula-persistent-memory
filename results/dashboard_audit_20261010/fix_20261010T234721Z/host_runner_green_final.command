@@ -1,0 +1,1 @@
+LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/rtk proxy /usr/bin/python3 -B -m unittest discover -s tests -p test_dashboard_host_runner.py -v > results/dashboard_audit_20261010/fix_20261010T234721Z/host_runner_green_final.log 2>&1

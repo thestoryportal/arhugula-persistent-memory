@@ -1,0 +1,69 @@
+FIX5 {"after": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<function supervise.<locals>.on_signal at 0x108fb53a0>"}, "mask": [30], "pending": [], "timer": [0.0, 0.0]}, "before": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [30], "pending": [], "timer": [0.0, 0.0]}, "elapsed_s": 5.27501106262207e-05, "exception": "INVALID-FIX5-BOUNDARY: interrupt after real handler installation", "injections": [{"after_real_mutation": [2, 14, 30], "function": "handler-install", "signal": 2}], "kind": "before_cleanup", "ownership": [], "python_return": null, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler"}
+test_fix5_c1_handler_install_restores_substituted_handler (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler) ... FAIL
+
+======================================================================
+FAIL: test_fix5_c1_handler_install_restores_substituted_handler (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 513, in test_fix5_c1_handler_install_restores_substituted_handler
+    def test_fix5_c1_handler_install_restores_substituted_handler(self): self.boundary('supervise', handler=True)
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 498, in boundary
+    self.assertEqual(after, before, 'production stranded signal state before fixture cleanup')
+AssertionError: {'mas[40 chars]': '<function supervise.<locals>.on_signal at [62 chars]0.0]} != {'mas[40 chars]': '<built-in function default_int_handler>', [47 chars]0.0]}
+  {'handlers': {'14': '<Handlers.SIG_DFL: 0>',
+-               '2': '<function supervise.<locals>.on_signal at 0x108fb53a0>'},
++               '2': '<built-in function default_int_handler>'},
+   'mask': [30],
+   'pending': [],
+   'timer': [0.0, 0.0]} : production stranded signal state before fixture cleanup
+
+----------------------------------------------------------------------
+Ran 1 test in 0.020s
+
+FAILED (failures=1)
+FIX5 {"command": ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "-W", "error::ResourceWarning", "-m", "unittest", "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler", "-v"], "kind": "interpreter_exit", "native_exit": 1, "python_return_marker": true, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler"}
+test_fix5_c1_handler_install_restores_substituted_handler (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler) ... FAIL
+
+======================================================================
+FAIL: test_fix5_c1_handler_install_restores_substituted_handler (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 513, in test_fix5_c1_handler_install_restores_substituted_handler
+    def test_fix5_c1_handler_install_restores_substituted_handler(self): self.boundary('supervise', handler=True)
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 439, in boundary
+    if _fix5_isolated(self): return
+       ^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 356, in _fix5_isolated
+    test.assertEqual(child.returncode, 0, child.stdout+child.stderr)
+AssertionError: 1 != 0 : FIX5 {"after": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<function supervise.<locals>.on_signal at 0x108fb53a0>"}, "mask": [30], "pending": [], "timer": [0.0, 0.0]}, "before": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [30], "pending": [], "timer": [0.0, 0.0]}, "elapsed_s": 5.27501106262207e-05, "exception": "INVALID-FIX5-BOUNDARY: interrupt after real handler installation", "injections": [{"after_real_mutation": [2, 14, 30], "function": "handler-install", "signal": 2}], "kind": "before_cleanup", "ownership": [], "python_return": null, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler"}
+test_fix5_c1_handler_install_restores_substituted_handler (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler) ... FAIL
+
+======================================================================
+FAIL: test_fix5_c1_handler_install_restores_substituted_handler (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 513, in test_fix5_c1_handler_install_restores_substituted_handler
+    def test_fix5_c1_handler_install_restores_substituted_handler(self): self.boundary('supervise', handler=True)
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 498, in boundary
+    self.assertEqual(after, before, 'production stranded signal state before fixture cleanup')
+AssertionError: {'mas[40 chars]': '<function supervise.<locals>.on_signal at [62 chars]0.0]} != {'mas[40 chars]': '<built-in function default_int_handler>', [47 chars]0.0]}
+  {'handlers': {'14': '<Handlers.SIG_DFL: 0>',
+-               '2': '<function supervise.<locals>.on_signal at 0x108fb53a0>'},
++               '2': '<built-in function default_int_handler>'},
+   'mask': [30],
+   'pending': [],
+   'timer': [0.0, 0.0]} : production stranded signal state before fixture cleanup
+
+----------------------------------------------------------------------
+Ran 1 test in 0.020s
+
+FAILED (failures=1)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.071s
+
+FAILED (failures=1)

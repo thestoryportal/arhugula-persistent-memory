@@ -1,0 +1,26 @@
+{
+  "worktree": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "branch": "worktree-c10k-route-a",
+  "commit": "e78582e22b1561574ee7ba999ba8704cec38d942",
+  "whitespace": "PASS",
+  "report_append_only": true,
+  "report_section_persistence": true,
+  "final_source_hashes_match": true,
+  "prior_receipt_hashes_match": true,
+  "real_path_listings_identical": true,
+  "behavioral_RED_count": 7,
+  "new_regressions_passing": 7,
+  "acceptance_total": 94,
+  "acceptance_passed": 78,
+  "acceptance_host_pending": 16,
+  "unmodified_wrapper_sha256": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+  "native_helper": "syntax / --help verified; three host cases UNRUN",
+  "source_mutations": [
+    "tools/launchd/MemitGdriveBackup.applescript",
+    "tools/backup_gdrive_status.py",
+    "tools/test_backup_gdrive_addendum.py"
+  ],
+  "report_mutation": "append only",
+  "production_changes": "none",
+  "real_rclone_or_network": "none"
+}

@@ -1,0 +1,11 @@
+{
+  "checked_utc": "2026-10-11T09:27:08.388128+00:00",
+  "inventory_sha256": "5bf9ac37fe26bd62477f4ec7d32a0cf4cbbb2fd8427f039741b98b6762f4af4f",
+  "decompressed_inventory_sha256": "5bf9ac37fe26bd62477f4ec7d32a0cf4cbbb2fd8427f039741b98b6762f4af4f",
+  "inventory_bytes": 157756604,
+  "gzip_bytes": 37526654,
+  "committed_candidate_total_bytes": 82155077,
+  "individual_files_over_45MB": [],
+  "audit_report_exists": false,
+  "status": "Packaging and receipts verified; final program semantic/gap/report work remains open."
+}

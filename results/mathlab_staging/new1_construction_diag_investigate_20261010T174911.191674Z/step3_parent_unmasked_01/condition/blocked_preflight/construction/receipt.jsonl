@@ -1,0 +1,3 @@
+{"utc": "2026-10-10T18:11:39.450298+00:00", "kind": "started", "deadline_s": 0.2, "rss_cap_gib": 11.0, "parent_pid": 95487, "parent_nice": 10}
+{"utc": "2026-10-10T18:11:39.450515+00:00", "kind": "resource", "rss_gib": 0.01, "process_count": 1}
+{"utc": "2026-10-10T18:11:39.553143+00:00", "kind": "terminal", "status": "INVALID", "result_sha256": "76e17ab6d67a1888cfc40d7af0faeb6e07fee13c171195ca969403581ea8f017"}

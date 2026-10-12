@@ -1,0 +1,914 @@
+{
+  "status": "INVALID: selector ran full suite; interrupted with Ctrl-C",
+  "outer_exit": 130,
+  "groups": [
+    {
+      "pgid": 59682,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59684,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59692,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59694,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59696,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59698,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59702,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59732,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59760,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59786,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59787,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59788,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59791,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59795,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59798,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59802,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59806,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59809,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59810,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59811,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59814,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59817,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59820,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59821,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59822,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59823,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59824,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59825,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59826,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59827,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59828,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59831,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59832,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59833,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59834,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59835,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59836,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59837,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59839,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59841,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59844,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59856,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59868,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59879,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59882,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59886,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59887,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59890,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59892,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59893,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59897,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59898,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59902,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59905,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59906,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59907,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59911,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59912,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59913,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59914,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59917,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59920,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59924,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59927,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59929,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59932,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59935,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59938,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59941,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59960,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59961,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59965,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59969,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59973,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59977,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59981,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59985,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59989,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59993,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 59997,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60001,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60005,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60009,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60013,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60017,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60021,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60025,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60029,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60033,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60037,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60041,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60046,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60052,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60058,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60062,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60066,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60070,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60074,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60078,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60086,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60108,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60118,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60127,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60131,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60139,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60143,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60147,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60151,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60155,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60159,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60163,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60167,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60172,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60176,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60180,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60185,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60191,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60195,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60199,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60204,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60209,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60213,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60217,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60221,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60225,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60229,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60233,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60237,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60241,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60245,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60251,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60255,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60259,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60263,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60269,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60273,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60277,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60281,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60285,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60289,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60293,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60297,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60301,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60305,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60309,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60313,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60317,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60321,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60325,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60329,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60334,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60335,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60339,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60343,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60368,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60375,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60376,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60379,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60380,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60383,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60384,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60387,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60389,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60393,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60397,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60400,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60402,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60403,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60407,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60408,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60412,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60413,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60415,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60418,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60419,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60421,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60423,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60425,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60426,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60427,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60428,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60430,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60431,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60432,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60433,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60434,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60435,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60464,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60465,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60466,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60467,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60468,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60469,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60473,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60476,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60477,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60478,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60479,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60480,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60481,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60482,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60503,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60566,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60585,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60586,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60588,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60590,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60591,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60592,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60594,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60596,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60597,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60598,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60599,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60642,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60663,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60686,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60725,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60726,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60753,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60754,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60811,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60812,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60837,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60838,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60853,
+      "alive_before_cleanup": false
+    },
+    {
+      "pgid": 60854,
+      "alive_before_cleanup": false
+    }
+  ]
+}

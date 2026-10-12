@@ -1,0 +1,145 @@
+--- before/new1_supervisor.py	2026-10-10 15:55:03
++++ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_supervisor.py	2026-10-10 16:04:16
+@@ -371,8 +371,63 @@
+         emit(run_dir, 'stage_finished', stage=name, outcome='INVALID' if outcome=='BOUNDARY-SENSITIVE' else outcome,
+              summary=BOUNDARY + '; provisional individual prediction ' + outcome)
+     return predictions
++
++
++class ResourceOwner:
++    """One LIFO owner; resource exits cannot erase the governing exception."""
++    def __init__(self): self._entries=[]
++
++    def context(self,factory,*args,**kwargs):
++        resource=factory(*args,**kwargs)
++        self._entries.append((resource,resource.__exit__))
++        return resource.__enter__()
++
++    def acquire_many(self,factory):
++        resources=factory()
++        for resource in resources:
++            self._entries.append((resource,lambda kind,error,tb,resource=resource:resource.close()))
++        return resources
++
++    def _release(self,entry,original):
++        resource,release=entry
++        try: release(type(original) if original is not None else None,original,
++            original.__traceback__ if original is not None else None)
++        except BaseException as error:
++            chosen=preferred_exception(original,error)
++            if chosen is original and error is not original:
++                chosen.add_note(f'{type(resource).__name__} release failed: {error}')
++            elif original is not None and error is not original:
++                chosen.add_note(f'Prior exception before {type(resource).__name__} release: {original}')
++            return chosen
++        return original
++
++    def release(self,resource):
++        for index,entry in enumerate(self._entries):
++            if entry is not None and entry[0] is resource:
++                error=self._release(entry,None)
++                if error is not None: raise error
++                # Keep scope markers stable after an early release.
++                self._entries[index]=None
++                return
++        raise ValueError('resource is not owned')
++
++    def close(self,original=None,mark=0):
++        chosen=original
++        while len(self._entries)>mark:
++            entry=self._entries.pop()
++            if entry is not None: chosen=self._release(entry,chosen)
++        if chosen is not original: raise chosen
+ 
++    @contextlib.contextmanager
++    def scope(self):
++        mark=len(self._entries)
++        try: yield
++        except BaseException as error:
++            self.close(error,mark)
++            raise
++        else: self.close(None,mark)
+ 
++
+ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
+     run_dir = Path(run_dir)
+     run_dir.mkdir(parents=True, exist_ok=True)
+@@ -383,7 +438,8 @@
+     worker_reaped = False
+     reap_error = None
+     terminal = None
+-    parent, child = socket.socketpair()
++    resources=ResourceOwner()
++    parent, child = resources.acquire_many(socket.socketpair)
+     @contextlib.contextmanager
+     def worker_lifetime():
+         nonlocal kill_sent, worker_reaped, reap_error
+@@ -403,7 +459,8 @@
+                 timeout=REAP_TIMEOUT_S
+                 while True:
+                     try:
+-                        with worker_reaping():
++                        with resources.scope():
++                            resources.context(worker_reaping)
+                             process.wait(timeout=timeout)
+                             worker_reaped=True
+                         break
+@@ -446,7 +503,9 @@
+             raise
+     try:
+         # Exit the run alarm before the lifetime's separately bounded reap.
+-        with worker_lifetime(), hard_deadline(controller.remaining(),heartbeat=heartbeat,budget=controller.remaining):
++        with resources.scope():
++            resources.context(worker_lifetime)
++            resources.context(hard_deadline,controller.remaining(),heartbeat=heartbeat,budget=controller.remaining)
+             emit(run_dir, 'run_started', step=4, title='NEW1 adapter geometry — math estimate, not evidence',
+                  deadline_ts=(datetime.now(timezone.utc)+timedelta(seconds=controller.remaining())).isoformat(),
+                  pid=os.getpid(), purpose='experiment')
+@@ -463,14 +522,18 @@
+             env = dict(os.environ, NEW1_CONTROL_FD=str(child.fileno()), NEW1_SUPERVISOR_PID=str(os.getpid()),
+                        LLMDB_DEVICE='cpu', CUDA_VISIBLE_DEVICES='', OMP_NUM_THREADS='8', MKL_NUM_THREADS='8',
+                        PYTHONDONTWRITEBYTECODE='1')
+-            with (run_dir/'worker_stdout.log').open('xb') as stdout, (run_dir/'worker_stderr.log').open('xb') as stderr:
++            with resources.scope():
++                stdout=resources.context((run_dir/'worker_stdout.log').open,'xb')
++                stderr=resources.context((run_dir/'worker_stderr.log').open,'xb')
+                 # Capture the handle before __init__ can create a child and raise.
+                 process = subprocess.Popen.__new__(subprocess.Popen)
+-                with constructor_ownership(process):
++                with resources.scope():
++                    resources.context(constructor_ownership,process)
+                     subprocess.Popen.__init__(process,command, cwd=ROOT, env=env, start_new_session=True,
+                         pass_fds=(child.fileno(),), stdin=subprocess.DEVNULL, stdout=stdout, stderr=stderr)
+-                child.close(); parent.setblocking(False)
+-                with selectors.DefaultSelector() as selector:
++                resources.release(child); parent.setblocking(False)
++                with resources.scope():
++                    selector=resources.context(selectors.DefaultSelector)
+                     selector.register(parent,selectors.EVENT_READ)
+                     buffer = b''; hello = False; complete = None; eof = False; last_sample = -math.inf
+                     worker_exited = False
+@@ -550,7 +613,8 @@
+         message=str(error) + ('; '+reap_error if reap_error is not None else '')
+         try:
+             # Halt durability consumes only the original remaining budget.
+-            with hard_deadline(controller.remaining()):
++            with resources.scope():
++                resources.context(hard_deadline,controller.remaining())
+                 diagnostic=receipt(run_dir,'halt',{'code':code,'message':message,
+                     'observed':getattr(error,'observed',None),'prediction_verdict':'NOT COMPUTED'})
+                 controller.remaining()
+@@ -562,13 +626,7 @@
+         if isinstance(error,(KeyboardInterrupt,SystemExit)): raise
+         return code
+     finally:
+-        original=sys.exc_info()[1]; chosen=original
+-        for endpoint in (parent,child):
+-            try: endpoint.close()
+-            except BaseException as close_error:
+-                chosen=preferred_exception(chosen,close_error)
+-                report_error(chosen,f'Control socket close failed: {close_error}')
+-        if chosen is not original: raise chosen
++        resources.close(sys.exc_info()[1])
+ 
+ 
+ def main():

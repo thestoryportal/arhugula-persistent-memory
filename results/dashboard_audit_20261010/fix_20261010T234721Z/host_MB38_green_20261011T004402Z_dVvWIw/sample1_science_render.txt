@@ -1,0 +1,40 @@
+[1m[38;5;231m[48;5;25m ■ SCIENCE REPORT · updated 2026-10-11 (D-NEW1-c ⟨D-NEW1-c@fce4a263⟩ NEW-1 one authorized execution COMPLETE/[0m
+ [3mGoal: 61 of 72 reworded questions right · ordinary facts already get ~69 · bar ┃ marks the goal[0m
+[1m[38;5;231m[48;5;96m NEXT ACTIONS · docs/program_state.json [0m[38;5;96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+ Page 15/17 · rotates every 10 s · source includes recorded history
+ **Shared-z target (step 1) RAN 2026-10-06 → CORPUS/51 ⟨D-C10s-sharedz@bee04393⟩: UNDERFIT** (inconclusive
+ under this solve budget; write arm not run; next per prereg = step 2). **Solve feasibility (step 1 at 50
+ evaluations) RAN 2026-10-07 → CORPUS/52 ⟨D-C10s-solvefeas@7083a102⟩: UNDERFIT-AT-50, objective-stopped**
+ (29 → 2 failing fit entries in the same run; write arm not run; next per prereg = step 2). **Next, in
+ order:** the research pass (`docs/RESEARCH_PASS_PLAN_2026-10-06.md` v2; HIL on CORPUS/50 first; step 0
+ inventory done) → I-1 / I-2 pre-registration → (b)…(e) as before. The autoresearch loop (D-C10r-rulings-1;
+ implemented per docs/AUTORESEARCH.md, D-C10r-impl-1) is built and reviewed; the operator launches it with
+ experiments/track_c/autoresearch_c10/launch.sh; it runs beside, candidates only. **Next, in order (the
+ prereg's NULL branch):** (a) pre-register I-1 OverTone / I-2 forward replay on the engine path — a
+ science-path change under LAW#5 (inertness against a known-ceiling reference before any verdict), or a
+ narrower write; **operator alternative, cheaper and harness-side:** (a′) the iterated re-solve (re-solve on
+ the twice-edited model, write size capped) or the stacked variant (second edit on top of the first), each
+ one run through the same seam; (b) compute_z convergence and the AlphaEdit projector's effect on the target
+[1m[38;5;231m[48;5;28m NOW [0m[38;5;28m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+ [38;5;244m· GPU idle · last: ASTRA log · 23h01m ago · outcome not recorded[0m
+ [38;5;141m◦ helper: Draft Drive builder brief (4eff2d63)  ·  11m11s[0m
+ Scoreboard narrative only · as of 2026-10-10 01:15 MDT · docs/c10_scoreboard.json
+[1m[38;5;231m[48;5;124m ⚠ The text below predates: CORPUS/02 changed; CORPUS/01 changed; CORPUS/03 changed (the program updates it) [0m
+[1m[38;5;231m[48;5;30m WHAT IT MEANS [0m[38;5;30m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+ [1mWe are trying to teach the model made-up names (like a project codename) so it can recall them when a[0m
+ [1mquestion is worded differently. Ordinary facts already work (about 69 of 72); made-up two-word names do not:[0m
+ [1mthe usual method gets about 12 of 72, our best write method about 40, and the goal is 61. Training the same[0m
+ [1msmall part of the model reaches 70 of 72, so that part is big enough, but only with side effects. ASTRA,[0m
+ [1mwhich writes every word of the answer at once, got 14 of 72 against 12 and did not fit its targets, so it is[0m
+ [1mclosed. The offline math lab could not predict real results well enough and was stopped. Now: a check of the[0m
+ [1mmath behind earlier writes (NEW-1) and the step-7 setup.[0m
+[1m[38;5;231m[48;5;24m SCOREBOARD RESULTS · dated narrative (newest first) [0m[38;5;24m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+ [38;5;245m10-10[0m [38;5;39m█[38;5;39m█[38;5;39m█[38;5;39m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[38;5;238m░[0m [1m[38;5;39m14 of 72 (vs 12)          [0m ASTRA: write every word of the answer at once — No: two…
+ [38;5;245m10-09[0m [38;5;240m··················[0m [1m[38;5;196mcalibration failed        [0m Math lab: predict a write's result offline — Stopped: i…
+ [38;5;245m10-08[0m [38;5;39m█[38;5;39m█[38;5;39m█[38;5;39m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[38;5;238m░[0m [1m[38;5;39m17 of 72 (vs 12)          [0m Step 6: two ways to prepare the answer before writing i…
+ [38;5;245m10-08[0m [38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[0m [1m[38;5;244m70 of 72 (two runs: 70 an…[0m Step 5: ceiling test, official reading (training, not a…
+ [38;5;245m10-08[0m [38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[0m [1m[38;5;244m71 and 70 of 72 (no offic…[0m Step 5: ceiling test, repeat run (training, not a write…
+ [38;5;245m10-07[0m [38;5;39m█[38;5;39m█[38;5;39m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[38;5;238m░[0m [1m[38;5;39m12 of 72 (vs 11)          [0m Step 4: let each fact pick its own depth — No: one more…
+ [38;5;245m10-07[0m [38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[0m [1m[38;5;244m70 of 72 (interim, one se…[0m Step 5: ceiling test, first round (training, not a writ…
+ [38;5;245m10-07[0m [38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[38;5;238m░[0m [1m[38;5;244m46, 37, 40 of 72 (vs 14)  [0m Step 3: new vocabulary word per name (repeat) — No clea…
+ [38;5;245m10-07[0m [38;5;39m█[38;5;39m█[38;5;39m█[38;5;39m█[38;5;39m█[38;5;39m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[38;5;238m░[0m [1m[38;5;39m23 of 72 (vs 15)          [0m Step 2: second address inside the name — Small gain wit…

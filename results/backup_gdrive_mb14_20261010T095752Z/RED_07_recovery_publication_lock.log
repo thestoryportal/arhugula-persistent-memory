@@ -1,0 +1,16 @@
+COMMAND: ['/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python', '-B', '-m', 'unittest', 'tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_4_null_evidence_publication_waits_for_recovery_counter_lock', '-v']
+EXIT: 1
+test_4_null_evidence_publication_waits_for_recovery_counter_lock (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_4_null_evidence_publication_waits_for_recovery_counter_lock) ... FAIL
+
+======================================================================
+FAIL: test_4_null_evidence_publication_waits_for_recovery_counter_lock (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_4_null_evidence_publication_waits_for_recovery_counter_lock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1337, in test_4_null_evidence_publication_waits_for_recovery_counter_lock
+    self.assertIsNone(proc.poll(), "null-generation evidence must serialize with recovery")
+AssertionError: 0 is not None : null-generation evidence must serialize with recovery
+
+----------------------------------------------------------------------
+Ran 1 test in 0.198s
+
+FAILED (failures=1)

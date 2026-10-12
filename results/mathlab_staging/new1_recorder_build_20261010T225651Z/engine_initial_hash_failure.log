@@ -1,0 +1,12 @@
+Command: git ls-files -z memit_dry_run/memit | /usr/bin/xargs -0 /usr/bin/shasum -a 256
+Exit: 1 (shell cell)
+shasum: memit_dry_run/memit/notebooks/baselines: Is a directory
+shasum: memit_dry_run/memit/notebooks/data: No such file or directory
+shasum: memit_dry_run/memit/notebooks/dsets: Is a directory
+shasum: memit_dry_run/memit/notebooks/experiments: Is a directory
+shasum: memit_dry_run/memit/notebooks/hparams: Is a directory
+shasum: memit_dry_run/memit/notebooks/memit: Is a directory
+shasum: memit_dry_run/memit/notebooks/rome: Is a directory
+shasum: memit_dry_run/memit/notebooks/util: Is a directory
+shasum: memit_dry_run/memit/notebooks/vis/experiments: Is a directory
+shasum: memit_dry_run/memit/notebooks/vis/util: Is a directory

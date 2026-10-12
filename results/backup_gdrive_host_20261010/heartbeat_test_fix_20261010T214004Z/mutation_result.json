@@ -1,0 +1,56 @@
+{
+  "controller_pid": 27034,
+  "result": {
+    "alive": [],
+    "errors": 0,
+    "failures": 1,
+    "skipped": 0,
+    "success": false,
+    "testsRun": 1
+  },
+  "assertion": {
+    "changed_fields": {
+      "bytes_transferred": {
+        "after": 0,
+        "before": null
+      },
+      "end": {
+        "after": "2026-10-10T21:41:58.865335+00:00",
+        "before": null
+      },
+      "exit_code": {
+        "after": 75,
+        "before": null
+      },
+      "log_path": {
+        "after": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/mutation/arm_iii/run_01/fixtures/gdrive_addendum_o17af9oc/heartbeat/runs/20261010T214158Z-27066.jsonl",
+        "before": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/heartbeat_test_fix_20261010T214004Z/mutation/arm_iii/run_01/fixtures/gdrive_addendum_o17af9oc/heartbeat/runs/20261010T214158Z-27036.jsonl"
+      },
+      "owner_pid": {
+        "after": 27066,
+        "before": 27036
+      },
+      "rclone_pid": {
+        "after": null,
+        "before": 27054
+      },
+      "rclone_version": {
+        "after": null,
+        "before": "rclone-test"
+      },
+      "run_id": {
+        "after": "20261010T214158Z-27066",
+        "before": "20261010T214158Z-27036"
+      },
+      "wrapper_log_offset": {
+        "after": 1510,
+        "before": 1085
+      }
+    },
+    "owner_pid": 27066,
+    "rclone_pid": 27054,
+    "refusals": [],
+    "same_bytes": false
+  },
+  "expected_assertion": "a non-owner cannot publish over the active owner"
+}

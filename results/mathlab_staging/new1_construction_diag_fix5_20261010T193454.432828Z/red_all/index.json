@@ -1,0 +1,614 @@
+[
+  {
+    "index": 1,
+    "targets": [
+      "tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_sigalrm_refuses_before_file_work"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_sigalrm_refuses_before_file_work -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.14496212522499263,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/001.log",
+    "log_sha256": "024f9d4482edc050293ab00889053af98fc9a793b9d446afbfef8785d3fd01bd",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 2,
+    "targets": [
+      "tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_sigint_refuses_before_file_work"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_sigint_refuses_before_file_work -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.14620504202321172,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/002.log",
+    "log_sha256": "03ae1f3cf18aebde48430c1ed8ebae7016b99c5eef8eb57b91662ececb7f861d",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 3,
+    "targets": [
+      "tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_both_refuses_before_file_work"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_both_refuses_before_file_work -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.14717837516218424,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/003.log",
+    "log_sha256": "4a418ae68cf069c730c675f09cc6c121370593989824f63ee31c045e8534da41",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 4,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.12165070814080536,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/004.log",
+    "log_sha256": "824a5d0b225dfd9711ed53116cbefeff088cf699e7856f2035c398fab28bd0f0",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 5,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_restores_unrelated_block"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_restores_unrelated_block -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.11063675000332296,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/005.log",
+    "log_sha256": "f8bb00726aeff21bd8a816bdfed20b60958879ff9e0187c6c809d42b015a60cc",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 6,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.11339820781722665,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/006.log",
+    "log_sha256": "5474e866a0508bd3f826794c7c34789baa69ddf51bc708ad30b374379b24b181",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 7,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.11822233302518725,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/007.log",
+    "log_sha256": "115b756a7be8adbc9a924edc49c652aacc8b2805b0473884acc6bb248f62a0d6",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 8,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_restore_restores_caller_mask"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_restore_restores_caller_mask -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.22752116597257555,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/008.log",
+    "log_sha256": "585d121442642de99eca5a8e6a8a9d09a92f6203988f29669c9434fa593016b2",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 9,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_owned_start_restores_mask_after_mutation"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_owned_start_restores_mask_after_mutation -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.119774250080809,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/009.log",
+    "log_sha256": "055514b2f9601d55f3718584a04c21067cce23ce46a12abe119d2eceb3e051f3",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 10,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_owned_step_restores_mask_after_mutation"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_owned_step_restores_mask_after_mutation -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.118582250084728,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/010.log",
+    "log_sha256": "2763f648e1b2e896f5fd7c3869f5bbb2f515e0682f4f4c7cfe898b0f8c4c0ed1",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 11,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_owned_close_fd_restores_mask_after_mutation"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_owned_close_fd_restores_mask_after_mutation -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.120332624996081,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/011.log",
+    "log_sha256": "9c412c310cbe6c390b49266296667128de154746b59b5f2a7a32aee540b65a8c",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 12,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.11662087519653141,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/012.log",
+    "log_sha256": "e9ffc755c7994c709a105686a4aeea2f0c3c76b70b3877f0ed1078bbd559cb78",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 13,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigint_refuses_without_consuming_pending"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigint_refuses_without_consuming_pending -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.12334512500092387,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/013.log",
+    "log_sha256": "299ff3bebd0f5a8296abe1316119cdfc59ebeb5b8538f1e47e44843de59a3cca",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 14,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_both_refuses_without_consuming_pending"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_both_refuses_without_consuming_pending -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.11767445807345212,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/014.log",
+    "log_sha256": "b914ea40c4d571b91cf3896d6c87aec290edd02a395da235a3da8c9196e1aff9",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 15,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_identity_main_sigalrm_refuses_before_file_work"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_identity_main_sigalrm_refuses_before_file_work -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.11954524996690452,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/015.log",
+    "log_sha256": "956b8f6844cf1e4780406fa5a5235bfcb415e9c0d840f48025ac080f00baf7b4",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 16,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_identity_main_sigint_refuses_before_file_work"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_identity_main_sigint_refuses_before_file_work -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.12064879108220339,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/016.log",
+    "log_sha256": "d35ce63721616463a0edd7ca481b064a0bdbd3a1016ddea6a039ac1527d13081",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  },
+  {
+    "index": 17,
+    "targets": [
+      "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_identity_main_both_refuses_before_file_work"
+    ],
+    "command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_identity_main_both_refuses_before_file_work -v",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "NEW1_FIX4_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all",
+      "NEW1_FIX5_RECEIPTS": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all"
+    },
+    "exit": 1,
+    "timeout": false,
+    "wall_s": 0.12035312503576279,
+    "tests": 1,
+    "warnings": false,
+    "ignored_exception": false,
+    "completed": true,
+    "ok": false,
+    "log": "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/red_all/017.log",
+    "log_sha256": "c8fe8529c04469228009e1aba0e6e52e1fb4f782e2fde02d660c26fc50884c12",
+    "source_sha256": {
+      "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+      "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+      "tests/test_new1_construction_diag.py": "471b06f4900d0a5399d426bb61cba506e41a73e20ecdf036429f4067afaefd21",
+      "tests/test_new1_identity_diag.py": "69f22847fd3eb14f092d87de95f8b77575c7b445ccc5eb5209fc5703ebdf2999",
+      "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inventory.json": "f257c10b8eb86df14f1bdcb4eeb03d614323206a6fbe8694ae5cb16e65a680ea",
+      "results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py": "1b1677924562d580661ba8244af5d50ae2eb692ee1a0ef38b65c1e485a32be75"
+    }
+  }
+]

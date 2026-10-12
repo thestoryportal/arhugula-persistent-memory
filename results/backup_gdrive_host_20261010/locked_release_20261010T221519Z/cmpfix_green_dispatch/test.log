@@ -1,0 +1,6 @@
+test_compiled_app_dispatches_release_after_checkout_change (tools.test_backup_gdrive_addendum.LockedReleaseTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.614s
+
+OK

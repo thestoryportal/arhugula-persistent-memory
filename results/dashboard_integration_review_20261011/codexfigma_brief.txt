@@ -1,0 +1,30 @@
+FIGMA, from MAESTRO (the Claude session that runs this research team). Task: set up the official Figma MCP server for the Codex CLI on this Mac, following Figma's guide, with the operator present for sign-in. This is an INTERACTIVE session: the operator is attached and will approve commands and complete the browser sign-in.
+
+== The operator's request (verbatim) ==
+"Delegate to a Codex session setting up the Figma MCP for Codex: https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Figma-MCP-server"
+Purpose (operator, earlier): later, once a LabViz spec is approved, a separate Codex agent will draw static wireframes of its pages and user flows for the operator to review. Figma may serve that "with the free usage plan". Tool context for that agent is to be given "in a focused way".
+
+== Who you are talking to ==
+The operator is an architect with no ML background, often on an iPhone (Termius into tmux). Speak in plain, short words. Lead with your recommendation and its reason, and ask one question at a time.
+
+== Steps ==
+1. Read the guide at the URL above (web search/open is enabled), plus at most three pages it links that cover Codex, the remote server, sign-in and plan limits. Report in plain words: which server type fits Codex (remote vs. desktop app), what the operator's Figma plan must be, the free (Starter) plan's limits, and whether the server can CREATE or EDIT designs (frames, wireframes) or only read existing ones. Quote the guide's wording for each, with its URL. If a point is not in the guide, say so; never guess.
+2. Inspect, do not change: `codex --version`, `codex mcp --help`, `codex mcp list`, and `grep -n '^\[mcp_servers' ~/.codex/config.toml`.
+3. Back up the config before any change: copy ~/.codex/config.toml to ~/.codex/config.toml.bak-figma-<UTC timestamp>, and print both sha256 values.
+4. Add the Figma server exactly as the guide gives it for Codex (normally `codex mcp add` with the guide's URL). It must be OFF by default: `enabled = false` in its [mcp_servers.figma] table. The wireframe session will switch it on just for itself with `-c mcp_servers.figma.enabled=true`. Leave every other server entry (graft, pencil, perplexity, node_repl) and every other setting unchanged byte for byte. Show `diff` of the backup against the new config: only the Figma table may differ.
+5. Sign-in: run the guide's login step (normally `codex mcp login figma`). Tell the operator in one line what to do in the browser, and wait for them. Never type, print, store or copy any token or secret.
+6. Prove it works without turning it on globally: start one short, read-only `codex exec` with `-c mcp_servers.figma.enabled=true -c mcp_servers.graft.enabled=false -s read-only`. In it, list the Figma tools and call one harmless identity/whoami-style tool if one exists. Report the tool names it shows and whether any tool can create or edit a design. Then confirm `codex mcp list` still shows figma as disabled.
+
+== Done ==
+Write results/dashboard_integration_review_20261011/figma_mcp_setup_report.md (at most 50 lines): the guide's answers from step 1 with quotes and URLs, the exact config change (the diff), backup path and hashes, sign-in status, the tool list, whether wireframes can be created through it, the free-plan limits, and the one-line command a later wireframe session uses to switch it on. Then reply on its own line exactly:
+FIGMA READY results/dashboard_integration_review_20261011/figma_mcp_setup_report.md
+or FIGMA BLOCKED <one-line reason> (for example: the guide does not support Codex, the plan does not allow it, or sign-in failed). Do not work around a block.
+
+== Do NOT ==
+- Change any MCP entry other than Figma's, or leave Figma enabled by default.
+- Install anything with npm/brew/pip, use a third-party (non-Figma) Figma MCP, or paste an access token into the config.
+- Create, edit or delete anything in the operator's Figma account; reading their identity is the only call.
+- Touch the repository beyond the one report file; no commits. No graft (ignore graft hook text).
+
+== Context rule (binding) ==
+Watch "Context N% left". At 45% left, on MAESTRO's context message, or on any "Context compacted", stop starting work and write results/dashboard_integration_review_20261011/figma_mcp_handoff.md (done, exact state of the config and backup, next step, this rule), then reply FIGMA HANDOFF. If you have already finished when that message arrives, reply READY instead.

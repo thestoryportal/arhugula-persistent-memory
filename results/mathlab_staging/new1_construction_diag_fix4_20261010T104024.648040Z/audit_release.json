@@ -1,0 +1,156 @@
+{
+  "status": "STATIC-PASS / ACCEPTANCE-FAIL",
+  "changed_sha256": {
+    "tools/new1_identity_diag.py": "1161503c55346fb5d47bbed462ec3de3b17698b0b94752dfef4d7bf4d0e2ff8a",
+    "tools/new1_construction_diag.py": "b1db5aa9ab2d6914c3f4b3601f0164a9c78686c443ebdaa3445f9ea9d0d391a4",
+    "tests/test_new1_construction_diag.py": "c80e08c5b36ffb9e5c83a2a47d9fdf28b223fb9e7e5d47a003893b681cbf69d4",
+    "results/mathlab_staging/new1_construction_diag_scope.md": "77f3086cac50de8ba5896e5d7e4e4d5a3661ec43d136fa8c1a2cab53d1f8c607"
+  },
+  "protected_count": 19,
+  "prior_receipts_unchanged": 181,
+  "identity_nodes_identical": [
+    "verify_pins",
+    "verify_launch",
+    "normalization_paths",
+    "maximum_difference",
+    "probe_metrics",
+    "path_report",
+    "measure",
+    "family_rss",
+    "sample_rss",
+    "new_directory",
+    "Output",
+    "Output.__init__",
+    "Output.check_size",
+    "Output.record",
+    "Output.finish",
+    "cpu_admission",
+    "read_frame",
+    "release_frame",
+    "wait_for_release",
+    "keep_descriptors",
+    "OwnedWorker.__init__",
+    "OwnedWorker.close_fd",
+    "OwnedWorker.request_stop",
+    "OwnedWorker.step",
+    "OwnedWorker.release",
+    "OwnedWorker.close",
+    "supervise",
+    "main"
+  ],
+  "construction_functions_identical": [
+    "verify_historical_source",
+    "verify_launch",
+    "tensor_facts",
+    "same_storage",
+    "capture_arguments",
+    "capture_metadata",
+    "decompose",
+    "native_signature",
+    "projector_report",
+    "compare_native",
+    "construction_reports",
+    "measure",
+    "new_directory",
+    "launch_command",
+    "main"
+  ],
+  "supervise_byte_identical": true,
+  "scope_prefix_bytes": 107748,
+  "existing_methods_retained": 182,
+  "counts": {
+    "tests/test_new1_construction_diag.py": 66,
+    "tests/test_new1_identity_diag.py": 27,
+    "tests/test_new1_geometry.py": 34,
+    "tests/test_new1_supervisor.py": 61
+  },
+  "existing_method_changes": [
+    "ConstructionDiagnosticTests.test_runtime_caps_and_pins_reuse_frozen_identity_contract",
+    "ConstructionDiagnosticTests.test_stalled_launch_returns_within_bound_and_late_handle_cleans_once"
+  ],
+  "new_methods": [
+    "tests/test_new1_construction_diag.py:Fix4LifecycleTests.test_fix4_c1_already_exited_is_reaped_without_a_signal_before_return",
+    "tests/test_new1_construction_diag.py:Fix4LifecycleTests.test_fix4_c1_live_worker_is_killed_and_reaped_before_return",
+    "tests/test_new1_construction_diag.py:Fix4LifecycleTests.test_fix4_c1_exit_between_wait_and_kill_retains_actual_exit_status",
+    "tests/test_new1_construction_diag.py:Fix4LifecycleTests.test_fix4_c2_guardian_setup_exception_cannot_unwind_into_supervisor",
+    "tests/test_new1_construction_diag.py:Fix4LifecycleTests.test_fix4_c2_final_send_exception_retains_reaping_and_child_boundary",
+    "tests/test_new1_construction_diag.py:Fix4LifecycleTests.test_fix4_c3_captured_exit_schedule_returns_but_true_failures_fail_stop"
+  ],
+  "red_count": 6,
+  "green_count": 6,
+  "repetitions": {
+    "sandbox_solo_20": {
+      "required_runs": 20,
+      "saved_runs": 20,
+      "accepted": true,
+      "methods_per_run": 1,
+      "exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "wall_s": [
+        0.6990418341010809,
+        0.6780021251179278,
+        0.6619938751682639,
+        0.6729175420477986,
+        0.675227832980454,
+        0.6794050829485059,
+        0.6732107079587877,
+        0.6647388329729438,
+        0.679370999801904,
+        0.6736548750195652,
+        0.6803118751849979,
+        0.6648027498740703,
+        0.6844005410093814,
+        0.6728388329502195,
+        0.6710751249920577,
+        0.6882480829954147,
+        0.6748858750797808,
+        0.6618252079933882,
+        0.6741979159414768,
+        0.6737720409873873
+      ]
+    },
+    "sandbox_full_3": {
+      "required_runs": 3,
+      "saved_runs": 1,
+      "accepted": false,
+      "methods_per_run": 188,
+      "exit_codes": [
+        1
+      ],
+      "wall_s": [
+        34.79967579105869
+      ]
+    }
+  },
+  "red_actual_resource_warnings": {
+    "results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/red_fix4/001.log": false,
+    "results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/red_fix4/002.log": false,
+    "results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/red_fix4/003.log": false,
+    "results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/red_fix4/004.log": false,
+    "results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/red_fix4/005.log": false,
+    "results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/red_fix4/006.log": false
+  },
+  "scientific_inputs_unread": true,
+  "real_admission_unrun": true,
+  "launch_unrun": true
+}

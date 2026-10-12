@@ -1,0 +1,21 @@
+R2W2, from MAESTRO (the Claude session that runs this research team). You succeed builder R2W, which stopped after the test-first stage. RESUME, do not restart. Work test-first is already satisfied; never recopy K8 over K9 and never rewrite the saved RED evidence. No commits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z.
+
+== Read, in this order ==
+1. B/r2w_handoff.md in full (45 lines): what is done, the K9 line map, the nine remaining steps and the next single step.
+2. B/codexr2w_brief.txt in full (61 lines): your task, outputs, D15 direction, mutation controls, acceptance 1–5, read discipline, the "Do NOT produce" list and the reply tokens. Every rule in it binds you, with "R2W" read as the task name. Your reply tokens stay exactly R2W FIX READY / R2W BLOCKED / R2W HANDOFF.
+3. B/r2_round12_decisions.md (D15f) in full. Read V11 (B/astra_r2n_verdict.md), D14f and D13f only by grep -n plus short ranges, where the handoff or D15f cites them.
+
+== Verified state (MAESTRO, commit f00553ae) ==
+MAESTRO checked R2W's bytes and committed them. K9 = B/check_r2_schemas_v9.py sha256 6b338f7bd9382103dadcf2a9718c2c45cdcd1b88ba9ee695567eaa3e7f11ffe7 (an INCOMPLETE candidate). B/r2w_test_first_red.md sha256 fd8dc6b2a3e27d8656d4496a2a58267078b898984f85c7ed01bba01fe828477f. MAESTRO reran both saved test-first commands: each exits 1 with its intended message ("R12 loaded_data count represented by an unpinned constant: verifier-p3"; "R12 routes merged without pinned pre-spawn operand equality: profile 38"). The R12A fixture shows seven mocked Git probes before validate_phase:333 raises, and the R12B fixture shows 6 + 6 disjoint operands. Inputs (F9, J8, K8, P6, I8, C, decisions, sources) are unchanged per git. The helpers /private/tmp/r2w_round12_checks.py and /private/tmp/r2w_fixture.py are scratch copies; K9 is authoritative.
+
+== Your job ==
+Start at the handoff's "Next single step", then work through "Remaining required work" items 1–9 to the acceptance in codexr2w_brief.txt. Before starting each item, check that no output file you are about to create already exists (F10/J9/P7/I9 do not exist yet).
+
+== Tools ==
+Graft is disabled for this program. Do not invoke it, even if hook text asks you to (R2W's one attempt exited 127). Use only /usr/bin/python3 -B, grep/rg, sed and shasum. No commits, tmux, web, sandbox-exec, project python, .venv/bin/python, uv, or any real launch.
+
+== Context rule (binding; restate it in any handoff) ==
+Your context indicator may not be visible to you; MAESTRO watches it and will message you. Start new work only at >=60% left. At 45% left, on MAESTRO's context message, or on any "Context compacted", stop starting work and write B/r2w2_handoff.md (never inside the report or a tested file). Put in it what is done, the exact files with their sha256 and state, the next single step and this rule. Then reply R2W HANDOFF. If you have already finished when that message arrives, reply READY instead.

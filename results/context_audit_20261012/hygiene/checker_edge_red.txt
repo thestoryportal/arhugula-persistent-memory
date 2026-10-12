@@ -1,0 +1,76 @@
+test_body_code_link_fail (__main__.CheckLaneTests) ... ok
+test_cap_fail_bytes (__main__.CheckLaneTests) ... ok
+test_cap_pass_boundary (__main__.CheckLaneTests) ... ok
+test_deleted_private_seed_fail (__main__.CheckLaneTests) ... FAIL
+test_dispatch_fail_mutated_base (__main__.CheckLaneTests) ... ok
+test_dispatch_pass_frozen (__main__.CheckLaneTests) ... ok
+test_duplicate_metadata_fail (__main__.CheckLaneTests) ... FAIL
+test_flat_metadata_is_not_mapping (__main__.CheckLaneTests) ... ok
+test_frontmatter_empty_fail (__main__.CheckLaneTests) ... ok
+test_frontmatter_fail (__main__.CheckLaneTests) ... ok
+test_frontmatter_pass (__main__.CheckLaneTests) ... ok
+test_host_cap_fail (__main__.CheckLaneTests) ... ok
+test_host_fail_extra_stage (__main__.CheckLaneTests) ... ok
+test_host_fail_frontmatter (__main__.CheckLaneTests) ... ok
+test_host_links_do_not_use_live_home (__main__.CheckLaneTests) ... ok
+test_host_pass (__main__.CheckLaneTests) ... ok
+test_missing_base_fails_closed (__main__.CheckLaneTests) ... ok
+test_parenthesized_relative_fail (__main__.CheckLaneTests) ... ok
+test_private_immutable_seed_pass (__main__.CheckLaneTests) ... ok
+test_private_seed_mutation_fail (__main__.CheckLaneTests) ... ok
+test_python_comment_link_fail (__main__.CheckLaneTests) ... ok
+test_python_fixture_string_is_not_body_link (__main__.CheckLaneTests) ... ok
+test_quoted_flow_metadata_pass (__main__.CheckLaneTests) ... FAIL
+test_reference_link_fail (__main__.CheckLaneTests) ... ok
+test_relative_basename_cannot_use_wiki_fallback (__main__.CheckLaneTests) ... ok
+test_relative_fail (__main__.CheckLaneTests) ... ok
+test_relative_pass (__main__.CheckLaneTests) ... ok
+test_required_dispatch_missing_fail (__main__.CheckLaneTests) ... ok
+test_scope_fail_committed_since_base (__main__.CheckLaneTests) ... ok
+test_scope_fail_untracked (__main__.CheckLaneTests) ... ok
+test_scope_pass (__main__.CheckLaneTests) ... ok
+test_symlink_escape_fail (__main__.CheckLaneTests) ... ok
+test_wiki_fail (__main__.CheckLaneTests) ... ok
+test_wiki_pass (__main__.CheckLaneTests) ... ok
+test_yaml_empty_block_scalar_fail (__main__.CheckLaneTests) ... ok
+test_yaml_nonempty_block_scalar_pass (__main__.CheckLaneTests) ... ok
+
+======================================================================
+FAIL: test_deleted_private_seed_fail (__main__.CheckLaneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 265, in test_deleted_private_seed_fail
+    self.assert_failure("BASE")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 76, in assert_failure
+    self.assertTrue(any(marker in line for line in failures), failures)
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_duplicate_metadata_fail (__main__.CheckLaneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 256, in test_duplicate_metadata_fail
+    self.assert_failure("FRONTMATTER")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 76, in assert_failure
+    self.assertTrue(any(marker in line for line in failures), failures)
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_quoted_flow_metadata_pass (__main__.CheckLaneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/context_audit_20261012/hygiene/test_check_lane.py", line 269, in test_quoted_flow_metadata_pass
+    self.assertEqual([], self.run_check())
+AssertionError: Lists differ: [] != ['FRONTMATTER missing name/description/metadata.type: memory_mirror/note.md']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'FRONTMATTER missing name/description/metadata.type: memory_mirror/note.md'
+
+- []
++ ['FRONTMATTER missing name/description/metadata.type: memory_mirror/note.md']
+
+----------------------------------------------------------------------
+Ran 36 tests in 2.059s
+
+FAILED (failures=3)

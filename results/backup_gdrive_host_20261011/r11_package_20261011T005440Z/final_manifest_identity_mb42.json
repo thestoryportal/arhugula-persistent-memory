@@ -1,0 +1,44 @@
+{
+  "result": "PASS",
+  "manifest": {
+    "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/final_sha256_mb42.txt",
+    "sha256": "6a5ae9aab8adefb917fc70d8a6c72ef423438b3778e4807947afa04e4b3b68c8",
+    "entries": 385,
+    "all_OK": true
+  },
+  "change_manifest": {
+    "path": "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/change_manifest_mb42.json",
+    "sha256": "56be3cc538a97f5856f8dd82993769870577506d492092ed0a910cfc35341bec"
+  },
+  "final_verification_receipt": {
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb42_final_manifest_green/command.json": "0c43ba18842f846702be156be7cfe81a91c82032545ae0af118e51a713fc4c57",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb42_final_manifest_green/exit_code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb42_final_manifest_green/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/commands/mb42_final_manifest_green/stdout.txt": "465761a0dd1eb0c507ebbcc0cd16da966df15ca2132093fa46549cecc7e78ca6"
+  },
+  "README_sha256": "58631e4861858f9cf5e94ce9f811677e087c1174c4e99b5739c70d4015347fa2",
+  "pins_v2_json_sha256": "7cd3f4f9ace315b85eee89ba40482f0e0cc37efef8c866cf6d6100e72c72284e",
+  "pins_v2_sha256_sha256": "80dbfa2a363fa800e365e289464e9d419c79edc408c35a06ab4916ff04c4079d",
+  "host_commands_md_sha256": "345056a88cf0632cf8f0830761e942089b1ea8ac85d38160442a62aef932901b",
+  "protected_unchanged": 11,
+  "fresh_sandbox_RED": {
+    "run": 1,
+    "failures": 1,
+    "errors": 0
+  },
+  "fresh_sandbox_GREEN": {
+    "run": 2,
+    "pass": 2,
+    "skips": 0,
+    "failures": 0,
+    "errors": 0
+  },
+  "inherited_sandbox_GREEN": {
+    "addendum_run": 151,
+    "pass": 137,
+    "skips": 14,
+    "package_pass": 39
+  },
+  "host_native_acceptance": "UNRUN",
+  "exclusions": "derived manifests and final-manifest-check receipt hashed here to avoid circularity"
+}

@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "niceness": 10,
+  "env": {
+    "HOME": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/package_red/home",
+    "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "BACKUP_TEST_NO_RCLONE": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "source_sha256": {
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/test_package.py": "f81890326674337d198d4a3ff90e489a07d8d284ece9ef7123a2b91b36377d3b",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/check_plan.py": "d392677edd1dd6e7caa3b76d78c84187b8512775b11b8081091b438a15008563",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/verify_check.py": "772123f9226a8a55a84e6e348208d6edb5e10cd557250f0c3cac3ae76dfda619"
+  }
+}

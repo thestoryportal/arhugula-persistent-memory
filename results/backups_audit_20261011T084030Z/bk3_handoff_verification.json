@@ -1,0 +1,9 @@
+{
+  "written_utc": "2026-10-11T09:28:40.626503+00:00",
+  "progress_prior_bytes": 36665,
+  "progress_prior_sha256": "be378b364692af0cbdf8f33119d612655c8a9dcbddd65a5e11d97f07bd2a8aa6",
+  "progress_prefix_preserved": true,
+  "head": "15050457f771895136dceca743dd0e9e436e04ac",
+  "audit_report_exists": false,
+  "status": "BK3 HANDOFF; semantic gap/report work unfinished"
+}

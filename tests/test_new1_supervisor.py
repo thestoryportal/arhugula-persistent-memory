@@ -12,6 +12,7 @@ import sys
 import tempfile
 import time
 import unittest
+from types import SimpleNamespace
 from unittest import mock
 
 from tools.mathlab_events import read_events, fold
@@ -693,7 +694,7 @@ send({'type':'complete','path':'geometry.json'})
         process=mock.Mock(pid=123,returncode=0); process.poll.side_effect=[None,None,None,0]
         selector=mock.MagicMock(); selector.__enter__.return_value.select.return_value=[(None,None)]
         with mock.patch.object(self.S.socket,'socketpair',return_value=(parent,child)),\
-             mock.patch.object(self.S.subprocess,'Popen',return_value=process),\
+             mock.patch.object(self.S.subprocess,'Popen',self.popen_factory(process)),\
              mock.patch.object(self.S.selectors,'DefaultSelector',return_value=selector),\
              mock.patch.object(self.S.os,'killpg'):
             return self.S.supervise(['fixture-only'],self.run,admission=lambda:{'allowed':True,'reasons':[]},
@@ -902,7 +903,7 @@ send({'type':'complete','path':'geometry.json'})
         process.poll.side_effect=[None,None,None,0]
         selector=mock.MagicMock(); selector.__enter__.return_value.select.return_value=[(None,None)]
         with mock.patch.object(self.S.socket,'socketpair',return_value=(parent,child)),\
-             mock.patch.object(self.S.subprocess,'Popen',return_value=process),\
+             mock.patch.object(self.S.subprocess,'Popen',self.popen_factory(process)),\
              mock.patch.object(self.S.selectors,'DefaultSelector',return_value=selector),\
              mock.patch.object(self.S.os,'killpg') as kill:
             outcome=self.S.supervise(['fixture-only'],self.run,admission=lambda:{'allowed':True,'reasons':[]},
@@ -910,6 +911,770 @@ send({'type':'complete','path':'geometry.json'})
         self.assertEqual(outcome,'PASS')
         kill.assert_called_once_with(123,signal.SIGKILL)
         process.wait.assert_called_once()
+
+    def popen_factory(self,process):
+        class FakePopen:
+            def __new__(cls,*args,**kwargs): return process
+            def __init__(handle,*args,**kwargs): pass
+        return FakePopen
+
+    @contextlib.contextmanager
+    def reap_fixture(self):
+        parent=mock.Mock(); child=mock.Mock(); child.fileno.return_value=99
+        process=mock.Mock(pid=123,returncode=None)
+        process.poll.return_value=None; process.wait.return_value=0
+        selector=mock.MagicMock(); selected=selector.__enter__.return_value
+        controller=self.S.Controller(self.run,clock=self.clock,sleep=self.clock.sleep,
+            monitor=lambda pid:self.S.Sample(13,0,0))
+        watchdog={}; hard_deadline=self.S.hard_deadline
+        @contextlib.contextmanager
+        def deadline(seconds,**kwargs):
+            if 'heartbeat' in kwargs: watchdog['callback']=kwargs['heartbeat']
+            with hard_deadline(seconds,**kwargs): yield
+        with mock.patch.object(self.S.socket,'socketpair',return_value=(parent,child)),\
+             mock.patch.object(self.S.subprocess,'Popen',self.popen_factory(process)),\
+             mock.patch.object(self.S.selectors,'DefaultSelector',return_value=selector),\
+             mock.patch.object(self.S,'Controller',return_value=controller),\
+             mock.patch.object(self.S,'hard_deadline',side_effect=deadline),\
+             mock.patch.object(self.S.os,'killpg') as kill_group,\
+             mock.patch.object(self.S.os,'kill') as kill_pid:
+            yield SimpleNamespace(process=process,selector=selected,controller=controller,
+                kill_group=kill_group,kill_pid=kill_pid,parent=parent,child=child,
+                heartbeat=lambda:watchdog['callback']())
+
+    def expire_run(self,error):
+        self.clock.now=2700
+        raise error
+
+    def supervise_reap_fixture(self):
+        return self.S.supervise(['fixture-only'],self.run,
+            admission=lambda:{'allowed':True,'reasons':[]})
+
+    def test_reap_after_deadline_exhaustion(self):
+        stderr=io.StringIO()
+        with self.reap_fixture() as f,contextlib.redirect_stderr(stderr):
+            f.selector.select.side_effect=lambda timeout:self.expire_run(
+                self.S.Stop('STOPPED-DEADLINE','fixture run budget exhausted'))
+            outcome=self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+        f.kill_group.assert_called_with(123,signal.SIGKILL)
+        self.assertEqual(outcome,'STOPPED-DEADLINE')
+        events,_=self.state()
+        self.assertFalse(any(e['type']=='halted' for e in events))
+        self.assertIn('closeout incomplete',stderr.getvalue())
+
+    def test_reap_after_cell_deadline_exhaustion(self):
+        with self.reap_fixture() as f:
+            def expire_cell(timeout):
+                f.controller.cell_deadline=300; self.clock.now=300
+                raise self.S.Stop('STOPPED-RESOURCE','fixture cell wait exhausted')
+            f.selector.select.side_effect=expire_cell
+            outcome=self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertEqual(outcome,'STOPPED-RESOURCE')
+
+    def test_reap_after_heartbeat_kill_at_exhausted_deadline(self):
+        with self.reap_fixture() as f:
+            def heartbeat(timeout):
+                self.clock.now=2700
+                f.heartbeat()
+            f.selector.select.side_effect=heartbeat
+            outcome=self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+        f.kill_group.assert_called_with(123,signal.SIGKILL)
+        self.assertEqual(outcome,'STOPPED-DEADLINE')
+
+    def test_reap_when_heartbeat_group_signal_is_denied(self):
+        with self.reap_fixture() as f:
+            f.kill_group.side_effect=PermissionError('fixture group signal denied')
+            def heartbeat(timeout):
+                f.controller.monitor=lambda pid:(_ for _ in ()).throw(
+                    self.S.Stop('STOPPED-RESOURCE','fixture watchdog stop'))
+                f.heartbeat()
+            f.selector.select.side_effect=heartbeat
+            self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+        f.kill_pid.assert_called_with(123,signal.SIGKILL)
+
+    def test_reap_when_exception_group_signal_is_denied(self):
+        with self.reap_fixture() as f:
+            f.kill_group.side_effect=PermissionError('fixture group signal denied')
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+            outcome=self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+        f.kill_pid.assert_called_with(123,signal.SIGKILL)
+        self.assertEqual(outcome,'STOPPED-RESOURCE')
+
+    def test_reap_before_reporting_group_and_pid_signal_failures(self):
+        with self.reap_fixture() as f:
+            class AfterReapStderr(io.StringIO):
+                def write(stream,value):
+                    if value.strip(): f.process.wait.assert_called_once_with(timeout=5)
+                    return super().write(value)
+            f.kill_group.side_effect=PermissionError('fixture group signal denied')
+            f.kill_pid.side_effect=PermissionError('fixture PID signal denied')
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+            with contextlib.redirect_stderr(AfterReapStderr()):
+                outcome=self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertEqual(outcome,'STOPPED-RESOURCE')
+
+    def test_reap_when_loop_termination_group_signal_is_denied(self):
+        with self.reap_fixture() as f:
+            f.process.poll.return_value=0; f.process.returncode=0
+            f.kill_group.side_effect=PermissionError('fixture group signal denied')
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop after leader exit')
+            self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+        f.kill_pid.assert_not_called()
+
+    def test_reap_when_termination_wait_timeout_exhausts_budget(self):
+        with self.reap_fixture() as f:
+            f.process.poll.return_value=0
+            attempts=[]
+            def wait(*,timeout):
+                attempts.append(timeout)
+                if len(attempts)==1:
+                    self.clock.now=2700
+                    raise subprocess.TimeoutExpired('fixture-only',timeout)
+                return 0
+            f.process.wait.side_effect=wait
+            outcome=self.supervise_reap_fixture()
+        self.assertEqual(attempts,[5,5])
+        self.assertEqual(outcome,'INVALID-WORKER')
+
+    def test_reap_when_closeout_deadline_setup_raises(self):
+        with self.reap_fixture() as f:
+            deadline=self.S.hard_deadline; calls=[]
+            @contextlib.contextmanager
+            def failing_closeout(seconds,**kwargs):
+                calls.append(seconds)
+                if len(calls)==2:
+                    raise self.S.Stop('INVALID-ENFORCEMENT','fixture closeout alarm refused')
+                with deadline(seconds,**kwargs): yield
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+            with mock.patch.object(self.S,'hard_deadline',side_effect=failing_closeout):
+                outcome=self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertEqual(outcome,'STOPPED-RESOURCE')
+
+    def test_reap_when_halt_receipt_raises(self):
+        receipt=self.S.receipt
+        with self.reap_fixture() as f:
+            def fail_receipt(run_dir,kind,data):
+                if kind=='halt':
+                    f.process.wait.assert_called_once_with(timeout=5)
+                    raise OSError('fixture halt receipt failed')
+                return receipt(run_dir,kind,data)
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+            with mock.patch.object(self.S,'receipt',side_effect=fail_receipt):
+                outcome=self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertEqual(outcome,'STOPPED-RESOURCE')
+
+    def test_reap_when_halt_emit_raises(self):
+        emit=self.S.emit
+        with self.reap_fixture() as f:
+            def fail_emit(run_dir,kind,**data):
+                if kind=='halted':
+                    f.process.wait.assert_called_once_with(timeout=5)
+                    raise OSError('fixture halt emit failed')
+                return emit(run_dir,kind,**data)
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+            with mock.patch.object(self.S,'emit',side_effect=fail_emit):
+                outcome=self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertEqual(outcome,'STOPPED-RESOURCE')
+
+    def test_reap_timeout_reports_unreaped_pid_in_halt_and_stderr(self):
+        stderr=io.StringIO()
+        with self.reap_fixture() as f,contextlib.redirect_stderr(stderr):
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+            f.process.wait.side_effect=subprocess.TimeoutExpired('fixture-only',5)
+            outcome=self.supervise_reap_fixture()
+        self.assertIn('unreaped worker PID 123',stderr.getvalue())
+        events,_=self.state()
+        halted=next(e for e in events if e['type']=='halted')
+        diagnostic=json.loads(Path(halted['diagnostic_path']).read_text())
+        self.assertIn('unreaped worker PID 123',diagnostic['message'])
+        self.assertEqual(outcome,'STOPPED-RESOURCE')
+        f.process.wait.assert_called_once_with(timeout=5)
+
+    def test_reap_timeout_after_exhaustion_names_pid_without_extra_halt_budget(self):
+        stderr=io.StringIO()
+        with self.reap_fixture() as f,contextlib.redirect_stderr(stderr):
+            f.selector.select.side_effect=lambda timeout:self.expire_run(
+                self.S.Stop('STOPPED-DEADLINE','fixture run budget exhausted'))
+            f.process.wait.side_effect=subprocess.TimeoutExpired('fixture-only',5)
+            outcome=self.supervise_reap_fixture()
+        self.assertIn('unreaped worker PID 123',stderr.getvalue())
+        self.assertEqual(outcome,'STOPPED-DEADLINE')
+        events,_=self.state()
+        self.assertFalse(any(e['type']=='halted' for e in events))
+        f.process.wait.assert_called_once_with(timeout=5)
+
+    def test_reap_before_keyboard_interrupt_is_reraised(self):
+        with self.reap_fixture() as f:
+            f.selector.select.side_effect=lambda timeout:self.expire_run(KeyboardInterrupt())
+            with self.assertRaises(KeyboardInterrupt): self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+
+    def test_reap_before_system_exit_is_reraised(self):
+        with self.reap_fixture() as f:
+            f.selector.select.side_effect=lambda timeout:self.expire_run(SystemExit(17))
+            with self.assertRaises(SystemExit) as raised: self.supervise_reap_fixture()
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertEqual(raised.exception.code,17)
+
+    def broken_stderr(self):
+        class BrokenStderr(io.StringIO):
+            def write(stream,value): raise OSError('fixture stderr failed')
+        return BrokenStderr()
+
+    def assert_control_exit(self,expected,invoke=None):
+        caught=None; outcome=None
+        try: outcome=(invoke or self.supervise_reap_fixture)()
+        except BaseException as error: caught=error
+        self.assertIs(caught,expected,f'returned {outcome!r}; raised {caught!r}')
+
+    def constructor_factory(self,f,error=None,before_pid=False):
+        created=[]
+        class FakePopen:
+            def __init__(handle,*args,**kwargs):
+                handle.returncode=None; handle.wait=f.process.wait; handle.poll=f.process.poll
+                created.append(123)
+                if before_pid:
+                    self.clock.now=2700
+                    signal.getsignal(signal.SIGALRM)(signal.SIGALRM,None)
+                handle.pid=123
+                if error is not None: raise error
+        return FakePopen,created
+
+    def test_constructor_interruption_reaps_created_child(self):
+        with self.reap_fixture() as f:
+            factory,created=self.constructor_factory(f,self.S.Stop('STOPPED-RESOURCE','constructor after fork'))
+            with mock.patch.object(self.S.subprocess,'Popen',factory):
+                outcome=self.supervise_reap_fixture()
+        self.assertEqual(created,[123])
+        f.process.wait.assert_called_once_with(timeout=5)
+        f.kill_group.assert_called_with(123,signal.SIGKILL)
+        self.assertEqual(outcome,'STOPPED-RESOURCE')
+
+    def test_constructor_system_exit_reaps_child_and_preserves_exit_value(self):
+        expected=SystemExit(17)
+        with self.reap_fixture() as f:
+            factory,created=self.constructor_factory(f,expected)
+            with mock.patch.object(self.S.subprocess,'Popen',factory):
+                self.assert_control_exit(expected)
+        self.assertEqual(created,[123])
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertEqual(expected.code,17)
+
+    def test_constructor_alarm_before_pid_assignment_is_deferred_until_owned(self):
+        with self.reap_fixture() as f:
+            factory,created=self.constructor_factory(f,before_pid=True)
+            with mock.patch.object(self.S.subprocess,'Popen',factory):
+                outcome=self.supervise_reap_fixture()
+        self.assertEqual(created,[123])
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertEqual(outcome,'STOPPED-DEADLINE')
+
+    def test_system_exit_survives_reap_timeout_and_failing_stderr(self):
+        expected=SystemExit(17)
+        with self.reap_fixture() as f,contextlib.redirect_stderr(self.broken_stderr()):
+            f.selector.select.side_effect=expected
+            f.process.wait.side_effect=subprocess.TimeoutExpired('fixture-only',5)
+            self.assert_control_exit(expected)
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertEqual(expected.code,17)
+        self.assertTrue(any('stderr reporting failed' in n for n in expected.__notes__))
+
+    def test_keyboard_interrupt_survives_signal_failure_and_failing_stderr(self):
+        expected=KeyboardInterrupt()
+        with self.reap_fixture() as f,contextlib.redirect_stderr(self.broken_stderr()):
+            f.selector.select.side_effect=expected
+            f.kill_group.side_effect=PermissionError('fixture group denied')
+            f.kill_pid.side_effect=PermissionError('fixture PID denied')
+            self.assert_control_exit(expected)
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertTrue(any('stderr reporting failed' in n for n in expected.__notes__))
+
+    def test_heartbeat_keyboard_interrupt_survives_double_signal_failure(self):
+        expected=KeyboardInterrupt()
+        with self.reap_fixture() as f:
+            def heartbeat(timeout):
+                with mock.patch.object(f.controller,'observe',side_effect=expected): f.heartbeat()
+            f.selector.select.side_effect=heartbeat
+            f.kill_group.side_effect=PermissionError('fixture group denied')
+            f.kill_pid.side_effect=PermissionError('fixture PID denied')
+            self.assert_control_exit(expected)
+        f.process.wait.assert_called_once_with(timeout=5)
+        f.kill_pid.assert_called_with(123,signal.SIGKILL)
+
+    def test_emergency_wait_keyboard_interrupt_overrides_ordinary_stop_after_reap(self):
+        expected=KeyboardInterrupt()
+        with self.reap_fixture() as f:
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+            f.process.wait.side_effect=[expected,0]
+            self.assert_control_exit(expected)
+        self.assertEqual(f.process.wait.call_count,2)
+        self.assertEqual(f.process.wait.call_args_list[0],mock.call(timeout=5))
+        self.assertGreater(f.process.wait.call_args.kwargs['timeout'],0)
+        self.assertLessEqual(f.process.wait.call_args.kwargs['timeout'],5)
+
+    def test_emergency_wait_system_exit_overrides_ordinary_stop_after_reap(self):
+        expected=SystemExit(23)
+        with self.reap_fixture() as f:
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+            f.process.wait.side_effect=[expected,0]
+            self.assert_control_exit(expected)
+        self.assertEqual(f.process.wait.call_count,2)
+        self.assertEqual(expected.code,23)
+
+    def test_original_control_exception_beats_cleanup_control_after_reap(self):
+        for original,secondary in ((KeyboardInterrupt(),SystemExit(19)),(SystemExit(17),KeyboardInterrupt())):
+            with self.subTest(original=type(original).__name__):
+                self.run=self.root/type(original).__name__; self.run.mkdir()
+                with self.reap_fixture() as f:
+                    f.selector.select.side_effect=original
+                    f.process.wait.side_effect=[secondary,0]
+                    self.assert_control_exit(original)
+                self.assertEqual(f.process.wait.call_count,2)
+
+    def test_cleanup_interrupt_survives_retry_timeout_with_unreaped_pid(self):
+        expected=KeyboardInterrupt(); stderr=io.StringIO()
+        with self.reap_fixture() as f,contextlib.redirect_stderr(stderr):
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+            f.process.wait.side_effect=[expected,subprocess.TimeoutExpired('fixture-only',5)]
+            self.assert_control_exit(expected)
+        self.assertEqual(f.process.wait.call_count,2)
+        self.assertIn('unreaped worker PID 123',stderr.getvalue())
+        events,_=self.state()
+        halted=next(e for e in events if e['type']=='halted')
+        self.assertIn('unreaped worker PID 123',json.loads(Path(halted['diagnostic_path']).read_text())['message'])
+
+    def test_cleanup_interrupts_share_one_five_second_reap_bound(self):
+        expected=KeyboardInterrupt()
+        with self.reap_fixture() as f,mock.patch.object(self.S.time,'monotonic',self.clock):
+            def wait(*,timeout):
+                self.clock.now+=5
+                raise expected
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+            f.process.wait.side_effect=wait
+            self.assert_control_exit(expected)
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertEqual(self.clock.now,5)
+
+    def test_system_exit_survives_halt_receipt_failure_and_failing_stderr(self):
+        expected=SystemExit(17); receipt=self.S.receipt
+        with self.reap_fixture() as f,contextlib.redirect_stderr(self.broken_stderr()):
+            def fail_receipt(run_dir,kind,data):
+                if kind=='halt': raise OSError('fixture halt receipt failed')
+                return receipt(run_dir,kind,data)
+            f.selector.select.side_effect=expected
+            with mock.patch.object(self.S,'receipt',side_effect=fail_receipt): self.assert_control_exit(expected)
+        f.process.wait.assert_called_once_with(timeout=5)
+        self.assertEqual(expected.code,17)
+
+    def test_postcommit_control_exception_survives_failing_stderr(self):
+        for expected in (KeyboardInterrupt(),SystemExit(17)):
+            with self.subTest(original=type(expected).__name__):
+                self.run=self.root/type(expected).__name__; self.run.mkdir()
+                emit=self.S.emit
+                def fail_emit(run_dir,kind,**data):
+                    if kind=='run_finished':
+                        publication=mock.Mock(); publication.committed_outcome.return_value='PASS'
+                        data['before_publish'](publication)
+                        raise expected
+                    return emit(run_dir,kind,**data)
+                with mock.patch.object(self.S,'emit',side_effect=fail_emit),contextlib.redirect_stderr(self.broken_stderr()):
+                    self.assert_control_exit(expected,self.complete_fixture)
+
+    def test_recorded_outcome_survives_failing_postcommit_stderr(self):
+        emit=self.S.emit; original=OSError('fixture postcommit error')
+        def fail_emit(run_dir,kind,**data):
+            if kind=='run_finished':
+                publication=mock.Mock(); publication.committed_outcome.return_value='PASS'
+                data['before_publish'](publication)
+                raise original
+            return emit(run_dir,kind,**data)
+        caught=None; outcome=None
+        with mock.patch.object(self.S,'emit',side_effect=fail_emit),contextlib.redirect_stderr(self.broken_stderr()):
+            try: outcome=self.complete_fixture()
+            except BaseException as error: caught=error
+        self.assertIsNone(caught)
+        self.assertEqual(outcome,'PASS')
+
+    def test_ordinary_error_beats_reap_timeout_with_failing_stderr_and_pid_receipt(self):
+        original=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+        with self.reap_fixture() as f,contextlib.redirect_stderr(self.broken_stderr()):
+            f.selector.select.side_effect=original
+            f.process.wait.side_effect=subprocess.TimeoutExpired('fixture-only',5)
+            outcome=self.supervise_reap_fixture()
+        self.assertEqual(outcome,'STOPPED-RESOURCE')
+        self.assertTrue(any('unreaped worker PID 123' in n for n in original.__notes__))
+        events,_=self.state()
+        halted=next(e for e in events if e['type']=='halted')
+        self.assertIn('unreaped worker PID 123',json.loads(Path(halted['diagnostic_path']).read_text())['message'])
+
+    def test_group_cleanup_after_poll_never_signals_reaped_pid(self):
+        for failure in (PermissionError,ProcessLookupError):
+            with self.subTest(failure=failure.__name__):
+                self.run=self.root/failure.__name__; self.run.mkdir()
+                with self.reap_fixture() as f:
+                    f.process.poll.return_value=0; f.process.returncode=0
+                    f.kill_group.side_effect=failure('fixture group signal failure')
+                    f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture stop')
+                    self.supervise_reap_fixture()
+                f.kill_group.assert_called_with(123,signal.SIGKILL)
+                f.kill_pid.assert_not_called()
+                f.process.wait.assert_called_once_with(timeout=5)
+
+    def test_original_control_survives_socket_close_failure_and_failing_stderr(self):
+        expected=SystemExit(17)
+        with self.reap_fixture() as f,contextlib.redirect_stderr(self.broken_stderr()):
+            f.selector.select.side_effect=expected
+            f.parent.close.side_effect=OSError('fixture socket close failed')
+            self.assert_control_exit(expected)
+        f.process.wait.assert_called_once_with(timeout=5)
+        f.child.close.assert_called()
+
+    def test_interrupted_poll_never_signals_pid_released_before_returncode(self):
+        import sys
+        internal_poll=subprocess.Popen._internal_poll
+        for boundary in ('loop-top','loop-eof','heartbeat'):
+            with self.subTest(boundary=boundary):
+                self.run=self.root/boundary; self.run.mkdir()
+                expected=KeyboardInterrupt(); reaped=[]; interrupted=[]; polls=[]
+                with self.reap_fixture() as f:
+                    f.kill_group.side_effect=PermissionError('fixture group signal denied')
+                    f.process._waitpid_lock.acquire.return_value=True
+                    f.process._handle_exitstatus.side_effect=lambda status:setattr(f.process,'returncode',0)
+                    def waitpid(pid,flags):
+                        self.assertEqual((pid,flags),(123,os.WNOHANG))
+                        reaped.append(pid)
+                        return pid,0
+                    def trace(frame,event,arg):
+                        if (frame.f_code is internal_poll.__code__ and event=='line'
+                                and frame.f_locals.get('pid')==123 and not interrupted):
+                            self.assertEqual(reaped,[123])
+                            interrupted.append(f.process.returncode)
+                            signal.raise_signal(signal.SIGINT)
+                        return trace
+                    def poll():
+                        polls.append(None)
+                        if boundary!='loop-top' and len(polls)==1: return None
+                        return internal_poll(f.process,_waitpid=waitpid)
+                    def wait(*,timeout):
+                        f.process.returncode=0
+                        return 0
+                    f.process.poll.side_effect=poll; f.process.wait.side_effect=wait
+                    if boundary=='heartbeat':
+                        f.selector.select.side_effect=lambda timeout:f.heartbeat()
+                    else:
+                        f.selector.select.return_value=[(None,None)]; f.parent.recv.return_value=b''
+                    previous_handler=signal.getsignal(signal.SIGINT); previous_trace=sys.gettrace()
+                    def interrupt(signum,frame): raise expected
+                    try:
+                        signal.signal(signal.SIGINT,interrupt); sys.settrace(trace)
+                        self.assert_control_exit(expected)
+                    finally:
+                        sys.settrace(previous_trace); signal.signal(signal.SIGINT,previous_handler)
+                self.assertEqual(reaped,[123])
+                self.assertEqual(interrupted,[None],'interrupt must land before returncode is stored')
+                f.process.wait.assert_called_once_with(timeout=5)
+                self.assertEqual(f.kill_pid.call_args_list,[],
+                    'released PID was signalled after successful waitpid and pre-returncode SIGINT')
+
+    def test_heartbeat_cleanup_control_overrides_ordinary_stop_after_one_reap(self):
+        for expected in (KeyboardInterrupt(),SystemExit(23)):
+            with self.subTest(control=type(expected).__name__):
+                self.run=self.root/type(expected).__name__; self.run.mkdir()
+                caught=None; outcome=None
+                with self.reap_fixture() as f:
+                    def heartbeat(timeout):
+                        with mock.patch.object(f.controller,'observe',
+                                side_effect=self.S.Stop('STOPPED-RESOURCE','fixture heartbeat stop')):
+                            f.heartbeat()
+                    f.selector.select.side_effect=heartbeat
+                    f.kill_group.side_effect=PermissionError('fixture group signal denied')
+                    f.kill_pid.side_effect=[expected,None]
+                    try: outcome=self.supervise_reap_fixture()
+                    except BaseException as error: caught=error
+                f.process.wait.assert_called_once_with(timeout=5)
+                self.assertIs(caught,expected,
+                    f'heartbeat cleanup control was swallowed; returned {outcome!r}; raised {caught!r}')
+                if isinstance(expected,SystemExit): self.assertEqual(expected.code,23)
+
+    def test_terminate_preserves_signal_exception_over_ordinary_reap_error(self):
+        for original in (KeyboardInterrupt(),SystemExit(17),PermissionError('fixture PID signal denied')):
+            with self.subTest(original=type(original).__name__):
+                caught=None
+                with self.reap_fixture() as f:
+                    f.kill_group.side_effect=PermissionError('fixture group signal denied')
+                    f.kill_pid.side_effect=original
+                    f.process.wait.side_effect=OSError('fixture wait failed')
+                    try: self.S.terminate(f.process)
+                    except BaseException as error: caught=error
+                f.process.wait.assert_called_once_with(timeout=5)
+                self.assertIs(caught,original,'termination reap replaced the original signal exception')
+                if isinstance(original,SystemExit): self.assertEqual(original.code,17)
+
+    def test_pid_fallback_ownership_check_cannot_be_interrupted_by_watchdog_poll(self):
+        reaped=[]; signalled=[]
+        class Process:
+            pid=123
+            @property
+            def returncode(handle):
+                signal.raise_signal(signal.SIGALRM)
+                return None
+        previous=signal.getsignal(signal.SIGALRM)
+        signal.signal(signal.SIGALRM,lambda signum,frame:reaped.append(123))
+        def kill(pid,signum):
+            self.assertEqual(pid,123)
+            self.assertEqual(reaped,[],'watchdog reaped the PID before fallback signalling')
+            signalled.append(pid)
+        try:
+            with mock.patch.object(self.S.os,'killpg',side_effect=ProcessLookupError('fixture missing group')),\
+                 mock.patch.object(self.S.os,'kill',side_effect=kill):
+                self.S.kill_worker(Process())
+        finally: signal.signal(signal.SIGALRM,previous)
+        self.assertEqual(signalled,[123])
+        self.assertEqual(reaped,[123])
+
+
+    @contextlib.contextmanager
+    def resource_release_fixture(self,f,boundary,error):
+        released=[]; path_open=Path.open
+        class Selector:
+            __exit__=self.S.selectors.BaseSelector.__exit__
+            def __enter__(handle): return f.selector
+            def close(handle):
+                released.append('selector')
+                if boundary=='selector': raise error
+        class Log:
+            def __init__(handle,stream,label): handle.stream=stream; handle.label=label
+            def __enter__(handle): return handle.stream.__enter__()
+            def __exit__(handle,*args): handle.close()
+            def close(handle):
+                released.append(handle.label); handle.stream.close()
+                if boundary==handle.label: raise error
+        def open_log(path,*args,**kwargs):
+            stream=path_open(path,*args,**kwargs)
+            for label in ('stdout','stderr'):
+                if path==self.run/('worker_'+label+'.log'): return Log(stream,label)
+            return stream
+        f.parent.close.side_effect=lambda:released.append('parent')
+        f.child.close.side_effect=lambda:released.append('child')
+        with mock.patch.object(self.S.selectors,'DefaultSelector',return_value=Selector()),\
+             mock.patch.object(Path,'open',open_log):
+            yield released
+
+    @contextlib.contextmanager
+    def interrupted_reap_fixture(self,f,internal_poll,expected):
+        import sys
+        reaped=[]; interrupted=[]
+        f.process._waitpid_lock.acquire.return_value=True
+        f.process._handle_exitstatus.side_effect=lambda status:setattr(f.process,'returncode',0)
+        def waitpid(pid,flags):
+            self.assertEqual((pid,flags),(123,os.WNOHANG)); reaped.append(pid)
+            return pid,0
+        def trace(frame,event,arg):
+            if (frame.f_code is internal_poll.__code__ and event=='line'
+                    and frame.f_locals.get('pid')==123 and not interrupted):
+                self.assertEqual(reaped,[123]); interrupted.append(f.process.returncode)
+                signal.raise_signal(signal.SIGINT)
+            return trace
+        f.process.poll.side_effect=lambda:internal_poll(f.process,_waitpid=waitpid)
+        def wait(*,timeout): f.process.returncode=0; return 0
+        f.process.wait.side_effect=wait
+        previous_handler=signal.getsignal(signal.SIGINT); previous_trace=sys.gettrace()
+        def interrupt(signum,frame): raise expected
+        try:
+            signal.signal(signal.SIGINT,interrupt); sys.settrace(trace)
+            yield SimpleNamespace(reaped=reaped,interrupted=interrupted)
+        finally:
+            sys.settrace(previous_trace); signal.signal(signal.SIGINT,previous_handler)
+
+    def assert_resource_releases(self,released):
+        for name in ('selector','stdout','stderr','parent','child'):
+            self.assertIn(name,released,'release error prevented a remaining resource release')
+        for name in ('selector','stdout','stderr'): self.assertEqual(released.count(name),1)
+
+    def test_resource_release_preserves_control_after_interrupted_poll(self):
+        internal_poll=subprocess.Popen._internal_poll
+        for boundary in ('selector','stdout','stderr'):
+            for expected in (KeyboardInterrupt(),SystemExit(17)):
+                with self.subTest(boundary=boundary,control=type(expected).__name__):
+                    self.run=self.root/(boundary+type(expected).__name__); self.run.mkdir()
+                    caught=None; outcome=None; failure=OSError('fixture '+boundary+' close failed')
+                    with self.reap_fixture() as f:
+                        f.kill_group.side_effect=PermissionError('fixture group signal denied')
+                        with self.resource_release_fixture(f,boundary,failure) as released,\
+                             self.interrupted_reap_fixture(f,internal_poll,expected) as replay:
+                            try: outcome=self.supervise_reap_fixture()
+                            except BaseException as error: caught=error
+                    self.assertEqual(replay.reaped,[123]); self.assertEqual(replay.interrupted,[None])
+                    f.kill_pid.assert_not_called(); f.process.wait.assert_called_once_with(timeout=5)
+                    self.assert_resource_releases(released)
+                    self.assertIs(caught,expected,
+                        f'{boundary} release lost original control after waitpid; returned {outcome!r}')
+                    self.assertTrue(any(str(failure) in note for note in expected.__notes__))
+                    if isinstance(expected,SystemExit): self.assertEqual(expected.code,17)
+
+    def test_resource_release_preserves_control_from_heartbeat_cleanup(self):
+        for boundary in ('selector','stdout','stderr'):
+            for expected in (KeyboardInterrupt(),SystemExit(17)):
+                with self.subTest(boundary=boundary,control=type(expected).__name__):
+                    self.run=self.root/(boundary+type(expected).__name__); self.run.mkdir()
+                    caught=None; outcome=None; failure=OSError('fixture '+boundary+' close failed')
+                    with self.reap_fixture() as f:
+                        def heartbeat(timeout):
+                            with mock.patch.object(f.controller,'observe',
+                                    side_effect=self.S.Stop('STOPPED-RESOURCE','fixture heartbeat stop')):
+                                f.heartbeat()
+                        f.selector.select.side_effect=heartbeat
+                        f.kill_group.side_effect=PermissionError('fixture group signal denied')
+                        f.kill_pid.side_effect=[expected,None]
+                        with self.resource_release_fixture(f,boundary,failure) as released:
+                            try: outcome=self.supervise_reap_fixture()
+                            except BaseException as error: caught=error
+                    f.process.wait.assert_called_once_with(timeout=5)
+                    self.assert_resource_releases(released)
+                    self.assertIs(caught,expected,
+                        f'{boundary} release lost heartbeat cleanup control; returned {outcome!r}')
+                    self.assertTrue(any(str(failure) in note for note in expected.__notes__))
+                    if isinstance(expected,SystemExit): self.assertEqual(expected.code,17)
+
+    def test_resource_release_precedence_and_unmasked_release_error(self):
+        for boundary in ('selector','stdout','stderr'):
+            for failure in (OSError('fixture ordinary close failed'),KeyboardInterrupt(),SystemExit(23)):
+                with self.subTest(boundary=boundary,release=type(failure).__name__):
+                    self.run=self.root/(boundary+type(failure).__name__); self.run.mkdir()
+                    original=self.S.Stop('STOPPED-RESOURCE','fixture ordinary stop'); caught=None; outcome=None
+                    with self.reap_fixture() as f:
+                        f.selector.select.side_effect=original
+                        with self.resource_release_fixture(f,boundary,failure) as released:
+                            try: outcome=self.supervise_reap_fixture()
+                            except BaseException as error: caught=error
+                    f.process.wait.assert_called_once_with(timeout=5); self.assert_resource_releases(released)
+                    if isinstance(failure,(KeyboardInterrupt,SystemExit)): self.assertIs(caught,failure)
+                    else:
+                        self.assertEqual(outcome,'STOPPED-RESOURCE','ordinary release replaced original Stop')
+                        self.assertTrue(any(str(failure) in note for note in original.__notes__))
+        for boundary in ('selector','stdout','stderr'):
+            for original,failure in ((KeyboardInterrupt(),SystemExit(23)),(SystemExit(17),KeyboardInterrupt())):
+                with self.subTest(boundary=boundary,original=type(original).__name__,release=type(failure).__name__):
+                    self.run=self.root/(boundary+'original'+type(original).__name__); self.run.mkdir()
+                    caught=None
+                    with self.reap_fixture() as f:
+                        f.selector.select.side_effect=original
+                        with self.resource_release_fixture(f,boundary,failure) as released:
+                            try: self.supervise_reap_fixture()
+                            except BaseException as error: caught=error
+                    f.process.wait.assert_called_once_with(timeout=5); self.assert_resource_releases(released)
+                    self.assertIs(caught,original,'release control replaced the original control exception')
+                    if isinstance(original,SystemExit): self.assertEqual(original.code,17)
+        self.run=self.root/'root-close'; self.run.mkdir()
+        failure=OSError('fixture unmasked socket close failed')
+        with self.reap_fixture() as f:
+            f.selector.select.side_effect=self.S.Stop('STOPPED-RESOURCE','fixture already handled stop')
+            f.parent.close.side_effect=failure
+            caught=None
+            try: self.supervise_reap_fixture()
+            except BaseException as error: caught=error
+        self.assertIs(caught,failure,'release error with no in-flight exception was suppressed')
+        f.process.wait.assert_called_once_with(timeout=5); f.child.close.assert_called()
+
+    def supervise_ownership_audit(self,source):
+        import ast
+        tree=ast.parse(source); function=tree.body[0]; inspected=[]; problems=[]
+        def tag(node):
+            if isinstance(node,ast.Name): return node.id
+            if isinstance(node,ast.Attribute):
+                base=tag(node.value) if isinstance(node.value,(ast.Name,ast.Attribute)) else 'expression'
+                return base+'.'+node.attr
+            if (isinstance(node,ast.BoolOp) and isinstance(node.values[0],ast.Name)
+                    and node.values[0].id=='admission'): return 'admission callback'
+            return ast.unparse(node)
+        safe_calls={
+            'Path','Controller','ResourceOwner','ValueError','getattr','str','dict','isinstance','set','Stop',
+            'emit','receipt','cpu_admission','admission callback','datetime.now','timedelta','os.getpid',
+            'controller.remaining','controller.check','controller.observe','controller.handle_cell',
+            'child.fileno','parent.setblocking','parent.recv','parent.sendall',
+            'selector.register','selector.unregister','selector.select','buffer.split','message.pop','data.get','result.get',
+            'run_dir.mkdir','run_dir.resolve','expression.exists','expression.resolve','expression.glob',
+            'expression.isoformat','expression.encode','path.is_relative_to','path.read_text',
+            'strict_json','json.dumps','sha_file','len','list','min','time.sleep','time.monotonic','any','predictions.values',
+            'publish_predictions','durable_json','terminal.committed_outcome','sys.exc_info',
+            'kill_worker','poll_worker','terminate','preferred_exception','report_error','error.add_note',
+            'process.wait','subprocess.TimeoutExpired','subprocess.Popen.__new__','subprocess.Popen.__init__',
+            'resources.scope','resources.context','resources.acquire_many','resources.release','resources.close'
+        }
+        for node in ast.walk(function):
+            if isinstance(node,(ast.With,ast.AsyncWith)):
+                for item in node.items:
+                    label=ast.unparse(item.context_expr); inspected.append(('with',node.lineno,label))
+                    if (not isinstance(item.context_expr,ast.Call)
+                            or tag(item.context_expr.func)!='resources.scope'):
+                        problems.append(('unowned with',node.lineno,label))
+            if isinstance(node,ast.Call):
+                label=tag(node.func); inspected.append(('call',node.lineno,label))
+                if label not in safe_calls: problems.append(('unreviewed call/acquisition',node.lineno,label))
+                if label in ('resources.context','resources.acquire_many'):
+                    inspected.append(('owned acquisition',node.lineno,ast.unparse(node.args[0])))
+        main_scopes=[node for node in ast.walk(function) if isinstance(node,ast.With)
+            and node.body and isinstance(node.body[0],ast.Expr)
+            and isinstance(node.body[0].value,ast.Call)
+            and tag(node.body[0].value.func)=='resources.context'
+            and isinstance(node.body[0].value.args[0],ast.Name)
+            and node.body[0].value.args[0].id=='worker_lifetime']
+        allocations=[node for node in ast.walk(function) if isinstance(node,ast.Assign)
+            and isinstance(node.value,ast.Call) and tag(node.value.func)=='subprocess.Popen.__new__']
+        if len(main_scopes)!=1 or len(allocations)!=1:
+            problems.append(('unowned worker allocation',function.lineno,'lifetime registration/preallocation'))
+        elif (not any(node is allocations[0] for node in ast.walk(main_scopes[0]))
+                or [ast.unparse(target) for target in allocations[0].targets]!=['process']):
+            problems.append(('unowned worker allocation',allocations[0].lineno,'preallocated handle escaped lifetime'))
+        constructors=[node for node in ast.walk(function) if isinstance(node,ast.With) and node.body
+            and isinstance(node.body[0],ast.Expr) and isinstance(node.body[0].value,ast.Call)
+            and tag(node.body[0].value.func)=='resources.context'
+            and isinstance(node.body[0].value.args[0],ast.Name)
+            and node.body[0].value.args[0].id=='constructor_ownership']
+        if len(constructors)!=1: problems.append(('unowned constructor',function.lineno,'constructor signal context'))
+        initializers=[node for node in ast.walk(function) if isinstance(node,ast.Call)
+            and tag(node.func)=='subprocess.Popen.__init__']
+        if (len(initializers)!=1 or len(constructors)!=1 or not initializers[0].args
+                or ast.unparse(initializers[0].args[0])!='process'
+                or not any(node is initializers[0] for node in ast.walk(constructors[0]))):
+            problems.append(('unowned initializer',function.lineno,'worker init escaped constructor owner scope'))
+        owners=[node for node in ast.walk(function) if isinstance(node,ast.Assign)
+            and isinstance(node.value,ast.Call) and tag(node.value.func)=='ResourceOwner']
+        if len(owners)!=1 or [ast.unparse(target) for target in owners[0].targets]!=['resources']:
+            problems.append(('multiple/misplaced owners',function.lineno,'exactly one resources owner required'))
+        roots=[node for node in function.body if isinstance(node,ast.Try) and node.finalbody]
+        if len(roots)!=1 or not any(isinstance(node,ast.Call) and tag(node.func)=='resources.close'
+                for statement in roots[0].finalbody for node in ast.walk(statement)):
+            problems.append(('unowned root release',function.lineno,'socket owner final drain'))
+        return inspected,problems
+
+    def test_supervise_resource_acquisitions_share_precedence_owner(self):
+        import inspect,textwrap
+        self.maxDiff=None
+        source=textwrap.dedent(inspect.getsource(self.S.supervise))
+        inspected,problems=self.supervise_ownership_audit(source)
+        for kind,lineno,label in inspected:
+            print(f'OWNERSHIP_AST {kind} tools/new1_supervisor.py:{self.S.supervise.__code__.co_firstlineno+lineno-1} {label}')
+        self.assertEqual(problems,[],'supervise has a cleanup boundary/acquisition outside the single owner')
+        for addition in ('\n    with arbitrary_factory():\n        pass\n',
+                '\n    escaped=arbitrary_factory()\n',
+                '\n    escaped=(run_dir/"extra.log").open("xb")\n',
+                '\n    parent.close()\n',
+                '\n    resources=ResourceOwner()\n',
+                '\n    subprocess.Popen.__init__(process,command)\n'):
+            with self.subTest(mutant=addition.strip()):
+                _,mutant_problems=self.supervise_ownership_audit(source+addition)
+                self.assertTrue(mutant_problems,'structural guard accepted an unmanaged boundary/acquisition')
 
 
 if __name__=='__main__': unittest.main()

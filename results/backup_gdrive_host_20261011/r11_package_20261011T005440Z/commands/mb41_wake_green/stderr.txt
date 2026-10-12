@@ -1,0 +1,25 @@
+test_actual_builder_requires_go (test_package.CheckPlanTest) ... ok
+test_hash_filename_data_is_readonly (test_package.CheckPlanTest) ... ok
+test_missing_exit_capture (test_package.CheckPlanTest) ... ok
+test_pipe_even_with_receipt (test_package.CheckPlanTest) ... ok
+test_unmarked_caffeinated_launch (test_package.CheckPlanTest) ... ok
+test_unmarked_launch (test_package.CheckPlanTest) ... ok
+test_v1_all_named_defects (test_package.CheckPlanTest) ... ok
+test_v2 (test_package.CheckPlanTest) ... ok
+test_2_1_exact_check (test_package.PlanCriteriaTest) ... ok
+test_2_4_checkpoint (test_package.PlanCriteriaTest) ... ok
+test_4_1_fresh_history (test_package.PlanCriteriaTest) ... ok
+test_4_2_deployed_tool (test_package.PlanCriteriaTest) ... ok
+test_4_3_deadline_and_progress (test_package.PlanCriteriaTest) ... ok
+test_4_4_failure_branch (test_package.PlanCriteriaTest) ... ok
+test_4_5_assertions (test_package.PlanCriteriaTest) ... ok
+test_4_6_orphans (test_package.PlanCriteriaTest) ... ok
+test_4_7_retirement (test_package.PlanCriteriaTest) ... ok
+test_5_2_build_and_schedule (test_package.PlanCriteriaTest) ... ok
+test_5_3_order_and_stop (test_package.PlanCriteriaTest) ... ok
+test_full_check_lifetime_assertions (test_package.PlanCriteriaTest) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.018s
+
+OK

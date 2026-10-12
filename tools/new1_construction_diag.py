@@ -22,7 +22,7 @@ SCOPE = ROOT / 'results/mathlab_staging/new1_construction_diag_scope.md'
 DIMENSION = 11008
 CACHE, CAPTURE, MANIFEST, INPUT_PINS = I.CACHE, I.CAPTURE, I.MANIFEST, I.INPUT_PINS
 SOURCE_PINS = {**I.SOURCE_PINS,
-    'tools/new1_identity_diag.py': 'c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3',
+    'tools/new1_identity_diag.py': '919b3a11a836973ea4c0d2abdd2514634ea62792e6009e828a63d81f297c3d0d',
     'results/mathlab_staging/new1_construction_diag_authorization.md': 'e7c445af835248b6722e04449f4f6a88a41c4d39f03fc6da41841c8ea23254f5',
     'results/mathlab_staging/new1_identity_diag_astra.md': 'cdc1a94a3a361aa1d26e363b67eb02c694e1425fc0576542ddf8810000912f20',
     'tools/mathlab_admit.py': 'bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc',
@@ -231,13 +231,14 @@ def main(argv=None):
             G.require(len(data.encode()) < I.DISK_BYTES // 2, 'worker scalar report too large')
             print(data)
             return 0
-        with S.hard_deadline(I.DEADLINE_S):
+        I.check_enforcement()
+        with S.hard_deadline(start+I.DEADLINE_S-time.monotonic()):
             G.verify_file(Path(__file__), args.source_sha)
             directory = new_directory(ROOT / 'results/mathlab_staging/new1_construction_diag')
         command = [sys.executable, '-B', str(Path(__file__).resolve()), '--worker',
                    '--scope-sha', args.scope_sha, '--source-sha', args.source_sha]
         status = I.supervise(command, directory, preflight=lambda: verify_launch(args.scope_sha, args.source_sha),
-                             seconds=I.DEADLINE_S-(time.monotonic()-start))
+                             seconds=I.DEADLINE_S, absolute_end=start+I.DEADLINE_S)
         print(str(directory))
         return status
     except (S.Stop, G.Invalid, OSError, subprocess.SubprocessError) as error:

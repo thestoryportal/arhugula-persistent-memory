@@ -1,0 +1,269 @@
+{
+  "base": {
+    "ran": 2,
+    "passed": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "failure_blocks": [],
+    "skips": []
+  },
+  "addendum": {
+    "ran": 134,
+    "passed": 119,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 14,
+    "exit_code": 1,
+    "failure_blocks": [
+      {
+        "kind": "FAIL",
+        "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_held_lock_refusal_cannot_overwrite_owner_heartbeat",
+        "subcase": "",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 415
+        },
+        "traceback": "Traceback (most recent call last):\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py\", line 431, in test_held_lock_refusal_cannot_overwrite_owner_heartbeat\n    self.assertEqual(self.heartbeat.read_bytes(), previous, \"a non-owner cannot publish over the active owner\")\nAssertionError: b'{\"b[14 chars]ed\": null, \"end\": null, \"exit_code\": null, \"la[790 chars]9}\\n' != b'{\"b[14 chars]ed\": 0, \"end\": null, \"exit_code\": null, \"launc[775 chars]0}\\n' : a non-owner cannot publish over the active owner"
+      }
+    ],
+    "skips": [
+      {
+        "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 497
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_exit_publication_failure_is_loud_and_preserves_original_failure",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 333
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 584
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_native_nonregular_skip_is_recorded_as_warning",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 610
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 509
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_real_queued_source_vanish_is_warning_and_keeps_raw_exit",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 549
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_real_sync_publishes_actual_bytes_and_completed_success",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 276
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 475
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_start_publication_failure_invalidates_previous_success",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 319
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_corrupt_remote_download_check_does_not_create_receipt",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 2255
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_differing_remote_is_immutable_and_preserves_prior_manifest",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 2245
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_manifest_write_failure_is_loud",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 2271
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_real_copy_download_check_and_sha_receipt_never_delete_source",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 2233
+        },
+        "traceback": null
+      },
+      {
+        "test": "tools.test_backup_gdrive_addendum.ArchiveTest.test_source_drift_after_check_does_not_create_receipt",
+        "reason": "'HOST-PENDING: real rclone forbidden by MB14 brief'",
+        "location": {
+          "file": "tools/test_backup_gdrive_addendum.py",
+          "line": 2263
+        },
+        "traceback": null
+      }
+    ]
+  },
+  "excluded": [
+    {
+      "test": "tools.test_backup_gdrive.BackupTest.test_three_runs_keep_old_versions_and_exclude_regenerable_files",
+      "location": {
+        "file": "tools/test_backup_gdrive.py",
+        "line": 60
+      },
+      "reason": "Base suite lacks NO_RCLONE support; this case can invoke real /opt/homebrew/bin/rclone."
+    },
+    {
+      "test": "tools.test_backup_gdrive.BackupTest.test_changing_source_between_sync_attempts_cannot_overwrite_archived_history",
+      "location": {
+        "file": "tools/test_backup_gdrive.py",
+        "line": 85
+      },
+      "reason": "Base suite lacks NO_RCLONE support; this case can invoke real /opt/homebrew/bin/rclone."
+    },
+    {
+      "test": "tools.test_backup_gdrive.BackupTest.test_empty_source_cannot_erase_existing_backup",
+      "location": {
+        "file": "tools/test_backup_gdrive.py",
+        "line": 143
+      },
+      "reason": "Base suite lacks NO_RCLONE support; this case can invoke real /opt/homebrew/bin/rclone."
+    },
+    {
+      "test": "tools.test_backup_gdrive.BackupTest.test_missing_source_refuses",
+      "location": {
+        "file": "tools/test_backup_gdrive.py",
+        "line": 150
+      },
+      "reason": "Base suite lacks NO_RCLONE support; this case can invoke real /opt/homebrew/bin/rclone."
+    },
+    {
+      "test": "tools.test_backup_gdrive.BackupTest.test_unmounted_volume_refuses",
+      "location": {
+        "file": "tools/test_backup_gdrive.py",
+        "line": 154
+      },
+      "reason": "Base suite lacks NO_RCLONE support; this case can invoke real /opt/homebrew/bin/rclone."
+    },
+    {
+      "test": "tools.test_backup_gdrive.BackupTest.test_real_rclone_failure_is_nonzero_and_logged",
+      "location": {
+        "file": "tools/test_backup_gdrive.py",
+        "line": 158
+      },
+      "reason": "Base suite lacks NO_RCLONE support; this case can invoke real /opt/homebrew/bin/rclone."
+    },
+    {
+      "test": "tools.test_backup_gdrive.BackupTest.test_interruption_retains_lock_while_child_may_still_run",
+      "location": {
+        "file": "tools/test_backup_gdrive.py",
+        "line": 162
+      },
+      "reason": "Base suite lacks NO_RCLONE support; this case can invoke real /opt/homebrew/bin/rclone."
+    },
+    {
+      "test": "tools.test_backup_gdrive.BackupTest.test_timeout_stops_entire_sync_group_before_cleanup",
+      "location": {
+        "file": "tools/test_backup_gdrive.py",
+        "line": 183
+      },
+      "reason": "Base suite lacks NO_RCLONE support; this case can invoke real /opt/homebrew/bin/rclone."
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_launchd_waits_for_background_applet",
+      "location": {
+        "file": "tools/test_backup_gdrive_addendum.py",
+        "line": 2144
+      },
+      "reason": "Entire LauncherTest class excluded to prevent native .app/osascript/osacompile execution; its static plist case is also excluded."
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_nonzero_shell_script_is_caught_promptly_without_dialog",
+      "location": {
+        "file": "tools/test_backup_gdrive_addendum.py",
+        "line": 2152
+      },
+      "reason": "Entire LauncherTest class excluded to prevent native .app/osascript/osacompile execution; its static plist case is also excluded."
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest",
+      "location": {
+        "file": "tools/test_backup_gdrive_addendum.py",
+        "line": 2184
+      },
+      "reason": "Entire LauncherTest class excluded to prevent native .app/osascript/osacompile execution; its static plist case is also excluded."
+    }
+  ],
+  "tool_interpreter_proof": {
+    "version": "3.9.6 (default, Aug 25 2026, 21:26:21) \n[Clang 21.0.0 (clang-2100.3.34.2)]",
+    "executable": "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "version_events": 3290,
+    "functions": {
+      "main": 1644,
+      "record": 1204,
+      "health": 219,
+      "preflight": 66,
+      "classify": 57,
+      "recover": 100
+    }
+  },
+  "source_hashes_unchanged": {
+    "tools/backup_gdrive_status.py": "903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46",
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+    "tools/test_backup_gdrive.py": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+    "tools/test_backup_gdrive_addendum.py": "766509ab8b1c79bc56b5f86719315c335ff87aeb051ec6b28f809aece92e434e"
+  }
+}

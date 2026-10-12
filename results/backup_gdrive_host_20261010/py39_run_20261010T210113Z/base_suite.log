@@ -1,0 +1,7 @@
+test_held_lock_refuses_and_logs_without_changing_destination (tools.test_backup_gdrive.BackupTest) ... ok
+test_stale_lock_refuses_explicitly_without_auto_removal (tools.test_backup_gdrive.BackupTest) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.320s
+
+OK

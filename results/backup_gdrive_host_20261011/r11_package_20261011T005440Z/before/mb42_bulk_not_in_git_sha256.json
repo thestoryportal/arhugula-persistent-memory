@@ -1,0 +1,35 @@
+{
+  "threshold_bytes": 1000000,
+  "files": [
+    {
+      "path": "mb40_staging_red/process_clearance.jsonl",
+      "size": 2243357,
+      "sha256": "cb529fd737bf8836bebe398c043e1866b13a970e3c64820982ee3f105a2b9ee2"
+    },
+    {
+      "path": "mb40_staging_red/started_processes.jsonl",
+      "size": 2219152,
+      "sha256": "03122456b3d86f1ac3e4ba99878826b17d8486445b2a878cf2b0895e4b24f456"
+    },
+    {
+      "path": "mb41_sandbox_green/process_clearance.jsonl",
+      "size": 6005099,
+      "sha256": "38b9e68aa4c750151a33ae627eea977c4c82b59f265a574ea765069284809fb7"
+    },
+    {
+      "path": "mb41_sandbox_green/started_processes.jsonl",
+      "size": 5814755,
+      "sha256": "bd8fb9c03d5d07d6fcb09c116a250c9aa5c9961eddc594791cc9988447ea9a7b"
+    },
+    {
+      "path": "sandbox_non_native_v2/process_clearance.jsonl",
+      "size": 5859856,
+      "sha256": "eb4048fa303a21eb774011b11f6b55cbb526a2a887a7d3b28d2e511fff280a43"
+    },
+    {
+      "path": "sandbox_non_native_v2/started_processes.jsonl",
+      "size": 5670295,
+      "sha256": "8a73689ea2d6249f7350e1e810b67d2c3a4caac6333e7421115872fb2eb3c2f9"
+    }
+  ]
+}

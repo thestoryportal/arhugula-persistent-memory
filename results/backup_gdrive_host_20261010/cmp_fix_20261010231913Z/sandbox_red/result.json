@@ -1,0 +1,15 @@
+{
+  "error_tests": [],
+  "errors": 0,
+  "failure_tests": [
+    "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_builder_compares_fresh_saved_compile_with_newline_growth"
+  ],
+  "failures": 1,
+  "native": "UNRUN",
+  "passed": 2,
+  "ps": "UNAVAILABLE: /bin/ps denied per MB35 brief",
+  "skipped": 0,
+  "sources_unchanged_during_run": true,
+  "success": false,
+  "testsRun": 3
+}

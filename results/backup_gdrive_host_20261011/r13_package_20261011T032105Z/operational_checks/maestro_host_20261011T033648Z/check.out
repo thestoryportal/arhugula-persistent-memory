@@ -1,0 +1,2 @@
+capture r13_host_preflight_check: exit 0; /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/operational_checks/commands/r13_host_preflight_check
+capture r13_host_plan_check: exit 0; /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r13_package_20261011T032105Z/commands/r13_host_plan_check

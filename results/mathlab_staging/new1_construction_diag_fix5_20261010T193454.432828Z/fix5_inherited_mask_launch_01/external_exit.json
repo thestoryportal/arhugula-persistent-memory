@@ -1,0 +1,23 @@
+{
+  "name": "fix5_inherited_mask_launch_01",
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inherited_mask_launch_01.py",
+    "--operator-authorized",
+    "fix5_inherited_mask_launch_01",
+    "--phase",
+    "before-exec",
+    "--output",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/fix5_inherited_mask_launch_01"
+  ],
+  "native_exit": 2,
+  "python_return": 2,
+  "ok": true,
+  "interpreter_wall_s": 0.090931333,
+  "startup_s": 0.012663667,
+  "parent_elapsed_s": 0.00022808299399912357,
+  "startup_has_no_qualification_cap": true
+}

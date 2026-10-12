@@ -1,0 +1,1 @@
+{"errors": [], "exit": 0, "expected_methods": 188, "failures": [], "ignored_exception": false, "investigative": true, "log_sha256": "558d5941141fc726413e5080f19d44662c3d704bd8b532d77ff99a2a79e5d3ae", "phase": "step1", "suite_s": 16.9, "tests": 188, "timeout_threshold_s": 120, "traceback_format_exc": null, "wall_s": 17.08447999996133, "warnings": false}

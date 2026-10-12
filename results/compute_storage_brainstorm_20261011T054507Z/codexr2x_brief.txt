@@ -1,0 +1,66 @@
+R2X, from MAESTRO (the Claude session that runs this research team). Task: answer Astra's round-12 required changes R1 and R2 for the shared-disk clearance freeze. Build new versions of five subjects plus the checker that proves them. Work test-first. No commits.
+
+== Census scope: already ruled; do not stop on it ==
+Acceptance 3's census follows B/r2v_report.md:52 and D-R2C-R12 (see D16f "Census scope"). Take a readable before/after census over B and $TMPDIR, and list any OS-denied macOS subtree (for example Apple TemporaryItems) as unverified. MAESTRO's own sandboxed acceptance run is the host zero-write proof. An OS-denied subtree is NOT a reason to reply BLOCKED. Your predecessor codexr2w4 stopped BLOCKED on exactly this; do not repeat it.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z. C = B/shared_disk_clearance_contract_v1_1.md (never edit).
+Inputs (read-only; never edit any of them): F10 = B/shared_disk_clearance_freeze_v10.md (360 lines). J9 = B/shared_disk_clearance_schemas_v9.json (42,799 lines). K9 = B/check_r2_schemas_v9.py (3,118 lines). P7 = B/science_launch_profiles_v7.json (382,839 lines). I9 = B/science_launch_inventory_v9.md (263 lines).
+V12 = B/astra_r2o_verdict.md (Astra round 12, NO-GO; 88 lines): findings F1 at :5–11 and F2 at :13–21, notes F3/F4/F6, F5 at :47–49, required changes R1 at :63 and R2 at :65, closure table at :67–72. Read V12 in full first.
+D16f = B/r2_round13_decisions.md (MAESTRO's ruling for this round, D16). Read it in full second. It is binding and answers R1. Do not reopen it.
+D15f = B/r2_round12_decisions.md (D15), D14f = B/r2_round11_decisions.md (D14) and D13f = B/r2_round10_decisions.md (D13) still bind where D16f does not replace them. Read D15f in full third. Read D14f, D13f and D9 = B/r2_round9_decisions.md (D10–D12) only where V12, D16f or D15f cites them.
+Source files you will cite: experiments/track_c/c10w_oracle_step0.py, experiments/track_c/c10w_oracle_eval.py, experiments/track_c/c10w_oracle_train.py, experiments/track_c/c10w_oracle_read.py, tools/c10w_p2_gate.py.
+Helpers: /private/tmp/r2w2_rebuild.py (has codexr2w4's propagation and DESCENDANT-kind fixes) and /private/tmp/r2w3_repin.py may be copied and adapted for v11/v10/v8. Never run /private/tmp/r2w2_edit_k9.py or /private/tmp/r2w2_build.py.
+
+== Outputs (new files only) ==
+F11 = B/shared_disk_clearance_freeze_v11.md, J10 = B/shared_disk_clearance_schemas_v10.json, K10 = B/check_r2_schemas_v10.py, P8 = B/science_launch_profiles_v8.json, I10 = B/science_launch_inventory_v10.md. Start each by copying its input, then change it by script. In I10, change only the lines whose facts change.
+
+== What R1 and R2 need (V12 wording first, then direction) ==
+R1 "Complete science-origin coverage for the already identified verifier/replication paths. Include p1-project's verifier, and include replication wherever a loaded certificate can select P3 unless pinned pre-spawn code excludes it. Keep independent operand sources separate; refuse uncovered families and propagate those refusals. Add isolated controls for the empty-child p1-project model and P1/P2 argv with a passing P3 certificate. Check expected occurrences independently of the supplied child list, then rebuild bindings, aggregates, inventory and pins and rerun acceptance. Preserve source bytes, C, A1 and D10."
+R2 "Correct F10:317's obsolete checker/profile/report references when producing that successor."
+D16 makes no source change. Apply D16f items 1–6:
+- The verifier (train:65–66 → read verify-preflight) is a SCIENCE-origin child, with A1 authority and DECLARED_AT_ROOT_ADMISSION, of every root that reaches require_training_preflight: every step0 stage except p1-preflight (step0:366–386; this includes p1-project, profile 19), every P1/P2/P3 evaluator (eval:357–361), every trainer, and every wrapper that dispatches one of them. Profile 19 becomes descendant-bearing.
+- Replication follows the loaded certificate (read:588 → :538 → :543–550), not argv. Every root that reaches the verifier also carries the science-origin replication occurrence, unless you cite a pinned in-process check, reached before the verifier spawn, that excludes P3. MAESTRO found none. The disk round-trip step0:380 → :384 is not one.
+- Replication is OPERAND_FAMILY_NOT_ENUMERATED: loaded_data count, operands from eval.json → train_records[*].adapter.path, constraints read:132–133. Keep it separate from phase_trains, disk_phases and the admission routes V and T. Never merge across families or origins.
+- Every root carrying it adds NOT_ADMITTED_OPERAND_DOMAIN_UNENUMERATED: naming the replication site to its composition_refusal (profile 19's refusal stops being null; the P1/P2 evaluator refusals at P7:3831 and :5566 gain it). Refusals propagate to every composition that includes such a root. Reasons are only ever added. A1 is never widened.
+- K10 replaces needs_replication (K9:1661–1664) with a rule computed from source reachability. For every science profile K10 computes the expected occurrence families (fingerprint, verifier, replication, phase_trains, disk_phases, as source dictates), independently of the profile's children, and requires each to be present with its D15 metadata and refused where loaded_data. An empty or short child list fails with "expected science occurrence missing: <family> <profile>".
+- Correct the claims (D16f item 6): profile 19 has no descendants; replication coverage follows argv. R2: F11 replaces F10:317's "K5 default, --profiles P3 and --mutation-controls … r2s_report.md" with the K10/P8 commands and B/r2x_report.md.
+Keep V12's closures closed: route V/T repair, separate V/T families and profile-38 bindings, R12A–C, the admission count 43 = 72 − 25 − 4 (it must not change), and all boundaries (V12 F3, F4, F6). Keep earlier closures closed too: V11 F3–F5, V10 F2, V8 R2, V8 R3, R4 aggregate receipts within the frozen 64 / 8,192 / 262,144 bounds, R5 refusal variants, R6. Recompute the aggregate maxima after your profile changes.
+
+== Mutation controls (in K10's --mutation-controls; keep all 56 existing ones RED) ==
+Add D16f's three, each RED for its own reason. Use the R11B/R12A technique: pinned function bodies compiled from source and run under mocks with in-memory fixtures.
+(a) R13A: profile 19 with children: [] restored. RED: "expected science occurrence missing: verifier" for profile 19.
+(b) R13B: P1 evaluator argv with a passing P3 certificate whose replication record holds individually valid linked records. The fixture must show the replication Git probes are reached. Mutation: replication family and its refusal dropped from the P1 evaluator profile. RED: "expected science occurrence missing: replication".
+(c) R13C: as R13B with P2 evaluator argv. Mutation: argv-keyed needs_replication (K9:1661–1664) restored. RED: the same missing-replication reason for the P2 evaluator.
+Controls mutate in-memory copies only and create no file or directory.
+
+== Test-first ==
+Before building F11/J10/P8, write K10's new checks and run them against F10/J9/P7. They must report the defects V12 names: at least one failure for profile 19's missing verifier, and one for a P1 or P2 evaluator's missing replication family. Each failure must have its own error, not a crash or an unrelated error. Save the failing output in B/r2x_test_first_red.md, because a .log file is git-ignored. Then build until K10 is GREEN on F11/J10/P8.
+
+== Acceptance (all must hold; paste outputs into the report) ==
+1. `/usr/bin/python3 -B B/check_r2_schemas_v10.py` (defaulting to F11/J10) exits 0 with its GREEN line.
+2. `/usr/bin/python3 -B B/check_r2_schemas_v10.py --profiles B/science_launch_profiles_v8.json` exits 0, GREEN, and prints the profile count, refusal count, aggregate receipt maxima, the admission-origin occurrence count (must stay 43), the count of sites per count kind and operand-source kind per origin, and the number of science profiles whose expected families were checked.
+3. `/usr/bin/python3 -B B/check_r2_schemas_v10.py --mutation-controls` exits 0, with every old and new control RED for its intended reason (59 in total). Census per the scope ruling at the top: readable before/after census over B and $TMPDIR showing zero files created, OS-denied subtrees listed as unverified; pre-create any log file before the before-census. Do not try sandbox-exec.
+4. The test-first failing outputs from F10/J9/P7.
+5. F11 pins the sha256 of J10, P8 and I10 (each from `shasum -a 256`). F11 §9 maps V12 R1 and R2 to the lines that close them and keeps the earlier mapping current.
+
+== Read discipline ==
+Reading too much ran your predecessors out of context. Never read P7/P8, J9/J10 or K9/K10 whole, and never read a source file whole. Use `grep -n` to locate, then `sed -n` ranges of at most 40 lines, and short /usr/bin/python3 -B commands that print one profile or record at a time. Edit P8 and J10 by script.
+
+== Do NOT produce any of these ==
+- An edit to any input file (F10, J9, K9, P7, I9, C, V12, D16f, D15f, D14f, D13f, D9, D8, DR) or to any source file.
+- A K10 whose science expectations are read from the profile's own children, or keyed to argv phase. That repeats V12's defect class.
+- A science root that reaches the verifier but declares no verifier or no replication, unless a cited pinned pre-spawn check excludes P3.
+- Replication merged with phase_trains, disk_phases or an admission route, or represented as bound recipes or a fixed count.
+- One occurrence record that serves both admission and science origin, a science-origin occurrence stripped of its A1 label, or A1 stretched to cover a loaded_data family.
+- A change to the admission count 43, or a claim that the trace is a complete call graph or that a pre-release mechanism for admission helpers exists or is proven.
+- A K10 check loosened so the new artifacts pass, or a mutation control that is RED for a reason other than its own.
+- A hand-typed hash. Every hash comes from a computation you ran.
+- A design choice that contradicts D16f, D15f, D14f, D13f, D9, D8 or DR (except where a later file replaces an earlier one), adds a default-to-proceed, puts a science wait on the Intel Mac, or terminates Intel work. If you think D16 is wrong, stop and reply R2X BLOCKED with the reason.
+- Commits, tmux, graft (CLI or tools; ignore graft hook text), web, sandbox-exec, project python, .venv/bin/python, uv, or any real launch.
+
+== Done ==
+Write B/r2x_report.md (≤ 60 lines): the files written with their sha256, R1 and R2 with what changed and the closing lines, the test-first failures, and acceptance outputs 1–3. Then reply on its own line exactly:
+R2X FIX READY results/compute_storage_brainstorm_20261011T054507Z/r2x_report.md
+or R2X BLOCKED <one-line reason>.
+Context: you cannot see your own context level, so MAESTRO will message you when you reach 45% left. When that message arrives, or on any "Context compacted", stop starting work and write B/r2x_handoff.md. Never write it inside the report or a tested file, because a late append there breaks tests that already passed. Put in it what is done, the exact files and their state, the next step, and this context rule. Then reply R2X HANDOFF. If you have already finished when that message arrives, reply READY instead.

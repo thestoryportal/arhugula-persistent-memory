@@ -1,0 +1,1 @@
+["tmux", "show-options", "-w", "-qv", "-t", "dashboard:1", "@team_counts"]

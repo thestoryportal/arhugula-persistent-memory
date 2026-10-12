@@ -1,0 +1,8 @@
+1	team	%145	"/usr/bin/python3 '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_team.py'"
+2	active	%150	"/usr/bin/python3 '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_active.py'"
+3	experiment	%151	"/usr/bin/python3 '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py'"
+4	mathlab	%152	"/usr/bin/python3 '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_mathlab.py'"
+5	helpers	%153	"/usr/bin/python3 '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_subagents.py' manager"
+6	science	%180	"/usr/bin/python3 '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_report.py'"
+7	storage	%203	"/usr/bin/python3 '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_storage.py'"
+8	⚙ Draft Drive bui…	%231	"/usr/bin/python3 '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_subagents.py' view '/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory--claude-worktrees-c10k-route-a/4eff2d63-6113-4e18-983c-3a5c5312d64c/subagents/agent-afadb311b43c7262f.jsonl'"

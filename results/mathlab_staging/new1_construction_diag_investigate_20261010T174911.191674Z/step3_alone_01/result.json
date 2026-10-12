@@ -1,0 +1,1 @@
+{"condition": "alone", "errors": [], "exit": 0, "expected_methods": 61, "failures": [], "ignored_exception": false, "investigative": true, "log_sha256": "d8788e3aa935d22287bd177952662ce73886c3f78941607e830390b1c2473fc1", "phase": "step3", "suite_s": 4.381, "tests": 61, "timeout_threshold_s": 120, "traceback_format_exc": null, "wall_s": 4.455585459014401, "warnings": false}

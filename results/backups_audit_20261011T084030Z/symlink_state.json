@@ -1,0 +1,9 @@
+{
+  "appended_rows": 260,
+  "final_inventory_rows": 519596,
+  "counts": {
+    "DANGLING_TARGET": 53,
+    "HASHED_REFERENT": 207
+  },
+  "note": "file symlinks only; symlink directories were not followed, per name-only audit scope. Dangling entries cannot have SHA256 or git blob IDs."
+}

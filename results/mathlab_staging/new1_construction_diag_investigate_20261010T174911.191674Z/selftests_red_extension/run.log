@@ -1,0 +1,26 @@
+test_a_records_roundtrip_exclusive_and_fsync (test_instruments.InstrumentTests.test_a_records_roundtrip_exclusive_and_fsync) ... ok
+test_b_scratch_retains_bytes_and_import_guard_rejects_escape (test_instruments.InstrumentTests.test_b_scratch_retains_bytes_and_import_guard_rejects_escape) ... ok
+test_c_observer_preserves_alarm_handler_timer_and_native_exits (test_instruments.InstrumentTests.test_c_observer_preserves_alarm_handler_timer_and_native_exits) ... ok
+test_d_native_snapshot_is_readonly_and_records_real_threads (test_instruments.InstrumentTests.test_d_native_snapshot_is_readonly_and_records_real_threads) ... FAIL
+test_e_profile_gap_is_recorded_and_next_fixture_is_observed (test_instruments.InstrumentTests.test_e_profile_gap_is_recorded_and_next_fixture_is_observed) ... FAIL
+
+======================================================================
+FAIL: test_d_native_snapshot_is_readonly_and_records_real_threads (test_instruments.InstrumentTests.test_d_native_snapshot_is_readonly_and_records_real_threads)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/test_instruments.py", line 86, in test_d_native_snapshot_is_readonly_and_records_real_threads
+    self.assertTrue(all('run_state' in row for row in value['native_threads']['states']))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_e_profile_gap_is_recorded_and_next_fixture_is_observed (test_instruments.InstrumentTests.test_e_profile_gap_is_recorded_and_next_fixture_is_observed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/test_instruments.py", line 99, in test_e_profile_gap_is_recorded_and_next_fixture_is_observed
+    self.assertTrue(any(e['event']=='observer-profile-gap' for e in events))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.461s
+
+FAILED (failures=2)

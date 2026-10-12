@@ -1,0 +1,14 @@
+usage: host_launcher_checks_mb20.py [-h] [--fixture-root FIXTURE_ROOT]
+                                    {manual-interleave,crash-after-allocation,recovery,unresolved-compaction}
+
+Host-only r5/r4 checks via real open -W -g; isolated HOME, stub child, no
+rclone/network.
+
+positional arguments:
+  {manual-interleave,crash-after-allocation,recovery,unresolved-compaction}
+
+options:
+  -h, --help            show this help message and exit
+  --fixture-root FIXTURE_ROOT
+                        existing empty directory outside /Volumes; default:
+                        fresh /private/tmp directory

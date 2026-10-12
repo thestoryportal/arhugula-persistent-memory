@@ -1,0 +1,105 @@
+{
+  "all_owned_groups_exited": true,
+  "operator_pids_not_touched": [
+    32906,
+    32913,
+    32914,
+    36233,
+    36258,
+    36259,
+    37109,
+    65807
+  ],
+  "records": [
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_4jyarooz/checkout",
+        "init",
+        "-q"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 32686,
+      "pid": 32686,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:20:49.883536+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_4jyarooz/checkout",
+        "add",
+        "tools"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 32687,
+      "pid": 32687,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:20:49.896701+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_4jyarooz/checkout",
+        "-c",
+        "user.name=MB32 Fixture",
+        "-c",
+        "user.email=fixture@invalid",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "locked release fixture"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 32688,
+      "pid": 32688,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:20:49.908514+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite"
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-C",
+        "/private/tmp/gdrive_addendum_4jyarooz/checkout",
+        "rev-parse",
+        "HEAD"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 32691,
+      "pid": 32691,
+      "returncode": 0,
+      "started_utc": "2026-10-10T22:20:49.925382+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite"
+    },
+    {
+      "argv": [
+        "/bin/bash",
+        "/private/tmp/gdrive_addendum_4jyarooz/checkout/tools/launchd/build_gdrive_applet.sh",
+        "1d19204b607e99d0d8d96861e90ac664d63abcef",
+        "fixture-r1",
+        "/private/tmp/gdrive_addendum_4jyarooz/second.app"
+      ],
+      "group_alive_after_cleanup": false,
+      "group_alive_after_test": false,
+      "pgid": 32692,
+      "pid": 32692,
+      "returncode": 64,
+      "started_utc": "2026-10-10T22:20:49.934790+00:00",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_existing_release_id_refused_without_overwrite"
+    }
+  ],
+  "runner_expected_exit": 1,
+  "runner_pid": 32685,
+  "scope": "direct Popen processes and their complete session groups; no detached/native open launches"
+}

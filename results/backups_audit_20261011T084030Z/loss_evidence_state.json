@@ -1,0 +1,16 @@
+{
+  "scope_files": {
+    "CORPUS": 72,
+    "EXPERIMENT_RUNBOOK.md": 1,
+    "REPRODUCIBILITY.md": 1,
+    "SESSION_CHECKPOINT.md": 1,
+    "docs": 205,
+    "memory_mirror": 191,
+    "results": 37
+  },
+  "files": 508,
+  "matched_lines_or_fragments": 1053,
+  "long_line_fragments": 0,
+  "head": "19c699068ec60cbf3b105c30d8d3b3c1c8db5fe7",
+  "limits": "Working tree snapshot, readable text extensions in requested directories and results README files; all matching lines retained. Generic missing/pod references are leads, not recorded loss verdicts."
+}

@@ -1,0 +1,16 @@
+COMMAND: ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", "HostFixtureTests.test_3_open_timeout_remains_in_commands_receipt", "-v"]
+EXIT: 1
+test_3_open_timeout_remains_in_commands_receipt (__main__.HostFixtureTests.test_3_open_timeout_remains_in_commands_receipt) ... FAIL
+
+======================================================================
+FAIL: test_3_open_timeout_remains_in_commands_receipt (__main__.HostFixtureTests.test_3_open_timeout_remains_in_commands_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb16_20261010T103826Z/test_host_launcher_checks_mb16.py", line 281, in test_3_open_timeout_remains_in_commands_receipt
+    self.assertEqual(len(commands), 2, "timeout must record the failed native command as well as compile")
+AssertionError: 1 != 2 : timeout must record the failed native command as well as compile
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

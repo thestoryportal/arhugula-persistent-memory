@@ -1,0 +1,1 @@
+{"duration_s": null, "entries": null, "error": "OSError: size scan failed (exit 0): nice: setpriority: Operation not permitted", "last_attempt": 1791661021.265718, "last_duration_s": 3.010880166, "measured_at": null, "schema": 1}

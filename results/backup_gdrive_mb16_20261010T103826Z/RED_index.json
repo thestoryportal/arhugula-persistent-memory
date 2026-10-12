@@ -1,0 +1,156 @@
+{
+  "helper_sha256": "82fd9ab1398656b51f745303b063352cc92f0282c9c5bd49a4c2f321637c2d3d",
+  "tests": [
+    {
+      "test": "test_2_default_layout_all_fixture_paths_outside_volumes",
+      "criterion": 2,
+      "log": "RED_test_2_default_layout_all_fixture_paths_outside_volumes.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_2_explicit_layout_all_fixture_paths_outside_volumes",
+      "criterion": 2,
+      "log": "RED_test_2_explicit_layout_all_fixture_paths_outside_volumes.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_2_file_fixture_root_rejected_before_native_work",
+      "criterion": 2,
+      "log": "RED_test_2_file_fixture_root_rejected_before_native_work.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_2_missing_fixture_root_rejected_before_native_work",
+      "criterion": 2,
+      "log": "RED_test_2_missing_fixture_root_rejected_before_native_work.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_2_nonempty_fixture_root_rejected_without_modification",
+      "criterion": 2,
+      "log": "RED_test_2_nonempty_fixture_root_rejected_without_modification.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_2_symlink_into_volumes_rejected_after_resolution",
+      "criterion": 2,
+      "log": "RED_test_2_symlink_into_volumes_rejected_after_resolution.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_2_volume_fixture_root_rejected_before_native_work",
+      "criterion": 2,
+      "log": "RED_test_2_volume_fixture_root_rejected_before_native_work.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_3_absent_optional_files_are_omitted",
+      "criterion": 3,
+      "log": "RED_test_3_absent_optional_files_are_omitted.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_3_cleanup_failure_still_copies_fixture_evidence",
+      "criterion": 3,
+      "log": "RED_test_3_cleanup_failure_still_copies_fixture_evidence.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_3_failing_case_copies_exact_bytes_and_recovery_tree",
+      "criterion": 3,
+      "log": "RED_test_3_failing_case_copies_exact_bytes_and_recovery_tree.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_3_passing_case_copies_exact_bytes_and_recovery_tree",
+      "criterion": 3,
+      "log": "RED_test_3_passing_case_copies_exact_bytes_and_recovery_tree.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_4_crash_allocation_failure_snapshots_before_release_cleanup",
+      "criterion": 4,
+      "log": "RED_test_4_crash_allocation_failure_snapshots_before_release_cleanup.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_4_denied_process_inspection_records_unavailable_reason",
+      "criterion": 4,
+      "log": "RED_test_4_denied_process_inspection_records_unavailable_reason.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_4_missing_applet_is_explicit_without_unrelated_processes",
+      "criterion": 4,
+      "log": "RED_test_4_missing_applet_is_explicit_without_unrelated_processes.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_4_open_nonzero_snapshots_before_returning_failure",
+      "criterion": 4,
+      "log": "RED_test_4_open_nonzero_snapshots_before_returning_failure.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_4_open_timeout_snapshots_without_retry_or_longer_timeout",
+      "criterion": 4,
+      "log": "RED_test_4_open_timeout_snapshots_without_retry_or_longer_timeout.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_4_snapshot_filter_keeps_applet_and_all_unordered_descendants",
+      "criterion": 4,
+      "log": "RED_test_4_snapshot_filter_keeps_applet_and_all_unordered_descendants.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_4_snapshot_filter_matches_executable_paths_with_spaces",
+      "criterion": 4,
+      "log": "RED_test_4_snapshot_filter_matches_executable_paths_with_spaces.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_4_timed_out_process_inspection_records_unavailable_reason",
+      "criterion": 4,
+      "log": "RED_test_4_timed_out_process_inspection_records_unavailable_reason.log",
+      "exit_code": 1,
+      "behavioral_failure": true
+    },
+    {
+      "test": "test_3_raised_cleanup_failure_keeps_case_reviewable",
+      "criterion": 3,
+      "log": "RED_test_3_raised_cleanup_failure_keeps_case_reviewable.log",
+      "exit_code": 1,
+      "behavioral_failure": true,
+      "helper_sha256": "9027d4164f47b150279c03539e90ebf4d638be8c864aebf98c2790892afeb760",
+      "baseline": "RED_helper_followup_baseline.py"
+    },
+    {
+      "test": "test_3_open_timeout_remains_in_commands_receipt",
+      "criterion": 3,
+      "log": "RED_test_3_open_timeout_remains_in_commands_receipt.log",
+      "exit_code": 1,
+      "behavioral_failure": true,
+      "helper_sha256": "9027d4164f47b150279c03539e90ebf4d638be8c864aebf98c2790892afeb760",
+      "baseline": "RED_helper_followup_baseline.py"
+    }
+  ]
+}

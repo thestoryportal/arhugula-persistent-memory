@@ -1,0 +1,19 @@
+{
+  "head_start": "8281e302091f988a72647bfdcccf77fe9aca3216",
+  "head_end": "8281e302091f988a72647bfdcccf77fe9aca3216",
+  "program_count": 292,
+  "exact_receipts": 94,
+  "queries_including_zip_members": 199,
+  "counts": {
+    "filesystem_names_seen": 60926,
+    "filesystem_text_or_members_searched": 41383,
+    "size_filtered_files_hashed": 680,
+    "large_json_text_excluded": 101,
+    "historical_blobs_searched": 12054,
+    "historical_blob_text_excluded": 2643
+  },
+  "errors": [],
+  "seconds": 152.18,
+  "status": "search evidence complete; semantic/version review pending",
+  "limits": "Directory symlinks not followed; environment/dependency/cache dirs excluded; history text only blobs <=200 KiB; large filesystem JSON >2 MiB not text-indexed; no UNIQUE verdict."
+}

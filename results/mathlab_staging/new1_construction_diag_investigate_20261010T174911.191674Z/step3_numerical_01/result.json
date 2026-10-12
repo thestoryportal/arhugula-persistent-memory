@@ -1,0 +1,1 @@
+{"condition": "numerical", "errors": [], "exit": 0, "expected_methods": 62, "failures": [], "ignored_exception": false, "investigative": true, "log_sha256": "34b8d139c7fc40a247c803e0d769f9837de7ed59239bd332c67ca76b8fb280b2", "phase": "step3", "suite_s": 5.76, "tests": 62, "timeout_threshold_s": 120, "traceback_format_exc": null, "wall_s": 5.929578499868512, "warnings": false}

@@ -1,0 +1,188 @@
+[
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 0,
+    "stdout": "backup_gdrive_status: fresh successful backup; finished 2026-10-10T18:24:36.496706+00:00; launch generation 10\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: unacknowledged compacted barrier generation 1959: requires a completed sequenced heartbeat; manual/unsequenced heartbeat cannot acknowledge applet evidence\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: unacknowledged compacted barrier generation 1959: requires a completed sequenced heartbeat\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: unacknowledged compacted barrier generation 1959: requires a completed sequenced heartbeat\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 0,
+    "stdout": "backup_gdrive_status: fresh successful backup; finished 2026-10-10T18:24:41.079848+00:00; launch generation 2011\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: unacknowledged launch generation 11: no completed heartbeat\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/Native_1.app",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/Native_1.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  },
+  {
+    "args": [
+      "/usr/bin/open",
+      "-W",
+      "-g",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/Native_1.app"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: unacknowledged compacted barrier generation 139: requires a completed sequenced heartbeat\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/Native_2.app",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/Native_2.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  },
+  {
+    "args": [
+      "/usr/bin/open",
+      "-W",
+      "-g",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/Native_2.app"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: unacknowledged compacted barrier generation 139: requires a completed sequenced heartbeat; manual/unsequenced heartbeat cannot acknowledge applet evidence\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/Native_3.app",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/Native_3.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  },
+  {
+    "args": [
+      "/usr/bin/open",
+      "-W",
+      "-g",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/Native_3.app"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: unacknowledged compacted barrier generation 139: requires a completed sequenced heartbeat; manual/unsequenced heartbeat cannot acknowledge applet evidence\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/memit_gdrive_native_x_8e19x8/fixture/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 0,
+    "stdout": "backup_gdrive_status: fresh successful backup; finished 2026-10-10T18:24:43.071780+00:00; launch generation 141\n",
+    "stderr": ""
+  }
+]

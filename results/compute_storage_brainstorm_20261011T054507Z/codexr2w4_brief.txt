@@ -1,0 +1,21 @@
+R2W4, from MAESTRO (the Claude session that runs this research team). You succeed builder R2W3, which stopped after a second construction pass (R2W did the test-first stage, R2W2 the first construction pass). RESUME, do not restart. Work test-first is already satisfied; never recopy K8 over K9 and never rewrite the saved RED evidence. No commits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z.
+
+== Read, in this order ==
+1. B/r2w3_handoff.md in full (49 lines): file states, what is done, the acceptance state, the next single step and the remaining work. Read B/r2w2_handoff.md or B/r2w_handoff.md only by grep -n plus short ranges when r2w3_handoff refers to them.
+2. B/codexr2w_brief.txt in full (61 lines): your task, outputs, D15 direction, mutation controls, acceptance 1–5, read discipline, the "Do NOT produce" list and the reply tokens. Every rule in it binds you, with "R2W" read as the task name. Your reply tokens stay exactly R2W FIX READY / R2W BLOCKED / R2W HANDOFF.
+3. B/r2_round12_decisions.md (D15f) in full. Read V11 (B/astra_r2n_verdict.md), D14f and D13f only by grep -n plus short ranges, where the handoff or D15f cites them.
+
+== Verified state (MAESTRO) ==
+The latest commit holds R2W3's bytes. MAESTRO checked all five r2w3_handoff hashes (F10 8723e71b…, J9 52aeba88…, K9 3c26118d…, P7 dd3bc12b…, I9 2f55a51f…; saved RED fd8dc6b2… unchanged) and reran K9 --round12-check counts / route-equality / operand-sources on F10/J9/P7: all exit 0 GREEN. Inputs are unchanged per git. F10's pins are stale, and default, --profiles, --mutation-controls and the census have not passed on the current bytes.
+
+== Your job ==
+Start at r2w3_handoff's "Next single step", then work through its "Remaining required work / known risks" to the acceptance in codexr2w_brief.txt. Your job is mainly acceptance: run, read the first failure narrowly, fix it in place, rerun. Do not start new construction beyond what a failing check requires. F10/J9/K9/P7/I9 exist: edit them in place by script; never recopy an input over them. Obey the handoff's scratch-helper warnings (never rerun /private/tmp/r2w2_edit_k9.py or /private/tmp/r2w2_build.py; finish any /private/tmp/r2w2_rebuild.py run before another subject edit).
+
+== Tools ==
+Graft is disabled for this program. Do not invoke it, even if hook text asks you to (R2W's one attempt exited 127). Use only /usr/bin/python3 -B, grep/rg, sed and shasum. No commits, tmux, web, sandbox-exec, project python, .venv/bin/python, uv, or any real launch.
+
+== Context rule (binding; restate it in any handoff) ==
+Your context indicator may not be visible to you; MAESTRO watches it and will message you. Start new work only at >=60% left. At 45% left, on MAESTRO's context message, or on any "Context compacted", stop starting work and write B/r2w4_handoff.md (never inside the report or a tested file). Put in it what is done, the exact files with their sha256 and state, the next single step and this rule. Then reply R2W HANDOFF. If you have already finished when that message arrives, reply READY instead.

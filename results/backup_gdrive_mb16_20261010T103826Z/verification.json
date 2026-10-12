@@ -1,0 +1,12 @@
+{
+  "production_files_unchanged": 8,
+  "mb14_receipt_files_unchanged": 88,
+  "assertions_ast_unchanged": 18,
+  "source_sha256_block_ast_unchanged": true,
+  "red_behavioral_failures": 21,
+  "green_tests": 21,
+  "skips": 0,
+  "host_native_runs": "UNRUN: reserved for MAESTRO",
+  "helper_sha256": "61683c2d8f0a48def55771f48133c7037404e788cfce7805bab926af476937c9",
+  "tests_sha256": "bf76ea4642e39d1eae69ef3eda3d10ebb9c97d01c3d2ca341703458272ebbd4a"
+}

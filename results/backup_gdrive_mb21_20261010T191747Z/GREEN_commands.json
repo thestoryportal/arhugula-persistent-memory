@@ -1,0 +1,34 @@
+[
+  {
+    "class": "R5RecoveryTest",
+    "phase": "GREEN",
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tools.test_backup_gdrive_addendum.R5RecoveryTest",
+      "-v"
+    ],
+    "exit_code": 0,
+    "count": 9,
+    "log": "GREEN_R5RecoveryTest.log",
+    "sha256": "4cdcbd60c9c22589a9c356c1fdad1e4eabc93238fb1da6380c0a8a653c3a7c03"
+  },
+  {
+    "class": "R5CompactionTest",
+    "phase": "GREEN",
+    "args": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tools.test_backup_gdrive_addendum.R5CompactionTest",
+      "-v"
+    ],
+    "exit_code": 0,
+    "count": 6,
+    "log": "GREEN_R5CompactionTest.log",
+    "sha256": "2977d72cbe893d792a7d470f3a918fbe770f8b3be93ee80f3a78c57c869fbd7f"
+  }
+]

@@ -99,4 +99,11 @@ Pre-reorganization snapshot (2026-06-18) at `/root/migration_backup/`: `manifest
 | D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ | Documentation-only closeout of existing B receipt; no numerical rerun or new reproduction command; actual projector/leakage/locality UNMEASURED | [B measurement report — D-NEW1-fid warning](results/mathlab_staging/new1_v2_build_report.md#d-new1-fid) |
 
 
+## 2026-10-11 — NEW-1 one authorized execution outcome pointer (D-NEW1-c)
+
+| Decision | Scope | Detailed source |
+|---|---|---|
+| D-NEW1-c ⟨D-NEW1-c@fce4a263⟩ | One authorized invocation of `tools/new1_dispatch.sh` (endorsed command in results/mathlab_staging/new1_launch_c4_20261011/launch_manifest.md); authorization consumed, any re-run needs a new operator authorization; run dir results/mathlab_staging/runs/new1_20261010T235740.858576Z/ (finding.json, geometry.json); dispatch receipt results/mathlab_staging/new1_dispatch_20261010T235738.2180209160Z/dispatch_receipt.json | [NEW-1 outcome note](results/mathlab_staging/new1_outcome_20261011/maestro_outcome_note.md) |
+
+
 ⟨D-C10l-covgeom@0caeca4f⟩

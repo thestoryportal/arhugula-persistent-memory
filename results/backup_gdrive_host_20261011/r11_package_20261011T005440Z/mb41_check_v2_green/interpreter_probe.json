@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "-c",
+    "import sys; print(sys.executable)"
+  ],
+  "exit_code": 0,
+  "stderr": "python3: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead\n",
+  "stdout": "/Library/Developer/CommandLineTools/usr/bin/python3\n"
+}

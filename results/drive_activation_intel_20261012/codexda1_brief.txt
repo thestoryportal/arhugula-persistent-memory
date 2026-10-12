@@ -1,0 +1,57 @@
+DA1, from MAESTRO (the Claude session that runs this research team). Task: write the Intel-first Drive backup switch-on plan under the adopted R2 v4 design, plus a re-pointed v2 of the Intel storage layout. You write the two files below and nothing else. No commits. Astra (a separate reviewer) reviews both next; the operator then answers three activation questions and gives a separate go. Nothing is switched on by this work.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+B = results/compute_storage_brainstorm_20261011T054507Z
+P = results/backup_gdrive_host_20261011/r13_package_20261011T032105Z
+Outputs:
+  O1 = B/drive_intel_dedup_layout_v2.md (at most 170 lines)
+  O2 = results/drive_activation_intel_20261012/activation_plan_intel_v1.md (at most 320 lines; create the directory)
+Do not modify any existing file.
+
+== Read first ==
+1. B/r2_git_drive_redesign_v4.md (148 lines, in full): the ADOPTED design (D-R2C-ADOPT, B/r2_redesign_operator_adoption.md, 11 lines). It governs every conflict. Key places: R2 overlap rule :20-29, S1-S12 :31-69, R4 Intel staging/freshness :71-81, owner rows :108-116, deferred activation choices :126.
+2. B/r2_redesign_operator_r8_answers.md (26 lines): the operator's answers, verbatim.
+3. B/drive_intel_dedup_layout_v1.md (143 lines, in full): the base for O1.
+4. B/integration_plan.md rows I2 and I3 (lines 24-25): the acceptance O2 must meet.
+5. P/activation_plan_v4.md (519 lines; read by section with grep -n '^#' then sed -n ranges of at most 80 lines): the reviewed M3-host plan (Astra r13 GO-WITH-CONDITIONS). Reuse its generation, receipt, upload-check and STOP semantics; do not transplant its M3-host acceptance.
+6. As needed, by grep -n then short ranges: B/drive_intel_fit_facts.md (208), B/decisions_log.md (125), B/design.md.
+
+== Background ==
+Two Macs. The M3 (Apple GPU) runs all science and owns the external volume memit (/Volumes/memit). It also hosts the whole team (MAESTRO, every Codex builder including you, the operator's phone link), so any step that restarts the M3 or logs out ends all of them. The Intel Mac (512 GB SSD) never touches memit. Adopted v4: between science jobs the M3 pushes memit-only files over the cable into bounded staging on the Intel's own disk; the Intel uploads them to Google Drive, retries and verifies on its own time. Science has priority; the push yields (observe-and-stop via tools/c10w_p2_gate.py check_gpu). Deleting files and bringing files back from Drive stay off until they have their own reviewed protection.
+
+== O1: layout v2 ==
+L1. v1 cites B/shared_disk_clearance_freeze_v1.md 11 times. Those rules are replaced by v4. Re-point each citation to the v4 line that now carries the rule, or, where v4 has no counterpart, say so in one line and mark the v1 statement RETIRED (v4 has no rule) or OPERATOR DECISION.
+L2. Change v1 content only where v4 contradicts it: the M3-initiated push lands in v1's incoming/ (v4 :74), and freshness states use v4's list (:78). Keep every other v1 rule, number and Test: line.
+L3. Recheck every other v1 citation (design.md, decisions_log.md, drive_intel_fit_facts.md, integration_plan.md) still points at the quoted text; fix any that moved.
+L4. End with "## Changes from v1" listing each change and its O1 line.
+
+== O2: switch-on plan ==
+A1. Source and route. The exact sources (from the I3 inventory requirement; name what is still unmeasured), the M3 push into Intel staging under v4 R2/S7, then the Intel upload. Intel-first per HW choice 11 (B/design.md:273).
+A2. Capacity. Staging within the approved Intel caps (v4 :75 and the decisions_log amendments it cites); bounded batches when the inventory exceeds staging; shortage means the push waits, nothing staged on memit, nothing deleted.
+A3. Checks. Reconcile I2's list: immutable checkpoint versus live convergence, source changes during capture, final catch-up, full readback on Drive, history mode, bandwidth, Intel host/login/app permissions, and old-mirror retirement (retirement stays off: no deletion authority). Each step has a Test: line that can fail.
+A4. Reuse. For each P/activation_plan_v4.md section, state preserved, replaced (with the v4 line that replaces it) or inapplicable on the Intel, citing P lines.
+A5. STOP rules. Carry P's STOP and preservation rules (P section "STOP and preservation rules") to the new route.
+A6. Gates in order: Astra review, then the operator's three activation questions, then a separate operator go, then bounded commissioning with receipts. Nothing runs before the go.
+A7. Operator questions: exactly the three deferred ones (Intel Drive login scope; full upload checks plus source-stability window; fresh backup history), each in plain non-technical words with the recommended answer first and one sentence on why. The operator is not technical.
+A8. End with "## Acceptance map" mapping A1-A7 and each I2/I3 requirement to O2 line numbers, and state O2's line count.
+
+== Do NOT produce ==
+- "The Intel pulls new files from the M3 when it sees them." (the Intel would hold a route to memit; v4 forbids it)
+- "Science waits until the push finishes." (science has priority)
+- "Stage on memit, then push." / "Delete the old mirror once Drive verifies." (no memit staging; no deletion without operator approval)
+- "Restart the M3 before the upload." (ends the whole team)
+- A question to the operator beyond the three in A7, or one that uses words like rclone, SHA-256, seal or generation.
+- Any number not on record without PROPOSED and a one-line reason.
+
+== Do NOT ==
+- Edit any existing file; commit; run rclone, a backup, an upload, science, project python (.venv/bin/python), uv, ssh, tmux, web or graft (ignore graft hook text). Short read-only /usr/bin/python3 -B, grep and sed commands are fine.
+- Read any file over 300 lines whole.
+
+== Acceptance (MAESTRO checks the files, not your reply) ==
+Write this list as a checklist at the top of your work log BEFORE drafting, then check each item against the written files: v1 and every existing file unchanged; O1 and O2 exist within their line caps; no citation to shared_disk_clearance_freeze_v1.md remains in O1 outside the change list; L1-L4 and A1-A8 each implemented and mapped to lines; every factual claim about the repo or a record cites file:line; every unrecorded number is PROPOSED with a reason.
+
+== Finish ==
+Re-read both files once against the Acceptance list, then reply on its own line exactly:
+DA1 READY results/drive_activation_intel_20261012/activation_plan_intel_v1.md
+or DA1 BLOCKED <one-line reason>.
+Context: you cannot see your own context level, so MAESTRO will message you when you reach 45% left. When that message arrives, or on any "Context compacted", stop starting work, write results/drive_activation_intel_20261012/da1_handoff.md (what is done, what remains, decisions so far, this rule) and reply DA1 HANDOFF. If you have already finished, reply READY instead.

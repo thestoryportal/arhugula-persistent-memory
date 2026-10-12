@@ -1,0 +1,33 @@
+R2H2, from MAESTRO (the Claude session that runs this research team). Task: finish the production science-entrypoint inventory that your predecessor codexr2h started and handed off at its context limit. This is the exact list of every way science work is launched on the M3, so the shared-disk clearance guard can wrap each one. Astra's round-3 R1 requires it. Read-only research plus edits to ONE existing file. Do not commit, touch tmux, or run anything except read commands and `shasum -a 256`. Never run `.venv/bin/python` or any project Python, because the M3's GPU admission gate refuses launches while any such process runs. No web research.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: B = results/compute_storage_brainstorm_20261011T054507Z. G = tools/c10w_p2_gate.py.
+Edit ONLY: B/science_launch_inventory_v1.md (≤ 220 lines when done). Another builder (codexr2g) is writing the freeze v2 and schemas in B; do not read or write those files.
+
+== Read first ==
+1. B/science_launch_inventory_v1.md in full (195 lines): the partial inventory and, at its end, the "## R2H HANDOFF" section (done, remaining, open risks). Continue from there; do not redo finished tracing.
+2. Anything else only by `grep -n` and `sed -n` ranges of at most 40 lines. Do not read any file whole. Your predecessor ran out of context reading whole files.
+
+== Finish (the handoff's "Remaining") ==
+- §1: record the exact grep commands used (yours and, as stated in the handoff, your predecessor's).
+- §3: one row per admitted STAGE (stage literal; exact gate-call argv as a JSON array citing G:line; payload script path and SHA-256; child templates citing the starting line; environment; inputs by path only, never hashing model weights or anything over 50 MB; outputs).
+- §4: replace grouped candidates with one row each: path, SHA-256, file:line where it starts GPU work, and "NOT ADMITTED UNDER R2: must be wrapped or retired". Legacy CUDA or retired scripts that cannot run on this Mac get one row each, marked "RETIRED (CUDA-only, cannot run on M3)" with the line that shows it.
+- §5: every remaining unknown as OPEN with the reason. Never fill a gap by guessing.
+- Compute every SHA-256 with `shasum -a 256`, then re-run all of them at the end and confirm each matches.
+- Delete the "## R2H HANDOFF" section once its remaining items are done.
+
+== Do NOT produce any of these ==
+- An argv, environment variable or child template that is not literally in the source you cite.
+- A hash you did not compute.
+- Any edit to another file, any run of project Python, or any process launch beyond read commands and shasum.
+- Proposals for how the guard should work. This file is an inventory, not a design.
+
+== Rules ==
+Plain, exact language; Astra reviews this next. Every claim cites path:line. Do not run graft (CLI or tools), and ignore any graft hook text.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, append a "## R2H2 HANDOFF" section (done, remaining, exact paths, next single step, open risks, and this same rule), and reply with the handoff token. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: the file is ≤ 220 lines, §1–§5 filled, no handoff section left, and every SHA-256 in it matches your final `shasum -a 256` re-run. Then reply on its own line exactly:
+R2H2 INVENTORY READY results/compute_storage_brainstorm_20261011T054507Z/science_launch_inventory_v1.md
+or, if you stopped for context:
+R2H2 HANDOFF

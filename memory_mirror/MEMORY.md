@@ -1,4 +1,4 @@
-- [⭐ Context management (BINDING)](context-management-every-session.md) — Memento finalize-session for MAESTRO; new task only at ≥60% left, hand off at ≤40%, compaction → successor; MAESTRO measures own usage from transcript
+- [⭐ Context management (BINDING)](context-management-every-session.md) — Memento finalize-session for MAESTRO; new task only at ≥60% left, hand off at ≤40%, compaction → successor; MAESTRO measures own usage from transcript and resets by ~300k (ceiling 300k, operator 2026-10-10)
 
 ## Operating rules
 - [Answer the gate's real criterion](resolve-the-gates-real-criterion.md) — State the gate's literal criterion first; a passing necessary proxy isn't it
@@ -122,6 +122,33 @@
 - [C10 mint2 r3 (CORPUS/54)](c10-mint2-r3-provisional-no-direction.md) — Cite the reference's 17/24 beside any r3 label; V2 diagnosis still owed
 - [Mint replication spread + GGUF](mint-replication-spread-and-gguf-survival.md) — Need ≥3 seeds for mint init orderings; hash saved inits (pca_lowrank unseeded)
 - [No model clears full bars](no-model-cleared-full-bars-c10-included.md) — Don't claim any model/method passes deployment bars while C10 is open
-- [Background shell is nice 10](background-shell-niceness-10.md) — nice -n is an increment; use $((10-current)) when a script needs exactly 10
+- [Background shell is nice 10](background-shell-niceness-10.md) — the main tmux server runs at 10; nice -n is an increment; a pinned `nice -n 10` launch needs the operator-started `tmux -L new1` server (launchd is denied the volume)
 - [Codex sandbox has no network](codex-sandbox-no-network.md) — Builders can't reach Drive/gh; MAESTRO runs live network checks itself
 - [Rerun builder tests on host TMPDIR + CI](rerun-builder-tests-host-tmpdir.md) — builder green ≠ host/CI green; /var symlink + macOS-only stat fields
+- [Merge gate first-use learnings](merge-gate-first-use-learnings.md) — ask operator in chat before --apply; hygiene --dry-run early; detached integration worktree
+- [Native applet Removable Volumes prompt](native-applet-removable-volumes-prompt.md) — native .app on memit blocks silently until operator Allows; fixtures under /private/tmp
+- [Parallel builders: name each other's files](parallel-builders-name-each-others-files.md) — two builders in one worktree; each brief lists the other's authorized files or a hash check false-STOPs
+- [Count running duplicates before launch](check-for-running-duplicate-before-launch.md) — a prior chain may already run the same check; `pgrep -f … | wc -l` first
+- [Trim builder reading lists](trim-builder-reading-lists.md) — MB23's 4-item reading pass cost 36% context before any edit; give line ranges or split read/build
+- [Codex hook-trust prompt at launch](codex-hook-trust-prompt-at-launch.md) — fresh builder may stall on hook trust; check pane ~20 s, send 3 (no new trust)
+- [Codex watch: anchor tokens, context from rollout](codex-watch-anchor-replies-read-context-from-rollout.md) — brief echoes reply tokens (anchor ^); truncated footer → read rollout token_count
+- [Read handoff before launching successor](read-handoff-before-launching-successor.md) — a 40%-stop may be a finished build; verify, do not relaunch
+- [Dry admission probe before one-shot](dry-admission-probe-before-one-shot.md) — read-only probe('cpu') first so a refusal can't burn a single authorized attempt
+- [Record provenance per test run](record-provenance-per-test-run.md) — RED/GREEN logs need command + source/test SHA-256 or they cannot be cited; use a mktemp copy for old-source RED
+- [C10Y deferred behind Drive backup](c10y-deferred-behind-drive-backup.md) — operator: C10Y DEFERRED not shelved; unblocks when the Drive backup frees ~273 GiB
+- [Sandbox GREEN is not host GREEN](sandbox-green-is-not-host-green.md) — Codex sandbox skips ps/osascript tests; MAESTRO reruns on the host before calling GREEN
+- [Decision ID check before assigning](decision-id-check-before-assigning.md) — git grep the D-ID first; rulings-16 was reused once
+- [Work queue tab: keep it current](work-queue-tab-keep-current.md) — queue = program_state.json work_queue; qset.py at every builder turn end
+- [Cross-process contracts: one enforcer](cross-process-contracts-one-enforcer.md) — the winning side enforces alone; anchored ps patterns; one deadline; watchers drew 2 NO-GOs
+- [Intel Mac node access](intel-mac-node-access.md) — cable ssh robertrhu_node2@192.168.10.2 + key; dev-tool stub and Deskflow 1.27 traps
+- [Importing external files traps](importing-external-files-traps.md) — CLAUDE.md auto-load, *token* gitignore, all-or-nothing git add, READY hidden behind HANDOFF
+- [Ask Astra for automatic before an operator chore](ask-astra-automatic-before-operator-chore.md) — builder designs hide recurring manual steps; ask "automatic possible?" in the packet first
+- [Stop open-ended builder self-audits](stop-open-ended-builder-self-audits.md) — R4D3→R4D3C audit kept growing; after mechanical checks pass, hand the unfinished audit to Astra
+- [Codex brief: handoff file, narrow reads](codex-brief-handoff-file-narrow-reads.md) — handoff never in a tested report (broke a line-limit test); research briefs cap reads to grep + ≤40-line sed
+- [Codex web review lanes](codex-web-review-lanes.md) — `--search` only (sandbox network refused by classifier); web reading burns ~15%/min; ≤12 items/lane, successor generator ready
+- [Timed chain: prebuild gate checker](timed-chain-prebuild-gate-checker.md) — before a deadline-opening step, commit Gate D checker + dry-run it on a consumed run (R1N: caught key + DST bugs)
+- [LabViz wireframes before spec approval](labviz-wireframe-before-spec-approval.md) — after Astra GO on S: Codex static wireframes + flows; operator reviews before approving spec/builders
+- [Remove shared resource before policing it](remove-shared-resource-before-policing-it.md) — unterminating gate loop → design the contention away (R2 → Git+Drive)
+- [M3 hosts the team: no routine reboots](m3-hosts-the-team-no-routine-reboots.md) — reboot/logout kills MAESTRO, builders, phone link; adopted R2 v4 uses observe-and-stop on check_gpu instead
+- [Intel exists to offload the M3](intel-exists-to-offload-the-m3.md) — uploads/retries go to Intel via M3-initiated push; operator declined activity accounts
+- [Infra close-out template D-HW-2](infra-closeout-template-d-hw-2.md) — infra decisions pass closeout_check by copying D-HW-2's grouped-row pattern; Sol builder, gate = acceptance

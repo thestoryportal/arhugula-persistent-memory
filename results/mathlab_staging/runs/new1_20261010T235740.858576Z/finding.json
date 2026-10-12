@@ -1,0 +1,12 @@
+{
+  "tier": "MATH-PROXY",
+  "boundary": "math estimate, not evidence",
+  "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/runs/new1_20261010T235740.858576Z/geometry.json",
+  "predictions": {
+    "H-COV": "BOUNDARY-SENSITIVE",
+    "H-TOP": "PASS",
+    "H-RANK": "FAIL",
+    "H-OVERLAP": "FAIL"
+  },
+  "queue_action": "NONE \u2014 calibration/utility gated"
+}

@@ -1,0 +1,1 @@
+{"command": ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "-W", "error::ResourceWarning", "-m", "unittest", "test_instruments", "-v"], "exit": 0, "expected_exit": 0, "observer_sha256": "976f88cc619b0124cb89c4364a5895fb1d05816f855fd9d910048378e97789b3", "phase": "instrument-final-selftest"}

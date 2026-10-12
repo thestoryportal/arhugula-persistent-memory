@@ -1,0 +1,11 @@
+#!/usr/bin/python3
+import json,sys,subprocess
+from pathlib import Path
+if sys.argv[1] == "version":
+ print("rclone fixture");sys.exit(0)
+if sys.argv[1] == "config":
+ print("{}");sys.exit(0)
+path=Path(sys.argv[sys.argv.index("--log-file")+1])
+records=[{'level': 'notice', 'stats': {'bytes': 8, 'errors': 0, 'fatalError': False}}]
+path.write_text("".join(json.dumps(record)+"\n" if not isinstance(record,str) else record+"\n" for record in records))
+sys.exit(0)

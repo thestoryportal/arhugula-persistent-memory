@@ -1,0 +1,42 @@
+{
+  "tools/backup_gdrive_status.py": "Python syntax OK",
+  "tools/test_backup_gdrive_addendum.py": "Python syntax OK",
+  "results/backup_gdrive_mb20_20261010T180133Z/host_launcher_checks_mb20.py": "Python syntax OK",
+  "generationShell": "shell syntax OK",
+  "generationShell_perl": "-e syntax OK",
+  "launchShell": "shell syntax OK",
+  "receiptShell": "shell syntax OK",
+  "receiptShell_perl": "-e syntax OK",
+  "real_paths_identical": true,
+  "real_path_entries": 21,
+  "real_path_sha256_files": 18,
+  "tests": [
+    {
+      "class": "R5RecoveryTest",
+      "passed": 4,
+      "skipped": 0,
+      "log": "GREEN_R5RecoveryTest.log"
+    },
+    {
+      "class": "R5CompactionTest",
+      "passed": 5,
+      "skipped": 0,
+      "log": "GREEN_R5CompactionTest.log"
+    },
+    {
+      "class": "GenerationLaunchTest",
+      "passed": 16,
+      "skipped": 0,
+      "log": "GREEN_GenerationLaunchTest.log"
+    }
+  ],
+  "new_tests_red_green": 9,
+  "host_pending_native_cases": [
+    "manual-interleave",
+    "crash-after-allocation",
+    "recovery",
+    "unresolved-compaction"
+  ],
+  "tools/backup_gdrive.sh": "unchanged",
+  "results/backup_gdrive_mb16_20261010T103826Z/host_launcher_checks_mb16.py": "unchanged"
+}

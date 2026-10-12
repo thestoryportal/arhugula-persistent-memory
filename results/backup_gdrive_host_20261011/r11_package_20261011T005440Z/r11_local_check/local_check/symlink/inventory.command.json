@@ -1,0 +1,31 @@
+{
+  "argv": [
+    "/opt/homebrew/bin/rclone",
+    "lsf",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_local_check/home/content_symlink/source",
+    "--recursive",
+    "--files-only",
+    "--exclude-from",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_mirror.excludes",
+    "--exclude",
+    "**/.git/objects/**/tmp_obj_*",
+    "--exclude",
+    "**/.git/objects/tmp_obj_*",
+    "--exclude",
+    "/.git/objects/**/tmp_obj_*",
+    "--exclude",
+    "/.git/objects/tmp_obj_*",
+    "--links"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "niceness": 0,
+  "env": {
+    "HOME": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/r11_local_check/home"
+  },
+  "source_sha256": {
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/run_local_check.py": "d2c93d25c4d169447c08a003765f2bb1aee04e60da1a94d2fc60af75d1eb0059",
+    "results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/verify_check.py": "a7126bd62cf127c757873f348db745b981fae9603246a5afff604736c8fc49e5",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f"
+  }
+}

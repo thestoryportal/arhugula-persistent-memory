@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb14_20261010T095752Z/host_launcher_checks_mb14.py", line 91, in launch
+    assert entered.exists(), "native allocation never reached the pre-receipt pause"
+           ^^^^^^^^^^^^^^^^
+AssertionError: native allocation never reached the pre-receipt pause
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb14_20261010T095752Z/host_launcher_checks_mb14.py", line 136, in main
+    case.launch(case.base/"absent/backup_gdrive.sh")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb14_20261010T095752Z/host_launcher_checks_mb14.py", line 105, in launch
+    stdout, stderr = proc.communicate(timeout=10)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['/usr/bin/open', '-W', '-g', '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb14_20261010T095752Z/native_crash-after-allocation_20261010T102821.705146Z/fixture/Native_1.app']' timed out after 10 seconds

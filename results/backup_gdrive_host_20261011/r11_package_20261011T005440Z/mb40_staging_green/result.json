@@ -1,0 +1,12 @@
+{
+  "all_owned_groups_exited": true,
+  "errors": 0,
+  "exit_code": 0,
+  "failures": 0,
+  "mode": "staging",
+  "real_inventory_identical": true,
+  "skipped": 0,
+  "skips": [],
+  "success": true,
+  "testsRun": 1
+}

@@ -1,0 +1,2 @@
+{"pid": 62538, "pgid": 62538, "argv": ["/bin/ps", "-axo", "pid,ppid,pgid,stat,etime,command"], "test": null}
+{"pid": 62539, "pgid": 62539, "argv": ["/usr/bin/python3", "-B", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/check_plan.py", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261011/r11_package_20261011T005440Z/activation_plan_v2.md"], "test": null}

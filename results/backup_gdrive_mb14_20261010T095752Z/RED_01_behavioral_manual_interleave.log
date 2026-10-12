@@ -1,0 +1,19 @@
+COMMAND: ['/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python', '-B', '-m', 'unittest', 'tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_1_manual_interleave_preserves_counter_only_generation_11', '-v']
+EXIT: 1
+test_1_manual_interleave_preserves_counter_only_generation_11 (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_1_manual_interleave_preserves_counter_only_generation_11) ... FAIL
+
+======================================================================
+FAIL: test_1_manual_interleave_preserves_counter_only_generation_11 (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_1_manual_interleave_preserves_counter_only_generation_11)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1232, in test_1_manual_interleave_preserves_counter_only_generation_11
+    self.assert_bad("generation 11")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 64, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh backup with warnings (rclone exit 0): rclone log unverified: log; finished 2026-10-10T10:01:24.177946+00:00; manual/unsequenced heartbeat
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.608s
+
+FAILED (failures=1)

@@ -1,0 +1,774 @@
+{
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "-B",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py",
+    "-v"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "interpreter": "/Library/Developer/CommandLineTools/usr/bin/python3",
+  "interpreter_sha256": "6e7ae61f68a3838094fc56590f84c52069a97d7816f6bb79e0e85995b340e464",
+  "uid": 501,
+  "own_niceness": 0,
+  "mode": "green",
+  "subset": "full fixture suite",
+  "sources": [
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py",
+      "sha256": "c3de58e98c6c5a1c670e99e2f38bdd161757f796d09d2c973852b416b04c29bd",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/source_snapshot/0_test_new1_dispatch.py"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/c10w_p2_gate.py",
+      "sha256": "fb6568a6e159e84b22971aa893c3a83bcaaa16085f4abd9c76ca50b4a3362a26",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/source_snapshot/1_c10w_p2_gate.py"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/source_snapshot/2_mathlab_events.py"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/source_snapshot/3_new1_dispatch.sh"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/source_snapshot/4_new1_dispatch_report.py"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/record_test_run.py",
+      "sha256": "8870f60985c94f1846c6fc820e5aeae1cb5c33a9c184255dc141962c418df2d5",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/source_snapshot/5_record_test_run.py"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/run_tests.sh",
+      "sha256": "a5ea1834515cf33cee18a22ff7807d87b40f050dcb399b4666a339fcee5fe860",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/source_snapshot/6_run_tests.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-bran_dl_/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T10_unreaped_group_blocks_compute/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-bran_dl_/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T10_unreaped_group_blocks_compute/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-bran_dl_/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T10_unreaped_group_blocks_compute/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-bran_dl_/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T10_unreaped_group_blocks_compute/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-bran_dl_/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T10_unreaped_group_blocks_compute/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-bran_dl_/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T10_unreaped_group_blocks_compute/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-bran_dl_/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T10_unreaped_group_blocks_compute/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-52wssqj3/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T11_endorsed_argv_cwd_env/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-52wssqj3/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T11_endorsed_argv_cwd_env/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-52wssqj3/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T11_endorsed_argv_cwd_env/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-52wssqj3/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T11_endorsed_argv_cwd_env/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-52wssqj3/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T11_endorsed_argv_cwd_env/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-52wssqj3/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T11_endorsed_argv_cwd_env/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-52wssqj3/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T11_endorsed_argv_cwd_env/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-933mhcfs/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T1_observed_recorder_line_not_blocker/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-933mhcfs/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T1_observed_recorder_line_not_blocker/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-933mhcfs/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T1_observed_recorder_line_not_blocker/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-933mhcfs/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T1_observed_recorder_line_not_blocker/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-933mhcfs/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T1_observed_recorder_line_not_blocker/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-933mhcfs/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T1_observed_recorder_line_not_blocker/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-933mhcfs/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T1_observed_recorder_line_not_blocker/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-ha55roqf/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T2_happy_path/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-ha55roqf/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T2_happy_path/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-ha55roqf/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T2_happy_path/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-ha55roqf/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T2_happy_path/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-ha55roqf/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T2_happy_path/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-ha55roqf/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T2_happy_path/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-ha55roqf/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T2_happy_path/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-_2y8yc5m/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_b_reused_authorization/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-_2y8yc5m/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_b_reused_authorization/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-_2y8yc5m/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_b_reused_authorization/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-_2y8yc5m/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_b_reused_authorization/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-_2y8yc5m/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_b_reused_authorization/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-_2y8yc5m/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_b_reused_authorization/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-_2y8yc5m/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_b_reused_authorization/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-hj6a6cog/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_dirty_pinned_source/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-hj6a6cog/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_dirty_pinned_source/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-hj6a6cog/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_dirty_pinned_source/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-hj6a6cog/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_dirty_pinned_source/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-hj6a6cog/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_dirty_pinned_source/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-hj6a6cog/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_dirty_pinned_source/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-hj6a6cog/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_dirty_pinned_source/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-z0pkxa19/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_wrong_head/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-z0pkxa19/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_wrong_head/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-z0pkxa19/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_wrong_head/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-z0pkxa19/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_wrong_head/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-z0pkxa19/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_wrong_head/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-z0pkxa19/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_wrong_head/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-z0pkxa19/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_c_wrong_head/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-qb4_2qox/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_d_bad_manifest_hash/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-qb4_2qox/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_d_bad_manifest_hash/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-qb4_2qox/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_d_bad_manifest_hash/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-qb4_2qox/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_d_bad_manifest_hash/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-qb4_2qox/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_d_bad_manifest_hash/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-qb4_2qox/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_d_bad_manifest_hash/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-qb4_2qox/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_d_bad_manifest_hash/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-w_kvewb0/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_f_stricter_disk_floor/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-w_kvewb0/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_f_stricter_disk_floor/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-w_kvewb0/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_f_stricter_disk_floor/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-w_kvewb0/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_f_stricter_disk_floor/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-w_kvewb0/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_f_stricter_disk_floor/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-w_kvewb0/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_f_stricter_disk_floor/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-w_kvewb0/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_f_stricter_disk_floor/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-mxhsq1e7/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_g_fingerprint_failure/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-mxhsq1e7/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_g_fingerprint_failure/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-mxhsq1e7/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_g_fingerprint_failure/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-mxhsq1e7/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_g_fingerprint_failure/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-mxhsq1e7/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_g_fingerprint_failure/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-mxhsq1e7/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_g_fingerprint_failure/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-mxhsq1e7/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_g_fingerprint_failure/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-xea4l8i3/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_h_dry_probe_refusal/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-xea4l8i3/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_h_dry_probe_refusal/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-xea4l8i3/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_h_dry_probe_refusal/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-xea4l8i3/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_h_dry_probe_refusal/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-xea4l8i3/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_h_dry_probe_refusal/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-xea4l8i3/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_h_dry_probe_refusal/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-xea4l8i3/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_h_dry_probe_refusal/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-1yhexqqq/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_i_hash_changed_after_first_check/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-1yhexqqq/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_i_hash_changed_after_first_check/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-1yhexqqq/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_i_hash_changed_after_first_check/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-1yhexqqq/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_i_hash_changed_after_first_check/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-1yhexqqq/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_i_hash_changed_after_first_check/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-1yhexqqq/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_i_hash_changed_after_first_check/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-1yhexqqq/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T3_i_hash_changed_after_first_check/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jql92vu1/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T4_nonzero_recorder_niceness/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jql92vu1/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T4_nonzero_recorder_niceness/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jql92vu1/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T4_nonzero_recorder_niceness/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jql92vu1/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T4_nonzero_recorder_niceness/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jql92vu1/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T4_nonzero_recorder_niceness/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jql92vu1/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T4_nonzero_recorder_niceness/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jql92vu1/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T4_nonzero_recorder_niceness/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-yxm_x1wq/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T5_worker_nice_three_requests_supervisor_sigint/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-yxm_x1wq/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T5_worker_nice_three_requests_supervisor_sigint/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-yxm_x1wq/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T5_worker_nice_three_requests_supervisor_sigint/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-yxm_x1wq/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T5_worker_nice_three_requests_supervisor_sigint/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-yxm_x1wq/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T5_worker_nice_three_requests_supervisor_sigint/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-yxm_x1wq/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T5_worker_nice_three_requests_supervisor_sigint/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-yxm_x1wq/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T5_worker_nice_three_requests_supervisor_sigint/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jw5s7bnj/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T6_deadline_no_halted_event/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jw5s7bnj/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T6_deadline_no_halted_event/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jw5s7bnj/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T6_deadline_no_halted_event/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jw5s7bnj/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T6_deadline_no_halted_event/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jw5s7bnj/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T6_deadline_no_halted_event/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jw5s7bnj/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T6_deadline_no_halted_event/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-jw5s7bnj/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T6_deadline_no_halted_event/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-fs9ry8m9/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T7_resource_halted_event/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-fs9ry8m9/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T7_resource_halted_event/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-fs9ry8m9/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T7_resource_halted_event/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-fs9ry8m9/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T7_resource_halted_event/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-fs9ry8m9/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T7_resource_halted_event/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-fs9ry8m9/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T7_resource_halted_event/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-fs9ry8m9/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T7_resource_halted_event/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-7thnzltb/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T8_internal_admission_refused/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-7thnzltb/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T8_internal_admission_refused/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-7thnzltb/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T8_internal_admission_refused/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-7thnzltb/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T8_internal_admission_refused/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-7thnzltb/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T8_internal_admission_refused/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-7thnzltb/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T8_internal_admission_refused/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-7thnzltb/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T8_internal_admission_refused/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-za_1dcd4/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T9_third_abort_reached/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-za_1dcd4/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T9_third_abort_reached/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-za_1dcd4/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T9_third_abort_reached/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-za_1dcd4/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T9_third_abort_reached/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-za_1dcd4/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T9_third_abort_reached/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-za_1dcd4/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T9_third_abort_reached/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-za_1dcd4/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_T9_third_abort_reached/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-8djwyds3/tools/engine_fingerprint.py",
+      "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/engine_fingerprint.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-8djwyds3/tools/mathlab_admit.py",
+      "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/mathlab_admit.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-8djwyds3/tools/mathlab_events.py",
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/mathlab_events.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-8djwyds3/tools/new1_dispatch_report.py",
+      "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/new1_dispatch_report.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-8djwyds3/tools/new1_geometry.py",
+      "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/new1_geometry.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-8djwyds3/tools/new1_supervisor.py",
+      "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/new1_supervisor.py"
+    },
+    {
+      "path": "/private/tmp/new1-fixture-8djwyds3/tools/new1_dispatch.sh",
+      "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/new1_dispatch.sh"
+    },
+    {
+      "path": "/private/tmp/new1-shell-check-wui1p_sg/tools/check_under_test.sh",
+      "sha256": "f9d1ebe7a0027abf1543fcedbf2e69a4bf71f266ccc949777904adf97cac4a19",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_recorder_disk_exact_floor_with_trailing_newline_new1-shell-check-wui1p_sg/check_under_test.sh"
+    },
+    {
+      "path": "/private/tmp/new1-shell-check-0zb47xen/tools/check_under_test.sh",
+      "sha256": "f9d1ebe7a0027abf1543fcedbf2e69a4bf71f266ccc949777904adf97cac4a19",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_recorder_disk_invalid_observation_refuses_new1-shell-check-0zb47xen/check_under_test.sh"
+    },
+    {
+      "path": "/private/tmp/new1-shell-check-2k09zpbf/tools/check_under_test.sh",
+      "sha256": "f9d1ebe7a0027abf1543fcedbf2e69a4bf71f266ccc949777904adf97cac4a19",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_recorder_disk_invalid_observation_refuses_new1-shell-check-2k09zpbf/check_under_test.sh"
+    },
+    {
+      "path": "/private/tmp/new1-shell-check-6844l_pg/tools/check_under_test.sh",
+      "sha256": "f9d1ebe7a0027abf1543fcedbf2e69a4bf71f266ccc949777904adf97cac4a19",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_recorder_disk_invalid_observation_refuses_new1-shell-check-6844l_pg/check_under_test.sh"
+    },
+    {
+      "path": "/private/tmp/new1-shell-check-27_8wnta/tools/check_under_test.sh",
+      "sha256": "f9d1ebe7a0027abf1543fcedbf2e69a4bf71f266ccc949777904adf97cac4a19",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_recorder_disk_invalid_or_lowered_floor_refuses_new1-shell-check-27_8wnta/check_under_test.sh"
+    },
+    {
+      "path": "/private/tmp/new1-shell-check-cz918z42/tools/check_under_test.sh",
+      "sha256": "f9d1ebe7a0027abf1543fcedbf2e69a4bf71f266ccc949777904adf97cac4a19",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_recorder_disk_invalid_or_lowered_floor_refuses_new1-shell-check-cz918z42/check_under_test.sh"
+    },
+    {
+      "path": "/private/tmp/new1-shell-check-fnim2wi5/tools/check_under_test.sh",
+      "sha256": "f9d1ebe7a0027abf1543fcedbf2e69a4bf71f266ccc949777904adf97cac4a19",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_recorder_disk_raised_floor_refuses_new1-shell-check-fnim2wi5/check_under_test.sh"
+    },
+    {
+      "path": "/private/tmp/new1-shell-check-gqado0rr/tools/check_under_test.sh",
+      "sha256": "a2798c83b53341f7568b9a88b07384a7d66906a7938bb0b9ec2292963a854369",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_recorder_disk_reads_real_df_stdout_new1-shell-check-gqado0rr/check_under_test.sh"
+    },
+    {
+      "path": "/private/tmp/new1-shell-check-q5pfvzwl/tools/check_under_test.sh",
+      "sha256": "f9d1ebe7a0027abf1543fcedbf2e69a4bf71f266ccc949777904adf97cac4a19",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_recorder_disk_shortage_refuses_new1-shell-check-q5pfvzwl/check_under_test.sh"
+    },
+    {
+      "path": "/private/tmp/new1-shell-check-5xnldode/tools/check_under_test.sh",
+      "sha256": "78e3ac120763d485eddd4d8ffea4ddd4298b5b61c8b8ef4c7521cd4365a24364",
+      "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_recorder_utc_has_complete_timestamp_new1-shell-check-5xnldode/check_under_test.sh"
+    }
+  ],
+  "standard_library": "provided by pinned interpreter; no third-party imports",
+  "environment_assignments": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "NEW1_TEST_PROVENANCE": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures"
+  },
+  "exit_code": 0
+}

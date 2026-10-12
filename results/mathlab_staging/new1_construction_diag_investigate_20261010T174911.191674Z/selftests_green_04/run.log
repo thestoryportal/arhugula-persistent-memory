@@ -1,0 +1,10 @@
+test_a_records_roundtrip_exclusive_and_fsync (test_instruments.InstrumentTests.test_a_records_roundtrip_exclusive_and_fsync) ... ok
+test_b_scratch_retains_bytes_and_import_guard_rejects_escape (test_instruments.InstrumentTests.test_b_scratch_retains_bytes_and_import_guard_rejects_escape) ... ok
+test_c_observer_preserves_alarm_handler_timer_and_native_exits (test_instruments.InstrumentTests.test_c_observer_preserves_alarm_handler_timer_and_native_exits) ... ok
+test_d_native_snapshot_is_readonly_and_records_real_threads (test_instruments.InstrumentTests.test_d_native_snapshot_is_readonly_and_records_real_threads) ... ok
+test_e_profile_gap_is_recorded_and_next_fixture_is_observed (test_instruments.InstrumentTests.test_e_profile_gap_is_recorded_and_next_fixture_is_observed) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.492s
+
+OK

@@ -1,0 +1,28 @@
+R1K, from MAESTRO (the Claude session that runs this research team). Task: answer Astra's narrow round-9 NO-GO by strengthening one test and correcting the report. Production code does not change. You write files only. Do not commit. Do not run anything on the Intel Mac, over ssh or over the network. Do not touch tmux or ~/.ssh. No web research.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: RE = results/research_engine_phase1_20261011. V9 = RE/astra_r1p9_verdict.md. T = RE/test_r1j_collector.py. D = RE/r1j_report.md. B/S = RE/r1j_bind_manifest.py / RE/r1j_stub.py.
+Write ONLY: RE/test_r1k_collector.py (start as `cp` of T; it keeps importing the unchanged r1j_* modules and v9), RE/r1k_report.md (start as `cp` of D; ≤ 90 lines), and RE/r1k_handoff.md only if you stop for context. Every existing file stays untouched, including every r1j_* module and v9.
+
+== Read ==
+V9 in full (45 lines). T:1890–1975 (the real-stub bind helper and its three tests). B and S whole are short (≤ 101 lines each). D in full (82 lines). Anything else by `grep -n` plus `sed -n` ranges of at most 40 lines.
+
+== Required (V9 R1, R2) ==
+1. Carry all 61 r1j tests with names kept. Add test_r1k_01_identity_loop_entered_before_cutoff_and_interrupted_inside: use the same real stub, compiler, binder, collector and real clocks as `r1j_real_bind(True)` (no mocks of binder, loader or clocks). The substituted identity fixture already runs inside the stub's process; make it write evidence lines to stderr (which the M3 captures into `<prefix>.stderr`): one at loop entry with time.monotonic(), a per-iteration counter, and a completion line only after its loop finishes. Make the cutoff value observable to the test without changing production code (for example, read the module global B sets from inside the fixture, or have the fixture compute nothing and the test compare against values the stub/binder already expose; cite the line you rely on). Assert: the entry line exists, its monotonic time is < the cutoff, at least one iteration ran, the completion line is absent, rc ≠ 0, stderr names the cutoff, no success publication, no `.final`, and the M3 deadline was not reached. Keep the ample-budget positive control passing.
+2. If proving entry-before-cutoff truly needs a production code change, stop: change nothing in production, write the reason with file:line in RE/r1k_handoff.md, and reply R1K BLOCKED.
+3. r1k_report.md: correct D:20 and the coverage-table row to say exactly what the new test establishes; distinguish "the procedure runs bind → commit → inventory in order inside the original window" from "completion within 870 s is not measured" (V9 F5); record V9 F2's accepted narrowing (durable content before publication; uncertain directory-entry durability after link, with separately reviewed recovery) and F3's open item (stdout publication after the final check under blocking or suspension). Cite file:line; update the report's own self-citations; keep the 90-line limit test passing.
+
+== Do NOT produce any of these ==
+- Any edit to an existing file, any production-code change, or new timeout machinery.
+- A mocked binder, loader or clock, or a sleep-only fixture that cannot show where the cutoff hit.
+- A test that passes when the cutoff expires before the identity loop starts (V9 F1's counterexample). Check this: temporarily shrink the budget so expiry happens before the loop in a scratch copy under $TMPDIR, confirm your new test FAILS there, and record that in the report.
+- Fixes beyond V9 R1–R2. Put anything else in one line under "Noticed, not fixed".
+
+== Rules ==
+Plain, exact language; Astra reviews this next. Do not run graft (CLI or tools), and ignore any graft hook text.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write RE/r1k_handoff.md (done, remaining, exact paths, next single step, open risks, and this same rule), and reply with the handoff token. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: `/usr/bin/python3 -B -m unittest discover -s RE -p 'test_r1k_collector.py'` passes (61 carried + the new test); `test_r1j_collector.py` still passes unchanged; the scratch-copy check above failed as expected. Then reply on its own line exactly:
+R1K TEST READY results/research_engine_phase1_20261011/r1k_report.md
+or R1K HANDOFF, or R1K BLOCKED.

@@ -1,0 +1,40 @@
+[1m[38;5;231m[48;5;25m ■ SCIENCE REPORT · updated 2026-10-11 (D-NEW1-c ⟨D-NEW1-c@fce4a263⟩ NEW-1 one authorized execution COMPLETE/[0m
+ [3mGoal: 61 of 72 reworded questions right · ordinary facts already get ~69 · bar ┃ marks the goal[0m
+[1m[38;5;231m[48;5;96m NEXT ACTIONS · docs/program_state.json [0m[38;5;96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+ Page 16/17 · rotates every 10 s · source includes recorded history
+ (solve-side); (d) the (i) predictors I-4/I-4b on the ABSENT subjects; (e) minted-token lifecycle (C5/C9)
+ and capacity beyond 271 rows; (c) minted-token lifecycle (delete / overwrite / compaction, C5/C9) and
+ capacity beyond 271 rows; (d) I-4/I-4b predictors on the residual mint gap; (e) I-1 OverTone / I-2 forward
+ replay stay queued behind (b). Harness fact (arc §12): the C10 solve is AlphaEdit-style and ignores
+ mom2_update_weight; CLAUDE.md line 28 fingerprint hash is stale (tool pins d941a9fb).
+ 10. (2) Q4_K_M survival of multi-token values (B3 covered single-token only) — the CPU-serve quantization
+ check for the fixed target.
+ 11. (3) batch-genesis-at-scale cleanliness (C1 reframed) — gated on TARGET FACT-COUNT (worth pinning:
+ single solve under the 2000 cap vs sub-batched = the D20 cliff).
+ 12. (4) DONE 2026-10-04 — serving validation on the deployment hardware: B3 reproduced end-to-end on the M3
+ Pro (edit on MPS → fp16 GGUF → Q4_K_M → llama.cpp prebuilt b11382, -ngl 0): edited retention 99.0% (98/99)
+ vs native-country 98.7% (76/77), Δ +0.3 ≥ −3 → PASS (pod: 100 vs 97.4).
+ `results/law3_repro_2026-10-03/b3/`. Native llama.cpp/LARQL builds blocked until the operator reinstalls
+[1m[38;5;231m[48;5;28m NOW [0m[38;5;28m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+ [38;5;244m· GPU idle · last: ASTRA log · 23h01m ago · outcome not recorded[0m
+ [38;5;141m◦ helper: Draft Drive builder brief (4eff2d63)  ·  11m12s[0m
+ Scoreboard narrative only · as of 2026-10-10 01:15 MDT · docs/c10_scoreboard.json
+[1m[38;5;231m[48;5;124m ⚠ The text below predates: CORPUS/02 changed; CORPUS/01 changed; CORPUS/03 changed (the program updates it) [0m
+[1m[38;5;231m[48;5;30m WHAT IT MEANS [0m[38;5;30m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+ [1mWe are trying to teach the model made-up names (like a project codename) so it can recall them when a[0m
+ [1mquestion is worded differently. Ordinary facts already work (about 69 of 72); made-up two-word names do not:[0m
+ [1mthe usual method gets about 12 of 72, our best write method about 40, and the goal is 61. Training the same[0m
+ [1msmall part of the model reaches 70 of 72, so that part is big enough, but only with side effects. ASTRA,[0m
+ [1mwhich writes every word of the answer at once, got 14 of 72 against 12 and did not fit its targets, so it is[0m
+ [1mclosed. The offline math lab could not predict real results well enough and was stopped. Now: a check of the[0m
+ [1mmath behind earlier writes (NEW-1) and the step-7 setup.[0m
+[1m[38;5;231m[48;5;24m SCOREBOARD RESULTS · dated narrative (newest first) [0m[38;5;24m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+ [38;5;245m10-10[0m [38;5;39m█[38;5;39m█[38;5;39m█[38;5;39m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[38;5;238m░[0m [1m[38;5;39m14 of 72 (vs 12)          [0m ASTRA: write every word of the answer at once — No: two…
+ [38;5;245m10-09[0m [38;5;240m··················[0m [1m[38;5;196mcalibration failed        [0m Math lab: predict a write's result offline — Stopped: i…
+ [38;5;245m10-08[0m [38;5;39m█[38;5;39m█[38;5;39m█[38;5;39m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[38;5;238m░[0m [1m[38;5;39m17 of 72 (vs 12)          [0m Step 6: two ways to prepare the answer before writing i…
+ [38;5;245m10-08[0m [38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[0m [1m[38;5;244m70 of 72 (two runs: 70 an…[0m Step 5: ceiling test, official reading (training, not a…
+ [38;5;245m10-08[0m [38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[0m [1m[38;5;244m71 and 70 of 72 (no offic…[0m Step 5: ceiling test, repeat run (training, not a write…
+ [38;5;245m10-07[0m [38;5;39m█[38;5;39m█[38;5;39m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[38;5;238m░[0m [1m[38;5;39m12 of 72 (vs 11)          [0m Step 4: let each fact pick its own depth — No: one more…
+ [38;5;245m10-07[0m [38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[38;5;40m█[0m [1m[38;5;244m70 of 72 (interim, one se…[0m Step 5: ceiling test, first round (training, not a writ…
+ [38;5;245m10-07[0m [38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;214m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[38;5;238m░[0m [1m[38;5;244m46, 37, 40 of 72 (vs 14)  [0m Step 3: new vocabulary word per name (repeat) — No clea…
+ [38;5;245m10-07[0m [38;5;39m█[38;5;39m█[38;5;39m█[38;5;39m█[38;5;39m█[38;5;39m█[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;238m░[38;5;196m┃[38;5;238m░[38;5;238m░[0m [1m[38;5;39m23 of 72 (vs 15)          [0m Step 2: second address inside the name — Small gain wit…

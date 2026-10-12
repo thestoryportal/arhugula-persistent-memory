@@ -1,0 +1,6 @@
+test_fix4_c2_guardian_setup_exception_cannot_unwind_into_supervisor (tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c2_guardian_setup_exception_cannot_unwind_into_supervisor) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.131s
+
+OK

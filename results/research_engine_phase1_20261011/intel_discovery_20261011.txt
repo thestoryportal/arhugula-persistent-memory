@@ -1,0 +1,248 @@
+# Intel read-only discovery (re1_report.md command list), run by MAESTRO38 via ssh over the Thunderbolt cable; no selfupdate, no install
+# started 2026-10-11T08:57:26Z
+$ /usr/bin/sw_vers
+ProductName:		macOS
+ProductVersion:		14.8.9
+BuildVersion:		23J631
+[exit 0]
+$ /usr/bin/uname -m
+x86_64
+[exit 0]
+$ /opt/local/bin/port version
+Version: 2.12.6
+[exit 0]
+$ /usr/sbin/pkgutil --pkg-info org.macports.MacPorts
+package-id: org.macports.MacPorts
+version: 0.2.12.6.0.0.0.0.0
+volume: /
+location: 
+install-time: 1791706604
+[exit 0]
+$ /usr/bin/shasum -a 256 /Users/robertrhu_node2/Downloads/MacPorts-2.12.6-14-Sonoma.pkg
+shasum: /Users/robertrhu_node2/Downloads/MacPorts-2.12.6-14-Sonoma.pkg: No such file or directory
+[exit 1]
+$ /opt/local/bin/port installed
+No ports are installed.
+[exit 0]
+$ /bin/cat /opt/local/etc/macports/sources.conf
+# MacPorts system-wide configuration file for ports tree sources.
+#
+# To change how MacPorts fetches base, see rsync_server and rsync_dir in
+# macports.conf.
+
+# To add a local source, add a "file://" entry.
+#
+#   Example: file:///Users/landonf/misc/MacPorts/ports
+#
+# To prevent a source from synchronizing when `port sync` is used,
+# append "[nosync]" at the end.
+#
+#   Example: file:///Users/landonf/misc/MacPorts/ports [nosync]
+#
+# Note that MacPorts parses source URLs in order; when a port appears in
+# multiple sources, it installs the first occurrence. For local sources
+# to shadow remote ones, "file://" URLs must come before other URLs.
+
+# A list of rsync mirrors is available at
+# https://trac.macports.org/wiki/Mirrors#Portfiles.
+#
+# If an "rsync://" URL points to a .tar file, a signed .rmd160 file must
+# exist in the same directory on the server and will be used to verify
+# its integrity.
+#
+[exit 0]
+$ /bin/ls -la /opt/local/var/macports/sources
+total 0
+drwxr-xr-x  4 root  wheel  128 Oct 11 02:16 .
+drwxr-xr-x@ 9 root  wheel  288 Oct 11 02:16 ..
+drwxr-xr-x  3 root  wheel   96 Oct 11 02:16 rsync.macports.org
+drwxr-xr-x  3 root  wheel   96 Oct 11 02:16 selfupdate
+[exit 0]
+$ /opt/local/bin/port search --name neo4j
+No match for neo4j found
+[exit 0]
+$ /opt/local/bin/port search --name cypher
+No match for cypher found
+[exit 0]
+$ /opt/local/bin/port search --name openjdk21
+openjdk21 @21.0.12.1 (java, devel)
+OpenJDK 21 (Long Term Support)
+
+openjdk21-corretto @21.0.12.12.1 (java, devel)
+Amazon Corretto OpenJDK 21 (Long Term Support until October 2030)
+
+openjdk21-graalvm @21.0.2 (java, devel)
+GraalVM Community Edition based on OpenJDK 21 (Short Term Support ended in March 2024)
+
+openjdk21-jetbrains @21.0.10b1163.110 (java, devel)
+JetBrains Runtime on OpenJDK 21
+
+openjdk21-microsoft @21.0.12.1 (java, devel)
+Microsoft Build of OpenJDK 21 (Long Term Support until at least September 2028)
+
+openjdk21-openj9 @21.0.12.15 (java, devel)
+IBM Semeru with Eclipse OpenJ9 VM distribution, based on OpenJDK 21 (Long Term Support)
+
+openjdk21-oracle @21.0.2 (java, devel)
+Oracle OpenJDK 21 (GPL-2 licensed updates until March 2024)
+
+openjdk21-sap @21.0.12.1 (java, devel)
+SAP Machine 21
+
+openjdk21-temurin @21.0.12.1 (java, devel)
+[exit 0]
+$ /opt/local/bin/port search --name python312
+dbus-python312 @1.3.2_1 (devel, python)
+Python bindings for the dbus message bus system.
+
+python312 @3.12.15 (lang)
+An interpreted, object-oriented programming language
+
+xapian-bindings-python312 @1.4.27 (devel)
+Xapian bindings for Python 3.12
+
+Found 3 ports.
+[exit 0]
+$ /opt/local/bin/port search --name duckdb
+duckdb @1.5.6_1 (databases)
+DuckDB is an embeddable SQL OLAP Database Management System
+
+R-duckdb @1.1.3 (R, science, databases)
+DBI package for the DuckDB database management system
+
+R-duckdbfs @0.0.8 (R, science, databases, sysutils)
+High-performance remote file system access using DuckDB
+
+Found 3 ports.
+[exit 0]
+$ /opt/local/bin/port search --name libpng
+libpng @1.6.58 (graphics)
+Library for manipulating PNG images
+
+p5-image-png-libpng @0.600.0 (perl)
+Image::PNG::Libpng - Perl interface to the C library "libpng"
+
+p5.28-image-png-libpng @0.600.0 (perl)
+Image::PNG::Libpng - Perl interface to the C library "libpng"
+
+p5.30-image-png-libpng @0.600.0 (perl)
+Image::PNG::Libpng - Perl interface to the C library "libpng"
+
+p5.32-image-png-libpng @0.600.0 (perl)
+Image::PNG::Libpng - Perl interface to the C library "libpng"
+
+p5.34-image-png-libpng @0.600.0 (perl)
+Image::PNG::Libpng - Perl interface to the C library "libpng"
+
+Found 6 ports.
+[exit 0]
+$ /opt/local/bin/port search --name pcre2
+fortran-pcre2 @0.1.1 (fortran, devel)
+Fortran 2018 ISO_C_BINDING interfaces to Perl-compatible Regular Expressions 2
+
+ocaml-pcre2 @8.0.4_3 (ocaml, devel)
+Bindings to the Perl Compatibility Regular Expressions library (version 2)
+
+pcre2 @10.48 (devel)
+Perl Compatible Regular Expressions
+
+sqlite3-pcre2 @0.1 (databases)
+Perl-compatible regular expression support for SQLite
+
+Found 4 ports.
+[exit 0]
+$ /opt/local/bin/port search --name glib2
+glib2 @2.88.3_2 (devel)
+Library with data structure functions and other constructs
+
+glib2-bootstrap @2.88.3_2 (devel)
+Glib2 build with introspection disabled, used to build gobject-introspection and avoid circular dependency.
+
+glib2-bootstrap-devel @2.88.3_2 (devel)
+Glib2 build with introspection disabled, used to build gobject-introspection and avoid circular dependency.
+
+glib2-devel @2.88.3_2 (devel)
+Library with data structure functions and other constructs
+
+rb-glib2 @4.2.4 (ruby, gnome, devel)
+Ruby/GLib2 provides base features for GLib2-based bindings
+
+rb31-glib2 @4.2.4 (ruby, gnome, devel)
+Ruby/GLib2 provides base features for GLib2-based bindings
+
+rb32-glib2 @4.2.4 (ruby, gnome, devel)
+Ruby/GLib2 provides base features for GLib2-based bindings
+
+rb33-glib2 @4.2.4 (ruby, gnome, devel)
+Ruby/GLib2 provides base features for GLib2-based bindings
+
+Found 8 ports.
+[exit 0]
+$ /opt/local/bin/port search --name xorgproto
+xorg-xorgproto @2024.1 (x11, devel)
+X.org xorgproto
+[exit 0]
+$ /opt/local/bin/port search --name cairo
+cairo @1.18.4_2 (graphics)
+Cairo is a vector graphics library with cross-device output support
+
+cairo-devel @1.18.4_2 (graphics)
+Cairo is a vector graphics library with cross-device output support
+
+cairomm @1.18.0_1 (graphics)
+Cairo is a vector graphics library with cross-device output support.
+
+cairomm-1.0 @1.14.6 (graphics)
+cairomm is a C++ wrapper for the cairo graphics library.
+
+fortran-cairo @2023.05.16 (fortran, graphics)
+Cairo bindings for Fortran
+
+gst-plugins-cairovis @0.1.1_5 (science, gnome)
+Scientific visualization plugins for GStreamer using Cairo graphics
+
+libsvg-cairo @0.1.6_5 (graphics)
+SVG Rendering library using cairo
+
+ocaml-cairo2 @0.6.5_2 (ocaml, graphics)
+OCaml bindings for Cairo, a 2D graphics library
+
+p5-cairo @1.109.0 (perl)
+[exit 0]
+$ /opt/local/bin/port search --name harfbuzz
+harfbuzz @14.4.0 (graphics)
+OpenType text shaping engine
+
+harfbuzz-devel @14.4.0 (graphics)
+OpenType text shaping engine
+
+harfbuzz-icu @14.4.0 (graphics)
+HarfBuzz ICU support library
+
+harfbuzz-icu-devel @14.4.0 (graphics)
+HarfBuzz ICU support library
+
+py-uharfbuzz @0.56.1 (python, graphics)
+Streamlined Cython bindings for the HarfBuzz shaping engine.
+
+py310-uharfbuzz @0.56.1 (python, graphics)
+Streamlined Cython bindings for the HarfBuzz shaping engine.
+
+py311-uharfbuzz @0.56.1 (python, graphics)
+Streamlined Cython bindings for the HarfBuzz shaping engine.
+
+py312-uharfbuzz @0.56.1 (python, graphics)
+Streamlined Cython bindings for the HarfBuzz shaping engine.
+
+py313-uharfbuzz @0.56.1 (python, graphics)
+[exit 0]
+$ /bin/df -k /
+Filesystem     1024-blocks     Used Available Capacity iused      ifree %iused  Mounted on
+/dev/disk1s4s1   488245288 10027356 467308292     3%  406316 4294219065    0%   /
+[exit 0]
+$ /usr/bin/du -sk /opt/local
+247240	/opt/local
+[exit 0]
+$ (M3, repo) shasum -a 256 results/research_engine_phase1_20261011/duckdb_1.5.5.lock.txt
+f8ffcdeadaded28928249cf8b468a25e9cf25e8a1a6b028b22deed8757c28636  results/research_engine_phase1_20261011/duckdb_1.5.5.lock.txt
+# ended 2026-10-11T08:57:30Z

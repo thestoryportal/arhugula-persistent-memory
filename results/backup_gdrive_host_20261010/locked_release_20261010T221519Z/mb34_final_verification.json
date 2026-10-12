@@ -1,0 +1,12 @@
+{
+  "status": "DRIVE RECEIPTS DONE",
+  "pinned_files_unchanged": 7,
+  "earlier_files_unchanged": 168,
+  "source_snapshots_and_command_hashes_verified": true,
+  "actual_exit_receipts_verified": true,
+  "process_file_sizes_verified": true,
+  "genuine_leak_report_and_cleanup_verified": true,
+  "readme_sha256": "2539b8be5b62c1e3abbdf8183c5e7a12c4ef161e83312d3009c509af29594727",
+  "runner_sha256": "5065464f1f61e957011f361ae48d8af1a85cd52fdecdcb40710c30d125b1fe3d",
+  "context_save_sha256": "617941ba7273b36b154b745fe9c8ef166d314cfd644995644dd61dcc39317190"
+}

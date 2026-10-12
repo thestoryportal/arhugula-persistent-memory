@@ -1,0 +1,15 @@
+{
+  "backup_path": "/Volumes/backups/ConnectedPapers-for-AlphaEdit%3A-Null%20Space-Constrained-Knowledge-Editing-for-Language-Models.bib",
+  "repo_path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/research_and_specs/ConnectedPapers-for-AlphaEdit%3A-Null%20Space-Constrained-Knowledge-Editing-for-Language-Models.bib",
+  "bytes": 66812,
+  "sha256": "57a5796f1c2b02ddae5a58467a90ed75b73597f5e3d82c6c8032eb95475967d8",
+  "git_blob_id": "1f0928070f6e39cbc6b62dc0fd712cd62c1f8dfa",
+  "result": "EXACT",
+  "unique_fallback_calls": 0,
+  "location": {
+    "commit": "f459b3a21b996149287b20a6b4ad111763e5fc8f",
+    "path": "research_and_specs/ConnectedPapers-for-AlphaEdit%3A-Null%20Space-Constrained-Knowledge-Editing-for-Language-Models.bib"
+  },
+  "ls_tree_receipt": "100644 blob 1f0928070f6e39cbc6b62dc0fd712cd62c1f8dfa\tresearch_and_specs/ConnectedPapers-for-AlphaEdit%3A-Null%20Space-Constrained-Knowledge-Editing-for-Language-Models.bib",
+  "byte_identity_verified": true
+}

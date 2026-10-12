@@ -1,0 +1,10 @@
+pr: PASS 
+fingerprint: PASS 
+branches: PASS 
+ci: PASS 
+stable_head_base: PASS 
+ready: WOULD-RUN dry-run; no action
+merge: WOULD-RUN dry-run; no action
+master_ci: WOULD-RUN dry-run; no action
+post_hygiene: WOULD-RUN dry-run; no action
+PASS: bounded merge gate complete

@@ -1,0 +1,15 @@
+{
+  "per_module": {
+    "construction_diag": 69,
+    "identity_diag": 41,
+    "geometry": 34,
+    "supervisor": 61
+  },
+  "full_total": 205,
+  "retained_existing_total": 188,
+  "changed_existing_methods": [
+    "construction_diag.ConstructionDiagnosticTests.test_runtime_caps_and_pins_reuse_frozen_identity_contract",
+    "identity_diag.IdentityDiagnosticTests.test_deadline_kills_and_reaps_a_real_blocked_child"
+  ],
+  "all_existing_names_retained": true
+}

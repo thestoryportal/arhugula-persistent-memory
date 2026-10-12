@@ -1,0 +1,16 @@
+test_r7_1_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_counter_temporary_live_and_archived_floor_pair) ... ok
+test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_heartbeat_last_run_temporary_live_and_archived_floor_pair) ... ok
+test_r7_1_journal_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_journal_temporary_live_and_archived_floor_pair) ... ok
+test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_launch_receipt_temporary_live_and_archived_floor_pair) ... ok
+test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_counter_temporary_live_and_archived_floor_pair) ... ok
+test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_manifest_temporary_live_and_archived_floor_pair) ... ok
+test_r7_1_recovery_state_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_recovery_state_temporary_live_and_archived_floor_pair) ... ok
+test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_refusal_last_run_temporary_live_and_archived_floor_pair) ... ok
+test_r7_1_under_lock_rechecks_every_live_and_archived_temporary (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_under_lock_rechecks_every_live_and_archived_temporary) ... ok
+test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unparseable_temporary_live_and_archived_refuses_with_filename) ... ok
+test_r7_1_unresolved_temporary_live_and_archived_floor_pair (tools.test_backup_gdrive_addendum.R7PublicationTemporaryTest.test_r7_1_unresolved_temporary_live_and_archived_floor_pair) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 1.747s
+
+OK

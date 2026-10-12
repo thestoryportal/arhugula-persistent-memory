@@ -1,0 +1,2 @@
+PASS: live queue PID 91517 is absent from GPU blockers.
+Full gate outcome (other work may block): {'ok': True, 'blocking_processes': [], 'blocking_tmux': []}

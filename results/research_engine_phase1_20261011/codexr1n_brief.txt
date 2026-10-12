@@ -1,0 +1,40 @@
+R1N, from MAESTRO (the Claude session that runs this research team). Task: re-plan the R1 Intel inventory budget as manifest v11, because the v10 plan failed its own pre-registered sizing gate on the real Intel tree. You build and test locally only. You run nothing on the Intel Mac and nothing over ssh.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Aliases: RE = results/research_engine_phase1_20261011. C = RE/r1j_collector.py. M = RE/r1l_make_bundle.py. J = RE/intel_provisioning_manifest_v10.json. Q = RE/r1m_size_probe.py. E = RE/r1m_evaluate.py. RM = RE/r1m_report.md. AD = RE/r1m_sizing_dispatch.py. GD = RE/r1m_gate_d_checklist.md. V12 = RE/astra_r1p12_verdict.md. STOP = RE/r1m_chain_stop_20261011.md. CAP = RE/r1j_probe_r1m_20261011T154940Z.json (sha256 1c330b25b5a3921b197a8d60fc12aca0d33183e0e4b9d52f0741aa382755a9ed). EOUT = RE/r1m_evaluate_20261011T154940Z.out.
+
+== Where things stand ==
+The operator authorized one A–E chain. Phase A ran Q once on the Intel Mac (CAP). Phase B ran E on CAP and printed FAIL (EOUT): required receipt bytes 34,712,537 against the sealed 18,000,000; required setup bytes 2,016,477,107 against the 2,000,000,000 cap (setup = non-receipt components 1,981,764,570 + required receipts). LIVE passed. The chain stopped; the authorization is spent. 61,743 rows, nearly all under /opt/local (20,114,046 row bytes). Old Intel state 7,386,341. M3 receipts 851,702. Fixed terms 6,360,448.
+
+== Read ==
+1. STOP and V12 in full (both short); EOUT (one line); RM lines 1–40.
+2. Everything else only by `grep -n` plus `sed -n` ranges of at most 40 lines. Never read C, M, J, Q, E or CAP whole. Why: these files are large and earlier builders on this code ran out of context.
+
+== Required (test-first: write each test, see it fail, then make it pass) ==
+1. Route (implement this one): keep the 2,000,000,000 setup cap. Raise the sealed receipt allowance to cover CAP's measured demand plus a drift reserve, and make room under the setup cap by lowering one or more non-receipt components in J's budget. For each lowered component, cite from C/J what it reserves and show from source that the new value still covers it; `retained_failure_extra` (70,000,000) is the first candidate. Keep planned_peak_bytes = non-receipts + receipt allowance ≤ the setup cap.
+2. Drift reserve, fixed now: state the reserve as a rule (for example, a stated fraction of measured rows plus a fixed floor), justify it from what can change on the Intel tree between this measurement and the next (for example, MacPorts updates under /opt/local; the not-yet-existing admitted roots), and write it into the new evaluator as constants. The next chain re-measures (a measurement is valid for at most 3,600 s); that fresh measurement, not CAP, decides PASS. Say plainly in the report that the allowance was sized from CAP and that the rule is fixed before the next measurement, so Astra can judge it.
+3. Astra r12 R1 carried forward: the evaluator also charges the R1M evidence already on the M3 (CAP, EOUT, their .exit/.stderr/.final/.pending files) and any receipt evidence J's globs omit; the sizing capture set of the next chain must fit its fixed envelope.
+4. New files: manifest v11 (written by a small generator script that loads J, changes only the budget fields and the version/identity fields that must change, and writes v11; print a diff of changed JSON paths in the report), a v11 evaluator, a v11 sizing-dispatch adapter that pins v11 (model on AD), a v11 gate-D checklist (model on GD, with V12 R1–R3 kept), and a report. If C, M or Q hard-code a v10 value or hash that v11 changes, list each by path:line.
+5. Alternatives (report only, do not implement): (a) record /opt/local differently (for example, a summarized subtree) and what that costs the inventory's purpose; (b) remove the old r1h-v7 Intel state before the chain, which is a deletion on the Intel Mac that only the operator can approve. One paragraph each, with the bytes each would save.
+
+== Write ONLY new files ==
+RE/r1n_make_manifest_v11.py, RE/intel_provisioning_manifest_v11.json, RE/r1n_evaluate.py, RE/r1n_sizing_dispatch.py, RE/r1n_gate_d_checklist.md, RE/test_r1n_replan.py, RE/r1n_report.md (≤ 90 lines), and RE/r1n_handoff.md only if you stop. Never edit an existing file. If v11 cannot work without editing an existing file, stop, write the exact lines and the reason in RE/r1n_handoff.md, and reply R1N BLOCKED.
+
+== Tests must show ==
+The v11 evaluator on CAP prints PASS with every term printed; E on CAP with J still prints FAIL (unchanged). A synthetic capture whose rows exceed CAP's by more than the drift reserve makes the v11 evaluator print FAIL. v11's planned_peak_bytes ≤ 2,000,000,000 and equals non-receipts + receipt allowance. The generator is deterministic (two runs, same bytes) and changes only the listed JSON paths. `test_r1l_collector.py` (64) and `test_r1m_sizing.py` (10) pass unchanged.
+
+== Do NOT produce any of these ==
+- A drift reserve or margin with no stated rule, or one tuned until CAP passes by an arbitrary hair ("receipt allowance 34,800,000").
+- A lowered non-receipt component justified by "it was generous" instead of source lines showing what it must hold.
+- A v11 that raises the setup cap, edits J in place, or edits any existing file.
+- Any run on the Intel Mac, ssh, or the M3 dispatcher against real hosts; any reuse of anchor 0:a49c11de49ce….
+- Commits, tmux, graft (CLI or tools; ignore graft hook text), web, .venv/bin/python or uv. Use /usr/bin/python3 -B for tests.
+
+== Rules ==
+Every claim cites path:line. Plain, exact language; Astra reviews this next.
+Context: start a new step only at ≥ 60% context left. At ≤ 45%, on any context compaction, or when MAESTRO orders a context stop: finish only the current edit, save, write RE/r1n_handoff.md (done, remaining, exact paths, next single step, open risks, and this same rule), and reply R1N HANDOFF. Never put a handoff in the report. This rule must survive every successor handoff.
+
+== Done ==
+Acceptance: `/usr/bin/python3 -B -m unittest discover -s RE -p 'test_r1n_replan.py'` passes; test_r1l_collector.py and test_r1m_sizing.py pass unchanged; the report covers Required 1–5 with the v11 evaluator's exact rule and the changed-paths diff. Then reply on its own line exactly:
+R1N REPLAN READY results/research_engine_phase1_20261011/r1n_report.md
+or R1N HANDOFF, or R1N BLOCKED <one-line reason> (details in RE/r1n_handoff.md).

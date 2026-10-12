@@ -1,0 +1,56 @@
+[
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5RecoveryTest.test_1_torn_journal_preserves_generation_and_entire_ambiguous_file",
+    "log": "RED_01_test_1_torn_journal_preserves_generation_and_entire_ambiguous_file.log",
+    "exit_code": 1,
+    "behavioral_red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5RecoveryTest.test_1_valid_generation_after_torn_line_still_counts",
+    "log": "RED_02_test_1_valid_generation_after_torn_line_still_counts.log",
+    "exit_code": 1,
+    "behavioral_red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5RecoveryTest.test_2_floor_below_valid_journal_is_read_only",
+    "log": "RED_03_test_2_floor_below_valid_journal_is_read_only.log",
+    "exit_code": 1,
+    "behavioral_red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5RecoveryTest.test_2_floor_below_torn_journal_is_read_only",
+    "log": "RED_04_test_2_floor_below_torn_journal_is_read_only.log",
+    "exit_code": 1,
+    "behavioral_red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_exact_limit_and_limit_plus_one_compaction",
+    "log": "RED_05_test_4_exact_limit_and_limit_plus_one_compaction.log",
+    "exit_code": 1,
+    "behavioral_red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_byte_overflow_preserves_the_recovery_barrier",
+    "log": "RED_06_test_4_byte_overflow_preserves_the_recovery_barrier.log",
+    "exit_code": 1,
+    "behavioral_red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_two_thousand_allocations_remain_bounded_and_fail_closed",
+    "log": "RED_07_test_4_two_thousand_allocations_remain_bounded_and_fail_closed.log",
+    "exit_code": 1,
+    "behavioral_red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_compacted_barrier_cannot_be_refused_and_completion_at_barrier_clears",
+    "log": "RED_08_test_4_compacted_barrier_cannot_be_refused_and_completion_at_barrier_clears.log",
+    "exit_code": 1,
+    "behavioral_red": true
+  },
+  {
+    "test": "tools.test_backup_gdrive_addendum.R5CompactionTest.test_5_python_and_both_perl_publishers_agree_at_boundaries",
+    "log": "RED_09_test_5_python_and_both_perl_publishers_agree_at_boundaries.log",
+    "exit_code": 1,
+    "behavioral_red": true
+  }
+]

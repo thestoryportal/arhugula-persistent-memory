@@ -1,0 +1,6 @@
+{
+  "native_tests_enabled": true,
+  "real_rclone_disabled": true,
+  "selector": "LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change",
+  "test_count": 1
+}

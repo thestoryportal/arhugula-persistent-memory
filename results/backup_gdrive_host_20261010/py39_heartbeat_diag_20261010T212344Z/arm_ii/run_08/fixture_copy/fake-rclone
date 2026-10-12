@@ -1,0 +1,5 @@
+#!/bin/bash
+if [ "$1" = version ]; then echo "rclone-test"; exit 0; fi
+if [ "$1" = config ]; then printf "{}\n"; exit 0; fi
+touch "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/arm_ii/run_08/fixtures/gdrive_addendum_2hlabnoe/owner-dispatched"
+for i in {1..500}; do [ -f "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/arm_ii/run_08/fixtures/gdrive_addendum_2hlabnoe/owner-release" ] && break; /bin/sleep 0.01; done

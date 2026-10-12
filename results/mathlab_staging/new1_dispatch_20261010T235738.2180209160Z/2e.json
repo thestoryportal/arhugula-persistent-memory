@@ -1,0 +1,1 @@
+{"check":"2e","command":"/bin/ps\\ -o\\ nice=\\ -p\\ 11028","argv":["/bin/ps","-o","nice=","-p","11028"],"stdout":" 0\u000a","stderr":"","exit":0}

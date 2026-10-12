@@ -1,0 +1,23 @@
+{
+  "all_owned_groups_exited": true,
+  "direct_process_count": 82,
+  "error_tests": [],
+  "errors": 0,
+  "exit_code": 0,
+  "failure_tests": [],
+  "failures": 0,
+  "ps": "UNAVAILABLE: sandbox denied /bin/ps",
+  "skipped": 2,
+  "skips": [
+    {
+      "reason": "UNVERIFIED: locked release build exit 1: /private/tmp/gdrive_addendum_rskuj8gz/locked fixture.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:23:02.862 osascript[37415:191122306] Error received in message reply handler: Connection invalid\n2026-10-10 16:23:02.862 osascript[37415:191122307] Connection Invalid error for service com.apple.hiservices-xpcservice.\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_dispatches_release_after_checkout_change"
+    },
+    {
+      "reason": "UNVERIFIED: locked release build exit 1: /private/tmp/gdrive_addendum_jqof2912/locked fixture.app.applescript:11: error: Expected end of line but found identifier. (-2741); Standard Additions control exit 1: 2026-10-10 16:23:03.328 osascript[37465:191122419] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 16:23:03.328 osascript[37465:191122418] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)",
+      "test": "tools.test_backup_gdrive_addendum.LockedReleaseTest.test_compiled_app_full_source_equals_saved_source"
+    }
+  ],
+  "success": true,
+  "testsRun": 14
+}

@@ -1,0 +1,279 @@
+{
+  "positive_control": true,
+  "runner_pid": 30770,
+  "observed": [
+    {
+      "pid": 30785,
+      "ppid": 30770,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 35.149504958,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30788,
+      "ppid": 30785,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 35.149583833,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30794,
+      "ppid": 30785,
+      "path": "/bin/mkdir",
+      "first_seen_monotonic": 35.160023833,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30795,
+      "ppid": 30785,
+      "path": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+      "first_seen_monotonic": 35.170381666,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30796,
+      "ppid": 30785,
+      "path": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+      "first_seen_monotonic": 35.302354041,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30797,
+      "ppid": 30796,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 35.432682791,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30814,
+      "ppid": 30785,
+      "path": "/bin/mkdir",
+      "first_seen_monotonic": 35.624156208,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30816,
+      "ppid": 30785,
+      "path": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+      "first_seen_monotonic": 35.639288333,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30815,
+      "ppid": 30785,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 35.639297166,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30819,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.639370666,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30820,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.652610708,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30821,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.664740541,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30822,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.675226916,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30824,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.718851458,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30826,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.745564291,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30827,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.756050125,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30828,
+      "ppid": 30770,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 35.782305375,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30836,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.782456666,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30838,
+      "ppid": 30828,
+      "path": "/bin/mkdir",
+      "first_seen_monotonic": 35.782601708,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30842,
+      "ppid": 30828,
+      "path": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/bin/python3.9",
+      "first_seen_monotonic": 35.793091583,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30843,
+      "ppid": 30815,
+      "path": null,
+      "first_seen_monotonic": 35.808459583,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30844,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.8195565,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30845,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.830223666,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30846,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.842056708,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30847,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.857582916,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30849,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.869724583,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30851,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.89221625,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30852,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.905230083,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30853,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.915773291,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30855,
+      "ppid": 30770,
+      "path": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+      "first_seen_monotonic": 35.931127375,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30856,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.941673583,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30857,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.952198916,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30858,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.9627005,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30859,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 35.983631458,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30860,
+      "ppid": 30815,
+      "path": null,
+      "first_seen_monotonic": 35.999093958,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30862,
+      "ppid": 30815,
+      "path": null,
+      "first_seen_monotonic": 36.029950958,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30863,
+      "ppid": 30815,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 36.042756666,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30865,
+      "ppid": 30785,
+      "path": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+      "first_seen_monotonic": 36.068489708,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 30866,
+      "ppid": 30785,
+      "path": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+      "first_seen_monotonic": 36.200697041,
+      "alive_after_runner_exit": false
+    }
+  ]
+}
