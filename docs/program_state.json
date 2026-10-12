@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T02:14:00Z",
+    "edited": "2026-10-12T02:52:00Z",
     "items": [
       {
         "id": "context-audit",
@@ -53,7 +53,8 @@
           "02:00Z: the preservation check finished its report (PRESERVATION.md, committed 1868b690; MAESTRO67 re-checked five of its claims, all correct). Short answer to your R2 question: missing or conflicting instructions added work to R2 (8 of 48 review findings), but they did not cause its central shared-drive problem. Your worktree-vs-main-folder point is real: the main folder is missing 18 findings documents and the 144 history files imported from the backups drive (evidence: operator_hypothesis_worktree_vs_main.md, 8c107cdb). The checker is at 45% and is writing up its last two R2 answers; the planner is still working.",
           "02:04Z: answer on the Intel: in the two-Mac design (R2) the Intel never read memit at all. Only an M3 program could touch the drive, and the Intel kept its own separate copies (your 'Separate copies' choice). So the stale main folder could not have fed the Intel there. The main folder is still missing newer work and must be brought up to date. A fresh checker (codexcps2) is now tracing where the strict 'exact match' rule came from; codexcps handed off at 42% and was closed.",
           "02:10Z (Oct 12): Where the strict 'exact match' rule came from is now written down (PRESERVATION.md §6, committed edd3aaa9): an earlier MAESTRO picked it to fix a safety gap the reviewer found, not an old note. The fix plan is ready (33 short jobs in 9 waves) and passed MAESTRO68's checks; it still needs the restore items added before any fixing starts.",
-          "02:14Z (Oct 12): You asked where the Intel's copies of the memit files are. There are none: 'separate copies' was the design you approved, never carried out. A read-only check of the Intel found no external drive and no project files (correction committed e9890d3a). A fresh planner (codexchp2) is adding the missing restore items to the fix plan; the first planner finished and was closed."
+          "02:14Z (Oct 12): You asked where the Intel's copies of the memit files are. There are none: 'separate copies' was the design you approved, never carried out. A read-only check of the Intel found no external drive and no project files (correction committed e9890d3a). A fresh planner (codexchp2) is adding the missing restore items to the fix plan; the first planner finished and was closed.",
+          "02:52Z (Oct 12): Done as you asked. All side-branch work is now in master on GitHub (PR #23, checks green before and after), and the main folder on memit is up to date. From now on work happens in the main folder on master (written into CLAUDE.md and both memory stores). The fix plan now covers the restore items too (386 small jobs). Waiting on you for the 37 GB file move and the old worktree folders."
         ]
       },
       {

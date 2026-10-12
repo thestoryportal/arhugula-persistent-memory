@@ -152,3 +152,4 @@
 - [M3 hosts the team: no routine reboots](m3-hosts-the-team-no-routine-reboots.md) — reboot/logout kills MAESTRO, builders, phone link; adopted R2 v4 uses observe-and-stop on check_gpu instead
 - [Intel exists to offload the M3](intel-exists-to-offload-the-m3.md) — uploads/retries go to Intel via M3-initiated push; operator declined activity accounts
 - [Infra close-out template D-HW-2](infra-closeout-template-d-hw-2.md) — infra decisions pass closeout_check by copying D-HW-2's grouped-row pattern; Sol builder, gate = acceptance
+- [work-from-main-folder-on-master](work-from-main-folder-on-master.md) — since 2026-10-12 main checkout on master is the one working copy; push master; worktrees = one-lane sandboxes
