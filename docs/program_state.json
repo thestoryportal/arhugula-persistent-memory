@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T03:45:00Z",
+    "edited": "2026-10-12T04:14:00Z",
     "items": [
       {
         "id": "context-audit",
@@ -55,7 +55,8 @@
           "02:10Z (Oct 12): Where the strict 'exact match' rule came from is now written down (PRESERVATION.md §6, committed edd3aaa9): an earlier MAESTRO picked it to fix a safety gap the reviewer found, not an old note. The fix plan is ready (33 short jobs in 9 waves) and passed MAESTRO68's checks; it still needs the restore items added before any fixing starts.",
           "02:14Z (Oct 12): You asked where the Intel's copies of the memit files are. There are none: 'separate copies' was the design you approved, never carried out. A read-only check of the Intel found no external drive and no project files (correction committed e9890d3a). A fresh planner (codexchp2) is adding the missing restore items to the fix plan; the first planner finished and was closed.",
           "02:52Z (Oct 12): Done as you asked. All side-branch work is now in master on GitHub (PR #23, checks green before and after), and the main folder on memit is up to date. From now on work happens in the main folder on master (written into CLAUDE.md and both memory stores). The fix plan now covers the restore items too (386 small jobs). Waiting on you for the 37 GB file move and the old worktree folders.",
-          "03:35Z (Oct 12): The old worktree's 37 GB of files are now in the main folder; 8,122 small records committed (a3745e84, checks green); 120 big files kept on memit with fingerprints. Five old worktrees removed. The fix plan waits for your go."
+          "03:35Z (Oct 12): The old worktree's 37 GB of files are now in the main folder; 8,122 small records committed (a3745e84, checks green); 120 big files kept on memit with fingerprints. Five old worktrees removed. The fix plan waits for your go.",
+          "04:14Z (Oct 12): You made the clean-up top priority. The plan was written against an old picture (main folder behind master), so a planner (codexchp3) is updating it to today's master first; then Astra reviews it; then the first wave of clean-up builders starts. The leftover merged GitHub branch was deleted with your OK."
         ]
       },
       {
@@ -317,7 +318,8 @@
           "00:28Z: the expert reviewer (Astra) is now checking the Intel-first switch-on plan and its storage layout (packet 6693d39c). After its verdict and any fixes, MAESTRO brings you the three switch-on questions; a separate go comes after that. Nothing is switched on.",
           "00:35Z: Astra said go with four fixes (e5416e99): spell out which failure tests the Intel must still pass, keep the check that ignores stray settings, fix one disk-space test that pointed the wrong way, and restore two storage safeguards. The builder is making those fixes now; then your three questions.",
           "03:35Z (Oct 12): You said go on making the Intel hold the memit copy. Plan: 1) copy memit to the Intel over the cable at low disk priority, pausing while science runs, every file checked; 2) once verified, stop the 6-hourly backup on the M3's internal disk and, with your OK, delete its 272 GB copy at ~/Backups/memit; 3) the Intel uploads to Drive on its own; 4) the Intel pulls repo files on demand. A fresh MAESTRO session in the main folder starts it.",
-          "03:45Z (Oct 12): Step 1 started. Space checked: the Intel has 478 GB free, and storing each identical file once keeps the copy near 130 GB, inside its 250 GB limit. The pass/fail plan is written (98888273). A builder is writing the copy tool with its tests first. Next: MAESTRO runs a size check on the real files, a small trial copy with a pause test, then expert review, before the full copy."
+          "03:45Z (Oct 12): Step 1 started. Space checked: the Intel has 478 GB free, and storing each identical file once keeps the copy near 130 GB, inside its 250 GB limit. The pass/fail plan is written (98888273). A builder is writing the copy tool with its tests first. Next: MAESTRO runs a size check on the real files, a small trial copy with a pause test, then expert review, before the full copy.",
+          "04:14Z (Oct 12): The copy tool is built (its 30 tests pass), but its test run left ~260 temporary ic1-* folders inside results/intel_memit_copy_20261012, so it is not committed yet. Paused here because you made the context clean-up top priority; nothing is copying."
         ]
       },
       {
