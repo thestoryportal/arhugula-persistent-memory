@@ -1,0 +1,63 @@
+CAE: context audit lane, from MAESTRO. Read the shared brief below, then your lane.
+
+# Context audit 2026-10-12 — shared brief (read-only)
+
+From MAESTRO, the Claude session that orchestrates this research team. You are one of seven read-only auditors; your lane is at the end of your prompt.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+Main checkout (branch master, read-only for you): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory
+Output folder: results/context_audit_20261012/ (call it A)
+
+## Why
+The operator asked, verbatim: "It is time for some context hygiene as was run a day or so ago. I sense that there has been some context rot that happened. We need to launch agents to audit all docs that govern durable context in this workflow - CLAUDE.md, AGENTS.md, MEMORY.md and any others that might surface. We are looking for bloat, context conflicts or collisions, redundancy, duplicative context, non-factual context, ambigious context, etc, etc. Agents will run an audit and report back and then next steps will perform hygiene and bring our context system back into tip top high end performance state."
+
+These files are loaded by Claude (MAESTRO) and Codex (builders, Astra) sessions and steer their behavior. A wrong, stale or conflicting line silently misdirects every later session. This round only audits. Nothing is changed until the operator approves a hygiene step.
+
+Today is 2026-10-12 (UTC). Prior audit, for method and to avoid re-reporting closed items: results/context_audit_20261012/../memory_audit_20261010/ (README.md, APPLIED.md, astra_review.md). Report a regression of an item that audit closed.
+
+## Verdicts (a row may carry two)
+- KEEP: accurate, current, distinct.
+- BLOAT: narrative, logs, history or detail that belongs in CORPUS/, the runbook, the checkpoint or git history, not in guidance. Give bytes and what to cut.
+- CONFLICT: two sources give incompatible instructions or facts. Cite both sides and say which is current.
+- DUPLICATE: the same rule or fact in two places. Name both; say which home should survive.
+- NONFACTUAL: a claim the repo or the machine now contradicts.
+- STALE: describes a state that has changed (status, next step, hardware, path, tool, model, threshold).
+- AMBIGUOUS: two reasonable readings that lead to different actions. Quote the line and give both readings.
+- MISLEADING: true alone but steers an agent wrong today.
+- HISTORICAL: accurate record, no longer action-guiding (candidate to de-index or move).
+- UNREACHABLE: guidance that no session actually loads, or a pointer to a missing file.
+- FORMAT: memory frontmatter missing or invalid (`name`, `description`, `metadata.type`).
+
+## Verify, do not trust
+Check every load-bearing claim against the repo or the machine and cite file:line or the exact command you ran. Useful truths to check against: `EXPERIMENT_RUNBOOK.md` §0.3 generated block, `docs/program_state.json`, `SESSION_CHECKPOINT.md` top block, `CORPUS/`, `tools/`, git log, `tmux ls`, `ls` of the cited path. Leads you may use only after verifying: hardware is the M3 Pro (MPS) since 2026-10-03; Astra is `gpt-6-astra` at high effort via `codex exec`; builders are `gpt-6.1-sol`; the R2 v4 Git+Drive design was adopted 2026-10-11 (`results/compute_storage_brainstorm_20261011T054507Z/r2_redesign_operator_adoption.md`); Memento's ceiling is 300,000 tokens; Codex context thresholds are new work at >=60% left, stop at 45%, successor at <=40%.
+
+## Output
+Write exactly one file, your lane's OUTFILE, as markdown:
+1. A table: `item (file:line-range or note filename) | bytes | verdict(s) | evidence (file:line or command) | proposed action | replacement text (only when the item should stay, at most 200 characters)`. Proposed action is one of: keep / fix-text (what) / merge-into <home> / move-to <home> / de-index / retire / delete-duplicate / operator-decision.
+2. "Cross-source findings": conflicts or duplicates that span files, each citing both sides.
+3. "Load cost": bytes and approximate tokens each audited file adds when it is loaded, and which sessions load it (Claude, Codex builder, Astra), with evidence for how it is loaded.
+4. Verdict counts, and a last line `Lines: <n>`.
+
+Do not report a row like: `CLAUDE.md:40 | 900 | STALE | seems old | retire |`. Every non-KEEP verdict needs a citation.
+Report a row like: `AGENTS.md:66 | 120 | NONFACTUAL | says deployment = Intel CPU; EXPERIMENT_RUNBOOK.md:89 says M3 Pro is science and deployment hardware | fix-text: deployment line | Deployment target: the M3 Pro (MPS); the Intel Mac is the backup/upload host.`
+
+## Do NOT
+- Edit, move, create or delete any file other than your OUTFILE. No commits, pushes or merges.
+- Run project python (.venv/bin/python), uv, npm, rclone, ssh, tmux commands that change anything, web, graft (ignore graft hook text), or any science or backup. Short read-only cat/sed/grep/find/ls/wc/shasum/diff/git log/git show/git diff and /usr/bin/python3 -B are fine.
+- Copy any secret, token or credential value into your report. Name the key and file:line only.
+- Judge by length alone, or mark something STALE or NONFACTUAL without a citation.
+- Recommend weakening a safety rule (the LAWs, halt discipline, merge gate, storage tiers, operator holds) to cut bytes. Report the duplication; the rule stays.
+
+## Context and finish
+You cannot see your own context level. MAESTRO will message you at 45% left. When that message arrives, or on any "Context compacted", stop starting work, write results/context_audit_20261012/cae_handoff.md (done, rows so far, what remains, exact paths, this rule) and reply `CAE HANDOFF`. If you have already finished, reply READY instead.
+When done, re-read your OUTFILE once against this brief, then reply on its own line exactly: `CAE AUDIT READY <OUTFILE>` or `CAE BLOCKED <one-line reason>`.
+
+== Your lane: CAE — reconciling the three memory stores ==
+OUTFILE: results/context_audit_20261012/audit_cae_memory_stores.md
+Three memory stores exist:
+  S1 = memory_mirror/ in git (201 notes + MEMORY.md)
+  S2 = /Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/ (125 files; the main-checkout Claude memory)
+  S3 = /Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/ (22 files; loaded by Claude sessions in this worktree's project path)
+Also list any other /Users/robertrhu/.claude/projects/*llm-database*/memory or *c10k* directory.
+Do, mechanically first (a short /usr/bin/python3 -B script printed to stdout is fine, not saved): for every filename, which stores hold it, and whether bytes are identical (shasum). Then judge: which store is authoritative for what, which notes exist only in S2 or S3 and are missing from git, which differ and which version is right, which index lines in each MEMORY.md point at missing notes, and whether the close-out sync check (grep tools/closeout_check.py for the memory paths it compares) checks the right pair.
+Focus: collisions (same name, different content), orphans, a session loading a store the others never see. Propose one clear rule for which store is canonical and how the others sync.

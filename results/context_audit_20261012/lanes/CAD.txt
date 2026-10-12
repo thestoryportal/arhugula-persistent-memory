@@ -1,0 +1,6 @@
+== Your lane: CAD — unindexed and retired memory notes ==
+OUTFILE: A/audit_cad_memory_unindexed.md
+Notes live in memory_mirror/. Audit:
+1. The 18 live notes not linked from memory_mirror/MEMORY.md (A/filelist_d_unindexed.txt), each in full: should each be indexed, stay de-indexed as history, be merged or be retired?
+2. The 41 tombstones (A/filelist_d_tombstones.txt): does each pointer still resolve, and does any still-true lesson lack a live home? Is any file still referenced from CLAUDE.md, AGENTS.md, DISCIPLINE.md or EXPERIMENT_RUNBOOK.md even though it is retired (grep -n)?
+3. memory_mirror/MEMORY.md as a whole: structure, overlong lines, sections, headroom against the 24,400-byte cap.
