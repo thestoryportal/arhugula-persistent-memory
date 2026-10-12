@@ -29,15 +29,15 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T05:13:00Z",
+    "edited": "2026-10-12T05:23:00Z",
     "items": [
       {
         "id": "context-audit",
         "title": "Context hygiene: fix every instruction file and make it stay fixed",
         "summary": "Seven read-only checkers are auditing CLAUDE.md, AGENTS.md, the three memory stores, hook text and the read-first documents for bloat, conflicts, duplicates, wrong or unclear lines. They report back; nothing changes until you approve a clean-up.",
         "state": "running",
-        "who": "codexchp planning lanes; codexcps2 tracing the exact-match rule; MAESTRO67 next",
-        "session": "codexchp, codexcps2",
+        "who": "codexrot1 (read-only auditor); MAESTRO72 next",
+        "session": "codexrot1",
         "started": "2026-10-12T00:50Z",
         "estimate": null,
         "depends_on": [],
@@ -59,7 +59,8 @@
           "04:14Z (Oct 12): You made the clean-up top priority. The plan was written against an old picture (main folder behind master), so a planner (codexchp3) is updating it to today's master first; then Astra reviews it; then the first wave of clean-up builders starts. The leftover merged GitHub branch was deleted with your OK.",
           "22:52 MDT Oct 11 (04:52Z): Scope reset to what you asked: CLAUDE.md, AGENTS.md, MEMORY.md and its notes only; the 386-step plan is dropped. Three checkers re-checked tonight's findings: 70 still wrong (summary: results/context_audit_20261012/recheck/SUMMARY.md). You approved all 70; a fresh session applies them, Astra reviews, then commit, with sizes and line counts reported.",
           "23:07 MDT Oct 11 (05:07Z): All 70 approved fixes are in CLAUDE.md, AGENTS.md, MEMORY.md and 54 of its notes (57 files). Astra reviewed the result: GO-WITH-FIXES, 9 small follow-on fixes, all folded (results/context_audit_20261012/recheck/astra_review.md). Not applied, offered to you separately: four items Astra flagged as worth a follow-up (a note that suggests hiding a refused command in a script, a note that says results may be overwritten, close-out ordering, and the merge-worktree wording).",
-          "23:13 MDT Oct 11 (05:13Z): Done as you said, without asking: the four leftover fixes plus CLAUDE.md's stale-mission line (CLAUDE.md, 4 notes). Astra GO-WITH-FIXES; its one in-scope fix folded (results/context_audit_20261012/recheck/astra_review_followup.md). Its other three are in DISCIPLINE.md and tools/closeout_check.py, outside your scope: reported to you, not changed."
+          "23:13 MDT Oct 11 (05:13Z): Done as you said, without asking: the four leftover fixes plus CLAUDE.md's stale-mission line (CLAUDE.md, 4 notes). Astra GO-WITH-FIXES; its one in-scope fix folded (results/context_audit_20261012/recheck/astra_review_followup.md). Its other three are in DISCIPLINE.md and tools/closeout_check.py, outside your scope: reported to you, not changed.",
+          "23:23 MDT Oct 11 (05:23Z): Close-out order now matches in DISCIPLINE.md and the checker (ea58bcd9). You asked for a very thorough context-rot audit of everything: one read-only agent (codexrot1) is working through 614 files in priority order (always-loaded guides first, science and old briefs last), writing findings with exact fixes to results/context_rot_audit_20261012/; a fresh copy takes over whenever its context runs low. It also checks every path into the parent data folder. Obvious fixes get applied without asking you."
         ]
       },
       {
