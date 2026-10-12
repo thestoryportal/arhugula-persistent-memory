@@ -29,26 +29,25 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T01:29:13Z",
+    "edited": "2026-10-12T01:35:59Z",
     "items": [
       {
         "id": "context-audit",
-        "title": "Context hygiene: audit the files that steer every session",
+        "title": "Context hygiene: fix every instruction file and make it stay fixed",
         "summary": "Seven read-only checkers are auditing CLAUDE.md, AGENTS.md, the three memory stores, hook text and the read-first documents for bloat, conflicts, duplicates, wrong or unclear lines. They report back; nothing changes until you approve a clean-up.",
-        "state": "needs_you",
-        "who": "you: five decisions, then MAESTRO runs clean-up jobs",
+        "state": "running",
+        "who": "MAESTRO planning the clean-up lanes",
         "session": null,
         "started": "2026-10-12T00:50Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
-        "needs_from_you": [
-          "Answer the five clean-up decisions and say whether to resume the paused work"
-        ],
+        "needs_from_you": [],
         "notes": [
           "00:51Z: your request (verbatim in results/context_audit_20261012/brief.md). Launched seven lanes (20820ccf): Claude layer, Codex layer, indexed memory in two halves, unindexed/retired notes, the three memory stores, and the read-first documents. Other work is paused at your request.",
           "01:14Z: all seven checkers reported (dc462b02). Early picture: the read-first documents are worst (13 conflicts, 24 out-of-date lines), the three memory stores disagree on 4 notes and 11 notes live only in one of them, and the always-loaded rules have 9 conflicts. One builder is now merging the seven reports into a single ranked list with re-checked evidence and small clean-up jobs (301d5967); then MAESTRO brings you a plain summary and up to five decisions.",
-          "01:28Z: the merged report is in (results/context_audit_20261012/SYNTHESIS.md): 15 problem groups, all re-checked against the files; MAESTRO66 re-checked seven of them itself and found one wrong side-claim (the Memento context tool IS switched on, project-level), recorded in maestro_synthesis_check.md. It proposes 119 small clean-up jobs. Waiting on your five decisions and whether to resume the paused work."
+          "01:28Z: the merged report is in (results/context_audit_20261012/SYNTHESIS.md): 15 problem groups, all re-checked against the files; MAESTRO66 re-checked seven of them itself and found one wrong side-claim (the Memento context tool IS switched on, project-level), recorded in maestro_synthesis_check.md. It proposes 119 small clean-up jobs. Waiting on your five decisions and whether to resume the paused work.",
+          "01:35Z: you approved all five decisions (\"Fix absolutely everything\") and asked for context hygiene only, until it is tight and durable, then a stop for you. You asked how it happened: nothing in git was overwritten; master has had no merge since Oct 4, the Oct 10 clean-up covered only the git memory folder, and rules changed afterwards without their copies (results/context_audit_20261012/ROOT_CAUSE.md). A drift guard that catches old values at commit time is added to the clean-up."
         ]
       },
       {

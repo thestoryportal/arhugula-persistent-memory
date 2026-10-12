@@ -1,0 +1,17 @@
+# Why the context rotted again ~30 h after the 2026-10-10 clean-up (MAESTRO66, 2026-10-12 ~01:40Z)
+
+Operator question (01:35Z): "HOW did this happen? Files MUST have gotten overwritten because these are all context entries we tightened maybe 30 hours ago."
+
+## Finding: nothing in git was overwritten. The clean-up never reached four places, and rules changed after it.
+
+1. **No overwrite in git.** The 2026-10-10 memory clean-up commit `6aa22ab5` (00:45) edited 165 `memory_mirror/` files. Only 7 have been touched since (`git log 6aa22ab5..HEAD -- <file>` per file). Each of those 7 is a planned follow-up, not a reversal: Astra's review fixes `f69a9a5f` (00:49), the context-threshold revisions `72c52fb7`/`d1c995b8`/`2b31a5fe`/`7be73764`, `b19a4566` (backup), `01147aaa` (NEW-1). The audit's runbook patch is still applied (`git apply --check -R results/memory_audit_20261010/runbook_fixes.patch` → rc 0).
+2. **Master never received any of it.** `master` is still at `557a58bc` (2026-10-04 20:40); this branch is 965 commits ahead (`git rev-list --count master..HEAD`) and nothing has been merged since Oct 4. A session started in the main checkout reads the Oct 4 `CLAUDE.md`/`AGENTS.md`: gpt-5.5 reviewer, `e6ac7e18` engine pin, internal SSD as archive (SYNTHESIS F01). This is the reason the clean-up looked undone.
+3. **The 2026-10-10 round covered one of the stores.** Its scope was `memory_mirror/` (results/memory_audit_20261010/brief.md:4). It did not cover Claude's two memory folders outside git (S2 last written 10-10 20:47, still says Codex hands off at "~20% left"), the hook settings (graft hooks at ~/.claude/settings.json:78,89), Codex config (`.codex/config.toml:9` gpt-5.5), the folder-scoped `experiments/AGENTS.md` and `CORPUS/AGENTS.md` (`/workspace`), or the read-first documents.
+4. **Rules moved after the clean-up, and their copies did not follow.** After 00:45 on 10-10 the operator adopted the merge gate (`b19e4377`, 04:02), revised context thresholds three times (03:01, 15:02, 16:07) and raised the ceiling to 300k. Each rule existed in several copies; the main copy was updated and the others kept the old wording (e.g. `commit-forward-work-without-asking.md:13` still gives merging to the operator).
+5. **Shallower review, and new notes since.** The 10-10 reviewers marked KEEP several notes this deeper audit flags (`git-add-all-leaks-secrets-on-public-repo`, `pool-sizing-levers-items-then-determinism`, `evidence-over-scaffolding`, `rerun-never-patch`); `mps-offset-view-conversion-bug` was KEEP with its wrong description. Notes written after the round (e.g. `codex-watch-anchor-replies-read-context-from-rollout.md`, created 10-10 21:43) were never reviewed.
+
+## What "durable" therefore requires (added to the hygiene scope)
+- Merge the cleaned rules to master through the merge gate (decision 5), so every starting point reads the same rules.
+- One complete home per rule, pointers elsewhere (decision 3), so a rule change is one edit.
+- A mechanical drift guard that fails when a retired value reappears (gpt-5.5 as reviewer, `e6ac7e18`, `/workspace`, "~20% left", the internal-SSD archive), when the same-name copies across the three memory stores diverge, or when a body link breaks; run it at close-out and in CI, so rot is caught at commit time instead of at the next audit.
+- Every store, hook and scoped guide is in the scope of the clean-up, not only `memory_mirror/`.
