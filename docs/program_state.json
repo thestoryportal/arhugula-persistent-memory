@@ -29,15 +29,15 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T00:29:47Z",
+    "edited": "2026-10-12T00:35:34Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
         "title": "Research engine: rewrite the first-build plan for the Intel Mac",
         "summary": "Rewrite the research engine first-build plan for the Intel Mac (MacPorts, Intel limits, the shared-disk clearance contract instead of the old M3 reservation), then a fresh Astra review. Integration rows I1a-I1c.",
-        "state": "running",
-        "who": "codexres1 (Sol) writes the plan; then MAESTRO checks; then Astra",
-        "session": "codexres1",
+        "state": "in_review",
+        "who": "Astra reviewing the plan (pid 73418)",
+        "session": null,
         "started": "2026-10-11T08:47Z",
         "estimate": null,
         "depends_on": [],
@@ -101,7 +101,8 @@
           "17:01:41Z: you confirmed you didn't touch the Intel Mac during the run and didn't change Deskflow. Recorded as an after-the-fact statement. The file list stays as an observation. Next: decide what the file list is used for in the Intel build plan; any new run gets fixed checks, an expert review and your new approval first.",
           "00:04Z (Oct 12): Unblocked: you adopted the drive-sharing design. Next: rewrite the Intel build plan around it (Git and Drive only on the Intel), then expert review.",
           "00:11Z (Oct 12): scout codexres1 is mapping which records still govern the research-engine plan and what the adopted drive-sharing design changes. A single writer rewrites the plan from that map, then Astra reviews it.",
-          "00:18Z (Oct 12): the scout's map is done and checked (573bb122). No new question for you on this plan. 00:19Z: the same builder is now writing the new Intel build plan from that map. Writing only; nothing is installed or run."
+          "00:18Z (Oct 12): the scout's map is done and checked (573bb122). No new question for you on this plan. 00:19Z: the same builder is now writing the new Intel build plan from that map. Writing only; nothing is installed or run.",
+          "00:35Z: the Intel build plan is written and checked (268fd3b7): every open condition from the map is accounted for, the Intel never reaches memit, and it asks you nothing. The expert reviewer (Astra) is checking it now (4c7ed0ee)."
         ]
       },
       {
@@ -213,8 +214,8 @@
         "id": "skills-pipeline-survey",
         "title": "Survey our design-to-plan skills (Claude and Codex)",
         "summary": "Your request: find the skills that turn design docs into a spec, then into small work pieces several builders can do in parallel. A builder surveys every such skill on this Mac and recommends one per step, with a first trial.",
-        "state": "running",
-        "who": "builder codexsk1 (Sol), then MAESTRO checks and reports to you",
+        "state": "needs_you",
+        "who": "You: pick the first document to try the pipeline on",
         "session": "codexsk1",
         "started": "2026-10-12T00:22Z",
         "estimate": null,
@@ -222,7 +223,8 @@
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "00:22Z (Oct 12): you asked for this. Builder codexsk1 is reading every design, spec, plan and task-splitting skill for both Claude and Codex and will recommend one per step, plus which current document to try it on first. Report only; nothing installed."
+          "00:22Z (Oct 12): you asked for this. Builder codexsk1 is reading every design, spec, plan and task-splitting skill for both Claude and Codex and will recommend one per step, plus which current document to try it on first. Report only; nothing installed.",
+          "00:35Z: survey done and checked (0187089a). We already have a skill for each step (design, requirements, spec, plan, small jobs); what was missing is one checked handoff from each requirement to a short builder job with its own tests. MAESTRO is asking you which document to try it on first."
         ]
       },
       {
@@ -266,8 +268,8 @@
         "id": "drive-activate",
         "title": "Drive backup: turn it on",
         "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup. The plan is being rewritten so the first upload runs from the Intel Mac (your choice 11); your three OKs will be asked again against that version.",
-        "state": "in_review",
-        "who": "MAESTRO: Astra review running (pid 62293)",
+        "state": "running",
+        "who": "codexda1 making Astra fixes R1-R4",
         "session": "codexda1",
         "started": "2026-10-12T00:10Z",
         "estimate": null,
@@ -284,7 +286,8 @@
           "00:04Z (Oct 12): You adopted the drive-sharing design (version 4). Next: rewrite this switch-on plan so the M3 hands files to the Intel over the cable and the Intel uploads to Drive, then expert review. Nothing turns on until you say go; three short setup questions come then.",
           "00:10Z (Oct 12): builder codexda1 is writing the switch-on plan for the adopted design (the M3 hands files to the Intel over the cable; the Intel uploads to Drive) and refreshing the Intel storage layout. Writing only; nothing is copied or switched on. Astra reviews it next; your three setup questions come after that.",
           "00:22Z (Oct 12): the switch-on plan and the refreshed Intel storage layout are written and checked (70c3a694). Your three setup questions are drafted in plain words; they come to you only after Astra's review. Nothing is switched on.",
-          "00:28Z: the expert reviewer (Astra) is now checking the Intel-first switch-on plan and its storage layout (packet 6693d39c). After its verdict and any fixes, MAESTRO brings you the three switch-on questions; a separate go comes after that. Nothing is switched on."
+          "00:28Z: the expert reviewer (Astra) is now checking the Intel-first switch-on plan and its storage layout (packet 6693d39c). After its verdict and any fixes, MAESTRO brings you the three switch-on questions; a separate go comes after that. Nothing is switched on.",
+          "00:35Z: Astra said go with four fixes (e5416e99): spell out which failure tests the Intel must still pass, keep the check that ignores stray settings, fix one disk-space test that pointed the wrong way, and restore two storage safeguards. The builder is making those fixes now; then your three questions."
         ]
       },
       {
