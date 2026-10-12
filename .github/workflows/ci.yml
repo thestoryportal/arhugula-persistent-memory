@@ -19,6 +19,7 @@ jobs:
       OMP_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
       PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: code
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -33,9 +34,13 @@ jobs:
           command -v lsof
       - name: Check generated state
         run: LLMDB_ROOT="$PWD" python3 -B -S code/state/render_state.py --check
+      - name: Check generated indexes
+        run: |
+          python3 -m pip install pyyaml==6.0.3
+          LLMDB_ROOT="$PWD" python3 -B code/state/build_index.py --check
       - name: Check agent catalog twins
         run: LLMDB_ROOT="$PWD" python3 -B -S code/agents/twins.py --check
       - name: Git automation fixtures
-        run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest discover -s tests -p test_git_automation.py -v
+        run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest discover -s code/tests -p test_git_automation.py -v
       - name: Model-free repository suites
-        run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest -v tools.test_c10w_p2_gate tools.test_dashboard_live tools.test_dashboard_gpu_detector
+        run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest -v lab.runners.test_c10w_p2_gate apps.dashboard.test_dashboard_live apps.dashboard.test_dashboard_gpu_detector
