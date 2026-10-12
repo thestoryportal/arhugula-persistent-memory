@@ -1,8 +1,0 @@
-== Your lane: CAA — Claude always-loaded layer ==
-OUTFILE: A/audit_caa_claude_layer.md
-Audit, passage by passage (cite line ranges):
-1. /Users/robertrhu/.claude/CLAUDE.md (149 lines) and /Users/robertrhu/.claude/RTK.md (29): global Claude guidance, loaded in every Claude session.
-2. CLAUDE.md in this worktree (72 lines) and /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/CLAUDE.md on master: run `diff` between them and report what differs and which side is current.
-3. The Claude auto-memory loaded in this worktree: /Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory--claude-worktrees-c10k-route-a/memory/ if it exists, else /Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/ (MEMORY.md + 21 notes). Establish which directory this worktree's Claude sessions actually load (evidence: directory names under /Users/robertrhu/.claude/projects/).
-4. Text injected by hooks into every Claude turn: /Users/robertrhu/.claude/settings.json hooks (graft-hooks.cjs prompt/session-start, rtk, herdr, voice) and /Users/robertrhu/.claude/plugins/cache/promptctl/laws/0.24.1/hooks/ (skill-router.sh). Quote only what they inject, not their code.
-Focus: conflicts between these four layers (for example global CLAUDE.md vs repo CLAUDE.md vs hook text vs memory), and bytes loaded per turn.
