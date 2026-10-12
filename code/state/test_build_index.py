@@ -15,6 +15,7 @@ class IndexTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
+        subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
         for folder in ('experiments/e1', 'experiments/e2', 'projects/w1',
                        'projects/orphan', 'evidence/CORPUS', 'program/checkpoints'):
             (self.root / folder).mkdir(parents=True)
@@ -25,6 +26,8 @@ class IndexTests(unittest.TestCase):
         (self.root / 'experiments/e1/CONTEXT.md').write_text(
             '---\nid: e1\nfamily: c\ntitle: "A: test"\nstatus: designed\n'
             'corpus: [01, 02]\ndecision_ids:\n  - D-1\n---\n# Context\n')
+        (self.root / 'experiments/e2/result.json').write_text('{}\n')
+        (self.root / 'projects/orphan/notes.md').write_text('# Notes\n')
         (self.root / 'evidence/CORPUS/01.md').write_text('# Evidence\n')
         (self.root / 'program/checkpoints/000-rules.md').write_text('## Rules\n')
         (self.root / 'program/checkpoints/001-live.md').write_text('## LIVE HANDOFF\n')
@@ -83,6 +86,31 @@ class IndexTests(unittest.TestCase):
         checkpoints = (self.root / '_index/checkpoints.md').read_text()
         self.assertIn('Newest live handoff: program/checkpoints/001-live.md', checkpoints)
         self.assertLess(checkpoints.index('| 000-rules.md'), checkpoints.index('| 001-live.md'))
+
+    def test_git_invisible_folders_and_folder_guides_are_not_rows(self):
+        # git keeps no empty folder, so a fresh checkout must index the same rows
+        (self.root / 'experiments/empty/runs').mkdir(parents=True)
+        (self.root / 'projects/empty').mkdir()
+        for folder in ('experiments', 'evidence/CORPUS', 'program/checkpoints'):
+            (self.root / folder / 'CONTEXT.md').write_text('# Guide\n')
+        self.write()
+        index = self.root / '_index'
+        self.assertNotIn('| empty |', (index / 'experiments.md').read_text())
+        self.assertIn('Unstamped: 1', (index / 'experiments.md').read_text())
+        self.assertNotIn('| empty |', (index / 'projects.md').read_text())
+        self.assertNotIn('CONTEXT.md', (index / 'evidence.md').read_text())
+        self.assertNotIn('CONTEXT.md', (index / 'checkpoints.md').read_text())
+
+    def test_rows_follow_git_not_the_disk(self):
+        (self.root / '.gitignore').write_text('__pycache__/\n')
+        (self.root / 'experiments/cache_only/__pycache__').mkdir(parents=True)
+        (self.root / 'experiments/cache_only/__pycache__/x.pyc').write_bytes(b'')
+        (self.root / 'experiments/link_only').mkdir()
+        (self.root / 'experiments/link_only/result.json').symlink_to('missing-target')
+        self.write()
+        experiments = (self.root / '_index/experiments.md').read_text()
+        self.assertNotIn('| cache_only |', experiments)
+        self.assertIn('| link_only |', experiments)
 
     def test_duplicate_old(self):
         self.write()

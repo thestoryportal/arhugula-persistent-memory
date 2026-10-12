@@ -70,11 +70,21 @@ def first_heading(path):
     return None
 
 
+def checkout_folders(root: Path) -> set[str]:
+    # rows come from what git carries (tracked, or new and not ignored), so a fresh checkout and
+    # a working tree with empty folders or ignored debris give the same index
+    listing = subprocess.run(['git', '-C', str(root), 'ls-files', '-z', '--cached', '--others',
+                              '--exclude-standard'], capture_output=True, check=True).stdout
+    return {'/'.join(path.split('/')[:2]) for path in listing.decode().split('\0')
+            if path.count('/') >= 2}
+
+
 def generate(root: Path) -> dict[str, bytes]:
+    present = checkout_folders(root)
     experiments = []
     unstamped = 0
     for folder in sorted((root / 'experiments').iterdir()):
-        if not folder.is_dir():
+        if f'experiments/{folder.name}' not in present:
             continue
         path = folder / 'CONTEXT.md'
         if not path.exists():
@@ -103,7 +113,7 @@ def generate(root: Path) -> dict[str, bytes]:
         if item['id'] in queue:
             raise ValueError(f'program/program_state.json: repeated queue id {item["id"]}')
         queue[item['id']] = item
-    folders = {p.name for p in (root / 'projects').iterdir() if p.is_dir()}
+    folders = {p.name for p in (root / 'projects').iterdir() if f'projects/{p.name}' in present}
     open_ids = {key for key, item in queue.items()
                 if str(item['state']).lower() not in {'done', 'closed', 'cancelled', 'canceled'}}
     projects = []
@@ -113,11 +123,11 @@ def generate(root: Path) -> dict[str, bytes]:
             'no queue item' if key in folders else 'no folder')
         projects.append([key, item.get('title'), item.get('state'), relation])
     evidence = [[p.name, first_heading(p)] for p in sorted((root / 'evidence/CORPUS').iterdir())
-                if p.is_file()]
+                if p.is_file() and p.name != 'CONTEXT.md']
     checkpoints = [[p.name, first_heading(p)] for p in sorted(
         (root / 'program/checkpoints').iterdir(),
         key=lambda p: (int(p.name.split('-', 1)[0]) if re.match(r'^\d+-', p.name)
-                       else float('inf'), p.name)) if p.is_file()]
+                       else float('inf'), p.name)) if p.is_file() and p.name != 'CONTEXT.md']
     newest = next(('program/checkpoints/' + name for name, heading in checkpoints
                    if heading and 'live handoff' in heading.lower()), '—')
     return {
