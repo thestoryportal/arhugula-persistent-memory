@@ -3,7 +3,7 @@
 AND (currency layer) that each tracker reflects the CURRENT result content.
 
 WRITE-side gate of the read<->write context loop (DISCIPLINE §1.1). Run at experiment
-close BEFORE declaring done / writing SESSION_CHECKPOINT. RED = NOT done.
+close AFTER updating SESSION_CHECKPOINT and all required trackers, BEFORE declaring done; rerun after any subsequent tracker edit. RED = NOT done.
 
 Two layers:
   1. PRESENCE — the Decision-ID string appears in each canonical tracker.
