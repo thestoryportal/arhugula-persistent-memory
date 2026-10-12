@@ -38,7 +38,7 @@ memit_dry_run/memit/data/
 *.mp3
 *.mp4
 
-# ── Verbose / regenerable run outputs (results/ IS tracked; logs are not) ──
+# ── Verbose / regenerable run outputs (logs are not tracked) ──
 logs/
 *.log
 *.rawout.txt
@@ -133,17 +133,13 @@ kvs/
 /graft/
 # Netron structure diagram (1.5 GB, rebuilt by visualization/build_structure_onnx.py)
 visualization/*.onnx
-# raw OpenResearch transcripts (local only; may hold secrets); rebuild with tools/openresearch_archive.py
-results/openresearch_archive/
+# raw OpenResearch transcripts (local only; may hold secrets); rebuild with code/research/openresearch_archive.py
+/knowledge/research/openresearch_archive/
 
-# Lab View: regenerate the site; preserve the per-run SVG and PNG evidence pictures.
-/results/labviz/site/
-/results/labviz/.matplotlib/
-!results/labviz/runs/*.png
-
-# labviz measurement dumps over GitHub's 100 MB limit (kept on disk, not committed)
-results/labviz/review/*/measure.json
-results/labviz/review/v2-build/jq-paths.json
+# Legacy output roots (ICM v2 policy B). Closed experiment scripts still write here when re-run; that output stays
+# local and is never committed. The scripts are listed in map/group-b-leftovers.md.
+/results/
+/architecture_profile/
 
 # Git worktrees are git machinery, never content (ICM v2 phase 3).
 .claude/worktrees/
