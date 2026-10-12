@@ -1,0 +1,17 @@
+{
+  "command": "LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 PYTHONPYCACHEPREFIX=/private/tmp/new1-mb15-audit .venv/bin/python -B results/mathlab_staging/new1_construction_diag_fix2_20261010T082936.611614Z/audit_mb12_release.py audit_mb15_preclose",
+  "exit_code": 1,
+  "assertion": "protected drift",
+  "changes": {
+    "CLAUDE.md": {
+      "task4_before": "e72e6940ee7a1748dc024c1828d4baeabc7820670a8fc0cf749cc25511a6bafb",
+      "mb15_entry": "95f001211c8b70e5d2393f62ff0f8c84bf7839642f2586d820c70ff630b6214b"
+    },
+    "AGENTS.md": {
+      "task4_before": "12279b3ccff7fbacb1b9dd6a824c433c2df4c520985bb196773311ff931f58d0",
+      "mb15_entry": "9bd23c810037793b41b5242f18e3d0c1cd8d668aa60af371b6f3ca8b215a9ec1"
+    }
+  },
+  "restored": false,
+  "assertion_weakened": false
+}

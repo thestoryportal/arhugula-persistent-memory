@@ -1,0 +1,1 @@
+{"event": "pid-collection", "method": "_wait", "monotonic_ns": 1465857653106458, "phase": "pid-collection", "pid": 72049, "pid_collected": 72247, "returncode": 0, "test": "tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c1_exit_between_wait_and_kill_retains_actual_exit_status", "wall_ns": 1791655050422827000}

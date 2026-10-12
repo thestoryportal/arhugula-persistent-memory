@@ -1,0 +1,1 @@
+{"event": "pid-collection", "method": "_wait", "monotonic_ns": 1465947270502833, "phase": "pid-collection", "pid": 74996, "pid_collected": 75012, "returncode": 2, "test": "tests.test_new1_construction_diag.AstraR2LaunchTests.test_r2_both_actual_entries_refuse_duplicate_and_guessed_release", "wall_ns": 1791655140040811000}

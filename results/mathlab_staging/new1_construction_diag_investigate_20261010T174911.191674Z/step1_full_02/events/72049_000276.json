@@ -1,0 +1,1 @@
+{"event": "pid-collection", "method": "_wait", "monotonic_ns": 1465858765252833, "phase": "pid-collection", "pid": 72049, "pid_collected": 72295, "returncode": 0, "test": "tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c2_guardian_setup_exception_cannot_unwind_into_supervisor", "wall_ns": 1791655051534980000}

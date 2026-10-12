@@ -1,0 +1,1 @@
+{"event": "pid-collection", "method": "_handle_exitstatus", "monotonic_ns": 1466589800364833, "phase": "pid-collection", "pid": 91938, "pid_collected": 92260, "returncode": 0, "test": "tests.test_new1_supervisor.SupervisorTests.test_private_handshake_and_complete_stub_result_fold_to_completion", "wall_ns": 1791655782587754000}

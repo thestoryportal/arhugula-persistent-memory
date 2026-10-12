@@ -1,0 +1,17 @@
+{
+  "code": "HALTED-RESOURCE",
+  "detail": {
+    "available_bytes": 7347634176,
+    "current_bytes": 6626180352,
+    "driver_bytes": 10016292864,
+    "rss_bytes": 6143836160
+  },
+  "exception": "Halt",
+  "launched": true,
+  "phase": "baseline_evaluation",
+  "readout_complete": false,
+  "stage": "calibration",
+  "status": "HALTED",
+  "traceback": "Traceback (most recent call last):\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 1366, in calibrate\n    prefix=instrument_prefix(H,out,budget,calibration=True,telemetry=None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 2588, in instrument_prefix\n    baseline=scored_recipe(H,'A',H.HP_BASE,1 if calibration else stage,telemetry)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 2271, in scored_recipe\n    raw=H.run_recipe(name,str(Path(hppath).resolve()))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py\", line 491, in run_recipe\n    arm = eval_arm(Vmap)\n          ^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 2580, in timed\n    value=_unit(H,timings,_name,_workload(arm,24 if arm else 0,96 if arm else 0),\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 1692, in _unit\n    sample_memory(H,name);sync(H);started=STAGE_CLOCK();status='COMPLETED'\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 678, in sample_memory\n    memory_gate(sample)\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 665, in memory_gate\n    if sample['driver_bytes']>32*G or sample['rss_bytes']>40*G or sample['available_bytes']<8*G or sample['driver_bytes']+sample['rss_bytes']>40*G: raise Halt('HALTED-RESOURCE',sample)\n                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nHalt: HALTED-RESOURCE: {'current_bytes': 6626180352, 'driver_bytes': 10016292864, 'rss_bytes': 6143836160, 'available_bytes': 7347634176}\n",
+  "write_complete": false
+}

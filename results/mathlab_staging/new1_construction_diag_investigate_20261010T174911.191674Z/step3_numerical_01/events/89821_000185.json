@@ -1,0 +1,1 @@
+{"event": "pid-collection", "method": "_wait", "monotonic_ns": 1466502170955541, "phase": "pid-collection", "pid": 89821, "pid_collected": 89897, "returncode": 0, "test": "tests.test_new1_supervisor.SupervisorTests.test_real_subprocess_failures_and_empty_inventory_are_refusals", "wall_ns": 1791655694957530000}

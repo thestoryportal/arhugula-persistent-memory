@@ -1,0 +1,1 @@
+{"event": "pid-collection", "method": "wait", "monotonic_ns": 1465858615950875, "phase": "pid-collection", "pid": 72049, "pid_collected": 72292, "returncode": 2, "test": "tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c2_final_send_exception_retains_reaping_and_child_boundary", "wall_ns": 1791655051385677000}

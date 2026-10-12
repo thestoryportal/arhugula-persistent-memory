@@ -1,0 +1,48 @@
+{
+  "status": "FOLD DONE",
+  "commands": [
+    {
+      "decision_id": "D-C10z-v7diag",
+      "command": "LLMDB_ROOT=$PWD python3 -B tools/closeout_check.py D-C10z-v7diag",
+      "exit_code": 0,
+      "green_entries": 14,
+      "conclusion": "✅ CLOSE-OUT COMPLETE — D-C10z-v7diag present + current (D-C10z-v7diag@d8c55e7b) in all canonical trackers."
+    },
+    {
+      "decision_id": "D-C10z-a1pop",
+      "command": "LLMDB_ROOT=$PWD python3 -B tools/closeout_check.py D-C10z-a1pop",
+      "exit_code": 0,
+      "green_entries": 14,
+      "conclusion": "✅ CLOSE-OUT COMPLETE — D-C10z-a1pop present + current (D-C10z-a1pop@1ef441d3) in all canonical trackers."
+    },
+    {
+      "decision_id": "D-ML-1",
+      "command": "LLMDB_ROOT=$PWD python3 -B tools/closeout_check.py D-ML-1",
+      "exit_code": 0,
+      "green_entries": 14,
+      "conclusion": "✅ CLOSE-OUT COMPLETE — D-ML-1 present + current (D-ML-1@12c5548b) in all canonical trackers."
+    },
+    {
+      "decision_id": "D-ML-2",
+      "command": "LLMDB_ROOT=$PWD python3 -B tools/closeout_check.py D-ML-2",
+      "exit_code": 0,
+      "green_entries": 14,
+      "conclusion": "✅ CLOSE-OUT COMPLETE — D-ML-2 present + current (D-ML-2@99a9fb4c) in all canonical trackers."
+    },
+    {
+      "decision_id": "D-ML-3",
+      "command": "LLMDB_ROOT=$PWD python3 -B tools/closeout_check.py D-ML-3",
+      "exit_code": 0,
+      "green_entries": 14,
+      "conclusion": "✅ CLOSE-OUT COMPLETE — D-ML-3 present + current (D-ML-3@84e9d0e1) in all canonical trackers."
+    }
+  ],
+  "renderer": "PASS",
+  "C10X_currency": "PASS, a8c22280 preserved",
+  "diff_check": "PASS",
+  "attempt4": "PENDING",
+  "step3": "PENDING",
+  "commits": 0,
+  "scratch": "/private/tmp/closeout_fold_20261009T223920Z"
+}
+

@@ -1,0 +1,118 @@
+{
+  "T_cal": null,
+  "artifacts": {
+    "context_templates_calib.json": "9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7",
+    "law5_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "ledger_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "overlap_audit_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "step0_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "targets_calib.pt": "1d95c75a2aa0abb80d2ab5324b54cf58fcb1bbc3249e8f1f19a3b84ada838078"
+  },
+  "checks": {},
+  "context_templates": {
+    "hash_basis": "file_bytes",
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10y_directdw_calib1/context_templates_calib.json",
+    "sha256": "9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7"
+  },
+  "device": "mps",
+  "env": {
+    "machine": "arm64",
+    "model_rev": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.11.16",
+    "torch": "2.8.0",
+    "transformers": "4.51.0"
+  },
+  "fingerprint": {
+    "cov_cpu_sites": 3,
+    "output": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)\n",
+    "sha256": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
+  },
+  "finished_at": "2026-10-08T16:19:25.497227+00:00",
+  "input_hashes_end": {
+    "covariance": "2d7364d5ef2544ccdb1829e0f547a29f008b526e29d384fdb9e9ca6515c27a0a",
+    "hparams": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "model": "22c531a2ceb6d4c6a246a354af28b63f1a0e02a95a5d58080fb2d5214f52febf",
+    "tokenizer": "af42dbc2749aa324a8344f1f983a83d08ad2765fecc2b0f376640150b227d852"
+  },
+  "input_hashes_start": {
+    "covariance": "2d7364d5ef2544ccdb1829e0f547a29f008b526e29d384fdb9e9ca6515c27a0a",
+    "hparams": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "model": "22c531a2ceb6d4c6a246a354af28b63f1a0e02a95a5d58080fb2d5214f52febf",
+    "tokenizer": "af42dbc2749aa324a8344f1f983a83d08ad2765fecc2b0f376640150b227d852"
+  },
+  "memory": {
+    "baseline_law5": {
+      "at": "2026-10-08T16:19:14.984045+00:00",
+      "available_bytes": 10618765312,
+      "current_bytes": 6626180352,
+      "driver_bytes": 9175056384,
+      "host_available_bytes": 10230464512,
+      "rss_bytes": 8245297152,
+      "synchronised": true
+    },
+    "baseline_projector": {
+      "at": "2026-10-08T16:18:45.536196+00:00",
+      "available_bytes": 10229448704,
+      "current_bytes": 6626180352,
+      "driver_bytes": 10812850176,
+      "host_available_bytes": 10229448704,
+      "rss_bytes": 4783063040,
+      "synchronised": true
+    },
+    "contexts_overlap": {
+      "at": "2026-10-08T16:04:00.962217+00:00",
+      "available_bytes": 26066370560,
+      "current_bytes": 6397321472,
+      "driver_bytes": 6879133696,
+      "host_available_bytes": 26066370560,
+      "rss_bytes": 1385496576,
+      "synchronised": true
+    },
+    "target_solve": {
+      "at": "2026-10-08T16:11:55.101828+00:00",
+      "available_bytes": 21250883584,
+      "current_bytes": 6397321472,
+      "driver_bytes": 10812850176,
+      "host_available_bytes": 21250883584,
+      "rss_bytes": 1949614080,
+      "synchronised": true
+    }
+  },
+  "outcome": "HALTED",
+  "prereg_sha256": "e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331",
+  "schema": "c10y_directdw_calibration/v1",
+  "sources": {
+    "check": "e79f0532ac674a0cb8a3d21c838c15710ee0ed3e94f7fa88e65d722105c1c03f",
+    "compute_ks": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+    "compute_z": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+    "driver": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+    "harness": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+    "hparams": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "memit_main": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "prereg": "e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331",
+    "reader": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+    "repr_tools": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+    "templates": "9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a"
+  },
+  "started_at": "2026-10-08T16:04:00.761770+00:00",
+  "template_token_lengths": [],
+  "timings": [
+    {
+      "measurement": "supervisor last record write to worker exit",
+      "name": "shutdown",
+      "repetition": 1,
+      "seconds": 0.7314552089665085,
+      "status": "FAILED",
+      "synchronised": true,
+      "workload": {
+        "accepted_steps": 0,
+        "arms": [],
+        "micro_batches": 0,
+        "requests": 0,
+        "retries": 0,
+        "scored_prompts": 0
+      }
+    }
+  ]
+}

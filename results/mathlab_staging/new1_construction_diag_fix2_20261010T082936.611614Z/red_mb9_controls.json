@@ -1,0 +1,20 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "-m",
+    "unittest",
+    "tests.test_new1_construction_diag.OwnedLaunchControls.test_repeated_sigint_and_sigalrm_during_teardown_preserve_primary_and_reap",
+    "tests.test_new1_construction_diag.OwnedLaunchControls.test_authenticated_duplicate_trailing_wrong_secret_and_missing_eof_refuse_both_entries",
+    "tests.test_new1_construction_diag.OwnedLaunchControls.test_sigint_at_raw_fork_return_retains_pid_and_all_descriptors",
+    "-v"
+  ],
+  "exit_code": 1,
+  "elapsed_s": 0.06468283291906118,
+  "sha256": {
+    "tools/new1_identity_diag.py": "c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3",
+    "tests/test_new1_construction_diag.py": "e0004e1de6967b4ce4ee2820a307f6bf8cc6138fbca3ad3f8c4c5ce5e8306e3f"
+  }
+}

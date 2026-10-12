@@ -1,0 +1,27 @@
+{
+  "receipt_driver": "run_tests_mb12.py",
+  "attempt": "green_mb12_final",
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "-m",
+    "unittest",
+    "tests.test_new1_construction_diag",
+    "tests.test_new1_identity_diag",
+    "tests.test_new1_geometry",
+    "tests.test_new1_supervisor",
+    "-v"
+  ],
+  "exit_code": 124,
+  "timeout_s": 60,
+  "partial_unittest_output": "NOT RETAINED: original runner raised before receipt persistence",
+  "sha256": {
+    "tools/new1_identity_diag.py": "fe116fa7ea499cee653c0ca8478d670a91aa94e1455b61887c72ea581106b783",
+    "tools/new1_construction_diag.py": "d0796091cbb2a48da0ae3f751532f54c18a790a1a36d4e89329bc22c9a6acb31",
+    "tests/test_new1_construction_diag.py": "82ef5f626a6893005f74e6531ed5333f6297c65867cc1af4aa52e559a91d580d",
+    "tests/test_new1_identity_diag.py": "7a9a6d3b74fe600cb4784c5711cde6fc6c373e11743ab7538d8afc86e155c6b1"
+  },
+  "no_current_all_suite_green": true
+}

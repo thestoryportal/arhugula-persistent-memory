@@ -1,0 +1,47 @@
+{
+  "utc": "2026-10-10T10:18:42.505250+00:00",
+  "release_manifest_sha256": "93dcacf983e4872c55d30aa2301b104c3c6f0d83b620dba5688e3af090ca1419",
+  "release_manifest_readback": true,
+  "receipt_hashes_verified": 91,
+  "preserved_entry_receipts": 78,
+  "scope_sha256": "4a9b94cafd907bf1a2f39e8668b119ea2ff4da6a9121ab94471d5f864869bdf9",
+  "launch_command_sha256": "25e117baca611f3139fc1ae5a837f7929940efd8fc78968d38f5392998379bcb",
+  "source_and_test_hashes_match_acceptance": true,
+  "test_counts": {
+    "construction_diag": 60,
+    "identity_diag": 27,
+    "geometry": 34,
+    "supervisor": 61
+  },
+  "total": 182,
+  "astra_r2_regressions_green": 4,
+  "static_audit_exit_code": 0,
+  "byte_identical_assignments": {
+    "tools/new1_identity_diag.py": [
+      "LLMDB_ROOT",
+      "ROOT",
+      "(DEADLINE_S, RSS_CAP_GIB, THREADS, DISK_BYTES)",
+      "CLEANUP_S",
+      "LAUNCH_S",
+      "SCOPE",
+      "SOURCE_PINS",
+      "HARVEST_COMMIT",
+      "HARVEST_SHA",
+      "CACHE",
+      "(CAPTURE, MANIFEST)",
+      "INPUT_PINS"
+    ],
+    "tools/new1_construction_diag.py": [
+      "LLMDB_ROOT",
+      "ROOT",
+      "(G, S)",
+      "SCOPE",
+      "DIMENSION",
+      "(CACHE, CAPTURE, MANIFEST, INPUT_PINS)",
+      "CONSTRUCTIONS"
+    ]
+  },
+  "diff_check_exit_code": 0,
+  "launch_command_executed": false,
+  "source_test_edits_by_mb15": false
+}

@@ -1,0 +1,36 @@
+{
+  "cap_s": 7200.0,
+  "code": "HALTED-RESOURCE",
+  "context_templates": {
+    "hash_basis": "file_bytes",
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10y_directdw_calib3/context_templates_calib.json",
+    "sha256": "9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7"
+  },
+  "detail": {
+    "available_bytes": 8564948992,
+    "current_bytes": 6397321472,
+    "driver_bytes": 10014244864,
+    "rss_bytes": 7533428736
+  },
+  "exception": "Halt",
+  "finished_at": "2026-10-08T18:04:20.688421+00:00",
+  "go": {
+    "at": "2026-10-08T11:50:00-06:00",
+    "decision_id": "D-C10y-go",
+    "experiment": "C10Y",
+    "recorded_in": "EXPERIMENT_RUNBOOK.md \u00a75.2",
+    "stage": "calibration"
+  },
+  "phase": "capture_solve",
+  "spend": {
+    "cap_s": 7200,
+    "decision_id": "D-C10y-go",
+    "stage": "calibration"
+  },
+  "stage": "calibration",
+  "started_at": "2026-10-08T17:42:30.947027+00:00",
+  "status": "HALTED-RESOURCE",
+  "telemetry": false,
+  "telemetry_inertness": null,
+  "traceback": "Traceback (most recent call last):\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 1366, in calibrate\n    prefix=instrument_prefix(H,out,budget,calibration=True,telemetry=None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 2632, in instrument_prefix\n    factors=_ledger_call(H,ledger,stage,'instrument',arm,'capture',targets,keys,\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 1750, in _ledger_call\n    value=action();seen=list(dict.fromkeys(overrides.reads))\n          ^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 2633, in <lambda>\n    lambda:_unit(H,timings,'capture_solve',_workload(arm,24),lambda:capture_solve(H,hp,requests,P,cache(P)),budget=budget),expected_hits=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 1692, in _unit\n    sample_memory(H,name);sync(H);started=STAGE_CLOCK();status='COMPLETED'\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 678, in sample_memory\n    memory_gate(sample)\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 665, in memory_gate\n    if sample['driver_bytes']>32*G or sample['rss_bytes']>40*G or sample['available_bytes']<8*G or sample['driver_bytes']+sample['rss_bytes']>40*G: raise Halt('HALTED-RESOURCE',sample)\n                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nHalt: HALTED-RESOURCE: {'current_bytes': 6397321472, 'driver_bytes': 10014244864, 'rss_bytes': 7533428736, 'available_bytes': 8564948992}\n"
+}

@@ -1,0 +1,26 @@
+{
+  "cap_s": 7200.0,
+  "context_templates": {
+    "hash_basis": "file_bytes",
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10y_directdw_calib1/context_templates_calib.json",
+    "sha256": "9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7"
+  },
+  "finished_at": "2026-10-08T16:19:24.765068+00:00",
+  "go": {
+    "at": "2026-10-08T10:20:00-06:00",
+    "decision_id": "D-C10y-go",
+    "experiment": "C10Y",
+    "recorded_in": "EXPERIMENT_RUNBOOK.md \u00a75.2",
+    "stage": "calibration"
+  },
+  "spend": {
+    "cap_s": 7200,
+    "decision_id": "D-C10y-go",
+    "stage": "calibration"
+  },
+  "stage": "calibration",
+  "started_at": "2026-10-08T16:04:00.761770+00:00",
+  "status": "INSTRUMENT-ERROR",
+  "telemetry": false,
+  "telemetry_inertness": null
+}

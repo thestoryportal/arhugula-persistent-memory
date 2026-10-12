@@ -1,0 +1,608 @@
+{
+  "class": "ORACLE MEASUREMENT — not a route; never promotable as a write-engine result (D-C10r-rulings-3 (2))",
+  "decision_id": "D-C10w-oracle",
+  "status": "VALID",
+  "final_label": "PARTIAL-CEILING-LOCALITY-COST",
+  "routing": {
+    "action": "INDEPENDENT-PREREG-ONLY",
+    "h30_eligible": false,
+    "oracle_measurement_not_route": true,
+    "mechanism_attribution": false
+  },
+  "ranks": {
+    "16": {
+      "count": 70,
+      "seed_counts": [
+        70,
+        71
+      ],
+      "configurations": [
+        {
+          "count": 70,
+          "gates": {
+            "G1": true,
+            "G2": true,
+            "G3": true,
+            "G4": false,
+            "G5": true,
+            "G6": true,
+            "G7": true
+          },
+          "gate_misses": [
+            "G4"
+          ],
+          "label": "PARTIAL-CEILING-LOCALITY-COST",
+          "qualifiers": [
+            "BIGRAM"
+          ],
+          "unstable_merge": false,
+          "mounted_count": 70,
+          "steps": 400,
+          "per_template_counts": [
+            22,
+            24,
+            24
+          ],
+          "per_fact_counts": [
+            2,
+            3,
+            2,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "per_edge_pass": [
+            false,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "gain_over_closedform": 61
+        },
+        {
+          "count": 71,
+          "gates": {
+            "G1": true,
+            "G2": true,
+            "G3": true,
+            "G4": false,
+            "G5": true,
+            "G6": false,
+            "G7": true
+          },
+          "gate_misses": [
+            "G4",
+            "G6"
+          ],
+          "label": "PARTIAL-CEILING-LOCALITY-COST",
+          "qualifiers": [
+            "BIGRAM"
+          ],
+          "unstable_merge": false,
+          "mounted_count": 71,
+          "steps": 400,
+          "per_template_counts": [
+            23,
+            24,
+            24
+          ],
+          "per_fact_counts": [
+            3,
+            3,
+            3,
+            3,
+            2,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "per_edge_pass": [
+            true,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "gain_over_closedform": 60
+        }
+      ],
+      "same_seed": {
+        "count": 70,
+        "gates": {
+          "G1": true,
+          "G2": true,
+          "G3": true,
+          "G4": false,
+          "G5": true,
+          "G6": true,
+          "G7": true
+        },
+        "gate_misses": [
+          "G4"
+        ],
+        "label": "PARTIAL-CEILING-LOCALITY-COST",
+        "qualifiers": [
+          "BIGRAM"
+        ],
+        "unstable_merge": false,
+        "mounted_count": 70,
+        "steps": 400,
+        "per_template_counts": [
+          22,
+          24,
+          24
+        ],
+        "per_fact_counts": [
+          2,
+          3,
+          2,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "per_edge_pass": [
+          false,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "gain_over_closedform": 59
+      },
+      "gate_misses": [
+        "G4",
+        "G6"
+      ],
+      "label": "PARTIAL-CEILING-LOCALITY-COST",
+      "qualifiers": [
+        "BIGRAM"
+      ],
+      "stable": true,
+      "instability": []
+    }
+  },
+  "p3_required": false,
+  "canon_split": "c",
+  "reference_count": null,
+  "reference_status": "NO-GATE-CLEAN-REFERENCE",
+  "c10_status": "OPEN/BLOCKING",
+  "f1_changed": false,
+  "g6_sensitivity": {
+    "P1": {
+      "U": {
+        "A1_single": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A2_coherent2": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_coined_coined": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_shuf": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      },
+      "closedform": {
+        "A1_single": {
+          "full_n": 200,
+          "full_net_paired_loss": 2,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 2,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A2_coherent2": {
+          "full_n": 200,
+          "full_net_paired_loss": -2,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": -2,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_coined_coined": {
+          "full_n": 200,
+          "full_net_paired_loss": -1,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": -1,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      },
+      "oracle_p1": {
+        "A1_single": {
+          "full_n": 200,
+          "full_net_paired_loss": 2,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 2,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A2_coherent2": {
+          "full_n": 200,
+          "full_net_paired_loss": 5,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 5,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_coined_coined": {
+          "full_n": 200,
+          "full_net_paired_loss": 4,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 4,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_shuf": {
+          "full_n": 200,
+          "full_net_paired_loss": 9,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 9,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      },
+      "oracle_canon_s0": {
+        "A7_canon": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      }
+    },
+    "P2": {
+      "U": {
+        "A1_single": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A2_coherent2": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_coined_coined": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_shuf": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      },
+      "closedform": {
+        "A1_single": {
+          "full_n": 200,
+          "full_net_paired_loss": 2,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 2,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A2_coherent2": {
+          "full_n": 200,
+          "full_net_paired_loss": -1,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": -1,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_coined_coined": {
+          "full_n": 200,
+          "full_net_paired_loss": -2,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": -2,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      },
+      "oracle_s1": {
+        "A1_single": {
+          "full_n": 200,
+          "full_net_paired_loss": 2,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 1,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 1,
+          "report_only": true
+        },
+        "A7_coined_coined": {
+          "full_n": 200,
+          "full_net_paired_loss": 6,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 6,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_shuf": {
+          "full_n": 200,
+          "full_net_paired_loss": 4,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 4,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      },
+      "oracle_s0rt": {
+        "A7_coined_coined": {
+          "full_n": 200,
+          "full_net_paired_loss": 4,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 4,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_shuf": {
+          "full_n": 200,
+          "full_net_paired_loss": 9,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 9,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      },
+      "oracle_canon_s1": {
+        "A7_canon": {
+          "full_n": 200,
+          "full_net_paired_loss": 1,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 1,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      }
+    }
+  },
+  "evaluator_amendment": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/step0_20261007T223638_531381Z/amendment_A1_evaluator.json",
+    "sha256": "4791183ab5ddc68cbecff1653a1f80508fb4806d5e957fde63a25a498037d17f"
+  }
+}

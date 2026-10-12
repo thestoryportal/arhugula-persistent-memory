@@ -1,0 +1,17 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "results/mathlab_staging/new1_construction_diag_fix2_20261010T082936.611614Z/audit_mb15_release.py",
+    "audit_mb15_postclose"
+  ],
+  "env": {
+    "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPYCACHEPREFIX": "/private/tmp/new1-mb15-closeout"
+  },
+  "exit_code": 0,
+  "elapsed_s": 1.4112908330280334,
+  "proof_sha256": "2379f73942aedba5837212083dcff86bf205ddf1a496e237e5e6a7c78da18678",
+  "log_sha256": "8048f940ab58efeb2b54afae5305bd4e10debe5a1ced2dd3c6075cfa1f095127"
+}

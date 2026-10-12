@@ -1,0 +1,198 @@
+{
+  "utc": "2026-10-10T10:16:24.424909+00:00",
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "branch": "worktree-c10k-route-a",
+  "head": "bac4fbe0ee18ecfb6f18ca3707185f23cac58f94",
+  "owned_sha256": {
+    "tools/new1_identity_diag.py": "14329bd0daa00bb109010464c26988b5014c6b6e9b92e39152028a9af7033cbe",
+    "tools/new1_construction_diag.py": "238a9d9281c8ea3aeaf7c6969d9f54b58a97288fc84841230c35f9ed03fc2637",
+    "tests/test_new1_construction_diag.py": "2f5644627d6fdd0dfcd668924037c5be69ac98d8415300372538a078bbbe8caf",
+    "tests/test_new1_identity_diag.py": "7a9a6d3b74fe600cb4784c5711cde6fc6c373e11743ab7538d8afc86e155c6b1",
+    "results/mathlab_staging/new1_construction_diag_scope.md": "4a9b94cafd907bf1a2f39e8668b119ea2ff4da6a9121ab94471d5f864869bdf9"
+  },
+  "before_sha256": {
+    "tools/new1_identity_diag.py": "c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3",
+    "tools/new1_construction_diag.py": "87a4f5425f5df5bd85b3d47455053a60965e7510297f1b8e3472c73c931411e7",
+    "tests/test_new1_construction_diag.py": "d4fea32aba6b0a4fa695cccbd8a5734ce7f2d053bff1e39d2634fd0aa5f90fdd",
+    "tests/test_new1_identity_diag.py": "22bfcca9f90054b6ad9cd71d7ca4bf5f67738f8d6ee284d91b106bc946e5c699",
+    "results/mathlab_staging/new1_construction_diag_scope.md": "4ceea820eb75f238aaa149b07b3044eb95a1e619afc5243d1676ffc986719333"
+  },
+  "protected_unchanged_count": 16,
+  "protected_sha256": {
+    "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+    "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+    "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+    "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+    "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f",
+    "results/mathlab_staging/new1_construction_diag_authorization.md": "e7c445af835248b6722e04449f4f6a88a41c4d39f03fc6da41841c8ea23254f5",
+    "results/mathlab_staging/new1_construction_diag_astra_r1.md": "95610af9423e6e8d4708a190ac77f8ac07e253038542523c742ec2f351a59c5d",
+    "results/mathlab_staging/new1_construction_diag_astra_r2.md": "95ca3113136f0f9cbc06e11c35aadcb3cb136c3112c022a2875085e4c92279bf",
+    "results/mathlab_staging/new1_identity_diag_astra.md": "cdc1a94a3a361aa1d26e363b67eb02c694e1425fc0576542ddf8810000912f20",
+    "tools/mathlab_admit.py": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+    "tools/mathlab_runtime.py": "416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5",
+    "tools/mathlab_events.py": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+    "architecture_profile/s_new1_b_halt_diagnostic.json": "9167cb0f506c2433543fcd84b42be9d17b4a86bcc8e18709988338f5f03d030a",
+    "CLAUDE.md": "95f001211c8b70e5d2393f62ff0f8c84bf7839642f2586d820c70ff630b6214b",
+    "AGENTS.md": "9bd23c810037793b41b5242f18e3d0c1cd8d668aa60af371b6f3ca8b215a9ec1",
+    "tools/test_dashboard_mathlab.py": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e"
+  },
+  "prior_evidence_unchanged_counts": {
+    "results/mathlab_staging/new1_construction_diag_build_20261010T071253.399810Z": 26,
+    "results/mathlab_staging/new1_construction_diag_fix_20261010T074908.035652Z": 31
+  },
+  "existing_fix2_files_preserved_count": 14,
+  "byte_identical_functions": {
+    "tools/new1_identity_diag.py": [
+      "verify_pins",
+      "verify_launch",
+      "normalization_paths",
+      "maximum_difference",
+      "probe_metrics",
+      "path_report",
+      "measure",
+      "family_rss",
+      "sample_rss",
+      "new_directory",
+      "cpu_admission"
+    ],
+    "tools/new1_construction_diag.py": [
+      "verify_historical_source",
+      "verify_launch",
+      "tensor_facts",
+      "same_storage",
+      "capture_arguments",
+      "capture_metadata",
+      "decompose",
+      "native_signature",
+      "projector_report",
+      "compare_native",
+      "construction_reports",
+      "measure",
+      "new_directory",
+      "launch_command"
+    ]
+  },
+  "output_class_byte_identical": true,
+  "output_keys_identical": true,
+  "entry_changes_only_absolute_deadline": true,
+  "scope_prior_bytes_preserved": 31123,
+  "identity_fixture_methods_preserved": 27,
+  "identity_fixture_changed_methods": [
+    "test_keyboard_interrupt_after_dispatch_cannot_leave_worker_alive",
+    "test_worker_cleanup_timeout_is_attempted_once_and_preserves_original_error"
+  ],
+  "identity_fixture_before_sha256": "22bfcca9f90054b6ad9cd71d7ca4bf5f67738f8d6ee284d91b106bc946e5c699",
+  "identity_fixture_after_sha256": "7a9a6d3b74fe600cb4784c5711cde6fc6c373e11743ab7538d8afc86e155c6b1",
+  "identity_fixture_method_comparison": {
+    "test_keyboard_interrupt_after_dispatch_cannot_leave_worker_alive": {
+      "before": "def test_keyboard_interrupt_after_dispatch_cannot_leave_worker_alive(self):\n        seen = []\n        children = []\n        original = self.D.subprocess.Popen\n        def spawn(*args, **kwargs):\n            child = original(*args, **kwargs)\n            children.append(child)\n            return child\n        def interrupted(pid):\n            if pid:\n                seen.append(pid)\n                raise KeyboardInterrupt('fixture interrupt')\n            return {'rss_gib': .1, 'process_count': 1}\n        try:\n            with mock.patch.object(self.D.subprocess, 'Popen', new=spawn):\n                try:\n                    status, _, result = self.run_fixture('import time; time.sleep(30)', monitor=interrupted, seconds=.2)\n                except KeyboardInterrupt:\n                    self.fail('the interrupted diagnostic left cleanup to its caller')\n            self.assertNotEqual(status, 0)\n            self.assertEqual(result['status'], 'INVALID')\n            self.assertEqual(len(seen), 1)\n            with self.assertRaises(ProcessLookupError): os.kill(seen[0], 0)\n        finally:\n            for child in children:\n                if child.poll() is None: os.killpg(child.pid, 9)\n                child.communicate(timeout=1)",
+      "after": "def test_keyboard_interrupt_after_dispatch_cannot_leave_worker_alive(self):\n        seen, owners = [], []\n        original = self.D.OwnedWorker.start\n        def capture(owner, *args):\n            owners.append(owner); return original(owner, *args)\n        def interrupted(pid):\n            if pid:\n                seen.append(pid)\n                raise KeyboardInterrupt('fixture interrupt')\n            return {'rss_gib': .1, 'process_count': 1}\n        with mock.patch.object(self.D.OwnedWorker, 'start', new=capture):\n            try:\n                status, _, result = self.run_fixture('import time; time.sleep(30)', monitor=interrupted, seconds=.2)\n            except KeyboardInterrupt:\n                self.fail('the interrupted diagnostic left cleanup to its caller')\n        self.assertNotEqual(status, 0)\n        self.assertEqual(result['status'], 'INVALID')\n        self.assertEqual(len(seen), 1)\n        with self.assertRaises(ProcessLookupError): os.kill(seen[0], 0)\n        self.assertIsNotNone(owners[0].returncode)\n        self.assertEqual(owners[0].proof['pid'], seen[0])\n        self.assertTrue(all(fd is None for pair in owners[0].channels.values() for fd in pair))"
+    },
+    "test_worker_cleanup_timeout_is_attempted_once_and_preserves_original_error": {
+      "before": "def test_worker_cleanup_timeout_is_attempted_once_and_preserves_original_error(self):\n        children, calls = [], []\n        original = self.D.subprocess.Popen\n        def spawn(*args, **kwargs):\n            child = original(*args, **kwargs)\n            children.append(child)\n            return child\n        def broken_terminate(child):\n            calls.append(child.pid)\n            time.sleep(.3)\n        def failing_monitor(pid):\n            if pid: raise self.D.G.Invalid('fixture original diagnostic error')\n            return {'rss_gib': .1, 'process_count': 1}\n        start = time.monotonic()\n        try:\n            with mock.patch.object(self.D.subprocess, 'Popen', new=spawn), \\\n                 mock.patch.object(self.D.S, 'terminate', new=broken_terminate), \\\n                 mock.patch.object(self.D, 'CLEANUP_S', .05):\n                try:\n                    status, _, result = self.run_fixture('import time; time.sleep(30)',\n                                                        monitor=failing_monitor, seconds=1)\n                except self.D.S.Stop as error:\n                    self.fail('cleanup error replaced the original error and skipped its receipt: ' + str(error))\n            self.assertNotEqual(status, 0)\n            self.assertEqual(result['error'], 'fixture original diagnostic error')\n            self.assertIn('STOPPED-DEADLINE', result['cleanup_error'])\n            self.assertEqual(len(calls), 1)\n            self.assertLess(time.monotonic() - start, .2)\n            self.assertTrue(children[0].stdout.closed and children[0].stderr.closed)\n        finally:\n            for child in children:\n                if child.poll() is None: os.killpg(child.pid, 9)\n                child.communicate(timeout=1)",
+      "after": "def test_worker_cleanup_timeout_is_attempted_once_and_preserves_original_error(self):\n        owners = []\n        original_start = self.D.OwnedWorker.start\n        original_kill = self.D.kill_worker\n        def capture(owner, *args):\n            owners.append(owner); return original_start(owner, *args)\n        def delayed_kill(pid):\n            time.sleep(.08)\n            return original_kill(pid)\n        def failing_monitor(pid):\n            if pid: raise self.D.G.Invalid('fixture original diagnostic error')\n            return {'rss_gib': .1, 'process_count': 1}\n        start = time.monotonic()\n        with mock.patch.object(self.D.OwnedWorker, 'start', new=capture), \\\n             mock.patch.object(self.D, 'kill_worker', new=delayed_kill), \\\n             mock.patch.object(self.D, 'CLEANUP_S', .05):\n            try:\n                status, _, result = self.run_fixture('import time; time.sleep(30)', monitor=failing_monitor, seconds=1)\n            except self.D.S.Stop as error:\n                self.fail('cleanup error replaced the original error and skipped its receipt: ' + str(error))\n        self.assertNotEqual(status, 0)\n        self.assertEqual(result['error'], 'fixture original diagnostic error')\n        self.assertIn('STOPPED-DEADLINE', result['cleanup_error'])\n        self.assertEqual(owners[0].proof['kills'], 1, 'worker group killed exactly once')\n        self.assertEqual(owners[0].proof['pid'], result['worker_pid'])\n        self.assertIsNotNone(owners[0].returncode, 'guardian reaped before terminal return')\n        with self.assertRaises(ChildProcessError): os.waitpid(owners[0].pid, os.WNOHANG)\n        with self.assertRaises(ProcessLookupError): os.kill(result['worker_pid'], 0)\n        self.assertLess(time.monotonic() - start, .2)\n        self.assertTrue(all(fd is None for pair in owners[0].channels.values() for fd in pair))"
+    }
+  },
+  "construction_original_methods_preserved": 43,
+  "construction_fixture_changed_methods": [
+    "test_runtime_caps_and_pins_reuse_frozen_identity_contract",
+    "test_real_watchdog_late_popen_handle_is_owned_killed_and_reaped",
+    "test_deadline_during_registration_never_releases_worker_arithmetic",
+    "test_launch_has_its_own_bound_while_whole_run_budget_remains",
+    "test_worker_exits_promptly_when_release_never_arrives_or_pipe_closes",
+    "test_worker_exits_on_parent_death_even_with_another_writer_open",
+    "test_keyboard_interrupt_during_popen_registration_cleans_without_release",
+    "test_stalled_launch_returns_within_bound_and_late_handle_cleans_once",
+    "test_already_exited_unreleased_worker_is_reaped_without_group_signal",
+    "test_released_worker_exits_on_parent_death_while_main_is_blocked",
+    "test_released_worker_has_independent_whole_deadline_while_main_is_blocked"
+  ],
+  "test_counts": {
+    "construction_diag": 60,
+    "identity_diag": 27,
+    "geometry": 34,
+    "supervisor": 61
+  },
+  "test_total": 182,
+  "green": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "-W",
+      "error::ResourceWarning",
+      "-m",
+      "unittest",
+      "tests.test_new1_construction_diag",
+      "tests.test_new1_identity_diag",
+      "tests.test_new1_geometry",
+      "tests.test_new1_supervisor",
+      "-v"
+    ],
+    "env": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONPYCACHEPREFIX": "/private/tmp/new1-mb12-1791625961908178000"
+    },
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_s": 15.719194790814072,
+    "sha256": {
+      "tools/new1_identity_diag.py": "14329bd0daa00bb109010464c26988b5014c6b6e9b92e39152028a9af7033cbe",
+      "tools/new1_construction_diag.py": "238a9d9281c8ea3aeaf7c6969d9f54b58a97288fc84841230c35f9ed03fc2637",
+      "tests/test_new1_construction_diag.py": "2f5644627d6fdd0dfcd668924037c5be69ac98d8415300372538a078bbbe8caf",
+      "tests/test_new1_identity_diag.py": "7a9a6d3b74fe600cb4784c5711cde6fc6c373e11743ab7538d8afc86e155c6b1"
+    }
+  },
+  "source_pins": {
+    "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+    "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+    "memit_dry_run/memit/util/runningstats.py": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+    "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+    "results/mathlab_staging/new1_b_identity_diag_authorization.md": "daa41ea90df6a1ed1a73c4f03289f6f384dc97756f6b4ba93d4766535aad05c1",
+    "results/mathlab_staging/new1_b_halt_astra.md": "9b4c5e90079bb52f7aef6824d2ace3fae292e6a0cf91d5ba62000589c5f2b5be",
+    "tools/new1_identity_diag.py": "14329bd0daa00bb109010464c26988b5014c6b6e9b92e39152028a9af7033cbe",
+    "results/mathlab_staging/new1_construction_diag_authorization.md": "e7c445af835248b6722e04449f4f6a88a41c4d39f03fc6da41841c8ea23254f5",
+    "results/mathlab_staging/new1_identity_diag_astra.md": "cdc1a94a3a361aa1d26e363b67eb02c694e1425fc0576542ddf8810000912f20",
+    "tools/mathlab_admit.py": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+    "tools/mathlab_runtime.py": "416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5",
+    "tools/mathlab_events.py": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+    "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f"
+  },
+  "mb12_existing_receipts_preserved": 38,
+  "mb12_construction_prior_methods_preserved": 54,
+  "mb12_prior_assertions_preserved": true,
+  "mb12_changed_prior_methods": [
+    "test_runtime_caps_and_pins_reuse_frozen_identity_contract",
+    "test_repeated_alarm_at_deadline_exit_preserves_primary_and_reaping",
+    "test_repeated_sigint_and_sigalrm_during_teardown_preserve_primary_and_reap"
+  ],
+  "historical_source": {
+    "commit": "6ea8e7c07156133667a8d6d28364f759ba1d7a31",
+    "sha256": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb"
+  },
+  "input_pins_changed": false,
+  "input_pins_rehashed": false,
+  "real_admission_run": false,
+  "real_diagnostic_run": false,
+  "numerical_dependencies_imported": false,
+  "diff_check_exit": 0,
+  "committed_documentation_transition": {
+    "original_baseline_head": "5620b948ea6f88d6efcb352ebce32d8cadfef816",
+    "documentation_change_commit": "b19e4377b6e45cc9f87de96a94994d37f3f6f8db",
+    "current_head": "bac4fbe0ee18ecfb6f18ca3707185f23cac58f94",
+    "documents": {
+      "CLAUDE.md": {
+        "original_sha256": "e72e6940ee7a1748dc024c1828d4baeabc7820670a8fc0cf749cc25511a6bafb",
+        "current_sha256": "95f001211c8b70e5d2393f62ff0f8c84bf7839642f2586d820c70ff630b6214b",
+        "current_matches_committed_change_and_HEAD": true
+      },
+      "AGENTS.md": {
+        "original_sha256": "12279b3ccff7fbacb1b9dd6a824c433c2df4c520985bb196773311ff931f58d0",
+        "current_sha256": "9bd23c810037793b41b5242f18e3d0c1cd8d668aa60af371b6f3ca8b215a9ec1",
+        "current_matches_committed_change_and_HEAD": true
+      }
+    }
+  },
+  "protected_unchanged_since_mb15_entry_count": 16,
+  "task4_original_protected_current_unchanged_count": 14
+}

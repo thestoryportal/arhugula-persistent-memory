@@ -1,0 +1,157 @@
+{
+  "T_cal": null,
+  "artifacts": {
+    "context_templates_calib.json": "9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7",
+    "law5_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "ledger_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "overlap_audit_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "step0_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "targets_calib.pt": "1d95c75a2aa0abb80d2ab5324b54cf58fcb1bbc3249e8f1f19a3b84ada838078"
+  },
+  "checks": {},
+  "code": "HALTED-RESOURCE",
+  "context_templates": {
+    "hash_basis": "file_bytes",
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10y_directdw_calib3/context_templates_calib.json",
+    "sha256": "9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7"
+  },
+  "detail": {
+    "available_bytes": 8564948992,
+    "current_bytes": 6397321472,
+    "driver_bytes": 10014244864,
+    "rss_bytes": 7533428736
+  },
+  "device": "mps",
+  "env": {
+    "machine": "arm64",
+    "model_rev": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.11.16",
+    "torch": "2.8.0",
+    "transformers": "4.51.0"
+  },
+  "exception": "Halt",
+  "fingerprint": {
+    "cov_cpu_sites": 3,
+    "output": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)\n",
+    "sha256": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
+  },
+  "finished_at": "2026-10-08T18:04:20.687678+00:00",
+  "input_hashes_end": {
+    "covariance": "2d7364d5ef2544ccdb1829e0f547a29f008b526e29d384fdb9e9ca6515c27a0a",
+    "hparams": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "model": "22c531a2ceb6d4c6a246a354af28b63f1a0e02a95a5d58080fb2d5214f52febf",
+    "tokenizer": "af42dbc2749aa324a8344f1f983a83d08ad2765fecc2b0f376640150b227d852"
+  },
+  "input_hashes_start": {
+    "covariance": "2d7364d5ef2544ccdb1829e0f547a29f008b526e29d384fdb9e9ca6515c27a0a",
+    "hparams": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "model": "22c531a2ceb6d4c6a246a354af28b63f1a0e02a95a5d58080fb2d5214f52febf",
+    "tokenizer": "af42dbc2749aa324a8344f1f983a83d08ad2765fecc2b0f376640150b227d852"
+  },
+  "last_record_clock": 1293468.75463275,
+  "memory": {
+    "baseline_evaluation": {
+      "at": "2026-10-08T18:02:47.920828+00:00",
+      "available_bytes": 10743218176,
+      "current_bytes": 6626180352,
+      "driver_bytes": 10049896448,
+      "host_available_bytes": 8889925632,
+      "rss_bytes": 11347050496,
+      "synchronised": true
+    },
+    "baseline_law5": {
+      "at": "2026-10-08T17:58:09.747730+00:00",
+      "available_bytes": 11276222464,
+      "current_bytes": 6626180352,
+      "driver_bytes": 9175056384,
+      "host_available_bytes": 11276222464,
+      "rss_bytes": 10374627328,
+      "synchronised": true
+    },
+    "baseline_projector": {
+      "at": "2026-10-08T17:57:37.479091+00:00",
+      "available_bytes": 20940144640,
+      "current_bytes": 6626180352,
+      "driver_bytes": 10812850176,
+      "host_available_bytes": 19564331008,
+      "rss_bytes": 10374627328,
+      "synchronised": true
+    },
+    "baseline_write": {
+      "at": "2026-10-08T18:01:25.546162+00:00",
+      "available_bytes": 10835394560,
+      "current_bytes": 6626180352,
+      "driver_bytes": 10049863680,
+      "host_available_bytes": 9125494784,
+      "rss_bytes": 11304140800,
+      "synchronised": true
+    },
+    "contexts_overlap": {
+      "at": "2026-10-08T17:42:31.141658+00:00",
+      "available_bytes": 26044612608,
+      "current_bytes": 6397321472,
+      "driver_bytes": 6879133696,
+      "host_available_bytes": 26034126848,
+      "rss_bytes": 1383153664,
+      "synchronised": true
+    },
+    "geometry": {
+      "at": "2026-10-08T18:02:42.199276+00:00",
+      "available_bytes": 12438601728,
+      "current_bytes": 6626180352,
+      "driver_bytes": 10049896448,
+      "host_available_bytes": 9606873088,
+      "rss_bytes": 11297275904,
+      "synchronised": true
+    },
+    "law3": {
+      "at": "2026-10-08T18:02:48.108049+00:00",
+      "available_bytes": 10720952320,
+      "current_bytes": 6397321472,
+      "driver_bytes": 10049896448,
+      "host_available_bytes": 10720952320,
+      "rss_bytes": 7777583104,
+      "synchronised": true
+    },
+    "original_my_edit": {
+      "at": "2026-10-08T18:04:19.620190+00:00",
+      "available_bytes": 9336799232,
+      "current_bytes": 6397321472,
+      "driver_bytes": 10014244864,
+      "host_available_bytes": 9336799232,
+      "rss_bytes": 12804767744,
+      "synchronised": true
+    },
+    "target_solve": {
+      "at": "2026-10-08T17:50:49.216448+00:00",
+      "available_bytes": 19564331008,
+      "current_bytes": 6397321472,
+      "driver_bytes": 10812850176,
+      "host_available_bytes": 19564331008,
+      "rss_bytes": 1948614656,
+      "synchronised": true
+    }
+  },
+  "outcome": "HALTED-RESOURCE",
+  "phase": "capture_solve",
+  "prereg_sha256": "e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331",
+  "schema": "c10y_directdw_calibration/v1",
+  "sources": {
+    "check": "843429cd8e9125fed44de85aabcb059542278cb955a1eff827d0343644236ffb",
+    "compute_ks": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+    "compute_z": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+    "driver": "4b99827ea532e5d16168e1bb0aeca0569772132f413c08da359aa521fe452d3d",
+    "harness": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+    "hparams": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "memit_main": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "prereg": "e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331",
+    "reader": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+    "repr_tools": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+    "templates": "9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a"
+  },
+  "started_at": "2026-10-08T17:42:30.947027+00:00",
+  "template_token_lengths": [],
+  "timings": [],
+  "traceback": "Traceback (most recent call last):\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 1366, in calibrate\n    prefix=instrument_prefix(H,out,budget,calibration=True,telemetry=None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 2632, in instrument_prefix\n    factors=_ledger_call(H,ledger,stage,'instrument',arm,'capture',targets,keys,\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 1750, in _ledger_call\n    value=action();seen=list(dict.fromkeys(overrides.reads))\n          ^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 2633, in <lambda>\n    lambda:_unit(H,timings,'capture_solve',_workload(arm,24),lambda:capture_solve(H,hp,requests,P,cache(P)),budget=budget),expected_hits=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 1692, in _unit\n    sample_memory(H,name);sync(H);started=STAGE_CLOCK();status='COMPLETED'\n    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 678, in sample_memory\n    memory_gate(sample)\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 665, in memory_gate\n    if sample['driver_bytes']>32*G or sample['rss_bytes']>40*G or sample['available_bytes']<8*G or sample['driver_bytes']+sample['rss_bytes']>40*G: raise Halt('HALTED-RESOURCE',sample)\n                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nHalt: HALTED-RESOURCE: {'current_bytes': 6397321472, 'driver_bytes': 10014244864, 'rss_bytes': 7533428736, 'available_bytes': 8564948992}\n"
+}

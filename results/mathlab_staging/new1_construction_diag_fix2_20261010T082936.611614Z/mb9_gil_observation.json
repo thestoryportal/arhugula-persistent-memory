@@ -1,0 +1,13 @@
+{
+  "status": 2,
+  "elapsed": 0.1592662080656737,
+  "marker": true,
+  "result": {
+    "status": "INVALID",
+    "error": "INVALID-WORKER: exit -9: ",
+    "worker_pid": 33232,
+    "elapsed_s": 0.15860199998132885,
+    "observed_peak_family_rss_gib": 0.01
+  },
+  "receipt": "{\"utc\": \"2026-10-10T09:01:54.098753+00:00\", \"kind\": \"started\", \"deadline_s\": 0.3, \"rss_cap_gib\": 11.0, \"parent_pid\": 33229, \"parent_nice\": 10}\n{\"utc\": \"2026-10-10T09:01:54.098888+00:00\", \"kind\": \"resource\", \"rss_gib\": 0.01, \"process_count\": 1}\n{\"utc\": \"2026-10-10T09:01:54.099014+00:00\", \"kind\": \"admission\", \"decision\": {\"allowed\": true}}\n{\"utc\": \"2026-10-10T09:01:54.101344+00:00\", \"kind\": \"worker\", \"pid\": 33232}\n{\"utc\": \"2026-10-10T09:01:54.101692+00:00\", \"kind\": \"resource\", \"rss_gib\": 0.01, \"process_count\": 1}\n{\"utc\": \"2026-10-10T09:01:54.257757+00:00\", \"kind\": \"terminal\", \"status\": \"INVALID\", \"result_sha256\": \"8ddf548572736c2e7dc6eea59a2303dfcb30d980539023980f3502b361c54295\"}\n"
+}

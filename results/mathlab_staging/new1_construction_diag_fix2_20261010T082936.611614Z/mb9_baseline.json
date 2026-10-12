@@ -1,0 +1,29 @@
+{
+  "sha256": {
+    "tools/new1_identity_diag.py": "c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3",
+    "tools/new1_construction_diag.py": "87a4f5425f5df5bd85b3d47455053a60965e7510297f1b8e3472c73c931411e7",
+    "tests/test_new1_construction_diag.py": "d4fea32aba6b0a4fa695cccbd8a5734ce7f2d053bff1e39d2634fd0aa5f90fdd",
+    "tests/test_new1_identity_diag.py": "22bfcca9f90054b6ad9cd71d7ca4bf5f67738f8d6ee284d91b106bc946e5c699",
+    "results/mathlab_staging/new1_construction_diag_scope.md": "4ceea820eb75f238aaa149b07b3044eb95a1e619afc5243d1676ffc986719333"
+  },
+  "free_bytes": 91803774976,
+  "disk_budget_bytes": 4000000,
+  "fixture_scope_expansion": "MAESTRO5 operator prompt; all 27 identity methods retained",
+  "original_red_preserved": true,
+  "existing_fix2_hashes": {
+    "handoff_audit.json": "b35164e82e6faf8f863067c60b64d7c520afb6408e16f372787c18a906c9c84d",
+    "supervisor_candidate.txt": "7cd3966378410627a91abc5547cca49c4d04cd7adb5a0d78555aec11ff225f0d",
+    "baseline_status.txt": "cdba7d6cf6302ae176839c44cd2749fea4e9f7347e586c35523701badfa46ae0",
+    "red_r2.json": "78a1030ba6e30c244dedbfaaf06d8a844100567f913d618b8d61debb836f4ecb",
+    "baseline.json": "9241cebf3f45d05a7a55600a7f75a0defd1a32e9fd706c7fc20e080251dbfb74",
+    "red_r2.log": "7a535a88d2c172523681801dd3f6db80c746feac2c6b9188a57bd0923fbc4a87",
+    "context_checkpoint.md": "d3ca35f0bfddc1a26614c8bf96a0ec30c797cea607dab005bfa67f899b99054e",
+    "design_review.md": "43ea5e875888a5ec12034d9f1a2b2846e72f9d6480b7498b43516ea553bdd8dd",
+    "handoff_status.txt": "eb8db4ced8347caaf7b57eda8ca4683c310252b54f6476dd5e418e3a9e2426a3",
+    "before/tools/new1_construction_diag.py": "87a4f5425f5df5bd85b3d47455053a60965e7510297f1b8e3472c73c931411e7",
+    "before/tools/new1_identity_diag.py": "c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3",
+    "before/tests/test_new1_construction_diag.py": "40e2cd2905053955c7dac510860609e0a47a8e3ef661442ea1a9c90e0c660810",
+    "before/tests/test_new1_identity_diag.py": "22bfcca9f90054b6ad9cd71d7ca4bf5f67738f8d6ee284d91b106bc946e5c699",
+    "before/results/mathlab_staging/new1_construction_diag_scope.md": "9b3f7ddd5c9147758d8e8277a30a50ea21f3c3c5e08e70333938cb5e9eb25f1c"
+  }
+}

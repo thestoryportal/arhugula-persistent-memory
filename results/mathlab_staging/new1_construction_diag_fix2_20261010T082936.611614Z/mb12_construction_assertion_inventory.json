@@ -1,0 +1,159 @@
+{
+  "test_runtime_caps_and_pins_reuse_frozen_identity_contract": {
+    "before": [
+      "self.assertEqual((self.D.I.DEADLINE_S, self.D.I.RSS_CAP_GIB, self.D.I.THREADS, self.D.I.DISK_BYTES),\n                         (600, 11., 8, 1000000))",
+      "self.assertEqual(self.D.INPUT_PINS, self.D.I.INPUT_PINS)",
+      "self.assertEqual(self.D.SOURCE_PINS['tools/new1_identity_diag.py'],\n                         'c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3')",
+      "self.assertIn('results/mathlab_staging/new1_construction_diag_authorization.md', self.D.SOURCE_PINS)",
+      "self.assertIn('results/mathlab_staging/new1_identity_diag_astra.md', self.D.SOURCE_PINS)"
+    ],
+    "after": [
+      "self.assertEqual((self.D.I.DEADLINE_S, self.D.I.RSS_CAP_GIB, self.D.I.THREADS, self.D.I.DISK_BYTES),\n                         (600, 11., 8, 1000000))",
+      "self.assertEqual(self.D.INPUT_PINS, self.D.I.INPUT_PINS)",
+      "self.assertEqual(self.D.SOURCE_PINS['tools/new1_identity_diag.py'],\n                         '14329bd0daa00bb109010464c26988b5014c6b6e9b92e39152028a9af7033cbe')",
+      "self.assertIn('results/mathlab_staging/new1_construction_diag_authorization.md', self.D.SOURCE_PINS)",
+      "self.assertIn('results/mathlab_staging/new1_identity_diag_astra.md', self.D.SOURCE_PINS)"
+    ]
+  },
+  "test_real_watchdog_late_popen_handle_is_owned_killed_and_reaped": {
+    "before": [
+      "self.assertEqual(status, 2)",
+      "self.assertIn('STOPPED-DEADLINE', result['error'])",
+      "self.assertEqual(len(children), 1)",
+      "self.assertEqual(result['worker_pid'], children[0].pid)",
+      "self.assertRaises(ProcessLookupError)"
+    ],
+    "after": [
+      "self.assertEqual(status, 2)",
+      "self.assertIn('STOPPED-DEADLINE', result['error'])",
+      "self.assertEqual(len(owners), 1)",
+      "self.assertEqual(result['worker_pid'], owners[0].worker_pid)",
+      "self.assertRaises(ProcessLookupError)"
+    ]
+  },
+  "test_deadline_during_registration_never_releases_worker_arithmetic": {
+    "before": [
+      "self.assertEqual(status, 2)",
+      "self.assertFalse(marker.exists())",
+      "self.assertRaises(ProcessLookupError)"
+    ],
+    "after": [
+      "self.assertEqual(status, 2)",
+      "self.assertFalse(marker.exists())",
+      "self.assertRaises(ProcessLookupError)"
+    ]
+  },
+  "test_launch_has_its_own_bound_while_whole_run_budget_remains": {
+    "before": [
+      "self.assertEqual(status, 2)",
+      "self.assertIn('STOPPED-LAUNCH', result['error'])",
+      "self.assertFalse(marker.exists())",
+      "self.assertRaises(ProcessLookupError)"
+    ],
+    "after": [
+      "self.assertEqual(status, 2)",
+      "self.assertIn('STOPPED-LAUNCH', result['error'])",
+      "self.assertFalse(marker.exists())",
+      "self.assertRaises(ProcessLookupError)"
+    ]
+  },
+  "test_worker_exits_promptly_when_release_never_arrives_or_pipe_closes": {
+    "before": [
+      "self.assertNotEqual(child.returncode, 0)",
+      "self.assertFalse(marker.exists())",
+      "self.assertIn(b'LAUNCH', stderr)"
+    ],
+    "after": [
+      "self.assertIsNotNone(owner.proof)",
+      "self.assertNotEqual(owner.proof['code'], 0)",
+      "self.assertFalse(marker.exists())",
+      "self.assertIn(b'LAUNCH', owner.buffers['stderr'])"
+    ]
+  },
+  "test_worker_exits_on_parent_death_even_with_another_writer_open": {
+    "before": [
+      "self.assertTrue(hasattr(self.D.I, 'wait_for_release'), 'worker release/liveness guard missing')",
+      "self.assertEqual(parent.returncode, 0, stderr)",
+      "self.assertTrue(select.select([status_read], [], [], .5)[0], 'worker did not notice parent death')",
+      "self.assertEqual(os.read(status_read, 32), b'STOPPED')",
+      "self.assertFalse(marker.exists())"
+    ],
+    "after": [
+      "self.assertTrue(hasattr(self.D.I, 'wait_for_release'), 'worker release/liveness guard missing')",
+      "self.assertEqual(parent.returncode, 0, stderr)",
+      "self.assertFalse(marker.exists())",
+      "self.assertRaises(ProcessLookupError)"
+    ]
+  },
+  "test_keyboard_interrupt_during_popen_registration_cleans_without_release": {
+    "before": [
+      "self.assertEqual(status, 130)",
+      "self.assertFalse(marker.exists())",
+      "self.assertRaises(ProcessLookupError)"
+    ],
+    "after": [
+      "self.assertEqual(status, 130)",
+      "self.assertFalse(marker.exists())",
+      "self.assertRaises(ProcessLookupError)"
+    ]
+  },
+  "test_stalled_launch_returns_within_bound_and_late_handle_cleans_once": {
+    "before": [
+      "self.assertEqual(status, 2)",
+      "self.assertIn('STOPPED-LAUNCH', result['error'])",
+      "self.assertLess(time.monotonic()-start, .3)",
+      "self.assertFalse(marker.exists())",
+      "self.assertIsNotNone(children[0].poll())",
+      "self.assertTrue(children[0].stdout.closed and children[0].stderr.closed)"
+    ],
+    "after": [
+      "self.assertEqual(status, 2)",
+      "self.assertIn('STOPPED-LAUNCH', result['error'])",
+      "self.assertLess(time.monotonic()-start, .3)",
+      "self.assertFalse(marker.exists())",
+      "self.assertEqual(owners[0].proof['kills'], 1)",
+      "self.assertIsNotNone(owners[0].returncode)",
+      "self.assertTrue(all(fd is None for pair in owners[0].channels.values() for fd in pair))"
+    ]
+  },
+  "test_already_exited_unreleased_worker_is_reaped_without_group_signal": {
+    "before": [
+      "self.assertEqual(status, 2)",
+      "self.assertEqual(children[0].returncode, 2)",
+      "terminate.assert_not_called()",
+      "self.assertFalse(marker.exists())",
+      "self.assertRaises(ProcessLookupError)"
+    ],
+    "after": [
+      "self.assertEqual(status, 2)",
+      "self.assertEqual(owners[0].proof['code'], 2)",
+      "self.assertEqual(owners[0].proof['kills'], 0, 'already exited worker must be reaped without signalling its group')",
+      "self.assertFalse(marker.exists())",
+      "self.assertRaises(ProcessLookupError)"
+    ]
+  },
+  "test_released_worker_exits_on_parent_death_while_main_is_blocked": {
+    "before": [
+      "self.assertEqual(parent.returncode, 0, stderr)",
+      "self.assertEqual(os.read(status_read, 8), b'RELEASED')",
+      "self.assertTrue(select.select([status_read], [], [], .5)[0], 'released worker outlived dead parent')",
+      "self.assertEqual(os.read(status_read, 1), b'')"
+    ],
+    "after": [
+      "self.assertEqual(parent.returncode, 0, stderr)",
+      "self.assertEqual(marker.read_text(), 'released')",
+      "self.assertRaises(ProcessLookupError)"
+    ]
+  },
+  "test_released_worker_has_independent_whole_deadline_while_main_is_blocked": {
+    "before": [
+      "self.assertEqual(stdout.strip(),b'RELEASED')",
+      "self.assertEqual(child.returncode,2)"
+    ],
+    "after": [
+      "self.assertEqual(bytes(owner.buffers['stdout']).strip(), b'RELEASED')",
+      "self.assertEqual(owner.proof['code'], -signal.SIGKILL)",
+      "self.assertEqual(owner.proof['kills'], 1)"
+    ]
+  }
+}

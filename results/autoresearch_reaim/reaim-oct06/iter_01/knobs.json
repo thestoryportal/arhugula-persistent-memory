@@ -1,0 +1,12 @@
+{
+  "resolve_rounds": 1,
+  "stack": false,
+  "write_cap": null,
+  "z_blend": 1.0,
+  "layers": [
+    4,
+    8
+  ],
+  "ridge": 1.0,
+  "resolve_steps": 25
+}

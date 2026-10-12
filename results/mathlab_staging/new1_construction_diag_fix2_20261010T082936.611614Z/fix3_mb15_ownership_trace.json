@@ -1,0 +1,26 @@
+{
+  "test_passed": true,
+  "failures": 0,
+  "errors": 0,
+  "elapsed_s": 0.531807207968086,
+  "observations": [
+    {
+      "worker_pid": 48461,
+      "guardian_pid": 48460,
+      "guardian_returncode": 0,
+      "proof": {
+        "event": "reaped",
+        "pid": 48461,
+        "code": -9,
+        "kills": 1,
+        "error": null
+      },
+      "worker_dead": true,
+      "guardian_confirmed_reaped": true,
+      "all_owned_descriptors_closed": true,
+      "worker_stderr": "",
+      "worker_stdout": ""
+    }
+  ],
+  "instrumentation": "One extra outer wrapper captures OwnedWorker object; unchanged test method, assertions, timing bounds and patches. Post-test OS probes occur after the test has completed. No retries, delays or polling were added to the test."
+}

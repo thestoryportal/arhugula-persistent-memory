@@ -1,0 +1,1 @@
+{"event": "pid-collection", "method": "_handle_exitstatus", "monotonic_ns": 1466503729186875, "phase": "pid-collection", "pid": 89821, "pid_collected": 89923, "returncode": 0, "test": "tests.test_new1_supervisor.SupervisorTests.test_torn_ipc_and_worker_exit_without_result_are_invalid", "wall_ns": 1791655696515777000}

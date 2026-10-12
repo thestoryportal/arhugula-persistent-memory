@@ -1,0 +1,25 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "-m",
+    "unittest",
+    "tests.test_new1_construction_diag.OwnedLaunchControls.test_terminal_finally_at_absolute_end_fail_stops_without_terminal_or_python_return",
+    "-v"
+  ],
+  "env": {
+    "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPYCACHEPREFIX": "/private/tmp/new1-mb12-1791625424864443000"
+  },
+  "exit_code": 1,
+  "elapsed_s": 2.610499082831666,
+  "sha256": {
+    "tools/new1_identity_diag.py": "0bf52572051d68f671d9c41e5e07a05b13404fdc347bdd2de8a21a2e3c9043bb",
+    "tools/new1_construction_diag.py": "084b2aff63832c9380f38754798a98dfce90c90ddbfd58c4d90859d9fa6cbdab",
+    "tests/test_new1_construction_diag.py": "df8d40615c2d3598beb35ad99f3f5346ba9bcd279da28caff11bacc07e2d9c0f",
+    "tests/test_new1_identity_diag.py": "7a9a6d3b74fe600cb4784c5711cde6fc6c373e11743ab7538d8afc86e155c6b1"
+  }
+}

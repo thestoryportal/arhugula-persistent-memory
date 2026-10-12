@@ -1,0 +1,9 @@
+{
+  "original_audit_sha256": "911eabc77317242047c21f47b182e5887bea82aec5691092ec46e2bdc58ebc9c",
+  "revised_audit_sha256": "9ab3b9c9d0c0e1e3026d40563ad541252716073cc7afeae1d5c930bf6dbc33be",
+  "original_assertions_preserved": 34,
+  "added_assertions": 8,
+  "historical_documentation_transition_receipt": "mb15_committed_documentation_transition.json",
+  "protected_files_edited": false,
+  "science_test_and_receipt_assertions_changed": false
+}

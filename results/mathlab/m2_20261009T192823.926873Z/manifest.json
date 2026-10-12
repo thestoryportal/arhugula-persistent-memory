@@ -1,0 +1,992 @@
+{
+  "tier": "MATH-PROXY",
+  "decision_id": "D-ML-1",
+  "prereg_sha256": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507",
+  "harvest": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/manifest.json",
+    "sha256": "bb9a6f9ad76678ae2289151c9fa64fb0033a6b8b2d7aff0b9a03150180f1ba7e"
+  },
+  "gate2a": {
+    "passed": true,
+    "records": {
+      "A1_single:4": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 696.8177613950152,
+        "fp64_update_norm": 15.891595103404349,
+        "fp32_fp64_difference_norm": 0.0010226191407491571
+      },
+      "A2_coherent2:4": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 696.8177613950152,
+        "fp64_update_norm": 15.919237555051957,
+        "fp32_fp64_difference_norm": 0.0010394814252986878
+      },
+      "A7_coined_coined:4": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 696.8177613950152,
+        "fp64_update_norm": 15.835125619778124,
+        "fp32_fp64_difference_norm": 0.0010306098886506887
+      },
+      "A1_single:5": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 1195.313919374196,
+        "fp64_update_norm": 12.19074793546046,
+        "fp32_fp64_difference_norm": 0.00036543848405278293
+      },
+      "A2_coherent2:5": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 1290.5234093026975,
+        "fp64_update_norm": 12.067967633043805,
+        "fp32_fp64_difference_norm": 0.00037361038010410967
+      },
+      "A7_coined_coined:5": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 1166.8521300050372,
+        "fp64_update_norm": 12.063982593215577,
+        "fp32_fp64_difference_norm": 0.00036481456558094924
+      },
+      "A1_single:6": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 2631.087506869327,
+        "fp64_update_norm": 11.36228635690302,
+        "fp32_fp64_difference_norm": 0.0006899257386190008
+      },
+      "A2_coherent2:6": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 1959.8969555534034,
+        "fp64_update_norm": 11.055435366303405,
+        "fp32_fp64_difference_norm": 0.0007496582025141805
+      },
+      "A7_coined_coined:6": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 3449.6181371807243,
+        "fp64_update_norm": 11.989917616528922,
+        "fp32_fp64_difference_norm": 0.0006548782733024853
+      },
+      "A1_single:7": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 1170.8172422718662,
+        "fp64_update_norm": 19.346718626104533,
+        "fp32_fp64_difference_norm": 0.0006968731957311583
+      },
+      "A2_coherent2:7": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 1064.1310629844409,
+        "fp64_update_norm": 18.72144405785895,
+        "fp32_fp64_difference_norm": 0.0007239282423004489
+      },
+      "A7_coined_coined:7": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 1217.4029879044176,
+        "fp64_update_norm": 19.983058877034306,
+        "fp32_fp64_difference_norm": 0.0006982473282261095
+      },
+      "A1_single:8": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 2470.985852008767,
+        "fp64_update_norm": 26.889038826252786,
+        "fp32_fp64_difference_norm": 0.001146095611268603
+      },
+      "A2_coherent2:8": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 2816.4667738052253,
+        "fp64_update_norm": 26.13814508096567,
+        "fp32_fp64_difference_norm": 0.001274223495659224
+      },
+      "A7_coined_coined:8": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 2602.3069036307115,
+        "fp64_update_norm": 27.94147998429953,
+        "fp32_fp64_difference_norm": 0.0010417758849643858
+      }
+    }
+  },
+  "gate2b": "OPERANDS-ONLY",
+  "fp16_rounding": {
+    "4": 0.001152968798870012,
+    "5": 0.0019109179517091414,
+    "6": 0.002105904822271678,
+    "7": 0.0012443304932961555,
+    "8": 0.0009435913501004509
+  },
+  "files": {
+    "replayed_A1_single_l4.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A1_single_l4.pt",
+      "sha256": "404ef66f292aba08853a9d06861df99b6e5c75b5c3bd3c35e5711df11fd456d6",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A2_coherent2_l4.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A2_coherent2_l4.pt",
+      "sha256": "f3bc40df45e6bddf6106aaac74bb1beafaceece725f70bf014a83ddf8ada05af",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A7_coined_coined_l4.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A7_coined_coined_l4.pt",
+      "sha256": "65af04ff2fd0f926ff06a67cf34df8f7eef4a50f6a49316dce78b99ea7e62982",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A1_single_l5.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A1_single_l5.pt",
+      "sha256": "3d8aae6e67c9020b9d8e0516a3d9b53c0684473f8e6eb6935b9655ee78a43369",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A2_coherent2_l5.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A2_coherent2_l5.pt",
+      "sha256": "0a9d45f4c071297e2bf3d8c3218a517ad6df8244519d7924930938c184168db5",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A7_coined_coined_l5.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A7_coined_coined_l5.pt",
+      "sha256": "d4e40b31339f0934e2d5be06167979e674bbf8da2b0360c5adedba1cc08172ce",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A1_single_l6.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A1_single_l6.pt",
+      "sha256": "b308d03d97ddfef61aba560dc8b58491c14015c6d27988a0e6b76d4f3c4e19f2",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A2_coherent2_l6.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A2_coherent2_l6.pt",
+      "sha256": "e351af007f0c3d0a96bf31e98e6372f39b467052fca7bc67b1de8fcb3affae40",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A7_coined_coined_l6.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A7_coined_coined_l6.pt",
+      "sha256": "1dff2be134f520a8511d061ac47b621bea095133d5016c815b8abbd2b3042d4f",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A1_single_l7.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A1_single_l7.pt",
+      "sha256": "1151ebd97077b90bbc15af5582e0f1ec068f0d806ee232f07425c330520e5327",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A2_coherent2_l7.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A2_coherent2_l7.pt",
+      "sha256": "869edbe44f956012af1edeb7d88b10e5a6159121821940a246b548ac8c341083",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A7_coined_coined_l7.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A7_coined_coined_l7.pt",
+      "sha256": "9f08a345bfb29a61477ea56bda07f75102342b480c55afd06ec57f78f3802e3b",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A1_single_l8.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A1_single_l8.pt",
+      "sha256": "8303a884e3b6ae285d57cecc577bfd858a26645d6929de80bd5ae38a4ffc33e1",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A2_coherent2_l8.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A2_coherent2_l8.pt",
+      "sha256": "c2e005f8e52d185c7383f9da3f55ddd79b667d5f54e9aabee9ac954076473ea5",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A7_coined_coined_l8.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/m2_20261009T192823.926873Z/replayed_A7_coined_coined_l8.pt",
+      "sha256": "fc623d6fe1edbab5fe53a7c39bf0a11710f90a525a17c436da39100adcc27cc0",
+      "bytes": 90375909,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2048,
+            11008
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2048,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    }
+  },
+  "gates": {
+    "stage-memory-reproduction": {
+      "gate_id": "stage-memory-reproduction",
+      "plain_words": "At least eight GiB of memory before this stage",
+      "observed": 35.037628173828125,
+      "bar": 8,
+      "comparison": ">=",
+      "passed": true
+    },
+    "budget-reproduction": {
+      "gate_id": "budget-reproduction",
+      "plain_words": "This stage fits the remaining deadline",
+      "observed": {
+        "stage": "reproduction",
+        "elapsed_s": 2.273903208086267,
+        "remaining_stage_s": 6537.726096791914,
+        "projected_end_s": 6540.0,
+        "process_cap_s": 6540
+      },
+      "bar": 6540,
+      "comparison": "meets",
+      "passed": true
+    },
+    "memory-reserve-2": {
+      "gate_id": "memory-reserve-2",
+      "plain_words": "Enough free memory for this calculation",
+      "observed": 27.080108642578125,
+      "bar": 10,
+      "comparison": ">=",
+      "passed": true
+    },
+    "memory-reserve-5": {
+      "gate_id": "memory-reserve-5",
+      "plain_words": "Enough free memory for this calculation",
+      "observed": 25.927841186523438,
+      "bar": 13,
+      "comparison": ">=",
+      "passed": true
+    },
+    "2a-projector-A1_single-4": {
+      "gate_id": "2a-projector-A1_single-4",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 8645,
+        "sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070"
+      },
+      "bar": {
+        "null_n": 8645,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "memory-reserve-9": {
+      "gate_id": "memory-reserve-9",
+      "plain_words": "Enough free memory for this calculation",
+      "observed": 27.789169311523438,
+      "bar": 17,
+      "comparison": ">=",
+      "passed": true
+    },
+    "2a-update-A1_single-4": {
+      "gate_id": "2a-update-A1_single-4",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A2_coherent2-4": {
+      "gate_id": "2a-projector-A2_coherent2-4",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 8645,
+        "sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070"
+      },
+      "bar": {
+        "null_n": 8645,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A2_coherent2-4": {
+      "gate_id": "2a-update-A2_coherent2-4",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A7_coined_coined-4": {
+      "gate_id": "2a-projector-A7_coined_coined-4",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 8645,
+        "sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070"
+      },
+      "bar": {
+        "null_n": 8645,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A7_coined_coined-4": {
+      "gate_id": "2a-update-A7_coined_coined-4",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A1_single-5": {
+      "gate_id": "2a-projector-A1_single-5",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 7119,
+        "sha256": "c455769143e0edbabe0340b490edc92ceea52ee046b474666f5ed13dd8f96402"
+      },
+      "bar": {
+        "null_n": 7119,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A1_single-5": {
+      "gate_id": "2a-update-A1_single-5",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A2_coherent2-5": {
+      "gate_id": "2a-projector-A2_coherent2-5",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 7119,
+        "sha256": "c455769143e0edbabe0340b490edc92ceea52ee046b474666f5ed13dd8f96402"
+      },
+      "bar": {
+        "null_n": 7119,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A2_coherent2-5": {
+      "gate_id": "2a-update-A2_coherent2-5",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A7_coined_coined-5": {
+      "gate_id": "2a-projector-A7_coined_coined-5",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 7119,
+        "sha256": "c455769143e0edbabe0340b490edc92ceea52ee046b474666f5ed13dd8f96402"
+      },
+      "bar": {
+        "null_n": 7119,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A7_coined_coined-5": {
+      "gate_id": "2a-update-A7_coined_coined-5",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A1_single-6": {
+      "gate_id": "2a-projector-A1_single-6",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 5738,
+        "sha256": "dfa3b0619773f7d6058173de8b45f8b5e77bdc491ad707057c5f4d2c73c5d67b"
+      },
+      "bar": {
+        "null_n": 5738,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A1_single-6": {
+      "gate_id": "2a-update-A1_single-6",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A2_coherent2-6": {
+      "gate_id": "2a-projector-A2_coherent2-6",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 5738,
+        "sha256": "dfa3b0619773f7d6058173de8b45f8b5e77bdc491ad707057c5f4d2c73c5d67b"
+      },
+      "bar": {
+        "null_n": 5738,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A2_coherent2-6": {
+      "gate_id": "2a-update-A2_coherent2-6",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A7_coined_coined-6": {
+      "gate_id": "2a-projector-A7_coined_coined-6",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 5738,
+        "sha256": "dfa3b0619773f7d6058173de8b45f8b5e77bdc491ad707057c5f4d2c73c5d67b"
+      },
+      "bar": {
+        "null_n": 5738,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A7_coined_coined-6": {
+      "gate_id": "2a-update-A7_coined_coined-6",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A1_single-7": {
+      "gate_id": "2a-projector-A1_single-7",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 4165,
+        "sha256": "6ed9c91d26b7f19ce10e5253f2e54ba35ac7c593b2b3e332c92f72e616014c37"
+      },
+      "bar": {
+        "null_n": 4165,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A1_single-7": {
+      "gate_id": "2a-update-A1_single-7",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A2_coherent2-7": {
+      "gate_id": "2a-projector-A2_coherent2-7",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 4165,
+        "sha256": "6ed9c91d26b7f19ce10e5253f2e54ba35ac7c593b2b3e332c92f72e616014c37"
+      },
+      "bar": {
+        "null_n": 4165,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A2_coherent2-7": {
+      "gate_id": "2a-update-A2_coherent2-7",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A7_coined_coined-7": {
+      "gate_id": "2a-projector-A7_coined_coined-7",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 4165,
+        "sha256": "6ed9c91d26b7f19ce10e5253f2e54ba35ac7c593b2b3e332c92f72e616014c37"
+      },
+      "bar": {
+        "null_n": 4165,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A7_coined_coined-7": {
+      "gate_id": "2a-update-A7_coined_coined-7",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A1_single-8": {
+      "gate_id": "2a-projector-A1_single-8",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 1583,
+        "sha256": "71b3241cc5d281e0160a57233306f619c9507ee833c18936fadbd8ff43744612"
+      },
+      "bar": {
+        "null_n": 1583,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A1_single-8": {
+      "gate_id": "2a-update-A1_single-8",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A2_coherent2-8": {
+      "gate_id": "2a-projector-A2_coherent2-8",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 1583,
+        "sha256": "71b3241cc5d281e0160a57233306f619c9507ee833c18936fadbd8ff43744612"
+      },
+      "bar": {
+        "null_n": 1583,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A2_coherent2-8": {
+      "gate_id": "2a-update-A2_coherent2-8",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A7_coined_coined-8": {
+      "gate_id": "2a-projector-A7_coined_coined-8",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 1583,
+        "sha256": "71b3241cc5d281e0160a57233306f619c9507ee833c18936fadbd8ff43744612"
+      },
+      "bar": {
+        "null_n": 1583,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A7_coined_coined-8": {
+      "gate_id": "2a-update-A7_coined_coined-8",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a": {
+      "gate_id": "2a",
+      "plain_words": "Exact offline reproduction of the recorded write",
+      "observed": {
+        "A1_single:4": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 696.8177613950152,
+          "fp64_update_norm": 15.891595103404349,
+          "fp32_fp64_difference_norm": 0.0010226191407491571
+        },
+        "A2_coherent2:4": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 696.8177613950152,
+          "fp64_update_norm": 15.919237555051957,
+          "fp32_fp64_difference_norm": 0.0010394814252986878
+        },
+        "A7_coined_coined:4": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 696.8177613950152,
+          "fp64_update_norm": 15.835125619778124,
+          "fp32_fp64_difference_norm": 0.0010306098886506887
+        },
+        "A1_single:5": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 1195.313919374196,
+          "fp64_update_norm": 12.19074793546046,
+          "fp32_fp64_difference_norm": 0.00036543848405278293
+        },
+        "A2_coherent2:5": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 1290.5234093026975,
+          "fp64_update_norm": 12.067967633043805,
+          "fp32_fp64_difference_norm": 0.00037361038010410967
+        },
+        "A7_coined_coined:5": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 1166.8521300050372,
+          "fp64_update_norm": 12.063982593215577,
+          "fp32_fp64_difference_norm": 0.00036481456558094924
+        },
+        "A1_single:6": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 2631.087506869327,
+          "fp64_update_norm": 11.36228635690302,
+          "fp32_fp64_difference_norm": 0.0006899257386190008
+        },
+        "A2_coherent2:6": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 1959.8969555534034,
+          "fp64_update_norm": 11.055435366303405,
+          "fp32_fp64_difference_norm": 0.0007496582025141805
+        },
+        "A7_coined_coined:6": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 3449.6181371807243,
+          "fp64_update_norm": 11.989917616528922,
+          "fp32_fp64_difference_norm": 0.0006548782733024853
+        },
+        "A1_single:7": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 1170.8172422718662,
+          "fp64_update_norm": 19.346718626104533,
+          "fp32_fp64_difference_norm": 0.0006968731957311583
+        },
+        "A2_coherent2:7": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 1064.1310629844409,
+          "fp64_update_norm": 18.72144405785895,
+          "fp32_fp64_difference_norm": 0.0007239282423004489
+        },
+        "A7_coined_coined:7": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 1217.4029879044176,
+          "fp64_update_norm": 19.983058877034306,
+          "fp32_fp64_difference_norm": 0.0006982473282261095
+        },
+        "A1_single:8": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 2470.985852008767,
+          "fp64_update_norm": 26.889038826252786,
+          "fp32_fp64_difference_norm": 0.001146095611268603
+        },
+        "A2_coherent2:8": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 2816.4667738052253,
+          "fp64_update_norm": 26.13814508096567,
+          "fp32_fp64_difference_norm": 0.001274223495659224
+        },
+        "A7_coined_coined:8": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 2602.3069036307115,
+          "fp64_update_norm": 27.94147998429953,
+          "fp32_fp64_difference_norm": 0.0010417758849643858
+        }
+      },
+      "bar": "all matches within frozen tolerances",
+      "comparison": "meets",
+      "passed": true
+    },
+    "2b": {
+      "gate_id": "2b",
+      "plain_words": "Whether clean inputs support first-order alternative solves",
+      "observed": "OPERANDS-ONLY",
+      "bar": {
+        "relative_error_max": 0.25,
+        "cosine_min": 0.95
+      },
+      "comparison": "meets",
+      "passed": false
+    }
+  }
+}

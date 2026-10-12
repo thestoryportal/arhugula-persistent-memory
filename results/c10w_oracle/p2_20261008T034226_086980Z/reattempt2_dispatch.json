@@ -1,0 +1,19 @@
+{
+  "rerun_decision_id": "D-C10w-p2rerun",
+  "dispatcher_pid": 60046,
+  "entry": [
+    "P2",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/p2_20261008T034226_086980Z",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/step0_20261007T223638_531381Z"
+  ],
+  "claim": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/p2_20261008T034226_086980Z/reattempt2.json",
+    "sha256": "807e4676143458f9b1071fd8d20770e6ae95aaf4abd5439dfd4179d0a6d1e236"
+  },
+  "evaluator_amendment": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/step0_20261007T223638_531381Z/amendment_A1_evaluator.json",
+    "sha256": "4791183ab5ddc68cbecff1653a1f80508fb4806d5e957fde63a25a498037d17f"
+  },
+  "class": "ORACLE MEASUREMENT — not a route; never promotable as a write-engine result (D-C10r-rulings-3 (2))",
+  "decision_id": "D-C10w-oracle"
+}

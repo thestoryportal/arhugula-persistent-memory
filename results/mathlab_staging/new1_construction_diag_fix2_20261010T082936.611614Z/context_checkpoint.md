@@ -1,0 +1,60 @@
+Task4 NOTDONE / REDonly / NOproductionedits / NOlaunch.
+Read the Task4 context handoff in results/mathlab_staging/new1_construction_diag_scope.md in full before continuing.
+{
+  "utc": "2026-10-10T08:48:18.818079+00:00",
+  "status": "HANDOFF; TASK4 INCOMPLETE; RED ONLY",
+  "before_sha256": {
+    "tools/new1_identity_diag.py": "c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3",
+    "tools/new1_construction_diag.py": "87a4f5425f5df5bd85b3d47455053a60965e7510297f1b8e3472c73c931411e7",
+    "tests/test_new1_construction_diag.py": "40e2cd2905053955c7dac510860609e0a47a8e3ef661442ea1a9c90e0c660810",
+    "results/mathlab_staging/new1_construction_diag_scope.md": "9b3f7ddd5c9147758d8e8277a30a50ea21f3c3c5e08e70333938cb5e9eb25f1c"
+  },
+  "after_sha256": {
+    "tools/new1_identity_diag.py": "c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3",
+    "tools/new1_construction_diag.py": "87a4f5425f5df5bd85b3d47455053a60965e7510297f1b8e3472c73c931411e7",
+    "tests/test_new1_construction_diag.py": "d4fea32aba6b0a4fa695cccbd8a5734ce7f2d053bff1e39d2634fd0aa5f90fdd",
+    "results/mathlab_staging/new1_construction_diag_scope.md": "4ceea820eb75f238aaa149b07b3044eb95a1e619afc5243d1676ffc986719333"
+  },
+  "production_sources_unchanged": true,
+  "all_43_original_construction_test_methods_and_assertions_byte_identical": true,
+  "protected_hashes_unchanged": 17,
+  "protected_sha256": {
+    "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+    "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+    "tests/test_new1_identity_diag.py": "22bfcca9f90054b6ad9cd71d7ca4bf5f67738f8d6ee284d91b106bc946e5c699",
+    "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+    "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+    "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f",
+    "results/mathlab_staging/new1_construction_diag_authorization.md": "e7c445af835248b6722e04449f4f6a88a41c4d39f03fc6da41841c8ea23254f5",
+    "results/mathlab_staging/new1_construction_diag_astra_r1.md": "95610af9423e6e8d4708a190ac77f8ac07e253038542523c742ec2f351a59c5d",
+    "results/mathlab_staging/new1_construction_diag_astra_r2.md": "95ca3113136f0f9cbc06e11c35aadcb3cb136c3112c022a2875085e4c92279bf",
+    "results/mathlab_staging/new1_identity_diag_astra.md": "cdc1a94a3a361aa1d26e363b67eb02c694e1425fc0576542ddf8810000912f20",
+    "tools/mathlab_admit.py": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+    "tools/mathlab_runtime.py": "416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5",
+    "tools/mathlab_events.py": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+    "architecture_profile/s_new1_b_halt_diagnostic.json": "9167cb0f506c2433543fcd84b42be9d17b4a86bcc8e18709988338f5f03d030a",
+    "CLAUDE.md": "e72e6940ee7a1748dc024c1828d4baeabc7820670a8fc0cf749cc25511a6bafb",
+    "AGENTS.md": "12279b3ccff7fbacb1b9dd6a824c433c2df4c520985bb196773311ff931f58d0",
+    "tools/test_dashboard_mathlab.py": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e"
+  },
+  "prior_evidence_unchanged_counts": {
+    "results/mathlab_staging/new1_construction_diag_build_20261010T071253.399810Z": 26,
+    "results/mathlab_staging/new1_construction_diag_fix_20261010T074908.035652Z": 31
+  },
+  "prior_scope_exact_prefix_bytes": 31123,
+  "new_r2_regression_methods": 4,
+  "new_r2_failures_with_subtests": 7,
+  "red_receipt_sha256": "78a1030ba6e30c244dedbfaaf06d8a844100567f913d618b8d61debb836f4ecb",
+  "red_log_sha256": "7a535a88d2c172523681801dd3f6db80c746feac2c6b9188a57bd0923fbc4a87",
+  "green_run": false,
+  "launch_command_generated": false,
+  "real_diagnostic_run": false,
+  "real_inputs_opened": false,
+  "identity_fixture_scope_expansion": "pending, not approved, no edits",
+  "prototype": "supervisor_candidate.txt: unapplied/uncompiled/unexecuted, known defects, not ready",
+  "next": "fresh successor implements guardian design after resolving identity fixture scope",
+  "diff_check_exit_code": 0,
+  "branch": "worktree-c10k-route-a",
+  "context_directive": "Before about20% stopnewwork, writehandoff into scope, notifyorchestrator; restate everyhandoff"
+}
+BINDING context directive: before approximately20% left stopstartingwork, write done/inflight/exactpaths/next/risks into scope, notifyorchestrator; restate in everyhandoff.

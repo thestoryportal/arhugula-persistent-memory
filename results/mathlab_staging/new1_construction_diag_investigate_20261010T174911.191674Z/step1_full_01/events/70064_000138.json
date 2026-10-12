@@ -1,0 +1,1 @@
+{"event": "pid-collection", "method": "wait", "monotonic_ns": 1465793486783500, "phase": "pid-collection", "pid": 70064, "pid_collected": 70138, "returncode": 0, "test": "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_launch_command_computes_increment_and_contains_exact_pins", "wall_ns": 1791654986256083000}

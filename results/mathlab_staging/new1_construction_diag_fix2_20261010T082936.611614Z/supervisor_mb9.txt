@@ -1,0 +1,316 @@
+def read_frame(fd, limit, end, parent):
+    data = bytearray()
+    while True:
+        remaining = end-time.monotonic()
+        if remaining <= 0: raise S.Stop('STOPPED-LAUNCH', 'release frame/EOF deadline reached')
+        if os.getppid() != parent: raise S.Stop('INVALID-LAUNCH', 'guardian died before release')
+        if not select.select([fd], [], [], min(.01, remaining))[0]: continue
+        chunk = os.read(fd, limit+1-len(data))
+        if not chunk: return bytes(data)
+        data.extend(chunk)
+        if len(data) > limit: raise S.Stop('INVALID-LAUNCH', 'release frame exceeds bound')
+
+
+def release_frame(secret):
+    return b'RUN '+secret.hex().encode()+b'\n'
+
+
+def wait_for_release():
+    fds = []
+    try:
+        for key in ('NEW1_IDENTITY_AUTH_FD', 'NEW1_IDENTITY_RELEASE_FD'):
+            fd = int(os.environ[key])
+            if fd < 3 or fd in fds: raise ValueError('invalid private descriptor')
+            fds.append(fd)
+        parent = int(os.environ['NEW1_IDENTITY_PARENT'])
+        end = float(os.environ['NEW1_IDENTITY_RELEASE_BY'])
+        deadline = float(os.environ['NEW1_IDENTITY_DEADLINE'])
+        if parent != os.getppid() or not math.isfinite(end) or not math.isfinite(deadline) or end > deadline:
+            raise ValueError('invalid registration metadata')
+        secret = read_frame(fds[0], 32, end, parent)
+        frame = read_frame(fds[1], 69, end, parent)
+        if len(secret) != 32 or not hmac.compare_digest(frame, release_frame(secret)):
+            raise S.Stop('INVALID-LAUNCH', 'private registration secret/release mismatch')
+        if os.getppid() != parent or time.monotonic() >= end:
+            raise S.Stop('INVALID-LAUNCH', 'release arrived after cancellation')
+    except (KeyError, ValueError) as error:
+        raise S.Stop('INVALID-LAUNCH', 'authenticated parent registration/release required') from error
+    finally:
+        for fd in fds: os.close(fd)
+
+
+def keep_descriptors(keep):
+    for name in os.listdir('/dev/fd'):
+        fd = int(name)
+        if fd > 2 and fd not in keep:
+            try: os.close(fd)
+            except OSError as error:
+                # listdir's own descriptor has closed since the snapshot.
+                if error.errno != 9: raise
+
+
+def kill_worker(pid):
+    try: os.killpg(pid, signal.SIGKILL)
+    except ProcessLookupError:
+        # The worker may not yet have completed setsid().
+        try: os.kill(pid, signal.SIGKILL)
+        except ProcessLookupError: pass
+
+
+def watchdog(owner, command, parent, work_end, absolute_end):
+    signal.setitimer(signal.ITIMER_REAL, 0)
+    for sig in (signal.SIGINT, signal.SIGALRM): signal.signal(sig, signal.SIG_IGN)
+    signal.pthread_sigmask(signal.SIG_SETMASK, [])
+    os.setsid()
+    p = owner.channels
+    pid, status, kills, error = None, None, 0, None
+    events = p['events'][1]
+    def send(value):
+        try: os.write(events, (json.dumps(value, allow_nan=False)+'\n').encode())
+        except BrokenPipeError:
+            if os.getppid() == parent: raise
+    def kill():
+        nonlocal kills
+        if pid is not None and status is None and kills == 0:
+            kill_worker(pid); kills = 1
+    try:
+        pid = os.fork()
+        if pid == 0:
+            try:
+                for sig in (signal.SIGINT, signal.SIGALRM): signal.signal(sig, signal.SIG_DFL)
+                os.setsid()
+                null = os.open(os.devnull, os.O_RDONLY)
+                os.dup2(null, 0); os.dup2(p['stdout'][1], 1); os.dup2(p['stderr'][1], 2)
+                os.write(p['ready'][1], b'READY\n'); os.close(p['ready'][1])
+                env = dict(os.environ, NEW1_IDENTITY_PARENT=str(os.getppid()),
+                    NEW1_IDENTITY_AUTH_FD=str(p['auth'][0]), NEW1_IDENTITY_RELEASE_FD=str(p['release'][0]),
+                    NEW1_IDENTITY_RELEASE_BY=str(owner.launch_end), NEW1_IDENTITY_DEADLINE=str(work_end))
+                for fd in (p['auth'][0], p['release'][0]): os.set_inheritable(fd, True)
+                keep_descriptors({p['auth'][0], p['release'][0]})
+                os.chdir(ROOT); os.execvpe(command[0], command, env)
+            except BaseException as failure:
+                os.write(2, ('INVALID-LAUNCH: '+str(failure)+'\n').encode()); os._exit(2)
+        keep_descriptors({p['control'][0], events, p['ready'][0]})
+        null = os.open(os.devnull, os.O_RDWR)
+        for fd in (0, 1, 2): os.dup2(null, fd)
+        if null > 2: os.close(null)
+        send({'event': 'registered', 'pid': pid})
+        ack, ack_fd = bytearray(), p['ready'][0]
+        while status is None:
+            watch = [p['control'][0]] + ([ack_fd] if ack_fd is not None else [])
+            readable, _, _ = select.select(watch, [], [], .005)
+            if ack_fd in readable:
+                chunk = os.read(ack_fd, 8-len(ack)); ack.extend(chunk)
+                if len(ack) > 6: raise S.Stop('INVALID-LAUNCH', 'registration exceeds bound')
+                if not chunk:
+                    if ack != b'READY\n': raise S.Stop('INVALID-LAUNCH', 'worker group registration missing')
+                    send({'event': 'ready', 'pid': pid}); os.close(ack_fd); ack_fd = None
+            # Drain the pre-exec ACK before observing a fast worker's exit.
+            reaped, value = os.waitpid(pid, os.WNOHANG)
+            if reaped == pid:
+                status = value; break
+            if p['control'][0] in readable:
+                os.read(p['control'][0], 1); kill()
+            if os.getppid() != parent or time.monotonic() >= work_end: kill()
+            if time.monotonic() >= absolute_end: os._exit(2)
+    except BaseException as failure:
+        error = str(failure)
+    finally:
+        kill()
+        while pid is not None and status is None:
+            reaped, value = os.waitpid(pid, os.WNOHANG)
+            if reaped == pid: status = value; break
+            if time.monotonic() >= absolute_end: os._exit(2)
+            time.sleep(min(.005, max(0, absolute_end-time.monotonic())))
+        send({'event': 'reaped', 'pid': pid, 'code': os.waitstatus_to_exitcode(status) if status is not None else None,
+              'kills': kills, 'error': error})
+        os._exit(0 if error is None else 2)
+
+
+class OwnedWorker:
+    def __init__(self, launch_end):
+        self.launch_end = launch_end
+        self.channels = {}
+        self.streams = {}
+        self.buffers = {key: bytearray() for key in ('stdout', 'stderr', 'events')}
+        self.pid = self.worker_pid = self.returncode = self.proof = None
+        self.ready = self.stopping = False
+
+    def close_fd(self, key, index):
+        pair = self.channels[key]
+        if pair[index] is not None:
+            os.close(pair[index]); pair[index] = None
+
+    def start(self, command, work_end, absolute_end=None):
+        previous = signal.pthread_sigmask(signal.SIG_BLOCK, [signal.SIGINT, signal.SIGALRM])
+        try:
+            for key in ('control', 'events', 'ready', 'auth', 'release', 'stdout', 'stderr'):
+                self.channels[key] = list(os.pipe())
+            parent = os.getpid()
+            self.pid = os.fork()
+            if self.pid == 0: watchdog(self, command, parent, work_end, absolute_end or work_end+CLEANUP_S)
+            for key in self.channels:
+                if key == 'ready': self.close_fd(key, 0); self.close_fd(key, 1)
+                else: self.close_fd(key, 0 if key in ('control', 'auth', 'release') else 1)
+            for key in ('stdout', 'stderr', 'events'):
+                fd = self.channels[key][0]; os.set_blocking(fd, False); self.streams[fd] = key
+        finally:
+            # All descriptors and the raw kernel PID belong to this object before delivery.
+            signal.pthread_sigmask(signal.SIG_SETMASK, previous)
+
+    def request_stop(self):
+        self.stopping = True
+        for key in ('auth', 'release', 'control'):
+            if key in self.channels: self.close_fd(key, 1)
+
+    def step(self, seconds):
+        readable = select.select(list(self.streams), [], [], max(0, seconds))[0] if self.streams else []
+        previous = signal.pthread_sigmask(signal.SIG_BLOCK, [signal.SIGINT, signal.SIGALRM])
+        try:
+            for fd in readable:
+                key = self.streams[fd]; data = os.read(fd, 4096)
+                if not data:
+                    self.close_fd(key, 0); del self.streams[fd]; continue
+                if self.stopping and key != 'events': continue
+                self.buffers[key].extend(data)
+                if key != 'events' and sum(len(self.buffers[k]) for k in ('stdout', 'stderr')) >= DISK_BYTES//2:
+                    raise S.Stop('STOPPED-DISK', 'worker scalar streams exceed memory bound')
+                if key == 'events':
+                    if len(self.buffers[key]) > 4096: raise S.Stop('INVALID-LAUNCH', 'watchdog receipts exceed bound')
+                    while b'\n' in self.buffers[key]:
+                        line, _, rest = self.buffers[key].partition(b'\n'); self.buffers[key][:] = rest
+                        item = S.strict_json(line.decode())
+                        if item['event'] == 'registered':
+                            G.require(self.worker_pid is None and type(item['pid']) is int and item['pid'] > 0,
+                                      'duplicate or invalid worker registration')
+                            self.worker_pid = item['pid']
+                        elif item['event'] == 'ready':
+                            G.require(item['pid'] == self.worker_pid and not self.ready, 'group registration mismatch')
+                            self.ready = True
+                        elif item['event'] == 'reaped':
+                            G.require(item['pid'] == self.worker_pid and self.proof is None and item['kills'] in (0, 1),
+                                      'worker reaping identity mismatch')
+                            self.proof = item
+                        else: raise S.Stop('INVALID-LAUNCH', 'unknown watchdog receipt')
+            if self.pid is not None and self.returncode is None:
+                pid, status = os.waitpid(self.pid, os.WNOHANG)
+                if pid == self.pid: self.returncode = os.waitstatus_to_exitcode(status)
+        finally: signal.pthread_sigmask(signal.SIG_SETMASK, previous)
+
+    def release(self):
+        G.require(self.ready and self.proof is None and not self.stopping, 'unregistered worker cannot be released')
+        secret = os.urandom(32)
+        G.require(os.write(self.channels['auth'][1], secret) == 32, 'private secret write incomplete')
+        self.close_fd('auth', 1)
+        frame = release_frame(secret)
+        G.require(os.write(self.channels['release'][1], frame) == len(frame), 'release write incomplete')
+        self.close_fd('release', 1)
+
+    def close(self):
+        for key, pair in self.channels.items():
+            for index in range(len(pair)): self.close_fd(key, index)
+        self.streams.clear()
+
+
+def supervise(command, directory, *, preflight, admission=cpu_admission, monitor=sample_rss,
+              seconds=DEADLINE_S, absolute_end=None):
+    start = time.monotonic(); end = start+seconds if absolute_end is None else absolute_end
+    reserve = min(2*CLEANUP_S, max(0, end-start)/2)
+    work_end, reap_end = end-reserve, end-reserve/2
+    owner, output, peak = None, None, 0.
+    cleanup_complete, deferred = False, []
+    def pulse():
+        nonlocal peak
+        pid = owner.worker_pid if owner is not None and owner.proof is None else None
+        sample = monitor(pid); rss = sample['rss_gib']
+        if type(rss) not in (int, float) or not math.isfinite(rss) or rss < 0:
+            raise S.Stop('INVALID-MONITORING', 'invalid RSS sample')
+        peak = max(peak, rss)
+        if rss >= RSS_CAP_GIB: raise S.Stop('STOPPED-RESOURCE', 'observed process-family RSS at or above 11 GiB')
+        return sample
+    def stop_and_close(limit):
+        nonlocal cleanup_complete
+        if cleanup_complete: return
+        if owner is not None:
+            owner.request_stop()
+            while owner.pid is not None and (owner.returncode is None or owner.proof is None):
+                if time.monotonic() >= limit: raise S.Stop('STOPPED-DEADLINE', 'reserved worker/guardian reaping bound reached')
+                owner.step(min(.005, limit-time.monotonic()))
+                if owner.returncode is not None and not owner.streams and owner.proof is None:
+                    raise S.Stop('INVALID-CLEANUP', 'guardian exit lacks worker reaping proof')
+            owner.close()
+        cleanup_complete = True
+    def cleanup(limit):
+        previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGALRM)}
+        mask = signal.pthread_sigmask(signal.SIG_BLOCK, list(previous))
+        try:
+            for sig in previous: signal.signal(sig, lambda number, frame: deferred.append(number))
+        finally: signal.pthread_sigmask(signal.SIG_SETMASK, mask)
+        try: stop_and_close(limit)
+        finally:
+            mask = signal.pthread_sigmask(signal.SIG_BLOCK, list(previous))
+            try:
+                for sig, handler in previous.items(): signal.signal(sig, handler)
+            finally: signal.pthread_sigmask(signal.SIG_SETMASK, mask)
+    try:
+        with S.hard_deadline(work_end-time.monotonic(), heartbeat=pulse):
+            output = Output(directory)
+            output.record('started', deadline_s=seconds, rss_cap_gib=RSS_CAP_GIB,
+                          parent_pid=os.getpid(), parent_nice=os.getpriority(os.PRIO_PROCESS, 0))
+            output.record('resource', **pulse()); preflight()
+            decision = admission(); output.record('admission', decision=decision)
+            if not isinstance(decision, dict) or decision.get('allowed') is not True:
+                raise S.Stop('INVALID-ADMISSION', 'fresh CPU admission refused: '+str(decision))
+        launch_end = min(work_end, time.monotonic()+LAUNCH_S)
+        owner = OwnedWorker(launch_end)
+        try:
+            with S.hard_deadline(launch_end-time.monotonic(), heartbeat=pulse):
+                owner.start(command, work_end, end)
+                while not owner.ready:
+                    owner.step(min(.005, max(0, launch_end-time.monotonic())))
+                    if owner.proof is not None: raise S.Stop('INVALID-WORKER', 'worker exited before registration')
+                output.record('worker', pid=owner.worker_pid); output.record('resource', **pulse())
+                if time.monotonic() >= launch_end: raise S.Stop('STOPPED-LAUNCH', 'registration checks exceeded launch bound')
+                owner.release()
+        except S.Stop as error:
+            if error.code == 'STOPPED-DEADLINE' and launch_end < work_end:
+                raise S.Stop('STOPPED-LAUNCH', 'worker creation/registration exceeded launch bound') from error
+            raise
+        with S.hard_deadline(work_end-time.monotonic(), heartbeat=pulse):
+            while owner.proof is None or owner.streams: owner.step(min(.02, max(0, work_end-time.monotonic())))
+            stdout, stderr = bytes(owner.buffers['stdout']), bytes(owner.buffers['stderr'])
+            if owner.proof['code'] or stderr or owner.proof['error']:
+                raise S.Stop('INVALID-WORKER', f"exit {owner.proof['code']}: "+stderr.decode())
+            value = S.strict_json(stdout.decode())
+            if not isinstance(value, dict) or value.get('status') != 'MEASURED':
+                raise S.Stop('INVALID-WORKER', 'nonempty measured scalar report required')
+            value.update(elapsed_s=time.monotonic()-start, observed_peak_family_rss_gib=peak,
+                         worker_pid=owner.worker_pid, caps={'deadline_s': DEADLINE_S, 'rss_gib': RSS_CAP_GIB,
+                         'output_bytes_below': DISK_BYTES, 'threads': THREADS})
+        cleanup(min(reap_end, time.monotonic()+CLEANUP_S))
+        if deferred: raise S.Stop('INVALID-CANCELLED', 'interrupt deferred until confirmed reaping')
+        if owner.returncode: raise S.Stop('INVALID-WORKER', 'guardian did not exit normally')
+        with S.hard_deadline(end-time.monotonic(), heartbeat=pulse): output.finish(value)
+        return 0
+    except BaseException as error:
+        cleanup_error = None
+        try: cleanup(min(reap_end, time.monotonic()+CLEANUP_S))
+        except BaseException as failure:
+            cleanup_error = str(failure)
+            try: cleanup(end)
+            except BaseException as fatal:
+                # No terminal receipt or Python return can claim unconfirmed ownership.
+                print('INVALID-CLEANUP: '+str(fatal), file=sys.stderr, flush=True); os._exit(2)
+        failure = {'status': 'INVALID', 'error': str(error), 'worker_pid': owner.worker_pid if owner else None,
+                   'elapsed_s': time.monotonic()-start, 'observed_peak_family_rss_gib': peak}
+        if cleanup_error is not None: failure['cleanup_error'] = cleanup_error
+        try:
+            with S.hard_deadline(min(CLEANUP_S, end-time.monotonic())):
+                if output is not None:
+                    if output.result.exists():
+                        output.record('halted', **failure, result_committed=False, result_sha256=S.sha_file(output.result))
+                    else: output.finish(failure)
+        except BaseException as recording_error:
+            print('INVALID-OUTPUT: bounded terminal recording failed: '+str(recording_error), file=sys.stderr)
+        print(str(error), file=sys.stderr)
+        return 130 if isinstance(error, KeyboardInterrupt) else 2

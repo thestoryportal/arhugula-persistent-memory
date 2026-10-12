@@ -1,0 +1,22 @@
+CLOSE-OUT GATE for D-ML-1
+========================================================
+  (no fingerprint registered — PRESENCE-ONLY; add D-ML-1 to tools/closeout_fingerprints.json for the currency check)
+--------------------------------------------------------
+  [GREEN  ] EXPERIMENT_RUNBOOK.md  — living roadmap (also §0.3/§12/§13 — section checks below)
+  [GREEN  ] SESSION_CHECKPOINT.md  — fresh-context handoff
+  [GREEN  ] PROGRESS.md  — F1 readiness scorecard (①/③/④/⑤)
+  [MISSING] EVIDENCE_INDEX.md  — evidence index
+  [MISSING] docs/EXPERIMENT_REGISTRY.md  — experiment registry
+  [MISSING] CORPUS/00_MASTER_EVIDENCE.md  — master evidence ledger
+  [MISSING] CORPUS/03_STATUS_LEDGER.md  — status ledger
+  [MISSING] CORPUS/01_PROVENANCE_MANIFEST.md  — provenance (claim->artifact->numbers)
+  [MISSING] CORPUS/02_VANDV_CHAIN.md  — V&V chain (hypothesis->criterion->verdict)
+  [MISSING] docs/HYPOTHESIS_REGISTER_2026-06-18.md  — hypothesis register (latest)
+  [GREEN  ] CORPUS/NN writeup — ['58_C10X_ENGINEPATH.md']
+  [GREEN  ] EXPERIMENT_RUNBOOK.md §0.3 next-actions
+  [MISSING] EXPERIMENT_RUNBOOK.md §12 dashboard
+  [MISSING] EXPERIMENT_RUNBOOK.md §13 changelog
+========================================================
+❌ 9 MISSING (no D-ML-1): ['EVIDENCE_INDEX.md', 'docs/EXPERIMENT_REGISTRY.md', 'CORPUS/00_MASTER_EVIDENCE.md', 'CORPUS/03_STATUS_LEDGER.md', 'CORPUS/01_PROVENANCE_MANIFEST.md', 'CORPUS/02_VANDV_CHAIN.md', 'docs/HYPOTHESIS_REGISTER_2026-06-18.md', 'runbook §12 dashboard', 'runbook §13 changelog']
+   NOT done. Fix each, embed 'D-ML-1', then re-run.
+

@@ -1,0 +1,81 @@
+{
+  "attempt_id": "c32dc2b2711a46469b9fa5f6eef5a307",
+  "ceilings": {
+    "stage01": 8100.0,
+    "stage2": 12600.0,
+    "stage3": 20760.0
+  },
+  "closed": true,
+  "completed": -1,
+  "halt": {
+    "code": "HALTED-V4",
+    "detail": "HALTED-V4: para_first_n outside LAW#3 envelope: 40"
+  },
+  "launch": {
+    "attempt_id": "c32dc2b2711a46469b9fa5f6eef5a307",
+    "benchmark": {
+      "ceilings": {
+        "stage01": 8100,
+        "stage2": 12600,
+        "stage3": 20760
+      },
+      "env": {
+        "machine": "arm64",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "python": "3.11.16",
+        "torch": "2.8.0",
+        "transformers": "4.51.0"
+      },
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10z_astra_benchmark/20261008T104535Z/benchmark.json",
+      "script_sha256": "9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a",
+      "sha256": "a33075393066e6332fbe64b9641caa57e7005fb89c6f8849fb212f5940ccff4a",
+      "sources": {
+        "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+        "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+        "experiments/track_c/c10z_astra_arms.py": "806a9b4d417261945359d45db8c2f8513e4f5a2f3fafaf0b7cefe3a8d5ec3304",
+        "experiments/track_c/c10z_astra_benchmark.py": "9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a",
+        "experiments/track_c/c10z_astra_read.py": "5b35169bac8295a1b58665b12897e91ac1f304b03a994d8a1bc08a293b708b54",
+        "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+        "tools/engine_fingerprint.py": "450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162"
+      }
+    },
+    "go": {
+      "benchmark_script_sha256": "9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a",
+      "benchmark_sha256": "a33075393066e6332fbe64b9641caa57e7005fb89c6f8849fb212f5940ccff4a",
+      "ceilings": {
+        "stage01": 8100,
+        "stage2": 12600,
+        "stage3": 20760
+      },
+      "decision_notes": {
+        "0": "Scheduling (prereg §6 decision 0): program decision under D-C10r-rulings-13 (full baton); steps 4 (D-C10v-layerpick, closed) and the step-5 oracle (D-C10w-oracle, P2 read VALID 04:44) precede it; one GPU job at a time.",
+        "1": "Write qualification: operator 'Yes on all 5' (D-C10z-budget, question 3), recorded EXPERIMENT_RUNBOOK.md §5.2.",
+        "2": "Budget: operator 'Yes on all 5' (D-C10z-budget, questions 1-2); benchmark C01 8100 s <= 10800 s, worst case 41400 s <= 15.5 GPU-h; no raise needed (D-C10r-rulings-14 not used)."
+      },
+      "decisions": {
+        "0": "D-C10z-go",
+        "1": "D-C10z-budget",
+        "2": "D-C10z-budget"
+      },
+      "one_gpu_job": true,
+      "operator_yes": true,
+      "recorded_at": "2026-10-08T05:00:00-06:00",
+      "recorded_by": "program session (Claude Opus 5.5, lead experimentalist), worktree-c10k-route-a",
+      "telemetry_first_attempt": "off (prereg §9.1 (j'))"
+    },
+    "go_sha256": "29243f2e554978b8673331b7f14f29ef9a2ea1aad7fe305b1de1e1ac5c2cb55b",
+    "stage01": 8100.0,
+    "stage2": 12600.0,
+    "stage3": 20760.0,
+    "telemetry": false,
+    "telemetry_inertness": null
+  },
+  "origins": {
+    "stage01": 1267493.572821583
+  },
+  "pid": 70056,
+  "process": 1,
+  "reading": null,
+  "requested": null,
+  "schema": "c10z_astra-v2.2"
+}
