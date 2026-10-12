@@ -25,6 +25,14 @@ import sys, os, glob, filecmp, json, hashlib, re
 # code/gates/closeout_check.py -> the repo root is three levels up; env overrides.
 ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+# Keep each tracker equivalent to its old text after the generated block moves.
+TRACKER_PARTS = {
+    "program/runbook/": ("program/runbook/", "_index/program-state.md"),
+    "program/PROGRESS.md": ("program/PROGRESS.md", "program/scorecard.md"),
+    "README.md": ("README.md", "_index/program-state.md"),
+    "program/SESSION_BOOTSTRAP.md": ("program/SESSION_BOOTSTRAP.md", "_index/program-state.md"),
+}
+
 REQUIRED = [
     ("program/runbook/",            "living roadmap (also §0.3/§12/§13 — section checks below)"),
     ("program/checkpoints/",            "fresh-context handoff"),
@@ -58,6 +66,15 @@ def _load_registry():
         return json.load(open(os.path.join(ROOT, "code/gates/closeout_fingerprints.json"), encoding="utf-8"))
     except (FileNotFoundError, ValueError):
         return {}
+
+
+def tracker_path(path):
+    return " + ".join(TRACKER_PARTS.get(path, (path,)))
+
+
+def read_tracker(path):
+    parts = [_read(p) for p in TRACKER_PARTS.get(path, (path,))]
+    return None if any(p is None for p in parts) else "\n".join(parts)
 
 
 def compute_fp(spec):
@@ -100,7 +117,8 @@ def currency_scan(tok, spec):
         return None, [], err
     fptok = f"{tok}@{fp}"
     # surfacing/entry/repro docs also participate so a result/state ties across the whole graph
-    EXTRA = ["README.md", "program/SESSION_BOOTSTRAP.md", "_system/governance/REPRODUCIBILITY.md", "evidence/CORPUS/README.md"]
+    EXTRA = ["README.md", "program/SESSION_BOOTSTRAP.md", "_system/governance/REPRODUCIBILITY.md", "evidence/CORPUS/README.md",
+             "_index/program-state.md", "program/scorecard.md"]
     scope = ([p for p, _ in REQUIRED]
              + [os.path.relpath(p, ROOT) for p in glob.glob(os.path.join(ROOT, "evidence/CORPUS/*.md"))]
              + EXTRA)
@@ -109,11 +127,11 @@ def currency_scan(tok, spec):
         if path in seen:
             continue
         seen.add(path)
-        txt = _read(path)
+        txt = read_tracker(path)
         if txt is None or tok not in txt:
             continue
         if fptok not in txt:
-            stale.append(path)
+            stale.append(tracker_path(path))
     return fptok, stale, None
 
 
@@ -196,9 +214,9 @@ def main():
         print(__doc__)
         print("Required trackers (Decision-ID + current fingerprint must appear in each):")
         for p, d in REQUIRED:
-            print(f"  - {p:42s} {d}")
+            print(f"  - {tracker_path(p):42s} {d}")
         print("  - evidence/CORPUS/NN_*.md                            the experiment writeup (>=1 file)")
-        print("  - program/runbook/  §0.3 + §12 + §13   (section-level)")
+        print("  - program/runbook/ + _index/program-state.md  §0.3; runbook §12 + §13 (section-level)")
         print("  - _system/memory/  in sync with live memory  (advisory)")
         print(f"\nFingerprint-registered D-IDs (currency-checked): {sorted(k for k in reg if not k.startswith('_')) or 'none'}")
         sys.exit(0 if (len(sys.argv) > 1 and sys.argv[1] == "--list") else 2)
@@ -228,10 +246,10 @@ def main():
             missing.append(path)
 
     for path, desc in REQUIRED:
-        label, ok = status(_read(path), tok, fptok)
-        print(f"  [{label}] {path}  — {desc}")
+        label, ok = status(read_tracker(path), tok, fptok)
+        print(f"  [{label}] {tracker_path(path)}  — {desc}")
         if not ok:
-            record(label, path)
+            record(label, tracker_path(path))
 
     # CORPUS writeup: >=1 evidence/CORPUS/NN_*.md must reference the D-ID AND be current
     corpus_files = {os.path.basename(p): open(p, errors="replace").read() for p in glob.glob(os.path.join(ROOT, "evidence/CORPUS/*.md"))}
@@ -247,8 +265,13 @@ def main():
     # Runbook section-level spans (each must carry the D-ID + current fingerprint)
     rb = _read("program/runbook/") or ""
     for name, seg in runbook_sections(rb).items():
+        path = "program/runbook/"
+        if name == "§0.3 next-actions":
+            full_state = _read("_index/program-state.md")
+            seg = seg + "\n" + full_state if seg and full_state is not None else None
+            path = tracker_path(path)
         label, ok = status(seg, tok, fptok)
-        print(f"  [{label}] program/runbook/ {name}")
+        print(f"  [{label}] {path} {name}")
         if not ok:
             record(label, f"runbook {name}")
 
