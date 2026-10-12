@@ -29,14 +29,14 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T01:49:29Z",
+    "edited": "2026-10-12T02:00:00Z",
     "items": [
       {
         "id": "context-audit",
         "title": "Context hygiene: fix every instruction file and make it stay fixed",
         "summary": "Seven read-only checkers are auditing CLAUDE.md, AGENTS.md, the three memory stores, hook text and the read-first documents for bloat, conflicts, duplicates, wrong or unclear lines. They report back; nothing changes until you approve a clean-up.",
         "state": "running",
-        "who": "codexchp planning lanes; codexcps checking what was not kept; MAESTRO67 next",
+        "who": "codexchp planning lanes; codexcps writing up (45%); MAESTRO67 next",
         "session": "codexchp, codexcps",
         "started": "2026-10-12T00:50Z",
         "estimate": null,
@@ -49,7 +49,8 @@
           "01:28Z: the merged report is in (results/context_audit_20261012/SYNTHESIS.md): 15 problem groups, all re-checked against the files; MAESTRO66 re-checked seven of them itself and found one wrong side-claim (the Memento context tool IS switched on, project-level), recorded in maestro_synthesis_check.md. It proposes 119 small clean-up jobs. Waiting on your five decisions and whether to resume the paused work.",
           "01:35Z: you approved all five decisions (\"Fix absolutely everything\") and asked for context hygiene only, until it is tight and durable, then a stop for you. You asked how it happened: nothing in git was overwritten; master has had no merge since Oct 4, the Oct 10 clean-up covered only the git memory folder, and rules changed afterwards without their copies (results/context_audit_20261012/ROOT_CAUSE.md). A drift guard that catches old values at commit time is added to the clean-up.",
           "01:38Z: one planner (codexchp) is turning the 119 clean-up jobs into parallel lanes, each with its own sandbox brief, plus a checker that rejects any edit outside a lane's allowed files and the drift guard (brief 03526c02). Files outside the repo (your global CLAUDE.md, Codex AGENTS.md, hook settings, Claude's memory folders) are staged by builders and copied in by MAESTRO after a backup.",
-          "01:49Z: correction: GitHub master was updated Oct 10 04:15 (only the main folder's own copy is stuck at Oct 4); 511 newer commits are not on master yet. A second read-only checker (codexcps) is answering your questions: did this oversight cause the two-Mac shared-drive failure (including where its exact-match rule came from), and what else was not kept. Two gaps for the paused Drive plan were written down (ddd4a3ef). MAESTRO66 hands over to MAESTRO67 at a clean point."
+          "01:49Z: correction: GitHub master was updated Oct 10 04:15 (only the main folder's own copy is stuck at Oct 4); 511 newer commits are not on master yet. A second read-only checker (codexcps) is answering your questions: did this oversight cause the two-Mac shared-drive failure (including where its exact-match rule came from), and what else was not kept. Two gaps for the paused Drive plan were written down (ddd4a3ef). MAESTRO66 hands over to MAESTRO67 at a clean point.",
+          "02:00Z: the preservation check finished its report (PRESERVATION.md, committed 1868b690; MAESTRO67 re-checked five of its claims, all correct). Short answer to your R2 question: missing or conflicting instructions added work to R2 (8 of 48 review findings), but they did not cause its central shared-drive problem. Your worktree-vs-main-folder point is real: the main folder is missing 18 findings documents and the 144 history files imported from the backups drive (evidence: operator_hypothesis_worktree_vs_main.md, 8c107cdb). The checker is at 45% and is writing up its last two R2 answers; the planner is still working."
         ]
       },
       {
