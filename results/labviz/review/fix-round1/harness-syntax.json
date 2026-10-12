@@ -1,0 +1,20 @@
+[
+  {
+    "file": "tools/labviz/review.mjs",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "file": "tools/labviz/measure.js",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "file": "tools/labviz/test_fix_harness.cjs",
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

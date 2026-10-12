@@ -1,0 +1,12 @@
+{
+  "changed_outputs": [],
+  "picture_calls": 0,
+  "outputs_checked": 5226,
+  "identical_bytes": true,
+  "unchanged_mtimes": true,
+  "elapsed_seconds": 9.403155,
+  "peak_rss_bytes": 731398144,
+  "platform": "darwin",
+  "time_l_log": "results/labviz/review/v2-build/warm-time.txt",
+  "time_l_wrapper_status": "sysctl kern.clockrate denied after builder completed"
+}

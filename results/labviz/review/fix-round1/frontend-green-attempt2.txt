@@ -1,0 +1,196 @@
+TAP version 13
+# Subtest: Learn owns its frame after the Mistral model and D1 line were selected
+ok 1 - Learn owns its frame after the Mistral model and D1 line were selected
+  ---
+  duration_ms: 3.760375
+  type: 'test'
+  ...
+# Subtest: Map focus owns its chip and breadcrumb
+ok 2 - Map focus owns its chip and breadcrumb
+  ---
+  duration_ms: 1.000042
+  type: 'test'
+  ...
+# Subtest: Model history ignores a retained science line
+ok 3 - Model history ignores a retained science line
+  ---
+  duration_ms: 1.116667
+  type: 'test'
+  ...
+# Subtest: D1 frame uses the short documentary label
+ok 4 - D1 frame uses the short documentary label
+  ---
+  duration_ms: 0.658917
+  type: 'test'
+  ...
+# Subtest: C10 shared links start with common D1 nodes and carry a visible label and science status
+ok 5 - C10 shared links start with common D1 nodes and carry a visible label and science status
+  ---
+  duration_ms: 1.613333
+  type: 'test'
+  ...
+# Subtest: Long sourced status keeps its first sentence visible and preserves the full value in collapsed details
+ok 6 - Long sourced status keeps its first sentence visible and preserves the full value in collapsed details
+  ---
+  duration_ms: 0.813209
+  type: 'test'
+  ...
+# Subtest: Map connected and dimmed nodes state their path in words
+ok 7 - Map connected and dimmed nodes state their path in words
+  ---
+  duration_ms: 0.730667
+  type: 'test'
+  ...
+# Subtest: Map singular count is one card
+ok 8 - Map singular count is one card
+  ---
+  duration_ms: 0.652958
+  type: 'test'
+  ...
+# Subtest: Map conditions are naturally ordered
+ok 9 - Map conditions are naturally ordered
+  ---
+  duration_ms: 11.468541
+  type: 'test'
+  ...
+# Subtest: D1 line renders its own sourced question and measure separately from framing review
+ok 10 - D1 line renders its own sourced question and measure separately from framing review
+  ---
+  duration_ms: 1.359166
+  type: 'test'
+  ...
+# Subtest: Line document links show five rows before a collapsed counted remainder
+ok 11 - Line document links show five rows before a collapsed counted remainder
+  ---
+  duration_ms: 0.769791
+  type: 'test'
+  ...
+# Subtest: Map derived links show five rows before the counted collapsed remainder
+ok 12 - Map derived links show five rows before the counted collapsed remainder
+  ---
+  duration_ms: 0.629125
+  type: 'test'
+  ...
+# Subtest: Evaluations group by line in closed counted details without duplicate titles or absent-field boilerplate
+ok 13 - Evaluations group by line in closed counted details without duplicate titles or absent-field boilerplate
+  ---
+  duration_ms: 1.438125
+  type: 'test'
+  ...
+# Subtest: Evaluation eras are the outer science lines and experiments stay collapsed one level below
+ok 14 - Evaluation eras are the outer science lines and experiments stay collapsed one level below
+  ---
+  duration_ms: 1.618542
+  type: 'test'
+  ...
+# Subtest: Era-filtered evaluations do not include another era
+ok 15 - Era-filtered evaluations do not include another era
+  ---
+  duration_ms: 0.6895
+  type: 'test'
+  ...
+# Subtest: An unassigned evaluation keeps a visible unknown context without claiming a science line
+ok 16 - An unassigned evaluation keeps a visible unknown context without claiming a science line
+  ---
+  duration_ms: 0.694875
+  type: 'test'
+  ...
+# Subtest: Plain words hide only explicitly flagged historical templates
+ok 17 - Plain words hide only explicitly flagged historical templates
+  ---
+  duration_ms: 0.703542
+  type: 'test'
+  ...
+# Subtest: Documentary markdown is cleaned only in the display and typed evidence stays identical
+ok 18 - Documentary markdown is cleaned only in the display and typed evidence stays identical
+  ---
+  duration_ms: 0.804958
+  type: 'test'
+  ...
+# Subtest: Documentary table cleanup preserves conditional-probability pipes in prose
+ok 19 - Documentary table cleanup preserves conditional-probability pipes in prose
+  ---
+  duration_ms: 0.614458
+  type: 'test'
+  ...
+# Subtest: Missing values display an evidence tier badge without the internal Needs token
+ok 20 - Missing values display an evidence tier badge without the internal Needs token
+  ---
+  duration_ms: 1.1185
+  type: 'test'
+  ...
+# Subtest: G6 top-1 headline retains its percentage, rung and baseline source
+ok 21 - G6 top-1 headline retains its percentage, rung and baseline source
+  ---
+  duration_ms: 6.757541
+  type: 'test'
+  ...
+# Subtest: Stage exit token is explained with no invented event time
+ok 22 - Stage exit token is explained with no invented event time
+  ---
+  duration_ms: 0.672167
+  type: 'test'
+  ...
+# Subtest: Log modification time is labelled as a saved snapshot rather than an event time
+ok 23 - Log modification time is labelled as a saved snapshot rather than an event time
+  ---
+  duration_ms: 0.513708
+  type: 'test'
+  ...
+# Subtest: Picker starts empty and filters real index rows after input or focus
+ok 24 - Picker starts empty and filters real index rows after input or focus
+  ---
+  duration_ms: 1.716542
+  type: 'test'
+  ...
+# Subtest: Choosing a cross-line run updates the selected run and line in the URL
+ok 25 - Choosing a cross-line run updates the selected run and line in the URL
+  ---
+  duration_ms: 1.641375
+  type: 'test'
+  ...
+# Subtest: Compare labels its two data links by side
+ok 26 - Compare labels its two data links by side
+  ---
+  duration_ms: 1.06025
+  type: 'test'
+  ...
+# Subtest: Lazy home map counts cards without loading the run index
+ok 27 - Lazy home map counts cards without loading the run index
+  ---
+  duration_ms: 1.099542
+  type: 'test'
+  ...
+# Subtest: Non-map route loads the classic index once and renders its recorded groups
+ok 28 - Non-map route loads the classic index once and renders its recorded groups
+  ---
+  duration_ms: 1.197542
+  type: 'test'
+  ...
+# Subtest: Lazy index rejects an invalid published shape
+ok 29 - Lazy index rejects an invalid published shape
+  ---
+  duration_ms: 0.749958
+  type: 'test'
+  ...
+# Subtest: Small 3D canvas labels retain every fourth layer and the selected layer
+ok 30 - Small 3D canvas labels retain every fourth layer and the selected layer
+  ---
+  duration_ms: 0.857583
+  type: 'test'
+  ...
+# Subtest: Rendered write fill separates the recorded mark from its track by at least 3 to 1
+ok 31 - Rendered write fill separates the recorded mark from its track by at least 3 to 1
+  ---
+  duration_ms: 0.338875
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 118.955208

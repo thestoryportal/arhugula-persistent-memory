@@ -1,0 +1,16 @@
+/private/tmp/labviz-review/verify-final.cjs:56
+      if(r.status!==0 || !r.stdout.trim())throw Error('jq failed '+file+' '+r.stderr);
+                                          ^
+
+Error: jq failed tools/labviz/models.json jq: error (at /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/labviz/models.json:150): Cannot index array with string "status"
+
+    at Object.<anonymous> (/private/tmp/labviz-review/verify-final.cjs:56:49)
+[90m    at Module._compile (node:internal/modules/cjs/loader:1934:14)[39m
+[90m    at Object..js (node:internal/modules/cjs/loader:2074:10)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1656:32)[39m
+[90m    at Module._load (node:internal/modules/cjs/loader:1448:12)[39m
+[90m    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)[39m
+[90m    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)[39m
+[90m    at node:internal/main/run_main_module:33:47[39m
+
+Node.js v26.8.2

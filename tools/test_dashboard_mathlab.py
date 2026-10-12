@@ -1,5 +1,5 @@
 """MathLab observability fixtures; run with /usr/bin/python3 -B -m unittest tools.test_dashboard_mathlab."""
-import copy, hashlib, importlib, importlib.util, json, os, re, subprocess, sys, tempfile, unittest
+import copy, hashlib, importlib, importlib.util, json, os, re, subprocess, sys, tempfile, threading, unittest
 from pathlib import Path
 from unittest.mock import patch
 
@@ -140,7 +140,140 @@ class EventContract(Modules):
                 self.E.emit(run, e["type"], **{k: v for k, v in e.items() if k not in ("schema", "run_id", "type", "ts")})
             records, errors = self.E.read_events(run / "events.jsonl")
             self.assertEqual(errors, [])
-            self.assertEqual([e["type"] for e in records], [e["type"] for e in stream])
+            expected = [e["type"] for e in stream[:-1]] + ["run_finishing", "run_finished"]
+            self.assertEqual([e["type"] for e in records], expected)
+
+    def test_terminal_fsync_failure_never_publishes_any_outcome(self):
+        write, fsync = self.E.os.write, self.E.os.fsync
+        for outcome in ("PASS", "FAIL", "INVALID"):
+            with self.subTest(outcome=outcome), tempfile.TemporaryDirectory() as d:
+                run = Path(d) / RUN_ID
+                fields = {k: v for k, v in started(2).items() if k not in ("schema", "run_id", "type", "ts")}
+                self.E.emit(run, "run_started", **fields)
+                terminal_inodes = set(); snapshots = []
+                def append(fd, data):
+                    count = write(fd, data)
+                    if b'"type":"run_finished"' in data:
+                        stat = os.fstat(fd)
+                        terminal_inodes.add((stat.st_dev, stat.st_ino))
+                    return count
+                def sync(fd):
+                    stat = os.fstat(fd)
+                    if (stat.st_dev, stat.st_ino) in terminal_inodes:
+                        rows, errors = self.E.read_events(run / "events.jsonl")
+                        self.assertEqual(errors, [])
+                        snapshots.append(self.E.fold(rows))
+                        raise OSError("fixture terminal fsync refused")
+                    return fsync(fd)
+                with patch.object(self.E.os, "write", side_effect=append), patch.object(self.E.os, "fsync", side_effect=sync):
+                    with self.assertRaisesRegex(OSError, "terminal fsync refused"):
+                        self.E.emit(run, "run_finished", outcome=outcome, summary="fixture completed")
+                self.assertTrue(snapshots, "control must hit terminal-bearing file fsync")
+                rows, errors = self.E.read_events(run / "events.jsonl")
+                self.assertEqual(errors, [])
+                for state in snapshots + [self.E.fold(rows)]:
+                    self.assertIsNone(state["outcome"])
+                    self.assertIsNone(state["finished_ts"])
+                    self.assertEqual(state["status"], "invalid: no verdict")
+                    self.assertEqual(state["steps"][2], "INVALID")
+
+    def test_torn_terminal_never_finishes_the_run(self):
+        with tempfile.TemporaryDirectory() as d:
+            run = Path(d) / RUN_ID
+            fields = {k: v for k, v in started(2).items() if k not in ("schema", "run_id", "type", "ts")}
+            self.E.emit(run, "run_started", **fields)
+            write = self.E.os.write
+            def torn(fd, data):
+                return write(fd, data[:-4]) if b'"type":"run_finished"' in data else write(fd, data)
+            with patch.object(self.E.os, "write", side_effect=torn), self.assertRaises(OSError):
+                self.E.emit(run, "run_finished", outcome="PASS", summary="fixture completed")
+            rows, _ = self.E.read_events(run / "events.jsonl")
+            state = self.E.fold(rows)
+            self.assertIsNone(state["outcome"])
+            self.assertEqual(state["status"], "invalid: no verdict")
+
+    def test_terminal_refuses_a_malformed_existing_stream(self):
+        with tempfile.TemporaryDirectory() as d:
+            run = Path(d) / RUN_ID
+            fields = {k: v for k, v in started(2).items() if k not in ("schema", "run_id", "type", "ts")}
+            self.E.emit(run, "run_started", **fields)
+            path = run / "events.jsonl"
+            damaged = path.read_bytes() + b'{"schema":1\n'
+            path.write_bytes(damaged)
+            with self.assertRaisesRegex(OSError, "invalid event stream"):
+                self.E.emit(run, "run_finished", outcome="PASS", summary="fixture completed")
+            self.assertEqual(path.read_bytes(), damaged)
+
+    def test_append_racing_terminal_publication_is_preserved(self):
+        with tempfile.TemporaryDirectory() as d:
+            run = Path(d) / RUN_ID
+            fields = {k: v for k, v in started(2).items() if k not in ("schema", "run_id", "type", "ts")}
+            self.E.emit(run, "run_started", **fields)
+            before = (run / "events.jsonl").read_bytes()
+            write, fsync = self.E.os.write, self.E.os.fsync
+            terminal_inodes = set(); entered = threading.Event(); errors = []; fired = False
+            def append(fd, data):
+                count = write(fd, data)
+                if b'"type":"run_finished"' in data:
+                    stat = os.fstat(fd)
+                    terminal_inodes.add((stat.st_dev, stat.st_ino))
+                return count
+            def concurrent_append():
+                entered.set()
+                try: self.E.emit(run, "progress", stage="reproduction", done=1, total=1, unit="fixture")
+                except BaseException as error: errors.append(error)
+            worker = threading.Thread(target=concurrent_append)
+            def sync(fd):
+                nonlocal fired
+                stat = os.fstat(fd)
+                if not fired and (stat.st_dev, stat.st_ino) in terminal_inodes:
+                    fired = True; worker.start()
+                    self.assertTrue(entered.wait(1))
+                    worker.join(.05)
+                return fsync(fd)
+            with patch.object(self.E.os, "write", side_effect=append), patch.object(self.E.os, "fsync", side_effect=sync):
+                self.E.emit(run, "run_finished", outcome="PASS", summary="fixture completed")
+                worker.join(1)
+            self.assertFalse(worker.is_alive())
+            self.assertEqual(errors, [])
+            self.assertTrue((run / "events.jsonl").read_bytes().startswith(before))
+            rows, errors = self.E.read_events(run / "events.jsonl")
+            self.assertEqual(errors, [])
+            self.assertEqual(sum(e["type"] == "progress" for e in rows), 1)
+            self.assertEqual(self.E.fold(rows)["outcome"], "PASS")
+
+    def test_short_prefix_copy_cannot_publish_a_terminal(self):
+        with tempfile.TemporaryDirectory() as d:
+            run = Path(d) / RUN_ID
+            fields = {k: v for k, v in started(2).items() if k not in ("schema", "run_id", "type", "ts")}
+            self.E.emit(run, "run_started", **fields)
+            before = (run / "events.jsonl").read_bytes()
+            fdopen, write = self.E.os.fdopen, self.E.os.write
+            fired = False
+            def copy_write(delegate, data):
+                nonlocal fired
+                if not fired and b'"type":"run_started"' in data:
+                    fired = True
+                    return delegate(data[:data.index(b'\n')+1])
+                return delegate(data)
+            class Target:
+                def __init__(self, target): self.target = target
+                def __enter__(self): return self
+                def __exit__(self, *args): return self.target.__exit__(*args)
+                def __getattr__(self, name): return getattr(self.target, name)
+                def write(self, data): return copy_write(self.target.write, data)
+            def append(fd, data): return copy_write(lambda block: write(fd, block), data)
+            with patch.object(self.E.os, "fdopen", side_effect=lambda *a, **kw: Target(fdopen(*a, **kw))), \
+                 patch.object(self.E.os, "write", side_effect=append):
+                with self.assertRaisesRegex(OSError, "short .*prefix"):
+                    self.E.emit(run, "run_finished", outcome="PASS", summary="fixture completed")
+            self.assertTrue(fired, "control must shorten the real prefix-copy write")
+            self.assertTrue((run / "events.jsonl").read_bytes().startswith(before))
+            rows, errors = self.E.read_events(run / "events.jsonl")
+            self.assertEqual(errors, [])
+            state = self.E.fold(rows)
+            self.assertIsNone(state["outcome"])
+            self.assertEqual(state["status"], "invalid: no verdict")
 
     def test_unknown_missing_extra_and_reserved_fields_are_rejected_without_writing(self):
         with tempfile.TemporaryDirectory() as d:

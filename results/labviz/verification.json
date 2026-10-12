@@ -1,0 +1,80 @@
+{
+  "cards": 1369,
+  "tabs": [
+    "tab-now",
+    "tab-runs",
+    "tab-model",
+    "tab-models",
+    "tab-history",
+    "tab-learn",
+    "tab-evaluations"
+  ],
+  "html_image_references": 1379,
+  "local_links_checked": 5697,
+  "svg_png_pairs_verified": 1369,
+  "source_snapshots": 383,
+  "survey_groups": 73,
+  "unsupported_files": 172,
+  "unreadable_files": 0,
+  "syntax": [
+    {
+      "command": "bash -n tools/labviz_serve.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/bin/node --check tools/labviz/app.js",
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/bin/node --check tools/labviz/model.js",
+      "exit_code": 0
+    },
+    {
+      "command": "/opt/homebrew/bin/node --check results/labviz/site/data.js",
+      "exit_code": 0
+    }
+  ],
+  "git_ignore": [
+    {
+      "path": "results/labviz/site/index.html",
+      "ignored": true,
+      "exit_code": 0
+    },
+    {
+      "path": "results/labviz/runs/run-000b8a50c8bd985b.svg",
+      "ignored": false,
+      "exit_code": 1
+    },
+    {
+      "path": "results/labviz/runs/run-000b8a50c8bd985b.png",
+      "ignored": false,
+      "exit_code": 1
+    }
+  ],
+  "forbidden_imports": [],
+  "tracked_changes_since_start": [
+    ".gitignore",
+    "CORPUS/00_MASTER_EVIDENCE.md",
+    "CORPUS/01_PROVENANCE_MANIFEST.md",
+    "CORPUS/02_VANDV_CHAIN.md",
+    "CORPUS/03_STATUS_LEDGER.md",
+    "CORPUS/README.md",
+    "EVIDENCE_INDEX.md",
+    "EXPERIMENT_RUNBOOK.md",
+    "PROGRESS.md",
+    "README.md",
+    "SESSION_BOOTSTRAP.md",
+    "SESSION_CHECKPOINT.md",
+    "docs/EXPERIMENT_REGISTRY.md",
+    "docs/HYPOTHESIS_REGISTER_2026-06-18.md",
+    "docs/SPEC_EXPERIMENT_OVERLAY.md",
+    "docs/c10_scoreboard.json",
+    "docs/program_state.json",
+    "tools/closeout_fingerprints.json",
+    "tools/dashboard_active.py",
+    "tools/dashboard_subagents.py",
+    "tools/team_dashboard.sh"
+  ],
+  "corpus_added_after_snapshot": [],
+  "note": "Static integrity checks only; browser and network access were blocked by the managed sandbox."
+}

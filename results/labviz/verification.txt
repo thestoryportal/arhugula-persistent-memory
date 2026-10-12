@@ -1,0 +1,3 @@
+PASS: 1369 unique cards; 7 tabs; 1379 HTML image references; 5697 local links; 1369 SVG/PNG pairs; all cited source snapshots exist.
+PASS: JavaScript and launcher syntax; generated site ignored; SVG and PNG evidence images trackable; no science imports.
+Runtime browser, WebGL, Safari, localhost/LAN/Tailscale serving: UNVERIFIED (managed sandbox denies browser launch/socket binding).

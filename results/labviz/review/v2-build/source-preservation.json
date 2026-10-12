@@ -1,0 +1,38 @@
+{
+  "input_files_checked": 439,
+  "changed": [
+    {
+      "file": "docs/c10_scoreboard.json",
+      "before": "331a32483a3c4d8666bc1a8477a5b30eb96d5c858e84dac8a9647882154feb2d",
+      "after": "3e25cd82cd10def42d1efea6ee8848b11b16f535ad54d6657a674e6184ec6edc"
+    },
+    {
+      "file": "EXPERIMENT_RUNBOOK.md",
+      "before": "da354a104544edbff2cf0814392524dfad71feede967cd52aa78118121050318",
+      "after": "5b42f52e08287d5a5dd644c9a09ac244049885bea03c9682bf87b98af790482b"
+    }
+  ],
+  "protected": [
+    {
+      "file": "tools/labviz_serve.sh",
+      "sha256": "c90afb9ce1bd8c3b54af95f4534f055404587a0105045e931ee34d6cb9a05a4b"
+    },
+    {
+      "file": "tools/c10w_p2_gate.py",
+      "sha256": "a2bd26487c522d2301f240be2194731a836497e811c4c8cf98aac44a1732d1cc"
+    },
+    {
+      "file": "configs/hparams/qwen25_3b_memit_hparams.json",
+      "sha256": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4"
+    },
+    {
+      "file": "experiments/track_c/c10e_bandknob.py",
+      "sha256": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695"
+    },
+    {
+      "file": "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json",
+      "sha256": "27467e2fc311a7656c09a43ae9c3d408211e1f212bbddbc93c8596a06423826f"
+    }
+  ],
+  "scope": "The listed scientific and program source inputs only; no global worktree claim. C10Z was excluded."
+}

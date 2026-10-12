@@ -1,0 +1,59 @@
+.Lab View picture renderer calls: 1
+Lab View picture renderer calls: 0
+Lab View picture renderer calls: 0
+.....F...........................F.F..........F...FF
+======================================================================
+FAIL: test_exact_grid_has_unknown_cells (tools.labviz.test_labviz.LabViewTests.test_exact_grid_has_unknown_cells)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/labviz/test_labviz.py", line 108, in test_exact_grid_has_unknown_cells
+    self.assertIn('free', r['grid_label'].lower())
+AssertionError: 'free' not found in 'recorded answer outcomes'
+
+======================================================================
+FAIL: test_v2_12_non_C10_content (tools.labviz.test_labviz.LabViewV2Tests.test_v2_12_non_C10_content)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/labviz/test_labviz.py", line 467, in test_v2_12_non_C10_content
+    self.assertTrue(f.exists(),'browser non-C10 checks not recorded')
+AssertionError: False is not true : browser non-C10 checks not recorded
+
+======================================================================
+FAIL: test_v2_14_readability_and_measurement_fixtures (tools.labviz.test_labviz.LabViewV2Tests.test_v2_14_readability_and_measurement_fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/labviz/test_labviz.py", line 482, in test_v2_14_readability_and_measurement_fixtures
+    f=ROOT/'results/labviz/review/v2-build/browser-tests.json'; self.assertTrue(f.exists(),'rendered text fixtures have not run')
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : rendered text fixtures have not run
+
+======================================================================
+FAIL: test_v2_25_warm_rebuild_skips_pictures (tools.labviz.test_labviz.LabViewV2Tests.test_v2_25_warm_rebuild_skips_pictures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/labviz/test_labviz.py", line 562, in test_v2_25_warm_rebuild_skips_pictures
+    self.assertTrue(f.exists(),'warm unchanged-input check has not run')
+AssertionError: False is not true : warm unchanged-input check has not run
+
+======================================================================
+FAIL: test_v2_29_selection_carried_and_restored (tools.labviz.test_labviz.LabViewV2Tests.test_v2_29_selection_carried_and_restored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/labviz/test_labviz.py", line 595, in test_v2_29_selection_carried_and_restored
+    self.api(); f=ROOT/'results/labviz/review/v2-build/browser-tests.json'; self.assertTrue(f.exists(),'selection browser test has not run')
+                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : selection browser test has not run
+
+======================================================================
+FAIL: test_v2_30_animation_is_labelled_diagram (tools.labviz.test_labviz.LabViewV2Tests.test_v2_30_animation_is_labelled_diagram)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/labviz/test_labviz.py", line 599, in test_v2_30_animation_is_labelled_diagram
+    self.api(); f=ROOT/'results/labviz/review/v2-build/browser-tests.json'; self.assertTrue(f.exists(),'animation browser test has not run')
+                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : animation browser test has not run
+
+----------------------------------------------------------------------
+Ran 53 tests in 103.717s
+
+FAILED (failures=6)
