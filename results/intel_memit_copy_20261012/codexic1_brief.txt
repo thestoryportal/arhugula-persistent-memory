@@ -1,0 +1,39 @@
+You are codexic1, a Codex builder for MAESTRO69. Build the step-1 tool that copies the memit volume to the Intel Mac. Work only in /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory (master). Do not commit, push, ssh, touch the network, read or write memit outside this repo, or delete anything. MAESTRO runs every real-host check.
+
+## The requirement (operator, 2026-10-12, verbatim)
+"make the Intel hold the memit copy in 4 steps: (1) cable copy memit to Intel at background priority, pausing on check_gpu, SHA-256 verified ... Do NOT reintroduce R2's advance process-list proof."
+You build step (1) only.
+
+## Read first, with line numbers
+1. results/intel_memit_copy_20261012/prereg_step1.md: the design and the numbered criteria P1-P8. This is the spec. If it contradicts this brief, the prereg wins; report the conflict.
+2. tools/c10w_p2_gate.py:19-84 (COMPUTE_EXE, EXEMPT, check_gpu) and tools/test_c10w_p2_gate.py.
+3. tools/backup_mirror.excludes (the rsync exclude patterns you must honour).
+
+## Deliverables (exact paths)
+- tools/memit_intel_copy.py: the M3 controller. Stdlib only, Python 3.9 syntax, run as `/Library/Developer/CommandLineTools/usr/bin/python3 tools/memit_intel_copy.py <subcommand> ...`. Subcommands: `manifest` (build the manifest only: the P2 dry run), `run` (manifest, budget check, transfer, Intel verify, receipt). Options include `--paths-from FILE` to restrict to a subset (for P3) and `--remote` as an argv prefix, defaulting to `ssh -i ~/.ssh/intel_mac_ed25519 -o IdentitiesOnly=yes -o BatchMode=yes robertrhu_node2@192.168.10.2`, so tests can swap in a local stand-in.
+- tools/memit_intel_receive.py: the Intel-side script. Stdlib only, Python 3.9. It is fed on stdin (`ssh ... '/usr/bin/python3 -I -B - <mode> <args>' < tools/memit_intel_receive.py`), so it must not import any repo module. Modes: `inventory` (prints JSON: digests held, recovery-area bytes, `df` free bytes) and `verify <gen>` (hashes incoming objects, publishes to objects/sha256/<digest> read-only by rename, builds generations/<gen>/tree as hard links and symlinks, prints the receipt JSON). Root: `~/memit_copy`.
+- tools/test_memit_intel_copy.py: unittest, runnable with the CLT python3. Use temp dirs; the "Intel" is a local directory reached through a stand-in remote command.
+- One exact EXEMPT line in tools/c10w_p2_gate.py for the controller's command form under CLT Python, modelled on the dashboard line (c10w_p2_gate.py:35), plus tests in tools/test_c10w_p2_gate.py: it matches the controller, and near misses do not match (another script name, a .venv python, an extra path segment trick).
+- results/intel_memit_copy_20261012/build_report.md: what you built, test counts, the RED-first log (tests failing before the code), any deviation from the prereg, and open questions.
+
+## How to build
+- Derive the test list from P1 and P7 of the prereg before writing code. Run the tests and save the failing (RED) output to results/intel_memit_copy_20261012/ic1_test_first_red.log. Then write code until they pass.
+- Required tests: each exclusion rule, including `.hf_token` at any depth, `tmp_obj_*` and the 10-minute recent-file rule (boundary at 10 min, just inside, just outside); symlinks; the manifest JSON round-trip; duplicate digests sent once and hard-linked; a killed hash resumes from the cache; a killed transfer resumes; the pause state machine (science seen → child process group terminated within one poll; resume only after two clear polls; a failed check counts as science); budget refusals at, just inside and just outside 250 GB, and at the 80 GB + 20 GiB free floor, with zero bytes sent on refusal; a source changed after hashing → generation INCOMPLETE and the changed path listed; corrupted bytes on the "Intel" → never published as an object; receipt round-trip; both scripts compile under Python 3.9 (`ast` with `feature_version=(3, 9)`); both scripts are 100755 on disk.
+- Use only native child tools on the M3: `find`, `stat`, `/sbin/sha256sum`, `/opt/homebrew/bin/rsync` (with `--rsync-path=/usr/bin/rsync`; the Intel side is rsync 2.6.9, protocol 29, so use only flags 2.6.9 supports) and `ssh`. Run them under `/usr/sbin/taskpolicy -b`. Read `man taskpolicy` and add `-d throttle` only if it composes with `-b`. Start each child in its own session so the controller can end the whole group.
+- The controller pushes the generation's manifest into the Intel's `incoming/` before `verify`, and `verify` checks it against the M3-side SHA-256 of that manifest. Interrupted transfers keep their partial files in an rsync `--partial-dir` inside `incoming/`; a partial is never published.
+- The controller calls `check_gpu()` by importing tools/c10w_p2_gate.py (its top-level imports are stdlib). Poll every 5 s.
+- Records: write the manifest, the receipt and a run log under results/intel_memit_copy/<gen>/ (gzip the manifest). Keep the hash cache and other state in `<SRC>/.intel_copy_state/`, and exclude that directory from the population. Write each record before you evaluate the gate that might refuse it. Halt records carry the phase, the traceback and the measured values against the failed limit.
+
+## Why these rules
+- Science has priority on the M3. A copy that keeps reading memit while a science job starts slows the science job. That is why the controller polls and stops, and why it runs at background priority.
+- Any non-exempt Python on the M3 blocks science's launch gate. The controller is Python, so it needs the one exact exemption; its children must be native tools.
+- The Intel must never be able to reach the M3. Data moves only through M3-started pushes and M3-started reads of the Intel's output.
+
+## Do NOT produce
+- A list or proof of every process that science might start, a process-tree crawler, or a "wait until all science descendants exit" check. The operator ruled this out. Pausing on `check_gpu` is the whole mechanism.
+- A long-running Python child process, a wildcard exemption such as `\S*python\S* .*memit.*`, or an exemption for anything other than the controller's exact form.
+- A publish-before-verify shortcut, such as rsync straight into objects/ or the tree.
+- Silent fallbacks: `|| true`, bare `except: pass`, or treating an empty `ps`/`df` result as clear.
+
+## Finish
+Run the full new test file and tools/test_c10w_p2_gate.py; both must pass. Write build_report.md. Then reply with exactly `IC1 READY` (or `IC1 BLOCKED: <one line>`). If MAESTRO sends you a stop/write-up message, write build_report.md with the current state and reply `IC1 HANDOFF`; if you have already finished, reply `IC1 READY` instead.
