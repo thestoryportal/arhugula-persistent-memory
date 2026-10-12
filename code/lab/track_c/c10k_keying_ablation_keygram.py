@@ -5,7 +5,7 @@ mechanism) or merely under the ridge (ridge-magnitude mechanism)? For L4–L8, o
     24 final-" of" keys (K3 keying), plus the effective rank (participation ratio) of each key set;
   - energy-weighted ridge/|k|^2 at w = 5000 for both key sets, from the same normalised covariance the engine uses, and the
     predicted w* = 5000 × (subject ratio / last-token ratio) at which last-token keys reach the subject keys' ratio.
-No edit. Writes results/c10k_keying_ablation/keygram.json."""
+No edit. Writes experiments/c10k/runs/c10k_keying_ablation/keygram.json."""
 import os, sys, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import c10k_route_a_launcher as L
@@ -40,7 +40,7 @@ def main():
         r_s, r_l = ratio(K_subj, 5000), ratio(K_last, 5000)
         rep[str(l)] = {"subject_keys": stats(K_subj.T), "last_token_keys": stats(K_last.T), "ridge_over_key_energy_w5000": {"subject": round(r_s, 3), "last_token": round(r_l, 3)}, "w_star_last_matches_subject": round(5000 * r_s / r_l, 1)}
         print(f"L{l}: subj cos mean={rep[str(l)]['subject_keys']['cos_mean']} rank={rep[str(l)]['subject_keys']['effective_rank']} | last cos mean={rep[str(l)]['last_token_keys']['cos_mean']} frac>0.9={rep[str(l)]['last_token_keys']['frac_cos_gt_0.9']} rank={rep[str(l)]['last_token_keys']['effective_rank']} | ridge/|k|^2 @5000 subj={r_s:.1f} last={r_l:.1f} → w*={5000*r_s/r_l:.0f}", flush=True)
-    json.dump(rep, open(f"{L.LLMDB_ROOT}/results/c10k_keying_ablation/keygram.json", "w"), indent=1); print("done"); return 0
+    json.dump(rep, open(f"{L.LLMDB_ROOT}/experiments/c10k/runs/c10k_keying_ablation/keygram.json", "w"), indent=1); print("done"); return 0
 
 if __name__ == "__main__":
     sys.exit(main())

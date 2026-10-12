@@ -2,10 +2,10 @@
 """D-C10t-secondkey v2 frozen §2: driver-side request wrapper; engine untouched.
 
 Operator use only, after step 1's verdict and with autoresearch paused/finished:
-  LLMDB_ROOT=<root> .venv/bin/python experiments/track_c/c10t_secondkey_step0.py
-  LLMDB_ROOT=<root> .venv/bin/python experiments/track_c/c10t_secondkey_arms.py first
-  LLMDB_ROOT=<root> .venv/bin/python experiments/track_c/c10t_secondkey_arms.py second
-OUT_DIR defaults to results/c10t_secondkey; POSITIONS defaults to OUT_DIR/step0.json.
+  LLMDB_ROOT=<root> .venv/bin/python code/lab/track_c/c10t_secondkey_step0.py
+  LLMDB_ROOT=<root> .venv/bin/python code/lab/track_c/c10t_secondkey_arms.py first
+  LLMDB_ROOT=<root> .venv/bin/python code/lab/track_c/c10t_secondkey_arms.py second
+OUT_DIR defaults to experiments/c10t/runs/c10t_secondkey; POSITIONS defaults to OUT_DIR/step0.json.
 Importing this module is model-free. Model/torch imports occur only inside load_harness().
 All JSON outputs are exclusive creations, reread immediately. No existing output is
 rewritten, including run.json; second_started.json makes replication attempts final.
@@ -21,9 +21,9 @@ import c10t_secondkey_read as R
 IDENTITY = None
 STAGE = "not-started"
 RUN_ROOT = Path(LLMDB_ROOT).resolve()
-SOURCE_FILES = ["experiments/track_c/c10t_secondkey_" + name + ".py" for name in ("arms", "step0", "read", "selftest")] + [
-    "experiments/track_c/c10e_bandknob.py", R.HP_FILE, R.PREREG, "tools/engine_fingerprint.py",
-    "configs/screens/g6_screen_qwen3b.json", "configs/screens/g6_screen_qwen3b_v2.json"]
+SOURCE_FILES = ["code/lab/track_c/c10t_secondkey_" + name + ".py" for name in ("arms", "step0", "read", "selftest")] + [
+    "code/lab/track_c/c10e_bandknob.py", R.HP_FILE, R.PREREG, "code/memit/engine_fingerprint.py",
+    "code/configs/screens/g6_screen_qwen3b.json", "code/configs/screens/g6_screen_qwen3b_v2.json"]
 HARNESS_KNOBS = ("MODEL_ID", "MODEL_REV", "HP_CANDIDATE", "OUT", "CANDIDATE_NAME", "DECISION_ID", "PREREG", "RUN_LABEL",
                  "Z_OVERRIDE", "C10_PROJECTOR", "N_EDIT", "C10_SUBJECT_OFFSET", "C10_ARMS", "C10_KEY_LOCUS", "C10_CTX_TEMPLATES", "C10_RECIPES")
 
@@ -53,7 +53,7 @@ def write_json(path, obj):
 
 def halt(reason, root=None, **state):
     root = Path(root or RUN_ROOT)
-    path = root / "architecture_profile/c10t_secondkey_halt_diagnostic.json"
+    path = root / "experiments/c10t/runs/c10t_secondkey/halts/c10t_secondkey_halt_diagnostic.json"
     # Preserve an older diagnostic too; never replace another arm's or this arm's record.
     if path.exists():
         path = path.with_name("c10t_secondkey_halt_diagnostic_" + uuid.uuid4().hex + ".json")
@@ -71,7 +71,7 @@ def source_hashes(root=None):
     root = Path(root or LLMDB_ROOT)
     # Include transitive vendored engine Python sources (repr_tools/nethook/device/
     # layer_stats/generate/etc.), not only the three MEMIT modules used directly.
-    engine = sorted(str(p.relative_to(root)) for p in (root / "memit_dry_run/memit").rglob("*.py"))
+    engine = sorted(str(p.relative_to(root)) for p in (root / "code/memit/vendor").rglob("*.py"))
     if not engine:
         raise ValueError("vendored engine sources missing")
     return {p: sha256_file(root / p) for p in [*SOURCE_FILES, *engine]}
@@ -111,11 +111,11 @@ def preflight(root):
     if inherited:
         raise ValueError("frozen harness knobs must be unset: " + repr(inherited))
     root = Path(root).resolve()
-    fp = subprocess.run([sys.executable, str(root / "tools/engine_fingerprint.py")], capture_output=True, text=True,
+    fp = subprocess.run([sys.executable, str(root / "code/memit/engine_fingerprint.py")], capture_output=True, text=True,
                         env={**os.environ, "LLMDB_ROOT": str(root)})
     if fp.returncode != 0 or not fp.stdout.strip():
         raise RuntimeError("engine fingerprint failed: " + fp.stdout + fp.stderr)
-    engine = root / "memit_dry_run/memit/memit/memit_main.py"
+    engine = root / "code/memit/vendor/memit/memit_main.py"
     fingerprint = {"ok": True, "stdout": fp.stdout, "sha256": sha256_file(engine),
                    "_cov_cpu": engine.read_bytes().count(b"_cov_cpu")}
     return fingerprint
@@ -542,7 +542,7 @@ def main():
     RUN_ROOT = Path(LLMDB_ROOT).resolve()
     root = RUN_ROOT
     assert Path(__file__).resolve().parents[2] == root, "script root differs from LLMDB_ROOT"
-    out = Path(os.environ.get("OUT_DIR", str(root / "results/c10t_secondkey"))).resolve()
+    out = Path(os.environ.get("OUT_DIR", str(root / "experiments/c10t/runs/c10t_secondkey"))).resolve()
     positions = Path(os.environ.get("POSITIONS", str(out / "step0.json"))).resolve()
     step = json.loads(positions.read_text())
     IDENTITY = step["identity"]

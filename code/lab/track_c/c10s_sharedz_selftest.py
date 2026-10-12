@@ -14,7 +14,7 @@ import c10s_sharedz_read as R
 CTX = [["{}"], ["The sun rose. {}", "Therefore it was. {}", "Because of that. {}", "I think so. {}", "You said it. {}"]]   # engine shape: memit_main.py:308
 SUBJ = [f"S{i}" for i in range(24)]
 ROOT = Path(__file__).resolve().parents[2]
-DRIVER = ROOT / "experiments/track_c/c10s_sharedz_arms.py"
+DRIVER = ROOT / "code/lab/track_c/c10s_sharedz_arms.py"
 
 
 def test_overlap_table():
@@ -312,12 +312,12 @@ def sf_pass(shared_n=32, ref_n=10, canon=8, evaluations=50):
 def test_arm_selector_and_config():
     default = R.select_arm()
     assert default == R.select_arm("sharedz") and default.steps == 25
-    assert default.decision_id == "D-C10s-sharedz" and default.prereg == "docs/C10S_SHARED_Z_PREREG.md"
-    assert default.halt_path == "architecture_profile/c10s_sharedz_halt_diagnostic.json" and default.out_dir == "results/c10s_sharedz"
+    assert default.decision_id == "D-C10s-sharedz" and default.prereg == "experiments/c10s/design/C10S_SHARED_Z_PREREG.md"
+    assert default.halt_path == "experiments/c10s/runs/c10s_sharedz/halts/c10s_sharedz_halt_diagnostic.json" and default.out_dir == "experiments/c10s/runs/c10s_sharedz"
     followup = R.select_arm("solvefeas")
     assert followup.steps == 50 and followup.decision_id == "D-C10s-solvefeas"
-    assert followup.prereg == "docs/C10S_SOLVEFEAS_PREREG.md" and followup.halt_path == "architecture_profile/c10s_solvefeas_halt_diagnostic.json"
-    assert followup.out_dir == "results/c10s_solvefeas" and followup.hparams != default.hparams
+    assert followup.prereg == "experiments/c10s/design/C10S_SOLVEFEAS_PREREG.md" and followup.halt_path == "architecture_profile/c10s_solvefeas_halt_diagnostic.json"
+    assert followup.out_dir == "experiments/c10s/runs/c10s_solvefeas" and followup.hparams != default.hparams
     for bad in ("", "SOLVEFEAS", "../steps100.json", "other"):
         expect_error(ValueError, lambda: R.select_arm(bad))
     base = json.loads((ROOT / default.hparams).read_text()); extended = json.loads((ROOT / followup.hparams).read_text())
@@ -565,7 +565,7 @@ def test_source_hash_inputs():
     tree = ast.parse(DRIVER.read_text())
     value = next(n.value for n in tree.body if isinstance(n, ast.Assign) and any(isinstance(t, ast.Name) and t.id == "SOURCE_FILES" for t in n.targets))
     sources = eval(compile(ast.Expression(body=value), str(DRIVER), "eval"), {"ARM": R.select_arm("solvefeas")})
-    for path in ("docs/C10S_SHARED_Z_PREREG.md", "docs/C10S_SOLVEFEAS_PREREG.md", R.select_arm().hparams, R.select_arm("solvefeas").hparams):
+    for path in ("experiments/c10s/design/C10S_SHARED_Z_PREREG.md", "experiments/c10s/design/C10S_SOLVEFEAS_PREREG.md", R.select_arm().hparams, R.select_arm("solvefeas").hparams):
         assert path in sources and (ROOT / path).is_file(), path
 
 
@@ -654,7 +654,7 @@ def original(path):
 
 
 def test_default_records_1169794():
-    rel = "experiments/track_c/c10s_sharedz_arms.py"
+    rel = "code/lab/track_c/c10s_sharedz_arms.py"
     old_tree = ast.parse(original(rel)); new_tree = ast.parse(DRIVER.read_text())
     names = ("write_json", "halt", "dump", "make_identity")
     for arm in ("sharedz", "solvefeas"):
@@ -691,7 +691,7 @@ def test_default_records_1169794():
 
 
 def test_default_equality_1169794():
-    rel = "experiments/track_c/c10s_sharedz_read.py"
+    rel = "code/lab/track_c/c10s_sharedz_read.py"
     baseline = types.ModuleType("c10s_sharedz_read_1169794"); baseline.__file__ = str(ROOT / rel)
     exec(compile(original(rel), baseline.__file__, "exec"), baseline.__dict__)          # pure reader only
     for shared in range(73):
@@ -709,7 +709,7 @@ def test_default_equality_1169794():
     assert R.cell1_outcome({"ok": False}, {"ok": False}, {"outcome": "PASS"}) == baseline.cell1_outcome({"ok": False}, {"ok": False}, {"outcome": "PASS"})
     base_path = R.select_arm().hparams
     assert (ROOT / base_path).read_text() == original(base_path)
-    old_tree = ast.parse(original("experiments/track_c/c10s_sharedz_arms.py")); new_tree = ast.parse(DRIVER.read_text())
+    old_tree = ast.parse(original("code/lab/track_c/c10s_sharedz_arms.py")); new_tree = ast.parse(DRIVER.read_text())
     old = next(n for n in old_tree.body if isinstance(n, ast.FunctionDef) and n.name == "compute_z_shared")
     new = next(n for n in new_tree.body if isinstance(n, ast.FunctionDef) and n.name == "compute_z_shared")
     class DefaultPath(ast.NodeTransformer):
@@ -734,12 +734,12 @@ def test_default_equality_1169794():
 
 def test_bogus_arm_writes_no_halt_file():
     """Advisor impl review BLOCKING 1: an unknown C10S_ARM exits before the arm is bound and must not write the step-1
-    halt file (tracked, cited by CORPUS/51). The driver exits at the selector, before any harness or model import."""
+    halt file (tracked, cited by evidence/CORPUS/51). The driver exits at the selector, before any harness or model import."""
     root = Path(__file__).resolve().parents[2]
-    halt_file = root / "architecture_profile" / "c10s_sharedz_halt_diagnostic.json"
+    halt_file = root / "experiments/c10s/runs/c10s_sharedz/halts/c10s_sharedz_halt_diagnostic.json"
     before = (halt_file.read_bytes(), halt_file.stat().st_mtime_ns) if halt_file.exists() else None
     env = {**os.environ, "C10S_ARM": "solveFeas", "LLMDB_ROOT": str(root), "PYTHONDONTWRITEBYTECODE": "1"}
-    p = subprocess.run([sys.executable, "-B", str(root / "experiments/track_c/c10s_sharedz_arms.py"), "first"],
+    p = subprocess.run([sys.executable, "-B", str(root / "code/lab/track_c/c10s_sharedz_arms.py"), "first"],
                        env=env, capture_output=True, text=True, timeout=60)
     assert p.returncode != 0 and "no diagnostic written" in (p.stderr + p.stdout), (p.returncode, p.stdout[-300:], p.stderr[-300:])
     after = (halt_file.read_bytes(), halt_file.stat().st_mtime_ns) if halt_file.exists() else None

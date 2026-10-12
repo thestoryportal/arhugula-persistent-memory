@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, io, contextlib, json, math, random
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -11,7 +11,7 @@ from memit.compute_z import compute_z, get_module_input_output_at_words
 from memit.compute_ks import compute_ks
 # ============================================================================
 # D1 Phase 3 — clean high-cardinality concentration DOSE-RESPONSE + within-arm
-# CROSS-RELATION-TERM isolation. Pre-reg: docs/D1_CAPACITY_LAW_PREREG.md §7d (FROZEN).
+# CROSS-RELATION-TERM isolation. Pre-reg: experiments/d1/design/D1_CAPACITY_LAW_PREREG.md §7d (FROZEN).
 # Addresses the dual-review: replaces the cardinality-4 continent dilutant with
 # `language` (clean high-cardinality), and (advisor Fix#1) isolates the cross-relation
 # term WITHIN each arm, paired:
@@ -24,7 +24,7 @@ from memit.compute_ks import compute_ks
 # Engine kmeng01/memit UNMODIFIED; my_edit/compute_P/inertness gate VERBATIM (LAW#5).
 # ============================================================================
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 TOTAL_N=48; DOSES=[24,36,42]; HELDOUT_N=24
 SEEDS=[int(x) for x in os.environ.get("SEEDS","1,2,3").split(",")]
@@ -101,7 +101,7 @@ print(f"  engine p(Cairo)={eng_p:.4f} | harness p(Cairo)={my_p:.4f} | |Δ|={abs(
 if not ok: print("LAW#5 fail; HALT.", flush=True); sys.exit(0)
 
 # ---------- pools ----------
-sel=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+sel=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
 ents_all=[x for x in sel if all(r in sel[x] and "truth" in sel[x][r] for r in ["capital","language"])]
 # baseline-correct on capital (clean base) — held-out must come from here (advisor Fix#3)
 base_correct=[e for e in ents_all if correct(predict(TMPL["capital"].format(e))["tok"], sel[e]["capital"]["truth"])]
@@ -177,7 +177,7 @@ out={"experiment":"D1_phase3_dose_response","band":L,"total_N":TOTAL_N,"doses":D
      "cross_term_mean_all":cross_mean,"heldout_granularity_pp":gran,
      "monotonic_concentration":monotonic,"cross_relation_term_real":cross_real,
      "positive_control_ok":pos_control,"dilutant_ok":all_lang_ok,"verdict":verdict}
-json.dump(out,open(f"{LLMDB_ROOT}/results/d1_dose_response_result.json","w"),indent=2,default=str)
+json.dump(out,open(f"{LLMDB_ROOT}/experiments/d1/runs/d1_dose_response/d1_dose_response_result.json","w"),indent=2,default=str)
 print(f"\nmonotonic concentration (more cap=more corruption): {monotonic} | pure dose-response {pure}", flush=True)
 print(f"cross-relation term: per-k {[agg(k,'cross_relation_term_pp') for k in DOSES]} mean={cross_mean}pp (held-out granularity {gran}pp)", flush=True)
 print(f"VERDICT: {verdict}", flush=True)

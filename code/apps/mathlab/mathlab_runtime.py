@@ -46,7 +46,7 @@ def json_digest(value):
 
 
 def verify_prereg(root=ROOT):
-    require(sha_file(Path(root) / "docs/MATHLAB_PREREG.md") == PREREG_SHA, "PREREG", "frozen preregistration changed")
+    require(sha_file(Path(root) / "experiments/ml/design/MATHLAB_PREREG.md") == PREREG_SHA, "PREREG", "frozen preregistration changed")
 
 
 def read_json(path):
@@ -224,13 +224,13 @@ class Run:
 
 
 def stage_finding(root, run_dir, unit, summary, sink=emit):
-    directory = Path(root) / "logs/pending_findings"; directory.mkdir(parents=True, exist_ok=True)
+    directory = Path(root) / "experiments/ml/reviews/pending_findings"; directory.mkdir(parents=True, exist_ok=True)
     numbers = [int(m.group(1)) for p in directory.iterdir() if (m := re.match(r"(\d+)_", p.name))]
     path = directory / f"{max(numbers, default=0) + 1:02d}_mathlab_{unit}_{utc_tag()}.md"
     with path.open("x") as out:
         out.write(f"# D-ML-1 — {unit}\n\nTier: MATH-PROXY.\n\n{summary}\n\n"
                   f"Run events: `{Path(run_dir) / 'events.jsonl'}`.\n\n"
-                  "Staging only. The lead performs supervised fold-in and `tools/closeout_check.py D-ML-1`. "
+                  "Staging only. The lead performs supervised fold-in and `code/gates/closeout_check.py D-ML-1`. "
                   "No behavioural claim or route closure; prospective queue utility remains UNVERIFIED.\n")
     sink(run_dir, "finding_staged", finding_id=path.stem, tier=TIER, summary=summary, path=str(path))
     return path

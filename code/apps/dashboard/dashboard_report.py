@@ -1,7 +1,7 @@
 """Team-dashboard Science Report: the 'science' tab, view-only. Redraws every 5 s, and
 clears the pane (history too) when its size changes. NOW is derived live (dashboard_live: rulings awaited, GPU job or
-last experiment outcome, working builds, helpers). Next-actions/updated come from docs/program_state.json;
-docs/c10_scoreboard.json supplies explicitly dated narrative and historical score explanations only.
+last experiment outcome, working builds, helpers). Next-actions/updated come from program/program_state.json;
+program/registers/c10_scoreboard.json supplies explicitly dated narrative and historical score explanations only.
 Usage: python3 dashboard_report.py [--once COLS ROWS]
 """
 import glob, json, os, re, shutil, subprocess, sys, time
@@ -10,8 +10,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dashboard_live as live  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BOARD = os.path.join(ROOT, "docs", "c10_scoreboard.json")
-PROGRAM = os.path.join(ROOT, "docs", "program_state.json")
+BOARD = os.path.join(ROOT, "program/registers/c10_scoreboard.json")
+PROGRAM = os.path.join(ROOT, "program/program_state.json")
 RESET, BOLD, ITAL = "\033[0m", "\033[1m", "\033[3m"
 FG, BG = "\033[38;5;{}m".format, "\033[48;5;{}m".format
 STEP = {"c10u": "step 3", "c10v": "step 4", "c10w": "step 5", "c10x": "step 6", "c10y": "step 7", "c10z": "ASTRA"}
@@ -46,7 +46,7 @@ def section(title, color, w):
 
 def gpu_line():
     ps = subprocess.run(["/bin/ps", "-axo", "command"], capture_output=True, text=True).stdout
-    m = next((m for m in re.finditer(r"experiments/track_c/(c10[a-z])_\w+\.py ([\w-]+)", ps) if m.group(2) != "_job"), None)
+    m = next((m for m in re.finditer(r"code/lab/track_c/(c10[a-z])_\w+\.py ([\w-]+)", ps) if m.group(2) != "_job"), None)
     if not m:
         return f"{FG(244)}GPU idle — nothing running right now{RESET}"
     logs = sorted(glob.glob(os.path.join(ROOT, "results", "c10*_logs", "**", "*.log"), recursive=True), key=os.path.getmtime)
@@ -88,7 +88,7 @@ def render(cols, rows):
     goal, out_of = b.get("goal", 61), b.get("out_of", 72)
     out = [f"{BOLD}{FG(231)}{BG(25)} ■ SCIENCE REPORT · updated {program.get('updated', '?')}{RESET}"]
     out.append(f" {ITAL}{fit(f'Goal: {goal} of {out_of} reworded questions right · ordinary facts already get ~69 · bar ┃ marks the goal', w - 1)}{RESET}")
-    out.append(section("NEXT ACTIONS · docs/program_state.json", 96, w))
+    out.append(section("NEXT ACTIONS · program/program_state.json", 96, w))
     actions = [line for i, action in enumerate(program["next_actions"], 1)
                for line in wrap(f"{i}. {action}", max(w - 2, 1))]
     room = max(min(rows // 3, rows - len(out) - 1), 1)
@@ -100,13 +100,13 @@ def render(cols, rows):
     for line in live.now_lines(live.gather(), time.time()):
         color = {"!": 196, "▲": 208, "▸": 40, "»": 214, "◦": 141}.get(line[0], 244)
         out.append(f" {BOLD if line[0] in '!▲▸' else ''}{FG(color)}{fit(line, w - 1)}{RESET}")
-    out.append(f" Scoreboard narrative only · as of {b.get('updated', '?')} · docs/c10_scoreboard.json")
+    out.append(f" Scoreboard narrative only · as of {b.get('updated', '?')} · program/registers/c10_scoreboard.json")
     behind = live.newer_events(live.board_epoch(b.get("updated")), live.events())
     if behind:
         out.append(f"{BOLD}{FG(231)}{BG(124)}{col(' ⚠ The text below predates: ' + '; '.join(behind[-3:]) + ' (the program updates it)', w)}{RESET}")
     out.append(section("WHAT IT MEANS", 30, w))
     brief = wrap(b.get("brief", ""), w - 1)
-    more = "  (more: docs/c10_scoreboard.json)"
+    more = "  (more: program/registers/c10_scoreboard.json)"
     if len(brief) > 7:   # the pane cannot scroll: say so instead of cutting mid-sentence
         brief = brief[:6] + [fit(brief[6], max(w - 1 - len(more), 1)) + more]
     for line in brief:

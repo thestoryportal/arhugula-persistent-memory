@@ -9,7 +9,7 @@ Per band layer at the chosen per-layer threshold:
   (c) key parity: the ported module reads keys from a right-padded batch forward of question+answer at the window positions
       (AlphaEdit_ARE_main.py:88-107 with compute_z.py:67-91 indices). The gate read them from single unpadded forwards.
       Cosine between the two on 3 A7 items at every window position must be ≥ 0.99, and the positions must agree.
-Writes results/c10k_route_a/projector_gate_v2_controls.json."""
+Writes experiments/c10k/runs/c10k_route_a/projector_gate_v2_controls.json."""
 import os, sys, json, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import c10k_route_a_launcher as L
@@ -44,7 +44,7 @@ def main():
                   G.are_window_keys(m16, tok16, name, dev, [(L.CANON.format(s), " " + arms16["A7_coined_coined"][s]) for s in fiction16]))
     del m16; L.empty_cache_if_mps(dev)
     tok, model = L.load_model(dev, torch.float32)
-    HP, M, _ = L.import_upstream("AlphaEdit_ARE"); hp = HP.from_json(f"{L.LLMDB_ROOT}/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json")
+    HP, M, _ = L.import_upstream("AlphaEdit_ARE"); hp = HP.from_json(f"{L.LLMDB_ROOT}/code/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json")
     fiction, arms = L.build_stimuli(tok)
     from datasets import load_dataset
     wiki = load_dataset("wikimedia/wikipedia", "20231101.en")["train"]; texts = [wiki[i]["text"][:600] for i in range(1_000_000, 1_000_200)]

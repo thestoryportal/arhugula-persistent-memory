@@ -6,7 +6,7 @@ const { resolve } = require('node:path');
 const { test } = require('node:test');
 
 const ROOT = resolve(__dirname, '../..');
-const SITE = resolve(ROOT, 'results/labviz/site');
+const SITE = resolve(ROOT, 'projects/labviz-spec-v3/receipts/bulk/labviz/site');
 const readJSON = file => JSON.parse(readFileSync(file, 'utf8'));
 const context = readJSON(resolve(SITE, 'context.json'));
 const index = readJSON(resolve(SITE, 'cards/index.json'));
@@ -33,7 +33,7 @@ test('D1 line receives its frozen deciding question as a verbatim documentary le
   assert.equal(node('corpus:22').question?.value, question);
   assert.deepEqual(node('corpus:22').description, node('corpus:22').question);
   sourced(node('corpus:22').question);
-  assert.equal(node('corpus:22').question.src.file, 'CORPUS/22_D1_CAPACITY_LAW.md');
+  assert.equal(node('corpus:22').question.src.file, 'evidence/CORPUS/22_D1_CAPACITY_LAW.md');
   assert.equal(node('corpus:22').question.src.line, 6);
 });
 
@@ -58,7 +58,7 @@ test('C10 focus receives the actual science status cell separately from framing 
   assert.ok(c10.status?.value?.includes('OPEN MUST-FIX for the fixed target.'));
   assert.notEqual(c10.status.value, 'DRAFT');
   sourced(c10.status);
-  assert.equal(c10.status.src.file, 'docs/F1_DETERMINATION.md');
+  assert.equal(c10.status.src.file, 'knowledge/findings/F1_DETERMINATION.md');
   assert.equal(c10.status.src.quote, c10.status.value, 'the complete current-status cell is retained');
   assert.deepEqual(c10.citations.status, c10.status.src);
   assert.equal(c10.framing_status.value, 'DRAFT');
@@ -87,7 +87,7 @@ test('G6.1 rung cards expose their recorded edited-relation truth percentages an
     { field: 'rungs[2]', n: 100, percent: 33.3 },
   ];
   for (const row of expected) {
-    const summary = index.find(item => item.source === 'results/g6_scale_n_result.json' && item.field === row.field);
+    const summary = index.find(item => item.source === 'experiments/g6/runs/g6_scale_n/g6_scale_n_result.json' && item.field === row.field);
     assert.ok(summary, row.field + ' has a generated card');
     const card = readJSON(resolve(SITE, 'cards', summary.card_id + '.json'));
     assert.equal(card.headline.heldout_top1?.value, row.percent, row.field + ' keeps the real rung value');
@@ -100,7 +100,7 @@ test('G6.1 rung cards expose their recorded edited-relation truth percentages an
     assert.equal(card.headline.hits.value, null);
     assert.equal(card.headline.out_of.value, null);
     assert.equal(card.headline.program_goal, undefined);
-    const source = card.sources.find(item => item.file === 'results/g6_scale_n_result.json');
+    const source = card.sources.find(item => item.file === 'experiments/g6/runs/g6_scale_n/g6_scale_n_result.json');
     assert.equal(source.sha256, hash(resolve(ROOT, source.file)));
   }
 });

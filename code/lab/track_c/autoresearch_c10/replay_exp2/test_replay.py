@@ -94,14 +94,14 @@ def shared_tmux_regression():
         (1886, 40771, "sleep 120"),
         (1987, 40771, "caffeinate -i -t 300"),
         (5634, 78173, "sleep 15"),
-        (40769, 1, "/bin/zsh -c source /shell-snapshots/snapshot-zsh.sh; bash experiments/track_c/autoresearch_c10/watch_audit.sh"),
-        (40771, 40769, "bash experiments/track_c/autoresearch_c10/watch_audit.sh"),
-        (51198, 1, "tmux new-session -d -s autoresearch -x 200 -y 50 bash /workspace/experiments/track_c/autoresearch_c10/loop.sh"),
-        (51282, 51198, "zsh -c bash /workspace/experiments/track_c/autoresearch_c10/loop.sh"),
-        (78172, 1, "/bin/zsh -c source /shell-snapshots/snapshot-zsh.sh; bash experiments/track_c/autoresearch_c10/watch_pane.sh"),
-        (78173, 78172, "bash experiments/track_c/autoresearch_c10/watch_pane.sh"),
+        (40769, 1, "/bin/zsh -c source /shell-snapshots/snapshot-zsh.sh; bash code/lab/track_c/autoresearch_c10/watch_audit.sh"),
+        (40771, 40769, "bash code/lab/track_c/autoresearch_c10/watch_audit.sh"),
+        (51198, 1, "tmux new-session -d -s autoresearch -x 200 -y 50 bash /workspace/code/lab/track_c/autoresearch_c10/loop.sh"),
+        (51282, 51198, "zsh -c bash /workspace/code/lab/track_c/autoresearch_c10/loop.sh"),
+        (78172, 1, "/bin/zsh -c source /shell-snapshots/snapshot-zsh.sh; bash code/lab/track_c/autoresearch_c10/watch_pane.sh"),
+        (78173, 78172, "bash code/lab/track_c/autoresearch_c10/watch_pane.sh"),
         (89284, 51198, "/bin/bash /workspace/run_codex_tui3.sh"),
-        (89374, 89284, "codex -m gpt-6.1-sol experiments/track_c/c10e_bandknob.py --safe-mode"),
+        (89374, 89284, "codex -m gpt-6.1-sol code/lab/track_c/c10e_bandknob.py --safe-mode"),
         (90428, 89374, "/Applications/Pencil.app/mcp-server-darwin-arm64 --app desktop --agent codexCLI"),
         (90438, 89374, "node /opt/homebrew/bin/graft mcp"),
         (91419, 89374, "/opt/homebrew/bin/codex-code-mode-host"),
@@ -113,7 +113,7 @@ def shared_tmux_regression():
             patch.object(R.os, "getpgid", side_effect=AssertionError("process regression must not inspect live PIDs")):
         for loop_present in (False, True):
             if loop_present:
-                rows[51284] = row(51284, 51282, "claude --safe-mode --model claude-fable-5-1 experiments/track_c/autoresearch_c10/")
+                rows[51284] = row(51284, 51282, "claude --safe-mode --model claude-fable-5-1 code/lab/track_c/autoresearch_c10/")
             expected = {98000, 98001} | ({51284} if loop_present else set())
             event = R.classify_processes(rows, "probe", 100, 100)
             foreign = {r["pid"] for r in event["foreign"]}
@@ -134,33 +134,33 @@ def process_tests(dest):
             102: row(102, 101, "python -c from multiprocessing.resource_tracker import main;main(4)", 102),
             103: row(103, 101, "python prepare.py --score /tmp/replay/runs/run"),
             104: row(104, 103, "python -c from multiprocessing.resource_tracker import main;main(4)"),
-            105: row(105, 1, "python experiments/track_c/owned_helper.py", 100),
+            105: row(105, 1, "python code/lab/track_c/owned_helper.py", 100),
             200: row(200, 1, "python /sandbox/edit.py"),
             201: row(201, 200, "python -c from multiprocessing.resource_tracker import main;main(4)")}
     benign = ["python /powerline/server.py", "python /harness-dashboard/serve.py",
               "/python3.11/bin/postgres", "node /browser-harness/daemon.js",
               "python -m pixeltable_developer", "python -m blender_mcp", "python -m arxiv_mcp_server",
-              "claude --model claude-fable-5-1 experiments/track_c/", "codex -C /worktrees/c10k-route-a --safe-mode"]
+              "claude --model claude-fable-5-1 code/lab/track_c/", "codex -C /worktrees/c10k-route-a --safe-mode"]
     rows.update({pid: row(pid, 1, command) for pid, command in enumerate(benign, 300)})
     event = R.classify_processes(rows, "during_run", 100, 100, 101)
     assert {r["pid"] for r in event["owned_children"]} == {101, 102, 103, 104}
     assert {r["pid"] for r in event["foreign"]} == {200, 201}
     positive = ("python edit.py", "python3 prepare.py", "/usr/bin/python3.12 check_equivalence.py",
                 "Python /foreign replay/edit.py", '"/venv space/bin/python3.11" "/foreign replay/prepare.py"',
-                "python c10e_bandknob.py", "python experiments/track_c/c10g_driver.py",
-                "python /workspace/experiments/track_c/c10/driver.py", "python -m ipykernel_launcher",
+                "python c10e_bandknob.py", "python code/lab/track_c/c10g_driver.py",
+                "python /workspace/code/lab/track_c/c10/driver.py", "python -m ipykernel_launcher",
                 "python -m jupyter", "ollama serve", "/usr/bin/llama-server --model x", "llama-cli --model x",
                 "lm-studio", "lmstudio", "LM Studio", "/Applications/LM Studio.app/Contents/MacOS/LM Studio",
                 '"/Applications/LM Studio.app/Contents/MacOS/LM Studio" --server',
                 "/Volumes/Model Apps/LM Studio.app/Contents/MacOS/LM Studio --server", "lms server start",
                 "claude --safe-mode", "/opt/bin/claude --safe-mode --model claude-fable-5-1")
-    negative = ("python --safe-mode", "python2 edit.py", "pypy3 edit.py", "python experiments/track_c/x.py",
-                "python experiments/track_c/autoresearch_c10/watch_audit.sh", "jupyter lab", "llama --model x",
+    negative = ("python --safe-mode", "python2 edit.py", "pypy3 edit.py", "python code/lab/track_c/x.py",
+                "python code/lab/track_c/autoresearch_c10/watch_audit.sh", "jupyter lab", "llama --model x",
                 "claude --safe-mode-extra", 'claude --message "mention --safe-mode here"', "claude edit.py",
                 "sleep 120", "caffeinate -i -t 300", "", "python helper_prepare.py",
                 "/bin/other /Applications/LM Studio.app/Contents/MacOS/LM Studio",
                 '"/bin/other" relative/LM Studio.app/Contents/MacOS/LM Studio')
-    negative += tuple(f"{exe} python edit.py experiments/track_c/c10g_driver.py --safe-mode ollama"
+    negative += tuple(f"{exe} python edit.py code/lab/track_c/c10g_driver.py --safe-mode ollama"
                       for exe in ("/bin/bash", "/bin/zsh", "/bin/sh", "tmux", "node", "codex", "other"))
     negative += tuple(f"{exe} -cfoo/LM Studio.app/Contents/MacOS/LM Studio"
                       for exe in ("/bin/bash", "/bin/zsh", "/bin/sh", "tmux", "node", "codex", "/opt/bin/codex-code-mode-host"))
@@ -351,7 +351,7 @@ def fixture(dest, records):
                       launch_sha256=R.sha_file(dest / "replay_launch.json"), edit_context_templates_sha256=R.CONTEXT_SHA)
     provenance = run_dir / "replay_provenance.jsonl"
     provenance.write_text("".join(json.dumps(record) + "\n" for record in records))
-    tree = ast.parse((R.PROGRAM_ROOT / "tools/engine_fingerprint.py").read_text())
+    tree = ast.parse((R.PROGRAM_ROOT / "code/memit/engine_fingerprint.py").read_text())
     constants = {n.targets[0].id: ast.literal_eval(n.value) for n in tree.body if isinstance(n, ast.Assign) and isinstance(n.targets[0], ast.Name) and n.targets[0].id in ("EXPECTED_SHA256", "EXPECTED_COV_CPU_SITES")}
     fp = {"exit": 0, "stdout": score["gates"]["fingerprint"] + f"\nsha256   {constants['EXPECTED_SHA256']}\n_cov_cpu {constants['EXPECTED_COV_CPU_SITES']} sites\n",
           "stderr": "", "LLMDB_ROOT": str(R.PROGRAM_ROOT), "interpreter": str(R.PROGRAM_ROOT / ".venv/bin/python")}

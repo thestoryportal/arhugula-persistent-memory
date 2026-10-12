@@ -12,10 +12,10 @@ TRAIN = json.loads((HERE / 'train_facts.json').read_text())
 PROGRAM_ROOT = TRAIN['program']
 RUN_DIR = Path(os.environ['C10_RUN_DIR'])
 os.environ['LLMDB_ROOT'] = PROGRAM_ROOT
-os.environ['HF_HOME'] = str(Path(PROGRAM_ROOT) / 'hf_cache')
+os.environ['HF_HOME'] = str(Path(PROGRAM_ROOT) / 'data/hf_cache')
 os.environ['HF_HUB_OFFLINE'] = '1'
 os.environ['TRANSFORMERS_OFFLINE'] = '1'
-ENGINE_ROOT = str(Path(PROGRAM_ROOT) / 'memit_dry_run/memit')
+ENGINE_ROOT = str(Path(PROGRAM_ROOT) / 'code/memit/vendor')
 sys.path.insert(0, ENGINE_ROOT)
 os.chdir(ENGINE_ROOT)
 

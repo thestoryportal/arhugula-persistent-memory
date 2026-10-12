@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""D-C10o-magnitude mechanical reader (docs/C10O_MAGNITUDE_DIRECTION_PREREG.md §3 v2). No model judgement; fails closed.
-Usage: c10o_magnitude_read.py results/c10o_magnitude/run.json
+"""D-C10o-magnitude mechanical reader (experiments/c10o/design/C10O_MAGNITUDE_DIRECTION_PREREG.md §3 v2). No model judgement; fails closed.
+Usage: c10o_magnitude_read.py experiments/c10o/runs/c10o_magnitude/run.json
 [LAW:one-source-of-truth] every threshold lives here once, as §3 states it. Labels are next-arm routing labels."""
 import sys, json, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

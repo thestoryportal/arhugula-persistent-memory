@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""D-C10n-ztransport mechanical reader (docs/C10N_ZTRANSPORT_PREREG.md §3). No model judgement; fails closed.
-Usage: c10n_ztransport_read.py results/c10n_ztransport/run.json
+"""D-C10n-ztransport mechanical reader (experiments/c10n/design/C10N_ZTRANSPORT_PREREG.md §3). No model judgement; fails closed.
+Usage: c10n_ztransport_read.py experiments/c10n/runs/c10n_ztransport/run.json
 [LAW:one-source-of-truth] every threshold lives here once, as §3 states it."""
 import sys, json, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from c10l_mint_read import L3_THR
 from c10m_diag_read import FINGERPRINT, ENV_PARA, ENV_CANON, INJ_PRE_PARA_MIN, INJ_PRE_CANON_MIN
 
-REPL_B_DROP, REPL_C_DROP = 20, 10        # CORPUS/46 replication clause: B <= A - 20, C >= A - 10 ...
+REPL_B_DROP, REPL_C_DROP = 20, 10        # evidence/CORPUS/46 replication clause: B <= A - 20, C >= A - 10 ...
 A_MIN, HIGH = 38, 44                     # N1: A < 38 INVALID; HIGH-CONTROL needs A >= 44 and C >= 44, else LOW-CONTROL (reported, not promoted)
 DRIFT_D_DROP = 20                        # DRIFT: D <= A - 20 (behaviour-primary; geometry descriptive)
 TP_D_DROP = 10                           # TARGET-PORTABLE: D >= A - 10

@@ -44,20 +44,20 @@ import os, sys, io, json, math, time, hmac, hashlib, base64, contextlib, shutil,
 import numpy as np
 
 # ---- engine import (must set path + chdir before importing memit, per s247) ----
-ENGINE_ROOT = f"{LLMDB_ROOT}/memit_dry_run/memit"
+ENGINE_ROOT = f"{LLMDB_ROOT}/code/memit/vendor"
 sys.path.insert(0, ENGINE_ROOT)
-os.environ.setdefault("HF_HOME", f"{LLMDB_ROOT}/hf_cache")
+os.environ.setdefault("HF_HOME", f"{LLMDB_ROOT}/data/hf_cache")
 os.environ.setdefault("HF_HUB_OFFLINE", "0")
 import torch
 
 # ---- paths / constants ----
 MODEL_DIR   = "/dev/shm/qwen3_model"
-HPARAMS     = f"{LLMDB_ROOT}/configs/hparams/qwen3_06b_memit_hparams.json"
+HPARAMS     = f"{LLMDB_ROOT}/code/configs/hparams/qwen3_06b_memit_hparams.json"
 FROZEN_BASE = "/dev/shm/qwen3.vindex"            # frozen base vindex (positive control verified)
-LARQL       = f"{LLMDB_ROOT}/external_prior_art/larql/target/release/larql"
+LARQL       = f"{LLMDB_ROOT}/code/vendor/external_prior_art/larql/target/release/larql"
 WORK        = "/dev/shm/cp1_work"                # scratch for overlays + compiled vindexes
-LEDGER_PATH = f"{LLMDB_ROOT}/results/cp1_state_ledger.jsonl"
-RESULT_PATH = f"{LLMDB_ROOT}/results/cp1_result.json"
+LEDGER_PATH = f"{LLMDB_ROOT}/experiments/cp1/runs/cp1/cp1_state_ledger.jsonl"
+RESULT_PATH = f"{LLMDB_ROOT}/experiments/cp1/runs/cp1/cp1_result.json"
 NULL_THRESH = 5e-3
 SEED        = 1234
 DOWN_TMPL   = "model.layers.{}.mlp.down_proj.weight"

@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """LAW#5 inertness gate — engine edit vs harness (in-solve AlphaEdit) edit on one fact.
 
-Verbatim port of run_law5() from experiments/track_c/c10e_bandknob.py (proven inert on the
+Verbatim port of run_law5() from code/lab/track_c/c10e_bandknob.py (proven inert on the
 pod), made device-neutral (P-8) and standalone so it can run as a gate after any
 science-path change. Thresholds unchanged: |Δexpr| < 0.05 and |Δloc| < 3 pts.
 
-    LLMDB_ROOT=<repo> uv run python tools/law5_inertness_gate.py [--out results/.../law5.json]
+    LLMDB_ROOT=<repo> uv run python code/gates/law5_inertness_gate.py [--out results/.../law5.json]
 """
 from __future__ import annotations
 import os, sys, io, json, math, time, argparse, contextlib
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-os.environ["HF_HOME"] = f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"] = "1"
-ENGINE = f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0, ENGINE); os.chdir(ENGINE)
+os.environ["HF_HOME"] = f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"] = "1"
+ENGINE = f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0, ENGINE); os.chdir(ENGINE)
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -31,7 +31,7 @@ def req(prompt, subj, targ): return {"prompt": prompt, "subject": subj, "target_
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("--hparams", default=f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")
+    ap = argparse.ArgumentParser(); ap.add_argument("--hparams", default=f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")
     ap.add_argument("--out", default=f"{LLMDB_ROOT}/results/law5_inertness_gate.json"); a = ap.parse_args()
     DEV = resolve_device(); hp = MEMITHyperParams.from_json(a.hparams)
     print(f"device={DEV} band={hp.layers}", flush=True)

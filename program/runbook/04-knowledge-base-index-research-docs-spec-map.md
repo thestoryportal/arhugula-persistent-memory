@@ -5,14 +5,14 @@ _Cite the relevant entry in every experiment block. Consult before framing decis
 ### §4.1 — Research documentation
 | Doc | Holds | Consult for |
 |---|---|---|
-| `research_and_specs/cross_entity_research_synthesis.md` | **The reconciliation** of all 3 research artifacts vs our evidence; candidate ranking; BetaEdit finding; OQ-W1 "wrong variable" | Start here for the blocker's solution space |
-| `research_and_specs/llm_editing_survey.md` | Perplexity Deep Research: ranked methods (BetaEdit#1, batch, WISE, RECT/PRUNE/O-Edit, SAE, GRACE), mechanism, capacity-ceiling, batch-vs-seq, eval harness | External SOTA per method; arXiv IDs |
-| `research_and_specs/notebooklm_10_prompt_research_corpus-{1,2}.md` | Corpus-grounded: MEMIT's own P127/P641 specificity collapse, LARQL "balancer/hijacking", λ tradeoff, our spec's OQ-W1/GAP-1/Genesis/C2/C4, WISE/ELDER/MELO | What our corpus + spec already say |
-| `research_and_specs/perplexity_prompt_*.md`, `notebooklm_prompts_*.md` | The research prompts (reusable templates) | Running further external research |
+| `knowledge/research/cross_entity_research_synthesis.md` | **The reconciliation** of all 3 research artifacts vs our evidence; candidate ranking; BetaEdit finding; OQ-W1 "wrong variable" | Start here for the blocker's solution space |
+| `knowledge/research/llm_editing_survey.md` | Perplexity Deep Research: ranked methods (BetaEdit#1, batch, WISE, RECT/PRUNE/O-Edit, SAE, GRACE), mechanism, capacity-ceiling, batch-vs-seq, eval harness | External SOTA per method; arXiv IDs |
+| `knowledge/research/notebooklm_10_prompt_research_corpus-{1,2}.md` | Corpus-grounded: MEMIT's own P127/P641 specificity collapse, LARQL "balancer/hijacking", λ tradeoff, our spec's OQ-W1/GAP-1/Genesis/C2/C4, WISE/ELDER/MELO | What our corpus + spec already say |
+| `knowledge/research/perplexity_prompt_*.md`, `notebooklm_prompts_*.md` | The research prompts (reusable templates) | Running further external research |
 | `s240_literature_scan.md` | Earlier scan: Ripple Effect naming, BLUE (boundary-layer), GRACE/BalancEdit, GIE/SIR, locality-eval critique, RippleEdits/MQuAKE/KnowEdit benchmarks | Prior-art mechanism clues |
 | `framework_finding_v1_10_additive.md` (+ v1_7..v1_9) | Our own findings: calibrated metric, H-MODEL (Qwen-local/GPT-J-not), sequential fail, Rung-1/3/AlphaEdit ladder | Historical decision rationale |
 | `write_engine_viability_determination_report.md` | The same-entity multi-field VALIDATED determination (now scoped by G6.1) | The proven foundation + its scope |
-| `CORPUS/00`,`03`,`13`, `LARQL_INTEGRATION_ASSESSMENT.md` | Master evidence ledger, status ledger, G6.1 writeup, the bridge | Authoritative evidence + status |
+| `evidence/CORPUS/00`,`03`,`13`, `LARQL_INTEGRATION_ASSESSMENT.md` | Master evidence ledger, status ledger, G6.1 writeup, the bridge | Authoritative evidence + status |
 
 ### §4.2 — Spec section map (cite these)
 - **§7.3 Relation Families / §7.5 Polysemantic Discipline** — the schema-level locality rules; relevant to cross-entity (relation fan-out) and disambiguation.

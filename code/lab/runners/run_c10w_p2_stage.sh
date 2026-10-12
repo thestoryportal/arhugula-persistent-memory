@@ -1,9 +1,9 @@
 #!/bin/bash
-# D-C10w-oracle P2, one stage per call (D-C10r-rulings-12; folds results/c10w_oracle_reviews/p2_prerun_{astra,advisor}.md).
-# An allow-listed stage runs at most once, and only after tools/c10w_p2_gate.py admits it: engine fingerprint bound to this
+# D-C10w-oracle P2, one stage per call (D-C10r-rulings-12; folds experiments/c10w/reviews/c10w_oracle_reviews/p2_prerun_{astra,advisor}.md).
+# An allow-listed stage runs at most once, and only after code/lab/runners/c10w_p2_gate.py admits it: engine fingerprint bound to this
 # worktree, fail-closed GPU inventory, frozen sources + authorization unchanged, the dispatcher's projection guards.
 # Exit: 2 usage/repeat, 3 gate refused (no stage log written, P2 directory untouched), otherwise the stage's own exit.
-# Launch through tools/run_c10w_p2.sh, the single P2 coordinator - never by hand between stages.
+# Launch through code/lab/runners/run_c10w_p2.sh, the single P2 coordinator - never by hand between stages.
 W="$(cd -- "$(dirname -- "$0")/.." && pwd)" || exit 2
 S="$1"; D=$W/results/c10w_oracle_logs; L=$D/$S.log
 case "$S" in p2-a7-s1|p2-shuf-s1|p2-canon-s1|p2-a1-s1|p2-a7-rt|p2-shuf-rt|p2-eval) ;; *) echo "usage: $0 p2-a7-s1|p2-shuf-s1|p2-canon-s1|p2-a1-s1|p2-a7-rt|p2-shuf-rt|p2-eval"; exit 2;; esac

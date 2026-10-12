@@ -180,8 +180,8 @@ def fixture(n=26, a=12, stage=1, **kwargs):
                  reference_population_sha256=R.REFERENCE_POPULATION_SHA,
                  requests={k:[{"prompt":"{}","subject":str(i),"target_new":{"str":str(i)}} for i in range(24)] for k in ARMS},
                  settings=copy.deepcopy(importlib.import_module("c10z_astra_arms").SETTINGS), seed=0,
-                 engine_sources={"memit_dry_run/memit/memit/memit_main.py":"d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
-                    "experiments/track_c/c10e_bandknob.py":"a"*64}, hparams={"x": "a"*64},
+                 engine_sources={"code/memit/vendor/memit/memit_main.py":"d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+                    "code/lab/track_c/c10e_bandknob.py":"a"*64}, hparams={"x": "a"*64},
                  screens={"x": "a"*64}, covariances=copy.deepcopy(reference["cache_files"]),
                  tokenizer=copy.deepcopy(reference["tokenizer_files"]),
                  batches={k:test_batch(recipes["A"]["arms"][k]["target_lengths"]) for k in ARMS},
@@ -328,7 +328,7 @@ class SpecTests(unittest.TestCase):
     def test_00_implementation_exists(self):
         """Prereg :204: actual driver, reader and stage wrapper exist."""
         self.modules()
-        self.assertTrue((ROOT / "tools/run_c10z_stage.sh").is_file())
+        self.assertTrue((ROOT / "code/lab/runners/run_c10z_stage.sh").is_file())
 
     def test_raw_evidence_over_asserted_fit_write_and_repro(self):
         """Prereg :224, :230, :272, :278: reject forged counts, bytes and certificates."""
@@ -782,7 +782,7 @@ class SpecTests(unittest.TestCase):
             for bad in (math.nan,math.inf,-math.inf):
                 with self.assertRaisesRegex(R.Halt,"HALTED-V6"):D.write_json(Path(tmp)/"bad.json",{"science":bad})
             self.assertFalse((Path(tmp)/"bad.json").exists())
-        self.assertEqual(hashlib.sha256((ROOT/"docs/C10Z_ASTRA_PREREG.md").read_bytes()).hexdigest(),PREREG)
+        self.assertEqual(hashlib.sha256((ROOT/"experiments/c10z/design/C10Z_ASTRA_PREREG.md").read_bytes()).hexdigest(),PREREG)
         for path in (HERE/"c10z_astra_arms.py",HERE/"c10z_astra_read.py"):
             ast.parse(path.read_text())
         self.assertNotIn("c10e_bandknob",sys.modules)
@@ -1425,7 +1425,7 @@ class Fix1Tests(BlockingDemos):
             self.assertEqual(D.load_json(out / "resident/run.json")["launch"]["go"], _go_record(binding))
             budget = events[0][1]; self.assertEqual(budget.go_sha256, expected)
             s = D.Session.__new__(D.Session); s.budget = budget; s.out = out
-            snapshot = root / "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/test-revision"
+            snapshot = root / "data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/test-revision"
             snapshot.mkdir(parents=True)
             for name in ("tokenizer.json", "tokenizer_config.json"): (snapshot / name).write_text("{}")
             import torch
@@ -1560,7 +1560,7 @@ class Fix1Tests(BlockingDemos):
         real_subprocess = importlib.import_module("subprocess")
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp); (root / "tools").mkdir(); (root / ".venv/bin").mkdir(parents=True)
-            shell = root / "tools/run_c10z_stage.sh"; shell.write_text((ROOT / "tools/run_c10z_stage.sh").read_text())
+            shell = root / "code/lab/runners/run_c10z_stage.sh"; shell.write_text((ROOT / "code/lab/runners/run_c10z_stage.sh").read_text())
             python = root / ".venv/bin/python"
             python.write_text('#!/bin/sh\nprintf "%s\\n" "$C10Z_OUT_DIR" "$C10Z_GO_RECORD"\nexit 2\n')
             python.chmod(0o755)
@@ -1968,10 +1968,10 @@ def _bench_tree(root):
     import shutil
     import c10z_astra_benchmark_selftest as BT
     B = BT.benchmark_module()
-    paths = ("experiments/track_c/c10z_astra_benchmark.py", "experiments/track_c/c10z_astra_arms.py",
-             "experiments/track_c/c10z_astra_read.py", "experiments/track_c/c10e_bandknob.py",
-             "configs/hparams/qwen25_3b_memit_hparams.json", "tools/engine_fingerprint.py",
-             "memit_dry_run/memit/memit/memit_main.py")
+    paths = ("code/lab/track_c/c10z_astra_benchmark.py", "code/lab/track_c/c10z_astra_arms.py",
+             "code/lab/track_c/c10z_astra_read.py", "code/lab/track_c/c10e_bandknob.py",
+             "code/configs/hparams/qwen25_3b_memit_hparams.json", "code/memit/engine_fingerprint.py",
+             "code/memit/vendor/memit/memit_main.py")
     for rel in paths:
         dest = root / rel; dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / rel, dest)
@@ -1980,7 +1980,7 @@ def _bench_tree(root):
     shutil.copyfile(ROOT/R.REFERENCE_POPULATION_FILE,dest)
     record = BT.fixture_record(root=root)
     B.validate_record(record)
-    path = root / "results/c10z_astra_benchmark/20261007T000000Z/benchmark.json"
+    path = root / "experiments/c10z/runs/c10z_astra_benchmark/20261007T000000Z/benchmark.json"
     B.write_record(path, record)
     c = B.ceilings(record)
     binding = {"benchmark_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
@@ -2068,7 +2068,7 @@ class LaunchBindingTests(unittest.TestCase):
 
     def test_record_outside(self):
         os.environ["C10Z_BENCHMARK_RECORD"] = str(self.root / "results/c10z_astra_benchmark_extra/T/benchmark.json")
-        self.refuse("HALTED-V12", "benchmark record outside results/c10z_astra_benchmark")
+        self.refuse("HALTED-V12", "benchmark record outside experiments/c10z/runs/c10z_astra_benchmark")
 
     def test_record_unreadable(self):
         self.path.unlink(); self.refuse("HALTED-V12", "benchmark record unreadable")
@@ -2084,12 +2084,12 @@ class LaunchBindingTests(unittest.TestCase):
                 self.refuse("HALTED-V12", "benchmark record is not strict JSON")
 
     def test_script(self):
-        (self.root / "experiments/track_c/c10z_astra_benchmark.py").write_text("changed")
+        (self.root / "code/lab/track_c/c10z_astra_benchmark.py").write_text("changed")
         self.refuse("HALTED-V12", "benchmark script changed")
 
     def test_sources(self):
-        (self.root / "experiments/track_c/c10z_astra_arms.py").write_text("changed")
-        self.refuse("HALTED-V12", "benchmark source identity changed: experiments/track_c/c10z_astra_arms.py")
+        (self.root / "code/lab/track_c/c10z_astra_arms.py").write_text("changed")
+        self.refuse("HALTED-V12", "benchmark source identity changed: code/lab/track_c/c10z_astra_arms.py")
 
     def test_environment(self):
         env = self.B.environment_identity(); env["python"] += "+changed"
@@ -2204,8 +2204,8 @@ class LaunchBindingTests(unittest.TestCase):
         self.refuse("HALTED-V12", "launch binding changed since stage 0:", stage=3)
 
     def test_stage3_record_drift(self): self.drift("record")
-    def test_stage3_script_drift(self): self.drift("experiments/track_c/c10z_astra_benchmark.py")
-    def test_stage3_source_drift(self): self.drift("experiments/track_c/c10z_astra_arms.py")
+    def test_stage3_script_drift(self): self.drift("code/lab/track_c/c10z_astra_benchmark.py")
+    def test_stage3_source_drift(self): self.drift("code/lab/track_c/c10z_astra_arms.py")
 
     def test_stage3_environment_drift(self):
         self.stage3_fixture(); env = self.B.environment_identity(); env["torch"] += "+drift"
@@ -2223,12 +2223,12 @@ class LaunchBindingTests(unittest.TestCase):
 
     def inertness_record(self):
         import shutil
-        for rel in ("experiments/track_c/c10z_astra_telemetry_check.py",):
+        for rel in ("code/lab/track_c/c10z_astra_telemetry_check.py",):
             dst = self.root / rel; dst.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(ROOT / rel, dst)
-        paths = ("experiments/track_c/c10z_astra_arms.py", "experiments/track_c/c10z_astra_read.py",
-                 "experiments/track_c/c10z_astra_telemetry_check.py", "experiments/track_c/c10z_astra_benchmark.py",
-                 "experiments/track_c/c10e_bandknob.py", "configs/hparams/qwen25_3b_memit_hparams.json",
-                 "memit_dry_run/memit/memit/memit_main.py")
+        paths = ("code/lab/track_c/c10z_astra_arms.py", "code/lab/track_c/c10z_astra_read.py",
+                 "code/lab/track_c/c10z_astra_telemetry_check.py", "code/lab/track_c/c10z_astra_benchmark.py",
+                 "code/lab/track_c/c10e_bandknob.py", "code/configs/hparams/qwen25_3b_memit_hparams.json",
+                 "code/memit/vendor/memit/memit_main.py")
         record = {"schema": "c10z_astra_telemetry_inertness/v1", "decision_id": "D-C10r-rulings-11", "device": "mps",
                   "verdict": "INERT", "control_equal": True, "telemetry_equal": True, "weights_unchanged": True,
                   "probe_forwards": self.B.expected_probe_forwards(self.record), "lens_forwards": 72,
@@ -2260,7 +2260,7 @@ class LaunchBindingTests(unittest.TestCase):
                 self.refuse("HALTED-V12", "telemetry requires an INERT inertness record: evidence")
 
     def test_inertness_sources(self):
-        path, record = self.inertness_record(); record["sources"]["experiments/track_c/c10z_astra_arms.py"] = "0"*64
+        path, record = self.inertness_record(); record["sources"]["code/lab/track_c/c10z_astra_arms.py"] = "0"*64
         self.B.write_record(path, record); self.refuse("HALTED-V12", "telemetry requires an INERT inertness record: sources")
 
     def test_inertness_environment(self):
@@ -2370,14 +2370,14 @@ class ReaderBindingTests(unittest.TestCase):
 class WrapperTests(unittest.TestCase):
     def setUp(self):
         import shutil
-        self.assertTrue((ROOT / "tools/run_c10z_attempt.sh").exists(), "attempt wrapper missing")
+        self.assertTrue((ROOT / "code/lab/runners/run_c10z_attempt.sh").exists(), "attempt wrapper missing")
         self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup); self.root = Path(self.tmp.name)
         (self.root / "tools").mkdir(); (self.root / ".venv/bin").mkdir(parents=True)
-        shutil.copyfile(ROOT / "tools/run_c10z_attempt.sh", self.root / "tools/run_c10z_attempt.sh")
-        os.chmod(self.root / "tools/run_c10z_attempt.sh", 0o755)
+        shutil.copyfile(ROOT / "code/lab/runners/run_c10z_attempt.sh", self.root / "code/lab/runners/run_c10z_attempt.sh")
+        os.chmod(self.root / "code/lab/runners/run_c10z_attempt.sh", 0o755)
         (self.root / ".venv/bin/python").symlink_to(sys.executable)
         self.out = self.root / "out"; self.out.mkdir(); self.calls = self.root / "calls"
-        stage = self.root / "tools/run_c10z_stage.sh"
+        stage = self.root / "code/lab/runners/run_c10z_stage.sh"
         stage.write_text('#!/bin/bash\nprintf "%s\\n" "$1" >> "$STUB_CALLS"\nif [ "$1" = 0 ]; then exit "${STUB_FAIL:-0}"; fi\nexit 0\n')
         os.chmod(stage, 0o755)
 
@@ -2385,7 +2385,7 @@ class WrapperTests(unittest.TestCase):
         import subprocess
         (self.out / "run.json").write_text(json.dumps(reading)); self.calls.unlink(missing_ok=True)
         env = dict(os.environ, C10Z_OUT_DIR=str(self.out), STUB_CALLS=str(self.calls)); env.update(over)
-        result = subprocess.run([str(self.root / "tools/run_c10z_attempt.sh")], env=env, capture_output=True, text=True)
+        result = subprocess.run([str(self.root / "code/lab/runners/run_c10z_attempt.sh")], env=env, capture_output=True, text=True)
         calls = self.calls.read_text().splitlines() if self.calls.exists() else []
         return result, calls
 
@@ -2409,22 +2409,22 @@ class WrapperTests(unittest.TestCase):
     def test_attempt2_out_and_logs_preserve_attempt1(self):
         """Prereg §10(d2): explicit attempt2 output, go/benchmark selection and both redirected logs preserve attempt1."""
         import subprocess
-        history = {"results/c10z_astra/run.json": b"historical attempt1 run\n",
-                   "results/c10z_astra_chain.log": b"historical process1 log\n",
+        history = {"experiments/c10z/runs/c10z_astra/run.json": b"historical attempt1 run\n",
+                   "experiments/c10z/runs/c10z_astra/logs/c10z_astra_chain.log": b"historical process1 log\n",
                    "results/c10z_astra_stage3.log": b"historical process2 log\n"}
         for name, data in history.items():
             path = self.root / name; path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(data)
-        self.out = self.root / "results/c10z_astra_attempt2"; self.out.mkdir()
+        self.out = self.root / "experiments/c10z/runs/c10z_astra_attempt2"; self.out.mkdir()
         (self.out / "run.json").write_text(json.dumps({"reading": {"next_stage": 2}}))
-        seen = self.root / "seen-env"; stage = self.root / "tools/run_c10z_stage.sh"
+        seen = self.root / "seen-env"; stage = self.root / "code/lab/runners/run_c10z_stage.sh"
         stage.write_text('#!/bin/bash\nprintf "%s|%s|%s|%s\\n" "$1" "$C10Z_OUT_DIR" "$C10Z_GO_RECORD" "$C10Z_BENCHMARK_RECORD" >> "$STUB_ENV"\nexit 0\n')
         go = str(self.root / "results/c10z_astra_attempt2_go_record.json")
-        bench = str(self.root / "results/c10z_astra_benchmark/NEW/benchmark.json")
+        bench = str(self.root / "experiments/c10z/runs/c10z_astra_benchmark/NEW/benchmark.json")
         env = dict(os.environ, C10Z_OUT_DIR=str(self.out), C10Z_GO_RECORD=go,
                    C10Z_BENCHMARK_RECORD=bench, STUB_ENV=str(seen))
-        chain = self.root / "results/c10z_astra_attempt2_chain.log"
+        chain = self.root / "experiments/c10z/runs/c10z_astra_attempt2/logs/c10z_astra_attempt2_chain.log"
         with chain.open("x") as log:
-            result = subprocess.run([str(self.root / "tools/run_c10z_attempt.sh")], env=env, stdout=log, stderr=subprocess.STDOUT)
+            result = subprocess.run([str(self.root / "code/lab/runners/run_c10z_attempt.sh")], env=env, stdout=log, stderr=subprocess.STDOUT)
         self.assertEqual(result.returncode, 0, chain.read_text())
         stage3 = self.root / "results/c10z_astra_attempt2_stage3.log"
         with stage3.open("x") as log:
@@ -2439,7 +2439,7 @@ class WrapperTests(unittest.TestCase):
         import re
         import subprocess
         # Check real entrypoints before temp copies can manufacture execute permissions.
-        wrapper = (ROOT / "tools/run_c10z_attempt.sh").read_text()
+        wrapper = (ROOT / "code/lab/runners/run_c10z_attempt.sh").read_text()
         scripts = sorted(set(re.findall(r'\$W/(tools/[\w./-]+\.sh)', wrapper)))
         self.assertTrue(scripts, "attempt wrapper has no discoverable script entrypoints")
         result = subprocess.run(["git", "-C", str(ROOT), "ls-files", "-s", "-z", "--", *scripts],
@@ -2467,7 +2467,7 @@ class TemplatePinTests(unittest.TestCase):
         self.root = Path(self.tmp.name); self.out = self.root / "attempt"; self.out.mkdir()
         self.cache = [self.templates[:1], self.templates[1:]]
         # Execute only the engine's cache accessor; no engine imports, model, tokenizer or sampling.
-        path = ROOT / "memit_dry_run/memit/memit/memit_main.py"
+        path = ROOT / "code/memit/vendor/memit/memit_main.py"
         node = next(n for n in ast.parse(path.read_text()).body if isinstance(n, ast.FunctionDef) and n.name == "get_context_templates")
         self.engine = _types.ModuleType("c10z_template_cache_stub")
         self.engine.CONTEXT_TEMPLATES_CACHE = None
@@ -2651,9 +2651,9 @@ class PinTests(unittest.TestCase):
 
     def test_temp_copy_byte_drift(self):
         def check(path): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), PREREG)
-        check(ROOT / "docs/C10Z_ASTRA_PREREG.md")
+        check(ROOT / "experiments/c10z/design/C10Z_ASTRA_PREREG.md")
         with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / "prereg.md"; path.write_bytes((ROOT / "docs/C10Z_ASTRA_PREREG.md").read_bytes() + b"x")
+            path = Path(tmp) / "prereg.md"; path.write_bytes((ROOT / "experiments/c10z/design/C10Z_ASTRA_PREREG.md").read_bytes() + b"x")
             with self.assertRaises(AssertionError): check(path)
 
 
@@ -3306,10 +3306,10 @@ class TelemetryRunnerTests(unittest.TestCase):
         model = _telemetry_tiny_model(36).half(); layers = [4, 5, 6, 7, 8]
         out = self.root / "results/c10z_astra_telemetry_inertness/UTC"
         env = {"python": "3.11-test", "machine": "test", "platform": "test", "torch": "test", "transformers": "test"}
-        source_paths = ("experiments/track_c/c10z_astra_arms.py", "experiments/track_c/c10z_astra_read.py",
-            "experiments/track_c/c10z_astra_telemetry_check.py", "experiments/track_c/c10z_astra_benchmark.py",
-            "experiments/track_c/c10e_bandknob.py", "configs/hparams/qwen25_3b_memit_hparams.json",
-            "memit_dry_run/memit/memit/memit_main.py")
+        source_paths = ("code/lab/track_c/c10z_astra_arms.py", "code/lab/track_c/c10z_astra_read.py",
+            "code/lab/track_c/c10z_astra_telemetry_check.py", "code/lab/track_c/c10z_astra_benchmark.py",
+            "code/lab/track_c/c10e_bandknob.py", "code/configs/hparams/qwen25_3b_memit_hparams.json",
+            "code/memit/vendor/memit/memit_main.py")
         for relative in source_paths:
             p = self.root / relative; p.parent.mkdir(parents=True, exist_ok=True); p.write_text(relative)
         spies = {name: mock.Mock(side_effect=AssertionError("write engine called: " + name))
@@ -3519,7 +3519,7 @@ class Z0ProbeTests(unittest.TestCase):
             self.assertGreater(row["native_max_abs_logit"], 0)
 
     def test_probe_native_mask_cli_default_and_ones(self):
-        out = self.root / "results/c10z_astra_z0_probe/20261008T220004Z"
+        out = self.root / "experiments/c10z/runs/c10z_astra_z0_probe/20261008T220004Z"
         for mode, options in (("none", []), ("ones", ["--native-mask", "ones"])):
             with self.subTest(mode=mode), mock.patch.object(sys, "argv", ["probe", str(out), *options]), \
                  mock.patch.object(self.P, "run", return_value=0) as run:
@@ -3527,7 +3527,7 @@ class Z0ProbeTests(unittest.TestCase):
                 run.assert_called_once_with(out, native_mask=mode)
 
     def inputs(self, wrong_sha=False):
-        p = self.root / "results/c10z_astra_attempt2"; p.mkdir(parents=True)
+        p = self.root / "experiments/c10z/runs/c10z_astra_attempt2"; p.mkdir(parents=True)
         template = p / "context_templates.json"
         template.write_text(json.dumps([["{}"], ["a {}", "b {}", "c {}", "d {}", "e {}"]]))
         sha = hashlib.sha256(template.read_bytes()).hexdigest()
@@ -3536,16 +3536,16 @@ class Z0ProbeTests(unittest.TestCase):
         return p
 
     def test_probe_wrong_template_sha_refuses_before_model_load(self):
-        self.inputs(wrong_sha=True); out = self.root / "results/c10z_astra_z0_probe/20261008T220000Z"
+        self.inputs(wrong_sha=True); out = self.root / "experiments/c10z/runs/c10z_astra_z0_probe/20261008T220000Z"
         with mock.patch.object(self.P, "ROOT", self.root), mock.patch.object(self.P, "load_session") as load:
             with self.assertRaisesRegex(ValueError, "template.*sha256"): self.P.run(out)
         load.assert_not_called(); self.assertFalse(out.exists())
 
     def test_probe_refuses_existing_or_escaped_output_before_model_load(self):
-        existing = self.root / "results/c10z_astra_z0_probe/20261008T220000Z"; existing.mkdir(parents=True)
+        existing = self.root / "experiments/c10z/runs/c10z_astra_z0_probe/20261008T220000Z"; existing.mkdir(parents=True)
         sentinel = existing / "probe.json"; sentinel.write_text("locked")
-        paths = (existing, self.root / "elsewhere/20261008T220000Z", Path("results/c10z_astra_z0_probe/20261008T220000Z"),
-                 self.root / "results/c10z_astra_z0_probe/not-utc")
+        paths = (existing, self.root / "elsewhere/20261008T220000Z", Path("experiments/c10z/runs/c10z_astra_z0_probe/20261008T220000Z"),
+                 self.root / "experiments/c10z/runs/c10z_astra_z0_probe/not-utc")
         with mock.patch.object(self.P, "ROOT", self.root), mock.patch.object(self.P, "load_session") as load:
             for p in paths:
                 with self.subTest(path=str(p)), self.assertRaises((ValueError, FileExistsError)): self.P.run(p)
@@ -3598,10 +3598,10 @@ class Z0ProbeTests(unittest.TestCase):
         (source / "pristine_hash.json").write_text(json.dumps({"H_pristine": pristine}))
         s = self.P.make_session(H, ["{}", "a {}", "b {}", "c {}", "d {}", "e {}"])
         s.sync = lambda: None; s.check_memory = lambda: None
-        for relative in ("experiments/track_c/c10z_astra_z0_probe.py", "experiments/track_c/c10z_astra_arms.py",
-                         "experiments/track_c/c10z_astra_read.py", "experiments/track_c/c10e_bandknob.py", "docs/C10Z_ASTRA_PREREG.md"):
+        for relative in ("code/lab/track_c/c10z_astra_z0_probe.py", "code/lab/track_c/c10z_astra_arms.py",
+                         "code/lab/track_c/c10z_astra_read.py", "code/lab/track_c/c10e_bandknob.py", "experiments/c10z/design/C10Z_ASTRA_PREREG.md"):
             path = self.root / relative; path.parent.mkdir(parents=True, exist_ok=True); path.write_text("synthetic source")
-        out = self.root / "results/c10z_astra_z0_probe/20261008T220001Z"
+        out = self.root / "experiments/c10z/runs/c10z_astra_z0_probe/20261008T220001Z"
         with mock.patch.object(self.P, "ROOT", self.root), mock.patch.object(self.P, "load_session", return_value=s) as load, \
              mock.patch.object(torch.mps, "synchronize", return_value=None):
             self.assertEqual(self.P.run(out), 0)

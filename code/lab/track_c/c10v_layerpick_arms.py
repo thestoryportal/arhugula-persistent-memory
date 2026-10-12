@@ -16,7 +16,7 @@ FRAME_SUBJECTS = ("Vorbanth", "Quillexa", "Tremnok", "Oskavel", "Blynthar", "Dur
 HARNESS_KNOBS = ("MODEL_ID", "MODEL_REV", "HP_CANDIDATE", "OUT", "CANDIDATE_NAME", "DECISION_ID", "PREREG", "RUN_LABEL",
                  "Z_OVERRIDE", "C10_PROJECTOR", "N_EDIT", "C10_SUBJECT_OFFSET", "C10_ARMS", "C10_KEY_LOCUS",
                  "C10_CTX_TEMPLATES", "C10_RECIPES", "MINT_ARM", "MINT_STEP0", "MINT_INITS", "MINT_N_SEED", "LAW3_REF", "LLMDB_DEVICE")
-SOURCE_FILES = (*R.REQUIRED_SOURCES, "experiments/track_c/c10l_mint_lib.py")
+SOURCE_FILES = (*R.REQUIRED_SOURCES, "code/lab/track_c/c10l_mint_lib.py")
 STAGE, IDENTITY, LAST_LOG = "not-started", None, ""
 
 
@@ -68,7 +68,7 @@ def quiet():
 
 def source_hashes(root):
     root = Path(root)
-    engine = sorted(str(p.relative_to(root)) for p in (root / "memit_dry_run/memit").rglob("*.py"))
+    engine = sorted(str(p.relative_to(root)) for p in (root / "code/memit/vendor").rglob("*.py"))
     R.require(engine, "SOURCE_INVENTORY")
     return {n: sha256_file(root / n) for n in sorted(set(SOURCE_FILES) | set(engine))}
 
@@ -86,7 +86,7 @@ def preflight(root, args):
     R.require(args.autoresearch_state in ("paused", "finished"), "AUTORESEARCH_WINDOW")
     inherited = {k: os.environ[k] for k in HARNESS_KNOBS if k in os.environ}
     R.require(not inherited, "INHERITED_HARNESS_KNOBS", inherited)
-    result = subprocess.run([sys.executable, "-B", str(root / "tools/engine_fingerprint.py")],
+    result = subprocess.run([sys.executable, "-B", str(root / "code/memit/engine_fingerprint.py")],
                             capture_output=True, text=True, env={**os.environ, "LLMDB_ROOT": str(root)})
     R.require(result.returncode == 0 and "engine fingerprint PASS:" in result.stdout, "FINGERPRINT_COMMAND", result.stdout + result.stderr)
     engine = root / R.ENGINE_FILE
@@ -125,7 +125,7 @@ def load_harness(root, contexts=None):
     """Operator-only boundary: H:45–48 loads the pinned tokenizer/model."""
     os.environ.update(LLMDB_ROOT=str(root), C10_ARMS=",".join(R.ARMS), C10_RECIPES="candidate",
                       HP_CANDIDATE=str(root / R.HP_FILE), CANDIDATE_NAME="layerpick", DECISION_ID=R.DECISION_ID,
-                      PREREG=str(root / R.PREREG), OUT=str(root / "results/c10v_layerpick/unused_harness_output.json"))
+                      PREREG=str(root / R.PREREG), OUT=str(root / "experiments/c10v/runs/c10v_layerpick/unused_harness_output.json"))
     H = importlib.import_module("c10e_bandknob")
     M = importlib.import_module("c10l_mint_lib")
     hp = H.MEMITHyperParams.from_json(str(root / R.HP_FILE))
@@ -176,7 +176,7 @@ def compute_selector(H, hp, P, ctx, root):
                 first_keys[l] = K.copy()
         tables.append(np.array(gs).T.tolist()); norms.append(np.array(ns).T.tolist())
     step = R.select_maps(*tables, H.FICTION)
-    prior_path = root / "results/c10l_covgeom/step0_offline.json"
+    prior_path = root / "experiments/c10l/runs/c10l_covgeom/step0_offline.json"
     band = json.loads(prior_path.read_text())["regularisers"]["R0"]["band"]
     shares = band["rho_c_band_per_subject"]
     R.require(set(shares) == set(H.FICTION), "HISTORICAL_RHO_SUBJECTS")
@@ -573,10 +573,10 @@ def main(argv=None):
     parser.add_argument("--autoresearch-state", choices=("paused", "finished"), required=True)
     args = parser.parse_args(argv)
     root, STAGE = args.root.resolve(), args.stage
-    out = (args.out_dir or root / "results/c10v_layerpick").resolve()
+    out = (args.out_dir or root / "experiments/c10v/runs/c10v_layerpick").resolve()
     try:
         R.require(root == Path(__file__).resolve().parents[2], "WORKTREE_ROOT")
-        out.relative_to(root / "results/c10v_layerpick")
+        out.relative_to(root / "experiments/c10v/runs/c10v_layerpick")
         names = (["step0.json", "run.json"] if STAGE == "step0" else
                  [STAGE + ".json", STAGE + "_started.json", STAGE + "_complete.json",
                   "law5.json" if STAGE == "pass1" else "law5_pass2.json", "run.json"])

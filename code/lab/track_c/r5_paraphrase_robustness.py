@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import io, contextlib, json, math
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -12,13 +12,13 @@ from memit.compute_ks import compute_ks
 
 # ============================================================================
 # R5 — NATIVE-KNOWING PARAPHRASE-ROBUSTNESS: usable in-weight knowledge?
-# Pre-reg: docs/R5_PARAPHRASE_ROBUSTNESS_PREREG.md. 4 arms, intensity-controlled.
+# Pre-reg: experiments/r5/design/R5_PARAPHRASE_ROBUSTNESS_PREREG.md. 4 arms, intensity-controlled.
 # Does in-weight editing produce paraphrase-robust knowledge, or trained-prompt parrots?
 # Isolates R13's competitor confound within ONE protocol + tests recipe-rescue.
 # Metric = held-out P_test firing (DISJOINT from P_train). Engine UNMODIFIED. LAW#5 gate.
 # ============================================================================
 ID=os.environ.get("MODEL_ID","Qwen/Qwen2.5-3B"); REV=os.environ.get("MODEL_REV","3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 tok=AutoTokenizer.from_pretrained(ID, revision=REV)
 if tok.pad_token is None: tok.pad_token=tok.eos_token
@@ -95,7 +95,7 @@ print(f"  |Δexpr|={abs(eng_p-my_p):.4f} -> {'INERT ✓' if ok else 'NOT INERT �
 if not ok: print("LAW#5 fail; HALT.", flush=True); sys.exit(0)
 
 # ---------- stimulus ----------
-scr=json.load(open(os.environ.get("SCREEN",f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))); sel=scr["selected"]
+scr=json.load(open(os.environ.get("SCREEN",f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))); sel=scr["selected"]
 realcands=[c for c in sel if single_tok(sel[c]["capital"]["truth"])]
 realcaps=[sel[c]["capital"]["truth"] for c in realcands]
 N=int(os.environ.get("N_PER_ARM","16"))
@@ -186,7 +186,7 @@ arms["PRIOR_multi_para"]=run_arm("PRIOR_multi_para",prior_countries,Xprior,[CANO
 
 # ---------- SUMMARY ----------
 print("\n=== R5 SUMMARY (P_test = held-out paraphrases, disjoint from P_train) ===", flush=True)
-out={"experiment":"R5_paraphrase_robustness","label":"CHARACTERIZATION","prereg":"docs/R5_PARAPHRASE_ROBUSTNESS_PREREG.md",
+out={"experiment":"R5_paraphrase_robustness","label":"CHARACTERIZATION","prereg":"experiments/r5/design/R5_PARAPHRASE_ROBUSTNESS_PREREG.md",
      "controls":{"novel_canon_base":f"{novel_base}/{N}","ptest_target_base_prior":f"{ptest_base_prior}/{N}",
                  "ptest_target_base_novel":f"{ptest_base_novel}/{N}","native_ptest_validity":f"{native_ptest}/{N}"},
      "arms":{k:v["summary"] for k,v in arms.items()},
@@ -197,6 +197,6 @@ out={"experiment":"R5_paraphrase_robustness","label":"CHARACTERIZATION","prereg"
 for k,v in out["arms"].items(): print(f"  {k}: P_test mean {v['ptest_mean_rate']}% (any {v['ptest_any']}, L1 {v['L1_took']})", flush=True)
 print(f"  COMPETITOR: NOVEL-single {out['contrasts']['competitor_NOVELsingle_vs_PRIORsingle'][0]}% vs PRIOR-single {out['contrasts']['competitor_NOVELsingle_vs_PRIORsingle'][1]}%", flush=True)
 print(f"  RECIPE (PRIOR single->multisame->multipara): {out['contrasts']['recipe_PRIORsingle_multisame_multipara']}", flush=True)
-OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/results/r5_paraphrase_robustness.json")
+OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/experiments/r5/runs/r5_paraphrase_robustness/r5_paraphrase_robustness.json")
 json.dump(out,open(OUT,"w"),indent=2,default=str)
 print(f"\nwrote {OUT}", flush=True); print("R5_DONE", flush=True)

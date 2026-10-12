@@ -8,8 +8,8 @@ Pure measurement (compute_ks = activations; no edits, no cov). Maps the best ban
 for cross-entity isolation. Tests both capital AND language relations.
 """
 import os, sys, io, contextlib, json
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="1"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="1"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -17,11 +17,11 @@ from memit.memit_main import get_context_templates
 from memit.compute_ks import compute_ks
 
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")
 tok=AutoTokenizer.from_pretrained(ID, revision=REV)
 model=AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16, device_map="cuda").eval()
 ctx=get_context_templates(model,tok)
-scr=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json"))["selected"]
+scr=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b.json"))["selected"]
 ents=[e for e in scr.keys()][:12]
 TMPL={"capital":"The capital of {} is the city of","language":"The official language of {} is"}
 
@@ -45,7 +45,7 @@ for L in LAYERS:
         row[rel]=cos(keys(reqs,L))
     res[L]=row
     print(f"  L{L:2d} | {row['capital']:.3f} | {row['language']:.3f}", flush=True)
-json.dump(res,open(f"{LLMDB_ROOT}/results/c2b_depth_map_result.json","w"),indent=2)
+json.dump(res,open(f"{LLMDB_ROOT}/experiments/c2b/runs/c2b_depth_map/c2b_depth_map_result.json","w"),indent=2)
 best=min(LAYERS,key=lambda L:res[L]['capital'])
 print(f"\nmin capital-key collinearity at L{best} (cos={res[best]['capital']:.3f})", flush=True)
 print("If late layers (>=18) << early [4-8] => late-band editing is mechanistically motivated for cross-entity isolation (A4 + spec C15).", flush=True)

@@ -2,16 +2,16 @@
 
 _A structural map of how work flows through this repo: the supervised **main workflow** (falsification-first experiment cycle), the unattended **self-improvement loop** (the autonomy driver and the autoresearch loop, both deliberately fenced), and the supporting infrastructure that both depend on (gates, the anti-drift system, tool registration, durability)._
 
-> **Scope & drift discipline.** This document describes **stable workflow structure**, not program state. It deliberately carries **no experiment numbers or "current frontier"** — that content drifts and lives in generated/canonical sources. For *what's next* and *what's proven*, read the generated block in `EXPERIMENT_RUNBOOK.md §0.3` (← `docs/program_state.json`), `SESSION_CHECKPOINT.md`, and `CORPUS/`. This file follows the **de-dup norm** (`DISCIPLINE.md §0.4`): pointers, not copies.
+> **Scope & drift discipline.** This document describes **stable workflow structure**, not program state. It deliberately carries **no experiment numbers or "current frontier"** — that content drifts and lives in generated/canonical sources. For *what's next* and *what's proven*, read the generated block in `program/runbook/ §0.3` (← `program/program_state.json`), `program/checkpoints/`, and `evidence/CORPUS/`. This file follows the **de-dup norm** (`_system/governance/DISCIPLINE.md §0.4`): pointers, not copies.
 
 **Canonical sources this doc points to (read these for the binding detail):**
 | Source | What it governs |
 |---|---|
-| `EXPERIMENT_RUNBOOK.md` `§0` | Entry point, current position (§0.3), living-document protocol (§0.4), disciplines (§2), decision tree (§8) |
-| `DISCIPLINE.md` | The always-in-context index: de-dup norm, close-out gate, tracker set |
+| `program/runbook/` `§0` | Entry point, current position (§0.3), living-document protocol (§0.4), disciplines (§2), decision tree (§8) |
+| `_system/governance/DISCIPLINE.md` | The always-in-context index: de-dup norm, close-out gate, tracker set |
 | `CLAUDE.md` | Engine LAWs (fingerprint gate, inertness, one-fix-then-halt) + close-out gate |
-| `AUTONOMY.md` | The unattended driver contract (the self-improvement loop's execution harness) |
-| `docs/SPEC_E2E_GROUND_TRUTH.md` | The whole-system map work must be situated on |
+| `_system/governance/AUTONOMY.md` | The unattended driver contract (the self-improvement loop's execution harness) |
+| `knowledge/specs/SPEC_E2E_GROUND_TRUTH.md` | The whole-system map work must be situated on |
 
 ---
 
@@ -61,9 +61,9 @@ The supervised, human-in-the-loop research loop. One pass = one experiment, from
 | **6** | **Evaluate against the pre-registered rule** | `§2.3`, `§7.4` | Metric must match the claim (top-1 for read-correctness, JS/KL for distributional). `EVIDENCE-SHOWS` vs `I-INFER`; quantify; log reversals honestly. |
 | **7** | **Independent review** | `§2.5` | `advisor()` **+ a different-family model** (Codex `gpt-5.5`). Same-model self-review does **not** raise confidence. |
 | **8** | **Resolve the fork** | `§0.4` | Each experiment ends `PASS→ / PARTIAL→ / FAIL→` next-experiment-ID. Data selects the branch; if ambiguous, `advisor()`. |
-| **9** | **Close out to the full canonical-tracker set** | `§0.4`, `DISCIPLINE.md §0.4` | `CORPUS/NN` (the **one** detailed source) → `docs/program_state.json` + `render_state.py --write` → `CORPUS/00`–`03` → runbook `§12`+`§13` (+`§5` Decision-ID) → `HYPOTHESIS_REGISTER` → `EVIDENCE_INDEX` → `EXPERIMENT_REGISTRY` → spec overlay → memory + `memory_mirror/`. **Pointers, not copies.** |
-| **10** | **Binding close-out gate** | `CLAUDE.md`, `DISCIPLINE.md §1.1` | `python3 tools/closeout_check.py <D-ID>` until **✅ ALL GREEN** (presence of D-ID + currency fingerprint `<D-ID>@<hash>`). **Not done until green.** |
-| **11** | **Commit** | `tools/git_hooks/pre-commit` | Hook re-checks stale generated blocks + stale fingerprints + **secret scan**; blocks on any. Escape: `git commit --no-verify`. |
+| **9** | **Close out to the full canonical-tracker set** | `§0.4`, `_system/governance/DISCIPLINE.md §0.4` | `evidence/CORPUS/NN` (the **one** detailed source) → `program/program_state.json` + `render_state.py --write` → `evidence/CORPUS/00`–`03` → runbook `§12`+`§13` (+`§5` Decision-ID) → `HYPOTHESIS_REGISTER` → `EVIDENCE_INDEX` → `EXPERIMENT_REGISTRY` → spec overlay → memory + `_system/memory/`. **Pointers, not copies.** |
+| **10** | **Binding close-out gate** | `CLAUDE.md`, `_system/governance/DISCIPLINE.md §1.1` | `python3 code/gates/closeout_check.py <D-ID>` until **✅ ALL GREEN** (presence of D-ID + currency fingerprint `<D-ID>@<hash>`). **Not done until green.** |
+| **11** | **Commit** | `code/ops/git/hooks/pre-commit` | Hook re-checks stale generated blocks + stale fingerprints + **secret scan**; blocks on any. Escape: `git commit --no-verify`. |
 | **12** | **Write learnings to memory**, loop to Step 1 | `§2.7` | A result that isn't durably written *did not happen*. |
 
 ---
@@ -72,24 +72,24 @@ The supervised, human-in-the-loop research loop. One pass = one experiment, from
 
 The unattended loop that **generates and tests its own leads**. It is **opt-in and operator-launched** — nothing here runs on its own — and it is **subordinate to the main workflow by design**: it surfaces *candidates*, never *conclusions*. Two layers + two supporting self-correcting loops.
 
-### Layer A — the autonomy driver (`tools/autonomy_driver.py`, `AUTONOMY.md`)
+### Layer A — the autonomy driver (`code/lab/runners/autonomy_driver.py`, `_system/governance/AUTONOMY.md`)
 
 A thin **deterministic guardrail loop** — "not a scientist." Python never fakes reasoning.
 
 | # | Step | Guarantee |
 |---|------|-----------|
 | 1 | **Launch** detached with a **mission** (one pre-registered falsifier from `§0.3`) + `--budget-min` | Hard wall-clock deadline; run cannot exceed it. |
-| 2 | **Preflight hard-gate** (`tools/codex_context_guard.py preflight`) | Aborts **before any experiment** if the pod is NOT-READY. |
+| 2 | **Preflight hard-gate** (`code/agents/codex_context_guard.py preflight`) | Aborts **before any experiment** if the pod is NOT-READY. |
 | 3 | **Per-unit loop**, bounded by `max_loops` + `timeout_s` | A retry only ever chases a *transient* failure — never a different label on a deterministic run. |
 | 4 | **Deterministic labeling** — PASS / PARTIAL / FAIL / INVALID from a **pre-registered rule** on the result JSON | **No model judgment.** `FAIL` = real negative result; `INVALID` = couldn't evaluate / guard failed = confounded. |
 | 5 | **Gate log** | Model-pull/cov-compute = pre-approved (standing-auth); paid-provider/credential moves = **gated + skipped** → `logs/autonomy_gates.jsonl`. |
-| 6 | **Close out to STAGING only** → `logs/pending_findings/NN_<unit>.md` + an *obligation block* | The driver **NEVER** writes `CORPUS/`, the ledger, the runbook, or the checkpoint. |
+| 6 | **Close out to STAGING only** → `experiments/ml/reviews/pending_findings/NN_<unit>.md` + an *obligation block* | The driver **NEVER** writes `evidence/CORPUS/`, the ledger, the runbook, or the checkpoint. |
 | 7 | **(`--mode agent`)** shells `codex exec -m <other-model>` per unit | A *different* model fulfils deep-think / advisor obligations within the bounds (independence). |
 | 8 | **Supervised fold-in** (next morning) | Re-enters the **main workflow at Steps 7–11** — reproduce numbers → cross-model review → promote to canonical (gated by `closeout_check`). |
 
-### Layer B — the autoresearch loop (Karpathy's `autoresearch`, macOS fork; `docs/AUTORESEARCH.md`)
+### Layer B — the autoresearch loop (Karpathy's `autoresearch`, macOS fork; `experiments/c10r/design/AUTORESEARCH.md`)
 
-The literal "improve a metric" engine, run as its own operator-launched Claude Code session (`experiments/track_c/autoresearch_c10/launch.sh`), not by the driver. Loop body:
+The literal "improve a metric" engine, run as its own operator-launched Claude Code session (`code/lab/track_c/autoresearch_c10/launch.sh`), not by the driver. Loop body:
 
 ```
 edit edit.py ─▶ git commit ─▶ run the fixed evaluation ─▶ keep if better and every guard holds / reset if not ─▶ repeat until interrupted
@@ -100,11 +100,11 @@ edit edit.py ─▶ git commit ─▶ run the fixed evaluation ─▶ keep if be
 - It **PROPOSES leads, never CONCLUSIONS.**
 - **Sandboxed** — the agent sees only its own repo (README, the fixed `prepare.py`, `edit.py`, `program.md`); no corpus context, no seeded ideas.
 - A loop "win" is a **candidate** → route to the hypothesis register → **prove or kill it with a pre-registered falsifier** under the main workflow's `§0.4` close-out.
-- It may **never** write `CORPUS/` or promote a verdict.
+- It may **never** write `evidence/CORPUS/` or promote a verdict.
 
 ### Supporting self-*correcting* loops (improve the system, not the science)
 
-- **Anti-drift integrity loop** — edit `docs/program_state.json` → `tools/render_state.py --write` regenerates the `<!-- GENERATED -->` status blocks everywhere; narrative result-refs are content-**fingerprinted** by `tools/closeout_check.py`; the **pre-commit hook** blocks any stale or secret-leaking commit. The knowledge base keeps *itself* consistent. (Honest scope: auto-*enforces* currency + auto-*updates* generated content; it cannot auto-write narrative prose, and guards only **registered** edges — so de-dup/pointers remain the primary defense.)
+- **Anti-drift integrity loop** — edit `program/program_state.json` → `code/state/render_state.py --write` regenerates the `<!-- GENERATED -->` status blocks everywhere; narrative result-refs are content-**fingerprinted** by `code/gates/closeout_check.py`; the **pre-commit hook** blocks any stale or secret-leaking commit. The knowledge base keeps *itself* consistent. (Honest scope: auto-*enforces* currency + auto-*updates* generated content; it cannot auto-write narrative prose, and guards only **registered** edges — so de-dup/pointers remain the primary defense.)
 - **Learning-to-gate loop** — every correction/reversal → a memory note (`§2.7`); recurring discipline gets **encoded as a mechanical gate**. Examples: the **close-out gate** was born from a silent tracker lapse; the **secret-scan gate** from a `storage_state.json` leak on the public repo. The process hardens itself over iterations.
 
 ---
@@ -134,7 +134,7 @@ The self-improvement loop is a **feeder**, fenced **below** the main workflow. I
 4. **Read source before authoring.**
 5. The **MEMIT engine, LARQL, and git stay UNMODIFIED** — workarounds are config / our-own-code only.
 
-### 4.2 The close-out gate (`tools/closeout_check.py`)
+### 4.2 The close-out gate (`code/gates/closeout_check.py`)
 Two layers: **PRESENCE** (D-ID in every required tracker) + **CURRENCY** (a content fingerprint `<D-ID>@<hash>` of the canonical source span in every tracker — catches docs frozen at a superseded result). On every **refinement** the hash changes → trackers go STALE until re-propagated (`--fp <D-ID>` prints the token to embed). Mechanical — **not the operator's job to verify.**
 
 ### 4.3 Hooks (`tools/git_hooks/`, via `core.hooksPath`)
@@ -143,7 +143,7 @@ Two layers: **PRESENCE** (D-ID in every required tracker) + **CURRENCY** (a cont
 - No Claude Code (`settings.json`) lifecycle hooks are configured; the `settings.json` **permissions deny-list** is the agent-side guardrail.
 
 ### 4.4 Research-tool registration (advisory inputs — fenced out of the evidence path)
-Three external research aids feed the **hypothesis register only**, never `CORPUS/` evidence:
+Three external research aids feed the **hypothesis register only**, never `evidence/CORPUS/` evidence:
 
 | Tool | Registration plane | Invocation |
 |---|---|---|
@@ -155,10 +155,10 @@ MCP tools register only on a **session reload** (Claude Code reads `~/.claude.js
 
 ### 4.5 Durability across pod restarts
 `/workspace` (MFS network volume) persists; `/root` + `/usr/local` + `~/.local` are an **ephemeral overlay** wiped on restart. Restore is **semi-manual** ("restart == new session"):
-- **One umbrella command:** `bash /workspace/tools/restore_pod_tools.sh` — rebuilds the NotebookLM CLI (venv-by-copy → `setup_notebooklm.sh` fallback) + merges the InfraNodus/Perplexity MCP blocks (with keys) back into `~/.claude.json` (atomic, non-destructive) + restores the npx cache, then boot-checks each MCP server.
-- **Snapshot:** `bash /workspace/tools/backup_pod_tools.sh` → durable, gitignored bundle `/workspace/.pod_restore/`.
+- **One umbrella command:** `bash /workspace/_archive/pod-era/tools/restore_pod_tools.sh` — rebuilds the NotebookLM CLI (venv-by-copy → `setup_notebooklm.sh` fallback) + merges the InfraNodus/Perplexity MCP blocks (with keys) back into `~/.claude.json` (atomic, non-destructive) + restores the npx cache, then boot-checks each MCP server.
+- **Snapshot:** `bash /workspace/_archive/pod-era/tools/backup_pod_tools.sh` → durable, gitignored bundle `/workspace/.pod_restore/`.
 - Secrets (API keys, Google cookies) live only on `/workspace`, **gitignored** (`**/storage_state.json`, `/.notebooklm/`, `/.pod_restore/`) and backstopped by the pre-commit secret scan.
-- Documented in `SESSION_BOOTSTRAP.md §5`.
+- Documented in `program/SESSION_BOOTSTRAP.md §5`.
 
 ---
 
@@ -166,14 +166,14 @@ MCP tools register only on a **session reload** (Claude Code reads `~/.claude.js
 
 | Artifact | Role |
 |---|---|
-| `EXPERIMENT_RUNBOOK.md` | The living operating roadmap. `§0.3` = single source of "what's next"; `§0.4` = the close-out protocol; `§8` = the Track A–F decision tree. |
-| `docs/program_state.json` | The machine source of truth for program state; `render_state.py` renders it into all `<!-- GENERATED -->` blocks. |
-| `CORPUS/` | The evidence single-source-of-truth (`00` master evidence, `03` status ledger, per-result `NN` writeups). |
-| `SESSION_CHECKPOINT.md` | Latest-session handoff + current status head. |
-| `DISCIPLINE.md` | Always-in-context index: de-dup norm + close-out gate + tracker set. |
-| `AUTONOMY.md` | The unattended-run contract (self-improvement loop, Layer A). |
-| `tools/render_state.py` / `tools/closeout_check.py` | The anti-drift engine (generate + fingerprint). |
-| `tools/git_hooks/pre-commit` | The commit-time enforcement gate. |
+| `program/runbook/` | The living operating roadmap. `§0.3` = single source of "what's next"; `§0.4` = the close-out protocol; `§8` = the Track A–F decision tree. |
+| `program/program_state.json` | The machine source of truth for program state; `render_state.py` renders it into all `<!-- GENERATED -->` blocks. |
+| `evidence/CORPUS/` | The evidence single-source-of-truth (`00` master evidence, `03` status ledger, per-result `NN` writeups). |
+| `program/checkpoints/` | Latest-session handoff + current status head. |
+| `_system/governance/DISCIPLINE.md` | Always-in-context index: de-dup norm + close-out gate + tracker set. |
+| `_system/governance/AUTONOMY.md` | The unattended-run contract (self-improvement loop, Layer A). |
+| `code/state/render_state.py` / `code/gates/closeout_check.py` | The anti-drift engine (generate + fingerprint). |
+| `code/ops/git/hooks/pre-commit` | The commit-time enforcement gate. |
 
 ---
 

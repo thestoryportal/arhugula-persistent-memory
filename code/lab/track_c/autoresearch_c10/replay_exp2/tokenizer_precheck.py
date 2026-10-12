@@ -28,7 +28,7 @@ def precheck_inputs(dest, audit=None):
     runtime = precheck_runtime()
     dest = Path(dest).resolve(strict=True)
     audit = inspect_replay(dest) if audit is None else audit
-    snapshot = PROGRAM_ROOT / f"hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/{MODEL_REV}"
+    snapshot = PROGRAM_ROOT / f"data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/{MODEL_REV}"
     required = [snapshot / name for name in ("config.json", "tokenizer.json", "tokenizer_config.json", "merges.txt", "vocab.json")]
     required += [snapshot / name for name in ("added_tokens.json", "special_tokens_map.json") if (snapshot / name).exists()]
     required += [Path(__file__).resolve(), Path(__file__).with_name("read_replay.py").resolve()]
@@ -86,7 +86,7 @@ def main():
         # Same AutoTokenizer class, model and revision as c10e_bandknob.py:45.
         from transformers import AutoTokenizer
         hf = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-3B", revision=MODEL_REV,
-                                          cache_dir=str(PROGRAM_ROOT / "hf_cache/hub"), local_files_only=True)
+                                          cache_dir=str(PROGRAM_ROOT / "data/hf_cache/hub"), local_files_only=True)
         pairs = compare_tokenizers(hf, cached_tokenizer())
         require(before == precheck_inputs(dest), "tokenizer inputs changed during the precheck")
         record = {"schema": 1, "passed": True, "pairs": pairs, "checked_at": time.time(), "inputs": before}

@@ -1,4 +1,4 @@
-"""Model-free tests of tools/c10w_p2_gate.py's GPU-exclusivity decision (P2 pre-run review, Astra B1)."""
+"""Model-free tests of code/lab/runners/c10w_p2_gate.py's GPU-exclusivity decision (P2 pre-run review, Astra B1)."""
 import unittest
 from unittest import mock
 from tools import c10w_p2_gate as G
@@ -7,8 +7,8 @@ WT = "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/
 CLT = "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python"
 GPU_JOB = "79246 %s/.venv/bin/python -B %s/experiments/track_c/c10v_layerpick_arms.py pass1 --root %s" % (WT, WT, WT)
 BENIGN = "\n".join([
-    "58020 .venv/bin/python -B -m http.server 8765 --bind 0.0.0.0 --directory results/labviz/site",
-    "58100 .venv/bin/python -B tools/labviz/build.py",
+    "58020 .venv/bin/python -B -m http.server 8765 --bind 0.0.0.0 --directory projects/labviz-spec-v3/receipts/bulk/labviz/site",
+    "58100 .venv/bin/python -B code/apps/labviz/build.py",
     "46589 %s/.venv/bin/python -B %s/tools/context_watch.py /Users/u/.claude/projects/x/1a.jsonl 250000 60" % (WT, WT),
     "71015 %s %s/tools/dashboard_report.py" % (CLT, WT),
     "70895 %s %s/tools/dashboard_tile.py program LEAD" % (CLT, WT),
@@ -24,18 +24,18 @@ BENIGN = "\n".join([
 class BlockingProcesses(unittest.TestCase):
     def test_intel_copy_exact_controller(self):
         for exe in (CLT, "/Library/Developer/CommandLineTools/usr/bin/python3"):
-            for path in ("tools/memit_intel_copy.py", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/memit_intel_copy.py"):
+            for path in ("code/ops/intel/memit_intel_copy.py", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/code/ops/intel/memit_intel_copy.py"):
                 line = "510 %s %s run --gen sample" % (exe, path)
                 self.assertEqual(G.blocking_processes(line, own_pid=1), [])
 
     def test_intel_copy_near_misses_block(self):
         for exe, path, args in (
             (CLT, "tools/memit_intel_copy_other.py", "run"),
-            (WT + "/.venv/bin/python", "tools/memit_intel_copy.py", "run"),
-            (CLT, "tools/x/../memit_intel_copy.py", "run"),
+            (WT + "/.venv/bin/python", "code/ops/intel/memit_intel_copy.py", "run"),
+            (CLT, "code/ops/intel/memit_intel_copy.py", "run"),
             (CLT, "/tmp/tools/memit_intel_copy.py", "run"),
-            (CLT, "tools/memit_intel_copy.py/evil.py", "run"),
-            (CLT, "tools/memit_intel_copy.py", "bogus"),
+            (CLT, "code/ops/intel/memit_intel_copy.py/evil.py", "run"),
+            (CLT, "code/ops/intel/memit_intel_copy.py", "bogus"),
         ):
             line = "511 %s %s %s" % (exe, path, args)
             self.assertEqual(G.blocking_processes(line, own_pid=1), [line])

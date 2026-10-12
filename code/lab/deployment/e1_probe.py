@@ -13,8 +13,8 @@ LIMIT = None
 if "--limit" in sys.argv:
     LIMIT = int(sys.argv[sys.argv.index("--limit") + 1])
 
-LARQL = f"{LLMDB_ROOT}/external_prior_art/larql/target/release/larql"
-probes = json.load(open(f"{LLMDB_ROOT}/configs/probes/b3_probes.json"))
+LARQL = f"{LLMDB_ROOT}/code/vendor/external_prior_art/larql/target/release/larql"
+probes = json.load(open(f"{LLMDB_ROOT}/code/configs/probes/b3_probes.json"))
 allp = probes["edited"] + probes["native"]
 if LIMIT:
     allp = allp[:LIMIT]
@@ -29,7 +29,7 @@ script = "\n".join(lines) + "\n"
 
 env = dict(os.environ, OPENBLAS_NUM_THREADS="8", OMP_NUM_THREADS="8")
 res = subprocess.run([LARQL, "lql", script], capture_output=True, text=True,
-                     env=env, cwd=f"{LLMDB_ROOT}/external_prior_art/larql", timeout=3600)
+                     env=env, cwd=f"{LLMDB_ROOT}/code/vendor/external_prior_art/larql", timeout=3600)
 raw = res.stdout + "\n" + res.stderr
 open(OUT + ".rawout.txt", "w").write(raw)
 print("RAW saved to", OUT + ".rawout.txt", "len", len(raw))

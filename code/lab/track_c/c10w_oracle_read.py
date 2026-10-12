@@ -486,7 +486,7 @@ def stage_names():
 
 
 def latest_directory(prefix,base=None):
-    base=ROOT/"results/c10w_oracle" if base is None else Path(base)
+    base=ROOT/"experiments/c10w/runs/c10w_oracle" if base is None else Path(base)
     paths=sorted(p for p in base.glob(prefix.lower()+"_*") if p.is_dir())
     require(bool(paths),"missing "+prefix+" phase/authorization record")
     p=paths[-1]
@@ -497,7 +497,7 @@ def latest_directory(prefix,base=None):
 def load_frozen(directory):
     p=Path(directory).resolve(); step=load_json(p/"step0.json")
     require(step["status"]=="PASS" and step["class"]==CLASS and step["decision_id"]==DECISION_ID,"step0 not passing")
-    require(step["prereg_sha256"]==PREREG_SHA and sha_file(ROOT/"docs/C10W_ORACLE_PREREG.md")==PREREG_SHA,"frozen prereg mismatch")
+    require(step["prereg_sha256"]==PREREG_SHA and sha_file(ROOT/"experiments/c10w/design/C10W_ORACLE_PREREG.md")==PREREG_SHA,"frozen prereg mismatch")
     for ref in step["files"].values(): verify_ref(ref)
     for ref in step["sources"].values(): verify_ref(ref)
     require(all(step["seal"][s] is True for s in ("S1","S2","S2c","S2d","S3","S4","S5","S6","S7")),"seal not passing")
@@ -593,7 +593,7 @@ def disk_phases(p1):
     phases={"P1":load_json(Path(p1)/"eval.json")}
     p1_verdict=Path(p1)/"verdict.json"
     for name in ("P2","P3"):
-        base=ROOT/"results/c10w_oracle"
+        base=ROOT/"experiments/c10w/runs/c10w_oracle"
         paths=sorted(p for p in base.glob(name.lower()+"_*") if (p/"eval.json").exists())
         if paths:
             p=paths[-1]; rec=load_json(p/"eval.json")

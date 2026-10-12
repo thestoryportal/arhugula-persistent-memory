@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import io, contextlib, json, math, random
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -12,7 +12,7 @@ from memit.compute_ks import compute_ks
 
 # ============================================================================
 # D20 — Compaction SUB-BATCH GRANULARITY sweep (B3N condition 3, component 2).
-# Pre-reg: docs/D20_COMPACTION_SUBBATCH_PREREG.md (advisor-checked).
+# Pre-reg: experiments/d20/design/D20_COMPACTION_SUBBATCH_PREREG.md (advisor-checked).
 # Fixed total N (=100 records, the A1 set), fixed-base P. Vary ONLY chunk size C:
 # partition the N edits into ceil(N/C) consecutive chunks, each an independent
 # joint AlphaEdit solve that ACCUMULATES on the running weights (cache_c carries).
@@ -25,7 +25,7 @@ from memit.compute_ks import compute_ks
 # (N held at known-clean 100 => isolates chunking, not scale). See pre-reg.
 # ============================================================================
 ID=os.environ.get("MODEL_ID","Qwen/Qwen2.5-3B"); REV=os.environ.get("MODEL_REV","3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 N_ENTITIES=int(os.environ.get("N_ENTITIES","50")); FIELDS=["capital","language"]
 CHUNKS=[int(x) for x in os.environ.get("CHUNKS","100,50,25,10,5,1").split(",")]
@@ -112,7 +112,7 @@ print(f"  engine expr={eng_p:.4f} loc={eng_loc}% | harness-memit expr={my_p:.4f}
 if not ok: print("LAW#5 fail; HALT.", flush=True); sys.exit(0)
 
 # ---------- build FIXED edited records + >=2 disjoint held-out seed-sets ----------
-scr=json.load(open(os.environ.get("SCREEN",f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))); sel=scr["selected"]
+scr=json.load(open(os.environ.get("SCREEN",f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))); sel=scr["selected"]
 ents=list(sel.keys()); edit_ents=ents[:N_ENTITIES]; pool=ents[N_ENTITIES:]
 if len(pool) < HELDOUT_SEEDS*HELDOUT_SZ:
     print(f"  WARNING: held-out pool {len(pool)} < seeds*size {HELDOUT_SEEDS*HELDOUT_SZ}; overlapping/short sets", flush=True)
@@ -201,7 +201,7 @@ print(f"\nANCHOR GATES: C=N reproduces A1-clean (>=85% & expr>=95) = {gate_CN_cl
 if not anchors_ok:
     print("⚠ ANCHOR GATE FAILED — endpoints did not reproduce A1/A0 → harness suspect → result NOT trustworthy (HALT per pre-reg LAW#3).", flush=True)
 
-out={"experiment":"D20_subbatch_granularity","prereg":"docs/D20_COMPACTION_SUBBATCH_PREREG.md",
+out={"experiment":"D20_subbatch_granularity","prereg":"experiments/d20/design/D20_COMPACTION_SUBBATCH_PREREG.md",
      "config":{"model":ID,"total_N":N,"chunks":CHUNKS,"band":L,"null_thresh":NULL_THRESH,"L2":L2,
        "P_handling":"fixed-base (computed once, held across chunks)","cache_c":"accumulating across chunks",
        "edit_order":("grouped-by-entity" if ORDER_SEED=="" else f"shuffle-seed-{ORDER_SEED}"),

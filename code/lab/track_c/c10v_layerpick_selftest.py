@@ -197,7 +197,7 @@ def synthetic_prepared(H, layer_map=None):
 
 def fixture_directory(tmp, records=None, stopped=False):
     """Real persisted chain, including positive controls for the observation layer."""
-    root = Path(tmp) / "worktree"; out = root / "results/c10v_layerpick"
+    root = Path(tmp) / "worktree"; out = root / "experiments/c10v/runs/c10v_layerpick"
     records = records or [pass_fixture(b=18, b0=18, bshuf=18)]
     identity = copy.deepcopy(records[0]["identity"])
     for name in R.REQUIRED_SOURCES:
@@ -584,7 +584,7 @@ class SafetyAndPersistenceTests(unittest.TestCase):
     def test_preflight_controls_reference_identity_roundtrip_and_drift(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / "outputs"; path = Path(tmp) / "passS.json"
-            path.write_bytes((ROOT / "results/c10q_stacked/passS.json").read_bytes())
+            path.write_bytes((ROOT / "experiments/c10q/runs/c10q_stacked/passS.json").read_bytes())
             reference = D.law3_reference(path)
             identity = D.initialise_identity(ROOT, out, reference)
             persisted = json.loads((out / "identity.json").read_text())
@@ -743,7 +743,7 @@ class SafetyAndPersistenceTests(unittest.TestCase):
                  patch.object(D, "runtime_stage", side_effect=lambda *a: trigger()) as downstream, \
                  patch.object(D, "halt", side_effect=lambda root, msg, **state: real_halt(Path(tmp), msg, **state)):
                 with self.assertRaisesRegex(SystemExit, "HALT"):
-                    D.main(["pass1", "--root", str(ROOT), "--out-dir", str(ROOT / "results/c10v_layerpick/synthetic_no_writes"),
+                    D.main(["pass1", "--root", str(ROOT), "--out-dir", str(ROOT / "experiments/c10v/runs/c10v_layerpick/synthetic_no_writes"),
                             "--law3-ref", "/synthetic/reference", "--operator-go", "--steps-1-3-complete", "--autoresearch-state", "paused"])
                 downstream.assert_called_once()
             paths = list((Path(tmp) / "architecture_profile").glob("c10v_layerpick_halt_diagnostic_*.json"))

@@ -1,31 +1,31 @@
 #!/usr/bin/env python3
 """GENERATED-BLOCK renderer — the 'generate what's mechanical' half of the anti-drift design.
 
-Single canonical source: docs/program_state.json. This renders its content into
+Single canonical source: program/program_state.json. This renders its content into
 <!-- BEGIN GENERATED:<block> --> ... <!-- END GENERATED:<block> --> regions across the
 high-drift context docs, so structured status is AUTO-UPDATED (one edit + one command),
 never hand-copied into 14 places. Complements the narrative-reference fingerprints in
-tools/closeout_check.py. (Reconciled design, Opus advisor + gpt-5.5 cross-family, 2026-06-21.)
+code/gates/closeout_check.py. (Reconciled design, Opus advisor + gpt-5.5 cross-family, 2026-06-21.)
 
 Usage:
-  python3 tools/render_state.py --write   # refresh all generated blocks from program_state.json
-  python3 tools/render_state.py --check   # exit 1 if any block is stale (used by the pre-commit hook)
+  python3 code/state/render_state.py --write   # refresh all generated blocks from program_state.json
+  python3 code/state/render_state.py --check   # exit 1 if any block is stale (used by the pre-commit hook)
 """
 import sys, os, json, re
 
 ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root; env overrides
-STATE = os.path.join(ROOT, "docs/program_state.json")
+STATE = os.path.join(ROOT, "program/program_state.json")
 
 # which generated block goes in which file, and the anchor line to insert after if absent
 TARGETS = [
-    ("SESSION_CHECKPOINT.md", "program-state", "# SESSION CHECKPOINT"),
-    ("EXPERIMENT_RUNBOOK.md", "program-state", "### §0.3 — CURRENT POSITION"),
+    ("program/checkpoints/", "program-state", "# SESSION CHECKPOINT"),
+    ("program/runbook/", "program-state", "### §0.3 — CURRENT POSITION"),
     ("README.md",             "program-state", "# "),
-    ("SESSION_BOOTSTRAP.md",  "program-state", "_Updated 2026-06-18"),
-    ("PROGRESS.md",           "f1-scorecard",  "## ⑤ DISTANCE TO F1"),
+    ("program/SESSION_BOOTSTRAP.md",  "program-state", "_Updated 2026-06-18"),
+    ("program/PROGRESS.md",           "f1-scorecard",  "## ⑤ DISTANCE TO F1"),
 ]
 
-EDIT_NOTE = "_auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._"
+EDIT_NOTE = "_auto-generated from `program/program_state.json` — DO NOT edit between the markers; run `python3 code/state/render_state.py --write`._"
 
 
 def _state():
@@ -95,7 +95,7 @@ def main():
     if errs:
         print("❌ render error (anchor/file missing) — fix TARGETS or the doc."); sys.exit(2)
     if mode == "--check" and stale:
-        print(f"❌ {len(stale)} STALE generated block(s) vs docs/program_state.json — run `tools/render_state.py --write`: {stale}")
+        print(f"❌ {len(stale)} STALE generated block(s) vs program/program_state.json — run `code/state/render_state.py --write`: {stale}")
         sys.exit(1)
     print("✅ generated blocks WRITTEN." if mode == "--write" else "✅ all generated blocks current.")
     sys.exit(0)

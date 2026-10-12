@@ -1,6 +1,6 @@
 # Per-unit logging convention — what `stats.py` needs to actually run
 
-_Created 2026-06-24 alongside `tools/stats.py` + `tools/power.py`. This is the
+_Created 2026-06-24 alongside `code/lab/analysis/stats.py` + `code/lab/analysis/power.py`. This is the
 forward dependency the advisor flagged: the correct statistics for this program
 (cluster-bootstrap over the real sampling unit) **cannot be computed post hoc
 from the aggregate percentages most result JSONs currently save.** This file

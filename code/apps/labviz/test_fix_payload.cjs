@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
-const site = path.resolve(__dirname, '../../results/labviz/site');
+const site = path.resolve(__dirname, '../../../projects/labviz-spec-v3/receipts/bulk/labviz/site');
 const root = path.resolve(__dirname, '../..');
 function bootstrap() {
   const context = { window: {} };
@@ -35,7 +35,7 @@ test('Map summary counts stay correct before the deferred index loads', () => {
 });
 test('Historical template sentences are identified without changing evaluation evidence', () => {
   const lab = bootstrap().window.LAB;
-  const original = JSON.parse(fs.readFileSync(path.join(root, 'docs/c10_evaluations.json'))).entries;
+  const original = JSON.parse(fs.readFileSync(path.join(root, 'program/registers/c10_evaluations.json'))).entries;
   const seeded = lab.evaluations.find(entry => entry.id === 'evaluation-0');
   assert.ok(seeded.template_fields?.includes('rules_out'), 'The historical boilerplate must be identifiable to the view');
   assert.ok(seeded.template_fields.includes('question'));
@@ -46,13 +46,13 @@ test('Historical template sentences are identified without changing evaluation e
       assert.equal(lab.evaluations[i][field], original[i][field], 'Source field changed: ' + field);
     }
   }
-  const authored = lab.evaluations.find(entry => entry.ref === 'CORPUS/56');
+  const authored = lab.evaluations.find(entry => entry.ref === 'evidence/CORPUS/56');
   assert.equal(JSON.stringify(authored.template_fields), '[]');
   assert.equal(authored.line, 'exp:C10V-layerpick');
 });
 test('Cited role, label and evaluation rule tables have byte-identical evidence snapshots', () => {
   for (const name of ['gates.json','labels.json','links.json']) {
-    const recorded=fs.readFileSync(path.join(root,'tools/labviz',name));
+    const recorded=fs.readFileSync(path.join(root,'code/apps/labviz',name));
     const snapshot=path.join(site,'evidence/tools/labviz',name);
     assert.ok(fs.existsSync(snapshot),'Referenced rule table has no snapshot: '+name);
     assert.ok(fs.readFileSync(snapshot).equals(recorded),'Referenced rule table changed: '+name);

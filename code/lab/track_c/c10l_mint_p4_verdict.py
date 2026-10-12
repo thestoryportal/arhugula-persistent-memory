@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""D-C10l-mint P4 verdict (amendment B2): paired fp16-GGUF vs Q4_K_M-GGUF retention on the CORPUS/17 metric
+"""D-C10l-mint P4 verdict (amendment B2): paired fp16-GGUF vs Q4_K_M-GGUF retention on the evidence/CORPUS/17 metric
 (of prompts correct in GGUF-fp16 = eligible, the fraction still correct in Q4_K_M = retention), plus the three pre-registered
 gates: tokenisation 24/24 in both GGUFs; HF-fp16 ↔ GGUF-fp16 canonical id parity 24/24 (binding); everything else reported.
 Usage: c10l_mint_p4_verdict.py p4_pred_f16.json p4_pred_q4km.json out.json

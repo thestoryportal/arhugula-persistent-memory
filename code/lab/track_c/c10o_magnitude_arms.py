@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""D-C10o-magnitude (docs/C10O_MAGNITUDE_DIRECTION_PREREG.md): on the EDITED model, inject
+"""D-C10o-magnitude (experiments/c10o/design/C10O_MAGNITUDE_DIRECTION_PREREG.md): on the EDITED model, inject
   B  z_pre                              C  z_post
   E1 z_pre * (|z_post|/|z_pre|)   magnitude alone      E2 z_post * (|z_pre|/|z_post|)   direction alone
 plus A (z_pre, pre-edit control), and E1', E2' on the restored (unedited) weights. Reuses the D-C10m / D-C10n functions.
@@ -10,10 +10,10 @@ LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ.setdefault("CANDIDATE_NAME", "A7_magnitude")
 os.environ.setdefault("DECISION_ID", "D-C10o-magnitude")
-os.environ.setdefault("PREREG", f"{LLMDB_ROOT}/docs/C10O_MAGNITUDE_DIRECTION_PREREG.md")
-os.environ.setdefault("OUT", f"{LLMDB_ROOT}/results/c10o_magnitude/run.json")
+os.environ.setdefault("PREREG", f"{LLMDB_ROOT}/experiments/c10o/design/C10O_MAGNITUDE_DIRECTION_PREREG.md")
+os.environ.setdefault("OUT", f"{LLMDB_ROOT}/experiments/c10o/runs/c10o_magnitude/run.json")
 os.makedirs(os.path.dirname(os.environ["OUT"]), exist_ok=True)
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10m_diag_arms as D            # arms/recipe env, harness import, LAW3_REF check, compute_zs / inject_sweep / z_record / fingerprint
 import c10n_ztransport_arms as Z      # geometry(); its own OUT default is pre-empted by the setdefault above
 import torch

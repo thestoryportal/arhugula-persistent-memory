@@ -36,7 +36,7 @@ def fresh_output(path, base):
     path,base = Path(path),Path(base)
     if (not path.is_absolute() or path.parent.resolve()!=base.resolve() or
             not re.fullmatch(r'\d{8}T\d{6}_\d{6}Z',path.name)):
-        raise ValueError('absolute fresh UTC output under results/c10x_x2_probe required')
+        raise ValueError('absolute fresh UTC output under experiments/c10x/runs/c10x_x2_probe required')
     if os.path.lexists(path):raise ValueError('existing output refused')
     base.mkdir(parents=True,exist_ok=True)
     path.mkdir()  # Exclusive, including a concurrent creator.
@@ -306,11 +306,11 @@ def probe(harness, hp, template_file, template_sha, P=None):
 def protected_paths(root):
     trees = set()
     for relative in ('results','architecture_profile','experiments','tools','docs','CORPUS',
-                     'memit_dry_run/memit','covariance_caches'):
+                     'code/memit/vendor','covariance_caches'):
         path = root/relative
         trees.update((path,path.resolve()))
     files = set()
-    for snapshots in (root/'hf_cache/hub').glob('*/snapshots'):
+    for snapshots in (root/'data/hf_cache/hub').glob('*/snapshots'):
         trees.update((snapshots,snapshots.resolve()))
         # Only referenced snapshot targets are protected; locks and incomplete blobs stay writable.
         files.update(path.resolve() for path in snapshots.rglob('*') if path.is_file() or path.is_symlink())
@@ -398,7 +398,7 @@ def selftest():
             benchmark.parent.mkdir(parents=True)
             benchmark.write_bytes((ROOT/A.CONTEXT_SOURCE).read_bytes())
             self.path = self.root/'context_templates.json'
-            self.path.write_bytes((ROOT/'results/c10x_enginepath/context_templates.json').read_bytes())
+            self.path.write_bytes((ROOT/'experiments/c10x/runs/c10x_enginepath/context_templates.json').read_bytes())
             self.sha = A.sha_file(self.path)
             self.H = F.stub_h()
             self.hp = self.H.hp
@@ -466,7 +466,7 @@ def selftest():
             self.assertTrue(measured['live_weights_unchanged'])
             self.assertEqual(measured['unsafe_mps_to_cpu_copies'], [])
             from c10x_enginepath_read import strict_json
-            output = fresh_output(self.root/'results/c10x_x2_probe/20261008T170000_000000Z',self.root/'results/c10x_x2_probe')
+            output = fresh_output(self.root/'experiments/c10x/runs/c10x_x2_probe/20261008T170000_000000Z',self.root/'experiments/c10x/runs/c10x_x2_probe')
             A.write_json(output/'probe.json',measured)
             self.assertEqual(strict_json((output/'probe.json').read_bytes()),measured)
 
@@ -562,9 +562,9 @@ def selftest():
             self.assertTrue(events[0]['source_aliases_live_weight'])
 
         def policy_fixture(self):
-            output = self.root/'results/c10x_x2_probe/20261008T170000_000000Z'
+            output = self.root/'experiments/c10x/runs/c10x_x2_probe/20261008T170000_000000Z'
             output.mkdir(parents=True)
-            snapshot = self.root/'hf_cache/hub/models--tiny/snapshots/r1/config.json'
+            snapshot = self.root/'data/hf_cache/hub/models--tiny/snapshots/r1/config.json'
             blob = snapshot.parents[2]/'blobs/recorded'
             snapshot.parent.mkdir(parents=True)
             blob.parent.mkdir()
@@ -572,9 +572,9 @@ def selftest():
             snapshot.symlink_to(blob)
             covariance = self.root/'runtime/covariance'
             covariance.mkdir(parents=True)
-            (self.root/'covariance_caches').symlink_to(covariance,target_is_directory=True)
+            (self.root/'data/covariance').symlink_to(covariance,target_is_directory=True)
             protected = [self.root/p/'victim' for p in ('results/history','architecture_profile',
-                'experiments','tools','docs','CORPUS','memit_dry_run/memit','covariance_caches')]
+                'experiments','tools','docs','CORPUS','code/memit/vendor','covariance_caches')]
             for path in protected:
                 path.parent.mkdir(parents=True,exist_ok=True)
                 path.write_text('preserve')
@@ -612,8 +612,8 @@ def selftest():
         def test_runtime_files_are_writable_under_installed_policy(self):
             output,protected = self.policy_fixture()
             runtime = [output/'probe.json',self.root/'runtime/tmp/file',
-                self.root/'runtime/home/.cache/file',self.root/'hf_cache/hub/.locks/new.lock',
-                self.root/'hf_cache/hub/models--tiny/refs/main',protected[-1].parent/'download.incomplete',
+                self.root/'runtime/home/.cache/file',self.root/'data/hf_cache/hub/.locks/new.lock',
+                self.root/'data/hf_cache/hub/models--tiny/refs/main',protected[-1].parent/'download.incomplete',
                 protected[-1].parent/'unreferenced']
             for path in runtime:path.parent.mkdir(parents=True,exist_ok=True)
             with self.installed_policy(output):
@@ -676,7 +676,7 @@ def selftest():
             directory = os.open(self.root/'runtime',os.O_RDONLY)
             previous = Path.cwd()
             try:
-                os.chdir(self.root/'memit_dry_run/memit')
+                os.chdir(self.root/'code/memit/vendor')
                 with self.installed_policy(output):
                     for name in ('runtime.tmp',b'bytes.tmp',Path('path.tmp')):
                         try:descriptor = os.open(name,os.O_CREAT|os.O_WRONLY,dir_fd=directory)
@@ -746,7 +746,7 @@ def selftest():
             self.assertEqual([n.lineno for n in ast.walk(tree) if unsafe(n)],[])
 
         def test_existing_output_refused(self):
-            base = self.root/'results/c10x_x2_probe'
+            base = self.root/'experiments/c10x/runs/c10x_x2_probe'
             path = base/'20261008T170000_000000Z'
             path.mkdir(parents=True)
             with self.assertRaisesRegex(ValueError,'existing'):
@@ -764,7 +764,7 @@ def cache_selftest():
 
     class CacheTests(unittest.TestCase):
         def test_real_cached_tokenizer_config_and_runtime_io(self):
-            cache = ROOT/'hf_cache/hub'
+            cache = ROOT/'data/hf_cache/hub'
             revision = '3aab1f1954e9cc14eb9509a215f9e5ca08227a9b'
             snapshot = cache/'models--Qwen--Qwen2.5-3B/snapshots'/revision
             shards = {p.resolve() for p in snapshot.glob('*.safetensors')}
@@ -790,7 +790,7 @@ def cache_selftest():
                         raise
                 with patch.object(os,'open',os.open), patch.object(sys,'addaudithook',side_effect=lambda hook:
                         install(lambda event,args:observe(hook,event,args))), patch.dict(os.environ,
-                        HF_HOME=str(ROOT/'hf_cache'),HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',
+                        HF_HOME=str(ROOT/'data/hf_cache'),HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',
                         HF_DATASETS_OFFLINE='1',TOKENIZERS_PARALLELISM='false',TMPDIR=temporary):
                     install_file_policy(output)
                     try:
@@ -826,9 +826,9 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--selftest',action='store_true')
     parser.add_argument('--cache-selftest',action='store_true')
-    parser.add_argument('--templates',type=Path,default=ROOT/'results/c10x_enginepath/context_templates.json')
+    parser.add_argument('--templates',type=Path,default=ROOT/'experiments/c10x/runs/c10x_enginepath/context_templates.json')
     parser.add_argument('--templates-sha256')
-    parser.add_argument('--source-run',type=Path,default=ROOT/'results/c10x_enginepath/run.json')
+    parser.add_argument('--source-run',type=Path,default=ROOT/'experiments/c10x/runs/c10x_enginepath/run.json')
     parser.add_argument('--out',type=Path)
     args = parser.parse_args(argv)
     if args.selftest:return selftest()
@@ -839,18 +839,18 @@ def main(argv=None):
     if 'C10X_TELEMETRY' in os.environ:raise ValueError('probe requires telemetry unset')
     from c10x_enginepath_read import strict_json
     source = strict_json(args.source_run.read_bytes())
-    if (not args.source_run.is_absolute() or args.source_run.resolve()!=ROOT/'results/c10x_enginepath/run.json' or
+    if (not args.source_run.is_absolute() or args.source_run.resolve()!=ROOT/'experiments/c10x/runs/c10x_enginepath/run.json' or
             source.get('status')!='HALTED' or source.get('process')!=1 or
             source.get('code')!='W0 X2-vii exact zero' or source.get('ctx_sha256')!=A.json_sha(ctx)):
         raise ValueError('original HALTED source-run/context identity required')
     sources = A.source_hashes()
-    if sources['docs/C10X_ENGINEPATH_PREREG.md']!=A.PIN:raise ValueError('PREREG SHA mismatch')
+    if sources['experiments/c10x/design/C10X_ENGINEPATH_PREREG.md']!=A.PIN:raise ValueError('PREREG SHA mismatch')
     source_sha = A.sha_file(args.source_run)
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S_%fZ')
-    base = ROOT/'results/c10x_x2_probe'
+    base = ROOT/'experiments/c10x/runs/c10x_x2_probe'
     output = fresh_output(args.out or base/stamp,base)
     sys.dont_write_bytecode = True
-    os.environ.update(HF_HOME=str(ROOT/'hf_cache'),HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',
+    os.environ.update(HF_HOME=str(ROOT/'data/hf_cache'),HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',
                       HF_DATASETS_OFFLINE='1',TOKENIZERS_PARALLELISM='false',TMPDIR=str(output))
     import tempfile
     tempfile.tempdir = str(output)
@@ -858,7 +858,7 @@ def main(argv=None):
     provenance = {'source_run':{'path':str(args.source_run),'sha256':source_sha,'status':source['status'],
                     'code':source['code'],'recorded_w0':source.get('w0'),'recorded_identity':source.get('identity')},
                   'sources_before':sources,'probe_sha256':A.sha_file(__file__),
-                  'mps_copy_audit_sha256':A.sha_file(ROOT/'results/mps_offset_conversion_audit.md'),
+                  'mps_copy_audit_sha256':A.sha_file(ROOT/'knowledge/analyses/mps_offset_conversion_audit.md'),
                   'historical_identity_limit':'run.json has no W0 or model identity; no historical equality claim',
                   'started_at':A.utc(),'templates':templates,'telemetry':False}
     harness = None
@@ -874,7 +874,7 @@ def main(argv=None):
             harness = A.load_harness()
             os.environ['HF_HUB_OFFLINE'] = '1'
             A.configure(harness)
-            hp = harness.MEMITHyperParams.from_json(str(ROOT/'configs/hparams/qwen25_3b_memit_hparams.json'))
+            hp = harness.MEMITHyperParams.from_json(str(ROOT/'code/configs/hparams/qwen25_3b_memit_hparams.json'))
             provenance.update(environment=A.environment_identity(),model_id=harness.ID,model_revision=harness.REV,
                               device=str(harness.DEV),hparams=vars(hp),engine_fingerprint=A.fingerprint())
             record = probe(harness,hp,args.templates,args.templates_sha256)

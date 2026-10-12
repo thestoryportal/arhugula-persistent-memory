@@ -1,6 +1,6 @@
 #!/bin/bash
-cd $LLMDB_ROOT/external_prior_art/larql
-export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/hf_cache
+cd $LLMDB_ROOT/code/vendor/external_prior_art/larql
+export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/data/hf_cache
 V=/dev/shm/qwen3.vindex
 echo "=== INSERT France capital-of Berlin, then COMPACT MAJOR (L2 MEMIT into weights), then INFER ==="
 echo "(want: France model_top1 -> Berlin via WEIGHTS not knn_override; Italy still Rome = locality)"

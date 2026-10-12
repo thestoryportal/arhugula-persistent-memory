@@ -1,6 +1,6 @@
 #!/bin/bash
-cd $LLMDB_ROOT/external_prior_art/larql
-export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/hf_cache
+cd $LLMDB_ROOT/code/vendor/external_prior_art/larql
+export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/data/hf_cache
 V=/dev/shm/qwen3.vindex
 echo "=== IN-WEIGHT path: INSERT MODE=COMPOSE (L1/arch-A) -> COMPACT MAJOR (MEMIT into weights) -> INFER ==="
 echo "(want: France model_top1 itself -> Berlin [WEIGHT edit, not knn_override]; Italy=Rome, Spain=Madrid [locality])"

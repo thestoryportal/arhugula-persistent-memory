@@ -1,6 +1,6 @@
 #!/bin/bash
 # D-C10w-oracle P2 launch coordinator (P2 pre-run review: Astra B1/B2, advisor A2). The ONE process that dispatches P2:
-# it waits out the predecessor GPU job, then runs the seven P2 stages in order through tools/run_c10w_p2_stage.sh,
+# it waits out the predecessor GPU job, then runs the seven P2 stages in order through code/lab/runners/run_c10w_p2_stage.sh,
 # holding the GPU from p2-a7-s1 to the P2 reading, so no other GPU job is launched between stages.
 # It advances only on an exact outer STAGE_EXIT=0 with no new HALT record. The dispatcher's inner STAGE_EXIT=75
 # (underfit, followed by its one declared 800-step retry) stays inside a stage and is never read here.

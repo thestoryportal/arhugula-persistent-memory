@@ -99,7 +99,7 @@ def chain(args):
         raise ValueError("P4 root differs from this worktree")
     fingerprint = A.preflight(root)
     admission_path = args.record.resolve()
-    admission_path.relative_to(root / "results/c10u_mint2")
+    admission_path.relative_to(root / "experiments/c10u/runs/c10u_mint2")
     admission = json.loads(admission_path.read_text())
     A.assert_sources(admission["identity"], root)
     out = admission_path.parent

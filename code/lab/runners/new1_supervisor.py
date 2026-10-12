@@ -634,10 +634,10 @@ def main():
     parser.add_argument('--prereg-sha',required=True)
     parser.add_argument('--admission',type=Path)
     args=parser.parse_args()
-    prereg=ROOT/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md'
+    prereg=ROOT/'experiments/new1/design/NEW1_ADAPTER_GEOMETRY_PREREG.md'
     directory=ROOT/'results/mathlab_staging/runs'/('new1_'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S.%fZ'))
     directory.mkdir(parents=True,exist_ok=False)
-    command=['nice','-n','10',sys.executable,'-B',str(ROOT/'tools/new1_geometry.py'),
+    command=['nice','-n','10',sys.executable,'-B',str(ROOT/'code/lab/runners/new1_geometry.py'),
              '--run-dir',str(directory),'--prereg-sha',args.prereg_sha]
     def admission():
         verify_prereg(prereg,args.prereg_sha)

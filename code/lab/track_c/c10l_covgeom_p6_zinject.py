@@ -7,13 +7,13 @@ layer 8 at the subject-last token (forward hook, no weight change) and greedy-de
 each PTEST paraphrase. If the paraphrase count is < 30/72 no solve aimed at zs can reach LEAD (the target itself is the
 bottleneck, I-1 territory); if >= 30/72 the ceiling admits LEAD.
 
-No edit. Output results/c10l_covgeom/p6_zinject.json. Env: LLMDB_ROOT, OUT.
+No edit. Output experiments/c10l/runs/c10l_covgeom/p6_zinject.json. Env: LLMDB_ROOT, OUT.
 """
 import os, sys, io, json, contextlib, time
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["C10_ARMS"] = "A7_coined_coined"
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10e_bandknob as H   # loads the model; chdir to the engine root
 import torch
 from memit.memit_hparams import MEMITHyperParams
@@ -21,7 +21,7 @@ from memit.compute_z import compute_z
 from memit.memit_main import get_context_templates
 from rome.repr_tools import get_words_idxs_in_templates
 
-OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/results/c10l_covgeom/p6_zinject.json")
+OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/experiments/c10l/runs/c10l_covgeom/p6_zinject.json")
 hp = MEMITHyperParams.from_json(H.HP_BASE)
 Z_LAYER = hp.layers[-1]
 V = H.ARMS["A7_coined_coined"]
@@ -88,7 +88,7 @@ def main():
     per_template = {t: sum(r["per_template"][k]["inj_full"] for r in rows) for k, t in enumerate(templates)}
     base_leak = sum(sum(x["base_full"] for x in r["per_template"]) for r in rows)
     summary = {
-        "decision_id": "D-C10l-covgeom", "prereg": f"{LLMDB_ROOT}/docs/C10L_COVGEOM_SPARSEBAND_PREREG.md", "step": "P6 z-injection ceiling",
+        "decision_id": "D-C10l-covgeom", "prereg": f"{LLMDB_ROOT}/experiments/c10l/design/C10L_COVGEOM_SPARSEBAND_PREREG.md", "step": "P6 z-injection ceiling",
         "z_layer": Z_LAYER, "hparams": H.HP_BASE, "n_subjects": len(rows),
         "canon_full_inj": canon_inj, "canon_n": len(rows),
         "para_full_inj": para_inj, "para_first_inj": para_first_inj, "para_string_inj": para_str_inj, "para_n": 3 * len(rows),

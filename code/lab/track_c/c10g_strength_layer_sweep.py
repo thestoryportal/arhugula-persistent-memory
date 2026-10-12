@@ -2,16 +2,16 @@ import os, sys, json
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 
 os.environ.setdefault("DECISION_ID", "D-C10g-strengthlayers")
-os.environ.setdefault("PREREG", f"{LLMDB_ROOT}/docs/C10_STRENGTH_LAYER_SWEEP_PREREG.md")
-os.environ.setdefault("OUT", f"{LLMDB_ROOT}/results/c10g_strength_layer_sweep.json")
+os.environ.setdefault("PREREG", f"{LLMDB_ROOT}/experiments/c10g/design/C10_STRENGTH_LAYER_SWEEP_PREREG.md")
+os.environ.setdefault("OUT", f"{LLMDB_ROOT}/experiments/c10g/runs/c10g_strength_layer_sweep/c10g_strength_layer_sweep.json")
 os.environ.setdefault("RUN_LABEL", "C10 edit-strength / layer-count sweep")
 
 import c10e_bandknob as c10
 
 CANDIDATES = [
-    ("wide_band412_strength150", f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams_band412_strength150.json"),
-    ("wide_band412_lowcov2500", f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams_band412_lowcov2500.json"),
-    ("deep_band41218", f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams_band41218.json"),
+    ("wide_band412_strength150", f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams_band412_strength150.json"),
+    ("wide_band412_lowcov2500", f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams_band412_lowcov2500.json"),
+    ("deep_band41218", f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams_band41218.json"),
 ]
 
 
@@ -130,7 +130,7 @@ def main():
 
     results = {
         "decision_id": "D-C10g-strengthlayers",
-        "prereg": f"{LLMDB_ROOT}/docs/C10_STRENGTH_LAYER_SWEEP_PREREG.md",
+        "prereg": f"{LLMDB_ROOT}/experiments/c10g/design/C10_STRENGTH_LAYER_SWEEP_PREREG.md",
         "run": "C10 edit-strength / layer-count sweep",
         "class": "FALSIFIER-resolver / bounded MEMIT-knob characterization; NOT promotable",
         "scope": "Qwen2.5-3B / AlphaEdit / capital / A1-A2-A7 / N=24 / 1-seed / HF-fp16",
@@ -143,7 +143,7 @@ def main():
         results["recipes"][name] = c10.run_recipe(name, hp_path)
 
     results["verdict"] = sweep_verdict(results)
-    out = f"{LLMDB_ROOT}/results/c10g_strength_layer_sweep.json"
+    out = f"{LLMDB_ROOT}/experiments/c10g/runs/c10g_strength_layer_sweep/c10g_strength_layer_sweep.json"
     with open(out, "w") as f:
         json.dump(results, f, indent=2, default=str)
     print("\n=== C10g STRENGTH/LAYER SWEEP SUMMARY ===", flush=True)

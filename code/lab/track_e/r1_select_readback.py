@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, io, contextlib, json, math
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -12,7 +12,7 @@ from memit.compute_ks import compute_ks
 
 # ============================================================================
 # R1 — Deployed SELECT triple-readback via a RECONCILED commit-ledger.
-# Pre-reg: docs/R1_SELECT_READBACK_PREREG.md (frozen). Engine UNMODIFIED.
+# Pre-reg: experiments/r1/design/R1_SELECT_READBACK_PREREG.md (frozen). Engine UNMODIFIED.
 # Tests whether the DELEGATED index/query layer DELIVERS the spec's L1 SELECT
 # read-back (§8.9) on the exact divergence cases bare weights fail (B0 leak):
 #   - SELECT reads a POST-GATE ledger sidecar (not the request log)  -> anti-intent (a)
@@ -22,7 +22,7 @@ from memit.compute_ks import compute_ks
 # AND the model's greedy top-1. Reuses b0_select_primitive.py primitives VERBATIM.
 # ============================================================================
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"); L=hp.layers
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 STORE_THRESH=2.0  # nats; frozen in prereg. L1 storage signature gate.
 TMPL={"capital":"The capital of {} is the city of","language":"The official language of {} is"}
@@ -229,14 +229,14 @@ elif delivered: outcome="R1_DELIVERED (reconciled SELECT meets L1 contract on di
 elif P1 and not P2: outcome="PARTIAL_anti_firing_fail"
 else: outcome="PARTIAL"
 
-out={"prereg":"docs/R1_SELECT_READBACK_PREREG.md","model":ID,"band":L,"STORE_THRESH_nats":STORE_THRESH,
+out={"prereg":"experiments/r1/design/R1_SELECT_READBACK_PREREG.md","model":ID,"band":L,"STORE_THRESH_nats":STORE_THRESH,
      "scores":{"P1_landed_readback":f"{p1}/8","P2_leak_select_null":f"{p2_select_null}/6","P2_leak_L2_fires":f"{p2_l2_fire}/6",
                "P3_rejected_null":f"{p3_rej_null}/4","P3_dropped_flagged":f"{p3_drop_flag}/2","P4_fired_not_stored":fired_not_stored_total},
      "pass_flags":{"P1":bool(P1),"P2":bool(P2),"P3":bool(P3),"P4":bool(P4),"hard_fail":bool(hard_fail)},
      "OUTCOME":outcome,"contingency":contingency,"detail":rows_out,
      "recon_landed":[{"entity":r["entity"],**r["recon"]} for r in landed],
      "recon_dropped":[{"entity":r["entity"],**r["recon"]} for r in dropped]}
-json.dump(out,open(f"{LLMDB_ROOT}/results/r1_select_readback.json","w"),indent=2,default=str)
+json.dump(out,open(f"{LLMDB_ROOT}/experiments/r1/runs/r1_select_readback/r1_select_readback.json","w"),indent=2,default=str)
 
 print(f"\n=== R1 RESULT ===", flush=True)
 print(f"  P1 LANDED read-back (SELECT correct triple):     {p1}/8", flush=True)

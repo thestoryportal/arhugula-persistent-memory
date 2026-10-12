@@ -3,7 +3,7 @@ LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 
 # ============================================================================
 # R11 — Content-scoped authoritative-medium & severity ON READ.
-# Pre-reg: docs/R11_MEDIUM_ON_READ_PREREG.md (frozen). NOT a falsifier (matrix
+# Pre-reg: experiments/r11/design/R11_MEDIUM_ON_READ_PREREG.md (frozen). NOT a falsifier (matrix
 # category ③, medium-delegated per §11.2). SPEC-COHERENCE / spec-gap audit.
 #
 # The harness contains NO resolver we grade ourselves against (that would be the
@@ -15,7 +15,7 @@ LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 # mechanism (D43/§11.7/A8) covers it, else SPEC-GAP. CPU-only, no model.
 # ============================================================================
 
-SPEC = "research_and_specs/llm-as-database-v1_2-integrated-spec.md"
+SPEC = "knowledge/specs/integrated-spec-v1_2/"
 
 # ---- ⚠ DISCRIMINATING FINDING (advisor 2026-06-25, post-run): the spec ships NO
 #      formal query-language section / query-RESULT schema. The only SELECT mention
@@ -274,7 +274,7 @@ def main():
         "not double-count in F1. Recommendation: pin the query-result schema to include entity_type. "
         "Prototyped-not-empirical; characterization; NOT promotable.")
 
-    out = f"{LLMDB_ROOT}/results/r11_medium_on_read.json"
+    out = f"{LLMDB_ROOT}/experiments/r11/runs/r11_medium_on_read/r11_medium_on_read.json"
     os.makedirs(os.path.dirname(out), exist_ok=True)
     json.dump(result, open(out, "w"), indent=2)
     print("WROTE", out)

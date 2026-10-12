@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # install_infranodus_skills.sh — install the InfraNodus Claude skills (github.com/infranodus/skills)
-# into ~/.claude/skills so Claude Code activates them globally. Run:  ! bash tools/install_infranodus_skills.sh
+# into ~/.claude/skills so Claude Code activates them globally. Run:  ! bash code/agents/install_infranodus_skills.sh
 #
 # Source of truth = the durable master on /workspace (survives pod restarts; gitignored).
 # ~/.claude/skills is on the ephemeral overlay, so this must be re-run after a pod restart

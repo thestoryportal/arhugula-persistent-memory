@@ -1,7 +1,7 @@
 import os, sys, io, contextlib, json, re
 LLMDB_ROOT=os.environ.get("LLMDB_ROOT","/workspace")
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -15,7 +15,7 @@ from memit.memit_main import get_context_templates
 # at 25 (baseline) vs 100 grad steps, single/2-tok controls vs realistic coined.
 # ----------------------------------------------------------------------------
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")
 tok=AutoTokenizer.from_pretrained(ID,revision=REV)
 if tok.pad_token is None: tok.pad_token=tok.eos_token
 model=AutoModelForCausalLM.from_pretrained(ID,revision=REV,torch_dtype=torch.float16,device_map="cuda").eval()
@@ -44,5 +44,5 @@ for name,subj,val in CASES:
     p25,_=converged_prob(subj,val,25); p100,_=converged_prob(subj,val,100)
     print(f"{name:11} | {val:18} | {nt} | {p25} | {p100}", flush=True)
     out.append({"name":name,"subj":subj,"val":val,"ntok":nt,"prob_25":p25,"prob_100":p100})
-json.dump(out,open(f"{LLMDB_ROOT}/results/c10d_zprobe.json","w"),indent=2)
+json.dump(out,open(f"{LLMDB_ROOT}/experiments/c10d/runs/c10d_zprobe/c10d_zprobe.json","w"),indent=2)
 print("ZPROBE_DONE", flush=True)

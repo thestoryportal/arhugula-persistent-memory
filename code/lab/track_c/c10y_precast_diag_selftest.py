@@ -31,7 +31,7 @@ class ImportsDenied:
             raise AssertionError('model import forbidden: ' + fullname)
 sys.meta_path.insert(0, ImportsDenied())
 import c10y_directdw_arms as A
-module_path = W / 'experiments/track_c/c10y_precast_diag.py'
+module_path = W / 'code/lab/track_c/c10y_precast_diag.py'
 if module_path.exists():
     import c10y_precast_diag as D
 else:
@@ -64,8 +64,8 @@ def harness():
     h.get_module_input_output_at_words = lambda *args,**kwargs: (None, torch.zeros(2,2))
     ns = h.__dict__; ns['torch'] = torch; ns['os'] = os; ns['CONTEXT_TEMPLATES_CACHE'] = [['{}']]
     exec('def get_context_templates(model,tok): return CONTEXT_TEMPLATES_CACHE', ns)
-    original_function('memit_dry_run/memit/memit/memit_main.py', 'upd_matrix_match_shape', ns)
-    original_function('experiments/track_c/c10e_bandknob.py', 'my_edit', ns)
+    original_function('code/memit/vendor/memit/memit_main.py', 'upd_matrix_match_shape', ns)
+    original_function('code/lab/track_c/c10e_bandknob.py', 'my_edit', ns)
     h.my_edit = ns['my_edit']; h.get_context_templates = ns['get_context_templates']
     requests = [{'prompt':'The capital of {}','subject':s,'target_new':{'str':v}} for s,v in h.Z_OVERRIDE]
     return h, requests
@@ -92,7 +92,7 @@ def with_original_representations(h,requests):
             self.input=torch.ones(tok.last,4,3);self.output=torch.zeros(tok.last,4,2);return self
         def __exit__(self,*args):pass
     ns={'torch':torch,'List':__import__('typing').List,'AutoModelForCausalLM':object,'AutoTokenizer':object,'nethook':types.SimpleNamespace(Trace=Trace)}
-    fn=original_function('memit_dry_run/memit/rome/repr_tools.py','get_reprs_at_idxs',ns)
+    fn=original_function('code/memit/vendor/rome/repr_tools.py','get_reprs_at_idxs',ns)
     h._PRECAST_REPR=types.SimpleNamespace(get_reprs_at_idxs=fn)
     h.model.forward=lambda **kwargs:None
     h.compute_ks=lambda model,tok,requests,hp,layer,ctx:fn(model,tok,[r['prompt'].format(r['subject']) for r in requests],[[2] for r in requests],layer,hp.layer_module_tmp,track='in')
@@ -255,11 +255,11 @@ class Contracts(unittest.TestCase):
     def test_scope_SHA_drift_refused(self):
         self.assertEqual(D.SCOPE_SHA,'097c662803a94a897dd588c9e1f09c6af7b17a25019c1439ea39844c65f0a9a8')
         self.assertEqual(D.verify_scope(W),D.SCOPE_SHA)
-        (self.root/'docs').mkdir();(self.root/'docs/C10Y_PRECAST_DIAG_SCOPE.md').write_text('drift')
+        (self.root/'docs').mkdir();(self.root/'experiments/c10y/design/C10Y_PRECAST_DIAG_SCOPE.md').write_text('drift')
         with self.assertRaisesRegex(A.Halt,'SCOPE'): D.verify_scope(self.root)
 
     def test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift(self):
-        rel='experiments/track_c/c10z_astra_benchmark.py'
+        rel='code/lab/track_c/c10z_astra_benchmark.py'
         committed=(W/rel).read_bytes()
         self.assertEqual(hashlib.sha256(committed).hexdigest(),'3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041')
         old=committed.replace(b'    import c10z_astra_read as R\n    R.require_a1_freeze(ROOT)\n',b'',1)
@@ -752,25 +752,25 @@ class Contracts(unittest.TestCase):
         for name,data in before.items():self.assertEqual((self.root/name).read_bytes(),data)
 
     def run_shell_stub(self,mode,ignored_signal=None):
-        (self.root/'tools').mkdir();(self.root/'experiments/track_c').mkdir(parents=True);(self.root/'.venv/bin').mkdir(parents=True)
+        (self.root/'tools').mkdir();(self.root/'code/lab/track_c').mkdir(parents=True);(self.root/'.venv/bin').mkdir(parents=True)
         (self.root/'.venv/bin/python').symlink_to(Path(sys.executable).resolve())
-        launcher=(W/'tools/run_c10y_precast_diag.sh').read_text().replace('CAP_SECONDS=2820','CAP_SECONDS=6').replace('CLEANUP_RESERVE=10','CLEANUP_RESERVE=4')
+        launcher=(W/'code/lab/runners/run_c10y_precast_diag.sh').read_text().replace('CAP_SECONDS=2820','CAP_SECONDS=6').replace('CLEANUP_RESERVE=10','CLEANUP_RESERVE=4')
         launcher=launcher.replace('TIMER_PID=$!','TIMER_PID=$!\nprintf \'%s\\n\' "$TIMER_PID" > "$CONTROL/timer"\nprintf \'%s\\n\' "$TIMER_PID" > "'+str(self.root/'timer_started')+'"\nexport C10Y_STUB_CONTROL="$CONTROL"')
         if mode=='abnormal':
             anchor='if [[ -e "$OUT/worker_started.json" ]]; then : > "$CONTROL/session"; fi'
             self.assertIn(anchor,launcher)
             launcher=launcher.replace(anchor,anchor+'\nwhile [[ ! -e "$OUT/partial.json" ]]; do sleep 0.01; done\nfalse')
-        shell=self.root/'tools/run_c10y_precast_diag.sh';shell.write_text(launcher)
+        shell=self.root/'code/lab/runners/run_c10y_precast_diag.sh';shell.write_text(launcher)
         controlled=self.root/'start_shell_fixture.py'
         controlled.write_text('import json,os,signal,sys\nfrom pathlib import Path\n'
             'for name in ("TERM","INT","HUP"):signal.signal(getattr(signal,"SIG"+name),signal.SIG_IGN if name==sys.argv[2] else signal.SIG_DFL)\n'
             'Path('+repr(str(self.root/'inherited_dispositions.json'))+').write_text(json.dumps({name:int(signal.getsignal(getattr(signal,"SIG"+name))) for name in ("TERM","INT","HUP")}))\n'
             'os.execv("/bin/bash",["/bin/bash",sys.argv[1],"--utc","20261009T000000Z"])\n')
         command=[sys.executable,'-B',str(controlled),str(shell),ignored_signal or '-']
-        stub=self.root/'experiments/track_c/c10y_precast_diag.py'
+        stub=self.root/'code/lab/track_c/c10y_precast_diag.py'
         descendant_code='import signal,time\nfrom pathlib import Path\nsignal.signal(signal.SIGTERM,signal.SIG_IGN)\np=Path('+repr(str(self.root/'heartbeat'))+')\nwhile True:\n with p.open("a") as f:f.write("alive\\n");f.flush()\n time.sleep(.02)\n'
-        stub.write_text('import os,sys,signal,time,json,subprocess\nfrom pathlib import Path\nsys.path.insert(0,'+repr(str(W/'experiments/track_c'))+')\nimport c10y_precast_diag as D\n'
-            'root=Path(os.environ["LLMDB_ROOT"]);utc=sys.argv[sys.argv.index("--utc")+1];out=root/"results/c10y_precast_diag"/utc\n'
+        stub.write_text('import os,sys,signal,time,json,subprocess\nfrom pathlib import Path\nsys.path.insert(0,'+repr(str(W/'code/lab/track_c'))+')\nimport c10y_precast_diag as D\n'
+            'root=Path(os.environ["LLMDB_ROOT"]);utc=sys.argv[sys.argv.index("--utc")+1];out=root/"experiments/c10y/runs/c10y_precast_diag"/utc\n'
             'if "--prepare" in sys.argv:\n (root/"driver_prepare_entered").write_text("entered");D.claim_namespace(root,utc,int(os.environ["C10Y_PRECAST_SUPERVISOR"]))\n'
             ' if '+repr(mode)+'=="log_collision":(out/"worker.log").write_bytes(b"preexisting-log")\n'
             ' if '+repr(mode)+'=="prepare_hang":signal.signal(signal.SIGTERM,signal.SIG_IGN);time.sleep(20)\n'
@@ -788,7 +788,7 @@ class Contracts(unittest.TestCase):
             'os.setsid();j=D.Journal(out);j.record("worker_started",{"pid":os.getpid()});j.record("operand",{"value":[7.]})\n'
             'if '+repr(mode)+'=="leader_exit":\n descendant=subprocess.Popen([sys.executable,"-B","-c",'+repr(descendant_code)+']);j.record("owned_descendant",{"pid":descendant.pid});time.sleep(.1);sys.exit(7)\n'
             'with j.phase("native_A7_coined_coined"):\n j.record("partial",{"value":[8.]});signal.signal(signal.SIGTERM,signal.SIG_IGN);signal.signal(signal.SIGINT,signal.SIG_IGN);signal.signal(signal.SIGHUP,signal.SIG_IGN);time.sleep(20)\n')
-        out=self.root/'results/c10y_precast_diag/20261009T000000Z'
+        out=self.root/'experiments/c10y/runs/c10y_precast_diag/20261009T000000Z'
         if mode=='existing':
             out.mkdir(parents=True);(out/'launch.json').write_bytes(b'{"status":"preexisting"}')
         start=time.monotonic()
@@ -866,7 +866,7 @@ class Contracts(unittest.TestCase):
 
     def test_fresh_import_is_model_and_torch_free(self):
         stub=self.root/'import_only.py'
-        stub.write_text('import sys\nsys.path.insert(0,'+repr(str(W/'experiments/track_c'))+')\nimport c10y_precast_diag\nassert not set(sys.modules)&{"torch","transformers","datasets","c10e_bandknob"}\nprint("MODEL-FREE IMPORT PASS")\n')
+        stub.write_text('import sys\nsys.path.insert(0,'+repr(str(W/'code/lab/track_c'))+')\nimport c10y_precast_diag\nassert not set(sys.modules)&{"torch","transformers","datasets","c10e_bandknob"}\nprint("MODEL-FREE IMPORT PASS")\n')
         result=subprocess.run([sys.executable,'-B',str(stub)],cwd=self.root,capture_output=True,text=True,timeout=10)
         self.assertEqual(result.returncode,0,result.stderr);self.assertIn('MODEL-FREE IMPORT PASS',result.stdout)
 

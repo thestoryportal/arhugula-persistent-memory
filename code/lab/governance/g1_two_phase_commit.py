@@ -42,12 +42,12 @@ import os, json, time, hmac, hashlib, shutil, subprocess
 # ---- paths ----
 FROZEN_BASE = "/dev/shm/qwen3.vindex"
 OVERLAY     = "/dev/shm/cp1_work/overlay_fd3c63598e94.vlp"   # reused CP1 France->Berlin band overlay
-LARQL       = f"{LLMDB_ROOT}/external_prior_art/larql/target/release/larql"
+LARQL       = f"{LLMDB_ROOT}/code/vendor/external_prior_art/larql/target/release/larql"
 WORK        = "/dev/shm/g1_work"
 GIT_REPO    = "/dev/shm/g1_work/repo"
 ACTIVE_PTR  = "/dev/shm/g1_work/active.json"                 # the .vindex "what is mounted" pointer
-LEDGER_PATH = f"{LLMDB_ROOT}/results/g1_state_ledger.jsonl"
-RESULT_PATH = f"{LLMDB_ROOT}/results/g1_result.json"
+LEDGER_PATH = f"{LLMDB_ROOT}/experiments/g1/runs/g1/g1_state_ledger.jsonl"
+RESULT_PATH = f"{LLMDB_ROOT}/experiments/g1/runs/g1/g1_result.json"
 
 
 # ════════════════════════════ ledger (hash-chained; mirrors CP1) ════════════════════════════

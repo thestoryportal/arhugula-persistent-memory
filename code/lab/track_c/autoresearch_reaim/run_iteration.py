@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-# RETIRED 2026-10-06 (D-C10r-impl-1) — do not run. Superseded by docs/AUTORESEARCH.md (experiments/track_c/autoresearch_c10/).
-"""autoresearch re-aim loop — ONE edit experiment under the current knobs.json (experiments/track_c/autoresearch_reaim/program.md).
+# RETIRED 2026-10-06 (D-C10r-impl-1) — do not run. Superseded by experiments/c10r/design/AUTORESEARCH.md (code/lab/track_c/autoresearch_c10/).
+"""autoresearch re-aim loop — ONE edit experiment under the current knobs.json (code/lab/track_c/autoresearch_reaim/program.md).
 FENCED (DISCIPLINE §3): an optimizer's fixed script. Output is a CANDIDATE summary under results/autoresearch_reaim/<tag>/iter_<n>/;
-never CORPUS/, ledgers, runbook, checkpoint or memory. Engine unmodified; harness unmodified (the Z_OVERRIDE / _ARM_STATE seams).
+never evidence/CORPUS/, ledgers, runbook, checkpoint or memory. Engine unmodified; harness unmodified (the Z_OVERRIDE / _ARM_STATE seams).
 
 Usage: run_iteration.py <tag> <iter>      (env: LLMDB_ROOT, LAW3_REF; knobs read from knobs.json beside this file)
 
@@ -26,7 +26,7 @@ from typing import Optional
 LLMDB_ROOT = os.environ["LLMDB_ROOT"]
 HERE = os.path.dirname(os.path.abspath(__file__))
 TAG, ITER = sys.argv[1], int(sys.argv[2])
-OUTDIR = f"{LLMDB_ROOT}/results/autoresearch_reaim/{TAG}/iter_{ITER:02d}"; os.makedirs(OUTDIR, exist_ok=True)
+OUTDIR = f"{LLMDB_ROOT}/projects/retest-plan/receipts/autoresearch_reaim/{TAG}/iter_{ITER:02d}"; os.makedirs(OUTDIR, exist_ok=True)
 for _k in ("MODEL_ID", "MODEL_REV", "C10_PROJECTOR", "N_EDIT", "C10_SUBJECT_OFFSET", "C10_CTX_TEMPLATES", "C10_KEY_LOCUS", "RUN_LABEL"):
     if _k in os.environ:   # [LAW:parse-dont-validate] same run-identity rejection as the D-C10q driver
         raise SystemExit(f"refusing to run with inherited harness knob {_k}={os.environ[_k]!r}")
@@ -61,7 +61,7 @@ KNOBS_SHA = hashlib.sha256(KNOBS_RAW.encode()).hexdigest()[:8]
 json.dump(json.loads(KNOBS_RAW), open(f"{OUTDIR}/knobs.json", "w"), indent=2)
 
 # the iteration's hparams file: the band and the re-solve steps are VALUES in a file the harness already reads  [LAW:dataflow-not-control-flow]
-base_hp = json.load(open(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"))
+base_hp = json.load(open(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"))
 base_hp["layers"] = list(K.layers); base_hp["v_num_grad_steps"] = K.resolve_steps
 HP_FILE = f"{OUTDIR}/hparams.json"; json.dump(base_hp, open(HP_FILE, "w"), indent=2)
 
@@ -70,9 +70,9 @@ os.environ["C10_RECIPES"] = "candidate"
 os.environ["HP_CANDIDATE"] = HP_FILE
 os.environ["CANDIDATE_NAME"] = "A7_reaim"
 os.environ["DECISION_ID"] = f"T-autoresearch-twopass/{TAG}"     # a fenced tool run, not a decision
-os.environ["PREREG"] = f"{LLMDB_ROOT}/experiments/track_c/autoresearch_reaim/program.md"
+os.environ["PREREG"] = f"{LLMDB_ROOT}/code/lab/track_c/autoresearch_reaim/program.md"
 os.environ["OUT"] = f"{OUTDIR}/pass0.json"
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10e_bandknob as H       # the only harness import; the D-C10m/p drivers are NOT imported (their import-time env/dir side effects would breach the fence)
 import torch
 from memit.memit_hparams import MEMITHyperParams
@@ -88,14 +88,14 @@ LAW3_REF = os.environ["LAW3_REF"]
 _law3 = json.load(open(LAW3_REF))["recipes"]["baseline"]["arms"]
 if _law3["A1_single"]["para_full_n"] < 68 or _law3["A2_coherent2"]["para_full_n"] < 68:
     raise SystemExit(f"LAW#3 reference {LAW3_REF} does not pass the envelope")   # [LAW:no-silent-failure]
-# CORPUS/43 same-frame locality probe, as in c10p_twopass_arms.py (copied, not imported: that driver has import-time side effects)
+# evidence/CORPUS/43 same-frame locality probe, as in c10p_twopass_arms.py (copied, not imported: that driver has import-time side effects)
 FRAME_SUBJECTS = ["Vorbanth", "Quillexa", "Tremnok", "Oskavel", "Blynthar", "Durmquist"]
 assert not set(FRAME_SUBJECTS) & set(H.FICTION)
 CAP_TOL = 1.05                                               # the capped redo must land within 5 % of the cap (fp16, sequential per-layer solve)
 
 
 def fingerprint():
-    fp = subprocess.run([sys.executable, f"{LLMDB_ROOT}/tools/engine_fingerprint.py"], capture_output=True, text=True, env={**os.environ, "LLMDB_ROOT": LLMDB_ROOT})
+    fp = subprocess.run([sys.executable, f"{LLMDB_ROOT}/code/memit/engine_fingerprint.py"], capture_output=True, text=True, env={**os.environ, "LLMDB_ROOT": LLMDB_ROOT})
     if fp.returncode != 0:
         raise SystemExit(f"P1 fingerprint FAIL:\n{fp.stdout}{fp.stderr}")   # [LAW:no-silent-failure]
     return fp.stdout.strip()

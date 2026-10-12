@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import io, contextlib, json, math
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -12,7 +12,7 @@ from memit.compute_ks import compute_ks
 
 # ============================================================================
 # R9 — IN-WEIGHT DELETION RESIDUE (CP2 read-contract matrix row R9).
-# Pre-reg: docs/R9_DELETION_RESIDUE_PREREG.md. LABEL PRE-COMMITTED: CHARACTERIZATION,
+# Pre-reg: experiments/r9/design/R9_DELETION_RESIDUE_PREREG.md. LABEL PRE-COMMITTED: CHARACTERIZATION,
 # NOT falsification (§11.2/D42: no class is weights-authoritative; no delete-time
 # must-not-fire clause -> resurfacing CONFIRMS the overlay architecture, doesn't falsify).
 # Q: does a CORRECTIVE in-weight delete (a NEW write-path edit toward the pre-write
@@ -22,7 +22,7 @@ from memit.compute_ks import compute_ks
 # LAW#5 gate first. Write batch (cache_c from 0) -> delete batch on HALF (accumulating).
 # ============================================================================
 ID=os.environ.get("MODEL_ID","Qwen/Qwen2.5-3B"); REV=os.environ.get("MODEL_REV","3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 
 tok=AutoTokenizer.from_pretrained(ID, revision=REV)
@@ -191,7 +191,7 @@ print("\n  --- residue examples (DELETE-group informative, code resurfaces on he
 for s in residue[:6]:
     print(f"   {s['entity']} code='{s['code']}': canon post-del top1='{s['d_canon']['obs_top1']}' (code gone) | held post-del top5={s['d_held'][0]['top5']}", flush=True)
 
-OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/results/r9_deletion_residue.json")
+OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/experiments/r9/runs/r9_deletion_residue/r9_deletion_residue.json")
 json.dump({"summary":summary,"secrets":[{k:s[k] for k in s if k!="code_tok"} for s in secrets],
            "stimulus":{"edit_prompt":EDIT_PROMPT,"heldout":HELDOUT}}, open(OUT,"w"),indent=2)
 print(f"\nwrote {OUT}", flush=True); print("R9_DONE", flush=True)

@@ -27,11 +27,11 @@ Two metrics:
   cont : continuous clustered outcome (maxprob / margin SEPARATION) — the CP2 case
 
 Usage:
-  python3 tools/power.py selftest
-  python3 tools/power.py power  --metric prop --p0 70 --effect 20 --clusters 4 --items 8 --swing 50
-  python3 tools/power.py mde    --metric prop --p0 70 --clusters 4 --items 8 --swing 50 --target-power 0.8
-  python3 tools/power.py size   --metric prop --p0 70 --effect 20 --items 8 --swing 50 --target-power 0.8
-  python3 tools/power.py power  --metric cont --m0 0.55 --effect 0.30 --clusters 3 --items 10 \
+  python3 code/lab/analysis/power.py selftest
+  python3 code/lab/analysis/power.py power  --metric prop --p0 70 --effect 20 --clusters 4 --items 8 --swing 50
+  python3 code/lab/analysis/power.py mde    --metric prop --p0 70 --clusters 4 --items 8 --swing 50 --target-power 0.8
+  python3 code/lab/analysis/power.py size   --metric prop --p0 70 --effect 20 --items 8 --swing 50 --target-power 0.8
+  python3 code/lab/analysis/power.py power  --metric cont --m0 0.55 --effect 0.30 --clusters 3 --items 10 \
                                 --cluster-sd 0.08 --item-sd 0.10   # CP2 margin-separation sizing
 """
 from __future__ import annotations

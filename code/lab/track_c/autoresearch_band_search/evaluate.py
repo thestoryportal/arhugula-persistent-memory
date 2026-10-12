@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# RETIRED 2026-10-06 (D-C10r-impl-1) — do not run. Superseded by docs/AUTORESEARCH.md (experiments/track_c/autoresearch_c10/).
+# RETIRED 2026-10-06 (D-C10r-impl-1) — do not run. Superseded by experiments/c10r/design/AUTORESEARCH.md (code/lab/track_c/autoresearch_c10/).
 """Honest held-out evaluator for the band-[8-12] cross-entity-isolation search.
 
 Reads config.json (the band + mom2_uw the autoresearch agent edits), runs the
@@ -36,7 +36,7 @@ layers = cfg["layers"]
 mom2 = cfg.get("mom2_update_weight", 5000)
 
 # build a full hparams JSON from the 3B template + the searched band/mom2
-hp = json.load(open(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"))
+hp = json.load(open(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"))
 hp["layers"] = layers
 hp["mom2_update_weight"] = mom2
 tmp_hp = tempfile.NamedTemporaryFile("w", suffix="_bandsearch_hparams.json", delete=False)
@@ -45,9 +45,9 @@ json.dump(hp, tmp_hp); tmp_hp.close()
 env = dict(os.environ,
            MODEL_ID="Qwen/Qwen2.5-3B", MODEL_REV=REV,
            HPARAMS=tmp_hp.name,
-           SCREEN=f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json",
+           SCREEN=f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b.json",
            WRITE_MODE="sequential", RESULT_TAG="_bandsearch",
-           HF_HOME=f"{LLMDB_ROOT}/hf_cache", HF_HUB_OFFLINE="1",
+           HF_HOME=f"{LLMDB_ROOT}/data/hf_cache", HF_HUB_OFFLINE="1",
            PYTHONUNBUFFERED="1")
 # allow a quick smoke via REDUCED N (e.g. SMOKE_N=10) when validating the plumbing
 if os.environ.get("SMOKE_N"):
@@ -61,7 +61,7 @@ if r.returncode != 0:
     print(json.dumps({"metric_value": None, "valid": False, "error": "run_edit failed", "layers": layers}))
     sys.exit(1)
 
-res = json.load(open(f"{LLMDB_ROOT}/results/g6_scale_n_result_bandsearch.json"))
+res = json.load(open(f"{LLMDB_ROOT}/experiments/g6/runs/g6_scale_n/g6_scale_n_result_bandsearch.json"))
 final = res["rungs"][-1]                       # the N=100 rung
 heldout = final["heldout_top1"]["edited_rel"]
 metric = heldout.get("top1_exact_vs_truth", heldout["top1_correct_vs_truth"])  # EXACT preferred

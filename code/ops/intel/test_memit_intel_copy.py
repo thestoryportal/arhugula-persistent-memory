@@ -19,13 +19,13 @@ from unittest import mock
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 CLT = '/Library/Developer/CommandLineTools/usr/bin/python3'
-EXCLUDES = REPO / 'tools/backup_mirror.excludes'
+EXCLUDES = REPO / 'code/ops/backup/backup_mirror.excludes'
 
 
 class Fixture(unittest.TestCase):
     def setUp(self):
-        self.assertTrue((REPO / 'tools/memit_intel_copy.py').is_file(), 'P1 controller absent')
-        self.assertTrue((REPO / 'tools/memit_intel_receive.py').is_file(), 'P1 receiver absent')
+        self.assertTrue((REPO / 'code/ops/intel/memit_intel_copy.py').is_file(), 'P1 controller absent')
+        self.assertTrue((REPO / 'code/ops/intel/memit_intel_receive.py').is_file(), 'P1 receiver absent')
         self.C = importlib.import_module('tools.memit_intel_copy')
         self.R = importlib.import_module('tools.memit_intel_receive')
         # Intentionally keep fixtures: builder has no deletion authority. They live in the
@@ -341,11 +341,11 @@ class Fixture(unittest.TestCase):
     def test_controller_suppresses_gate_import_bytecode_without_cli_flags(self):
         fake_repo = self.base / 'fake_repo'
         (fake_repo / 'tools').mkdir(parents=True)
-        (fake_repo / 'tools/c10w_p2_gate.py').write_text('def check_gpu():\n    return {"ok": True}\n')
+        (fake_repo / 'code/lab/runners/c10w_p2_gate.py').write_text('def check_gpu():\n    return {"ok": True}\n')
         previous = sys.dont_write_bytecode
         try:
             sys.dont_write_bytecode = False
-            namespace = runpy.run_path(str(REPO / 'tools/memit_intel_copy.py'))
+            namespace = runpy.run_path(str(REPO / 'code/ops/intel/memit_intel_copy.py'))
             self.assertTrue(sys.dont_write_bytecode)
             namespace['check_gpu'].__globals__['REPO'] = fake_repo
             self.assertEqual(namespace['check_gpu'](), {'ok': True})

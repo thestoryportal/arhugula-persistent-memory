@@ -2,7 +2,7 @@
 """C2-band FALSIFIER — does the minimum-collinearity band [8-12] reduce cross-entity read
 corruption vs the default band [4-8], at fixed N=100, SEQUENTIAL write?
 
-This is a FALSIFIER, not an optimizer. C2 (CORPUS/20) found same-relation key collinearity is
+This is a FALSIFIER, not an optimizer. C2 (evidence/CORPUS/20) found same-relation key collinearity is
 U-shaped in depth with a MINIMUM at L8-12. The mechanistic prediction: editing in the
 low-collinearity band leaves untouched-entity read distributions LESS perturbed → HIGHER
 `unt_cross_loc` (locality = 100·mean(1 − JS(post,pre)/ln2); higher = less corruption).
@@ -23,7 +23,7 @@ diff — so shared bias cancels and the comparison is band-vs-band on identical 
 different edit-success levels (the obvious confound).
 
 Runs g6_scale_n_param.py twice as isolated subprocesses (clean HF/torch state per arm), then
-emits results/c2band_compare_result.json with the top-rung (N=100) comparison + guard fields.
+emits experiments/c2band/runs/c2band_compare/c2band_compare_result.json with the top-rung (N=100) comparison + guard fields.
 
 NOTE: band [8-12] needs covariance for L9-12 (not cached) — the first run computes them
 (standing-auth: PRE-APPROVED). Budget the wrapper timeout accordingly.
@@ -33,10 +33,10 @@ import json, os, subprocess, sys
 from pathlib import Path
 
 ROOT = Path(os.environ.get("LLMDB_ROOT", "/workspace"))
-G6 = ROOT / "experiments/scale/g6_scale_n_param.py"
-HP_BASE = ROOT / "configs/hparams/qwen25_3b_memit_hparams.json"            # [4,5,6,7,8]
-HP_BAND = ROOT / "configs/hparams/qwen25_3b_memit_hparams_band812.json"    # [8,9,10,11,12]
-OUT = ROOT / "results/c2band_compare_result.json"
+G6 = ROOT / "code/lab/scale/g6_scale_n_param.py"
+HP_BASE = ROOT / "code/configs/hparams/qwen25_3b_memit_hparams.json"            # [4,5,6,7,8]
+HP_BAND = ROOT / "code/configs/hparams/qwen25_3b_memit_hparams_band812.json"    # [8,9,10,11,12]
+OUT = ROOT / "experiments/c2band/runs/c2band_compare/c2band_compare_result.json"
 
 ARMS = [("base", HP_BASE, "_c2band_base"), ("band812", HP_BAND, "_c2band_812")]
 

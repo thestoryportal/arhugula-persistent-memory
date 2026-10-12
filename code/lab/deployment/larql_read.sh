@@ -1,6 +1,6 @@
 #!/bin/bash
-cd $LLMDB_ROOT/external_prior_art/larql
-export HF_HOME=$LLMDB_ROOT/hf_cache
+cd $LLMDB_ROOT/code/vendor/external_prior_art/larql
+export HF_HOME=$LLMDB_ROOT/data/hf_cache
 echo "waiting for convert to finish..."
 n=0; until ! pgrep -x larql >/dev/null; do sleep 15; n=$((n+1)); [ $n -ge 48 ] && { echo "TIMEOUT 12min"; break; }; done
 echo "=== convert done? vindex contents ==="

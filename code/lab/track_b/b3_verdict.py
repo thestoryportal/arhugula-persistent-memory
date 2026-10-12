@@ -10,10 +10,10 @@ def correct(top1, truth):
     a=(top1 or "").strip().lower(); b=truth.lower()
     return bool(a) and (a==b or b.startswith(a) or a.startswith(b))
 
-probes=json.load(open(f"{LLMDB_ROOT}/configs/probes/b3_probes.json"))
+probes=json.load(open(f"{LLMDB_ROOT}/code/configs/probes/b3_probes.json"))
 ref={p["prompt"]:p for p in probes["edited"]+probes["native"]}
-f16={p["prompt"]:p for p in json.load(open(f"{LLMDB_ROOT}/results/b3_pred_f16.json"))}
-q4 ={p["prompt"]:p for p in json.load(open(f"{LLMDB_ROOT}/results/b3_pred_q4.json"))}
+f16={p["prompt"]:p for p in json.load(open(f"{LLMDB_ROOT}/experiments/b3/runs/b3_pred_f16/b3_pred_f16.json"))}
+q4 ={p["prompt"]:p for p in json.load(open(f"{LLMDB_ROOT}/experiments/b3/runs/b3_pred_q4/b3_pred_q4.json"))}
 
 # --- VALIDITY GATE: HF-fp16 vs GGUF-fp16 agreement, SPLIT edited vs native ---
 # Everything downstream is measured on the GGUF; if conversion didn't reproduce the
@@ -83,5 +83,5 @@ json.dump({"hf_vs_gguf_f16_agreement":{"edited_pct":ag_ed[0],"native_pct":ag_nat
            "native_global_retention":{"pct":ng[0],"surv":ng[1],"elig":ng[2]},
            "delta_edited_minus_native":(ed[0]-nc[0]) if (ed[0] is not None and nc[0] is not None) else None,
            "verdict":verdict,"threshold":"edited >= native_country - 3pts"},
-          open(f"{LLMDB_ROOT}/results/b3_quant_survival_result.json","w"),indent=2)
-print(f"\nwrote {LLMDB_ROOT}/results/b3_quant_survival_result.json")
+          open(f"{LLMDB_ROOT}/experiments/b3/runs/b3_quant_survival/b3_quant_survival_result.json","w"),indent=2)
+print(f"\nwrote {LLMDB_ROOT}/experiments/b3/runs/b3_quant_survival/b3_quant_survival_result.json")

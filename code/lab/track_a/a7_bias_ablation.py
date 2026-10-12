@@ -8,10 +8,10 @@ probe the SAME prompts LARQL garbled, compare top-1 token-for-token to LARQL's o
  - bias-zeroed HF -> still correct           => bias is NOT the cause; attribution WRONG
 """
 import os, torch
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="1"
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="1"
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-SRC=f"{LLMDB_ROOT}/b3_edited_qwen3b"   # the edited 3B (what the q4km GGUF/vindex came from)
+SRC=f"{LLMDB_ROOT}/experiments/b3/runs/b3_edit/bulk/b3_edited_qwen3b"   # the edited 3B (what the q4km GGUF/vindex came from)
 tok=AutoTokenizer.from_pretrained(SRC)
 model=AutoModelForCausalLM.from_pretrained(SRC, torch_dtype=torch.float16, device_map="cuda").eval()
 

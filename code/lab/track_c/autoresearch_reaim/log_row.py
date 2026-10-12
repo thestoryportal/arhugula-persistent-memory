@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# RETIRED 2026-10-06 (D-C10r-impl-1) — do not run. Superseded by docs/AUTORESEARCH.md (experiments/track_c/autoresearch_c10/).
+# RETIRED 2026-10-06 (D-C10r-impl-1) — do not run. Superseded by experiments/c10r/design/AUTORESEARCH.md (code/lab/track_c/autoresearch_c10/).
 """Append one results.tsv row from an iteration's run.json (or a crash), in the fork's 5-column shape (program.md):
 commit	heldout_full	dw_ratio	status	description
 keep = the metric improved (higher) over the best kept row with every guard true; equal or worse = discard; a failed guard =
@@ -11,7 +11,7 @@ GUARDS = {"A1": (">=", 68), "A2": (">=", 68), "L1_flips": ("<=", 1), "frame_flip
           "ppl_post": ("<=", 22.2), "law5_ok": ("==", True), "cap_ok": ("==", True)}
 HEADER = "commit\theldout_full\tdw_ratio\tstatus\tdescription\n"
 TAG, ITER, DESC = sys.argv[1], int(sys.argv[2]), sys.argv[3].replace("\t", " ")
-D = f"{LLMDB_ROOT}/results/autoresearch_reaim/{TAG}"; TSV = f"{D}/results.tsv"
+D = f"{LLMDB_ROOT}/projects/retest-plan/receipts/autoresearch_reaim/{TAG}"; TSV = f"{D}/results.tsv"
 it = f"{D}/iter_{ITER:02d}"
 
 

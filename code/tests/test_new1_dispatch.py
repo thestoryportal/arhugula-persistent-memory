@@ -19,7 +19,7 @@ import unittest
 
 SOURCE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SOURCE))
-gate_path = SOURCE/"tools/c10w_p2_gate.py"
+gate_path = SOURCE/"code/lab/runners/c10w_p2_gate.py"
 gate = types.ModuleType("dispatch_gate_under_test")
 gate.__file__ = str(gate_path)
 exec(compile(gate_path.read_bytes(), str(gate_path), "exec"), gate.__dict__)
@@ -46,7 +46,7 @@ from pathlib import Path
 root = Path(os.environ["LLMDB_ROOT"])
 cfg = json.loads((root/"fixture.json").read_text())
 if cfg.get("change_hash"):
-    with (root/"tools/new1_geometry.py").open("a") as target: target.write("\\n# changed at fingerprint check\\n")
+    with (root/"code/lab/runners/new1_geometry.py").open("a") as target: target.write("\\n# changed at fingerprint check\\n")
 print("fixture fingerprint")
 sys.exit(3 if cfg.get("fingerprint_refused") else 0)
 '''
@@ -92,7 +92,7 @@ try:
         code = "INVALID-ADMISSION"
     else:
         worker = subprocess.Popen(["/usr/bin/nice", "-n", str(cfg.get("worker_nice", 10)),
-            sys.executable, "-B", str(root/"tools/new1_geometry.py")], start_new_session=True,
+            sys.executable, "-B", str(root/"code/lab/runners/new1_geometry.py")], start_new_session=True,
             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         (root/"worker_pid").write_text(str(worker.pid))
         if cfg.get("mode") == "unreaped": time.sleep(.4)
@@ -134,7 +134,7 @@ def provenance(root, name):
 
 
 def load_report():
-    path = SOURCE/"tools/new1_dispatch_report.py"
+    path = SOURCE/"code/lab/runners/new1_dispatch_report.py"
     module = types.ModuleType("dispatch_report_under_test")
     module.__file__ = str(path)
     sys.modules[module.__name__] = module
@@ -157,8 +157,8 @@ def terminal(kind="run_finished", outcome="PASS", name="new1_fixture"):
 
 class PureTests(unittest.TestCase):
     def setUp(self):
-        self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
-        self.assertTrue((SOURCE/"tools/new1_dispatch_report.py").is_file(), "reporter missing (expected RED)")
+        self.assertTrue((SOURCE/"code/lab/runners/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+        self.assertTrue((SOURCE/"code/lab/runners/new1_dispatch_report.py").is_file(), "reporter missing (expected RED)")
         self.report = load_report()
 
     def test_T1_shell_argv_is_not_a_compute_executable(self):
@@ -219,7 +219,7 @@ class PureTests(unittest.TestCase):
         self.addCleanup(temp.cleanup)
         root = Path(temp.name)
         (root/"tools").mkdir()
-        shutil.copyfile(SOURCE/"tools/mathlab_events.py", root/"tools/mathlab_events.py")
+        shutil.copyfile(SOURCE/"code/apps/mathlab/mathlab_events.py", root/"code/apps/mathlab/mathlab_events.py")
         runs = root/"results/mathlab_staging/runs"
         current = runs/"new1_current"
         old = runs/"new1_old"
@@ -263,7 +263,7 @@ class PureTests(unittest.TestCase):
         self.assertTrue(receipt["subsequent_compute_blocked"])
 
     def test_recorder_absolute_executables_exist(self):
-        source = (SOURCE/"tools/new1_dispatch.sh").read_text()
+        source = (SOURCE/"code/lab/runners/new1_dispatch.sh").read_text()
         executables = set(re.findall(r"(?<![\w$])/(?:[\w.+-]+/)*(?:s?bin)/[\w.+-]+", source))
         self.assertTrue(executables)
         for executable in sorted(executables):
@@ -278,7 +278,7 @@ class PureTests(unittest.TestCase):
         root = Path(temp.name)
         (root/"tools").mkdir()
         (root/"dispatch").mkdir()
-        source = (SOURCE/"tools/new1_dispatch.sh").read_text()
+        source = (SOURCE/"code/lab/runners/new1_dispatch.sh").read_text()
         prefix = source[:source.index("if (( $# != 3 ))")]
         script = root/"tools/check_under_test.sh"
         script.write_text(prefix+body)
@@ -289,7 +289,7 @@ class PureTests(unittest.TestCase):
         return result, root
 
     def disk_component(self, df_output=None, env=None):
-        source = (SOURCE/"tools/new1_dispatch.sh").read_text()
+        source = (SOURCE/"code/lab/runners/new1_dispatch.sh").read_text()
         definitions = source[source.index("save_check() {"):source.index("# 2b:")]
         check = source[source.index("save_check 2f "):source.index("\nsave_check 2g ")]
         if df_output is not None:
@@ -364,8 +364,8 @@ class PureTests(unittest.TestCase):
 
 class DispatchTests(unittest.TestCase):
     def setUp(self):
-        self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
-        self.assertTrue((SOURCE/"tools/new1_dispatch_report.py").is_file(), "reporter missing (expected RED)")
+        self.assertTrue((SOURCE/"code/lab/runners/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+        self.assertTrue((SOURCE/"code/lab/runners/new1_dispatch_report.py").is_file(), "reporter missing (expected RED)")
         self.temp = tempfile.TemporaryDirectory(prefix="new1-fixture-", dir="/private/tmp")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
@@ -404,7 +404,7 @@ class DispatchTests(unittest.TestCase):
 
     def dispatch(self, head=None, env=None, nice=None):
         before = set((self.root/"results/mathlab_staging").glob("new1_dispatch_*"))
-        argv = [str(self.root/"tools/new1_dispatch.sh"), str(self.hashes), head or self.head, str(self.auth)]
+        argv = [str(self.root/"code/lab/runners/new1_dispatch.sh"), str(self.hashes), head or self.head, str(self.auth)]
         if nice is not None: argv = ["/usr/bin/nice", "-n", str(nice), *argv]
         self.dispatcher = subprocess.Popen(argv, cwd=self.root, env=dict(os.environ, **(env or {})),
                                            start_new_session=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -477,7 +477,7 @@ class DispatchTests(unittest.TestCase):
         self.assertEqual(worker["ppid"], supervisor["pid"])
         self.assertEqual(worker["pgid"], worker["pid"])
         self.assertEqual(worker["nice"], 10)
-        self.assertIn("tools/new1_geometry.py", worker["command"])
+        self.assertIn("code/lab/runners/new1_geometry.py", worker["command"])
         self.assertTrue(worker["observed_at_utc"])
         self.assertEqual(receipt["namespace"]["path"], str(next((self.root/"results/mathlab_staging/runs").glob("new1_*"))))
         self.assertEqual(receipt["supervisor_exit"]["status"], 0)
@@ -494,7 +494,7 @@ class DispatchTests(unittest.TestCase):
         self.refused("2c", head="0"*40)
 
     def test_T3_c_dirty_pinned_source(self):
-        with (self.root/"tools/new1_geometry.py").open("a") as target: target.write("\n# dirty\n")
+        with (self.root/"code/lab/runners/new1_geometry.py").open("a") as target: target.write("\n# dirty\n")
         self.refused("2c")
 
     def test_T3_d_bad_manifest_hash(self):
@@ -585,7 +585,7 @@ class DispatchTests(unittest.TestCase):
         actual = json.loads((self.root/"executed_command.json").read_text())
         invocation = json.loads((self.directory/"invocation.json").read_text())
         expected_env = dict(ENV, LLMDB_ROOT=str(self.root))
-        self.assertEqual(actual["argv"], [str(self.root/"tools/new1_supervisor.py"), "--prereg-sha", PIN])
+        self.assertEqual(actual["argv"], [str(self.root/"code/lab/runners/new1_supervisor.py"), "--prereg-sha", PIN])
         self.assertEqual(actual["executable"], str(self.root/".venv/bin/python"))
         self.assertEqual(actual["cwd"], str(self.root))
         self.assertEqual(actual["env"], expected_env)

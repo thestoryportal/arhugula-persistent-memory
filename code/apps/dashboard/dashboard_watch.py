@@ -1,7 +1,7 @@
 """Program-session watcher (run under Monitor): one line per change in the team's state, so the lead can act at once —
 a session starts waiting for an answer, stalls (no new step for 15 min while working), stops after an error, recovers,
 or finishes (a 'Worked for' line after working). Every 60 s; never touches a session.
-Usage: /usr/bin/python3 -B tools/dashboard_watch.py
+Usage: /usr/bin/python3 -B code/apps/dashboard/dashboard_watch.py
 """
 import os, sys, time
 

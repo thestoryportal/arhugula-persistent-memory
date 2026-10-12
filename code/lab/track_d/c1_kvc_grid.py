@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import io, contextlib, json, math, random
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -12,7 +12,7 @@ from memit.compute_ks import compute_ks
 
 # ============================================================================
 # C1-(a) — K-vs-C: compaction sub-batch CONFOUND BREAK (real country pool).
-# Pre-reg: docs/C1_KVC_PREREG.md (advisor-endorsed; do NOT use a fictional substrate).
+# Pre-reg: experiments/c1/design/C1_KVC_PREREG.md (advisor-endorsed; do NOT use a fictional substrate).
 # Extends d20_subbatch_sweep.py — my_edit/compute_P/inertness gate copied VERBATIM
 # (proven inert). ENGINE UNMODIFIED.
 # 2D grid: vary total-N (edited entities {25,50} -> N records {50,100}) AND chunk
@@ -25,7 +25,7 @@ from memit.compute_ks import compute_ks
 # MODEST scale (N<=100) by stimulus limit (78-entity pool); true-scale = C1 tier b.
 # ============================================================================
 ID=os.environ.get("MODEL_ID","Qwen/Qwen2.5-3B"); REV=os.environ.get("MODEL_REV","3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 FIELDS=["capital","language"]
 EDIT_SIZES=[int(x) for x in os.environ.get("EDIT_SIZES","25,50").split(",")]   # edited ENTITIES per N-level
@@ -115,7 +115,7 @@ print(f"  engine expr={eng_p:.4f} loc={eng_loc}% | harness-memit expr={my_p:.4f}
 if not ok: print("LAW#5 fail; HALT.", flush=True); sys.exit(0)
 
 # ---------- build NESTED edited sets + DISJOINT held-out set ----------
-scr=json.load(open(os.environ.get("SCREEN",f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))); sel=scr["selected"]
+scr=json.load(open(os.environ.get("SCREEN",f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))); sel=scr["selected"]
 ents=list(sel.keys())
 MAXE=max(EDIT_SIZES)
 if len(ents) < MAXE+HELDOUT_SZ:
@@ -205,7 +205,7 @@ print(f"\nANCHOR GATES (C=N reproduces A1-clean >=85% held-out & expr>=95%): {an
       f"[{[(c['cell'],c['heldout_bystander_correct_mean'],c['edit_expr_pct_mean']) for c in clean_cells]}]", flush=True)
 if not anchors_ok: print("⚠ ANCHOR GATE FAILED — endpoints did not reproduce A1-clean → harness suspect → NOT trustworthy (HALT per pre-reg LAW#3).", flush=True)
 
-out={"experiment":"C1_KVC_grid","prereg":"docs/C1_KVC_PREREG.md","decision_id":"D-C1KVC-1",
+out={"experiment":"C1_KVC_grid","prereg":"experiments/c1/design/C1_KVC_PREREG.md","decision_id":"D-C1KVC-1",
      "config":{"model":ID,"band":L,"null_thresh":NULL_THRESH,"L2":L2,"fields":FIELDS,
        "edit_sizes_entities":EDIT_SIZES,"heldout_entities":HELDOUT_SZ,"c_levels":C_LEVELS,
        "orderings_corrupt":ORD_CORRUPT,"orderings_clean":ORD_CLEAN,

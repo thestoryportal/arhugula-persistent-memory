@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, io, contextlib, json, math, random, traceback
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -11,8 +11,8 @@ from memit.compute_z import compute_z, get_module_input_output_at_words
 from memit.compute_ks import compute_ks
 # ============================================================================
 # §8.7 NUMERIC-THRESHOLD INSTRUMENT — Phase-0 repeat-variance DIAGNOSTIC.
-# Pre-reg: docs/SPEC_8_7_THRESHOLD_INSTRUMENT_PREREG.md (FROZEN 2026-06-21, D-D1-2).
-# Port of experiments/track_b/b1_size_dose_response.py — science path (my_edit/
+# Pre-reg: experiments/d1/design/SPEC_8_7_THRESHOLD_INSTRUMENT_PREREG.md (FROZEN 2026-06-21, D-D1-2).
+# Port of code/lab/track_b/b1_size_dose_response.py — science path (my_edit/
 # compute_P/compute_z/compute_ks/inertness gate) BEHAVIORALLY VERBATIM (LAW#5).
 # ADDED (measurement/flags only, science path UNCHANGED):
 #   (1) measure(): per held-out entity CONTINUOUS metrics — margin (correct-top
@@ -39,7 +39,7 @@ N_REPEAT=int(os.environ.get("N_REPEAT","5"))
 K_PICK=os.environ.get("K_PICK","")            # if set, skip picking, reuse this k (det run reuses non-det's pick)
 PICK_GRID=[int(x) for x in os.environ.get("PICK_GRID","18,24,30,36").split(",")]
 TOTAL_N=48; HELDOUT_N=24
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/{CFG['hp']}"); L=hp.layers
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/{CFG['hp']}"); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 TAG=("det" if DETERMINISTIC else "nondet")
 
@@ -150,7 +150,7 @@ if not ok:
 torch.cuda.empty_cache()
 
 # ---------- pools (== B1: held-out baseline-correct capital, disjoint from edit pool) ----------
-sel=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+sel=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
 ents_all=[x for x in sel if all(r in sel[x] and "truth" in sel[x][r] for r in ["capital","language"])]
 base_correct=[e for e in ents_all if correct(predict(TMPL["capital"].format(e))["tok"], sel[e]["capital"]["truth"])]
 print(f"\nentities={len(ents_all)} | baseline-correct on capital={len(base_correct)}", flush=True)

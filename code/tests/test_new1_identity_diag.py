@@ -19,7 +19,7 @@ from unittest import mock
 
 class IdentityDiagnosticTests(unittest.TestCase):
     def setUp(self):
-        self.assertTrue(Path('tools/new1_identity_diag.py').is_file(),
+        self.assertTrue(Path('code/lab/runners/new1_identity_diag.py').is_file(),
                         'the identity diagnostic has not been built')
         self.D = importlib.import_module('tools.new1_identity_diag')
         import numpy as np
@@ -319,7 +319,7 @@ class IdentityDiagnosticTests(unittest.TestCase):
         with self.assertRaises(FileExistsError): self.D.Output(directory)
 
     def test_cli_bad_script_pin_returns_nonzero_before_real_inputs(self):
-        proc = subprocess.run([sys.executable, '-B', 'tools/new1_identity_diag.py',
+        proc = subprocess.run([sys.executable, '-B', 'code/lab/runners/new1_identity_diag.py',
             '--scope-sha', '0' * 64, '--source-sha', '0' * 64],
             capture_output=True, text=True, timeout=3,
             env=dict(os.environ, LLMDB_ROOT=str(Path.cwd()), LLMDB_DEVICE='cpu',

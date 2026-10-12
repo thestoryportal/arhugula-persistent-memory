@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""D-C10q-stacked (docs/C10Q_STACKED_SOLVE_PREREG.md): two full harness passes, arms A1 + A2 + A7. In each pass the
+"""D-C10q-stacked (experiments/c10q/design/C10Q_STACKED_SOLVE_PREREG.md): two full harness passes, arms A1 + A2 + A7. In each pass the
 standard A7 edit is the single-edit reference; the A7 hook then applies a SECOND edit on top (through the harness's
 _ARM_STATE handle and the Z_OVERRIDE seam) and re-evaluates everything while both edits are applied.
   pass S      second edit aimed at z_post (re-solved on the once-edited model)   <- binding
@@ -15,17 +15,17 @@ for _k in ("MODEL_ID", "MODEL_REV", "C10_PROJECTOR", "N_EDIT", "C10_SUBJECT_OFFS
         raise SystemExit(f"refusing to run with inherited harness knob {_k}={os.environ[_k]!r}; the prereg fixes the harness defaults")
 os.environ["C10_ARMS"] = "A1_single,A2_coherent2,A7_coined_coined"
 os.environ["C10_RECIPES"] = "candidate"
-os.environ["HP_CANDIDATE"] = f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"
+os.environ["HP_CANDIDATE"] = f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"
 os.environ["CANDIDATE_NAME"] = "A7_stacked"
 os.environ["DECISION_ID"] = "D-C10q-stacked"
-os.environ["PREREG"] = f"{LLMDB_ROOT}/docs/C10Q_STACKED_SOLVE_PREREG.md"
-RES = f"{LLMDB_ROOT}/results/c10q_stacked"; os.makedirs(RES, exist_ok=True)
+os.environ["PREREG"] = f"{LLMDB_ROOT}/experiments/c10q/design/C10Q_STACKED_SOLVE_PREREG.md"
+RES = f"{LLMDB_ROOT}/experiments/c10q/runs/c10q_stacked"; os.makedirs(RES, exist_ok=True)
 os.environ["OUT"] = f"{RES}/passS.json"
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10e_bandknob as H
 import c10m_diag_arms as D            # fingerprint / compute_zs / z_record
 import c10n_ztransport_arms as Z      # geometry
-from c10p_twopass_arms import FRAME_SUBJECTS, frame_probe   # same six never-edited fictional subjects as CORPUS/49
+from c10p_twopass_arms import FRAME_SUBJECTS, frame_probe   # same six never-edited fictional subjects as evidence/CORPUS/49
 import torch
 from memit.memit_main import get_context_templates
 

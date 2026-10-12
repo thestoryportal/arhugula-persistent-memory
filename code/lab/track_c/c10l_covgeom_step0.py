@@ -14,13 +14,13 @@ Readouts per layer: rho_c, rho_p (declared operationalisation: R_p shares the sa
 ratio compares like with like), pi on the L3 control keys and the described-as keys, |dW|_F, null-space share; and after
 the whole band the realised residual at the z-layer on CANON and on PTEST (band-level rho). R0 also records the
 harness's float32 solve norm per layer so step 0 ties to the behavioural arm A's delta_norms.
-Output results/c10l_covgeom/step0_offline.json. Env: LLMDB_ROOT, OUT, STEP0_REGS (default R0,R1,R2,R3).
+Output experiments/c10l/runs/c10l_covgeom/step0_offline.json. Env: LLMDB_ROOT, OUT, STEP0_REGS (default R0,R1,R2,R3).
 """
 import os, sys, io, json, contextlib, time
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["C10_ARMS"] = "A7_coined_coined"
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10e_bandknob as H
 import torch
 from memit.memit_hparams import MEMITHyperParams
@@ -28,7 +28,7 @@ from memit.compute_z import compute_z, get_module_input_output_at_words
 from memit.compute_ks import compute_ks
 from memit.memit_main import get_context_templates, get_cov, upd_matrix_match_shape
 
-OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/results/c10l_covgeom/step0_offline.json")
+OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/experiments/c10l/runs/c10l_covgeom/step0_offline.json")
 REGS = os.environ.get("STEP0_REGS", "R0,R1,R2,R3").split(",")
 W_ENGINE = 5000.0
 hp = MEMITHyperParams.from_json(H.HP_BASE)
@@ -87,7 +87,7 @@ def main():
     print(f"zs computed ({time.time()-t0:.0f}s)", flush=True)
     zs_p = zs.repeat_interleave(len(H.PTEST), dim=1)                  # h x 72, subject order matches PARA_W
     cur0_c, cur0_p = cur_at([H.CANON] * len(H.FICTION), H.FICTION), cur_at(PARA_T, PARA_W)
-    out = {"decision_id": "D-C10l-covgeom", "prereg": f"{LLMDB_ROOT}/docs/C10L_COVGEOM_SPARSEBAND_PREREG.md", "step": "step 0 offline",
+    out = {"decision_id": "D-C10l-covgeom", "prereg": f"{LLMDB_ROOT}/experiments/c10l/design/C10L_COVGEOM_SPARSEBAND_PREREG.md", "step": "step 0 offline",
            "layers": LAYERS, "z_layer": Z_LAYER, "d": int(zs.shape[0]), "n": len(REQUESTS), "regularisers": {},
            "proxy_declaration": ("MIXED-PREFIX PROXY (advisor impl item 3): K_c = compute_ks WITH the engine's generated context prefixes "
                                  "(as the harness solves); K_p / K_ctrl / K_desc = direct prompt keys WITHOUT prefixes. rho_p is a proxy "

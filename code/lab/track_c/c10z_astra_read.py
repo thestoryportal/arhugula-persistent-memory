@@ -12,7 +12,7 @@ import zlib
 
 SCHEMA = "c10z_astra-v2.2"
 PREREG_SHA = "5ad59d2c960b44d18b5d1c5410028b969aab93298eed5d42c527bd81a4d18eac"
-REFERENCE_POPULATION_FILE = "results/c10z_astra_attempt4_prep/reference_R1000.json"
+REFERENCE_POPULATION_FILE = "experiments/c10z/runs/c10z_astra_attempt4_prep/reference_R1000.json"
 REFERENCE_POPULATION_SHA = "a477f1c4917de988682da097d460c3d70b4c3bd33856d83c1d0c7714f78aab68"
 ENGINE_SHA = "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
 A1, A2, A7 = "A1_single", "A2_coherent2", "A7_coined_coined"
@@ -87,7 +87,7 @@ def validate_reference_dataset(data,root=None,texts=False):
 
 def require_a1_freeze(root=None):
     root=Path(root) if root is not None else Path(__file__).resolve().parents[2]
-    try:raw=(root/"docs/C10Z_ASTRA_PREREG.md").read_bytes()
+    try:raw=(root/"experiments/c10z/design/C10Z_ASTRA_PREREG.md").read_bytes()
     except OSError as exc:raise Halt("HALTED-V12","A1 prereg unreadable") from exc
     require(hashlib.sha256(raw).hexdigest()==PREREG_SHA,"HALTED-V12","A1 prereg SHA differs")
     sections=raw.decode().split("## §12 Amendment A1-POPULATION\n")
@@ -439,8 +439,8 @@ def validate_manifest(parts,root=None):
     for group in ("engine_sources","hparams","screens","tokenizer","safetensors"):
         require(isinstance(parts[group],dict) and bool(parts[group]) and all(sha(v) for v in parts[group].values()),
                 "HALTED-V12","source/tokenizer SHA group "+group)
-    require(parts["engine_sources"].get("memit_dry_run/memit/memit/memit_main.py")==ENGINE_SHA and
-            "experiments/track_c/c10e_bandknob.py" in parts["engine_sources"] and
+    require(parts["engine_sources"].get("code/memit/vendor/memit/memit_main.py")==ENGINE_SHA and
+            "code/lab/track_c/c10e_bandknob.py" in parts["engine_sources"] and
             {"tokenizer.json","tokenizer_config.json"}<=parts["tokenizer"].keys(),
             "HALTED-V12","engine/harness/tokenizer identity omitted")
     require(set(parts["covariances"])==set(map(str,range(4,13))) and
@@ -756,7 +756,7 @@ def read_directory(out):
 
 
 def main():
-    out=Path(sys.argv[1]) if len(sys.argv)==2 else Path(LLMDB_ROOT)/"results/c10z_astra"
+    out=Path(sys.argv[1]) if len(sys.argv)==2 else Path(LLMDB_ROOT)/"experiments/c10z/runs/c10z_astra"
     reading=read_directory(out)
     print(json.dumps(reading,indent=2,allow_nan=False))
     return 0 if reading["scientific_verdict"] else 2

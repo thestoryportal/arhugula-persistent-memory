@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""D-C10p-twopass (docs/C10P_TWOPASS_SOLVE_PREREG.md): three full harness passes in one process, arms A1 + A2 + A7.
+"""D-C10p-twopass (experiments/c10p/design/C10P_TWOPASS_SOLVE_PREREG.md): three full harness passes in one process, arms A1 + A2 + A7.
   pass 1 baseline (engine targets; the A7 hook re-solves z_post on the once-edited model)
   pass 2 sham     (fresh edit aimed at the pre-edit z_pre through the Z_OVERRIDE seam: must reproduce pass 1)
   pass 3 two-pass (fresh edit aimed at z_post)                                           <- binding
@@ -11,13 +11,13 @@ os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["C10_ARMS"] = "A1_single,A2_coherent2,A7_coined_coined"      # A2 is a locality gate here (prereg §3)
 os.environ["C10_RECIPES"] = "candidate"
 # [LAW:parse-dont-validate] the run identity is FORCED for a frozen prereg (advisor item 4): no inherited env may redirect it
-os.environ["HP_CANDIDATE"] = f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"
+os.environ["HP_CANDIDATE"] = f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"
 os.environ["CANDIDATE_NAME"] = "A7_twopass"
 os.environ["DECISION_ID"] = "D-C10p-twopass"
-os.environ["PREREG"] = f"{LLMDB_ROOT}/docs/C10P_TWOPASS_SOLVE_PREREG.md"
-RES = os.environ.get("C10P_OUT_DIR", f"{LLMDB_ROOT}/results/c10p_twopass"); os.makedirs(RES, exist_ok=True)
+os.environ["PREREG"] = f"{LLMDB_ROOT}/experiments/c10p/design/C10P_TWOPASS_SOLVE_PREREG.md"
+RES = os.environ.get("C10P_OUT_DIR", f"{LLMDB_ROOT}/experiments/c10p/runs/c10p_twopass"); os.makedirs(RES, exist_ok=True)
 os.environ["OUT"] = f"{RES}/pass1.json"
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10e_bandknob as H             # loaded FIRST with the three arms above; later library imports cannot change H.ARMS
 import c10m_diag_arms as D            # fingerprint / compute_zs / z_record (its own env writes land after H is built)
 import c10n_ztransport_arms as Z      # geometry
@@ -25,7 +25,7 @@ import torch
 from memit.memit_main import get_context_templates
 
 V = H.ARMS["A7_coined_coined"]
-# CORPUS/43 same-frame locality: never-edited fictional subjects in the CANON frame (none is in H.FICTION); a flip = top-1
+# evidence/CORPUS/43 same-frame locality: never-edited fictional subjects in the CANON frame (none is in H.FICTION); a flip = top-1
 # equals the first token of any edited A7 value. The real-country half of that probe is the harness's L1 axis.
 FRAME_SUBJECTS = ["Vorbanth", "Quillexa", "Tremnok", "Oskavel", "Blynthar", "Durmquist"]
 assert not set(FRAME_SUBJECTS) & set(H.FICTION)

@@ -21,7 +21,7 @@ import c10z_astra_selftest as ST
 import c10z_v7_diag_selftest as VT
 
 ROOT = Path(__file__).resolve().parents[2]
-POP_PATH = "results/c10z_astra_attempt4_prep/reference_R1000.json"
+POP_PATH = "experiments/c10z/runs/c10z_astra_attempt4_prep/reference_R1000.json"
 POP_SHA = "a477f1c4917de988682da097d460c3d70b4c3bd33856d83c1d0c7714f78aab68"
 ARTIFACT = json.loads((ROOT / POP_PATH).read_bytes())
 ALTERNATIVE_ROW = None

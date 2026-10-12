@@ -1,6 +1,6 @@
 #!/bin/bash
 LLMDB_ROOT="${LLMDB_ROOT:-/workspace}"
-cd $LLMDB_ROOT/external_prior_art/larql
+cd $LLMDB_ROOT/code/vendor/external_prior_art/larql
 PID=$(pgrep -f 'larql convert' | head -1)
 if [ -n "$PID" ]; then
   u1=$(awk '{print $14}' /proc/$PID/stat); st1=$(awk '{print $15}' /proc/$PID/stat); sleep 6
@@ -14,7 +14,7 @@ echo "=== convert ended; vindex files ==="
 ls -la $LLMDB_ROOT/qwen05.vindex/ 2>/dev/null | awk '{print $5,$NF}'
 tail -4 $LLMDB_ROOT/logs/larql_convert.log
 echo "=== READ 1: larql run ==="
-HF_HOME=$LLMDB_ROOT/hf_cache timeout 150 target/release/larql run $LLMDB_ROOT/qwen05.vindex "The capital of France is" 2>&1 | tail -12
+HF_HOME=$LLMDB_ROOT/data/hf_cache timeout 150 target/release/larql run $LLMDB_ROOT/qwen05.vindex "The capital of France is" 2>&1 | tail -12
 echo "=== READ 2: LQL WALK (semantic read) ==="
-HF_HOME=$LLMDB_ROOT/hf_cache timeout 120 target/release/larql lql 'USE f"{LLMDB_ROOT}/qwen05.vindex"; WALK "The capital of France is" TOP 5;' 2>&1 | tail -12
+HF_HOME=$LLMDB_ROOT/data/hf_cache timeout 120 target/release/larql lql 'USE f"{LLMDB_ROOT}/qwen05.vindex"; WALK "The capital of France is" TOP 5;' 2>&1 | tail -12
 echo "T24_DONE"

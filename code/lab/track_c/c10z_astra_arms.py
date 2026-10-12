@@ -20,10 +20,10 @@ import c10z_astra_read as R
 from c10z_astra_benchmark import TEMPLATES
 
 ROOT = Path(__file__).resolve().parents[2]
-HP = "configs/hparams/qwen25_3b_memit_hparams.json"
-PREREG = "docs/C10Z_ASTRA_PREREG.md"
-HARNESS = "experiments/track_c/c10e_bandknob.py"
-ENGINE = "memit_dry_run/memit/memit"
+HP = "code/configs/hparams/qwen25_3b_memit_hparams.json"
+PREREG = "experiments/c10z/design/C10Z_ASTRA_PREREG.md"
+HARNESS = "code/lab/track_c/c10e_bandknob.py"
+ENGINE = "code/memit/vendor/memit"
 FRAME_SUBJECTS = ("Vorbanth","Quillexa","Tremnok","Oskavel","Blynthar","Durmquist")
 SETTINGS = R.SETTINGS
 INHERITED = ("C10_PROJECTOR","N_EDIT","C10_SUBJECT_OFFSET","C10_CTX_TEMPLATES",
@@ -308,8 +308,8 @@ def tensor_hash(tensor):return hashlib.sha256(tensor_bytes(tensor)).hexdigest()
 def source_hashes():
     paths=[ROOT/PREREG,ROOT/HARNESS,ROOT/HP,Path(__file__),Path(R.__file__),ROOT/R.REFERENCE_POPULATION_FILE]
     paths+=sorted(p for p in (ROOT/ENGINE).rglob("*") if p.is_file())
-    paths+=sorted((ROOT/"memit_dry_run/memit/util").rglob("*.py"))
-    paths+=sorted((ROOT/"memit_dry_run/memit/rome").rglob("*.py"))
+    paths+=sorted((ROOT/"code/memit/vendor/util").rglob("*.py"))
+    paths+=sorted((ROOT/"code/memit/vendor/rome").rglob("*.py"))
     return {str(p.relative_to(ROOT)):sha256_file(p) for p in paths}
 
 
@@ -495,16 +495,16 @@ class Session:
         self.unknown_allowances=dict(ALLOWANCES);self.initial_sources=source_hashes()
         R.require(self.initial_sources[PREREG]==R.PREREG_SHA,"HALTED-V12","frozen v2.2 source changed")
         R.require_a1_freeze(ROOT)
-        spec=importlib.util.spec_from_file_location("c10z_fingerprint",ROOT/"tools/engine_fingerprint.py")
+        spec=importlib.util.spec_from_file_location("c10z_fingerprint",ROOT/"code/memit/engine_fingerprint.py")
         fp=importlib.util.module_from_spec(spec);spec.loader.exec_module(fp)
         R.require(fp.main()==0,"HALTED-V1","engine fingerprint")
         self.fingerprint={"sha256":fp.EXPECTED_SHA256,"cov_cpu_sites":3,
-             "start":{k:v for k,v in self.initial_sources.items() if k==HARNESS or k.startswith("memit_dry_run/memit/")}}
+             "start":{k:v for k,v in self.initial_sources.items() if k==HARNESS or k.startswith("code/memit/vendor/")}}
         self.loaded_manifest=None
         if input_dir is not None:self.validate_inputs(Path(input_dir))
         budget.project(ALLOWANCES if process==1 else {"repeat_stages01":sum(ALLOWANCES.values())})
         self.budget.check()
-        os.environ.update(LLMDB_ROOT=str(ROOT),LLMDB_DEVICE="mps",HF_HOME=str(ROOT/"hf_cache"))
+        os.environ.update(LLMDB_ROOT=str(ROOT),LLMDB_DEVICE="mps",HF_HOME=str(ROOT/"data/hf_cache"))
         import torch
         torch.manual_seed(0)
         self.H=importlib.import_module("c10e_bandknob")
@@ -528,7 +528,7 @@ class Session:
         self.pristine={l:w.detach().cpu().clone() for l,w in self.weights.items()}
         self.layer_hashes={str(l):tensor_hash(w) for l,w in self.pristine.items()}
         self.H_pristine=combined.hexdigest()
-        snapshot=ROOT/"hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots"/H.REV
+        snapshot=ROOT/"data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots"/H.REV
         safetensors={p.name:sha256_file(p) for p in sorted(snapshot.glob("model*.safetensors"))}
         R.require(bool(safetensors),"HALTED-V12","no pinned safetensors files")
         pin={"H_pristine":self.H_pristine,"parameters":self.parameter_hashes,"layers":self.layer_hashes,"safetensors":safetensors}
@@ -1340,7 +1340,7 @@ class Session:
         write_json(self.out/"manifest.json",self.manifest)
 
     def input_parts(self):
-        H=self.H;snapshot=ROOT/"hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots"/H.REV
+        H=self.H;snapshot=ROOT/"data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots"/H.REV
         tokenizer_files={p.name:sha256_file(p) for p in sorted(snapshot.iterdir())
                          if p.is_file() and ("token" in p.name or p.name in ("vocab.json","merges.txt","config.json"))}
         R.require("tokenizer.json" in tokenizer_files and "tokenizer_config.json" in tokenizer_files,
@@ -1355,7 +1355,7 @@ class Session:
             "reference_population_sha256":R.REFERENCE_POPULATION_SHA,
             "engine_sources":self.fingerprint["start"],
             "hparams":{HP:sha256_file(ROOT/HP)},
-            "screens":{str(p.relative_to(ROOT)):sha256_file(p) for p in (ROOT/"configs/screens/g6_screen_qwen3b.json",ROOT/"configs/screens/g6_screen_qwen3b_v2.json")},
+            "screens":{str(p.relative_to(ROOT)):sha256_file(p) for p in (ROOT/"code/configs/screens/g6_screen_qwen3b.json",ROOT/"code/configs/screens/g6_screen_qwen3b_v2.json")},
             "covariances":{l:{"path":str(p),"sha256":sha256_file(p)} for l,p in self.covariance_paths().items()},
             "tokenizer":tokenizer_files,"batches":self.batches,
             "forward_settings":{"use_cache":False,"logits_to_keep":0,"padding_side":"right",
@@ -1434,7 +1434,7 @@ class Session:
             A_sum=sum(a["realised_layer_delta_norms"].values())
             z["write"]["patch_norm_Z_over_A"]=zero_column_ratio(A_sum,Z_sum)
         sources=source_hashes()
-        self.fingerprint["end"]={k:v for k,v in sources.items() if k==HARNESS or k.startswith("memit_dry_run/memit/")}
+        self.fingerprint["end"]={k:v for k,v in sources.items() if k==HARNESS or k.startswith("code/memit/vendor/")}
         R.require(self.initial_sources==sources,"HALTED-V1","source changed during process")
         hashes={name:sha256_file(self.out/name) for name in ("context_templates.json","dstats.pt","G.pt",
                   "pristine_hash.json","manifest.json","overlap_audit.json")}
@@ -1572,7 +1572,7 @@ def go_record(env):
 
 def benchmark_module():
     import importlib.util
-    spec=importlib.util.spec_from_file_location("c10z_launch_benchmark",ROOT/"experiments/track_c/c10z_astra_benchmark.py")
+    spec=importlib.util.spec_from_file_location("c10z_launch_benchmark",ROOT/"code/lab/track_c/c10z_astra_benchmark.py")
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     return module
 
@@ -1599,9 +1599,9 @@ def benchmark_binding(env,go):
     path=env.get("C10Z_BENCHMARK_RECORD")
     R.require(isinstance(path,str) and bool(path),"HALTED-V12","C10Z_BENCHMARK_RECORD is required")
     R.require(Path(path).is_absolute(),"HALTED-V12","C10Z_BENCHMARK_RECORD must be absolute")
-    root=(ROOT/"results/c10z_astra_benchmark").resolve();path=Path(path).resolve()
+    root=(ROOT/"experiments/c10z/runs/c10z_astra_benchmark").resolve();path=Path(path).resolve()
     R.require(path.is_relative_to(root) and path.parent.parent==root and path.name=="benchmark.json",
-              "HALTED-V12","benchmark record outside results/c10z_astra_benchmark")
+              "HALTED-V12","benchmark record outside experiments/c10z/runs/c10z_astra_benchmark")
     try:raw=path.read_bytes()
     except OSError as exc:raise R.Halt("HALTED-V12","benchmark record unreadable") from exc
     record_sha=hashlib.sha256(raw).hexdigest()
@@ -1609,7 +1609,7 @@ def benchmark_binding(env,go):
     record=strict_record(raw,"benchmark record is not strict JSON")
     fields=record.get("env",{}) if isinstance(record,dict) else {}
     fields=fields if isinstance(fields,dict) else {}
-    script=ROOT/"experiments/track_c/c10z_astra_benchmark.py"
+    script=ROOT/"code/lab/track_c/c10z_astra_benchmark.py"
     try:script_sha=sha256_file(script)
     except OSError as exc:raise R.Halt("HALTED-V12","benchmark script changed") from exc
     R.require(script_sha==fields.get("script_sha256")==go["benchmark_script_sha256"],
@@ -1647,10 +1647,10 @@ def benchmark_binding(env,go):
             "templates_sha256":templates_sha256},record,B
 
 
-INERTNESS_SOURCES=("experiments/track_c/c10z_astra_arms.py","experiments/track_c/c10z_astra_read.py",
-    "experiments/track_c/c10z_astra_telemetry_check.py","experiments/track_c/c10z_astra_benchmark.py",
-    "experiments/track_c/c10e_bandknob.py","configs/hparams/qwen25_3b_memit_hparams.json",
-    "memit_dry_run/memit/memit/memit_main.py")
+INERTNESS_SOURCES=("code/lab/track_c/c10z_astra_arms.py","code/lab/track_c/c10z_astra_read.py",
+    "code/lab/track_c/c10z_astra_telemetry_check.py","code/lab/track_c/c10z_astra_benchmark.py",
+    "code/lab/track_c/c10e_bandknob.py","code/configs/hparams/qwen25_3b_memit_hparams.json",
+    "code/memit/vendor/memit/memit_main.py")
 
 
 def inertness_binding(env,benchmark,B):
@@ -1899,7 +1899,7 @@ def wait_stage(out,stage,child=None,clock=time.monotonic,pause=time.sleep):
 def main():
     R.require(len(sys.argv)==2 and sys.argv[1] in ("0","1","2","3"),"HALTED-V12","usage: run_c10z_stage.sh <0|1|2|3>")
     R.require_a1_freeze(ROOT)
-    stage=int(sys.argv[1]);out=Path(os.environ.get("C10Z_OUT_DIR",str(ROOT/"results/c10z_astra"))).resolve()
+    stage=int(sys.argv[1]);out=Path(os.environ.get("C10Z_OUT_DIR",str(ROOT/"experiments/c10z/runs/c10z_astra"))).resolve()
     if os.environ.get("C10Z_RESIDENT")=="1":
         return resident(out,1,json.loads(os.environ["C10Z_LAUNCH"]))
     try:return stage_call(stage,out)

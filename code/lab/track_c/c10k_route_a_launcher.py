@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """C10K Route A launcher — ported official AnyEdit (AlphaEdit_ARE / memit_ARE) on Qwen2.5-3B base, local M3 Pro.
 
-Pre-registered in docs/C10K_ROUTEA_LOCAL_PORT_PREREG.md (D-C10k-route-a). This file is deviation D2:
+Pre-registered in experiments/c10k/design/C10K_ROUTEA_LOCAL_PORT_PREREG.md (D-C10k-route-a). This file is deviation D2:
 it replaces upstream experiments/evaluate_uns.py (which imports an unshipped package) and carries the
 runner's projector construction `get_project` (evaluate_uns.py:262-275) verbatim in semantics.
-The algorithm modules come from external_prior_art/AnyEdit_mps (deviation D1, device-only diff) and are
+The algorithm modules come from code/vendor/external_prior_art/AnyEdit_mps (deviation D1, device-only diff) and are
 imported UNCHANGED; the covariance is injected (D4) by rebinding the module attribute, not by editing it.
 
-Stages (each writes JSON under results/c10k_route_a/):
+Stages (each writes JSON under experiments/c10k/runs/c10k_route_a/):
   alignment   token-alignment gate for all arms (no model)
   projectors  P per band layer from the normalised cached moment + functional gate (wiki keys / A1 edit keys)
   anchor      dynamic anchor: 3 A1 items, MPS fp16 vs CPU fp32, same top-1 + update-norm ratio in [0.5, 2]
@@ -16,9 +16,9 @@ Stages (each writes JSON under results/c10k_route_a/):
 from __future__ import annotations
 import os, sys, io, json, math, time, argparse, contextlib
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-os.environ["HF_HOME"] = f"{LLMDB_ROOT}/hf_cache"; os.environ.setdefault("HF_HUB_OFFLINE", "1")
-ENGINE_ROOT = f"{LLMDB_ROOT}/memit_dry_run/memit"   # NOT on sys.path: the engine and upstream both own a top-level `util` package
-ANYEDIT_MPS = os.environ.get("ANYEDIT_MPS", f"{LLMDB_ROOT}/external_prior_art/AnyEdit_mps")
+os.environ["HF_HOME"] = f"{LLMDB_ROOT}/data/hf_cache"; os.environ.setdefault("HF_HUB_OFFLINE", "1")
+ENGINE_ROOT = f"{LLMDB_ROOT}/code/memit/vendor"   # NOT on sys.path: the engine and upstream both own a top-level `util` package
+ANYEDIT_MPS = os.environ.get("ANYEDIT_MPS", f"{LLMDB_ROOT}/code/vendor/external_prior_art/AnyEdit_mps")
 if ANYEDIT_MPS not in sys.path: sys.path.insert(0, ANYEDIT_MPS)   # upstream's `util` (nethook, layer_stats) is the only `util` here
 
 def resolve_device():
@@ -26,10 +26,10 @@ def resolve_device():
     import importlib.util
     spec = importlib.util.spec_from_file_location("engine_device", f"{ENGINE_ROOT}/util/device.py"); m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
     return m.resolve_device()
-OUTDIR = f"{LLMDB_ROOT}/results/c10k_route_a"; os.makedirs(OUTDIR, exist_ok=True)
+OUTDIR = f"{LLMDB_ROOT}/experiments/c10k/runs/c10k_route_a"; os.makedirs(OUTDIR, exist_ok=True)
 ID, REV = "Qwen/Qwen2.5-3B", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 LN2 = math.log(2.0)
-# ---- stimuli: copied VERBATIM from experiments/track_c/c10h_anyedit_pilot.py (prereg §3) ----
+# ---- stimuli: copied VERBATIM from code/lab/track_c/c10h_anyedit_pilot.py (prereg §3) ----
 CANON = "The capital of {} is the city of"
 PTEST = ["{}'s capital city is called", "If you visit {}, its capital city is", "The main city and seat of government of {} is"]
 FICTION_ALL = ["Zorbland", "Quaxil", "Plurnak", "Vythorn", "Glimsto", "Drennik", "Yastovel", "Crulpane",
@@ -44,7 +44,7 @@ N = int(os.environ.get("N_EDIT", "24"))
 def ids(tok, s): return tok(s, add_special_tokens=False)["input_ids"]
 
 def build_stimuli(tok, n=N):
-    scr = json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+    scr = json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
     caps = sorted({scr[c]["capital"]["truth"] for c in scr})
     single_v = [k for k in caps if len(ids(tok, " " + k)) == 1]
     coherent2 = [k for k in caps if len(ids(tok, " " + k)) == 2]
@@ -55,7 +55,7 @@ def build_stimuli(tok, n=N):
 
 def real_country_set(tok, k=12):
     """12 real countries NOT edited by any arm, for the unrelated-knowledge locality bound (prereg §3 (a))."""
-    scr = json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json"))["selected"]
+    scr = json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b.json"))["selected"]
     return [(c, scr[c]["capital"]["truth"]) for c in sorted(scr)][:k]
 
 def stock_item():
@@ -121,7 +121,7 @@ def import_upstream(alg):
         from memit_ARE.memit_ARE_hparams import MEMITAREHyperParams as HP; import memit_ARE.memit_ARE_main as M
         return HP, M, M.apply_memit_ARE_to_model
 
-HP_LAYERS = [4, 5, 6, 7, 8]; HP_TMP = "model.layers.{}.mlp.down_proj"   # mirrors configs/hparams/anyedit_alphaedit_are_qwen25_3b.json (asserted in stage_run)
+HP_LAYERS = [4, 5, 6, 7, 8]; HP_TMP = "model.layers.{}.mlp.down_proj"   # mirrors code/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json (asserted in stage_run)
 
 def empty_cache_if_mps(dev):
     import torch, gc
@@ -130,7 +130,7 @@ def empty_cache_if_mps(dev):
 def normalised_cov(layer_name):
     """Deviation D4: upstream get_cov returns stat.mom2.moment() = mom2 / count. Same statistic from the program's cache."""
     import numpy as np, torch
-    d = np.load(f"{LLMDB_ROOT}/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/{layer_name}_float32_mom2_t100_100000.npz", allow_pickle=True)
+    d = np.load(f"{LLMDB_ROOT}/data/covariance/Qwen_Qwen2.5-3B/wikipedia_stats/{layer_name}_float32_mom2_t100_100000.npz", allow_pickle=True)
     return torch.from_numpy(d["mom2.mom2"]).float() / float(d["mom2.count"])
 
 def get_project_verbatim(cov_cpu, threshold):
@@ -146,7 +146,7 @@ def controls_reading():
 
 def load_P(path):
     """Amendment 1 v2 §4 wiring parity (enforced): the stacked per-layer projector is loaded verbatim and its full SHA-256 must equal
-    the P_sha256 recorded by c10k_route_a_gate_v2.py in results/c10k_route_a/projector_gate_v2.json; mismatch aborts before any edit."""
+    the P_sha256 recorded by c10k_route_a_gate_v2.py in experiments/c10k/runs/c10k_route_a/projector_gate_v2.json; mismatch aborts before any edit."""
     import torch, hashlib
     gate = json.load(open(f"{OUTDIR}/projector_gate_v2.json")); sha = hashlib.sha256(open(path, "rb").read()).hexdigest()
     print(f"projector: {os.path.basename(path)} sha256[:12]={sha[:12]} (gate record {gate['P_sha256'][:12]}, gate_ok={gate['gate_ok']})", flush=True)
@@ -304,8 +304,8 @@ def stage_anchor(a):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("stage", choices=["alignment", "projectors", "anchor", "run"])
     ap.add_argument("--recipe", default="R1"); ap.add_argument("--arms", default="A1_single,A2_coherent2")
-    ap.add_argument("--hparams", default=f"{LLMDB_ROOT}/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json")
-    ap.add_argument("--P", default=f"{LLMDB_ROOT}/logs/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt",
+    ap.add_argument("--hparams", default=f"{LLMDB_ROOT}/code/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json")
+    ap.add_argument("--P", default=f"{LLMDB_ROOT}/experiments/c10k/runs/c10k_route_a/bulk/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt",
                     help="stacked per-layer projector tensor from c10k_route_a_gate_v2.py (Amendment 1, D8: per-layer thresholds)")
     a = ap.parse_args(); return {"alignment": stage_alignment, "projectors": stage_projectors, "anchor": stage_anchor, "run": stage_run}[a.stage](a)
 

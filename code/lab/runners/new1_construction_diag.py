@@ -18,17 +18,17 @@ sys.path.insert(0, str(ROOT))
 from tools import new1_identity_diag as I
 G, S = I.G, I.S
 
-SCOPE = ROOT / 'results/mathlab_staging/new1_construction_diag_scope.md'
+SCOPE = ROOT / 'experiments/new1/design/new1_construction_diag_scope.md'
 DIMENSION = 11008
 CACHE, CAPTURE, MANIFEST, INPUT_PINS = I.CACHE, I.CAPTURE, I.MANIFEST, I.INPUT_PINS
 SOURCE_PINS = {**I.SOURCE_PINS,
-    'tools/new1_identity_diag.py': '919b3a11a836973ea4c0d2abdd2514634ea62792e6009e828a63d81f297c3d0d',
-    'results/mathlab_staging/new1_construction_diag_authorization.md': 'e7c445af835248b6722e04449f4f6a88a41c4d39f03fc6da41841c8ea23254f5',
-    'results/mathlab_staging/new1_identity_diag_astra.md': 'cdc1a94a3a361aa1d26e363b67eb02c694e1425fc0576542ddf8810000912f20',
-    'tools/mathlab_admit.py': 'bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc',
-    'tools/mathlab_runtime.py': '416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5',
-    'tools/mathlab_events.py': '53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f',
-    'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md': '1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f',
+    'code/lab/runners/new1_identity_diag.py': '919b3a11a836973ea4c0d2abdd2514634ea62792e6009e828a63d81f297c3d0d',
+    'experiments/new1/rulings/new1_construction_diag_authorization.md': 'e7c445af835248b6722e04449f4f6a88a41c4d39f03fc6da41841c8ea23254f5',
+    'experiments/new1/reviews/new1_identity_diag_astra.md': 'cdc1a94a3a361aa1d26e363b67eb02c694e1425fc0576542ddf8810000912f20',
+    'code/apps/mathlab/mathlab_admit.py': 'bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc',
+    'code/apps/mathlab/mathlab_runtime.py': '416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5',
+    'code/apps/mathlab/mathlab_events.py': '53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f',
+    'experiments/new1/design/NEW1_ADAPTER_GEOMETRY_PREREG.md': '1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f',
 }
 CONSTRUCTIONS = (('list_shared', 'list', 'shared'), ('list_separate', 'list', 'separate'),
                  ('long_shared', 'long', 'shared'), ('long_separate', 'long', 'separate'))
@@ -209,7 +209,7 @@ def launch_command(scope_sha, source_sha):
             ') || exit "$?"\n'
             'LLMDB_ROOT="$PWD" LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES=\'\' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 '
             'PYTHONDONTWRITEBYTECODE=1 /usr/bin/nice -n "$new1_nice_increment" .venv/bin/python -B '
-            'tools/new1_construction_diag.py --scope-sha ' + scope_sha + ' --source-sha ' + source_sha)
+            'code/lab/runners/new1_construction_diag.py --scope-sha ' + scope_sha + ' --source-sha ' + source_sha)
 
 
 def main(argv=None):
@@ -234,7 +234,7 @@ def main(argv=None):
         I.check_enforcement()
         with S.hard_deadline(start+I.DEADLINE_S-time.monotonic()):
             G.verify_file(Path(__file__), args.source_sha)
-            directory = new_directory(ROOT / 'results/mathlab_staging/new1_construction_diag')
+            directory = new_directory(ROOT / 'experiments/new1/runs/new1_construction_diag')
         command = [sys.executable, '-B', str(Path(__file__).resolve()), '--worker',
                    '--scope-sha', args.scope_sha, '--source-sha', args.source_sha]
         status = I.supervise(command, directory, preflight=lambda: verify_launch(args.scope_sha, args.source_sha),

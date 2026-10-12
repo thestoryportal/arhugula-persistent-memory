@@ -33,8 +33,8 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey,
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 from cryptography.exceptions import InvalidSignature
 
-LEDGER_PATH = f"{LLMDB_ROOT}/results/g2_state_ledger.jsonl"
-RESULT_PATH = f"{LLMDB_ROOT}/results/g2_result.json"
+LEDGER_PATH = f"{LLMDB_ROOT}/experiments/g2/runs/g2/g2_state_ledger.jsonl"
+RESULT_PATH = f"{LLMDB_ROOT}/experiments/g2/runs/g2/g2_result.json"
 OVERLAY_SRC = "/dev/shm/cp1_work/overlay_fd3c63598e94.vlp"   # a real overlay artifact to sign/verify
 WORK        = "/dev/shm/g2_work"
 

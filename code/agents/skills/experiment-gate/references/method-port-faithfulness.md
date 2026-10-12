@@ -2,7 +2,7 @@
 
 External method ports need a source-faithful active easy-control gate before hard-case science.
 
-Required packet fields for `tools/experiment_gate.py audit-method-port`:
+Required packet fields for `code/gates/experiment_gate.py audit-method-port`:
 
 - `upstream_commit`
 - `upstream_hparams`

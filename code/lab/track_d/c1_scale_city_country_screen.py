@@ -1,6 +1,6 @@
 import os, sys, json, collections
 LLMDB_ROOT=os.environ.get("LLMDB_ROOT","/workspace")
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import geonamescache
@@ -105,10 +105,10 @@ out={"model":ID,"template":TMPL,"conf_floor":CONF,"n_candidates":len(cand),
      "core_pool_conf>=0.8":len(core_pool),
      "achievable_high_concentration_N_single_relation":n_pass,
      "passed_sample":[{k:r[k] for k in ("city","country","maxprob")} for r in passed[:50]]}
-json.dump(out,open(f"{LLMDB_ROOT}/results/c1_scale_city_country_screen.json","w"),indent=1,default=str)
+json.dump(out,open(f"{LLMDB_ROOT}/experiments/c1/runs/c1_scale_city_country_screen/c1_scale_city_country_screen.json","w"),indent=1,default=str)
 # also dump the full passed pool for downstream pool-build
 json.dump([{k:r[k] for k in ("city","country","maxprob")} for r in passed],
-          open(f"{LLMDB_ROOT}/results/c1_scale_city_country_pool.json","w"),indent=0,default=str)
+          open(f"{LLMDB_ROOT}/experiments/c1/runs/c1_scale_city_country_pool/c1_scale_city_country_pool.json","w"),indent=0,default=str)
 print(f"\n=== SCREEN RESULT ===", flush=True)
 print(f"  candidates: {len(cand)} | native-correct: {n_correct} | PASS (correct & conf>={CONF}): {n_pass}", flush=True)
 print(f"  distinct PASS countries: {len(by_country)} | CORE pool (conf>=0.8): {len(core_pool)}", flush=True)

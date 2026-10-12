@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """D-C10w-oracle P2: decide, model-free, whether one P2 stage may dispatch now.
 
-Folds the P2 pre-run review (results/c10w_oracle_reviews/p2_prerun_{astra,advisor}.md):
+Folds the P2 pre-run review (experiments/c10w/reviews/c10w_oracle_reviews/p2_prerun_{astra,advisor}.md):
 engine fingerprint bound to this worktree before every stage (Astra B3), a fail-closed
 GPU-exclusivity inspection over the whole process inventory (Astra B1, advisor A3), and
 the dispatcher's own frozen-source / authorization / projection guards replayed before
@@ -21,9 +21,9 @@ PY = W / ".venv/bin/python"
 # (no torch import); anything else - including an unknown Python - blocks the stage.
 COMPUTE_EXE = re.compile(r"(?i)^(python[0-9.]*|.*ollama.*|.*llama.*|.*mlx.*)$")
 EXEMPT = (
-    # Lab View static server + its 60 s rebuild (stdlib / matplotlib, tools/labviz_serve.sh)
-    r"^\S*\.venv/bin/python -B -m http\.server 8765 --bind 0\.0\.0\.0 --directory results/labviz/site$",
-    r"^\S*\.venv/bin/python -B tools/labviz/build\.py$",
+    # Lab View static server + its 60 s rebuild (stdlib / matplotlib, code/apps/labviz/labviz_serve.sh)
+    r"^\S*\.venv/bin/python -B -m http\.server 8765 --bind 0\.0\.0\.0 --directory projects/labviz-spec-v3/receipts/bulk/labviz/site$",
+    r"^\S*\.venv/bin/python -B code/apps/labviz/build\.py$",
     # context watcher (reads a transcript jsonl)
     r"^\S*\.venv/bin/python -B \S*/tools/context_watch\.py \S+\.jsonl \d+ \d+$",
     # model-free readers of this program (no torch import: checked 2026-10-07)
@@ -67,7 +67,7 @@ def run(cmd, env=None):
 
 def check_fingerprint():
     # [LAW:single-enforcer] the fingerprint tool is THE engine check; bind it to W, never inherit LLMDB_ROOT.
-    rc, out, err = run([str(PY), "-B", str(W / "tools/engine_fingerprint.py")], env=dict(os.environ, LLMDB_ROOT=str(W)))
+    rc, out, err = run([str(PY), "-B", str(W / "code/memit/engine_fingerprint.py")], env=dict(os.environ, LLMDB_ROOT=str(W)))
     return {"ok": rc == 0, "rc": rc, "output": (out + err).strip()}
 
 
@@ -87,7 +87,7 @@ def check_gpu():
 
 def _check_dispatch_guards(stage):
     """Replay the dispatcher's read-only guards for this stage (c10w_oracle_step0.dispatch_stage)."""
-    sys.path.insert(0, str(W / "experiments/track_c"))
+    sys.path.insert(0, str(W / "code/lab/track_c"))
     import c10w_oracle_read as R, c10w_oracle_step0 as S, c10w_oracle_train as T
     rec = {}
     try:
@@ -135,7 +135,7 @@ def _check_dispatch_guards(stage):
 
 def check_dispatch_guards(stage, reattempt_directory=None):
     if reattempt_directory is None: return _check_dispatch_guards(stage)
-    sys.path.insert(0, str(W / "experiments/track_c"))
+    sys.path.insert(0, str(W / "code/lab/track_c"))
     import c10w_oracle_read as R, c10w_p2_rerun as A
     try:
         R.require(stage=="p2-eval", "re-attempt is only for p2-eval")

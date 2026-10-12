@@ -1,5 +1,5 @@
 {
-  "source": "docs/c10_scoreboard.json results only",
+  "source": "program/registers/c10_scoreboard.json results only",
   "entries": [
     {
       "id": "evaluation-0",
@@ -10,14 +10,14 @@
         "best": 26,
         "kind": "write",
         "verdict": "Problem found: made-up pairs do not stick",
-        "ref": "CORPUS/35"
+        "ref": "evidence/CORPUS/35"
       },
       "question": "Would this help: First test: two-word names, usual method?",
       "result": "26 of 72 (real-word pairs 70). Problem found: made-up pairs do not stick",
       "rules_out": "The recorded limit: Problem found: made-up pairs do not stick. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/35"
+      "ref": "evidence/CORPUS/35"
     },
     {
       "id": "evaluation-1",
@@ -28,14 +28,14 @@
         "best": 22,
         "kind": "write",
         "verdict": "Worse than expected: this is the core problem",
-        "ref": "CORPUS/36"
+        "ref": "evidence/CORPUS/36"
       },
       "question": "Would this help: Realistic made-up project names?",
       "result": "14 to 22 of 72. Worse than expected: this is the core problem",
       "rules_out": "The recorded limit: Worse than expected: this is the core problem. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/36"
+      "ref": "evidence/CORPUS/36"
     },
     {
       "id": "evaluation-2",
@@ -46,14 +46,14 @@
         "best": 15,
         "kind": "write",
         "verdict": "No knob fixes it",
-        "ref": "CORPUS/37-39"
+        "ref": "evidence/CORPUS/37-39"
       },
       "question": "Would this help: Tuning knobs (depth, strength, statistics)?",
       "result": "at best 15 of 72. No knob fixes it",
       "rules_out": "The recorded limit: No knob fixes it. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/37-39"
+      "ref": "evidence/CORPUS/37-39"
     },
     {
       "id": "evaluation-3",
@@ -64,14 +64,14 @@
         "best": 0,
         "kind": "stopped",
         "verdict": "Stopped: did not work here",
-        "ref": "CORPUS/42"
+        "ref": "evidence/CORPUS/42"
       },
       "question": "Would this help: Published method (AnyEdit) ported to the Mac?",
       "result": "0 of 72 reworded. Stopped: did not work here",
       "rules_out": "The recorded limit: Stopped: did not work here. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/42"
+      "ref": "evidence/CORPUS/42"
     },
     {
       "id": "evaluation-4",
@@ -82,14 +82,14 @@
         "best": 13,
         "kind": "write",
         "verdict": "No help; but injecting the target directly gives 49",
-        "ref": "CORPUS/44"
+        "ref": "evidence/CORPUS/44"
       },
       "question": "Would this help: Change the solver's maths?",
       "result": "8 to 13 of 72. No help; but injecting the target directly gives 49",
       "rules_out": "The recorded limit: No help; but injecting the target directly gives 49. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/44"
+      "ref": "evidence/CORPUS/44"
     },
     {
       "id": "evaluation-5",
@@ -100,14 +100,14 @@
         "best": 46,
         "kind": "write",
         "verdict": "Best route found; partial",
-        "ref": "CORPUS/45"
+        "ref": "evidence/CORPUS/45"
       },
       "question": "Would this help: One new vocabulary word per name?",
       "result": "39 to 46 of 72. Best route found; partial",
       "rules_out": "The recorded limit: Best route found; partial. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/45"
+      "ref": "evidence/CORPUS/45"
     },
     {
       "id": "evaluation-6",
@@ -118,14 +118,14 @@
         "best": 61,
         "kind": "injection",
         "verdict": "Proves a good-enough target exists for this model",
-        "ref": "CORPUS/47"
+        "ref": "evidence/CORPUS/47"
       },
       "question": "Would this help: Recomputed target, injected directly (not a write)?",
       "result": "61 of 72. Proves a good-enough target exists for this model",
       "rules_out": "The recorded limit: Proves a good-enough target exists for this model. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/47"
+      "ref": "evidence/CORPUS/47"
     },
     {
       "id": "evaluation-7",
@@ -136,14 +136,14 @@
         "best": 21,
         "kind": "write",
         "verdict": "Not enough gain",
-        "ref": "CORPUS/49"
+        "ref": "evidence/CORPUS/49"
       },
       "question": "Would this help: A second write on top of the first?",
       "result": "21 of 72 (vs 13). Not enough gain",
       "rules_out": "The recorded limit: Not enough gain. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/49"
+      "ref": "evidence/CORPUS/49"
     },
     {
       "id": "evaluation-8",
@@ -154,14 +154,14 @@
         "best": 24,
         "kind": "write",
         "verdict": "Doubles recall but disturbs other facts",
-        "ref": "CORPUS/50"
+        "ref": "evidence/CORPUS/50"
       },
       "question": "Would this help: Stacked second write?",
       "result": "24 of 72 (vs 12). Doubles recall but disturbs other facts",
       "rules_out": "The recorded limit: Doubles recall but disturbs other facts. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/50"
+      "ref": "evidence/CORPUS/50"
     },
     {
       "id": "evaluation-9",
@@ -190,14 +190,14 @@
         "best": null,
         "kind": "inconclusive",
         "verdict": "Solver could not fit it twice; inconclusive",
-        "ref": "CORPUS/51-52"
+        "ref": "evidence/CORPUS/51-52"
       },
       "question": "Would this help: Step 1: fit three wordings at once?",
       "result": "not scored. Solver could not fit it twice; inconclusive",
       "rules_out": "The recorded limit: Solver could not fit it twice; inconclusive. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/51-52"
+      "ref": "evidence/CORPUS/51-52"
     },
     {
       "id": "evaluation-11",
@@ -208,14 +208,14 @@
         "best": 23,
         "kind": "write",
         "verdict": "Small gain with side effects; no",
-        "ref": "CORPUS/53"
+        "ref": "evidence/CORPUS/53"
       },
       "question": "Would this help: Step 2: second address inside the name?",
       "result": "23 of 72 (vs 15). Small gain with side effects; no",
       "rules_out": "The recorded limit: Small gain with side effects; no. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/53"
+      "ref": "evidence/CORPUS/53"
     },
     {
       "id": "evaluation-12",
@@ -226,14 +226,14 @@
         "best": 46,
         "kind": "inconclusive",
         "verdict": "No clear answer: the two-word version could not be tested; the earlier one-word method repeated its result (provisional until you confirm)",
-        "ref": "CORPUS/54"
+        "ref": "evidence/CORPUS/54"
       },
       "question": "Would this help: Step 3: new vocabulary word per name (repeat)?",
       "result": "46, 37, 40 of 72 (vs 14). No clear answer: the two-word version could not be tested; the earlier one-word method repeated its result (provisional until you confirm)",
       "rules_out": "The recorded limit: No clear answer: the two-word version could not be tested; the earlier one-word method repeated its result (provisional until you confirm). This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/54"
+      "ref": "evidence/CORPUS/54"
     },
     {
       "id": "evaluation-13",
@@ -244,14 +244,14 @@
         "best": 70,
         "kind": "inconclusive",
         "verdict": "Interim: training reaches 70 of 72 but disturbs nearby facts asked the same way; needs a repeat run before it counts",
-        "ref": "CORPUS/55"
+        "ref": "evidence/CORPUS/55"
       },
       "question": "Would this help: Step 5: ceiling test, first round (training, not a write)?",
       "result": "70 of 72 (interim, one seed). Interim: training reaches 70 of 72 but disturbs nearby facts asked the same way; needs a repeat run before it counts",
       "rules_out": "The recorded limit: Interim: training reaches 70 of 72 but disturbs nearby facts asked the same way; needs a repeat run before it counts. This applies to the tested setup.",
       "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
       "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
-      "ref": "CORPUS/55"
+      "ref": "evidence/CORPUS/55"
     },
     {
       "id": "evaluation-14",
@@ -262,14 +262,14 @@
         "best": 12,
         "kind": "write",
         "verdict": "No: one more right answer than the usual method, and putting every fact at one fixed depth did just as well; not taken forward",
-        "ref": "CORPUS/56"
+        "ref": "evidence/CORPUS/56"
       },
       "question": "Would it help to let each fact pick its own layer of the model, instead of spreading every fact over the same five layers?",
       "result": "12 of 72 reworded questions right, against 11 for the usual method in the same run. Putting every fact at one fixed layer also got 12, and a scrambled choice of layers got 10. The new version also moved one nearby-fact check slightly past its allowed limit (86.17 against at least 87.0).",
       "rules_out": "This particular way of choosing a layer (one score, one choice of layers, one try, 24 facts) is not taken forward: it did not beat the fixed-layer or scrambled versions, and its gain of 1 is far below the 10 we required in advance.",
       "leaves_open": "Whether depth matters at all, whether a different way of choosing layers would work, and whether the choice of layers would come out the same with different background sentences (not measured). One small observation: a single fixed layer matched the usual method while changing the model about two-thirds as much.",
       "next_step": "None for this idea now. The ceiling test's repeat run (step 5) is running; steps 6 and 7 wait for its result.",
-      "ref": "CORPUS/56"
+      "ref": "evidence/CORPUS/56"
     },
     {
       "id": "evaluation-15",
@@ -280,14 +280,14 @@
         "best": 70,
         "kind": "inconclusive",
         "verdict": "Training this small part of the model can recall made-up two-word names at 70 to 71 of 72, so its size is not the wall; but it got there with side effects (other facts disturbed, general-knowledge loss on one run), so a clean ceiling is not shown",
-        "ref": "CORPUS/57"
+        "ref": "evidence/CORPUS/57"
       },
       "question": "Can training the same five layers the write method uses (not a write, just a measuring stick) get made-up two-word names right when the question is reworded, and do so without disturbing anything else?",
       "result": "Yes on recall, no on side effects. Two separate training runs answered 70 and 71 of 72 reworded questions right (the usual write method gets 9 to 16 across the same checks), and a repeat of the first run gave 70 again. But on both runs, other made-up names asked in the same training wordings were pulled toward the taught answers (15 of the 20 wordings over the limit), and one run lost 6 of 200 general-knowledge questions against a limit of 4.",
       "rules_out": "That these five layers are too small to hold the names: training reached 70 of 72 there. It does not rule out anything about write methods, because training is not a way to store facts in this design.",
       "leaves_open": "Whether any method can reach the goal on this part of the model without side effects: no run here was clean on every check, so there is no clean reference number to compare other methods against. A bigger training setting was not run, because the rules set in advance skip it after this kind of result.",
       "next_step": "Steps 6 and 7 go ahead on their own plans, without a reference number from this test.",
-      "ref": "CORPUS/57"
+      "ref": "evidence/CORPUS/57"
     },
     {
       "id": "evaluation-16",
@@ -298,14 +298,14 @@
         "best": 17,
         "kind": "write",
         "verdict": "No: re-weighting the answer's words gave 17 of 72 against 12, too small to count; the other idea made the ordinary control facts worse (64 and 65 of 72, below 68), so its score is not read, and its own answer-preparation step also missed its fit check (3 of 24 against 22); neither is taken forward",
-        "ref": "CORPUS/58"
+        "ref": "evidence/CORPUS/58"
       },
       "question": "Before the usual write puts a fact into the model, it first works out the answer the model should give. Can two published ways of working out that answer better make the write recall made-up two-word names when the question is reworded?",
       "result": "No. Re-weighting the words of the answer (an idea from a paper called OverTone) answered 17 of 72 reworded questions right, against 12 for the usual method in the same run; the rules set in advance needed far more. The second idea (from a paper on 'forward replay') made the ordinary control facts worse, 64 and 65 of 72 against the 68 they must keep, so its own score (9 of 72) is not read.",
       "rules_out": "These two specific packages, as set up here, as a way forward on this test. It does not rule out preparing the answer differently, other settings of either idea, or the ideas themselves elsewhere.",
       "leaves_open": "Why the second idea hurt the control facts: the run records that it put almost all of its change into the first of the five layers, but that does not show the cause.",
       "next_step": "Step 7 (measuring the best single weight change directly) when the machine has enough free memory; ASTRA attempt 3 is running now.",
-      "ref": "CORPUS/58"
+      "ref": "evidence/CORPUS/58"
     }
   ]
 }

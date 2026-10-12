@@ -32,7 +32,7 @@ jobs:
           command -v git
           command -v lsof
       - name: Check generated state
-        run: LLMDB_ROOT="$PWD" python3 -B -S tools/render_state.py --check
+        run: LLMDB_ROOT="$PWD" python3 -B -S code/state/render_state.py --check
       - name: Git automation fixtures
         run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest discover -s tests -p test_git_automation.py -v
       - name: Model-free repository suites

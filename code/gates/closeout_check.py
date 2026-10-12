@@ -7,7 +7,7 @@ close AFTER updating SESSION_CHECKPOINT and all required trackers, BEFORE declar
 
 Two layers:
   1. PRESENCE — the Decision-ID string appears in each canonical tracker.
-  2. CURRENCY (fingerprint) — for D-IDs registered in tools/closeout_fingerprints.json,
+  2. CURRENCY (fingerprint) — for D-IDs registered in code/gates/closeout_fingerprints.json,
      the gate hashes the canonical SOURCE span and requires the token '<D-ID>@<8hex>'
      in every tracker. When the source content changes, the hash changes, so any tracker
      still carrying the OLD token reads STALE (not GREEN) -> forces re-propagation of a
@@ -16,24 +16,24 @@ Two layers:
   D-IDs absent from the registry fall back to presence-only (back-compatible).
 
 Usage:
-  python3 tools/closeout_check.py D-D1-2     # exit 0 = all green, 1 = gaps/stale
-  python3 tools/closeout_check.py --fp D-D1-2  # print the current fingerprint token to embed
-  python3 tools/closeout_check.py --list     # print the required tracker set
+  python3 code/gates/closeout_check.py D-D1-2     # exit 0 = all green, 1 = gaps/stale
+  python3 code/gates/closeout_check.py --fp D-D1-2  # print the current fingerprint token to embed
+  python3 code/gates/closeout_check.py --list     # print the required tracker set
 """
 import sys, os, glob, filecmp, json, hashlib, re
 
 ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root; env overrides
 
 REQUIRED = [
-    ("EXPERIMENT_RUNBOOK.md",            "living roadmap (also §0.3/§12/§13 — section checks below)"),
-    ("SESSION_CHECKPOINT.md",            "fresh-context handoff"),
-    ("PROGRESS.md",                      "F1 readiness scorecard (①/③/④/⑤)"),
-    ("EVIDENCE_INDEX.md",                "evidence index"),
-    ("docs/EXPERIMENT_REGISTRY.md",      "experiment registry"),
-    ("CORPUS/00_MASTER_EVIDENCE.md",     "master evidence ledger"),
-    ("CORPUS/03_STATUS_LEDGER.md",       "status ledger"),
-    ("CORPUS/01_PROVENANCE_MANIFEST.md", "provenance (claim->artifact->numbers)"),
-    ("CORPUS/02_VANDV_CHAIN.md",         "V&V chain (hypothesis->criterion->verdict)"),
+    ("program/runbook/",            "living roadmap (also §0.3/§12/§13 — section checks below)"),
+    ("program/checkpoints/",            "fresh-context handoff"),
+    ("program/PROGRESS.md",                      "F1 readiness scorecard (①/③/④/⑤)"),
+    ("program/EVIDENCE_INDEX.md",                "evidence index"),
+    ("program/registers/EXPERIMENT_REGISTRY.md",      "experiment registry"),
+    ("evidence/CORPUS/00_MASTER_EVIDENCE.md",     "master evidence ledger"),
+    ("evidence/CORPUS/03_STATUS_LEDGER.md",       "status ledger"),
+    ("evidence/CORPUS/01_PROVENANCE_MANIFEST.md", "provenance (claim->artifact->numbers)"),
+    ("evidence/CORPUS/02_VANDV_CHAIN.md",         "V&V chain (hypothesis->criterion->verdict)"),
 ]
 _hr = sorted(glob.glob(os.path.join(ROOT, "docs/HYPOTHESIS_REGISTER_*.md")))
 if _hr:
@@ -49,7 +49,7 @@ def _read(path):
 
 def _load_registry():
     try:
-        return json.load(open(os.path.join(ROOT, "tools/closeout_fingerprints.json"), encoding="utf-8"))
+        return json.load(open(os.path.join(ROOT, "code/gates/closeout_fingerprints.json"), encoding="utf-8"))
     except (FileNotFoundError, ValueError):
         return {}
 
@@ -94,9 +94,9 @@ def currency_scan(tok, spec):
         return None, [], err
     fptok = f"{tok}@{fp}"
     # surfacing/entry/repro docs also participate so a result/state ties across the whole graph
-    EXTRA = ["README.md", "SESSION_BOOTSTRAP.md", "REPRODUCIBILITY.md", "CORPUS/README.md"]
+    EXTRA = ["README.md", "program/SESSION_BOOTSTRAP.md", "_system/governance/REPRODUCIBILITY.md", "evidence/CORPUS/README.md"]
     scope = ([p for p, _ in REQUIRED]
-             + [os.path.relpath(p, ROOT) for p in glob.glob(os.path.join(ROOT, "CORPUS/*.md"))]
+             + [os.path.relpath(p, ROOT) for p in glob.glob(os.path.join(ROOT, "evidence/CORPUS/*.md"))]
              + EXTRA)
     stale, seen = [], set()
     for path in scope:
@@ -153,7 +153,7 @@ def main():
         tok = sys.argv[2]
         spec = reg.get(tok)
         if not spec:
-            print(f"{tok}: no fingerprint registered (presence-only). Add it to tools/closeout_fingerprints.json to enable the currency check.")
+            print(f"{tok}: no fingerprint registered (presence-only). Add it to code/gates/closeout_fingerprints.json to enable the currency check.")
             sys.exit(0)
         fp, err = compute_fp(spec)
         if err:
@@ -191,9 +191,9 @@ def main():
         print("Required trackers (Decision-ID + current fingerprint must appear in each):")
         for p, d in REQUIRED:
             print(f"  - {p:42s} {d}")
-        print("  - CORPUS/NN_*.md                            the experiment writeup (>=1 file)")
-        print("  - EXPERIMENT_RUNBOOK.md  §0.3 + §12 + §13   (section-level)")
-        print("  - memory_mirror/  in sync with live memory  (advisory)")
+        print("  - evidence/CORPUS/NN_*.md                            the experiment writeup (>=1 file)")
+        print("  - program/runbook/  §0.3 + §12 + §13   (section-level)")
+        print("  - _system/memory/  in sync with live memory  (advisory)")
         print(f"\nFingerprint-registered D-IDs (currency-checked): {sorted(k for k in reg if not k.startswith('_')) or 'none'}")
         sys.exit(0 if (len(sys.argv) > 1 and sys.argv[1] == "--list") else 2)
 
@@ -212,7 +212,7 @@ def main():
             print(f"  content fingerprint: {fptok}   (source: {spec['source']})")
             print(f"  CURRENCY layer ON — trackers must carry '{fptok}', not just '{tok}'.")
     else:
-        print(f"  (no fingerprint registered — PRESENCE-ONLY; add {tok} to tools/closeout_fingerprints.json for the currency check)")
+        print(f"  (no fingerprint registered — PRESENCE-ONLY; add {tok} to code/gates/closeout_fingerprints.json for the currency check)")
     print("-" * 56)
 
     def record(label, path):
@@ -227,22 +227,22 @@ def main():
         if not ok:
             record(label, path)
 
-    # CORPUS writeup: >=1 CORPUS/NN_*.md must reference the D-ID AND be current
-    corpus_files = {os.path.basename(p): open(p, errors="replace").read() for p in glob.glob(os.path.join(ROOT, "CORPUS/*.md"))}
+    # CORPUS writeup: >=1 evidence/CORPUS/NN_*.md must reference the D-ID AND be current
+    corpus_files = {os.path.basename(p): open(p, errors="replace").read() for p in glob.glob(os.path.join(ROOT, "evidence/CORPUS/*.md"))}
     corpus_present = [n for n, t in corpus_files.items() if tok in t]
     corpus_current = [n for n in corpus_present if (not fptok or fptok in corpus_files[n])]
     if not corpus_present:
-        print(f"  [MISSING] CORPUS/NN writeup — none reference the D-ID"); missing.append("CORPUS/NN writeup")
+        print(f"  [MISSING] evidence/CORPUS/NN writeup — none reference the D-ID"); missing.append("evidence/CORPUS/NN writeup")
     elif not corpus_current:
-        print(f"  [STALE  ] CORPUS/NN writeup — has {tok} but not {fptok}: {corpus_present}"); stale.append("CORPUS/NN writeup")
+        print(f"  [STALE  ] evidence/CORPUS/NN writeup — has {tok} but not {fptok}: {corpus_present}"); stale.append("evidence/CORPUS/NN writeup")
     else:
-        print(f"  [GREEN  ] CORPUS/NN writeup — {corpus_current}")
+        print(f"  [GREEN  ] evidence/CORPUS/NN writeup — {corpus_current}")
 
     # Runbook section-level spans (each must carry the D-ID + current fingerprint)
-    rb = _read("EXPERIMENT_RUNBOOK.md") or ""
+    rb = _read("program/runbook/") or ""
     for name, seg in runbook_sections(rb).items():
         label, ok = status(seg, tok, fptok)
-        print(f"  [{label}] EXPERIMENT_RUNBOOK.md {name}")
+        print(f"  [{label}] program/runbook/ {name}")
         if not ok:
             record(label, f"runbook {name}")
 
@@ -251,7 +251,7 @@ def main():
     # (the mirror also carries team-written entries), so the invariant checked for it is "every index link resolves".
     live = os.environ.get("LLMDB_LIVE_MEMORY",
                           os.path.expanduser("~/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory"))
-    mir = os.path.join(ROOT, "memory_mirror")
+    mir = os.path.join(ROOT, "_system/memory")
     if not os.path.isdir(live):
         print(f"  [WARN   ] memory_mirror sync — live memory dir not found: {live} (set LLMDB_LIVE_MEMORY)")
     else:
@@ -262,7 +262,7 @@ def main():
     index = os.path.join(mir, "MEMORY.md")
     links = re.findall(r"\]\(([^)]+\.md)(?:#[^)]*)?\)", open(index).read())
     dead = sorted({p for p in links if not os.path.isfile(os.path.join(mir, p))})
-    print(f"  [{'GREEN  ' if not dead else 'WARN   '}] memory_mirror/MEMORY.md links" +
+    print(f"  [{'GREEN  ' if not dead else 'WARN   '}] _system/memory/MEMORY.md links" +
           (f" — dead: {dead}" if dead else ""))
 
     print("=" * 56)

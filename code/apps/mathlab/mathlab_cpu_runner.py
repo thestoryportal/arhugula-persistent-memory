@@ -14,7 +14,7 @@ from tools import mathlab_runtime as R
 
 
 def validate_notebook(notebook, deadline_s):
-    expected = {W / "mathlab/m2_solve_repro.py": (2, 6540), W / "mathlab/m3_calibration.py": (3, 1800)}
+    expected = {W / "code/apps/mathlab/m2_solve_repro.py": (2, 6540), W / "code/apps/mathlab/m3_calibration.py": (3, 1800)}
     notebook = Path(notebook).resolve()
     R.require(notebook in expected, "DEADLINE", "only the two frozen CPU notebooks may run")
     step, cap = expected[notebook]

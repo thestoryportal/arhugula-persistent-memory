@@ -2,7 +2,7 @@
 """Route A projector-threshold sensitivity DIAGNOSTIC (prereg §2 D4: run after an INVALID-projector gate; not a substitute).
 One SVD per band layer; for each candidate nullspace_threshold recompute the two functional ratios on the SAME
 calibration keys the gate used (200 held-out Wikipedia articles; the 24 A1 edit keys). No edits are run.
-Output: results/c10k_route_a/projector_threshold_sweep.json"""
+Output: experiments/c10k/runs/c10k_route_a/projector_threshold_sweep.json"""
 import os, sys, json, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import c10k_route_a_launcher as L
@@ -12,7 +12,7 @@ THRESHOLDS = [0.005, 0.01, 0.02, 0.03, 0.05, 0.1]
 def main():
     import torch
     dev = L.resolve_device(); tok, model = L.load_model(dev, torch.float16)
-    HP, M, _ = L.import_upstream("AlphaEdit_ARE"); hp = HP.from_json(f"{L.LLMDB_ROOT}/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json")
+    HP, M, _ = L.import_upstream("AlphaEdit_ARE"); hp = HP.from_json(f"{L.LLMDB_ROOT}/code/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json")
     fiction, arms = L.build_stimuli(tok)
     from datasets import load_dataset
     wiki = load_dataset("wikimedia/wikipedia", "20231101.en")["train"]; texts = [wiki[i]["text"][:600] for i in range(1_000_000, 1_000_200)]

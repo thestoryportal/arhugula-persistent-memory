@@ -7,10 +7,10 @@ _Block template: ID·Name·STATUS → Objective → Spec/KB refs → Rationale �
 
 ---
 #### A0 · G6.1 scale-of-N · **DONE (SPLIT)**
-RESULT: write-side PASS (ret 98%, expr 100%, within 95.6%, global 98.4%); cross-entity FAIL (held-out same-rel top-1 100→91.7→58.3→41.7%). Artifacts `g6_scale_n.py`, `g6_scale_n_result.json`, `CORPUS/13`. → opened Track A. **This is the falsifier all of Track A is measured against.**
+RESULT: write-side PASS (ret 98%, expr 100%, within 95.6%, global 98.4%); cross-entity FAIL (held-out same-rel top-1 100→91.7→58.3→41.7%). Artifacts `g6_scale_n.py`, `g6_scale_n_result.json`, `evidence/CORPUS/13`. → opened Track A. **This is the falsifier all of Track A is measured against.**
 
 ---
-#### A1 · Batch vs sequential write · **DONE — PASS (robust). `CORPUS/14`, `D-A1-1`.**
+#### A1 · Batch vs sequential write · **DONE — PASS (robust). `evidence/CORPUS/14`, `D-A1-1`.**
 RESULT: batch (single joint solve) ELIMINATES cross-entity corruption — staircase held-out edited-rel FLAT 100→100→100% (N=26/50/100) vs seq 92→58→42%; cross-JS 99.7→97.9%. PASS contradicting the registered PARTIAL/FAIL prediction → advisor-mandated batch's-own-staircase ruled out defers≠eliminates. Mechanism: cumulative cache_c leakage from the incremental schedule. FORK→PASS: fold batch in as Genesis mode; still run A2 for runtime path. Caveats: N≤100, 12 coarse probes, within-JS 95.6→90.5, one ordering, 3B.
 - **Objective / proves:** Does applying N shared-relation edits in ONE joint solve (batch) vs one-at-a-time (sequential) change cross-entity read corruption? Genesis is a batch write (§7.7), so we MUST characterize batch; we only tested sequential.
 - **Spec refs:** §7.7 (Genesis = atomic batch), §8.2, OQ-W1. **KB:** synthesis §3/§6; Perplexity (LocFT-BF breadth-first > depth-first; MEMIT `E_mix` null result); NotebookLM (batch "safer" but silent on shared-relation balance).
@@ -43,7 +43,7 @@ else:
 - **Novel/deep:** breadth-first relation re-solve (LocFT-BF) is the stronger batch variant if naive batch helps at all — periodically re-solve the whole relation block over accumulated keys + sentinels.
 
 ---
-#### A2 · Relation-balanced in-solve sentinels (3 disjoint pools) · **DONE — PARTIAL (strong, directional). `CORPUS/15`, `D-A2-1`.**
+#### A2 · Relation-balanced in-solve sentinels (3 disjoint pools) · **DONE — PARTIAL (strong, directional). `evidence/CORPUS/15`, `D-A2-1`.**
 RESULT: sentinels ~halve runtime-incremental cross-entity corruption — eval edited-rel 8/20→16–17/20 @N=100 (λ_s≈1–2; +8–9 probe lift ≫ 5%/probe noise), at retention (95→92%) + within (92.5→88%) cost. No λ_s clears ≥95%-eval+≥95%-retention → PARTIAL. Over-constraint wall past λ_s≈2. Robust trajectory: every arm still DECLINES N50→100 → entity-specific residual. Gates pass (gate2 bit-exact); control collapses; expr 100%; continent stable 100%. FORK→PARTIAL: A2b (recompute K_S) then A3 (BetaEdit) ±A4. D-A2-1 directional (single seed → no locked λ_s).
 - **Objective / proves:** Does adding *held-out same-relation* sentinel keys `K_S` to the preservation term **inside the solve** prevent cross-entity read corruption at scale, while keeping write-side wins? This is the principled "address = relation + ENTITY" fix.
 - **Spec refs:** §8.2 (D20 orthogonal-projection mandate — sentinels extend it), §7.3/§7.5 (relation families / polysemantic discipline), OQ-W1. **KB:** synthesis §3 (convergent #1); Perplexity rank-1 ("relation-balanced sentinels inside the solve; post-hoc is structurally late"); our Rung-3 history (post-hoc → 50%).
@@ -110,7 +110,7 @@ def my_edit_sentinel(requests, P, cache_c, Ks_per_layer):
 #### A3 · BetaEdit leakage-aware solve · **QUEUED (after A2b)**
 - **Objective:** Port BetaEdit (history-aware + pseudo-null-leakage compensation) and test whether it reduces cross-entity decay vs A0/A2 — and whether sentinels (A2) stack on top.
 - **Spec/KB:** §8.2/D20; synthesis §2/§5 (BetaEdit = SOTA successor, validated Qwen3-4B/[4-8]); Perplexity rank-1 evidence (stays nonzero at 10k edits where AlphaEdit collapses).
-- **Deps:** PORT official repo https://github.com/lbq8942/BetaEdit (cloned to external_prior_art/BetaEdit; arXiv 2605.09285 is real — IJCAI 2026, "BetaEdit: Null-Space Constrained Sequential Model Editing", Bingqing Liu, Wei Liu, Yuhua Li; repository `lbq8942/BetaEdit` live and device-portable; config `qwen2.5-3b.yaml` is for the Instruct model; corrected 2026-10-06; results/research_pass_2026-10-06/contradictions.md §1) — extract solve into `g6_scale_n.py`; cached cov. Optionally Qwen3-4B (B1) to anchor vs published curves.
+- **Deps:** PORT official repo https://github.com/lbq8942/BetaEdit (cloned to code/vendor/external_prior_art/BetaEdit; arXiv 2605.09285 is real — IJCAI 2026, "BetaEdit: Null-Space Constrained Sequential Model Editing", Bingqing Liu, Wei Liu, Yuhua Li; repository `lbq8942/BetaEdit` live and device-portable; config `qwen2.5-3b.yaml` is for the Instruct model; corrected 2026-10-06; knowledge/analyses/research-pass/research_pass_2026-10-06/contradictions.md §1) — extract solve into `g6_scale_n.py`; cached cov. Optionally Qwen3-4B (B1) to anchor vs published curves.
 - **Thresholds:** PASS = held-out top-1 decay materially flatter than A0 AND ≥ A2 alone. PARTIAL = helps but < A2-sentinels. FAIL = no improvement (then the leak isn't the dominant term; basis change A6).
 - **Prediction:** improves *general* sequential stability but, like its published specificity (43.9 @10k), **won't alone solve same-relation isolation** → best as the base solver A2's sentinels sit on. **FORKS:** PASS+stacks→ recipe = BetaEdit+sentinels → B1. else → A5/A6.
 - **Ripple:** establishes the strongest in-weight base; informs whether spec's write engine should adopt history-aware null-space. **Novel:** combine BetaEdit history term + A2 sentinels = leakage-compensated *relation-balanced* solve (not in any paper).
@@ -118,7 +118,7 @@ def my_edit_sentinel(requests, P, cache_c, Ks_per_layer):
 ---
 #### A4 · C15 / BLUE band test (early [4-8] vs mid-late [18-22]) · **QUEUED (cov ready now)**
 - **Objective:** Does editing in a C15-prescribed mid-late band reduce cross-entity bleed and/or change efficacy vs our early [4-8]? Resolves the CP3 C15 divergence + BLUE's "early layers are low-contribution/error-inducing."
-- **Spec/KB:** §8.2 **C15** (L15–25/32L; our [4-8] diverges), CP3 (`CORPUS/09`); KB BLUE (`s240_literature_scan`), Perplexity (try a later band). 
+- **Spec/KB:** §8.2 **C15** (L15–25/32L; our [4-8] diverges), CP3 (`evidence/CORPUS/09`); KB BLUE (`s240_literature_scan`), Perplexity (try a later band). 
 - **Deps:** cached Qwen2.5-3B; **mid-late cov [18-22] computing now**. Time ~30–50 min. No download.
 - **Thresholds:** informative comparison (not pass/fail of recipe). Outcome A: mid-late materially reduces cross-entity decay → C15 right, our band was the problem (spec keeps C15, we move band). Outcome B: no better → [4-8] not the cause; band is orthogonal to the cross-entity fix (feeds OQ-W2).
 - **Prediction:** mid-late may *help modestly* (more entity-specific, less shared-syntax structure) but won't fully fix cross-entity (mechanism is relation-sharing, not band). **FORKS:** if mid-late helps → run A2 in the better band; either way → Track D + spec C15 note.

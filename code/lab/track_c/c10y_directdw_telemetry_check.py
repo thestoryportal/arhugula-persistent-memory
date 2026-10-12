@@ -509,15 +509,15 @@ def main(argv=None):
     root = Path(ROOT).resolve()
     os.environ.update(LLMDB_ROOT=str(root), MODEL_ID="Qwen/Qwen2.5-3B",
                       MODEL_REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
-                      HP_BASE=str(root / "configs/hparams/qwen25_3b_memit_hparams.json"),
-                      HF_HOME=str(root / "hf_cache"))
+                      HP_BASE=str(root / "code/configs/hparams/qwen25_3b_memit_hparams.json"),
+                      HF_HOME=str(root / "data/hf_cache"))
     with A.phase_context(None,'telemetry_model_load'):
         H = importlib.import_module("c10e_bandknob")
     _require(str(H.DEV) == "mps", "live telemetry inertness check requires MPS")
     _require(H.REV == os.environ["MODEL_REV"], "live model revision differs from the frozen model")
     _require(H.model.config.num_hidden_layers == 36, "live model layer count differs from Qwen2.5-3B")
     _require(next(H.model.parameters()).dtype == H.torch.float16, "live model must be fp16")
-    H.hp = H.MEMITHyperParams.from_json(str(root / "configs/hparams/qwen25_3b_memit_hparams.json"))
+    H.hp = H.MEMITHyperParams.from_json(str(root / "code/configs/hparams/qwen25_3b_memit_hparams.json"))
     H.find_fact_lookup_idx = H.compute_z.__globals__["find_fact_lookup_idx"]
     return _check(out, H, A, preflight, started_at, args.halt_diagnostic)
 

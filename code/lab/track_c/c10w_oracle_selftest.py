@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Model-free, prereg-derived tests for D-C10w-oracle (oracle measurement, not a route).
 
-All line citations below refer to docs/C10W_ORACLE_PREREG.md at fb1788b.
+All line citations below refer to experiments/c10w/design/C10W_ORACLE_PREREG.md at fb1788b.
 Fixtures are synthetic records, never scientific evidence. Tensor regression uses CPU only.
 The suite imports copied sources under a temporary root; the live artifact trees are guarded.
 """
@@ -688,7 +688,7 @@ class OracleTests(unittest.TestCase):
         self.assertEqual(projection["P2_minutes"],6*20+20+10+4*10+3*10+6*15)
         self.assertEqual(projection["P3_minutes"],4*20+20+10+3*10+3*10+4*15)
         for stage in ("p2-a7-s1","p3-a7-s0"):
-            proc=subprocess.run(["/bin/bash",str(ROOT/"tools/run_c10w_stage.sh"),stage],
+            proc=subprocess.run(["/bin/bash",str(ROOT/"code/lab/runners/run_c10w_stage.sh"),stage],
                                 cwd=ROOT,env={"PATH":"/usr/bin:/bin","LLMDB_ROOT":str(ROOT),"MODEL_ID":"selftest-forbidden"},
                                 capture_output=True,text=True)
             self.assertNotEqual(proc.returncode,0)
@@ -1319,7 +1319,7 @@ class FixRoundTests(unittest.TestCase):
                  patch.object(R,"frozen_provenance",lambda *a:{}), patch.object(T,"require_training_preflight",lambda *a:None), \
                  patch.object(builtins,"__import__",observe):
                 with self.assertRaisesRegex(R.Halt,"stopped at import"): T.run_attempt(d,d,R.TRAIN_UNITS["P1"][0],400)
-            self.assertEqual(seen,[("transformers",str(R.ROOT/"hf_cache"),"1")])
+            self.assertEqual(seen,[("transformers",str(R.ROOT/"data/hf_cache"),"1")])
 
 
 class DupDevTests(unittest.TestCase):
@@ -1412,7 +1412,7 @@ class DupDevTests(unittest.TestCase):
         R.write_json(directory/"mmlu200.json",mmlu)
         step = {"status":"PASS","prereg_sha256":prereg_sha,
                 "files":{"mmlu200":R.file_ref(directory/"mmlu200.json")},
-                "sources":{"prereg":R.file_ref(ROOT/"docs/C10W_ORACLE_PREREG.md")},
+                "sources":{"prereg":R.file_ref(ROOT/"experiments/c10w/design/C10W_ORACLE_PREREG.md")},
                 "seal":{s:True for s in ("S1","S2","S2c","S2d","S3","S4","S5","S6","S7")},
                 "seam":{"ok":True},"fingerprint":{"ok":True},"instrument_ok":True}
         R.write_json(directory/"step0.json",step)
@@ -1484,7 +1484,7 @@ class DupDevTests(unittest.TestCase):
             self.assertTrue(all("dev_distinct_n" in item and "dev_duplicate_source_indices" in item for item in loaded["items"]))
 
     def test_reader_accepts_actual_amended_prereg_hash(self):
-        actual = R.sha_file(ROOT/"docs/C10W_ORACLE_PREREG.md")
+        actual = R.sha_file(ROOT/"experiments/c10w/design/C10W_ORACLE_PREREG.md")
         self.assertEqual(R.PREREG_SHA,actual)
         self.assertNotEqual(actual,self.old_prereg_sha)
         record, sources = self._accepted(duplicate=False)
@@ -1540,7 +1540,7 @@ class DupDevTests(unittest.TestCase):
     def test_real_cached_acquisition_and_tokenizer_exercise_every_require(self):
         if os.environ.get("C10W_SELFTEST_ALLOW_TOKENIZER") != "1":
             self.skipTest("tokenizer loading requires explicit C10W_SELFTEST_ALLOW_TOKENIZER=1")
-        cache=ROOT/"hf_cache"
+        cache=ROOT/"data/hf_cache"
         pinned=[cache/"hub/datasets--cais--mmlu/snapshots"/self.revision/"all"/(s+"-00000-of-00001.parquet") for s in ("test","dev")]
         tokenizer=cache/"hub/models--Qwen--Qwen2.5-3B/snapshots"/R.MODEL_REV
         pinned.extend(tokenizer/n for n in ("tokenizer.json","tokenizer_config.json","vocab.json","merges.txt"))
@@ -1558,9 +1558,9 @@ class NoTensorImports(importlib.abc.MetaPathFinder,importlib.abc.Loader):
     def exec_module(self,module):
         raise AssertionError("offline tokenizer check attempted tensor import: "+module.__name__)
 sys.meta_path.insert(0,NoTensorImports())
-sys.path.insert(0,str(root/"experiments/track_c"))
+sys.path.insert(0,str(root/"code/lab/track_c"))
 with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
-    cached=root/"hf_cache/datasets/cais___mmlu/all/0.0.0"/revision
+    cached=root/"data/hf_cache/datasets/cais___mmlu/all/0.0.0"/revision
     local=Path(td)/"datasets/cais___mmlu/all/0.0.0"/revision
     local.mkdir(parents=True)
     for name in ("dataset_info.json","mmlu-test.arrow","mmlu-dev.arrow"):
@@ -1568,7 +1568,7 @@ with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
     os.environ["HF_DATASETS_CACHE"]=str(Path(td)/"datasets")
     import c10w_oracle_read as r, c10w_oracle_step0 as s
     from transformers import AutoTokenizer
-    tok=AutoTokenizer.from_pretrained(r.MODEL_ID,revision=r.MODEL_REV,cache_dir=str(root/"hf_cache/hub"),local_files_only=True)
+    tok=AutoTokenizer.from_pretrained(r.MODEL_ID,revision=r.MODEL_REV,cache_dir=str(root/"data/hf_cache/hub"),local_files_only=True)
     calls=set(); previous=r.require
     def require(ok,reason):
         frame=sys._getframe(1)
@@ -1634,7 +1634,7 @@ with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
 
 class P2RerunTests(unittest.TestCase):
     def module(self):
-        self.assertTrue((ROOT/"tools/c10w_p2_rerun.py").is_file(),"sealed P2 rerun implementation absent (test-first RED)")
+        self.assertTrue((ROOT/"code/lab/runners/c10w_p2_rerun.py").is_file(),"sealed P2 rerun implementation absent (test-first RED)")
         return importlib.import_module("c10w_p2_rerun")
 
     @contextlib.contextmanager
@@ -1644,11 +1644,11 @@ class P2RerunTests(unittest.TestCase):
             root=Path(td); plan=copy.deepcopy(A.AMENDMENT)
             step0=(root/plan["step0"]["path"]).parent; step0.mkdir(parents=True)
             p2=root/plan["p2_directory"]; p2.mkdir(parents=True)
-            logs=root/"results/c10w_oracle_logs"; logs.mkdir()
+            logs=root/"experiments/c10w/runs/c10w_oracle/logs"; logs.mkdir()
             (root/"architecture_profile").mkdir()
             (root/plan["diagnostic_path"]).write_text('{"cpu_fixture":true}\n')
-            prereg=root/"docs/C10W_ORACLE_PREREG.md"; prereg.parent.mkdir()
-            shutil.copyfile(ROOT/"docs/C10W_ORACLE_PREREG.md",prereg)
+            prereg=root/"experiments/c10w/design/C10W_ORACLE_PREREG.md"; prereg.parent.mkdir()
+            shutil.copyfile(ROOT/"experiments/c10w/design/C10W_ORACLE_PREREG.md",prereg)
             evaluator=root/plan["evaluator"]["path"]; evaluator.parent.mkdir(parents=True)
             text=(HERE/"c10w_oracle_eval.py").read_text()
             old=text.replace('.flatten().double()','.flatten()')
@@ -1656,7 +1656,7 @@ class P2RerunTests(unittest.TestCase):
             evaluator.write_text(old)
             sources={"evaluator":R.file_ref(evaluator)}
             for key in ("reader","trainer","step0_source","harness"):
-                source=root/"experiments/track_c"/(key+".py"); source.write_text("# frozen "+key+"\n")
+                source=root/"code/lab/track_c"/(key+".py"); source.write_text("# frozen "+key+"\n")
                 sources[key]=R.file_ref(source)
             files={}
             for key in ("train_inputs","mmlu200","seal_audit"):
@@ -1863,7 +1863,7 @@ print(json.dumps({'old':old,'new':scope['cosines']['4'],'device':str(delta_a.dev
                 self.assertEqual(A.main(["dispatch",str(p2)]),0)
             self.assertEqual(len(captured),5,"dispatch did not bind the child entry (test-first RED)")
             self.shell_fixture(A,root,logs)
-            wrapper=root/"tools/c10w_p2_rerun.py"
+            wrapper=root/"code/lab/runners/c10w_p2_rerun.py"
             bootstrap=wrapper.read_text().split('if __name__=="__main__":')[0]
             wrapper.write_text(bootstrap+'''import c10w_oracle_eval as E
 A.os.getppid=lambda: json.loads((A.p2_path()/"reattempt2_dispatch.json").read_text())["dispatcher_pid"]
@@ -1935,7 +1935,7 @@ sys.exit(A.main())
             (p2/"train/keep.json").unlink()
             for index,record in enumerate(phase("P2")["train_records"]): R.write_json(p2/"train"/(str(index)+".json"),record)
             R.write_json(root/A.P1_REL/"authorization_P2.json",{"P2":{"budget_minutes":448}})
-            wrapper=root/"tools/c10w_p2_rerun.py"; bootstrap=wrapper.read_text().split('if __name__=="__main__":')[0]
+            wrapper=root/"code/lab/runners/c10w_p2_rerun.py"; bootstrap=wrapper.read_text().split('if __name__=="__main__":')[0]
             wrapper.write_text(bootstrap+'''import c10w_oracle_eval as E, c10w_oracle_step0 as S, c10w_oracle_train as T
 A.R.entry_preflight=lambda: A.W
 S.ensure_authorized=lambda phase,p1: ({"path":"CPU fixture","sha256":"0"*64},1.)
@@ -2055,9 +2055,9 @@ sys.exit(A.main())
 
     def shell_fixture(self,A,root,logs):
         for name in ("read","step0","train"):
-            shutil.copyfile(HERE/("c10w_oracle_"+name+".py"),root/"experiments/track_c"/("c10w_oracle_"+name+".py"))
+            shutil.copyfile(HERE/("c10w_oracle_"+name+".py"),root/"code/lab/track_c"/("c10w_oracle_"+name+".py"))
         (root/".venv").symlink_to(ROOT/".venv",target_is_directory=True)
-        shutil.copyfile(ROOT/"tools/c10w_p2_rerun.py",root/"tools/c10w_p2_rerun_production.py")
+        shutil.copyfile(ROOT/"code/lab/runners/c10w_p2_rerun.py",root/"tools/c10w_p2_rerun_production.py")
         (root/"_fixture_plan.json").write_text(json.dumps({"amendment":A.AMENDMENT,"sha256":A.AMENDMENT_SHA256,"originals":A.ORIGINAL_ATTEMPT_SHA256}))
         bootstrap='''import json,sys,os
 from pathlib import Path
@@ -2066,7 +2066,7 @@ config=json.loads((A.W/"_fixture_plan.json").read_text())
 A.AMENDMENT=config["amendment"]; A.AMENDMENT_SHA256=config["sha256"]
 A.ORIGINAL_ATTEMPT_SHA256=config["originals"]
 '''
-        (root/"tools/c10w_p2_rerun.py").write_text(bootstrap+'''if __name__=="__main__":
+        (root/"code/lab/runners/c10w_p2_rerun.py").write_text(bootstrap+'''if __name__=="__main__":
     if sys.argv[1] in ("dispatch","read"):
         A.verify_claim(A.p2_path())
         if sys.argv[1]=="dispatch":
@@ -2075,7 +2075,7 @@ A.ORIGINAL_ATTEMPT_SHA256=config["originals"]
         print(json.dumps({"status":"VALID","evaluator_amendment":A.verify_amendment()})); sys.exit(0)
     sys.exit(A.main())
 ''')
-        (root/"tools/c10w_p2_gate.py").write_text(bootstrap+'''try:
+        (root/"code/lab/runners/c10w_p2_gate.py").write_text(bootstrap+'''try:
     if os.environ.get("FIXTURE_GATE_REFUSE")=="1": raise A.R.Halt("fixture transient gate refusal")
     proof=A.check_reattempt(A.p2_path())
     print(json.dumps({"stage":"p2-eval","ok":True,"checks":{"fingerprint":{"ok":True},"gpu":{"ok":True},"dispatch_guards":{"ok":True,"p2_directory":str(A.p2_path()),"reattempt":proof}}}))
@@ -2087,12 +2087,12 @@ except A.R.Halt as exc:
             lines=["W="+str(root)+"\n" if l.startswith("W=") else l for l in text.splitlines(keepends=True)]
             (root/"tools"/name).write_text(''.join(lines))
         # Legacy code must not reach the real stage even during test-first RED.
-        (root/"tools/run_c10w_stage.sh").write_text('#!/bin/bash\necho "fixture: legacy dispatch refused"\nexit 99\n')
+        (root/"code/lab/runners/run_c10w_stage.sh").write_text('#!/bin/bash\necho "fixture: legacy dispatch refused"\nexit 99\n')
 
     def test_stage_runner_race_starts_exactly_one_eval_and_never_truncates_log(self):
         with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
             self.shell_fixture(A,root,logs)
-            cmd=["/bin/bash",str(root/"tools/run_c10w_p2_stage.sh"),"p2-eval","--reattempt",str(p2)]
+            cmd=["/bin/bash",str(root/"code/lab/runners/run_c10w_p2_stage.sh"),"p2-eval","--reattempt",str(p2)]
             env=dict(os.environ,LLMDB_ROOT=str(root))
             processes=[subprocess.Popen(cmd,cwd=root,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True) for _ in range(2)]
             outputs=[p.communicate(timeout=30) for p in processes]
@@ -2106,7 +2106,7 @@ except A.R.Halt as exc:
     def test_failed_child_consumes_retry_permanently(self):
         with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
             self.shell_fixture(A,root,logs)
-            cmd=["/bin/bash",str(root/"tools/run_c10w_p2_stage.sh"),"p2-eval","--reattempt",str(p2)]
+            cmd=["/bin/bash",str(root/"code/lab/runners/run_c10w_p2_stage.sh"),"p2-eval","--reattempt",str(p2)]
             env=dict(os.environ,LLMDB_ROOT=str(root),FIXTURE_CHILD_EXIT="2")
             proc=subprocess.run(cmd,cwd=root,env=env,capture_output=True,text=True,timeout=30)
             self.assertEqual(proc.returncode,2,proc.stdout+proc.stderr)
@@ -2118,7 +2118,7 @@ except A.R.Halt as exc:
         with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
             self.shell_fixture(A,root,logs)
             before={s:(logs/(s+".log")).read_bytes() for s in R.TRAIN_STAGES["P2"]}
-            cmd=["/bin/bash",str(root/"tools/run_c10w_p2.sh"),"--reattempt-eval",str(p2)]
+            cmd=["/bin/bash",str(root/"code/lab/runners/run_c10w_p2.sh"),"--reattempt-eval",str(p2)]
             proc=subprocess.run(cmd,cwd=root,env=dict(os.environ,LLMDB_ROOT=str(root)),capture_output=True,text=True,timeout=30)
             self.assertEqual(proc.returncode,0,proc.stdout+proc.stderr)
             self.assertEqual((root/"child_started.txt").read_text().splitlines(),["eval"])
@@ -2133,7 +2133,7 @@ except A.R.Halt as exc:
     def test_coordinator_gate_refusal_then_resume_consumes_one_retry(self):
         with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
             self.shell_fixture(A,root,logs)
-            cmd=["/bin/bash",str(root/"tools/run_c10w_p2.sh"),"--reattempt-eval",str(p2)]
+            cmd=["/bin/bash",str(root/"code/lab/runners/run_c10w_p2.sh"),"--reattempt-eval",str(p2)]
             env=dict(os.environ,LLMDB_ROOT=str(root),FIXTURE_GATE_REFUSE="1")
             first=subprocess.run(cmd,cwd=root,env=env,capture_output=True,text=True,timeout=30)
             self.assertNotEqual(first.returncode,0)
@@ -2145,7 +2145,7 @@ except A.R.Halt as exc:
 
 
 def artifact_snapshot(root):
-    """Guard artifacts without following links; operator excludes the concurrent results/labviz/ tree."""
+    """Guard artifacts without following links; operator excludes the concurrent projects/labviz-spec-v3/receipts/bulk/labviz/ tree."""
     result = {}
     for name in ("results", "architecture_profile"):
         base = Path(root)/name
@@ -2170,7 +2170,7 @@ def artifact_changes(before, after):
 class IsolationTests(unittest.TestCase):
     def test_artifact_guard_excludes_only_operator_labviz_subtree(self):
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
-            root=Path(td); labviz=root/"results/labviz"; labviz.mkdir(parents=True)
+            root=Path(td); labviz=root/"projects/labviz-spec-v3/receipts/bulk/labviz"; labviz.mkdir(parents=True)
             profile=root/"architecture_profile"; profile.mkdir()
             before=artifact_snapshot(root)
             (labviz/"review").mkdir(); (labviz/"review/operator.png").write_text("operator browser fixture")
@@ -2186,7 +2186,7 @@ class IsolationTests(unittest.TestCase):
         self.assertEqual(R.entry_preflight.__defaults__[1], ROOT)
         for module in (R,S,T,E):
             self.assertTrue(Path(module.__file__).is_relative_to(ROOT))
-        self.assertFalse((ROOT/"hf_cache").exists())
+        self.assertFalse((ROOT/"data/hf_cache").exists())
         self.assertFalse((ROOT/"results").is_symlink())
 
     def test_artifact_guard_detects_create_change_delete_and_rename(self):
@@ -2212,20 +2212,20 @@ def main():
     result=None
     try:
         with tempfile.TemporaryDirectory(prefix="c10w_selftest_",dir="/private/tmp") as td:
-            ROOT=Path(td); HERE=ROOT/"experiments/track_c"
-            files=["experiments/track_c/c10w_oracle_"+n+".py" for n in ("read","step0","train","eval")]
-            files += ["experiments/track_c/c10e_bandknob.py","experiments/track_c/c10p_twopass_arms.py",
-                      "configs/screens/g6_screen_qwen3b.json","configs/screens/g6_screen_qwen3b_v2.json",
-                      "docs/C10W_ORACLE_PREREG.md","tools/run_c10w_stage.sh",
-                      "tools/c10w_p2_gate.py","tools/run_c10w_p2_stage.sh","tools/run_c10w_p2.sh"]
-            optional=["tools/c10w_p2_rerun.py","tools/c10w_p2_evaluator_A1.diff"]
+            ROOT=Path(td); HERE=ROOT/"code/lab/track_c"
+            files=["code/lab/track_c/c10w_oracle_"+n+".py" for n in ("read","step0","train","eval")]
+            files += ["code/lab/track_c/c10e_bandknob.py","code/lab/track_c/c10p_twopass_arms.py",
+                      "code/configs/screens/g6_screen_qwen3b.json","code/configs/screens/g6_screen_qwen3b_v2.json",
+                      "experiments/c10w/design/C10W_ORACLE_PREREG.md","code/lab/runners/run_c10w_stage.sh",
+                      "code/lab/runners/c10w_p2_gate.py","code/lab/runners/run_c10w_p2_stage.sh","code/lab/runners/run_c10w_p2.sh"]
+            optional=["code/lab/runners/c10w_p2_rerun.py","code/lab/runners/c10w_p2_evaluator_A1.diff"]
             missing=[f for f in files if not (LIVE_ROOT/f).is_file()]
             if missing:
                 print("FAIL: prereg implementation files absent:",missing); return 1
             for name in files+[f for f in optional if (LIVE_ROOT/f).is_file()]:
                 dest=ROOT/name; dest.parent.mkdir(parents=True,exist_ok=True)
                 shutil.copyfile(LIVE_ROOT/name,dest)
-                if name in ("tools/run_c10w_p2_stage.sh","tools/run_c10w_p2.sh"):
+                if name in ("code/lab/runners/run_c10w_p2_stage.sh","code/lab/runners/run_c10w_p2.sh"):
                     lines=dest.read_text().splitlines(keepends=True)
                     lines=["W="+str(ROOT)+"\n" if line.startswith("W=") else line for line in lines]
                     dest.write_text("".join(lines))
@@ -2243,7 +2243,7 @@ def main():
         if changed:
             print("FAIL: LIVE ARTIFACTS CHANGED DURING SELFTEST:",json.dumps(changed))
     if changed: return 1
-    print("C10W_SELFTEST_LIVE_ARTIFACT_GUARD PASS: results/ (excluding operator results/labviz/) and architecture_profile/ unchanged")
+    print("C10W_SELFTEST_LIVE_ARTIFACT_GUARD PASS: results/ (excluding operator projects/labviz-spec-v3/receipts/bulk/labviz/) and architecture_profile/ unchanged")
     if result is not None and result.wasSuccessful():
         print("C10W_ORACLE_SELFTEST PASS: %d tests; CPU fixtures only; skipped=%d; oracle measurement, not a route"%(result.testsRun,len(result.skipped)))
     return 0 if result is not None and result.wasSuccessful() else 1

@@ -1,6 +1,6 @@
 #!/bin/bash
-cd $LLMDB_ROOT/external_prior_art/larql
-export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/hf_cache
+cd $LLMDB_ROOT/code/vendor/external_prior_art/larql
+export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/data/hf_cache
 V=/dev/shm/qwen3.vindex
 flt(){ grep -aviE 'gate=|F[0-9]+ +gate|Inference trace|Using:|^$|trace-guided|walk FFN'; }
 echo "=== B-clean: COMPOSE ALPHA=0.3 overlay install — edit + locality (Italy/Spain should stay) ==="

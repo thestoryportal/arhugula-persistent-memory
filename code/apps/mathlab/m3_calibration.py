@@ -24,7 +24,7 @@ def _():
         harvest_dir: Path = Field(description="Frozen operand harvest directory")
         reproduction_dir: Path = Field(description="Step 2 directory with passing exact replay")
         output_root: Path = Field(default=runtime.ROOT / "results/mathlab", description="Fresh result directories; fixtures use staging")
-        index_path: Path = Field(default=runtime.ROOT / "results/mathlab/calibration.duckdb", description="Derived, rebuildable citation index")
+        index_path: Path = Field(default=runtime.ROOT / "experiments/ml/runs/calibration/calibration.duckdb", description="Derived, rebuildable citation index")
 
     return Params, core, json, mo
 

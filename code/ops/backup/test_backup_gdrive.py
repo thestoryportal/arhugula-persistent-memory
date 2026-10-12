@@ -12,7 +12,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "tools/backup_gdrive.sh"
+SCRIPT = ROOT / "code/ops/backup/backup_gdrive.sh"
 GIT_TMP_EXCLUDES = ("**/.git/objects/**/tmp_obj_*", "**/.git/objects/tmp_obj_*",
                     "/.git/objects/**/tmp_obj_*", "/.git/objects/tmp_obj_*")
 
@@ -44,7 +44,7 @@ class BackupTest(unittest.TestCase):
         self.lock = self.base / "run.lock"
         self.log = self.base / "backup.log"
         self.env = dict(os.environ, BACKUP_SRC=str(self.src), BACKUP_DEST=str(self.dest),
-                        BACKUP_EXCLUDES=str(ROOT / "tools/backup_mirror.excludes"),
+                        BACKUP_EXCLUDES=str(ROOT / "code/ops/backup/backup_mirror.excludes"),
                         BACKUP_LOG=str(self.log), BACKUP_LOCK_DIR=str(self.lock),
                         BACKUP_HEARTBEAT=str(self.base / "last_run.json"),
                         BACKUP_MOUNT_POINT="/", BACKUP_RCLONE="/opt/homebrew/bin/rclone")
@@ -234,7 +234,7 @@ def drive_selftest():
             env = dict(os.environ, BACKUP_SRC=str(src), BACKUP_DEST=dest,
                        BACKUP_LOG=str(out / "selftest.log"), BACKUP_LOCK_DIR=str(base / "lock"),
                        BACKUP_HEARTBEAT=str(out / "last_run.json"),
-                       BACKUP_MOUNT_POINT="/", BACKUP_EXCLUDES=str(ROOT / "tools/backup_mirror.excludes"))
+                       BACKUP_MOUNT_POINT="/", BACKUP_EXCLUDES=str(ROOT / "code/ops/backup/backup_mirror.excludes"))
             def sync(failure_reason=None, **changes):
                 proc = run_process(["/bin/bash", str(SCRIPT)], env=dict(env, **changes), timeout=180)
                 commands.append({"args": ["/bin/bash", str(SCRIPT)], "exit_code": proc.returncode,
@@ -287,7 +287,7 @@ def drive_selftest():
             result.update(upload_bytes=size, upload_wall_s=elapsed, measured_bytes_per_s=size / elapsed)
             changes = out / "dry_run_changes.txt"
             source = "/Volumes/memit/llm-database-poc-mirror/"
-            excludes = str(ROOT / "tools/backup_mirror.excludes")
+            excludes = str(ROOT / "code/ops/backup/backup_mirror.excludes")
             filters = ["--exclude-from", excludes]
             for pattern in GIT_TMP_EXCLUDES:
                 filters.extend(["--exclude", pattern])

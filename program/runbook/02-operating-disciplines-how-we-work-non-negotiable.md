@@ -32,7 +32,7 @@ Call `advisor()`: (a) **before authoring any test/criteria set or new harness** 
 The binding signal is **empirical runs that can fail**. Review ≠ evidence. Same-model council/subagents reading our corpus = confirmation-amplification — a *different* model cold-reading is better, but still not evidence. When confidence is highest, call `advisor()` and seek a falsifier, not a confirmer.
 
 ### §2.6 — Context-save discipline
-- Durable deliverables → `/workspace` (never only `/dev/shm`, which is RAM). Update `CORPUS/` + `SESSION_CHECKPOINT.md` + this runbook's §0.3/§12/§13.
+- Durable deliverables → `/workspace` (never only `/dev/shm`, which is RAM). Update `evidence/CORPUS/` + `program/checkpoints/` + this runbook's §0.3/§12/§13.
 - `/dev/shm` artifacts are reproducible-from-scripts; never the source of truth.
 - After a meaningful step, write the checkpoint so a fresh context can resume from §0.3 alone.
 
@@ -40,11 +40,11 @@ The binding signal is **empirical runs that can fail**. Review ≠ evidence. Sam
 - **Write a memory** when a durable, cross-session fact/learning surfaces: a corrected reasoning trap, an operator preference, a tool/infra gotcha, a project decision not derivable from code.
 - **Types:** `user` / `feedback` (corrections + the why) / `project` / `reference`. One fact per file + frontmatter; link `[[related]]`; add a one-line pointer to `MEMORY.md`.
 - **Don't** save what the repo already records (code, git history, CORPUS). If asked to remember such, save *what was non-obvious* about it.
-- **Mirror** after writing: copy each changed note between the live dir `~/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/` and the git-tracked `memory_mirror/` so the two stay identical (MEMORY.md included); `tools/closeout_check.py` checks both (memory_mirror sync drift + every MEMORY.md link resolves).
+- **Mirror** after writing: copy each changed note between the live dir `~/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/` and the git-tracked `_system/memory/` so the two stay identical (MEMORY.md included); `code/gates/closeout_check.py` checks both (memory_mirror sync drift + every MEMORY.md link resolves).
 - **Learnings cadence:** at each experiment close, ask "what did this teach that a future agent must not relearn the hard way?" → if durable, write it (e.g., this session produced [[prototype-tautology-trap]], `runpod-dashboard-vs-pod-metrics` (pod-era, retired 2026-10-10), [[standing-auth-forward-requirements]]).
 
 ### §2.8 — Artifact, naming & Decision-ID conventions
-- **Scripts** `<track><n>_<slug>.py` (e.g., `a2_relbal_sentinels.py`); **results** `<same>_result.json`; **logs** `<same>.log`; **writeups** `CORPUS/<NN>_<SLUG>.md`.
+- **Scripts** `<track><n>_<slug>.py` (e.g., `a2_relbal_sentinels.py`); **results** `<same>_result.json`; **logs** `<same>.log`; **writeups** `evidence/CORPUS/<NN>_<SLUG>.md`.
 - **Heavy I/O on `/dev/shm`**, durable outputs copied to `/workspace`.
 - **Decision-IDs** `D-<TRACK><n>` (e.g., `D-A2-1`) tie every accept/eliminate choice to §5.
 - **Launch durably**: `setsid bash -c '… python -u script.py > script.log 2>&1' </dev/null & disown` (survives disconnect).

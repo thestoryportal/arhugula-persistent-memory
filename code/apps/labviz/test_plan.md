@@ -1,6 +1,6 @@
 # Lab View acceptance tests (written before implementation)
 
-Source: `results/labviz_codex_brief.md`, including Full history and Every model tested.
+Source: `_archive/projects/labviz/labviz_codex_brief.md`, including Full history and Every model tested.
 This is a read-only evidence viewer for the write engine / behavioral validation
 cells of the F1 map. It makes no new scientific verdicts.
 
@@ -39,5 +39,5 @@ cells of the F1 map. It makes no new scientific verdicts.
     output files change. Server syntax is valid and binds port 8765 with a 60 s
     rebuild loop; live serving is checked if socket binding is permitted.
 
-The explicit request to create `docs/c10_evaluations.json` is the brief's specific
+The explicit request to create `program/registers/c10_evaluations.json` is the brief's specific
 exception to its output-directory rule. No commits or canonical science updates.

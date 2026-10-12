@@ -7,7 +7,7 @@ and records what the gain diagnostic could not: NO correctness eval (that is the
   (c) realised residual on the true residuals, Frobenius and per-item (off-diagonal terms included), per layer
   (d) which preservation key drives the top eigenvalue (max key norm and its position) per layer
   (e) hidden-space transfer to the paraphrase keys after the full pass: <dz_para, dz_target>/|dz_target|^2 (prediction only)
-Weights are restored after every pass. Writes results/c10k_route_a/solve_backtest.json."""
+Weights are restored after every pass. Writes experiments/c10k/runs/c10k_route_a/solve_backtest.json."""
 import os, sys, json, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import c10k_route_a_launcher as L
@@ -30,8 +30,8 @@ def main():
     import torch
     from util import nethook
     dev = L.resolve_device(); tok, model = L.load_model(dev, torch.float32); fiction, arms = L.build_stimuli(tok)
-    HP, M, _ = L.import_upstream("AlphaEdit_ARE"); hp = HP.from_json(f"{L.LLMDB_ROOT}/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json"); hp.window_size = 1; hp.overlap = 0
-    P = torch.load(L.LLMDB_ROOT + "/logs/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt")
+    HP, M, _ = L.import_upstream("AlphaEdit_ARE"); hp = HP.from_json(f"{L.LLMDB_ROOT}/code/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json"); hp.window_size = 1; hp.overlap = 0
+    P = torch.load(L.LLMDB_ROOT + "/experiments/c10k/runs/c10k_route_a/bulk/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt")
     V = arms["A1_single"]; batch = [{"question": L.CANON.format(s), "answer": " " + V[s]} for s in fiction]
     z_layer = hp.layers[-1]; snap = L.band_snapshot(model, hp)
     weights = {f"{hp.rewrite_module_tmp.format(l)}.weight": nethook.get_parameter(model, f"{hp.rewrite_module_tmp.format(l)}.weight") for l in hp.layers}

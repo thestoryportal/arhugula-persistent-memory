@@ -8,7 +8,7 @@
     <!-- Mirrors /Volumes/memit/llm-database-poc-mirror to the internal SSD.
          This file is the source; ~/Library/LaunchAgents holds a COPY (launchd rejects a
          symlink onto this external volume with "Input/output error"). After any edit here:
-             cp tools/launchd/com.rhu.memit-backup.plist ~/Library/LaunchAgents/
+             cp code/ops/backup/launchd/com.rhu.memit-backup.plist ~/Library/LaunchAgents/
              launchctl bootout gui/$(id -u)/com.rhu.memit-backup; launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.rhu.memit-backup.plist
          The script refuses to run if the source volume is unmounted or empty, so a
          detached drive costs one log line, never a wiped backup. -->

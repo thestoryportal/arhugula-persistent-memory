@@ -6,19 +6,19 @@ import argparse, hashlib, json, math, re
 from pathlib import Path
 
 DECISION_ID = "D-C10v-layerpick"
-PREREG = "docs/C10V_LAYERPICK_PREREG.md"
-HP_FILE = "configs/hparams/qwen25_3b_memit_hparams.json"
+PREREG = "experiments/c10v/design/C10V_LAYERPICK_PREREG.md"
+HP_FILE = "code/configs/hparams/qwen25_3b_memit_hparams.json"
 LAYERS = (4, 5, 6, 7, 8)
 ARMS = ("A1_single", "A2_coherent2", "A7_coined_coined")
 RECIPES = ("A", "B0", "B", "Bshuf")
 ENGINE_SHA256 = "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
-ENGINE_FILE = "memit_dry_run/memit/memit/memit_main.py"
-REQUIRED_SOURCES = (PREREG, HP_FILE, ENGINE_FILE, "tools/engine_fingerprint.py",
-                    "memit_dry_run/memit/globals.yml",
-                    "experiments/track_c/c10e_bandknob.py", "configs/screens/g6_screen_qwen3b.json",
-                    "configs/screens/g6_screen_qwen3b_v2.json",
-                    "results/c10l_covgeom/step0_offline.json",
-                    *("experiments/track_c/c10v_layerpick_" + n + ".py" for n in ("arms", "read", "selftest")))
+ENGINE_FILE = "code/memit/vendor/memit/memit_main.py"
+REQUIRED_SOURCES = (PREREG, HP_FILE, ENGINE_FILE, "code/memit/engine_fingerprint.py",
+                    "code/memit/vendor/globals.yml",
+                    "code/lab/track_c/c10e_bandknob.py", "code/configs/screens/g6_screen_qwen3b.json",
+                    "code/configs/screens/g6_screen_qwen3b_v2.json",
+                    "experiments/c10l/runs/c10l_covgeom/step0_offline.json",
+                    *("code/lab/track_c/c10v_layerpick_" + n + ".py" for n in ("arms", "read", "selftest")))
 N, NT, CTRL, LEAD, GAIN, LARGE_WRITE = 24, 3, 68, 30, 10, 1.5
 
 

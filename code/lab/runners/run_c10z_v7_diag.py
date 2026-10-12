@@ -33,14 +33,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def gate_module():
-    spec = importlib.util.spec_from_file_location("c10z_v7_gpu_gate", ROOT / "tools/c10w_p2_gate.py")
+    spec = importlib.util.spec_from_file_location("c10z_v7_gpu_gate", ROOT / "code/lab/runners/c10w_p2_gate.py")
     gate = importlib.util.module_from_spec(spec); spec.loader.exec_module(gate)
     return gate
 
 
 def namespace(utc):
     if not re.fullmatch(r"\d{8}T\d{6}(?:\.\d{6})?Z", utc): raise ValueError("invalid UTC namespace")
-    parent = ROOT / "results/c10z_v7_diagnostic"
+    parent = ROOT / "experiments/c10z/runs/c10z_v7_diagnostic"
     if parent.resolve() != parent: raise ValueError("namespace symlink refused")
     return parent / utc
 
@@ -83,7 +83,7 @@ def worker(utc):
     if not fingerprint["ok"]: raise ValueError("fingerprint refused: " + json.dumps(fingerprint))
     gpu = supervised_gpu_check(gate, utc)
     if not gpu["ok"]: raise ValueError("gpu exclusivity refused: " + json.dumps(gpu))
-    path = ROOT / "experiments/track_c/c10z_v7_diag.py"
+    path = ROOT / "code/lab/track_c/c10z_v7_diag.py"
     sys.path.insert(0, str(path.parent))
     sys.argv = [str(path), "--utc", utc]
     runpy.run_path(str(path), run_name="__main__")
@@ -127,7 +127,7 @@ def launch(utc):
                                           "supervisor_argv": sys.orig_argv,
                                           "source_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest()})
     py = str(ROOT / ".venv/bin/python")
-    env = dict(os.environ, LLMDB_ROOT=str(ROOT), HF_HOME=str((ROOT / "hf_cache").resolve()), HF_DATASETS_OFFLINE="1",
+    env = dict(os.environ, LLMDB_ROOT=str(ROOT), HF_HOME=str((ROOT / "data/hf_cache").resolve()), HF_DATASETS_OFFLINE="1",
                C10Z_V7_LAUNCH_STARTED=str(LAUNCH_STARTED), C10Z_V7_SUPERVISOR_TOKEN=token)
     child = None
     try:

@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, io, contextlib, json, math, random
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -11,7 +11,7 @@ from memit.compute_z import compute_z, get_module_input_output_at_words
 from memit.compute_ks import compute_ks
 # ============================================================================
 # D1 Phase 2 — the DECISIVE concentration-vs-dilution interference contrast.
-# Pre-reg: docs/D1_CAPACITY_LAW_PREREG.md §2 Phase 2 / §3 (FROZEN criteria).
+# Pre-reg: experiments/d1/design/D1_CAPACITY_LAW_PREREG.md §2 Phase 2 / §3 (FROZEN criteria).
 # Question (OQ-W1 / §7.2): at FIXED total edit-count N, does held-out same-relation
 # read corruption depend on relation-CONCENTRATION (edits-per-relation) or on N itself?
 #   CONCENTRATED arm: all N edits on `capital`.
@@ -24,7 +24,7 @@ from memit.compute_ks import compute_ks
 # Reuses g6_scale_n.py VERBATIM (my_edit/compute_P/inertness gate) -> engine UNMODIFIED, LAW#5.
 # ============================================================================
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0)
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0)
 BAND=os.environ.get("BAND","")                       # "" -> hp default [4-8]; e.g. "8,9,10,11,12" for the [8-12] contrast
 if BAND: hp.layers=[int(x) for x in BAND.split(",")]
 L=hp.layers
@@ -110,7 +110,7 @@ print(f"  engine expr={eng_p:.4f} loc={eng_loc}% | harness expr={my_p:.4f} loc={
 if not ok: print("LAW#5 fail; HALT.", flush=True); sys.exit(0)
 
 # ---------- pools (disjoint; fix#2) ----------
-sel=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+sel=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
 ents=[x for x in sel if all(r in sel[x] and "truth" in sel[x][r] for r in ["capital","language","continent"])]
 SEED=int(os.environ.get("SEED","0")); ORDER=os.environ.get("ORDER","interleaved")  # replication knobs (advisor: entity/ordering-specificity is the live falsifier)
 if SEED>0: random.Random(SEED).shuffle(ents)

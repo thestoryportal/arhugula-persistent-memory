@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """D-C10l-mint step 0 (no write; one model load): P2 registration inertness, four input-side initialisations of the 24
 spare rows (M, G, N, Z), the I-11 step-zero probe per init, P-iv statistics, P3 compute_z convergence on ĥ per init,
-and the frozen A1-rare list. Writes results/c10l_mint/step0_probe.json and the init tensors + minted tokenizer under
-results/c10l_mint/ (hashed into the JSON). Env: LLMDB_ROOT, OUT.
+and the frozen A1-rare list. Writes experiments/c10l/runs/c10l_mint/step0_probe.json and the init tensors + minted tokenizer under
+experiments/c10l/runs/c10l_mint/ (hashed into the JSON). Env: LLMDB_ROOT, OUT.
 """
 import os, sys, io, re, json, contextlib, time, subprocess
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["C10_ARMS"] = "A7_coined_coined"
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10e_bandknob as H
 import c10l_mint_lib as M
 import torch
@@ -17,7 +17,7 @@ from memit.memit_hparams import MEMITHyperParams
 from memit.compute_z import compute_z
 from memit.memit_main import get_context_templates
 
-RES = f"{LLMDB_ROOT}/results/c10l_mint"
+RES = f"{LLMDB_ROOT}/experiments/c10l/runs/c10l_mint"
 OUT = os.environ.get("OUT", f"{RES}/step0_probe.json")
 INITS = tuple(os.environ.get("MINT_INITS", ",".join(M.INITS)).split(","))   # B3: a second-seed run probes only the inits it needs
 N_SEED = int(os.environ.get("MINT_N_SEED", "0"))
@@ -54,10 +54,10 @@ def main():
     H.tok.save_pretrained(f"{RES}/tokenizer_minted")
     tok_files = sorted(os.listdir(f"{RES}/tokenizer_minted"))
     rare = M.a1_rare_list(base_tok)
-    fp = subprocess.run([sys.executable, f"{LLMDB_ROOT}/tools/engine_fingerprint.py"], capture_output=True, text=True, env={**os.environ, "LLMDB_ROOT": LLMDB_ROOT})
+    fp = subprocess.run([sys.executable, f"{LLMDB_ROOT}/code/memit/engine_fingerprint.py"], capture_output=True, text=True, env={**os.environ, "LLMDB_ROOT": LLMDB_ROOT})
     if fp.returncode != 0:
         raise SystemExit(f"P1 fingerprint FAIL:\n{fp.stdout}{fp.stderr}")   # [LAW:no-silent-failure]
-    out = {"decision_id": "D-C10l-mint", "prereg": f"{LLMDB_ROOT}/docs/C10L_MINT_TOKEN_PREREG.md", "step": "step 0",
+    out = {"decision_id": "D-C10l-mint", "prereg": f"{LLMDB_ROOT}/experiments/c10l/design/C10L_MINT_TOKEN_PREREG.md", "step": "step 0",
            "P1_fingerprint": fp.stdout.strip(), "P1_law3": "shared with D-C10l-covgeom run 1 arm A (same session); the arms driver records the reference run",
            "spare_rows": M.VOCAB_ROWS - M.SPARE_START, "minted_ids": ids, "values": VALUES, "constituent_ids": constituents,
            "P2a_prompts_identical": f"{p2a}/{len(prompts)}", "P2a_pass": p2a == len(prompts), "P2b_in_context_last_id_is_minted": sum(in_context),
@@ -95,7 +95,7 @@ def main():
         print(f"init {kind}: cos_mean={stats['cos_mean']} eff_rank={stats['effective_rank']} (ref {ref_rank}) collapsed={collapsed} | step0 para_full={probe['para_full_step0']}/72 canon={probe['canon_step0']}/24 classes={probe['classes']} excluded={excluded} | P3 {p3['n_ge_0.98']}/24 ({time.time()-t0:.0f}s)", flush=True)
         M.set_rows(H.model, ids, z_rows)
     out["admitted_inits"] = [k for k in INITS if not out["inits"][k]["excluded_from_arms"]]
-    out["P6_prior"] = "CORPUS/39 A7 para_first 56/72 vs para_full 15/72; CORPUS/36 P(full|first) 0.226"
+    out["P6_prior"] = "evidence/CORPUS/39 A7 para_first 56/72 vs para_full 15/72; evidence/CORPUS/36 P(full|first) 0.226"
     if not out["admitted_inits"]:
         out["halt"] = "every init excluded at step 0 (one fix only: next init named in the halt note)"
     json.dump(out, open(OUT, "w"), indent=2)

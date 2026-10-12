@@ -418,7 +418,7 @@ test('label fixture waits for addStyleTag before observing computed backgrounds'
     for (const [, name] of html.matchAll(/data-label-class="([^"]+)"/g)) dom.nodes.push(element(name, 'SPAN', null, { dataset: { labelClass: name }, style: { backgroundColor: 'rgba(0, 0, 0, 0)' } }));
   };
   page.addStyleTag = async ({ path: stylePath }) => {
-    assert.equal(stylePath, path.join(ROOT, 'results/labviz/site/style.css'));
+    assert.equal(stylePath, path.join(ROOT, 'projects/labviz-spec-v3/receipts/bulk/labviz/site/style.css'));
     await new Promise(resolve => setImmediate(resolve));
     for (const node of dom.nodes) node.style.backgroundColor = node.dataset.labelClass === 'pass' ? 'rgb(24, 83, 52)' : 'rgb(55, 60, 70)';
   };
@@ -465,7 +465,7 @@ for (const taskFails of [false,true]) test('runner refreshes dated and canonical
   assert.ok(proof && measurement);
   assert.equal(proof.target, path.join(path.dirname(measurement.target), 'browser-tests.json'));
   assert.equal(proof.content.measure_file, measurement.target);
-  const latest=writes.find(write => write.target === path.join(ROOT, 'results/labviz/review/v2-build/browser-tests.json'));
+  const latest=writes.find(write => write.target === path.join(ROOT, 'projects/labviz-spec-v3/receipts/bulk/labviz/review/v2-build/browser-tests.json'));
   assert.ok(latest);assert.equal(latest.content.measure_file,measurement.target);
   assert.equal(latest.content.complete,!taskFails);assert.equal(latest.content.non_c10_content,!taskFails);
   assert.equal(runtime.context.process.exitCode,taskFails?2:0);
@@ -473,10 +473,10 @@ for (const taskFails of [false,true]) test('runner refreshes dated and canonical
 
 function modelViewportFixture(pageFor = pageFixture) {
   const index = [
-    { card_id: 'b', source: 'results/c10v_layerpick/pass1.json', field: 'recipes.B.arms.A7_coined_coined' },
-    { card_id: 'b0', source: 'results/c10v_layerpick/pass1.json', field: 'recipes.B0.arms.A7_coined_coined' },
-    { card_id: 'g6', source: 'results/g6_scale_n_result.json', field: '' },
-    { card_id: 'oracle', source: 'results/c10w_oracle/p1_fixture/eval.json', field: 'recipes.oracle_p1.arms.A7_coined_coined' }
+    { card_id: 'b', source: 'experiments/c10v/runs/c10v_layerpick/pass1.json', field: 'recipes.B.arms.A7_coined_coined' },
+    { card_id: 'b0', source: 'experiments/c10v/runs/c10v_layerpick/pass1.json', field: 'recipes.B0.arms.A7_coined_coined' },
+    { card_id: 'g6', source: 'experiments/g6/runs/g6_scale_n/g6_scale_n_result.json', field: '' },
+    { card_id: 'oracle', source: 'experiments/c10w/runs/c10w_oracle/p1_fixture/eval.json', field: 'recipes.oracle_p1.arms.A7_coined_coined' }
   ];
   const pages = [];
   const context = { async newPage() {
@@ -543,10 +543,10 @@ test('lazy card index loads after first-view payload measurement', async () => {
   const runtime = reviewRuntime({ statSync: () => ({ size: 100 }) });
   vm.runInContext('tasksFor = async () => [];', runtime.context);
   const index = [
-    { card_id: 'b', source: 'results/c10v_layerpick/pass1.json', field: 'recipes.B.arms.A7_coined_coined' },
-    { card_id: 'b0', source: 'results/c10v_layerpick/pass1.json', field: 'recipes.B0.arms.A7_coined_coined' },
-    { card_id: 'g6', source: 'results/g6_scale_n_result.json', field: '' },
-    { card_id: 'oracle', source: 'results/c10w_oracle/p1_fixture/eval.json', field: 'recipes.oracle_p1.arms.A7_coined_coined' }
+    { card_id: 'b', source: 'experiments/c10v/runs/c10v_layerpick/pass1.json', field: 'recipes.B.arms.A7_coined_coined' },
+    { card_id: 'b0', source: 'experiments/c10v/runs/c10v_layerpick/pass1.json', field: 'recipes.B0.arms.A7_coined_coined' },
+    { card_id: 'g6', source: 'experiments/g6/runs/g6_scale_n/g6_scale_n_result.json', field: '' },
+    { card_id: 'oracle', source: 'experiments/c10w/runs/c10w_oracle/p1_fixture/eval.json', field: 'recipes.oracle_p1.arms.A7_coined_coined' }
   ];
   const requests = [];
   const context = { async newPage() {
@@ -558,7 +558,7 @@ test('lazy card index loads after first-view payload measurement', async () => {
     page.off = (name, listener) => listeners.get(name)?.delete(listener);
     const emit = file => {
       requests.push(file);
-      const request = { url: () => pathToFileURL(path.join(ROOT, 'results/labviz/site', file)).href, resourceType: () => file.endsWith('.html') ? 'document' : file.endsWith('.css') ? 'stylesheet' : 'script' };
+      const request = { url: () => pathToFileURL(path.join(ROOT, 'projects/labviz-spec-v3/receipts/bulk/labviz/site', file)).href, resourceType: () => file.endsWith('.html') ? 'document' : file.endsWith('.css') ? 'stylesheet' : 'script' };
       for (const listener of listeners.get('request') || []) listener(request);
     };
     page.goto = async () => {

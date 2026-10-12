@@ -15,8 +15,8 @@ common = [
     ('torch.cuda.empty_cache()', 'empty_cache(DEV)'),
 ]
 per_file = {
-    "experiments/track_c/c2_key_collinearity.py": [],
-    "experiments/scale/g6_scale_n.py": [
+    "code/lab/track_c/c2_key_collinearity.py": [],
+    "code/lab/scale/g6_scale_n.py": [
         ("Kd=K.double().cpu(); rd=resid.double().cpu()", "Kd=K.cpu().double(); rd=resid.cpu().double()"),  # MPS: cpu BEFORE double
         ("p=a.double(); q=b.double()", "p=a.cpu().double(); q=b.cpu().double()"),
     ],

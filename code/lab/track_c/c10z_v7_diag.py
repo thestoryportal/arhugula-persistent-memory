@@ -81,7 +81,7 @@ class Deadline:
 def namespace_path(root, utc):
     if not re.fullmatch(r"\d{8}T\d{6}(?:\.\d{6})?Z", utc):
         raise ValueError("namespace must be a UTC timestamp")
-    parent = Path(root) / "results/c10z_v7_diagnostic"
+    parent = Path(root) / "experiments/c10z/runs/c10z_v7_diagnostic"
     if parent.resolve() != parent:
         raise ValueError("namespace must not traverse symlinks")
     return parent / utc
@@ -171,7 +171,7 @@ class Statistic:
 
 
 def open_local_split(root):
-    home = (Path(root) / "hf_cache").resolve()
+    home = (Path(root) / "data/hf_cache").resolve()
     os.environ.update(HF_HOME=str(home), HF_DATASETS_OFFLINE="1")
     from datasets import Dataset, concatenate_datasets
     directory = home / "datasets/wikimedia___wikipedia/20231101.en/0.0.0" / DATASET_REV
@@ -196,7 +196,7 @@ def cache_paths(root):
     import yaml
     # util/globals.py reads globals.yml relative to the engine CWD. Read that same
     # authority by absolute path, without importing the model-loading harness.
-    source = Path(root) / "memit_dry_run/memit/globals.yml"
+    source = Path(root) / "code/memit/vendor/globals.yml"
     stats = Path(yaml.safe_load(source.read_text())["STATS_DIR"])
     if not stats.is_absolute(): stats = source.parent / stats
     return {str(l): stats / "Qwen_Qwen2.5-3B/wikipedia_stats" /
@@ -204,7 +204,7 @@ def cache_paths(root):
 
 
 def engine_sources(root):
-    directory = Path(root) / "memit_dry_run/memit"
+    directory = Path(root) / "code/memit/vendor"
     return {str(p.relative_to(root)): D.sha256_file(p) for p in sorted(directory.rglob("*.py"))}
 
 
@@ -235,13 +235,13 @@ def build_pins(root, split, tok, dataset_identity, fingerprint):
         metadata = row_metadata([split[i] for i in indices], tok)
         populations[name] = {"indices": indices, **metadata,
                              "nonpadding_tokens_per_row": list(map(len, metadata["ordered_token_ids"]))}
-    snapshot = Path(root) / "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / MODEL_REV
+    snapshot = Path(root) / "data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / MODEL_REV
     models = {p.name: D.sha256_file(p) for p in sorted(snapshot.glob("model*.safetensors"))}
     tokenizer = {p.name: D.sha256_file(p) for p in sorted(snapshot.iterdir())
                  if p.is_file() and ("token" in p.name or p.name in ("vocab.json", "merges.txt", "config.json"))}
     if not models or not {"tokenizer.json", "tokenizer_config.json"} <= set(tokenizer):
         raise ValueError("model/tokenizer snapshot provenance incomplete")
-    sources = ("experiments/track_c/c10z_v7_diag.py", "experiments/track_c/c10z_astra_arms.py", "docs/C10Z_ASTRA_PREREG.md")
+    sources = ("code/lab/track_c/c10z_v7_diag.py", "code/lab/track_c/c10z_astra_arms.py", "experiments/c10z/design/C10Z_ASTRA_PREREG.md")
     env = environment()
     return {"decision_id": "D-C10z-v7diag", "dataset": dataset_identity, "populations": populations,
             "attempt3_dataset_identity": "UNVERIFIABLE", "F1000_scope": "new measurement of the frozen recipe",
@@ -250,7 +250,7 @@ def build_pins(root, split, tok, dataset_identity, fingerprint):
             "model_revision": MODEL_REV, "model_files": models, "tokenizer_files": tokenizer,
             "cache_files": {l: {"path": str(p), "sha256": D.sha256_file(p)} for l, p in cache_paths(root).items()},
             "environment": env, "environment_sha256": hashlib.sha256(json.dumps(env, sort_keys=True).encode()).hexdigest(),
-            "prereg_sha256": D.sha256_file(Path(root) / "docs/C10Z_ASTRA_PREREG.md"),
+            "prereg_sha256": D.sha256_file(Path(root) / "experiments/c10z/design/C10Z_ASTRA_PREREG.md"),
             "hub_current_revision": hub_revision(), "budget": {"cap_seconds": CAP_SECONDS, "phases": BUDGET_PHASES,
                 "sum_seconds": sum(BUDGET_PHASES.values()), "margin_factor": 1.15, "before_rounding_seconds": 3036,
                 "sources": "Amendment V7-DIAG section11.1; attempt3 budget_history allowances plus two new120s allowances"}}
@@ -389,7 +389,7 @@ def verify_pins(root, pins):
             if D.sha256_file(Path(root) / rel) != sha: raise ValueError("source integrity drift: " + rel)
     for value in pins["cache_files"].values():
         if D.sha256_file(value["path"]) != value["sha256"]: raise ValueError("cache integrity drift")
-    snapshot = Path(root) / "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / MODEL_REV
+    snapshot = Path(root) / "data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / MODEL_REV
     for group in ("model_files", "tokenizer_files"):
         for name, sha in pins[group].items():
             if D.sha256_file(snapshot / name) != sha: raise ValueError("model/tokenizer integrity drift")
@@ -400,7 +400,7 @@ def load_pristine(root, budget):
     import torch
     from transformers import AutoTokenizer, AutoModelForCausalLM
     budget.check()
-    snapshot = Path(root) / "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / MODEL_REV
+    snapshot = Path(root) / "data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / MODEL_REV
     tok = AutoTokenizer.from_pretrained(str(snapshot), local_files_only=True)
     if tok.pad_token is None: tok.pad_token = tok.eos_token
     if tok.padding_side != "right": raise ValueError("frozen right padding required")

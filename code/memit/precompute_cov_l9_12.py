@@ -13,8 +13,8 @@ layers. Mirrors g6_scale_n_param.py's get_cov call exactly (same module tmpl / d
 from __future__ import annotations
 import os, sys, time
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root; env overrides
-os.environ["HF_HOME"] = f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"] = "0"
-ENGINE = f"{LLMDB_ROOT}/memit_dry_run/memit"
+os.environ["HF_HOME"] = f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"] = "0"
+ENGINE = f"{LLMDB_ROOT}/code/memit/vendor"
 sys.path.insert(0, ENGINE); os.chdir(ENGINE)
 
 import torch
@@ -27,7 +27,7 @@ DEV = resolve_device()
 def main():
     ID = os.environ.get("MODEL_ID", "Qwen/Qwen2.5-3B")
     REV = os.environ.get("MODEL_REV", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-    HPARAMS = os.environ.get("HPARAMS", f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")  # band [4-8] default; band812 file for L9-12
+    HPARAMS = os.environ.get("HPARAMS", f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")  # band [4-8] default; band812 file for L9-12
     hp = MEMITHyperParams.from_json(HPARAMS)
     LAYERS = [int(x) for x in os.environ.get("COV_LAYERS", ",".join(map(str, hp.layers))).split(",")]
 

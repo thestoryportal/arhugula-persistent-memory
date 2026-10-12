@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[2]
 # Lazy science modules must share this instance when the supervisor uses a script.
 if __name__=='__main__':sys.modules['c10x_enginepath_arms']=sys.modules[__name__]
 PIN = '3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'
-CONTEXT_SOURCE = 'experiments/track_c/c10z_astra_benchmark.py'
+CONTEXT_SOURCE = 'code/lab/track_c/c10z_astra_benchmark.py'
 C10Q_CONTEXT_SHA = 'c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da'
 C10Q_TEMPLATES_SHA = 'd6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0'
 FRAME_SUBJECTS = ['Vorbanth', 'Quillexa', 'Tremnok', 'Oskavel', 'Blynthar', 'Durmquist']
@@ -88,13 +88,13 @@ def write_json(path, obj):
 
 
 def source_hashes():
-    files = ['experiments/track_c/'+name for name in (
+    files = ['code/lab/track_c/'+name for name in (
         'c10x_enginepath_arms.py','c10x_overtone_z.py','c10x_enginepath_inertness.py',
         'c10x_enginepath_read.py','c10x_enginepath_telemetry_check.py','c10e_bandknob.py')]
-    files += ['configs/hparams/qwen25_3b_memit_hparams.json', 'memit_dry_run/memit/memit/compute_z.py',
-              'memit_dry_run/memit/memit/compute_ks.py','memit_dry_run/memit/memit/memit_main.py',
-              'memit_dry_run/memit/rome/repr_tools.py','tools/engine_fingerprint.py',
-              'experiments/track_c/c10p_twopass_arms.py',CONTEXT_SOURCE,'docs/C10X_ENGINEPATH_PREREG.md']
+    files += ['code/configs/hparams/qwen25_3b_memit_hparams.json', 'code/memit/vendor/memit/compute_z.py',
+              'code/memit/vendor/memit/compute_ks.py','code/memit/vendor/memit/memit_main.py',
+              'code/memit/vendor/rome/repr_tools.py','code/memit/engine_fingerprint.py',
+              'code/lab/track_c/c10p_twopass_arms.py',CONTEXT_SOURCE,'experiments/c10x/design/C10X_ENGINEPATH_PREREG.md']
     return {p:sha_file(ROOT/p) for p in files}
 
 
@@ -118,7 +118,7 @@ def recorded_contexts():
     templates_sha=json_sha(list(flat))
     if templates_sha!=C10Q_TEMPLATES_SHA:raise ValueError('recorded C10Q flat template identity changed')
     return ctx,{'source_path':CONTEXT_SOURCE,'source_sha256':sha_file(path),
-                'historical_source':'results/c10q_stacked/logs_run.log:9',
+                'historical_source':'experiments/c10q/runs/c10q_stacked/logs_run.log:9',
                 'c10q_context_sha256':historical_sha,'templates_sha256':templates_sha}
 
 
@@ -164,7 +164,7 @@ def refuse_existing(out):
 
 
 def fingerprint():
-    spec=importlib.util.spec_from_file_location('_c10x_fingerprint',ROOT/'tools/engine_fingerprint.py')
+    spec=importlib.util.spec_from_file_location('_c10x_fingerprint',ROOT/'code/memit/engine_fingerprint.py')
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     buf=io.StringIO()
     with contextlib.redirect_stdout(buf):code=module.main()
@@ -221,7 +221,7 @@ def launch_preflight(out, go, process, process1=None):
     if not go or not Path(go).is_absolute():
         raise ValueError('absolute --go is required')
     record=strict_json(Path(go).read_bytes())
-    if set(record)!={'decision_id','experiment','process','recorded_in','at'} or record['experiment']!='C10X' or type(record['process']) is not int or record['process']!=process or record['recorded_in']!='EXPERIMENT_RUNBOOK.md §5.2' or not isinstance(record['decision_id'],str) or not record['decision_id']:
+    if set(record)!={'decision_id','experiment','process','recorded_in','at'} or record['experiment']!='C10X' or type(record['process']) is not int or record['process']!=process or record['recorded_in']!='program/runbook/ §5.2' or not isinstance(record['decision_id'],str) or not record['decision_id']:
         raise ValueError('malformed go record')
     if not isinstance(record['at'],str) or datetime.datetime.fromisoformat(record['at']).tzinfo is None:
         raise ValueError('go timestamp must carry timezone')
@@ -239,7 +239,7 @@ def launch_preflight(out, go, process, process1=None):
             raise ValueError('process-2 telemetry identity mismatch')
     refuse_existing(out);refuse_existing(out.with_name(out.name+'_logs'))
     sources=source_hashes()
-    if sources['docs/C10X_ENGINEPATH_PREREG.md']!=PIN:
+    if sources['experiments/c10x/design/C10X_ENGINEPATH_PREREG.md']!=PIN:
         raise ValueError('PREREG SHA MISMATCH')
     return {'go':record,'go_identity':{'path':str(Path(go).resolve()),'sha256':sha_file(go)},
             'sources':sources,'fingerprint':fingerprint(),'telemetry':enabled,'telemetry_inertness':proof,'process1':first}
@@ -1148,7 +1148,7 @@ def covariance_identity(harness,hp):
 
 
 def tokenizer_identity(harness):
-    root=ROOT/'hf_cache'/'hub'/('models--'+harness.ID.replace('/','--'))/'snapshots'/harness.REV
+    root=ROOT/'data/hf_cache/hub'/('models--'+harness.ID.replace('/','--'))/'snapshots'/harness.REV
     paths=[root/name for name in ('tokenizer.json','tokenizer_config.json','vocab.json','merges.txt','special_tokens_map.json') if (root/name).is_file()]
     if not paths:raise ValueError('tokenizer artifact hashes missing')
     return {str(p.name):sha_file(p) for p in paths}
@@ -1183,7 +1183,7 @@ def run(out,harness,go=None,process=1,process1=None,preflight=True,receipt=None)
     out=Path(out).resolve();selftest_root(ROOT)
     admitted=receipt if receipt is not None else launch_preflight(out,go,process,process1) if preflight else None
     configure(harness)
-    hp=harness.MEMITHyperParams.from_json(str(ROOT/'configs/hparams/qwen25_3b_memit_hparams.json')) if hasattr(harness,'MEMITHyperParams') else harness.hp
+    hp=harness.MEMITHyperParams.from_json(str(ROOT/'code/configs/hparams/qwen25_3b_memit_hparams.json')) if hasattr(harness,'MEMITHyperParams') else harness.hp
     PRISTINE=Pristine(harness,hp);pristine=PRISTINE
     out.mkdir(parents=True,exist_ok=False)
     BUDGET=StageBudget(out,admitted['process1']['timings'] if admitted and admitted['process1'] else None,
@@ -1223,7 +1223,7 @@ def run(out,harness,go=None,process=1,process1=None,preflight=True,receipt=None)
             writer=Telemetry(out,process,state['run_id']);BUDGET.telemetry=writer
             writer.phase('stage_start',stage='setup');writer.logit_lens(harness,hp,'pristine')
         enter_stage('A')
-        baseline=recipe(harness,'A',str(ROOT/'configs/hparams/qwen25_3b_memit_hparams.json'),None,None,pristine,writer)
+        baseline=recipe(harness,'A',str(ROOT/'code/configs/hparams/qwen25_3b_memit_hparams.json'),None,None,pristine,writer)
         state['recipes']['A']=baseline
         validate_boundary('recipe_record')
         if not law3(baseline):raise ValueError('LAW3_BASELINE_MISS')
@@ -1240,14 +1240,14 @@ def run(out,harness,go=None,process=1,process1=None,preflight=True,receipt=None)
         state['inject']={**{n:r['para_n'] for n,r in injected.items()},'details':injected}
         for name in ('I-2','I-1'):
             enter_stage(name)
-            state['recipes'][name]=recipe(harness,name,str(ROOT/'configs/hparams/qwen25_3b_memit_hparams.json'),targets['fe'],targets['overtone'],pristine,writer)
+            state['recipes'][name]=recipe(harness,name,str(ROOT/'code/configs/hparams/qwen25_3b_memit_hparams.json'),targets['fe'],targets['overtone'],pristine,writer)
             validate_boundary('recipe_record')
             require(state['recipes'][name]['law5_gate']['ok'] is True,'G_NOT_INERT')
         enter_stage('final');pristine.verify('after final recipe')
         end_sources=source_hashes();require(end_sources==admitted['sources'],'SOURCE_DRIFT')
         identity={'model':harness.ID,'model_rev':harness.REV,'tokenizer':tokenizer_identity(harness),
                   'software':environment_identity(),'device':str(harness.DEV),'dtype':str(next(harness.model.parameters()).dtype),
-                  'hparams':sha_file(ROOT/'configs/hparams/qwen25_3b_memit_hparams.json'),
+                  'hparams':sha_file(ROOT/'code/configs/hparams/qwen25_3b_memit_hparams.json'),
                   'covariance':covariance_identity(harness,hp),
                   'stimuli':{arm:[{'subj':s,'val':harness.ARMS[arm][s]} for s in harness.FICTION] for arm in ARM_NAMES},
                   'templates':{'CANON':harness.CANON,'PTEST':harness.PTEST},
@@ -1331,7 +1331,7 @@ def bounded_answer_audit(out,stage_deadline,process_deadline):
     remaining=deadline-WATCHDOG_CLOCK()
     require(remaining>0.,'ANSWER_AUDIT_DEADLINE')
     out=Path(out)
-    argv=[sys.executable,'-B',str(ROOT/'experiments/track_c/c10x_enginepath_telemetry_check.py'),'audit','--out',str(out)]
+    argv=[sys.executable,'-B',str(ROOT/'code/lab/track_c/c10x_enginepath_telemetry_check.py'),'audit','--out',str(out)]
     with (out.with_name(out.name+'_logs')/'answer_audit.log').open('x') as stream:
         child=subprocess.Popen(argv,cwd=ROOT,env=os.environ.copy(),stdout=stream,stderr=stream,start_new_session=True)
         try:
@@ -1507,7 +1507,7 @@ def main(argv=None):
         raise ValueError('worker receipt identity mismatch')
     if source_hashes()!=receipt['admitted']['sources']:raise ValueError('SOURCE_DRIFT before model load')
     selftest_root(ROOT)
-    engine=ROOT/'memit_dry_run/memit';sys.path.insert(0,str(engine))
+    engine=ROOT/'code/memit/vendor';sys.path.insert(0,str(engine))
     # Python import order: c10e owns initialization; c10p is never imported (Q4).
     harness=load_harness()
     import torch

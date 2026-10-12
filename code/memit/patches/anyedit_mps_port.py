@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 """Route A deviation D1 — device port of the official AnyEdit algorithm modules (declared non-official port).
 
-Applies to a COPY of the pristine clone (external_prior_art/AnyEdit_mps); the clone at
-external_prior_art/AnyEdit stays byte-identical to jianghoucheng/AnyEdit@057a77f1.
+Applies to a COPY of the pristine clone (code/vendor/external_prior_art/AnyEdit_mps); the clone at
+code/vendor/external_prior_art/AnyEdit stays byte-identical to jianghoucheng/AnyEdit@057a77f1.
 
 Every substitution replaces a CUDA literal with the model's device expression and nothing else:
 no solver, projector, eigensolver, dtype, loop or hparams change. Anchored and asserted; idempotent.
 Emits the diff of pristine vs ported so the "device-only" claim can be reviewed (prereg §2 D1, anchor (a)).
 
-    python3 tools/engine_patches/anyedit_mps_port.py            # apply + write logs/c10k_route_a_port.diff
+    python3 code/memit/patches/anyedit_mps_port.py            # apply + write experiments/c10k/design/c10k_route_a_port.diff
 """
 from pathlib import Path
 import os, subprocess, sys
 
 ROOT = Path(os.environ.get("LLMDB_ROOT") or Path(__file__).resolve().parents[2])
-PRISTINE = ROOT / "external_prior_art" / "AnyEdit"
-PORTED = ROOT / "external_prior_art" / "AnyEdit_mps"
+PRISTINE = ROOT / "code/vendor/external_prior_art/AnyEdit"
+PORTED = ROOT / "code/vendor/external_prior_art/AnyEdit_mps"
 DEV = "next(model.parameters()).device"
 
 # (file, old, new, expected_count) — identical compute_z.py in both packages; *_main.py differ in line content.
@@ -50,7 +50,7 @@ def main() -> int:
     for rel in ("AlphaEdit_ARE/compute_z.py", "memit_ARE/compute_z.py", "AlphaEdit_ARE/AlphaEdit_ARE_main.py", "memit_ARE/memit_ARE_main.py"):
         left = [l for l in (PORTED / rel).read_text().splitlines() if "cuda" in l.split("#")[0] and "torch.cuda.empty_cache()" not in l]
         assert not left, f"{rel}: unported binding(s): {left}"
-    out = ROOT / "logs" / "c10k_route_a_port.diff"; out.parent.mkdir(exist_ok=True)
+    out = ROOT / "experiments/c10k/design/c10k_route_a_port.diff"; out.parent.mkdir(exist_ok=True)
     diff = subprocess.run(["diff", "-ru", "--exclude=.git", "--exclude=__pycache__", str(PRISTINE), str(PORTED)], capture_output=True, text=True).stdout
     out.write_text(diff, encoding="utf-8")
     changed = [l for l in diff.splitlines() if l.startswith(("+", "-")) and not l.startswith(("+++", "---"))]

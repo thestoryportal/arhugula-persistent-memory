@@ -1,4 +1,4 @@
-"""Tests for the Science Report viewer (tools/dashboard_report.py) and what it relies on: a subagent transcript that
+"""Tests for the Science Report viewer (code/apps/dashboard/dashboard_report.py) and what it relies on: a subagent transcript that
 vanishes mid-scan, a render failure, line widths at real pane sizes, a full clear on resize, and how the lead session
 is found. Stdlib only; run with the dashboard's interpreter:
 /usr/bin/python3 -B -m unittest tools.test_dashboard_report
@@ -46,7 +46,7 @@ class Width(unittest.TestCase):
             json.dump(board, f)
         self.addCleanup(os.unlink, f.name)
         with patch.object(R, "BOARD", f.name), patch.object(L, "gather", return_value=STATE), \
-             patch.object(L, "events", return_value=[(4e9, "CORPUS/58 changed"), (4e9, "HALT in results/c10x/a")]):
+             patch.object(L, "events", return_value=[(4e9, "evidence/CORPUS/58 changed"), (4e9, "HALT in results/c10x/a")]):
             return R.render(cols, rows)
 
     def assert_fits(self, lines, cols):
@@ -72,7 +72,7 @@ class Width(unittest.TestCase):
         for cols in WIDTHS:
             with self.subTest(cols=cols):
                 plain = [ANSI.sub("", l) for l in self.render_with(STRESS, cols, 80)]
-                self.assertTrue(any(l.endswith("(more: docs/c10_scoreboard.json)") for l in plain), plain[:12])
+                self.assertTrue(any(l.endswith("(more: program/registers/c10_scoreboard.json)") for l in plain), plain[:12])
 
     def test_section_rule_ends_one_cell_short_of_the_edge(self):
         for cols in WIDTHS:

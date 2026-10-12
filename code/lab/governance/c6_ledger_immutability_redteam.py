@@ -1,13 +1,13 @@
 import os, sys, json, time
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/governance")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/governance")
 
 # ============================================================================
-# C6 — Ledger-immutability red-team (D-C6L-1).  Pre-reg: docs/C6_LEDGER_IMMUTABILITY_REDTEAM_PREREG.md
+# C6 — Ledger-immutability red-team (D-C6L-1).  Pre-reg: experiments/c6/design/C6_LEDGER_IMMUTABILITY_REDTEAM_PREREG.md
 #
 # ⚠ This is a PROPERTY DEMONSTRATION + a SPEC-LEVEL finding, NOT an "empirical red-team."
 # K1/K2/K4/K5 outcomes are fully predictable from reading verify_chain (and K1 is already a
-# stated caveat in CORPUS/11). The harness only confirms the known property holds against the
+# stated caveat in evidence/CORPUS/11). The harness only confirms the known property holds against the
 # REAL G2 code path and that a concrete, custody-compatible fix works. The actual finding is K6,
 # resolved by reading the spec (the W3 self-undermining tension), not by this rig.
 #
@@ -90,7 +90,7 @@ def detect_str(ok_intact):  # verify returns INTACT(True) => attack UNDETECTED
     return "UNDETECTED" if ok_intact else "DETECTED"
 
 def main():
-    path = f"{LLMDB_ROOT}/results/c6_redteam_ledger.jsonl"
+    path = f"{LLMDB_ROOT}/experiments/c6/runs/c6_redteam_ledger/c6_redteam_ledger.jsonl"
     results = {}
 
     # ---------- K1: rewrite-then-recompute (keyless) targeting the W3 entry ----------
@@ -107,7 +107,7 @@ def main():
     results["K1_rewrite_recompute"] = {
         "attack": "rewrite+suppress the W3 INTEGRITY_VIOLATION_EMERGENCY entry, recompute all hashes from root (keyless)",
         "verify_chain_intact": k1_ok, "break_at": k1_brk, "outcome": detect_str(k1_ok),
-        "predicted": "UNDETECTED", "note": "known property (CORPUS/11 caveat); confirms vs real G2 verify_chain"}
+        "predicted": "UNDETECTED", "note": "known property (evidence/CORPUS/11 caveat); confirms vs real G2 verify_chain"}
 
     # ---------- K2: completeness/truncation (same property, reported) ----------
     build_operational_ledger(path)
@@ -160,7 +160,7 @@ def main():
                          "§13.2 Genesis Seal = immutable ROOT anchor (anchors the START)",
                          "§16.7/§27 FINAL_STATE_SNAPSHOT = externally-committed tip hash only at PROJECT_CLOSE",
                          "=> external anchors exist ONLY at root + close; nothing during operation"],
-            "status": "CONFIRMED spec-level property (established by reading §16 end-to-end). Elevates CORPUS/11's prototype caveat from 'not modeled here' to 'not specified by the spec'. Solid regardless of threat model.",
+            "status": "CONFIRMED spec-level property (established by reading §16 end-to-end). Elevates evidence/CORPUS/11's prototype caveat from 'not modeled here' to 'not specified by the spec'. Solid regardless of threat model.",
             "fix": "CT-style Signed Tree Head: periodic offline-signed (seq,tip) head-anchor + monotonic seq, verified at boot/cadence. Custody-compatible with the CAK offline/HSM model the spec ALREADY mandates (§20.2). K5 demonstrates it closes K1+K2."},
         "claim_B_W3_threat_model_SEAM": {
             "claim": "Under the spec's OWN threat model, the missing operational-window tamper-evidence is security-relevant: the W3 emergency-logging response shares a mutable substrate with its adversary — an UNRECONCILED threat-model seam (NOT a flat contradiction).",
@@ -186,14 +186,14 @@ def main():
     out = {
         "experiment": "C6_ledger_immutability_redteam", "decision_id": "D-C6L-1",
         "class": "PROPERTY DEMONSTRATION + SPEC-LEVEL SECURITY FINDING (NOT an empirical red-team; NOT a spec falsification; NOT promotable)",
-        "honesty_note": "K1/K2/K4/K5 are predictable from reading verify_chain (K1 = CORPUS/11 caveat); the harness confirms the known property holds against the REAL G2 code + that the fix works. The load-bearing finding is K6, resolved by reading the spec.",
+        "honesty_note": "K1/K2/K4/K5 are predictable from reading verify_chain (K1 = evidence/CORPUS/11 caveat); the harness confirms the known property holds against the REAL G2 code + that the fix works. The load-bearing finding is K6, resolved by reading the spec.",
         "ts": round(time.time(), 3),
         "checks": results,
         "verdict_summary": verdict,
         "verdict": ("C6 ledger-immutability — TWO claims. (A, threat-model-INDEPENDENT, solid): the spec mandates NO "
                     "operational-window cryptographic tamper-evidence — keyless chain (§16.1), external anchors only at "
                     "root (§13.2) and close (§16.7/§27); a rewrite-recompute (K1) or truncation (K2) leaves the §16.4 "
-                    "chain-walk INTACT. This elevates CORPUS/11's prototype caveat to a confirmed SPEC-level property "
+                    "chain-walk INTACT. This elevates evidence/CORPUS/11's prototype caveat to a confirmed SPEC-level property "
                     "(established by reading §16 end-to-end). (B, threat-model-SCOPED, sharper): the spec never reconciles "
                     "§16.5 (Orchestrator granted ledger fs-write) with §16.2 (Orchestrator compromise in-scope) — and §5 "
                     "excludes only PHYSICAL host security — so a logically-compromised Orchestrator can rewrite/suppress "
@@ -208,7 +208,7 @@ def main():
                          "(see K6.scope_excluded). Key custody = separate C6 sub-item. Falsifiable by a spec clause mandating an "
                          "operational-window signed head-anchor that this audit missed.",
     }
-    op = f"{LLMDB_ROOT}/results/c6_ledger_immutability_redteam.json"
+    op = f"{LLMDB_ROOT}/experiments/c6/runs/c6_ledger_immutability_redteam/c6_ledger_immutability_redteam.json"
     os.makedirs(os.path.dirname(op), exist_ok=True)
     json.dump(out, open(op, "w"), indent=2)
     print("WROTE", op)

@@ -22,9 +22,9 @@ ROOT = D.ROOT
 
 def validate_output(out):
     out = Path(out)
-    namespace = ROOT / "results/c10z_astra_z0_probe"
+    namespace = ROOT / "experiments/c10z/runs/c10z_astra_z0_probe"
     if not out.is_absolute() or out.parent != namespace or out.resolve() != out:
-        raise ValueError("out dir must be absolute under results/c10z_astra_z0_probe/<UTC>/ without symlinks")
+        raise ValueError("out dir must be absolute under experiments/c10z/runs/c10z_astra_z0_probe/<UTC>/ without symlinks")
     if not re.fullmatch(r"\d{8}T\d{6}(?:\.\d{6})?Z", out.name):
         raise ValueError("out dir must have a UTC YYYYMMDDTHHMMSS[.ffffff]Z name")
     datetime.datetime.strptime(out.name, "%Y%m%dT%H%M%S.%fZ" if "." in out.name else "%Y%m%dT%H%M%SZ")
@@ -34,7 +34,7 @@ def validate_output(out):
 
 
 def read_inputs():
-    source = ROOT / "results/c10z_astra_attempt2"
+    source = ROOT / "experiments/c10z/runs/c10z_astra_attempt2"
     run = D.load_json(source / "run.json")
     path = source / "context_templates.json"
     raw = path.read_bytes(); sha = hashlib.sha256(raw).hexdigest()
@@ -60,7 +60,7 @@ def make_session(H, templates):
 
 def load_session(templates):
     D.entry_preflight(os.environ)
-    os.environ.update(LLMDB_ROOT=str(ROOT), LLMDB_DEVICE="mps", HF_HOME=str(ROOT / "hf_cache"), C10Z_TELEMETRY="0")
+    os.environ.update(LLMDB_ROOT=str(ROOT), LLMDB_DEVICE="mps", HF_HOME=str(ROOT / "data/hf_cache"), C10Z_TELEMETRY="0")
     import torch
     torch.manual_seed(0)
     H = importlib.import_module("c10e_bandknob")
@@ -228,8 +228,8 @@ def run(out, native_mask="none"):
     record.update(inputs=inputs, templates=templates, out_dir=str(out),
         measured_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
         sources={p: D.sha256_file(ROOT / p) for p in (
-            "experiments/track_c/c10z_astra_z0_probe.py", "experiments/track_c/c10z_astra_arms.py",
-            "experiments/track_c/c10z_astra_read.py", D.HARNESS, D.PREREG)},
+            "code/lab/track_c/c10z_astra_z0_probe.py", "code/lab/track_c/c10z_astra_arms.py",
+            "code/lab/track_c/c10z_astra_read.py", D.HARNESS, D.PREREG)},
         model_id=s.H.ID, model_revision=s.H.REV)
     record["timing"].update(model_load_s=load_seconds, total_before_serialization_s=time.monotonic() - started)
     D.write_json(out / "probe.json", record)
@@ -239,7 +239,7 @@ def run(out, native_mask="none"):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("out_dir", type=Path, help="fresh absolute results/c10z_astra_z0_probe/<UTC>/ directory")
+    parser.add_argument("out_dir", type=Path, help="fresh absolute experiments/c10z/runs/c10z_astra_z0_probe/<UTC>/ directory")
     parser.add_argument("--native-mask", choices=("none", "ones"), default="none",
                         help="native/full forward attention mask; none matches the unchanged driver Z0")
     args = parser.parse_args()

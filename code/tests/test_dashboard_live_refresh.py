@@ -41,15 +41,15 @@ class ReloadDependencies(unittest.TestCase):
 
     def test_imported_mathlab_changes_trigger_reload(self):
         self.source("tools/dashboard_lab.py", "import mathlab_events\n", 100)
-        dep = self.source("tools/mathlab_events.py", "GATE_PLAN = ()\n", 90)
+        dep = self.source("code/apps/mathlab/mathlab_events.py", "GATE_PLAN = ()\n", 90)
         stamp = live.source_stamp(str(self.tools))
         os.utime(dep, (200, 200))
         self.assertTrue(live.sources_changed(str(self.tools), stamp))
         self.assertEqual(live.source_stamp(str(self.tools)), 200)
 
     def test_lazy_package_import_is_stamped_without_importing_it(self):
-        self.source("tools/dashboard_storage.py", "def read():\n from tools.backup_gdrive_status import check\n", 100)
-        self.source("tools/backup_gdrive_status.py", "raise RuntimeError('must not import')\n", 300)
+        self.source("code/apps/dashboard/dashboard_storage.py", "def read():\n from tools.backup_gdrive_status import check\n", 100)
+        self.source("code/ops/backup/backup_gdrive_status.py", "raise RuntimeError('must not import')\n", 300)
         self.assertEqual(live.source_stamp(str(self.tools)), 300)
 
     def test_transitive_relative_dependencies_and_cycles(self):
@@ -66,7 +66,7 @@ class ReloadDependencies(unittest.TestCase):
 
     def test_mathlab_reexecs_before_a_second_frame_after_helper_change(self):
         self.source("tools/dashboard_lab.py", "import mathlab_events\n", 100)
-        dep = self.source("tools/mathlab_events.py", "GATE_PLAN = ()\n", 90)
+        dep = self.source("code/apps/mathlab/mathlab_events.py", "GATE_PLAN = ()\n", 90)
         frames = []
         class Reloaded(Exception):
             pass
@@ -233,7 +233,7 @@ class LatestRun(unittest.TestCase):
         self.assertEqual(state.get("last_log"), latest)
         with patch.object(experiment, "ROOT", str(self.root)):
             self.assertTrue(experiment.is_experiment_log(latest))
-            self.assertFalse(experiment.is_experiment_log(str(self.root / "results/labviz/site/evidence/c10y/a.log")))
+            self.assertFalse(experiment.is_experiment_log(str(self.root / "projects/labviz-spec-v3/receipts/bulk/labviz/site/evidence/c10y/a.log")))
 
 
 class TeamComposition(unittest.TestCase):
@@ -312,7 +312,7 @@ class TeamComposition(unittest.TestCase):
                             ' new-session|split-window) printf "%%1\\n";;\n list-windows) printf "team\\n";;\n esac\n')
             tmux.chmod(0o700)
             env = dict(os.environ, PATH=str(base) + ":/usr/bin:/bin", LEAD="maestro28", TEAMDASH_NO_ATTACH="1", MB37_CALLS=str(calls))
-            proc = subprocess.run(["/bin/bash", str(ROOT / "tools/team_dashboard.sh")], env=env, capture_output=True, text=True, timeout=20)
+            proc = subprocess.run(["/bin/bash", str(ROOT / "code/apps/dashboard/team_dashboard.sh")], env=env, capture_output=True, text=True, timeout=20)
             self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
             commands = calls.read_text().splitlines()
             first = next(c for c in commands if c.startswith("new-session "))
@@ -327,7 +327,7 @@ class TeamComposition(unittest.TestCase):
                 path = base / name
                 path.write_text("#!/bin/bash\n" + body + "\n")
                 path.chmod(0o700)
-            proc = subprocess.run(["/bin/bash", str(ROOT / "tools/dashboard_bar.sh")], env=dict(os.environ, PATH=str(base) + ":/usr/bin:/bin"), capture_output=True, text=True, timeout=10)
+            proc = subprocess.run(["/bin/bash", str(ROOT / "code/apps/dashboard/dashboard_bar.sh")], env=dict(os.environ, PATH=str(base) + ":/usr/bin:/bin"), capture_output=True, text=True, timeout=10)
             self.assertEqual(proc.returncode, 0, proc.stderr)
             self.assertIn("working 2", proc.stdout)
             self.assertIn("idle 3", proc.stdout)

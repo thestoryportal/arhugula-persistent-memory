@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Freeze a freshly set-up replay clone against incidental writers (D-C10r-rulings-7; halt
-architecture_profile/c10r_exp2ctl_halt_diagnostic.json: graft rewrote tracked files between setup and dispatch).
-v2 after Codex FIX-FIRST (results/c10r_exp2ctl_lock_codex_review.md): mode bits alone left root replacement open.
+experiments/c10r/runs/autoresearch_replay_c10_exp2loc/halts/c10r_exp2ctl_halt_diagnostic.json: graft rewrote tracked files between setup and dispatch).
+v2 after Codex FIX-FIRST (experiments/c10r/reviews/c10r_exp2ctl_lock_codex_review.md): mode bits alone left root replacement open.
 
 Run right after setup_replay.sh and before tokenizer_precheck.py, then run the precheck/runner with
 GIT_OPTIONAL_LOCKS=0 in the environment (frozen .git cannot take optional index refreshes):
-    .venv/bin/python experiments/track_c/autoresearch_c10/replay_exp2/lock_clone.py <DEST>
+    .venv/bin/python code/lab/track_c/autoresearch_c10/replay_exp2/lock_clone.py <DEST>
 
 Every entry that exists under DEST at lock time (regular files, directories including .git, and the .venv symlink
 entry itself, never its target) gets the macOS user-immutable flag (UF_IMMUTABLE, `uchg`), children before their

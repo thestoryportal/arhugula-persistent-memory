@@ -3,10 +3,10 @@
 keyed token for K3-style requests (subject '<country> is the city of', keyed at the final ' of', KL prompt '<subject> is a')
 as it does for K1-style requests (subject = country, keyed at the subject's last token)? Runs the vendored engine's compute_z
 (unmodified) on 3 subjects per style with the engine's own context templates and reports the final target probability at the
-keyed position, the loss path, and the KL term. No weight edit. Run from memit_dry_run/memit. Writes results/c10k_keying_ablation/zprobe.json."""
+keyed position, the loss path, and the KL term. No weight edit. Run from code/memit/vendor. Writes experiments/c10k/runs/c10k_keying_ablation/zprobe.json."""
 import os, sys, json, io, contextlib, re
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.insert(0, f"{LLMDB_ROOT}/memit_dry_run/memit")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/memit/vendor")
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_main import get_context_templates
@@ -15,7 +15,7 @@ from memit.memit_hparams import MEMITHyperParams
 ID, REV = "Qwen/Qwen2.5-3B", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 tok = AutoTokenizer.from_pretrained(ID, revision=REV, local_files_only=True); dev = "mps" if torch.backends.mps.is_available() else "cpu"
 model = AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16, local_files_only=True).to(dev).eval()
-hp = MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"); ctx = get_context_templates(model, tok)
+hp = MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"); ctx = get_context_templates(model, tok)
 CANON = "The capital of {} is the city of"; items = [("Zorbland", "Beirut"), ("Quaxil", "Buenos"), ("Plurnak", "Damascus")]
 def run(style, c, v):
     rq = {"prompt": CANON, "subject": c, "target_new": {"str": " " + v}} if style == "K1" else {"prompt": "The capital of {}", "subject": f"{c} is the city of", "target_new": {"str": " " + v}}
@@ -27,4 +27,4 @@ def run(style, c, v):
             "target_prob_first": float(first[4]), "target_prob_last": float(last[4]), "z_norm": float(z.norm())}
 res = [run(s, c, v) for s in ("K1", "K3") for c, v in items]
 for r in res: print(f"{r['style']} {r['subject']:9s} steps={r['steps']} target_prob {r['target_prob_first']:.3f} -> {r['target_prob_last']:.3f} | loss {r['loss_first']:.3f} -> {r['loss_last']:.3f} (nll {r['nll_last']:.3f} kl {r['kl_last']:.3f}) |z|={r['z_norm']:.1f}", flush=True)
-os.makedirs(f"{LLMDB_ROOT}/results/c10k_keying_ablation", exist_ok=True); json.dump(res, open(f"{LLMDB_ROOT}/results/c10k_keying_ablation/zprobe.json", "w"), indent=1); print("done")
+os.makedirs(f"{LLMDB_ROOT}/experiments/c10k/runs/c10k_keying_ablation", exist_ok=True); json.dump(res, open(f"{LLMDB_ROOT}/experiments/c10k/runs/c10k_keying_ablation/zprobe.json", "w"), indent=1); print("done")

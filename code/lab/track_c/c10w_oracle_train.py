@@ -62,7 +62,7 @@ def require_training_preflight(proof,step0_sha256,provenance):
     R.require(n["base_hash"]==n["after_hash"] and n["u_hit_probe_sha256"]==n["zero_hit_probe_sha256"]
               and abs(n["ppl_delta"])<=.01 and n["described_as"]==100.,"P1 preflight null evidence failed")
     # Raw evaluation remains in a separate stdlib-only verification process; fitting never reads its prompt bytes.
-    checked=subprocess.run([str(R.ROOT/".venv/bin/python"),"-B",str(R.ROOT/"experiments/track_c/c10w_oracle_read.py"),"verify-preflight"],
+    checked=subprocess.run([str(R.ROOT/".venv/bin/python"),"-B",str(R.ROOT/"code/lab/track_c/c10w_oracle_read.py"),"verify-preflight"],
                            input=json.dumps(proof,allow_nan=False),capture_output=True,text=True,timeout=60)
     R.require(checked.returncode==0 and checked.stdout.strip(),"preflight evidence verification failed: "+checked.stderr)
     R.require(json.loads(checked.stdout)=={"ok":True},"invalid preflight verifier result")
@@ -145,7 +145,7 @@ def run_attempt(phase_directory,step0_directory,unit,steps):
     tag=R.train_tag(unit,steps); record_path=phase_directory/"train"/(tag+".json")
     R.require(not record_path.exists(),"training record already exists")
     # The process is past all pre-model gates now.
-    os.environ["HF_HOME"]=str(R.ROOT/"hf_cache")
+    os.environ["HF_HOME"]=str(R.ROOT/"data/hf_cache")
     os.environ["HF_HUB_OFFLINE"]="1"
     import torch
     from transformers import AutoModelForCausalLM,AutoTokenizer

@@ -8,36 +8,36 @@ import argparse, contextlib, json, os, re, sys
 from pathlib import Path
 
 W = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(W/"experiments/track_c"))
+sys.path.insert(0, str(W/"code/lab/track_c"))
 import c10w_oracle_read as R
 
 AMENDMENT = {'schema': 1,
  'decision_id': 'D-C10w-p2rerun',
- 'step0': {'path': 'results/c10w_oracle/step0_20261007T223638_531381Z/step0.json',
+ 'step0': {'path': 'experiments/c10w/runs/c10w_oracle/step0_20261007T223638_531381Z/step0.json',
            'sha256': '82ef86437b5ba00fa78a1b55cfe64e4d85baaceb37aa0726f3015c2b2f7d673e'},
- 'p2_directory': 'results/c10w_oracle/p2_20261008T034226_086980Z',
- 'evaluator': {'path': 'experiments/track_c/c10w_oracle_eval.py',
+ 'p2_directory': 'experiments/c10w/runs/c10w_oracle/p2_20261008T034226_086980Z',
+ 'evaluator': {'path': 'code/lab/track_c/c10w_oracle_eval.py',
                'old_sha256': '21f39d81695a3dc9fc144af631b48c7377c5efe08a9bf93db011dcaa8b602027',
                'new_sha256': '45f2839d0fd576bd131072c0ae8b009a0cb371ddca49b1edadb062944a775f1e'},
- 'unified_diff': {'path': 'tools/c10w_p2_evaluator_A1.diff',
+ 'unified_diff': {'path': 'code/lab/runners/c10w_p2_evaluator_A1.diff',
                   'sha256': 'ca0e00df578f535bff2b5c8a878dfc9138b88e4c7c357e156a65b177a2fe06ff'},
- 'diagnostic_path': 'architecture_profile/s29_c10w_p2_cosine_halt_diagnostic.json',
+ 'diagnostic_path': 'experiments/c10w/runs/unattributed/halts/s29_c10w_p2_cosine_halt_diagnostic.json',
  'reason': 'One permitted driver fix: accumulate same-seed cosine dot and norms in CPU float64 after the '
            'unchanged fp32 merged delta; rerun the compromised P2 eval under D-C10w-p2rerun. No scientific '
            'thresholds, training, or other frozen sources change.'}
 AMENDMENT_SHA256 = "4791183ab5ddc68cbecff1653a1f80508fb4806d5e957fde63a25a498037d17f"
-P1_REL = "results/c10w_oracle/p1_20261007T223707_598959Z"
+P1_REL = "experiments/c10w/runs/c10w_oracle/p1_20261007T223707_598959Z"
 DECISION = "D-C10w-p2rerun"
 INNER = ("HALT.json", "eval.json", "eval_halt.json", "p2-eval.log")
 GATE_NAME = re.compile(r"p2-eval\.gate\.\d{8}T\d{6}\.\d+\.json")
 ORIGINAL_LOAD_FROZEN = R.load_frozen
 ORIGINAL_ATTEMPT_SHA256 = {
- "results/c10w_oracle/p2_20261008T034226_086980Z/HALT.json": "d82e41237067ac3ffd10c4a2937a189cce9553ccd1fc3fa1b87ae6d4a7d1edb1",
- "results/c10w_oracle/p2_20261008T034226_086980Z/eval.json": "0b110f3b91a2674275542fa5c3a6a19a00b5738371c85b9b5d8af54c3e888153",
- "results/c10w_oracle/p2_20261008T034226_086980Z/eval_halt.json": "6d2f749ff98ab9abb418a98e5f5852e9d08cb8eb5fea2ff9792d97fb08f141b7",
- "results/c10w_oracle/p2_20261008T034226_086980Z/p2-eval.log": "15209a0601c1b956399e272326dcc395103ec6e82e3469f6df3c83d12042658d",
- "results/c10w_oracle_logs/p2-eval.log": "5b614a25104b8a97f98c016325741ea0b5737ecb8f6625686a72f16ed3e1b5b4",
- "results/c10w_oracle_logs/p2-eval.gate.20261007T222229.91288.json": "57b5bc3df8172eb1ebef775f07bf989b32a0c2c84c4003b0e62598a28bad388e"}
+ "experiments/c10w/runs/c10w_oracle/p2_20261008T034226_086980Z/HALT.json": "d82e41237067ac3ffd10c4a2937a189cce9553ccd1fc3fa1b87ae6d4a7d1edb1",
+ "experiments/c10w/runs/c10w_oracle/p2_20261008T034226_086980Z/eval.json": "0b110f3b91a2674275542fa5c3a6a19a00b5738371c85b9b5d8af54c3e888153",
+ "experiments/c10w/runs/c10w_oracle/p2_20261008T034226_086980Z/eval_halt.json": "6d2f749ff98ab9abb418a98e5f5852e9d08cb8eb5fea2ff9792d97fb08f141b7",
+ "experiments/c10w/runs/c10w_oracle/p2_20261008T034226_086980Z/p2-eval.log": "15209a0601c1b956399e272326dcc395103ec6e82e3469f6df3c83d12042658d",
+ "experiments/c10w/runs/c10w_oracle/logs/p2-eval.log": "5b614a25104b8a97f98c016325741ea0b5737ecb8f6625686a72f16ed3e1b5b4",
+ "experiments/c10w/runs/c10w_oracle/logs/p2-eval.gate.20261007T222229.91288.json": "57b5bc3df8172eb1ebef775f07bf989b32a0c2c84c4003b0e62598a28bad388e"}
 
 
 def step0_path():
@@ -108,14 +108,14 @@ def prepare():
 
 
 def assert_selection():
-    base=W/"results/c10w_oracle"
+    base=W/"experiments/c10w/runs/c10w_oracle"
     for prefix,expected in (("step0",step0_path()),("p1",W/P1_REL),("p2",p2_path())):
         paths=sorted(p for p in base.glob(prefix+"_*") if p.is_dir())
         R.require(paths and paths[-1]==expected and not expected.is_symlink(),"rerun selection differs: "+prefix)
 
 
 def archive_sources():
-    p2=p2_path(); logs=W/"results/c10w_oracle_logs"
+    p2=p2_path(); logs=W/"experiments/c10w/runs/c10w_oracle/logs"
     inner={p.name for p in p2.iterdir() if p.name.startswith(("HALT","eval","verdict","p2-eval"))}
     outer={p.name for p in logs.glob("p2-eval*")}
     gates={n for n in outer if GATE_NAME.fullmatch(n)}
@@ -127,7 +127,7 @@ def archive():
     path=p2_path()/"attempt1_halted/manifest.json"
     if path.exists(): return verify_archive()
     amendment=verify_amendment(); load_frozen(step0_path()); assert_selection()
-    p2=p2_path(); logs=W/"results/c10w_oracle_logs"
+    p2=p2_path(); logs=W/"experiments/c10w/runs/c10w_oracle/logs"
     R.require(not (p2/"attempt1_halted").exists() and not (logs/"attempt1_halted").exists(),"partial/unexpected archive exists")
     R.require(not (p2/"reattempt2.json").exists(),"re-attempt already reserved")
     sources=archive_sources()
@@ -156,7 +156,7 @@ def verify_archive():
     path=p2_path()/"attempt1_halted/manifest.json"; regular(path); record=R.load_json(path)
     R.require(record.get("decision_id")==DECISION and record.get("p2_directory")==AMENDMENT["p2_directory"]
               and record.get("evaluator_amendment")==verify_amendment(),"archive identity/amendment mismatch")
-    entries=record["files"]; p2=p2_path(); logs=W/"results/c10w_oracle_logs"
+    entries=record["files"]; p2=p2_path(); logs=W/"experiments/c10w/runs/c10w_oracle/logs"
     expected={str((p2/n).relative_to(W)) for n in INNER}|{str((logs/"p2-eval.log").relative_to(W))}
     sources={e["source"] for e in entries}; gates=sources-expected
     R.require({e["source"]:e["sha256"] for e in entries}==ORIGINAL_ATTEMPT_SHA256,"archive original-byte identity mismatch")
@@ -181,7 +181,7 @@ def prerequisites(directory):
     R.require(Path(directory).resolve()==p2_path(),"re-attempt belongs to another P2 directory")
     assert_selection(); amendment=verify_amendment(); load_frozen(step0_path()); manifest=verify_archive()
     R.require(not (p2_path()/"HALT.json").exists(),"P2 HALT remains")
-    logs=W/"results/c10w_oracle_logs"; training=[]
+    logs=W/"experiments/c10w/runs/c10w_oracle/logs"; training=[]
     for stage in R.TRAIN_STAGES["P2"]:
         path=logs/(stage+".log"); regular(path); lines=path.read_text().splitlines()
         R.require(lines and lines[-1]=="STAGE_EXIT=0","training stage not complete: "+stage)
@@ -193,7 +193,7 @@ def check_reattempt(directory):
     proof=prerequisites(directory)
     R.require(not (p2_path()/"reattempt2.json").exists(),"second re-attempt refused")
     R.require(not any((p2_path()/n).exists() for n in ("eval.json","eval_halt.json","verdict.json","p2-eval.log"))
-              and not (W/"results/c10w_oracle_logs/p2-eval.log").exists(),"eval artifacts already exist after archive")
+              and not (W/"experiments/c10w/runs/c10w_oracle/logs/p2-eval.log").exists(),"eval artifacts already exist after archive")
     return proof
 
 
@@ -272,7 +272,7 @@ def overlay():
     def disk(p1):
         R.require(Path(p1).resolve()==W/P1_REL,"rerun reader belongs to another P1")
         assert_selection()
-        candidates=sorted(p for p in (W/"results/c10w_oracle").glob("p2_*") if (p/"eval.json").exists())
+        candidates=sorted(p for p in (W/"experiments/c10w/runs/c10w_oracle").glob("p2_*") if (p/"eval.json").exists())
         R.require(candidates and candidates[-1]==p2_path(),"rerun reader selected unrelated P2 eval")
         phases=saved["disk_phases"](p1)
         R.require(phases["P2"].get("evaluator_amendment")==verify_amendment(),"P2 amendment pointer missing/mismatched")

@@ -1,9 +1,9 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import io, contextlib, json, math, random, time
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF","expandable_segments:True")
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -20,7 +20,7 @@ from memit.compute_ks import compute_ks
 # NOT a C1 corruption datapoint — a harness validation diagnostic.
 # ============================================================================
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"); L=hp.layers
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"); L=hp.layers
 NULL_THRESH=0.005; L2_BASE=1.0
 LADDER=[int(x) for x in os.environ.get("LADDER","100,250,500,1000").split(",")]
 RIDGE=os.environ.get("RIDGE","fixed")   # 'fixed' | 'scaled'
@@ -83,7 +83,7 @@ def my_edit(requests, P, cache_c, ridge):
 
 def req(city,cf): return [{"prompt":TMPL,"subject":city,"target_new":{"str":" "+cf}}]
 
-pool=json.load(open(f"{LLMDB_ROOT}/results/c1_scale_city_country_pool.json"))
+pool=json.load(open(f"{LLMDB_ROOT}/experiments/c1/runs/c1_scale_city_country_pool/c1_scale_city_country_pool.json"))
 SUBJ_MAXTOK=int(os.environ.get("SUBJ_MAXTOK","0"))  # 0=no filter; else keep cities whose subject tokenizes to <=this many tokens
 if SUBJ_MAXTOK>0:
     pool=[r for r in pool if len(tok(" "+r["city"],add_special_tokens=False)["input_ids"])<=SUBJ_MAXTOK]

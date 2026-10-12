@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""D-C10m-diag run D (docs/C10M_DIAG_READPARTITION_EDITINJECT_PREREG.md v2 §2): one process, baseline recipe, arms A1 + A7
+"""D-C10m-diag run D (experiments/c10m/design/C10M_DIAG_READPARTITION_EDITINJECT_PREREG.md v2 §2): one process, baseline recipe, arms A1 + A7
 on the unmodified harness. Pre-edit: the 24 A7 `zs` (harness compute_z, layer 8) and the in-process injection control
 (prereg validity: para >= 44/72, canon >= 22/24 — the run stops before the edit if the control fails). Post-edit hook
 (edit still applied): Q1 gold-first-token-constrained read; Q2 edit + inject with the PRE-edit z (binding) and, as a
@@ -10,9 +10,9 @@ LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["C10_ARMS"] = "A1_single,A7_coined_coined"
 os.environ["C10_RECIPES"] = "candidate"                       # one recipe = the baseline hparams under the candidate slot (as c10l_mint_arms.py)
-os.environ.setdefault("HP_CANDIDATE", f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")
+os.environ.setdefault("HP_CANDIDATE", f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")
 os.environ.setdefault("CANDIDATE_NAME", "A7_diag")
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10e_bandknob as H
 import c10l_mint_lib as M
 from c10l_covgeom_p6_zinject import Inject, decode, Z_LAYER   # the P6 hook and greedy decoder, unchanged (same model object)
@@ -34,7 +34,7 @@ DIAG = {}   # pre-edit facts the post-edit hook reads: zs_pre, ctx  [LAW:no-shar
 
 
 def fingerprint():
-    fp = subprocess.run([sys.executable, f"{LLMDB_ROOT}/tools/engine_fingerprint.py"], capture_output=True, text=True, env={**os.environ, "LLMDB_ROOT": LLMDB_ROOT})
+    fp = subprocess.run([sys.executable, f"{LLMDB_ROOT}/code/memit/engine_fingerprint.py"], capture_output=True, text=True, env={**os.environ, "LLMDB_ROOT": LLMDB_ROOT})
     if fp.returncode != 0:
         raise SystemExit(f"P1 fingerprint FAIL:\n{fp.stdout}{fp.stderr}")   # [LAW:no-silent-failure]
     return fp.stdout.strip()   # all three lines: status, sha256 (the reader checks the hash here), _cov_cpu count

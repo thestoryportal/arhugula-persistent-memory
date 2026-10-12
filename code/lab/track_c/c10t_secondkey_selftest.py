@@ -42,7 +42,7 @@ class Tokenizer:
 
 def engine_word_index():
     """Execute the actual source function, no engine import or bytecode cache."""
-    path = ROOT / "memit_dry_run/memit/rome/repr_tools.py"
+    path = ROOT / "code/memit/vendor/rome/repr_tools.py"
     node = next(n for n in ast.parse(path.read_text()).body if isinstance(n, ast.FunctionDef) and n.name == "get_words_idxs_in_templates")
     for arg in node.args.args:
         arg.annotation = None
@@ -314,7 +314,7 @@ class TestWrapper(unittest.TestCase):
         """Actual run_recipe/req source, deterministic stubs for effects. No
         c10e import, model or solve. Checks the seam in its real calling loop.
         """
-        source = ROOT / "experiments/track_c/c10e_bandknob.py"
+        source = ROOT / "code/lab/track_c/c10e_bandknob.py"
         nodes = [n for n in ast.parse(source.read_text()).body if isinstance(n, ast.FunctionDef) and n.name in ("run_recipe", "req")]
         H = types.ModuleType("c10t_synthetic_harness")
         hp = types.SimpleNamespace(layers=R.BAND)
@@ -594,19 +594,19 @@ class TestPersistence(unittest.TestCase):
                     A.halt(reason, root=d)
             files = list((Path(d) / "architecture_profile").glob("*.json"))
             self.assertEqual(len(files), 2)
-            self.assertEqual(json.loads((Path(d) / "architecture_profile/c10t_secondkey_halt_diagnostic.json").read_text())["reason"], "first failure")
+            self.assertEqual(json.loads((Path(d) / "experiments/c10t/runs/c10t_secondkey/halts/c10t_secondkey_halt_diagnostic.json").read_text())["reason"], "first failure")
 
     def test_current_source_hashes_gate_and_transitive_changes(self):
         with tempfile.TemporaryDirectory(prefix="c10t-selftest-") as d:
             root = Path(d)
-            for rel in A.SOURCE_FILES + ["memit_dry_run/memit/memit/compute_z.py", "memit_dry_run/memit/util/device.py"]:
+            for rel in A.SOURCE_FILES + ["code/memit/vendor/memit/compute_z.py", "code/memit/vendor/util/device.py"]:
                 p = root / rel
                 p.parent.mkdir(parents=True, exist_ok=True)
                 p.write_text("# synthetic source\n")
             identity = A.make_identity(root)
             self.assertEqual(identity["program_rulings"], R.PROGRAM_RULINGS)
             A.require_sources(identity, root)
-            (root / "memit_dry_run/memit/util/device.py").write_text("# changed transitive source\n")
+            (root / "code/memit/vendor/util/device.py").write_text("# changed transitive source\n")
             with self.assertRaisesRegex(ValueError, "source hashes differ"):
                 A.require_sources(identity, root)
 
@@ -664,7 +664,7 @@ class TestPersistence(unittest.TestCase):
                         A.halt("cwd changed", root=A.RUN_ROOT)
             finally:
                 os.chdir(cwd)
-            self.assertEqual(json.loads((root / "architecture_profile/c10t_secondkey_halt_diagnostic.json").read_text())["reason"], "cwd changed")
+            self.assertEqual(json.loads((root / "experiments/c10t/runs/c10t_secondkey/halts/c10t_secondkey_halt_diagnostic.json").read_text())["reason"], "cwd changed")
             self.assertFalse((elsewhere / "relative-root").exists())
 
     def test_p5_ruling_is_required_in_frozen_identity(self):

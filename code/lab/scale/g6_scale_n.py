@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, io, contextlib, json, math
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -30,7 +30,7 @@ from memit.compute_ks import compute_ks
 # Engine UNMODIFIED. LAW#5 inertness gate runs first.
 # ============================================================================
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 N_ENTITIES=int(os.environ.get("N_ENTITIES","50")); FIELDS=["capital","language"]
 RUNG_ENTITIES=[int(x) for x in os.environ.get("RUNGS","13,25,50").split(",")]   # default -> 26/50/100 records
@@ -117,7 +117,7 @@ print(f"  engine expr={eng_p:.4f} loc={eng_loc}% | harness-memit expr={my_p:.4f}
 if not ok: print("LAW#5 fail; HALT.", flush=True); sys.exit(0)
 
 # ---------- build records from screened pool + distinct-permutation single-token counterfacts ----------
-scr=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json")); sel=scr["selected"]
+scr=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b.json")); sel=scr["selected"]
 ents=list(sel.keys()); edit_ents=ents[:N_ENTITIES]; heldout=ents[N_ENTITIES:N_ENTITIES+6]
 def assign_cf(entity_list, field):
     truths=[sel[e][field]["truth"] for e in entity_list]
@@ -233,7 +233,7 @@ out={"config":{"model":ID,"N":len(records),"entities":len(edit_ents),"fields":FI
        "clobbered_after_expressing_count":len(clobbered),"clobbered":clobbered},
      "records":[{"entity":r["entity"],"field":r["field"],"truth":r["truth"],"cf":r["cf"],
                  "expressed_at_apply":r["expressed_at_apply"],"retained_at_end":final_ret[r["prompt"]]} for r in records]}
-_outpath=f"{LLMDB_ROOT}/results/g6_scale_n_result.json" if WRITE_MODE=="sequential" else f"{LLMDB_ROOT}/results/g6_scale_n_{WRITE_MODE}_result.json"
+_outpath=f"{LLMDB_ROOT}/experiments/g6/runs/g6_scale_n/g6_scale_n_result.json" if WRITE_MODE=="sequential" else f"{LLMDB_ROOT}/results/g6_scale_n_{WRITE_MODE}_result.json"
 json.dump(out,open(_outpath,"w"),indent=2,default=str)
 print(f"\nFINAL N={len(records)}: retention={rungs[-1]['all_record_retention']}% | never-expressed={len(never_expressed)} | clobbered-after-expressing={len(clobbered)}", flush=True)
 print(f"staircase retention: "+" -> ".join(f"N{r['n']}:{r['all_record_retention']}%" for r in rungs), flush=True)

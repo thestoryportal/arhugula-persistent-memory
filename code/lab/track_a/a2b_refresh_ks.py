@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, io, contextlib, json, math, random, time
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -45,7 +45,7 @@ from memit.compute_ks import compute_ks
 # Engine UNMODIFIED. Primitives copied verbatim from a2_relbal_sentinels.py (LAW#5-proven).
 # ============================================================================
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 SEEDS=[int(x) for x in os.environ.get("SEEDS","0,1,2").split(",")]
 LAMBDAS=[float(x) for x in os.environ.get("LAMBDAS","1,2").split(",")]
@@ -175,7 +175,7 @@ print(f"  engine expr={eng_p:.4f} loc={eng_loc}% | harness-memit expr={my_p:.4f}
 if not ok1: print("LAW#5 gate-1 fail; HALT.", flush=True); sys.exit(0)
 
 # ---------- screen + P (seed-independent) ----------
-scr=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json")); sel=scr["selected"]
+scr=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json")); sel=scr["selected"]
 from collections import Counter
 P=compute_P()
 
@@ -287,5 +287,5 @@ out={"config":{"model":ID,"seeds":SEEDS,"lambdas":LAMBDAS,"refresh_every":REFRES
      "inertness":{"gate1_engine_vs_harness_memit":{"delta_expr":abs(eng_p-my_p)},
                   "gate2_sentinel_lam0_vs_alphaedit":{"delta_expr":abs(a_p-b_p),"delta_loc":abs(a_loc-b_loc)}},
      "verdict":verdict,"results":results}
-json.dump(out,open(f"{LLMDB_ROOT}/results/a2b_refresh_ks_result.json","w"),indent=2,default=str)
-print(f"\nwrote {LLMDB_ROOT}/results/a2b_refresh_ks_result.json\nDONE", flush=True)
+json.dump(out,open(f"{LLMDB_ROOT}/experiments/a2b/runs/a2b_refresh_ks/a2b_refresh_ks_result.json","w"),indent=2,default=str)
+print(f"\nwrote {LLMDB_ROOT}/experiments/a2b/runs/a2b_refresh_ks/a2b_refresh_ks_result.json\nDONE", flush=True)

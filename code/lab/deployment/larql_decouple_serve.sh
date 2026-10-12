@@ -1,6 +1,6 @@
 #!/bin/bash
-cd $LLMDB_ROOT/external_prior_art/larql
-export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/hf_cache
+cd $LLMDB_ROOT/code/vendor/external_prior_art/larql
+export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/data/hf_cache
 echo "=== extract vindex from OUR-edited Qwen3 weights ==="
 rm -rf /dev/shm/qwen3_edited.vindex
 target/release/larql convert safetensors-to-vindex --output /dev/shm/qwen3_edited.vindex --level all --f16 /dev/shm/qwen3_edited 2>&1 | tail -3

@@ -14,8 +14,8 @@ Measures mean pairwise cosine of compute_ks keys across same-relation entities, 
 Lower pairwise cosine in (b) => keys separate => C2 worth a full sequential run.
 """
 import os, sys, io, contextlib, json
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="1"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="1"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -25,12 +25,12 @@ from memit.memit_main import get_context_templates
 from memit.compute_ks import compute_ks
 
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")
 tok=AutoTokenizer.from_pretrained(ID, revision=REV)
 model=AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16, device_map=DEV).eval()
 ctx=get_context_templates(model,tok)
 
-scr=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json"))["selected"]
+scr=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b.json"))["selected"]
 ents=[e for e in scr.keys()][:12]   # 12 same-relation (capital) entities
 print(f"entities ({len(ents)}): {ents}", flush=True)
 

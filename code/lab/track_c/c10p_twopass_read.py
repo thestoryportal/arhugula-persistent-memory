@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""D-C10p-twopass mechanical reader (docs/C10P_TWOPASS_SOLVE_PREREG.md §3). No model judgement; fails closed.
-Usage: c10p_twopass_read.py results/c10p_twopass
+"""D-C10p-twopass mechanical reader (experiments/c10p/design/C10P_TWOPASS_SOLVE_PREREG.md §3). No model judgement; fails closed.
+Usage: c10p_twopass_read.py experiments/c10p/runs/c10p_twopass
 [LAW:one-source-of-truth] every threshold lives here once, as §3 states it."""
 import sys, json, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

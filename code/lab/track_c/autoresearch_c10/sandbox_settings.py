@@ -105,8 +105,8 @@ def settings(config):
                         'deny': ['Read(/' + p + '/**)' for p in tool_deny] +
                                 ['Edit(/' + fence + '/**)', 'Write(/' + fence + '/**)',
                                  'Edit(./runs/**)', 'Write(./runs/**)',
-                                 'Edit(./.gitignore)', 'Write(./.gitignore)', 'Edit(./.ignore)', 'Write(./.ignore)',
-                                 'Edit(./graft/**)', 'Write(./graft/**)', 'Bash(graft *)',
+                                 'Edit(.gitignore)', 'Write(.gitignore)', 'Edit(.ignore)', 'Write(.ignore)',
+                                 'Edit(graft/**)', 'Write(graft/**)', 'Bash(graft *)',
                                  'Bash(chflags *)', 'Bash(/usr/bin/chflags *)', 'Bash(security *)',
                                  'Bash(/usr/bin/security *)', 'WebFetch', 'WebSearch', 'Agent', 'Task']},
         'disableAllHooks': True,

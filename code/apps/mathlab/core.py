@@ -341,11 +341,11 @@ def calibration(harvest_dir, reproduction_dir, output, run):
                   consistency_checks=dict(non_gating=True, calibration_evidence=False,
                       injection_vs_write=dict(injected_tau_by_construction=1, historical_unedited_injection=[49, [51, 54]],
                           historical_write_range=[8, 15], meaning="Agreement by construction calibrates nothing",
-                          sources=["CORPUS/44_C10L_COVGEOM_SPARSEBAND.md:23", "CORPUS/46_C10M_DIAG_READPARTITION_EDITINJECT.md:34"]),
+                          sources=["evidence/CORPUS/44_C10L_COVGEOM_SPARSEBAND.md:23", "evidence/CORPUS/46_C10M_DIAG_READPARTITION_EDITINJECT.md:34"]),
                       edited_model_injection=dict(historical_para_full=23,
                           current_A7_coll_score=raw.get(A7, {}).get("coll", {}).get("score"),
                           meaning="Reported beside the proxy; no matched intervention or extra calibration observation",
-                          source="CORPUS/46_C10M_DIAG_READPARTITION_EDITINJECT.md:30")),
+                          source="evidence/CORPUS/46_C10M_DIAG_READPARTITION_EDITINJECT.md:30")),
                   named_approximations=["additive residual ignores attention and later-layer responses", "fp16 cast-and-add rounding"],
                   prospective_queue_utility="UNVERIFIED", gates=run.gates,
                   sources={"harvest": {"path": str(manifest_path), "sha256": R.sha_file(manifest_path)},
@@ -389,7 +389,7 @@ def run_notebook(step, params):
         proof = R.read_json(run_dir / "admission.json")
         R.require(proof["allowed"] and proof["kind"] == "cpu", "ADMISSION", "runner admission refused")
     else:
-        raise R.Halt("ADMISSION", "launch through tools/run_mathlab_cpu.sh; fixture tests inject admission at that boundary")
+        raise R.Halt("ADMISSION", "launch through code/apps/mathlab/run_mathlab_cpu.sh; fixture tests inject admission at that boundary")
     run = R.Run(run_dir, step, f"Offline math lab step {step}", cap, attach=True)
     output = None
     try:

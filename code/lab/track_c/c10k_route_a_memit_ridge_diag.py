@@ -6,7 +6,7 @@ For each band layer, the single-key realised fraction diag(K^T A^-1 K) for
    A3 =  5000*C + K K^T             (the program's own MEMIT weight, no Kp)
    A4 =  5000*C + Kp Kp^T + K K^T
 plus the key-energy fraction lying in C's eigen-directions where 15000*lambda < |k|^2 (the "tail" the over-regularisation argument needs).
-All fp64 on CPU; no edit. Writes results/c10k_route_a/memit_ridge_diag.json."""
+All fp64 on CPU; no edit. Writes experiments/c10k/runs/c10k_route_a/memit_ridge_diag.json."""
 import os, sys, json, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import c10k_route_a_launcher as L

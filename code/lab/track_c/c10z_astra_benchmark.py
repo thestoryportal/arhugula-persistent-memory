@@ -23,13 +23,13 @@ ROOT = Path(__file__).resolve().parents[2]
 MODEL_ID = "Qwen/Qwen2.5-3B"
 MODEL_REV = "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 SOURCE_FILES = (
-    "experiments/track_c/c10z_astra_benchmark.py",
-    "experiments/track_c/c10z_astra_arms.py",
-    "experiments/track_c/c10z_astra_read.py",
-    "experiments/track_c/c10e_bandknob.py",
-    "configs/hparams/qwen25_3b_memit_hparams.json",
-    "tools/engine_fingerprint.py",
-    "memit_dry_run/memit/memit/memit_main.py",
+    "code/lab/track_c/c10z_astra_benchmark.py",
+    "code/lab/track_c/c10z_astra_arms.py",
+    "code/lab/track_c/c10z_astra_read.py",
+    "code/lab/track_c/c10e_bandknob.py",
+    "code/configs/hparams/qwen25_3b_memit_hparams.json",
+    "code/memit/engine_fingerprint.py",
+    "code/memit/vendor/memit/memit_main.py",
 )
 TEMPLATES = (
     "{}", "The following is a single-choice question from a Chinese. {}",
@@ -150,7 +150,7 @@ def validate_record(record):
     inputs = _object(r["inputs"], ("templates_source", "templates", "templates_sha256", "population_sha256",
                                   "population_counts", "target_lengths", "seq_len_range"), "inputs")
     templates = inputs["templates"]
-    _require(inputs["templates_source"] == "results/c10q_stacked/logs_run.log:9" and isinstance(templates, list) and
+    _require(inputs["templates_source"] == "experiments/c10q/runs/c10q_stacked/logs_run.log:9" and isinstance(templates, list) and
              len(templates) == 6 and templates[0] == "{}" and all(isinstance(t, str) and bool(t) for t in templates),
              "template population")
     _require(_sha(inputs["templates_sha256"]) and inputs["templates_sha256"] == _digest(templates) and
@@ -374,10 +374,10 @@ def run_probe_phase(H, population, out, t0, before_hash_s, clock=time.monotonic,
 
 
 def _out_directory(out):
-    out = Path(out).resolve(); astra = (ROOT / "results/c10z_astra").resolve()
+    out = Path(out).resolve(); astra = (ROOT / "experiments/c10z/runs/c10z_astra").resolve()
     _require(not out.is_relative_to(astra), "benchmark cannot write inside ASTRA output")
-    bench = (ROOT / "results/c10z_astra_benchmark").resolve()
-    _require(out.is_relative_to(bench) and out.parent == bench, "benchmark output must be one directory under results/c10z_astra_benchmark")
+    bench = (ROOT / "experiments/c10z/runs/c10z_astra_benchmark").resolve()
+    _require(out.is_relative_to(bench) and out.parent == bench, "benchmark output must be one directory under experiments/c10z/runs/c10z_astra_benchmark")
     return out
 
 
@@ -391,7 +391,7 @@ def preflight_environment(env): _driver_module().entry_preflight(env)
 
 
 def _engine_fingerprint():
-    spec = importlib.util.spec_from_file_location("c10z_benchmark_fingerprint", ROOT / "tools/engine_fingerprint.py")
+    spec = importlib.util.spec_from_file_location("c10z_benchmark_fingerprint", ROOT / "code/memit/engine_fingerprint.py")
     module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
     return module.main() == 0
 
@@ -417,7 +417,7 @@ def _blank_record(t0):
             "started_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "finished_at": datetime.datetime.now(datetime.timezone.utc).isoformat(), "wall_cap_s": 600,
             "worker_soft_cap_s": 590, "reserve_s": 30., "env": env,
-            "inputs": {"templates_source": "results/c10q_stacked/logs_run.log:9", "templates": list(TEMPLATES),
+            "inputs": {"templates_source": "experiments/c10q/runs/c10q_stacked/logs_run.log:9", "templates": list(TEMPLATES),
                        "templates_sha256": _digest(list(TEMPLATES)), "population_sha256": "", "population_counts": {},
                        "target_lengths": [], "seq_len_range": [0, 0]},
             "phases": {"preflight": {"status": "NOT-STARTED"}, "load": {"status": "NOT-STARTED", "seconds": 0.},
@@ -458,7 +458,7 @@ def run_worker(out, t0, H=None, clock=time.monotonic, timer=time.perf_counter, s
         _require(_engine_fingerprint(), "engine fingerprint failed")
         out = check_out(out); out.mkdir(parents=True, exist_ok=True); admitted = True
         log = (out / "benchmark.log").open("a")
-        os.environ.update(LLMDB_ROOT=str(ROOT), LLMDB_DEVICE="mps", HF_HOME=str(ROOT / "hf_cache"))
+        os.environ.update(LLMDB_ROOT=str(ROOT), LLMDB_DEVICE="mps", HF_HOME=str(ROOT / "data/hf_cache"))
         record["env"]["engine_fingerprint_ok"] = True
         record["env"]["sources"] = source_identity(ROOT)
         record["env"]["script_sha256"] = record["env"]["sources"][SOURCE_FILES[0]]
@@ -479,7 +479,7 @@ def run_worker(out, t0, H=None, clock=time.monotonic, timer=time.perf_counter, s
         parameter_hashes = {name: tensor_hash(p) for name, p in H.model.named_parameters()}
         record["phases"][active]["param_hash_s"] = timer() - started
         _require(bool(parameter_hashes), "no model parameters")
-        started = timer(); snapshot = ROOT / "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / H.REV
+        started = timer(); snapshot = ROOT / "data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / H.REV
         safetensors = {p.name: _sha_file(p) for p in sorted(snapshot.glob("model*.safetensors"))}
         record["phases"][active]["safetensors_hash_s"] = timer() - started
         _require(bool(safetensors), "no pinned safetensors files")

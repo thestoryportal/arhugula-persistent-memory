@@ -1,7 +1,7 @@
 #!/bin/bash
 # D-C10w-oracle: oracle measurement, not a route. Exactly one stage per invocation.
 if [ "$#" -ne 1 ]; then
-    echo "HALT: usage: tools/run_c10w_stage.sh <stage>" >&2
+    echo "HALT: usage: code/lab/runners/run_c10w_stage.sh <stage>" >&2
     exit 2
 fi
 SCRIPT_DIR="$(cd -- "$(dirname -- "$0")" && pwd)" || exit 2

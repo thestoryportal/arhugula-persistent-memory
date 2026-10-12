@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, json
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -147,5 +147,5 @@ print(f"\n=== SELECTED (both edit-attrs correct & p>={EDIT_CONF}) — {len(sel)}
 for e in sel: print(f"  {e}: "+", ".join(f"{a}='{sel[e][a]['truth']}'({sel[e][a]['p']:.2f}){'' if sel[e][a]['single_tok'] else '[MT]'}" for a in EDIT_ATTRS))
 # v2: expanded TRUTH dict (~91 candidates) for the A2 50/10/10 disjoint-pool split (N=100).
 # Written to a NEW file to preserve g6_screen_qwen3b.json (the A0/A1 stimulus, 56 entities).
-fn=f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"; json.dump(out,open(fn,"w"),indent=2)
+fn=f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"; json.dump(out,open(fn,"w"),indent=2)
 print("\nwrote",fn,f"\n>>> {len(sel)} entities pass; {len(sel)*2} records (2 fields each). A2 needs >=70 (50/10/10).")

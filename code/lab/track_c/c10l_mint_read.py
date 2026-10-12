@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""D-C10l-mint mechanical reader (§6 of docs/C10L_MINT_TOKEN_PREREG.md as amended by §10 B1). No model judgement.
-Usage: c10l_mint_read.py results/c10l_mint/step0_probe.json arm_multi.json arm_rare.json arm_G.json [arm_N.json arm_M.json arm_Z.json]
+"""D-C10l-mint mechanical reader (§6 of experiments/c10l/design/C10L_MINT_TOKEN_PREREG.md as amended by §10 B1). No model judgement.
+Usage: c10l_mint_read.py experiments/c10l/runs/c10l_mint/step0_probe.json arm_multi.json arm_rare.json arm_G.json [arm_N.json arm_M.json arm_Z.json]
 The binding mint score is `para_full_binding_n` (post-write minus step-0); raw para_full_n is never read for a mint arm.
 Comparators: A1 from the SAME run as the candidate; locality baseline = the A7-multi run's A7 arm.
 """

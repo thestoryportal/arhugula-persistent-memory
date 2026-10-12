@@ -3,7 +3,7 @@
 __main__ guard on the covariance precompute tool.
 
 What happened: macOS starts DataLoader workers with "spawn", which re-imports the launching
-script. tools/precompute_cov_l9_12.py had no __main__ guard, so each worker reloaded the
+script. code/memit/precompute_cov_l9_12.py had no __main__ guard, so each worker reloaded the
 model and began its own covariance run (two "loading Qwen" lines, a second 3.4 GB process).
 Linux forks and never re-imports, which is why the pod never saw this.
 
@@ -15,7 +15,7 @@ Anchored, asserted, idempotent.
 from pathlib import Path
 import sys
 
-ls = Path("memit_dry_run/memit/rome/layer_stats.py"); s = ls.read_text(encoding="utf-8")
+ls = Path("code/memit/vendor/rome/layer_stats.py"); s = ls.read_text(encoding="utf-8")
 old = "        num_workers=2,\n"
 new = ("        num_workers={\"fork\": 2}.get(torch.multiprocessing.get_start_method(), 0),  # P-8c: spawn re-imports __main__\n")
 if new not in s:
@@ -24,7 +24,7 @@ if new not in s:
 else:
     print("P-8c: layer_stats already patched")
 
-pc = Path("tools/precompute_cov_l9_12.py"); t = pc.read_text(encoding="utf-8")
+pc = Path("code/memit/precompute_cov_l9_12.py"); t = pc.read_text(encoding="utf-8")
 if "if __name__ == \"__main__\":" in t:
     print("P-8c: precompute already guarded"); sys.exit(0)
 head_anchor = "ID = os.environ.get(\"MODEL_ID\", \"Qwen/Qwen2.5-3B\")\n"

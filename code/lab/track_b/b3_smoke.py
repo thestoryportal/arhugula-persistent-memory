@@ -11,7 +11,7 @@ def complete(p):
 for _ in range(120):
     try: urllib.request.urlopen(URL+"/health",timeout=3); break
     except Exception: time.sleep(2)
-probes=json.load(open(f"{LLMDB_ROOT}/configs/probes/b3_probes.json"))
+probes=json.load(open(f"{LLMDB_ROOT}/code/configs/probes/b3_probes.json"))
 ed=next((p for p in probes["edited"] if p["entity"]=="France" and p["field"]=="capital"), probes["edited"][0])
 nat=next((p for p in probes["native"] if p["kind"]=="native_country"), None)
 e_top=complete(ed["prompt"]); print(f"SMOKE edited  : '{ed['prompt']}' -> GGUF='{e_top.strip()}' | HF='{ed['hf_top1'].strip()}' | target(cf)='{ed['target']}'")

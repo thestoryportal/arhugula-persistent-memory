@@ -80,11 +80,11 @@ def metadata(data, source, root=None, contexts=()):
                 if any(tag in hp for tag in info['hparams']) and model == 'model not recorded':
                     model, model_source = name, f'{source} → {hp}'
             if root and '/configs/' in hp:
-                path = root / ('configs/' + hp.split('/configs/', 1)[1])
+                path = root / ('code/configs/' + hp.split('/configs/', 1)[1])
                 if path.is_file() and not band:
                     config = json.loads(path.read_text())
                     band = config.get('layers', [])
-            elif root and hp.startswith('configs/') and (root / hp).is_file() and not band:
+            elif root and hp.startswith('code/configs/') and (root / hp).is_file() and not band:
                 band = json.loads((root / hp).read_text()).get('layers', [])
     if model != 'model not recorded' and layers is None:
         info = CATALOG.get(model, {})
@@ -320,12 +320,12 @@ def seed_evaluations(scoreboard):
                             rules_out=f'The recorded limit: {row["verdict"]}. This applies to the tested setup.',
                             leaves_open='A general solution is not established by this row; different setups and repeat runs remain open.',
                             next_step='A next step for this individual result is not recorded in the scoreboard results.', ref=row['ref']))
-    return {'source': 'docs/c10_scoreboard.json results only', 'entries': entries}
+    return {'source': 'program/registers/c10_scoreboard.json results only', 'entries': entries}
 
 
 def corpus_cards(root):
     cards = []
-    for p in sorted((root / 'CORPUS').glob('[0-9][0-9]_*.md')):
+    for p in sorted((root / 'evidence/CORPUS').glob('[0-9][0-9]_*.md')):
         s = p.read_text()
         title = next((x.lstrip('# ').strip() for x in s.splitlines() if x.startswith('#')), p.stem)
         lines = s.splitlines()
@@ -347,7 +347,7 @@ def corpus_cards(root):
 
 def collect(root=ROOT):
     root = Path(root)
-    board = json.loads((root / 'docs/c10_scoreboard.json').read_text())
+    board = json.loads((root / 'program/registers/c10_scoreboard.json').read_text())
     corpus = corpus_cards(root)
     survey = {'results (flat files)': {'files': 0, 'runs': 0, 'unsupported': [], 'unreadable': [], 'logs': 0}}
     for p in sorted((root / 'results').iterdir()):
@@ -417,10 +417,10 @@ def collect(root=ROOT):
                 if p.suffix == '.log': nested['logs'] += 1
     history = []
     for i, row in enumerate(board['results']):
-        r = make_run({}, 'docs/c10_scoreboard.json', f'results[{i}]', {})
+        r = make_run({}, 'program/registers/c10_scoreboard.json', f'results[{i}]', {})
         r.update(title=row['name'], date=row['date'], date_kind='scoreboard', score=row.get('best'), out_of=board.get('out_of', 72),
                  verdict=row['verdict'], schema='scoreboard summary', kind=row['kind'], ref=row['ref'], score_label=row['score'], summary_only=True)
-        refs = re.findall(r'CORPUS/(\d+)', row['ref'])
+        refs = re.findall(r'evidence/CORPUS/(\d+)', row['ref'])
         linked = [c for c in corpus if any(Path(c['source']).name.startswith(n + '_') for n in refs)]
         models = {c['model'] for c in linked if c['model'] != 'model not recorded'}
         if len(models) == 1:
@@ -480,11 +480,11 @@ def build(root=ROOT):
     from tools.labviz.cards import Reader, encoded, newest_written, citations
     from tools.labviz.render import card_picture, render_page
     root = Path(root); reader = Reader(root); cards = reader.collect()
-    base = root / 'results/labviz'; site = base / 'site'; images = base / 'runs'
+    base = root / 'projects/labviz-spec-v3/receipts/bulk/labviz'; site = base / 'site'; images = base / 'runs'
     site.mkdir(parents=True, exist_ok=True); images.mkdir(parents=True, exist_ok=True)
     old_index_path = site/'cards/index.json'
     old_index = json.loads(old_index_path.read_text()) if old_index_path.is_file() else []
-    ep = root / 'docs/c10_evaluations.json'
+    ep = root / 'program/registers/c10_evaluations.json'
     evaluations = json.loads(ep.read_text()) if ep.is_file() else {'entries':[]}
     cache_path = base / 'images_manifest.json'
     cache = json.loads(cache_path.read_text()) if cache_path.exists() else {}
@@ -541,7 +541,7 @@ def build(root=ROOT):
                 if lines: logs.append((path.stat().st_mtime_ns,{'source':relative,'last_line':lines[-1][:350]}))
     latest=max(logs,key=lambda x:(x[0],x[1]['source']))[1] if logs else {}
     if latest: latest['caption']='latest selected log snapshot; no liveness inferred'
-    board_path=root/'docs/c10_scoreboard.json'
+    board_path=root/'program/registers/c10_scoreboard.json'
     board=json.loads(board_path.read_text()) if board_path.is_file() else {}
     queue=board.get('queue',[])
     questions=[]; question_index={}; compact_index=[]
@@ -563,7 +563,7 @@ def build(root=ROOT):
                    'rules_out':f'The recorded limit: {row.get("verdict")}. This applies to the tested setup.',
                    'leaves_open':'A general solution is not established by this row; different setups and repeat runs remain open.',
                    'next_step':'A next step for this individual result is not recorded in the scoreboard results.'}
-        numbers=set(re.findall(r'CORPUS/(\d{2})',entry.get('ref','')))
+        numbers=set(re.findall(r'evidence/CORPUS/(\d{2})',entry.get('ref','')))
         matches=[record['id'] for record in reader.program.registry if numbers.intersection(record['corpus'])]
         line='exp:'+matches[0] if len(matches)==1 else 'corpus:'+next(iter(numbers)) if len(numbers)==1 else 'unassigned'
         framing=reader.program.tables.get('experiments',{}).get(matches[0],{}) if len(matches)==1 else {}
@@ -579,15 +579,15 @@ def build(root=ROOT):
     write_if_changed(base/'models.json',encoded(models))
     write_if_changed(cache_path,encoded(manifest))
     # Serve only explicitly cited evidence snapshots, never the workspace tree.
-    paths=set(reader.files)|{x for card in cards for x in citations(card)}|{'docs/c10_scoreboard.json','docs/c10_evaluations.json'}
+    paths=set(reader.files)|{x for card in cards for x in citations(card)}|{'program/registers/c10_scoreboard.json','program/registers/c10_evaluations.json'}
     paths.update(item['file'] for card in cards for item in card.get('sources',[]))
     paths.update(citations(reader.program.graph))
     paths.update(p['file'] for operand in reader.scales['absolute_write_size']['operands'] for p in [operand['src']])
     for source in sorted(paths):
         p = root / source
-        if source.startswith('results/labviz/'): continue
-        if source.startswith('hf_cache/') and source != 'hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json': continue
-        if p.is_file() and (p.suffix in ('.json','.jsonl','.md','.log') or source=='tools/mathlab_events.py'):
+        if source.startswith('projects/labviz-spec-v3/receipts/bulk/labviz/'): continue
+        if source.startswith('data/hf_cache/') and source != 'data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json': continue
+        if p.is_file() and (p.suffix in ('.json','.jsonl','.md','.log') or source=='code/apps/mathlab/mathlab_events.py'):
             content = reader.snapshots[source] if source in reader.snapshots else p.read_bytes()
             write_if_changed(site / 'evidence' / source, content)
     # Retire generic MathLab publications without changing their source artifacts.
@@ -614,5 +614,5 @@ if __name__ == '__main__':
     started=time.perf_counter()
     sys.path.insert(0, str(ROOT))
     inventory = build()
-    print(f'Lab View: {len(inventory["runs"])} cards, {len(inventory["survey"])} surveyed folders/groups; results/labviz/site/index.html')
+    print(f'Lab View: {len(inventory["runs"])} cards, {len(inventory["survey"])} surveyed folders/groups; projects/labviz-spec-v3/receipts/bulk/labviz/site/index.html')
     print(f'Build measurement: {time.perf_counter()-started:.6f} seconds; peak RSS {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss} bytes on {sys.platform}')

@@ -10,7 +10,7 @@ same arguments, same batches. Anchored and idempotent; run from the repo root.
 from pathlib import Path
 import re, sys
 
-p = Path("memit_dry_run/memit/rome/tok_dataset.py")
+p = Path("code/memit/vendor/rome/tok_dataset.py")
 s = p.read_text(encoding="utf-8")
 if "_length_collate" in s:
     print("P-8b: ALREADY APPLIED"); sys.exit(0)

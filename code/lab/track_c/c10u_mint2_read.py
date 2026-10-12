@@ -11,8 +11,8 @@ import hashlib, json, math, re, statistics
 from pathlib import Path
 
 DECISION_ID = "D-C10u-mint2"
-PREREG = "docs/C10U_MINT2_PREREG.md"
-WORDLIST = "results/c10u_mint2/v2_wordlist.json"
+PREREG = "experiments/c10u/design/C10U_MINT2_PREREG.md"
+WORDLIST = "experiments/c10u/runs/c10u_mint2/v2_wordlist.json"
 HEADS_SHA256 = "7d83a89f3f893d615ded1ff9c1985eba0ae66063760a61886201a27b2a906c8f"
 MODIFIERS_SHA256 = "402144a2f237a50c5c7ed730d9475badf4fc2380051977492bee6677c681ba93"
 N, NT, SEEDS = 24, 3, (0, 1, 2)

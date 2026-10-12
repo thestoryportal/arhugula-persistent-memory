@@ -1,9 +1,9 @@
 #!/bin/bash
-cd $LLMDB_ROOT/external_prior_art/larql
-export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 RAYON_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/hf_cache
+cd $LLMDB_ROOT/code/vendor/external_prior_art/larql
+export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 RAYON_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/data/hf_cache
 echo "=== STEP 1: pull Qwen3-0.6B (ungated) ==="
 target/release/larql model pull Qwen/Qwen3-0.6B 2>&1 | tail -4
-SNAP=$(find $LLMDB_ROOT/hf_cache/hub/models--Qwen--Qwen3-0.6B/snapshots -maxdepth 1 -mindepth 1 -type d 2>/dev/null | head -1)
+SNAP=$(find $LLMDB_ROOT/data/hf_cache/hub/models--Qwen--Qwen3-0.6B/snapshots -maxdepth 1 -mindepth 1 -type d 2>/dev/null | head -1)
 echo "snapshot: $SNAP"
 [ -z "$SNAP" ] && { echo "PULL FAILED"; exit 1; }
 echo "=== STEP 2: stage on tmpfs ==="

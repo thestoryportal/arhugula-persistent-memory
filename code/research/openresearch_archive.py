@@ -1,11 +1,11 @@
 """Archive every OpenResearch chat (dashboard DB + native Claude Code transcripts) into JSON.
 
-Read-only on the OpenResearch data dir. Writes results/openresearch_archive/:
+Read-only on the OpenResearch data dir. Writes knowledge/research/openresearch_archive/:
   sessions.json      every chat_sessions row, with its messages (parts parsed) and turns
   experiments.json   every local_experiments row (the research ledger nodes)
   native/<id>.jsonl  copies of the native harness transcripts found for those sessions
   text_index.jsonl   one line per text block: session, message, role, time, source, text
-Usage: python tools/openresearch_archive.py [orx_data_dir]
+Usage: python code/research/openresearch_archive.py [orx_data_dir]
 """
 import json
 import shutil
@@ -15,7 +15,7 @@ from pathlib import Path
 
 DATA = Path(sys.argv[1] if len(sys.argv) > 1 else Path.home() / ".local/share/openresearch")
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "results/openresearch_archive"
+OUT = ROOT / "knowledge/research/openresearch_archive"
 
 
 def rows(con, table):

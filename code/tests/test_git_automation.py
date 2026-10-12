@@ -85,7 +85,7 @@ class Fixture:
         self.git('config', 'user.email', 'fixture@example.invalid')
         (self.root / 'base.txt').write_text('base\n')
         source = Path(__file__).resolve().parents[1]
-        for relative in ('tools/engine_fingerprint.py', 'memit_dry_run/memit/memit/memit_main.py'):
+        for relative in ('code/memit/engine_fingerprint.py', 'code/memit/vendor/memit/memit_main.py'):
             target = self.root / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes((source / relative).read_bytes())
@@ -674,7 +674,7 @@ class AutomationTests(unittest.TestCase):
 
     def test_engine_candidate_mismatch_refuses_when_local_engine_passes(self):
         self.fixture.git('checkout', 'feature')
-        engine = self.fixture.root / 'memit_dry_run/memit/memit/memit_main.py'
+        engine = self.fixture.root / 'code/memit/vendor/memit/memit_main.py'
         original = engine.read_bytes()
         engine.write_bytes(original + b'\n# changed candidate\n')
         self.fixture.git('add', str(engine))
@@ -1401,7 +1401,7 @@ class DashboardTimestampPortability(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix='git-dashboard-timestamps-')
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        self.logs = self.root / 'results' / 'c10w_oracle_logs'
+        self.logs = self.root / 'experiments/c10w/runs/c10w_oracle/logs'
         self.logs.mkdir(parents=True)
         self.finished = self.logs / 'behavior_F_r0_mint1_s1.log'
         self.finished.write_text('BEHAVIOR mint1: raw=27 binding=27\nSTAGE_EXIT=0\n')

@@ -28,7 +28,7 @@ OQs that remain OPEN at S2.5b close are tabulated in §4 with explicit closure p
 | OQ-S23-2 | S2.3 | Manifest discipline | DEFERRED | Stage 1 runbook hardening — re-extract digest at session start; ongoing |
 | OQ-S23-3 | S2.3 | Spec amendment | **CLOSED** (Cell 10 amendment) | v2 §5; closed pre-v2 |
 | OQ-S23-4 | S2.3 | Runbook authorship | DEFERRED (refined iteration 3) | Stage 1 runbook — iteration 4 in `block-2-3-runbook-deltas.md` §11; ongoing |
-| OQ-S23-5 | S2.3 | Cache strategy | **CLOSED** (S2.5a) | NV-backed HF cache via D-S25-8 (`HF_HOME` redirect to `/workspace/hf_cache`) |
+| OQ-S23-5 | S2.3 | Cache strategy | **CLOSED** (S2.5a) | NV-backed HF cache via D-S25-8 (`HF_HOME` redirect to `/workspace/data/hf_cache`) |
 | OQ-S23-6 | S2.3 | Spec hygiene | **CLOSED** (S2.5a) | Token-id capture obligation encoded per IC-S24-2 + S2.5a token-id capture complete |
 | OQ-S23-7 | S2.3 | Idempotence | **CLOSED** (S2.5a-runbook) | `pre_s2_6_fork_work_runbook.md` v1.1 + later versions use idempotent rebind pattern |
 | OQ-S23-8 | S2.3 | Failure mode taxonomy | **CLOSED** (S2.5a-runbook) | Runbook v1.1 §4.3 codifies; runbook v1.2.1 expands halt taxonomy |
@@ -89,7 +89,7 @@ These OQs were DEFERRED in v2 and have since closed during S2.5a, S2.5a-runbook,
 
 #### OQ-S23-5 — HuggingFace Cache Location
 
-**Closure mechanism (S2.5a):** D-S25-8 — HF_HOME redirected to NV-resident `/workspace/hf_cache/`. Llama-3.1-8B base + tokenizer cache (~16 GB) NV-resident; survives pod stop/start.
+**Closure mechanism (S2.5a):** D-S25-8 — HF_HOME redirected to NV-resident `/workspace/data/hf_cache/`. Llama-3.1-8B base + tokenizer cache (~16 GB) NV-resident; survives pod stop/start.
 
 **Closure type:** Decision-mediated; D-S25-8 is the load-bearing decision.
 

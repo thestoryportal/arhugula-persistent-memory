@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""D-C10l-mint amendment B3 mechanical readout (docs/C10L_MINT_TOKEN_PREREG.md §10 B3; rules frozen before the runs).
+"""D-C10l-mint amendment B3 mechanical readout (experiments/c10l/design/C10L_MINT_TOKEN_PREREG.md §10 B3; rules frozen before the runs).
 No model judgement. Reads the original and replicate arm JSONs and prints:
   - one row per arm with the binding count and the S-3 axes (L1, described_as, L3) beside it;
   - rule 1 (G-vs-N ordering): SUPPORTED only if N - G >= 5/72 in BOTH replicates
         replicate 1 = (G, N)            original run pair, seed-0 N
         replicate 2 = (G_rep, N_seed1)  fresh-process G, seed-1 N        (N_p4 = seed-0 N fourth replicate, reported, not a pair)
   - rule 2 (minted-vs-rare): SUPPORTED only if min(all mint replicates) - max(all rare replicates) >= 10/72.
-Usage: c10l_mint_b3_read.py <results/c10l_mint dir> [p4_verdict.json]
-[LAW:one-source-of-truth] the thresholds live here once, as the prereg states them; CORPUS/45's addendum cites this output.
+Usage: c10l_mint_b3_read.py <experiments/c10l/runs/c10l_mint dir> [p4_verdict.json]
+[LAW:one-source-of-truth] the thresholds live here once, as the prereg states them; evidence/CORPUS/45's addendum cites this output.
 [LAW:effects-at-boundaries] pure read of JSON -> printed table; nothing written.
 """
 import sys, os, json

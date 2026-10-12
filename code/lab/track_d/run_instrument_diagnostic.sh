@@ -18,16 +18,16 @@ done
 
 echo "[orch] === NON-DET diagnostic (picks k, 5 repeats) ==="
 MODEL=3b DETERMINISTIC=0 N_REPEAT=5 SEED=3 PICK_GRID=18,24,30,36 \
-  python3.11 -u experiments/track_d/d1_threshold_instrument.py > logs/d1_instr_3b_nondet.log 2>&1
+  python3.11 -u code/lab/track_d/d1_threshold_instrument.py > logs/d1_instr_3b_nondet.log 2>&1
 NDRC=$?
 echo "[orch] non-det exit=$NDRC"
 if [ $NDRC -ne 0 ]; then echo "[orch] non-det FAILED; stopping (need its picked k)."; exit 1; fi
 
-KPICK=$(python3.11 -c "import json;print(json.load(open('results/d1_instrument_variance_diagnostic_3b_nondet.json'))['k_unstable'])")
+KPICK=$(python3.11 -c "import json;print(json.load(open('experiments/d1/runs/d1_instrument_variance_diagnostic_3b_nondet/d1_instrument_variance_diagnostic_3b_nondet.json'))['k_unstable'])")
 echo "[orch] picked k=$KPICK -> DET run"
 
 echo "[orch] === DET diagnostic (k=$KPICK, 2 repeats, deterministic) ==="
 CUBLAS_WORKSPACE_CONFIG=:4096:8 MODEL=3b DETERMINISTIC=1 N_REPEAT=2 SEED=3 K_PICK=$KPICK ATTN=eager \
-  python3.11 -u experiments/track_d/d1_threshold_instrument.py > logs/d1_instr_3b_det.log 2>&1
+  python3.11 -u code/lab/track_d/d1_threshold_instrument.py > logs/d1_instr_3b_det.log 2>&1
 echo "[orch] det exit=$? (non-fatal: a throw is the infra finding)"
 echo "[orch] ALL_DONE"

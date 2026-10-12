@@ -66,16 +66,16 @@ def build(sandbox, fence, fixture=False):
         raise ValueError('repository and fence must be disjoint')
     cli_contract = inspect_cli('/Users/robertrhu/.local/bin/claude')
     runtime = resolved_runtime(PROGRAM)
-    harness = PROGRAM / 'experiments/track_c/c10e_bandknob.py'
+    harness = PROGRAM / 'code/lab/track_c/c10e_bandknob.py'
     if digest(harness) != HARNESS_SHA:
         raise ValueError('harness hash changed')
     # Export only the training columns from two agreeing, already recorded harness runs.
-    records = [PROGRAM / 'results/c10e_bandknob.json', PROGRAM / 'results/c10l_covgeom/run1_armB_identity.json']
+    records = [PROGRAM / 'experiments/c10e/runs/c10e_bandknob/c10e_bandknob.json', PROGRAM / 'experiments/c10l/runs/c10l_covgeom/run1_armB_identity.json']
     first, second = [json.loads(p.read_text())['stimulus'] for p in records]
     columns = ['CANON', 'FICTION', *['V_' + a for a in ARMS]]
     if any(first[k] != second[k] for k in columns):
         raise ValueError('recorded training stimuli disagree')
-    hparams = PROGRAM / 'configs/hparams/qwen25_3b_memit_hparams.json'
+    hparams = PROGRAM / 'code/configs/hparams/qwen25_3b_memit_hparams.json'
     train = {'version': 13, 'program': str(PROGRAM), 'canon': first['CANON'],
              'subjects': first['FICTION'], 'arms': {a: first['V_' + a] for a in ARMS},
              'hparams': json.loads(hparams.read_text()), 'edit_budget': 2700, 'seed': 0,
@@ -110,12 +110,12 @@ def build(sandbox, fence, fixture=False):
               **runtime,
               'home': str(Path.home()), 'user': os.environ.get('USER', 'robertrhu'),
               'harness': str(harness), 'harness_sha256': HARNESS_SHA, 'hparams': str(hparams),
-              'fingerprint': str(PROGRAM / 'tools/engine_fingerprint.py'),
-              'engine': str((PROGRAM / 'memit_dry_run/memit').resolve()),
-              'hf_home': str((PROGRAM / 'hf_cache').resolve()),
-              'covariance': [str((PROGRAM / 'covariance_caches').resolve()),
+              'fingerprint': str(PROGRAM / 'code/memit/engine_fingerprint.py'),
+              'engine': str((PROGRAM / 'code/memit/vendor').resolve()),
+              'hf_home': str((PROGRAM / 'data/hf_cache').resolve()),
+              'covariance': [str((PROGRAM / 'data/covariance').resolve()),
                              '/Volumes/memit/llm-database-poc-mirror/covariance_caches'],
-              'screens': [str(PROGRAM / ('configs/screens/' + n)) for n in
+              'screens': [str(PROGRAM / ('code/configs/screens/' + n)) for n in
                           ('g6_screen_qwen3b_v2.json', 'g6_screen_qwen3b.json')],
               'capture_base': str(capture_base), 'capture': str(capture),
               'editor_tmp': str(fence / 'editor_tmp'),

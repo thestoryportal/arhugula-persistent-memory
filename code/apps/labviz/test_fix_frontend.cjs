@@ -8,7 +8,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const { test } = require('node:test');
 const packageRoot = __dirname;
-const documentary = text => ({ value:text, src:{file:'CORPUS/22_D1_CAPACITY_LAW.md',line:7,quote:text} });
+const documentary = text => ({ value:text, src:{file:'evidence/CORPUS/22_D1_CAPACITY_LAW.md',line:7,quote:text} });
 const recorded = text => ({ value:text, src:{file:'results/fixture.json',path:'.value'} });
 const text = html => String(html).replace(/<[^>]*>/g,' ').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/&gt;/g,'>').replace(/&lt;/g,'<').replace(/\s+/g,' ').trim();
 const occurrences = (html, word) => text(html).split(word).length - 1;
@@ -58,8 +58,8 @@ function fixture(extra={}) {
     {node_id:'exp:C10W-oracle',kind:'exp',label:'C10W-oracle',era:'c10'},
   ];
   const edges = [
-    {source:'layer:Write Engine',target:'cond:C10',edge:'direct',src:{file:'docs/F1_DETERMINATION.md',line:71,quote:'C10 names Write Engine'}},
-    {source:'layer:Write Engine',target:'corpus:22',edge:'direct',src:{file:'CORPUS/22_D1_CAPACITY_LAW.md',line:7,quote:'D1 names Write Engine'}},
+    {source:'layer:Write Engine',target:'cond:C10',edge:'direct',src:{file:'knowledge/findings/F1_DETERMINATION.md',line:71,quote:'C10 names Write Engine'}},
+    {source:'layer:Write Engine',target:'corpus:22',edge:'direct',src:{file:'evidence/CORPUS/22_D1_CAPACITY_LAW.md',line:7,quote:'D1 names Write Engine'}},
     {source:'cond:C10',target:'model:Qwen2.5-3B',edge:'direct'},
     {source:'corpus:22',target:'model:Qwen2.5-3B',edge:'direct'},
   ];
@@ -150,7 +150,7 @@ test('D1 line renders its own sourced question and measure separately from frami
   assert.match(text(html),/Framing review: draft/);assert.doesNotMatch(text(html),/Status now \(registry\) DRAFT|No single question recorded/);
 });
 test('Line document links show five rows before a collapsed counted remainder', () => {
-  const lab=fixture();lab.graph.edges=Array.from({length:8},(_,i)=>({source:'corpus:22',target:'spec:§8.'+i,edge:'direct',src:{file:'CORPUS/22_D1_CAPACITY_LAW.md',line:i+1,quote:'Named link '+i}}));
+  const lab=fixture();lab.graph.edges=Array.from({length:8},(_,i)=>({source:'corpus:22',target:'spec:§8.'+i,edge:'direct',src:{file:'evidence/CORPUS/22_D1_CAPACITY_LAW.md',line:i+1,quote:'Named link '+i}}));
   const r=app(lab);r.api.set({view:'lines',line:'corpus:22'});r.api.renderLines();const html=r.element('view-content').innerHTML;
   const start=html.indexOf('Document links');const detail=html.indexOf('<details',start);assert.ok(start>=0&&detail>start);
   assert.equal((html.slice(start,detail).match(/class="connection-row"/g)||[]).length,5);assert.match(text(html.slice(detail)),/3 more document links/);assert.doesNotMatch(html.slice(detail,html.indexOf('>',detail)+1),/\bopen\b/);
@@ -162,7 +162,7 @@ test('Map derived links show five rows before the counted collapsed remainder', 
 });
 
 test('Evaluations group by line in closed counted details without duplicate titles or absent-field boilerplate', () => {
-  const lab=fixture({evaluations:[{id:'e1',line:'exp:G6.1',era:'viability',source_result:{name:'A sourced retention finding'},result:'The recorded result',question:'Would this help: A sourced retention finding?',template_fields:['question'],ref:'CORPUS/13'},{id:'e2',line:'exp:G6.1',era:'viability',source_result:{name:'A second retention finding'},result:'Another recorded result',ref:'CORPUS/13'}]});
+  const lab=fixture({evaluations:[{id:'e1',line:'exp:G6.1',era:'viability',source_result:{name:'A sourced retention finding'},result:'The recorded result',question:'Would this help: A sourced retention finding?',template_fields:['question'],ref:'evidence/CORPUS/13'},{id:'e2',line:'exp:G6.1',era:'viability',source_result:{name:'A second retention finding'},result:'Another recorded result',ref:'evidence/CORPUS/13'}]});
   const r=app(lab);r.api.set({view:'learn',learning:'evaluations'});r.api.renderLearn();const html=r.element('view-content').innerHTML;
   assert.match(html,/<details[^>]*class="evaluation-group"[^>]*>/);assert.doesNotMatch(html.match(/<details[^>]*class="evaluation-group"[^>]*>/)[0],/\bopen\b/);
   assert.match(text(html),/G6\.1 .*2 evaluations/);assert.equal(occurrences(html,'A sourced retention finding'),1);assert.doesNotMatch(text(html),/Would this help|What it leaves open not recorded|Next step not recorded/);
@@ -188,7 +188,7 @@ test('An unassigned evaluation keeps a visible unknown context without claiming 
   const r=app(lab);r.api.set({view:'learn',learning:'evaluations'});r.api.renderLearn();assert.match(text(r.element('view-content').innerHTML),/Context not recorded 1 evaluation/);assert.equal(JSON.stringify(entry),before);
 });
 test('Plain words hide only explicitly flagged historical templates', () => {
-  const lab=fixture({evaluations:[{ref:'CORPUS/13',template_fields:['question','next_step']}]});const r=app(lab);const c=card('run-g6');c.plain_words={question:documentary('Would this help: fixture?'),result:documentary('The authored **finding**.'),next_step:documentary('A next step is not recorded.'),ref:documentary('CORPUS/13')};
+  const lab=fixture({evaluations:[{ref:'evidence/CORPUS/13',template_fields:['question','next_step']}]});const r=app(lab);const c=card('run-g6');c.plain_words={question:documentary('Would this help: fixture?'),result:documentary('The authored **finding**.'),next_step:documentary('A next step is not recorded.'),ref:documentary('evidence/CORPUS/13')};
   const html=r.api.plainWords(c);assert.doesNotMatch(text(html),/Would this help|A next step is not recorded/);assert.match(text(html),/The authored finding\./);
 });
 

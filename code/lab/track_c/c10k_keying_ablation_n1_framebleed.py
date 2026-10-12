@@ -9,23 +9,23 @@ Reuses the c10e harness's own edit path (my_edit, compute_P, predict, full_seq_m
 LAW#5).  P is computed once and shared by all probes; weights are restored after each edit.
 
 Env: LLMDB_ROOT; FB_OFFSETS (default "0,1,2"); FB_LOCI (default "last,subject"); OUT.
-Output: results/c10k_keying_ablation/n1/framebleed.json
+Output: experiments/c10k/runs/c10k_keying_ablation/n1/framebleed.json
 """
 import os, sys, io, json, contextlib
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["N_EDIT"] = "24"; os.environ["C10_SUBJECT_OFFSET"] = "0"; os.environ["C10_ARMS"] = "A1_single"
 os.environ.setdefault("C10_CTX_TEMPLATES", "on")
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10e_bandknob as H   # loads the model; chdir to the engine root
 import torch
 
-OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/results/c10k_keying_ablation/n1/framebleed.json")
+OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/experiments/c10k/runs/c10k_keying_ablation/n1/framebleed.json")
 OFFSETS = [int(x) for x in os.environ.get("FB_OFFSETS", "0,1,2").split(",")]
 LOCI = os.environ.get("FB_LOCI", "last,subject").split(",")
-HP = f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"
+HP = f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"
 
-scr = json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json"))["selected"]
+scr = json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b.json"))["selected"]
 REAL = [(c, scr[c]["capital"]["truth"]) for c in sorted(scr)][:12]          # Route A's real-country locality set
 REAL_PROMPTS = [H.CANON.format(c) for c, _ in REAL]
 BYSTANDERS = H.FICTION[12:18]                                                 # fictional subjects never edited in this probe

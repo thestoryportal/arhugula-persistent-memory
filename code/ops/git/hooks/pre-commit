@@ -1,7 +1,7 @@
 #!/bin/bash
 # Anti-drift + secret-leak pre-commit gate (2026-06-21). BLOCKS on:
-#   (1) stale GENERATED blocks vs docs/program_state.json  (tools/render_state.py --check)
-#   (2) stale REGISTERED narrative fingerprints             (tools/closeout_check.py --audit)
+#   (1) stale GENERATED blocks vs program/program_state.json  (code/state/render_state.py --check)
+#   (2) stale REGISTERED narrative fingerprints             (code/gates/closeout_check.py --audit)
 #   (3) SECRETS in staged changes (PUBLIC repo) — cred filenames + token/key value signatures
 # Escape (rare/WIP/false-positive): git commit --no-verify
 set -u
@@ -9,8 +9,8 @@ ROOT="$(git rev-parse --show-toplevel)"; cd "$ROOT" || exit 0
 PY=$(command -v python3.11 || command -v python3)
 fail=0
 echo "[pre-commit] anti-drift + secret checks…"
-"$PY" tools/render_state.py --check || { echo "[pre-commit] ↑ stale generated blocks — run: python3 tools/render_state.py --write"; fail=1; }
-"$PY" tools/closeout_check.py --audit >/tmp/_audit.out 2>&1 || { tail -3 /tmp/_audit.out; echo "[pre-commit] ↑ stale registered fingerprint(s) — re-propagate (tools/closeout_check.py --fp <ID>)"; fail=1; }
+"$PY" code/state/render_state.py --check || { echo "[pre-commit] ↑ stale generated blocks — run: python3 code/state/render_state.py --write"; fail=1; }
+"$PY" code/gates/closeout_check.py --audit >/tmp/_audit.out 2>&1 || { tail -3 /tmp/_audit.out; echo "[pre-commit] ↑ stale registered fingerprint(s) — re-propagate (code/gates/closeout_check.py --fp <ID>)"; fail=1; }
 # (3) secret-leak gate — the incident (storage_state.json via git add -A) made this a GATE not a remembered practice ([[encode-recurring-discipline-as-a-gate]], [[git-add-all-leaks-secrets-on-public-repo]])
 staged=$(git diff --cached --name-only --diff-filter=ACM)
 if [ -n "$staged" ]; then

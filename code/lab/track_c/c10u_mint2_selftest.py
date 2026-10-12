@@ -54,8 +54,8 @@ def fixture_record(block="V2", kind="mint2", seed=0, count=32, replicate=0, pid=
                                                      for j in range(ntok)}}}
     controls = {"para_full_n": 72, "para_string_n": 72, "canon_full_n": 24,
                 "para_first_n": 72, "para_n": 72, "canon_n": 24}
-    hashes = {R.PREREG: "1" * 64, "results/c10u_mint2/v2_wordlist.json": "2" * 64,
-              "experiments/track_c/c10u_mint2_read.py": "3" * 64}
+    hashes = {R.PREREG: "1" * 64, "experiments/c10u/runs/c10u_mint2/v2_wordlist.json": "2" * 64,
+              "code/lab/track_c/c10u_mint2_read.py": "3" * 64}
     rules = {"synthetic": "frozen test rules"}
     context = [["{}"], ["A clean context. {}"]]
     rows_hash = hashlib.sha256((str(seed) + "rows").encode()).hexdigest()
@@ -107,7 +107,7 @@ def fixture_block(block="V2", m1=(34, 36, 46), candidate=(21, 22, 24), ref=11, r
 
 
 def fixture_nonadmitted(record=None, nfit=17):
-    real = json.loads((HERE.parents[1] / "results/c10u_mint2/r2/F_r0_modifier_s0.json").read_text())
+    real = json.loads((HERE.parents[1] / "experiments/c10u/runs/c10u_mint2/r2/F_r0_modifier_s0.json").read_text())
     record = copy.deepcopy(fixture_record("F", "modifier") if record is None else record)
     record["step0"]["minted_inventory"] = [{"word": w, "id": i, "unrelated_hits": 0}
                                             for w, i in zip(record["minted_words"], record["minted_ids"])]
@@ -1143,7 +1143,7 @@ class AenvTests(unittest.TestCase):
                             self.assertEqual(child.call_count, 1 if replicate == 0 else 4)
                             self.assertTrue(all(call.args[5] != "modifier" for call in child.call_args_list))
                             self.assertFalse((root / (stage + "_complete.json")).exists())
-                            diagnostic = json.loads((root / "architecture_profile/c10u_mint2_halt_diagnostic.json").read_text())
+                            diagnostic = json.loads((root / "experiments/c10u/runs/c10u_mint2/halts/c10u_mint2_halt_diagnostic.json").read_text())
                             self.assertFalse(diagnostic["state"]["reproduction"]["ok"])
                             self.assertTrue(any(key in reason for reason in diagnostic["state"]["reproduction"]["reasons"]))
                             if replicate == 0:
@@ -1166,7 +1166,7 @@ class AenvTests(unittest.TestCase):
         hashes = self.A.source_hashes(root)
         self.assertEqual(hashes[self.A.PREREG], "c54f443c70fecd12dce5440cbe7d606587ed1c8384542345f0411cfd0ba15a76")
         for name in ("read", "arms"):
-            path = "experiments/track_c/c10u_mint2_" + name + ".py"
+            path = "code/lab/track_c/c10u_mint2_" + name + ".py"
             self.assertEqual(hashes[path], self.A.sha256_file(root / path))
         identity = {"source_sha256": hashes, "source_digest": self.A.source_digest(hashes)}
         self.A.assert_sources(identity, root)

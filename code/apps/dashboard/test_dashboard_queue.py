@@ -18,7 +18,7 @@ from unittest import mock
 
 TOOLS = Path(__file__).resolve().parent
 ROOT = TOOLS.parent
-RECEIPTS = ROOT / "results/dashboard_queue_build_20261011T014430Z"
+RECEIPTS = ROOT / "_archive/projects/dashboard/dashboard_queue_build_20261011T014430Z"
 sys.path.insert(0, str(TOOLS))
 NOW = dt.datetime(2026, 10, 10, 19, 47, tzinfo=dt.timezone(dt.timedelta(hours=-6)))
 
@@ -333,8 +333,8 @@ class QueueCriteria(unittest.TestCase):
         text = runner.read_text()
         for receipt in ("tests", "render_40", "render_100", "tmux_start", "tmux_capture", "gpu_check", "tmux_cleanup"):
             self.assertIn(receipt + ".exit", text)
-        self.assertIn("tools/test_dashboard_queue.py", text)
-        self.assertIn("docs/program_state.json", text)
+        self.assertIn("code/apps/dashboard/test_dashboard_queue.py", text)
+        self.assertIn("program/program_state.json", text)
         self.assertIn("--once 40", text)
         self.assertIn("--once 100", text)
         self.assertIn("tmux -L q1check new-session", text)
@@ -466,12 +466,12 @@ class QueueCriteria(unittest.TestCase):
             root = Path(directory)
             (root / "tools").mkdir()
             (root / "docs").mkdir()
-            (root / "docs/program_state.json").write_text(json.dumps(source([item(title="The selected worktree queue")])))
+            (root / "program/program_state.json").write_text(json.dumps(source([item(title="The selected worktree queue")])))
             other = root / "other"
             (other / "docs").mkdir(parents=True)
-            (other / "docs/program_state.json").write_text(json.dumps(source([item(title="An unrelated main checkout")])))
+            (other / "program/program_state.json").write_text(json.dumps(source([item(title="An unrelated main checkout")])))
             output = io.StringIO()
-            with mock.patch.object(q, "__file__", str(root / "tools/dashboard_queue.py")), \
+            with mock.patch.object(q, "__file__", str(root / "code/apps/dashboard/dashboard_queue.py")), \
                  mock.patch.dict(os.environ, {"LLMDB_ROOT": str(other)}), \
                  mock.patch.object(sys, "argv", ["dashboard_queue.py", "--once", "100"]), \
                  mock.patch.object(q, "gather_live", return_value=self.active(q)), \
@@ -584,7 +584,7 @@ class Q2Regressions(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             folder = self.q2_events(root, 'mathlab-live', 3600)
-            command = '222 1 00:40 /usr/bin/python3 %s/mathlab_cpu_runner.py mathlab/m2_solve_repro.py --run-dir %s\n' % (TOOLS, folder)
+            command = '222 1 00:40 /usr/bin/python3 %s/mathlab_cpu_runner.py code/apps/mathlab/m2_solve_repro.py --run-dir %s\n' % (TOOLS, folder)
             live = self.q2_live(q, root, command)
             self.assertIsNotNone(live.experiment)
             self.assertIn('mathlab-live', flat(q.render(self.parsed(q), live, NOW, 100)))
@@ -605,14 +605,14 @@ class Q2Regressions(unittest.TestCase):
     def q2_host_fixture(self, capture, inventory='1 1 00:01 /usr/sbin/launchd\n'):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            receipt = root / 'results/dashboard_queue_build_20261011T014430Z'
+            receipt = root / '_archive/projects/dashboard/dashboard_queue_build_20261011T014430Z'
             receipt.mkdir(parents=True)
             (root / 'tools').mkdir()
-            (root / 'tools/test_dashboard_queue.py').write_text('print("fixture tests pass")\n')
-            (root / 'tools/dashboard_queue.py').write_text('print("fixture queue render")\n')
-            (root / 'tools/c10w_p2_gate.py').write_text('def check_gpu(): return {"blocking_processes": []}\n')
+            (root / 'code/apps/dashboard/test_dashboard_queue.py').write_text('print("fixture tests pass")\n')
+            (root / 'code/apps/dashboard/dashboard_queue.py').write_text('print("fixture queue render")\n')
+            (root / 'code/lab/runners/c10w_p2_gate.py').write_text('def check_gpu(): return {"blocking_processes": []}\n')
             # The checker uses the real shared detector against the fixture snapshot.
-            (root / 'tools/dashboard_live.py').write_text((TOOLS / 'dashboard_live.py').read_text())
+            (root / 'code/apps/dashboard/dashboard_live.py').write_text((TOOLS / 'dashboard_live.py').read_text())
             runner = receipt / 'run_host_checks.sh'
             runner.write_text((RECEIPTS / runner.name).read_text())
             checker = RECEIPTS / 'check_q2_host_live.py'
@@ -636,7 +636,7 @@ function tmux() {
     list-sessions) printf '%s\n' 'no server running on /tmp/q2-fixture'; return 1;;
     new-session|kill-server) return 0;;
     capture-pane) printf '%s\n' "$Q2_CAPTURE"; return 0;;
-    list-panes) printf '%s\n' '0 424242 /usr/bin/python3 tools/dashboard_queue.py'; return 0;;
+    list-panes) printf '%s\n' '0 424242 /usr/bin/python3 code/apps/dashboard/dashboard_queue.py'; return 0;;
     *) return 96;;
   esac
 }
@@ -843,11 +843,11 @@ class Q3Regressions(unittest.TestCase):
             root = Path(directory)
             (root / 'tools').mkdir()
             (root / 'docs').mkdir()
-            (root / 'docs/program_state.json').write_text(json.dumps(source(self.crowded())))
+            (root / 'program/program_state.json').write_text(json.dumps(source(self.crowded())))
             for args, width, height in ((['40', '30'], 40, 30), (['100', '45'], 100, 45), (['40'], 40, 30)):
                 with self.subTest(args=args):
                     out = io.StringIO()
-                    with mock.patch.object(q, '__file__', str(root / 'tools/dashboard_queue.py')), \
+                    with mock.patch.object(q, '__file__', str(root / 'code/apps/dashboard/dashboard_queue.py')), \
                          mock.patch.object(sys, 'argv', ['dashboard_queue.py', '--once'] + args), \
                          mock.patch.object(q, 'gather_live', return_value=q.Live()), \
                          mock.patch.object(q, 'local_now', return_value=NOW), \
@@ -879,15 +879,15 @@ class Q3HostRegressions(unittest.TestCase):
              attempt_exists=False, start_fails=False, blockers=()):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            receipt = root / 'results/dashboard_queue_build_20261011T014430Z'
+            receipt = root / '_archive/projects/dashboard/dashboard_queue_build_20261011T014430Z'
             receipt.mkdir(parents=True)
             (root / 'tools').mkdir()
-            (root / 'tools/test_dashboard_queue.py').write_text('print("fixture tests pass")\n')
-            (root / 'tools/dashboard_queue.py').write_text(
+            (root / 'code/apps/dashboard/test_dashboard_queue.py').write_text('print("fixture tests pass")\n')
+            (root / 'code/apps/dashboard/dashboard_queue.py').write_text(
                 'import os, sys\nfrom pathlib import Path\n'
                 'with Path(os.environ["Q3_CLI"]).open("a") as f: f.write(repr(sys.argv[1:]) + "\\n")\n'
                 'print("Work queue · fixture")\n')
-            (root / 'tools/c10w_p2_gate.py').write_text(
+            (root / 'code/lab/runners/c10w_p2_gate.py').write_text(
                 'def check_gpu(): return {"blocking_processes": %r}\n' % list(blockers))
             (receipt / 'check_q2_host_live.py').write_text('print("fixture live checks pass")\n')
             for n in (1, 2):
@@ -922,7 +922,7 @@ function tmux() {
     new-session) if [ "$Q3_START_FAILS" = 1 ]; then return 2; fi; return 0;;
     kill-server) return 0;;
     capture-pane) printf '%s\n' "$Q3_CAPTURE"; return 0;;
-    list-panes) printf '%s\n' '0 424242 /usr/bin/python3 tools/dashboard_queue.py'; return 0;;
+    list-panes) printf '%s\n' '0 424242 /usr/bin/python3 code/apps/dashboard/dashboard_queue.py'; return 0;;
     *) return 96;;
   esac
 }
@@ -999,7 +999,7 @@ source "$1"
         self.assertFalse(any('kill-server' in line for line in commands), commands)
 
     def test_q3_host_06_gpu_exemption_rejects_own_pid_without_changing_other_jobs(self):
-        result, outputs, commands, cli, waits = self.host(blockers=('424242 /usr/bin/python3 tools/dashboard_queue.py',))
+        result, outputs, commands, cli, waits = self.host(blockers=('424242 /usr/bin/python3 code/apps/dashboard/dashboard_queue.py',))
         self.assertIn('host_attempt3/queue_exemption.exit', outputs)
         self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(outputs['host_attempt3/queue_exemption.exit'], '1\n')

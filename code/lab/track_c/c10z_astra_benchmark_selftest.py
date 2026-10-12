@@ -30,17 +30,17 @@ sys.meta_path.insert(0, NoScienceImports())
 import torch
 
 ROOT = Path(__file__).resolve().parents[2]
-BENCH_PATH = ROOT / "experiments/track_c/c10z_astra_benchmark.py"
+BENCH_PATH = ROOT / "code/lab/track_c/c10z_astra_benchmark.py"
 SCRATCH = Path("/private/tmp/c10z_build")
 MODEL_REV = "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 SOURCE_FILES = (
-    "experiments/track_c/c10z_astra_benchmark.py",
-    "experiments/track_c/c10z_astra_arms.py",
-    "experiments/track_c/c10z_astra_read.py",
-    "experiments/track_c/c10e_bandknob.py",
-    "configs/hparams/qwen25_3b_memit_hparams.json",
-    "tools/engine_fingerprint.py",
-    "memit_dry_run/memit/memit/memit_main.py",
+    "code/lab/track_c/c10z_astra_benchmark.py",
+    "code/lab/track_c/c10z_astra_arms.py",
+    "code/lab/track_c/c10z_astra_read.py",
+    "code/lab/track_c/c10e_bandknob.py",
+    "code/configs/hparams/qwen25_3b_memit_hparams.json",
+    "code/memit/engine_fingerprint.py",
+    "code/memit/vendor/memit/memit_main.py",
 )
 TEMPLATES = (
     "{}", "The following is a single-choice question from a Chinese. {}",
@@ -83,7 +83,7 @@ def fixture_record(seconds=.056, n=400, root=None, target_lengths=None):
         "status": probe["status"], "started_at": "2026-10-07T00:00:00+00:00",
         "finished_at": "2026-10-07T00:00:20+00:00", "wall_cap_s": 600,
         "worker_soft_cap_s": 590, "reserve_s": 30., "env": env,
-        "inputs": {"templates_source": "results/c10q_stacked/logs_run.log:9",
+        "inputs": {"templates_source": "experiments/c10q/runs/c10q_stacked/logs_run.log:9",
                    "templates": list(TEMPLATES), "templates_sha256": digest(list(TEMPLATES)),
                    "population_sha256": "c" * 64,
                    "population_counts": {"F0": 36, "prefix": 36 * sum(t - 1 for t in lengths),
@@ -162,7 +162,7 @@ def fake_h(lengths=None, clock=None, cost=.001, mutate=False):
 
 
 def driver_module():
-    track = str(ROOT / "experiments/track_c")
+    track = str(ROOT / "code/lab/track_c")
     if track not in sys.path: sys.path.insert(0, track)
     import c10z_astra_arms
     return c10z_astra_arms
@@ -179,13 +179,13 @@ class Base(unittest.TestCase):
         for i, rel in enumerate(SOURCE_FILES):
             path = self.root / rel; path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(("fixture source " + str(i)).encode())
-        snapshot = self.root / "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / MODEL_REV
+        snapshot = self.root / "data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / MODEL_REV
         snapshot.mkdir(parents=True)
         (snapshot / "model-00001-of-00001.safetensors").write_bytes(b"synthetic pinned file")
     def worker(self, H, clock=None, **over):
         clock = clock or Clock()
         self.tree()
-        out = self.root / "results/c10z_astra_benchmark/test"
+        out = self.root / "experiments/c10z/runs/c10z_astra_benchmark/test"
         with mock.patch.object(self.B, "ROOT", self.root), mock.patch.object(
                 self.B, "_engine_fingerprint", return_value=True), mock.patch.dict(os.environ, {}, clear=True):
             return self.B.run_worker(out, 0., H=H, clock=clock, timer=clock, sync=lambda: None, **over), out
@@ -558,7 +558,7 @@ class BenchmarkLifecycleTests(Base):
         self.assertTrue(self.B.phase_fits(500., 50., 10.)); self.assertFalse(self.B.phase_fits(500., 50.001, 10.))
 
     def test_supervisor_600_boundary_fake_clock(self):
-        out = self.root / "results/c10z_astra_benchmark/T"; out.mkdir(parents=True)
+        out = self.root / "experiments/c10z/runs/c10z_astra_benchmark/T"; out.mkdir(parents=True)
         path = out / "benchmark.json"
         clock = Clock(); killed = []; calls = []
         class Child:
@@ -580,7 +580,7 @@ class BenchmarkLifecycleTests(Base):
 
     def test_supervisor_real_process_group_kill_and_interrupted_record(self):
         record = fixture_record(); record["phases"]["probe_forward"]["status"] = "STARTED"
-        out = self.root / "results/c10z_astra_benchmark/T"; out.mkdir(parents=True)
+        out = self.root / "experiments/c10z/runs/c10z_astra_benchmark/T"; out.mkdir(parents=True)
         path = out / "benchmark.json"
         progress = json.dumps(record, sort_keys=True, allow_nan=False, indent=2) + "\n"
         code = "import pathlib,sys,time;pathlib.Path(sys.argv[1]).write_bytes(sys.argv[2].encode());time.sleep(1000)"
@@ -605,7 +605,7 @@ class BenchmarkLifecycleTests(Base):
                 if child.poll() is None: real_killpg(child.pid, signal.SIGKILL); child.wait(timeout=5)
 
     def test_supervisor_completed_worker_untouched(self):
-        out = self.root / "results/c10z_astra_benchmark/T"; out.mkdir(parents=True)
+        out = self.root / "experiments/c10z/runs/c10z_astra_benchmark/T"; out.mkdir(parents=True)
         path = out / "benchmark.json"
         before = (json.dumps(fixture_record(), sort_keys=True, allow_nan=False, indent=2) + "\n").encode()
         code = "import pathlib,sys;pathlib.Path(sys.argv[1]).write_bytes(sys.argv[2].encode())"
@@ -614,7 +614,7 @@ class BenchmarkLifecycleTests(Base):
         self.assertEqual(rc, 0); kill.assert_not_called(); self.assertEqual(path.read_bytes(), before)
 
     def test_supervisor_forbidden_astra_cap_preserves_directory(self):
-        out = self.root / "results/c10z_astra/timeout"; out.mkdir(parents=True)
+        out = self.root / "experiments/c10z/runs/c10z_astra/timeout"; out.mkdir(parents=True)
         marker = out / "existing.txt"; marker.write_bytes(b"preserved ASTRA fixture\n")
         before = {path.relative_to(out): path.read_bytes() for path in out.iterdir()}
         clock = Clock(); started = []; killed = []
@@ -633,7 +633,7 @@ class BenchmarkLifecycleTests(Base):
         self.assertEqual({path.relative_to(out): path.read_bytes() for path in out.iterdir()}, before)
 
     def test_supervisor_existing_record_cap_preserves_bytes(self):
-        out = self.root / "results/c10z_astra_benchmark/T"; out.mkdir(parents=True)
+        out = self.root / "experiments/c10z/runs/c10z_astra_benchmark/T"; out.mkdir(parents=True)
         path = out / "benchmark.json"; self.B.write_record(path, fixture_record())
         before = path.read_bytes(); clock = Clock(); started = []; killed = []
         class Child:
@@ -663,7 +663,7 @@ class BenchmarkLifecycleTests(Base):
             self.assertTrue(kwargs["start_new_session"]); started.append(args); return Child()
         with mock.patch.object(self.B, "ROOT", self.root), mock.patch.object(
                 self.B.os, "killpg", side_effect=lambda pid, sig: killed.append((pid, sig))):
-            with self.assertRaisesRegex(ValueError, "benchmark output must be one directory under results/c10z_astra_benchmark"):
+            with self.assertRaisesRegex(ValueError, "benchmark output must be one directory under experiments/c10z/runs/c10z_astra_benchmark"):
                 self.B.supervise(["stub"], out, clock=clock, popen=spawn,
                                  sleep=lambda seconds: clock.advance(600.))
         self.assertEqual(len(started), 1); self.assertEqual(killed, [(123456, signal.SIGKILL)])
@@ -733,11 +733,11 @@ class BenchmarkLifecycleTests(Base):
 
     def test_out_path_refusals_and_prefix_trap(self):
         with mock.patch.object(self.B, "ROOT", self.root):
-            for out in (self.root / "results/c10z_astra", self.root / "results/c10z_astra/x"):
+            for out in (self.root / "experiments/c10z/runs/c10z_astra", self.root / "experiments/c10z/runs/c10z_astra/x"):
                 with self.subTest(out=out), self.assertRaisesRegex(ValueError, "ASTRA"):
                     self.B.check_out(out)
                 self.assertFalse(out.exists())
-            good = self.root / "results/c10z_astra_benchmark/T"
+            good = self.root / "experiments/c10z/runs/c10z_astra_benchmark/T"
             self.assertEqual(self.B.check_out(good), good.resolve())
             good.mkdir(parents=True); (good / "benchmark.json").write_text("{}")
             with self.assertRaisesRegex(ValueError, "existing benchmark.json"): self.B.check_out(good)
@@ -766,7 +766,7 @@ class BenchmarkLifecycleTests(Base):
         self.assertEqual(r["phases"]["eval_A7"]["status"], "COMPLETE"); self.assertEqual(H.eval_calls, 1)
         self.assertFalse(H.model.config.use_cache)
         self.assertEqual(r["inputs"]["target_lengths"], [5] * 12 + [6] * 12)
-        self.assertFalse((self.root / "results/c10z_astra").exists())
+        self.assertFalse((self.root / "experiments/c10z/runs/c10z_astra").exists())
         self.assertNotIn("c10e_bandknob", sys.modules)
 
     def test_injected_worker_synthetic_mps_identity_validates_derived(self):

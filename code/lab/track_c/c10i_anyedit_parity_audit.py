@@ -7,13 +7,13 @@ import json
 import subprocess
 from pathlib import Path
 
-os.environ["HF_HOME"] = f"{LLMDB_ROOT}/hf_cache"
+os.environ["HF_HOME"] = f"{LLMDB_ROOT}/data/hf_cache"
 os.environ.setdefault("HF_HUB_OFFLINE", "1")
 
 ID = os.environ.get("MODEL_ID", "Qwen/Qwen2.5-3B")
 REV = os.environ.get("MODEL_REV", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-SOURCE = f"{LLMDB_ROOT}/results/c10h_anyedit_window50_controls.json"
-DEFAULT_OUT = f"{LLMDB_ROOT}/results/c10i_anyedit_parity_trace_local.json"
+SOURCE = f"{LLMDB_ROOT}/experiments/c10h/runs/c10h_anyedit_window50_controls/c10h_anyedit_window50_controls.json"
+DEFAULT_OUT = f"{LLMDB_ROOT}/experiments/c10i/runs/c10i_anyedit_parity_trace_local/c10i_anyedit_parity_trace_local.json"
 
 
 def git_value(root, *args):

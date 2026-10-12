@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""D-C10q-stacked mechanical reader (docs/C10Q_STACKED_SOLVE_PREREG.md §3). No model judgement; exits non-zero on INVALID.
-Usage: c10q_stacked_read.py results/c10q_stacked
+"""D-C10q-stacked mechanical reader (experiments/c10q/design/C10Q_STACKED_SOLVE_PREREG.md §3). No model judgement; exits non-zero on INVALID.
+Usage: c10q_stacked_read.py experiments/c10q/runs/c10q_stacked
 [LAW:one-source-of-truth] every threshold lives here once, as §3 states it."""
 import sys, json, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

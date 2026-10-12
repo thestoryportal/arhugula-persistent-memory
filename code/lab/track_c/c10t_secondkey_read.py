@@ -11,8 +11,8 @@ from pathlib import Path
 
 DECISION_ID = "D-C10t-secondkey"
 PROGRAM_RULINGS = {"D-C10t-p5rule": "p5 is selected from the raw five-layer mean"}
-PREREG = "docs/C10T_SECONDKEY_PREREG.md"
-HP_FILE = "configs/hparams/qwen25_3b_memit_hparams.json"
+PREREG = "experiments/c10t/design/C10T_SECONDKEY_PREREG.md"
+HP_FILE = "code/configs/hparams/qwen25_3b_memit_hparams.json"
 CANON = "The capital of {} is the city of"                 # c10e_bandknob.py:51-56
 PTEST = ["{}'s capital city is called", "If you visit {}, its capital city is",
          "The main city and seat of government of {} is"]

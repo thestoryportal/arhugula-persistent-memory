@@ -26,7 +26,7 @@ class Clock:
 
 class SupervisorTests(unittest.TestCase):
     def setUp(self):
-        self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+        self.assertTrue(Path('code/lab/runners/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
         self.S = importlib.import_module('tools.new1_supervisor')
         self.tmp = tempfile.TemporaryDirectory(dir='/private/tmp')
         self.addCleanup(self.tmp.cleanup)
@@ -204,7 +204,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
             self.controller([sample]).check(123)
 
     def prereg_fixture(self,status):
-        path=self.root/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md'
+        path=self.root/'experiments/new1/design/NEW1_ADAPTER_GEOMETRY_PREREG.md'
         path.parent.mkdir(exist_ok=True)
         path.write_text('# NEW-1 — fixture\n\n'+status+'\n\nHistorical: DRAFT v2 remains NOT FROZEN.\n')
         return path,self.S.sha_file(path)
@@ -558,13 +558,13 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         self.assertEqual(finding['predictions']['H-COV'],'BOUNDARY-SENSITIVE')
 
     def test_direct_worker_cli_refuses_before_numerical_imports(self):
-        result=subprocess.run([sys.executable,'-B','tools/new1_geometry.py'],capture_output=True,text=True)
+        result=subprocess.run([sys.executable,'-B','code/lab/runners/new1_geometry.py'],capture_output=True,text=True)
         self.assertNotEqual(result.returncode,0)
         self.assertIn('supervisor',result.stderr.lower())
 
     def test_bare_supervisor_environment_is_not_execution_authority(self):
         env=dict(os.environ,NEW1_SUPERVISOR_PID=str(os.getpid()),NEW1_CONTROL_FD='9999')
-        result=subprocess.run([sys.executable,'-B','tools/new1_geometry.py'],env=env,capture_output=True,text=True)
+        result=subprocess.run([sys.executable,'-B','code/lab/runners/new1_geometry.py'],env=env,capture_output=True,text=True)
         self.assertNotEqual(result.returncode,0)
         self.assertIn('supervisor',result.stderr.lower())
 
@@ -1664,7 +1664,7 @@ send({'type':'complete','path':'geometry.json'})
         source=textwrap.dedent(inspect.getsource(self.S.supervise))
         inspected,problems=self.supervise_ownership_audit(source)
         for kind,lineno,label in inspected:
-            print(f'OWNERSHIP_AST {kind} tools/new1_supervisor.py:{self.S.supervise.__code__.co_firstlineno+lineno-1} {label}')
+            print(f'OWNERSHIP_AST {kind} code/lab/runners/new1_supervisor.py:{self.S.supervise.__code__.co_firstlineno+lineno-1} {label}')
         self.assertEqual(problems,[],'supervise has a cleanup boundary/acquisition outside the single owner')
         for addition in ('\n    with arbitrary_factory():\n        pass\n',
                 '\n    escaped=arbitrary_factory()\n',

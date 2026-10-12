@@ -82,19 +82,19 @@ def script_call(command):
 
 ROOT = os.path.dirname(TOOLS)
 JOB_TYPES = (
-    (("tools/run_mathlab_harvest.sh", "tools/mathlab_harvest.py", "tools/mathlab_admit.py"),
-     "mathlab", "harvest", "Math-lab harvest", "tools/run_mathlab_harvest.sh", None, "gpu"),
-    (("tools/run_c10z_v7_diag.py", "experiments/track_c/c10z_v7_diag.py"),
-     "c10z", "v7-diag", "C10Z V7 probe", "tools/run_c10z_v7_diag.py", "results/c10z_v7_diagnostic", "gpu"),
-    (("tools/run_c10y_precast_diag.sh", "experiments/track_c/c10y_precast_diag.py"),
-     "c10y", "pre-cast", "C10Y pre-cast", "tools/run_c10y_precast_diag.sh", "results/c10y_precast_diag", "gpu"),
-    (("experiments/track_c/c10z_astra_benchmark.py",),
-     "c10z", "benchmark", "C10Z benchmark", "experiments/track_c/c10z_astra_benchmark.py", None, "gpu"),
-    (("tools/run_c10z_attempt.sh", "tools/run_c10z_stage.sh", "experiments/track_c/c10z_astra_arms.py"),
+    (("code/apps/mathlab/run_mathlab_harvest.sh", "code/apps/mathlab/mathlab_harvest.py", "code/apps/mathlab/mathlab_admit.py"),
+     "mathlab", "harvest", "Math-lab harvest", "code/apps/mathlab/run_mathlab_harvest.sh", None, "gpu"),
+    (("code/lab/runners/run_c10z_v7_diag.py", "code/lab/track_c/c10z_v7_diag.py"),
+     "c10z", "v7-diag", "C10Z V7 probe", "code/lab/runners/run_c10z_v7_diag.py", "experiments/c10z/runs/c10z_v7_diagnostic", "gpu"),
+    (("code/lab/runners/run_c10y_precast_diag.sh", "code/lab/track_c/c10y_precast_diag.py"),
+     "c10y", "pre-cast", "C10Y pre-cast", "code/lab/runners/run_c10y_precast_diag.sh", "experiments/c10y/runs/c10y_precast_diag", "gpu"),
+    (("code/lab/track_c/c10z_astra_benchmark.py",),
+     "c10z", "benchmark", "C10Z benchmark", "code/lab/track_c/c10z_astra_benchmark.py", None, "gpu"),
+    (("code/lab/runners/run_c10z_attempt.sh", "code/lab/runners/run_c10z_stage.sh", "code/lab/track_c/c10z_astra_arms.py"),
      "c10z", "astra", "C10Z ASTRA attempt", None, None, "gpu"),
-    (("tools/run_mathlab_cpu.sh", "tools/mathlab_cpu_runner.py", "tools/mathlab_admit.py",
-      "mathlab/m2_solve_repro.py", "mathlab/m3_calibration.py"),
-     "mathlab", "cpu", None, "tools/run_mathlab_cpu.sh", None, "cpu"),
+    (("code/apps/mathlab/run_mathlab_cpu.sh", "code/apps/mathlab/mathlab_cpu_runner.py", "code/apps/mathlab/mathlab_admit.py",
+      "code/apps/mathlab/m2_solve_repro.py", "code/apps/mathlab/m3_calibration.py"),
+     "mathlab", "cpu", None, "code/apps/mathlab/run_mathlab_cpu.sh", None, "cpu"),
 )
 SHORT = {"c10u": "Step 3", "c10v": "Step 4", "c10w": "Step 5", "c10x": "Step 6", "c10y": "Step 7", "c10z": "ASTRA", "mathlab": "Math lab"}
 NOT_TEAM = {"dashboard", "dashboard_new", "helpers"}
@@ -140,13 +140,13 @@ def detect_gpu_jobs(inventory):
         job = None
         for aliases, key, stage, name, cap_file, output_base, device in JOB_TYPES:
             rel = next((r for r in aliases if script == r or script.endswith("/" + r)), None)
-            if rel is None or (rel == "tools/mathlab_admit.py" and options.get("kind") != ('cpu' if device == 'cpu' else 'harvest')):
+            if rel is None or (rel == "code/apps/mathlab/mathlab_admit.py" and options.get("kind") != ('cpu' if device == 'cpu' else 'harvest')):
                 continue
             step = None
             if device == 'cpu':
-                notebook = rel if rel.startswith('mathlab/') else (args[1] if len(args) > 1 else '')
-                match = re.search(r'(?:^|/)mathlab/m([23])_\w+\.py$', notebook)
-                step = options.get('step') if rel == 'tools/mathlab_admit.py' else match.group(1) if match else None
+                notebook = rel if rel.startswith('code/apps/mathlab/') else (args[1] if len(args) > 1 else '')
+                match = re.search(r'(?:^|/)code/apps/mathlab/m([23])_\w+\.py$', notebook)
+                step = options.get('step') if rel == 'code/apps/mathlab/mathlab_admit.py' else match.group(1) if match else None
                 if step not in ('2', '3'): continue
                 step = int(step); stage = 'm' + str(step); name = 'Math-lab step ' + str(step)
             root = script[:-len(rel)].rstrip("/") if os.path.isabs(script) else ROOT
@@ -252,7 +252,7 @@ def attempt_budget(job):
         record = matches[0][1] if len(matches) == 1 else None
         if record: job['output_dir'] = matches[0][0]
     else:
-        paths = [p for pattern in ('results/c10z_astra*/run.json', 'results/c10z_astra*/process2/run.json')
+        paths = [p for pattern in ('experiments/c10z/runs/c10z_astra*/run.json', 'experiments/c10z/runs/c10z_astra*/process2/run.json')
                  for p in glob.glob(os.path.join(job['root'], pattern))]
         matches = [(os.path.dirname(p), r) for p in paths
                    for r in [record_object(p)] if bound(r)]
@@ -654,15 +654,15 @@ def events():
             ev.append((ex["at"], f"coordinator exit {ex['code']} ({os.path.basename(p)})"))
     for p in glob.glob(os.path.join(ROOT, "results", "c10*", "*", "HALT.json")):
         ev.append((os.path.getmtime(p), f"HALT in {os.path.relpath(os.path.dirname(p), ROOT)}"))
-    for p in glob.glob(os.path.join(ROOT, "CORPUS", "[0-9][0-9]_*.md")):
-        ev.append((os.path.getmtime(p), f"CORPUS/{os.path.basename(p)[:2]} changed"))
+    for p in glob.glob(os.path.join(ROOT, "evidence/CORPUS/[0-9][0-9]_*.md")):
+        ev.append((os.path.getmtime(p), f"evidence/CORPUS/{os.path.basename(p)[:2]} changed"))
     return ev
 
 
 def gather():
     from dashboard_tile import running_helpers
     try:
-        runbook = open(os.path.join(ROOT, "EXPERIMENT_RUNBOOK.md"), errors="replace").read()
+        runbook = open(os.path.join(ROOT, "program/runbook/"), errors="replace").read()
     except OSError:
         runbook = ""
     screens, _, lead = team_screens()

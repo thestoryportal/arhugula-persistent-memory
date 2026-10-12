@@ -6,12 +6,12 @@ Reloads the SAVED edited model (b3_edited_qwen3b) and adds native facts from the
 Keeps the existing 'edited' list; replaces 'native'. Native = facts of entirely
 un-edited entities (pure quantization control, no edit interference)."""
 import os, sys, json
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"
 import torch
-sys.path.insert(0, f"{LLMDB_ROOT}/memit_dry_run/memit"); from util.device import resolve_device  # P-8 harness side
+sys.path.insert(0, f"{LLMDB_ROOT}/code/memit/vendor"); from util.device import resolve_device  # P-8 harness side
 DEV = resolve_device()
 from transformers import AutoModelForCausalLM, AutoTokenizer
-SAVE_DIR=f"{LLMDB_ROOT}/b3_edited_qwen3b"
+SAVE_DIR=f"{LLMDB_ROOT}/experiments/b3/runs/b3_edit/bulk/b3_edited_qwen3b"
 TMPL={"capital":"The capital of {} is the city of","continent":"{} is located on the continent of",
       "language":"The official language of {} is"}
 GLOBAL_PROBES=["The largest planet in the solar system is","Water is composed of hydrogen and",
@@ -28,8 +28,8 @@ def correct(top1,truth):
     if truth is None: return None
     a=(top1 or "").strip().lower(); b=truth.lower(); return bool(a) and (a==b or b.startswith(a) or a.startswith(b))
 
-orig=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json"))["selected"]
-v2  =json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+orig=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b.json"))["selected"]
+v2  =json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
 edited_50=list(orig.keys())[:50]                      # the entities A0/A1/B3-edit touched
 # native entity pool: any screened entity NOT in the edited 50
 pool={}
@@ -58,8 +58,8 @@ nc=[p for p in native if p["kind"]=="native_country"]
 nc_ok=sum(bool(p["hf_match_target"]) for p in nc)
 print(f"native_country probes={len(nc)} | HF-fp16 correct={nc_ok} (eligible pool; need >=20)", flush=True)
 
-probes=json.load(open(f"{LLMDB_ROOT}/configs/probes/b3_probes.json"))
+probes=json.load(open(f"{LLMDB_ROOT}/code/configs/probes/b3_probes.json"))
 probes["native"]=native
-json.dump(probes, open(f"{LLMDB_ROOT}/configs/probes/b3_probes.json","w"), indent=2, default=str)
+json.dump(probes, open(f"{LLMDB_ROOT}/code/configs/probes/b3_probes.json","w"), indent=2, default=str)
 print(f"rewrote b3_probes.json: edited={len(probes['edited'])} native={len(native)} (country={len(nc)}, global={len(GLOBAL_PROBES)})", flush=True)
 print("DONE b3_expand_native", flush=True)

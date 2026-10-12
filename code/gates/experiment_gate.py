@@ -21,7 +21,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT / "tools"
-LOG_DIR = ROOT / "logs" / "experiment_gate"
+LOG_DIR = ROOT / "experiments/c10j/runs/c10j_anyedit_window50_controls/experiment_gate"
 TEMPLATE = TOOLS / "skills" / "experiment-gate" / "assets" / "prereg_template.md"
 
 sys.path.insert(0, str(TOOLS))
@@ -121,7 +121,7 @@ def check_prereg(path: Path) -> dict[str, Any]:
     out["missing_sections"] = missing
     out["note"] = (
         "Presence check only. The scientific content still needs advisor-review "
-        "(Claude via tools/claude_advisor.sh for Codex-led work) and the normal prereg discipline."
+        "(Claude via code/agents/claude_advisor.sh for Codex-led work) and the normal prereg discipline."
     )
     return out
 
@@ -319,7 +319,7 @@ def bundle(args: argparse.Namespace) -> dict[str, Any]:
         "gate_status": "PASS",
         "checks": {},
         "review_status": args.review_status,
-        "closeout_handoff": "Run python3 tools/closeout_check.py <D-ID> after CORPUS/tracker closeout.",
+        "closeout_handoff": "Run python3 code/gates/closeout_check.py <D-ID> after evidence/CORPUS/tracker closeout.",
         "corpus_written_by_gate": False,
     }
     prereg_check = check_prereg(prereg)

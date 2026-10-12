@@ -1,6 +1,6 @@
 """Build a 2-layer, random-weight Qwen2.5-3B structure file for Netron (CPU only).
 
-Usage: PYTHONPATH=<dir with onnx+onnxscript> .venv/bin/python visualization/build_structure_onnx.py [dynamo]
+Usage: PYTHONPATH=<dir with onnx+onnxscript> .venv/bin/python code/research/visualization/build_structure_onnx.py [dynamo]
 """
 import os
 import sys

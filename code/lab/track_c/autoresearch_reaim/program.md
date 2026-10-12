@@ -1,10 +1,10 @@
-> **RETIRED 2026-10-06 (D-C10r-impl-1) — do not follow or run.** Superseded by `docs/AUTORESEARCH.md` (source `experiments/track_c/autoresearch_c10/`). Kept only until the operator deletes this folder; git history keeps it.
+> **RETIRED 2026-10-06 (D-C10r-impl-1) — do not follow or run.** Superseded by `experiments/c10r/design/AUTORESEARCH.md` (source `code/lab/track_c/autoresearch_c10/`). Kept only until the operator deletes this folder; git history keeps it.
 
-# autoresearch — re-aim family on the C10 edit harness (Karpathy's `autoresearch` via the macOS fork `external_prior_art/autoresearch-macos/program.md`, applied to one edit experiment instead of a 5-minute training run)
+# autoresearch — re-aim family on the C10 edit harness (Karpathy's `autoresearch` via the macOS fork `code/vendor/external_prior_art/autoresearch-macos/program.md`, applied to one edit experiment instead of a 5-minute training run)
 
 This is an experiment to have the LLM do its own research. The structure is the fork's, followed exactly (operator instruction 2026-10-06: follow the repo durably and exactly; this file is the one layer the fork assigns to the human). Three files matter: one fixed evaluation you never touch, one editable unit, and this program. The agent modifies the editable unit, runs one experiment, checks if the result improved, keeps or discards, and repeats — until the human interrupts it.
 
-**Fence (the human's layer, DISCIPLINE §3):** this loop is an optimizer. Everything it produces is a CANDIDATE. It never writes `CORPUS/`, the runbook, the checkpoint, the ledgers, the hypothesis register or memory; its outputs live under `results/autoresearch_reaim/<tag>/` (and, when git is available, on its own branch). The operator folds a candidate in through a pre-registered falsifier with controls. Operator authorization: D-C10q-rulings-1 companion, 2026-10-06.
+**Fence (the human's layer, DISCIPLINE §3):** this loop is an optimizer. Everything it produces is a CANDIDATE. It never writes `evidence/CORPUS/`, the runbook, the checkpoint, the ledgers, the hypothesis register or memory; its outputs live under `results/autoresearch_reaim/<tag>/` (and, when git is available, on its own branch). The operator folds a candidate in through a pre-registered falsifier with controls. Operator authorization: D-C10q-rulings-1 companion, 2026-10-06.
 
 ## Setup
 
@@ -14,10 +14,10 @@ To set up a new experiment:
 2. **Create the branch**: `git checkout -b autoresearch/<tag>` from the program branch. *(When git is unavailable to the loop — as on 2026-10-06, when the session's shell lost git — the branch is replaced by per-iteration snapshots of the editable unit under `results/autoresearch_reaim/<tag>/iter_NN/`; "commit" = snapshot, "git reset" = restore the last kept snapshot. The fallback is recorded in `results.tsv` by `unit_sha` in place of a commit hash.)*
 3. **Read the in-scope files.** The scope is small:
    - **`run_iteration.py`** + **`knobs.json`** — **the editable unit (the fork's `train.py`).** It builds one re-aim edit experiment on top of the harness: parses `knobs.json`, writes the iteration's hparams, runs the harness pass(es) through the `Z_OVERRIDE` / `_ARM_STATE` seams, applies the extra edit(s), prints the summary. Everything in it is fair game: the knob schema, the number and kind of re-solve rounds, how targets are blended or scaled, the write cap and its enforcement, the band, the ridge, the compute_z steps, where the extra edit is aimed, new ideas.
-   - **`experiments/track_c/c10e_bandknob.py`** — **the fixed evaluation (the fork's `prepare.py`).** Stimuli, `eval_arm` (the held-out full-sequence metric), the locality axes, the LAW#5 parity gate, `my_edit`. Do not modify.
+   - **`code/lab/track_c/c10e_bandknob.py`** — **the fixed evaluation (the fork's `prepare.py`).** Stimuli, `eval_arm` (the held-out full-sequence metric), the locality axes, the LAW#5 parity gate, `my_edit`. Do not modify.
    - **`log_row.py`** and the launcher — fixed. The logger extracts the metric and guards and appends the row.
-   - `CORPUS/48`, `CORPUS/49`, `CORPUS/50` — what has been measured: the single edit lands 12–16/72 held-out; a fresh second edit aimed at the re-solved target reached 21/72 at a ×1.31 write; a stacked second edit reached 24/72 at ΔW₂/ΔW₁ 1.24 with a 4.2-point `described_as` cost; a wrongly-aimed second edit of larger energy destroys recall (0/72).
-4. **Verify the gates**: `python3 tools/engine_fingerprint.py` prints PASS; `results/c10l_covgeom/run1_armB_identity.json` exists (LAW#3 reference). If not, tell the human.
+   - `evidence/CORPUS/48`, `evidence/CORPUS/49`, `evidence/CORPUS/50` — what has been measured: the single edit lands 12–16/72 held-out; a fresh second edit aimed at the re-solved target reached 21/72 at a ×1.31 write; a stacked second edit reached 24/72 at ΔW₂/ΔW₁ 1.24 with a 4.2-point `described_as` cost; a wrongly-aimed second edit of larger energy destroys recall (0/72).
+4. **Verify the gates**: `python3 code/memit/engine_fingerprint.py` prints PASS; `experiments/c10l/runs/c10l_covgeom/run1_armB_identity.json` exists (LAW#3 reference). If not, tell the human.
 5. **Initialize `results.tsv`** with just the header row. The baseline is recorded after the first run.
 6. **Confirm and go.** Kick off the experimentation.
 
@@ -101,7 +101,7 @@ You are a completely autonomous researcher trying things out. If they work, keep
 
 **Broken instrument (not an idea)**: fingerprint FAIL, LAW#5 not inert on the baseline, or a guard failing on the baseline itself means the harness is broken, not the idea — write `HALT.md` in the results folder and stop; that is the one case where stopping is right.
 
-**NEVER STOP**: once the experiment loop has begun (after the initial setup), do NOT pause to ask the human if you should continue. Do NOT ask "should I keep going?" or "is this a good stopping point?". The human might be asleep, or gone from a computer, and expects you to continue working *indefinitely* until you are manually stopped. You are autonomous. If you run out of ideas, think harder — re-read CORPUS/48–50 for what the measurements say, re-read the harness for what the solve actually does, try combining previous near-misses, try more radical changes to the solve recipe. The loop runs until the human interrupts you, period.
+**NEVER STOP**: once the experiment loop has begun (after the initial setup), do NOT pause to ask the human if you should continue. Do NOT ask "should I keep going?" or "is this a good stopping point?". The human might be asleep, or gone from a computer, and expects you to continue working *indefinitely* until you are manually stopped. You are autonomous. If you run out of ideas, think harder — re-read evidence/CORPUS/48–50 for what the measurements say, re-read the harness for what the solve actually does, try combining previous near-misses, try more radical changes to the solve recipe. The loop runs until the human interrupts you, period.
 
 A user might leave you running while they sleep: at ~40 minutes per experiment that is roughly 10–12 experiments over a night, all completed by you while they slept.
 

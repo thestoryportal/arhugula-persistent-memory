@@ -276,10 +276,10 @@ class ConstructionDiagnosticTests(unittest.TestCase):
         self.assertEqual((self.D.I.DEADLINE_S, self.D.I.RSS_CAP_GIB, self.D.I.THREADS, self.D.I.DISK_BYTES),
                          (600, 11., 8, 1000000))
         self.assertEqual(self.D.INPUT_PINS, self.D.I.INPUT_PINS)
-        self.assertEqual(self.D.SOURCE_PINS['tools/new1_identity_diag.py'],
+        self.assertEqual(self.D.SOURCE_PINS['code/lab/runners/new1_identity_diag.py'],
                          '919b3a11a836973ea4c0d2abdd2514634ea62792e6009e828a63d81f297c3d0d')
-        self.assertIn('results/mathlab_staging/new1_construction_diag_authorization.md', self.D.SOURCE_PINS)
-        self.assertIn('results/mathlab_staging/new1_identity_diag_astra.md', self.D.SOURCE_PINS)
+        self.assertIn('experiments/new1/rulings/new1_construction_diag_authorization.md', self.D.SOURCE_PINS)
+        self.assertIn('experiments/new1/reviews/new1_identity_diag_astra.md', self.D.SOURCE_PINS)
 
     def test_verify_launch_refuses_nice_20_before_input_pins(self):
         with mock.patch.object(self.D.G, 'verify_file'), \

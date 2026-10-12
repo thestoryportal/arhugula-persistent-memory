@@ -2,8 +2,8 @@
 """Fetch Connected Papers graphs through the official API client (github.com/ConnectedPapers/connectedpapers-py).
 
 Run without installing anything:
-    uv run --with connectedpapers-py python tools/connected_papers_fetch.py --usages
-    uv run --with connectedpapers-py python tools/connected_papers_fetch.py arXiv:2410.02355 DOI:10.48550/arXiv.2210.07229 <semantic-scholar-sha>
+    uv run --with connectedpapers-py python code/research/connected_papers_fetch.py --usages
+    uv run --with connectedpapers-py python code/research/connected_papers_fetch.py arXiv:2410.02355 DOI:10.48550/arXiv.2210.07229 <semantic-scholar-sha>
 
 Paper ids: a Semantic Scholar sha id (40 hex chars), or arXiv:<id> / DOI:<doi> / CorpusId:<n>, resolved through the public
 Semantic Scholar API. Each graph is written as JSON to the Connected Papers collection (default

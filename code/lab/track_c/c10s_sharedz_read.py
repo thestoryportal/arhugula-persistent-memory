@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""D-C10s-sharedz mechanical reader (docs/C10S_SHARED_Z_PREREG.md v3 FROZEN, §2 cell 1 + §3 + §7 A1). No model judgement.
-Usage: c10s_sharedz_read.py results/c10s_sharedz          (reads run.json, inject.json, pass1.json [, pass2.json])
+"""D-C10s-sharedz mechanical reader (experiments/c10s/design/C10S_SHARED_Z_PREREG.md v3 FROZEN, §2 cell 1 + §3 + §7 A1). No model judgement.
+Usage: c10s_sharedz_read.py experiments/c10s/runs/c10s_sharedz          (reads run.json, inject.json, pass1.json [, pass2.json])
 Exit 0 = a label was printed; exit 2 = INVALID; exit 3 = a required file is missing.
 
 v2 (implementation review items 2, 5): every locality gate and the -LARGE-WRITE qualifier apply to EACH process before a
@@ -60,12 +60,12 @@ class Arm(NamedTuple):
 
 
 _ARMS = {
-    "sharedz": Arm("sharedz", "D-C10s-sharedz", "docs/C10S_SHARED_Z_PREREG.md",
-                   "architecture_profile/c10s_sharedz_halt_diagnostic.json",
-                   "configs/hparams/qwen25_3b_memit_hparams.json", 25, "results/c10s_sharedz"),
-    "solvefeas": Arm("solvefeas", "D-C10s-solvefeas", "docs/C10S_SOLVEFEAS_PREREG.md",
+    "sharedz": Arm("sharedz", "D-C10s-sharedz", "experiments/c10s/design/C10S_SHARED_Z_PREREG.md",
+                   "experiments/c10s/runs/c10s_sharedz/halts/c10s_sharedz_halt_diagnostic.json",
+                   "code/configs/hparams/qwen25_3b_memit_hparams.json", 25, "experiments/c10s/runs/c10s_sharedz"),
+    "solvefeas": Arm("solvefeas", "D-C10s-solvefeas", "experiments/c10s/design/C10S_SOLVEFEAS_PREREG.md",
                      "architecture_profile/c10s_solvefeas_halt_diagnostic.json",
-                     "configs/hparams/qwen25_3b_memit_hparams_steps50.json", 50, "results/c10s_solvefeas"),
+                     "code/configs/hparams/qwen25_3b_memit_hparams_steps50.json", 50, "experiments/c10s/runs/c10s_solvefeas"),
 }
 
 
@@ -571,7 +571,7 @@ def main():
         print_solvefeas(reading)
         snap = inj["evaluation_25_injection"]
         print(f"evaluation-25 shared-z injection (record only): {snap['shared_n']}/72; final canonical/shared/twin {sc['canon_n']}/{sc['shared_n']}/{sc['canon_n'] + tw['gain']}/72; "
-              "CORPUS/51 canonical/shared/twin 51/69/54/72 (results/c10s_sharedz_r2/inject.json; different template draw)")
+              "evidence/CORPUS/51 canonical/shared/twin 51/69/54/72 (experiments/c10s/runs/c10s_sharedz_r2/inject.json; different template draw)")
         print(f"50-step positive control: {budget['positive_control']}")
         outcome = solvefeas_cell1_outcome(reading, tw, sc, budget)
     if outcome != "PROCEED":

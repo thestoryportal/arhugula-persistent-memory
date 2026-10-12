@@ -37,7 +37,7 @@ def frozen_probe_prereg():
 
 
 def probe(test):
-    path = ROOT / "experiments/track_c/c10z_v7_diag.py"
+    path = ROOT / "code/lab/track_c/c10z_v7_diag.py"
     test.assertTrue(path.is_file(), "missing forward-only V7-DIAG implementation")
     return importlib.import_module("c10z_v7_diag")
 
@@ -284,7 +284,7 @@ class PinsAndAdmissionTests(unittest.TestCase):
     def test_local_arrow_revision_length_shards_and_offline_only(self):
         P = probe(self)
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp); cache = root / "hf_cache"
+            root = Path(tmp); cache = root / "data/hf_cache"
             directory = cache / "datasets/wikimedia___wikipedia/20231101.en/0.0.0" / P.DATASET_REV
             directory.mkdir(parents=True)
             (directory / "dataset_info.json").write_text(json.dumps({"config_name": "20231101.en",
@@ -309,10 +309,10 @@ class PinsAndAdmissionTests(unittest.TestCase):
         P = probe(self)
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            for rel in ("experiments/track_c/c10z_v7_diag.py", "experiments/track_c/c10z_astra_arms.py",
-                        "memit_dry_run/memit/memit/memit_main.py", "docs/C10Z_ASTRA_PREREG.md"):
+            for rel in ("code/lab/track_c/c10z_v7_diag.py", "code/lab/track_c/c10z_astra_arms.py",
+                        "code/memit/vendor/memit/memit_main.py", "experiments/c10z/design/C10Z_ASTRA_PREREG.md"):
                 p = root / rel; p.parent.mkdir(parents=True, exist_ok=True); p.write_text(rel)
-            snapshot = root / "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / P.MODEL_REV
+            snapshot = root / "data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / P.MODEL_REV
             snapshot.mkdir(parents=True)
             for name in ("tokenizer.json", "tokenizer_config.json", "config.json", "model-00001.safetensors"):
                 (snapshot / name).write_text(name)
@@ -320,7 +320,7 @@ class PinsAndAdmissionTests(unittest.TestCase):
             for l in range(4, 13):
                 caches[str(l)] = root / (str(l) + ".npz"); caches[str(l)].write_bytes(b"cache")
             with patch.object(P, "cache_paths", return_value=caches), \
-                 patch.object(P, "engine_sources", return_value={"memit_dry_run/memit/memit/memit_main.py": "hash"}), \
+                 patch.object(P, "engine_sources", return_value={"code/memit/vendor/memit/memit_main.py": "hash"}), \
                  patch.object(P, "environment", return_value={"device": "mps", "torch": "fixture", "transformers": "fixture", "datasets": "fixture"}), \
                  patch.object(P, "hub_revision", return_value={"status": "available", "sha": "f" * 40}):
                 value = P.build_pins(root, fixture_rows(5017), Tokenizer(),
@@ -337,13 +337,13 @@ class PinsAndAdmissionTests(unittest.TestCase):
                 self.assertTrue(value[key], key)
 
     def test_launcher_existing_namespace_and_worker_gates_refuse_before_probe(self):
-        path = ROOT / "tools/run_c10z_v7_diag.py"
+        path = ROOT / "code/lab/runners/run_c10z_v7_diag.py"
         self.assertTrue(path.is_file(), "missing exclusivity launcher")
         spec = importlib.util.spec_from_file_location("v7_launcher_test", path)
         L = importlib.util.module_from_spec(spec); spec.loader.exec_module(L)
         for why in ("namespace", "fingerprint", "gpu"):
             with self.subTest(why=why), tempfile.TemporaryDirectory() as tmp:
-                root = Path(tmp); out = root / "results/c10z_v7_diagnostic/20261009T000000Z"
+                root = Path(tmp); out = root / "experiments/c10z/runs/c10z_v7_diagnostic/20261009T000000Z"
                 if why == "namespace": out.mkdir(parents=True)
                 gate = types.SimpleNamespace(check_fingerprint=lambda: {"ok": why != "fingerprint"},
                                              check_gpu=lambda: {"ok": why != "gpu", "blocking_processes": ["C10Y calibration 4"]})
@@ -353,14 +353,14 @@ class PinsAndAdmissionTests(unittest.TestCase):
                     with self.assertRaisesRegex(ValueError, why): action("20261009T000000Z")
 
     def test_supervised_worker_reuses_only_required_gates_before_forward_entry(self):
-        path = ROOT / "tools/run_c10z_v7_diag.py"; self.assertTrue(path.is_file(), "missing launcher")
+        path = ROOT / "code/lab/runners/run_c10z_v7_diag.py"; self.assertTrue(path.is_file(), "missing launcher")
         spec = importlib.util.spec_from_file_location("v7_launcher_test", path)
         L = importlib.util.module_from_spec(spec); spec.loader.exec_module(L)
         gate = types.SimpleNamespace(check_fingerprint=lambda: {"ok": True}, check_gpu=lambda: {"ok": True})
         with tempfile.TemporaryDirectory() as tmp, patch.object(L, "ROOT", Path(tmp)), \
              patch.object(L, "gate_module", return_value=gate), patch.object(sys, "argv", [str(path)]):
             def entered(script, run_name):
-                self.assertEqual(str(script), str(Path(tmp) / "experiments/track_c/c10z_v7_diag.py"))
+                self.assertEqual(str(script), str(Path(tmp) / "code/lab/track_c/c10z_v7_diag.py"))
                 self.assertEqual(run_name, "__main__")
                 self.assertEqual(sys.argv[1:], ["--utc", "20261009T000000Z"])
                 raise RuntimeError("CPU positive control reached forward entry boundary")
@@ -371,7 +371,7 @@ class PinsAndAdmissionTests(unittest.TestCase):
         P = probe(self)
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp); out = P.reserve_namespace(root, "20261009T000000Z")
-            self.assertEqual(out, root / "results/c10z_v7_diagnostic/20261009T000000Z")
+            self.assertEqual(out, root / "experiments/c10z/runs/c10z_v7_diagnostic/20261009T000000Z")
             with self.assertRaises(FileExistsError): P.reserve_namespace(root, "20261009T000000Z")
             for bad in ("../c10z_astra_attempt3", "x", "20261009T000000Z/child"):
                 with self.assertRaises(ValueError): P.reserve_namespace(root, bad)
@@ -402,7 +402,7 @@ class DeadlineTests(unittest.TestCase):
         self.assertEqual(child.returncode, 0, child.stdout + child.stderr); print(child.stdout.strip())
 
     def test_launcher_native_block_is_bounded_before_probe_dispatch(self):
-        path = ROOT / "tools/run_c10z_v7_diag.py"; self.assertTrue(path.is_file(), "missing launcher")
+        path = ROOT / "code/lab/runners/run_c10z_v7_diag.py"; self.assertTrue(path.is_file(), "missing launcher")
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             launcher = FixRoundOneTests.synthetic_launcher(self, root, "raise AssertionError('probe must not run')\n")
@@ -414,7 +414,7 @@ class DeadlineTests(unittest.TestCase):
             elapsed = time.monotonic() - started
             self.assertEqual(child.returncode, 2, child.stdout + child.stderr)
             self.assertLess(elapsed, 2.)
-            out = root / "results/c10z_v7_diagnostic/20261009T000000Z"
+            out = root / "experiments/c10z/runs/c10z_v7_diagnostic/20261009T000000Z"
             diagnostic = json.loads(next(out.glob("halt_diagnostic_*.json")).read_text())
             self.assertTrue(diagnostic["timed_out"] or diagnostic["worker_returncode"] == -signal.SIGALRM)
             self.assertFalse((out / "pins.json").exists()); self.assertFalse((out / "worker_result.json").exists())
@@ -434,7 +434,7 @@ class DeadlineTests(unittest.TestCase):
             with self.subTest(native=native), tempfile.TemporaryDirectory() as tmp:
                 code = "\n".join([
                     "import sys, time, ctypes, json", "from pathlib import Path",
-                    "sys.path.insert(0, " + repr(str(ROOT / "experiments/track_c")) + ")",
+                    "sys.path.insert(0, " + repr(str(ROOT / "code/lab/track_c")) + ")",
                     "import c10z_v7_diag as P", "P.CAP_SECONDS = .15",
                     "out=Path(" + repr(tmp) + ")", "P.publish_verdict(out, {}, 'INCONCLUSIVE', 'incomplete measurement or hard deadline', complete=False)",
                     "with P.Deadline():",
@@ -487,7 +487,7 @@ class EntryAndGuardTests(unittest.TestCase):
             model = Tiny(); H = types.SimpleNamespace(tok=Tokenizer(), model=model, DEV="cpu")
             scores_seen = []; forward = model.forward
             def checked_forward(*a, **kw):
-                record = json.loads((root / "results/c10z_v7_diagnostic/20261009T000000Z/pins.json").read_text())
+                record = json.loads((root / "experiments/c10z/runs/c10z_v7_diagnostic/20261009T000000Z/pins.json").read_text())
                 self.assertEqual(set(record["populations"]), {"F1000", "R1000", "R5000"})
                 self.assertEqual(record["populations"]["F1000"]["nonpadding_tokens"], 55000)
                 return forward(*a, **kw)
@@ -502,7 +502,7 @@ class EntryAndGuardTests(unittest.TestCase):
                  patch.object(P, "score_population", side_effect=scored), patch.object(model, "forward", side_effect=checked_forward), \
                  patch.object(torch, "zeros", side_effect=tiny_zeros(torch.zeros)):
                 self.assertEqual(P.run("20261009T000000Z"), 0)
-            out = root / "results/c10z_v7_diagnostic/20261009T000000Z"
+            out = root / "experiments/c10z/runs/c10z_v7_diagnostic/20261009T000000Z"
             result = json.loads((out / "verdict.json").read_text())
             self.assertEqual((result["outcome"], result["completion"]), ("INCONCLUSIVE", "incomplete"))
             receipt = json.loads((out / "worker_result.json").read_text())
@@ -527,7 +527,7 @@ class EntryAndGuardTests(unittest.TestCase):
                  patch.object(P, "build_pins", return_value=pins), patch.object(P, "load_cache_diagonals", return_value={}), \
                  patch.object(P, "measure_populations", side_effect=failure):
                 self.assertEqual(P.run("20261009T000000Z"), 2)
-            result = json.loads((root / "results/c10z_v7_diagnostic/20261009T000000Z/verdict.json").read_text())
+            result = json.loads((root / "experiments/c10z/runs/c10z_v7_diagnostic/20261009T000000Z/verdict.json").read_text())
             self.assertEqual(result["scores"], measured); self.assertEqual(result["outcome"], "INCONCLUSIVE")
             self.assertEqual(result.get("provenance_mismatch"), mismatch, "late error dropped retained mismatch details")
 
@@ -549,7 +549,7 @@ class IntegrityTests(unittest.TestCase):
     def test_real_source_cache_model_tokenizer_corruption_is_inconclusive_and_retains_m(self):
         P = probe(self)
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp); snapshot = root / "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / P.MODEL_REV
+            root = Path(tmp); snapshot = root / "data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots" / P.MODEL_REV
             snapshot.mkdir(parents=True)
             source = root / "probe.py"; engine = root / "engine.py"
             model = snapshot / "model.safetensors"; tokenizer = snapshot / "tokenizer.json"; cache = root / "cache.npz"
@@ -688,7 +688,7 @@ class FixRoundOneTests(unittest.TestCase):
     def synthetic_launcher(self, root, worker):
         tools = root / "tools"; tools.mkdir()
         launcher = tools / "run_c10z_v7_diag.py"
-        source = (ROOT / "tools/run_c10z_v7_diag.py").read_text().replace("CAP_SECONDS = 3060", "CAP_SECONDS = .15")
+        source = (ROOT / "code/lab/runners/run_c10z_v7_diag.py").read_text().replace("CAP_SECONDS = 3060", "CAP_SECONDS = .15")
         source = source.replace('ROOT = Path(__file__).resolve().parents[1]', textwrap.dedent('''
             ROOT = Path(__file__).resolve().parents[1]
             _actual_fsync = os.fsync
@@ -701,7 +701,7 @@ class FixRoundOneTests(unittest.TestCase):
         launcher.write_text(source)
         (tools / "c10w_p2_gate.py").write_text("def check_fingerprint(): return {'ok': True}\ndef check_gpu(): return {'ok': True}\n")
         python = root / ".venv/bin/python"; python.parent.mkdir(parents=True); python.symlink_to(sys.executable)
-        path = root / "experiments/track_c/c10z_v7_diag.py"; path.parent.mkdir(parents=True)
+        path = root / "code/lab/track_c/c10z_v7_diag.py"; path.parent.mkdir(parents=True)
         path.write_text(worker)
         return launcher
 
@@ -710,7 +710,7 @@ class FixRoundOneTests(unittest.TestCase):
             import ctypes, json, os, signal, sys, time
             from pathlib import Path
             root=Path(os.environ['LLMDB_ROOT']); utc=sys.argv[sys.argv.index('--utc')+1]
-            out=root/'results/c10z_v7_diagnostic'/utc; out.mkdir(parents=True,exist_ok=True)
+            out=root/'experiments/c10z/runs/c10z_v7_diagnostic'/utc; out.mkdir(parents=True,exist_ok=True)
             record={'outcome':'INCONCLUSIVE','completion':'incomplete','scores':{},
                     'active_phase':'F1000:forward','incomplete_phases':['F1000','R1000','R5000','cleanup','worker_exit']}
             with (out/'verdict.json').open('x') as f:
@@ -730,7 +730,7 @@ class FixRoundOneTests(unittest.TestCase):
                 started = time.monotonic()
                 child = subprocess.run([sys.executable, "-B", str(launcher), "--utc", "20261009T000000Z"],
                     env=dict(os.environ, FIX1_TERMINATION_MODE=mode), capture_output=True, text=True, timeout=5)
-                out = root / "results/c10z_v7_diagnostic/20261009T000000Z"
+                out = root / "experiments/c10z/runs/c10z_v7_diagnostic/20261009T000000Z"
                 diagnostics = list(out.glob("halt_diagnostic_*.json"))
                 print("FIX1_TERMINATION_CONTROL mode=%s rc=%s files=%s" % (mode, child.returncode, sorted(p.name for p in out.iterdir())))
                 self.assertEqual(len(diagnostics), 1, "abnormal exit left only provisional verdict; no fresh halt diagnostic")
@@ -781,7 +781,7 @@ class FixRoundOneTests(unittest.TestCase):
             rc=P.run('20261009T000000Z')
             AFTER_RUN
             raise SystemExit(rc)
-        ''').replace("SOURCE", repr(str(ROOT / "experiments/track_c")))
+        ''').replace("SOURCE", repr(str(ROOT / "code/lab/track_c")))
         code = code.replace("CLEANUP_DELAY", str(delay)).replace("AFTER_RUN", after_run).replace("PREARMED_FLAG", repr(prearmed))
         code = code.replace("FROZEN_PREREG", repr(frozen_probe_prereg().hex()))
         return subprocess.run([sys.executable, "-B", "-c", code.replace("TEMP", repr(tmp))],
@@ -796,7 +796,7 @@ class FixRoundOneTests(unittest.TestCase):
                   (child.returncode, (root / "cleanup_started").exists(), (root / "cleanup_done").exists(), time.monotonic() - started))
             self.assertEqual(child.returncode, -signal.SIGALRM, "cleanup completed after deadline because timer was cancelled")
             self.assertTrue((root / "cleanup_started").is_file()); self.assertFalse((root / "cleanup_done").exists())
-            verdict = json.loads((root / "results/c10z_v7_diagnostic/20261009T000000Z/verdict.json").read_text())
+            verdict = json.loads((root / "experiments/c10z/runs/c10z_v7_diagnostic/20261009T000000Z/verdict.json").read_text())
             self.assertEqual(verdict["completion"], "incomplete", "successful completion published before cleanup")
             self.assertEqual(verdict["outcome"], "INCONCLUSIVE")
 
@@ -808,7 +808,7 @@ class FixRoundOneTests(unittest.TestCase):
             print("FIX1_WORKER_EXIT_CONTROL rc=%s cleanup_done=%s" % (child.returncode, (Path(tmp) / "cleanup_done").exists()))
             self.assertEqual(child.returncode, -signal.SIGALRM, child.stdout + child.stderr)
             self.assertTrue((Path(tmp) / "cleanup_done").is_file())
-            out = Path(tmp) / "results/c10z_v7_diagnostic/20261009T000000Z"
+            out = Path(tmp) / "experiments/c10z/runs/c10z_v7_diagnostic/20261009T000000Z"
             self.assertEqual(json.loads((out / "worker_result.json").read_text())["completion"], "awaiting_worker_exit")
             self.assertEqual(json.loads((out / "verdict.json").read_text())["completion"], "incomplete")
 
@@ -816,7 +816,7 @@ class FixRoundOneTests(unittest.TestCase):
         worker = textwrap.dedent('''
             import ctypes,json,os,time
             from pathlib import Path
-            root=Path(os.environ['LLMDB_ROOT']); out=root/'results/c10z_v7_diagnostic/20261009T000000Z'
+            root=Path(os.environ['LLMDB_ROOT']); out=root/'experiments/c10z/runs/c10z_v7_diagnostic/20261009T000000Z'
             def save(name,value):
                 with (out/name).open('x') as f: json.dump(value,f); f.flush(); os.fsync(f.fileno())
             save('verdict.json',{'outcome':'INCONCLUSIVE','completion':'incomplete','scores':{}})
@@ -834,7 +834,7 @@ class FixRoundOneTests(unittest.TestCase):
                 root = Path(tmp); launcher = self.synthetic_launcher(root, worker)
                 child = subprocess.run([sys.executable, "-B", str(launcher), "--utc", "20261009T000000Z"],
                     env=dict(os.environ, FIX1_EXIT_MODE=mode), capture_output=True, text=True, timeout=5)
-                out = root / "results/c10z_v7_diagnostic/20261009T000000Z"
+                out = root / "experiments/c10z/runs/c10z_v7_diagnostic/20261009T000000Z"
                 verdict = json.loads((out / "verdict.json").read_text())
                 self.assertTrue((root / "cleanup_done").is_file())
                 if mode == "normal":
@@ -860,15 +860,15 @@ class FixRoundOneTests(unittest.TestCase):
             self.assertEqual(torch.load(out / "m_F1000.pt", weights_only=True)["m"]["0"].dtype, torch.float64)
 
     def test_real_gpu_gate_excludes_only_verified_parent_and_still_blocks_competing_job(self):
-        gate_spec = importlib.util.spec_from_file_location("fix1_real_gate", ROOT / "tools/c10w_p2_gate.py")
+        gate_spec = importlib.util.spec_from_file_location("fix1_real_gate", ROOT / "code/lab/runners/c10w_p2_gate.py")
         gate = importlib.util.module_from_spec(gate_spec); gate_spec.loader.exec_module(gate)
         for mode in ("idle", "competing", "different_command"):
             with self.subTest(mode=mode), tempfile.TemporaryDirectory() as tmp:
-                root = Path(tmp); launcher = root / "tools/run_c10z_v7_diag.py"; launcher.parent.mkdir()
-                launcher.write_bytes((ROOT / "tools/run_c10z_v7_diag.py").read_bytes())
+                root = Path(tmp); launcher = root / "code/lab/runners/run_c10z_v7_diag.py"; launcher.parent.mkdir()
+                launcher.write_bytes((ROOT / "code/lab/runners/run_c10z_v7_diag.py").read_bytes())
                 spec = importlib.util.spec_from_file_location("fix1_launcher_inventory", launcher)
                 L = importlib.util.module_from_spec(spec); spec.loader.exec_module(L)
-                utc = "20261009T000000Z"; out = root / "results/c10z_v7_diagnostic" / utc; out.mkdir(parents=True)
+                utc = "20261009T000000Z"; out = root / "experiments/c10z/runs/c10z_v7_diagnostic" / utc; out.mkdir(parents=True)
                 argv = [str(root / ".venv/bin/python"), "-B", str(launcher), "--utc", utc]
                 lease = {"token": "CPU-ownership-fixture", "pid": 60001, "deadline_origin": L.LAUNCH_STARTED,
                          "cap_seconds": 3060, "supervisor_argv": argv, "source_sha256": hashlib.sha256(launcher.read_bytes()).hexdigest()}

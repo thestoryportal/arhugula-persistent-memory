@@ -1,9 +1,9 @@
-# RETIRED 2026-10-06 (D-C10r-impl-1) — do not run. Superseded by docs/AUTORESEARCH.md (experiments/track_c/autoresearch_c10/).
+# RETIRED 2026-10-06 (D-C10r-impl-1) — do not run. Superseded by experiments/c10r/design/AUTORESEARCH.md (code/lab/track_c/autoresearch_c10/).
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, io, contextlib, json, math
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -29,7 +29,7 @@ from memit.compute_ks import compute_ks
 # Engine UNMODIFIED. LAW#5 inertness gate runs first.
 # ============================================================================
 ID=os.environ.get("MODEL_ID","Qwen/Qwen2.5-3B"); REV=os.environ.get("MODEL_REV","3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 N_ENTITIES=int(os.environ.get("N_ENTITIES","50")); FIELDS=["capital","language"]
 RUNG_ENTITIES=[int(x) for x in os.environ.get("RUNGS","13,25,50").split(",")]   # default -> 26/50/100 records
@@ -130,7 +130,7 @@ if os.environ.get("SMOKE"):
     print("SMOKE_DONE", flush=True); sys.exit(0)
 
 # ---------- build records from screened pool + distinct-permutation single-token counterfacts ----------
-scr=json.load(open(os.environ.get("SCREEN",f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json"))); sel=scr["selected"]
+scr=json.load(open(os.environ.get("SCREEN",f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b.json"))); sel=scr["selected"]
 ents=list(sel.keys()); edit_ents=ents[:N_ENTITIES]; heldout=ents[N_ENTITIES:N_ENTITIES+6]
 def assign_cf(entity_list, field):
     truths=[sel[e][field]["truth"] for e in entity_list]

@@ -1,17 +1,17 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import argparse, contextlib, io, json, math
-os.environ["HF_HOME"] = f"{LLMDB_ROOT}/hf_cache"
+os.environ["HF_HOME"] = f"{LLMDB_ROOT}/data/hf_cache"
 os.environ["HF_HUB_OFFLINE"] = "0"
-ENGINE_ROOT = f"{LLMDB_ROOT}/memit_dry_run/memit"
+ENGINE_ROOT = f"{LLMDB_ROOT}/code/memit/vendor"
 sys.path.insert(0, ENGINE_ROOT)
 os.chdir(ENGINE_ROOT)
 
 ID = os.environ.get("MODEL_ID", "Qwen/Qwen2.5-3B")
 REV = os.environ.get("MODEL_REV", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-HP_BASE = f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"
-OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/results/c10h_anyedit_pilot.json")
-PREREG = f"{LLMDB_ROOT}/docs/C10_ANYEDIT_PILOT_PREREG.md"
+HP_BASE = f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"
+OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/experiments/c10h/runs/c10h_anyedit_pilot/c10h_anyedit_pilot.json")
+PREREG = f"{LLMDB_ROOT}/experiments/c10h/design/C10_ANYEDIT_PILOT_PREREG.md"
 CANON = "The capital of {} is the city of"
 PTEST = [
     "{}'s capital city is called",
@@ -26,7 +26,7 @@ FICTION_ALL = [
 
 
 def build_stimuli(tok, n):
-    scr = json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+    scr = json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
     caps = sorted({scr[c]["capital"]["truth"] for c in scr})
 
     def ids(s):
@@ -521,7 +521,7 @@ def run_gpu(args):
             },
         }
         results["verdict"] = control_recovery_verdict(results)
-        out = args.out or f"{LLMDB_ROOT}/results/c10h_anyedit_window50_controls.json"
+        out = args.out or f"{LLMDB_ROOT}/experiments/c10h/runs/c10h_anyedit_window50_controls/c10h_anyedit_window50_controls.json"
         with open(out, "w") as f:
             json.dump(results, f, indent=2, default=str)
         print("\n=== C10h WINDOW50 CONTROL DIAGNOSTIC SUMMARY ===", flush=True)

@@ -172,7 +172,7 @@ def gate(repo, gh, number, dry_run=True, wait_s=480, report=None):
         report['head_sha'], report['base_sha'] = value['headRefOid'], value['baseRefOid']
         return value
     def fingerprint():
-        result = repo.run([sys.executable, '-B', 'tools/engine_fingerprint.py'])
+        result = repo.run([sys.executable, '-B', 'code/memit/engine_fingerprint.py'])
         evidence = {'root': 'PASS', 'output': result.stdout, 'candidate': 'NOT-RUN'}
         if report['head_sha']:
             engine = repo.run(['git', 'show', report['head_sha'] + ':memit_dry_run/memit/memit/memit_main.py']).raw_stdout

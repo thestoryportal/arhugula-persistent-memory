@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""D-C10n-ztransport (docs/C10N_ZTRANSPORT_PREREG.md): the 2 x 2 of {z_pre, z_post} x {pre-edit model, post-edit model}.
+"""D-C10n-ztransport (experiments/c10n/design/C10N_ZTRANSPORT_PREREG.md): the 2 x 2 of {z_pre, z_post} x {pre-edit model, post-edit model}.
   A = z_pre -> pre-edit model (control, before the edit)      B = z_pre -> post-edit model (inside the post-edit hook)
   C = z_post -> post-edit model (inside the hook)             D = z_post -> pre-edit model (after H.main() restored the base weights)
 plus per-subject geometry (norms, difference norm, cosine). Reuses the D-C10m-diag functions unchanged.
@@ -11,10 +11,10 @@ os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ.setdefault("CANDIDATE_NAME", "A7_ztransport")
 # [LAW:parse-dont-validate] provenance and output are fixed here, before the harness reads its own (stale) defaults
 os.environ.setdefault("DECISION_ID", "D-C10n-ztransport")
-os.environ.setdefault("PREREG", f"{LLMDB_ROOT}/docs/C10N_ZTRANSPORT_PREREG.md")
-os.environ.setdefault("OUT", f"{LLMDB_ROOT}/results/c10n_ztransport/run.json")
+os.environ.setdefault("PREREG", f"{LLMDB_ROOT}/experiments/c10n/design/C10N_ZTRANSPORT_PREREG.md")
+os.environ.setdefault("OUT", f"{LLMDB_ROOT}/experiments/c10n/runs/c10n_ztransport/run.json")
 os.makedirs(os.path.dirname(os.environ["OUT"]), exist_ok=True)
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10m_diag_arms as D      # sets the arms/recipe env, imports the harness, checks LAW3_REF, provides compute_zs / inject_sweep / z_record / fingerprint
 import torch
 from memit.memit_main import get_context_templates

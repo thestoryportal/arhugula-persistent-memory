@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import io, contextlib, json, math
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -12,7 +12,7 @@ from memit.compute_ks import compute_ks
 
 # ============================================================================
 # R2 — REVERSE-LOOKUP / bidirectional native-knowing (CP2 read-contract matrix R2).
-# Pre-reg: docs/R2_REVERSE_LOOKUP_PREREG.md. LABEL PRE-COMMITTED: CHARACTERIZATION,
+# Pre-reg: experiments/r2/design/R2_REVERSE_LOOKUP_PREREG.md. LABEL PRE-COMMITTED: CHARACTERIZATION,
 # NOT falsification (D16 auto-generates reverse; §11.2 reverse=storage/index-delegated;
 # weight-native reverse-fail CONFIRMS overlay architecture). Q: does a forward edit
 # (C->X, keyed on subject C) create a weight-native REVERSE edge (X->C)? Reversal curse
@@ -20,7 +20,7 @@ from memit.compute_ks import compute_ks
 # capital<->country ONLY (bijective). Engine UNMODIFIED. primitives VERBATIM from r9. LAW#5 gate.
 # ============================================================================
 ID=os.environ.get("MODEL_ID","Qwen/Qwen2.5-3B"); REV=os.environ.get("MODEL_REV","3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 tok=AutoTokenizer.from_pretrained(ID, revision=REV)
 if tok.pad_token is None: tok.pad_token=tok.eos_token
@@ -92,7 +92,7 @@ print(f"  engine expr={eng_p:.4f} | harness expr={my_p:.4f} | |Δ|={abs(eng_p-my
 if not ok: print("LAW#5 fail; HALT.", flush=True); sys.exit(0)
 
 # ---------- build edited set + counterfactual capitals + native-reverse control set ----------
-scr=json.load(open(os.environ.get("SCREEN",f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))); sel=scr["selected"]
+scr=json.load(open(os.environ.get("SCREEN",f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))); sel=scr["selected"]
 # keep countries whose REAL capital is single-token (clean reverse grading) AND country first-token usable
 cands=[c for c in sel if single_tok(sel[c]["capital"]["truth"])]
 N=int(os.environ.get("N_EDIT","24")); M=int(os.environ.get("N_CONTROL","16"))
@@ -178,7 +178,7 @@ interp=("WRITE-ONLY EDGE (reversal curse confirmed): forward took, native-revers
         if (len(took)>=0.8*len(edited) and ctrl_rate>=0.6*len(control) and rev_among_took<=0.2*max(1,len(took)))
         else "NON-NULL reverse or degenerate controls — inspect (see rows)")
 print(f"\n  INTERPRETATION: {interp}", flush=True)
-OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/results/r2_reverse_lookup.json")
+OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/experiments/r2/runs/r2_reverse_lookup/r2_reverse_lookup.json")
 json.dump({"summary":summary,"interpretation":interp,"rows":rows,"native_reverse_control":ctrl_native,
            "stimulus":{"fwd":FWD,"reverse":REV_T}}, open(OUT,"w"),indent=2,default=str)
 print(f"\nwrote {OUT}", flush=True); print("R2_DONE", flush=True)

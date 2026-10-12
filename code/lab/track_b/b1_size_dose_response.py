@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, io, contextlib, json, math, random
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -11,8 +11,8 @@ from memit.compute_z import compute_z, get_module_input_output_at_words
 from memit.compute_ks import compute_ks
 # ============================================================================
 # B1 — MODEL-SIZE TERM for the D1 relation-concentration capacity law.
-# Pre-reg: docs/B1_SIZE_TERM_PREREG.md (FROZEN 2026-06-21, advisor-vetted).
-# Port of experiments/track_d/d1_dose_response.py (the D1 Phase-3 harness),
+# Pre-reg: experiments/b1/design/B1_SIZE_TERM_PREREG.md (FROZEN 2026-06-21, advisor-vetted).
+# Port of code/lab/track_d/d1_dose_response.py (the D1 Phase-3 harness),
 # PROTOCOL-IDENTICAL, parametrized by MODEL env (3b|7b) + ONE added measurement:
 #   §2.1 ΔW-norm logging (advisor gate #1) — band-summed per-edit Frobenius norm,
 #   so a "size protects/worsens" verdict is checkable against edit-strength, not
@@ -32,7 +32,7 @@ CFG={
  "7b":{"id":"Qwen/Qwen2.5-7B","rev":"d149729398750b98c0af14eb82c78cfe92750796","hp":"qwen25_7b_memit_hparams.json","svd":"cuda"},
 }[MODEL]
 ID=CFG["id"]; REV=CFG["rev"]; SVD_DEVICE=CFG["svd"]
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/{CFG['hp']}"); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/{CFG['hp']}"); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 TOTAL_N=48; DOSES=[24,36,42]; HELDOUT_N=24
 SEEDS=[int(x) for x in os.environ.get("SEEDS","1,2,3").split(",")]
@@ -130,7 +130,7 @@ if not ok:
 torch.cuda.empty_cache()   # free gate residual -> headroom for GPU SVD (compute_P) + the wide-intermediate solve
 
 # ---------- pools ----------
-sel=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+sel=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
 ents_all=[x for x in sel if all(r in sel[x] and "truth" in sel[x][r] for r in ["capital","language"])]
 # baseline-correct on capital (clean base) — held-out must come from here (advisor Fix#3)
 base_correct=[e for e in ents_all if correct(predict(TMPL["capital"].format(e))["tok"], sel[e]["capital"]["truth"])]

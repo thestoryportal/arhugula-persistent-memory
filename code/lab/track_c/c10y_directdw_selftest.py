@@ -86,20 +86,20 @@ import c10y_directdw_read as R
 import c10y_directdw_telemetry_check as C
 
 SOURCES = (
-    'experiments/track_c/c10e_bandknob.py',
-    'experiments/track_c/c10z_astra_benchmark.py',
-    'memit_dry_run/memit/memit/compute_z.py',
-    'memit_dry_run/memit/memit/compute_ks.py',
-    'memit_dry_run/memit/memit/memit_main.py',
-    'memit_dry_run/memit/rome/repr_tools.py',
-    'tools/engine_fingerprint.py', 'docs/C10Y_DIRECTDW_PREREG.md',
-    'configs/hparams/qwen25_3b_memit_hparams.json',
+    'code/lab/track_c/c10e_bandknob.py',
+    'code/lab/track_c/c10z_astra_benchmark.py',
+    'code/memit/vendor/memit/compute_z.py',
+    'code/memit/vendor/memit/compute_ks.py',
+    'code/memit/vendor/memit/memit_main.py',
+    'code/memit/vendor/rome/repr_tools.py',
+    'code/memit/engine_fingerprint.py', 'experiments/c10y/design/C10Y_DIRECTDW_PREREG.md',
+    'code/configs/hparams/qwen25_3b_memit_hparams.json',
 )
 
 
 def fixture_source(path):
     payload=(W/path).read_bytes()
-    if path=='docs/C10Y_DIRECTDW_PREREG.md' and hashlib.sha256(payload).hexdigest()!=A.PREREG_SHA:
+    if path=='experiments/c10y/design/C10Y_DIRECTDW_PREREG.md' and hashlib.sha256(payload).hexdigest()!=A.PREREG_SHA:
         # Exact legacy-contract bytes in scratch only; no production repinning.
         payload=payload.partition(b'\n\n## 12. Amendment ZERO-STEP-DISPOSITION')[0]
         if hashlib.sha256(payload).hexdigest()!=A.PREREG_SHA or A.PREREG_SHA!=R.PREREG_SHA:
@@ -125,7 +125,7 @@ class IsolatedCase(unittest.TestCase):
             p.write_bytes(fixture_source(f))
         for f in ('c10y_directdw_arms.py', 'c10y_directdw_read.py',
                   'c10y_directdw_telemetry_check.py'):
-            (self.root / 'experiments/track_c' / f).write_bytes((W / 'experiments/track_c' / f).read_bytes())
+            (self.root / 'code/lab/track_c' / f).write_bytes((W / 'code/lab/track_c' / f).read_bytes())
         (self.root / 'results').mkdir()
         (self.root / 'architecture_profile').mkdir()
         self.out = self.root / 'results/c10y_directdw'
@@ -255,7 +255,7 @@ def make_h(lens_sensitive=False, drifting=False):
     H.hp = types.SimpleNamespace(layers=[4,5,6,7,8],
         rewrite_module_tmp='model.layers.{}.mlp.down_proj', layer_module_tmp='model.layers.{}',
         fact_token='subject_last', v_loss_layer=9, kl_factor=0.0625)
-    H.HP_BASE = str(Path(os.environ['LLMDB_ROOT']) / 'configs/hparams/qwen25_3b_memit_hparams.json')
+    H.HP_BASE = str(Path(os.environ['LLMDB_ROOT']) / 'code/configs/hparams/qwen25_3b_memit_hparams.json')
     H.get_context_templates = lambda model, tok: [['{}'], [f'Frame{i}. {{}}' for i in range(5)]]
     H.req = lambda prompt, subj, targ: {'prompt':prompt,'subject':subj,'target_new':{'str':' '+targ}}
     H.tgt_ids = lambda value: tok(' '+value, add_special_tokens=False)['input_ids']
@@ -296,7 +296,7 @@ def make_h(lens_sensitive=False, drifting=False):
     H.compute_ks=keys
     H.compute_z=lambda model,tok,r,hp,layer,contexts: reps(model,tok,layer,[r['prompt']],[r['subject']],hp.layer_module_tmp,hp.fact_token)[1][0] + 0.05
     # Reference scorer source is read as text, never imported.
-    source=ast.parse((W/'experiments/track_c/c10e_bandknob.py').read_text())
+    source=ast.parse((W/'code/lab/track_c/c10e_bandknob.py').read_text())
     scorer=next(n for n in source.body if isinstance(n,ast.FunctionDef) and n.name=='full_seq_match')
     scope={'torch':torch,'tok':tok,'model':model,'DEV':'cpu'}
     exec(compile(ast.Module(body=[scorer],type_ignores=[]),'<source-only scorer>','exec'),scope)
@@ -358,7 +358,7 @@ class IsolationTests(IsolatedCase):
         self.assertTrue(callable(AUDIT_GUARD),'audit hook missing')
         env=dict(os.environ,LLMDB_ROOT=str(self.root))
         with self.assertRaises(PermissionError):
-            AUDIT_GUARD('subprocess.Popen',(sys.executable,[sys.executable,'-B',str(W/'experiments/track_c/c10y_directdw_arms.py')],str(self.root),env))
+            AUDIT_GUARD('subprocess.Popen',(sys.executable,[sys.executable,'-B',str(W/'code/lab/track_c/c10y_directdw_arms.py')],str(self.root),env))
     def test_selftest_root_refusal(self):
         with self.assertRaises(A.Halt): A.selftest_root(W)
 
@@ -494,7 +494,7 @@ class LaunchTests(IsolatedCase):
         # test subprocesses remain restricted to audited Python stub workers.
         modes = {line.split('\t', 1)[1]: line.split()[0]
                  for line in (SCRATCH / 'launch_git_modes.txt').read_text().splitlines()}
-        graph = (A.__file__, C.__file__, str(W / 'tools/engine_fingerprint.py'))
+        graph = (A.__file__, C.__file__, str(W / 'code/memit/engine_fingerprint.py'))
         dependencies = set()
         for path in graph:
             tree = ast.parse(Path(path).read_text())
@@ -521,7 +521,7 @@ class LaunchTests(IsolatedCase):
         for name in ('MODEL_ID','MODEL_REV'):
             with self.subTest(name=name),self.assertRaises(A.Halt): A.preflight({name:'mismatch'})
     def test_go_spend_and_stage_eligibility(self):
-        go={'decision_id':'D-test','experiment':'C10Y','stage':2,'recorded_in':'EXPERIMENT_RUNBOOK.md:5','at':'2026-10-08T00:00:00Z'}
+        go={'decision_id':'D-test','experiment':'C10Y','stage':2,'recorded_in':'program/runbook/:5','at':'2026-10-08T00:00:00Z'}
         spend={'decision_id':'D-spend','stage':2,'cap_s':7200.}
         with self.assertRaises(A.Halt): A.launch_documents(2,go,None,None)
         for cap in (None,0,-1,float('nan'),float('inf'),True):
@@ -624,7 +624,7 @@ class TelemetryTests(IsolatedCase):
         observed=scorer(prompt,target)
         self.assertEqual(observed,original);self.assertEqual(capture[0][2],[9,9])
         self.assertTrue(all(torch.equal(x,y) for x,y in zip(before,H.model.forward_inputs)))
-        self.assertTrue(A.scorer_ast_check(W/'experiments/track_c/c10e_bandknob.py'))
+        self.assertTrue(A.scorer_ast_check(W/'code/lab/track_c/c10e_bandknob.py'))
     def test_every_kind_state_preservation_and_volume(self):
         H=make_h();H._ARM_STATE={'requests':[H.req(H.CANON,s,H.ARMS['A7_coined_coined'][s]) for s in H.FICTION]}
         writer=A.Telemetry(self.out,'s1','fixed')
@@ -725,7 +725,7 @@ class IntegrationTests(IsolatedCase):
             path=self.root/'nonfinite.json';path.write_text(text)
             with self.assertRaises(ValueError): A.strict_load(path)
     def test_actual_launcher_refuses_missing_calibration_before_import(self):
-        go=self.root/'go.json';go.write_text(json.dumps({'decision_id':'D-go','experiment':'C10Y','stage':1,'recorded_in':'EXPERIMENT_RUNBOOK.md:5','at':'2026-10-08T00:00:00Z'}))
+        go=self.root/'go.json';go.write_text(json.dumps({'decision_id':'D-go','experiment':'C10Y','stage':1,'recorded_in':'program/runbook/:5','at':'2026-10-08T00:00:00Z'}))
         forecast=self.root/'forecast.json';forecast.write_text(json.dumps({'stage':1,'phases':[]}))
         calls=[]
         original=importlib.import_module
@@ -746,7 +746,7 @@ class IntegrationTests(IsolatedCase):
             return copy.deepcopy(raw)
         H.run_recipe=recipe
         H.my_edit=lambda *args:(_ for _ in ()).throw(AssertionError('candidate called'))
-        go={'decision_id':'D-go','experiment':'C10Y','stage':1,'recorded_in':'EXPERIMENT_RUNBOOK.md:5','at':'2026-10-08T00:00:00Z'}
+        go={'decision_id':'D-go','experiment':'C10Y','stage':1,'recorded_in':'program/runbook/:5','at':'2026-10-08T00:00:00Z'}
         forecast=self.forecast()
         result=A.run(self.out,H,stage=1,go=go,forecast=forecast,diagnostic=self.diagnostic)
         self.assertEqual(result['run']['status'],'HALTED')
@@ -817,7 +817,7 @@ def main():
 
 class CalibrationTests(IsolatedCase):
     def records(self):
-        go={'decision_id':'D-go','experiment':'C10Y','stage':'calibration','recorded_in':'EXPERIMENT_RUNBOOK.md:5','at':'2026-10-08T00:00:00Z'}
+        go={'decision_id':'D-go','experiment':'C10Y','stage':'calibration','recorded_in':'program/runbook/:5','at':'2026-10-08T00:00:00Z'}
         spend={'decision_id':'D-spend','stage':'calibration','cap_s':7200.}
         return go,spend
     def fixture(self):
@@ -829,7 +829,7 @@ class CalibrationTests(IsolatedCase):
             with self.subTest(cap=cap),self.assertRaises(A.Halt): A.launch_documents('calibration',go,dict(spend,cap_s=cap),None)
         with self.assertRaises(A.Halt): A.launch_documents('calibration',go,None,None)
     def test_calibration_telemetry_variables_and_existing_directory_refused(self):
-        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1'
+        go,spend=self.records();out=self.root/'experiments/c10y/runs/c10y_directdw_calib1'
         for name in ('C10Y_TELEMETRY','C10Y_TELEMETRY_INERTNESS'):
             with mock.patch.dict(os.environ,{name:''}),self.assertRaises(A.Halt): A.calibrate(out,make_h(),go=go,spend=spend,diagnostic=self.diagnostic)
         self.assertFalse(out.exists());out.mkdir()
@@ -839,7 +839,7 @@ class CalibrationTests(IsolatedCase):
         for out in (self.out,self.root/'results/c10y_directdw_s1_rerun1',self.root/'results/c10y_directdw_calib0'):
             with self.subTest(out=out),self.assertRaises(A.Halt): A.calibrate(out,make_h(),go=go,spend=spend,diagnostic=self.diagnostic)
     def test_calibration_prefix_only_and_required_records(self):
-        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1';H=make_h();calls=[]
+        go,spend=self.records();out=self.root/'experiments/c10y/runs/c10y_directdw_calib1';H=make_h();calls=[]
         H.run_recipe=lambda *args:(_ for _ in ()).throw(AssertionError('substantive recipe outside prefix'))
         def prefix(H,out,budget,calibration=False,telemetry=None):
             calls.append(calibration);return self.fixture()
@@ -852,14 +852,14 @@ class CalibrationTests(IsolatedCase):
         self.assertFalse(names & {'screen.json','pass_p1.json','pass_p2.json','repro.json'})
         self.assertEqual(A.strict_load(out/'run.json')['telemetry'],False)
     def test_calibration_v4_halt_persists_schedule(self):
-        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1'
+        go,spend=self.records();out=self.root/'experiments/c10y/runs/c10y_directdw_calib1'
         with mock.patch.object(A,'instrument_prefix',side_effect=A.Halt('LAW#3')):
             record=A.calibrate(out,make_h(),go=go,spend=spend,diagnostic=self.diagnostic)
         self.assertEqual(record.get('outcome'),'LAW#3')
         with self.assertRaises(A.Halt): A.refuse_schedule_halt(self.root)
         self.assertEqual(A.strict_load(self.diagnostic)['process'],'calibration')
     def test_calibration_reader_and_context_source_refused(self):
-        out=self.root/'results/c10y_directdw_calib1';out.mkdir()
+        out=self.root/'experiments/c10y/runs/c10y_directdw_calib1';out.mkdir()
         (out/'calibration.json').write_text('{"outcome":"COMPLETE"}')
         with self.assertRaises((ValueError,RuntimeError)): R.load(out)
         contexts=out/'context_templates_calib.json';contexts.write_text('[["{}"]]')
@@ -890,7 +890,7 @@ class CalibrationTests(IsolatedCase):
 
 """C10Y reader contract tests. Inject R and IsolatedCase before evaluation.
 
-P = docs/C10Y_DIRECTDW_PREREG.md, pinned amended document, 2026-10-08.
+P = experiments/c10y/design/C10Y_DIRECTDW_PREREG.md, pinned amended document, 2026-10-08.
 B = /Users/robertrhu/.claude/jobs/8ac4cacf/tmp/codex_c10y_build_brief.md.
 Fixtures are machine records, never empirical model evidence. No code is run
 when this file is written. All TestCases inherit the parent's IsolatedCase.
@@ -913,17 +913,17 @@ A7 = ARMS[2]
 LAYERS = (4, 5, 6, 7, 8)
 FRAMES = ("CANON", "frame0", "frame1", "frame2", "frame3", "frame4", "frame5")
 SOURCE_PATHS = {
-    "driver": "experiments/track_c/c10y_directdw_arms.py",
-    "reader": "experiments/track_c/c10y_directdw_read.py",
-    "check": "experiments/track_c/c10y_directdw_telemetry_check.py",
-    "harness": "experiments/track_c/c10e_bandknob.py",
-    "templates": "experiments/track_c/c10z_astra_benchmark.py",
-    "hparams": "configs/hparams/qwen25_3b_memit_hparams.json",
-    "compute_z": "memit_dry_run/memit/memit/compute_z.py",
-    "compute_ks": "memit_dry_run/memit/memit/compute_ks.py",
-    "repr_tools": "memit_dry_run/memit/rome/repr_tools.py",
-    "memit_main": "memit_dry_run/memit/memit/memit_main.py",
-    "prereg": "docs/C10Y_DIRECTDW_PREREG.md",
+    "driver": "code/lab/track_c/c10y_directdw_arms.py",
+    "reader": "code/lab/track_c/c10y_directdw_read.py",
+    "check": "code/lab/track_c/c10y_directdw_telemetry_check.py",
+    "harness": "code/lab/track_c/c10e_bandknob.py",
+    "templates": "code/lab/track_c/c10z_astra_benchmark.py",
+    "hparams": "code/configs/hparams/qwen25_3b_memit_hparams.json",
+    "compute_z": "code/memit/vendor/memit/compute_z.py",
+    "compute_ks": "code/memit/vendor/memit/compute_ks.py",
+    "repr_tools": "code/memit/vendor/rome/repr_tools.py",
+    "memit_main": "code/memit/vendor/memit/memit_main.py",
+    "prereg": "experiments/c10y/design/C10Y_DIRECTDW_PREREG.md",
 }
 W = Path("/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a")
 
@@ -2133,7 +2133,7 @@ class ReaderLoadTests(ReaderCase):
         import io
         from unittest import mock
 
-        out = self.root / "results" / "c10y_directdw_calib1"
+        out = self.root / "experiments/c10y/runs/c10y_directdw_calib1"
         out.mkdir(parents=True)
         (out / "calibration.json").write_text('{"outcome":"COMPLETE"}', encoding="utf-8")
         reads = []
@@ -2169,17 +2169,17 @@ from unittest import mock
 
 CHECK_REAL_ROOT = Path("/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a")
 CHECK_SOURCES = (
-    "experiments/track_c/c10y_directdw_arms.py",
-    "experiments/track_c/c10y_directdw_read.py",
-    "experiments/track_c/c10y_directdw_telemetry_check.py",
-    "experiments/track_c/c10e_bandknob.py",
-    "experiments/track_c/c10z_astra_benchmark.py",
-    "configs/hparams/qwen25_3b_memit_hparams.json",
-    "memit_dry_run/memit/memit/compute_z.py",
-    "memit_dry_run/memit/memit/compute_ks.py",
-    "memit_dry_run/memit/rome/repr_tools.py",
-    "memit_dry_run/memit/memit/memit_main.py",
-    "docs/C10Y_DIRECTDW_PREREG.md",
+    "code/lab/track_c/c10y_directdw_arms.py",
+    "code/lab/track_c/c10y_directdw_read.py",
+    "code/lab/track_c/c10y_directdw_telemetry_check.py",
+    "code/lab/track_c/c10e_bandknob.py",
+    "code/lab/track_c/c10z_astra_benchmark.py",
+    "code/configs/hparams/qwen25_3b_memit_hparams.json",
+    "code/memit/vendor/memit/compute_z.py",
+    "code/memit/vendor/memit/compute_ks.py",
+    "code/memit/vendor/rome/repr_tools.py",
+    "code/memit/vendor/memit/memit_main.py",
+    "experiments/c10y/design/C10Y_DIRECTDW_PREREG.md",
 )
 CHECK_CANON = "The capital of {} is"
 CHECK_PTEST = ["{} has its capital in", "The capital city of {} is", "For {}, the capital is"]
@@ -2218,7 +2218,7 @@ class TelemetryCheckContract(IsolatedCase):
 
     def _fingerprint(self):
         # The external read-only fingerprint boundary is injected; its output is retained.
-        engine = self.root / "memit_dry_run/memit/memit/memit_main.py"
+        engine = self.root / "code/memit/vendor/memit/memit_main.py"
         expected = "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
         output = ("engine fingerprint PASS: %s\n" % engine
                   + "  sha256   %s  (expected %s; pod-era 5c0c706a…)\n" % (expected, expected)
@@ -3112,7 +3112,7 @@ class CalibrationForecastContractTests(IsolatedCase):
 
 class PinnedTemplateTests(IsolatedCase):
     def expected(self):
-        tree=ast.parse((self.root/'experiments/track_c/c10z_astra_benchmark.py').read_text())
+        tree=ast.parse((self.root/'code/lab/track_c/c10z_astra_benchmark.py').read_text())
         values=ast.literal_eval(next(node.value for node in tree.body if isinstance(node,ast.Assign) and any(isinstance(n,ast.Name) and n.id=='TEMPLATES' for n in node.targets)))
         return [[values[0]],list(values[1:])]
     def sampler_spy(self,H):
@@ -3121,7 +3121,7 @@ class PinnedTemplateTests(IsolatedCase):
         H.get_context_templates=scope['get_context_templates'];return scope
     def test_stage1_and_calibration_pin_before_first_engine_call(self):
         for stage in (1,'calibration'):
-            H=make_h();scope=self.sampler_spy(H);out=self.root/('results/c10y_directdw' if stage==1 else 'results/c10y_directdw_calib1')
+            H=make_h();scope=self.sampler_spy(H);out=self.root/('results/c10y_directdw' if stage==1 else 'experiments/c10y/runs/c10y_directdw_calib1')
             name='context_templates.json' if stage==1 else 'context_templates_calib.json'
             calls=[]
             def prefix(H,out,budget,**kwargs):
@@ -3130,12 +3130,12 @@ class PinnedTemplateTests(IsolatedCase):
                 values=H.get_context_templates(H.model,H.tok)
                 self.assertEqual(values,self.expected())
                 raise A.Halt('LAW#3',{'test':'pinned baseline miss'})
-            go={'decision_id':'D-go','experiment':'C10Y','stage':stage,'recorded_in':'EXPERIMENT_RUNBOOK.md:5','at':'2026-10-08T00:00:00Z'}
+            go={'decision_id':'D-go','experiment':'C10Y','stage':stage,'recorded_in':'program/runbook/:5','at':'2026-10-08T00:00:00Z'}
             spend={'decision_id':'D-spend','stage':stage,'cap_s':7200.}
             # Clear only this isolated root's schedule between independent cases.
             (self.root/'results/c10y_directdw_schedule_halt.json').unlink(missing_ok=True)
             diagnostic=self.root/f'architecture_profile/c10y_halt_diagnostic_{stage}.json'
-            with mock.patch.object(A,'PREREG_SHA',A.sha(self.root/'docs/C10Y_DIRECTDW_PREREG.md')),mock.patch.object(A,'instrument_prefix',side_effect=prefix):
+            with mock.patch.object(A,'PREREG_SHA',A.sha(self.root/'experiments/c10y/design/C10Y_DIRECTDW_PREREG.md')),mock.patch.object(A,'instrument_prefix',side_effect=prefix):
                 if stage==1: record=A.run(out,H,go=go,forecast=independent_forecast_fixture(self.root/'bound.json'),diagnostic=diagnostic)
                 else: record=A.calibrate(out,H,go=go,spend=spend,diagnostic=diagnostic)
             self.assertEqual(calls,[True]);self.assertEqual(scope['sampled'],[]);self.assertEqual(scope['calls'],[1])
@@ -3153,7 +3153,7 @@ class PinnedTemplateTests(IsolatedCase):
     def test_changed_template_source_or_stage1_content_halts(self):
         helper=getattr(A,'pinned_templates',None);self.assertTrue(callable(helper),'missing P1 digest checks')
         values=helper();self.assertEqual(values,self.expected())
-        source=self.root/'experiments/track_c/c10z_astra_benchmark.py';original=source.read_text()
+        source=self.root/'code/lab/track_c/c10z_astra_benchmark.py';original=source.read_text()
         source.write_text(original.replace('The following is a single-choice','A changed single-choice',1))
         with self.assertRaises(A.Halt): helper()
         source.write_text(original)
@@ -3172,7 +3172,7 @@ class PinnedTemplateTests(IsolatedCase):
         self.assertEqual(A.strict_load(out/'context_templates.json'),self.expected())
         self.assertEqual(value.get('context_templates',{}).get('sha256'),A.sha(out/'context_templates.json'))
     def test_t8_digest_failure_has_halt_diagnostic_before_scoring(self):
-        H=make_h();source=self.root/'experiments/track_c/c10z_astra_benchmark.py'
+        H=make_h();source=self.root/'code/lab/track_c/c10z_astra_benchmark.py'
         source.write_text(source.read_text().replace('The following is a single-choice','Changed pin',1))
         out=self.root/'results/c10y_directdw_telemetry_inertness/badpin';diagnostic=self.diagnostic
         try: code=C.run(out,H,diagnostic=diagnostic)
@@ -3394,7 +3394,7 @@ class FinalReviewRegressionTests(IsolatedCase):
     def test_calibration_callsite_persists_complete_timing_tags(self):
         go,spend=CalibrationTests.records(self);H=make_h()
         prefix=CalibrationTests.fixture(self)
-        with mock.patch.object(A,'instrument_prefix',return_value=prefix): record=A.calibrate(self.root/'results/c10y_directdw_calib1',H,go=go,spend=spend,diagnostic=self.diagnostic)
+        with mock.patch.object(A,'instrument_prefix',return_value=prefix): record=A.calibrate(self.root/'experiments/c10y/runs/c10y_directdw_calib1',H,go=go,spend=spend,diagnostic=self.diagnostic)
         for row in record['timings']:
             self.assertEqual(row.get('status'),'COMPLETED');self.assertIs(row.get('synchronised'),True)
             self.assertEqual(row['workload']['arms'],[A.A7])
@@ -3462,7 +3462,7 @@ class TransportTests(IsolatedCase):
 
     def _go(self, stage):
         return {"decision_id": "D-C10Y-synthetic-go", "experiment": "C10Y",
-                "stage": stage, "recorded_in": "EXPERIMENT_RUNBOOK.md:5",
+                "stage": stage, "recorded_in": "program/runbook/:5",
                 "at": self.FIXED_UTC}
 
     def _spend(self, stage):
@@ -4212,7 +4212,7 @@ class AttentionMaskTests(IsolatedCase):
             path = self.root / (keyword + '_' + str(len(wrong)) + '.py')
             path.write_text(ast.unparse(ast.fix_missing_locations(tree)))
             with self.subTest(wrong=wrong), mock.patch.object(A, '__file__', str(path)):
-                self.assertFalse(A.scorer_ast_check(W / 'experiments/track_c/c10e_bandknob.py'))
+                self.assertFalse(A.scorer_ast_check(W / 'code/lab/track_c/c10e_bandknob.py'))
 
 def _combined_to_calls(source):
     result = []
@@ -4355,14 +4355,14 @@ class DeviceConversionTests(IsolatedCase):
                 self.assertEqual(_unsafe_cpu_transfers(expression), [])
 
     def test_reachable_helpers_only_combine_recorded_cpu_solve_transfer(self):
-        paths = sorted((W / 'memit_dry_run/memit').glob('memit/**/*.py'))
-        paths += sorted((W / 'memit_dry_run/memit').glob('rome/**/*.py'))
-        paths += sorted((W / 'memit_dry_run/memit').glob('util/**/*.py'))
+        paths = sorted((W / 'code/memit/vendor').glob('memit/**/*.py'))
+        paths += sorted((W / 'code/memit/vendor').glob('rome/**/*.py'))
+        paths += sorted((W / 'code/memit/vendor').glob('util/**/*.py'))
         self.assertGreater(len(paths), 20, 'positive source inventory control')
         for path in paths:
             with self.subTest(file=str(path.relative_to(W))):
                 self.assertEqual(_combined_to_calls(path.read_text()), [])
-        path = W / 'experiments/track_c/c10e_bandknob.py'
+        path = W / 'code/lab/track_c/c10e_bandknob.py'
         calls = _combined_to_calls(path.read_text())
         self.assertEqual([call for _, call in calls],
                          ['upd.to(npd[weight_name(hp, layer)].device, npd[weight_name(hp, layer)].dtype)'])
@@ -4451,7 +4451,7 @@ class TelemetryReferenceTests(IsolatedCase):
     def test_frozen_harness_scorers_receive_no_injected_kwargs(self):
         H = make_h()
         names = ('full_seq_match', 'string_match', 'teacher_forced_pertok', 'sentence_nll')
-        source = ast.parse((W / 'experiments/track_c/c10e_bandknob.py').read_text())
+        source = ast.parse((W / 'code/lab/track_c/c10e_bandknob.py').read_text())
         functions = [copy.deepcopy(node) for node in source.body
                      if isinstance(node, ast.FunctionDef) and node.name in names]
         self.assertEqual(len(functions), 4)
@@ -4499,7 +4499,7 @@ class TelemetryReferenceTests(IsolatedCase):
         with mock.patch.object(A, 'compile', side_effect=compile_reference, create=True):
             scorer = A.make_scorer(H, lambda prompt, ids, gen: captured.append((list(ids), list(gen))), reference=True)
         self.assertEqual(len(trees), 1, 'reference must compile the exact frozen function, not the observed copy')
-        expected = next(node for node in ast.parse((W / 'experiments/track_c/c10e_bandknob.py').read_text()).body
+        expected = next(node for node in ast.parse((W / 'code/lab/track_c/c10e_bandknob.py').read_text()).body
                         if isinstance(node, ast.FunctionDef) and node.name == 'full_seq_match')
         actual = trees[0].body[0]
         self.assertEqual(ast.dump(actual.body[-2]), ast.dump(ast.parse('sink(prompt,target_ids,gen)').body[0]))
@@ -4550,8 +4550,8 @@ class CalibrationErrorTests(IsolatedCase):
         self.assertEqual(run.get('traceback'), trace)
 
     def test_pristine_probe_canonical_and_three_heldout_real_representation_pair(self):
-        (self.root/'experiments/track_c/c10p_twopass_arms.py').write_bytes(
-            (W/'experiments/track_c/c10p_twopass_arms.py').read_bytes())
+        (self.root/'code/lab/track_c/c10p_twopass_arms.py').write_bytes(
+            (W/'code/lab/track_c/c10p_twopass_arms.py').read_bytes())
         H=make_h();requests=[H.req(H.CANON,s,H.ARMS[A7][s]) for s in H.FICTION]
         predictions=[];representations=[];reps=H.get_module_input_output_at_words
         def predict(prompt):
@@ -4619,7 +4619,7 @@ class CalibrationErrorTests(IsolatedCase):
                 self.assertEqual(A.calibration_forecast(out/'calibration.json',[])['status'],'UNVERIFIED')
 
     def test_calibration_context_failure_is_not_prefix_phase(self):
-        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1'
+        go,spend=self.records();out=self.root/'experiments/c10y/runs/c10y_directdw_calib1'
         def freeze(*args,**kwargs): self.raise_fixture(ValueError('context fixture'))
         with mock.patch.object(A,'freeze_contexts',side_effect=freeze):
             A.calibrate(out,make_h(),go=go,spend=spend,diagnostic=self.diagnostic)
@@ -4662,7 +4662,7 @@ class CalibrationErrorTests(IsolatedCase):
         self.assertEqual(budget.phase,'parent')
 
     def test_primary_error_phase_survives_cleanup_failure(self):
-        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1';calls=[]
+        go,spend=self.records();out=self.root/'experiments/c10y/runs/c10y_directdw_calib1';calls=[]
         def sync(H):
             calls.append(1)
             if len(calls)==2: raise OSError('cleanup failure')
@@ -4702,7 +4702,7 @@ class CalibrationErrorTests(IsolatedCase):
         self.assertFalse(self.out.exists());self.assertFalse(self.diagnostic.exists())
 
     def test_calibration_publication_error_surfaces_phase(self):
-        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1';publish=A.write_json
+        go,spend=self.records();out=self.root/'experiments/c10y/runs/c10y_directdw_calib1';publish=A.write_json
         def fail(path,value):
             if Path(path).name=='run.json': self.raise_fixture(OSError('publication fixture'))
             return publish(path,value)
@@ -4714,7 +4714,7 @@ class CalibrationErrorTests(IsolatedCase):
         self.assertFalse((out/'run.json').exists())
 
     def test_supervisor_worker_exit_before_handoff_is_diagnosed(self):
-        out=self.root/'results/c10y_directdw_calib1'
+        out=self.root/'experiments/c10y/runs/c10y_directdw_calib1'
         proc=types.SimpleNamespace(pid=123456,returncode=2,poll=lambda:2)
         with mock.patch.object(A.subprocess,'Popen',return_value=proc),mock.patch.object(A.os,'getpgid',return_value=proc.pid):
             A.supervise([sys.executable,'-B',str(self.root/'stub.py')],out,self.diagnostic,7200.,'calibration')
@@ -4726,7 +4726,7 @@ class CalibrationErrorTests(IsolatedCase):
         self.assertEqual(A.strict_load(out/'run.json').get('phase'),'worker_exit')
 
     def test_supervisor_preserves_worker_original_trace_and_outcome(self):
-        out=self.root/'results/c10y_directdw_calib1';proc=types.SimpleNamespace(pid=123456,returncode=2,poll=lambda:2)
+        out=self.root/'experiments/c10y/runs/c10y_directdw_calib1';proc=types.SimpleNamespace(pid=123456,returncode=2,poll=lambda:2)
         worker={'schema':'c10y_directdw_calibration/v1','outcome':'INSTRUMENT-ERROR','timings':[],
                 'phase':'baseline_pristine_probes','exception':'ValueError','traceback':'Traceback (most recent call last):\nfixture original trace\nValueError: original'}
         def launch(*args,**kwargs):
@@ -4742,7 +4742,7 @@ class CalibrationErrorTests(IsolatedCase):
         self.assertEqual(A.strict_load(self.diagnostic),worker)
 
     def test_primary_law3_halt_survives_cleanup_and_latches_schedule(self):
-        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1';calls=[]
+        go,spend=self.records();out=self.root/'experiments/c10y/runs/c10y_directdw_calib1';calls=[]
         def sync(H):
             calls.append(1)
             if len(calls)==2: raise OSError('halt cleanup failure')
@@ -4811,7 +4811,7 @@ class CalibrationErrorTests(IsolatedCase):
                 self.assertEqual(invalid['verdict'],'INVALID');self.assertEqual(invalid['traceback'],saved['traceback'])
 
     def test_admitted_main_calibration_handoff_failure_has_no_success_run(self):
-        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1'
+        go,spend=self.records();out=self.root/'experiments/c10y/runs/c10y_directdw_calib1'
         gofile=self.root/'go.json';spendfile=self.root/'spend.json';auth=self.root/'authorization.md'
         A.write_json(gofile,go);A.write_json(spendfile,spend);auth.write_text('CPU fixture authorization')
         publish=A.write_json
@@ -4851,7 +4851,7 @@ class PrefixPersistenceTests(IsolatedCase):
     """Real prefix control flow, CPU producers; no model-bearing imports."""
     def fixture(self,case):
         root=self.root/case;root.mkdir()
-        for path in SOURCES+tuple('experiments/track_c/c10y_directdw_'+n+'.py' for n in ('arms','read','telemetry_check')):
+        for path in SOURCES+tuple('code/lab/track_c/c10y_directdw_'+n+'.py' for n in ('arms','read','telemetry_check')):
             target=root/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(fixture_source(path))
         (root/'results').mkdir();(root/'architecture_profile').mkdir()
         for module in (A,R,C): module.ROOT=root
@@ -5082,7 +5082,7 @@ class PrefixPersistenceTests(IsolatedCase):
                         for l in hp.layers: dict(H.model.named_parameters())[H.weight_name(hp,l)].add_(.01)
                     return {'record_only_fixture':True}
                 H.my_edit=edit
-            out=root/'results/c10y_directdw_calib1';out.mkdir()
+            out=root/'experiments/c10y/runs/c10y_directdw_calib1';out.mkdir()
             with stack:
                 with self.assertRaises(A.Halt) as caught: A.instrument_prefix(H,out,A.Budget(0,7200,'calibration'),calibration=True)
             self.assertEqual(caught.exception.code,code)
@@ -5126,7 +5126,7 @@ class PrefixPersistenceTests(IsolatedCase):
 
     def test_phase_collision_and_io_failure_restore_state(self):
         H,root,base,registry,originals,stack=self.fixture('phase_io')
-        out=root/'results/c10y_directdw_calib1';out.mkdir()
+        out=root/'experiments/c10y/runs/c10y_directdw_calib1';out.mkdir()
         original=A.write_json;seen=[]
         def fail(path,value):
             if 'prefix_phases_' in str(path):
@@ -5144,7 +5144,7 @@ class PrefixPersistenceTests(IsolatedCase):
         for suffix in ('.json','.pt'):
             with self.subTest(suffix=suffix):
                 H,root,base,registry,originals,stack=self.fixture('phase_collision_'+suffix[1:])
-                out=root/'results/c10y_directdw_calib1';path=out/('prefix_phases_calib/0001_unit_contexts_overlap'+suffix)
+                out=root/'experiments/c10y/runs/c10y_directdw_calib1';path=out/('prefix_phases_calib/0001_unit_contexts_overlap'+suffix)
                 path.parent.mkdir(parents=True);path.write_bytes(b'UNTOUCHED')
                 with stack:
                     with self.assertRaises(A.Halt) as caught: A.instrument_prefix(H,out,A.Budget(0,7200,'calibration'),calibration=True)
@@ -5169,7 +5169,7 @@ class PrefixPersistenceTests(IsolatedCase):
                     if H._evaluation_kind=='zero_step': result['para_full_n']+=1
                     return result
                 H.eval_arm=fail_counts
-            out=root/'results/c10y_directdw_calib1';out.mkdir();budget=A.Budget(0,7200,'calibration');original=A.restore
+            out=root/'experiments/c10y/runs/c10y_directdw_calib1';out.mkdir();budget=A.Budget(0,7200,'calibration');original=A.restore
             def cleanup(h,hp,snapshot):
                 original(h,hp,snapshot)
                 if budget.phase=='prefix_cleanup': raise OSError('cleanup evidence fixture')
@@ -5208,7 +5208,7 @@ class PrefixPersistenceTests(IsolatedCase):
 
     def test_tensor_phase_records_use_binary_sidecars_without_list_expansion(self):
         H,root,base,registry,originals,stack=self.fixture('binary_tensors')
-        out=root/'results/c10y_directdw_calib1';out.mkdir()
+        out=root/'experiments/c10y/runs/c10y_directdw_calib1';out.mkdir()
         with stack,mock.patch.object(torch.Tensor,'tolist',side_effect=AssertionError('tensor expanded to JSON')):
             A.instrument_prefix(H,out,A.Budget(0,7200,'calibration'),calibration=True)
         rows=self.phases(out)
@@ -5225,7 +5225,7 @@ class PrefixPersistenceTests(IsolatedCase):
         H,root,base,registry,originals,stack=self.fixture('saved_attributes')
         H._C10Y_PREFIX_SAVE=None;H._C10Y_PREFIX_PROGRESS=None
         budget=A.Budget(0,7200,'calibration');budget._C10Y_PREFIX_SAVE=None
-        out=root/'results/c10y_directdw_calib1';out.mkdir()
+        out=root/'experiments/c10y/runs/c10y_directdw_calib1';out.mkdir()
         with stack: A.instrument_prefix(H,out,budget,calibration=True)
         self.assertIsNone(H._C10Y_PREFIX_SAVE);self.assertIsNone(H._C10Y_PREFIX_PROGRESS)
         self.assertTrue(hasattr(budget,'_C10Y_PREFIX_SAVE'));self.assertIsNone(budget._C10Y_PREFIX_SAVE)
@@ -5265,7 +5265,7 @@ class PrefixPersistenceTests(IsolatedCase):
 
     def test_inputs_durable_before_gate_and_phase_bytes_immutable(self):
         H,root,base,registry,originals,stack=self.fixture('capture')
-        out=root/'results/c10y_directdw_calib1';out.mkdir();seen=[];old=A.Halt
+        out=root/'experiments/c10y/runs/c10y_directdw_calib1';out.mkdir();seen=[];old=A.Halt
         test=self
         class ObservedHalt(old):
             def __init__(self,code,detail=None):

@@ -5,7 +5,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profil
 source "$HOME/.cargo/env"
 rustc --version; cargo --version
 echo "=== cargo build LARQL (release) ==="
-cd $LLMDB_ROOT/external_prior_art/larql
+cd $LLMDB_ROOT/code/vendor/external_prior_art/larql
 cargo build --release 2>&1 | tail -50
 echo "=== built binaries ==="
 ls -la target/release/ 2>/dev/null | grep -vE '\.d$|deps|build|incremental|fingerprint' | head -20

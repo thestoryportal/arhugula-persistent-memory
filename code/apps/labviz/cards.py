@@ -9,10 +9,10 @@ from pathlib import Path
 import re
 
 PACKAGE = Path(__file__).resolve().parent
-CONFIG = 'hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json'
+CONFIG = 'data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json'
 REVISION = '3aab1f1954e9cc14eb9509a215f9e5ca08227a9b'
-HPARAMS = 'configs/hparams/qwen25_3b_memit_hparams.json'
-POPULATION = 'results/labviz/site/cards/scales.json'
+HPARAMS = 'code/configs/hparams/qwen25_3b_memit_hparams.json'
+POPULATION = 'projects/labviz-spec-v3/receipts/bulk/labviz/site/cards/scales.json'
 STRUCTURAL = set('schema card_id evidence_status built sources family field recipe arm index layer node_id edge matched_by population structural unit name plain comparison judgement hit_kind colour_class colour_table reader_rules'.split())
 
 
@@ -161,7 +161,7 @@ def label_class(value): return label_table().get('null' if value is None else va
 
 
 def labels_from_spec(root):
-    text=(Path(root)/'docs/LABVIZ_V2_SPEC.md').read_text()
+    text=(Path(root)/'projects/labviz-spec-v3/drafts/LABVIZ_V2_SPEC.md').read_text()
     table=text[text.index('  | Label (exact)'):text.index('  Classes:')]
     out={}
     for line in table.splitlines():
@@ -232,9 +232,9 @@ def transcribed_stimulus(data, root):
     bound=data.get('identity',{}).get('source_sha256',{}).get(t['source_file'])
     if bound!=t['sha256'] or not transcription_valid(table,root):
         return {'canonical':missing('not transcribed for this code version'),'questions':missing('question text for this run\'s code version not transcribed')}
-    entries=[leaf(e['text'],'tools/labviz/stimulus.json',f'.c10_harness.entries[{i}].text') for i,e in enumerate(t['entries'])]
-    return {'canonical':entries[0],'questions':leaf([e['text'] for e in t['entries'][1:]],'tools/labviz/stimulus.json','.c10_harness.questions'),
-            'bound_by':leaf(bound,'tools/labviz/stimulus.json','.c10_harness.sha256')}
+    entries=[leaf(e['text'],'code/apps/labviz/stimulus.json',f'.c10_harness.entries[{i}].text') for i,e in enumerate(t['entries'])]
+    return {'canonical':entries[0],'questions':leaf([e['text'] for e in t['entries'][1:]],'code/apps/labviz/stimulus.json','.c10_harness.questions'),
+            'bound_by':leaf(bound,'code/apps/labviz/stimulus.json','.c10_harness.sha256')}
 
 
 def bound_parts(data, root):
@@ -339,21 +339,21 @@ def validate_card(card, root, scales=None):
                             file=card['identity']['name']
                             expected={'file':file,'path':'.events','reader':'mathlab_events.read_events'}
                             if (not mathlab_source(file) or len(inputs)!=1 or inputs[0].get('src')!=expected or
-                                value.get('rule_src',{}).get('file')!='tools/mathlab_events.py' or
-                                'tools/mathlab_events.py' not in hashes):
+                                value.get('rule_src',{}).get('file')!='code/apps/mathlab/mathlab_events.py' or
+                                'code/apps/mathlab/mathlab_events.py' not in hashes):
                                 raise ValueError('unbound mathlab fold source')
                         for x in inputs: check(x)
                         if recompute(value['derived'],[x['value'] for x in inputs])!=value['value']: raise ValueError('wrong derived value')
                         rule=value['derived']
                         if rule in ('context-section','context-condition','context-layer'):
                             overlay=[x.get('src',{}) for x in inputs[1:3]]
-                            if any(x.get('file')!='docs/SPEC_EXPERIMENT_OVERLAY.md' for x in overlay) or overlay[0].get('line')!=overlay[1].get('line'): raise ValueError('disconnected overlay relationship')
+                            if any(x.get('file')!='knowledge/specs/SPEC_EXPERIMENT_OVERLAY.md' for x in overlay) or overlay[0].get('line')!=overlay[1].get('line'): raise ValueError('disconnected overlay relationship')
                             if rule=='context-condition':
                                 ends=[x.get('src',{}) for x in inputs[3:5]]
-                                if any(x.get('file')!='docs/F1_DETERMINATION.md' for x in ends) or ends[0].get('line')!=ends[1].get('line'): raise ValueError('disconnected condition relationship')
+                                if any(x.get('file')!='knowledge/findings/F1_DETERMINATION.md' for x in ends) or ends[0].get('line')!=ends[1].get('line'): raise ValueError('disconnected condition relationship')
                             if rule=='context-layer':
                                 end=inputs[4].get('src',{}); major=inputs[2]['value'].split('.',1)[0]
-                                if end.get('file')!='docs/SPEC_E2E_GROUND_TRUTH.md' or major not in end.get('quote',''): raise ValueError('disconnected architecture relationship')
+                                if end.get('file')!='knowledge/specs/SPEC_E2E_GROUND_TRUTH.md' or major not in end.get('quote',''): raise ValueError('disconnected architecture relationship')
                 elif 'structural' in value:
                     actual=resolve(card,'.'+value['structural'])
                     if actual!=value['value']: raise ValueError('wrong structural operand')
@@ -403,9 +403,9 @@ def generated_order_valid(card):
 
 def validate_links(root):
     root=Path(root); links=json.loads((PACKAGE/'links.json').read_text())
-    entries=json.loads((root/'docs/c10_evaluations.json').read_text())['entries']
+    entries=json.loads((root/'program/registers/c10_evaluations.json').read_text())['entries']
     for key,ref in links.items():
-        path=next((root/'CORPUS').glob(ref.split('/')[1]+'_*.md'))
+        path=next((root/'evidence/CORPUS').glob(ref.split('/')[1]+'_*.md'))
         headers='\n'.join(path.read_text().splitlines()[:12])
         files=[root/key] if not key.endswith('/') else list((root/key).glob('*.json'))
         ids={json.loads(p.read_text()).get('decision_id') for p in files if p.is_file()}
@@ -446,7 +446,7 @@ class Reader:
         return leaf(value,source,path)
 
     def table(self,name,path):
-        return leaf(resolve(self.tables[name],path),'tools/labviz/'+name+'.json',path)
+        return leaf(resolve(self.tables[name],path),'code/apps/labviz/'+name+'.json',path)
 
     def collect(self):
         from tools.labviz import build as legacy
@@ -512,7 +512,7 @@ class Reader:
         if not isinstance(node,dict): node={}
         tokens=path_parts(p); recipe=tokens[1] if len(tokens)>1 and tokens[0]=='recipes' else ''
         arm=next((tokens[i+1] for i,k in enumerate(tokens[:-1]) if k in ('arms','delta_norms','detail')),data.get('arm') if isinstance(data.get('arm'),str) else '')
-        if field=='arm' and source.startswith('results/c10u_mint2/'): arm='A7_coined_coined'
+        if field=='arm' and source.startswith('experiments/c10u/runs/c10u_mint2/'): arm='A7_coined_coined'
         c={'schema':'labviz.run_card/v1','card_id':run['id'],'evidence_status':'RECORDED','built':{'builder_sha256':sha(PACKAGE/'build.py')},
            'identity':{'name':source,'family':source.split('/')[1].split('.')[0],'field':field,'recipe':recipe,'arm':arm,
                        'role':self.role(source,recipe,arm,data),'seed':self.jl(source,'.seed'),'replicate':self.jl(source,'.replicate'),
@@ -520,7 +520,7 @@ class Reader:
            'context':self.program.context(source,data),'headline':{},'label':missing('not judged yet','not-judged-yet'),'gates':[],'per_fact':[],'per_layer':[],
            'parts':bound_parts(data,self.root),'stimulus':{},'plain_words':{},'events':{'timestamped':[],'untimed':[]}}
         if c['context'].get('corpus',{}).get('node_id')=='corpus:22' and len(tokens)>=2 and tokens[0] in ('DILUTED','CONCENTRATED') and tokens[1]=='trajectory':
-            c['identity']['display_title']=self.jl('tools/labviz/contexts.json',f'.corpus_eras["22"].display_titles["{tokens[0]}"]')
+            c['identity']['display_title']=self.jl('code/apps/labviz/contexts.json',f'.corpus_eras["22"].display_titles["{tokens[0]}"]')
         for model_path in ('.model.id','.model','.model_id','.config.model','.environment.model_id'):
             m=self.jl(source,model_path)
             if isinstance(m['value'],str): c['identity']['model']=m; break
@@ -533,9 +533,9 @@ class Reader:
         for name,keys in [('hits',('para_full_binding_n','para_full_n')),('out_of',('para_n','masked_binding_prompt_n')),('percent',('para_full','para_full_match')),('canonical',('canon_full_n',)),('rate',('ptest_mean_rate',))]:
             c['headline'][name]=next((self.jl(source,p+('.' if p!='.' else '')+k) for k in keys if finite(node.get(k))),missing())
         role=c['identity']['role']['value']
-        if role=='binding': c['headline']['program_goal']=self.jl('docs/c10_scoreboard.json','.goal')
+        if role=='binding': c['headline']['program_goal']=self.jl('program/registers/c10_scoreboard.json','.goal')
         if finite(node.get('ptest_mean_rate')): c['headline']['rate']=self.jl(source,p+'.ptest_mean_rate')
-        if source=='results/g6_scale_n_result.json' and len(tokens)==2 and tokens[0]=='rungs' and isinstance(tokens[1],int):
+        if source=='experiments/g6/runs/g6_scale_n/g6_scale_n_result.json' and len(tokens)==2 and tokens[0]=='rungs' and isinstance(tokens[1],int):
             c['headline']['heldout_top1']={**self.jl(source,p+'.heldout_top1.edited_rel.top1_correct_vs_truth'),
                                           'unit':'percent','plain':'edited-relation top-1 correctness vs truth'}
             c['headline']['rung_n']=self.jl(source,p+'.n')
@@ -546,17 +546,17 @@ class Reader:
         self.stimuli(c,data,node,p)
         self.gauges(c,data,node,p)
         self.evaluation(c)
-        if source.startswith('results/c10w_oracle/') and '/train/' in source and isinstance(data.get('losses'),list):
+        if source.startswith('experiments/c10w/runs/c10w_oracle/') and '/train/' in source and isinstance(data.get('losses'),list):
             c['training']={k:self.jl(source,'.'+k) for k in ('losses','step_seconds','fit','seed','retrain')}
-        if source=='results/g6_scale_n_result.json' and field=='records':
+        if source=='experiments/g6/runs/g6_scale_n/g6_scale_n_result.json' and field=='records':
             c['records']=[{k:self.jl(source,f'.records[{i}].{k}') for k in row} for i,row in enumerate(data['records'])]
             c['rungs']=[{k:self.jl(source,f'.rungs[{i}].{k}') for k in row} for i,row in enumerate(data['rungs'])]
-        if source.startswith('results/c10v_layerpick/') and recipe=='B' and arm=='A7_coined_coined':
-            sf='results/c10v_layerpick/step0.json'; rf='results/c10v_layerpick/run.json'
+        if source.startswith('experiments/c10v/runs/c10v_layerpick/') and recipe=='B' and arm=='A7_coined_coined':
+            sf='experiments/c10v/runs/c10v_layerpick/step0.json'; rf='experiments/c10v/runs/c10v_layerpick/run.json'
             c['layer_map']={k:self.jl(sf,q) for k,q in [('G_table','.G_table'),('G_table_repeat','.G_table_repeat'),('margins','.winning_margins[0]'),('repeat_margins','.winning_margins[1]'),('map','.map'),('repeat_map','.repeat_map'),('map_reproduced','.map_reproduced'),('delta','.delta'),('runner_up','.runner_up')]}
             if c['identity'].get('reading_bound_to_record',{}).get('value') is not None:
                 c['layer_map'].update(spearman=self.jl(rf,'.readings.B.spearman_G_edge'),by_layer=self.jl(rf,'.readings.B.by_layer'))
-        if source.startswith('results/c10w_oracle/'): c['events']=self.family_events('c10w_oracle')
+        if source.startswith('experiments/c10w/runs/c10w_oracle/'): c['events']=self.family_events('c10w_oracle')
         elif c['identity']['date']['value'] and 'T' in c['identity']['date']['value']:
             c['events']['timestamped']=[{'name':'record timestamp','index':0,'at':c['identity']['date'],'detail':c['identity']['decision_id']}]
         # Preserve original diagnostic rows as sourced values, without interpreting units.
@@ -569,8 +569,8 @@ class Reader:
     def attach_reading(self,c,data,node,p):
         source=c['identity']['name']; recipe=c['identity']['recipe']; arm=c['identity']['arm']; role=c['identity']['role']['value']
         family=c['identity']['family']; identity={'family':family,'recipe':recipe,'arm':arm,'seed':c['identity']['seed']['value'],'replicate':c['identity']['replicate']['value'],'sha256':sha(self.root/source)}
-        if source=='results/c10v_layerpick/pass1.json' and arm=='A7_coined_coined' and recipe in ('B0','B','Bshuf'):
-            reader='results/c10v_layerpick/run.json'; record=self.read(reader)
+        if source=='experiments/c10v/runs/c10v_layerpick/pass1.json' and arm=='A7_coined_coined' and recipe in ('B0','B','Bshuf'):
+            reader='experiments/c10v/runs/c10v_layerpick/run.json'; record=self.read(reader)
             joined={**identity,'seed':None,'replicate':None,'sha256':record.get('pass_sha256',{}).get('pass1')}
             if join_matches(identity,joined):
                 c['identity']['reading_bound_to_record']=self.jl(reader,'.pass_sha256.pass1')
@@ -578,9 +578,9 @@ class Reader:
                 label=self.jl(reader,f'.readings.{recipe}.label')
                 if role=='binding': c['label']=label
                 elif recipe=='Bshuf': c['control_label']=label
-        elif source.startswith('results/c10u_mint2/r3/') and c['identity']['field']=='arm' and data.get('kind')!='multi':
+        elif source.startswith('experiments/c10u/runs/c10u_mint2/r3/') and c['identity']['field']=='arm' and data.get('kind')!='multi':
             if data.get('replicate')==0:
-                key=f'{data["kind"]}_s{data["seed"] if data.get("seed") is not None else "none"}'; reader='results/c10u_mint2/r3_read_after_replicateF.json'
+                key=f'{data["kind"]}_s{data["seed"] if data.get("seed") is not None else "none"}'; reader='experiments/c10u/runs/c10u_mint2/r3_read_after_replicateF.json'
                 c['label']=self.jl(reader,f'.{data["block"]}.arms.{key}.label')
                 c['headline']['count_used_by_label']=self.jl(reader,f'.{data["block"]}.arms.{key}.binding')
             else: c['replica_note']=derived('replica-note',[self.jl(source,'.kind'),self.jl(source,'.seed'),self.jl(source,'.replicate')])
@@ -598,16 +598,16 @@ class Reader:
                     c['interim_label']=self.jl(interim,'.oracle_p1_A7_configuration.label')
         elif role=='binding': c['label']=self.jl(source,'.verdict.label')
         elif not source.startswith('results/c10'): c['label']=self.jl(source,'.label','no label recorded; see the context source')
-        c['label']['colour_class']=label_class(c['label']['value']); c['label']['colour_table']='tools/labviz/labels.json'
-        if 'interim_label' in c: c['interim_label'].update(colour_class=label_class(c['interim_label']['value']),colour_table='tools/labviz/labels.json')
+        c['label']['colour_class']=label_class(c['label']['value']); c['label']['colour_table']='code/apps/labviz/labels.json'
+        if 'interim_label' in c: c['interim_label'].update(colour_class=label_class(c['interim_label']['value']),colour_table='code/apps/labviz/labels.json')
 
     def facts(self,c,data,node,p):
         source=c['identity']['name']; arm=c['identity']['arm']; recipe=c['identity']['recipe']; rows=[]; base=None; kind='free answer'
         if 'arms' in path_parts(p):
             parent=p.rsplit('.arms.',1)[0]; dp=parent+'.detail'+('['+json.dumps(arm)+']')
             rows=self.jl(source,dp)['value'] or []; base=dp
-        if source=='results/r5_paraphrase_robustness.json' and arm in data.get('rows',{}): base='.rows.'+arm; rows=self.jl(source,base)['value'] or []
-        if source.startswith('results/c10u_mint2/') and c['identity']['field']=='arm':
+        if source=='experiments/r5/runs/r5_paraphrase_robustness/r5_paraphrase_robustness.json' and arm in data.get('rows',{}): base='.rows.'+arm; rows=self.jl(source,base)['value'] or []
+        if source.startswith('experiments/c10u/runs/c10u_mint2/') and c['identity']['field']=='arm':
             base='.arm.extra.per_fact_position_curve'; rows=self.jl(source,base)['value'] or []; kind='teacher-forced'
         for i,row in enumerate(rows):
             q=f'{base}[{i}]'; subject='subj' if 'subj' in row else 'subject'
@@ -622,14 +622,14 @@ class Reader:
                 if isinstance(value,dict) and subj in value: fact['answer']=self.jl(source,path_of(('values',subj)))
             assignment=data.get('recipes',{}).get(recipe,{}).get('map') if recipe else None
             if isinstance(assignment,dict) and row.get('subj') in assignment: fact['assigned_layer']=self.jl(source,path_of(('recipes',recipe,'map',row['subj'])))
-            if source.startswith('results/c10v_layerpick/') and recipe and arm:
+            if source.startswith('experiments/c10v/runs/c10v_layerpick/') and recipe and arm:
                 subject=row.get('subj')
                 fact['target_ids']=self.jl(source,path_of(('recipes',recipe,'target_ids',arm,subject)))
                 fact['prediction_before_write']=self.jl(source,path_of(('recipes',recipe,'predictions_before_write',arm,subject)))
                 proxy=node.get('extra',{}).get('proxy',{}).get('rows',[])
                 if i<len(proxy) and proxy[i].get('subj')==subject: fact['proxy']=self.jl(source,f'{p}.extra.proxy.rows[{i}]')
             step0=data.get('step0_directory')
-            if source.startswith('results/c10w_oracle/') and isinstance(step0,str):
+            if source.startswith('experiments/c10w/runs/c10w_oracle/') and isinstance(step0,str):
                 file='results/'+step0.split('/results/',1)[-1]+'/step0.json'
                 if (self.root/file).is_file(): fact['answer_split']=self.jl(file,path_of(('head_modifier_splits',row.get('subj'))))
             generated=node.get('extra',{}).get('generated')
@@ -645,7 +645,7 @@ class Reader:
     def writes(self,c,data,node,p):
         source=c['identity']['name']; arm=c['identity']['arm']; recipe=c['identity']['recipe']; wp=None; band=missing('configured band not recorded')
         if recipe: wp=path_of(('recipes',recipe,'delta_norms',arm)); band=self.jl(source,path_of(('recipes',recipe,'band')))
-        elif source.startswith('results/c10u_mint2/') and c['identity']['field']=='arm': wp='.recipe.delta_norms.candidate'; band=self.jl(source,'.recipe.band')
+        elif source.startswith('experiments/c10u/runs/c10u_mint2/') and c['identity']['field']=='arm': wp='.recipe.delta_norms.candidate'; band=self.jl(source,'.recipe.band')
         elif 'delta_norms' in path_parts(p): wp=p; band=self.jl(source,'.band')
         elif c['identity']['field'].startswith('recipe.arms.'): wp=path_of(('recipe','delta_norms',arm)); band=self.jl(source,'.recipe.band')
         if band['value'] is None and data.get('band'): band=self.jl(source,'.band')
@@ -666,7 +666,7 @@ class Reader:
             c['scale']={'unit':'absolute write size (Frobenius norm of ΔW)','max':{'value':self.scales['absolute_write_size']['max'],'derived':'population maximum','population':{'file':POPULATION,'path':'.absolute_write_size.operands'},'rule_src':{'spec':'§5 item 4'}}}
         if source.startswith('results/c10'):
             c['parts']['untouched_basis']=self.table('gates','.untouched_basis.oracle' if 'c10w_oracle/' in source else '.untouched_basis.memit')
-        if source.startswith('results/c10w_oracle/'):
+        if source.startswith('experiments/c10w/runs/c10w_oracle/'):
             normalized={'model':{'id':c['identity']['model']['value'],'revision':c['identity']['model_revision']['value']}}
             c['parts']['structure']=bound_parts(normalized,self.root)['structure']
             c['parts']['frozen_training']=self.jl(source,'.train_records[0].frozen_parameters_unchanged')
@@ -678,7 +678,7 @@ class Reader:
             c['stimulus']={'canonical':self.jl(source,'.stimulus.CANON'),'questions':self.jl(source,'.stimulus.PTEST')}
         elif isinstance(data.get('held_out_forms',{}).get('PTEST'),list):
             c['stimulus']={'canonical':missing('not transcribed'),'questions':self.jl(source,'.held_out_forms.PTEST')}
-        elif source=='results/r5_paraphrase_robustness.json':
+        elif source=='experiments/r5/runs/r5_paraphrase_robustness/r5_paraphrase_robustness.json':
             c['stimulus']={'canonical':self.jl(source,'.templates.canonical'),'questions':self.jl(source,'.templates.P_test')}
         elif isinstance(node.get('extra',{}).get('generated'),list) and len(node['extra']['generated'])>=3:
             entries=[self.jl(source,f'{p}.extra.generated[{j}].template') for j in range(3)]
@@ -697,11 +697,11 @@ class Reader:
     def gauges(self,c,data,node,p):
         source=c['identity']['name']; recipe=c['identity']['recipe']; arm=c['identity']['arm']; family=c['identity']['family']; ref=None; rp=None; reading=None; underfit=False
         if not node.get('locality_axes') and node.get('locality_described_as') is None: return
-        if source=='results/c10v_layerpick/pass1.json' and arm=='A7_coined_coined' and recipe in ('B','B0','Bshuf') and c['identity'].get('reading_bound_to_record',{}).get('value'):
-            ref=source; rp='.recipes.A.arms.A7_coined_coined'; reading=('results/c10v_layerpick/run.json',f'.readings.{recipe}.locality_gates'); family='C10V'
-        elif source.startswith('results/c10u_mint2/r3/') and c['identity']['field']=='arm' and data.get('kind')!='multi' and data.get('replicate')==0:
-            ref=f'results/c10u_mint2/r3/{data["block"]}_r0_multi_snone.json'; rp='.arm'; family='C10U'
-            key=f'{data["kind"]}_s{data["seed"]}'; reading=('results/c10u_mint2/r3_read_after_replicateF.json',f'.{data["block"]}.arms.{key}.gates')
+        if source=='experiments/c10v/runs/c10v_layerpick/pass1.json' and arm=='A7_coined_coined' and recipe in ('B','B0','Bshuf') and c['identity'].get('reading_bound_to_record',{}).get('value'):
+            ref=source; rp='.recipes.A.arms.A7_coined_coined'; reading=('experiments/c10v/runs/c10v_layerpick/run.json',f'.readings.{recipe}.locality_gates'); family='C10V'
+        elif source.startswith('experiments/c10u/runs/c10u_mint2/r3/') and c['identity']['field']=='arm' and data.get('kind')!='multi' and data.get('replicate')==0:
+            ref=f'experiments/c10u/runs/c10u_mint2/r3/{data["block"]}_r0_multi_snone.json'; rp='.arm'; family='C10U'
+            key=f'{data["kind"]}_s{data["seed"]}'; reading=('experiments/c10u/runs/c10u_mint2/r3_read_after_replicateF.json',f'.{data["block"]}.arms.{key}.gates')
             underfit=self.jl(reading[0],reading[1])['value'] is None
         elif 'c10w_oracle/' in source and recipe:
             ref=source; rp='.recipes.closedform.arms.A7_coined_coined'; family='C10W'
@@ -746,10 +746,10 @@ class Reader:
 
     def evaluation(self,c):
         source=c['identity']['name']; matches=[k for k in self.tables['links'] if source==k or k.endswith('/') and source.startswith(k)]
-        entries=self.read('docs/c10_evaluations.json')['entries'] if (self.root/'docs/c10_evaluations.json').is_file() else []
+        entries=self.read('program/registers/c10_evaluations.json')['entries'] if (self.root/'program/registers/c10_evaluations.json').is_file() else []
         ref=self.tables['links'][max(matches,key=len)] if matches else None
         found=next(((i,e) for i,e in enumerate(entries) if e.get('ref','').startswith(ref)),None) if ref else None
-        c['plain_words']={k:self.jl('docs/c10_evaluations.json',f'.entries[{found[0]}].{k}') if found else missing('no plain-words evaluation linked yet') for k in ('question','result','rules_out','leaves_open','next_step','ref')}
+        c['plain_words']={k:self.jl('program/registers/c10_evaluations.json',f'.entries[{found[0]}].{k}') if found else missing('no plain-words evaluation linked yet') for k in ('question','result','rules_out','leaves_open','next_step','ref')}
 
     def family_events(self,family):
         if family in self.events_cache: return self.events_cache[family]
@@ -760,7 +760,7 @@ class Reader:
             if stamp: events.append({'name':data.get('stage','record timestamp'),'index':0,'source':leaf(source,source,'.__source__'),'at':self.jl(source,'.'+stamp),'detail':self.jl(source,'.status')})
             if isinstance(data,dict) and isinstance(data.get('losses'),list) and '/train/' in source:
                 for i,loss in enumerate(data['losses']): events.append({'name':'training loss','index':i,'source':leaf(source,source,'.__source__'),'at':missing('time not recorded'),'detail':self.jl(source,f'.losses[{i}]')})
-        for path in sorted((self.root/'results/c10w_oracle_logs').glob('*.log')):
+        for path in sorted((self.root/'experiments/c10w/runs/c10w_oracle/logs').glob('*.log')):
             source=str(path.relative_to(self.root))
             for i,line in enumerate(path.read_text().splitlines(),1):
                 if 'STAGE_EXIT=' in line or re.search(r'\b[A-Z0-9_]+_DONE\b',line):
@@ -776,14 +776,14 @@ class Reader:
         from tools.labviz.build import digest
         cards=[]
         for row in self.program.registry:
-            source='docs/EXPERIMENT_REGISTRY.md'; line=row['line']; quote=(self.root/source).read_text().splitlines()[line-1]
+            source='program/registers/EXPERIMENT_REGISTRY.md'; line=row['line']; quote=(self.root/source).read_text().splitlines()[line-1]
             context=self.program.registry_context(row['id'])
             context['experiment']={**doc(row['id'],source,line,quote),'node_id':'exp:'+row['id'],'edge':'direct'}
             for key,col in [('question','question'),('status_now','status')]: context[key]=doc(row[col],source,line,quote)
             cards.append({'schema':'labviz.run_card/v1','card_id':'run-'+digest([source,row['id']])[:16],'evidence_status':'RECORDED','built':{'builder_sha256':sha(PACKAGE/'build.py')},
                           'identity':{'name':source,'family':'documentary','field':row['id'],'recipe':'','arm':'','model':missing('model not recorded'),'date':missing('date not recorded')},
                           'context':context,'headline':{},'label':missing('no label recorded; see the registry status'),'plain_words':{'question':context['question'],'result':context['status_now']}})
-        for path in sorted((self.root/'CORPUS').glob('[0-9][0-9]_*.md')):
+        for path in sorted((self.root/'evidence/CORPUS').glob('[0-9][0-9]_*.md')):
             lines=path.read_text().splitlines(); source=str(path.relative_to(self.root)); title=lines[0].lstrip('# ')
             verdict=next(((i+1,l) for i,l in enumerate(lines) if re.match(r'^(?:#{1,3}\s+|\*\*)(?:NET )?VERDICT',l,re.I)),None)
             cards.append({'schema':'labviz.run_card/v1','card_id':'run-'+digest([source,'verdict'])[:16],'evidence_status':'RECORDED','built':{'builder_sha256':sha(PACKAGE/'build.py')},
@@ -801,7 +801,7 @@ class Reader:
             model=doc(name,source,*match)
             cards.append({'schema':'labviz.run_card/v1','card_id':'run-'+digest([source,name])[:16],'evidence_status':'RECORDED','built':{'builder_sha256':sha(PACKAGE/'build.py')},
                           'identity':{'name':source,'family':'documentary','field':name,'recipe':'','arm':'','model':model,'date':missing('date not recorded')},
-                          'context':{'experiment':missing('documentary model-family era'),'era':leaf('t-branch','tools/labviz/contexts.json','.model_eras'+ '['+json.dumps(name)+']'+'.era'),
+                          'context':{'experiment':missing('documentary model-family era'),'era':leaf('t-branch','code/apps/labviz/contexts.json','.model_eras'+ '['+json.dumps(name)+']'+'.era'),
                                      'question':doc(match[1],source,*match),'measure':missing('documentary finding; no machine-readable scores')},
                           'headline':{},'label':missing('documentary finding; no recorded run label'),'plain_words':{'question':doc(match[1],source,*match),'result':doc(match[1],source,*match)}})
         return cards
@@ -829,7 +829,7 @@ class Reader:
         from tools.labviz.build import digest
         paths=sorted((self.root/'results/mathlab_staging/runs').glob('*/events.jsonl'))
         if not paths: return []
-        spec='docs/LABVIZ_V2_SPEC.md'; lines=(self.root/spec).read_text().splitlines()
+        spec='projects/labviz-spec-v3/drafts/LABVIZ_V2_SPEC.md'; lines=(self.root/spec).read_text().splitlines()
         heading=next((i+1,line) for i,line in enumerate(lines) if line.startswith('## Forward requirement — math lab'))
         policy=next((i+1,line) for i,line in enumerate(lines) if i+1>heading[0] and 'math estimate, not evidence' in line)
         result=[]
@@ -837,7 +837,7 @@ class Reader:
             if path.is_symlink() or path.parent.is_symlink(): continue
             source=str(path.relative_to(self.root)); events=self.read(source)['events']
             state=derived('mathlab-fold',[self.jl(source,'.events')])
-            state['rule_src']={'file':'tools/mathlab_events.py','spec':'D-ML-1 shared fold'}
+            state['rule_src']={'file':'code/apps/mathlab/mathlab_events.py','spec':'D-ML-1 shared fold'}
             start=next((i for i,e in enumerate(events) if e['type']=='run_started'),None)
             title=self.jl(source,f'.events[{start}].title') if start is not None else missing('run title not recorded')
             date=self.jl(source,f'.events[{start}].ts') if start is not None else missing('run start not recorded')
@@ -877,9 +877,9 @@ class Reader:
         return result
 
     def finish(self,c):
-        files=set(citations(c))|{'tools/labviz/labels.json','tools/labviz/gates.json','tools/labviz/links.json','tools/labviz/stimulus.json','tools/labviz/contexts.json'}
+        files=set(citations(c))|{'code/apps/labviz/labels.json','code/apps/labviz/gates.json','code/apps/labviz/links.json','code/apps/labviz/stimulus.json','code/apps/labviz/contexts.json'}
         files.update(f['name'] for f in c.get('mathlab',{}).get('findings',[]) if f['name'])
-        if (self.root/'docs/LABVIZ_V2_SPEC.md').is_file(): files.add('docs/LABVIZ_V2_SPEC.md')
+        if (self.root/'projects/labviz-spec-v3/drafts/LABVIZ_V2_SPEC.md').is_file(): files.add('projects/labviz-spec-v3/drafts/LABVIZ_V2_SPEC.md')
         if POPULATION in files:
             files.update(x['file'] for x in self.scales['sources'])
         c['sources']=[]
@@ -888,7 +888,7 @@ class Reader:
             if file==POPULATION: h=hashlib.sha256(encoded(self.scales)).hexdigest()
             else:
                 if not path.is_file():
-                    if (PACKAGE/Path(file).name).is_file() and file.startswith('tools/labviz/'): path=PACKAGE/Path(file).name
+                    if (PACKAGE/Path(file).name).is_file() and file.startswith('code/apps/labviz/'): path=PACKAGE/Path(file).name
                     else: raise ValueError('cited source is missing: '+file)
                 if file not in self.hashes: self.hashes[file]=sha(path)
                 h=self.hashes[file]

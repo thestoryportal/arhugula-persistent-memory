@@ -9,14 +9,14 @@ import json
 import math
 from pathlib import Path
 
-os.environ["HF_HOME"] = f"{LLMDB_ROOT}/hf_cache"
+os.environ["HF_HOME"] = f"{LLMDB_ROOT}/data/hf_cache"
 os.environ.setdefault("HF_HUB_OFFLINE", "1")
 
 ANYEDIT_ROOT = os.environ.get("ANYEDIT_ROOT", "/tmp/AnyEdit")
 ID = os.environ.get("MODEL_ID", "Qwen/Qwen2.5-3B")
 REV = os.environ.get("MODEL_REV", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-SOURCE = f"{LLMDB_ROOT}/results/c10h_anyedit_window50_controls.json"
-OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/results/c10i_anyedit_upstream_active_audit.json")
+SOURCE = f"{LLMDB_ROOT}/experiments/c10h/runs/c10h_anyedit_window50_controls/c10h_anyedit_window50_controls.json"
+OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/experiments/c10i/runs/c10i_anyedit_upstream_active_audit/c10i_anyedit_upstream_active_audit.json")
 LN2 = math.log(2.0)
 
 
@@ -138,7 +138,7 @@ def cached_cov(layer_name):
     import numpy as np
     import torch
 
-    path = Path(LLMDB_ROOT) / "covariance_caches" / "Qwen_Qwen2.5-3B" / "wikipedia_stats" / f"{layer_name}_float32_mom2_t100_100000.npz"
+    path = Path(LLMDB_ROOT) / f"data/covariance/Qwen_Qwen2.5-3B/wikipedia_stats/{layer_name}_float32_mom2_t100_100000.npz"
     data = np.load(path)
     return torch.from_numpy(data["mom2.mom2"]).float().to("cuda")
 

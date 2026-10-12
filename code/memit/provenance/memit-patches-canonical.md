@@ -855,7 +855,7 @@ P-6 was discovered, authored, and NV-applied within the pre-S2.6 fork-work re-at
 
 - **Symptom:** Cell 4 Phase 1 dispatch (5 layers × ~14–20 min/layer) produced cache files at the canonical NV path with filenames containing the literal substring `_t{batch_tokens}_` rather than the substituted form `_t100_`. Cell 5 Phase B file-set predicate hard-halted on file-set mismatch against the post-P-6 expected pattern.
 - **Diagnostic:** source-side inspection of `rome/layer_stats.py:40` revealed missing `f` prefix on the `size_suffix` construction. The variable `batch_tokens` is in scope at line 40 (function parameter); the omission is unambiguously a Python authoring bug. Earlier hypothesis (H4 in pre-S2.6 fork-work session — root cause is hparams JSON `batch_tokens` field absence) was refuted by source diagnostic; OQ-PreS26-22 and OQ-PreS26-28 close on the corrected root cause.
-- **Resolution:** insert single-character `f` prefix on line 40; idempotent via post-state-marker check; NV-applied this session via direct write to `/workspace/memit_dry_run/memit/rome/layer_stats.py`; markers verified via re-import of `rome.layer_stats` and direct substring probe of the file bytes.
+- **Resolution:** insert single-character `f` prefix on line 40; idempotent via post-state-marker check; NV-applied this session via direct write to `/workspace/code/memit/vendor/rome/layer_stats.py`; markers verified via re-import of `rome.layer_stats` and direct substring probe of the file bytes.
 - **Empirical anchor:** Cell 5 Phase B PASS verdict at 2026-05-01T06:06:17Z — five .npz files at canonical NV path with canonical post-P-6 filenames (each carrying the `_t100_` segment), each verified to carry `mom2.mom2` shape `(14336, 14336)` float32 and `sample_size=100000`. PROVENANCE.txt authored at the same path is the authoritative provenance manifest (per D-PreS26-8).
 
 The empirical NV record is forward-compatible: any successor session that NV-restores from `/workspace/memit_dry_run/` inherits P-6 application; markers persist across pod stop/start. The reproducibility manifest's `memit_layer_stats_fstring_p6` field (v2.3 schema addition; see §8) is reported as `true` whenever the post-state marker is present.
@@ -868,7 +868,7 @@ References:
 - `OQ-PreS26-22` and `OQ-PreS26-28` (closed by D-PreS26-4 + D-PreS26-6; hparams-field hypothesis refuted by source diagnostic)
 - `OQ-PreS26-25` (closed by this canonical entry)
 - `pre_s2_6_fork_work_summary_block.md` v2 §2 (D-PreS26-4 source), §6 PATCHES APPLIED (P-6 NEW THIS SESSION inventory)
-- `/workspace/memit_dry_run/memit/rome/layer_stats.py` (NV-resident; markers verified Cell 2 + Cell 4 re-import per summary block)
+- `/workspace/code/memit/vendor/rome/layer_stats.py` (NV-resident; markers verified Cell 2 + Cell 4 re-import per summary block)
 - `/workspace/architecture_profile/pre_s2_6_patch_state.json` (Cell 2 patch verification record)
 
 ---
@@ -1181,7 +1181,7 @@ P-7 was specified at IC-S26-1 draft form in `session_2_6_summary_block.md` v1 (2
 
 - **Symptom:** S2.6 Cell 9 Trial 0 Step 2 halted at LAYER 4 update attempt → cache lookup → 404 → fallback to local compute → `torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 22.81 GiB.` The OOM occurred at `causal_mask.clone()` inside the LLaMA modeling code's attention forward pass under default `npos=131072` allocation regime.
 - **Diagnostic:** forensic capture during S2.6 close window enumerated four artifacts to NV at `/workspace/architecture_profile/s26_halt_*.txt`: cache inventory (5 `.npz` files with `_t100_` segment present at canonical NV path), filename-evidence comparison (cache filename pattern at NV vs. MEMIT lookup form — the `_t100_` mismatch documented directly), `memit_main.py:170-200` excerpt (showing `get_cov` body's `layer_stats(...)` call with no `batch_tokens=` kwarg — the seed material for P-7 design), and post-halt `nvidia-smi` state. The diagnostic established the OOM as a symptom of the cache-dispatch filename mismatch, not an independent VRAM-budget defect.
-- **Resolution path:** P-7 specification authored at S2.7 in `memit-patches-canonical.md` v2.4 §3.8 (this entry). Idempotency contract per IC-S25-2 precedent; verification logic per §3.7 P-6 precedent. NV-application of P-7 is operator-side action after S2.7 close; expected lifecycle: write `/workspace/memit_dry_run/memit/memit/memit_main.py` via the §3.8.7 application script, verify via §3.8.8 markers, re-run Stage 1 SECT cell 9 trial loop in a successor session against the post-P-7 MEMIT.
+- **Resolution path:** P-7 specification authored at S2.7 in `memit-patches-canonical.md` v2.4 §3.8 (this entry). Idempotency contract per IC-S25-2 precedent; verification logic per §3.7 P-6 precedent. NV-application of P-7 is operator-side action after S2.7 close; expected lifecycle: write `/workspace/code/memit/vendor/memit/memit_main.py` via the §3.8.7 application script, verify via §3.8.8 markers, re-run Stage 1 SECT cell 9 trial loop in a successor session against the post-P-7 MEMIT.
 - **Empirical anchor (forward-deferred):** Stage 1 SECT re-attempt session (S2.8 or successor) Cell 9 Trial 0 PASS verdict will be the first empirical anchor for P-7 runtime correctness — specifically, an absence of fallback-to-local-compute log line and absence of OOM at `causal_mask.clone()` during MEMIT layer update. The S2.7 spec entry is the authoritative pre-empirical specification; the empirical NV record (parallel to P-6's §3.7.9 lifecycle) will be appended in a v2.4.1 amendment after the empirical PASS.
 
 The empirical NV record is forward-compatible: any successor session that NV-restores from `/workspace/memit_dry_run/` after operator-side P-7 application inherits P-7; markers persist across pod stop/start. The reproducibility manifest's `memit_get_cov_batch_tokens_p7` field (v2.4 schema addition; see §8) is reported as `true` whenever both post-state markers are present.
@@ -1198,34 +1198,34 @@ References:
 - `OQ-S26-18` (closed by C-S26-1 ratification at §3.8.5)
 - `IC-PreS26-2` (post-P-6 cache filename interface contract — joint dependency of P-6 and P-7 for cache-dispatch round-trip correctness)
 - `session_2_6_summary_block.md` v1 §FORENSIC SNAPSHOT INVENTORY (S2.6 halt artifacts; seed material for §3.8.5 rationale)
-- `/workspace/architecture_profile/s26_halt_memit_main_get_cov_excerpt.txt` (NV-resident; verbatim pre-P-7 `get_cov` body excerpt at SHA pin `80426fd9...`)
+- `/workspace/program/sessions/pod-era/halts/s26_halt_memit_main_get_cov_excerpt.txt` (NV-resident; verbatim pre-P-7 `get_cov` body excerpt at SHA pin `80426fd9...`)
 
 ---
 
 ## 3.9 Patch P-8 — device neutrality for the science path (`memit/compute_z.py`, `memit/memit_main.py`, `rome/layer_stats.py`, new `util/device.py`)
 
-> **Numbering note:** P-8 is inserted as §3.9, following the §3.5–§3.8 precedent. **Date:** 2026-10-03. **Decision:** D-HW-1 (`EXPERIMENT_RUNBOOK.md` §5.3 / §13). **Class:** science-path source change → new LAW#1 fingerprint; inertness shown by LAW#3 reproduction, not assumed.
+> **Numbering note:** P-8 is inserted as §3.9, following the §3.5–§3.8 precedent. **Date:** 2026-10-03. **Decision:** D-HW-1 (`program/runbook/` §5.3 / §13). **Class:** science-path source change → new LAW#1 fingerprint; inertness shown by LAW#3 reproduction, not assumed.
 
 ### 3.9.1 Why
 The RunPod 4090 is gone; the engine now runs on a MacBook M3 Pro (Apple MPS). The science path named the accelerator as the literal `"cuda"` in eleven places and cast on-device tensors to float64 in two, and **MPS cannot represent float64**. Neither can be worked around from the harness, so the engine changes — through this door, with a recorded fingerprint, exactly as P-7 and the S2.31 CPU-solve patch did.
 
-### 3.9.2 What changes (14 anchored substitutions; script `tools/engine_patches/p8_device_neutrality.py`, idempotent)
+### 3.9.2 What changes (14 anchored substitutions; script `code/memit/patches/p8_device_neutrality.py`, idempotent)
 | File | Change |
 |---|---|
 | `util/device.py` (NEW) | `device_of(model)` (engine), `resolve_device()` (harness; `LLMDB_DEVICE` overrides, else first available accelerator), `empty_cache(device)` as a backend table lookup. The single place the accelerator is named. |
 | `memit/compute_z.py` | `dev = device_of(model)` once per call; the 4 `"cuda"` literals (target ids, input batch, rewriting targets, `delta`) → `dev`. |
 | `memit/memit_main.py` | `apply_memit_to_model`: deltas moved to `device_of(model)`; z-cache load → model device; **the float64 solve operands move to CPU *before* the `.double()` cast** (`layer_ks.cpu().double()`, `targets.cpu().double()`) — this makes the S2.31 CPU-solve a requirement rather than a VRAM mitigation; the resulting update matrix is moved back to the weight's device before the in-place add; `torch.cuda.empty_cache()` → `empty_cache(device_of(model))`; `get_cov` return → model device. |
 | `rome/layer_stats.py` | the covariance pass moves each batch to the model's device instead of `"cuda"` (the CLI `main()` still says `.cuda()`; it is not on the science path). |
-| `rome/tok_dataset.py` (**P-8b**, script `tools/engine_patches/p8b_picklable_collation.py`) | `length_collation()` returned a closure; macOS DataLoader workers *spawn* (Linux forks) and must pickle the collator, which failed on the first covariance run. The closure is now a module-level `_length_collate` bound with `functools.partial` — same body, same batches (verified on a two-item batch). |
-| `rome/layer_stats.py` (**P-8c**, script `tools/engine_patches/p8c_spawn_safe_workers.py`) | DataLoader `num_workers` keyed on the multiprocessing start method: `{"fork": 2}` else 0. macOS *spawns* workers, which re-import the launching script; a guardless harness script would reload the model per worker (observed: two model loads, a second 3.4 GB process). Linux forks → unchanged 2 workers. The precompute tool also gained a `__main__` guard. |
+| `rome/tok_dataset.py` (**P-8b**, script `code/memit/patches/p8b_picklable_collation.py`) | `length_collation()` returned a closure; macOS DataLoader workers *spawn* (Linux forks) and must pickle the collator, which failed on the first covariance run. The closure is now a module-level `_length_collate` bound with `functools.partial` — same body, same batches (verified on a two-item batch). |
+| `rome/layer_stats.py` (**P-8c**, script `code/memit/patches/p8c_spawn_safe_workers.py`) | DataLoader `num_workers` keyed on the multiprocessing start method: `{"fork": 2}` else 0. macOS *spawns* workers, which re-import the launching script; a guardless harness script would reload the model per worker (observed: two model loads, a second 3.4 GB process). Linux forks → unchanged 2 workers. The precompute tool also gained a `__main__` guard. |
 
 Not touched: `rome/compute_v.py`, `rome/compute_u.py`, `rome/rome_main.py` (ROME, eliminated at S2.18), `util/perplexity.py`, `util/runningstats.py` CLI self-test.
 
 ### 3.9.3 Fingerprint
-`memit/memit_main.py` sha256 **`d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65`** (2026-10-04 amendment: the delta product in `apply_memit_to_model` stays float64 on CPU and only the float32 result moves to the weight's device; the interim `e6ac7e18…` form failed at the first engine apply on MPS and no result ran under it) (was `5c0c706a…c78770` for P-1..P-7 + CPU-solve, the hash every CORPUS result through 2026-06-27 ran under). `_cov_cpu` sites remain 3. Gate: `python3 tools/engine_fingerprint.py` (both hashes recorded there).
+`memit/memit_main.py` sha256 **`d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65`** (2026-10-04 amendment: the delta product in `apply_memit_to_model` stays float64 on CPU and only the float32 result moves to the weight's device; the interim `e6ac7e18…` form failed at the first engine apply on MPS and no result ran under it) (was `5c0c706a…c78770` for P-1..P-7 + CPU-solve, the hash every CORPUS result through 2026-06-27 ran under). `_cov_cpu` sites remain 3. Gate: `python3 code/memit/engine_fingerprint.py` (both hashes recorded there).
 
 ### 3.9.4 Inertness obligation (LAW#5)
-P-8 changes *where* tensors live, not what is computed; float64 CPU arithmetic is the same arithmetic the 4090 era already ran after S2.31. Cross-hardware bit-exactness is a documented non-requirement (`REPRODUCIBILITY.md`), so inertness is shown behaviorally under LAW#3: the C2 key-collinearity depth map must land near `CORPUS/20` (L4 0.68/0.93 · L6 0.67/0.94 · L8 0.26/0.94 subject/relation cos) and the A1 batch arm must come back clean (`CORPUS/14`: held-out edited-relation top-1 100% at N≤100). Results are recorded in `EXPERIMENT_RUNBOOK.md` §13 (2026-10-03) when run.
+P-8 changes *where* tensors live, not what is computed; float64 CPU arithmetic is the same arithmetic the 4090 era already ran after S2.31. Cross-hardware bit-exactness is a documented non-requirement (`_system/governance/REPRODUCIBILITY.md`), so inertness is shown behaviorally under LAW#3: the C2 key-collinearity depth map must land near `evidence/CORPUS/20` (L4 0.68/0.93 · L6 0.67/0.94 · L8 0.26/0.94 subject/relation cos) and the A1 batch arm must come back clean (`evidence/CORPUS/14`: held-out edited-relation top-1 100% at N≤100). Results are recorded in `program/runbook/` §13 (2026-10-03) when run.
 
 ## 4. Pad-Token Patch — Tokenizer Attribute
 

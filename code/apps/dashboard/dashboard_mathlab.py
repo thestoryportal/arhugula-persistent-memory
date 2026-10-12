@@ -16,10 +16,10 @@ STEPS = {
     4: "Candidate questions: explore ideas later, after a new written plan.",
 }
 BUILD_FILES = (
-    ("harvest launcher", "tools/run_mathlab_harvest.sh"),
-    ("harvest driver", "tools/mathlab_harvest.py"),
-    ("step-2 notebook", "mathlab/m2_solve_repro.py"),
-    ("step-3 notebook", "mathlab/m3_calibration.py"),
+    ("harvest launcher", "code/apps/mathlab/run_mathlab_harvest.sh"),
+    ("harvest driver", "code/apps/mathlab/mathlab_harvest.py"),
+    ("step-2 notebook", "code/apps/mathlab/m2_solve_repro.py"),
+    ("step-3 notebook", "code/apps/mathlab/m3_calibration.py"),
 )
 GATE_PLAN = mathlab_events.GATE_PLAN
 
@@ -56,7 +56,7 @@ def bar(value, total, width=16, floor=None):
 
 
 def prereg_header(root):
-    path = Path(root) / "docs/MATHLAB_PREREG.md"
+    path = Path(root) / "experiments/ml/design/MATHLAB_PREREG.md"
     data = path.read_bytes()
     header = data.decode("utf-8").split("\n## ", 1)[0]
     status = re.search(r"(?m)^\*\*Status:\s*(.*?)\*\*", header)
@@ -192,7 +192,7 @@ def render(cols, rows, check_page=None):
         try:
             status_line, sha = prereg_header(ROOT)
             out.append(f" Pre-registration: {status_line}")
-            out.append(f" Current file SHA256: {sha} · docs/MATHLAB_PREREG.md")
+            out.append(f" Current file SHA256: {sha} · experiments/ml/design/MATHLAB_PREREG.md")
         except (OSError, UnicodeError, ValueError) as error:
             out.append(f" {FG(196)}PREREG ERROR: {error}{RESET}")
         if status_line is None:

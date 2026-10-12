@@ -9,7 +9,7 @@ IMPORT_ADD = IMPORT_ANCHOR + "from util.device import resolve_device, empty_cach
 common = [('device_map="cuda"', 'device_map=DEV'), ('.to("cuda")', '.to(DEV)'), ('.cuda()', '.to(DEV)'),
           ('device="cuda"', 'device=DEV'), ('torch.cuda.empty_cache()', 'empty_cache(DEV)')]
 
-p = Path("experiments/track_b/b3_edit_and_save.py"); s = p.read_text()
+p = Path("code/lab/track_b/b3_edit_and_save.py"); s = p.read_text()
 if "DEV = resolve_device()" in s:
     print("b3_edit_and_save.py already ported")
 else:
@@ -21,7 +21,7 @@ else:
     assert '"cuda"' not in s and ".cuda()" not in s
     p.write_text(s); print(f"ported b3_edit_and_save.py: {hits} device sites + 1 float64 site")
 
-q = Path("experiments/track_b/b3_run.sh"); t = q.read_text()
+q = Path("code/lab/track_b/b3_run.sh"); t = q.read_text()
 if 'cd "$LLMDB_ROOT"' in t:
     print("b3_run.sh already ported")
 else:

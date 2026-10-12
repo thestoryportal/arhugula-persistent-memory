@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, io, contextlib, json, math
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -19,7 +19,7 @@ from memit.compute_ks import compute_ks
 # target=truth) + HF-fp16 top-1 reference (cross-check vs GGUF-fp16 downstream).
 # ============================================================================
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 N_ENTITIES=50; FIELDS=["capital","language"]
 TMPL={"capital":"The capital of {} is the city of","currency":"The official currency of {} is the",
@@ -27,7 +27,7 @@ TMPL={"capital":"The capital of {} is the city of","currency":"The official curr
 GLOBAL_PROBES=["The largest planet in the solar system is","Water is composed of hydrogen and",
  "The chemical symbol for gold is","The opposite of hot is",
  "The first president of the United States was","The speed of light is approximately"]
-SAVE_DIR=f"{LLMDB_ROOT}/b3_edited_qwen3b"
+SAVE_DIR=f"{LLMDB_ROOT}/experiments/b3/runs/b3_edit/bulk/b3_edited_qwen3b"
 
 tok=AutoTokenizer.from_pretrained(ID, revision=REV)
 if tok.pad_token is None: tok.pad_token=tok.eos_token
@@ -104,7 +104,7 @@ print(f"  engine expr={eng_p:.4f} | harness-memit expr={my_p:.4f} | |Δ|={abs(en
 if not ok: print("LAW#5 fail; HALT.", flush=True); sys.exit(1)
 
 # ---------- build records (same screened pool as A0/A1) ----------
-scr=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json")); sel=scr["selected"]
+scr=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b.json")); sel=scr["selected"]
 ents=list(sel.keys()); edit_ents=ents[:N_ENTITIES]
 native_ents=ents[N_ENTITIES:]          # ALL un-edited entities are native candidates
 def assign_cf(entity_list, field):
@@ -159,8 +159,8 @@ print(f"  HF-fp16 native-country target-match: {sum(bool(p['hf_match_target']) f
 json.dump({"config":{"model":ID,"rev":REV,"band":L,"mom2_uw":hp.mom2_update_weight,"thresh":NULL_THRESH,
            "write_mode":"batch","n_edited":len(records)},
            "edited":edited_probes,"native":native_probes},
-          open(f"{LLMDB_ROOT}/configs/probes/b3_probes.json","w"),indent=2,default=str)
-print(f"  wrote {LLMDB_ROOT}/configs/probes/b3_probes.json", flush=True)
+          open(f"{LLMDB_ROOT}/code/configs/probes/b3_probes.json","w"),indent=2,default=str)
+print(f"  wrote {LLMDB_ROOT}/code/configs/probes/b3_probes.json", flush=True)
 
 # ---------- SAVE edited model (fp16 HF) for GGUF conversion ----------
 print(f"\n=== SAVE edited model -> {SAVE_DIR} ===", flush=True)

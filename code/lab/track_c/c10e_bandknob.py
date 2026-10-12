@@ -1,9 +1,9 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import io, contextlib, json, math
-os.environ["HF_HOME"] = f"{LLMDB_ROOT}/hf_cache"
+os.environ["HF_HOME"] = f"{LLMDB_ROOT}/data/hf_cache"
 os.environ["HF_HUB_OFFLINE"] = "0"
-ENGINE_ROOT = f"{LLMDB_ROOT}/memit_dry_run/memit"
+ENGINE_ROOT = f"{LLMDB_ROOT}/code/memit/vendor"
 sys.path.insert(0, ENGINE_ROOT)
 os.chdir(ENGINE_ROOT)
 
@@ -27,12 +27,12 @@ REV = os.environ.get("MODEL_REV", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
 LN2 = math.log(2.0)
 NULL_THRESH = 0.005
 L2 = 1.0
-HP_BASE = f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"
-HP_BAND = os.environ.get("HP_CANDIDATE", f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams_band812.json")
-OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/results/c10e_bandknob.json")
+HP_BASE = f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"
+HP_BAND = os.environ.get("HP_CANDIDATE", f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams_band812.json")
+OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/experiments/c10e/runs/c10e_bandknob/c10e_bandknob.json")
 CANDIDATE_NAME = os.environ.get("CANDIDATE_NAME", "later_band812")
 DECISION_ID = os.environ.get("DECISION_ID", "D-C10e-bandknob")
-PREREG = os.environ.get("PREREG", f"{LLMDB_ROOT}/docs/C10_BANDKNOB_PREREG.md")
+PREREG = os.environ.get("PREREG", f"{LLMDB_ROOT}/experiments/c10e/design/C10_BANDKNOB_PREREG.md")
 RUN_LABEL = os.environ.get("RUN_LABEL", "C10 W-realization band-knob test")
 # D-C10l-covgeom P3: candidate-recipe solve geometry. "nullspace" = the AlphaEdit-style projector the harness has always
 # used; "identity" = P := I (RoSE/IGA on this path). Applies to the CANDIDATE recipe only and never inside the LAW#5
@@ -222,7 +222,7 @@ def my_edit(hp, requests, P, cache_c):
 
 
 def build_stimuli():
-    scr = json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+    scr = json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
     caps = sorted({scr[c]["capital"]["truth"] for c in scr})
     single_v = [k for k in caps if single_tok(k)]
     coherent2 = [k for k in caps if ntok(k) == 2]
@@ -257,14 +257,14 @@ if os.environ.get("C10_ARMS"):   # D-C10k-keying-ablation: restrict arms (defaul
 
 # ---- D-C10l-covgeom S-3 locality axes (reported beside every held-out number; L1/L3 are the prereg's binding axes) ----
 def build_locality_sets():
-    """L1 = CORPUS/43 F-A3's 12 real countries (g6_screen_qwen3b.json, sorted, first 12), scored on CANON.
+    """L1 = evidence/CORPUS/43 F-A3's 12 real countries (g6_screen_qwen3b.json, sorted, first 12), scored on CANON.
     L3 = every real country of g6_screen_qwen3b_v2.json whose capital is not an A1/A2 value (prereg amendment A1: the
     screen holds 78 countries and A1+A2 use 48 distinct capitals, so the pool is 30, not the 50 the prereg assumed;
     three of the 30 are also in L1 and are kept - L1 scores flips to an edited value, L3 scores agreement with the
     pre-edit top-1); scored as top-1 agreement with the pre-edit model + mean next-token KL(pre‖post)."""
-    scr1 = json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json"))["selected"]
+    scr1 = json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b.json"))["selected"]
     l1 = [c for c in sorted(scr1)][:12]
-    scr2 = json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+    scr2 = json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
     full = build_stimuli()
     used = set(full["A1_single"].values()) | set(full["A2_coherent2"].values())
     l3 = [c for c in sorted(scr2) if scr2[c]["capital"]["truth"] not in used]
@@ -585,7 +585,7 @@ def main():
     # The D-C10e-bandknob-era label set is NOT binding for later decisions: D-C10l-* read their result JSONs with their
     # own pre-registered readers (c10l_covgeom_read.py). Kept under a name that says so. [LAW:one-source-of-truth]
     results["legacy_nonbinding_summary"] = verdict(results) if "baseline" in results["recipes"] and "A7_coined_coined" in ARMS else {"note": "skipped (restricted arms/recipes)"}
-    results["legacy_nonbinding_summary"]["note_binding"] = "NON-BINDING: D-C10e thresholds; D-C10l-* labels come from experiments/track_c/c10l_covgeom_read.py"
+    results["legacy_nonbinding_summary"]["note_binding"] = "NON-BINDING: D-C10e thresholds; D-C10l-* labels come from code/lab/track_c/c10l_covgeom_read.py"
     with open(OUT, "w") as f:
         json.dump(results, f, indent=2, default=str)
     print("\n=== C10e LEGACY (NON-BINDING) SUMMARY ===", flush=True)

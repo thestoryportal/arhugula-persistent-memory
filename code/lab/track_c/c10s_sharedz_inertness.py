@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""D-C10s-sharedz LAW#5 inertness checks (docs/C10S_SHARED_Z_PREREG.md v3 §2 "Inertness (LAW#5), specified"), run FIRST,
+"""D-C10s-sharedz LAW#5 inertness checks (experiments/c10s/design/C10S_SHARED_Z_PREREG.md v3 §2 "Inertness (LAW#5), specified"), run FIRST,
 in one process, before the driver; writes OUT_DIR/inertness.json PROGRESSIVELY (after every check, and on any exception)
 and exits non-zero on ANY failure (HALT, with the diagnostic JSON the driver's halt() writes).
   (i)   floor: the engine's compute_z three times on one request and ctx; floor = largest pairwise relative L2 distance;
@@ -7,7 +7,7 @@ and exits non-zero on ANY failure (HALT, with the diagnostic JSON the driver's h
   (ii)  compute_z_shared(prompts=[CANON]) within tolerance of engine run 0
   (iii) §7 A2: compute_z_shared([CANON]*3) within tolerance of the UNMODIFIED engine run on the same 19-row batch
         (R.ctx_triplicate); the 7-row vs 19-row engine distance is recorded (the v3 cross-shape rule HALTED on fp16
-        batch-shape rounding: results/c10s_sharedz_halt_analysis_2026-10-06.md)
+        batch-shape rounding: experiments/c10s/reviews/c10s_sharedz_halt_analysis_2026-10-06.md)
   (iv)  §7 A2: compute_z_shared([CANON, T1, T2]) within tolerance of the unmodified engine on a '{}' request with
         R.ctx_heterogeneous (the same batch), the ordered plan equal to the engine's (R.plan_matches), lookup indices,
         row count and KL row exact; RECORDED ONLY (not gated since A2): at step 0, the per-prompt NLLs vs a reference from
@@ -20,12 +20,12 @@ and exits non-zero on ANY failure (HALT, with the diagnostic JSON the driver's h
   (v)   the harness's standing LAW#5 gate (run_law5, Z_OVERRIDE unset)
 The record carries its own run identity (timestamp + SHA-256 of the driver files, the harness, compute_z.py and
 memit_main.py, among others); the driver refuses to proceed if any current file differs (review item 5).
-Usage: LLMDB_ROOT=<root> .venv/bin/python experiments/track_c/c10s_sharedz_inertness.py      (env OUT_DIR as the driver)
+Usage: LLMDB_ROOT=<root> .venv/bin/python code/lab/track_c/c10s_sharedz_inertness.py      (env OUT_DIR as the driver)
 """
 import os, sys, io, json, time, contextlib, traceback
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10s_sharedz_arms as A          # refuses inherited knobs, forces the run identity, loads the harness (model) — its main() does not run
 import c10s_sharedz_read as R
 import torch

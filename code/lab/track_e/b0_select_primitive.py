@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, io, contextlib, json, math
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -12,14 +12,14 @@ from memit.compute_ks import compute_ks
 
 # ============================================================================
 # B0 — SELECT-primitive go/no-go (Phase-1 critical-path step 1).
-# Pre-reg: docs/B0_SELECT_PRIMITIVE_PREREG.md (frozen).
+# Pre-reg: experiments/b0/design/B0_SELECT_PRIMITIVE_PREREG.md (frozen).
 # Question: is there a weight-native read distinct from free-form INFER -- can the
 # store return a value for COMMITTED keys AND abstain (null) for ABSENT keys, or do
 # reads confabulate absent keys indistinguishably? INFER (greedy top-1) NEVER emits null.
 # Reuses g6_scale_n_param.py primitives VERBATIM (proven inert). Engine UNMODIFIED.
 # ============================================================================
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"); L=hp.layers
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 TMPL={"capital":"The capital of {} is the city of","language":"The official language of {} is"}
 
@@ -160,7 +160,7 @@ elif sep["committed_above"]>=50 and sep["absent_below"]>=50 and not clean_sep:
 else:
     outcome="B_NO_WEIGHT_NATIVE_SELECT"
 
-out={"prereg":"docs/B0_SELECT_PRIMITIVE_PREREG.md","model":ID,"band":L,"n_committed":N,
+out={"prereg":"experiments/b0/design/B0_SELECT_PRIMITIVE_PREREG.md","model":ID,"band":L,"n_committed":N,
      "committed_readback_correct":committed_correct,"committed_readback_correct_hiconf":committed_correct_hi,
      "committed_readback_rate_pct":round(committed_rate,1),
      "absent_fictional_confab_hiconf":absent_fict_confab_hi,"absent_confab_rate_pct":round(absent_confab_rate,1),
@@ -172,7 +172,7 @@ out={"prereg":"docs/B0_SELECT_PRIMITIVE_PREREG.md","model":ID,"band":L,"n_commit
                           "maxprob":round(r["readback_maxprob"],4),"correct":r["readback_correct"]} for r in committed],
      "absent_fictional_detail":[{"entity":r["entity"],"top1":p["tok"],"maxprob":round(p["maxprob"],4)} for r,p in zip(absent_fict,post_absent_fict)],
      "absent_real_detail":[{"entity":r["entity"],"truth":r["truth"],"top1":p["tok"],"maxprob":round(p["maxprob"],4)} for r,p in zip(absent_real,post_absent_real)]}
-json.dump(out,open(f"{LLMDB_ROOT}/results/b0_select_primitive_pilot.json","w"),indent=2,default=str)
+json.dump(out,open(f"{LLMDB_ROOT}/experiments/b0/runs/b0_select_primitive_pilot/b0_select_primitive_pilot.json","w"),indent=2,default=str)
 print(f"\n=== B0 RESULT ===", flush=True)
 print(f"  committed read-back (top-1 correct, hi-conf >=0.5): {committed_correct_hi}/{N} = {committed_rate:.0f}%  | maxprob {stats(comm_mp)}", flush=True)
 print(f"  absent-fictional confabulation (top-1 maxprob>=0.5): {absent_fict_confab_hi}/{len(absent_fict)} = {absent_confab_rate:.0f}%  | maxprob {stats(abs_mp)}", flush=True)

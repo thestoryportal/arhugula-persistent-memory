@@ -8,7 +8,7 @@ from unittest import mock
 
 class GeometryTests(unittest.TestCase):
     def setUp(self):
-        self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+        self.assertTrue(Path('code/lab/runners/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
         self.G=importlib.import_module('tools.new1_geometry')
         import torch
         import numpy as np

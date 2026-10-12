@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
-"""D-C10s-sharedz driver (docs/C10S_SHARED_Z_PREREG.md v3 FROZEN §2-§3, §7 A1): one target fit jointly over three phrasings.
+"""D-C10s-sharedz driver (experiments/c10s/design/C10S_SHARED_Z_PREREG.md v3 FROZEN §2-§3, §7 A1): one target fit jointly over three phrasings.
   stage "first"  (default): cell 1 injection screen (canonical z vs shared z, paired, control c, fit diagnostic) -> inject.json;
                             if PROCEED, cell 2 harness pass A1 + A2 + A7 where the harness's own A7 (engine z) is the
                             reference and the A7 hook re-edits from base with the shared z through Z_OVERRIDE -> pass1.json.
   stage "second":           gate A replication of a LEAD/PARTIAL pass 1: a fresh shared solve (fit checked BEFORE any write)
                             + harness pass -> pass2.json.
-Usage: LLMDB_ROOT=<root> .venv/bin/python experiments/track_c/c10s_sharedz_arms.py [first|second]
+Usage: LLMDB_ROOT=<root> .venv/bin/python code/lab/track_c/c10s_sharedz_arms.py [first|second]
 Env: LLMDB_ROOT, C10S_ARM=sharedz|solvefeas (default sharedz), OUT_DIR (default results/c10s_<arm>). Requires OUT_DIR/inertness.json from c10s_sharedz_inertness.py
 (ALL INERT, same source hashes). The engine is not edited; the shared solve below is driver-side and enters the harness
 only through Z_OVERRIDE.
-The solvefeas arm implements docs/C10S_SOLVEFEAS_PREREG.md v2: one 50-evaluation settings file for every solve,
+The solvefeas arm implements experiments/c10s/design/C10S_SOLVEFEAS_PREREG.md v2: one 50-evaluation settings file for every solve,
 same-run evaluation-25 snapshots, read-only engine forward counts and the reader's additional frozen labels.
 
-v2 changes (implementation review results/c10s_sharedz_codex_impl_v1.md, all six items implemented):
+v2 changes (implementation review experiments/c10s/reviews/c10s_sharedz_codex_impl_v1.md, all six items implemented):
   1. check (iv) reference reduces exactly as compute_z.py:141-149 through R.engine_nll_each; KL(ref||init) recorded, not gated
      (the slice check is the lookup-index check) — in c10s_sharedz_inertness.py.
   2. reader applies every locality gate and -LARGE-WRITE to each process before a replicated label (c10s_sharedz_read.py).
   3. stage second evaluates the fit diagnostic before the write; UNDERFIT -> nothing written, HALT diagnostic, exit non-zero.
   4. every completed pass is validated at once (controls, envelope, Z_OVERRIDE hits, files); every SystemExit path goes
-     through halt(), which writes architecture_profile/c10s_sharedz_halt_diagnostic.json; the inertness script writes its
+     through halt(), which writes experiments/c10s/runs/c10s_sharedz/halts/c10s_sharedz_halt_diagnostic.json; the inertness script writes its
      record progressively.
   5. provenance: the inertness record carries the source hashes; the driver refuses to proceed if any differs from the
      current files; one run identity (timestamp + hashes) is stamped into every output; the reader refuses to pair
@@ -28,7 +28,7 @@ v2 changes (implementation review results/c10s_sharedz_codex_impl_v1.md, all six
      captured by a read-only forward hook (the hook captures target_init, not the optimizer's delta; no bitwise recovery
      of the canonical optimizer delta is claimed); the z_engine - h_plain reconstruction is recorded beside it with the
      equivalence numbers; the shared control uses the saved optimizer delta.
-v3 changes (review 2, results/c10s_sharedz_codex_impl_v2.md):
+v3 changes (review 2, experiments/c10s/reviews/c10s_sharedz_codex_impl_v2.md):
   - the second process is permanent and authoritative: stage second writes second_process = {started, identity,
     outcome: STARTED} into run.json BEFORE solving; UNDERFIT is terminal (outcome UNDERFIT with the fit numbers, no
     pass2.json); a later `second` invocation refuses to start whenever second_process exists (any outcome); the reader
@@ -51,7 +51,7 @@ import os, sys, io, json, time, hashlib, contextlib, datetime, traceback
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 DECISION_ID = "D-C10s-sharedz"
-HALT_PATH = f"{LLMDB_ROOT}/architecture_profile/c10s_sharedz_halt_diagnostic.json"   # review item 4: every SystemExit path writes it
+HALT_PATH = f"{LLMDB_ROOT}/experiments/c10s/runs/c10s_sharedz/halts/c10s_sharedz_halt_diagnostic.json"   # review item 4: every SystemExit path writes it
 STAGE = sys.argv[1] if len(sys.argv) > 1 else "first"
 IDENTITY = None   # [LAW:no-shared-mutable-globals] the run identity; written once by main (or by the inertness script's own), read by halt/dump stamps
 
@@ -94,7 +94,7 @@ def dump(path, obj):
         halt(str(e), path=path)
 
 
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10s_sharedz_read as R
 try:
     ARM = R.select_arm(os.environ.get("C10S_ARM", "sharedz"))
@@ -129,7 +129,7 @@ os.environ["DECISION_ID"] = DECISION_ID
 os.environ["PREREG"] = ARM_RECORD["prereg"]
 OUT_DIR = os.environ.get("OUT_DIR", f"{LLMDB_ROOT}/{ARM.out_dir}"); os.makedirs(OUT_DIR, exist_ok=True)
 os.environ["OUT"] = f"{OUT_DIR}/pass1.json"
-sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 try:   # v3: the model-loading imports sit inside the halt boundary — an initialization failure writes the diagnostic too
     import c10s_sharedz_read as R                     # frozen forms + the pure rules (the reader owns every threshold)
     import c10e_bandknob as H                         # loads the model; chdir to the engine root
@@ -155,17 +155,17 @@ if R.CANON != H.CANON or R.PTEST != H.PTEST:   # [LAW:one-source-of-truth] the p
     halt("frozen forms differ from the harness", reader={"CANON": R.CANON, "PTEST": R.PTEST}, harness={"CANON": H.CANON, "PTEST": H.PTEST})
 CANON, PTEST, FRAMES, FRAME_NAMES = R.CANON, R.PTEST, R.FRAMES, R.FRAME_NAMES
 V = H.ARMS["A7_coined_coined"]
-# CORPUS/43 same-frame locality subjects, copied from c10p_twopass_arms.py:30 (importing that module requires LAW3_REF and rewrites the harness env)
+# evidence/CORPUS/43 same-frame locality subjects, copied from c10p_twopass_arms.py:30 (importing that module requires LAW3_REF and rewrites the harness env)
 FRAME_SUBJECTS = ["Vorbanth", "Quillexa", "Tremnok", "Oskavel", "Blynthar", "Durmquist"]
 assert not set(FRAME_SUBJECTS) & set(H.FICTION)
 KEY_TEMPLATES = [("CANON", CANON)] + [(f"PTEST{i}", p) for i, p in enumerate(PTEST)]
 LOSS_STOP = 5e-2                 # compute_z.py:164 — the engine's stopping rule, verbatim (§2: nothing is tightened)
-SOURCE_FILES = ["experiments/track_c/c10s_sharedz_arms.py", "experiments/track_c/c10s_sharedz_inertness.py", "experiments/track_c/c10s_sharedz_read.py",
-                "experiments/track_c/c10s_sharedz_selftest.py", "experiments/track_c/c10e_bandknob.py", "memit_dry_run/memit/memit/compute_z.py",
-                "memit_dry_run/memit/memit/memit_main.py",   # ^ the seven files the review names (item 5); the rest are recorded and compared too
-                "memit_dry_run/memit/memit/compute_ks.py", "memit_dry_run/memit/rome/repr_tools.py", "experiments/track_c/c10l_covgeom_p6_zinject.py",
-                "configs/hparams/qwen25_3b_memit_hparams.json", "docs/C10S_SHARED_Z_PREREG.md"] + (
-                ["configs/hparams/qwen25_3b_memit_hparams_steps50.json", "docs/C10S_SOLVEFEAS_PREREG.md"] if ARM.name == "solvefeas" else [])
+SOURCE_FILES = ["code/lab/track_c/c10s_sharedz_arms.py", "code/lab/track_c/c10s_sharedz_inertness.py", "code/lab/track_c/c10s_sharedz_read.py",
+                "code/lab/track_c/c10s_sharedz_selftest.py", "code/lab/track_c/c10e_bandknob.py", "code/memit/vendor/memit/compute_z.py",
+                "code/memit/vendor/memit/memit_main.py",   # ^ the seven files the review names (item 5); the rest are recorded and compared too
+                "code/memit/vendor/memit/compute_ks.py", "code/memit/vendor/rome/repr_tools.py", "code/lab/track_c/c10l_covgeom_p6_zinject.py",
+                "code/configs/hparams/qwen25_3b_memit_hparams.json", "experiments/c10s/design/C10S_SHARED_Z_PREREG.md"] + (
+                ["code/configs/hparams/qwen25_3b_memit_hparams_steps50.json", "experiments/c10s/design/C10S_SOLVEFEAS_PREREG.md"] if ARM.name == "solvefeas" else [])
 STAGE_OUTPUTS = ("run.json", "inject.json", "pass1.json", "pass2.json")
 ST = {}   # [LAW:no-shared-mutable-globals] per-pass state written by run_pass (zs_shared, base_snap, cur_before, captured), read by the A7 hook
 _engine_compute_z = compute_z
@@ -248,9 +248,9 @@ def provenance_mismatches(recorded):
 
 
 def fingerprint():
-    """LAW#1 gate: tools/engine_fingerprint.py is the single source of the expected hash (as c10m_diag_arms.fingerprint)."""
+    """LAW#1 gate: code/memit/engine_fingerprint.py is the single source of the expected hash (as c10m_diag_arms.fingerprint)."""
     import subprocess
-    fp = subprocess.run([sys.executable, f"{LLMDB_ROOT}/tools/engine_fingerprint.py"], capture_output=True, text=True, env={**os.environ, "LLMDB_ROOT": LLMDB_ROOT})
+    fp = subprocess.run([sys.executable, f"{LLMDB_ROOT}/code/memit/engine_fingerprint.py"], capture_output=True, text=True, env={**os.environ, "LLMDB_ROOT": LLMDB_ROOT})
     if fp.returncode != 0:
         halt("engine fingerprint FAIL", stdout=fp.stdout, stderr=fp.stderr)   # [LAW:no-silent-failure]
     return fp.stdout.strip()
@@ -266,7 +266,7 @@ def z_record(zs):
 
 
 def compute_z_shared(model, tok, request, hparams, layer, context_templates, prompts):
-    """The engine's compute_z (memit_dry_run/memit/memit/compute_z.py:14-185, read 2026-10-06) with a LIST of prompts in
+    """The engine's compute_z (code/memit/vendor/memit/compute_z.py:14-185, read 2026-10-06) with a LIST of prompts in
     place of request["prompt"] (§2). Every line below mirrors the cited engine line; the only departures are the prompt
     list (:46-50 -> R.build_prompt_plan, template-major, prompts[0] first inside each template so index 0 is the identity
     template on prompts[0]), and the diagnostics gathered for the record. Returns (target, diag); diag keys starting
@@ -448,7 +448,7 @@ def solve_shared(c, ctx):
 
 @torch.no_grad()
 def frame_probe(template):
-    """CORPUS/43 same-frame locality (c10p_twopass_arms.frame_probe generalised to a frame): six never-edited fictional
+    """evidence/CORPUS/43 same-frame locality (c10p_twopass_arms.frame_probe generalised to a frame): six never-edited fictional
     subjects; a flip = top-1 equals the first token of any edited A7 value. §2 cell 2: run in CANON and in each training frame."""
     firsts = {H.tgt_ids(V[c])[0] for c in H.FICTION}
     rows = []
@@ -718,7 +718,7 @@ def require_inertness():
 
 
 def seeds():
-    return {"torch_initial_seed": torch.initial_seed(), "explicit_seeding": "none — the harness and engine do not seed; context templates are sampled unseeded per process (CORPUS/44 F-A4) and recorded in `ctx`"}
+    return {"torch_initial_seed": torch.initial_seed(), "explicit_seeding": "none — the harness and engine do not seed; context templates are sampled unseeded per process (evidence/CORPUS/44 F-A4) and recorded in `ctx`"}
 
 
 def solve_all_shared(ctx):

@@ -4,7 +4,7 @@ LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 Usage: python b3_probe.py <server_url> <out_pred_json>"""
 import sys, json, time, urllib.request
 URL=sys.argv[1].rstrip("/"); OUT=sys.argv[2]
-probes=json.load(open(f"{LLMDB_ROOT}/configs/probes/b3_probes.json"))
+probes=json.load(open(f"{LLMDB_ROOT}/code/configs/probes/b3_probes.json"))
 allp=probes["edited"]+probes["native"]
 
 def complete(prompt):

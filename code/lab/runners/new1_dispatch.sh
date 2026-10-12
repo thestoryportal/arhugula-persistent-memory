@@ -1,6 +1,6 @@
 #!/bin/zsh
 # External C1/C3 observation only. No Python is alive in this recorder's polling
-# path. Supervisor ownership/reap: tools/new1_supervisor.py:313-352,443-487,597-627.
+# path. Supervisor ownership/reap: code/lab/runners/new1_supervisor.py:313-352,443-487,597-627.
 setopt NO_UNSET PIPE_FAIL EXTENDED_GLOB
 unsetopt BG_NICE
 zmodload zsh/datetime || exit 3
@@ -53,7 +53,7 @@ cleanup() {
 trap cleanup EXIT
 
 if (( $# != 3 )); then
-    print -u2 -- 'usage: tools/new1_dispatch.sh HASHES EXPECTED_HEAD AUTHORIZATION_FILE'
+    print -u2 -- 'usage: code/lab/runners/new1_dispatch.sh HASHES EXPECTED_HEAD AUTHORIZATION_FILE'
     exit 3
 fi
 HASHES=${1:a}
@@ -179,7 +179,7 @@ floor_kib=${NEW1_DISPATCH_MIN_FREE_KIB:-22020096}
 (( available_kib >= floor_kib )) || refuse 2f 'less than the required free space'
 print -r -- "{\"available_kib\":$available_kib,\"minimum_kib\":$floor_kib,\"projected_write_allowance_gib\":1}" > "$DISPATCH/disk.json"
 
-save_check 2g /usr/bin/env "LLMDB_ROOT=$ROOT" /usr/bin/python3 tools/engine_fingerprint.py
+save_check 2g /usr/bin/env "LLMDB_ROOT=$ROOT" /usr/bin/python3 code/memit/engine_fingerprint.py
 require_success 2g
 DRY_PROBE='import sys;sys.path.insert(0,".");from tools import mathlab_admit as A;d=A.probe("cpu");print(d["allowed"],d["reasons"],d["checks"]["gpu"].get("blocking_processes"));sys.exit(0 if d["allowed"] else 1)'
 save_check 2h /usr/bin/env "LLMDB_ROOT=$ROOT" "$ROOT/.venv/bin/python" -B -c "$DRY_PROBE"
@@ -253,7 +253,7 @@ while supervisor_alive; do
             $2 == parent {
                 cmd=$0; sub(/^[[:space:]]*[0-9]+[[:space:]]+[0-9]+[[:space:]]+[0-9]+[[:space:]]+[-0-9]+[[:space:]]+/, "", cmd)
                 split(cmd, argv, " "); count=split(argv[1], components, "/"); exe=tolower(components[count])
-                if (exe ~ /^python[0-9.]*$/ && index(cmd, "tools/new1_geometry.py")) { print $0; exit }
+                if (exe ~ /^python[0-9.]*$/ && index(cmd, "code/lab/runners/new1_geometry.py")) { print $0; exit }
             }' "$DISPATCH/process_inventory.last")
         if [[ -n $worker_line ]]; then
             read -r worker_pid worker_ppid worker_pgid worker_nice worker_command <<< "$worker_line"
@@ -301,7 +301,7 @@ fi
   print -rn -- ',"live_processes":'; json_array "${live_rows[@]}"
   print -r -- ",\"ps_exit\":$post_exit_rc}"; } > "$DISPATCH/disposition.json"
 # All supervisor waits have completed; Python is safe only from this point.
-LLMDB_ROOT="$ROOT" /usr/bin/python3 -B "$ROOT/tools/new1_dispatch_report.py" "$DISPATCH" > "$DISPATCH/reporter_stdout.log" 2> "$DISPATCH/reporter_stderr.log"
+LLMDB_ROOT="$ROOT" /usr/bin/python3 -B "$ROOT/code/lab/runners/new1_dispatch_report.py" "$DISPATCH" > "$DISPATCH/reporter_stdout.log" 2> "$DISPATCH/reporter_stderr.log"
 reporter_rc=$?
 print -r -- "$DISPATCH"
 (( reporter_rc == 0 )) || exit 3

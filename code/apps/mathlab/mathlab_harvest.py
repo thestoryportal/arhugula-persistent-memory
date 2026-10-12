@@ -22,7 +22,7 @@ MINT = ["mint1_s0", "mint1_s1", "mint1_s2"]
 CTX_SHA = "8638d12c6d5844168e1577a459103fa309bcf995fc1225df7e716de11a87cdc9"
 MODEL_ID = "Qwen/Qwen2.5-3B"
 MODEL_REV = "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-BASE = "results/c10u_mint2/r3/"
+BASE = "experiments/c10u/runs/c10u_mint2/r3/"
 RECORD_SHAS = ["ade8ba1678dc45850168ff8303afd28359b33c1c7a9f0731feee1143eca2c8f9",
                "ab4cc4ec22fd1f595d489f889d1d7ea15c12b5ebf6664b9d7a8fa80819b8ad6f",
                "626750bc4d23f3a90e2246e442ba38b587fcab9909da57e9f50999ff3c54bb62"]
@@ -32,9 +32,9 @@ TARGET_SHAS = ["2b1ba55514cb7abd4b23e48424e4556a029c6f1ad70a7102f49e79e1173e8938
 STEP0_SHAS = ["2afbfcc45b72ef9384dcd3ec627ac82a0d811a9c133ed26f41c046e96724192b",
               "9636dde8c29ed3f14c1cfee7d2ac2af0f8a5549c530a219a7f36725ccacc38c6",
               "0eb81cf9824a65cfe37bd5f5618f6ea19552f761c77cbe9dfd3553b3da026dab"]
-AUDIT_SOURCES = ["experiments/track_c/c10u_mint2_arms.py", "experiments/track_c/c10l_mint_lib.py",
-                 "experiments/track_c/c10e_bandknob.py", "configs/screens/g6_screen_qwen3b.json",
-                 "configs/screens/g6_screen_qwen3b_v2.json"]
+AUDIT_SOURCES = ["code/lab/track_c/c10u_mint2_arms.py", "code/lab/track_c/c10l_mint_lib.py",
+                 "code/lab/track_c/c10e_bandknob.py", "code/configs/screens/g6_screen_qwen3b.json",
+                 "code/configs/screens/g6_screen_qwen3b_v2.json"]
 
 
 def cpu_copy(tensor):
@@ -305,7 +305,7 @@ def tokenizer_identity(tokenizer):
 def tokenisation_contract(H, records, contexts, root=W, eligible=None):
     from transformers import AutoTokenizer
     from huggingface_hub import try_to_load_from_cache
-    sys.path.insert(0, str(Path(root) / "experiments/track_c"))
+    sys.path.insert(0, str(Path(root) / "code/lab/track_c"))
     U = importlib.import_module("c10u_mint2_arms")
     M = importlib.import_module("c10l_mint_lib")
     from rome.repr_tools import get_words_idxs_in_templates
@@ -318,7 +318,7 @@ def tokenisation_contract(H, records, contexts, root=W, eligible=None):
     identity_ok = H.ID == MODEL_ID and H.REV == MODEL_REV
     tokenizer_files = {}
     for name in ("tokenizer.json", "tokenizer_config.json"):
-        path = try_to_load_from_cache(MODEL_ID, name, revision=MODEL_REV, cache_dir=str(Path(root) / "hf_cache/hub"))
+        path = try_to_load_from_cache(MODEL_ID, name, revision=MODEL_REV, cache_dir=str(Path(root) / "data/hf_cache/hub"))
         R.require(isinstance(path, str) and Path(path).is_file(), "TOKENISATION", "pinned tokenizer file missing: " + name)
         tokenizer_files[name] = dict(path=path, sha256=R.sha_file(path))
     # A fresh tokenizer verifies the live harness tokenizer against its pinned identity.
@@ -353,10 +353,10 @@ def replay_admission(shared_passed, seed_passed):
 
 def source_snapshot(root=W):
     root = Path(root)
-    names = [*AUDIT_SOURCES, "docs/MATHLAB_PREREG.md", "configs/hparams/qwen25_3b_memit_hparams.json",
-             "memit_dry_run/memit/globals.yml", "tools/mathlab_admit.py", "tools/mathlab_runtime.py",
-             "tools/mathlab_harvest.py", "tools/mathlab_events.py", "tools/c10w_p2_gate.py", "tools/engine_fingerprint.py"]
-    names += [str(p.relative_to(root)) for p in (root / "memit_dry_run/memit").rglob("*.py")]
+    names = [*AUDIT_SOURCES, "experiments/ml/design/MATHLAB_PREREG.md", "code/configs/hparams/qwen25_3b_memit_hparams.json",
+             "code/memit/vendor/globals.yml", "code/apps/mathlab/mathlab_admit.py", "code/apps/mathlab/mathlab_runtime.py",
+             "code/apps/mathlab/mathlab_harvest.py", "code/apps/mathlab/mathlab_events.py", "code/lab/runners/c10w_p2_gate.py", "code/memit/engine_fingerprint.py"]
+    names += [str(p.relative_to(root)) for p in (root / "code/memit/vendor").rglob("*.py")]
     return {name: R.sha_file(root / name) for name in names}
 
 
@@ -510,7 +510,7 @@ def harvest(run_dir, admission_path):
             os.environ.update(LLMDB_ROOT=str(W), MODEL_ID=MODEL_ID, MODEL_REV=MODEL_REV,
                               C10_ARMS=",".join((A1, A2, A7)), LLMDB_DEVICE="mps")
             R.require(importlib.metadata.version("torch") == "2.8.0", "VERSION", "harvest requires torch 2.8.0")
-            sys.path.insert(0, str(W / "experiments/track_c"))
+            sys.path.insert(0, str(W / "code/lab/track_c"))
             H = importlib.import_module("c10e_bandknob")  # The sole model import, after shell admission.
             hp = H.MEMITHyperParams.from_json(H.HP_BASE)
             R.require(hp.layers == BAND and len(H.FICTION) == 24, "BAND", "frozen band or subjects differ")

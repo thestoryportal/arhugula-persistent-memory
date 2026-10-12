@@ -2,22 +2,22 @@
 
 The loop edits MLP weights using public training facts. Evaluation stays in a separate trusted scorer.
 The program session installs a fresh repository and fence with v13_build.py. It never reuses a destination or commits.
-D-C10r-seal's binding design is docs/C10R_LOOP_SEALING_V13.md.
+D-C10r-seal's binding design is experiments/c10r/design/C10R_LOOP_SEALING_V13.md.
 
 Run no-model checks with:
-  .venv/bin/python -I -B experiments/track_c/autoresearch_c10/test_plumbing.py
+  .venv/bin/python -I -B code/lab/track_c/autoresearch_c10/test_plumbing.py
 Build two fresh destinations, one production and one --fixture, then run v13_probe.py with
---production <production-fence> --fixture <fixture-fence> --report results/c10r_seal_v13_probe.md.
+--production <production-fence> --fixture <fixture-fence> --report experiments/c10r/reviews/c10r_seal_v13_probe.md.
 The fixture is program-controlled and is absent from a production fence. It imports no torch or model code.
 Raw scorer and probe text stays private. Any unverified control is FAIL; there is no unsandboxed retry.
 
 Default installation:
-  .venv/bin/python -I -B experiments/track_c/autoresearch_c10/v13_build.py
+  .venv/bin/python -I -B code/lab/track_c/autoresearch_c10/v13_build.py
 creates /Volumes/memit/llm-database-poc-mirror/autoresearch_v13_c10 and autoresearch_fence_v13_c10.
 Use --sandbox and --fence for a permitted staging root. Paths are embedded in profiles and manifests:
 regenerate at final installation, rather than moving a bundle.
 
-Graft may rewrite tracked caches and ignore files (architecture_profile/c10r_exp2ctl_halt_diagnostic.json).
+Graft may rewrite tracked caches and ignore files (experiments/c10r/runs/autoresearch_replay_c10_exp2loc/halts/c10r_exp2ctl_halt_diagnostic.json).
 The seed copies no graft directory or history, and includes /graft/ before initialization.
 macOS immutable flags seal the root entries and static files; runs/ and .agent_capture/ are precreated,
 so existing edit.py and results.tsv remain writable. Completed private scorer areas are frozen.

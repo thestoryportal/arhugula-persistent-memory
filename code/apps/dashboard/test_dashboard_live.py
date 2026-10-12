@@ -1,4 +1,4 @@
-"""Tests for the live dashboard state (tools/dashboard_live.py). Stdlib only; run with the dashboard's interpreter:
+"""Tests for the live dashboard state (code/apps/dashboard/dashboard_live.py). Stdlib only; run with the dashboard's interpreter:
 /usr/bin/python3 -B -m unittest tools.test_dashboard_live
 """
 import os, subprocess, sys, tempfile, time, unittest
@@ -42,8 +42,8 @@ class Coordinator(unittest.TestCase):
 class Staleness(unittest.TestCase):
     def test_events_newer_than_the_report_text(self):
         updated = L.board_epoch("2026-10-08 01:45 MDT")
-        events = [(updated - 60, "older"), (updated + 120, "P2 HALT"), (updated + 5, "CORPUS/57")]
-        self.assertEqual(L.newer_events(updated, events), ["CORPUS/57", "P2 HALT"])
+        events = [(updated - 60, "older"), (updated + 120, "P2 HALT"), (updated + 5, "evidence/CORPUS/57")]
+        self.assertEqual(L.newer_events(updated, events), ["evidence/CORPUS/57", "P2 HALT"])
 
     def test_unparseable_updated_counts_everything_as_newer(self):
         self.assertIsNone(L.board_epoch("yesterday"))
@@ -135,7 +135,7 @@ class GPUInventory(unittest.TestCase):
             return result
 
     def test_real_subprocess_nonzero_and_empty_responses_are_unavailable(self):
-        for code, output in ((1, ""), (1, "00:01 python tools/mathlab_harvest.py\n"), (0, ""), (0, " \n\t")):
+        for code, output in ((1, ""), (1, "00:01 python code/apps/mathlab/mathlab_harvest.py\n"), (0, ""), (0, " \n\t")):
             with self.subTest(code=code, output=output):
                 result = self.probe_response(code, output)
                 self.assertTrue(result["unavailable"])
@@ -147,8 +147,8 @@ class GPUInventory(unittest.TestCase):
         self.assertNotIn("unavailable", result)
 
     def test_shared_detector_recognizes_harvest_but_not_a_prompt_or_temp_copy(self):
-        for output, expected in (("00:12 /usr/bin/python3 tools/mathlab_harvest.py --run-dir x\n", ("mathlab", "harvest", "00:12")),
-                                 ("00:12 codex --prompt tools/mathlab_harvest.py\n", None),
+        for output, expected in (("00:12 /usr/bin/python3 code/apps/mathlab/mathlab_harvest.py --run-dir x\n", ("mathlab", "harvest", "00:12")),
+                                 ("00:12 codex --prompt code/apps/mathlab/mathlab_harvest.py\n", None),
                                  ("00:12 python /private/tmp/tools/mathlab_harvest.py\n", None)):
             with self.subTest(output=output):
                 self.assertEqual(self.probe_response(0, output)["running"], expected)
@@ -202,10 +202,10 @@ class WordsAndAnswers(unittest.TestCase):
 
     def test_archived_logs_are_not_the_live_run(self):
         root = self.X.ROOT
-        self.assertTrue(self.X.is_experiment_log(os.path.join(root, "results/c10w_oracle/p2_x/p2-eval.log")))
-        self.assertFalse(self.X.is_experiment_log(os.path.join(root, "results/c10w_oracle/_quarantine_x/p2_y/p2-a7-s1.log")))
-        self.assertFalse(self.X.is_experiment_log(os.path.join(root, "results/c10w_oracle_logs/attempt1_halted/p2-eval.log")))
-        self.assertFalse(self.X.is_experiment_log(os.path.join(root, "results/labviz/site/evidence/results/c10w_oracle/a.log")))
+        self.assertTrue(self.X.is_experiment_log(os.path.join(root, "experiments/c10w/runs/c10w_oracle/p2_x/p2-eval.log")))
+        self.assertFalse(self.X.is_experiment_log(os.path.join(root, "experiments/c10w/runs/c10w_oracle/_quarantine_x/p2_y/p2-a7-s1.log")))
+        self.assertFalse(self.X.is_experiment_log(os.path.join(root, "experiments/c10w/runs/c10w_oracle/logs/attempt1_halted/p2-eval.log")))
+        self.assertFalse(self.X.is_experiment_log(os.path.join(root, "projects/labviz-spec-v3/receipts/bulk/labviz/site/evidence/results/c10w_oracle/a.log")))
 
     def test_no_answers_recorded(self):
         self.assertIsNone(self.X.answers_from_record({"recipes": {"r": {"arms": {"A1_single": {}}}}}))

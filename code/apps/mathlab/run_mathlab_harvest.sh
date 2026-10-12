@@ -4,7 +4,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 W="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)"
 export LLMDB_ROOT="$W"
 if [ "$#" -ne 1 ]; then
-  echo "Usage: tools/run_mathlab_harvest.sh results/mathlab/admission_<UTC>.json" >&2
+  echo "Usage: code/apps/mathlab/run_mathlab_harvest.sh results/mathlab/admission_<UTC>.json" >&2
   exit 2
 fi
 RUN_DIR="$W/results/mathlab_staging/runs/harvest_$(date -u +%Y%m%dT%H%M%SZ)_$$"

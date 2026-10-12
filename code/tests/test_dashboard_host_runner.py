@@ -8,8 +8,8 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-RECEIPT = ROOT / "results/dashboard_audit_20261010/fix_20261010T234721Z"
-HOST = ROOT / "tests/test_dashboard_live_host.py"
+RECEIPT = ROOT / "_archive/projects/dashboard/dashboard_audit_20261010/fix_20261010T234721Z"
+HOST = ROOT / "code/tests/test_dashboard_live_host.py"
 
 
 class HostRunnerFixtures(unittest.TestCase):
@@ -27,23 +27,23 @@ class HostRunnerFixtures(unittest.TestCase):
         root, before, out = self.base / "repo", self.base / "before", self.base / phase
         (root / "tools").mkdir(parents=True)
         (before / "tools").mkdir(parents=True)
-        (root / "tools/dashboard_live.py").write_text("current\n")
-        (root / "tools/dashboard_team.py").write_text("new\n")
-        (root / "tools/dashboard_active.py").write_text("unchanged\n")
-        (before / "tools/dashboard_live.py").write_text("original\n")
+        (root / "code/apps/dashboard/dashboard_live.py").write_text("current\n")
+        (root / "code/apps/dashboard/dashboard_team.py").write_text("new\n")
+        (root / "code/apps/dashboard/dashboard_active.py").write_text("unchanged\n")
+        (before / "code/apps/dashboard/dashboard_live.py").write_text("original\n")
         self.host.stage_sources(root, before, out, phase)
         return out
 
     def test_red_uses_original_sources_and_omits_new_team(self):
         out = self.stage("red")
-        self.assertEqual((out / "tools/dashboard_live.py").read_text(), "original\n")
-        self.assertFalse((out / "tools/dashboard_team.py").exists())
-        self.assertEqual((out / "tools/dashboard_active.py").read_text(), "unchanged\n")
+        self.assertEqual((out / "code/apps/dashboard/dashboard_live.py").read_text(), "original\n")
+        self.assertFalse((out / "code/apps/dashboard/dashboard_team.py").exists())
+        self.assertEqual((out / "code/apps/dashboard/dashboard_active.py").read_text(), "unchanged\n")
 
     def test_green_uses_current_sources(self):
         out = self.stage("green")
-        self.assertEqual((out / "tools/dashboard_live.py").read_text(), "current\n")
-        self.assertEqual((out / "tools/dashboard_team.py").read_text(), "new\n")
+        self.assertEqual((out / "code/apps/dashboard/dashboard_live.py").read_text(), "current\n")
+        self.assertEqual((out / "code/apps/dashboard/dashboard_team.py").read_text(), "new\n")
 
     def test_tmux_mutations_are_rejected_before_execution(self):
         for verb in ("kill-session", "kill-pane", "split-window", "respawn-pane", "rename-window", "send-keys", "set-option", "new-session"):

@@ -1,6 +1,6 @@
 #!/bin/bash
-cd $LLMDB_ROOT/external_prior_art/larql
-export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/hf_cache
+cd $LLMDB_ROOT/code/vendor/external_prior_art/larql
+export OPENBLAS_NUM_THREADS=8 OMP_NUM_THREADS=8 HF_HOME=$LLMDB_ROOT/data/hf_cache
 echo "waiting for --level all extract..."
 n=0; until ! pgrep -x larql >/dev/null; do sleep 20; n=$((n+1)); [ $n -ge 90 ] && { echo "TIMEOUT"; break; }; done
 echo "=== vindex files ==="; ls /dev/shm/qwen05_all.vindex/ 2>/dev/null | tr '\n' ' '; echo

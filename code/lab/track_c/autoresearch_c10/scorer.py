@@ -76,7 +76,7 @@ def _weights():
 
 
 def _fingerprint():
-    r = subprocess.run([PYTHON, f"{PROGRAM_ROOT}/tools/engine_fingerprint.py"], capture_output=True, text=True,
+    r = subprocess.run([PYTHON, f"{PROGRAM_ROOT}/code/memit/engine_fingerprint.py"], capture_output=True, text=True,
                        env={**os.environ, "LLMDB_ROOT": PROGRAM_ROOT})
     if r.returncode != 0:
         raise SystemExit(f"engine fingerprint FAIL:\n{r.stdout}{r.stderr}")

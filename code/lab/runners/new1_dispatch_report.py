@@ -62,7 +62,7 @@ def read_json(path):
 
 def event_reader(root):
     # Compile current source bytes; do not trust an older .pyc or another cwd.
-    path = root/"tools/mathlab_events.py"
+    path = root/"code/apps/mathlab/mathlab_events.py"
     module = types.ModuleType("new1_receipt_events")
     module.__file__ = str(path)
     sys.modules[module.__name__] = module
@@ -149,7 +149,7 @@ def build_receipt(root, dispatch):
                    and type(worker.get("pid")) is int and worker["pid"] > 0
                    and worker.get("ppid") == supervisor.get("pid")
                    and worker.get("pgid") == worker["pid"]
-                   and "tools/new1_geometry.py" in worker.get("command", ""))
+                   and "code/lab/runners/new1_geometry.py" in worker.get("command", ""))
     c1_failure = outcome["stdout_code"] == "PASS" and not observed_c1
     if history_errors or stop or not invocation_exists or c1_failure:
         outcome["verdict_status"] = "INCOMPLETE"

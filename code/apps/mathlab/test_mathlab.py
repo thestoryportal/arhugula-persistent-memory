@@ -40,7 +40,7 @@ class Sink:
 
 def harness():
     """Execute only the frozen function definition, over tiny CPU tensors."""
-    source = ast.parse((ROOT / "experiments/track_c/c10e_bandknob.py").read_text())
+    source = ast.parse((ROOT / "code/lab/track_c/c10e_bandknob.py").read_text())
     definition = next(n for n in source.body if isinstance(n, ast.FunctionDef) and n.name == "my_edit")
     subjects = [f"subject{i}" for i in range(24)]
     parameters = {f"w{l}": torch.zeros(2, 3, dtype=torch.float16) for l in BAND}
@@ -262,7 +262,7 @@ class ObserverTests(unittest.TestCase):
 
     def test_native_return_norms_persist_for_same_write_with_producer(self):
         H = module(self, "tools.mathlab_harvest"); R = module(self, "tools.mathlab_runtime")
-        source = ast.parse((ROOT / "tools/mathlab_harvest.py").read_text())
+        source = ast.parse((ROOT / "code/apps/mathlab/mathlab_harvest.py").read_text())
         harvest = next(n for n in source.body if isinstance(n, ast.FunctionDef) and n.name == "harvest")
         callback = next(n for n in ast.walk(harvest) if isinstance(n, ast.FunctionDef) and n.name == "completed")
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
@@ -306,7 +306,7 @@ class ObserverTests(unittest.TestCase):
                            'delta_norms["4"]["delta_norm"] = float("inf")'):
             with self.subTest(adjustment=adjustment):
                 self.setUp()
-                tree = ast.parse((ROOT / "experiments/track_c/c10e_bandknob.py").read_text())
+                tree = ast.parse((ROOT / "code/lab/track_c/c10e_bandknob.py").read_text())
                 definition = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "my_edit")
                 definition.body[-1:-1] = ast.parse('global VALID_RETURN\nVALID_RETURN = {k: dict(v) for k, v in delta_norms.items()}\n' + adjustment).body
                 exec(compile(ast.Module(body=[definition], type_ignores=[]), "<CPU malformed-return fixture>", "exec"), self.scope)
@@ -486,7 +486,7 @@ class ObserverTests(unittest.TestCase):
         for value in ("nan", "inf"):
             with self.subTest(value=value):
                 self.setUp()
-                tree = ast.parse((ROOT / "experiments/track_c/c10e_bandknob.py").read_text())
+                tree = ast.parse((ROOT / "code/lab/track_c/c10e_bandknob.py").read_text())
                 definition = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "my_edit")
                 definition.body[-1:-1] = ast.parse(f'delta_norms["4"]["delta_norm"] = float("{value}")').body
                 exec(compile(ast.Module(body=[definition], type_ignores=[]), "<CPU nonfinite failure fixture>", "exec"), self.scope)
@@ -586,15 +586,15 @@ class ReplayTests(unittest.TestCase):
         H = module(self, "tools.mathlab_harvest")
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td)
-            names = [*H.AUDIT_SOURCES, "docs/MATHLAB_PREREG.md", "configs/hparams/qwen25_3b_memit_hparams.json",
-                     "memit_dry_run/memit/globals.yml", "tools/mathlab_admit.py", "tools/mathlab_runtime.py",
-                     "tools/mathlab_harvest.py", "tools/mathlab_events.py", "tools/c10w_p2_gate.py", "tools/engine_fingerprint.py",
-                     "memit_dry_run/memit/memit/compute_ks.py", "memit_dry_run/memit/rome/repr_tools.py"]
+            names = [*H.AUDIT_SOURCES, "experiments/ml/design/MATHLAB_PREREG.md", "code/configs/hparams/qwen25_3b_memit_hparams.json",
+                     "code/memit/vendor/globals.yml", "code/apps/mathlab/mathlab_admit.py", "code/apps/mathlab/mathlab_runtime.py",
+                     "code/apps/mathlab/mathlab_harvest.py", "code/apps/mathlab/mathlab_events.py", "code/lab/runners/c10w_p2_gate.py", "code/memit/engine_fingerprint.py",
+                     "code/memit/vendor/memit/compute_ks.py", "code/memit/vendor/rome/repr_tools.py"]
             for name in names:
                 path = root/name; path.parent.mkdir(parents=True,exist_ok=True); path.write_bytes((ROOT/name).read_bytes())
             before = H.source_snapshot(root)
             self.assertEqual(set(before),set(names))
-            changed = root/"memit_dry_run/memit/rome/repr_tools.py"
+            changed = root/"code/memit/vendor/rome/repr_tools.py"
             changed.write_bytes(changed.read_bytes()+b'\n# fixture mutation\n')
             self.assertNotEqual(before,H.source_snapshot(root))
             self.assertNotIn("c10e_bandknob",sys.modules)
@@ -1030,15 +1030,15 @@ class ResourceArtifactTests(unittest.TestCase):
     def test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor(self):
         C = module(self, "tools.mathlab_cpu_runner")
         try:
-            step = C.validate_notebook(ROOT / "mathlab/m2_solve_repro.py", 6540)
+            step = C.validate_notebook(ROOT / "code/apps/mathlab/m2_solve_repro.py", 6540)
         except ValueError as error:
             self.fail("D-ML-2 step-2 deadline must be accepted: " + str(error))
         self.assertEqual(step, 2)
-        self.assertEqual(C.validate_notebook(ROOT / "mathlab/m3_calibration.py", 1800), 3)
+        self.assertEqual(C.validate_notebook(ROOT / "code/apps/mathlab/m3_calibration.py", 1800), 3)
         for notebook, cap in (("m2_solve_repro.py", 2700), ("m2_solve_repro.py", 6539),
                               ("m2_solve_repro.py", 6541), ("m3_calibration.py", 1801)):
             with self.subTest(notebook=notebook, cap=cap), self.assertRaisesRegex(ValueError, "DEADLINE"):
-                C.validate_notebook(ROOT / "mathlab" / notebook, cap)
+                C.validate_notebook(ROOT / "code/apps/mathlab" / notebook, cap)
         process = types.SimpleNamespace(poll=lambda: None, pid=999, returncode=None)
         sink = Sink()
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td, patch.object(C, "terminate") as killed:
@@ -1054,8 +1054,8 @@ class ResourceArtifactTests(unittest.TestCase):
                 R.verify_prereg(ROOT)
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td); (root / "docs").mkdir()
-            prereg = root / "docs/MATHLAB_PREREG.md"
-            prereg.write_bytes((ROOT / "docs/MATHLAB_PREREG.md").read_bytes())
+            prereg = root / "experiments/ml/design/MATHLAB_PREREG.md"
+            prereg.write_bytes((ROOT / "experiments/ml/design/MATHLAB_PREREG.md").read_bytes())
             R.verify_prereg(root)
             prereg.write_bytes(prereg.read_bytes() + b"\nchanged\n")
             with self.assertRaisesRegex(ValueError, "PREREG"):
@@ -1084,12 +1084,12 @@ class ResourceArtifactTests(unittest.TestCase):
 
     def test_harvest_launcher_refuses_before_dispatch(self):
         import subprocess
-        launcher = ROOT / "tools/run_mathlab_harvest.sh"
+        launcher = ROOT / "code/apps/mathlab/run_mathlab_harvest.sh"
         self.assertTrue(launcher.exists())
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td); (root / ".venv/bin").mkdir(parents=True); (root / "bin").mkdir()
             (root / "tools").mkdir(); (root / "results/mathlab_staging/runs").mkdir(parents=True)
-            script = root / "tools/run_mathlab_harvest.sh"; script.write_bytes(launcher.read_bytes())
+            script = root / "code/apps/mathlab/run_mathlab_harvest.sh"; script.write_bytes(launcher.read_bytes())
             git = root / "bin/git"; git.write_text('#!/bin/sh\nprintenv MATHLAB_TEST_ROOT\n'); git.chmod(0o755)
             python = root / ".venv/bin/python"
             python.write_text('#!/bin/sh\ncase "$2" in *mathlab_admit.py) exit 3;; *) touch "$MATHLAB_TEST_ROOT/dispatched"; exit 0;; esac\n'); python.chmod(0o755)
@@ -1102,18 +1102,18 @@ class ResourceArtifactTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td); (root / ".venv/bin").mkdir(parents=True); (root / "bin").mkdir()
             (root / "tools").mkdir()
-            script = root / "tools/run_mathlab_cpu.sh"
-            script.write_bytes((ROOT / "tools/run_mathlab_cpu.sh").read_bytes())
+            script = root / "code/apps/mathlab/run_mathlab_cpu.sh"
+            script.write_bytes((ROOT / "code/apps/mathlab/run_mathlab_cpu.sh").read_bytes())
             git = root / "bin/git"; git.write_text('#!/bin/sh\nprintenv MATHLAB_TEST_ROOT\n'); git.chmod(0o755)
             python = root / ".venv/bin/python"
             python.write_text('#!/bin/sh\ntouch "$MATHLAB_TEST_ROOT/admitted"\nexit 29\n'); python.chmod(0o755)
-            cases = [("mathlab/m2_solve_repro.py", 6540, True),
-                     (str(root / "mathlab/m2_solve_repro.py"), 6540, True),
-                     ("mathlab/m3_calibration.py", 1800, True),
-                     (str(root / "mathlab/m3_calibration.py"), 1800, True),
-                     ("mathlab/m2_solve_repro.py", 2700, False),
-                     ("mathlab/m2_solve_repro.py", 6541, False),
-                     ("mathlab/m3_calibration.py", 1801, False)]
+            cases = [("code/apps/mathlab/m2_solve_repro.py", 6540, True),
+                     (str(root / "code/apps/mathlab/m2_solve_repro.py"), 6540, True),
+                     ("code/apps/mathlab/m3_calibration.py", 1800, True),
+                     (str(root / "code/apps/mathlab/m3_calibration.py"), 1800, True),
+                     ("code/apps/mathlab/m2_solve_repro.py", 2700, False),
+                     ("code/apps/mathlab/m2_solve_repro.py", 6541, False),
+                     ("code/apps/mathlab/m3_calibration.py", 1801, False)]
             for notebook, cap, allowed in cases:
                 with self.subTest(notebook=notebook, cap=cap):
                     (root / "admitted").unlink(missing_ok=True)
@@ -1261,7 +1261,7 @@ class NotebookContractTests(unittest.TestCase):
     def test_notebooks_have_frozen_pep723_dependencies_and_no_science_imports(self):
         import tomllib
         for name in ("m2_solve_repro.py", "m3_calibration.py"):
-            path = ROOT / "mathlab" / name; self.assertTrue(path.is_file(), "missing notebook: " + name)
+            path = ROOT / "code/apps/mathlab" / name; self.assertTrue(path.is_file(), "missing notebook: " + name)
             lines = path.read_text().splitlines(); start = lines.index("# /// script"); end = lines.index("# ///", start + 1)
             metadata = tomllib.loads("\n".join(x[2:] for x in lines[start + 1:end]))
             self.assertEqual(set(metadata["dependencies"]), {"marimo", "duckdb", "pydantic", "psutil", "numpy", "torch==2.8.0"})

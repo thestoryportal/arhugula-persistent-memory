@@ -7,7 +7,7 @@ Per band layer (one SVD), for the candidate per-layer thresholds AND a finer L8 
   survival_HO  the same on 24 HELD-OUT fictional subjects never used by any arm (key-level leakage check)
   survival_ARE the same on the keys AnyEdit actually writes at window_size=1: for each A7 item, the
                last prompt token AND every answer-token position but the last (question+answer inputs)
-Writes results/c10k_route_a/projector_gate_v2.json and saves P for the chosen per-layer thresholds."""
+Writes experiments/c10k/runs/c10k_route_a/projector_gate_v2.json and saves P for the chosen per-layer thresholds."""
 import os, sys, json, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import c10k_route_a_launcher as L
@@ -47,7 +47,7 @@ def are_window_keys(model, tok, layer_name, dev, items):
 def main():
     import torch
     dev = L.resolve_device(); tok, model = L.load_model(dev, KEYS_DTYPE)
-    HP, M, _ = L.import_upstream("AlphaEdit_ARE"); hp = HP.from_json(f"{L.LLMDB_ROOT}/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json")
+    HP, M, _ = L.import_upstream("AlphaEdit_ARE"); hp = HP.from_json(f"{L.LLMDB_ROOT}/code/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json")
     fiction, arms = L.build_stimuli(tok)
     assert not set(HELDOUT_FICTION) & set(fiction) and not set(HELDOUT_FICTION) & set(L.COINED_HEAD)
     from datasets import load_dataset

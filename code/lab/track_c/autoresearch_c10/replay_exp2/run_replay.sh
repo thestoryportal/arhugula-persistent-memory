@@ -128,7 +128,7 @@ try:
     receipt["tokenizer_precheck"] = validate_precheck(dest, audit=audit)
     env = {**os.environ, "LLMDB_ROOT": str(PROGRAM_ROOT), "PYTHONDONTWRITEBYTECODE": "1"}
     exclude("before_dispatch")
-    fp = subprocess.run([str(interpreter), "-B", str(PROGRAM_ROOT / "tools/engine_fingerprint.py")], cwd=dest, env=env, capture_output=True, text=True, timeout=60)
+    fp = subprocess.run([str(interpreter), "-B", str(PROGRAM_ROOT / "code/memit/engine_fingerprint.py")], cwd=dest, env=env, capture_output=True, text=True, timeout=60)
     receipt["engine_fingerprint"] = {"exit": fp.returncode, "stdout": fp.stdout, "stderr": fp.stderr,
                                      "LLMDB_ROOT": str(PROGRAM_ROOT), "interpreter": str(interpreter)}
     print(fp.stdout, end="", flush=True)

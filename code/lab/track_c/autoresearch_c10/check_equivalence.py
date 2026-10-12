@@ -5,8 +5,8 @@
 2. Scorer equivalence: the harness's own run_recipe and prepare.py's separate scorer, given the my_edit weights, must report
    exactly the same counts and locality values.
 3. Seed: whether SEED reproduces the engine's context templates across processes (this process vs the scorer's).
-Usage: $PY experiments/track_c/autoresearch_c10/check_equivalence.py
-       → writes results/autoresearch_c10_equivalence.json (+ the scorer's record in results/autoresearch_c10_equivalence_run/), prints PASS/FAIL.
+Usage: $PY code/lab/track_c/autoresearch_c10/check_equivalence.py
+       → writes experiments/c10r/runs/autoresearch_c10_equivalence_run/autoresearch_c10_equivalence.json (+ the scorer's record in experiments/c10r/runs/autoresearch_c10_equivalence_run/), prints PASS/FAIL.
 """
 import os, sys, json, time, hashlib, subprocess
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -40,7 +40,7 @@ out["recipe"] = recipe
 harness = H.run_recipe("baseline", PR.BASE_HPARAMS)   # the harness's own measurement path (my_edit, same templates)
 PR._restore_base()
 
-run_dir = f"{PR.PROGRAM_ROOT}/results/autoresearch_c10_equivalence_run"
+run_dir = f"{PR.PROGRAM_ROOT}/experiments/c10r/runs/autoresearch_c10_equivalence_run"
 os.makedirs(run_dir, exist_ok=True)
 for arm in PR.ARM_NAMES:
     torch.save(saved[arm], f"{run_dir}/{arm}.pt")
@@ -72,7 +72,7 @@ out["source_sha256"] = {f: hashlib.sha256(open(p, "rb").read()).hexdigest()
 ok = (out["projectors_equal"] and all(v["bitwise_equal"] for v in recipe.values()) and score is not None and bool(cmp)
       and all(v[2] for v in cmp.values()) and out["seed_reproduces_templates"] and bool(out["saved_sha256"]))
 out["verdict"] = "PASS" if ok else "FAIL"
-dest = f"{PR.PROGRAM_ROOT}/results/autoresearch_c10_equivalence.json"
+dest = f"{PR.PROGRAM_ROOT}/experiments/c10r/runs/autoresearch_c10_equivalence_run/autoresearch_c10_equivalence.json"
 json.dump(out, open(dest, "w"), indent=1, default=str)
 print(json.dumps({k: out[k] for k in ("verdict", "projectors_equal", "seed_reproduces_templates", "scorer_exit")}, indent=1))
 print({a: v["bitwise_equal"] for a, v in recipe.items()})

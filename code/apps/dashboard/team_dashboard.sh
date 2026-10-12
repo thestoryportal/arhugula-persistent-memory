@@ -1,11 +1,11 @@
 #!/bin/bash
 # Team dashboard: one self-composing Team pane re-lists the lead and live Codex builders
-# every 3 s. Its full-roster counts feed tools/dashboard_bar.sh.
+# every 3 s. Its full-roster counts feed code/apps/dashboard/dashboard_bar.sh.
 # Nothing attaches to the agents' sessions. Re-running rebuilds it in place for anyone watching.
 # Tabs: 1 team · 2 active (busy agents) · 3 experiment (GPU run, live) · 4 mathlab · 5 helpers · 6 science (the Science Report
 # full width) · 7 storage · 8 queue (+ one ⚙ tab per running helper agent). Switch: Ctrl-b then 1-8, or Ctrl-b n / p for next / previous.
 # The lead session is LEAD if set, else found: the newest tmux session with a Claude Code pane working in this repo
-# (dashboard_live.lead_session). Usage: [LEAD=<session>] bash tools/team_dashboard.sh
+# (dashboard_live.lead_session). Usage: [LEAD=<session>] bash code/apps/dashboard/team_dashboard.sh
 # (or ~/.local/bin/teamdash [team|active|exp|mathlab|science])   Leave: Ctrl-b d   Close: tmux kill-session -t dashboard
 T=$(cd "$(dirname "$0")" && pwd)
 D=dashboard NEW=dashboard_new

@@ -7,7 +7,7 @@ n_probs to get the top-1 probability of each fact. Compare edited vs native-coun
 Usage: python b3_margin.py <server_url>"""
 import sys, json, time, urllib.request, statistics as st
 URL=sys.argv[1].rstrip("/")
-probes=json.load(open(f"{LLMDB_ROOT}/configs/probes/b3_probes.json"))
+probes=json.load(open(f"{LLMDB_ROOT}/code/configs/probes/b3_probes.json"))
 def correct(top1,truth):
     if truth is None: return None
     a=(top1 or "").strip().lower(); b=truth.lower(); return bool(a) and (a==b or b.startswith(a) or a.startswith(b))
@@ -47,5 +47,5 @@ def summ(x): return {"n":len(x),"median":round(st.median(x),4),"mean":round(st.m
 res={"edited_top1_margin":summ(ed),"native_country_top1_margin":summ(nc),
      "interpretation":"if edited median >> native median, the 100% edited retention reflects inflated margins (compute_z), not intrinsic robustness parity"}
 print(json.dumps(res,indent=2))
-json.dump(res, open(f"{LLMDB_ROOT}/results/b3_margin_result.json","w"), indent=2)
-print(f"wrote {LLMDB_ROOT}/results/b3_margin_result.json")
+json.dump(res, open(f"{LLMDB_ROOT}/experiments/b3/runs/b3_margin/b3_margin_result.json","w"), indent=2)
+print(f"wrote {LLMDB_ROOT}/experiments/b3/runs/b3_margin/b3_margin_result.json")

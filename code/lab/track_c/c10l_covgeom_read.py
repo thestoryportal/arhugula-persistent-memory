@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """D-C10l-covgeom mechanical reader: applies the pre-registered §2 envelope and §5 readings to the harness result JSONs.
 No model judgement; first matching label wins. Usage:
-  python3 c10l_covgeom_read.py results/c10l_covgeom/armB.json [armC.json ...] [--p6 p6_zinject.json] [--step0 step0_offline.json]
+  python3 c10l_covgeom_read.py experiments/c10l/runs/c10l_covgeom/armB.json [armC.json ...] [--p6 p6_zinject.json] [--step0 step0_offline.json]
 Prints one table per run (arm A beside the candidate, every locality axis beside every held-out number) and the label.
 """
 import sys, json, math
@@ -15,7 +15,7 @@ _A3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "resu
 # spread (six fresh runs, pre- and post-knob, both arms) recorded in that JSON. [LAW:one-source-of-truth] the number lives there.
 P3A_TOL = json.load(open(_A3))["A3_tolerance_candidate"] if os.path.exists(_A3) else 1e-4
 K1_DELTA_NORMS = {"A1_single": {"4": 15.8739, "5": 12.0173, "6": 11.2447, "7": 18.9075, "8": 26.9384},
-                  "A2_coherent2": {"4": 15.8855, "5": 12.2159, "6": 11.3733, "7": 18.8126, "8": 27.1968}}   # results/c10k_keying_ablation/K1.json (pre-knob, this machine)
+                  "A2_coherent2": {"4": 15.8855, "5": 12.2159, "6": 11.3733, "7": 18.8126, "8": 27.1968}}   # experiments/c10k/runs/c10k_keying_ablation/K1.json (pre-knob, this machine)
 
 
 def l3_threshold(n):

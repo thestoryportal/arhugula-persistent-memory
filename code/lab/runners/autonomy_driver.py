@@ -9,21 +9,21 @@ DESIGN (deliberately THIN — see advisor review 2026-06-19):
     (PASS / PARTIAL / FAIL / INVALID) — the driver never "decides" with judgment.
   - GATE LOG: standing-auth (model pulls / cov-compute / disk) PRE-APPROVED and noted;
     paid-provider + credential moves are GATED → logged to logs/autonomy_gates.jsonl, skipped.
-  - CLOSEOUT TO STAGING: findings go to logs/pending_findings/NN_<unit>.md. The driver
-    NEVER writes CORPUS/*, the append-only ledger, the runbook, or the checkpoint. The
+  - CLOSEOUT TO STAGING: findings go to experiments/ml/reviews/pending_findings/NN_<unit>.md. The driver
+    NEVER writes evidence/CORPUS/*, the append-only ledger, the runbook, or the checkpoint. The
     operator folds staged findings into the canonical §0.4 record on review.
   - AGENTIC DISCIPLINE: the obligation block is always emitted. In --mode agent (IMPLEMENTED)
     the driver shells a separate advisor CLI on each staged finding to attach an INDEPENDENT
     cross-family review (advisory — it never changes the deterministic pre-registered label;
     DISCIPLINE §3.1). Default advisor is Claude via local claude.ai subscription auth
-    (`tools/claude_advisor.sh`); Codex/GPT remains an explicit fallback.
+    (`code/agents/claude_advisor.sh`); Codex/GPT remains an explicit fallback.
 
 This is a guardrail harness, not a scientist. A clean FAIL on a pre-registered falsifier is
 a SUCCESS for the run. Optimizer-style units (Goodhart-prone) are fenced: they may LOG
 candidates, they may NOT write a conclusion (mission field "fenced": true).
 
 Usage:
-  python tools/autonomy_driver.py --mission tools/autonomy_mission.json [--budget-min 240]
+  python code/lab/runners/autonomy_driver.py --mission code/lab/runners/autonomy_mission.json [--budget-min 240]
                                   [--mode batch|agent] [--advisor claude|codex]
                                   [--dry-run] [--model <advisor-model>]
 """
@@ -36,8 +36,8 @@ LOGS = ROOT / "logs"
 STAGING = LOGS / "pending_findings"
 GATES = LOGS / "autonomy_gates.jsonl"
 # ---- cross-family review — advisory, never label-changing -------------------------------
-ADVISOR_PROMPT = ROOT / "tools/advisor_review_prompt.md"
-CLAUDE_ADVISOR = ROOT / "tools/claude_advisor.sh"
+ADVISOR_PROMPT = ROOT / "code/agents/advisor_review_prompt.md"
+CLAUDE_ADVISOR = ROOT / "code/agents/claude_advisor.sh"
 CLAUDE_BIN = os.environ.get("CLAUDE_BIN") or shutil.which("claude") or "/root/.local/bin/claude"
 CODEX_HOME = os.environ.get("CODEX_HOME") or str(ROOT / ".codex")
 CODEX_BIN = os.environ.get("CODEX_BIN") or shutil.which("codex") or str(ROOT / "bin/codex")
@@ -119,7 +119,7 @@ def run_codex_review(finding_text: str, model: str | None, timeout: int) -> str:
     supervised fold-in). Codex runs in THIS pod process (has network); it cannot be called from
     Claude's network-sandboxed tools — that is why this lives in the driver."""
     if not (Path(CODEX_BIN).exists() or shutil.which("codex")):
-        return "## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_codex binary not found; run `tools/setup_codex.sh`._"
+        return "## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_codex binary not found; run `_archive/pod-era/tools/setup_codex.sh`._"
     try:
         rubric = ADVISOR_PROMPT.read_text()
     except Exception:
@@ -163,7 +163,7 @@ def run_codex_review(finding_text: str, model: str | None, timeout: int) -> str:
 # ---- cross-family independent review via Claude subscription auth ---------------------------
 def run_claude_review(finding_text: str, model: str | None, effort: str, timeout: int) -> str:
     """Independent cross-family review for Codex-authored/staged work via Claude Code.
-    Uses tools/claude_advisor.sh, which requires claude.ai subscription auth and refuses
+    Uses code/agents/claude_advisor.sh, which requires claude.ai subscription auth and refuses
     API-key auth. NEVER raises; NEVER changes the deterministic pre-registered label."""
     if not CLAUDE_ADVISOR.exists():
         return "## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_tools/claude_advisor.sh not found._"
@@ -204,7 +204,7 @@ def stage_finding(idx: int, unit: dict, label: str, reasons: list[str], result: 
         "  3. External-evidence check IF the failure is a dead-end (bounded; §3 thresholds).",
         "  4. Independent (cross-family) advisor-review — self-review by the run model is NOT independent. "
         "(AUTO-DONE below in --mode agent: Claude subscription-backed review is appended by default; Codex is fallback.)",
-        "  5. Only then fold into CORPUS/NN + 00/03 + runbook §0.3/§12/§13 + checkpoint + memory.",
+        "  5. Only then fold into evidence/CORPUS/NN + 00/03 + runbook §0.3/§12/§13 + checkpoint + memory.",
     ]
     fenced = unit.get("fenced", False)
     body = [
@@ -231,7 +231,7 @@ def stage_finding(idx: int, unit: dict, label: str, reasons: list[str], result: 
 # ---- main loop ------------------------------------------------------------------------------
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mission", default=str(ROOT / "tools/autonomy_mission.json"))
+    ap.add_argument("--mission", default=str(ROOT / "code/lab/runners/autonomy_mission.json"))
     ap.add_argument("--budget-min", type=float, default=240.0)
     ap.add_argument("--mode", choices=["batch", "agent"], default="batch")
     ap.add_argument("--advisor", choices=["claude", "codex"], default=os.environ.get("LLMDB_ADVISOR", "claude"), help="advisor backend for --mode agent")
@@ -249,7 +249,7 @@ def main():
            f"mission={args.mission}", ""]
 
     # PREFLIGHT hard-gate
-    guard = ROOT / "tools/codex_context_guard.py"
+    guard = ROOT / "code/agents/codex_context_guard.py"
     pf = subprocess.run([sys.executable, str(guard), "preflight"], cwd=ROOT, capture_output=True, text=True)
     out += ["## Preflight", "```", pf.stdout.strip(), "```"]
     if pf.returncode != 0 and not args.dry_run:
@@ -325,7 +325,7 @@ def main():
     out += ["\n## Closeout", "```", co.stdout.strip(), "```",
             f"\n## Summary  (elapsed {int((now()-t0)/60)}min / budget {args.budget_min}min)"]
     out += [f"- {uid}: **{lab}**" for uid, lab in results]
-    out += ["", "Findings are STAGED in logs/pending_findings/. Operator review required before any canonical §0.4 fold.",
+    out += ["", "Findings are STAGED in experiments/ml/reviews/pending_findings/. Operator review required before any canonical §0.4 fold.",
             f"Gate log: logs/autonomy_gates.jsonl"]
     report.write_text("\n".join(out))
     print(f"DONE. {len(results)} unit(s). report={report.relative_to(ROOT)}")

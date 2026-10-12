@@ -3,7 +3,7 @@
 Counts tokens exactly as memento 0.7.0's hook does (hooks/scripts/context-ceiling.py:48-111):
 the newest assistant record's usage, summed over input, cache-creation, cache-read and output tokens.
 Prints one line when the count first crosses each threshold, then exits after the last one.
-Usage: python tools/context_watch.py <transcript.jsonl> [ceiling=250000] [poll_seconds=60]
+Usage: python code/agents/context_watch.py <transcript.jsonl> [ceiling=250000] [poll_seconds=60]
 """
 import json
 import sys

@@ -4,7 +4,7 @@ mint-edited model, scoring TOKEN IDS, not decoded strings.
 Readouts: (a) /tokenize(" " + coined) == [minted id] for all 24 values; (b) per prompt (24 CANON, 72 PTEST, 12 L1, 30 L3,
 10 unrelated): the GGUF top-1 token id vs the HF-fp16 top-1 id recorded at save time (`hf_fp16_top1_ids.json`) — PARITY —
 and vs the minted id — CORRECTNESS; (c) a failure signature per prompt: tokenizer / generation-id / string-only / none.
-Paired fp16→Q4_K_M retention (CORPUS/17's surv/elig) is computed by c10l_mint_p4_verdict.py from two of these outputs.
+Paired fp16→Q4_K_M retention (evidence/CORPUS/17's surv/elig) is computed by c10l_mint_p4_verdict.py from two of these outputs.
 Usage: c10l_mint_p4_probe.py <server_url> <save_dir> <out_json> [label]
 """
 import sys, json, time, urllib.request, os

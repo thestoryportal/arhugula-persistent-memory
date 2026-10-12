@@ -25,7 +25,7 @@ def main():
     root = Path(os.environ.get('ARCHIVE_ROOT', sys.argv[1])).resolve(strict=True)
     remote = os.environ.get('ARCHIVE_DEST', 'gdrive:memit-archive').rstrip('/')
     rclone = os.environ.get('ARCHIVE_RCLONE', '/opt/homebrew/bin/rclone')
-    manifest = Path(os.environ.get('ARCHIVE_MANIFEST', str(root/'docs/ARCHIVE_MANIFEST.tsv')))
+    manifest = Path(os.environ.get('ARCHIVE_MANIFEST', str(root/'evidence/manifests/ARCHIVE_MANIFEST.tsv')))
     if not remote or any(char in remote for char in '\t\r\n'):
         raise ValueError('invalid archive destination')
     sources = []

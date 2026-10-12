@@ -3,7 +3,7 @@
 per-layer SOLVE done in fp64 on CPU (everything else as the module does it, fp32 on MPS), apply the updates, and evaluate
 behaviourally exactly as run_arm does. Separates "solve precision at this conditioning" from "model/ridge property".
 Configs: AlphaEdit_ARE at L2 = 0.01 and 0.03; memit_ARE at upstream mom2_update_weight = 15000. A1 arm only. Diagnostic; not a fix.
-Pre-registered readings are in docs/C10K_ROUTEA_RESULT.md §3.5. Writes results/c10k_route_a/fp64_resolve_control.json."""
+Pre-registered readings are in experiments/c10k/reviews/C10K_ROUTEA_RESULT.md §3.5. Writes experiments/c10k/runs/c10k_route_a/fp64_resolve_control.json."""
 import os, sys, json, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import c10k_route_a_launcher as L
@@ -16,11 +16,11 @@ def main():
     from util import nethook
     dev = L.resolve_device(); tok, model = L.load_model(dev, torch.float32); fiction, arms = L.build_stimuli(tok)
     V = arms["A1_single"]; batch = [{"question": L.CANON.format(s), "answer": " " + V[s]} for s in fiction]; qa = [i["question"] + i["answer"] for i in batch]
-    P = torch.load(L.LLMDB_ROOT + "/logs/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt")
+    P = torch.load(L.LLMDB_ROOT + "/experiments/c10k/runs/c10k_route_a/bulk/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt")
     real = L.real_country_set(tok); real_prompts = [L.CANON.format(c) for c, _ in real]; desc = [f"{s} is described as" for s in fiction]
     out_path = f"{L.OUTDIR}/fp64_resolve_control.json"; rep = json.load(open(out_path)) if os.path.exists(out_path) else {"configs": {}}
     for alg, ridge in CONFIGS:
-        HP, M, _ = L.import_upstream(alg); hp = HP.from_json(f"{L.LLMDB_ROOT}/configs/hparams/anyedit_{'alphaedit' if alg == 'AlphaEdit_ARE' else 'memit'}_are_qwen25_3b.json"); hp.window_size = 1; hp.overlap = 0
+        HP, M, _ = L.import_upstream(alg); hp = HP.from_json(f"{L.LLMDB_ROOT}/code/configs/hparams/anyedit_{'alphaedit' if alg == 'AlphaEdit_ARE' else 'memit'}_are_qwen25_3b.json"); hp.window_size = 1; hp.overlap = 0
         if alg == "AlphaEdit_ARE": hp.L2 = ridge
         M.get_cov = lambda model_, tok_, layer_name, *r, **k: L.normalised_cov(layer_name).to(dev)
         z_layer = hp.layers[-1]; snap = L.band_snapshot(model, hp); n0 = L.band_norms(model, hp)

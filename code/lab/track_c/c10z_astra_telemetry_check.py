@@ -10,10 +10,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 MODEL_REV = "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-SOURCES = ("experiments/track_c/c10z_astra_arms.py", "experiments/track_c/c10z_astra_read.py",
-    "experiments/track_c/c10z_astra_telemetry_check.py", "experiments/track_c/c10z_astra_benchmark.py",
-    "experiments/track_c/c10e_bandknob.py", "configs/hparams/qwen25_3b_memit_hparams.json",
-    "memit_dry_run/memit/memit/memit_main.py")
+SOURCES = ("code/lab/track_c/c10z_astra_arms.py", "code/lab/track_c/c10z_astra_read.py",
+    "code/lab/track_c/c10z_astra_telemetry_check.py", "code/lab/track_c/c10z_astra_benchmark.py",
+    "code/lab/track_c/c10e_bandknob.py", "code/configs/hparams/qwen25_3b_memit_hparams.json",
+    "code/memit/vendor/memit/memit_main.py")
 
 
 def _module(name,path):
@@ -23,15 +23,15 @@ def _module(name,path):
 
 
 def arms_module():
-    return _module("c10z_astra_arms",ROOT/"experiments/track_c/c10z_astra_arms.py")
+    return _module("c10z_astra_arms",ROOT/"code/lab/track_c/c10z_astra_arms.py")
 
 
 def benchmark_module():
-    return _module("c10z_telemetry_benchmark",ROOT/"experiments/track_c/c10z_astra_benchmark.py")
+    return _module("c10z_telemetry_benchmark",ROOT/"code/lab/track_c/c10z_astra_benchmark.py")
 
 
 def fingerprint_module():
-    return _module("c10z_telemetry_fingerprint",ROOT/"tools/engine_fingerprint.py")
+    return _module("c10z_telemetry_fingerprint",ROOT/"code/memit/engine_fingerprint.py")
 
 
 def _prepare(out):
@@ -44,7 +44,7 @@ def _prepare(out):
     R.require(not (out/"inertness.json").exists(),"HALTED-V12","refusing existing inertness.json")
     A=arms_module();A.entry_preflight(os.environ)
     R.require(fingerprint_module().main()==0,"HALTED-V1","engine fingerprint")
-    os.environ.update(LLMDB_ROOT=str(ROOT),LLMDB_DEVICE="mps",HF_HOME=str(ROOT/"hf_cache"))
+    os.environ.update(LLMDB_ROOT=str(ROOT),LLMDB_DEVICE="mps",HF_HOME=str(ROOT/"data/hf_cache"))
     return out,A
 
 

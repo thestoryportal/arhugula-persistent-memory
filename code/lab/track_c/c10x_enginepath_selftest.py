@@ -224,9 +224,9 @@ class Tiny(torch.nn.Module):
 
 
 def copied_function(name, namespace):
-    source = (REAL/'experiments/track_c/c10e_bandknob.py').read_text()
+    source = (REAL/'code/lab/track_c/c10e_bandknob.py').read_text()
     fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name == name)
-    exec(compile(ast.fix_missing_locations(ast.Module(body=[fn], type_ignores=[])), str(REAL/'experiments/track_c/c10e_bandknob.py'), 'exec'), namespace)
+    exec(compile(ast.fix_missing_locations(ast.Module(body=[fn], type_ignores=[])), str(REAL/'code/lab/track_c/c10e_bandknob.py'), 'exec'), namespace)
     return namespace[name]
 
 
@@ -243,7 +243,7 @@ def stub_h():
     H.req = lambda prompt, subject, value: {'prompt': prompt, 'subject': subject, 'target_new': {'str': ' '+value}}
     H.tgt_ids = lambda value: [7, 7]
     H.weight_name = lambda p, layer: p.rewrite_module_tmp.format(layer)+'.weight'
-    template_source=ast.parse((REAL/'memit_dry_run/memit/memit/memit_main.py').read_text())
+    template_source=ast.parse((REAL/'code/memit/vendor/memit/memit_main.py').read_text())
     template_function=next(n for n in template_source.body if isinstance(n,ast.FunctionDef) and n.name=='get_context_templates')
     template_globals={'CONTEXT_TEMPLATES_CACHE':[['{}']], 'generate_fast':lambda *args,**kwargs:(_ for _ in ()).throw(AssertionError('context sampling occurred'))}
     exec(compile(ast.fix_missing_locations(ast.Module(body=[template_function],type_ignores=[])), '<unchanged engine context getter>', 'exec'),template_globals)
@@ -279,9 +279,9 @@ class IsolatedCase(unittest.TestCase):
         os.environ['LLMDB_ROOT'] = str(self.root)
         self.oldroot = A.ROOT
         A.ROOT = self.root
-        self.out = self.root/'results/c10x_enginepath'
-        benchmark=self.root/'experiments/track_c/c10z_astra_benchmark.py'
-        benchmark.parent.mkdir(parents=True);benchmark.write_bytes((REAL/'experiments/track_c/c10z_astra_benchmark.py').read_bytes())
+        self.out = self.root/'experiments/c10x/runs/c10x_enginepath'
+        benchmark=self.root/'code/lab/track_c/c10z_astra_benchmark.py'
+        benchmark.parent.mkdir(parents=True);benchmark.write_bytes((REAL/'code/lab/track_c/c10z_astra_benchmark.py').read_bytes())
         self.H = stub_h()
         A.configure(self.H)
     def tearDown(self):
@@ -456,7 +456,7 @@ class SeamTests(IsolatedCase):
         with self.assertRaises(I.Halt):A.fe_edit(hp,rq,P,[torch.zeros(2,2) for _ in hp.layers])
 
     def test_fe_ast_three_changes(self):
-        self.assertTrue(A.verify_fe_ast(REAL/'experiments/track_c/c10e_bandknob.py'))
+        self.assertTrue(A.verify_fe_ast(REAL/'code/lab/track_c/c10e_bandknob.py'))
 
     def test_active_null_negative_controls(self):
         cur={l:torch.tensor([[l+1.,l+2.],[l+3.,l+4.]]) for l in range(4,9)}
@@ -561,7 +561,7 @@ class SeamTests(IsolatedCase):
         self.assertTrue(A.process2_admission(fixture()))
 
     def test_knobs_and_frame_subjects(self):
-        source=ast.parse((REAL/'experiments/track_c/c10p_twopass_arms.py').read_text())
+        source=ast.parse((REAL/'code/lab/track_c/c10p_twopass_arms.py').read_text())
         want=ast.literal_eval(next(n.value for n in source.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='FRAME_SUBJECTS' for t in n.targets)))
         self.assertEqual(A.FRAME_SUBJECTS,want)
         for knob in ('MODEL_ID','MODEL_REV','C10_PROJECTOR','N_EDIT','C10_SUBJECT_OFFSET','C10_CTX_TEMPLATES','C10_KEY_LOCUS','RUN_LABEL'):
@@ -571,7 +571,7 @@ class SeamTests(IsolatedCase):
             with self.assertRaises(ValueError):A.environment_preflight()
 
     def test_solver_ast_and_gradients(self):
-        self.assertTrue(Z.verify_solver_ast(REAL/'memit_dry_run/memit/memit/compute_z.py'))
+        self.assertTrue(Z.verify_solver_ast(REAL/'code/memit/vendor/memit/compute_z.py'))
         for y,lam,eps in [(0,.1,0.),(1,.1,0.),(0,1.,0.)]:
             s=torch.tensor([[[3.,2.,0.,-1.]]],requires_grad=True);labels=torch.tensor([[y]])
             lp=s.log_softmax(-1);ce=-lp.gather(2,labels.unsqueeze(2)).squeeze(2)
@@ -634,7 +634,7 @@ class TelemetryTests(IsolatedCase):
         self.assertTrue(callable(obs))
         self.assertEqual(obs(CANON.format('S0'),[7,7]),plain)
         self.assertEqual([x.tolist() for x in self.H.model.inputs],inputs)
-        self.assertTrue(A.verify_scorer_ast(REAL/'experiments/track_c/c10e_bandknob.py'))
+        self.assertTrue(A.verify_scorer_ast(REAL/'code/lab/track_c/c10e_bandknob.py'))
         self.assertIs(self.H.full_seq_match,original)
         self.assertFalse((self.out/'telemetry').exists())
 
@@ -729,7 +729,7 @@ class TelemetryTests(IsolatedCase):
             if isinstance(value,type) and issubclass(value,unittest.TestCase):
                 self.assertTrue(issubclass(value,IsolatedCase),name)
         env={**os.environ,'LLMDB_ROOT':str(self.root)}
-        with self.assertRaises(PermissionError):subprocess.Popen([sys.executable,'-B',str(REAL/'experiments/track_c/c10e_bandknob.py')],cwd=self.root,env=env)
+        with self.assertRaises(PermissionError):subprocess.Popen([sys.executable,'-B',str(REAL/'code/lab/track_c/c10e_bandknob.py')],cwd=self.root,env=env)
         guard=self.root/'guard';guard.mkdir()
         site='import os,sys\nfrom pathlib import Path\nREAL=Path('+repr(str(REAL))+')\nSCRATCH=Path('+repr(str(SCRATCH))+')\nALLOWED_CHILDREN=set()\nGUARD_EVENTS=0\n'+inspect.getsource(audit_guard)+'\nsys.addaudithook(audit_guard)\nprint("C10X_CHILD_GUARD_ACTIVE",flush=True)\n'
         (guard/'sitecustomize.py').write_text(site)
@@ -741,7 +741,7 @@ class TelemetryTests(IsolatedCase):
     def test_frozen_bytes_and_imports(self):
         expected=json.loads((SCRATCH/'before/r5_sha256.json').read_text())
         # Program-authored Amendment Z replaces this one pin; other before bytes stay locked.
-        expected['docs/C10X_ENGINEPATH_PREREG.md']='3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'
+        expected['experiments/c10x/design/C10X_ENGINEPATH_PREREG.md']='3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'
         for rel,sha in expected.items():
             self.assertEqual(hashlib.sha256((REAL/rel).read_bytes()).hexdigest(),sha,rel)
         for name in FORBIDDEN:self.assertNotIn(name,sys.modules)
@@ -835,7 +835,7 @@ class IntegrationTests(IsolatedCase):
              'telemetry_complete':True,'weights_unchanged':True,'answer_calls':96,'lens_forwards':48,
              'lens_forward_seconds':[.01]*48,'answer_line_seconds':[.001]*96,'sources':sources,'env':env}
         A.write_json(path,rec)
-        later=self.root/'results/c10x_enginepath_rerun1'
+        later=self.root/'experiments/c10x/runs/c10x_enginepath_rerun1'
         with patch.dict(os.environ,{'C10X_TELEMETRY':'1','C10X_TELEMETRY_INERTNESS':str(path)}),patch.object(A,'source_hashes',return_value=sources),patch.object(A,'environment_identity',return_value=env):
             self.assertEqual(A.telemetry_admission(1,later),(True,{'path':str(path),'sha256':A.sha_file(path)}))
             for key in ('control_equal','telemetry_equal','generated_equal','telemetry_complete','weights_unchanged'):
@@ -918,7 +918,7 @@ class IntegrationTests(IsolatedCase):
 
 class FileAdmissionTests(IsolatedCase):
     def test_signed_zero_reader_keeps_reports_out_of_admission(self):
-        f=self.make_files();f['prereg_sha256']=f['sources_start']['docs/C10X_ENGINEPATH_PREREG.md']
+        f=self.make_files();f['prereg_sha256']=f['sources_start']['experiments/c10x/design/C10X_ENGINEPATH_PREREG.md']
         f['w0']['checkpoints']=[c for c in f['w0']['checkpoints'] if c['checkpoint']!='X2-vii exact zero']
         baseline=R.read_record(f)
         reports={str(l):{'report_only':True,'pristine_sha256':'a'*64,'after_sha256':'b'*64,
@@ -994,7 +994,7 @@ class FileAdmissionTests(IsolatedCase):
         ctx,source=A.recorded_contexts()
         self.assertEqual(hashlib.sha256(json.dumps(ctx).encode()).hexdigest(),'c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da')
         self.assertEqual(A.json_sha(ctx),'eff10db6a89aabf7d67fa0c66e4cc1ac727b795c0bf756d3f8b53d0f6cd05aeb')
-        self.assertEqual(source['source_sha256'],A.sha_file(self.root/'experiments/track_c/c10z_astra_benchmark.py'))
+        self.assertEqual(source['source_sha256'],A.sha_file(self.root/'code/lab/track_c/c10z_astra_benchmark.py'))
         namespace=self.H.get_context_templates.__globals__;namespace['CONTEXT_TEMPLATES_CACHE']=None
         sampler=patch.dict(namespace,{'generate_fast':lambda *args,**kwargs:(_ for _ in ()).throw(AssertionError('sampled'))})
         pristine=I.Pristine(self.H,self.H.hp)
@@ -1026,7 +1026,7 @@ class FileAdmissionTests(IsolatedCase):
 
     def test_complete_stub_run_persists_every_record(self):
         seed=self.make_files(self.root/'results/fixture_source')
-        config=self.root/'configs/hparams/qwen25_3b_memit_hparams.json';config.parent.mkdir(parents=True)
+        config=self.root/'code/configs/hparams/qwen25_3b_memit_hparams.json';config.parent.mkdir(parents=True)
         config.write_text('{"layers":[4,5,6,7,8]}')
         self.H.ID='stub';self.H.REV='revision'
         def scripted_recipe(name,path):
@@ -1097,7 +1097,7 @@ class FileAdmissionTests(IsolatedCase):
         f['identity']['templates']={'CANON':CANON,'PTEST':PTEST}
         f['identity']['software']={key:'stub' for key in ('python','machine','platform','torch','transformers','model_rev')}
         f['identity']['software']['model_rev']=f['identity']['model_rev']
-        f['sources_start']={'configs/hparams/qwen25_3b_memit_hparams.json':sha,'docs/C10X_ENGINEPATH_PREREG.md':A.PIN,A.CONTEXT_SOURCE:f['context_source']['source_sha256']}
+        f['sources_start']={'code/configs/hparams/qwen25_3b_memit_hparams.json':sha,'experiments/c10x/design/C10X_ENGINEPATH_PREREG.md':A.PIN,A.CONTEXT_SOURCE:f['context_source']['source_sha256']}
         f['sources_end']=copy.deepcopy(f['sources_start'])
         subjects=['Zorbland']+['S'+str(i) for i in range(1,24)]
         f['identity']['stimuli']={arm:[{'subj':s,'val':arm+'value'+s} for s in subjects] for arm in ARM_NAMES}
@@ -1239,7 +1239,7 @@ class FileAdmissionTests(IsolatedCase):
         first=self.make_files();second_out=self.root/'results/c10x_enginepath_r2'
         with patch.object(A,'source_hashes',return_value=first['sources_start']),contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(R.main(['--out',str(self.out)]),0)
-            go=self.root/'go2.json';go.write_text(json.dumps({'decision_id':'D-C10x-enginepath','experiment':'C10X','process':2,'recorded_in':'EXPERIMENT_RUNBOOK.md §5.2','at':'2026-10-08T11:00:00+00:00'}))
+            go=self.root/'go2.json';go.write_text(json.dumps({'decision_id':'D-C10x-enginepath','experiment':'C10X','process':2,'recorded_in':'program/runbook/ §5.2','at':'2026-10-08T11:00:00+00:00'}))
             with patch.object(A,'fingerprint',return_value=first['fingerprint']):
                 receipt=A.launch_preflight(second_out,go,2,self.out)
             self.assertEqual(receipt['process1']['run_id'],first['run_id']);self.assertFalse(second_out.exists())
@@ -1278,16 +1278,16 @@ class FileAdmissionTests(IsolatedCase):
         receipt=R.strict_json(path.read_bytes());receipt['status']='HALTED';path.write_text(json.dumps(receipt))
         with patch.object(A,'source_hashes',return_value=f['sources_start']):
             with self.assertRaises(ValueError):R.load_record(self.out)
-        source=ast.parse((REAL/'experiments/track_c/c10x_enginepath_read.py').read_text())
+        source=ast.parse((REAL/'code/lab/track_c/c10x_enginepath_read.py').read_text())
         main=next(n for n in source.body if isinstance(n,ast.FunctionDef) and n.name=='main')
         destinations=[n for n in ast.walk(main) if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='destination' for t in n.targets)]
         self.assertEqual(len(destinations),1);self.assertIn('args.process2',ast.unparse(destinations[0]))
 
     def test_script_alias_and_preflight_refusal_in_isolated_child(self):
-        folder=self.root/'experiments/track_c';folder.mkdir(parents=True,exist_ok=True)
-        driver=folder/'c10x_enginepath_arms.py';driver.write_bytes((REAL/'experiments/track_c/c10x_enginepath_arms.py').read_bytes())
+        folder=self.root/'code/lab/track_c';folder.mkdir(parents=True,exist_ok=True)
+        driver=folder/'c10x_enginepath_arms.py';driver.write_bytes((REAL/'code/lab/track_c/c10x_enginepath_arms.py').read_bytes())
         for name in ('c10x_enginepath_read.py','c10x_enginepath_inertness.py'):
-            (folder/name).write_bytes((REAL/'experiments/track_c'/name).read_bytes())
+            (folder/name).write_bytes((REAL/'code/lab/track_c'/name).read_bytes())
         child=self.root/'alias_stub.py'
         child.write_text('import runpy,sys\nsys.path.insert(0,'+repr(str(folder))+')\nsys.argv=['+repr(str(driver))+',"--preflight","--out",'+repr(str(self.out))+',"--go",'+repr(str(self.root/'absent.json'))+']\ntry:\n runpy.run_path('+repr(str(driver))+',run_name="__main__")\nexcept SystemExit as e:\n assert e.code==1\nassert sys.modules["c10x_enginepath_arms"].__name__=="__main__"\nassert "c10e_bandknob" not in sys.modules\nprint("SCRIPT_ALIAS_AND_NO_MODEL_PASS")\n')
         argv=(sys.executable,'-B',str(child));ALLOWED_CHILDREN.add(argv)
@@ -1296,9 +1296,9 @@ class FileAdmissionTests(IsolatedCase):
         self.assertFalse(self.out.exists());self.assertFalse((self.root/'architecture_profile').exists())
 
     def test_direct_shell_launchers_are_executable_in_git(self):
-        sources=[REAL/'experiments/track_c'/name for name in
+        sources=[REAL/'code/lab/track_c'/name for name in
                  ('c10x_enginepath_arms.py','c10x_enginepath_telemetry_check.py')]
-        sources.append(REAL/'tools/engine_fingerprint.py')
+        sources.append(REAL/'code/memit/engine_fingerprint.py')
         scripts=set()
         for source in sources:
             tree=ast.parse(source.read_text())
@@ -1354,7 +1354,7 @@ class FileAdmissionTests(IsolatedCase):
             launch.assert_not_called()
         for finish,status,exit_code in ((779.,'COMPLETE',0),(781.,'HALTED',1)):
             root=self.root/('parent_'+str(int(finish)))
-            out=root/'results/c10x_enginepath';out.mkdir(parents=True)
+            out=root/'experiments/c10x/runs/c10x_enginepath';out.mkdir(parents=True)
             A.write_json(out/'run.json',{'status':'COMPLETE','run_id':'stub'})
             A.write_json(out/'stage.json',{'stage':'final','started_monotonic':0.})
             clock={'now':0.}
@@ -1408,7 +1408,7 @@ class FileAdmissionTests(IsolatedCase):
             (logs/'answer_audit.log').unlink()
 
     def test_late_supervisor_persistence_is_unreadable(self):
-        root=self.root/'late_parent';out=root/'results/c10x_enginepath'
+        root=self.root/'late_parent';out=root/'experiments/c10x/runs/c10x_enginepath'
         clock={'now':0.};write=A.write_json
         preflight=types.SimpleNamespace(returncode=0,communicate=lambda **kw:(b'{"telemetry":false}',b''))
         worker=types.SimpleNamespace(poll=lambda:0,wait=lambda:0)
@@ -1565,7 +1565,7 @@ class FileAdmissionTests(IsolatedCase):
     def test_tokenizer_forwards_preserve_attention_mask(self):
         missing=[]
         for filename in ('c10x_enginepath_arms.py','c10x_overtone_z.py','c10x_enginepath_inertness.py','c10x_enginepath_read.py','c10x_enginepath_telemetry_check.py'):
-            tree=ast.parse((REAL/'experiments/track_c'/filename).read_text())
+            tree=ast.parse((REAL/'code/lab/track_c'/filename).read_text())
             for node in ast.walk(tree):
                 if isinstance(node,ast.Call) and (isinstance(node.func,ast.Name) and node.func.id=='model' or isinstance(node.func,ast.Attribute) and node.func.attr in ('model','forward')):
                     if node.args:
@@ -1629,7 +1629,7 @@ class FileAdmissionTests(IsolatedCase):
                 scorer=factory(self.H,lambda p,t,g:captured.append((p,list(t),list(g))))
                 compare(record(scorer,('prompt',[7,7])),baseline['full_seq_match'])
                 self.assertEqual(captured,[('prompt',[7,7],[7,7])])
-        frozen=REAL/'experiments/track_c/c10e_bandknob.py'
+        frozen=REAL/'code/lab/track_c/c10e_bandknob.py'
         self.assertTrue(A.verify_scorer_ast(frozen))
         mutant=ast.parse(Path(A.__file__).read_text())
         for node in ast.walk(mutant):
@@ -1713,7 +1713,7 @@ class FileAdmissionTests(IsolatedCase):
         self.assertEqual(scan(ast.parse('cpu_buf[:] = v.cpu().to(torch.float32)')),[])
         missing=[]
         for filename in ('c10x_enginepath_arms.py','c10x_overtone_z.py','c10x_enginepath_inertness.py','c10x_enginepath_read.py','c10x_enginepath_telemetry_check.py'):
-            tree=ast.parse((REAL/'experiments/track_c'/filename).read_text())
+            tree=ast.parse((REAL/'code/lab/track_c'/filename).read_text())
             for node in scan(tree):
                 if filename=='c10x_enginepath_inertness.py' and ast.unparse(node)=='npd[self.H.weight_name(self.hp, l)].copy_(value)':
                     restore=next(n for n in ast.walk(tree) if isinstance(n,ast.FunctionDef) and n.name=='restore')
@@ -1722,9 +1722,9 @@ class FileAdmissionTests(IsolatedCase):
                 else:missing.append((filename,node.lineno))
         self.assertEqual(missing,[])
         for family in ('memit','rome','util'):
-            for path in sorted((REAL/'memit_dry_run/memit'/family).rglob('*.py')):
+            for path in sorted((REAL/'code/memit/vendor'/family).rglob('*.py')):
                 self.assertEqual([n.lineno for n in scan(ast.parse(path.read_text()))],[],str(path))
-        harness=ast.parse((REAL/'experiments/track_c/c10e_bandknob.py').read_text())
+        harness=ast.parse((REAL/'code/lab/track_c/c10e_bandknob.py').read_text())
         calls=[n for n in ast.walk(harness) if combined(n)]
         self.assertEqual(len(calls),1)
         self.assertEqual(ast.unparse(calls[0]),'upd.to(npd[weight_name(hp, layer)].device, npd[weight_name(hp, layer)].dtype)')
@@ -1807,7 +1807,7 @@ class ScorerJsonTests(IsolatedCase):
             wanted=copy.deepcopy(expected);wanted.update(counters=[0,0],residual_diagnostics={})
             with self.subTest(kind=kind):self.plain(observed);self.same_types(observed,wanted)
             self.assertTrue(isinstance(raw['detail'][ARM_NAMES[2]][0]['canon_first'],torch.Tensor if kind=='torch' else np.bool_))
-        self.assertTrue(A.verify_scorer_ast(REAL/'experiments/track_c/c10e_bandknob.py'))
+        self.assertTrue(A.verify_scorer_ast(REAL/'code/lab/track_c/c10e_bandknob.py'))
     def test_injection_flags_and_counts_use_plain_scalars(self):
         values=self.H.ARMS[ARM_NAMES[2]];table={(s,' '+v):torch.tensor([1.,2.]) for s,v in values.items()}
         for kind in ('torch','numpy'):
@@ -1865,7 +1865,7 @@ class ScorerJsonTests(IsolatedCase):
             with A.recipe_checks(self.H,I.Pristine(self.H,self.H.hp)) as audit:self.H.run_recipe()
             with self.subTest(kind=kind):self.plain(audit);self.assertIs(type(audit['raw_loc_delta']),float)
     def driver(self,out,attack=None,bad=None,base_kind=None,target_work=None):
-        f=fixture();config=self.root/'configs/hparams/qwen25_3b_memit_hparams.json'
+        f=fixture();config=self.root/'code/configs/hparams/qwen25_3b_memit_hparams.json'
         config.parent.mkdir(parents=True,exist_ok=True)
         if not config.exists():config.write_text('{}')
         self.H.ID='stub';self.H.REV='rev'
@@ -1994,8 +1994,8 @@ class BudgetAmendmentTests(IsolatedCase):
         pin='3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'
         self.assertEqual(A.PIN,pin);self.assertEqual(R.PREREG_SHA256,pin)
         self.assertEqual(fixture()['prereg_sha256'],pin)
-        self.assertEqual(hashlib.sha256((REAL/'docs/C10X_ENGINEPATH_PREREG.md').read_bytes()).hexdigest(),pin)
-        source=(REAL/'experiments/track_c/c10x_enginepath_arms.py').read_text()
+        self.assertEqual(hashlib.sha256((REAL/'experiments/c10x/design/C10X_ENGINEPATH_PREREG.md').read_bytes()).hexdigest(),pin)
+        source=(REAL/'code/lab/track_c/c10x_enginepath_arms.py').read_text()
         self.assertNotIn('15000',source)
         definitions=[n for n in ast.parse(source).body if isinstance(n,ast.Assign) and
                      any(isinstance(t,ast.Name) and t.id=='PROCESS_BUDGET' for t in n.targets)]
@@ -2373,7 +2373,7 @@ class SignedZeroTests(IsolatedCase):
         pin='3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'
         self.assertEqual(A.PIN,pin);self.assertEqual(R.PREREG_SHA256,pin)
         self.assertEqual(fixture()['prereg_sha256'],pin)
-        self.assertEqual(A.sha_file(REAL/'docs/C10X_ENGINEPATH_PREREG.md'),pin)
+        self.assertEqual(A.sha_file(REAL/'experiments/c10x/design/C10X_ENGINEPATH_PREREG.md'),pin)
 
 
 def main():

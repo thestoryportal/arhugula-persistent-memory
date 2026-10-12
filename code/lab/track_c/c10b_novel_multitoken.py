@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import io, contextlib, json, math
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -12,7 +12,7 @@ from memit.compute_ks import compute_ks
 
 # ============================================================================
 # C10 Run 2 — NOVEL-insert multi-token VALUE robustness (D-C10-1, the BINDING test).
-# Pre-reg: docs/C10_MULTI_TOKEN_VALUE_PREREG.md (frozen + 2026-06-25 addendum).
+# Pre-reg: experiments/c10/design/C10_MULTI_TOKEN_VALUE_PREREG.md (frozen + 2026-06-25 addendum).
 # Run 1 (counterfactual) floored both arms on the usable metric -> underpowered.
 # Here: NOVEL fictional subjects (no pretrained competitor; R5-proven paraphrase-robust
 # for single-token) -> single-vs-multi-token VALUE contrast, SAME subjects, OFF the floor.
@@ -20,7 +20,7 @@ from memit.compute_ks import compute_ks
 # Engine UNMODIFIED; my_edit/primitives VERBATIM from r5/r13 (proven inert).
 # ============================================================================
 ID=os.environ.get("MODEL_ID","Qwen/Qwen2.5-3B"); REV=os.environ.get("MODEL_REV","3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 tok=AutoTokenizer.from_pretrained(ID, revision=REV)
 if tok.pad_token is None: tok.pad_token=tok.eos_token
@@ -95,7 +95,7 @@ print(f"  |Δexpr|={abs(eng_p-my_p):.4f} |Δloc|={abs(eng_loc-my_loc):.2f} -> {'
 if not gate_ok: print("LAW#5 fail; HALT.", flush=True); sys.exit(0)
 
 # ---------- stimulus: NOVEL fictional subjects; single-tok vs multi-tok novel VALUES ----------
-scr=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+scr=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
 caps=sorted({scr[c]["capital"]["truth"] for c in scr})
 single_v=[k for k in caps if single_tok(k)]; multi_v=sorted([k for k in caps if ntok(k)>=2], key=ntok)
 FICTION=["Zorbland","Quaxil","Plurnak","Vythorn","Glimsto","Drennik","Yastovel","Crulpane","Mophgar","Brinduun",
@@ -170,7 +170,7 @@ summary={"harness":"band[4-8]/Qwen2.5-3B/AlphaEdit/single-batch/capital/NOVEL-in
  "binding_metric":"held-out-paraphrase FULL-SEQ on INCOHERENT (code-representative) values; coherent arm = prior-coherence positive control","verdict":verdict}
 print("\n=== C10b SUMMARY (BINDING: paraphrase full-seq, novel regime) ===", flush=True)
 for k,v in summary.items(): print(f"  {k}: {v}", flush=True)
-OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/results/c10b_novel_multitoken.json")
+OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/experiments/c10b/runs/c10b_novel_multitoken/c10b_novel_multitoken.json")
 json.dump({"decision_id":"D-C10-1","run":"2_novel_insert (binding)","class":"FALSIFIER (can-fail); target=local Intel CPU + batch writes; NOT promotable without advisor+cross-family",
            "summary":summary,"arms":{a:{k:v for k,v in arms[a].items() if k!='rows'} for a in arms},
            "detail":{a:arms[a]["rows"] for a in arms},"stimulus":{"CANON":CANON,"PTEST":PTEST,"FICTION":FICTION,"Vsingle":Vsingle,"Vmulti":Vmulti}},

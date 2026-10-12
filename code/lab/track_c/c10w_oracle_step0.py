@@ -42,12 +42,12 @@ def literal_assignment(nodes,name):
 
 
 def source_constants(root):
-    root=Path(root); tree=ast.parse((root/"experiments/track_c/c10e_bandknob.py").read_text())
+    root=Path(root); tree=ast.parse((root/"code/lab/track_c/c10e_bandknob.py").read_text())
     build=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=="build_stimuli")
-    frame=ast.parse((root/"experiments/track_c/c10p_twopass_arms.py").read_text())
+    frame=ast.parse((root/"code/lab/track_c/c10p_twopass_arms.py").read_text())
     entities=[]
     for name in ("g6_screen_qwen3b.json","g6_screen_qwen3b_v2.json"):
-        selected=R.load_json(root/"configs/screens"/name)["selected"]
+        selected=R.load_json(root/"code/configs/screens"/name)["selected"]
         entities.extend(selected); entities.extend(x["capital"]["truth"] for x in selected.values())
     return {"canon":literal_assignment(tree.body,"CANON"),"heldout":literal_assignment(tree.body,"PTEST"),
             "fiction":literal_assignment(tree.body,"FICTION"),"heads":literal_assignment(build.body,"coined_head"),
@@ -98,10 +98,10 @@ def shuffled_map(subjects,values):
 
 def fingerprint():
     env=dict(os.environ,LLMDB_ROOT=str(R.ROOT))
-    p=subprocess.run([str(R.ROOT/".venv/bin/python"),"-B",str(R.ROOT/"tools/engine_fingerprint.py")],
+    p=subprocess.run([str(R.ROOT/".venv/bin/python"),"-B",str(R.ROOT/"code/memit/engine_fingerprint.py")],
                      cwd=R.ROOT,env=env,capture_output=True,text=True)
     R.require(p.returncode==0 and "engine fingerprint PASS" in p.stdout,"engine fingerprint failed: "+p.stdout+p.stderr)
-    return {"ok":True,"output":p.stdout,"engine":R.file_ref(R.ROOT/"memit_dry_run/memit/memit/memit_main.py")}
+    return {"ok":True,"output":p.stdout,"engine":R.file_ref(R.ROOT/"code/memit/vendor/memit/memit_main.py")}
 
 
 def model_environment(H,dtype):
@@ -124,14 +124,14 @@ def load_harness():
 
 
 def s7_record():
-    text=(R.ROOT/"docs/C10W_ORACLE_PREREG.md").read_text()
+    text=(R.ROOT/"experiments/c10w/design/C10W_ORACLE_PREREG.md").read_text()
     verdicts=[]
     for match in re.finditer(r"^\| (T\d\d|R[12]) \| ACCEPT \| (.+) \|$",text,re.M):
         verdicts.append({"id":match[1],"verdict":"ACCEPT","reason":match[2]})
     R.require(len(verdicts)==22 and len({v["id"] for v in verdicts})==22,"S7 adjudications incomplete")
     return {"model":"GPT-6-Astra","effort":"high","judgments":verdicts,"rejected_ids":[],"substitutions":[],
             "historical_rejections":[{"id":k,"reason":why} for k,why in (("v1 T06","S2c Q2 shape"),("v1 T09","S2d Q3 shape"),("v1 T14","S2c Q2 shape"),("v1 R1","S2d Q3 shape"))],
-            "source":"docs/C10W_ORACLE_PREREG.md:139-164"}
+            "source":"experiments/c10w/design/C10W_ORACLE_PREREG.md:139-164"}
 
 
 def nonzero_seam():
@@ -247,28 +247,28 @@ def run_step0(directory):
     inputs={"templates":list(TEMPLATES),"fiction":H.FICTION,"value_maps":maps,"target_ids":targets,
             "prompt_ids":{str(i):{s:H.tok(t.format(s))["input_ids"] for s in H.FICTION} for i,t in enumerate(TEMPLATES)}}
     input_text=json.dumps({**inputs,"class":R.CLASS,"decision_id":R.DECISION_ID},ensure_ascii=False,indent=2)+"\n"
-    audit_trainer_input(input_text,(R.ROOT/"experiments/track_c/c10w_oracle_train.py").read_text(),H.PTEST)
+    audit_trainer_input(input_text,(R.ROOT/"code/lab/track_c/c10w_oracle_train.py").read_text(),H.PTEST)
     audit=audit_templates(constants,TEMPLATES,RESERVES)
     R.require(audit["ok"] and R.sha_text("\n".join(TEMPLATES))==R.TEMPLATE_SHA,"seal audit differs from frozen list")
     expected=[.469,.551,.492,.466,.444,.426,.523,.480,.514,.551,.486,.538,.469,.457,.425,.540,.462,.444,.477,.459,.422,.474]
     R.require([round(r["max_s3"],3) for r in audit["rows"]]==expected,"S3 audit differs from frozen table")
     s7=s7_record(); audit.update(S6=True,S7=s7,template_sha256=R.TEMPLATE_SHA,reserve_sha256=R.sha_text("\n".join(RESERVES)))
     R.write_json(directory/"train_inputs.json",inputs)
-    audit_trainer_input((directory/"train_inputs.json").read_text(),(R.ROOT/"experiments/track_c/c10w_oracle_train.py").read_text(),H.PTEST)
+    audit_trainer_input((directory/"train_inputs.json").read_text(),(R.ROOT/"code/lab/track_c/c10w_oracle_train.py").read_text(),H.PTEST)
     R.write_json(directory/"seal_audit.json",audit)
     mmlu=freeze_mmlu(H.tok); R.write_json(directory/"mmlu200.json",mmlu)
     proof=fingerprint(); seam=nonzero_seam()
-    source_paths={"trainer":R.ROOT/"experiments/track_c/c10w_oracle_train.py",
-                  "evaluator":R.ROOT/"experiments/track_c/c10w_oracle_eval.py",
-                  "reader":R.ROOT/"experiments/track_c/c10w_oracle_read.py",
-                  "step0_source":Path(__file__).resolve(),"harness":R.ROOT/"experiments/track_c/c10e_bandknob.py",
-                  "hparams":R.ROOT/"configs/hparams/qwen25_3b_memit_hparams.json",
-                  "frame_source":R.ROOT/"experiments/track_c/c10p_twopass_arms.py",
-                  "g6_screen":R.ROOT/"configs/screens/g6_screen_qwen3b.json",
-                  "g6_screen_v2":R.ROOT/"configs/screens/g6_screen_qwen3b_v2.json",
-                  "fingerprint_source":R.ROOT/"tools/engine_fingerprint.py",
-                  "prereg":R.ROOT/"docs/C10W_ORACLE_PREREG.md"}
-    snapshot=R.ROOT/"hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots"/R.MODEL_REV
+    source_paths={"trainer":R.ROOT/"code/lab/track_c/c10w_oracle_train.py",
+                  "evaluator":R.ROOT/"code/lab/track_c/c10w_oracle_eval.py",
+                  "reader":R.ROOT/"code/lab/track_c/c10w_oracle_read.py",
+                  "step0_source":Path(__file__).resolve(),"harness":R.ROOT/"code/lab/track_c/c10e_bandknob.py",
+                  "hparams":R.ROOT/"code/configs/hparams/qwen25_3b_memit_hparams.json",
+                  "frame_source":R.ROOT/"code/lab/track_c/c10p_twopass_arms.py",
+                  "g6_screen":R.ROOT/"code/configs/screens/g6_screen_qwen3b.json",
+                  "g6_screen_v2":R.ROOT/"code/configs/screens/g6_screen_qwen3b_v2.json",
+                  "fingerprint_source":R.ROOT/"code/memit/engine_fingerprint.py",
+                  "prereg":R.ROOT/"experiments/c10w/design/C10W_ORACLE_PREREG.md"}
+    snapshot=R.ROOT/"data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots"/R.MODEL_REV
     for name in ("config.json","tokenizer.json","tokenizer_config.json","vocab.json","merges.txt","model.safetensors.index.json"):
         R.require((snapshot/name).is_file(),"missing model/tokenizer provenance: "+name)
         source_paths[name]=snapshot/name
@@ -285,7 +285,7 @@ def run_step0(directory):
 
 def new_phase(phase):
     stamp=datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ")
-    directory=R.fresh_directory(R.ROOT/"results/c10w_oracle"/(phase.lower()+"_"+stamp))
+    directory=R.fresh_directory(R.ROOT/"experiments/c10w/runs/c10w_oracle"/(phase.lower()+"_"+stamp))
     if phase!="step0":
         (directory/"train").mkdir(); (directory/"adapters").mkdir()
     return directory
@@ -295,7 +295,7 @@ def run_child(script,args,directory,stage):
     log=directory/(stage+".log")
     R.require(not log.exists(),"stage log exists: "+stage)
     with log.open("x") as f:
-        proc=subprocess.run([str(R.ROOT/".venv/bin/python"),"-B",str(R.ROOT/"experiments/track_c"/script),*map(str,args)],
+        proc=subprocess.run([str(R.ROOT/".venv/bin/python"),"-B",str(R.ROOT/"code/lab/track_c"/script),*map(str,args)],
                             cwd=R.ROOT,env=dict(os.environ,LLMDB_ROOT=str(R.ROOT)),stdout=f,stderr=subprocess.STDOUT)
         f.write("\nSTAGE_EXIT="+str(proc.returncode)+"\n")
     print("stage",stage,"exit",proc.returncode,"log",log,flush=True)

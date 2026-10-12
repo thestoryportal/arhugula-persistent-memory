@@ -17,7 +17,7 @@ Name the primary metric and why it matches the claim. Use top-1/full-sequence ex
 
 ## Power / MDE
 
-Record the planned sampling unit, cluster count, item count, expected between-order noise, and the exact `tools/power.py` command or reason a power calculation is not applicable.
+Record the planned sampling unit, cluster count, item count, expected between-order noise, and the exact `code/lab/analysis/power.py` command or reason a power calculation is not applicable.
 
 ## Confounders And Controls
 

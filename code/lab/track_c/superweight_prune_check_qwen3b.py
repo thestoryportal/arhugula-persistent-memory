@@ -4,7 +4,7 @@ stopword probability on a few sentences, restore. Nothing is written to disk; th
 Usage: superweight_prune_check_qwen3b.py <layer> <row> <col>"""
 import os, sys, json, math, torch
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-os.environ["HF_HOME"] = f"{LLMDB_ROOT}/hf_cache"; os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ["HF_HOME"] = f"{LLMDB_ROOT}/data/hf_cache"; os.environ.setdefault("HF_HUB_OFFLINE", "1")
 from transformers import AutoModelForCausalLM, AutoTokenizer
 ID, REV = "Qwen/Qwen2.5-3B", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 L, R, C = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
@@ -33,4 +33,4 @@ after = measure()
 with torch.no_grad(): W[R, C] = orig
 restored = measure()
 out = {"layer": L, "row": R, "col": C, "weight": orig, "before": before, "pruned": after, "restored": restored}
-print(json.dumps(out, indent=1)); json.dump(out, open(f"{LLMDB_ROOT}/results/superweight_qwen3b_prune_check.json", "w"), indent=1)
+print(json.dumps(out, indent=1)); json.dump(out, open(f"{LLMDB_ROOT}/experiments/superweight/runs/superweight_qwen3b_prune_check/superweight_qwen3b_prune_check.json", "w"), indent=1)

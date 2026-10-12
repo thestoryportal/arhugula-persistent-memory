@@ -33,7 +33,7 @@ POLICY = ['/usr/sbin/taskpolicy', '-b', '-d', 'throttle']
 
 
 def check_gpu():
-    spec = importlib.util.spec_from_file_location('intel_copy_gate', REPO / 'tools/c10w_p2_gate.py')
+    spec = importlib.util.spec_from_file_location('intel_copy_gate', REPO / 'code/lab/runners/c10w_p2_gate.py')
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module.check_gpu()
@@ -194,7 +194,7 @@ class Controller:
         self.receipt_path = self.directory / 'receipt.json'
         self.log_path = self.directory / 'run.jsonl'
         self.runner = runner if runner is not None else NativeRunner(log=self.log)
-        self.patterns = [p.strip() for p in (REPO / 'tools/backup_mirror.excludes').read_text().splitlines() if p.strip() and not p.startswith('#')]
+        self.patterns = [p.strip() for p in (REPO / 'code/ops/backup/backup_mirror.excludes').read_text().splitlines() if p.strip() and not p.startswith('#')]
         self.manifest_info = None
 
     def record(self, path, value):
@@ -358,7 +358,7 @@ class Controller:
 
     def remote_script(self, mode, *args):
         command = '/usr/bin/python3 -I -B - ' + shlex.join([mode] + list(args))
-        out = self.runner.run(self.remote + [command], stdin=(REPO / 'tools/memit_intel_receive.py').read_bytes())
+        out = self.runner.run(self.remote + [command], stdin=(REPO / 'code/ops/intel/memit_intel_receive.py').read_bytes())
         if not out.strip():
             raise ValueError('empty Intel response')
         result = json.loads(out)

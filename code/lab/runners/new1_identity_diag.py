@@ -23,14 +23,14 @@ from tools import new1_supervisor as S
 DEADLINE_S, RSS_CAP_GIB, THREADS, DISK_BYTES = 600, 11., 8, 1000000
 CLEANUP_S = 5
 LAUNCH_S = 5
-SCOPE = ROOT / 'results/mathlab_staging/new1_identity_diag_scope.md'
+SCOPE = ROOT / 'experiments/new1/design/new1_identity_diag_scope.md'
 SOURCE_PINS = {
-    'tools/new1_geometry.py': '018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e',
-    'tools/new1_supervisor.py': 'a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b',
-    'memit_dry_run/memit/util/runningstats.py': '7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97',
-    'experiments/track_c/c10e_bandknob.py': '1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695',
-    'results/mathlab_staging/new1_b_identity_diag_authorization.md': 'daa41ea90df6a1ed1a73c4f03289f6f384dc97756f6b4ba93d4766535aad05c1',
-    'results/mathlab_staging/new1_b_halt_astra.md': '9b4c5e90079bb52f7aef6824d2ace3fae292e6a0cf91d5ba62000589c5f2b5be',
+    'code/lab/runners/new1_geometry.py': '018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e',
+    'code/lab/runners/new1_supervisor.py': 'a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b',
+    'code/memit/vendor/util/runningstats.py': '7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97',
+    'code/lab/track_c/c10e_bandknob.py': '1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695',
+    'experiments/new1/rulings/new1_b_identity_diag_authorization.md': 'daa41ea90df6a1ed1a73c4f03289f6f384dc97756f6b4ba93d4766535aad05c1',
+    'experiments/new1/reviews/new1_b_halt_astra.md': '9b4c5e90079bb52f7aef6824d2ace3fae292e6a0cf91d5ba62000589c5f2b5be',
 }
 HARVEST_COMMIT = '6ea8e7c07156133667a8d6d28364f759ba1d7a31'
 HARVEST_SHA = '9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb'
@@ -680,7 +680,7 @@ def main(argv=None):
         check_enforcement()
         with S.hard_deadline(start+DEADLINE_S-time.monotonic()):
             G.verify_file(Path(__file__), args.source_sha)
-            directory = new_directory(ROOT / 'results/mathlab_staging/new1_identity_diag')
+            directory = new_directory(ROOT / 'experiments/new1/runs/new1_identity_diag')
         command = [sys.executable, '-B', str(Path(__file__).resolve()), '--worker',
                    '--scope-sha', args.scope_sha, '--source-sha', args.source_sha]
         status = supervise(command, directory, preflight=lambda: verify_launch(args.scope_sha, args.source_sha),

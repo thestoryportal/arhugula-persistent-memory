@@ -8,7 +8,7 @@ run finds zero anchors and reports ALREADY APPLIED.
 from pathlib import Path
 import sys
 
-E = Path("memit_dry_run/memit")
+E = Path("code/memit/vendor")
 edits = {
  "memit/compute_z.py": [
   # one device resolution per call, right after lm_b is resolved

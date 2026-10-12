@@ -11,8 +11,8 @@ RUN_ID = "fixture-run"
 PREREG = ("# Math lab pre-registration\n\n**Status: DRAFT fixture. Not frozen.**\n"
           "- **Round 1:** old SHA `deadbeef…`, FIX-FIRST.\n"
           "- **Next:** Waiting for Astra FREEZE and the GPU queue.\n")
-BUILD_PATHS = ("tools/run_mathlab_harvest.sh", "tools/mathlab_harvest.py",
-               "mathlab/m2_solve_repro.py", "mathlab/m3_calibration.py")
+BUILD_PATHS = ("code/apps/mathlab/run_mathlab_harvest.sh", "code/apps/mathlab/mathlab_harvest.py",
+               "code/apps/mathlab/m2_solve_repro.py", "code/apps/mathlab/m3_calibration.py")
 ANSI = re.compile(r"\033\[[0-9;]*[A-Za-z]")
 
 
@@ -484,7 +484,7 @@ class Dashboard(Modules):
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         (self.root / "docs").mkdir()
-        (self.root / "docs/MATHLAB_PREREG.md").write_text(PREREG, encoding="utf-8")
+        (self.root / "experiments/ml/design/MATHLAB_PREREG.md").write_text(PREREG, encoding="utf-8")
         self.now = 1791482580.0  # 2026-10-08 18:03:00 UTC
 
     def frame(self, stream=None, cols=110, rows=40, gpu=None, check_page=None):
@@ -552,7 +552,7 @@ class Dashboard(Modules):
             path.write_text("fixture\n", encoding="utf-8")
 
     def frozen_prereg(self):
-        (self.root / "docs/MATHLAB_PREREG.md").write_text(
+        (self.root / "experiments/ml/design/MATHLAB_PREREG.md").write_text(
             PREREG.replace("DRAFT fixture. Not frozen.", "FROZEN fixture."), encoding="utf-8")
 
     def test_idle_shows_plan_current_prereg_status_sha_and_wait(self):
@@ -574,7 +574,7 @@ class Dashboard(Modules):
         header = ("# Pre-registration\n\n**Status: FROZEN v4, 2026-10-08.** Freezing approves the design. Review history:\n"
                   "- **Round 3:** previous SHA `deadbeef…`.\n"
                   "- **Next:** The harvest still waits for GPU queue admission.\n")
-        (self.root / "docs/MATHLAB_PREREG.md").write_text(header, encoding="utf-8")
+        (self.root / "experiments/ml/design/MATHLAB_PREREG.md").write_text(header, encoding="utf-8")
         text = self.frame()
         self.assertIn("FROZEN v4", text)
         self.assertIn(hashlib.sha256(header.encode()).hexdigest()[:12], text)
@@ -639,7 +639,7 @@ class Dashboard(Modules):
                                      ("FROZEN fixture.", False)):
             with self.subTest(status=status):
                 header = f"# Pre-registration\n\n**Status: {status}**\n"
-                (self.root / "docs/MATHLAB_PREREG.md").write_text(header, encoding="utf-8")
+                (self.root / "experiments/ml/design/MATHLAB_PREREG.md").write_text(header, encoding="utf-8")
                 text = self.frame()
                 self.assertIn(f"Pre-registration: {status}", text)
                 self.assertEqual("Waiting: pre-registration freeze" in text, needs_freeze)
@@ -648,7 +648,7 @@ class Dashboard(Modules):
         self.present_build_files()
         header = ("# Pre-registration\n\n**Status: FROZEN fixture.**\n"
                   "- **Next:** C10X re-run 3 and ASTRA attempt 3 must exit; no driver or notebook exists.\n")
-        (self.root / "docs/MATHLAB_PREREG.md").write_text(header, encoding="utf-8")
+        (self.root / "experiments/ml/design/MATHLAB_PREREG.md").write_text(header, encoding="utf-8")
         text = self.frame()
         self.assertIn(hashlib.sha256(header.encode()).hexdigest()[:12], text)
         for stale in ("C10X re-run 3", "ASTRA attempt 3", "no driver or notebook exists"):
@@ -657,7 +657,7 @@ class Dashboard(Modules):
 
     def test_idle_unreadable_prereg_keeps_gpu_and_file_facts_visible(self):
         self.present_build_files()
-        (self.root / "docs/MATHLAB_PREREG.md").unlink()
+        (self.root / "experiments/ml/design/MATHLAB_PREREG.md").unlink()
         text = self.frame()
         self.assertIn("PREREG ERROR", text)
         self.assertIn("Waiting: pre-registration status unavailable", text)

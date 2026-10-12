@@ -31,17 +31,17 @@ MODEL_ID = 'Qwen/Qwen2.5-3B'
 MODEL_REV = '3aab1f1954e9cc14eb9509a215f9e5ca08227a9b'
 ENGINE_SHA = 'd941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65'
 SOURCE_PATHS = {
-    'driver':'experiments/track_c/c10y_directdw_arms.py',
-    'reader':'experiments/track_c/c10y_directdw_read.py',
-    'check':'experiments/track_c/c10y_directdw_telemetry_check.py',
-    'harness':'experiments/track_c/c10e_bandknob.py',
-    'templates':'experiments/track_c/c10z_astra_benchmark.py',
-    'hparams':'configs/hparams/qwen25_3b_memit_hparams.json',
-    'compute_z':'memit_dry_run/memit/memit/compute_z.py',
-    'compute_ks':'memit_dry_run/memit/memit/compute_ks.py',
-    'repr_tools':'memit_dry_run/memit/rome/repr_tools.py',
-    'memit_main':'memit_dry_run/memit/memit/memit_main.py',
-    'prereg':'docs/C10Y_DIRECTDW_PREREG.md'}
+    'driver':'code/lab/track_c/c10y_directdw_arms.py',
+    'reader':'code/lab/track_c/c10y_directdw_read.py',
+    'check':'code/lab/track_c/c10y_directdw_telemetry_check.py',
+    'harness':'code/lab/track_c/c10e_bandknob.py',
+    'templates':'code/lab/track_c/c10z_astra_benchmark.py',
+    'hparams':'code/configs/hparams/qwen25_3b_memit_hparams.json',
+    'compute_z':'code/memit/vendor/memit/compute_z.py',
+    'compute_ks':'code/memit/vendor/memit/compute_ks.py',
+    'repr_tools':'code/memit/vendor/rome/repr_tools.py',
+    'memit_main':'code/memit/vendor/memit/memit_main.py',
+    'prereg':'experiments/c10y/design/C10Y_DIRECTDW_PREREG.md'}
 ARMS = ('A1_single','A2_coherent2','A7_coined_coined')
 A7 = ARMS[2]
 FORECAST_PHASES = ('preflight','load','contexts_targets','baseline','proofs',
@@ -152,7 +152,7 @@ def environment_identity():
 
 
 def fingerprint_record():
-    path=Path(ROOT)/'tools/engine_fingerprint.py'
+    path=Path(ROOT)/'code/memit/engine_fingerprint.py'
     spec=importlib.util.spec_from_file_location('_c10y_fingerprint',path)
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     module.MEMIT_MAIN=Path(ROOT)/SOURCE_PATHS['memit_main']
@@ -1493,7 +1493,7 @@ def input_identity(H,hp):
         return {'covariance':digest({str(l):'CPU-FIXTURE' for l in hp.layers}),'model':digest(model),
                 'tokenizer':digest({'type':type(H.tok).__name__,'padding_side':H.tok.padding_side}),'hparams':sha(Path(ROOT)/SOURCE_PATHS['hparams'])}
     caches=H.cov_cache_sha256(hp)
-    model_base=Path(ROOT)/'hf_cache/hub'/('models--'+MODEL_ID.replace('/','--'))/'snapshots'/MODEL_REV
+    model_base=Path(ROOT)/'data/hf_cache/hub'/('models--'+MODEL_ID.replace('/','--'))/'snapshots'/MODEL_REV
     model_files={p.name:sha(p) for p in sorted(model_base.glob('*.safetensors'))}
     tokenizer_files={p.name:sha(p) for p in sorted(model_base.iterdir()) if 'token' in p.name or p.name in ('vocab.json','merges.txt','config.json')}
     if not model_files or not tokenizer_files: raise Halt('MODEL-ARTIFACT-IDENTITY')
@@ -1787,7 +1787,7 @@ FRAME_SUBJECTS = ["Vorbanth", "Quillexa", "Tremnok", "Oskavel", "Blynthar", "Dur
 
 
 def frame_subjects_ast_check():
-    tree=ast.parse((Path(ROOT)/'experiments/track_c/c10p_twopass_arms.py').read_text())
+    tree=ast.parse((Path(ROOT)/'code/lab/track_c/c10p_twopass_arms.py').read_text())
     node=next(n for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='FRAME_SUBJECTS' for t in n.targets))
     return ast.literal_eval(node.value)==FRAME_SUBJECTS
 

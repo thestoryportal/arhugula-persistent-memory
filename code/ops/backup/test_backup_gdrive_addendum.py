@@ -21,9 +21,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools.test_backup_gdrive import run_process
 
-STATUS = ROOT / "tools/backup_gdrive_status.py"
-BACKUP = ROOT / "tools/backup_gdrive.sh"
-ARCHIVE = ROOT / "tools/archive_to_gdrive.sh"
+STATUS = ROOT / "code/ops/backup/backup_gdrive_status.py"
+BACKUP = ROOT / "code/ops/backup/backup_gdrive.sh"
+ARCHIVE = ROOT / "code/ops/backup/archive_to_gdrive.sh"
 RCLONE = "/opt/homebrew/bin/rclone"
 NO_RCLONE = os.environ.get("BACKUP_TEST_NO_RCLONE") == "1"
 HOST_RCLONE = unittest.skipIf(NO_RCLONE, "HOST-PENDING: real rclone forbidden by MB14 brief")
@@ -46,7 +46,7 @@ class LauncherHomeExportTest(unittest.TestCase):
             home, sentinel = base/"fixture-home", base/"sentinel-home"
             home.mkdir()
             sentinel.mkdir()
-            source = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+            source = (ROOT/"code/ops/backup/launchd/MemitGdriveBackup.applescript").read_text()
             # Keep the native transform; replace only each property's Perl payload.
             transformed = isolate_failing_launcher_home(source, home)
             for name in ("generationShell", "receiptShell"):
@@ -134,7 +134,7 @@ class Fixture(unittest.TestCase):
         env = dict(os.environ, BACKUP_SRC=str(source), BACKUP_DEST=("fixture:" if NO_RCLONE else "")+str(self.base/"held-mirror"),
                    BACKUP_LOG=str(self.log), BACKUP_HEARTBEAT=str(self.heartbeat),
                    BACKUP_LOCK_DIR=str(self.base/"lock"), BACKUP_MOUNT_POINT="/",
-                   BACKUP_RCLONE=str(rclone), BACKUP_EXCLUDES=str(ROOT/"tools/backup_mirror.excludes"))
+                   BACKUP_RCLONE=str(rclone), BACKUP_EXCLUDES=str(ROOT/"code/ops/backup/backup_mirror.excludes"))
         owner = subprocess.Popen(["/bin/bash", str(BACKUP)], env=env, stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE, text=True)
         self.addCleanup(owner.communicate, timeout=5)
@@ -301,7 +301,7 @@ class HeartbeatTest(Fixture):
         self.env = dict(os.environ, BACKUP_SRC=str(self.src), BACKUP_DEST=("fixture:" if NO_RCLONE else "")+str(self.base / "mirror"),
                         BACKUP_LOG=str(self.log), BACKUP_HEARTBEAT=str(self.heartbeat),
                         BACKUP_LOCK_DIR=str(self.base / "lock"), BACKUP_MOUNT_POINT="/",
-                        BACKUP_RCLONE=str(self.base/"HOST-PENDING-rclone") if NO_RCLONE else RCLONE, BACKUP_EXCLUDES=str(ROOT / "tools/backup_mirror.excludes"))
+                        BACKUP_RCLONE=str(self.base/"HOST-PENDING-rclone") if NO_RCLONE else RCLONE, BACKUP_EXCLUDES=str(ROOT / "code/ops/backup/backup_mirror.excludes"))
 
     def backup(self, **changes):
         return run_process(["/bin/bash", str(BACKUP)], env=dict(self.env, **changes), timeout=10)
@@ -885,7 +885,7 @@ class LaunchReceiptTest(Fixture):
         counter.write_text("0\n")
 
     def launch(self, wrapper, *, error_number=None, env=None):
-        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        text = (ROOT/"code/ops/backup/launchd/MemitGdriveBackup.applescript").read_text()
         literals = {name: json.loads(literal) for name, literal in
                     re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', text, re.M)}
         if "launchShell" in literals:
@@ -899,7 +899,7 @@ class LaunchReceiptTest(Fixture):
             command = next(line.strip()[len("do shell script "):] for line in text.splitlines()
                            if line.strip().startswith("do shell script "))
             body = json.loads(command).replace(
-                "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh",
+                "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/code/ops/backup/backup_gdrive.sh",
                 shlex.quote(str(wrapper)))
             args = []
         environment = dict(os.environ, **(env or {}))
@@ -1162,7 +1162,7 @@ class GenerationLaunchTest(Fixture):
         marker = self.base/"generations"
         wrapper = self.base/"stub.sh"
         wrapper.write_text('#!/bin/sh\nprintf "%s\\n" "${BACKUP_LAUNCH_GENERATION:-0}" >> '+shlex.quote(str(marker))+'\n')
-        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        text = (ROOT/"code/ops/backup/launchd/MemitGdriveBackup.applescript").read_text()
         literals = {name: json.loads(literal) for name, literal in re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', text, re.M)}
         body = literals.get("generationShell", "")+literals["launchShell"]+literals["receiptShell"]
         procs = [subprocess.Popen(["/bin/sh", "-c", body, "backup-launch", str(wrapper)],
@@ -1261,7 +1261,7 @@ class GenerationLaunchTest(Fixture):
 
 
     def shell_literal(self, name, *args):
-        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        text = (ROOT/"code/ops/backup/launchd/MemitGdriveBackup.applescript").read_text()
         literals = {key: json.loads(value) for key, value in
                     re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', text, re.M)}
         return run_process(["/bin/sh", "-c", literals[name], "backup-fixture", *map(str, args)],
@@ -1302,7 +1302,7 @@ class GenerationLaunchTest(Fixture):
     def test_2_crash_after_allocation_then_refusal_preserves_generation_11(self):
         self.success_baseline()
         previous = (self.heartbeat.parent/"launch_receipt.json").read_bytes()
-        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        text = (ROOT/"code/ops/backup/launchd/MemitGdriveBackup.applescript").read_text()
         literal = re.search(r'^property generationShell : ("(?:\\.|[^"\\])*")$', text, re.M)[1]
         result = run_process(["/bin/sh", "-c", json.loads(literal)+"/bin/kill -KILL $$\n"],
                              env=dict(os.environ, HOME=str(self.home)), timeout=5)
@@ -1383,7 +1383,7 @@ class GenerationLaunchTest(Fixture):
 
     def test_4_null_evidence_publication_waits_for_recovery_counter_lock(self):
         self.success_baseline()
-        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        text = (ROOT/"code/ops/backup/launchd/MemitGdriveBackup.applescript").read_text()
         literal = re.search(r'^property receiptShell : ("(?:\\.|[^"\\])*")$', text, re.M)[1]
         entered = self.base/"publisher-entered"
         body = 'touch '+shlex.quote(str(entered))+'\n'+json.loads(literal)
@@ -1509,7 +1509,7 @@ class R5RecoveryTest(R5Fixture):
 
     def test_r6_1_mb14_archive_requires_floor_100_and_completion_102(self):
         self.success_baseline()
-        fixture = ROOT/"results/backup_gdrive_mb21_20261010T191747Z/mb14_fixture"
+        fixture = ROOT/"_archive/projects/backup-gdrive/backup_gdrive_mb21_20261010T191747Z/mb14_fixture"
         rows = json.loads((fixture.parent/"mb14_fixture_tree_sha256.json").read_text())
         for row in rows:
             if row["kind"] == "file":
@@ -1958,7 +1958,7 @@ class R5CompactionTest(R5Fixture):
     BYTE_LIMIT = 2048
 
     def perl_program(self, name):
-        source = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        source = (ROOT/"code/ops/backup/launchd/MemitGdriveBackup.applescript").read_text()
         literal = json.loads(re.search(r'^property '+name+r' : ("(?:\\.|[^"\\])*")$', source, re.M)[1])
         # The program is the actual argument to Perl -e, including both publishers.
         match = re.search(r" -e '(.*?)\n'", literal, re.S)
@@ -2195,7 +2195,7 @@ class LockedReleaseTest(Fixture):
         self.addCleanup(temporary_root.stop)
         super().setUp()
         self.checkout = self.base/"checkout"
-        launchd = self.checkout/"tools/launchd"
+        launchd = self.checkout/"code/ops/backup/launchd"
         launchd.mkdir(parents=True)
         self.original = {
             "backup_gdrive.sh": b'#!/bin/sh\nprintf "%s\\n" "$0" > "$HOME/dispatched-wrapper"\nprintf "%s\\n" "$BACKUP_LAUNCH_GENERATION" > "$HOME/dispatched-generation"\n',
@@ -2205,7 +2205,7 @@ class LockedReleaseTest(Fixture):
         for name, content in self.original.items():
             (self.checkout/"tools"/name).write_bytes(content)
         for name in ("MemitGdriveBackup.applescript", "build_gdrive_applet.sh", "stage_gdrive_release.sh"):
-            source = ROOT/"tools/launchd"/name
+            source = ROOT/"code/ops/backup/launchd"/name
             if source.exists():
                 shutil.copyfile(source, launchd/name)
         self.git("init", "-q")
@@ -2228,7 +2228,7 @@ class LockedReleaseTest(Fixture):
         return result
 
     def stage(self, *, baseline=True, root=None, rendered=None):
-        script = self.checkout/"tools/launchd/stage_gdrive_release.sh"
+        script = self.checkout/"code/ops/backup/launchd/stage_gdrive_release.sh"
         if not script.exists() and baseline:
             # Safely exercise the old dispatch: its checkout path is a tiny stub.
             self.release.mkdir(parents=True)
@@ -2236,9 +2236,9 @@ class LockedReleaseTest(Fixture):
                 (self.release/name).write_bytes(content)
             manifest = "".join(hashlib.sha256(self.original[n]).hexdigest()+"  "+n+"\n" for n in self.FILES)
             (self.release/"MANIFEST").write_text(manifest)
-            source = (self.checkout/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+            source = (self.checkout/"code/ops/backup/launchd/MemitGdriveBackup.applescript").read_text()
             source = re.sub(r'^property wrapperPath : .*$',
-                            lambda m: 'property wrapperPath : '+json.dumps(str(self.checkout/"tools/backup_gdrive.sh")),
+                            lambda m: 'property wrapperPath : '+json.dumps(str(self.checkout/"code/ops/backup/backup_gdrive.sh")),
                             source, flags=re.M)
             self.rendered.write_text(source)
             return subprocess.CompletedProcess([], 0, "", "")
@@ -2325,7 +2325,7 @@ class LockedReleaseTest(Fixture):
 
     def test_checkout_pull_cannot_change_dispatch(self):
         self.ready()
-        (self.checkout/"tools/backup_gdrive.sh").write_text("#!/bin/sh\nexit 99\n")
+        (self.checkout/"code/ops/backup/backup_gdrive.sh").write_text("#!/bin/sh\nexit 99\n")
         result = self.dispatch()
         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
         self.assertTrue(self.marker.is_file(), "pull changed what the applet dispatches")
@@ -2335,7 +2335,7 @@ class LockedReleaseTest(Fixture):
     def test_existing_release_id_refused_without_overwrite(self):
         self.ready()
         before = {p.name: p.read_bytes() for p in self.release.iterdir()}
-        result = run_process(["/bin/bash", str(self.checkout/"tools/launchd/build_gdrive_applet.sh"),
+        result = run_process(["/bin/bash", str(self.checkout/"code/ops/backup/launchd/build_gdrive_applet.sh"),
                               self.commit, "fixture-r1", str(self.base/"second.app")], timeout=10)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("existing release", result.stderr.lower())
@@ -2370,10 +2370,10 @@ class LockedReleaseTest(Fixture):
             self.assertIn(hashlib.sha256(path.read_bytes()).hexdigest(), source)
 
     def build_native(self):
-        self.assertTrue((self.checkout/"tools/launchd/stage_gdrive_release.sh").is_file(),
+        self.assertTrue((self.checkout/"code/ops/backup/launchd/stage_gdrive_release.sh").is_file(),
                         "locked release build entrypoint is missing")
         # Standard Additions does not inherit subprocess HOME; embed the fixture HOME.
-        template = self.checkout/"tools/launchd/MemitGdriveBackup.applescript"
+        template = self.checkout/"code/ops/backup/launchd/MemitGdriveBackup.applescript"
         def isolate(match):
             name, literal = match.groups()
             body = json.loads(literal)
@@ -2383,7 +2383,7 @@ class LockedReleaseTest(Fixture):
         template.write_text(re.sub(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', isolate,
                                    template.read_text(), flags=re.M))
         app = self.base/"locked fixture.app"
-        result = run_process(["/bin/bash", str(self.checkout/"tools/launchd/build_gdrive_applet.sh"),
+        result = run_process(["/bin/bash", str(self.checkout/"code/ops/backup/launchd/build_gdrive_applet.sh"),
                               self.commit, "fixture-r1", str(app)], timeout=20)
         LauncherTest.osa_result(self, result, "locked release build")
         return app
@@ -2429,8 +2429,8 @@ else:
             path.write_text(fake)
             path.chmod(0o700)
         # Substitute only tool paths in this fixture copy; production has no override.
-        builder = self.checkout/"tools/launchd/build_gdrive_applet.sh"
-        source = (ROOT/"tools/launchd/build_gdrive_applet.sh").read_text()
+        builder = self.checkout/"code/ops/backup/launchd/build_gdrive_applet.sh"
+        source = (ROOT/"code/ops/backup/launchd/build_gdrive_applet.sh").read_text()
         for name in ("osacompile", "osadecompile"):
             self.assertIn("/usr/bin/"+name, source)
             source = source.replace("/usr/bin/"+name, name)
@@ -2489,7 +2489,7 @@ else:
 
     def test_compiled_app_dispatches_release_after_checkout_change(self):
         app = self.build_native()
-        (self.checkout/"tools/backup_gdrive.sh").write_text("#!/bin/sh\nexit 99\n")
+        (self.checkout/"code/ops/backup/backup_gdrive.sh").write_text("#!/bin/sh\nexit 99\n")
         result = run_process(["/usr/bin/osascript", str(app/"Contents/Resources/Scripts/main.scpt")], timeout=5)
         LauncherTest.osa_result(self, result, "osascript locked app")
         self.assertEqual(self.marker.read_text().strip(), str(self.release/"backup_gdrive.sh"))
@@ -2518,7 +2518,7 @@ class LauncherTest(Fixture):
         self.assertEqual(result.returncode, 0, command+": "+output)
 
     def test_launchd_waits_for_background_applet(self):
-        with (ROOT/"tools/launchd/com.rhu.memit-gdrive-backup.plist").open("rb") as stream:
+        with (ROOT/"code/ops/backup/launchd/com.rhu.memit-gdrive-backup.plist").open("rb") as stream:
             value = plistlib.load(stream)
         self.assertEqual(value["ProgramArguments"],
                          ["/usr/bin/open", "-W", "-g", "/Users/robertrhu/Applications/MemitGdriveBackup.app"])
@@ -2526,7 +2526,7 @@ class LauncherTest(Fixture):
         self.assertIs(value["RunAtLoad"], False)
 
     def test_nonzero_shell_script_is_caught_promptly_without_dialog(self):
-        source = ROOT/"tools/launchd/MemitGdriveBackup.applescript"
+        source = ROOT/"code/ops/backup/launchd/MemitGdriveBackup.applescript"
         self.assertTrue(source.is_file(), "no-dialog applet source must exist")
         marker = self.base/"failing-script-invoked"
         stub = self.base/"failing-backup.sh"
@@ -2562,7 +2562,7 @@ class LauncherTest(Fixture):
         self.assertGreater(int(counter.read_text()), 0)
 
     def test_builder_compiles_applet_and_prints_complete_sha256_manifest(self):
-        script = ROOT/"tools/launchd/build_gdrive_applet.sh"
+        script = ROOT/"code/ops/backup/launchd/build_gdrive_applet.sh"
         self.assertTrue(script.is_file(), "applet builder must exist")
         app = self.base/"test backup.app"
         commit = run_process(["/usr/bin/git", "-C", str(ROOT), "rev-parse", "HEAD"], timeout=5)
@@ -2593,7 +2593,7 @@ class ArchiveTest(Fixture):
         self.src.parent.mkdir()
         self.src.write_bytes(b"irreplaceable test")
         self.dest = self.base / "remote"
-        self.manifest = self.source_root / "docs/ARCHIVE_MANIFEST.tsv"
+        self.manifest = self.source_root / "evidence/manifests/ARCHIVE_MANIFEST.tsv"
         self.env = dict(os.environ, ARCHIVE_ROOT=str(self.source_root), ARCHIVE_DEST=str(self.dest),
                         ARCHIVE_MANIFEST=str(self.manifest), ARCHIVE_RCLONE=RCLONE)
 

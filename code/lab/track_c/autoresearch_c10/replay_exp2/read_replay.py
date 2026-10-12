@@ -25,7 +25,7 @@ CANON = "The capital of {} is the city of"
 EXPECTED_EDIT_SHA256 = "60556b67bf70062703309fb3ee7232da3f51c4fdf3615a170f0643f9f62baa82"
 EXPECTED_DIFF_SHA256 = "2eb6b215b1d659451e82d24ba972768770cebd5b0f5fd14395892ca1d6497fcf"
 PRECHECK_MAX_AGE_S = 3600
-# Realized seed-0 list: results/autoresearch_c10_equivalence_rerun.log:25.
+# Realized seed-0 list: experiments/c10r/runs/autoresearch_c10_equivalence_run/logs/autoresearch_c10_equivalence_rerun.log:25.
 CONTEXTS = [["{}"], ["The following is a single-choice question from a Chinese. {}",
                         "Therefore, the number of ways to choose the remaining. {}",
                         "Because the number of students in the class is not. {}",
@@ -265,13 +265,13 @@ def fidelity_inputs(dest):
     """Enumerate the complete pinned input set without importing the engine."""
     dest = Path(dest).resolve()
     constants = pinned_constants(dest)
-    require(sha_file(PROGRAM_ROOT / "experiments/track_c/c10e_bandknob.py") == constants["HARNESS_SHA256"], "fixed program harness hash changed")
+    require(sha_file(PROGRAM_ROOT / "code/lab/track_c/c10e_bandknob.py") == constants["HARNESS_SHA256"], "fixed program harness hash changed")
     require(sha_file(dest / "c10e_bandknob.py") == constants["HARNESS_SHA256"], "pinned harness copy mismatch")
-    engine = PROGRAM_ROOT / "memit_dry_run/memit"
-    snapshot = PROGRAM_ROOT / f"hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/{MODEL_REV}"
-    required = [PROGRAM_ROOT / "configs/hparams/qwen25_3b_memit_hparams.json",
-                PROGRAM_ROOT / "configs/screens/g6_screen_qwen3b.json", PROGRAM_ROOT / "configs/screens/g6_screen_qwen3b_v2.json",
-                PROGRAM_ROOT / "experiments/track_c/c10e_bandknob.py", PROGRAM_ROOT / "tools/engine_fingerprint.py",
+    engine = PROGRAM_ROOT / "code/memit/vendor"
+    snapshot = PROGRAM_ROOT / f"data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/{MODEL_REV}"
+    required = [PROGRAM_ROOT / "code/configs/hparams/qwen25_3b_memit_hparams.json",
+                PROGRAM_ROOT / "code/configs/screens/g6_screen_qwen3b.json", PROGRAM_ROOT / "code/configs/screens/g6_screen_qwen3b_v2.json",
+                PROGRAM_ROOT / "code/lab/track_c/c10e_bandknob.py", PROGRAM_ROOT / "code/memit/engine_fingerprint.py",
                 SOURCE.parent / "autoresearch_fence_c10/reference_controls.json", engine / "globals.yml",
                 PROGRAM_ROOT / ".venv/pyvenv.cfg", Path(sys.executable).resolve()]
     required += sorted(engine.rglob("*.py"))
@@ -279,7 +279,7 @@ def fidelity_inputs(dest):
         required.append(snapshot / name)
     index = load_json(snapshot / "model.safetensors.index.json")
     required += [snapshot / name for name in sorted(set(index["weight_map"].values()))]
-    required += [PROGRAM_ROOT / f"covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.{layer}.mlp.down_proj_float32_mom2_t100_100000.npz" for layer in LAYERS]
+    required += [PROGRAM_ROOT / f"data/covariance/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.{layer}.mlp.down_proj_float32_mom2_t100_100000.npz" for layer in LAYERS]
     return required
 
 
@@ -297,7 +297,7 @@ def fidelity_manifest(dest):
 MODEL_ARGUMENT = re.compile(
     r"(?:^|[/\s\"'])(?:edit\.py|prepare\.py|check_equivalence\.py)(?=$|[\s\"'])"
     r"|(?:^|[/\s\"'])c10e_bandknob[^/\s\"']*"
-    r"|(?:^|[/\s\"'])experiments/track_c/c10[^\s\"']*"
+    r"|(?:^|[/\s\"'])code/lab/track_c/c10[^\s\"']*"
     r"|(?:^|[/\s\"'])(?:ipykernel|jupyter)[^/\s\"']*(?=$|[/\s\"'])", re.I)
 
 
@@ -433,7 +433,7 @@ def digest(value):
 
 def cached_tokenizer():
     from tokenizers import Tokenizer
-    return Tokenizer.from_file(str(PROGRAM_ROOT / f"hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/{MODEL_REV}/tokenizer.json"))
+    return Tokenizer.from_file(str(PROGRAM_ROOT / f"data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/{MODEL_REV}/tokenizer.json"))
 
 
 def validate_positions(record, tokenizer=None):
@@ -608,9 +608,9 @@ def read_score(score_path, receipt_path):
 
         def fingerprint():
             fp = receipt["engine_fingerprint"]
-            tree = ast.parse((PROGRAM_ROOT / "tools/engine_fingerprint.py").read_text())
+            tree = ast.parse((PROGRAM_ROOT / "code/memit/engine_fingerprint.py").read_text())
             constants = {n.targets[0].id: ast.literal_eval(n.value) for n in tree.body if isinstance(n, ast.Assign) and isinstance(n.targets[0], ast.Name) and n.targets[0].id in ("EXPECTED_SHA256", "EXPECTED_COV_CPU_SITES")}
-            main = PROGRAM_ROOT / "memit_dry_run/memit/memit/memit_main.py"
+            main = PROGRAM_ROOT / "code/memit/vendor/memit/memit_main.py"
             require(fp["exit"] == 0 and fp["LLMDB_ROOT"] == str(PROGRAM_ROOT) and fp["interpreter"] == str(PROGRAM_ROOT / ".venv/bin/python"), "fingerprint did not use pinned interpreter/root or failed")
             lines = fp["stdout"].strip().splitlines()
             require(len(lines) == 3 and lines[0] == f"engine fingerprint PASS: {main}" and f"sha256   {constants['EXPECTED_SHA256']}" in lines[1] and f"_cov_cpu {constants['EXPECTED_COV_CPU_SITES']} " in lines[2], "empty/unexpected fingerprint output")
@@ -664,7 +664,7 @@ def read_score(score_path, receipt_path):
             require(set(files) == set(expected_files) and all(files[k]["resolved_path"] == v for k, v in expected_files.items()), "fidelity input set or resolved paths incomplete/changed")
             require(set(before["numeric_env"]) == {"LLMDB_DEVICE", "PYTORCH_MPS_FAST_MATH", "PYTORCH_ENABLE_MPS_FALLBACK", "OMP_NUM_THREADS", "MKL_NUM_THREADS", "VECLIB_MAXIMUM_THREADS"}, "missing numeric/device environment identity")
             require(before["numeric_env"]["LLMDB_DEVICE"] in (None, "mps"), "wrong edit device override")
-            for key in ("configs/hparams/qwen25_3b_memit_hparams.json", "configs/screens/g6_screen_qwen3b.json", "configs/screens/g6_screen_qwen3b_v2.json", "experiments/track_c/c10e_bandknob.py", "tools/engine_fingerprint.py", "memit_dry_run/memit/globals.yml", f"hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/{MODEL_REV}/tokenizer.json", f"hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/{MODEL_REV}/config.json"):
+            for key in ("code/configs/hparams/qwen25_3b_memit_hparams.json", "code/configs/screens/g6_screen_qwen3b.json", "code/configs/screens/g6_screen_qwen3b_v2.json", "code/lab/track_c/c10e_bandknob.py", "code/memit/engine_fingerprint.py", "code/memit/vendor/globals.yml", f"data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/{MODEL_REV}/tokenizer.json", f"data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/{MODEL_REV}/config.json"):
                 require(str(PROGRAM_ROOT / key) in files, f"missing fidelity input: {key}")
             require(any(k.endswith(".safetensors") for k in files) and all(any(f"model.layers.{layer}.mlp.down_proj_" in k for k in files) for layer in LAYERS), "missing model/covariance byte identities")
             return {"interpreter": before["interpreter"], "packages": before["packages"], "os": before["os"], "model_revision": before["model_revision"], "file_count": len(files), "manifest_sha256": sha_json(before), "unchanged": True}

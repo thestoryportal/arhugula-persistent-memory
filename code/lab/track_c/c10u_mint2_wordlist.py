@@ -1,10 +1,10 @@
 """D-C10u-mint2 word list (C10U_MINT2_PREREG.md §1): screen the authored V2 head candidates and the modifier-only arm's
 modifiers against the published rules with the base tokenizer only (no model load), and write the frozen, hashed record
-results/c10u_mint2/v2_wordlist.json. The binding admission is step 0's P2 on the engine's tokenizer object; this is the
+experiments/c10u/runs/c10u_mint2/v2_wordlist.json. The binding admission is step 0's P2 on the engine's tokenizer object; this is the
 pre-screen that fixes the list before freeze. The protected words come from the harness files: the constants by AST
 extraction; the probe templates and the LAW#5 strings as literal copies of all_harness_prompts (c10l_mint_lib.py:182-183).
 The sampled context templates are runtime-only and are audited by step 0, not here.
-Usage: LLMDB_ROOT=<repo> .venv/bin/python experiments/track_c/c10u_mint2_wordlist.py
+Usage: LLMDB_ROOT=<repo> .venv/bin/python code/lab/track_c/c10u_mint2_wordlist.py
 """
 import ast, datetime, json, os, re, sys
 
@@ -12,9 +12,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import c10l_mint_lib as M   # register(), sha256_text(), UNRELATED; imports torch + tokenizers only
 
 ROOT = os.environ["LLMDB_ROOT"]   # [LAW:no-silent-failure] KeyError if unset, like every sibling driver
-HARNESS = f"{ROOT}/experiments/track_c/c10e_bandknob.py"
-TWOPASS = f"{ROOT}/experiments/track_c/c10p_twopass_arms.py"
-OUT_DIR = f"{ROOT}/results/c10u_mint2"
+HARNESS = f"{ROOT}/code/lab/track_c/c10e_bandknob.py"
+TWOPASS = f"{ROOT}/code/lab/track_c/c10p_twopass_arms.py"
+OUT_DIR = f"{ROOT}/experiments/c10u/runs/c10u_mint2"
 OUT = f"{OUT_DIR}/v2_wordlist.json"
 MIN_SUBSTRING_LEN = 4   # substring containment is checked against inventory words of this length or more (§1 rule text)
 
@@ -108,7 +108,7 @@ def main():
     from transformers import AutoTokenizer
     H = harness_constants(HARNESS, {"ID", "REV", "CANON", "PTEST", "FICTION", "GENERIC", "coined_head", "coined_mod"})
     F = harness_constants(TWOPASS, {"FRAME_SUBJECTS"})["FRAME_SUBJECTS"]
-    screens = {k: json.load(open(f"{ROOT}/configs/screens/{k}.json"))["selected"] for k in ("g6_screen_qwen3b", "g6_screen_qwen3b_v2")}
+    screens = {k: json.load(open(f"{ROOT}/code/configs/screens/{k}.json"))["selected"] for k in ("g6_screen_qwen3b", "g6_screen_qwen3b_v2")}
     countries = sorted(set(screens["g6_screen_qwen3b"]) | set(screens["g6_screen_qwen3b_v2"]))
     capitals = sorted({s[c]["capital"]["truth"] for s in screens.values() for c in s})
     fiction = H["FICTION"]
@@ -172,7 +172,7 @@ def main():
     short_common = {h: sorted(w for w in inventory if w not in names and len(w) < MIN_SUBSTRING_LEN and w in h.lower()) for h in heads}
 
     record = {
-        "decision_id": "D-C10u-mint2", "prereg": "docs/C10U_MINT2_PREREG.md", "kind": "word-list pre-screen; base tokenizer only, no model",
+        "decision_id": "D-C10u-mint2", "prereg": "experiments/c10u/design/C10U_MINT2_PREREG.md", "kind": "word-list pre-screen; base tokenizer only, no model",
         "timestamp": datetime.datetime.now().astimezone().isoformat(), "tokenizer": {"id": H["ID"], "revision": H["REV"]},
         "rules": {
             "head_form": "alphabetic, capitalised, lowercase after the first letter",

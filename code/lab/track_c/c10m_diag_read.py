@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""D-C10m-diag mechanical reader (docs/C10M_DIAG_READPARTITION_EDITINJECT_PREREG.md v2 §3). No model judgement.
-Usage: c10m_diag_read.py results/c10m_diag/diag_run.json [results/c10l_mint]   (the mint dir supplies Q3's four fixed files)
+"""D-C10m-diag mechanical reader (experiments/c10m/design/C10M_DIAG_READPARTITION_EDITINJECT_PREREG.md v2 §3). No model judgement.
+Usage: c10m_diag_read.py experiments/c10m/runs/c10m_diag/diag_run.json [experiments/c10l/runs/c10l_mint]   (the mint dir supplies Q3's four fixed files)
 [LAW:one-source-of-truth] every threshold lives here once, as §3 states it. Fails closed on any missing field or file.
 """
 import sys, json, os
@@ -9,8 +9,8 @@ from c10l_mint_read import L3_THR
 
 FINGERPRINT = "d941a9fb"
 Q3_FILES = {"seed0": "arm_N.json", "seed0_fourth_replicate": "arm_N_p4.json", "seed1": "arm_N_seed1.json", "seed2": "arm_N_seed2.json"}
-Q3_RANGE_OVER = ("seed0", "seed1", "seed2")   # prereg §3 Q3: R over the three distinct seeds, seed 0 = the CORPUS/45 row (46); the fourth replicate is listed, not ranged
-ENV_PARA, ENV_CANON = (5, 18), (5, 10)      # identical-baseline envelope, CORPUS/44
+Q3_RANGE_OVER = ("seed0", "seed1", "seed2")   # prereg §3 Q3: R over the three distinct seeds, seed 0 = the evidence/CORPUS/45 row (46); the fourth replicate is listed, not ranged
+ENV_PARA, ENV_CANON = (5, 18), (5, 10)      # identical-baseline envelope, evidence/CORPUS/44
 INJ_PRE_PARA_MIN, INJ_PRE_CANON_MIN = 44, 22
 DRIFT_GAIN, LEAD, CHAIN_GAIN, TF_HIGH, N_CHAIN, N_MAJ = 15, 30, 5, 0.75, 8, 13
 H2_CANON, H2_PARA_DROP, H1_CANON, H1_PARA_OVER = 20, 10, 12, 10

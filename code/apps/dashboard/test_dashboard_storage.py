@@ -23,7 +23,7 @@ from unittest import mock
 
 TOOLS = Path(__file__).resolve().parent
 RECEIPTS = os.environ.get("DASHBOARD_STORAGE_RECEIPTS")
-FIXTURES = TOOLS.parent / "results/dashboard_storage_mb22_20261010T192500Z"
+FIXTURES = TOOLS.parent / "_archive/projects/dashboard/dashboard_storage_mb22_20261010T192500Z"
 
 
 def manifest(root):

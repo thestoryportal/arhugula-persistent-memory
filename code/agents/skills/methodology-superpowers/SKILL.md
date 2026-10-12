@@ -22,8 +22,8 @@ claiming completion, or receiving review feedback.
 
 ## LLM-as-Database Binding
 
-- Prefer `tools/experiment_gate.py` for experiment handoff checks.
-- Use `tools/stats.py`/`tools/power.py` for result and design statistics.
+- Prefer `code/gates/experiment_gate.py` for experiment handoff checks.
+- Use `code/lab/analysis/stats.py`/`code/lab/analysis/power.py` for result and design statistics.
 - For method ports, require active easy-control behavior before hard cases.
 - A process pass is not CORPUS evidence.
 

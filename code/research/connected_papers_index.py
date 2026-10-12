@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Merge the operator's Connected Papers .bib exports into one index: per paper, how many of the seed neighbourhoods it
 appears in (co-occurrence = centrality around the program's seeds), its year, and whether the repo already cites it
-(title-prefix search over docs/, CORPUS/, memory_mirror/, EXPERIMENT_RUNBOOK.md). Writes docs/CONNECTED_PAPERS_GRAPH_INDEX_<date>.md.
-Usage: python3 tools/connected_papers_index.py <corpus_dir> [--date YYYY-MM-DD]"""
+(title-prefix search over docs/, evidence/CORPUS/, _system/memory/, program/runbook/). Writes docs/CONNECTED_PAPERS_GRAPH_INDEX_<date>.md.
+Usage: python3 code/research/connected_papers_index.py <corpus_dir> [--date YYYY-MM-DD]"""
 import os, re, sys, glob, json, datetime, urllib.parse
 from collections import defaultdict
 ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +24,7 @@ for f in sorted(glob.glob(os.path.join(corpus, "**", "*.bib"), recursive=True)):
         p["graphs"].add(seed)
 # repo coverage by title prefix (first 6 words) over the program's docs
 hay = ""
-for pat in ("docs/*.md", "CORPUS/*.md", "memory_mirror/*.md", "EXPERIMENT_RUNBOOK.md", "EVIDENCE_INDEX.md"):
+for pat in ("docs/*.md", "evidence/CORPUS/*.md", "_system/memory/*.md", "program/runbook/", "program/EVIDENCE_INDEX.md"):
     for f in glob.glob(os.path.join(ROOT, pat)):
         if "CONNECTED_PAPERS_GRAPH_INDEX" in f: continue   # never read a previous index back as coverage
         hay += open(f, encoding="utf-8", errors="replace").read().lower() + "\n"
@@ -39,7 +39,7 @@ for p in papers.values():
 rows = sorted(papers.values(), key=lambda p: (-len(p["graphs"]), p["year"], p["title"]))
 n_graphs = len(seeds); recurring = [p for p in rows if len(p["graphs"]) >= 3]; new_recurring = [p for p in recurring if not p["in_repo"]]
 out = [f"# Connected Papers graph index — {date}", "",
-       f"_Merged from {n_graphs} Connected Papers exports supplied by the operator (`{corpus}`, kept outside git). {len(papers)} distinct papers. A paper's **graphs** count is the number of seed neighbourhoods it appears in; ≥ 3 marks the recurring spine of the field around the program's seeds. **in repo** = a title-prefix match somewhere in docs/, CORPUS/, memory_mirror/ or the runbook (presence, not depth of reading)._", "",
+       f"_Merged from {n_graphs} Connected Papers exports supplied by the operator (`{corpus}`, kept outside git). {len(papers)} distinct papers. A paper's **graphs** count is the number of seed neighbourhoods it appears in; ≥ 3 marks the recurring spine of the field around the program's seeds. **in repo** = a title-prefix match somewhere in docs/, evidence/CORPUS/, _system/memory/ or the runbook (presence, not depth of reading)._", "",
        "## Seeds (one graph each)", ""] + [f"- {s}" for s in seeds] + ["", f"## Recurring papers (in ≥ 3 of {n_graphs} graphs): {len(recurring)}; not yet in repo context: {len(new_recurring)}", "",
        "| graphs | year | first author | title | in repo |", "|---|---|---|---|---|"]
 for p in recurring: out.append(f"| {len(p['graphs'])} | {p['year']} | {p['author']} | {p['title']} | {('yes (' + p['match'] + ')') if p['in_repo'] else '**no**'} |")

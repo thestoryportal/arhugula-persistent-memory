@@ -7,7 +7,7 @@ so the per-layer update realises only a small fraction of the residual.  The mod
 and the change it produces at edit key k_e is  upd^T k_e = R (K^T P A^-T k_e).  With roughly independent residuals the fraction of
 item e's own residual that is realised is the diagonal of  G = K^T P A^-T K.  This script reports diag(G) per layer for a fixed L2 grid,
 on the exact keys the module uses (A1 question+answer sequences; K = window positions, Kp = all other positions), plus the key energies
-and the top eigenvalue of K K^T + Kp Kp^T against L2.  Writes results/c10k_route_a/solve_gain_diag.json."""
+and the top eigenvalue of K K^T + Kp Kp^T against L2.  Writes experiments/c10k/runs/c10k_route_a/solve_gain_diag.json."""
 import os, sys, json, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import c10k_route_a_launcher as L
@@ -18,7 +18,7 @@ def main():
     import torch
     from util import nethook
     dev = L.resolve_device(); tok, model = L.load_model(dev, torch.float32); fiction, arms = L.build_stimuli(tok)
-    P = torch.load(L.LLMDB_ROOT + "/logs/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt")
+    P = torch.load(L.LLMDB_ROOT + "/experiments/c10k/runs/c10k_route_a/bulk/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt")
     rep = {"L2_grid": L2_GRID, "arms": {}}
     for arm in ("A1_single", "A2_coherent2"):
         V = arms[arm]; items = [(L.CANON.format(s), " " + V[s]) for s in fiction]; rep["arms"][arm] = {}

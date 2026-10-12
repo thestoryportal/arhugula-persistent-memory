@@ -20,8 +20,8 @@ import os, sys, json, shutil, subprocess, glob
 from pathlib import Path
 
 ROOT = Path(os.environ.get("LLMDB_ROOT", Path(__file__).resolve().parents[1]))
-MODEL_HINT = "hf_cache/hub/models--Qwen--Qwen2.5-3B"   # the primary edit-validated model
-ENGINE = "memit_dry_run/memit"
+MODEL_HINT = "data/hf_cache/hub/models--Qwen--Qwen2.5-3B"   # the primary edit-validated model
+ENGINE = "code/memit/vendor"
 
 def sh(args, timeout=20):
     try:
@@ -64,7 +64,7 @@ def collect():
     git_branch = sh(["git","branch","--show-current"]); git_head = sh(["git","rev-parse","--short","HEAD"])
     git_dirty = sh(["git","status","--porcelain"]);
     s03 = ""
-    rb = ROOT/"EXPERIMENT_RUNBOOK.md"
+    rb = ROOT/"program/runbook/"
     if rb.exists():
         txt = rb.read_text(errors="ignore"); i = txt.find("§0.3 — CURRENT POSITION")
         if i!=-1:
@@ -105,13 +105,13 @@ def preflight(as_json=False):
     return 2 if hard else 0
 
 def closeout(strict=False, as_json=False):
-    # §0.4: did results change without a CORPUS/runbook doc change in the same dirty set?
+    # §0.4: did results change without a evidence/CORPUS/runbook doc change in the same dirty set?
     dirty = sh(["git","status","--porcelain"]).splitlines()
     res_changed = [l[3:] for l in dirty if l[3:].startswith("results/") and l[3:].endswith(".json")]
-    doc_changed = [l[3:] for l in dirty if l[3:].startswith(("CORPUS/","docs/")) or l[3:] in ("EXPERIMENT_RUNBOOK.md","SESSION_CHECKPOINT.md","EVIDENCE_INDEX.md")]
+    doc_changed = [l[3:] for l in dirty if l[3:].startswith(("evidence/CORPUS/","docs/")) or l[3:] in ("program/runbook/","program/checkpoints/","program/EVIDENCE_INDEX.md")]
     obligations=[]
     if res_changed and not doc_changed:
-        obligations.append(f"{len(res_changed)} result JSON(s) changed but NO doc update. UNATTENDED → stage to logs/pending_findings/NN_<unit>.md (NOT CORPUS). SUPERVISED → full §0.4 close-out (CORPUS/NN + 00/03 + runbook §0.3/§12/§13 + checkpoint).")
+        obligations.append(f"{len(res_changed)} result JSON(s) changed but NO doc update. UNATTENDED → stage to experiments/ml/reviews/pending_findings/NN_<unit>.md (NOT CORPUS). SUPERVISED → full §0.4 close-out (evidence/CORPUS/NN + 00/03 + runbook §0.3/§12/§13 + checkpoint).")
     msg = dict(verdict="OBLIGATIONS" if obligations else "CLEAN",
                results_changed=res_changed, docs_changed=doc_changed, obligations=obligations,
                reminder="Report the exact verification commands + their results. Do NOT claim success without them. A cleanly-HALTED run with a diagnostic is a SUCCESS.")

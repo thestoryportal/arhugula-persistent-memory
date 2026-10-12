@@ -30,8 +30,8 @@ HONEST SCOPE (advisor-shaped; kept flush with tests):
 import re, json, time
 from g2_security_layer import KeyPair, verify, StateLedger, _canon, _sha   # reuse G2 crypto + ledger
 
-LEDGER_PATH = f"{LLMDB_ROOT}/results/g3_state_ledger.jsonl"
-RESULT_PATH = f"{LLMDB_ROOT}/results/g3_result.json"
+LEDGER_PATH = f"{LLMDB_ROOT}/experiments/g3/runs/g3/g3_state_ledger.jsonl"
+RESULT_PATH = f"{LLMDB_ROOT}/experiments/g3/runs/g3/g3_result.json"
 
 # Real §7.3 five relation families (D6) — the declared vocabulary. `violates` is ephemeral-only (D7, C6/C9).
 RELATION_FAMILIES = {

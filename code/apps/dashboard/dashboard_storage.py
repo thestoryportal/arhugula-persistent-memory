@@ -1,6 +1,6 @@
 """Storage tab: read-only Drive progress and cached, low-priority project sizes.
 
-Usage: /usr/bin/python3 tools/dashboard_storage.py [--once COLS ROWS]
+Usage: /usr/bin/python3 code/apps/dashboard/dashboard_storage.py [--once COLS ROWS]
 Only the size cache under ~/Library/Caches/memit-dashboard is written.
 """
 import datetime as dt

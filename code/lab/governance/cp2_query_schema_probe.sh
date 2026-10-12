@@ -3,9 +3,9 @@
 # Question (CORPUS 03/06, CP2): does LARQL's LQL express the spec's query surface —
 #   L1 SELECT read-back (§8.9), DELETE FROM EDGES (§8.5), the triple model + 5 relation
 #   families (§7.3 D6), and `violates` ephemeral-rejection (C6/C9) — vs. only INFER/generation?
-# Result interpretation lives in CORPUS/08_CP2_*. This script is the reproducible evidence.
+# Result interpretation lives in evidence/CORPUS/08_CP2_*. This script is the reproducible evidence.
 set -u
-L=$LLMDB_ROOT/external_prior_art/larql/target/release/larql
+L=$LLMDB_ROOT/code/vendor/external_prior_art/larql/target/release/larql
 CV="${1:-$(ls -d /dev/shm/cp1_work/compiled_*.vindex 2>/dev/null | head -1)}"
 BASE=/dev/shm/qwen3.vindex
 echo "## CP2 probe  vindex=$CV  base=$BASE  $(date -u +%FT%TZ)"

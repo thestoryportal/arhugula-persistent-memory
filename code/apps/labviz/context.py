@@ -13,13 +13,13 @@ from pathlib import Path
 
 
 PACKAGE = Path(__file__).resolve().parent
-REGISTRY = "docs/EXPERIMENT_REGISTRY.md"
-OVERLAY = "docs/SPEC_EXPERIMENT_OVERLAY.md"
-CONDITIONS = "docs/F1_DETERMINATION.md"
-E2E = "docs/SPEC_E2E_GROUND_TRUTH.md"
-HYPOTHESES = "docs/HYPOTHESIS_REGISTER_2026-06-18.md"
-RUNBOOK = "EXPERIMENT_RUNBOOK.md"
-TABLE = "tools/labviz/contexts.json"
+REGISTRY = "program/registers/EXPERIMENT_REGISTRY.md"
+OVERLAY = "knowledge/specs/SPEC_EXPERIMENT_OVERLAY.md"
+CONDITIONS = "knowledge/findings/F1_DETERMINATION.md"
+E2E = "knowledge/specs/SPEC_E2E_GROUND_TRUTH.md"
+HYPOTHESES = "program/registers/HYPOTHESIS_REGISTER_2026-06-18.md"
+RUNBOOK = "program/runbook/"
+TABLE = "code/apps/labviz/contexts.json"
 _DECISION = re.compile(r"(?<![A-Za-z0-9-])(D-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)(?![A-Za-z0-9-])")
 _ANCHOR = re.compile(r"⟨(D-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)@[^⟩]+⟩")
 _RESULT_PATH = re.compile(r"(?<![A-Za-z0-9_])(?:/workspace/)?(results/[A-Za-z0-9_./*{},+\-]+)")
@@ -62,7 +62,7 @@ def _chosen_decision(text, anchored_only=False):
 
 def _corpus_refs(text):
     refs = []
-    for match in re.finditer(r"CORPUS/(\d{2})(?:[–-](\d{2}))?", text):
+    for match in re.finditer(r"evidence/CORPUS/(\d{2})(?:[–-](\d{2}))?", text):
         first, last = int(match[1]), int(match[2] or match[1])
         if last < first:
             raise ValueError("reversed CORPUS range")
@@ -207,7 +207,7 @@ class Program:
         return rows
 
     def _read_headers(self):
-        folder = self.root / "CORPUS"
+        folder = self.root / "evidence/CORPUS"
         headers = []
         for path in sorted(folder.glob("[0-9][0-9]_*.md")) if folder.is_dir() else []:
             file = path.relative_to(self.root).as_posix()
@@ -461,7 +461,7 @@ class Program:
             context["candidates"].extend(self._doc(REGISTRY, row["line"], value, "dec:" + value)
                                          for value in row["decision_candidates"])
         for number in row["corpus"]:
-            context["corpus_entries"].append(self._doc(REGISTRY, row["line"], "CORPUS/" + number, "corpus:" + number))
+            context["corpus_entries"].append(self._doc(REGISTRY, row["line"], "evidence/CORPUS/" + number, "corpus:" + number))
         if len(context["corpus_entries"]) == 1:
             context["corpus"] = copy.deepcopy(context["corpus_entries"][0])
         elif context["corpus_entries"]:
@@ -541,10 +541,10 @@ class Program:
                 experiment_edges[row["id"]] = direct(exp, dec, REGISTRY, row["line"], row["id"], row["decision"])
             for number in row["corpus"]:
                 target = "corpus:" + number
-                node(target, "CORPUS/" + number)
-                direct(exp, target, REGISTRY, row["line"], row["id"], "CORPUS/" + number)
+                node(target, "evidence/CORPUS/" + number)
+                direct(exp, target, REGISTRY, row["line"], row["id"], "evidence/CORPUS/" + number)
                 if row["decision"]:
-                    direct("dec:" + row["decision"], target, REGISTRY, row["line"], row["decision"], "CORPUS/" + number)
+                    direct("dec:" + row["decision"], target, REGISTRY, row["line"], row["decision"], "evidence/CORPUS/" + number)
             if row["id"] in self.tables.get("experiments", {}):
                 entry = self.tables["experiments"][row["id"]]
                 nodes[exp]["era"] = entry["era"]
@@ -563,7 +563,7 @@ class Program:
                 edge = direct(spec, dec, OVERLAY, row["line"], row["id"], decision)
                 overlay_edges.setdefault((row["id"], decision), edge)
             for number, words in row["corpus"]:
-                node("corpus:" + number, "CORPUS/" + number)
+                node("corpus:" + number, "evidence/CORPUS/" + number)
                 direct(spec, "corpus:" + number, OVERLAY, row["line"], row["id"], words)
         for condition in self.conditions:
             cond = "cond:" + condition["id"]
@@ -599,10 +599,10 @@ class Program:
         for exp, entry in self.tables.get("experiment_hypotheses", {}).items():
             if "exp:" + exp in nodes and entry["hypothesis"] in nodes:
                 curated("exp:" + exp, entry["hypothesis"], entry["citation"], ["experiment_hypotheses", exp])
-        models_file = self.root / "tools/labviz/models.json"
+        models_file = self.root / "code/apps/labviz/models.json"
         models = json.loads(models_file.read_text(encoding="utf-8")) if models_file.is_file() else {}
         for model, info in models.items():
-            node("model:" + model, model, status=info.get("status"), src={"file": "tools/labviz/models.json", "path": _json_path([model, "status"])})
+            node("model:" + model, model, status=info.get("status"), src={"file": "code/apps/labviz/models.json", "path": _json_path([model, "status"])})
         for model, entry in self.tables.get("model_eras", {}).items():
             if not self._real_program:
                 continue
@@ -637,7 +637,7 @@ class Program:
                 if decision != entry["id"]:
                     direct(owner, "dec:" + decision, RUNBOOK, entry["line"], entry["id"], decision)
             for number, words in entry["corpus"]:
-                node("corpus:" + number, "CORPUS/" + number)
+                node("corpus:" + number, "evidence/CORPUS/" + number)
                 direct(owner, "corpus:" + number, RUNBOOK, entry["line"], entry["id"], words)
         for owner, recorded_dates in dates.items():
             nodes[owner]["dates"] = recorded_dates

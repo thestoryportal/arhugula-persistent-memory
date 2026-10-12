@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import os, sys, io, contextlib, json, math, random
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -34,7 +34,7 @@ from memit.compute_ks import compute_ks
 # Engine UNMODIFIED. Primitives copied verbatim from g6_scale_n.py (LAW#5-proven).
 # ============================================================================
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 SEED=int(os.environ.get("SEED","0"))
 LAMBDAS=[float(x) for x in os.environ.get("LAMBDAS","0,0.5,1,2,5").split(",")]
@@ -145,7 +145,7 @@ print(f"  engine expr={eng_p:.4f} loc={eng_loc}% | harness-memit expr={my_p:.4f}
 if not ok1: print("LAW#5 gate-1 fail; HALT.", flush=True); sys.exit(0)
 
 # ---------- build pools FIRST (need sentinel entities for gate 2 Ks) ----------
-scr=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json")); sel=scr["selected"]
+scr=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json")); sel=scr["selected"]
 all_ents=list(sel.keys()); random.Random(SEED).shuffle(all_ents)
 edit_ents=all_ents[:50]; sentinel_ents=all_ents[50:60]; eval_ents=all_ents[60:70]
 assert not (set(edit_ents)&set(sentinel_ents)) and not (set(sentinel_ents)&set(eval_ents)) and not (set(edit_ents)&set(eval_ents)), "pools not disjoint"
@@ -249,9 +249,9 @@ out={"config":{"model":ID,"seed":SEED,"lambdas":LAMBDAS,"N":len(records),"band":
      "inertness":{"gate1_engine_vs_harness_memit":{"delta_expr":abs(eng_p-my_p)},
                   "gate2_sentinel_lam0_vs_alphaedit":{"delta_expr":abs(a_p-b_p),"delta_loc":abs(a_loc-b_loc)}},
      "sweep":sweep}
-json.dump(out,open(f"{LLMDB_ROOT}/results/a2_relbal_sentinels_result.json","w"),indent=2,default=str)
+json.dump(out,open(f"{LLMDB_ROOT}/experiments/a2/runs/a2_relbal_sentinels/a2_relbal_sentinels_result.json","w"),indent=2,default=str)
 print("\n=== SUMMARY: EVAL edited-rel top-1 correct @N=100 by λ_s ===", flush=True)
 for lam in LAMBDAS:
     r=sweep[str(lam)][-1]
     print(f"  λ={lam}: eval-top1={r['eval_top1']['edited_rel']['top1_correct_vs_truth']}% (stable {r['eval_top1']['edited_rel']['top1_stable_vs_pre']}%) | retention={r['all_record_retention']}% expr={r['apply_time_expr']}%", flush=True)
-print(f"wrote {LLMDB_ROOT}/results/a2_relbal_sentinels_result.json\nDONE", flush=True)
+print(f"wrote {LLMDB_ROOT}/experiments/a2/runs/a2_relbal_sentinels/a2_relbal_sentinels_result.json\nDONE", flush=True)

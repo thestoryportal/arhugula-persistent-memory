@@ -984,8 +984,8 @@ def _file_evidence(record, supervisor):
     """Completion admission; synthetic classifier inputs do not enter here."""
     _dict(record, MANIFEST + ('write_size_diagnostics',), 'complete manifest')
     identity = record['identity']
-    _need(identity['hparams'] == record['sources_start'].get('configs/hparams/qwen25_3b_memit_hparams.json') and
-          record['prereg_sha256'] == record['sources_start'].get('docs/C10X_ENGINEPATH_PREREG.md'),
+    _need(identity['hparams'] == record['sources_start'].get('code/configs/hparams/qwen25_3b_memit_hparams.json') and
+          record['prereg_sha256'] == record['sources_start'].get('experiments/c10x/design/C10X_ENGINEPATH_PREREG.md'),
           'manifest hparams/prereg hash differs from declared sources')
     software = _dict(identity['software'], ('python', 'machine', 'platform', 'torch', 'transformers', 'model_rev'), 'software')
     for key in software:

@@ -7,8 +7,8 @@
 # SSD (durable tier). The partitions "Development" and "backups" share memit's physical
 # disk and are NOT valid destinations.
 #
-# Run by launchd (tools/launchd/com.rhu.memit-backup.plist) or by hand:
-#     bash tools/backup_mirror.sh
+# Run by launchd (code/ops/backup/launchd/com.rhu.memit-backup.plist) or by hand:
+#     bash code/ops/backup/backup_mirror.sh
 #
 # [LAW:no-silent-failure] every failure exits non-zero with a message; nothing is
 # redirected to /dev/null. [LAW:effects-at-boundaries] the only effect is one rsync.

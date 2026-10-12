@@ -1,6 +1,6 @@
 # Experiment Gate — Phase-1 Skill Spec (Implemented)
 
-_A repo-local Claude skill that fuses the three disconnected clusters InfraNodus surfaced (discipline/verification · measurement/stats · bias-audit) into ONE gated chain: **pre-register → run-under-LAWs → verify-runs-stats → bias-audit → cross-family review**. Drafted 2026-06-23 from the external-skill audit (`EXTERNAL_SKILL_REPOS_AUDIT.md §11`) + the InfraNodus gap synthesis. **IMPLEMENTED 2026-06-27.** See `tools/experiment_gate.py` and `tools/skills/experiment-gate/`._
+_A repo-local Claude skill that fuses the three disconnected clusters InfraNodus surfaced (discipline/verification · measurement/stats · bias-audit) into ONE gated chain: **pre-register → run-under-LAWs → verify-runs-stats → bias-audit → cross-family review**. Drafted 2026-06-23 from the external-skill audit (`EXTERNAL_SKILL_REPOS_AUDIT.md §11`) + the InfraNodus gap synthesis. **IMPLEMENTED 2026-06-27.** See `code/gates/experiment_gate.py` and `code/agents/skills/experiment-gate/`._
 
 > **Provenance / license.** Authored in-repo. It *reuses the program's own disciplines* and standard methods (power analysis, cluster bootstrap, GRADE-style risk-of-bias) — **no text is lifted from the audited third-party skills** (K-Dense per-skill licenses are mixed; 9arm/awesome-list have none). The named skills (superpowers `verification-before-completion`, K-Dense `experimental-design`/`statistical-power`, `scientific-critical-thinking`, `the-fool`/`scrutinize`) are the *inspiration*, not the source.
 
@@ -10,13 +10,13 @@ _A repo-local Claude skill that fuses the three disconnected clusters InfraNodus
 
 Implemented as a repo-local workflow layer, not a parallel evidence authority:
 
-- `tools/experiment_gate.py` provides `init`, `check-prereg`, `check-result`, `audit-method-port`, and `bundle`.
-- `tools/skills/experiment-gate/SKILL.md` is the concise agent-facing workflow.
-- `tools/skills/experiment-gate/references/` carries the metric, sampling, confound, method-port, debugging, verification, and review-routing checklists.
-- `check-result` fresh-reads saved JSON and writes stats reports under `logs/experiment_gate/`; aggregate-only results are blocked for completion claims.
-- `bundle` never writes `CORPUS/*`; it blocks handoff unless prereg/result/method-port checks pass and review status is explicit.
-- Supporting methodology skills (`methodology-superpowers`, `scientific-critical-thinking`, `debug-mantra-scrutinize`, `premortem-the-fool`, `scientific-problem-selection`) are installed for Codex and Claude via `tools/install_science_methodology_skills.sh`; `tools/restore_pod_tools.sh` reruns that installer.
-- For Codex-led science, advisor-review now defaults to Claude via `tools/claude_advisor.sh` using local `claude.ai` Max subscription auth, not an Anthropic API key; Codex/GPT review is fallback or secondary.
+- `code/gates/experiment_gate.py` provides `init`, `check-prereg`, `check-result`, `audit-method-port`, and `bundle`.
+- `code/agents/skills/experiment-gate/SKILL.md` is the concise agent-facing workflow.
+- `code/agents/skills/experiment-gate/references/` carries the metric, sampling, confound, method-port, debugging, verification, and review-routing checklists.
+- `check-result` fresh-reads saved JSON and writes stats reports under `experiments/c10j/runs/c10j_anyedit_window50_controls/experiment_gate/`; aggregate-only results are blocked for completion claims.
+- `bundle` never writes `evidence/CORPUS/*`; it blocks handoff unless prereg/result/method-port checks pass and review status is explicit.
+- Supporting methodology skills (`methodology-superpowers`, `scientific-critical-thinking`, `debug-mantra-scrutinize`, `premortem-the-fool`, `scientific-problem-selection`) are installed for Codex and Claude via `_archive/code/install_science_methodology_skills.sh`; `_archive/pod-era/tools/restore_pod_tools.sh` reruns that installer.
+- For Codex-led science, advisor-review now defaults to Claude via `code/agents/claude_advisor.sh` using local `claude.ai` Max subscription auth, not an Anthropic API key; Codex/GPT review is fallback or secondary.
 
 ## 0. The one design constraint that governs everything
 
@@ -36,8 +36,8 @@ Two corollaries:
 | 1 | **RUN (under the LAWs)** | Engine fingerprint gate (SHA + `grep -c _cov_cpu == 3`); LAW#5 inertness for any harness method; read-source-before-authoring; save result JSON deterministically. | **NO RESULT WITHOUT A FINGERPRINT-VERIFIED ENGINE + A SAVED RESULT JSON.** | (uses existing preflight) | `CLAUDE.md` LAWs |
 | 2 | **VERIFY-RUNS-STATS** ⭐ | Run the *pre-registered* statistics on the saved JSON: paired within-unit diff, cluster-bootstrap CIs over (held-out × order), JS/KL with CIs, top-1 McNemar/Fisher. Compare to the pre-registered thresholds → propose a deterministic label. | **NO COMPLETION CLAIM WITHOUT A FRESH STATS COMPUTATION ON THE SAVED JSON** ("skip a step = lying"). | `stats.py`, `sampling-units.md` | [[clustered-editing-trials-sampling-unit]] · [[sequential-edit-run-nondeterminism]] |
 | 3 | **BIAS-AUDIT** | Run each pre-registered confounder control; mark CONTROLLED / OPEN. Any OPEN confounder caps the label at CONFOUNDED/PARTIAL. | **NO PROMOTION WITH AN UNCONTROLLED PRE-REGISTERED CONFOUNDER.** | `audit.py`, `confounder-checklist.md` | [[bias-ablation-causal-attribution]] · [[pass-label-not-equal-promotable-claim]] |
-| 4 | **COLD-REVIEW** | For Codex-led work, run Claude via `tools/claude_advisor.sh` (claude.ai Max subscription, no API key) on the result + stats + bias-audit. For Claude-led work, use GPT/Codex review. Explicitly check: did same-family review inflate the verdict? Cheapest overturning test? | **NO PROMOTABLE CLAIM WITHOUT INDEPENDENT CROSS-FAMILY REVIEW.** | `tools/claude_advisor.sh` | [[review-diminishing-returns-evidence-is-binding]] |
-| 5 | **HANDOFF** | Emit the pre-reg + stats report + bias-audit + review verdict as the inputs to the **existing** close-out: write `CORPUS/NN` → run `closeout_check.py <D-ID>` until ✅ ALL GREEN. The gate stops here. | **THE GATE DOES NOT WRITE CORPUS OR PICK THE FINAL VERDICT.** | (hands to `closeout_check.py`) | [[closeout-gate-before-done]] |
+| 4 | **COLD-REVIEW** | For Codex-led work, run Claude via `code/agents/claude_advisor.sh` (claude.ai Max subscription, no API key) on the result + stats + bias-audit. For Claude-led work, use GPT/Codex review. Explicitly check: did same-family review inflate the verdict? Cheapest overturning test? | **NO PROMOTABLE CLAIM WITHOUT INDEPENDENT CROSS-FAMILY REVIEW.** | `code/agents/claude_advisor.sh` | [[review-diminishing-returns-evidence-is-binding]] |
+| 5 | **HANDOFF** | Emit the pre-reg + stats report + bias-audit + review verdict as the inputs to the **existing** close-out: write `evidence/CORPUS/NN` → run `closeout_check.py <D-ID>` until ✅ ALL GREEN. The gate stops here. | **THE GATE DOES NOT WRITE CORPUS OR PICK THE FINAL VERDICT.** | (hands to `closeout_check.py`) | [[closeout-gate-before-done]] |
 
 The three gaps InfraNodus found map exactly to the three fusions: **Gap 1** (Test/Debugging ↔ Statistical-Significance) = Phase 2 (verification that *runs* the stats). **Gap 2** (Experiment-Refinement ↔ Bias-Audit) = Phase 3 gating any arbor-style candidate. **Gap 3** (Power ↔ Bias-Audit) = Phase 0 fusing power + confounder pre-registration.
 
@@ -108,14 +108,14 @@ the label at CONFOUNDED / PARTIAL — never PASS.
 
 ## Phase 4 — COLD-REVIEW  (Iron Law: NO PROMOTABLE CLAIM WITHOUT CROSS-FAMILY REVIEW)
 Use the opposite model family from the authoring agent. For Codex-led work, run Claude
-via `tools/claude_advisor.sh` using local claude.ai Max subscription auth; for
+via `code/agents/claude_advisor.sh` using local claude.ai Max subscription auth; for
 Claude-led work, use GPT/Codex review. Review the result + stats + bias-audit. Ask
 explicitly: did same-family self-review inflate the verdict? What is the cheapest
 test that would OVERTURN this? A passing self-review is not evidence.
 
 ## Phase 5 — HANDOFF  (Iron Law: THE GATE DOES NOT WRITE CORPUS OR PICK THE FINAL VERDICT)
 Bundle the pre-reg + stats report + bias-audit + review verdict and hand them to the
-EXISTING close-out: write CORPUS/NN, then run `python3 tools/closeout_check.py <D-ID>`
+EXISTING close-out: write evidence/CORPUS/NN, then run `python3 code/gates/closeout_check.py <D-ID>`
 until ALL GREEN. The human + the close-out gate decide promotion. The gate stops here.
 
 ## Red Flags (rationalization stoppers)
@@ -130,7 +130,7 @@ until ALL GREEN. The human + the close-out gate decide promotion. The gate stops
 ## 3. Directory layout (repo-local)
 
 ```
-tools/skills/experiment-gate/          # repo-local (gitignored install into ~/.claude/skills on demand)
+code/agents/skills/experiment-gate/          # repo-local (gitignored install into ~/.claude/skills on demand)
 ├── SKILL.md                           # §2 above
 ├── references/
 │   ├── metric-matching.md             # top-1 vs JS/KL; the asymmetric-metric trap; per-claim metric table
@@ -141,7 +141,7 @@ tools/skills/experiment-gate/          # repo-local (gitignored install into ~/.
     ├── stats.py                       # the Phase-2 statistics engine
     └── audit.py                       # the Phase-3 confounder runner
 ```
-Install path mirrors the InfraNodus-skills pattern: master in `tools/skills/`, installed to `~/.claude/skills/experiment-gate/` by an installer, re-installed by `restore_pod_tools.sh`. (Repo-local → no license/exfil/trigger-collision risk from third-party skills.)
+Install path mirrors the InfraNodus-skills pattern: master in `code/agents/skills/`, installed to `~/.claude/skills/experiment-gate/` by an installer, re-installed by `restore_pod_tools.sh`. (Repo-local → no license/exfil/trigger-collision risk from third-party skills.)
 
 ---
 
@@ -177,7 +177,7 @@ Install path mirrors the InfraNodus-skills pattern: master in `tools/skills/`, i
  design ──▶ [Phase 0 PRE-REGISTER] ──▶ [Phase 1 RUN under LAWs] ──▶ [Phase 2 stats.py]
                                                                           │
             EXISTING machinery (gate hands off, does NOT replace):        ▼
-   CORPUS/NN  ◀──── [Phase 5 HANDOFF] ◀── [Phase 4 advisor+codex] ◀── [Phase 3 audit.py]
+   evidence/CORPUS/NN  ◀──── [Phase 5 HANDOFF] ◀── [Phase 4 advisor+codex] ◀── [Phase 3 audit.py]
         │
         ▼
    closeout_check.py <D-ID>  →  ✅ ALL GREEN   (the human + gate decide promotion)
@@ -188,11 +188,11 @@ Install path mirrors the InfraNodus-skills pattern: master in `tools/skills/`, i
 ---
 
 ## 7. Historical open questions (resolved by 2026-06-27 implementation)
-1. **Install location** — `tools/skills/` master + installer (consistent with InfraNodus skills), or just keep it as `tools/*.py` scripts + a `docs/` checklist and *not* a Claude skill at all? (A non-skill version dodges trigger-collision entirely; a skill version auto-fires the discipline. The audit's lesson leans "scripts + checklist, invoked deliberately" over an auto-injecting skill.)
+1. **Install location** — `code/agents/skills/` master + installer (consistent with InfraNodus skills), or just keep it as `tools/*.py` scripts + a `docs/` checklist and *not* a Claude skill at all? (A non-skill version dodges trigger-collision entirely; a skill version auto-fires the discipline. The audit's lesson leans "scripts + checklist, invoked deliberately" over an auto-injecting skill.)
 2. **`stats.py` scope** — start with the metrics you actually use today (top-1 paired, cluster-bootstrap, JS/KL), or build the fuller battery now? (Recommend: start minimal, on a real `results/*.json`.)
 3. **Label authority** — does `stats.py`'s proposed label feed the autonomy driver's deterministic-rule slot, or stay advisory to the human? (Recommend: advisory; the driver already has its own pre-registered rule.)
 4. **Does this earn its complexity** vs just adding `power.py`/`stats.py`/`audit.py` as three plain tools you call by hand? (The InfraNodus finding says the *integration* is the value — but verify that against the "don't add a framework" caveat.)
 
 ---
 
-_Document type: process/reference (no experiment D-ID; not subject to `closeout_check`). Drafted 2026-06-23; implemented 2026-06-27 in `tools/experiment_gate.py` and `tools/skills/experiment-gate/`._
+_Document type: process/reference (no experiment D-ID; not subject to `closeout_check`). Drafted 2026-06-23; implemented 2026-06-27 in `code/gates/experiment_gate.py` and `code/agents/skills/experiment-gate/`._

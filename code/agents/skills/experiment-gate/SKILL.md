@@ -21,7 +21,7 @@ and review drift. It is not an evidence authority.
 
 ## Supporting Methodology Skills
 
-These repo-local skills are installed for both Codex and Claude by `tools/install_science_methodology_skills.sh` and restored by `tools/restore_pod_tools.sh`:
+These repo-local skills are installed for both Codex and Claude by `_archive/code/install_science_methodology_skills.sh` and restored by `_archive/pod-era/tools/restore_pod_tools.sh`:
 
 - `methodology-superpowers`: verification-before-completion, systematic debugging, test-first harness work, review handling.
 - `scientific-critical-thinking`: bias/confound/metric/evidence audit.
@@ -35,18 +35,18 @@ Compose with the existing program machinery:
 
 - Preregs live in `docs/<D-ID>_PREREG.md`.
 - Results live in `results/`.
-- Statistics use `tools/stats.py` and `tools/power.py`.
-- Handoff goes to normal CORPUS/tracker closeout and then `python3 tools/closeout_check.py <D-ID>`.
-- The gate produces `logs/experiment_gate/*_gate_package.json`; it never writes `CORPUS/*`.
+- Statistics use `code/lab/analysis/stats.py` and `code/lab/analysis/power.py`.
+- Handoff goes to normal evidence/CORPUS/tracker closeout and then `python3 code/gates/closeout_check.py <D-ID>`.
+- The gate produces `experiments/c10j/runs/c10j_anyedit_window50_controls/experiment_gate/*_gate_package.json`; it never writes `evidence/CORPUS/*`.
 
 ## Phase Order
 
 1. **Pre-register:** falsifiable hypothesis, binding metric, PASS/PARTIAL/FAIL/INVALID thresholds, power/MDE, confound controls, abort criteria, artifact paths, and advisor gate. Read `references/metric-matching.md`, `references/sampling-units.md`, and `references/confounder-checklist.md`.
 2. **Run under LAWs:** engine fingerprint, LAW#5 inertness for harness-side methods, source readback, deterministic saved JSON.
-3. **Verify runs/stats:** fresh-read the saved result JSON and run stats. Use `python3 tools/experiment_gate.py check-result results/<file>.json`. A stats refusal blocks completion claims.
-4. **Bias/method audit:** run every preregistered confound control. For external method ports, read `references/method-port-faithfulness.md` and run `python3 tools/experiment_gate.py audit-method-port <packet.json>`.
-5. **Cold review:** advisor-review before harness/test criteria, after stalls/surprises, before approach changes, and before verdict. In Codex sessions, the default out-of-family advisor is Claude via `tools/claude_advisor.sh` (claude.ai Max subscription, no API key). Council is only for spec-contract/tension framing; see `references/review-routing.md`.
-6. **Handoff:** build a gate package with `python3 tools/experiment_gate.py bundle <D-ID> ... --review-status both_done`, then do the normal closeout.
+3. **Verify runs/stats:** fresh-read the saved result JSON and run stats. Use `python3 code/gates/experiment_gate.py check-result results/<file>.json`. A stats refusal blocks completion claims.
+4. **Bias/method audit:** run every preregistered confound control. For external method ports, read `references/method-port-faithfulness.md` and run `python3 code/gates/experiment_gate.py audit-method-port <packet.json>`.
+5. **Cold review:** advisor-review before harness/test criteria, after stalls/surprises, before approach changes, and before verdict. In Codex sessions, the default out-of-family advisor is Claude via `code/agents/claude_advisor.sh` (claude.ai Max subscription, no API key). Council is only for spec-contract/tension framing; see `references/review-routing.md`.
+6. **Handoff:** build a gate package with `python3 code/gates/experiment_gate.py bundle <D-ID> ... --review-status both_done`, then do the normal closeout.
 
 ## Hard Stops
 
@@ -59,11 +59,11 @@ Compose with the existing program machinery:
 ## Commands
 
 ```bash
-python3 tools/experiment_gate.py init D-EXAMPLE
-python3 tools/experiment_gate.py check-prereg docs/D-EXAMPLE_PREREG.md
-python3 tools/experiment_gate.py check-result results/example.json
-python3 tools/experiment_gate.py audit-method-port logs/example_method_port_packet.json
-python3 tools/experiment_gate.py bundle D-EXAMPLE --result results/example.json --review-status both_done
+python3 code/gates/experiment_gate.py init D-EXAMPLE
+python3 code/gates/experiment_gate.py check-prereg docs/D-EXAMPLE_PREREG.md
+python3 code/gates/experiment_gate.py check-result results/example.json
+python3 code/gates/experiment_gate.py audit-method-port logs/example_method_port_packet.json
+python3 code/gates/experiment_gate.py bundle D-EXAMPLE --result results/example.json --review-status both_done
 ```
 
 Read command output and exit status. A `BLOCKED` package is a stop signal, not a softer warning.

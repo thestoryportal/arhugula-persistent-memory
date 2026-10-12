@@ -125,8 +125,8 @@ class HostChecks(unittest.TestCase):
                 self.assertIn(name, windows)
                 for pane in (p for p in sample["panes"] if p[1] == name):
                     self.assertTrue(sample["captures"][pane[2]].strip(), f"Empty live {name} pane")
-            program = json.loads((root / "docs/program_state.json").read_text())
-            board = json.loads((root / "docs/c10_scoreboard.json").read_text())
+            program = json.loads((root / "program/program_state.json").read_text())
+            board = json.loads((root / "program/registers/c10_scoreboard.json").read_text())
             science = modules["dashboard_report"].screen(110, 40)
             frames = {"science": science, "mathlab": modules["dashboard_mathlab"].render(109, 40),
                       "experiment": modules["dashboard_experiment"].render(109, 40)}
@@ -138,7 +138,7 @@ class HostChecks(unittest.TestCase):
             plain = ANSI.sub("", "\n".join(science))
             self.assertTrue(updated_header_matches(science, program["updated"], modules["dashboard_live"]),
                             "Science header does not match the current program update")
-            self.assertIn("NEXT ACTIONS · docs/program_state.json", plain)
+            self.assertIn("NEXT ACTIONS · program/program_state.json", plain)
             self.assertIn("Scoreboard narrative only · as of " + str(board["updated"]), plain)
 
     def test_last_run_uses_experiment_source(self):
@@ -173,8 +173,8 @@ def main():
     provenance["host_test_sha256"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     provenance["host_runner_sha256"] = hashlib.sha256((args.before.parent / "run_host.sh").read_bytes()).hexdigest()
     (source / "tests").mkdir()
-    shutil.copy2(root / "tests/test_dashboard_live_refresh.py", source / "tests")
-    provenance["regression_test_sha256"] = hashlib.sha256((source / "tests/test_dashboard_live_refresh.py").read_bytes()).hexdigest()
+    shutil.copy2(root / "code/tests/test_dashboard_live_refresh.py", source / "tests")
+    provenance["regression_test_sha256"] = hashlib.sha256((source / "code/tests/test_dashboard_live_refresh.py").read_bytes()).hexdigest()
     provenance["state_inputs_at_start"] = {name: hashlib.sha256((root / "docs" / name).read_bytes()).hexdigest()
                                             for name in ("program_state.json", "c10_scoreboard.json")}
     (receipt / "provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
@@ -211,8 +211,8 @@ def main():
         modules["dashboard_team"] = importlib.import_module("dashboard_team")
     for module in modules.values():
         module.ROOT = str(root)
-    modules["dashboard_report"].BOARD = str(root / "docs/c10_scoreboard.json")
-    modules["dashboard_report"].PROGRAM = str(root / "docs/program_state.json")
+    modules["dashboard_report"].BOARD = str(root / "program/registers/c10_scoreboard.json")
+    modules["dashboard_report"].PROGRAM = str(root / "program/program_state.json")
     CONTEXT = dict(root=root, receipt=receipt, source=source, modules=modules, ps=ps, sessions=sessions, samples=samples)
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(HostChecks)
     result = unittest.TextTestRunner(verbosity=2).run(suite)

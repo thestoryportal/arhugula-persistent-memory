@@ -6,7 +6,7 @@ ROOT="${LLMDB_ROOT:-/workspace}"
 CLAUDE_BIN="${CLAUDE_BIN:-$(command -v claude || true)}"
 MODEL="${CLAUDE_ADVISOR_MODEL:-opus}"
 EFFORT="${CLAUDE_ADVISOR_EFFORT:-high}"
-PROMPT_FILE="${ADVISOR_PROMPT:-$ROOT/tools/advisor_review_prompt.md}"
+PROMPT_FILE="${ADVISOR_PROMPT:-$ROOT/code/agents/advisor_review_prompt.md}"
 
 if [ -z "$CLAUDE_BIN" ]; then
   echo "FATAL: claude CLI not found. Install/login Claude Code before advisor review." >&2

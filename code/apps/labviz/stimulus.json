@@ -1,6 +1,6 @@
 {
   "c10_harness": {
-    "source_file": "experiments/track_c/c10e_bandknob.py",
+    "source_file": "code/lab/track_c/c10e_bandknob.py",
     "sha256": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
     "tier": "SHA-bound transcription",
     "entries": [

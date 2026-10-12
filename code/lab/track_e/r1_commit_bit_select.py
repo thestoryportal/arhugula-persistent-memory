@@ -3,8 +3,8 @@ LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 
 # ============================================================================
 # R1-bit — SELECT read-back via a G1 2PC commit-status BIT (CP-class delivery).
-# Pre-reg: docs/R1_COMMIT_BIT_SELECT_PREREG.md (frozen). NOT a falsifier.
-# Fixes R1 (CORPUS/31): replaces the bleed-unsound in-weight logprob reconciliation
+# Pre-reg: experiments/r1/design/R1_COMMIT_BIT_SELECT_PREREG.md (frozen). NOT a falsifier.
+# Fixes R1 (evidence/CORPUS/31): replaces the bleed-unsound in-weight logprob reconciliation
 # with a hash-chained State Ledger whose per-(entity,relation,target) commit bit is
 # set ONLY on a successful 2PC commit -> bleed-immune by construction. CPU-only.
 # Reuses the saved R1 artifact for the bleed-contrast + the L2-firing column.
@@ -37,11 +37,11 @@ class StateLedger:
         return {e["body"].get("txn_id") for e in self.entries()
                 if e["entry_type"]=="COMMITTED" and e["body"].get("txn_id") not in prepared}
 
-LEDGER_PATH=f"{LLMDB_ROOT}/results/r1_commit_bit_ledger.jsonl"
+LEDGER_PATH=f"{LLMDB_ROOT}/experiments/r1/runs/r1_commit_bit_ledger/r1_commit_bit_ledger.jsonl"
 DECLARED_RELATIONS={"capital","language","is_a","belongs_to","defined_in"}
 
 # ---- reuse the R1 artifact (logprob sigs + L2 firing) for the bleed-contrast ----
-R1=json.load(open(f"{LLMDB_ROOT}/results/r1_select_readback.json"))
+R1=json.load(open(f"{LLMDB_ROOT}/experiments/r1/runs/r1_select_readback/r1_select_readback.json"))
 STORE_THRESH=R1["STORE_THRESH_nats"]   # 2.0 — what the bleed-unsound proxy used
 def r1_rows(setname): return R1["detail"][setname]
 def r1_l2(setname, entity):
@@ -136,8 +136,8 @@ delivered=D1 and D2 and D3 and D4 and D5 and not hard_fail
 outcome=("R1-bit DELIVERED-FOR-SCOPE (commit-time L1 read-back; post-commit divergence DEFERRED to C1)"
          if delivered else "NOT-DELIVERED")
 
-out={"prereg":"docs/R1_COMMIT_BIT_SELECT_PREREG.md","class":"CP-class constructive delivery (not a falsifier)",
-     "reuses":"results/r1_select_readback.json","store_thresh_proxy_nats":STORE_THRESH,
+out={"prereg":"experiments/r1/design/R1_COMMIT_BIT_SELECT_PREREG.md","class":"CP-class constructive delivery (not a falsifier)",
+     "reuses":"experiments/r1/runs/r1_select_readback/r1_select_readback.json","store_thresh_proxy_nats":STORE_THRESH,
      "scores":{"D1_landed_readback":f"{d1}/8","D2_leak_null":f"{d2_null}/6 (model fires {d2_fire}/6)",
                "D3_rejected_null":f"{d3_rej}/4","D3_dropped_null_via_2PC_abort":f"{d3_drop}/2",
                "D4_bleed_immunity_rows_fixed":fixed,"D5_ledger_chain":chain_msg,"D5_prepared_bypass":sorted(bypass)},
@@ -146,7 +146,7 @@ out={"prereg":"docs/R1_COMMIT_BIT_SELECT_PREREG.md","class":"CP-class constructi
      "bleed_contrast":[{"entity":x["entity"],"proxy_would":x["logprob_proxy_would_return"],"proxy_sig_nats":x["proxy_sig_nats"],
                         "commit_bit":x["commit_bit_returns"]} for x in ev["DROPPED"]+ev["LEAK"]],
      "detail":ev}
-json.dump(out,open(f"{LLMDB_ROOT}/results/r1_commit_bit_select.json","w"),indent=2,default=str)
+json.dump(out,open(f"{LLMDB_ROOT}/experiments/r1/runs/r1_commit_bit_select/r1_commit_bit_select.json","w"),indent=2,default=str)
 
 print(f"\n=== R1-bit RESULT ===", flush=True)
 print(f"  D1 LANDED read-back:            {d1}/8", flush=True)

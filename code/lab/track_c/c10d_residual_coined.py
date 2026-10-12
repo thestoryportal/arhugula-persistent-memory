@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import io, contextlib, json, math
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -12,7 +12,7 @@ from memit.compute_ks import compute_ks
 
 # ============================================================================
 # C10 RESIDUAL-TEST (Option B) — D-C10b-residual.
-# Pre-reg: docs/C10_RESIDUAL_TEST_PREREG.md (frozen 2026-06-26; advisor-revised).
+# Pre-reg: experiments/c10b/design/C10_RESIDUAL_TEST_PREREG.md (frozen 2026-06-26; advisor-revised).
 # SIZES the real in-weight C10 exposure: do PROJECT-COINED multi-WORD SEMANTIC
 # values behave like the incoherent floor (~36%) or near ceiling (~97%)?
 # 7 arms, SAME novel fictional subjects (isolate VALUE class), request-count matched.
@@ -22,7 +22,7 @@ from memit.compute_ks import compute_ks
 # Engine UNMODIFIED; primitives VERBATIM from c10b (proven inert).
 # ============================================================================
 ID=os.environ.get("MODEL_ID","Qwen/Qwen2.5-3B"); REV=os.environ.get("MODEL_REV","3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 tok=AutoTokenizer.from_pretrained(ID, revision=REV)
 if tok.pad_token is None: tok.pad_token=tok.eos_token
@@ -110,7 +110,7 @@ if not gate_ok: print("LAW#5 fail; HALT.", flush=True); sys.exit(0)
 # ============================================================================
 # STIMULUS construction (+ empirical verification; HALT if a pool fails)
 # ============================================================================
-scr=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+scr=json.load(open(f"{LLMDB_ROOT}/code/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
 caps=sorted({scr[c]["capital"]["truth"] for c in scr})
 single_v=[k for k in caps if single_tok(k)]
 coherent2=[k for k in caps if ntok(k)==2]   # real known bigram capitals
@@ -233,7 +233,7 @@ summary={"harness":"band[4-8]/Qwen2.5-3B/AlphaEdit/single-batch/capital/NOVEL-in
 print("\n=== C10d RESIDUAL SUMMARY (BINDING: paraphrase full-seq, realistic coined classes) ===", flush=True)
 for k,v in summary.items():
     if k not in ("base_report",): print(f"  {k}: {v}", flush=True)
-OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/results/c10d_residual_coined.json")
+OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/experiments/c10d/runs/c10d_residual_coined/c10d_residual_coined.json")
 json.dump({"decision_id":"D-C10b-residual","run":"residual-test (Option B; size the real in-weight C10 exposure)",
            "class":"FALSIFIER-sizing (can-fail); target=local Intel CPU + batch writes; NOT promotable without advisor+cross-family",
            "summary":summary,"arms":{a:{k:v for k,v in arms[a].items() if k!='rows'} for a in arms},

@@ -16,18 +16,18 @@ Design constraints (from the EXPERIMENT_GATE spec §0 + advisor review):
   * The prereg stays ADVISORY — thresholds are read by a human, not parsed out
     of freeform markdown. This tool computes numbers; it does not pick verdicts.
 
-Forward dependency (a deliverable, see tools/STATS_LOGGING_CONVENTION.md):
+Forward dependency (a deliverable, see code/lab/analysis/STATS_LOGGING_CONVENTION.md):
   cluster_bootstrap over (held-out x order) needs the harness to EMIT per-
   held-out-item x per-order outcomes. That logging convention is why c2band
   was "underpowered" and could not be rescued post hoc.
 
 Usage:
-  python3 tools/stats.py selftest
-  python3 tools/stats.py from-result results/b0_select_primitive_pilot.json
-  python3 tools/stats.py paired --a a.json --b b.json        # 0/1 vectors, same units
-  python3 tools/stats.py twoprop --succ1 12 --n1 16 --succ2 7 --n2 16
-  python3 tools/stats.py cluster --data clusters.json        # {"values":[...],"clusters":[...]}
-  python3 tools/stats.py divergence --p p.json --q q.json    # probability vectors
+  python3 code/lab/analysis/stats.py selftest
+  python3 code/lab/analysis/stats.py from-result experiments/b0/runs/b0_select_primitive_pilot/b0_select_primitive_pilot.json
+  python3 code/lab/analysis/stats.py paired --a a.json --b b.json        # 0/1 vectors, same units
+  python3 code/lab/analysis/stats.py twoprop --succ1 12 --n1 16 --succ2 7 --n2 16
+  python3 code/lab/analysis/stats.py cluster --data clusters.json        # {"values":[...],"clusters":[...]}
+  python3 code/lab/analysis/stats.py divergence --p p.json --q q.json    # probability vectors
 """
 from __future__ import annotations
 import argparse
@@ -316,7 +316,7 @@ def analyze_result(path: str) -> dict:
                       "This file carries reduced percentages only. You CANNOT "
                       "bootstrap a scalar, and a single seed has no cluster to "
                       "resample. To make a result analyzable, emit per-(held-out "
-                      "x order) outcomes — see tools/STATS_LOGGING_CONVENTION.md.",
+                      "x order) outcomes — see code/lab/analysis/STATS_LOGGING_CONVENTION.md.",
             "keys_present": sorted(d.keys())}
 
 

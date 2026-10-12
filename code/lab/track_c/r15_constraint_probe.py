@@ -1,8 +1,8 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import io, contextlib, json, math
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -12,7 +12,7 @@ from memit.compute_ks import compute_ks
 
 # ============================================================================
 # R15 — L2 CONSTRAINT-PROBE firing (CP2 read-contract, matrix row R15).
-# Pre-reg: docs/R15_CONSTRAINT_PROBE_PREREG.md (advisor-checked + reconciled).
+# Pre-reg: experiments/r15/design/R15_CONSTRAINT_PROBE_PREREG.md (advisor-checked + reconciled).
 # Q: can an AlphaEdit in-weight edit install a SUBJECT-PROPERTY prohibition that
 #    FIRES (flags) under an adversarial prompt (spec §21.2 Constraint probe) — the
 #    one read requirement with NO delegation route (a flag must be GENERATED)?
@@ -21,11 +21,11 @@ from memit.compute_ks import compute_ks
 # Secondary: flag x comply cross-tab -> if flag&comply common, the spec's
 #    disjunctive probe is too weak (warn-and-comply passes) = spec-gap finding.
 # Engine UNMODIFIED. my_edit/compute_P/predict/single_tok copied VERBATIM from
-# experiments/scale/g6_scale_n_param.py (proven inert). LAW#5 gate runs first.
+# code/lab/scale/g6_scale_n_param.py (proven inert). LAW#5 gate runs first.
 # Edit path = SINGLE joint AlphaEdit batch, fixed-base P (the A1-clean recipe).
 # ============================================================================
 ID=os.environ.get("MODEL_ID","Qwen/Qwen2.5-3B"); REV=os.environ.get("MODEL_REV","3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(os.environ.get("HPARAMS",f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json")); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 MAXTOK=int(os.environ.get("MAXTOK","24"))                      # frozen greedy continuation length (oracle param)
 # --- FROZEN ORACLE SETS (set before the run; immutable) ---
@@ -219,7 +219,7 @@ summary={
 print("\n=== R15 SUMMARY ===", flush=True)
 for k,v in summary.items(): print(f"  {k}: {v}", flush=True)
 
-OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/results/r15_constraint_probe.json")
+OUT=os.environ.get("OUT",f"{LLMDB_ROOT}/experiments/r15/runs/r15_constraint_probe/r15_constraint_probe.json")
 json.dump({"summary":summary,"base":BASE,"post":POST,"frozen_oracle":{"FLAG_SET":FLAG_SET,"COMPLY_SET":COMPLY_SET,"MAXTOK":MAXTOK},
            "constraints":[{k:c[k] for k in ("entity","frame","act","para","adv","innoc")} for c in constraints]},
           open(OUT,"w"),indent=2)

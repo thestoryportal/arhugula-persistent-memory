@@ -14,17 +14,17 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import c10u_mint2_read as R
 
-PREREG = "docs/C10U_MINT2_PREREG.md"
-WORDLIST = "results/c10u_mint2/v2_wordlist.json"
-HP_FILE = "configs/hparams/qwen25_3b_memit_hparams.json"
+PREREG = "experiments/c10u/design/C10U_MINT2_PREREG.md"
+WORDLIST = "experiments/c10u/runs/c10u_mint2/v2_wordlist.json"
+HP_FILE = "code/configs/hparams/qwen25_3b_memit_hparams.json"
 FRAME_SUBJECTS = ["Vorbanth", "Quillexa", "Tremnok", "Oskavel", "Blynthar", "Durmquist"]
 HARNESS_KNOBS = ("MODEL_ID", "MODEL_REV", "HP_CANDIDATE", "OUT", "CANDIDATE_NAME", "DECISION_ID", "PREREG", "RUN_LABEL",
                  "Z_OVERRIDE", "C10_PROJECTOR", "N_EDIT", "C10_SUBJECT_OFFSET", "C10_ARMS", "C10_KEY_LOCUS", "C10_CTX_TEMPLATES", "C10_RECIPES",
                  "MINT_ARM", "MINT_STEP0", "MINT_INITS", "MINT_N_SEED", "MINT_INIT_TAG", "MINT_SAVE_DIR", "LAW3_REF")
-SOURCE_FILES = ["experiments/track_c/c10u_mint2_" + name + ".py" for name in ("arms", "step0", "read", "selftest", "p4_probe")] + [
-    "tools/c10u_mint2_p4.sh", "experiments/track_c/c10u_mint2_wordlist.py", "experiments/track_c/c10l_mint_lib.py",
-    "experiments/track_c/c10e_bandknob.py", PREREG, WORDLIST, HP_FILE, "tools/engine_fingerprint.py",
-    "configs/screens/g6_screen_qwen3b.json", "configs/screens/g6_screen_qwen3b_v2.json"]
+SOURCE_FILES = ["code/lab/track_c/c10u_mint2_" + name + ".py" for name in ("arms", "step0", "read", "selftest", "p4_probe")] + [
+    "_archive/code/closed-runners/c10u_mint2_p4.sh", "code/lab/track_c/c10u_mint2_wordlist.py", "code/lab/track_c/c10l_mint_lib.py",
+    "code/lab/track_c/c10e_bandknob.py", PREREG, WORDLIST, HP_FILE, "code/memit/engine_fingerprint.py",
+    "code/configs/screens/g6_screen_qwen3b.json", "code/configs/screens/g6_screen_qwen3b_v2.json"]
 STAGE = "not-started"
 IDENTITY = None
 RUN_ROOT = Path(LLMDB_ROOT).resolve()
@@ -62,7 +62,7 @@ def occupied(directory, names):
 
 def halt(reason, root=None, **state):
     root = Path(root or RUN_ROOT)
-    path = root / "architecture_profile/c10u_mint2_halt_diagnostic.json"
+    path = root / "experiments/c10u/runs/c10u_mint2/halts/c10u_mint2_halt_diagnostic.json"
     if path.exists():
         path = path.with_name("c10u_mint2_halt_diagnostic_" + uuid.uuid4().hex + ".json")
     rec = {"decision_id": R.DECISION_ID, "stage": STAGE, "when_utc": utc_now(),
@@ -76,7 +76,7 @@ def halt(reason, root=None, **state):
 
 def source_hashes(root):
     root = Path(root)
-    engine = sorted(str(p.relative_to(root)) for p in (root / "memit_dry_run/memit").rglob("*.py"))
+    engine = sorted(str(p.relative_to(root)) for p in (root / "code/memit/vendor").rglob("*.py"))
     if not engine:
         raise ValueError("vendored engine source inventory is empty")
     return {name: sha256_file(root / name) for name in [*SOURCE_FILES, *engine]}
@@ -124,11 +124,11 @@ def preflight(root):
     if inherited:
         raise ValueError("frozen harness knobs must be unset: " + repr(inherited))
     root = Path(root).resolve()
-    fp = subprocess.run([sys.executable, str(root / "tools/engine_fingerprint.py")], capture_output=True,
+    fp = subprocess.run([sys.executable, str(root / "code/memit/engine_fingerprint.py")], capture_output=True,
                         text=True, env={**os.environ, "LLMDB_ROOT": str(root)})
     if fp.returncode != 0 or not fp.stdout.strip() or "engine fingerprint PASS:" not in fp.stdout:
         raise RuntimeError("engine fingerprint failed: " + fp.stdout + fp.stderr)
-    engine = root / "memit_dry_run/memit/memit/memit_main.py"
+    engine = root / "code/memit/vendor/memit/memit_main.py"
     return {"ok": True, "stdout": fp.stdout, "sha256": sha256_file(engine), "_cov_cpu": engine.read_bytes().count(b"_cov_cpu")}
 
 
@@ -156,7 +156,7 @@ def load_harness(root):
     """Operator-only boundary: c10e_bandknob.py:45–48 loads the pinned model."""
     os.environ.update(LLMDB_ROOT=str(root), C10_ARMS="A1_single,A7_coined_coined", C10_RECIPES="candidate",
                       HP_CANDIDATE=str(root / HP_FILE), CANDIDATE_NAME="mint2", DECISION_ID=R.DECISION_ID,
-                      PREREG=str(root / PREREG), OUT=str(root / "results/c10u_mint2/unused_harness_output.json"))
+                      PREREG=str(root / PREREG), OUT=str(root / "experiments/c10u/runs/c10u_mint2/unused_harness_output.json"))
     H = importlib.import_module("c10e_bandknob")
     M = importlib.import_module("c10l_mint_lib")
     hp = H.MEMITHyperParams.from_json(str(root / HP_FILE))
@@ -272,7 +272,7 @@ def constants_from(path, names):
 
 def audit_prompts(H, M, root):
     """Superset of lib:178–185 and the 396-prompt published tokenizer pre-screen."""
-    screens = [json.loads((root / f"configs/screens/{s}.json").read_text())["selected"]
+    screens = [json.loads((root / f"code/configs/screens/{s}.json").read_text())["selected"]
                for s in ("g6_screen_qwen3b", "g6_screen_qwen3b_v2")]
     countries = sorted({c for screen in screens for c in screen})
     capitals = sorted({v["capital"]["truth"] for screen in screens for v in screen.values()})
@@ -284,12 +284,12 @@ def audit_prompts(H, M, root):
 
 def static_wordlist_audit(H, base_tok, words, countries, capitals, M, root):
     """Replay §1.1's authored selection/relations; never repair the frozen file."""
-    literals = constants_from(root / "experiments/track_c/c10e_bandknob.py", {"coined_head", "coined_mod"})
+    literals = constants_from(root / "code/lab/track_c/c10e_bandknob.py", {"coined_head", "coined_mod"})
     names = {w.lower() for text in H.FICTION + FRAME_SUBJECTS + countries + capitals + literals["coined_head"] + literals["coined_mod"]
              for w in re.findall(r"[A-Za-z]+", text)}
     forms = [H.CANON, *H.PTEST, "{} is described as", "{} is a", "{} is associated with", *H.GENERIC, *M.UNRELATED, "Zorbland", "Cairo"]
     inventory = names | {w.lower() for text in forms for w in re.findall(r"[A-Za-z]+", text)}
-    candidates = constants_from(root / "experiments/track_c/c10u_mint2_wordlist.py", {"HEAD_CANDIDATES"})["HEAD_CANDIDATES"]
+    candidates = constants_from(root / "code/lab/track_c/c10u_mint2_wordlist.py", {"HEAD_CANDIDATES"})["HEAD_CANDIDATES"]
     quota = {}
     for v in words["modifier_only"]["frozen_values"].values():
         n = len(ids_of(base_tok, " " + v.split()[0]))
@@ -875,7 +875,7 @@ def read_records(out):
 
 
 def spawn_job(root, out, reference_path, job, block, kind="multi", seed=None, replicate=0, save_for_p4=False, artifact_tag=None):
-    command = [sys.executable, str(root / "experiments/track_c/c10u_mint2_arms.py"), "_job", "--job", job,
+    command = [sys.executable, str(root / "code/lab/track_c/c10u_mint2_arms.py"), "_job", "--job", job,
                "--block", block, "--kind", kind, "--replicate", str(replicate), "--root", str(root),
                "--out-dir", str(out), "--law3-ref", str(reference_path)]
     if seed is not None:
@@ -1074,12 +1074,12 @@ def main(argv=None, step0_only=False):
     parser.add_argument("--artifact-tag")
     args = parser.parse_args(argv)
     root = args.root.resolve()
-    out = (args.out_dir or root / "results/c10u_mint2").resolve()
+    out = (args.out_dir or root / "experiments/c10u/runs/c10u_mint2").resolve()
     RUN_ROOT, STAGE = root, args.stage
     try:
         if root != Path(__file__).resolve().parents[2]:
             raise ValueError("LLMDB_ROOT must be this driver worktree's root")
-        out.relative_to(root / "results/c10u_mint2")
+        out.relative_to(root / "experiments/c10u/runs/c10u_mint2")
         fingerprint = preflight(root)
         frozen_words(root)
         reference = law3_reference(args.law3_ref)

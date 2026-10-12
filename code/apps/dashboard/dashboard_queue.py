@@ -1,4 +1,4 @@
-"""Read-only work queue; /usr/bin/python3 tools/dashboard_queue.py [--once WIDTH [HEIGHT]].
+"""Read-only work queue; /usr/bin/python3 code/apps/dashboard/dashboard_queue.py [--once WIDTH [HEIGHT]].
 
 The JSON boundary constructs typed items. Rendering uses only its arguments;
 tmux, process inventory, recorded events, local clock and terminal are edges.
@@ -618,7 +618,7 @@ def main():
     # The launch must stay exactly /usr/bin/python3 '<absolute dashboard path>'.
     # A worktree shell can inherit LLMDB_ROOT=main; bind this read-only tab to its file.
     root = Path(__file__).resolve().parents[1]
-    path = root / "docs/program_state.json"
+    path = root / "program/program_state.json"
     if args.once is not None:
         if len(args.once) not in (1, 2):
             parser.error("--once expects WIDTH [HEIGHT]")

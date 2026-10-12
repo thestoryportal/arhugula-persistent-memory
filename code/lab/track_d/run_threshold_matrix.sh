@@ -6,7 +6,7 @@ set -u
 cd /workspace
 export LLMDB_ROOT=/workspace OMP_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 GRID="0,2,4,6,8,10,12,14,16,18,24,30,36,42,48"
-HARNESS="experiments/track_d/d1_threshold_instrument.py"
+HARNESS="code/lab/track_d/d1_threshold_instrument.py"
 
 wait_gpu () { for i in $(seq 1 120); do U=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits); [ "$U" -lt 2000 ] && return 0; sleep 10; done; }
 

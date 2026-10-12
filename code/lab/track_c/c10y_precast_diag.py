@@ -17,19 +17,19 @@ LAYERS = tuple(range(4,9))
 REQUIREMENTS = ('capture','source_identity','observer','persistence','finiteness','resource','deadline','cleanup')
 PHASES = ('setup','model_load','pristine','projectors',*(s+'_'+a for a in ARMS for s in ('targets','native','controls')),'cleanup')
 SOURCE_PINS = {
-    'docs/C10Y_PRECAST_DIAG_SCOPE.md': SCOPE_SHA,
-    'docs/C10Y_DIRECTDW_PREREG.md': '005391a39e31d8174419de3e39078a42209ded1b7ab8caaf098d5d8a4f755004',
-    'experiments/track_c/c10y_directdw_arms.py': 'ead3cef2266a7c81035e5acb6c3a97b42f83da556ba093a9fd28ec403f7e158c',
-    'experiments/track_c/c10e_bandknob.py': '1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695',
-    'experiments/track_c/c10z_astra_benchmark.py': '3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041',
-    'configs/hparams/qwen25_3b_memit_hparams.json': '4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4',
-    'configs/screens/g6_screen_qwen3b_v2.json': '482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c',
-    'memit_dry_run/memit/memit/compute_z.py': 'd94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea',
-    'memit_dry_run/memit/memit/compute_ks.py': '0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7',
-    'memit_dry_run/memit/rome/repr_tools.py': 'd4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336',
-    'memit_dry_run/memit/memit/memit_main.py': A.ENGINE_SHA,
-    'tools/engine_fingerprint.py': '450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162',
-    'tools/c10w_p2_gate.py': 'fb6568a6e159e84b22971aa893c3a83bcaaa16085f4abd9c76ca50b4a3362a26',
+    'experiments/c10y/design/C10Y_PRECAST_DIAG_SCOPE.md': SCOPE_SHA,
+    'experiments/c10y/design/C10Y_DIRECTDW_PREREG.md': '005391a39e31d8174419de3e39078a42209ded1b7ab8caaf098d5d8a4f755004',
+    'code/lab/track_c/c10y_directdw_arms.py': 'ead3cef2266a7c81035e5acb6c3a97b42f83da556ba093a9fd28ec403f7e158c',
+    'code/lab/track_c/c10e_bandknob.py': '1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695',
+    'code/lab/track_c/c10z_astra_benchmark.py': '3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041',
+    'code/configs/hparams/qwen25_3b_memit_hparams.json': '4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4',
+    'code/configs/screens/g6_screen_qwen3b_v2.json': '482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c',
+    'code/memit/vendor/memit/compute_z.py': 'd94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea',
+    'code/memit/vendor/memit/compute_ks.py': '0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7',
+    'code/memit/vendor/rome/repr_tools.py': 'd4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336',
+    'code/memit/vendor/memit/memit_main.py': A.ENGINE_SHA,
+    'code/memit/engine_fingerprint.py': '450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162',
+    'code/lab/runners/c10w_p2_gate.py': 'fb6568a6e159e84b22971aa893c3a83bcaaa16085f4abd9c76ca50b4a3362a26',
 }
 
 def fsync_directory(directory):
@@ -116,13 +116,13 @@ def phase_summary(directory,names=PHASES):
     return result
 
 def verify_scope(root):
-    actual=A.sha(Path(root)/'docs/C10Y_PRECAST_DIAG_SCOPE.md')
+    actual=A.sha(Path(root)/'experiments/c10y/design/C10Y_PRECAST_DIAG_SCOPE.md')
     if actual!=SCOPE_SHA: raise A.Halt('SCOPE-SHA',{'expected':SCOPE_SHA,'actual':actual})
     return actual
 
 def claim_namespace(root,utc,supervisor_pid):
     if not re.fullmatch(r'\d{8}T\d{6}(?:\.\d{6})?Z',utc): raise A.Halt('UTC-NAMESPACE',utc)
-    parent=Path(root).resolve()/'results/c10y_precast_diag'
+    parent=Path(root).resolve()/'experiments/c10y/runs/c10y_precast_diag'
     if parent.resolve()!=parent: raise A.Halt('NAMESPACE-SYMLINK',str(parent))
     parent.mkdir(parents=True,exist_ok=True)
     out=parent/utc
@@ -531,24 +531,24 @@ def preload(journal,gate,loader):
 
 def source_identity(root):
     observed={p:A.sha(Path(root)/p) for p in SOURCE_PINS}
-    own=('experiments/track_c/c10y_precast_diag.py','tools/run_c10y_precast_diag.sh')
+    own=('code/lab/track_c/c10y_precast_diag.py','code/lab/runners/run_c10y_precast_diag.sh')
     observed.update({p:A.sha(Path(root)/p) for p in own})
-    for p in ('memit_dry_run/memit/util/device.py','memit_dry_run/memit/util/nethook.py','memit_dry_run/memit/memit/memit_hparams.py','memit_dry_run/memit/globals.yml'):
+    for p in ('code/memit/vendor/util/device.py','code/memit/vendor/util/nethook.py','code/memit/vendor/memit/memit_hparams.py','code/memit/vendor/globals.yml'):
         observed[p]=A.sha(Path(root)/p)
     return observed
 
 def input_manifest(root):
-    root=Path(root);ctx=root/'results/c10y_directdw_calib4/context_templates_calib.json'
+    root=Path(root);ctx=root/'experiments/c10y/runs/c10y_directdw_calib4/context_templates_calib.json'
     contexts=A.strict_load(ctx)
     if A.sha(ctx)!=CONTEXT_SHA or hashlib.sha256(json.dumps(contexts).encode()).hexdigest()!=A.PINNED_ENGINE_SHA:
         raise A.Halt('CONTEXT-PIN')
-    model=root/'hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots'/A.MODEL_REV
+    model=root/'data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots'/A.MODEL_REV
     names=('config.json','tokenizer.json','tokenizer_config.json','model.safetensors.index.json')
     files={str(model/n):A.sha(model/n) for n in names}
     index=A.strict_load(model/'model.safetensors.index.json')
     for n in sorted(set(index['weight_map'].values())):files[str(model/n)]=A.sha(model/n)
-    caches={str(l):{'path':str((root/('covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.%d.mlp.down_proj_float32_mom2_t100_100000.npz'%l)).resolve()),
-                    'sha256':A.sha(root/('covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.%d.mlp.down_proj_float32_mom2_t100_100000.npz'%l))} for l in LAYERS}
+    caches={str(l):{'path':str((root/('data/covariance/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.%d.mlp.down_proj_float32_mom2_t100_100000.npz'%l)).resolve()),
+                    'sha256':A.sha(root/('data/covariance/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.%d.mlp.down_proj_float32_mom2_t100_100000.npz'%l))} for l in LAYERS}
     return {'contexts':contexts,'context_file_sha256':CONTEXT_SHA,'context_harness_sha256':A.PINNED_ENGINE_SHA,
             'model_id':A.MODEL_ID,'revision':A.MODEL_REV,'input_file_sha256':files,'covariance':caches,'targets':'NEW COMPUTATION, solved once; historical placeholders never loaded'}
 
@@ -632,13 +632,13 @@ def worker(out):
             manifest.update(schema='c10y_precast_manifest/v1',sources=sources,scope_sha256=SCOPE_SHA,cap_s=CAP_SECONDS,
                             versions=A.environment_identity(),device='mps',classification_order=['INCONCLUSIVE','R','S','UNCLASSIFIED'])
             j.record('manifest',manifest)
-            os.environ.update(LLMDB_ROOT=str(ROOT),HF_HOME=str(ROOT/'hf_cache'),HF_DATASETS_OFFLINE='1',TRANSFORMERS_OFFLINE='1',HF_HUB_OFFLINE='1',MODEL_ID=A.MODEL_ID,MODEL_REV=A.MODEL_REV)
-            spec=importlib.util.spec_from_file_location('_precast_gate',ROOT/'tools/c10w_p2_gate.py');gate=importlib.util.module_from_spec(spec);spec.loader.exec_module(gate)
+            os.environ.update(LLMDB_ROOT=str(ROOT),HF_HOME=str(ROOT/'data/hf_cache'),HF_DATASETS_OFFLINE='1',TRANSFORMERS_OFFLINE='1',HF_HUB_OFFLINE='1',MODEL_ID=A.MODEL_ID,MODEL_REV=A.MODEL_REV)
+            spec=importlib.util.spec_from_file_location('_precast_gate',ROOT/'code/lab/runners/c10w_p2_gate.py');gate=importlib.util.module_from_spec(spec);spec.loader.exec_module(gate)
             gate.W=ROOT;gate.PY=ROOT/'.venv/bin/python'
         with j.phase('model_load'):
             H=preload(j,gate,lambda:importlib.import_module('c10e_bandknob'))
             j.gate('loaded_device',{'device':str(H.DEV),'model_id':H.ID,'revision':H.REV},lambda x:x=={'device':'mps','model_id':A.MODEL_ID,'revision':A.MODEL_REV},'DEVICE-IDENTITY')
-            H.hp=H.MEMITHyperParams.from_json(str(ROOT/'configs/hparams/qwen25_3b_memit_hparams.json'))
+            H.hp=H.MEMITHyperParams.from_json(str(ROOT/'code/configs/hparams/qwen25_3b_memit_hparams.json'))
             from rome import repr_tools
             H._PRECAST_REPR=repr_tools
         with j.phase('pristine'):
@@ -755,7 +755,7 @@ def main(argv=None):
     owner=int(os.environ.get('C10Y_PRECAST_SUPERVISOR','0'))
     if owner!=os.getppid() or owner<=1:raise A.Halt('EXTERNAL-SUPERVISOR-REQUIRED')
     if not re.fullmatch(r'\d{8}T\d{6}(?:\.\d{6})?Z',args.utc):raise A.Halt('UTC-NAMESPACE')
-    out=ROOT/'results/c10y_precast_diag'/args.utc
+    out=ROOT/'experiments/c10y/runs/c10y_precast_diag'/args.utc
     if args.prepare:
         verify_scope(ROOT);claim_namespace(ROOT,args.utc,owner);return 0
     launch=A.strict_load(out/'launch.json')

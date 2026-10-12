@@ -6,10 +6,10 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const SCRATCH = '/private/tmp/labviz-review';
-const SITE = join(ROOT, 'results/labviz/site');
-const MEASURE = join(ROOT, 'tools/labviz/measure.js');
+const SITE = join(ROOT, 'projects/labviz-spec-v3/receipts/bulk/labviz/site');
+const MEASURE = join(ROOT, 'code/apps/labviz/measure.js');
 const ENTRY = pathToFileURL(join(SITE, 'index.html')).href;
-const REVIEW = join(ROOT, 'results/labviz/review');
+const REVIEW = join(ROOT, 'projects/labviz-spec-v3/receipts/bulk/labviz/review');
 const stamp = new Date().toISOString().replace(/[-:.]/g, '');
 const OUT = join(REVIEW, stamp);
 const VIEWPORTS = [
@@ -239,9 +239,9 @@ function cardsFrom(runs) {
     assert.ok(card?.card_id, 'Card not found in slim index: ' + name);
     return card;
   };
-  const c10v = choose('C10V B·A7', run => run.source === 'results/c10v_layerpick/pass1.json' && run.field.replace(/^\./, '') === 'recipes.B.arms.A7_coined_coined');
-  const b0 = choose('C10V B0·A7', run => run.source === 'results/c10v_layerpick/pass1.json' && run.field.replace(/^\./, '') === 'recipes.B0.arms.A7_coined_coined');
-  const g6 = choose('G6.1', run => run.source === 'results/g6_scale_n_result.json');
+  const c10v = choose('C10V B·A7', run => run.source === 'experiments/c10v/runs/c10v_layerpick/pass1.json' && run.field.replace(/^\./, '') === 'recipes.B.arms.A7_coined_coined');
+  const b0 = choose('C10V B0·A7', run => run.source === 'experiments/c10v/runs/c10v_layerpick/pass1.json' && run.field.replace(/^\./, '') === 'recipes.B0.arms.A7_coined_coined');
+  const g6 = choose('G6.1', run => run.source === 'experiments/g6/runs/g6_scale_n/g6_scale_n_result.json');
   const oracle = choose('C10W P1 oracle·A7', run => /c10w_oracle\/p1_.*\/eval\.json$/.test(run.source) && run.field.replace(/^\./, '') === 'recipes.oracle_p1.arms.A7_coined_coined');
   const training = runs.find(run => /c10w_oracle\/p1_.*\/train\/A7_coined_coined_s0_r16\.json$/.test(run.source));
   return { c10v, b0, g6, oracle, training };

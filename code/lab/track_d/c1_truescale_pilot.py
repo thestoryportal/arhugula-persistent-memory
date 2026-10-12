@@ -1,9 +1,9 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 import io, contextlib, json, math, random, time
-os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
+os.environ["HF_HOME"]=f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF","expandable_segments:True")
-ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
+ENGINE_ROOT=f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
@@ -13,12 +13,12 @@ from memit.compute_ks import compute_ks
 
 # ============================================================================
 # C1 true-scale PILOT — single-joint-solve at N=2000 (the un-sub-batched path).
-# Pre-reg: docs/C1_TRUESCALE_PILOT_PREREG.md (frozen). Engine UNMODIFIED.
+# Pre-reg: experiments/c1/design/C1_TRUESCALE_PILOT_PREREG.md (frozen). Engine UNMODIFIED.
 # my_edit/compute_P/inertness copied VERBATIM from c1_kvc_grid.py (proven inert).
 # Real native-known city->country pool (advisor: real-knowledge + single relation).
 # ============================================================================
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
-hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
+hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/code/configs/hparams/qwen25_3b_memit_hparams.json"); LN2=math.log(2.0); L=hp.layers
 NULL_THRESH=0.005; L2=1.0
 N_EDIT=int(os.environ.get("N_EDIT","2000")); N_HELDOUT=int(os.environ.get("N_HELDOUT","600"))
 TMPL="The city of {} is located in the country of"
@@ -100,7 +100,7 @@ print(f"  engine expr={eng_p:.4f} | harness expr={my_p:.4f} | |Δ|={abs(eng_p-my
 if not ok: print("LAW#5 fail; HALT.", flush=True); sys.exit(0)
 
 # ---------- build edit set + disjoint held-out ----------
-pool=json.load(open(f"{LLMDB_ROOT}/results/c1_scale_city_country_pool.json"))  # [{city,country,maxprob}]
+pool=json.load(open(f"{LLMDB_ROOT}/experiments/c1/runs/c1_scale_city_country_pool/c1_scale_city_country_pool.json"))  # [{city,country,maxprob}]
 random.Random(7).shuffle(pool)
 edit=pool[:N_EDIT]; heldout=pool[N_EDIT:N_EDIT+N_HELDOUT]
 countries=sorted({r["country"] for r in pool})
@@ -152,7 +152,7 @@ core_exact=bool(core_post_ok==len(core))
 # flips
 flips=[{"city":r["city"],"true":r["country"],"pre":r["pre_top1"],"post":r["post_top1"]} for r in pre_ok if not r["post_correct"]]
 
-out={"prereg":"docs/C1_TRUESCALE_PILOT_PREREG.md","model":ID,"band":L,"N_edit":len(edit),"N_heldout":len(heldout),
+out={"prereg":"experiments/c1/design/C1_TRUESCALE_PILOT_PREREG.md","model":ID,"band":L,"N_edit":len(edit),"N_heldout":len(heldout),
      "single_joint_solve":True,"orderings":1,
      "cost_anchor":{"edit_wall_clock_s":edit_secs,"peak_vram_gb":vram_gb},
      "edit_expression_pct":expr,
@@ -162,7 +162,7 @@ out={"prereg":"docs/C1_TRUESCALE_PILOT_PREREG.md","model":ID,"band":L,"N_edit":l
      "CORE":{"n":len(core),"post_correct":core_post_ok,"exact_1.0":core_exact},
      "INERT_law5_delta":round(abs(eng_p-my_p),4),
      "flips_sample":flips[:30]}
-json.dump(out,open(f"{LLMDB_ROOT}/results/c1_truescale_pilot.json","w"),indent=2,default=str)
+json.dump(out,open(f"{LLMDB_ROOT}/experiments/c1/runs/c1_truescale_pilot/c1_truescale_pilot.json","w"),indent=2,default=str)
 print(f"\n=== C1 TRUE-SCALE PILOT RESULT (N={len(edit)} single joint solve) ===", flush=True)
 print(f"  edit expression: {expr}%  (anchor: >=85 to be interpretable)", flush=True)
 print(f"  held-out baseline -> post: {base_ho}% -> {ho_post}%  | retention of pre-correct: {ho_retain}% (flips={len(flips)}/{len(pre_ok)})", flush=True)
