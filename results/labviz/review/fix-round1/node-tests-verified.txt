@@ -1,0 +1,392 @@
+(node:23893) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+TAP version 13
+# (node:23904) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: D1 line receives its frozen deciding question as a verbatim documentary leaf
+ok 1 - D1 line receives its frozen deciding question as a verbatim documentary leaf
+  ---
+  duration_ms: 1.99575
+  type: 'test'
+  ...
+# Subtest: D1 line measure describes its own concentration contrast and preserves its citations
+ok 2 - D1 line measure describes its own concentration contrast and preserves its citations
+  ---
+  duration_ms: 18.663042
+  type: 'test'
+  ...
+# Subtest: C10 focus receives the actual science status cell separately from framing review
+ok 3 - C10 focus receives the actual science status cell separately from framing review
+  ---
+  duration_ms: 15.03275
+  type: 'test'
+  ...
+# Subtest: D1 has a source-bound short label while its original title and quote stay intact
+ok 4 - D1 has a source-bound short label while its original title and quote stay intact
+  ---
+  duration_ms: 12.590167
+  type: 'test'
+  ...
+# Subtest: G6.1 rung cards expose their recorded edited-relation truth percentages and baseline
+ok 5 - G6.1 rung cards expose their recorded edited-relation truth percentages and baseline
+  ---
+  duration_ms: 112.206208
+  type: 'test'
+  ...
+# Subtest: every curated entry stays DRAFT and documentary source text stays verbatim
+ok 6 - every curated entry stays DRAFT and documentary source text stays verbatim
+  ---
+  duration_ms: 53.924584
+  type: 'test'
+  ...
+# (node:23967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Learn owns its frame after the Mistral model and D1 line were selected
+ok 7 - Learn owns its frame after the Mistral model and D1 line were selected
+  ---
+  duration_ms: 6.048083
+  type: 'test'
+  ...
+# Subtest: Map focus owns its chip and breadcrumb
+ok 8 - Map focus owns its chip and breadcrumb
+  ---
+  duration_ms: 1.22175
+  type: 'test'
+  ...
+# Subtest: Model history ignores a retained science line
+ok 9 - Model history ignores a retained science line
+  ---
+  duration_ms: 1.347625
+  type: 'test'
+  ...
+# Subtest: D1 frame uses the short documentary label
+ok 10 - D1 frame uses the short documentary label
+  ---
+  duration_ms: 0.874917
+  type: 'test'
+  ...
+# Subtest: C10 shared links start with common D1 nodes and carry a visible label and science status
+ok 11 - C10 shared links start with common D1 nodes and carry a visible label and science status
+  ---
+  duration_ms: 2.198
+  type: 'test'
+  ...
+# Subtest: Long sourced status keeps its first sentence visible and preserves the full value in collapsed details
+ok 12 - Long sourced status keeps its first sentence visible and preserves the full value in collapsed details
+  ---
+  duration_ms: 1.111875
+  type: 'test'
+  ...
+# Subtest: Map connected and dimmed nodes state their path in words
+ok 13 - Map connected and dimmed nodes state their path in words
+  ---
+  duration_ms: 1.007917
+  type: 'test'
+  ...
+# Subtest: Map singular count is one card
+ok 14 - Map singular count is one card
+  ---
+  duration_ms: 0.8375
+  type: 'test'
+  ...
+# Subtest: Map conditions are naturally ordered
+ok 15 - Map conditions are naturally ordered
+  ---
+  duration_ms: 14.362666
+  type: 'test'
+  ...
+# Subtest: D1 line renders its own sourced question and measure separately from framing review
+ok 16 - D1 line renders its own sourced question and measure separately from framing review
+  ---
+  duration_ms: 1.584458
+  type: 'test'
+  ...
+# Subtest: Line document links show five rows before a collapsed counted remainder
+ok 17 - Line document links show five rows before a collapsed counted remainder
+  ---
+  duration_ms: 0.9385
+  type: 'test'
+  ...
+# Subtest: Map derived links show five rows before the counted collapsed remainder
+ok 18 - Map derived links show five rows before the counted collapsed remainder
+  ---
+  duration_ms: 0.818792
+  type: 'test'
+  ...
+# Subtest: Evaluations group by line in closed counted details without duplicate titles or absent-field boilerplate
+ok 19 - Evaluations group by line in closed counted details without duplicate titles or absent-field boilerplate
+  ---
+  duration_ms: 1.695792
+  type: 'test'
+  ...
+# Subtest: Evaluation eras are the outer science lines and experiments stay collapsed one level below
+ok 20 - Evaluation eras are the outer science lines and experiments stay collapsed one level below
+  ---
+  duration_ms: 2.02975
+  type: 'test'
+  ...
+# Subtest: Era-filtered evaluations do not include another era
+ok 21 - Era-filtered evaluations do not include another era
+  ---
+  duration_ms: 0.931583
+  type: 'test'
+  ...
+# Subtest: An unassigned evaluation keeps a visible unknown context without claiming a science line
+ok 22 - An unassigned evaluation keeps a visible unknown context without claiming a science line
+  ---
+  duration_ms: 0.858375
+  type: 'test'
+  ...
+# Subtest: Plain words hide only explicitly flagged historical templates
+ok 23 - Plain words hide only explicitly flagged historical templates
+  ---
+  duration_ms: 0.841708
+  type: 'test'
+  ...
+# Subtest: Documentary markdown is cleaned only in the display and typed evidence stays identical
+ok 24 - Documentary markdown is cleaned only in the display and typed evidence stays identical
+  ---
+  duration_ms: 0.869917
+  type: 'test'
+  ...
+# Subtest: Documentary table cleanup preserves conditional-probability pipes in prose
+ok 25 - Documentary table cleanup preserves conditional-probability pipes in prose
+  ---
+  duration_ms: 0.677417
+  type: 'test'
+  ...
+# Subtest: Missing values display an evidence tier badge without the internal Needs token
+ok 26 - Missing values display an evidence tier badge without the internal Needs token
+  ---
+  duration_ms: 1.432416
+  type: 'test'
+  ...
+# Subtest: G6 top-1 headline retains its percentage, rung and baseline source
+ok 27 - G6 top-1 headline retains its percentage, rung and baseline source
+  ---
+  duration_ms: 7.819875
+  type: 'test'
+  ...
+# Subtest: Stage exit token is explained with no invented event time
+ok 28 - Stage exit token is explained with no invented event time
+  ---
+  duration_ms: 0.854709
+  type: 'test'
+  ...
+# Subtest: Log modification time is labelled as a saved snapshot rather than an event time
+ok 29 - Log modification time is labelled as a saved snapshot rather than an event time
+  ---
+  duration_ms: 0.569291
+  type: 'test'
+  ...
+# Subtest: Picker starts empty and filters real index rows after input or focus
+ok 30 - Picker starts empty and filters real index rows after input or focus
+  ---
+  duration_ms: 1.532584
+  type: 'test'
+  ...
+# Subtest: Choosing a cross-line run updates the selected run and line in the URL
+ok 31 - Choosing a cross-line run updates the selected run and line in the URL
+  ---
+  duration_ms: 1.553792
+  type: 'test'
+  ...
+# Subtest: Compare labels its two data links by side
+ok 32 - Compare labels its two data links by side
+  ---
+  duration_ms: 1.34625
+  type: 'test'
+  ...
+# Subtest: Lazy home map counts cards without loading the run index
+ok 33 - Lazy home map counts cards without loading the run index
+  ---
+  duration_ms: 0.685917
+  type: 'test'
+  ...
+# Subtest: Non-map route loads the classic index once and renders its recorded groups
+ok 34 - Non-map route loads the classic index once and renders its recorded groups
+  ---
+  duration_ms: 1.1945
+  type: 'test'
+  ...
+# Subtest: Lazy index rejects an invalid published shape
+ok 35 - Lazy index rejects an invalid published shape
+  ---
+  duration_ms: 0.8335
+  type: 'test'
+  ...
+# Subtest: Small 3D canvas labels retain every fourth layer and the selected layer
+ok 36 - Small 3D canvas labels retain every fourth layer and the selected layer
+  ---
+  duration_ms: 1.365416
+  type: 'test'
+  ...
+# Subtest: Rendered write fill separates the recorded mark from its track by at least 3 to 1
+ok 37 - Rendered write fill separates the recorded mark from its track by at least 3 to 1
+  ---
+  duration_ms: 0.983
+  type: 'test'
+  ...
+# (node:23983) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: home task follows a rendered shared-D1 link and records science status
+ok 38 - home task follows a rendered shared-D1 link and records science status
+  ---
+  duration_ms: 5.617833
+  type: 'test'
+  ...
+# Subtest: home task rejects scientific status ""
+ok 39 - home task rejects scientific status ""
+  ---
+  duration_ms: 1.401458
+  type: 'test'
+  ...
+# Subtest: home task rejects scientific status "DRAFT"
+ok 40 - home task rejects scientific status "DRAFT"
+  ---
+  duration_ms: 1.050042
+  type: 'test'
+  ...
+# Subtest: WebKit keyboard measurement walks links and buttons with Alt+Tab
+ok 41 - WebKit keyboard measurement walks links and buttons with Alt+Tab
+  ---
+  duration_ms: 2.783916
+  type: 'test'
+  ...
+# Subtest: screenshot blurs focus for map
+ok 42 - screenshot blurs focus for map
+  ---
+  duration_ms: 1.019292
+  type: 'test'
+  ...
+# Subtest: screenshot blurs focus for map-c10-greyscale
+ok 43 - screenshot blurs focus for map-c10-greyscale
+  ---
+  duration_ms: 0.795542
+  type: 'test'
+  ...
+# Subtest: slider touch from zero changes
+ok 44 - slider touch from zero changes
+  ---
+  duration_ms: 1.18175
+  type: 'test'
+  ...
+# Subtest: slider touch from zero must fail when unchanged
+ok 45 - slider touch from zero must fail when unchanged
+  ---
+  duration_ms: 1.154833
+  type: 'test'
+  ...
+# Subtest: label fixture waits for addStyleTag before observing computed backgrounds
+ok 46 - label fixture waits for addStyleTag before observing computed backgrounds
+  ---
+  duration_ms: 3.521458
+  type: 'test'
+  ...
+# Subtest: runner explicitly selects provisioned Chromium 1228 and WebKit
+ok 47 - runner explicitly selects provisioned Chromium 1228 and WebKit
+  ---
+  duration_ms: 2.12075
+  type: 'test'
+  ...
+# Subtest: successful runner writes browser proof only in its fresh namespace
+ok 48 - successful runner writes browser proof only in its fresh namespace
+  ---
+  duration_ms: 1.842375
+  type: 'test'
+  ...
+# Subtest: both 2D fallback and 3D model screens contain actual keyboard measurements
+ok 49 - both 2D fallback and 3D model screens contain actual keyboard measurements
+  ---
+  duration_ms: 12.901209
+  type: 'test'
+  ...
+# Subtest: lazy card index loads after first-view payload measurement
+ok 50 - lazy card index loads after first-view payload measurement
+  ---
+  duration_ms: 12.936334
+  type: 'test'
+  ...
+# Subtest: identical border/fill excludes only the interior contrast and keeps outside edge
+ok 51 - identical border/fill excludes only the interior contrast and keeps outside edge
+  ---
+  duration_ms: 0.769209
+  type: 'test'
+  ...
+# Subtest: distinct interior border contrast remains observable
+ok 52 - distinct interior border contrast remains observable
+  ---
+  duration_ms: 0.572334
+  type: 'test'
+  ...
+# Subtest: offset focus ring samples backdrop outside the focused control
+ok 53 - offset focus ring samples backdrop outside the focused control
+  ---
+  duration_ms: 1.150084
+  type: 'test'
+  ...
+# Subtest: focus ring detects a neighbor without a matte
+ok 54 - focus ring detects a neighbor without a matte
+  ---
+  duration_ms: 0.826083
+  type: 'test'
+  ...
+# Subtest: focus ring composites its matte over a neighbor
+ok 55 - focus ring composites its matte over a neighbor
+  ---
+  duration_ms: 1.062917
+  type: 'test'
+  ...
+# Subtest: translucent offset ring is composited against the actual backdrop
+ok 56 - translucent offset ring is composited against the actual backdrop
+  ---
+  duration_ms: 0.730541
+  type: 'test'
+  ...
+# Subtest: overflow names visible descendants and separates expected table scrolling
+ok 57 - overflow names visible descendants and separates expected table scrolling
+  ---
+  duration_ms: 0.667416
+  type: 'test'
+  ...
+# (node:23993) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Map bootstrap omits the per-run index until a reader requests it
+ok 58 - Map bootstrap omits the per-run index until a reader requests it
+  ---
+  duration_ms: 8.012458
+  type: 'test'
+  ...
+# Subtest: Classic deferred index restores source identities and question titles
+ok 59 - Classic deferred index restores source identities and question titles
+  ---
+  duration_ms: 12.647708
+  type: 'test'
+  ...
+# Subtest: Map summary counts stay correct before the deferred index loads
+ok 60 - Map summary counts stay correct before the deferred index loads
+  ---
+  duration_ms: 4.125834
+  type: 'test'
+  ...
+# Subtest: Historical template sentences are identified without changing evaluation evidence
+ok 61 - Historical template sentences are identified without changing evaluation evidence
+  ---
+  duration_ms: 2.476541
+  type: 'test'
+  ...
+# Subtest: Cited role, label and evaluation rule tables have byte-identical evidence snapshots
+ok 62 - Cited role, label and evaluation rule tables have byte-identical evidence snapshots
+  ---
+  duration_ms: 1.595125
+  type: 'test'
+  ...
+1..62
+# tests 62
+# suites 0
+# pass 62
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 631.520959

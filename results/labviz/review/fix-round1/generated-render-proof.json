@@ -1,0 +1,42 @@
+{
+  "kind": "Generated evidence passed through the actual app IIFE with a Node DOM adapter; no browser geometry or screenshot claims",
+  "when_utc": "2026-10-08T10:05:59.384Z",
+  "checks": [
+    {
+      "name": "Actual Map focus presents C10 science status and a visibly D1-shared link before loading run rows",
+      "pass": true
+    },
+    {
+      "name": "Actual D1 page renders its question, concentration measure and short label after deferred index load",
+      "pass": true
+    },
+    {
+      "name": "Actual G6 N100 card renders 33.3 percent in its own era without C10 vocabulary",
+      "pass": true
+    },
+    {
+      "name": "Actual evaluations use closed counted line groups and suppress template prose while preserving authored evidence",
+      "pass": true
+    }
+  ],
+  "bootstrap_bytes": 375604,
+  "rows_after_deferred_load": 1541,
+  "sourceFiles": [
+    {
+      "file": "tools/labviz/app.js",
+      "sha256": "e4bb01f2af49385be33f31a420fa7719c57d642221f8f7c8e6e7940817c82dc5"
+    },
+    {
+      "file": "tools/labviz/model.js",
+      "sha256": "4ab9d1970cb623cda3ad1db09a7393b379fe9654755621b8936ddd3cf1c54715"
+    },
+    {
+      "file": "tools/labviz/style.css",
+      "sha256": "da669976e394c1d620e004c12739682f7aae1feeab07ad4a52995d88cd0d4ffa"
+    },
+    {
+      "file": "tools/labviz/test_fix_frontend.cjs",
+      "sha256": "cf17d65ed23915f899fb5d9c91b3258297a324eae92664a5b4efb4006ba5e6f6"
+    }
+  ]
+}

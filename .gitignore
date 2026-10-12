@@ -136,3 +136,7 @@ results/openresearch_archive/
 /results/labviz/site/
 /results/labviz/.matplotlib/
 !results/labviz/runs/*.png
+
+# labviz measurement dumps over GitHub's 100 MB limit (kept on disk, not committed)
+results/labviz/review/*/measure.json
+results/labviz/review/v2-build/jq-paths.json

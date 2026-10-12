@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="367.2pt" height="455.04pt" viewBox="0 0 367.2 455.04" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 455.04 
+L 367.2 455.04 
+L 367.2 0 
+L 0 0 
+z
+" style="fill: #101b30"/>
+  </g>
+  <g id="axes_1">
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 22.485376)">Qwen2.5-3B</text>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 34.48811)">51 — One target fit jointly over three phrasings:</text>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 46.490844)">UNDERFIT (reader label) — inconclusive under this</text>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 58.493579)">solve budget; the write arm did not run. Recorded</text>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 70.496313)">observation: injected into the unedited model, the</text>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 82.499048)">partially fit shared target carries 69/72 held-out</text>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 94.501782)">reads against the canonical target's 51/72 in the same</text>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 106.504516)">process (net +18 on all three templates, 12 subjects;</text>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 118.507251)">a same-process noise twin moves +3)</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #47e6b1" x="27.76032" y="119.177486" transform="rotate(-0 27.76032 119.177486)">Answer score: not recorded for this run</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="text_3">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #f3f6fc" x="27.76032" y="184.844871" transform="rotate(-0 27.76032 184.844871)">Fact × rewording grid: not recorded for this run</text>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="text_4">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #f3f6fc" x="27.76032" y="254.313556" transform="rotate(-0 27.76032 254.313556)">Word-by-word confidence: not recorded for this run</text>
+   </g>
+  </g>
+  <g id="axes_4">
+   <g id="text_5">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #f3f6fc" x="27.76032" y="323.782242" transform="rotate(-0 27.76032 323.782242)">Training loss: not recorded for this run</text>
+   </g>
+  </g>
+  <g id="axes_5">
+   <g id="text_6">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 388.177873)">Real facts flipped: not recorded for this run</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 398.980334)">Unrelated facts kept: not recorded for this run</text>
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; fill: #f3f6fc" transform="translate(27.76032 409.782795)">Writing quality: not recorded for this run</text>
+   </g>
+  </g>
+ </g>
+</svg>

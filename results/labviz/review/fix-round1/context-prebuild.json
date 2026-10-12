@@ -1,0 +1,33 @@
+{
+  "preexisting_context_fields_and_citations_preserved": true,
+  "all_framing_stays_DRAFT": true,
+  "all_document_citations_verified": true,
+  "python_executed": false,
+  "generated_consumer_RED": {
+    "tests": 6,
+    "passed": 1,
+    "failed": 5
+  },
+  "files": [
+    {
+      "file": "tools/labviz/context.py",
+      "sha256": "1576ed4c1d1c8a116f62940be5ae7b675be1c2bc45c845c1cc15087ff30e64df"
+    },
+    {
+      "file": "tools/labviz/cards.py",
+      "sha256": "ae24e6b62ccbdedb960da51025543858012ce399de388f5f9a45e5ac5088c2e9"
+    },
+    {
+      "file": "tools/labviz/contexts.json",
+      "sha256": "d7eed6b2e96f1b1cf7af251492741b428f0e9afd995bd58fd89f6bee3bced044"
+    },
+    {
+      "file": "tools/labviz/test_fix_context.cjs",
+      "sha256": "c490365c27df56687b75081026cab7cddd29705ea1f8a4cff75252407e890d86"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/context-red.txt",
+      "sha256": "d54d84857535b461a7bf7bb136e84da1ccd05625bb022701fd8a4e8891b1cd8e"
+    }
+  ]
+}

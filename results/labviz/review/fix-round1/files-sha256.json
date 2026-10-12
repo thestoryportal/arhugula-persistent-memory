@@ -1,0 +1,136 @@
+{
+  "when_utc": "2026-10-08T10:21:21.716Z",
+  "kind": "Final Fix round 1 source and evidence identities; historical report prefix recorded separately",
+  "files": [
+    {
+      "file": "tools/labviz/app.js",
+      "bytes": 91673,
+      "sha256": "e4bb01f2af49385be33f31a420fa7719c57d642221f8f7c8e6e7940817c82dc5"
+    },
+    {
+      "file": "tools/labviz/style.css",
+      "bytes": 18196,
+      "sha256": "da669976e394c1d620e004c12739682f7aae1feeab07ad4a52995d88cd0d4ffa"
+    },
+    {
+      "file": "tools/labviz/model.js",
+      "bytes": 10217,
+      "sha256": "4ab9d1970cb623cda3ad1db09a7393b379fe9654755621b8936ddd3cf1c54715"
+    },
+    {
+      "file": "tools/labviz/context.py",
+      "bytes": 43881,
+      "sha256": "1576ed4c1d1c8a116f62940be5ae7b675be1c2bc45c845c1cc15087ff30e64df"
+    },
+    {
+      "file": "tools/labviz/cards.py",
+      "bytes": 57198,
+      "sha256": "ae24e6b62ccbdedb960da51025543858012ce399de388f5f9a45e5ac5088c2e9"
+    },
+    {
+      "file": "tools/labviz/contexts.json",
+      "bytes": 112153,
+      "sha256": "d7eed6b2e96f1b1cf7af251492741b428f0e9afd995bd58fd89f6bee3bced044"
+    },
+    {
+      "file": "tools/labviz/build.py",
+      "bytes": 36748,
+      "sha256": "169dfad3831b045a8f79a1f32116371e724c545cecd69412fb1b1cb5ed6b5173"
+    },
+    {
+      "file": "tools/labviz/review.mjs",
+      "bytes": 32720,
+      "sha256": "1c93e691dd11426e3488c70693c5d32a9cae352bc961594c2ead6f50346559a3"
+    },
+    {
+      "file": "tools/labviz/measure.js",
+      "bytes": 19838,
+      "sha256": "48b3794e429ea6ebffd92f4872495226e194eb3d7d4239eb3fffa0fbfd3a1f85"
+    },
+    {
+      "file": "tools/labviz/test_fix_frontend.cjs",
+      "bytes": 23206,
+      "sha256": "cf17d65ed23915f899fb5d9c91b3258297a324eae92664a5b4efb4006ba5e6f6"
+    },
+    {
+      "file": "tools/labviz/test_fix_context.cjs",
+      "bytes": 7110,
+      "sha256": "c490365c27df56687b75081026cab7cddd29705ea1f8a4cff75252407e890d86"
+    },
+    {
+      "file": "tools/labviz/test_fix_harness.cjs",
+      "bytes": 27404,
+      "sha256": "82f651f21a62d96296cf0094a9c10191333f6ce31f3ed9312491a2d9cf3a54f8"
+    },
+    {
+      "file": "tools/labviz/test_fix_payload.cjs",
+      "bytes": 3580,
+      "sha256": "a4a63405b69ccc29be1868a20dc4c0717f13dd0c0d3eaee3aa55ed8b72266da4"
+    },
+    {
+      "file": "tools/labviz/test_labviz.py",
+      "bytes": 44245,
+      "sha256": "a3c895e7b633e04f72720b1f223b48a7209670fb121282544480c348ac71c98c"
+    },
+    {
+      "file": "tools/labviz_serve.sh",
+      "bytes": 985,
+      "sha256": "c90afb9ce1bd8c3b54af95f4534f055404587a0105045e931ee34d6cb9a05a4b"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/python-tests-final-source.txt",
+      "bytes": 264,
+      "sha256": "4b8604945ab71d8b2228a3b12654e5250869619f828ec9af5dd34fb2f70e164b"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/node-tests-verified.txt",
+      "bytes": 13466,
+      "sha256": "1208dfdf88ccecf5c39eec9ddffb85c206bbc04337650ffe6e4ea613164edd98"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/generated-render-proof.json",
+      "bytes": 1423,
+      "sha256": "30ef22aa5199a38f338740dd73755eed0b106b724b0bbf3c6c0799543ab39985"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/snapshot-integrity-final.json",
+      "bytes": 908,
+      "sha256": "c9aa5da9b85b174bec7ffecde7a4c91447b26d4f8c15a7633596fd88d2b090e5"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/jq-leaves.json",
+      "bytes": 452170,
+      "sha256": "da8b1b03a7f673e70781bf10cc4adc797d792cc07cc9db175baaba8957c4308e"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/provenance-build.txt",
+      "bytes": 190,
+      "sha256": "423a35de0b0afa447a0b1636fca13d252987c9b9ff0cb659fa929dc96b32480c"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/browser-probe.json",
+      "bytes": 6166,
+      "sha256": "95d8f1e19f3965335abfcbb776cdfddc5f55f7e1807494582d5875ab3d453011"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/warm-fixture-check.json",
+      "bytes": 256,
+      "sha256": "2cc3fa607add5f035c2eed8a6d180eace5ebc2d56eed8c5541e7574e9b1aecc2"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/warm-live-check.json",
+      "bytes": 1084,
+      "sha256": "21c173ffc723dc2832493bf883d8c4071c7c7470c880782bda23bb7b2a06c958"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/live-log-validation.json",
+      "bytes": 64,
+      "sha256": "5e2c12b2205b0390401e3e6c4bc49b554f4a3ee94f2edce25492e3a9bc653ca6"
+    },
+    {
+      "file": "results/labviz/review/fix-round1/report-prefix.json",
+      "bytes": 198,
+      "sha256": "5792ceb84e0f039a9dbfe5de68b0faed017559750fe9ab9c876145aaa0c52fbb"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "actual browser behavior assertions; not a design-review verdict",
+  "measure_file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/labviz/review/20261008T102337237Z/measure.json",
+  "non_c10_content": true,
+  "selection_carries": true,
+  "diagram_label_persists": true,
+  "font_fixtures": [
+    false,
+    false,
+    true
+  ],
+  "engines": [
+    {
+      "engine": "chromium",
+      "non_c10_content": true,
+      "selection_carries": true,
+      "diagram_label_persists": true,
+      "font_fixtures": [
+        false,
+        false,
+        true
+      ]
+    },
+    {
+      "engine": "webkit",
+      "non_c10_content": true,
+      "selection_carries": true,
+      "diagram_label_persists": true,
+      "font_fixtures": [
+        false,
+        false,
+        true
+      ]
+    }
+  ]
+}
