@@ -33,6 +33,7 @@ EXEMPT = (
     r"^\S*/Python \S*/\.harness-dashboard/serve\.py$",
     # tmux dashboard tools run on the CLT Python 3.9, which has no torch (checked 2026-10-07)
     r"^/Library/Developer/CommandLineTools/\S*/Python \S*/tools/dashboard_\w+\.py( .*)?$",
+    r"^/Library/Developer/CommandLineTools/(?:usr/bin/python3|Library/Frameworks/Python3\.framework/Versions/3\.9/Resources/Python\.app/Contents/MacOS/Python) (?:/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/)?tools/memit_intel_copy\.py (?:manifest|run)(?: .*)?$",
     # uv-tool MCP servers / browser daemon
     r"^/Users/[^/ ]+/\.(local/share/uv/tools|cache/uv/archive-v0)/[^ ]+/bin/python \S*/(arxiv-mcp-server|blender-mcp|mcp-server-pixeltable-developer)$",
     r"^/Users/[^/ ]+/\.local/share/uv/tools/browser-harness/bin/python -m browser_harness\.daemon$",
