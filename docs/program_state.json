@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T00:28:26Z",
+    "edited": "2026-10-12T00:29:47Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -196,16 +196,17 @@
         "id": "labviz-spec-v3",
         "title": "LabViz: fold the 18 brainstorm sessions into the plan",
         "summary": "A writer folds every settled brainstorm choice into a new version of the LabViz plan document, then Astra reviews it. Writing only; no drawings or building until you approve.",
-        "state": "running",
-        "who": "builder codexlvs1 (Sol) maps the choices; then one writer; then Astra",
-        "session": "codexlvs1",
+        "state": "ready",
+        "who": "MAESTRO: brief the v3 spec writer after the skills survey lands",
+        "session": null,
         "started": "2026-10-12T00:14Z",
         "estimate": null,
         "depends_on": [],
         "blocked_by": [],
         "needs_from_you": [],
         "notes": [
-          "00:13Z (Oct 12): you chose 'Update the plan'. Step 1 (running): builder codexlvs1 lists every choice you settled across the 18 sessions and where it lands in the plan. Step 2: one writer makes the new plan version. Step 3: Astra reviews. The building hold stays."
+          "00:13Z (Oct 12): you chose 'Update the plan'. Step 1 (running): builder codexlvs1 lists every choice you settled across the 18 sessions and where it lands in the plan. Step 2: one writer makes the new plan version. Step 3: Astra reviews. The building hold stays.",
+          "00:29Z: the choices map is done and checked (fce86c50): 144 settled rows plus 13 recommendations kept separate, every brainstorm decision covered. Next: one writer turns it into the new plan document (docs/LABVIZ_V3_SPEC.md), briefed once the skills survey lands so it can use the best spec-writing method; then Astra. Writing only; drawings and building stay on hold."
         ]
       },
       {
