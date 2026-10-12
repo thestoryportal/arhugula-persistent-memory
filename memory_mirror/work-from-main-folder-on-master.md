@@ -1,6 +1,6 @@
 ---
 name: work-from-main-folder-on-master
-description: Since 2026-10-12 the main checkout on master is the one working copy; MAESTRO pushes master directly; worktrees are one-lane builder sandboxes only
+description: Since 2026-10-12 the main checkout on master is the one working copy; MAESTRO pushes master directly; worktrees are one-lane builder sandboxes or the merge gate's isolated integration worktree
 metadata:
   type: feedback
 ---

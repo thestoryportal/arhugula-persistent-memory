@@ -10,7 +10,7 @@ The write-side of the read↔write context loop (propagating a result to ALL can
 **The fix (durable, in-repo):** `tools/closeout_check.py <D-ID>` greps every canonical tracker (+ runbook §0.3/§12/§13 section-level + the CORPUS writeup + memory-mirror sync) for the Decision-ID and exits non-zero on any gap. It is wired as a **BINDING gate** in DISCIPLINE §1.1 + §3, runbook §0.4, CLAUDE.md, AGENTS.md, AUTONOMY.md.
 
 **How to apply:**
-- An experiment/session is **NOT done** until `python3 tools/closeout_check.py <D-ID>` is **✅ ALL GREEN**. Run it as the LAST step before declaring done or writing the checkpoint — and BEFORE telling the operator it's complete. From a worktree, prefix `LLMDB_ROOT=<worktree path>` or it checks the main checkout ([[llmdb-root-env-points-at-main-checkout]]).
+- An experiment/session is **NOT done** until `python3 tools/closeout_check.py <D-ID>` is **✅ ALL GREEN**. Update the checkpoint and all required trackers, then run the gate as the LAST step before declaring done; rerun it after any subsequent tracker edit — and BEFORE telling the operator it's complete. From a worktree, prefix `LLMDB_ROOT=<worktree path>` or it checks the main checkout ([[llmdb-root-env-points-at-main-checkout]]).
 - Checking coverage is the **script's** job, never the operator's. If the operator is asking "did you update X?", the gate failed to run.
 - When a new canonical tracker is added to the program, extend `REQUIRED` in `tools/closeout_check.py` (the gate is only as complete as that list).
 - Write canonical docs via shell/python (Edit-tool writes reverted on RunPod FUSE; recurrence on local memit is UNVERIFIED — [[verify-canonical-state-edits-persist]]); the gate re-reads from disk so it doubles as a persistence check.
