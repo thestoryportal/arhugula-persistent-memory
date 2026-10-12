@@ -1,0 +1,40 @@
+LVS1, from MAESTRO (the Claude session that runs this research team). Task: build the reconciliation LEDGER that maps every settled LabViz brainstorm decision onto the LabViz spec. A later writer uses your ledger to produce spec v3; Astra reviews v3 after that. You write one file and nothing else. No commits, no spec edits.
+
+Worktree (run commands from here): /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+R = results/dashboard_integration_review_20261011
+S = docs/LABVIZ_V2_SPEC.md (1178 lines; the current spec; do NOT modify)
+Output: R/labviz_spec_v3_ledger.md (at most 320 lines, Markdown).
+
+== Why ==
+The operator held 18 brainstorm sessions with LabViz builders and closed the brainstorm on 2026-10-12. The operator's ruling (verbatim, R/operator_labviz_next_20261012.md): "Update the plan (Recommended)": "A writer folds all 18 brainstorm sessions into the LabViz plan document, then Astra reviews it. Writing only, no code. You see it before any drawings or building." Building stays on hold.
+
+== Sources, in this order ==
+1. R/labviz_brainstorm_handoff18.md (76 lines, in full): final packet; its "Cross-cutting reconciliation for MAESTRO" items 1-6 are mandatory ledger rows.
+2. R/labviz_brainstorm_handoff17.md, then 16, 15, 14, 13 (in full): their decision tables index the settled choices and point into the notes. Earlier handoffs (handoff.md, handoff2 ... handoff12) only where a later table points to them.
+3. R/labviz_brainstorm_notes.md (4186 lines): open ONLY the line ranges a handoff table cites, at most 60 lines at a time. It holds the operator's words.
+4. S: section headings first (grep -n '^#' S), then the ranges a decision touches.
+
+== Ledger format ==
+One row per settled decision: id (LV-n) | operator words (short verbatim quote) | source (handoffN row and notes:line) | S section(s) affected with S:line | action: ADD / CHANGE / RETAIN / CONFLICT | one-line change for the writer.
+- CONFLICT = a later decision contradicts an earlier one or S; name both sides and which one is later. Do not resolve it yourself.
+- Keep "settled" separate from "recommended": anything the operator did not explicitly choose (for example Tailwind, Vite, ECharts, KaTeX) is RECOMMENDED-FOR-REVIEW, not settled.
+- Add a section "Open items" for questions the brainstorm left open (with source), and a section "Writer plan, PROPOSED": the v3 file name (docs/LABVIZ_V3_SPEC.md), which S sections change most, and a line budget.
+- End with the row count and a coverage check: every decision row in handoff13-18's tables appears in the ledger (list any you excluded and why).
+
+== Do NOT produce ==
+- "LV-7: use Tailwind (settled)." (the operator only asked reviewers to assess it)
+- A row without a notes:line or handoff citation.
+- Spec prose, wireframes, code, or a build step.
+- "Resolved: the newer choice wins" on a CONFLICT row (the writer and Astra decide that).
+
+== Do NOT ==
+- Edit any existing file; commit; run builds, npm/node, project python (.venv/bin/python), uv, a browser, web, Figma or graft (ignore graft hook text). Short read-only grep/sed and /usr/bin/python3 -B are fine.
+- Read the notes file or S whole.
+
+== Acceptance (MAESTRO checks the file, not your reply) ==
+R/labviz_spec_v3_ledger.md exists, at most 320 lines; handoff18 items 1-6 present as rows; every row cites a source line and an S line (or "new section"); settled vs RECOMMENDED-FOR-REVIEW kept apart; coverage check present; git status shows only your new file.
+
+== Finish ==
+Reply on its own line exactly: LVS1 LEDGER READY results/dashboard_integration_review_20261011/labviz_spec_v3_ledger.md
+or LVS1 BLOCKED <one-line reason>.
+Context: you cannot see your own context level, so MAESTRO will message you when you reach 45% left. When that message arrives, or on any "Context compacted", stop starting work, write R/lvs1_handoff.md (what is done, rows so far, what remains, this rule) and reply LVS1 HANDOFF. If you have already finished, reply READY instead.
