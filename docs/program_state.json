@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T00:12:18Z",
+    "edited": "2026-10-12T00:15:02Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -189,6 +189,22 @@
           "23:21Z: LabViz session 16 wrote its handoff at 45% (5cc29ea5): flat, quiet surfaces; help on demand; restrained emphasis; one shared layout; ready-made icons; your six dashboard references mapped; a detailed MathLab draft. One question pending: should MathLab have its own named entry inside Science lines, or appear inside the research lines it supports? Session 17 launched: tmux attach -t codexlabviz17. It re-asks that question first.",
           "23:44Z: LabViz session 17 closed after you accepted the MathLab plan ('All good for now'); its record is saved (caff3da4). You chose to keep brainstorming: session 18 (codexlabviz18) is open and will ask which part of the site to take up next. Attach: tmux attach -t codexlabviz18. Building stays on hold.",
           "00:06Z (Oct 12): you closed the LabViz brainstorm (session 18). Your direction is saved: React + TypeScript, Chrome as the browser, and Tailwind recommended for the reviewers to weigh. Committed dc036de8. Building stays on hold."
+        ]
+      },
+      {
+        "id": "labviz-spec-v3",
+        "title": "LabViz: fold the 18 brainstorm sessions into the plan",
+        "summary": "A writer folds every settled brainstorm choice into a new version of the LabViz plan document, then Astra reviews it. Writing only; no drawings or building until you approve.",
+        "state": "running",
+        "who": "builder codexlvs1 (Sol) maps the choices; then one writer; then Astra",
+        "session": "codexlvs1",
+        "started": "2026-10-12T00:14Z",
+        "estimate": null,
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "00:13Z (Oct 12): you chose 'Update the plan'. Step 1 (running): builder codexlvs1 lists every choice you settled across the 18 sessions and where it lands in the plan. Step 2: one writer makes the new plan version. Step 3: Astra reviews. The building hold stays."
         ]
       },
       {
