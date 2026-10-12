@@ -1,8 +1,0 @@
-== Your lane: CAB — Codex always-loaded layer ==
-OUTFILE: A/audit_cab_codex_layer.md
-Audit, passage by passage:
-1. /Users/robertrhu/.codex/AGENTS.md (144 lines): global Codex guidance.
-2. AGENTS.md in this worktree (162 lines) and /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/AGENTS.md on master: `diff` them; report what differs and which is current.
-3. CORPUS/AGENTS.md and experiments/AGENTS.md (nested; establish when Codex loads them).
-4. /Users/robertrhu/.codex/config.toml (292 lines) and .codex/config.toml in this worktree: only instruction-bearing keys, project trust entries, MCP server paths, profiles and model defaults that steer behavior. Report stale paths (for example /workspace) and model names. Never copy secret values.
-Focus: conflicts between Codex guidance and the Claude-side CLAUDE.md in this worktree (the same team rules must agree), duplicated rule text, and bytes each Codex session loads.

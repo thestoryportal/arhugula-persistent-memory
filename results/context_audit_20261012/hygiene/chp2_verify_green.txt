@@ -1,1 +1,0 @@
-{"all_outputs_reread": 81, "baseline_units_preserved": 329, "exports": 196, "hypothesis_bullets": 4, "lanes": 41, "new_units": 57, "restoration_map_rows": 278, "restoration_table_rows": 128, "supplemental_exports": 32, "synthesis_rows": 119, "units": 386, "waves": 9}

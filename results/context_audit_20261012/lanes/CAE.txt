@@ -1,9 +1,0 @@
-== Your lane: CAE — reconciling the three memory stores ==
-OUTFILE: A/audit_cae_memory_stores.md
-Three memory stores exist:
-  S1 = memory_mirror/ in git (201 notes + MEMORY.md)
-  S2 = /Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror/memory/ (125 files; the main-checkout Claude memory)
-  S3 = /Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory/ (22 files; loaded by Claude sessions in this worktree's project path)
-Also list any other /Users/robertrhu/.claude/projects/*llm-database*/memory or *c10k* directory.
-Do, mechanically first (a short /usr/bin/python3 -B script printed to stdout is fine, not saved): for every filename, which stores hold it, and whether bytes are identical (shasum). Then judge: which store is authoritative for what, which notes exist only in S2 or S3 and are missing from git, which differ and which version is right, which index lines in each MEMORY.md point at missing notes, and whether the close-out sync check (grep tools/closeout_check.py for the memory paths it compares) checks the right pair.
-Focus: collisions (same name, different content), orphans, a session loading a store the others never see. Propose one clear rule for which store is canonical and how the others sync.

@@ -1,5 +1,0 @@
-== Your lane: CAC1 — indexed memory notes, part 1 ==
-OUTFILE: A/audit_cac1_memory_indexed.md
-Notes live in memory_mirror/ (one fact per file, YAML frontmatter). Index: memory_mirror/MEMORY.md (154 lines, 22,597 bytes; its hard cap is 24,400 bytes).
-Audit exactly the 71 notes listed in A/filelist_c1.txt, each read in full, plus each one's index line in memory_mirror/MEMORY.md (does the hook state the note correctly, at a useful length?).
-Focus: notes that contradict CLAUDE.md, AGENTS.md or another note; stale status lines; duplicates; narrative bloat.
