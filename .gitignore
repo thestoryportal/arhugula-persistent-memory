@@ -144,3 +144,6 @@ results/openresearch_archive/
 # labviz measurement dumps over GitHub's 100 MB limit (kept on disk, not committed)
 results/labviz/review/*/measure.json
 results/labviz/review/v2-build/jq-paths.json
+
+# Git worktrees are git machinery, never content (ICM v2 phase 3).
+.claude/worktrees/

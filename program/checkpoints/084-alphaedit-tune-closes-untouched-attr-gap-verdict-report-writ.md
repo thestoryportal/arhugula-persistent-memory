@@ -1,0 +1,6 @@
+## ALPHAEDIT TUNE (closes untouched-attr gap) + VERDICT REPORT WRITTEN
+- `s243_alphaedit_tune.json`: nullspace_threshold sweep @ L2=1 → 0.02: ret100%/unt73.3%/expr100% | **0.005: ret100%/unt80.7%/expr100% (SWEET SPOT, unt ≥ 7B's 79%)** | 0.001: ret0%/expr16% (over-constrained). Untouched-attr gap CLOSED at thresh=0.005. (D-S243-ALPHAEDIT-TUNE-1)
+- **VERDICT REPORT written: `write_engine_viability_determination_report.md`** (Phase-4 deliverable; full determination + ladder + deployment + decisions D-S242-CAL-1/HMODEL-1, D-S243-SEQ-1/RUNG-1/ALPHAEDIT-1/-TUNE-1).
+- **FINAL: small Qwen-3B + in-solve AlphaEdit (thresh 0.005) = COMPLETE multi-field store: 100% sequential retention + 80.7% untouched + 100% expression. Lightweight CPU-deployable LLM-as-DB VALIDATED.**
+  - ⚠️ **SCOPED BY G6.1 (2026-06-18, `CORPUS/13`):** "VALIDATED" here = **same-entity multi-field, small-N ONLY** (sequential capital→currency on ONE entity; untouched = that entity's OWN attributes). Necessary-but-insufficient for a multi-ENTITY store: at N=100 / 50 entities the write-side holds (98% retention, 100% apply-expression) but **cross-entity reads of un-written entities at the edited relation are CORRUPTED, worsening with N** (held-out top-1 correctness 100→92→58→42%). Read as "validated for same-entity multi-field; cross-entity-at-scale OPEN/failing."
+

@@ -1,0 +1,5 @@
+## IN-SOLVE ALPHAEDIT RESULT (the complete fix) — `s243h_alphaedit_insolve.py`, `s243_alphaedit_insolve.json`
+Reimplemented MEMIT+AlphaEdit solve in harness (engine UNMODIFIED) using engine primitives (compute_z/ks/cov). LAW#5 INERTNESS PASSED (harness MEMIT-mode == engine apply_memit, |Δexpr|0.0004). AlphaEdit = null-space P (SVD of cov, S<2e-2) + cache_c (accumulated prior-edit keys, preserved IN the solve). Perf: do P-SVD + AlphaEdit solve on GPU fp32 (CPU-double was hours → GPU minutes).
+- **SEQUENTIAL (capital→currency, Qwen-3B, n=6): STOCK-MEMIT retention 33% → IN-SOLVE ALPHAEDIT retention 100%** (all 6 edit-1s survive edit-2; all edit-2 express). Untouched-attr loc 78%→73.7% (slightly lower — AlphaEdit protects EDITED facts perfectly but un-edited attrs still drift ~26%; tuning matter: L2/threshold).
+- **VERDICT: in-solve AlphaEdit (cache_c) FIXES sequential multi-field clobbering on the small model (33→100%) — the post-hoc projection (50%) could not. Small Qwen-3B CAN reliably accumulate per-entity edits.**
+

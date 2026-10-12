@@ -1,0 +1,12 @@
+## FRESH SESSION HANDOFF - 2026-06-27 (post-Perplexity C10h advisory)
+
+**Start here after context reset.** Perplexity `sonar-reasoning-pro` external advisory has now reviewed the two C10h deep-thinking hypotheses. Full saved response: `logs/perplexity_c10h_hypothesis_review_20260627_short.md`; first longer response hit length cap and is saved at `logs/perplexity_c10h_hypothesis_review_20260627.md`. Perplexity MCP was restored through `tools/perplexity_mcp_from_restore.py`, which reads `/workspace/.pod_restore/mcp/servers.json` at runtime without storing the key in tracked config. This live tool surface did not expose `perplexity_reason` until a fresh session/tool reload, so the approved direct API call was used.
+
+**Updated C10h interpretation.** External review agrees the C10h local AnyEdit result mostly diagnoses local transplant invalidity, not AnyEdit-as-method failure. It also warned our prior lookup-index-first framing was incomplete: most likely failure ranking for A1/A2=0 is now solve/update geometry mismatch first, target/loss-mask mismatch second, lookup/edit-position mismatch third, Qwen/hparam mismatch fourth.
+
+**Next arc.** If continuing AnyEdit, run one bounded upstream-parity audit before any A7. The parity trace must include both alignment and geometry: token IDs, continuation suffix, answer/loss masks, lookup/edit position, target hidden-state norms, per-layer gradient norms, delta/update norms, effective step size, regularization terms, pre/post target-token logit deltas, and canonical/held-out A1/A2 behavior. Cheapest decisive test: run upstream `jianghoucheng/AnyEdit` unchanged on a tiny A1/A2 suite for the same Qwen target. If upstream recovers controls, the local transplant is broken; if upstream also collapses, treat it as deeper stack/method incompatibility and move C10 toward bounded/side-store or another method family.
+
+**Do not do first.** Do not run hard A7 from the local transplant. Do not treat no-op/token gates as active edit parity. Do not abandon AnyEdit-style methods solely from C10h without the one-day parity audit unless operator explicitly chooses to stop.
+
+**Read first.** `DISCIPLINE.md` section 2, `CORPUS/40_C10_ANYEDIT_PILOT.md`, `results/c10h_anyedit_window50_controls.json`, `logs/perplexity_c10h_hypothesis_review_20260627_short.md`, `memory_mirror/perplexity-c10h-reranks-anyedit-failure-geometry-first.md`, and `memory_mirror/anyedit-noop-gate-is-not-active-edit-parity.md`.
+

@@ -1,1 +1,0 @@
-{"event": "pid-collection", "method": "_wait", "monotonic_ns": 1465855758889083, "phase": "pid-collection", "pid": 72049, "pid_collected": 72196, "returncode": 0, "test": "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_worker_exits_on_parent_death_even_with_another_writer_open", "wall_ns": 1791655048528597000}

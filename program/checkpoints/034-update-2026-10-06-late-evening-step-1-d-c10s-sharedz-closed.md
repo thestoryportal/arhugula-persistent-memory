@@ -1,0 +1,6 @@
+## UPDATE - 2026-10-06 late evening (step 1 D-C10s-sharedz CLOSED: UNDERFIT; close-out propagated; D-C10r-rulings-6 recorded)
+
+**State.** After the halt below, the operator ruled D-C10r-rulings-6 (runbook §5.2): fix the two over-strict checks, rerun step 1, then the location control; seal the held-out questions from the loop agent. Amendment A2 v2 (same-batch engine parity for (iii)/(iv) + a same-process noise twin) passed both reviewers; the rerun was ALL INERT; cell 1 read **UNDERFIT ⟨D-C10s-sharedz@bee04393⟩** (CORPUS/51): inconclusive under this solve budget, the write arm did not run, the candidate is not advanced. The injection counts (canonical 51 vs shared 69/72, twin +3) are an observation in the unedited model, not a write result. Propagated to every tracker (`closeout_check D-C10s-sharedz` ALL GREEN, `--audit` clean, `render_state --check` current); uncommitted at propagation time.
+
+**Next:** the D-C10r-exp2ctl location control (per D-C10r-rulings-6); the loop sealing D-C10r-seal (`docs/C10R_LOOP_SEALING_V13.md` v3) before any relaunch; then step 2 (D-C10t-secondkey) per prereg, unless the operator first authorizes a solve-feasibility follow-up of step 1 (scope decision; not designed).
+

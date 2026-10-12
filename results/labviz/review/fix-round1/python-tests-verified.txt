@@ -1,8 +1,0 @@
-.Lab View picture renderer calls: 1
-Lab View picture renderer calls: 0
-Lab View picture renderer calls: 0
-.........................................................
-----------------------------------------------------------------------
-Ran 58 tests in 124.085s
-
-OK

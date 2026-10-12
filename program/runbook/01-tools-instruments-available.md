@@ -1,0 +1,22 @@
+## §1 — TOOLS & INSTRUMENTS AVAILABLE
+═══════════════════════════════════════════════════════════════════════
+_What's on hand, when to reach for it, caveats. Surfaced here so any agent knows the full instrument set._
+
+| Instrument | Purpose | When to use | Caveat / how to invoke |
+|---|---|---|---|
+| **`advisor()`** | Stronger reviewer that sees the full transcript | BEFORE substantive work, when stuck, on approach change, before declaring done | No args; weight it heavily; it has caught real over-claims & design bugs this program. See §2.1. |
+| **Framework Council** (7 skills in `/workspace/skills/`) | Spec-authoring & domain brainstorming (memit, graph-data, state-consistency, validation, orchestration, aisecops, council) | Framing spec contracts, surfacing tensions/open-questions, domain reasoning | **Spec-authoring tool, not an evidence source.** Same-model council reading our corpus = weak independence / confirmation-amplification — do NOT use to "confirm" our own conclusions (§2.5). Skills are zip bundles; extract to read. |
+| **Perplexity Deep Research** | Open-web SOTA survey, cited | New external methods, current benchmarks, "what's the field doing" | Operator-run. Prompt template: `research_and_specs/perplexity_prompt_*.md`. Cross-check claims; flag speculation. |
+| **NotebookLM** | Corpus-grounded retrieval over OUR research + curated sources + the spec | "What does our knowledge base already contain"; mining the spec/council docs | Operator-run. Answers ONLY from corpus, cites sources, flags absence. Prompts: `research_and_specs/notebooklm_prompts_*.md`. Complementary to Perplexity (corpus vs open-web). |
+| **`deep-research` skill** | Our own fan-out web-search + fetch + adversarial-verify harness | Independent cross-check of an external survey; multi-source synthesis we run ourselves | In-session; produces a cited report. Good for triangulating Perplexity/NotebookLM. |
+| **`autoresearch` loop** (Karpathy's, macOS fork) | An agent edits one recipe file, runs a fixed evaluation, keeps or discards, loops until interrupted | **FENCED candidate SEARCH only** — proposes leads for pre-registered falsifiers | Operator-launched: `bash experiments/track_c/autoresearch_c10/launch.sh`; how we use it: `docs/AUTORESEARCH.md` (D-C10r-rulings-1, D-C10r-impl-1). The old `tools/autoresearch-skill/` runner was never present and is retired. |
+| **WebSearch / WebFetch** | Targeted fact lookup (sizes, repos, papers) | Sourcing details, single-fact verification | WebFetch fails on JS-SPA pages (use WebSearch then fetch a static URL). |
+| **The Spec** (`…/llm-as-database-v1_2-integrated-spec.md`) | The governing contract | Every experiment must cite the §it bears on; read the §end-to-end, not grep excerpts | §map in §4. Reading source fully is a LAW (§2.4). |
+| **⭐ E2E Ground Truth** (`docs/SPEC_E2E_GROUND_TRUTH.md`) | The whole-system framework + production memory lifecycle, spec-faithful, with our empirical overlay (§J) | **Every turn: situate the experiment/hypothesis/decision on the e2e map — which layer/cell, what does the full framework prescribe** | BINDING re-ground read (DISCIPLINE §1). Guards against the write-engine tunnel-vision that scoped our work. Keep §J current at close-out. |
+| **Editing harness + engine** | `memit_dry_run/memit` (kmeng01, UNMODIFIED) + our in-solve AlphaEdit harness (`s243h_*.py`, `g6_scale_n.py`) | All in-weight editing experiments | Engine fingerprint-gated; harness-side methods need LAW#5 inertness proof (§2.4). |
+| **Vendored reference editors** (`easyedit_*`) | AlphaEdit / WISE / GRACE / MEMIT reference impls + hparams + notebooks | Porting a method (A3 BetaEdit builds on these; A5 WISE; A6/GRACE) | Already LOCAL — see §6. |
+| **LARQL** (`external_prior_art/larql/target/release/larql`) | `.vindex` build/serve, GGUF↔vindex, CPU inference, LQL | The bridge, deployment (Track E), quant ingest (B3) | UNMODIFIED. `convert quantize` ships FP4 only (Q4_K via llama.cpp ingest). |
+| **llama.cpp** (prebuilt) | Real `Q4_K_M` quantization | B3 quantization survival | Pull prebuilt `b9693 ubuntu-x64` from ggml-org releases (§6); no build needed. |
+| **Qwen-Scope SAEs** | Residual-stream sparse autoencoders for Qwen3/3.5 | A6 SAE-guided disentanglement (frontier) | HF `Qwen/SAE-Res-Qwen3-*`; residual-stream ≠ down_proj basis (bridge unproven). |
+
+═══════════════════════════════════════════════════════════════════════

@@ -1,3 +1,0 @@
-Lab View picture renderer calls: 1423
-Lab View: 1423 cards, 372 surveyed folders/groups; results/labviz/site/index.html
-Build measurement: 42.113353 seconds; peak RSS 734380032 bytes on darwin

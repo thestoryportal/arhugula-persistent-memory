@@ -1,1 +1,0 @@
-{"event": "pid-collection", "method": "_wait", "monotonic_ns": 1466588734578791, "phase": "pid-collection", "pid": 91938, "pid_collected": 92156, "returncode": 3, "test": "tests.test_new1_supervisor.SupervisorTests.test_direct_worker_cli_refuses_before_numerical_imports", "wall_ns": 1791655781521957000}
