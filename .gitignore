@@ -27,6 +27,8 @@ memit_dry_run/memit/data/
 *.pkl
 *.bin
 *.pth
+# Tensors (ICM v2 D3, 2026-10-12): the 677 .pt files already tracked stay tracked; new ones are not added.
+*.pt
 *.tar.gz
 *.tgz
 *.zst
@@ -42,6 +44,8 @@ logs/
 *.rawout.txt
 *_DONE.flag
 .harness/
+# A run's large or regenerable output (ICM v2 D1/D8); its tracked hash manifest bulk.sha256 sits beside it.
+bulk/
 
 # ── Secrets / env ──
 .env

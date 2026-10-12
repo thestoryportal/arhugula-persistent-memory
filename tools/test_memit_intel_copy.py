@@ -28,8 +28,9 @@ class Fixture(unittest.TestCase):
         self.assertTrue((REPO / 'tools/memit_intel_receive.py').is_file(), 'P1 receiver absent')
         self.C = importlib.import_module('tools.memit_intel_copy')
         self.R = importlib.import_module('tools.memit_intel_receive')
-        # Intentionally keep fixtures: builder has no deletion authority.
-        self.base = Path(tempfile.mkdtemp(prefix='ic1-', dir=str(REPO / 'results/intel_memit_copy_20261012')))
+        # Intentionally keep fixtures: builder has no deletion authority. They live in the
+        # system temp dir, never the repo: they hold secret-named files and the OS ages them out.
+        self.base = Path(tempfile.mkdtemp(prefix='ic1-'))
         self.src = self.base / 'source'
         self.src.mkdir()
         self.home = self.base / 'intel'
