@@ -107,7 +107,7 @@ def fixture_block(block="V2", m1=(34, 36, 46), candidate=(21, 22, 24), ref=11, r
 
 
 def fixture_nonadmitted(record=None, nfit=17):
-    real = json.loads((HERE.parents[1] / "experiments/c10u/runs/c10u_mint2/r2/F_r0_modifier_s0.json").read_text())
+    real = json.loads((HERE.parents[2] / "experiments/c10u/runs/c10u_mint2/r2/F_r0_modifier_s0.json").read_text())
     record = copy.deepcopy(fixture_record("F", "modifier") if record is None else record)
     record["step0"]["minted_inventory"] = [{"word": w, "id": i, "unrelated_hits": 0}
                                             for w, i in zip(record["minted_words"], record["minted_ids"])]
@@ -1162,7 +1162,7 @@ class AenvTests(unittest.TestCase):
             self.assertFalse(all(lo <= records[0]["arm"][key] <= hi for key, (lo, hi) in old.items()))
 
     def test_aenv_source_identity_pins_amended_prereg_reader_and_driver(self):
-        root = HERE.parents[1]
+        root = HERE.parents[2]
         hashes = self.A.source_hashes(root)
         self.assertEqual(hashes[self.A.PREREG], "c54f443c70fecd12dce5440cbe7d606587ed1c8384542345f0411cfd0ba15a76")
         for name in ("read", "arms"):

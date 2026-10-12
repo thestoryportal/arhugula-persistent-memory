@@ -25,7 +25,9 @@
   const eraData = id => lab.contexts?.eras?.[shortEra(id)] || lab.contexts?.eras?.['era:' + shortEra(id)] || {};
   const eraLabel = id => docText(eraData(id).name || eraData(id).label) || nodeLabel('era:' + shortEra(id));
   const recordName = card => value(card.identity?.name) || index.find(x => x.card_id === card.card_id)?.source || '';
-  const isC10 = card => recordName(card).startsWith('results/c10');
+  // A record's path inside its run folder (experiments/<id>/runs/...), read as the pre-v2 results/ path was; '' outside one.
+  const runPath = card => (/^experiments\/[^/]+\/runs\/(.+)$/.exec(recordName(card)) || [])[1] || '';
+  const isC10 = card => runPath(card).startsWith('c10');
   const dataLink = (card,label='Data for this view') => `<a data-for-view href="cards/${esc(card.card_id)}.json">${esc(label)}</a>`;
   const sourceURL = file => 'evidence/' + String(file || '').replace(/:[0-9]+$/, '');
   function source(leaf) {
@@ -456,7 +458,7 @@
     return section(card,'Per-fact layer map and margins',body,'Ring = chosen depth. Underline = recorded runner-up. A longer margin shows a clearer choice; the repeat is printed beside it.','the fact lives at its chosen depth or that the selector helped the recorded outcome.',true);
   }
   function trajectorySeries(card) {
-    if (!/^results\/d1_/.test(recordName(card))) return [];
+    if (!/^d1_/.test(runPath(card))) return [];
     const raw=value(card.measures);
     const named=Array.isArray(raw) ? [[card.identity?.field || 'Recorded trajectory',raw]] : raw && typeof raw === 'object' ? Object.entries(raw).flatMap(([name,entry]) => Array.isArray(entry?.trajectory) ? [[name,entry.trajectory]] : name === 'trajectory' && Array.isArray(entry) ? [[name,entry]] : []) : [];
     return named.filter(([,rows]) => rows.length && rows.every(row => number(row.total) && number(row.heldout_cap_correct)));
@@ -622,7 +624,7 @@
       eventReadout(card);
       return;
     }
-    const downloads=recordName(card).startsWith('results/') && recordName(card).endsWith('.json') ? `<a href="runs/${esc(card.card_id)}.svg" download>Save SVG</a><a href="runs/${esc(card.card_id)}.png" download>Save PNG</a>` : '';
+    const downloads=runPath(card) && recordName(card).endsWith('.json') ? `<a href="runs/${esc(card.card_id)}.svg" download>Save SVG</a><a href="runs/${esc(card.card_id)}.png" download>Save PNG</a>` : '';
     content.innerHTML=header('The recorded run','Read this result in its own test’s terms.')+cardIdentity(card)+runActions(card)+plainWords(card)+badge(card)+factStrip(card)+gauges(card)+writes(card)+layerMap(card)+recordsView(card)+training(card)+events(card)+section(card,'Source record and saved downloads',`${dataLink(card)}<a href="${esc(sourceURL(recordName(card)))}">Original source</a>${downloads}<p class="source">${(card.sources || []).length} source files are hashed in the card.</p>`,'The JSON card holds full precision and source paths.','this display certifies the validity or comparability of a scientific record.');
     attachCharts(card);
   }

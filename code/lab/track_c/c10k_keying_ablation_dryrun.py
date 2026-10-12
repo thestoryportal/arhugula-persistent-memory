@@ -7,7 +7,7 @@ prompt the engine will build ("<subject> is a") and its keyed index. Validity cr
 and is the final prompt token for every subject under every template; the KL keyed index is never 0. Also prints the K1 control
 (subject = country) for comparison. Run from code/memit/vendor (the engine reads globals.yml from cwd)."""
 import os, sys, json
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.path.insert(0, f"{LLMDB_ROOT}/code/memit/vendor"); sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer

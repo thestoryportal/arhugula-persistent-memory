@@ -13,7 +13,7 @@ import sys
 from datetime import datetime, timezone
 
 PACKAGE = Path(__file__).resolve().parent
-ROOT = PACKAGE.parents[1]
+ROOT = PACKAGE.parents[2]
 MISSING = 'not recorded for this run'
 CATALOG = json.loads((PACKAGE / 'models.json').read_text())
 SKIP = {'identity', 'fingerprint', 'source_sha256', 'provenance', 'frozen_parameter_hashes_before',
@@ -158,7 +158,8 @@ def make_run(node, source, field, data, contexts=(), root=None, rows=None, schem
         extra = {}
     if rows is None:
         rows = node.get('rows', [])
-    c10=source.startswith('results/c10')
+    from apps.labviz.cards import is_c10
+    c10=is_c10(source)
     grid, grid_label = None, 'Reworded questions — free answers' if c10 else 'Recorded free-answer outcomes'
     labels = []
     if isinstance(rows, list) and rows and any(isinstance(r, dict) and 'para_full_hits' in r for r in rows):
@@ -349,23 +350,25 @@ def collect(root=ROOT):
     root = Path(root)
     board = json.loads((root / 'program/registers/c10_scoreboard.json').read_text())
     corpus = corpus_cards(root)
-    survey = {'results (flat files)': {'files': 0, 'runs': 0, 'unsupported': [], 'unreadable': [], 'logs': 0}}
-    for p in sorted((root / 'results').iterdir()):
-        if p.is_dir() and p.name != 'labviz':
-            survey[str(p.relative_to(root))] = dict(files=0, runs=0, unsupported=[], unreadable=[], logs=0)
-    for p in sorted((root / 'results').rglob('*')):
-        if p.is_dir() and not p.is_symlink() and 'labviz' not in p.relative_to(root).parts:
-            survey.setdefault(str(p.relative_to(root)), dict(files=0,runs=0,unsupported=[],unreadable=[],logs=0))
+    from apps.labviz.cards import run_files
+    paths = run_files(root)
+    # Run folders first, then the folders inside them.
+    survey = {}
+    for depth in (4, None):
+        for p in paths:
+            rel = p.relative_to(root)
+            if (depth is None or len(rel.parts) == depth) and p.is_dir() and not p.is_symlink() and 'labviz' not in rel.parts:
+                survey.setdefault(str(rel), dict(files=0, runs=0, unsupported=[], unreadable=[], logs=0))
     runs, logs, ordering = [], [], {}
-    for p in sorted((root / 'results').rglob('*')):
+    for p in paths:
         rel = p.relative_to(root)
         if p.is_symlink() or not p.is_file() or 'labviz' in rel.parts or any('tokenizer' in x or 'c10z_' in x for x in rel.parts):
             continue
-        from tools.labviz.cards import recorded
+        from apps.labviz.cards import recorded
         if not recorded(str(rel)): continue
         if p.suffix not in ('.json', '.jsonl', '.log', '.tsv', '.csv'):
             continue
-        folder = str(Path(*rel.parts[:2])) if len(rel.parts) > 2 else 'results (flat files)'
+        folder = str(Path(*rel.parts[:4]))
         if folder not in survey:
             continue
         info = survey[folder]; info['files'] += 1; source = str(rel)
@@ -409,7 +412,7 @@ def collect(root=ROOT):
             for i,r in enumerate(found):
                 ordering[r['id']] = (recorded_stamp(data) or r['date'],i)
         for ancestor in p.parents:
-            if ancestor == root / 'results':
+            if ancestor == root / Path(*rel.parts[:3]):
                 break
             name = str(ancestor.relative_to(root))
             if name in survey and name != folder:
@@ -477,8 +480,9 @@ def write_if_changed(path, content):
 
 def build(root=ROOT):
     os.environ.setdefault('MPLCONFIGDIR', '/private/tmp/labviz-mpl')
-    from tools.labviz.cards import Reader, encoded, newest_written, citations
-    from tools.labviz.render import card_picture, render_page
+    from apps.labviz.cards import Reader, encoded, newest_written, citations, run_files, run_path
+    from state import llmdb_records as L
+    from apps.labviz.render import card_picture, render_page
     root = Path(root); reader = Reader(root); cards = reader.collect()
     base = root / 'projects/labviz-spec-v3/receipts/bulk/labviz'; site = base / 'site'; images = base / 'runs'
     site.mkdir(parents=True, exist_ok=True); images.mkdir(parents=True, exist_ok=True)
@@ -510,7 +514,7 @@ def build(root=ROOT):
                            'purpose':state['purpose'],'parse_errors':len(card['mathlab']['errors']['value'])}
         index.append(row)
         write_if_changed(site/'cards'/f'{identifier}.json',encoded(card))
-        if identity['name'].startswith('results/') and 'mathlab' not in card:
+        if run_path(identity['name']) is not None and 'mathlab' not in card:
             visual={k:card[k] for k in ('identity','context','headline','label','per_fact','per_layer','scale','oracle_class') if k in card}
             key=digest([visual,renderer_hash]); output=images/identifier
             previous=cache.get(identifier,{})
@@ -532,10 +536,10 @@ def build(root=ROOT):
     models={name:{k:v for k,v in info.items() if k in ('size','status','note','note_source')} for name,info in CATALOG.items()}
     models['Qwen2.5-3B']['note']='Used across several lines; each result retains its own question and measure.'
     logs=[]
-    for path in sorted((root/'results').rglob('*.log')):
+    for path in run_files(root):
         relative=str(path.relative_to(root))
-        if not reader.program._real_program or not relative.startswith('results/c10z'):
-            from tools.labviz.cards import recorded
+        if path.suffix=='.log' and (not reader.program._real_program or not run_path(relative).startswith('c10z')):
+            from apps.labviz.cards import recorded
             if recorded(relative):
                 lines=path.read_text(errors='replace').splitlines()
                 if lines: logs.append((path.stat().st_mtime_ns,{'source':relative,'last_line':lines[-1][:350]}))
@@ -600,8 +604,9 @@ def build(root=ROOT):
             (images/row['card_id']).with_suffix(suffix).unlink(missing_ok=True)
     for chunk in {row['chunk'] for row in retired} - chunks.keys():
         (site/'cards'/f'{chunk}.js').unlink(missing_ok=True)
-    for family in ('mathlab','mathlab_staging'):
-        for path in (site/'evidence/results'/family).rglob('*'):
+    # MathLab records publish only cited streams and findings: their pre-v2 folders, then the v2 lab records.
+    for family in ('results/mathlab','results/mathlab_staging',*L.LAB_RUNS):
+        for path in (site/'evidence'/family).rglob('*'):
             if path.is_file() and path.relative_to(site/'evidence').as_posix() not in paths:
                 path.unlink()
     print(f'Lab View picture renderer calls: {picture_calls}',flush=True)
@@ -612,7 +617,7 @@ if __name__ == '__main__':
     import resource
     import time
     started=time.perf_counter()
-    sys.path.insert(0, str(ROOT))
+    sys.path.insert(0, str(ROOT / "code"))
     inventory = build()
     print(f'Lab View: {len(inventory["runs"])} cards, {len(inventory["survey"])} surveyed folders/groups; projects/labviz-spec-v3/receipts/bulk/labviz/site/index.html')
     print(f'Build measurement: {time.perf_counter()-started:.6f} seconds; peak RSS {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss} bytes on {sys.platform}')

@@ -23,7 +23,7 @@ from unittest import mock
 
 TOOLS = Path(__file__).resolve().parent
 RECEIPTS = os.environ.get("DASHBOARD_STORAGE_RECEIPTS")
-FIXTURES = TOOLS.parent / "_archive/projects/dashboard/dashboard_storage_mb22_20261010T192500Z"
+FIXTURES = TOOLS.parent.parent.parent / "_archive/projects/dashboard/dashboard_storage_mb22_20261010T192500Z"
 
 
 def manifest(root):
@@ -117,7 +117,7 @@ class StorageCriteria(unittest.TestCase):
         self.addCleanup(self.env.stop)
 
     def module(self):
-        return importlib.import_module("tools.dashboard_storage")
+        return importlib.import_module("apps.dashboard.dashboard_storage")
 
     def once(self, state, cols, rows=32):
         storage = self.module()
@@ -153,7 +153,7 @@ class StorageCriteria(unittest.TestCase):
         self.assertEqual(command, expected)
         parts = shlex.split(command)
         self.assertEqual(parts, ["/usr/bin/python3", str(TOOLS / "dashboard_storage.py")])
-        tree = ast.parse((TOOLS / "c10w_p2_gate.py").read_text())
+        tree = ast.parse((TOOLS.parent.parent / "lab/runners/c10w_p2_gate.py").read_text())   # the gate lives with the lab runners
         patterns = next(ast.literal_eval(node.value) for node in tree.body
                         if isinstance(node, ast.Assign) and
                         any(isinstance(t, ast.Name) and t.id == "EXEMPT" for t in node.targets))

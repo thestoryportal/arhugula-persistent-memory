@@ -21,7 +21,7 @@ class IdentityDiagnosticTests(unittest.TestCase):
     def setUp(self):
         self.assertTrue(Path('code/lab/runners/new1_identity_diag.py').is_file(),
                         'the identity diagnostic has not been built')
-        self.D = importlib.import_module('tools.new1_identity_diag')
+        self.D = importlib.import_module('lab.runners.new1_identity_diag')
         import numpy as np
         import torch
         self.np, self.t = np, torch
@@ -390,7 +390,7 @@ def _fix5_assert_owned(test, value):
 
 
 def _fix5_refusal(test, entry, blocked, *, direct=False):
-    from tools import new1_identity_diag as I
+    from lab.runners import new1_identity_diag as I
     with tempfile.TemporaryDirectory(dir='/private/tmp') as temp:
         directory = Path(temp)/'never-created'
         signal.pthread_sigmask(signal.SIG_BLOCK, blocked)
@@ -441,7 +441,7 @@ def _fix5_refusal(test, entry, blocked, *, direct=False):
 class Fix5SignalTests(unittest.TestCase):
     def boundary(self, target, *, owned=False, handler=False, worker=False, final=False):
         if _fix5_isolated(self): return
-        from tools import new1_identity_diag as I
+        from lab.runners import new1_identity_diag as I
         # SIGUSR1 is unrelated to enforcement; production must preserve it.
         signal.pthread_sigmask(signal.SIG_BLOCK, [signal.SIGUSR1])
         before = _fix5_state(); owners = []; injections = []; status = None; error = None
@@ -500,7 +500,7 @@ class Fix5SignalTests(unittest.TestCase):
                         else: owner.close_fd('fixture', 0)
                     else:
                         status = I.supervise([sys.executable,'-B','-c',
-                            'from tools import new1_identity_diag as I; I.wait_for_release(); import time; time.sleep(2)'],
+                            'from lab.runners import new1_identity_diag as I; I.wait_for_release(); import time; time.sleep(2)'],
                             directory, preflight=lambda:None, admission=lambda:{'allowed':True},
                             monitor=lambda pid:{'rss_gib':.01,'process_count':1}, seconds=.2)
             except I.S.Stop as failure: error = str(failure)
@@ -533,7 +533,7 @@ class Fix5SignalTests(unittest.TestCase):
 
     def refusal(self, entry, blocked):
         if _fix5_isolated(self): return
-        from tools import new1_identity_diag as I
+        from lab.runners import new1_identity_diag as I
         _fix5_refusal(self, I, blocked, direct=entry == 'direct')
 
     def test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending(self): self.refusal('direct', [signal.SIGALRM])

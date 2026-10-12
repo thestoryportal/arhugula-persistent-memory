@@ -31,7 +31,7 @@ from __future__ import annotations
 import argparse, json, os, re, shlex, shutil, subprocess, sys, time
 from pathlib import Path
 
-ROOT = Path(os.environ.get("LLMDB_ROOT", Path(__file__).resolve().parents[1]))
+ROOT = Path(os.environ.get("LLMDB_ROOT", Path(__file__).resolve().parents[3]))
 LOGS = ROOT / "logs"
 STAGING = LOGS / "pending_findings"
 GATES = LOGS / "autonomy_gates.jsonl"

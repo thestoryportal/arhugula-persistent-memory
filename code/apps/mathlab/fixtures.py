@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from tools import mathlab_runtime as R
+from apps.mathlab import mathlab_runtime as R
 
 BAND = [4, 5, 6, 7, 8]
 ARMS = ["A1_single", "A2_coherent2", "mint1_s0", "mint1_s1", "mint1_s2", "A7_coined_coined"]

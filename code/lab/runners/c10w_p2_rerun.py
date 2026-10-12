@@ -7,7 +7,7 @@ all existing reader/dispatcher checks; its sole frozen-source exception is evalu
 import argparse, contextlib, json, os, re, sys
 from pathlib import Path
 
-W = Path(__file__).resolve().parents[1]
+W = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(W/"code/lab/track_c"))
 import c10w_oracle_read as R
 

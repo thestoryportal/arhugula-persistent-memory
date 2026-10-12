@@ -95,7 +95,7 @@ def wait_health(process, url, deadline):
 
 def chain(args):
     root = args.root.resolve()
-    if root != Path(__file__).resolve().parents[2]:
+    if root != Path(__file__).resolve().parents[3]:
         raise ValueError("P4 root differs from this worktree")
     fingerprint = A.preflight(root)
     admission_path = args.record.resolve()

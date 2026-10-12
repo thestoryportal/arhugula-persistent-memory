@@ -11,7 +11,7 @@ import time
 import unittest
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[3]
 SCRIPT = ROOT / "code/ops/backup/backup_gdrive.sh"
 GIT_TMP_EXCLUDES = ("**/.git/objects/**/tmp_obj_*", "**/.git/objects/tmp_obj_*",
                     "/.git/objects/**/tmp_obj_*", "/.git/objects/tmp_obj_*")

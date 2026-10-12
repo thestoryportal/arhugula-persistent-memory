@@ -19,7 +19,7 @@ import time
 import types
 import uuid
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 MODEL_ID = "Qwen/Qwen2.5-3B"
 MODEL_REV = "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 SOURCE_FILES = (

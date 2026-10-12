@@ -3,7 +3,7 @@
 stopword probability on a few sentences, restore. Nothing is written to disk; the vendored engine is not involved.
 Usage: superweight_prune_check_qwen3b.py <layer> <row> <col>"""
 import os, sys, json, math, torch
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["HF_HOME"] = f"{LLMDB_ROOT}/data/hf_cache"; os.environ.setdefault("HF_HUB_OFFLINE", "1")
 from transformers import AutoModelForCausalLM, AutoTokenizer
 ID, REV = "Qwen/Qwen2.5-3B", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"

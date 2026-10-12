@@ -13,9 +13,9 @@ import shlex
 import subprocess
 import time
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
-from tools import new1_identity_diag as I
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "code"))
+from lab.runners import new1_identity_diag as I
 G, S = I.G, I.S
 
 SCOPE = ROOT / 'experiments/new1/design/new1_construction_diag_scope.md'

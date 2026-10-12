@@ -22,7 +22,8 @@ from typing import Mapping, Optional, Tuple, Union
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from dashboard_live import BUSY_RE, cell_width, detect_gpu_jobs
+# The layout library comes through dashboard_live: this tab imports only the stdlib and dashboard_live (test_08).
+from dashboard_live import BUSY_RE, L, cell_width, detect_gpu_jobs
 
 
 class State(str, Enum):
@@ -494,10 +495,9 @@ def current_experiment(root, now, jobs):
     NEW1 is outside its job roster: an unfinished event file is a fallback only
     while its modification age is 0..600 seconds, shown alongside the run.
     """
-    base = root / "results/mathlab_staging/runs"
-    if not base.exists():
+    if not any((root / runs).exists() for runs in L.LAB_RUNS):
         return None
-    paths = sorted(base.glob("*/events.jsonl"),
+    paths = sorted(L.lab_event_streams(root),
                    key=lambda p: (p.stat().st_mtime_ns, p.parent.name), reverse=True)
     live_dirs = {Path(job["run_dir"]).resolve() for job in jobs if job["run_dir"]}
     for path in paths:
@@ -617,7 +617,7 @@ def main():
     args = parser.parse_args()
     # The launch must stay exactly /usr/bin/python3 '<absolute dashboard path>'.
     # A worktree shell can inherit LLMDB_ROOT=main; bind this read-only tab to its file.
-    root = Path(__file__).resolve().parents[1]
+    root = Path(__file__).resolve().parents[3]
     path = root / "program/program_state.json"
     if args.once is not None:
         if len(args.once) not in (1, 2):

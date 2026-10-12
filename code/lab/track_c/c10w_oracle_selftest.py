@@ -23,7 +23,7 @@ import types
 from pathlib import Path
 from unittest.mock import patch
 
-LIVE_ROOT = Path(__file__).resolve().parents[2]
+LIVE_ROOT = Path(__file__).resolve().parents[3]
 ROOT = LIVE_ROOT
 HERE = Path(__file__).resolve().parent
 LIVE_BEFORE = None
@@ -2171,7 +2171,7 @@ class IsolationTests(unittest.TestCase):
     def test_artifact_guard_excludes_only_operator_labviz_subtree(self):
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root=Path(td); labviz=root/"projects/labviz-spec-v3/receipts/bulk/labviz"; labviz.mkdir(parents=True)
-            profile=root/"architecture_profile"; profile.mkdir()
+            profile=root/"architecture_profile"; profile.mkdir(); (root/"results").mkdir()
             before=artifact_snapshot(root)
             (labviz/"review").mkdir(); (labviz/"review/operator.png").write_text("operator browser fixture")
             self.assertEqual(artifact_snapshot(root),before,"operator Lab View subtree is not excluded (test-first RED)")

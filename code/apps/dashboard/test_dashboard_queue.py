@@ -17,8 +17,22 @@ import unittest
 from unittest import mock
 
 TOOLS = Path(__file__).resolve().parent
-ROOT = TOOLS.parent
+ROOT = TOOLS.parent.parent.parent
 RECEIPTS = ROOT / "_archive/projects/dashboard/dashboard_queue_build_20261011T014430Z"
+# The archived host runners and checker are sealed and speak the pre-v2 layout; fixtures run copies adapted to v2.
+V2_RECEIPT = (("\"$RECEIPT/../..\"", "\"$RECEIPT/../../../..\""),
+              ("sys.path.insert(0,'tools'); import c10w_p2_gate", "sys.path.insert(0,'code/lab/runners'); import c10w_p2_gate"),
+              ("tools/test_dashboard_queue.py", "code/apps/dashboard/test_dashboard_queue.py"),
+              ("tools/dashboard_queue.py", "code/apps/dashboard/dashboard_queue.py"))
+V2_CHECKER = (("root / 'tools'", "root / 'code/apps/dashboard'"),)
+
+
+def v2_receipt(text, mapping=V2_RECEIPT):
+    for old, new in mapping:
+        if old not in text:
+            raise AssertionError("archived receipt no longer contains " + repr(old) + "; the v2 adapter is stale")
+        text = text.replace(old, new)
+    return text
 sys.path.insert(0, str(TOOLS))
 NOW = dt.datetime(2026, 10, 10, 19, 47, tzinfo=dt.timezone(dt.timedelta(hours=-6)))
 
@@ -285,7 +299,7 @@ class QueueCriteria(unittest.TestCase):
         for node in ast.walk(tree):
             if isinstance(node, ast.ImportFrom):
                 self.assertIn(node.module, {"dataclasses", "enum", "pathlib", "typing", "dashboard_live"})
-        gate = importlib.import_module("c10w_p2_gate")
+        gate = importlib.import_module("lab.runners.c10w_p2_gate")
         inventory = "123 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python %s\n" % (TOOLS / "dashboard_queue.py")
         self.assertEqual(gate.blocking_processes(inventory, -1), [])
 
@@ -333,8 +347,9 @@ class QueueCriteria(unittest.TestCase):
         text = runner.read_text()
         for receipt in ("tests", "render_40", "render_100", "tmux_start", "tmux_capture", "gpu_check", "tmux_cleanup"):
             self.assertIn(receipt + ".exit", text)
-        self.assertIn("code/apps/dashboard/test_dashboard_queue.py", text)
-        self.assertIn("program/program_state.json", text)
+        # The runner is a sealed pre-v2 receipt; these are its own words, not v2 paths.
+        self.assertIn("tools/test_dashboard_queue.py", text)
+        self.assertIn("docs/program_state.json", text)
         self.assertIn("--once 40", text)
         self.assertIn("--once 100", text)
         self.assertIn("tmux -L q1check new-session", text)
@@ -378,7 +393,7 @@ class QueueCriteria(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            runs = root / "results/mathlab_staging/runs"
+            runs = root / "experiments/ml/runs"
             runs.mkdir(parents=True)
             for name, stamp, terminal in (("older-open", 1, False), ("newer-open", 2, False), ("newest-finished", 3, True)):
                 folder = runs / name
@@ -464,11 +479,10 @@ class QueueCriteria(unittest.TestCase):
         q = self.module()
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            (root / "tools").mkdir()
-            (root / "docs").mkdir()
+            (root / "program").mkdir()
             (root / "program/program_state.json").write_text(json.dumps(source([item(title="The selected worktree queue")])))
             other = root / "other"
-            (other / "docs").mkdir(parents=True)
+            (other / "program").mkdir(parents=True)
             (other / "program/program_state.json").write_text(json.dumps(source([item(title="An unrelated main checkout")])))
             output = io.StringIO()
             with mock.patch.object(q, "__file__", str(root / "code/apps/dashboard/dashboard_queue.py")), \
@@ -538,7 +552,7 @@ class Q2Regressions(unittest.TestCase):
             self.assertNotIn('builder finished', shown)
 
     def q2_events(self, root, name, age, terminal=False):
-        folder = root / 'results/mathlab_staging/runs' / name
+        folder = root / 'experiments/ml/runs' / name
         folder.mkdir(parents=True)
         events = [{'type': 'run_started'}]
         if terminal:
@@ -584,7 +598,8 @@ class Q2Regressions(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             folder = self.q2_events(root, 'mathlab-live', 3600)
-            command = '222 1 00:40 /usr/bin/python3 %s/mathlab_cpu_runner.py code/apps/mathlab/m2_solve_repro.py --run-dir %s\n' % (TOOLS, folder)
+            # The CPU runner lives with MathLab in v2, not beside this tab.
+            command = '222 1 00:40 /usr/bin/python3 %s/mathlab_cpu_runner.py code/apps/mathlab/m2_solve_repro.py --run-dir %s\n' % (TOOLS.parent / 'mathlab', folder)
             live = self.q2_live(q, root, command)
             self.assertIsNotNone(live.experiment)
             self.assertIn('mathlab-live', flat(q.render(self.parsed(q), live, NOW, 100)))
@@ -607,17 +622,19 @@ class Q2Regressions(unittest.TestCase):
             root = Path(directory)
             receipt = root / '_archive/projects/dashboard/dashboard_queue_build_20261011T014430Z'
             receipt.mkdir(parents=True)
-            (root / 'tools').mkdir()
+            for folder in ('code/apps/dashboard', 'code/lab/runners', 'code/state'):
+                (root / folder).mkdir(parents=True)
+            (root / 'code/state/llmdb_records.py').write_text((ROOT / 'code/state/llmdb_records.py').read_text())
             (root / 'code/apps/dashboard/test_dashboard_queue.py').write_text('print("fixture tests pass")\n')
             (root / 'code/apps/dashboard/dashboard_queue.py').write_text('print("fixture queue render")\n')
             (root / 'code/lab/runners/c10w_p2_gate.py').write_text('def check_gpu(): return {"blocking_processes": []}\n')
             # The checker uses the real shared detector against the fixture snapshot.
             (root / 'code/apps/dashboard/dashboard_live.py').write_text((TOOLS / 'dashboard_live.py').read_text())
             runner = receipt / 'run_host_checks.sh'
-            runner.write_text((RECEIPTS / runner.name).read_text())
+            runner.write_text(v2_receipt((RECEIPTS / runner.name).read_text()))
             checker = RECEIPTS / 'check_q2_host_live.py'
             if checker.exists():
-                (receipt / checker.name).write_text(checker.read_text())
+                (receipt / checker.name).write_text(v2_receipt(checker.read_text(), V2_CHECKER))
             attempt1 = receipt / 'host_attempt1'
             attempt1.mkdir()
             sentinel = attempt1 / 'unchanged.txt'
@@ -841,8 +858,7 @@ class Q3Regressions(unittest.TestCase):
         q = self.module()
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            (root / 'tools').mkdir()
-            (root / 'docs').mkdir()
+            (root / 'program').mkdir()
             (root / 'program/program_state.json').write_text(json.dumps(source(self.crowded())))
             for args, width, height in ((['40', '30'], 40, 30), (['100', '45'], 100, 45), (['40'], 40, 30)):
                 with self.subTest(args=args):
@@ -881,7 +897,8 @@ class Q3HostRegressions(unittest.TestCase):
             root = Path(directory)
             receipt = root / '_archive/projects/dashboard/dashboard_queue_build_20261011T014430Z'
             receipt.mkdir(parents=True)
-            (root / 'tools').mkdir()
+            for folder in ('code/apps/dashboard', 'code/lab/runners'):
+                (root / folder).mkdir(parents=True)
             (root / 'code/apps/dashboard/test_dashboard_queue.py').write_text('print("fixture tests pass")\n')
             (root / 'code/apps/dashboard/dashboard_queue.py').write_text(
                 'import os, sys\nfrom pathlib import Path\n'
@@ -901,7 +918,7 @@ class Q3HostRegressions(unittest.TestCase):
             if not script.exists():
                 script = RECEIPTS / 'run_host_checks.sh'
             runner = receipt / script.name
-            runner.write_text(script.read_text())
+            runner.write_text(v2_receipt(script.read_text()))
             # Let the old runner execute instead of failing mkdir before its checks.
             if script.name == 'run_host_checks.sh':
                 runner.write_text(runner.read_text().replace('host_attempt2', 'legacy_attempt'))
@@ -963,9 +980,9 @@ source "$1"
         result, outputs, commands, cli, waits = self.host()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         start = next(line for line in commands if 'new-session' in line)
-        launch = re.fullmatch(r"-L q3check new-session -d -s q3check -x 40 -y 30 /usr/bin/python3 '(.*/tools/dashboard_queue\.py)'", start)
+        launch = re.fullmatch(r"-L q3check new-session -d -s q3check -x 40 -y 30 /usr/bin/python3 '(.*/code/apps/dashboard/dashboard_queue\.py)'", start)
         self.assertIsNotNone(launch, 'Private tab must use the real tab command exactly: ' + start)
-        gate = importlib.import_module('c10w_p2_gate')
+        gate = importlib.import_module('lab.runners.c10w_p2_gate')
         clt = '/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python'
         inventory = '424242 %s %s\n' % (clt, launch.group(1))
         self.assertEqual(gate.blocking_processes(inventory, -1), [], 'Exact tab launch must retain its GPU exemption')

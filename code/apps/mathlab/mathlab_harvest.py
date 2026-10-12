@@ -12,9 +12,10 @@ import os
 from pathlib import Path
 import sys
 
-W = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(W))
-from tools import mathlab_runtime as R
+W = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(W / "code"))
+from apps.mathlab import mathlab_runtime as R
+from state import llmdb_records as L
 
 BAND = [4, 5, 6, 7, 8]
 A1, A2, A7 = "A1_single", "A2_coherent2", "A7_coined_coined"
@@ -494,7 +495,7 @@ def harvest(run_dir, admission_path):
     H = None; hp = None; pristine = None; observer = None
     try:
         R.verify_prereg(W)
-        from tools.mathlab_admit import dispatch_check
+        from apps.mathlab.mathlab_admit import dispatch_check
         admission = dispatch_check(run_dir, "harvest", admission_path)
         run.gate("admission", "Lead queue and machine checks allow the harvest", admission,
                  "allowed", admission["allowed"], fatal=True)
@@ -518,7 +519,7 @@ def harvest(run_dir, admission_path):
             selftest = conversion_selftest(H.DEV)
             run.gate("conversion-selftest", "Recording offset tensor views preserves values and the source", selftest,
                      "every view bitwise unchanged", selftest["passed"], fatal=True)
-            output = R.new_directory(W / "results/mathlab", "harvest")
+            output = R.new_directory(W / L.ML_RUNS, "harvest")
             specs = prompt_specs(H)
         saved = {}; law5_writes = []
         def completed(write):

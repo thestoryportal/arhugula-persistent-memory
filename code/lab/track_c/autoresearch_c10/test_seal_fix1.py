@@ -203,7 +203,7 @@ class Fix1(unittest.TestCase):
         self.assertNotIn('(literal ' + json.dumps(self.config['sandbox'] + '/.ignore') + ')', S.seatbelt(self.config))
 
     def test_resolved_interpreter_starts_and_finds_pinned_packages_without_importing_them(self):
-        runtime = B.resolved_runtime(SRC.parents[2])
+        runtime = B.resolved_runtime(SRC.parents[3])
         self.assertEqual(runtime['python'], str(Path(sys.executable).resolve()))
         self.assertFalse(Path(runtime['python']).is_symlink())
         site = Path(runtime['site_packages'])

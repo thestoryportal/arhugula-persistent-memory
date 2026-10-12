@@ -11,9 +11,9 @@ from pathlib import Path
 import socket
 import sys
 
-ROOT=Path(__file__).resolve().parents[1]
-sys.path.insert(0,str(ROOT))
-from tools.new1_supervisor import BOUNDARY, TIER, Stop, durable_json, sha_file, strict_json, verify_prereg
+ROOT=Path(__file__).resolve().parents[3]
+sys.path.insert(0,str(ROOT/"code"))
+from lab.runners.new1_supervisor import BOUNDARY, TIER, Stop, durable_json, sha_file, strict_json, verify_prereg
 
 BAND=[4,5,6,7,8]
 ARMS=['A7_coined_coined','A1_single','A2_coherent2','A7_canon','A7_shuf']

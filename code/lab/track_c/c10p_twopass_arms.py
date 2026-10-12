@@ -6,7 +6,7 @@
 Env: LLMDB_ROOT, LAW3_REF; OUT dir / DECISION_ID / PREREG default to this decision's paths.
 """
 import os, sys, json, time
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["C10_ARMS"] = "A1_single,A2_coherent2,A7_coined_coined"      # A2 is a locality gate here (prereg §3)
 os.environ["C10_RECIPES"] = "candidate"

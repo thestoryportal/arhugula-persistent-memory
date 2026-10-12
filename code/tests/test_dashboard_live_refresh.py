@@ -12,8 +12,8 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "tools"))
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "code/apps/dashboard"))
 import dashboard_live as live
 import dashboard_experiment as experiment
 import dashboard_mathlab as mathlab
@@ -29,8 +29,8 @@ class ReloadDependencies(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory(prefix="mb37_refresh_", dir="/private/tmp")
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
-        self.tools = self.root / "tools"
-        self.tools.mkdir()
+        self.tools = self.root / "code/apps/dashboard"
+        self.tools.mkdir(parents=True)
 
     def source(self, name, text, stamp):
         path = self.root / name
@@ -40,7 +40,7 @@ class ReloadDependencies(unittest.TestCase):
         return path
 
     def test_imported_mathlab_changes_trigger_reload(self):
-        self.source("tools/dashboard_lab.py", "import mathlab_events\n", 100)
+        self.source("code/apps/dashboard/dashboard_lab.py", "from apps.mathlab import mathlab_events\n", 100)
         dep = self.source("code/apps/mathlab/mathlab_events.py", "GATE_PLAN = ()\n", 90)
         stamp = live.source_stamp(str(self.tools))
         os.utime(dep, (200, 200))
@@ -48,24 +48,24 @@ class ReloadDependencies(unittest.TestCase):
         self.assertEqual(live.source_stamp(str(self.tools)), 200)
 
     def test_lazy_package_import_is_stamped_without_importing_it(self):
-        self.source("code/apps/dashboard/dashboard_storage.py", "def read():\n from tools.backup_gdrive_status import check\n", 100)
+        self.source("code/apps/dashboard/dashboard_storage.py", "def read():\n from ops.backup.backup_gdrive_status import check\n", 100)
         self.source("code/ops/backup/backup_gdrive_status.py", "raise RuntimeError('must not import')\n", 300)
         self.assertEqual(live.source_stamp(str(self.tools)), 300)
 
     def test_transitive_relative_dependencies_and_cycles(self):
-        self.source("tools/dashboard_x.py", "from helpers.reader import read\n", 100)
-        self.source("tools/helpers/__init__.py", "from . import reader\n", 110)
-        self.source("tools/helpers/reader.py", "from . import rules\n", 120)
-        self.source("tools/helpers/rules.py", "from . import reader\n", 400)
+        self.source("code/apps/dashboard/dashboard_x.py", "from helpers.reader import read\n", 100)
+        self.source("code/apps/dashboard/helpers/__init__.py", "from . import reader\n", 110)
+        self.source("code/apps/dashboard/helpers/reader.py", "from . import rules\n", 120)
+        self.source("code/apps/dashboard/helpers/rules.py", "from . import reader\n", 400)
         self.assertEqual(live.source_stamp(str(self.tools)), 400)
 
     def test_unrelated_repo_and_external_modules_do_not_trigger_reload(self):
-        self.source("tools/dashboard_x.py", "import json\n", 100)
-        self.source("tools/unrelated.py", "unused = True\n", 900)
+        self.source("code/apps/dashboard/dashboard_x.py", "import json\n", 100)
+        self.source("code/apps/dashboard/unrelated.py", "unused = True\n", 900)
         self.assertEqual(live.source_stamp(str(self.tools)), 100)
 
     def test_mathlab_reexecs_before_a_second_frame_after_helper_change(self):
-        self.source("tools/dashboard_lab.py", "import mathlab_events\n", 100)
+        self.source("code/apps/dashboard/dashboard_lab.py", "from apps.mathlab import mathlab_events\n", 100)
         dep = self.source("code/apps/mathlab/mathlab_events.py", "GATE_PLAN = ()\n", 90)
         frames = []
         class Reloaded(Exception):
@@ -193,8 +193,8 @@ class LatestRun(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
 
-    def log(self, name, stamp, body="working\n"):
-        path = self.root / "results" / name
+    def log(self, rel, stamp, body="working\n"):
+        path = self.root / rel
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body)
         os.utime(path, (stamp, stamp))
@@ -206,16 +206,16 @@ class LatestRun(unittest.TestCase):
             return live.gpu_state()
 
     def test_nested_new_run_supersedes_old_coordinator(self):
-        self.log("c10w_logs/coordinator.log", 100, "2026-10-08T00:00:00+0000 COORDINATOR_EXIT=0 old\n")
-        latest = self.log("c10z_astra/fresh/logs/stage1.log", 200, "2026-10-10T23:00:00+0000 COORDINATOR_EXIT=2 new\n")
+        self.log("experiments/c10w/runs/c10w_oracle/logs/coordinator.log", 100, "2026-10-08T00:00:00+0000 COORDINATOR_EXIT=0 old\n")
+        latest = self.log("experiments/c10z/runs/c10z_astra/fresh/logs/stage1.log", 200, "2026-10-10T23:00:00+0000 COORDINATOR_EXIT=2 new\n")
         state = self.state()
         self.assertEqual(state["last_name"], "ASTRA")
         self.assertEqual(state["last_exit"]["code"], 2)
         self.assertEqual(state.get("last_log"), latest)
 
     def test_no_outcome_on_newest_log_does_not_borrow_old_exit(self):
-        self.log("c10w_logs/coordinator.log", 100, "2026-10-08T00:00:00+0000 COORDINATOR_EXIT=0 old\n")
-        latest = self.log("c10y_directdw/fresh/worker.log", 200)
+        self.log("experiments/c10w/runs/c10w_oracle/logs/coordinator.log", 100, "2026-10-08T00:00:00+0000 COORDINATOR_EXIT=0 old\n")
+        latest = self.log("experiments/c10y/runs/c10y_directdw/fresh/worker.log", 200)
         state = self.state()
         self.assertIsNone(state["last_exit"])
         self.assertEqual(state.get("last_log"), latest)
@@ -226,8 +226,9 @@ class LatestRun(unittest.TestCase):
         self.assertIn("outcome not recorded", text)
 
     def test_latest_source_excludes_quarantine_and_labviz_mirrors(self):
-        latest = self.log("c10z_astra/fresh/worker.log", 200)
-        for name in ("c10z_astra/_quarantine_bad/worker.log", "c10w_logs/attempt1_halted/worker.log", "labviz/site/evidence/c10y/a.log"):
+        latest = self.log("experiments/c10z/runs/c10z_astra/fresh/worker.log", 200)
+        for name in ("experiments/c10z/runs/c10z_astra/_quarantine_bad/worker.log", "experiments/c10w/runs/c10w_oracle/logs/attempt1_halted/worker.log",
+                     "projects/labviz-spec-v3/receipts/bulk/labviz/site/evidence/c10y/a.log"):
             self.log(name, 900)
         state = self.state()
         self.assertEqual(state.get("last_log"), latest)

@@ -18,8 +18,8 @@ import dashboard_mathlab as M
 
 TOOLS = Path(__file__).resolve().parent
 UTC = '20261009T230000Z'
-EVENTS = 'results/mathlab_staging/runs/harvest_20261009T230000Z_101'
-CPU_EVENTS = 'results/mathlab_staging/runs/m2_fixture'
+EVENTS = 'experiments/ml/runs/harvest_20261009T230000Z_101'
+CPU_EVENTS = 'experiments/ml/runs/m2_fixture'
 NOW = datetime(2026, 10, 9, 20, 0, tzinfo=timezone.utc).timestamp()
 CASES = [
     ('bash code/apps/mathlab/run_mathlab_harvest.sh results/mathlab/admission.json', 'Math-lab harvest', 3600, None),
@@ -45,7 +45,7 @@ class SharedGPUDetector(unittest.TestCase):
                     'code/lab/track_c/c10z_astra_benchmark.py'):
             target = self.root / rel
             target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_text((TOOLS.parent / rel).read_text())
+            target.write_text((TOOLS.parent.parent.parent / rel).read_text())
         self.addCleanup(patch.stopall)
         patch.object(L, 'ROOT', str(self.root)).start()
         patch.object(X, 'ROOT', str(self.root)).start()
@@ -90,8 +90,10 @@ class SharedGPUDetector(unittest.TestCase):
         return out
 
     def real_bar(self, inventory='', code=1):
-        for rel in ('code/apps/dashboard/dashboard_bar.sh', 'code/apps/dashboard/dashboard_live.py', 'code/apps/mathlab/mathlab_events.py'):
-            shutil.copyfile(TOOLS.parent / rel, self.root / rel)
+        for rel in ('code/apps/dashboard/dashboard_bar.sh', 'code/apps/dashboard/dashboard_live.py', 'code/apps/mathlab/mathlab_events.py',
+                    'code/state/llmdb_records.py'):
+            (self.root / rel).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(TOOLS.parent.parent.parent / rel, self.root / rel)
         bin_dir = self.root / 'bin'; bin_dir.mkdir()
         wrapper = bin_dir / 'python3'
         wrapper.write_text('#!/usr/bin/python3 -B\n'
@@ -283,7 +285,7 @@ class SharedGPUDetector(unittest.TestCase):
         self.assertIsNone(jobs[0]['output_dir'])
         self.assertIsNone(jobs[0]['cap_s'])
         self.attempt_record(closed=False)
-        other = self.root / 'results/c10z_astra_attempt_other'; other.mkdir()
+        other = self.root / 'experiments/c10z/runs/c10z_astra_attempt_other'; other.mkdir(parents=True)
         shutil.copyfile(out / 'run.json', other / 'run.json')
         jobs = self.state('101 1 02:00 bash code/lab/runners/run_c10z_attempt.sh\n')['jobs']
         self.assertIsNone(jobs[0]['output_dir'], 'two PID matches cannot establish unique output provenance')
@@ -313,7 +315,7 @@ class SharedGPUDetector(unittest.TestCase):
 
     def test_independent_attempt_families_keep_conflicting_explicit_dirs_and_go_caps(self):
         go = self.root / 'go.json'; go.write_text(json.dumps({'ceilings': {'stage01': 7200, 'stage2': 18000, 'stage3': 24000}}))
-        out1=self.root / 'experiments/c10z/runs/c10z_astra_attempt4'; out2=self.root / 'results/c10z_astra_attempt5'
+        out1=self.root / 'experiments/c10z/runs/c10z_astra_attempt4'; out2=self.root / 'experiments/c10z/runs/c10z_astra_attempt5'
         inventory=('101 1 01:02 env C10Z_OUT_DIR=' + str(out1) + ' C10Z_GO_RECORD=' + str(go) + ' bash code/lab/runners/run_c10z_attempt.sh\n'
                    '201 1 02:03 env C10Z_OUT_DIR=' + str(out2) + ' C10Z_GO_RECORD=' + str(go) + ' bash code/lab/runners/run_c10z_attempt.sh\n')
         jobs=self.state(inventory)['jobs']
@@ -465,7 +467,7 @@ class SharedGPUDetector(unittest.TestCase):
         self.assertNotIn('transformers', sys.modules)
 
     def test_harvest_events_directory_never_becomes_an_inferred_artifact_directory(self):
-        stale = self.root / 'results/mathlab/harvest_20991231T235959Z'
+        stale = self.root / 'experiments/ml/runs/harvest_20991231T235959Z'
         stale.mkdir(parents=True)
         (stale / 'manifest.json').write_text('{}')
         jobs = self.state('101 1 00:12 ' + CASES[1][0] + '\n').get('jobs', [])
@@ -532,7 +534,8 @@ class SharedGPUDetector(unittest.TestCase):
         current.write_text('step 7 loss 0.5\nLegacy worker progress marker\n')
         os.utime(finished, (NOW - 20, NOW - 20))
         os.utime(current, (NOW - 10, NOW - 10))
-        (logs / 'fixture_started.json').write_text(json.dumps({'plan': ['first', 'second', 'third']}))
+        # v2: a run's stage plan sits in its run folder, beside logs/ (as experiments/c10u/runs/c10u_mint2/*_started.json).
+        (logs.parent / 'fixture_started.json').write_text(json.dumps({'plan': ['first', 'second', 'third']}))
 
     def legacy_render(self, inventory):
         with patch.object(L.subprocess, 'run', return_value=self.response(inventory)), \

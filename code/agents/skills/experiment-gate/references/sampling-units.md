@@ -13,6 +13,6 @@ Useful commands:
 
 ```bash
 python3 code/lab/analysis/power.py size --metric prop --p0 70 --effect 20 --items 8 --swing 50 --target-power 0.8
-python3 code/lab/analysis/stats.py from-result results/<file>.json
-python3 code/gates/experiment_gate.py check-result results/<file>.json
+python3 code/lab/analysis/stats.py from-result experiments/<id>/runs/<slug>/<file>.json
+python3 code/gates/experiment_gate.py check-result experiments/<id>/runs/<slug>/<file>.json
 ```

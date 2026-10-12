@@ -10,7 +10,7 @@ import tempfile
 import traceback
 from pathlib import Path
 
-ROOT = Path(os.environ.get("LLMDB_ROOT") or Path(__file__).resolve().parents[2])
+ROOT = Path(os.environ.get("LLMDB_ROOT") or Path(__file__).resolve().parents[3])
 TAGS = {1: "s1", 2: "p1", 3: "p2"}
 SCIENCE_FILES = {1: "screen.json", 2: "pass_p1.json", 3: "pass_p2.json"}
 COMMON = {"kind", "t_utc", "elapsed_s", "cumulative_s", "process", "run_id"}

@@ -23,7 +23,7 @@ memit_main.py, among others); the driver refuses to proceed if any current file 
 Usage: LLMDB_ROOT=<root> .venv/bin/python code/lab/track_c/c10s_sharedz_inertness.py      (env OUT_DIR as the driver)
 """
 import os, sys, io, json, time, contextlib, traceback
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")
 import c10s_sharedz_arms as A          # refuses inherited knobs, forces the run identity, loads the harness (model) — its main() does not run

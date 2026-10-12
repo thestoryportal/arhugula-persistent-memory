@@ -18,11 +18,13 @@ OVERLAY = "knowledge/specs/SPEC_EXPERIMENT_OVERLAY.md"
 CONDITIONS = "knowledge/findings/F1_DETERMINATION.md"
 E2E = "knowledge/specs/SPEC_E2E_GROUND_TRUTH.md"
 HYPOTHESES = "program/registers/HYPOTHESIS_REGISTER_2026-06-18.md"
-RUNBOOK = "program/runbook/"
+RUNBOOK = "program/runbook"
 TABLE = "code/apps/labviz/contexts.json"
+MOVES = "code/apps/labviz/results_moves.json"
 _DECISION = re.compile(r"(?<![A-Za-z0-9-])(D-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)(?![A-Za-z0-9-])")
 _ANCHOR = re.compile(r"⟨(D-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)@[^⟩]+⟩")
-_RESULT_PATH = re.compile(r"(?<![A-Za-z0-9_])(?:/workspace/)?(results/[A-Za-z0-9_./*{},+\-]+)")
+# Sealed documents cite pre-v2 results/ paths; current ones cite run folders.
+_RESULT_PATH = re.compile(r"(?<![A-Za-z0-9_])(?:/workspace/)?((?:results|experiments/[A-Za-z0-9_-]+/runs)/[A-Za-z0-9_./*{},+\-]+)")
 _SPEC = re.compile(r"§\d+(?:\.\d+)*")
 
 
@@ -84,6 +86,18 @@ def _path_matches(pattern, source, allow_suffix=False):
                 and re.search(r"(?:^|/)" + expression + r"$", source))
 
 
+def _moved(pattern, moves):
+    """A results/ pattern's v2 homes: under a moved folder, the same path under its new home; a moved path the
+    pattern names whole, its new path (and, for a folder pattern, everything under it)."""
+    homes = []
+    for old, new in moves.items():
+        if pattern.startswith(old + "/"):
+            homes.append(new + pattern[len(old):])
+        elif _path_matches(pattern, old):
+            homes.extend((new, new + "/") if pattern.endswith("/") else (new,))
+    return _distinct(homes)
+
+
 def _json_path(parts):
     path = ""
     for part in parts:
@@ -133,6 +147,9 @@ class Program:
         local_table = self.root / TABLE
         self._table_file = local_table if local_table.is_file() else PACKAGE / "contexts.json"
         self.tables = json.loads(self._table_file.read_text(encoding="utf-8"))
+        local_moves = self.root / MOVES
+        self.moves = json.loads((local_moves if local_moves.is_file() else PACKAGE / "results_moves.json").read_text(encoding="utf-8"))["moves"]
+        self._homes = {}
         self.registry = self._read_registry()
         self.headers = self._read_headers()
         self.hypotheses = self._read_hypotheses()
@@ -145,10 +162,26 @@ class Program:
     def _document(self, file):
         if file not in self._lines:
             path = self.root / file
-            if self._real_program and file in (REGISTRY, OVERLAY, CONDITIONS, E2E, HYPOTHESES, RUNBOOK) and not path.is_file():
+            if self._real_program and file in (REGISTRY, OVERLAY, CONDITIONS, E2E, HYPOTHESES) and not path.is_file():
                 raise FileNotFoundError("required context source is absent: " + file)
             self._lines[file] = path.read_text(encoding="utf-8").splitlines() if path.is_file() else []
         return self._lines[file]
+
+    def _runbook(self):
+        """The runbook's lines as (part file, line, text): it is split into parts, and a citation names the part
+        that holds the line."""
+        folder = self.root / RUNBOOK
+        parts = sorted(folder.glob("*.md")) if folder.is_dir() else []
+        if self._real_program and not parts:
+            raise FileNotFoundError("required context source is absent: " + RUNBOOK)
+        files = [str(part.relative_to(self.root)) for part in parts]
+        return [(file, number, line) for file in files for number, line in enumerate(self._document(file), 1)]
+
+    def _cites(self, pattern, source, allow_suffix=False):
+        """A cited path names this source as written or, for a pre-v2 results/ path, at its v2 home."""
+        if pattern not in self._homes:
+            self._homes[pattern] = [pattern] + (_moved(pattern, self.moves) if pattern.startswith("results/") else [])
+        return any(_path_matches(home, source, allow_suffix) for home in self._homes[pattern])
 
     def _doc(self, file, line, value, node_id=None, edge="direct", quote=None):
         source = self._document(file)
@@ -194,7 +227,7 @@ class Program:
             chosen, candidates = _chosen_decision(line)
             paths = []
             for quoted in re.findall(r"`([^`]+)`", cells[5]):
-                if quoted.startswith("results/"):
+                if quoted.startswith("results/") or re.match(r"experiments/[^/]+/runs/", quoted):
                     paths.extend(expand_braces(quoted))
             question = cells[3].strip()
             rows.append({"id": identity[1], "track": cells[2].strip(),
@@ -279,7 +312,7 @@ class Program:
 
     def _read_ledger(self):
         entries, active = [], False
-        for number, line in enumerate(self._document(RUNBOOK), 1):
+        for file, number, line in self._runbook():
             if re.match(r"^##\s+§5\b", line):
                 active = True
                 continue
@@ -301,7 +334,7 @@ class Program:
                 owner, _ = _chosen_decision(owner_text)
             else:
                 owner, _ = _chosen_decision(status)
-            entries.append({"id": owner, "line": number, "heading": heading, "status": status,
+            entries.append({"id": owner, "file": file, "line": number, "heading": heading, "status": status,
                             "date": date[1].strip() if date and owner else None,
                             "decisions": refs, "corpus": _corpus_refs(line)})
         return entries
@@ -390,7 +423,7 @@ class Program:
             raise ValueError("run context requires a repository-relative source")
         matches = []
         for row in self.registry:
-            lengths = [len(path) for path in row["results"] if _path_matches(path, source)]
+            lengths = [len(path) for path in row["results"] if self._cites(path, source)]
             if lengths:
                 matches.append((max(lengths), row))
         if matches:
@@ -401,7 +434,7 @@ class Program:
             return self._experiment_context(winners[0], "registry_path")
         documentary = []
         for header in self.headers:
-            matches = [path for path in header["paths"] if _path_matches(path["pattern"], source, allow_suffix=True)]
+            matches = [path for path in header["paths"] if self._cites(path["pattern"], source, allow_suffix=True)]
             if matches:
                 documentary.append((header, matches[0]))
         if documentary:
@@ -436,7 +469,7 @@ class Program:
             return self._unknown([self._candidate(row) for row in winners], tied=True)
         candidates = []
         for entry in self.tables.get("candidate_patterns", []):
-            if _path_matches(entry["pattern"], source):
+            if self._cites(entry["pattern"], source):
                 candidates.extend(self._header_candidate(header) for header in self.headers if header["id"] == entry["corpus"])
         basename = Path(source).name
         for header in self.headers:
@@ -590,10 +623,10 @@ class Program:
         for section, entry in self.tables.get("section_layers", {}).items():
             if "layer:" + entry["layer"] in nodes and "spec:" + section in nodes:
                 curated("layer:" + entry["layer"], "spec:" + section, entry["citations"]["layer"], ["section_layers", section])
-        for number, line in enumerate(self._document(RUNBOOK), 1):
+        for file, number, line in self._runbook():
             match = re.match(r"^###\s+(TRACK ([A-F])\b.*)", line)
             if match:
-                node("runbook-track:" + match[2], match[1], src={"file": RUNBOOK, "line": number, "quote": match[1]})
+                node("runbook-track:" + match[2], match[1], src={"file": file, "line": number, "quote": match[1]})
         for arm, entry in self.tables.get("arms", {}).items():
             node("arm:" + arm, entry["label"], src=entry["citation"], status=entry["status"])
         for exp, entry in self.tables.get("experiment_hypotheses", {}).items():
@@ -621,24 +654,24 @@ class Program:
         dates = {}
         for entry in self.ledger:
             for decision in entry["decisions"]:
-                node("dec:" + decision, src={"file": RUNBOOK, "line": entry["line"], "quote": decision})
+                node("dec:" + decision, src={"file": entry["file"], "line": entry["line"], "quote": decision})
             if not entry["id"]:
                 continue
             owner = "dec:" + entry["id"]
-            source = {"file": RUNBOOK, "line": entry["line"], "quote": entry["heading"]}
-            date = self._doc(RUNBOOK, entry["line"], entry["date"]) if entry["date"] else _missing("no date recorded in the decision's ledger heading")
-            timeline.append({"node_id": owner, "decision": self._doc(RUNBOOK, entry["line"], entry["id"], owner),
-                             "date": date, "description": self._doc(RUNBOOK, entry["line"], entry["heading"]),
-                             "status": self._doc(RUNBOOK, entry["line"], entry["status"])})
+            source = {"file": entry["file"], "line": entry["line"], "quote": entry["heading"]}
+            date = self._doc(entry["file"], entry["line"], entry["date"]) if entry["date"] else _missing("no date recorded in the decision's ledger heading")
+            timeline.append({"node_id": owner, "decision": self._doc(entry["file"], entry["line"], entry["id"], owner),
+                             "date": date, "description": self._doc(entry["file"], entry["line"], entry["heading"]),
+                             "status": self._doc(entry["file"], entry["line"], entry["status"])})
             nodes[owner]["ledger_src"] = source
             nodes[owner]["description"] = entry["heading"]
             dates.setdefault(owner, []).append(date)
             for decision in entry["decisions"]:
                 if decision != entry["id"]:
-                    direct(owner, "dec:" + decision, RUNBOOK, entry["line"], entry["id"], decision)
+                    direct(owner, "dec:" + decision, entry["file"], entry["line"], entry["id"], decision)
             for number, words in entry["corpus"]:
                 node("corpus:" + number, "evidence/CORPUS/" + number)
-                direct(owner, "corpus:" + number, RUNBOOK, entry["line"], entry["id"], words)
+                direct(owner, "corpus:" + number, entry["file"], entry["line"], entry["id"], words)
         for owner, recorded_dates in dates.items():
             nodes[owner]["dates"] = recorded_dates
             nodes[owner]["date"] = recorded_dates[0] if len(recorded_dates) == 1 else _missing("more than one ledger event is recorded; see dates")

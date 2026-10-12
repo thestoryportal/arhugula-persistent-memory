@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
-PROGRAM_ROOT="$(cd "$SCRIPT_DIR/../../../.." && pwd -P)"
+PROGRAM_ROOT="$(cd "$SCRIPT_DIR/../../../../.." && pwd -P)"
 DEST=/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc
 if [ "$#" -gt 1 ]; then echo "usage: run_replay.sh [DEST]" >&2; exit 2; fi
 if [ "$#" -eq 1 ]; then DEST="$1"; fi

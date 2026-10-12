@@ -12,6 +12,8 @@ from matplotlib.colors import ListedColormap
 import numpy as np
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from apps.labviz.cards import is_c10
+
 PACKAGE = Path(__file__).resolve().parent
 MISSING = 'not recorded for this run'
 COLORS = {'write': '#47e6b1', 'injection': '#ab9fff', 'candidate': '#ffd16a',
@@ -30,10 +32,10 @@ def score_text(r):
     if r.get('score_label'):
         return r['score_label']
     if r['score'] is not None:
-        unit = 'reworded answers' if r.get('source','').startswith('results/c10') else 'recorded observations'
+        unit = 'reworded answers' if is_c10(r.get('source','')) else 'recorded observations'
         return f'{r["score"]} of {r["out_of"]} {unit}' if r['out_of'] is not None else f'{r["score"]} right (total not recorded)'
     if r['percent'] is not None:
-        unit='reworded answers' if r.get('source','').startswith('results/c10') else 'recorded measure'
+        unit='reworded answers' if is_c10(r.get('source','')) else 'recorded measure'
         return f'{r["percent"]}% {unit} (counts {MISSING})'
     return f'Answer score: {MISSING}'
 

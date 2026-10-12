@@ -19,12 +19,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parents[1]
-TOOLS = ROOT / "tools"
-LOG_DIR = ROOT / "experiments/c10j/runs/c10j_anyedit_window50_controls/experiment_gate"
-TEMPLATE = TOOLS / "skills" / "experiment-gate" / "assets" / "prereg_template.md"
+ROOT = Path(__file__).resolve().parents[2]
+TEMPLATE = ROOT / "code/agents/skills/experiment-gate/assets/prereg_template.md"
 
-sys.path.insert(0, str(TOOLS))
+sys.path.insert(0, str(ROOT / "code/lab/analysis"))
 import stats as stats_lib  # noqa: E402
 
 
@@ -32,7 +30,8 @@ PREREG_SECTIONS = {
     "hypothesis": ("any", [r"\bhypothesis\b", r"\bfalsifiable\b"]),
     "metric": ("any", [r"\bmetric\b", r"\bbinding\b"]),
     "thresholds": ("all", [r"\bpass\b", r"\bpartial\b", r"\bfail\b", r"\binvalid\b"]),
-    "power": ("any", [r"\bpower\b", r"\bmde\b", r"tools/power\.py"]),
+    # Sealed preregs cite tools/power.py; v2 ones cite code/lab/analysis/power.py.
+    "power": ("any", [r"\bpower\b", r"\bmde\b", r"(?:tools|code/lab/analysis)/power\.py"]),
     "confounders": ("any", [r"\bconfound", r"\bcontrol"]),
     "advisor": ("any", [r"\badvisor", r"\bcross-family", r"\breview"]),
     "artifacts": ("any", [r"\bresults?/", r"\blogs?/", r"\bartifact"]),
@@ -192,6 +191,19 @@ def _per_unit_stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
     return report
 
 
+def record_folder(experiment: str | None, path: Path | None = None) -> Path | None:
+    """An experiment record's folder: named, or the record a path lies in (experiments/<id>/...)."""
+    if experiment:
+        return ROOT / "experiments" / experiment
+    parts = path.resolve().relative_to(ROOT).parts if path else ()
+    return ROOT / "experiments" / parts[1] if len(parts) > 2 and parts[0] == "experiments" else None
+
+
+def no_record(kind: str, flag: str) -> dict[str, Any]:
+    return {"checked_at": now_iso(), "kind": kind, "gate_status": "BLOCKED",
+            "error": f"no experiment record to write into: pass --experiment <id> or {flag}"}
+
+
 def check_result(path: Path, stats_out: Path | None = None) -> dict[str, Any]:
     out: dict[str, Any] = {
         "checked_at": now_iso(),
@@ -217,7 +229,11 @@ def check_result(path: Path, stats_out: Path | None = None) -> dict[str, Any]:
     else:
         stats_report = {"REFUSED": True, "reason": "top-level result JSON is not an object"}
     out["stats_report"] = stats_report
-    stats_path = stats_out or LOG_DIR / f"{path.stem}_stats.json"
+    # Gate output reviews a run, so it goes in the record's reviews/, never into the sealed run folder.
+    record = record_folder(None, path)
+    if stats_out is None and record is None:
+        return {**out, **no_record("result_check", "--stats-out")}
+    stats_path = stats_out or record / "reviews" / f"{path.stem}_stats.json"
     write_json(stats_path, stats_report)
     out["stats_artifact"] = rel(stats_path)
     if stats_report.get("REFUSED"):
@@ -286,8 +302,11 @@ def audit_method_port(path: Path) -> dict[str, Any]:
     return out
 
 
-def init_prereg(d_id: str, out_path: Path | None = None) -> dict[str, Any]:
-    dest = out_path or ROOT / "docs" / f"{d_id}_PREREG.md"
+def init_prereg(d_id: str, out_path: Path | None = None, experiment: str | None = None) -> dict[str, Any]:
+    record = record_folder(experiment)
+    if out_path is None and record is None:
+        return no_record("init", "--out")
+    dest = out_path or record / "design" / f"{d_id}_PREREG.md"
     if dest.exists():
         return {
             "checked_at": now_iso(),
@@ -311,7 +330,10 @@ def init_prereg(d_id: str, out_path: Path | None = None) -> dict[str, Any]:
 
 def bundle(args: argparse.Namespace) -> dict[str, Any]:
     d_id = args.d_id
-    prereg = args.prereg or ROOT / "docs" / f"{d_id}_PREREG.md"
+    record = record_folder(args.experiment)
+    if record is None and (args.prereg is None or args.out is None):
+        return no_record("experiment_gate_package", "both --prereg and --out")
+    prereg = args.prereg or record / "design" / f"{d_id}_PREREG.md"
     package: dict[str, Any] = {
         "created_at": now_iso(),
         "kind": "experiment_gate_package",
@@ -344,7 +366,7 @@ def bundle(args: argparse.Namespace) -> dict[str, Any]:
         }
     else:
         package["checks"]["review"] = {"gate_status": "PASS", "review_status": args.review_status}
-    out_path = args.out or LOG_DIR / f"{d_id}_gate_package.json"
+    out_path = args.out or record / "reviews" / f"{d_id}_gate_package.json"
     write_json(out_path, package)
     package["package_path"] = rel(out_path)
     return package
@@ -354,8 +376,9 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="LLM-as-Database experiment assurance gate.")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    p_init = sub.add_parser("init", help="scaffold docs/<D-ID>_PREREG.md from template")
+    p_init = sub.add_parser("init", help="scaffold experiments/<id>/design/<D-ID>_PREREG.md from template")
     p_init.add_argument("d_id")
+    p_init.add_argument("--experiment", help="the experiment record id (experiments/<id>/)")
     p_init.add_argument("--out", type=Path)
 
     p_pr = sub.add_parser("check-prereg", help="check required prereg sections are present")
@@ -370,6 +393,7 @@ def main(argv: list[str] | None = None) -> int:
 
     p_b = sub.add_parser("bundle", help="build a handoff package; never writes CORPUS")
     p_b.add_argument("d_id")
+    p_b.add_argument("--experiment", help="the experiment record id: prereg from its design/, package to its reviews/")
     p_b.add_argument("--prereg", type=Path)
     p_b.add_argument("--result", type=Path)
     p_b.add_argument("--method-port", type=Path)
@@ -379,7 +403,7 @@ def main(argv: list[str] | None = None) -> int:
 
     args = ap.parse_args(argv)
     if args.cmd == "init":
-        return emit(init_prereg(args.d_id, args.out))
+        return emit(init_prereg(args.d_id, args.out, args.experiment))
     if args.cmd == "check-prereg":
         return emit(check_prereg(args.path))
     if args.cmd == "check-result":

@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const site = path.resolve(__dirname, '../../../projects/labviz-spec-v3/receipts/bulk/labviz/site');
-const root = path.resolve(__dirname, '../..');
+const root = path.resolve(__dirname, '../../..');
 function bootstrap() {
   const context = { window: {} };
   vm.runInNewContext(fs.readFileSync(path.join(site, 'data.js'), 'utf8'), context);
@@ -53,7 +53,7 @@ test('Historical template sentences are identified without changing evaluation e
 test('Cited role, label and evaluation rule tables have byte-identical evidence snapshots', () => {
   for (const name of ['gates.json','labels.json','links.json']) {
     const recorded=fs.readFileSync(path.join(root,'code/apps/labviz',name));
-    const snapshot=path.join(site,'evidence/tools/labviz',name);
+    const snapshot=path.join(site,'evidence/code/apps/labviz',name);
     assert.ok(fs.existsSync(snapshot),'Referenced rule table has no snapshot: '+name);
     assert.ok(fs.readFileSync(snapshot).equals(recorded),'Referenced rule table changed: '+name);
   }

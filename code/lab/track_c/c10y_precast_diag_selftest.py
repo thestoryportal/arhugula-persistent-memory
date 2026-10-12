@@ -1,7 +1,7 @@
 """CPU-only contracts for the frozen C10Y pre-cast diagnostic; no live dispatch."""
 import os, sys
 from pathlib import Path
-W = Path(__file__).resolve().parents[2]
+W = Path(__file__).resolve().parents[3]
 sys.dont_write_bytecode = True
 
 def guard(event, args):

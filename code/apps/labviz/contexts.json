@@ -2095,7 +2095,7 @@
         "DILUTED": "D1 · DILUTED trajectory",
         "CONCENTRATED": "D1 · CONCENTRATED trajectory"
       },
-      "question": "Spec §8.7 models drift as `edge_count_since_anchor` — a **global, relation-agnostic** cumulative edge count (warn @1,500 / hard @8,000 / sub-batch @2,000), all flagged provisional by **OQ-W1** (\"cumulative edit volume degradation threshold, model-specific\"). G6.1 (`evidence/CORPUS/13`) suggested interference is **relation-fan-out-conditioned, not volume-conditioned** (§7.2). **D1 decides the monitored variable:** at a FIXED total edit count N, does held-out same-relation read corruption depend on the **concentration** of edits on one relation, or on **N** itself?",
+      "question": "Spec §8.7 models drift as `edge_count_since_anchor` — a **global, relation-agnostic** cumulative edge count (warn @1,500 / hard @8,000 / sub-batch @2,000), all flagged provisional by **OQ-W1** (\"cumulative edit volume degradation threshold, model-specific\"). G6.1 (`CORPUS/13`) suggested interference is **relation-fan-out-conditioned, not volume-conditioned** (§7.2). **D1 decides the monitored variable:** at a FIXED total edit count N, does held-out same-relation read corruption depend on the **concentration** of edits on one relation, or on **N** itself?",
       "measure": "held-out `capital` top-1",
       "bar": "Positive control: concentrated must actually corrupt.",
       "headline": {
@@ -2112,7 +2112,7 @@
         "question": {
           "file": "evidence/CORPUS/22_D1_CAPACITY_LAW.md",
           "line": 6,
-          "quote": "Spec §8.7 models drift as `edge_count_since_anchor` — a **global, relation-agnostic** cumulative edge count (warn @1,500 / hard @8,000 / sub-batch @2,000), all flagged provisional by **OQ-W1** (\"cumulative edit volume degradation threshold, model-specific\"). G6.1 (`evidence/CORPUS/13`) suggested interference is **relation-fan-out-conditioned, not volume-conditioned** (§7.2). **D1 decides the monitored variable:** at a FIXED total edit count N, does held-out same-relation read corruption depend on the **concentration** of edits on one relation, or on **N** itself?"
+          "quote": "Spec §8.7 models drift as `edge_count_since_anchor` — a **global, relation-agnostic** cumulative edge count (warn @1,500 / hard @8,000 / sub-batch @2,000), all flagged provisional by **OQ-W1** (\"cumulative edit volume degradation threshold, model-specific\"). G6.1 (`CORPUS/13`) suggested interference is **relation-fan-out-conditioned, not volume-conditioned** (§7.2). **D1 decides the monitored variable:** at a FIXED total edit count N, does held-out same-relation read corruption depend on the **concentration** of edits on one relation, or on **N** itself?"
         },
         "measure": {
           "file": "evidence/CORPUS/22_D1_CAPACITY_LAW.md",
@@ -2355,7 +2355,7 @@
       "citation": {
         "file": "evidence/CORPUS/24_R15_CONSTRAINT_PROBE.md",
         "line": 3,
-        "quote": "_Run 2026-06-24 on the pod. Pre-reg: `experiments/r15/design/R15_CONSTRAINT_PROBE_PREREG.md` (advisor-checked + reconciled before authoring; calibration call + hand-adjudication after). Runner `code/lab/track_c/r15_constraint_probe.py`; result `experiments/r15/runs/r15_constraint_probe/r15_constraint_probe.json`; log `logs/r15_constraint_probe.log`. Harness: band[4–8] / Qwen2.5-3B / in-solve AlphaEdit / fixed-base P / **single joint batch** (the A1-clean recipe). Engine UNMODIFIED; `my_edit`/`compute_P`/`predict`/`single_tok` copied VERBATIM from `code/lab/scale/g6_scale_n_param.py`. LAW#5 inertness gate PASSED first (|Δexpr|=0.0013, loc 99.4% ≈ engine 99.3%)._"
+        "quote": "_Run 2026-06-24 on the pod. Pre-reg: `docs/R15_CONSTRAINT_PROBE_PREREG.md` (advisor-checked + reconciled before authoring; calibration call + hand-adjudication after). Runner `experiments/track_c/r15_constraint_probe.py`; result `results/r15_constraint_probe.json`; log `logs/r15_constraint_probe.log`. Harness: band[4–8] / Qwen2.5-3B / in-solve AlphaEdit / fixed-base P / **single joint batch** (the A1-clean recipe). Engine UNMODIFIED; `my_edit`/`compute_P`/`predict`/`single_tok` copied VERBATIM from `experiments/scale/g6_scale_n_param.py`. LAW#5 inertness gate PASSED first (|Δexpr|=0.0013, loc 99.4% ≈ engine 99.3%)._"
       }
     },
     {
@@ -2365,7 +2365,7 @@
       "citation": {
         "file": "evidence/CORPUS/25_R9_DELETION_RESIDUE.md",
         "line": 3,
-        "quote": "_Run 2026-06-24 on the pod. **CHARACTERIZATION, NOT falsification** (label pre-committed — see §below). Pre-reg: `experiments/r9/design/R9_DELETION_RESIDUE_PREREG.md` (advisor pre-authoring R2-redux check + spec read; calibration call + top-5 mechanism check after). Runner `code/lab/track_c/r9_deletion_residue.py`; result `experiments/r9/runs/r9_deletion_residue/r9_deletion_residue.json`; log `logs/r9_deletion_residue.log`. Harness: band[4–8] / Qwen2.5-3B / AlphaEdit / fixed-base P / write-batch-then-delete-batch (accumulating cache_c). Engine UNMODIFIED; primitives VERBATIM from `g6_scale_n_param.py`. LAW#5 PASSED (|Δexpr|=0.0031, loc 99.9%)._"
+        "quote": "_Run 2026-06-24 on the pod. **CHARACTERIZATION, NOT falsification** (label pre-committed — see §below). Pre-reg: `docs/R9_DELETION_RESIDUE_PREREG.md` (advisor pre-authoring R2-redux check + spec read; calibration call + top-5 mechanism check after). Runner `experiments/track_c/r9_deletion_residue.py`; result `results/r9_deletion_residue.json`; log `logs/r9_deletion_residue.log`. Harness: band[4–8] / Qwen2.5-3B / AlphaEdit / fixed-base P / write-batch-then-delete-batch (accumulating cache_c). Engine UNMODIFIED; primitives VERBATIM from `g6_scale_n_param.py`. LAW#5 PASSED (|Δexpr|=0.0031, loc 99.9%)._"
       }
     },
     {
@@ -2375,7 +2375,7 @@
       "citation": {
         "file": "evidence/CORPUS/26_C1_KVC_INTERACTION.md",
         "line": 10,
-        "quote": "Qwen2.5-3B / band[4-8] / in-solve AlphaEdit (fixed-base P shared, accumulating cache_c). 2D grid: edited entities {25,50} → N records {50,100} (capital+language); held-out **28 disjoint** entities (56 bystander probes) + continent within-entity control + 6 global controls. Cells: N50×C{50,25,10}, N100×C{100,50,25,10}. **8 orderings** per corrupting cell, 2 per clean (cost-reduced from the power-adequate ~12; compute_z cost — see caveats). **Cluster unit = edit-ORDERING** (held-out probes within an ordering are correlated sub-samples). Stats: cluster-bootstrap + Welch-t on cluster means (`code/lab/analysis/stats.py`), binary top-1 + JS-divergence (the more-powerful metric). Anchor gates (LAW#3): C=N must reproduce A1-clean."
+        "quote": "Qwen2.5-3B / band[4-8] / in-solve AlphaEdit (fixed-base P shared, accumulating cache_c). 2D grid: edited entities {25,50} → N records {50,100} (capital+language); held-out **28 disjoint** entities (56 bystander probes) + continent within-entity control + 6 global controls. Cells: N50×C{50,25,10}, N100×C{100,50,25,10}. **8 orderings** per corrupting cell, 2 per clean (cost-reduced from the power-adequate ~12; compute_z cost — see caveats). **Cluster unit = edit-ORDERING** (held-out probes within an ordering are correlated sub-samples). Stats: cluster-bootstrap + Welch-t on cluster means (`tools/stats.py`), binary top-1 + JS-divergence (the more-powerful metric). Anchor gates (LAW#3): C=N must reproduce A1-clean."
       }
     },
     {
@@ -2435,7 +2435,7 @@
       "citation": {
         "file": "evidence/CORPUS/46_C10M_DIAG_READPARTITION_EDITINJECT.md",
         "line": 6,
-        "quote": "**Pre-registered diagnostics on the program's C10 harness — Qwen2.5-3B fp16 MPS, band 4–8, N = 24, 24 fictional subjects × 3 held-out paraphrases. They locate where the A7 coined-value write fails after it is applied and decide the next mechanism arm. They are not contract evidence (§8.9), change no §5/§6 label of evidence/CORPUS/44–45, and do not bear on the F1 label. C10 stays OPEN/BLOCKING.**"
+        "quote": "**Pre-registered diagnostics on the program's C10 harness — Qwen2.5-3B fp16 MPS, band 4–8, N = 24, 24 fictional subjects × 3 held-out paraphrases. They locate where the A7 coined-value write fails after it is applied and decide the next mechanism arm. They are not contract evidence (§8.9), change no §5/§6 label of CORPUS/44–45, and do not bear on the F1 label. C10 stays OPEN/BLOCKING.**"
       }
     },
     {
@@ -2445,7 +2445,7 @@
       "citation": {
         "file": "evidence/CORPUS/47_C10N_ZTRANSPORT.md",
         "line": 6,
-        "quote": "**Pre-registered diagnostic on the program's C10 harness — Qwen2.5-3B fp16 MPS, band 4–8, N = 24, 24 fictional subjects × 3 held-out paraphrases, one process in the LOW-CONTROL stratum. Mechanism-routing evidence for the next C10 arm; not contract evidence (§8.9); no label in evidence/CORPUS/44–46 changes; no bearing on the F1 label. C10 stays OPEN/BLOCKING.**"
+        "quote": "**Pre-registered diagnostic on the program's C10 harness — Qwen2.5-3B fp16 MPS, band 4–8, N = 24, 24 fictional subjects × 3 held-out paraphrases, one process in the LOW-CONTROL stratum. Mechanism-routing evidence for the next C10 arm; not contract evidence (§8.9); no label in CORPUS/44–46 changes; no bearing on the F1 label. C10 stays OPEN/BLOCKING.**"
       }
     },
     {
@@ -2455,7 +2455,7 @@
       "citation": {
         "file": "evidence/CORPUS/48_C10O_MAGNITUDE_DIRECTION.md",
         "line": 6,
-        "quote": "**Pre-registered diagnostic on the program's C10 harness — Qwen2.5-3B fp16 MPS, band 4–8, N = 24, one HIGH-CONTROL process. Its labels are next-arm routing labels from an injection assay, not mechanism evidence and not contract evidence (§8.9); no label in evidence/CORPUS/44–47 changes; no bearing on the F1 label. C10 stays OPEN/BLOCKING.**"
+        "quote": "**Pre-registered diagnostic on the program's C10 harness — Qwen2.5-3B fp16 MPS, band 4–8, N = 24, one HIGH-CONTROL process. Its labels are next-arm routing labels from an injection assay, not mechanism evidence and not contract evidence (§8.9); no label in CORPUS/44–47 changes; no bearing on the F1 label. C10 stays OPEN/BLOCKING.**"
       }
     },
     {
@@ -2465,7 +2465,7 @@
       "citation": {
         "file": "evidence/CORPUS/49_C10P_TWOPASS_SOLVE.md",
         "line": 6,
-        "quote": "**Pre-registered mechanism arm on the program's C10 harness — Qwen2.5-3B fp16 MPS, band 4–8, N = 24, one process, three full harness passes (baseline, sham, two-pass), arms A1 + A2 + A7 with the S-3 axes and a same-frame fictional probe. Read against the §8.9 bar strictly by §3. No label in evidence/CORPUS/44–48 changes; no bearing on the F1 label. C10 stays OPEN/BLOCKING.**"
+        "quote": "**Pre-registered mechanism arm on the program's C10 harness — Qwen2.5-3B fp16 MPS, band 4–8, N = 24, one process, three full harness passes (baseline, sham, two-pass), arms A1 + A2 + A7 with the S-3 axes and a same-frame fictional probe. Read against the §8.9 bar strictly by §3. No label in CORPUS/44–48 changes; no bearing on the F1 label. C10 stays OPEN/BLOCKING.**"
       }
     },
     {
@@ -2475,7 +2475,7 @@
       "citation": {
         "file": "evidence/CORPUS/50_C10Q_STACKED_SOLVE.md",
         "line": 6,
-        "quote": "**Pre-registered mechanism arm on the program's C10 harness — Qwen2.5-3B fp16 MPS, band 4–8, N = 24, one process, three full harness passes (S, S-sham, S-perm), arms A1 + A2 + A7 with the S-3 axes and the same-frame fictional probe. Read against the §8.9 bar strictly by §3 v2 + Q1. No label in evidence/CORPUS/44–49 changes; no bearing on the F1 label. C10 stays OPEN/BLOCKING.**"
+        "quote": "**Pre-registered mechanism arm on the program's C10 harness — Qwen2.5-3B fp16 MPS, band 4–8, N = 24, one process, three full harness passes (S, S-sham, S-perm), arms A1 + A2 + A7 with the S-3 axes and the same-frame fictional probe. Read against the §8.9 bar strictly by §3 v2 + Q1. No label in CORPUS/44–49 changes; no bearing on the F1 label. C10 stays OPEN/BLOCKING.**"
       }
     },
     {
@@ -2485,7 +2485,7 @@
       "citation": {
         "file": "evidence/CORPUS/51_C10S_SHAREDZ.md",
         "line": 6,
-        "quote": "**Pre-registered mechanism screen on the program's C10 harness — Qwen2.5-3B fp16 MPS, z-layer of band 4–8, N = 24 A7 facts, one process; cell 1 only (the injection screen in the unedited model). The write arm (cell 2) did not run.** No label in evidence/CORPUS/44–50 changes. No bearing on the §8.9 bar, on any route, or on F1. UNDERFIT means \"inconclusive under this solve budget; nothing is concluded about frames\" (prereg §2 cell 1, §0)."
+        "quote": "**Pre-registered mechanism screen on the program's C10 harness — Qwen2.5-3B fp16 MPS, z-layer of band 4–8, N = 24 A7 facts, one process; cell 1 only (the injection screen in the unedited model). The write arm (cell 2) did not run.** No label in CORPUS/44–50 changes. No bearing on the §8.9 bar, on any route, or on F1. UNDERFIT means \"inconclusive under this solve budget; nothing is concluded about frames\" (prereg §2 cell 1, §0)."
       }
     },
     {
@@ -2515,7 +2515,7 @@
       "citation": {
         "file": "evidence/CORPUS/54_C10U_MINT2.md",
         "line": 9,
-        "quote": "Step 3 of the research-pass sequence (H-19) is a routing screen on the write path for the §8.9 L2 multi-token value cell: Qwen2.5-3B fp16 on MPS, band 4–8, the C10 harness through its `ARM_HOOKS` and `Z_OVERRIDE` seams, engine unmodified. It has two comparison blocks that are never pooled. Block F keeps the frozen values: A7-multi(frozen) is the string reference; mint-1(frozen) at seeds 0, 1 and 2 is evidence/CORPUS/45's recipe re-run as the in-block upper reference and as the LAW#3 reproduction gate; modifier-only at seeds 0, 1 and 2 mints the 8 modifiers and leaves each head as base pieces. Block V2 uses the redrawn value set A7-V2: A7-multi(V2), mint-1(V2) and mint-2(V2), the last with each word as its own minted id. Sources: experiments/c10u/design/C10U_MINT2_PREREG.md:76–78, :105."
+        "quote": "Step 3 of the research-pass sequence (H-19) is a routing screen on the write path for the §8.9 L2 multi-token value cell: Qwen2.5-3B fp16 on MPS, band 4–8, the C10 harness through its `ARM_HOOKS` and `Z_OVERRIDE` seams, engine unmodified. It has two comparison blocks that are never pooled. Block F keeps the frozen values: A7-multi(frozen) is the string reference; mint-1(frozen) at seeds 0, 1 and 2 is CORPUS/45's recipe re-run as the in-block upper reference and as the LAW#3 reproduction gate; modifier-only at seeds 0, 1 and 2 mints the 8 modifiers and leaves each head as base pieces. Block V2 uses the redrawn value set A7-V2: A7-multi(V2), mint-1(V2) and mint-2(V2), the last with each word as its own minted id. Sources: docs/C10U_MINT2_PREREG.md:76–78, :105."
       }
     },
     {
@@ -2525,7 +2525,7 @@
       "citation": {
         "file": "evidence/CORPUS/56_C10V_LAYERPICK.md",
         "line": 5,
-        "quote": "_Record 2026-10-07 (pass1 completed 2026-10-08T03:32:38Z = 2026-10-07 21:32:38 MDT). Decision-ID D-C10v-layerpick. Pre-registration `experiments/c10v/design/C10V_LAYERPICK_PREREG.md` v2 FROZEN (step 4 of the research-pass sequence, H-8). Run directory `experiments/c10v/runs/c10v_layerpick/`, run_id c10v-bea2183a…, source digest 97470c0e…; stages step0 (pid 19153, 02:22:26Z) → LAW#5 (pid 79246, 02:49:56Z) → pass1 (pid 79246, 02:54:27Z → 03:32:38Z); `experiments/c10v/runs/c10v_layerpick/logs/pass1.log` ends `C10V_PASS1_COMPLETE` then `STAGE_EXIT=0` (lines 362–363 of the current file; stage logs other than step0.log are gitignored by `*.log`). pass2 not run. Model Qwen/Qwen2.5-3B@3aab1f19, float16, MPS (`pass1.json` `model`). Engine unmodified, fingerprint d941a9fb…3d65 ok, `_cov_cpu` 3 (`pass1.json` `fingerprint`; the same block in step0, law5 and pass1_started). Reader `code/lab/track_c/c10v_layerpick_read.py` (last commit 9120bd6); its output equals `run.json` `readings`; it re-hashes all 71 pinned sources in `identity.json` `source_sha256` against the tree (Astra re-ran it: rc 0, byte-identical). Record integrity: sha256(`pass1.json`) = bf8f162a…119f = `run.json` `pass_sha256.pass1` = `pass1_complete.json` `record_sha256`. **Artifact provenance:** all seven run JSONs (identity, step0, law5, pass1_started, pass1, pass1_complete, run) are committed in d8af793 (the verdict packet's \"untracked\" line is stale). **Go basis:** the prereg's \"runs only on the operator's go\" (:3, :86) was met by a DELEGATED go (program/runbook/:363, D-C10v-go: the operator's standing approval under D-C10r-rulings-8 and the overnight queue directive D-C10r-rulings-9), disclosed here as that ruling requires. Execution proceeded under the delegated go recorded in D-C10v-go, rather than a separate C10V-specific operator instruction. **Step-3 ratification note:** D-C10v-go's caveat that step 3's r3 ratification was still owed was resolved before pass1 completed, by the operator's own \"Yes on all 5\" (program/runbook/:364, D-C10r-rulings-12 Q2, ~21:08 MDT; pass1 ran 20:54–21:32 MDT). Verdict reviews: GPT-6-Astra high and Opus advisor, both PROCEED-WITH-CHANGES; every BLOCKING item is folded below (see Reviews). Lineage: evidence/CORPUS/37–39 and 44 (earlier layer configurations not advanced) ⟨D-C10l-covgeom@af2e38f7⟩, evidence/CORPUS/55 ⟨D-C10w-oracle@6a735469⟩ (step 5, interim)._"
+        "quote": "_Record 2026-10-07 (pass1 completed 2026-10-08T03:32:38Z = 2026-10-07 21:32:38 MDT). Decision-ID D-C10v-layerpick. Pre-registration `docs/C10V_LAYERPICK_PREREG.md` v2 FROZEN (step 4 of the research-pass sequence, H-8). Run directory `results/c10v_layerpick/`, run_id c10v-bea2183a…, source digest 97470c0e…; stages step0 (pid 19153, 02:22:26Z) → LAW#5 (pid 79246, 02:49:56Z) → pass1 (pid 79246, 02:54:27Z → 03:32:38Z); `results/c10v_layerpick_logs/pass1.log` ends `C10V_PASS1_COMPLETE` then `STAGE_EXIT=0` (lines 362–363 of the current file; stage logs other than step0.log are gitignored by `*.log`). pass2 not run. Model Qwen/Qwen2.5-3B@3aab1f19, float16, MPS (`pass1.json` `model`). Engine unmodified, fingerprint d941a9fb…3d65 ok, `_cov_cpu` 3 (`pass1.json` `fingerprint`; the same block in step0, law5 and pass1_started). Reader `experiments/track_c/c10v_layerpick_read.py` (last commit 9120bd6); its output equals `run.json` `readings`; it re-hashes all 71 pinned sources in `identity.json` `source_sha256` against the tree (Astra re-ran it: rc 0, byte-identical). Record integrity: sha256(`pass1.json`) = bf8f162a…119f = `run.json` `pass_sha256.pass1` = `pass1_complete.json` `record_sha256`. **Artifact provenance:** all seven run JSONs (identity, step0, law5, pass1_started, pass1, pass1_complete, run) are committed in d8af793 (the verdict packet's \"untracked\" line is stale). **Go basis:** the prereg's \"runs only on the operator's go\" (:3, :86) was met by a DELEGATED go (EXPERIMENT_RUNBOOK.md:363, D-C10v-go: the operator's standing approval under D-C10r-rulings-8 and the overnight queue directive D-C10r-rulings-9), disclosed here as that ruling requires. Execution proceeded under the delegated go recorded in D-C10v-go, rather than a separate C10V-specific operator instruction. **Step-3 ratification note:** D-C10v-go's caveat that step 3's r3 ratification was still owed was resolved before pass1 completed, by the operator's own \"Yes on all 5\" (EXPERIMENT_RUNBOOK.md:364, D-C10r-rulings-12 Q2, ~21:08 MDT; pass1 ran 20:54–21:32 MDT). Verdict reviews: GPT-6-Astra high and Opus advisor, both PROCEED-WITH-CHANGES; every BLOCKING item is folded below (see Reviews). Lineage: CORPUS/37–39 and 44 (earlier layer configurations not advanced) ⟨D-C10l-covgeom@af2e38f7⟩, CORPUS/55 ⟨D-C10w-oracle@6a735469⟩ (step 5, interim)._"
       }
     }
   ],

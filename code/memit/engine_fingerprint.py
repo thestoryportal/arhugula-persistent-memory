@@ -28,7 +28,7 @@ import os
 import sys
 from pathlib import Path
 
-LLMDB_ROOT = Path(os.environ.get("LLMDB_ROOT") or Path(__file__).resolve().parents[1])
+LLMDB_ROOT = Path(os.environ.get("LLMDB_ROOT") or Path(__file__).resolve().parents[2])
 MEMIT_MAIN = LLMDB_ROOT / "code/memit/vendor/memit/memit_main.py"
 
 EXPECTED_SHA256 = "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"

@@ -1077,7 +1077,7 @@ def main(argv=None, step0_only=False):
     out = (args.out_dir or root / "experiments/c10u/runs/c10u_mint2").resolve()
     RUN_ROOT, STAGE = root, args.stage
     try:
-        if root != Path(__file__).resolve().parents[2]:
+        if root != Path(__file__).resolve().parents[3]:
             raise ValueError("LLMDB_ROOT must be this driver worktree's root")
         out.relative_to(root / "experiments/c10u/runs/c10u_mint2")
         fingerprint = preflight(root)

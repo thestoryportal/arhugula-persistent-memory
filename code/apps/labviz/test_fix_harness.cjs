@@ -7,7 +7,7 @@ const vm = require('node:vm');
 const { fileURLToPath, pathToFileURL } = require('node:url');
 const test = require('node:test');
 
-const ROOT = path.resolve(__dirname, '../..');
+const ROOT = path.resolve(__dirname, '../../..');
 const SCRATCH = '/private/tmp/labviz-review';
 const reviewPath = path.join(__dirname, 'review.mjs');
 const measureSource = fs.readFileSync(path.join(__dirname, 'measure.js'), 'utf8');

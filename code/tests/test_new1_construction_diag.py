@@ -17,7 +17,7 @@ import weakref
 
 class ConstructionDiagnosticTests(unittest.TestCase):
     def setUp(self):
-        try: self.D = importlib.import_module('tools.new1_construction_diag')
+        try: self.D = importlib.import_module('lab.runners.new1_construction_diag')
         except ModuleNotFoundError as error: self.fail('construction diagnostic missing: ' + str(error))
         import torch
         self.t = torch
@@ -356,7 +356,7 @@ class ConstructionDiagnosticTests(unittest.TestCase):
         self.assertEqual(int(proc.stdout), 10-os.getpriority(os.PRIO_PROCESS, 0))
 
     def test_import_is_stdlib_only_and_unset_root_fails_loudly(self):
-        code = ('import sys; import tools.new1_construction_diag; '
+        code = ('import sys; import lab.runners.new1_construction_diag; '
                 'assert not any(x in sys.modules for x in ("torch","numpy","transformers","safetensors"))')
         env = dict(os.environ, LLMDB_ROOT=str(Path.cwd()), PYTHONDONTWRITEBYTECODE='1')
         proc = subprocess.run([sys.executable, '-B', '-c', code], capture_output=True, text=True, env=env, timeout=3)
@@ -368,7 +368,7 @@ class ConstructionDiagnosticTests(unittest.TestCase):
 
     def gated_fixture(self, marker):
         return ('import sys,time; from pathlib import Path; '
-                'from tools import new1_construction_diag as D; '
+                'from lab.runners import new1_construction_diag as D; '
                 'D.verify_launch=lambda *args:None; '
                 f'Path({str(marker.with_suffix(".waiting"))!r}).write_text("bootstrap ready"); '
                 f'D.measure=lambda:(Path({str(marker)!r}).write_text("arithmetic reached"),'
@@ -485,7 +485,7 @@ class ConstructionDiagnosticTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             marker = Path(temp)/'arithmetic'
             code = self.gated_fixture(marker)
-            parent_code = ('import os,sys,time,json;from tools import new1_identity_diag as I;'
+            parent_code = ('import os,sys,time,json;from lab.runners import new1_identity_diag as I;'
                 'end=time.monotonic()+4;owner=I.OwnedWorker(end);'
                 f'owner.start([sys.executable,"-B","-c",{code!r}],end+1,end+1.2);'
                 '\nwhile not owner.ready:owner.step(.005)\n'
@@ -548,9 +548,9 @@ class ConstructionDiagnosticTests(unittest.TestCase):
     def test_released_worker_exits_on_parent_death_while_main_is_blocked(self):
         with tempfile.TemporaryDirectory() as temp:
             marker = Path(temp)/'released'
-            worker = ('import time;from pathlib import Path;from tools import new1_identity_diag as I;'
+            worker = ('import time;from pathlib import Path;from lab.runners import new1_identity_diag as I;'
                 'I.wait_for_release();' + f'Path({str(marker)!r}).write_text("released");time.sleep(5)')
-            parent_code = ('import sys,time;from pathlib import Path;from tools import new1_identity_diag as I;'
+            parent_code = ('import sys,time;from pathlib import Path;from lab.runners import new1_identity_diag as I;'
                 'end=time.monotonic()+3;owner=I.OwnedWorker(end);'
                 f'owner.start([sys.executable,"-B","-c",{worker!r}],end+1,end+1.2);'
                 '\nwhile not owner.ready:owner.step(.005)\n'
@@ -570,7 +570,7 @@ class ConstructionDiagnosticTests(unittest.TestCase):
 
     def test_released_worker_has_independent_whole_deadline_while_main_is_blocked(self):
         end = time.monotonic()+.3; owner = self.D.I.OwnedWorker(end)
-        code = ('import time;from tools import new1_identity_diag as I;I.wait_for_release();'
+        code = ('import time;from lab.runners import new1_identity_diag as I;I.wait_for_release();'
                 'print("RELEASED",flush=True);time.sleep(5)')
         owner.start([sys.executable, '-B', '-c', code], end, end+.2)
         try:
@@ -585,7 +585,7 @@ class ConstructionDiagnosticTests(unittest.TestCase):
 class AstraR2LaunchTests(unittest.TestCase):
     """Stdlib-only regressions for the four independently reproduced r2 schedules."""
     def setUp(self):
-        self.I = importlib.import_module('tools.new1_identity_diag')
+        self.I = importlib.import_module('lab.runners.new1_identity_diag')
 
     def supervised(self, code, directory, seconds):
         with contextlib.redirect_stderr(io.StringIO()):
@@ -653,7 +653,7 @@ class AstraR2LaunchTests(unittest.TestCase):
                     env = dict(os.environ, NEW1_IDENTITY_PARENT=str(os.getpid()),
                         NEW1_IDENTITY_RELEASE_FD=str(read_fd), NEW1_IDENTITY_RELEASE_BY=str(end),
                         NEW1_IDENTITY_DEADLINE=str(end))
-                    code = (f'from tools import {module} as D;'
+                    code = (f'from lab.runners import {module} as D;'
                         'D.verify_launch=lambda *args:None;'
                         'D.measure=lambda:(print("ARITHMETIC",flush=True),{"status":"MEASURED"})[-1];'
                         'raise SystemExit(D.main(["--worker","--scope-sha","0"*64,"--source-sha","0"*64]))')
@@ -673,11 +673,11 @@ class AstraR2LaunchTests(unittest.TestCase):
     def test_r2_parent_death_kills_released_gil_holding_worker_within_half_second(self):
         with tempfile.TemporaryDirectory() as temp:
             marker=Path(temp)/'entered_native'; directory=Path(temp)/'runs'; directory.mkdir()
-            worker=('import ctypes,json,os;from pathlib import Path;from tools import new1_identity_diag as I;'
+            worker=('import ctypes,json,os;from pathlib import Path;from lab.runners import new1_identity_diag as I;'
                 'I.wait_for_release();'
                 f'Path({str(marker)!r}).write_text(json.dumps({{"pid":os.getpid()}}));'
                 'ctypes.PyDLL(None).sleep(2)')
-            parent_code=('import sys;from pathlib import Path;from tools import new1_identity_diag as I;'
+            parent_code=('import sys;from pathlib import Path;from lab.runners import new1_identity_diag as I;'
                 f'raise SystemExit(I.supervise([sys.executable,"-B","-c",{worker!r}],Path({str(directory)!r}),'
                 'preflight=lambda:None,admission=lambda:{"allowed":True},'
                 'monitor=lambda pid:{"rss_gib":.01,"process_count":1},seconds=3))')
@@ -705,7 +705,7 @@ class AstraR2LaunchTests(unittest.TestCase):
 
 
 class OwnedLaunchControls(unittest.TestCase):
-    def setUp(self): self.I = importlib.import_module('tools.new1_identity_diag')
+    def setUp(self): self.I = importlib.import_module('lab.runners.new1_identity_diag')
     supervised = AstraR2LaunchTests.supervised
 
     def test_locally_handled_callback_exception_cannot_disable_absolute_deadline(self):
@@ -828,7 +828,7 @@ class OwnedLaunchControls(unittest.TestCase):
                              ' try: os.write(write_fd,b"x"*4096)\n'
                              ' except BlockingIOError: break\n'
                              'os.set_blocking(write_fd,True)\nos.dup2(write_fd,2)\nos.close(write_fd)\n')
-                code = ('import os,time;from pathlib import Path;from tools import new1_identity_diag as I;\n'+setup+
+                code = ('import os,time;from pathlib import Path;from lab.runners import new1_identity_diag as I;\n'+setup+
                         'def blocked(out,value):\n'
                         f' Path({str(marker)!r}).write_text(str(time.monotonic()))\n'
                         ' try: time.sleep(2)\n'
@@ -861,7 +861,7 @@ class OwnedLaunchControls(unittest.TestCase):
                              ' try: os.write(write_fd,b"x"*4096)\n'
                              ' except BlockingIOError: break\n'
                              'os.set_blocking(write_fd,True)\nos.dup2(write_fd,2)\nos.close(write_fd)\n')
-                code = ('import os,time;from pathlib import Path;from tools import new1_identity_diag as I;\n'+setup+
+                code = ('import os,time;from pathlib import Path;from lab.runners import new1_identity_diag as I;\n'+setup+
                         f'Path({str(marker)!r}).write_text(str(time.monotonic()))\n'
                         f'status=I.supervise([],Path({str(directory)!r}),preflight=lambda:None,admission=lambda:{{"allowed":False}},'
                         'monitor=lambda pid:{"rss_gib":.01,"process_count":1},seconds=.2)\n'
@@ -955,7 +955,7 @@ class OwnedLaunchControls(unittest.TestCase):
                 with self.subTest(module=module, kind=kind), tempfile.TemporaryDirectory() as temp:
                     directory = self.I.new_directory(Path(temp))
                     marker = Path(temp)/'arithmetic'
-                    code = (f'from tools import {module} as D;from pathlib import Path;D.verify_launch=lambda *args:None;'
+                    code = (f'from lab.runners import {module} as D;from pathlib import Path;D.verify_launch=lambda *args:None;'
                             f'D.measure=lambda:(Path({str(marker)!r}).write_text("reached"),{{"status":"MEASURED"}})[-1];'
                             'raise SystemExit(D.main(["--worker","--scope-sha","0"*64,"--source-sha","0"*64]))')
                     original_frame, original_close = self.I.release_frame, self.I.OwnedWorker.close_fd
@@ -1004,7 +1004,7 @@ class OwnedLaunchControls(unittest.TestCase):
     def test_gil_holding_native_worker_is_killed_and_reaped_within_original_deadline(self):
         with tempfile.TemporaryDirectory() as temp:
             marker = Path(temp)/'native'; directory = self.I.new_directory(Path(temp)/'runs')
-            code = ('import ctypes;from pathlib import Path;from tools import new1_identity_diag as I;I.wait_for_release();'
+            code = ('import ctypes;from pathlib import Path;from lab.runners import new1_identity_diag as I;I.wait_for_release();'
                     f'Path({str(marker)!r}).write_text("entered");ctypes.PyDLL(None).sleep(2)')
             start = time.monotonic(); status, result = self.supervised(code, directory, .8)
             self.assertTrue(marker.exists(), 'authenticated native-entry positive control missing: '+str(result))
@@ -1045,7 +1045,7 @@ def _fix4_observed_child(trace_path, schedule):
     """Run real forks under an external observer, retaining native fail-stop exits."""
     import ctypes
     import errno
-    I = importlib.import_module('tools.new1_identity_diag')
+    I = importlib.import_module('lab.runners.new1_identity_diag')
     trace_path = Path(trace_path)
     role, owners, exceptions = 'parent', [], []
     raw_fork, raw_exit, raw_write = os.fork, os._exit, os.write
@@ -1287,7 +1287,7 @@ class Fix5ParentEntryTests(unittest.TestCase):
     def refusal(self, blocked):
         from tests.test_new1_identity_diag import _fix5_isolated, _fix5_refusal
         if _fix5_isolated(self): return
-        from tools import new1_construction_diag as D
+        from lab.runners import new1_construction_diag as D
         _fix5_refusal(self, D, blocked)
 
     def test_fix5_c2_construction_main_sigalrm_refuses_before_file_work(self): self.refusal([signal.SIGALRM])

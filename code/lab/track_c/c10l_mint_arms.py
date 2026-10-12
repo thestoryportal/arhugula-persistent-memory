@@ -9,7 +9,7 @@ para_sibling, post-write cannibal count (I-11 on unrelated prompts), per-positio
 Env: LLMDB_ROOT, MINT_ARM, OUT (set by the launcher), plus DECISION_ID/PREREG.
 """
 import os, sys, json
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 ARM = os.environ["MINT_ARM"]
 if ARM not in ("multi", "rare", "G", "N", "M", "Z"):

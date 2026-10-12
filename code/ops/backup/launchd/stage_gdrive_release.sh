@@ -13,10 +13,10 @@ if [[ ! "$RELEASE_ID" =~ ^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$ ]]; then
   exit 64
 fi
 SCRIPT_DIR="$(cd "$(/usr/bin/dirname "$0")" && /bin/pwd -P)"
-REPO="$(cd "$SCRIPT_DIR/../.." && /bin/pwd -P)"
+REPO="$(cd "$SCRIPT_DIR/../../../.." && /bin/pwd -P)"
 COMMIT="$(/usr/bin/git -C "$REPO" rev-parse --verify "${COMMIT}^{commit}")"
 for NAME in backup_gdrive.sh backup_gdrive_status.py backup_mirror.excludes; do
-  /usr/bin/git -C "$REPO" cat-file -e "$COMMIT:tools/$NAME"
+  /usr/bin/git -C "$REPO" cat-file -e "$COMMIT:code/ops/backup/$NAME"
 done
 # Resolve existing symlinks and check every ancestor, including other worktrees.
 /usr/bin/perl -MCwd=abs_path -MFile::Basename=dirname -e '
@@ -49,7 +49,7 @@ fi
 # mkdir is the exclusive reservation; failed staging is never reused or overwritten.
 /bin/mkdir -m 700 "$RELEASE"
 for NAME in backup_gdrive.sh backup_gdrive_status.py backup_mirror.excludes; do
-  /usr/bin/git -C "$REPO" show "$COMMIT:tools/$NAME" > "$RELEASE/$NAME"
+  /usr/bin/git -C "$REPO" show "$COMMIT:code/ops/backup/$NAME" > "$RELEASE/$NAME"
 done
 (
   cd "$RELEASE"

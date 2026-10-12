@@ -15,7 +15,7 @@ Stages (each writes JSON under experiments/c10k/runs/c10k_route_a/):
 """
 from __future__ import annotations
 import os, sys, io, json, math, time, argparse, contextlib
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["HF_HOME"] = f"{LLMDB_ROOT}/data/hf_cache"; os.environ.setdefault("HF_HUB_OFFLINE", "1")
 ENGINE_ROOT = f"{LLMDB_ROOT}/code/memit/vendor"   # NOT on sys.path: the engine and upstream both own a top-level `util` package
 ANYEDIT_MPS = os.environ.get("ANYEDIT_MPS", f"{LLMDB_ROOT}/code/vendor/external_prior_art/AnyEdit_mps")

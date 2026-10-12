@@ -6,7 +6,7 @@ on the unmodified harness. Pre-edit: the 24 A7 `zs` (harness compute_z, layer 8)
 secondary only, a z recomputed on the edited model. Env: LLMDB_ROOT, LAW3_REF, OUT (+ DECISION_ID / PREREG).
 """
 import os, sys, io, json, contextlib, time, subprocess
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["C10_ARMS"] = "A1_single,A7_coined_coined"
 os.environ["C10_RECIPES"] = "candidate"                       # one recipe = the baseline hparams under the candidate slot (as c10l_mint_arms.py)

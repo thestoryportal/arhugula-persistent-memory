@@ -1,4 +1,4 @@
-"""MathLab observability fixtures; run with /usr/bin/python3 -B -m unittest tools.test_dashboard_mathlab."""
+"""MathLab observability fixtures; run with /usr/bin/python3 -B -m unittest apps.dashboard.test_dashboard_mathlab."""
 import copy, hashlib, importlib, importlib.util, json, os, re, subprocess, sys, tempfile, threading, unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -50,7 +50,7 @@ def cheap_stop():
 
 
 def write_stream(root, stream, run_id=RUN_ID):
-    path = Path(root) / "results/mathlab_staging/runs" / run_id / "events.jsonl"
+    path = Path(root) / "experiments/ml/runs" / run_id / "events.jsonl"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("".join(json.dumps(dict(e, run_id=run_id)) + "\n" for e in stream), encoding="utf-8")
     return path
@@ -87,8 +87,8 @@ def producer_checks():
 
 class Modules(unittest.TestCase):
     def setUp(self):
-        self.assertIsNotNone(importlib.util.find_spec("mathlab_events"), "event contract is not built yet")
-        self.E = importlib.import_module("mathlab_events")
+        self.assertIsNotNone(importlib.util.find_spec("apps.mathlab.mathlab_events"), "event contract is not built yet")
+        self.E = importlib.import_module("apps.mathlab.mathlab_events")
 
 
 class EventContract(Modules):
@@ -483,7 +483,7 @@ class Dashboard(Modules):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
-        (self.root / "docs").mkdir()
+        (self.root / "experiments/ml/design").mkdir(parents=True)
         (self.root / "experiments/ml/design/MATHLAB_PREREG.md").write_text(PREREG, encoding="utf-8")
         self.now = 1791482580.0  # 2026-10-08 18:03:00 UTC
 

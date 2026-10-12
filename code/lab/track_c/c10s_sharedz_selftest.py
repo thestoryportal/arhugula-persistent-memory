@@ -13,7 +13,7 @@ import c10s_sharedz_read as R
 
 CTX = [["{}"], ["The sun rose. {}", "Therefore it was. {}", "Because of that. {}", "I think so. {}", "You said it. {}"]]   # engine shape: memit_main.py:308
 SUBJ = [f"S{i}" for i in range(24)]
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 DRIVER = ROOT / "code/lab/track_c/c10s_sharedz_arms.py"
 
 
@@ -735,7 +735,7 @@ def test_default_equality_1169794():
 def test_bogus_arm_writes_no_halt_file():
     """Advisor impl review BLOCKING 1: an unknown C10S_ARM exits before the arm is bound and must not write the step-1
     halt file (tracked, cited by evidence/CORPUS/51). The driver exits at the selector, before any harness or model import."""
-    root = Path(__file__).resolve().parents[2]
+    root = Path(__file__).resolve().parents[3]
     halt_file = root / "experiments/c10s/runs/c10s_sharedz/halts/c10s_sharedz_halt_diagnostic.json"
     before = (halt_file.read_bytes(), halt_file.stat().st_mtime_ns) if halt_file.exists() else None
     env = {**os.environ, "C10S_ARM": "solveFeas", "LLMDB_ROOT": str(root), "PYTHONDONTWRITEBYTECODE": "1"}

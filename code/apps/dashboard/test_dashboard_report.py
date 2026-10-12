@@ -1,7 +1,7 @@
 """Tests for the Science Report viewer (code/apps/dashboard/dashboard_report.py) and what it relies on: a subagent transcript that
 vanishes mid-scan, a render failure, line widths at real pane sizes, a full clear on resize, and how the lead session
 is found. Stdlib only; run with the dashboard's interpreter:
-/usr/bin/python3 -B -m unittest tools.test_dashboard_report
+/usr/bin/python3 -B -m unittest apps.dashboard.test_dashboard_report
 """
 import io, json, os, re, shutil, stat, subprocess, sys, tempfile, unicodedata, unittest
 from unittest.mock import patch
@@ -72,7 +72,7 @@ class Width(unittest.TestCase):
         for cols in WIDTHS:
             with self.subTest(cols=cols):
                 plain = [ANSI.sub("", l) for l in self.render_with(STRESS, cols, 80)]
-                self.assertTrue(any(l.endswith("(more: program/registers/c10_scoreboard.json)") for l in plain), plain[:12])
+                self.assertTrue(any(l.endswith("(more: c10_scoreboard.json)") for l in plain), plain[:12])
 
     def test_section_rule_ends_one_cell_short_of_the_edge(self):
         for cols in WIDTHS:

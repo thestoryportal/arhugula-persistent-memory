@@ -17,7 +17,7 @@ harness's float32 solve norm per layer so step 0 ties to the behavioural arm A's
 Output experiments/c10l/runs/c10l_covgeom/step0_offline.json. Env: LLMDB_ROOT, OUT, STEP0_REGS (default R0,R1,R2,R3).
 """
 import os, sys, io, json, contextlib, time
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["C10_ARMS"] = "A7_coined_coined"
 sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")

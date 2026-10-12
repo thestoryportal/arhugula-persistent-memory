@@ -13,22 +13,27 @@ import time
 import unittest
 
 
+# v2: staged sources keep their code/ homes, so the dashboards' package imports (apps.mathlab, state, ops) resolve.
+DASHBOARD = "code/apps/dashboard"
+SHARED = ("code/apps/dashboard/team_dashboard.sh", "code/apps/mathlab/mathlab_events.py",
+          "code/ops/backup/backup_gdrive_status.py", "code/state/llmdb_records.py")
+
+
 def stage_sources(root, before, out, phase):
-    tools = out / "tools"
-    tools.mkdir(parents=True)
-    inputs = sorted(set((root / "tools").glob("dashboard_*.py")) |
-                    set((root / "tools").glob("dashboard_*.sh")))
-    inputs += [root / "tools" / name for name in
-               ("team_dashboard.sh", "mathlab_events.py", "backup_gdrive_status.py")
-               if (root / "tools" / name).is_file()]
+    inputs = sorted(set((root / DASHBOARD).glob("dashboard_*.py")) |
+                    set((root / DASHBOARD).glob("dashboard_*.sh")))
+    inputs += [root / rel for rel in SHARED if (root / rel).is_file()]
     hashes = {}
     for current in inputs:
         if phase == "red" and current.name == "dashboard_team.py":
             continue  # New in this repair; there is no original Team renderer.
-        original = before / "tools" / current.name
+        rel = current.relative_to(root)
+        original = before / rel
         source = original if phase == "red" and original.is_file() else current
-        shutil.copy2(source, tools / current.name)
-        hashes[current.name] = {"input": str(source), "sha256": hashlib.sha256((tools / current.name).read_bytes()).hexdigest()}
+        target = out / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+        hashes[current.name] = {"input": str(source), "sha256": hashlib.sha256(target.read_bytes()).hexdigest()}
     return hashes
 
 
@@ -51,8 +56,13 @@ def observe(args, receipt, name, allow_empty=False):
 
 
 def dependency_reload(tools, receipt):
-    fixture = receipt / "reload_fixture"
-    fixture.mkdir()
+    # The fixture mirrors v2: dashboard_live in code/apps/dashboard/ imports the layout library from code/state/.
+    code = receipt / "reload_fixture" / "code"
+    fixture = code / "apps" / "dashboard"
+    fixture.mkdir(parents=True)
+    (code / "state").mkdir()
+    layout = code / "state" / "llmdb_records.py"
+    shutil.copy2(Path(__file__).resolve().parents[1] / "state" / "llmdb_records.py", layout)
     shutil.copy2(tools / "dashboard_live.py", fixture / "dashboard_live.py")
     helper = fixture / "fixture_dep.py"
     helper.write_text("VALUE = 'BEFORE'\n")
@@ -65,7 +75,7 @@ def dependency_reload(tools, receipt):
                      '    os.utime(dep, (200, 200))\n    live.maybe_reload(stamp)\n'
                      '    print("RELOAD_MISSED")\n    sys.exit(1)\n'
                      'print(fixture_dep.VALUE)\nsys.exit(0 if fixture_dep.VALUE == "HELPER_RELOADED" else 1)\n')
-    for path in (probe, fixture / "dashboard_live.py"):
+    for path in (probe, fixture / "dashboard_live.py", layout):
         os.utime(path, (100, 100))
     os.utime(helper, (90, 90))
     result = subprocess.run(["/usr/bin/python3", "-B", str(probe)], capture_output=True, text=True,
@@ -152,7 +162,7 @@ class HostChecks(unittest.TestCase):
             "gpu_last_at": state.get("last_at"), "gpu_last_exit": state.get("last_exit")}, indent=2) + "\n")
 
     def test_dependency_edit_reexecs_fixture_process(self):
-        result = dependency_reload(CONTEXT["source"] / "tools", CONTEXT["receipt"])
+        result = dependency_reload(CONTEXT["source"] / DASHBOARD, CONTEXT["receipt"])
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(result.stdout.strip(), "HELPER_RELOADED")
 
@@ -172,17 +182,17 @@ def main():
                   "sources": stage_sources(root, args.before, source, args.phase)}
     provenance["host_test_sha256"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     provenance["host_runner_sha256"] = hashlib.sha256((args.before.parent / "run_host.sh").read_bytes()).hexdigest()
-    (source / "tests").mkdir()
-    shutil.copy2(root / "code/tests/test_dashboard_live_refresh.py", source / "tests")
+    (source / "code/tests").mkdir(parents=True)
+    shutil.copy2(root / "code/tests/test_dashboard_live_refresh.py", source / "code/tests")
     provenance["regression_test_sha256"] = hashlib.sha256((source / "code/tests/test_dashboard_live_refresh.py").read_bytes()).hexdigest()
-    provenance["state_inputs_at_start"] = {name: hashlib.sha256((root / "docs" / name).read_bytes()).hexdigest()
-                                            for name in ("program_state.json", "c10_scoreboard.json")}
+    provenance["state_inputs_at_start"] = {Path(rel).name: hashlib.sha256((root / rel).read_bytes()).hexdigest()
+                                            for rel in ("program/program_state.json", "program/registers/c10_scoreboard.json")}
     (receipt / "provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
     for name, flags in (("git_root", ["--show-toplevel"]), ("git_branch", ["--abbrev-ref", "HEAD"]), ("git_head", ["HEAD"])):
         observe(["git", "-C", str(root), "rev-parse"] + flags, receipt, name)
-    regression = subprocess.run(["/usr/bin/python3", "-B", "-m", "unittest", "discover", "-s", str(source / "tests"),
+    regression = subprocess.run(["/usr/bin/python3", "-B", "-m", "unittest", "discover", "-s", str(source / "code/tests"),
                                  "-p", "test_dashboard_live_refresh.py", "-v"], capture_output=True, text=True,
-                                cwd=str(source), env=dict(os.environ, PYTHONPATH=str(source / "tools")), timeout=30)
+                                cwd=str(source), env=dict(os.environ, PYTHONPATH=str(source / "code")), timeout=30)
     (receipt / "regressions.log").write_text(regression.stdout + regression.stderr)
     (receipt / "regressions.exit").write_text(str(regression.returncode) + "\n")
     print(regression.stdout + regression.stderr, flush=True)
@@ -204,7 +214,7 @@ def main():
         counts = observe(["tmux", "show-options", "-w", "-qv", "-t", "dashboard:1", "@team_counts"],
                          receipt, label + "_counts", allow_empty=True)
         samples.append(dict(label=label, panes=panes, captures=captures, counts=counts, sessions=roster))
-    sys.path.insert(0, str(source / "tools"))
+    sys.path.insert(0, str(source / DASHBOARD))
     modules = {name: importlib.import_module(name) for name in
                ("dashboard_live", "dashboard_report", "dashboard_mathlab", "dashboard_experiment")}
     if args.phase == "green":

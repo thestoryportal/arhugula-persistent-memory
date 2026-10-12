@@ -7,7 +7,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 RECEIPT = ROOT / "_archive/projects/dashboard/dashboard_audit_20261010/fix_20261010T234721Z"
 HOST = ROOT / "code/tests/test_dashboard_live_host.py"
 
@@ -25,8 +25,8 @@ class HostRunnerFixtures(unittest.TestCase):
 
     def stage(self, phase):
         root, before, out = self.base / "repo", self.base / "before", self.base / phase
-        (root / "tools").mkdir(parents=True)
-        (before / "tools").mkdir(parents=True)
+        (root / "code/apps/dashboard").mkdir(parents=True)
+        (before / "code/apps/dashboard").mkdir(parents=True)
         (root / "code/apps/dashboard/dashboard_live.py").write_text("current\n")
         (root / "code/apps/dashboard/dashboard_team.py").write_text("new\n")
         (root / "code/apps/dashboard/dashboard_active.py").write_text("unchanged\n")
@@ -66,7 +66,7 @@ class HostRunnerFixtures(unittest.TestCase):
                 self.host.observe(["tmux", "list-sessions"], self.base, "sessions")
 
     def test_dependency_control_reexecs_current_code(self):
-        result = self.host.dependency_reload(ROOT / "tools", self.base)
+        result = self.host.dependency_reload(ROOT / "code/apps/dashboard", self.base)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("HELPER_RELOADED", result.stdout)
 

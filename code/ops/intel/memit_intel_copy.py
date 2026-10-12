@@ -23,7 +23,7 @@ import subprocess
 import time
 import traceback
 
-REPO = Path(__file__).resolve().parents[1]
+REPO = Path(__file__).resolve().parents[3]
 SRC = Path('/Volumes/memit/llm-database-poc-mirror')
 DEFAULT_REMOTE = ['ssh', '-i', os.path.expanduser('~/.ssh/intel_mac_ed25519'), '-o', 'IdentitiesOnly=yes', '-o', 'BatchMode=yes', 'robertrhu_node2@192.168.10.2']
 CAP = 250_000_000_000
@@ -513,7 +513,8 @@ def main():
     parser.add_argument('--paths-from', type=Path)
     parser.add_argument('--remote', default=shlex.join(DEFAULT_REMOTE), help='quoted remote argv prefix, including destination')
     args = parser.parse_args()
-    controller = Controller(args.source, REPO / 'results/intel_memit_copy', args.gen, shlex.split(args.remote))
+    # Copy receipts belong to the open drive-activate project (where the v2 map put the earlier ones).
+    controller = Controller(args.source, REPO / 'projects/drive-activate/receipts/intel_memit_copy', args.gen, shlex.split(args.remote))
     try:
         if args.subcommand == 'run':
             result = controller.run(args.paths_from)

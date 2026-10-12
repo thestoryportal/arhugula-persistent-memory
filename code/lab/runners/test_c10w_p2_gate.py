@@ -1,7 +1,7 @@
 """Model-free tests of code/lab/runners/c10w_p2_gate.py's GPU-exclusivity decision (P2 pre-run review, Astra B1)."""
 import unittest
 from unittest import mock
-from tools import c10w_p2_gate as G
+from lab.runners import c10w_p2_gate as G
 
 WT = "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
 CLT = "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python"
@@ -18,13 +18,18 @@ BENIGN = "\n".join([
     "62978 codex -m gpt-6.1-sol -s workspace-write",
     "937 /Users/robertrhu/.local/share/uv/tools/pixeltable/lib/python3.11/site-packages/pg/bin/postgres -D x",
     "%s %s/.venv/bin/python -B %s/experiments/track_c/c10w_oracle_read.py" % (99, WT, WT),
+    # the same tools from a v2-layout checkout
+    "46590 %s/.venv/bin/python -B %s/code/agents/context_watch.py /Users/u/.claude/projects/x/1a.jsonl 250000 60" % (WT, WT),
+    "71016 %s %s/code/apps/dashboard/dashboard_report.py" % (CLT, WT),
+    "%s %s/.venv/bin/python -B %s/code/lab/track_c/c10w_oracle_read.py" % (100, WT, WT),
 ])
 
 
 class BlockingProcesses(unittest.TestCase):
     def test_intel_copy_exact_controller(self):
         for exe in (CLT, "/Library/Developer/CommandLineTools/usr/bin/python3"):
-            for path in ("code/ops/intel/memit_intel_copy.py", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/code/ops/intel/memit_intel_copy.py"):
+            for path in ("tools/memit_intel_copy.py", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/memit_intel_copy.py",
+                         "code/ops/intel/memit_intel_copy.py", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/code/ops/intel/memit_intel_copy.py"):
                 line = "510 %s %s run --gen sample" % (exe, path)
                 self.assertEqual(G.blocking_processes(line, own_pid=1), [])
 
@@ -32,7 +37,7 @@ class BlockingProcesses(unittest.TestCase):
         for exe, path, args in (
             (CLT, "tools/memit_intel_copy_other.py", "run"),
             (WT + "/.venv/bin/python", "code/ops/intel/memit_intel_copy.py", "run"),
-            (CLT, "code/ops/intel/memit_intel_copy.py", "run"),
+            (CLT, "code/ops/intel/x/../memit_intel_copy.py", "run"),
             (CLT, "/tmp/tools/memit_intel_copy.py", "run"),
             (CLT, "code/ops/intel/memit_intel_copy.py/evil.py", "run"),
             (CLT, "code/ops/intel/memit_intel_copy.py", "bogus"),

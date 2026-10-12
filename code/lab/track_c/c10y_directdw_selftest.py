@@ -3,7 +3,7 @@ import os
 import sys
 from pathlib import Path
 
-W = Path(__file__).resolve().parents[2]
+W = Path(__file__).resolve().parents[3]
 SCRATCH = Path('/private/tmp/c10y_build').resolve()
 
 

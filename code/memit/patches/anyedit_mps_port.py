@@ -13,7 +13,7 @@ Emits the diff of pristine vs ported so the "device-only" claim can be reviewed 
 from pathlib import Path
 import os, subprocess, sys
 
-ROOT = Path(os.environ.get("LLMDB_ROOT") or Path(__file__).resolve().parents[2])
+ROOT = Path(os.environ.get("LLMDB_ROOT") or Path(__file__).resolve().parents[3])
 PRISTINE = ROOT / "code/vendor/external_prior_art/AnyEdit"
 PORTED = ROOT / "code/vendor/external_prior_art/AnyEdit_mps"
 DEV = "next(model.parameters()).device"

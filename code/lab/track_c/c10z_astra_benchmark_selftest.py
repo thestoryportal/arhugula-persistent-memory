@@ -29,7 +29,7 @@ class NoScienceImports(importlib.abc.MetaPathFinder):
 sys.meta_path.insert(0, NoScienceImports())
 import torch
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 BENCH_PATH = ROOT / "code/lab/track_c/c10z_astra_benchmark.py"
 SCRATCH = Path("/private/tmp/c10z_build")
 MODEL_REV = "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"

@@ -14,7 +14,7 @@ Usage:
 import sys, os, json, re
 
 # code/state/render_state.py -> the repo root is three levels up; env overrides.
-ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 STATE = os.path.join(ROOT, "program/program_state.json")
 
 # which generated block goes in which file, and the anchor line to insert after if absent

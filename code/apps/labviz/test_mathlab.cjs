@@ -7,12 +7,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const { spawnSync } = require('node:child_process');
-const root = path.resolve(__dirname, '../..');
+const root = path.resolve(__dirname, '../../..');
 const fixture = [
   'import json, tempfile',
   'from pathlib import Path',
-  'from tools.labviz.test_mathlab import prepare, started, event, write_stream',
-  'from tools.labviz.cards import Reader',
+  'from apps.labviz.test_mathlab import prepare, started, event, write_stream',
+  'from apps.labviz.cards import Reader',
   'with tempfile.TemporaryDirectory() as tmp:',
   '    root = Path(tmp)',
   '    prepare(root)',
@@ -45,7 +45,7 @@ const generated = spawnSync(path.join(root, '.venv/bin/python'), ['-B', '-c', fi
 assert.equal(generated.status, 0, generated.stderr);
 const recordedCards = JSON.parse(generated.stdout);
 const card = name => {
-  const found = recordedCards.find(c => c.identity.name === 'results/mathlab_staging/runs/'+name+'/events.jsonl');
+  const found = recordedCards.find(c => c.identity.name === 'experiments/ml/runs/'+name+'/events.jsonl');
   assert.ok(found, 'canonical MathLab stream must become a card: '+name);
   return found;
 };
@@ -159,7 +159,7 @@ test('finding text and candidate ideas are escaped and retain proxy limits', () 
   assert.match(plain(r.html()), /Candidate questions.*ideas to test/i);
   assert.match(r.html(), /&lt;script&gt;not executable&lt;\/script&gt;/);
   assert.match(r.html(), /&lt;img src=x onerror=alert\(1\)&gt;/);
-  assert.match(r.html(), /evidence\/logs\/pending_findings\/mathlab_fixture\.md/);
+  assert.match(r.html(), /evidence\/experiments\/ml\/reviews\/pending_findings\/mathlab_fixture\.md/);
   assert.doesNotMatch(r.html(), /<script>|<img src=x/);
 });
 
@@ -174,7 +174,7 @@ test('direct model and mixed compare routes retain the proxy boundary', () => {
   r.api.set({view:'model',run:c.card_id}); r.api.frame(c); r.api.renderModel(c);
   assert.match(r.html(), /math estimate, not evidence/);
   assert.doesNotMatch(r.html(), /show-3d|Static wiring|Inside the model/);
-  const evidence = {card_id:'ordinary',identity:{name:'results/ordinary.json'},context:{},
+  const evidence = {card_id:'ordinary',identity:{name:'experiments/ordinary/runs/ordinary/ordinary.json'},context:{},
                     headline:{hits:{value:1},out_of:{value:72}},label:{value:null},per_fact:[],per_layer:[],sources:[]};
   r.api.seed(evidence); r.api.set({view:'compare',compare:[evidence.card_id,c.card_id]});
   r.api.renderCompare(evidence,c); r.api.frame(evidence);

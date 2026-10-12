@@ -1,5 +1,5 @@
 """Tests for the live dashboard state (code/apps/dashboard/dashboard_live.py). Stdlib only; run with the dashboard's interpreter:
-/usr/bin/python3 -B -m unittest tools.test_dashboard_live
+/usr/bin/python3 -B -m unittest apps.dashboard.test_dashboard_live
 """
 import os, subprocess, sys, tempfile, time, unittest
 from unittest.mock import patch

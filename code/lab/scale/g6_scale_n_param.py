@@ -244,7 +244,9 @@ out={"config":{"model":ID,"N":len(records),"entities":len(edit_ents),"fields":FI
        "clobbered_after_expressing_count":len(clobbered),"clobbered":clobbered},
      "records":[{"entity":r["entity"],"field":r["field"],"truth":r["truth"],"cf":r["cf"],
                  "expressed_at_apply":r["expressed_at_apply"],"retained_at_end":final_ret[r["prompt"]]} for r in records]}
-_TAG=os.environ.get("RESULT_TAG",""); _outpath=(f"{LLMDB_ROOT}/results/g6_scale_n_result{_TAG}.json" if WRITE_MODE=="sequential" else f"{LLMDB_ROOT}/results/g6_scale_n_{WRITE_MODE}_result{_TAG}.json")
+sys.path.append(f"{LLMDB_ROOT}/code"); from state import llmdb_records as L
+_TAG=os.environ.get("RESULT_TAG",""); _name="g6_scale_n" if WRITE_MODE=="sequential" else f"g6_scale_n_{WRITE_MODE}"
+_run=L.run_dir(LLMDB_ROOT,"g6",_name); _run.mkdir(parents=True,exist_ok=True); _outpath=_run/f"{_name}_result{_TAG}.json"
 json.dump(out,open(_outpath,"w"),indent=2,default=str)
 print(f"\nFINAL N={len(records)}: retention={rungs[-1]['all_record_retention']}% | never-expressed={len(never_expressed)} | clobbered-after-expressing={len(clobbered)}", flush=True)
 print(f"staircase retention: "+" -> ".join(f"N{r['n']}:{r['all_record_retention']}%" for r in rungs), flush=True)

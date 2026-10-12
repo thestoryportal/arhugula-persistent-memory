@@ -8,10 +8,11 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from tools import mathlab_events
-from tools.labviz import build, cards
+from apps.mathlab import mathlab_events
+from apps.labviz import build, cards
+from state import llmdb_records as L
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 
 
 def event(run_id, kind, **fields):
@@ -25,7 +26,7 @@ def started(run_id, step=2, purpose='experiment'):
 
 
 def write_stream(root, run_id, events, tail=''):
-    path = root/'results/mathlab_staging/runs'/run_id/'events.jsonl'
+    path = root/L.ML_RUNS/run_id/'events.jsonl'
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(''.join(json.dumps(e)+'\n' for e in events)+tail)
     return path
@@ -41,20 +42,20 @@ def output_fixtures(root):
             'replay_admission':{'shared_passed':True, 'admitted':[]},
             'delta_norms':{'4':{'delta_norm':12345}},
         },
-        'admission_20261009T184919Z.json': {
+        'harvest_20261009T184950.056951Z/admission_20261009T184919Z.json': {
             'terminal_sources':[{'coordinator':'astra-attempt3',
                                  'path':'experiments/ml/runs/harvest_20261009T184950.056951Z/astra_attempt3_terminal.json'}],
             'no_other_coordinator_live_or_pending':True, 'lead':'fixture',
         },
-        'harvest_launch_20261009T184919Z.log':'step 1 loss 0.25\nRUN_DONE\n',
-        'astra_attempt3_terminal.json':{
+        'harvest_20261009T184950.056951Z/logs/harvest_launch_20261009T184919Z.log':'step 1 loss 0.25\nRUN_DONE\n',
+        'harvest_20261009T184950.056951Z/astra_attempt3_terminal.json':{
             'status':'HALTED-V7', 'coordinator':'astra-attempt3', 'source_outcome':'HALTED',
         },
     }
     files = []
-    for family in ('mathlab', 'mathlab_staging'):
+    for runs in L.LAB_RUNS:
         for name, data in payloads.items():
-            path = root/'results'/family/name
+            path = root/runs/name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(data if isinstance(data,str) else json.dumps(data))
             files.append(path)
@@ -68,9 +69,11 @@ def prepare(root):
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(path, target)
     target = root/'code/apps/mathlab/mathlab_events.py'
+    target.parent.mkdir(parents=True)
     shutil.copyfile(ROOT/'code/apps/mathlab/mathlab_events.py', target)
     spec = (ROOT/'projects/labviz-spec-v3/drafts/LABVIZ_V2_SPEC.md').read_text()
-    (root/'docs').mkdir()
+    (root/'projects/labviz-spec-v3/drafts').mkdir(parents=True)
+    (root/'program/registers').mkdir(parents=True)
     (root/'projects/labviz-spec-v3/drafts/LABVIZ_V2_SPEC.md').write_text(spec[spec.index('## Forward requirement — math lab'):])
     finding = root/'experiments/ml/reviews/pending_findings/mathlab_fixture.md'
     finding.parent.mkdir(parents=True)
@@ -111,7 +114,7 @@ def prepare(root):
                                       plain_words='Aggregate calibration outcome', observed=outcome,
                                       bar='PASS', comparison='meets', passed=outcome=='PASS')])
     write_stream(root, 'empty_fixture', [])
-    sidecar = root/'results/mathlab_staging/runs'/run/'admission.json'
+    sidecar = root/L.ML_RUNS/run/'admission.json'
     sidecar.write_text(json.dumps({'model':'fake model', 'label':'PASS', 'arm':{'para_full_n':72, 'para_n':72}}))
     output_fixtures(root)
     return stream
@@ -132,7 +135,7 @@ class MathLabTests(unittest.TestCase):
     def card(self, run_id, reader=None):
         reader = reader or self.reader()
         matches = [c for c in reader.cards if c['identity']['name'] ==
-                   f'results/mathlab_staging/runs/{run_id}/events.jsonl']
+                   f'{L.ML_RUNS}/{run_id}/events.jsonl']
         self.assertEqual(len(matches), 1, 'one MathLab card per canonical event stream')
         return matches[0]
 
@@ -167,8 +170,8 @@ class MathLabTests(unittest.TestCase):
         self.assertEqual(cards.recorded_labels(self.root), set())
         self.assertNotIn('RECONSTRUCTED', cards.label_table())
         # Identical payloads outside MathLab must still reach the generic readers.
-        control = self.root/'results/ordinary_fixture'
-        control.mkdir()
+        control = self.root/'experiments/ordinary/runs/ordinary_fixture'
+        control.mkdir(parents=True)
         for path in files[:4]:
             shutil.copyfile(path,control/path.name)
         manifest = control/'manifest.json'
@@ -195,7 +198,7 @@ class MathLabTests(unittest.TestCase):
         self.assertIsNone(legacy['newest_log'])
 
     def test_torn_tail_and_invalid_middle_lines_remain_visible(self):
-        path = self.root/'results/mathlab_staging/runs/torn_fixture/events.jsonl'
+        path = self.root/L.ML_RUNS/'torn_fixture/events.jsonl'
         start = started('torn_fixture')
         path.write_text(json.dumps(start)+'\n{"schema":99}\n'+
                         json.dumps(event('torn_fixture', 'resource_sample', avail_gib=10, floor_gib=8, rss_gib=1, cpu_pct=2))+
@@ -254,7 +257,7 @@ class MathLabTests(unittest.TestCase):
     def test_empty_directory_has_no_runs_and_empty_stream_has_no_invented_facts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            (root/'results/mathlab_staging/runs').mkdir(parents=True)
+            (root/L.ML_RUNS).mkdir(parents=True)
             self.assertEqual(cards.Reader(root).collect(), [])
         card = self.card('empty_fixture')
         self.assertEqual(card['mathlab']['state']['value']['status'], 'not started')
@@ -297,7 +300,7 @@ class MathLabTests(unittest.TestCase):
             elif mutation == 'reader-on-json':
                 operand['src'].update(file='code/apps/labviz/labels.json', path='.', reader='mathlab_events.read_events')
             elif mutation == 'stream-path':
-                operand['src']['file'] = 'results/mathlab_staging/runs/halted_fixture/admission.json'
+                operand['src']['file'] = L.ML_RUNS+'/halted_fixture/admission.json'
             else:
                 bad['mathlab']['state']['rule_src']['file'] = 'code/apps/labviz/labels.json'
             with self.subTest(mutation=mutation), self.assertRaises(ValueError):
@@ -309,11 +312,11 @@ class MathLabTests(unittest.TestCase):
 
     def test_fold_requires_its_hashed_module_and_this_runs_canonical_events(self):
         card = self.card('halted_fixture')
-        sidecar = self.root/'results/mathlab_staging/runs/halted_fixture/forged.json'
+        sidecar = self.root/L.ML_RUNS/'halted_fixture/forged.json'
         changed = copy.deepcopy(self.stream)
         changed[-1]['reason'] = 'Forged halt'
         sidecar.write_text(json.dumps(changed))
-        other = 'results/mathlab_staging/runs/admission_fixture/events.jsonl'
+        other = L.ML_RUNS+'/admission_fixture/events.jsonl'
         for mutation in ('unhashed-module', 'sidecar', 'other-run'):
             bad = copy.deepcopy(card)
             if mutation == 'unhashed-module':
@@ -372,15 +375,15 @@ class MathLabTests(unittest.TestCase):
             self.assertIn('experiments/ml/reviews/pending_findings/empty.md',
                           {s['file'] for s in self.card(run, reader)['sources']})
             build.build(self.root)
-            self.assertEqual((self.root/'projects/labviz-spec-v3/receipts/bulk/labviz/site/evidence/logs/pending_findings/empty.md').read_bytes(), b'')
-            self.assertFalse((self.root/'projects/labviz-spec-v3/receipts/bulk/labviz/site/evidence/logs/pending_findings/linked.md').exists())
+            self.assertEqual((self.root/'projects/labviz-spec-v3/receipts/bulk/labviz/site/evidence/experiments/ml/reviews/pending_findings/empty.md').read_bytes(), b'')
+            self.assertFalse((self.root/'projects/labviz-spec-v3/receipts/bulk/labviz/site/evidence/experiments/ml/reviews/pending_findings/linked.md').exists())
 
     def test_build_mirrors_only_cited_events_and_findings_and_skips_pictures(self):
         unreferenced = self.root/'experiments/ml/reviews/pending_findings/unreferenced.md'
         unreferenced.write_text('Unreferenced text')
-        inputs = {p:p.read_bytes() for family in ('mathlab', 'mathlab_staging')
-                  for p in (self.root/'results'/family).rglob('*') if p.is_file()}
-        with patch('tools.labviz.render.card_picture', side_effect=AssertionError('no evidence artwork for math estimates')):
+        inputs = {p:p.read_bytes() for runs in L.LAB_RUNS
+                  for p in (self.root/runs).rglob('*') if p.is_file()}
+        with patch('apps.labviz.render.card_picture', side_effect=AssertionError('no evidence artwork for math estimates')):
             inventory = build.build(self.root)
         site = self.root/'projects/labviz-spec-v3/receipts/bulk/labviz/site'
         index = json.loads((site/'cards/index.json').read_text())
@@ -453,7 +456,7 @@ class MathLabTests(unittest.TestCase):
                             summary='Operand harvest complete; math analysis pending',path='experiments/ml/reviews/pending_findings/mathlab_fixture.md'),
                       event(run,'run_finished',outcome='PASS',summary='Operand harvest completed; no behavioural promotion')]
         write_stream(self.root,run,completed)
-        with patch('tools.labviz.render.card_picture',side_effect=AssertionError('no proxy artwork')):
+        with patch('apps.labviz.render.card_picture',side_effect=AssertionError('no proxy artwork')):
             build.build(self.root)
         index = json.loads(index_file.read_text())
         self.assertEqual(len(index), 8)

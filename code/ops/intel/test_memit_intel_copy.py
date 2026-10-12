@@ -16,8 +16,8 @@ import time
 import unittest
 from unittest import mock
 
-REPO = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REPO))
+REPO = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(REPO / "code"))
 CLT = '/Library/Developer/CommandLineTools/usr/bin/python3'
 EXCLUDES = REPO / 'code/ops/backup/backup_mirror.excludes'
 
@@ -26,8 +26,8 @@ class Fixture(unittest.TestCase):
     def setUp(self):
         self.assertTrue((REPO / 'code/ops/intel/memit_intel_copy.py').is_file(), 'P1 controller absent')
         self.assertTrue((REPO / 'code/ops/intel/memit_intel_receive.py').is_file(), 'P1 receiver absent')
-        self.C = importlib.import_module('tools.memit_intel_copy')
-        self.R = importlib.import_module('tools.memit_intel_receive')
+        self.C = importlib.import_module('ops.intel.memit_intel_copy')
+        self.R = importlib.import_module('ops.intel.memit_intel_receive')
         # Intentionally keep fixtures: builder has no deletion authority. They live in the
         # system temp dir, never the repo: they hold secret-named files and the OS ages them out.
         self.base = Path(tempfile.mkdtemp(prefix='ic1-'))
@@ -334,13 +334,13 @@ class Fixture(unittest.TestCase):
 
     def test_py39_syntax_and_executable_modes(self):
         for name in ['memit_intel_copy.py', 'memit_intel_receive.py']:
-            p = REPO / 'tools' / name
+            p = REPO / 'code/ops/intel' / name
             ast.parse(p.read_text(), feature_version=(3, 9))
             self.assertEqual(stat.S_IMODE(p.stat().st_mode), 0o755)
 
     def test_controller_suppresses_gate_import_bytecode_without_cli_flags(self):
         fake_repo = self.base / 'fake_repo'
-        (fake_repo / 'tools').mkdir(parents=True)
+        (fake_repo / 'code/lab/runners').mkdir(parents=True)
         (fake_repo / 'code/lab/runners/c10w_p2_gate.py').write_text('def check_gpu():\n    return {"ok": True}\n')
         previous = sys.dont_write_bytecode
         try:
@@ -349,7 +349,7 @@ class Fixture(unittest.TestCase):
             self.assertTrue(sys.dont_write_bytecode)
             namespace['check_gpu'].__globals__['REPO'] = fake_repo
             self.assertEqual(namespace['check_gpu'](), {'ok': True})
-            self.assertFalse((fake_repo / 'tools/__pycache__').exists())
+            self.assertFalse((fake_repo / 'code/lab/runners/__pycache__').exists())
         finally:
             sys.dont_write_bytecode = previous
 

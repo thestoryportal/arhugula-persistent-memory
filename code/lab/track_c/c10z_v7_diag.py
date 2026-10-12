@@ -38,7 +38,7 @@ import types
 import c10z_astra_arms as D
 from c10z_astra_arms import spearman, torch_cpu64
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 DATASET_REV = "b04c8d1ceb2f5cd4588862100d08de323dccfbaa"
 MODEL_REV = "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 PREREG_SHA = "7aedd4ace95d2611bf398768df63cb60df6fce5afc23cf23209497bcd1d17a29"

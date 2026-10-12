@@ -6,7 +6,7 @@ plus A (z_pre, pre-edit control), and E1', E2' on the restored (unedited) weight
 Env: LLMDB_ROOT, LAW3_REF; OUT / DECISION_ID / PREREG default to this decision's paths.
 """
 import os, sys, json, time
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ.setdefault("CANDIDATE_NAME", "A7_magnitude")
 os.environ.setdefault("DECISION_ID", "D-C10o-magnitude")

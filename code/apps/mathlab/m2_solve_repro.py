@@ -13,16 +13,16 @@ def _():
     import json
     from pathlib import Path
     import sys
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "code"))
     import marimo as mo
     from pydantic import BaseModel, ConfigDict, Field
-    from mathlab import core
-    from tools import mathlab_runtime as runtime
+    from apps.mathlab import core
+    from apps.mathlab import mathlab_runtime as runtime
 
     class Params(BaseModel):
         model_config = ConfigDict(extra="forbid")
         harvest_dir: Path = Field(description="Frozen operand harvest directory")
-        output_root: Path = Field(default=runtime.ROOT / "results/mathlab", description="Fresh result directories; fixtures use staging")
+        output_root: Path = Field(default=runtime.ROOT / runtime.L.ML_RUNS, description="Fresh result directories; fixtures use staging")
 
     return Params, core, json, mo
 

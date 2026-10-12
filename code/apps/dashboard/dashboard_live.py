@@ -8,8 +8,12 @@ import ast, collections, functools, glob, json, math, os, re, shlex, subprocess,
 from datetime import datetime
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
+# Shared packages (apps.mathlab, state) live under code/; panes run this file as a script, without PYTHONPATH.
+sys.path.insert(0, os.path.dirname(os.path.dirname(TOOLS)))
+from state import llmdb_records as L  # noqa: E402
 # Legacy C10 stages are recognized here alongside the named launchers below.
-GPU_JOB_RE = re.compile(r"^(?:.*/)?(?:experiments/track_c/|tools/(?:run_)?)(c10[a-z])\w*?(?:\.py|\.sh)$")
+# Jobs from checkouts still on the pre-v2 layout (experiments/track_c/, tools/) run on the same GPU.
+GPU_JOB_RE = re.compile(r"^(?:.*/)?(?:(?:experiments|code/lab)/track_c/|(?:tools|code/lab/runners)/(?:run_)?)(c10[a-z])\w*?(?:\.py|\.sh)$")
 # The one definition of "an agent pane is busy": a Codex/Claude spinner line, or Codex's slow-model menu, which keeps
 # waiting by itself ("Codex will keep waiting") and must not read as finished. Tiles and the watcher both use it.
 BUSY_RE = re.compile(r"esc to interrupt|Working \(|· Working ·|Codex will keep waiting|^[^\w\s]\s\S+… \(\d", re.M)   # "· Working ·" = Codex footer status, present even between steps
@@ -80,7 +84,7 @@ def script_call(command):
     return parts[i:], env
 
 
-ROOT = os.path.dirname(TOOLS)
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(TOOLS)))
 JOB_TYPES = (
     (("code/apps/mathlab/run_mathlab_harvest.sh", "code/apps/mathlab/mathlab_harvest.py", "code/apps/mathlab/mathlab_admit.py"),
      "mathlab", "harvest", "Math-lab harvest", "code/apps/mathlab/run_mathlab_harvest.sh", None, "gpu"),
@@ -144,7 +148,9 @@ def detect_gpu_jobs(inventory):
                 continue
             step = None
             if device == 'cpu':
-                notebook = rel if rel.startswith('code/apps/mathlab/') else (args[1] if len(args) > 1 else '')
+                # The notebooks and their runners share code/apps/mathlab/ in v2, so the folder no longer says which
+                # alias is the notebook itself; the notebook's own name does.
+                notebook = rel if re.search(r'(?:^|/)m[23]_\w+\.py$', rel) else (args[1] if len(args) > 1 else '')
                 match = re.search(r'(?:^|/)code/apps/mathlab/m([23])_\w+\.py$', notebook)
                 step = options.get('step') if rel == 'code/apps/mathlab/mathlab_admit.py' else match.group(1) if match else None
                 if step not in ('2', '3'): continue
@@ -282,9 +288,9 @@ def elapsed_text(seconds):
 
 def recorded_cpu_jobs():
     """Validated fresh samples establish recorded activity; their event PID is not process liveness."""
-    from mathlab_events import read_events, fold
+    from apps.mathlab.mathlab_events import read_events, fold
     jobs, errors = [], []; now = time.time()
-    for path in glob.glob(os.path.join(ROOT, 'results/mathlab_staging/runs/*/events.jsonl')):
+    for path in map(str, L.lab_event_streams(ROOT)):
         events, problems = read_events(path)
         if problems:
             errors += problems; continue
@@ -394,7 +400,8 @@ def source_imports(path, mtime_ns, size):
 def source_stamp(directory):
     """Max mtime of dashboard scripts and their local import closure (packages included)."""
     directory = os.path.realpath(directory)
-    root = os.path.dirname(directory)
+    # Dashboards live in code/apps/dashboard/; package imports (apps.mathlab, state, ops) resolve from code/.
+    root = os.path.dirname(os.path.dirname(directory))
     pending = glob.glob(os.path.join(directory, "dashboard_*.py"))
     seen, stamp = set(), 0.0
     while pending:
@@ -553,12 +560,13 @@ def sh(*args):
 def is_experiment_log(path, root):
     parts = os.path.relpath(path, root).split(os.sep)
     archived = any(x.startswith(("_quarantine", "attempt")) for x in parts)
-    return parts[1:2] != ["labviz"] and not archived and any(x.startswith("c10") for x in parts[1:])
+    # v2: experiment logs live only under experiments/; mirrors (the LabViz site under projects/) are elsewhere.
+    return parts[0] == "experiments" and not archived and any(x.startswith("c10") for x in parts[1:])
 
 
 def experiment_logs(root):
     """One newest-run source for the Experiment tab and the report's GPU last-run line."""
-    return sorted((p for p in glob.glob(os.path.join(root, "results", "**", "*.log"), recursive=True)
+    return sorted((p for p in glob.glob(os.path.join(root, "experiments", "**", "*.log"), recursive=True)
                    if is_experiment_log(p, root)), key=os.path.getmtime)
 
 
@@ -648,11 +656,11 @@ def build_state():
 
 def events():
     ev = []
-    for p in glob.glob(os.path.join(ROOT, "results", "c10*_logs", "*coordinator*.log")):
+    for p in glob.glob(os.path.join(ROOT, "experiments", "c10*", "runs", "*", "logs", "*coordinator*.log")):
         ex = coordinator_exit(open(p, errors="replace").read())
         if ex:
             ev.append((ex["at"], f"coordinator exit {ex['code']} ({os.path.basename(p)})"))
-    for p in glob.glob(os.path.join(ROOT, "results", "c10*", "*", "HALT.json")):
+    for p in glob.glob(os.path.join(ROOT, "experiments", "c10*", "runs", "*", "*", "HALT.json")):
         ev.append((os.path.getmtime(p), f"HALT in {os.path.relpath(os.path.dirname(p), ROOT)}"))
     for p in glob.glob(os.path.join(ROOT, "evidence/CORPUS/[0-9][0-9]_*.md")):
         ev.append((os.path.getmtime(p), f"evidence/CORPUS/{os.path.basename(p)[:2]} changed"))
@@ -662,7 +670,7 @@ def events():
 def gather():
     from dashboard_tile import running_helpers
     try:
-        runbook = open(os.path.join(ROOT, "program/runbook/"), errors="replace").read()
+        runbook = L.read_split(os.path.join(ROOT, "program/runbook"))
     except OSError:
         runbook = ""
     screens, _, lead = team_screens()

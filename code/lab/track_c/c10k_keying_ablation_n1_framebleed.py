@@ -12,7 +12,7 @@ Env: LLMDB_ROOT; FB_OFFSETS (default "0,1,2"); FB_LOCI (default "last,subject");
 Output: experiments/c10k/runs/c10k_keying_ablation/n1/framebleed.json
 """
 import os, sys, io, json, contextlib
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["N_EDIT"] = "24"; os.environ["C10_SUBJECT_OFFSET"] = "0"; os.environ["C10_ARMS"] = "A1_single"
 os.environ.setdefault("C10_CTX_TEMPLATES", "on")

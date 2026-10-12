@@ -15,10 +15,10 @@ import signal
 import hmac
 import time
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
-from tools import new1_geometry as G
-from tools import new1_supervisor as S
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "code"))
+from lab.runners import new1_geometry as G
+from lab.runners import new1_supervisor as S
 
 DEADLINE_S, RSS_CAP_GIB, THREADS, DISK_BYTES = 600, 11., 8, 1000000
 CLEANUP_S = 5
@@ -220,7 +220,7 @@ class Output:
 
 
 def cpu_admission():
-    from tools import mathlab_admit
+    from apps.mathlab import mathlab_admit
     return mathlab_admit.probe('cpu')
 
 

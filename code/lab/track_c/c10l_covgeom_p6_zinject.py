@@ -10,7 +10,7 @@ bottleneck, I-1 territory); if >= 30/72 the ceiling admits LEAD.
 No edit. Output experiments/c10l/runs/c10l_covgeom/p6_zinject.json. Env: LLMDB_ROOT, OUT.
 """
 import os, sys, io, json, contextlib, time
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["C10_ARMS"] = "A7_coined_coined"
 sys.path.insert(0, f"{LLMDB_ROOT}/code/lab/track_c")

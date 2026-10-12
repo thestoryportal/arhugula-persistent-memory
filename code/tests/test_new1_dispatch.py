@@ -17,7 +17,7 @@ import time
 import types
 import unittest
 
-SOURCE = Path(__file__).resolve().parents[1]
+SOURCE = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(SOURCE))
 gate_path = SOURCE/"code/lab/runners/c10w_p2_gate.py"
 gate = types.ModuleType("dispatch_gate_under_test")
@@ -54,7 +54,7 @@ sys.exit(3 if cfg.get("fingerprint_refused") else 0)
 ADMIT = '''import json
 from pathlib import Path
 def probe(kind):
-    cfg = json.loads((Path(__file__).parents[1]/"fixture.json").read_text())
+    cfg = json.loads((Path(__file__).parents[3]/"fixture.json").read_text())
     return {"allowed": not cfg.get("dry_refused", False), "reasons": [],
             "checks": {"gpu": {"blocking_processes": []}}}
 '''
@@ -64,7 +64,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 root = Path(os.environ["LLMDB_ROOT"])
 cfg = json.loads((root/"fixture.json").read_text())
-run = root/"results/mathlab_staging/runs"/("new1_"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ"))
+run = root/"experiments/new1/runs"/("new1_"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ"))
 run.mkdir(exist_ok=False)
 (root/"supervisor_started").write_text(str(os.getpid()))
 keys = ["PATH", "TMPDIR", "LLMDB_ROOT", "LLMDB_DEVICE", "CUDA_VISIBLE_DEVICES",
@@ -126,7 +126,7 @@ def provenance(root, name):
     folder = Path(destination)/name
     folder.mkdir(parents=True, exist_ok=False)
     entries = []
-    for path in sorted((root/"tools").glob("*.py")) + list((root/"tools").glob("*.sh")):
+    for path in sorted(root.rglob("*.py")) + sorted(root.rglob("*.sh")):
         copy = folder/path.name
         shutil.copyfile(path, copy)
         entries.append(dict(path=str(path), sha256=sha(path), preserved_as=str(copy)))
@@ -163,7 +163,7 @@ class PureTests(unittest.TestCase):
 
     def test_T1_shell_argv_is_not_a_compute_executable(self):
         # A declared fixture command for the pure classifier, not host clearance.
-        line = "123 /bin/zsh /private/tmp/new1_fixture/tools/new1_dispatch.sh hashes.sha256 HEAD auth"
+        line = "123 /bin/zsh /private/tmp/new1_fixture/code/lab/runners/new1_dispatch.sh hashes.sha256 HEAD auth"
         self.assertEqual(blocking_processes(line, own_pid=456), [])
         self.assertEqual(blocking_processes("123 /usr/bin/python3 poller.py", own_pid=456),
                          ["123 /usr/bin/python3 poller.py"])
@@ -218,16 +218,17 @@ class PureTests(unittest.TestCase):
         temp = tempfile.TemporaryDirectory(prefix="new1-report-", dir="/private/tmp")
         self.addCleanup(temp.cleanup)
         root = Path(temp.name)
-        (root/"tools").mkdir()
-        shutil.copyfile(SOURCE/"code/apps/mathlab/mathlab_events.py", root/"code/apps/mathlab/mathlab_events.py")
-        runs = root/"results/mathlab_staging/runs"
+        for path in ("code/apps/mathlab/mathlab_events.py", "code/state/llmdb_records.py"):
+            (root/path).parent.mkdir(parents=True)
+            shutil.copyfile(SOURCE/path, root/path)
+        runs = root/"experiments/new1/runs"
         current = runs/"new1_current"
         old = runs/"new1_old"
         for run, rows in ((current, [start_event(current.name), terminal(name=current.name)]),
                           (old, [start_event(old.name)]+([terminal("halted", "STOPPED-RESOURCE", old.name)] if old_halt else []))):
             run.mkdir(parents=True)
             (run/"events.jsonl").write_text("".join(json.dumps(row)+"\n" for row in rows))
-        dispatch = root/"results/mathlab_staging/new1_dispatch_current"
+        dispatch = runs/"new1_dispatch_current"
         dispatch.mkdir()
         for name, data in (("invocation.json", {"authorization": {"sha256":"a"*64}}),
                            ("supervisor_exit.json", {"status":0,"exited":True}),
@@ -240,7 +241,7 @@ class PureTests(unittest.TestCase):
         (dispatch/"supervisor_stdout.log").write_text("PASS\n")
         (dispatch/"supervisor_stderr.log").write_text("")
         if prior_receipt:
-            previous = root/"results/mathlab_staging/new1_dispatch_previous"
+            previous = runs/"new1_dispatch_previous"
             previous.mkdir()
             (previous/"dispatch_receipt.json").write_text(json.dumps({
                 "authorization_consumed":True, "namespace":{"path":str(old)},
@@ -369,14 +370,15 @@ class DispatchTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix="new1-fixture-", dir="/private/tmp")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        for path in ("tools", ".venv/bin", "results/mathlab_staging/runs"):
+        for path in ("code/lab/runners", "code/apps/mathlab", "code/memit", "code/state", ".venv/bin", "experiments/new1/runs"):
             (self.root/path).mkdir(parents=True)
         (self.root/".venv/bin/python").symlink_to(sys.executable)
-        for path in ("new1_dispatch.sh", "new1_dispatch_report.py", "mathlab_events.py"):
-            shutil.copy2(SOURCE/"tools"/path, self.root/"tools"/path)
-        for name, content in (("new1_supervisor.py", SUPERVISOR), ("new1_geometry.py", WORKER),
-                              ("engine_fingerprint.py", FINGERPRINT), ("mathlab_admit.py", ADMIT)):
-            (self.root/"tools"/name).write_text(content)
+        for path in ("code/lab/runners/new1_dispatch.sh", "code/lab/runners/new1_dispatch_report.py",
+                     "code/apps/mathlab/mathlab_events.py", "code/state/llmdb_records.py"):
+            shutil.copy2(SOURCE/path, self.root/path)
+        for path, content in (("code/lab/runners/new1_supervisor.py", SUPERVISOR), ("code/lab/runners/new1_geometry.py", WORKER),
+                              ("code/memit/engine_fingerprint.py", FINGERPRINT), ("code/apps/mathlab/mathlab_admit.py", ADMIT)):
+            (self.root/path).write_text(content)
         self.config = {}
         self.configure()
         self.git("init", "-q")
@@ -386,7 +388,7 @@ class DispatchTests(unittest.TestCase):
         self.head = self.git("rev-parse", "HEAD").strip()
         self.hashes = self.root/"hashes.sha256"
         self.hashes.write_text("".join(sha(path)+"  "+str(path.relative_to(self.root))+"\n"
-                             for path in sorted((self.root/"tools").glob("*.py"))))
+                             for path in sorted((self.root/"code").rglob("*.py"))))
         self.auth = self.root/"authorization.txt"
         self.auth.write_text("ONE FIXTURE invocation, no real science\n")
         self.dispatcher = None
@@ -403,7 +405,7 @@ class DispatchTests(unittest.TestCase):
         (self.root/"fixture.json").write_text(json.dumps(self.config))
 
     def dispatch(self, head=None, env=None, nice=None):
-        before = set((self.root/"results/mathlab_staging").glob("new1_dispatch_*"))
+        before = set((self.root/"experiments/new1/runs").glob("new1_dispatch_*"))
         argv = [str(self.root/"code/lab/runners/new1_dispatch.sh"), str(self.hashes), head or self.head, str(self.auth)]
         if nice is not None: argv = ["/usr/bin/nice", "-n", str(nice), *argv]
         self.dispatcher = subprocess.Popen(argv, cwd=self.root, env=dict(os.environ, **(env or {})),
@@ -412,7 +414,7 @@ class DispatchTests(unittest.TestCase):
         except subprocess.TimeoutExpired:
             self.fail("fixture dispatcher exceeded 12 seconds")
         self.output = (out, err)
-        after = set((self.root/"results/mathlab_staging").glob("new1_dispatch_*"))
+        after = set((self.root/"experiments/new1/runs").glob("new1_dispatch_*"))
         added = after - before
         self.assertEqual(len(added), 1, (added, out, err))
         self.directory = added.pop()
@@ -479,13 +481,14 @@ class DispatchTests(unittest.TestCase):
         self.assertEqual(worker["nice"], 10)
         self.assertIn("code/lab/runners/new1_geometry.py", worker["command"])
         self.assertTrue(worker["observed_at_utc"])
-        self.assertEqual(receipt["namespace"]["path"], str(next((self.root/"results/mathlab_staging/runs").glob("new1_*"))))
+        self.assertEqual(receipt["namespace"]["path"], str(next(path for path in (self.root/"experiments/new1/runs").glob("new1_*")
+                                                                    if not path.name.startswith("new1_dispatch_"))))
         self.assertEqual(receipt["supervisor_exit"]["status"], 0)
         self.assertEqual(receipt["disposition"]["status"], "CLEAN")
         self.assertEqual(receipt["verdict_status"], "COMPLETE")
 
     def test_T3_b_reused_authorization(self):
-        old = self.root/"results/mathlab_staging/new1_dispatch_old"
+        old = self.root/"experiments/new1/runs/new1_dispatch_old"
         old.mkdir()
         (old/"invocation.json").write_text(json.dumps({"authorization": {"sha256": sha(self.auth)}}))
         self.refused("2b")
@@ -560,7 +563,7 @@ class DispatchTests(unittest.TestCase):
 
     def test_T9_third_abort_reached(self):
         for index in range(2):
-            run = self.root/"results/mathlab_staging/runs"/("new1_prior_"+str(index))
+            run = self.root/"experiments/new1/runs"/("new1_prior_"+str(index))
             run.mkdir()
             rows = [start_event(run.name), terminal("halted", "STOPPED-RESOURCE", run.name)]
             (run/"events.jsonl").write_text("".join(json.dumps(row)+"\n" for row in rows))

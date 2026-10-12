@@ -5,8 +5,9 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from tools import mathlab_runtime as R
-from mathlab.index import build_index
+from apps.mathlab import mathlab_runtime as R
+from state import llmdb_records as L
+from apps.mathlab.index import build_index
 
 torch.set_num_threads(8)
 BAND = [4, 5, 6, 7, 8]
@@ -414,9 +415,9 @@ def run_notebook(step, params):
                             files={"calibration.json": {"path": str(output / "calibration.json"), "sha256": R.sha_file(output / "calibration.json")}},
                             index=index, gates=run.gates))
         if step == 2 and outcome == "FAIL":
-            from tools.mathlab_events import read_events
+            from apps.mathlab.mathlab_events import read_events
             failures = 0
-            for path in (R.ROOT / "results/mathlab_staging/runs").glob("*/events.jsonl"):
+            for path in L.lab_event_streams(R.ROOT):
                 if path.parent == run_dir: continue
                 events, errors = read_events(path)
                 R.require(not errors, "EVENTS", "; ".join(errors))

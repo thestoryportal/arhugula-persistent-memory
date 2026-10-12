@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 import uuid
 
-from tools import mathlab_runtime as R
+from apps.mathlab import mathlab_runtime as R
 
 
 def build_index(path, references):

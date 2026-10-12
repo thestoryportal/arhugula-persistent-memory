@@ -5,7 +5,8 @@ setopt NO_UNSET PIPE_FAIL EXTENDED_GLOB
 unsetopt BG_NICE
 zmodload zsh/datetime || exit 3
 ROOT=$PWD
-STAGING="$ROOT/results/mathlab_staging"
+# NEW-1 dispatch receipts and run namespaces share record new1's runs folder (code/state/llmdb_records.py NEW1_RUNS).
+STAGING="$ROOT/experiments/new1/runs"
 AUTH_LOCK=''
 SUPERVISOR_PID=''
 STOP_AT=0
@@ -181,15 +182,15 @@ print -r -- "{\"available_kib\":$available_kib,\"minimum_kib\":$floor_kib,\"proj
 
 save_check 2g /usr/bin/env "LLMDB_ROOT=$ROOT" /usr/bin/python3 code/memit/engine_fingerprint.py
 require_success 2g
-DRY_PROBE='import sys;sys.path.insert(0,".");from tools import mathlab_admit as A;d=A.probe("cpu");print(d["allowed"],d["reasons"],d["checks"]["gpu"].get("blocking_processes"));sys.exit(0 if d["allowed"] else 1)'
+DRY_PROBE='import sys;sys.path.insert(0,"code");from apps.mathlab import mathlab_admit as A;d=A.probe("cpu");print(d["allowed"],d["reasons"],d["checks"]["gpu"].get("blocking_processes"));sys.exit(0 if d["allowed"] else 1)'
 save_check 2h /usr/bin/env "LLMDB_ROOT=$ROOT" "$ROOT/.venv/bin/python" -B -c "$DRY_PROBE"
 require_success 2h
 file_text "$DISPATCH/2h.stdout"
 [[ $REPLY == 'True '* ]] || refuse 2h 'dry probe did not print allowed True'
 
-typeset -a namespaces_before=("$ROOT"/results/mathlab_staging/runs/new1_*(N/))
+typeset -a namespaces_before=("$STAGING"/new1_*~*/new1_dispatch_*(N/))
 json_array "${namespaces_before[@]}" > "$DISPATCH/namespaces_before.json"
-typeset -a invocation_argv=("$PWD/.venv/bin/python" -B "$PWD/tools/new1_supervisor.py" --prereg-sha 1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f)
+typeset -a invocation_argv=("$PWD/.venv/bin/python" -B "$PWD/code/lab/runners/new1_supervisor.py" --prereg-sha 1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f)
 typeset -a env_assignments=(PATH=/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin TMPDIR=/private/tmp "LLMDB_ROOT=$PWD" LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1)
 save_check 2i /usr/bin/shasum -a 256 -c "$HASHES"
 require_success 2i
@@ -218,7 +219,7 @@ unsetopt NO_CLOBBER
       TMPDIR=/private/tmp LLMDB_ROOT="$PWD" \
       LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= \
       OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 \
-      "$PWD/.venv/bin/python" -B "$PWD/tools/new1_supervisor.py" \
+      "$PWD/.venv/bin/python" -B "$PWD/code/lab/runners/new1_supervisor.py" \
       --prereg-sha 1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f
 ) > "$DISPATCH/supervisor_stdout.log" 2> "$DISPATCH/supervisor_stderr.log" < /dev/null &
 SUPERVISOR_PID=$!
@@ -275,7 +276,7 @@ wait "$SUPERVISOR_PID"
 supervisor_exit_rc=$?
 { print -rn -- "{\"exited\":true,\"status\":$supervisor_exit_rc,\"ended_at_utc\":"; json_string "$(utc)"; print -r -- '}'; } > "$DISPATCH/supervisor_exit.json"
 if [[ ! -f "$DISPATCH/worker.json" ]]; then print -r -- '{"status":"NONE_OBSERVED","description":"worker: none observed"}' > "$DISPATCH/worker.json"; fi
-typeset -a namespaces_after=("$ROOT"/results/mathlab_staging/runs/new1_*(N/)) new_namespaces=()
+typeset -a namespaces_after=("$STAGING"/new1_*~*/new1_dispatch_*(N/)) new_namespaces=()
 for namespace_path in "${namespaces_after[@]}"; do
     (( ${namespaces_before[(Ie)$namespace_path]} == 0 )) && new_namespaces+=("$namespace_path")
 done

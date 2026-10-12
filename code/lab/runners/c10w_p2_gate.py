@@ -13,27 +13,29 @@ import argparse, json, os, re, subprocess, sys, tempfile
 from datetime import datetime
 from pathlib import Path
 
-W = Path(__file__).resolve().parents[1]
+W = Path(__file__).resolve().parents[3]
 PY = W / ".venv/bin/python"
 
 # A process counts as possible GPU/compute work when its executable is a Python or a
 # local-model runtime. Each exemption below is an exact, verified model-free command
 # (no torch import); anything else - including an unknown Python - blocks the stage.
 COMPUTE_EXE = re.compile(r"(?i)^(python[0-9.]*|.*ollama.*|.*llama.*|.*mlx.*)$")
+# Other checkouts on this host may still run the pre-v2 layout (tools/, experiments/track_c/), and the gate sees
+# every process on the host, so each exemption below names both homes.
 EXEMPT = (
     # Lab View static server + its 60 s rebuild (stdlib / matplotlib, code/apps/labviz/labviz_serve.sh)
     r"^\S*\.venv/bin/python -B -m http\.server 8765 --bind 0\.0\.0\.0 --directory projects/labviz-spec-v3/receipts/bulk/labviz/site$",
     r"^\S*\.venv/bin/python -B code/apps/labviz/build\.py$",
     # context watcher (reads a transcript jsonl)
-    r"^\S*\.venv/bin/python -B \S*/tools/context_watch\.py \S+\.jsonl \d+ \d+$",
+    r"^\S*\.venv/bin/python -B \S*/(?:tools|code/agents)/context_watch\.py \S+\.jsonl \d+ \d+$",
     # model-free readers of this program (no torch import: checked 2026-10-07)
-    r"^\S*\.venv/bin/python -B \S*/experiments/track_c/c10(v_layerpick|w_oracle)_read\.py( .*)?$",
+    r"^\S*\.venv/bin/python -B \S*/(?:experiments|code/lab)/track_c/c10(v_layerpick|w_oracle)_read\.py( .*)?$",
     # operator desktop tooling on system Pythons
     r"^\S*/Python \S*/\.claude/powerline-config/server\.py$",
     r"^\S*/Python \S*/\.harness-dashboard/serve\.py$",
     # tmux dashboard tools run on the CLT Python 3.9, which has no torch (checked 2026-10-07)
-    r"^/Library/Developer/CommandLineTools/\S*/Python \S*/tools/dashboard_\w+\.py( .*)?$",
-    r"^/Library/Developer/CommandLineTools/(?:usr/bin/python3|Library/Frameworks/Python3\.framework/Versions/3\.9/Resources/Python\.app/Contents/MacOS/Python) (?:/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/)?tools/memit_intel_copy\.py (?:manifest|run)(?: .*)?$",
+    r"^/Library/Developer/CommandLineTools/\S*/Python \S*/(?:tools|code/apps/dashboard)/dashboard_\w+\.py( .*)?$",
+    r"^/Library/Developer/CommandLineTools/(?:usr/bin/python3|Library/Frameworks/Python3\.framework/Versions/3\.9/Resources/Python\.app/Contents/MacOS/Python) (?:/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/)?(?:tools|code/ops/intel)/memit_intel_copy\.py (?:manifest|run)(?: .*)?$",
     # uv-tool MCP servers / browser daemon
     r"^/Users/[^/ ]+/\.(local/share/uv/tools|cache/uv/archive-v0)/[^ ]+/bin/python \S*/(arxiv-mcp-server|blender-mcp|mcp-server-pixeltable-developer)$",
     r"^/Users/[^/ ]+/\.local/share/uv/tools/browser-harness/bin/python -m browser_harness\.daemon$",

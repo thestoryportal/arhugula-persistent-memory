@@ -22,10 +22,10 @@ if [[ $# != 2 || $1 != --utc || ! $2 =~ ^[0-9]{8}T[0-9]{6}(\.[0-9]{6})?Z$ ]]; th
     exit 3
 fi
 UTC=$2
-W=$(cd "$(dirname "$0")/.." && pwd -P)
-OUT="$W/results/c10y_precast_diag/$UTC"
+W=$(cd "$(dirname "$0")/../../.." && pwd -P)
+OUT="$W/experiments/c10y/runs/c10y_precast_diag/$UTC"
 PY="$W/.venv/bin/python"
-DRIVER="$W/experiments/track_c/c10y_precast_diag.py"
+DRIVER="$W/code/lab/track_c/c10y_precast_diag.py"
 export LLMDB_ROOT="$W" C10Y_PRECAST_SUPERVISOR=$$ PYTHONDONTWRITEBYTECODE=1
 CONTROL=$(mktemp -d /private/tmp/c10y_precast_deadline.XXXXXXXX)
 export PYTHONPYCACHEPREFIX="$CONTROL/unused-bytecode"

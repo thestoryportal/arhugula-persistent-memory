@@ -18,9 +18,9 @@ from unittest import mock
 
 
 def load_tools(test):
-    for name in ('tools.git_hygiene', 'tools.git_merge_gate'):
+    for name in ('ops.git.git_hygiene', 'ops.git.git_merge_gate'):
         test.assertIsNotNone(importlib.util.find_spec(name), 'missing implementation: ' + name)
-    return importlib.import_module('tools.git_hygiene'), importlib.import_module('tools.git_merge_gate')
+    return importlib.import_module('ops.git.git_hygiene'), importlib.import_module('ops.git.git_merge_gate')
 
 
 def evidence_command(command, evidence):
@@ -84,7 +84,7 @@ class Fixture:
         self.git('config', 'user.name', 'Fixture')
         self.git('config', 'user.email', 'fixture@example.invalid')
         (self.root / 'base.txt').write_text('base\n')
-        source = Path(__file__).resolve().parents[1]
+        source = Path(__file__).resolve().parents[2]
         for relative in ('code/memit/engine_fingerprint.py', 'code/memit/vendor/memit/memit_main.py'):
             target = self.root / relative
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -1259,7 +1259,7 @@ class Contracts(unittest.TestCase):
         self.assertEqual(result.stdout.strip(), '0')
 
     def test_invalid_cli_deadlines_and_ci_wait_refuse_as_json_without_dispatch(self):
-        root = Path(__file__).resolve().parents[1]
+        root = Path(__file__).resolve().parents[2]
         commands = []
         for tool in ('git_hygiene.py', 'git_merge_gate.py'):
             for value in ('0', '-1', 'nan', 'inf', '1201'):
@@ -1269,7 +1269,7 @@ class Contracts(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='git-invalid-cli-') as directory:
             for arguments, reason in commands:
                 with self.subTest(arguments=arguments):
-                    result = subprocess.run([sys.executable, '-B', str(root / 'tools' / arguments[0]), *arguments[1:]],
+                    result = subprocess.run([sys.executable, '-B', str(root / 'code/ops/git' / arguments[0]), *arguments[1:]],
                         cwd=directory, env=dict(os.environ, LLMDB_ROOT=directory), capture_output=True, text=True, timeout=10)
                     self.assertEqual(result.returncode, 1)
                     self.assertNotIn('Traceback', result.stderr)
@@ -1352,15 +1352,15 @@ class Contracts(unittest.TestCase):
         self.assertLessEqual(runner.run.call_count, 22)
 
     def test_no_forbidden_mutation_command_in_production(self):
-        root = Path(__file__).resolve().parents[1]
+        root = Path(__file__).resolve().parents[2]
         for name in ('git_hygiene.py', 'git_merge_gate.py'):
-            tree = ast.parse((root / 'tools' / name).read_text())
+            tree = ast.parse((root / 'code/ops/git' / name).read_text())
             for node in ast.walk(tree):
                 if isinstance(node, ast.Constant) and isinstance(node.value, str):
                     self.assertNotIn(node.value, ('--hard', '-D', '--force', '--force-with-lease', 'clean', 'rm'))
 
     def test_workflow_is_pinned_bounded_cpu_push_and_pr_only(self):
-        workflow = Path(__file__).resolve().parents[1] / '.github/workflows/ci.yml'
+        workflow = Path(__file__).resolve().parents[2] / '.github/workflows/ci.yml'
         self.assertTrue(workflow.is_file(), 'missing implementation: CI workflow')
         text = workflow.read_text()
         self.assertIn('push:', text)
@@ -1395,7 +1395,7 @@ class Contracts(unittest.TestCase):
 
 class DashboardTimestampPortability(unittest.TestCase):
     def setUp(self):
-        tools = str(Path(__file__).resolve().parents[1] / 'tools')
+        tools = str(Path(__file__).resolve().parents[2] / 'code/apps/dashboard')
         with mock.patch.object(sys, 'path', [tools, *sys.path]):
             self.X = importlib.import_module('dashboard_experiment')
         self.temp = tempfile.TemporaryDirectory(prefix='git-dashboard-timestamps-')
@@ -1409,7 +1409,7 @@ class DashboardTimestampPortability(unittest.TestCase):
         self.current.write_text('step 7 loss 0.5\nPortable timestamp progress marker\n')
         os.utime(self.finished, (2000000000, 2000000000))
         os.utime(self.current, (2000000010, 2000000010))
-        (self.logs / 'fixture_started.json').write_text(json.dumps({'plan': ['first', 'second', 'third']}))
+        (self.logs.parent / 'fixture_started.json').write_text(json.dumps({'plan': ['first', 'second', 'third']}))
 
     @staticmethod
     def plain(lines):

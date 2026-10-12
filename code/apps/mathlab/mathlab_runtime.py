@@ -13,7 +13,9 @@ import subprocess
 import time
 import uuid
 
-ROOT = Path(__file__).resolve().parents[1]
+from state import llmdb_records as L
+
+ROOT = Path(__file__).resolve().parents[3]
 PREREG_SHA = "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8"
 TIER = "MATH-PROXY"
 
@@ -68,7 +70,7 @@ def new_directory(parent, step, stamp=None):
 
 
 def emit(run_dir, event_type, **fields):
-    from tools.mathlab_events import emit as shared_emit
+    from apps.mathlab.mathlab_events import emit as shared_emit
     shared_emit(run_dir, event_type, **fields)
 
 
@@ -142,7 +144,7 @@ class Run:
         self.directory = Path(run_dir); self.step = step; self.sink = sink; self.sample = sample
         self.budget = Budget(deadline_s); self.gates = {}
         if attach:
-            from tools.mathlab_events import read_events
+            from apps.mathlab.mathlab_events import read_events
             events, errors = read_events(self.directory / "events.jsonl")
             require(not errors, "EVENTS", "; ".join(errors))
             starts = [e for e in events if e["type"] == "run_started"]
@@ -237,9 +239,9 @@ def stage_finding(root, run_dir, unit, summary, sink=emit):
 
 
 def prior_aborts(root, step, code=None):
-    from tools.mathlab_events import read_events
+    from apps.mathlab.mathlab_events import read_events
     count = 0
-    for path in (Path(root) / "results/mathlab_staging/runs").glob("*/events.jsonl"):
+    for path in L.lab_event_streams(root):
         rows, errors = read_events(path)
         require(not errors, "EVENTS", "cannot count prior aborts: " + "; ".join(errors))
         steps = [r["step"] for r in rows if r["type"] == "run_started"]
@@ -252,9 +254,9 @@ def prior_aborts(root, step, code=None):
 
 
 def enforce_stop_policy(root, step, exclude=None):
-    from tools.mathlab_events import read_events
+    from apps.mathlab.mathlab_events import read_events
     harvest_halts = {}; reproduction_failures = 0; resource_aborts = 0
-    for path in (Path(root) / "results/mathlab_staging/runs").glob("*/events.jsonl"):
+    for path in L.lab_event_streams(root):
         if exclude is not None and path.parent.resolve() == Path(exclude).resolve(): continue
         rows, errors = read_events(path)
         require(not errors, "EVENTS", "cannot check stop rules: " + "; ".join(errors))
@@ -282,7 +284,7 @@ def enforce_stop_policy(root, step, exclude=None):
 def stage_halt(root, run_dir, code, message, sink=emit, step=1, details=None):
     if step in (2, 3) and code == "HALT-BUDGET": code = "STOPPED-DEADLINE"
     root = Path(root); stamp = utc_tag()
-    diagnostic = root / "architecture_profile" / ("mathlab_harvest_halt_diagnostic_" + stamp + ".json"
+    diagnostic = L.halts_dir(run_dir) / ("mathlab_harvest_halt_diagnostic_" + stamp + ".json"
                    if step == 1 else f"mathlab_m{step}_halt_diagnostic_{stamp}.json")
     summary = code + ": " + message
     write_new(diagnostic, dict(tier=TIER, decision_id="D-ML-1", code=code, message=message,

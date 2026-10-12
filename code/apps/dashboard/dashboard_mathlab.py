@@ -3,9 +3,11 @@ import argparse, hashlib, json, os, re, sys, time
 from datetime import datetime
 from pathlib import Path
 import dashboard_live
-import mathlab_events
+# dashboard_live has put code/ on the path; the event contract lives with MathLab.
+from apps.mathlab import mathlab_events
+from state import llmdb_records as L
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 RESET, BOLD, DIM = "\033[0m", "\033[1m", "\033[2m"
 FG, BG = "\033[38;5;{}m".format, "\033[48;5;{}m".format
 ANSI = re.compile(r"\033\[[0-9;]*[A-Za-z]")
@@ -66,7 +68,7 @@ def prereg_header(root):
 
 
 def load(root):
-    paths = list((Path(root) / "results/mathlab_staging/runs").glob("*/events.jsonl"))
+    paths = L.lab_event_streams(root)
     if not paths:
         return mathlab_events.fold([]), [], None, 0
     path = max(paths, key=lambda p: (p.stat().st_mtime_ns, str(p)))

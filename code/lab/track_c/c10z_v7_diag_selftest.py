@@ -24,7 +24,7 @@ from unittest.mock import patch
 import numpy as np
 import torch
 torch.set_num_threads(1)
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools"))
 import c10z_astra_arms as D
 

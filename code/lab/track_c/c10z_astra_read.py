@@ -63,7 +63,7 @@ def sha(value):
 
 
 def load_reference_population(root=None):
-    root=Path(root) if root is not None else Path(__file__).resolve().parents[2]
+    root=Path(root) if root is not None else Path(__file__).resolve().parents[3]
     try:raw=(root/REFERENCE_POPULATION_FILE).read_bytes()
     except OSError as exc:raise Halt("HALTED-V12","reference population artifact unreadable: "+str(exc)) from exc
     require(hashlib.sha256(raw).hexdigest()==REFERENCE_POPULATION_SHA,
@@ -86,7 +86,7 @@ def validate_reference_dataset(data,root=None,texts=False):
 
 
 def require_a1_freeze(root=None):
-    root=Path(root) if root is not None else Path(__file__).resolve().parents[2]
+    root=Path(root) if root is not None else Path(__file__).resolve().parents[3]
     try:raw=(root/"experiments/c10z/design/C10Z_ASTRA_PREREG.md").read_bytes()
     except OSError as exc:raise Halt("HALTED-V12","A1 prereg unreadable") from exc
     require(hashlib.sha256(raw).hexdigest()==PREREG_SHA,"HALTED-V12","A1 prereg SHA differs")

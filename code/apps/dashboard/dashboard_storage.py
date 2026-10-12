@@ -17,7 +17,7 @@ import time
 sys.dont_write_bytecode = True
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dashboard_live as live
-import backup_gdrive_status as backup_status
+from ops.backup import backup_gdrive_status as backup_status  # dashboard_live has put code/ on the path
 
 MAIN_ROOT = Path("/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory")
 MIRROR_ROOT = MAIN_ROOT.parent

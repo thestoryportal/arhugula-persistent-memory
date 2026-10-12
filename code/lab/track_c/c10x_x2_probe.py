@@ -15,7 +15,7 @@ import types
 import c10x_enginepath_arms as A
 import c10x_enginepath_inertness as I
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 
 
 def load_templates(path, expected_sha):

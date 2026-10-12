@@ -7,7 +7,7 @@ _ARM_STATE handle and the Z_OVERRIDE seam) and re-evaluates everything while bot
 Env: LLMDB_ROOT, LAW3_REF. Run identity is forced.
 """
 import os, sys, io, json, time, contextlib
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 # [LAW:parse-dont-validate] the frozen run identity: inherited harness knobs are rejected, not defaulted (implementation review item 1)
 for _k in ("MODEL_ID", "MODEL_REV", "C10_PROJECTOR", "N_EDIT", "C10_SUBJECT_OFFSET", "C10_CTX_TEMPLATES", "C10_KEY_LOCUS", "RUN_LABEL"):

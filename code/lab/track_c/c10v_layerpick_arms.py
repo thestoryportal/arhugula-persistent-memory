@@ -575,7 +575,7 @@ def main(argv=None):
     root, STAGE = args.root.resolve(), args.stage
     out = (args.out_dir or root / "experiments/c10v/runs/c10v_layerpick").resolve()
     try:
-        R.require(root == Path(__file__).resolve().parents[2], "WORKTREE_ROOT")
+        R.require(root == Path(__file__).resolve().parents[3], "WORKTREE_ROOT")
         out.relative_to(root / "experiments/c10v/runs/c10v_layerpick")
         names = (["step0.json", "run.json"] if STAGE == "step0" else
                  [STAGE + ".json", STAGE + "_started.json", STAGE + "_complete.json",

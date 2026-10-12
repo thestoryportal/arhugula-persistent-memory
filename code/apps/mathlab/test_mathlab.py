@@ -17,15 +17,15 @@ import numpy as np
 import torch
 
 torch.set_num_threads(8)
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "code"))
 A1, A2, A7 = "A1_single", "A2_coherent2", "A7_coined_coined"
 MINT = ["mint1_s0", "mint1_s1", "mint1_s2"]
 BAND = [4, 5, 6, 7, 8]
 
 
 def module(case, name):
-    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+    case.assertTrue((ROOT / "code" / (name.replace(".", "/") + ".py")).is_file(),   # modules import from code/ (v2)
                     "missing implementation: " + name)
     return importlib.import_module(name)
 
@@ -89,7 +89,7 @@ class AdmissionTests(unittest.TestCase):
                                                       sha256=hashlib.sha256(path.read_bytes()).hexdigest()))
 
     def decide(self, kind="cpu", gpu=None, admission=None, memory=20.):
-        A = module(self, "tools.mathlab_admit")
+        A = module(self, "apps.mathlab.mathlab_admit")
         return A.decide(kind, admission=self.record if admission is None else admission,
                         fingerprint=self.fp, gpu=self.clear if gpu is None else gpu,
                         available_gib=memory, root=ROOT)
@@ -98,15 +98,15 @@ class AdmissionTests(unittest.TestCase):
         self.assertTrue(self.decide()["allowed"])
 
     def test_standalone_admission_receipts_leave_all_experiment_steps_unstarted(self):
-        A = module(self, "tools.mathlab_admit")
-        from tools.mathlab_events import read_events, fold
+        A = module(self, "apps.mathlab.mathlab_admit")
+        from apps.mathlab.mathlab_events import read_events, fold
         for kind in ("cpu", "harvest"):
             with self.subTest(kind=kind):
                 root = self.root / ("standalone_" + kind)
                 with patch.object(A, "W", root), patch.object(A, "probe", return_value=self.decide(kind)), \
                      patch.object(sys, "argv", ["admit", "--kind", kind]), patch("builtins.print"):
                     self.assertEqual(A.main(), 0)
-                runs = list((root / "results/mathlab_staging/runs").iterdir())
+                runs = list((root / "experiments/ml/runs").iterdir())
                 self.assertEqual(len(runs), 1)
                 rows, errors = read_events(runs[0] / "events.jsonl")
                 self.assertEqual(errors, [])
@@ -118,9 +118,9 @@ class AdmissionTests(unittest.TestCase):
                 self.assertEqual(state["steps"], {step: "not started" for step in range(1, 5)})
 
     def test_launcher_owned_admission_attaches_and_requires_experiment_closeout(self):
-        A = module(self, "tools.mathlab_admit")
-        from tools import mathlab_runtime as R
-        from tools.mathlab_events import read_events, fold
+        A = module(self, "apps.mathlab.mathlab_admit")
+        from apps.mathlab import mathlab_runtime as R
+        from apps.mathlab.mathlab_events import read_events, fold
         for kind, step, cap in (("harvest", 1, 3600), ("cpu", 2, 6540)):
             with self.subTest(kind=kind):
                 run_dir = self.root / ("launcher_" + kind)
@@ -146,8 +146,8 @@ class AdmissionTests(unittest.TestCase):
                 self.assertEqual(fold(rows)["steps"], {i: "PASS" if i == step else "not started" for i in range(1, 5)})
 
     def test_attachment_rejects_explicit_admission_and_accepts_experiment_or_legacy(self):
-        R = module(self, "tools.mathlab_runtime")
-        from tools.mathlab_events import emit
+        R = module(self, "apps.mathlab.mathlab_runtime")
+        from apps.mathlab.mathlab_events import emit
         for purpose in ("admission", "experiment", None):
             with self.subTest(purpose=purpose):
                 run_dir = self.root / (purpose or "legacy")
@@ -164,8 +164,8 @@ class AdmissionTests(unittest.TestCase):
                 self.assertEqual((run_dir / "events.jsonl").read_bytes(), before)
 
     def test_dispatch_rechecks_lead_identity_and_current_inventory_before_import(self):
-        A = module(self, "tools.mathlab_admit")
-        from tools import mathlab_runtime as R
+        A = module(self, "apps.mathlab.mathlab_admit")
+        from apps.mathlab import mathlab_runtime as R
         lead = self.root / "lead.json"; lead.write_text(json.dumps(self.record))
         run_dir = self.root / "run"
         R.Run(run_dir, 1, "Fixture", 3600, sample=lambda: 20.)
@@ -186,8 +186,8 @@ class AdmissionTests(unittest.TestCase):
                 A.dispatch_check(run_dir, "harvest", lead)
 
     def test_saved_admission_cannot_be_replayed_by_another_process_or_after_finish(self):
-        A = module(self, "tools.mathlab_admit")
-        from tools import mathlab_runtime as R
+        A = module(self, "apps.mathlab.mathlab_admit")
+        from apps.mathlab import mathlab_runtime as R
         run_dir = self.root / "run"
         run = R.Run(run_dir, 2, "Fixture", 6540, sample=lambda: 20.)
         proof = dict(self.decide(), launcher_pid=os.getpid() + 1, lead_source=None)
@@ -258,10 +258,10 @@ class ObserverTests(unittest.TestCase):
         self.H, self.hp, self.requests, self.P, self.scope = harness()
 
     def observer(self):
-        return module(self, "tools.mathlab_harvest").EditObserver(self.H)
+        return module(self, "apps.mathlab.mathlab_harvest").EditObserver(self.H)
 
     def test_native_return_norms_persist_for_same_write_with_producer(self):
-        H = module(self, "tools.mathlab_harvest"); R = module(self, "tools.mathlab_runtime")
+        H = module(self, "apps.mathlab.mathlab_harvest"); R = module(self, "apps.mathlab.mathlab_runtime")
         source = ast.parse((ROOT / "code/apps/mathlab/mathlab_harvest.py").read_text())
         harvest = next(n for n in source.body if isinstance(n, ast.FunctionDef) and n.name == "harvest")
         callback = next(n for n in ast.walk(harvest) if isinstance(n, ast.FunctionDef) and n.name == "completed")
@@ -300,7 +300,7 @@ class ObserverTests(unittest.TestCase):
             self.assertEqual(persisted["files"][f"inloop_{MINT[0]}.pt"]["native_norm_producer"]["cpu_threads"], 8)
 
     def test_invalid_native_return_fails_arm_without_losing_operands(self):
-        H = module(self, "tools.mathlab_harvest"); R = module(self, "tools.mathlab_runtime")
+        H = module(self, "apps.mathlab.mathlab_harvest"); R = module(self, "apps.mathlab.mathlab_runtime")
         for adjustment in ('delta_norms["4"].pop("delta_norm")',
                            'delta_norms["4"]["delta_norm"] = float("nan")',
                            'delta_norms["4"]["delta_norm"] = float("inf")'):
@@ -376,8 +376,8 @@ class ObserverTests(unittest.TestCase):
         self.assertIsNone(sys.getprofile())
 
     def assert_failed_capture_persists(self, layers, cache_count, error_type, zero_capture=False):
-        H = module(self, "tools.mathlab_harvest"); R = module(self, "tools.mathlab_runtime")
-        from tools.mathlab_events import read_events
+        H = module(self, "apps.mathlab.mathlab_harvest"); R = module(self, "apps.mathlab.mathlab_runtime")
+        from apps.mathlab.mathlab_events import read_events
         self.hp.layers = layers
         expected = {}; completed = []; returned = {}; observed = {}
         original = self.H.my_edit
@@ -494,7 +494,7 @@ class ObserverTests(unittest.TestCase):
                 self.assert_failed_capture_persists(BAND[:4], 5, ValueError)
 
     def test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink(self):
-        H = module(self, "tools.mathlab_harvest"); completed = []; failed = []
+        H = module(self, "apps.mathlab.mathlab_harvest"); completed = []; failed = []
         O = H.EditObserver(self.H, completed.append, failed.append)
         with O.bound(), patch.dict(self.H.get_context_templates.__globals__, CONTEXT_TEMPLATES_CACHE=[["{}"]]):
             self.H.my_edit(self.hp, self.requests, self.P, [torch.zeros(3, 3) for _ in BAND])
@@ -504,7 +504,7 @@ class ObserverTests(unittest.TestCase):
         self.assertEqual({k.split(".")[0] for k in completed[0]["tensors"]}, {f"l{l}" for l in BAND})
 
     def test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported(self):
-        H = module(self, "tools.mathlab_harvest"); R = module(self, "tools.mathlab_runtime")
+        H = module(self, "apps.mathlab.mathlab_harvest"); R = module(self, "apps.mathlab.mathlab_runtime")
         with tempfile.TemporaryDirectory() as td, patch.object(R, "utc_tag", return_value="collision"):
             def write():
                 return dict(captures=[dict(i=0, layer=4)], capture_tensors=[{"zs": torch.ones(2, dtype=torch.float16)}],
@@ -540,7 +540,7 @@ class ObserverTests(unittest.TestCase):
             self.H.my_edit(self.hp, self.requests, self.P, [torch.eye(3) for _ in BAND])
 
     def test_same_dtype_cpu_copy_offset_noncontiguous_and_source_unchanged(self):
-        H = module(self, "tools.mathlab_harvest")
+        H = module(self, "apps.mathlab.mathlab_harvest")
         x = torch.arange(96, dtype=torch.float16).reshape(4, 6, 4); source = x.clone()
         for view in (x[1:], x[0, -1], *x.chunk(3, 1), x.transpose(0, 2)):
             got = H.cpu_copy(view)
@@ -550,7 +550,7 @@ class ObserverTests(unittest.TestCase):
             self.assertTrue(torch.equal(x, source))
 
     def test_context_pin_restores_after_body_error_and_detects_drift(self):
-        H = module(self, "tools.mathlab_harvest"); ctx = [["{}"], ["prefix. {}"]]
+        H = module(self, "apps.mathlab.mathlab_harvest"); ctx = [["{}"], ["prefix. {}"]]
         namespace = self.H.get_context_templates.__globals__; namespace["CONTEXT_TEMPLATES_CACHE"] = None
         digest = hashlib.sha256(json.dumps(ctx, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         with self.assertRaisesRegex(RuntimeError, "body"):
@@ -563,7 +563,7 @@ class ObserverTests(unittest.TestCase):
         self.assertIsNone(namespace["CONTEXT_TEMPLATES_CACHE"])
 
     def test_parity_trials_restore_and_start_with_distinct_zero_caches(self):
-        H = module(self, "tools.mathlab_harvest"); starts = []; caches = []
+        H = module(self, "apps.mathlab.mathlab_harvest"); starts = []; caches = []
         def edit(hp, requests, P, cache):
             starts.append([v.clone() for v in self.H.parameters.values()]); caches.append(cache)
             for v in self.H.parameters.values(): v.add_(1)
@@ -583,7 +583,7 @@ class ObserverTests(unittest.TestCase):
 
 class ReplayTests(unittest.TestCase):
     def test_source_snapshot_covers_engine_primitives_and_detects_changes(self):
-        H = module(self, "tools.mathlab_harvest")
+        H = module(self, "apps.mathlab.mathlab_harvest")
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td)
             names = [*H.AUDIT_SOURCES, "experiments/ml/design/MATHLAB_PREREG.md", "code/configs/hparams/qwen25_3b_memit_hparams.json",
@@ -599,8 +599,8 @@ class ReplayTests(unittest.TestCase):
             self.assertNotEqual(before,H.source_snapshot(root))
             self.assertNotIn("c10e_bandknob",sys.modules)
     def test_missing_seed_target_or_step0_is_seed_specific_source_failure(self):
-        H = module(self, "tools.mathlab_harvest")
-        R = module(self, "tools.mathlab_runtime")
+        H = module(self, "apps.mathlab.mathlab_harvest")
+        R = module(self, "apps.mathlab.mathlab_runtime")
         for missing in ("zs/F_r0_mint1_s1.pt", "step0/F_r0_mint1_s1.json", "F_r0_mint1_s1.json",
                         "zs/F_r0_mint1_s0.pt", "step0/F_r0_mint1_s0.json"):
             with self.subTest(missing=missing), tempfile.TemporaryDirectory(dir="/private/tmp") as td:
@@ -625,7 +625,7 @@ class ReplayTests(unittest.TestCase):
                 self.assertEqual(identity["context_source"]["json_pointer"], "/ctx")
                 self.assertEqual(identity["context_source"]["sha256"], R.sha_file(identity["context_source"]["path"]))
     def test_missing_authoritative_s0_context_refuses_shared_input(self):
-        H = module(self, "tools.mathlab_harvest")
+        H = module(self, "apps.mathlab.mathlab_harvest")
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td); base = root / H.BASE
             base.mkdir(parents=True)
@@ -636,7 +636,7 @@ class ReplayTests(unittest.TestCase):
     def test_pinned_tokenizer_identity_ignores_transient_batch_settings_without_mutation(self):
         from tokenizers import Tokenizer
         from tokenizers.models import WordLevel
-        H = module(self, "tools.mathlab_harvest")
+        H = module(self, "apps.mathlab.mathlab_harvest")
         live = Tokenizer(WordLevel({"[UNK]": 0, "subject": 1}, unk_token="[UNK]"))
         base = Tokenizer.from_str(live.to_str())
         live.enable_padding(pad_id=0, pad_token="[UNK]"); live.enable_truncation(16)
@@ -649,14 +649,14 @@ class ReplayTests(unittest.TestCase):
         self.assertNotEqual(H.tokenizer_identity(types.SimpleNamespace(backend_tokenizer=altered)),
                             H.tokenizer_identity(types.SimpleNamespace(backend_tokenizer=base)))
     def test_shared_failure_invalidates_all_and_per_arm_failure_only_one(self):
-        H = module(self, "tools.mathlab_harvest")
+        H = module(self, "apps.mathlab.mathlab_harvest")
         self.assertEqual(H.replay_admission(False, {a: True for a in MINT})["admitted"], [])
         got = H.replay_admission(True, dict(zip(MINT, [True, False, True])))
         self.assertEqual(got["admitted"], [MINT[0], MINT[2]])
         self.assertEqual(got["arms"][MINT[1]], "INVALID-REPLAY")
 
     def test_p2_enumerated_fields_accept_wordlist_metadata_but_not_count_or_rows(self):
-        H = module(self, "tools.mathlab_harvest")
+        H = module(self, "apps.mathlab.mathlab_harvest")
         p2 = dict(ok=True, checks={"inventory_unchanged": True}, changed=[], inventory_n=2376,
                   plain_n=396, rows=[dict(target_ids=[151665], expected_ids=[151665],
                                         contexts=[dict(prefix_ids=True, whole_ids=True, last_id=True)], checks={"ok": True})])
@@ -669,7 +669,7 @@ class ReplayTests(unittest.TestCase):
         self.assertFalse(H.p2_equivalent(bad, saved))
 
     def test_law3_counts_and_stage_order(self):
-        H = module(self, "tools.mathlab_harvest")
+        H = module(self, "apps.mathlab.mathlab_harvest")
         arms = {A1: dict(para_full_n=68, para_n=72), A2: dict(para_full_n=68, para_n=72),
                 A7: dict(para_full_n=5, para_first_n=42, canon_full_n=5, para_n=72, canon_n=24)}
         self.assertTrue(H.baseline_gates(arms)["passed"])
@@ -684,7 +684,7 @@ class ReplayTests(unittest.TestCase):
         self.assertEqual(H.fresh_before_mint(lambda: {"passed": True}, lambda: "mint"), "mint")
 
     def test_frozen_record_and_target_hashes_are_bound(self):
-        H = module(self, "tools.mathlab_harvest")
+        H = module(self, "apps.mathlab.mathlab_harvest")
         records, provenance = H.frozen_records(ROOT)
         self.assertEqual(provenance["ctx_sha256"], "8638d12c6d5844168e1577a459103fa309bcf995fc1225df7e716de11a87cdc9")
         self.assertEqual([records[a]["arm"]["para_full_binding_n"] for a in MINT], [46, 37, 40])
@@ -693,7 +693,7 @@ class ReplayTests(unittest.TestCase):
 
 class NativeNormContractTests(unittest.TestCase):
     def test_native_agreement_ignores_large_fp64_reduction_discrepancy(self):
-        H = module(self, "tools.mathlab_harvest")
+        H = module(self, "apps.mathlab.mathlab_harvest")
         tensor = torch.ones(1 << 18, dtype=torch.float32, device="cpu"); tensor[:4] = 4096
         native = float(tensor.norm()); diagnostic = torch.linalg.vector_norm(tensor.double())
         self.assertGreater(abs(float(diagnostic) - native) / native, 1e-3,
@@ -711,7 +711,7 @@ class NativeNormContractTests(unittest.TestCase):
         self.assertTrue(agreement["layers"]["4"]["passed"])
 
     def test_missing_nonfinite_native_or_historical_scalars_fail_closed(self):
-        H = module(self, "tools.mathlab_harvest")
+        H = module(self, "apps.mathlab.mathlab_harvest")
         for side in ("native", "historical"):
             for bad in (None, float("nan"), float("inf"), float("-inf")):
                 with self.subTest(side=side, bad=bad):
@@ -733,7 +733,7 @@ class NativeNormContractTests(unittest.TestCase):
             self.assertFalse(H.norm_agreement({}, historical)["passed"])
 
     def test_historical_arithmetic_preserves_binary64_scalars(self):
-        H = module(self, "tools.mathlab_harvest")
+        H = module(self, "apps.mathlab.mathlab_harvest")
         native = 1. + 2. ** -40
         tensors = {f"l{l}.{key}": torch.tensor(value, dtype=torch.float64) for l in BAND
                    for key, value in (("n_native", native), ("upd_norm", 1.))}
@@ -743,8 +743,8 @@ class NativeNormContractTests(unittest.TestCase):
         self.assertEqual(result["layers"]["4"]["relative_error"], 2. ** -40)
 
     def test_gate2a_keeps_fp64_reference_for_non_A7_arms(self):
-        C = module(self, "mathlab.core"); R = module(self, "tools.mathlab_runtime")
-        from mathlab.fixtures import make_harvest
+        C = module(self, "apps.mathlab.core"); R = module(self, "apps.mathlab.mathlab_runtime")
+        from apps.mathlab.fixtures import make_harvest
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td); harvest = make_harvest(root)
             manifest = R.read_json(harvest / "manifest.json")
@@ -765,7 +765,7 @@ class NativeNormContractTests(unittest.TestCase):
 
 class MathTests(unittest.TestCase):
     def core(self):
-        return module(self, "mathlab.core")
+        return module(self, "apps.mathlab.core")
 
     def test_fp32_projector_and_solve_are_exact_and_fp64_diagnostic_only(self):
         C = self.core(); cov = torch.diag(torch.tensor([0., .001, 1.]))
@@ -857,14 +857,14 @@ class MathTests(unittest.TestCase):
 
 class ResourceArtifactTests(unittest.TestCase):
     def test_admission_probe_error_emits_failed_gate_and_staged_closeout(self):
-        A = module(self, "tools.mathlab_admit")
-        from tools.mathlab_events import read_events, fold
+        A = module(self, "apps.mathlab.mathlab_admit")
+        from apps.mathlab.mathlab_events import read_events, fold
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td)
             with patch.object(A, "W", root), patch.object(A, "probe", side_effect=PermissionError("fixture ps refusal")), \
                  patch.object(sys, "argv", ["admit", "--kind", "cpu"]), patch("builtins.print"):
                 self.assertEqual(A.main(), 3)
-            runs = list((root / "results/mathlab_staging/runs").iterdir())
+            runs = list((root / "experiments/ml/runs").iterdir())
             self.assertEqual(len(runs), 1)
             rows, errors = read_events(runs[0] / "events.jsonl")
             self.assertEqual(errors, [])
@@ -876,12 +876,12 @@ class ResourceArtifactTests(unittest.TestCase):
             self.assertTrue(gates[0]["plain_words"])
             self.assertTrue({"finding_staged", "run_finished"} <= {r["type"] for r in rows})
     def test_internal_cpu_budget_abort_counts_toward_operator_resource_rule(self):
-        R = module(self, "tools.mathlab_runtime")
-        from tools.mathlab_events import read_events
+        R = module(self, "apps.mathlab.mathlab_runtime")
+        from apps.mathlab.mathlab_events import read_events
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td)
             for i in range(3):
-                run = R.Run(root / "results/mathlab_staging/runs" / f"m2_{i}", 2, "Fixture", 6540, sample=lambda: 20.)
+                run = R.Run(root / "experiments/ml/runs" / f"m2_{i}", 2, "Fixture", 6540, sample=lambda: 20.)
                 R.stage_halt(root, run.directory, "HALT-BUDGET", "internal CPU timeout", step=2)
                 rows, errors = read_events(run.directory / "events.jsonl")
                 self.assertEqual(errors, [])
@@ -890,20 +890,20 @@ class ResourceArtifactTests(unittest.TestCase):
                 R.enforce_stop_policy(root, 2)
 
     def test_calibration_fail_remains_stop_when_index_later_aborts(self):
-        R = module(self, "tools.mathlab_runtime")
+        R = module(self, "apps.mathlab.mathlab_runtime")
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td)
-            run = R.Run(root / "results/mathlab_staging/runs/m3", 3, "Fixture", 1800, sample=lambda: 20.)
+            run = R.Run(root / "experiments/ml/runs/m3", 3, "Fixture", 1800, sample=lambda: 20.)
             run.gate("calibration", "Frozen calibration", "FAIL", "PASS", False)
             R.stage_halt(root, run.directory, "CPU-ERROR", "index failure", step=3)
             with self.assertRaisesRegex(ValueError, "LAB-STOP"):
                 R.enforce_stop_policy(root, 1)
 
     def test_cpu_runner_stages_pre_spawn_admission_refusal(self):
-        C = module(self, "tools.mathlab_cpu_runner")
-        from tools import mathlab_admit as A
-        from tools import mathlab_runtime as R
-        from tools.mathlab_events import read_events
+        C = module(self, "apps.mathlab.mathlab_cpu_runner")
+        from apps.mathlab import mathlab_admit as A
+        from apps.mathlab import mathlab_runtime as R
+        from apps.mathlab.mathlab_events import read_events
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td); run_dir = root / "run"
             R.Run(run_dir, 2, "Fixture", 6540, sample=lambda: 20.)
@@ -918,10 +918,10 @@ class ResourceArtifactTests(unittest.TestCase):
             self.assertTrue({"halted", "finding_staged", "run_finished"} <= {r["type"] for r in rows})
 
     def test_cpu_runner_stages_prereg_refusal_before_dispatch(self):
-        C = module(self, "tools.mathlab_cpu_runner")
-        from tools import mathlab_admit as A
-        from tools import mathlab_runtime as R
-        from tools.mathlab_events import read_events
+        C = module(self, "apps.mathlab.mathlab_cpu_runner")
+        from apps.mathlab import mathlab_admit as A
+        from apps.mathlab import mathlab_runtime as R
+        from apps.mathlab.mathlab_events import read_events
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td); run_dir = root / "run"
             R.Run(run_dir, 2, "Fixture", 6540, sample=lambda: 20.)
@@ -936,10 +936,10 @@ class ResourceArtifactTests(unittest.TestCase):
             self.assertTrue({"gate_result", "halted", "finding_staged", "run_finished"} <= {r["type"] for r in rows})
 
     def test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero(self):
-        C = module(self, "tools.mathlab_cpu_runner")
-        from tools import mathlab_admit as A
-        from tools import mathlab_runtime as R
-        from tools.mathlab_events import read_events
+        C = module(self, "apps.mathlab.mathlab_cpu_runner")
+        from apps.mathlab import mathlab_admit as A
+        from apps.mathlab import mathlab_runtime as R
+        from apps.mathlab.mathlab_events import read_events
         for completion, expected in ((None,3),("INVALID",3),("FAIL",3),("PASS",0)):
             with self.subTest(completion=completion), tempfile.TemporaryDirectory(dir="/private/tmp") as td:
                 root=Path(td); run_dir=root/"run"
@@ -956,7 +956,7 @@ class ResourceArtifactTests(unittest.TestCase):
                 self.assertEqual(rows[-1]["type"],"run_finished")
     def test_exception_discards_failed_stage_and_restores_only_enclosing_alarm(self):
         import signal
-        R = module(self, "tools.mathlab_runtime")
+        R = module(self, "apps.mathlab.mathlab_runtime")
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             run = R.Run(Path(td), 2, "Fixture", 10, sample=lambda: 20.)
             with self.assertRaisesRegex(RuntimeError, "fixture"):
@@ -973,11 +973,11 @@ class ResourceArtifactTests(unittest.TestCase):
             self.assertEqual(signal.getitimer(signal.ITIMER_REAL)[0], 0)
 
     def test_stop_policy_blocks_third_same_gate_harvest_repeated_2a_and_calibration_fail(self):
-        R = module(self, "tools.mathlab_runtime")
+        R = module(self, "apps.mathlab.mathlab_runtime")
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td)
             def failed(name, step, gate=None, code=None, outcome="INVALID"):
-                run = R.Run(root / "results/mathlab_staging/runs" / name, step, "Fixture", 3600, sample=lambda: 20.)
+                run = R.Run(root / "experiments/ml/runs" / name, step, "Fixture", 3600, sample=lambda: 20.)
                 if gate: run.gate(gate, "Fixture gate", False, True, False)
                 if code: run.event("halted", reason=code + ": fixture", diagnostic_path="fixture.json")
                 run.event("run_finished", outcome=outcome, summary="Fixture")
@@ -994,26 +994,26 @@ class ResourceArtifactTests(unittest.TestCase):
                     R.enforce_stop_policy(root, step)
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td)
-            run = R.Run(root / "results/mathlab_staging/runs/m3", 3, "Fixture", 1800, sample=lambda: 20.)
+            run = R.Run(root / "experiments/ml/runs/m3", 3, "Fixture", 1800, sample=lambda: 20.)
             run.event("run_finished", outcome="FAIL", summary="Frozen calibration failed")
             for step in (1, 2, 3):
                 with self.assertRaisesRegex(ValueError, "LAB-STOP"):
                     R.enforce_stop_policy(root, step)
     def test_vm_stat_uses_free_inactive_speculative_16384_pages(self):
-        R = module(self, "tools.mathlab_runtime")
+        R = module(self, "apps.mathlab.mathlab_runtime")
         text = 'Pages free: 100.\nPages inactive: 200.\nPages speculative: 300.\nPages purgeable: 999.\n'
         self.assertEqual(R.vm_available_gib(text), 600 * 16384 / 2 ** 30)
         with self.assertRaises(ValueError): R.vm_available_gib('permission denied')
 
     def test_pre_cell_reserve_wait_is_bounded_and_abort_is_staged(self):
-        R = module(self, "tools.mathlab_runtime"); times = iter([0, 10, 300])
+        R = module(self, "apps.mathlab.mathlab_runtime"); times = iter([0, 10, 300])
         with self.assertRaisesRegex(ValueError, "STOPPED-RESOURCE"):
             R.wait_for_memory(4., sample=lambda: 11., sleep=lambda s: None, clock=lambda: next(times))
         self.assertEqual(R.wait_for_memory(2., sample=lambda: 10.), 10.)
 
     def test_real_shared_events_integrate_and_non_gating_scope_does_not_stop(self):
-        R = module(self, "tools.mathlab_runtime")
-        from tools.mathlab_events import read_events, fold
+        R = module(self, "apps.mathlab.mathlab_runtime")
+        from apps.mathlab.mathlab_events import read_events, fold
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             run = R.Run(Path(td) / "events", 2, "Fixture self-test", 6540, sample=lambda: 20.)
             run.event("admission", allowed=True, reasons=[])
@@ -1028,7 +1028,7 @@ class ResourceArtifactTests(unittest.TestCase):
             self.assertTrue({"stage_started", "progress", "gate_result", "resource_sample", "stage_finished"} <= {r["type"] for r in rows})
 
     def test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor(self):
-        C = module(self, "tools.mathlab_cpu_runner")
+        C = module(self, "apps.mathlab.mathlab_cpu_runner")
         try:
             step = C.validate_notebook(ROOT / "code/apps/mathlab/m2_solve_repro.py", 6540)
         except ValueError as error:
@@ -1046,14 +1046,14 @@ class ResourceArtifactTests(unittest.TestCase):
         self.assertEqual(result, "STOPPED-RESOURCE"); self.assertTrue(killed.called)
 
     def test_prereg_amendment_pin_accepts_only_exact_frozen_bytes(self):
-        R = module(self, "tools.mathlab_runtime")
+        R = module(self, "apps.mathlab.mathlab_runtime")
         self.assertEqual(R.PREREG_SHA, "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8")
         R.verify_prereg(ROOT)
         with patch.object(R, "PREREG_SHA", "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507"):
             with self.assertRaisesRegex(ValueError, "PREREG"):
                 R.verify_prereg(ROOT)
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
-            root = Path(td); (root / "docs").mkdir()
+            root = Path(td); (root / "experiments/ml/design").mkdir(parents=True)
             prereg = root / "experiments/ml/design/MATHLAB_PREREG.md"
             prereg.write_bytes((ROOT / "experiments/ml/design/MATHLAB_PREREG.md").read_bytes())
             R.verify_prereg(root)
@@ -1063,7 +1063,7 @@ class ResourceArtifactTests(unittest.TestCase):
 
     def test_watchdog_reuses_cpu_samplers_and_handles_already_exited_parent(self):
         import psutil
-        C = module(self, "tools.mathlab_cpu_runner")
+        C = module(self, "apps.mathlab.mathlab_cpu_runner")
         class Process:
             pid = 9001
             def __init__(self): self.calls = 0
@@ -1088,7 +1088,7 @@ class ResourceArtifactTests(unittest.TestCase):
         self.assertTrue(launcher.exists())
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td); (root / ".venv/bin").mkdir(parents=True); (root / "bin").mkdir()
-            (root / "tools").mkdir(); (root / "results/mathlab_staging/runs").mkdir(parents=True)
+            (root / "code/apps/mathlab").mkdir(parents=True); (root / "experiments/ml/runs").mkdir(parents=True)
             script = root / "code/apps/mathlab/run_mathlab_harvest.sh"; script.write_bytes(launcher.read_bytes())
             git = root / "bin/git"; git.write_text('#!/bin/sh\nprintenv MATHLAB_TEST_ROOT\n'); git.chmod(0o755)
             python = root / ".venv/bin/python"
@@ -1101,7 +1101,7 @@ class ResourceArtifactTests(unittest.TestCase):
         import subprocess
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td); (root / ".venv/bin").mkdir(parents=True); (root / "bin").mkdir()
-            (root / "tools").mkdir()
+            (root / "code/apps/mathlab").mkdir(parents=True)
             script = root / "code/apps/mathlab/run_mathlab_cpu.sh"
             script.write_bytes((ROOT / "code/apps/mathlab/run_mathlab_cpu.sh").read_bytes())
             git = root / "bin/git"; git.write_text('#!/bin/sh\nprintenv MATHLAB_TEST_ROOT\n'); git.chmod(0o755)
@@ -1123,7 +1123,7 @@ class ResourceArtifactTests(unittest.TestCase):
                     self.assertEqual((root / "admitted").exists(), allowed)
 
     def test_budget_projection_and_stage_cap(self):
-        R = module(self, "tools.mathlab_runtime"); now = [0.]
+        R = module(self, "apps.mathlab.mathlab_runtime"); now = [0.]
         B = R.Budget(3600, clock=lambda: now[0]); now[0] = 3500.
         with self.assertRaisesRegex(ValueError, "HALT-BUDGET"):
             B.begin("clean", 300)
@@ -1131,8 +1131,8 @@ class ResourceArtifactTests(unittest.TestCase):
 
     def test_nested_stage_restores_outer_deadline_and_run_attach_keeps_one_start(self):
         import signal
-        R = module(self, "tools.mathlab_runtime")
-        from tools.mathlab_events import read_events
+        R = module(self, "apps.mathlab.mathlab_runtime")
+        from apps.mathlab.mathlab_events import read_events
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             run = R.Run(Path(td) / "run", 1, "Fixture", 10, sample=lambda: 20.)
             attached = R.Run(run.directory, 1, "Fixture", 10, sample=lambda: 20., attach=True)
@@ -1144,7 +1144,7 @@ class ResourceArtifactTests(unittest.TestCase):
             self.assertEqual(errors, []); self.assertEqual(sum(r["type"] == "run_started" for r in rows), 1)
 
     def test_new_outputs_flat_cpu_and_sha_shape_dtype_manifest(self):
-        R = module(self, "tools.mathlab_runtime")
+        R = module(self, "apps.mathlab.mathlab_runtime")
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             out = R.new_directory(Path(td), "harvest", "fixed")
             with self.assertRaises(FileExistsError): R.new_directory(Path(td), "harvest", "fixed")
@@ -1156,11 +1156,11 @@ class ResourceArtifactTests(unittest.TestCase):
                 R.save_tensors(out / "bad.pt", {"nested": {"k": torch.ones(1)}})
 
     def test_halt_stages_immediately_preserves_harvest_and_emits_diagnostic(self):
-        R = module(self, "tools.mathlab_runtime"); sink = Sink()
+        R = module(self, "apps.mathlab.mathlab_runtime"); sink = Sink()
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
-            root = Path(td); out = root / "results/mathlab/harvest_x"; out.mkdir(parents=True)
+            root = Path(td); out = root / "experiments/ml/runs/harvest_x"; out.mkdir(parents=True)
             (out / "kept.pt").write_bytes(b"keep")
-            result = R.stage_halt(root, root / "results/mathlab_staging/runs/test", "CAPTURE", "bad order", sink=sink)
+            result = R.stage_halt(root, root / "experiments/ml/runs/test", "CAPTURE", "bad order", sink=sink)
             self.assertTrue(Path(result["diagnostic_path"]).is_file()); self.assertTrue(Path(result["finding_path"]).is_file())
             self.assertEqual((out / "kept.pt").read_bytes(), b"keep")
             self.assertEqual([x["type"] for x in sink.rows], ["gate_result", "halted", "finding_staged", "run_finished"])
@@ -1169,9 +1169,9 @@ class ResourceArtifactTests(unittest.TestCase):
 
 class NotebookContractTests(unittest.TestCase):
     def test_full_shape_measurements_set_svd_and_solve_cell_reserves(self):
-        C = module(self, "mathlab.core")
-        from mathlab.fixtures import make_harvest
-        from tools import mathlab_runtime as R
+        C = module(self, "apps.mathlab.core")
+        from apps.mathlab.fixtures import make_harvest
+        from apps.mathlab import mathlab_runtime as R
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td); harvest = make_harvest(root); last = [None]
             run = R.Run(root / "run", 2, "Fixture", 6540, sample=lambda: 24.)
@@ -1191,10 +1191,10 @@ class NotebookContractTests(unittest.TestCase):
             self.assertEqual(C.SOLVE_RESERVE_GIB, 9)
 
     def test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b(self):
-        C = module(self, "mathlab.core")
-        from mathlab.fixtures import make_harvest
-        from tools import mathlab_runtime as R
-        from tools.mathlab_events import read_events
+        C = module(self, "apps.mathlab.core")
+        from apps.mathlab.fixtures import make_harvest
+        from apps.mathlab import mathlab_runtime as R
+        from apps.mathlab.mathlab_events import read_events
         # Isolate the deadline contract from the separately tested prereg repin.
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td, \
              patch.object(R,"PREREG_SHA","85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8"):
@@ -1220,10 +1220,10 @@ class NotebookContractTests(unittest.TestCase):
             stages=[r for r in rows if r["type"]=="stage_started"]
             self.assertEqual([(r["stage"],r["cap_s"]) for r in stages],[("reproduction",6540)])
     def test_fixture_reproduction_then_calibration_uses_fresh_column_and_real_events(self):
-        C = module(self, "mathlab.core")
-        from mathlab.fixtures import make_harvest
-        from tools import mathlab_runtime as R
-        from tools.mathlab_events import read_events
+        C = module(self, "apps.mathlab.core")
+        from apps.mathlab.fixtures import make_harvest
+        from apps.mathlab import mathlab_runtime as R
+        from apps.mathlab.mathlab_events import read_events
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             parent = Path(td); harvest = make_harvest(parent)
             out2 = R.new_directory(parent, "m2"); run2 = R.Run(parent / "run2", 2, "Fixture", 6540, sample=lambda: 20.)
@@ -1243,9 +1243,9 @@ class NotebookContractTests(unittest.TestCase):
             self.assertEqual(errors, []); self.assertTrue(any(r.get("gate_id") == "calibration" and r["passed"] for r in rows))
 
     def test_invalid_tiers_are_checked_before_any_proxy_is_scored(self):
-        C = module(self, "mathlab.core")
-        from mathlab.fixtures import make_harvest
-        from tools import mathlab_runtime as R
+        C = module(self, "apps.mathlab.core")
+        from apps.mathlab.fixtures import make_harvest
+        from apps.mathlab import mathlab_runtime as R
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             parent = Path(td); harvest = make_harvest(parent)
             out2 = R.new_directory(parent, "m2"); run2 = R.Run(parent / "run2", 2, "Fixture", 6540, sample=lambda: 20.)

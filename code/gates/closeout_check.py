@@ -23,7 +23,7 @@ Usage:
 import sys, os, glob, filecmp, json, hashlib, re
 
 # code/gates/closeout_check.py -> the repo root is three levels up; env overrides.
-ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 REQUIRED = [
     ("program/runbook/",            "living roadmap (also §0.3/§12/§13 — section checks below)"),

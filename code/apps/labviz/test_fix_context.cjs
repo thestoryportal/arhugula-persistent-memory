@@ -5,7 +5,7 @@ const { readFileSync } = require('node:fs');
 const { resolve } = require('node:path');
 const { test } = require('node:test');
 
-const ROOT = resolve(__dirname, '../..');
+const ROOT = resolve(__dirname, '../../..');
 const SITE = resolve(ROOT, 'projects/labviz-spec-v3/receipts/bulk/labviz/site');
 const readJSON = file => JSON.parse(readFileSync(file, 'utf8'));
 const context = readJSON(resolve(SITE, 'context.json'));

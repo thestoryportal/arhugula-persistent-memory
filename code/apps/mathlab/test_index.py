@@ -5,7 +5,7 @@ import tempfile
 import unittest
 
 import duckdb
-from mathlab.index import build_index
+from apps.mathlab.index import build_index
 
 
 class IndexTests(unittest.TestCase):

@@ -2,16 +2,22 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from glob import escape as glob_escape
 import hashlib
 import json
 import math
 from pathlib import Path
 import re
 
+from state import llmdb_records as L
+
 PACKAGE = Path(__file__).resolve().parent
 CONFIG = 'data/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json'
 REVISION = '3aab1f1954e9cc14eb9509a215f9e5ca08227a9b'
 HPARAMS = 'code/configs/hparams/qwen25_3b_memit_hparams.json'
+# Run records key source hashes by the path a file had when they ran; records made before v2 used these paths.
+PRE_V2_KEYS = {HPARAMS: 'configs/hparams/qwen25_3b_memit_hparams.json',
+               'code/lab/track_c/c10e_bandknob.py': 'experiments/track_c/c10e_bandknob.py'}
 POPULATION = 'projects/labviz-spec-v3/receipts/bulk/labviz/site/cards/scales.json'
 STRUCTURAL = set('schema card_id evidence_status built sources family field recipe arm index layer node_id edge matched_by population structural unit name plain comparison judgement hit_kind colour_class colour_table reader_rules'.split())
 
@@ -69,6 +75,32 @@ def missing(reason='not recorded for this run', tier='NOW-not-recorded'):
     return dict(value=None, missing=reason, tier=tier)
 
 
+# What results/ held before v2 now lives in run folders, experiments/<id>/runs/<slug>/; a path inside the runs folder
+# reads as the old results/ path did (results/c10w_oracle/x is now experiments/c10w/runs/c10w_oracle/x).
+RUN_FOLDER = re.compile(r'experiments/[^/]+/runs/(.+)$')
+
+
+def run_files(root):
+    """Every path inside a run folder, the v2 home of what results/ held."""
+    return sorted(Path(root).glob('experiments/*/runs/**/*'))
+
+
+def run_path(source):
+    """A source's path inside its runs folder ('<slug>/...'), or None when it is not in a run folder."""
+    match = RUN_FOLDER.match(str(source))
+    return match[1] if match else None
+
+
+def is_c10(source):
+    return (run_path(source) or '').startswith('c10')
+
+
+def recorded_result(root, path):
+    """The current file for a results/<path> that a sealed record names, or None when no single run folder holds it."""
+    found = sorted(Path(root).glob('experiments/*/runs/' + glob_escape(path)))
+    return str(found[0].relative_to(root)) if len(found) == 1 else None
+
+
 def leaf(value, file, path):
     src=dict(file=file, path=path)
     if mathlab_source(file): src['reader']='mathlab_events.read_events'
@@ -77,13 +109,13 @@ def leaf(value, file, path):
 
 def mathlab_source(file):
     parts=Path(file).parts
-    return (len(parts)==5 and parts[:3]==('results','mathlab_staging','runs') and
+    return (len(parts)==5 and '/'.join(parts[:3]) in L.LAB_RUNS and
             parts[3] not in ('.','..') and parts[4]=='events.jsonl' and str(Path(file))==file)
 
 
 def source_data(root, file):
     if mathlab_source(file):
-        from tools import mathlab_events
+        from apps.mathlab import mathlab_events
         path=Path(root)/file
         events,errors=mathlab_events.read_events(path)
         return {'events':events,'errors':[e.replace(str(path)+':',file+':',1) for e in errors]}
@@ -118,7 +150,7 @@ def recompute(rule, values):
     if rule == 'all-le': return all(x<=y for x,y in zip(values[0],values[1])) and len(values[0])==len(values[1])
     if rule == 'minted-value': return [values[0],values[1]]
     if rule == 'mathlab-fold':
-        from tools import mathlab_events
+        from apps.mathlab import mathlab_events
         return json.loads(encoded(mathlab_events.fold(values[0])))
     if rule == 'replica-note': return f'replica of {values[0]}_s{values[1] if values[1] is not None else "none"}; the configuration\'s label is on the replicate-0 card'
     if rule == 'context-candidates':
@@ -133,7 +165,9 @@ def recompute(rule, values):
 
 def recorded(source, data=None):
     parts=Path(source).parts
-    return not (set(parts)&{'replays','sandbox','telemetry','labviz','mathlab_staging','mathlab'} or
+    # halts/ holds a run's halt diagnostics (architecture_profile/ before v2), which were never results.
+    return not (set(parts)&{'replays','sandbox','telemetry','labviz','mathlab_staging','mathlab','halts'} or
+                '/'.join(parts[:3]) in L.LAB_RUNS or
                 isinstance(data,dict) and str(data.get('evidence_status','')).startswith(('NOT EVIDENCE','EXPLORATORY')))
 
 
@@ -177,9 +211,9 @@ def labels_from_spec(root):
 
 def recorded_labels(root):
     labels=set()
-    for path in sorted((Path(root)/'results').rglob('*.json')):
+    for path in run_files(root):
         source=str(path.relative_to(root))
-        if path.is_symlink() or not recorded(source) or any(x in source for x in ('infranodus_','tokenizer','c10z_')): continue
+        if path.suffix!='.json' or path.is_symlink() or not recorded(source) or any(x in source for x in ('infranodus_','tokenizer','c10z_')): continue
         data=json.loads(path.read_text())
         for parts,value in walk(data):
             if parts[-1] in ('label','final_label','base_label','count_label','direction') and isinstance(value,str): labels.add(value)
@@ -227,9 +261,15 @@ def transcription_valid(table, root):
     return True
 
 
+def recorded_hash(data, path):
+    """The hash a run record wrote for a source file, under the file's current path or its pre-v2 one."""
+    hashes=data.get('identity',{}).get('source_sha256',{})
+    return hashes.get(path, hashes.get(PRE_V2_KEYS.get(path)))
+
+
 def transcribed_stimulus(data, root):
     table=json.loads((PACKAGE/'stimulus.json').read_text()); t=table['c10_harness']
-    bound=data.get('identity',{}).get('source_sha256',{}).get(t['source_file'])
+    bound=recorded_hash(data,t['source_file'])
     if bound!=t['sha256'] or not transcription_valid(table,root):
         return {'canonical':missing('not transcribed for this code version'),'questions':missing('question text for this run\'s code version not transcribed')}
     entries=[leaf(e['text'],'code/apps/labviz/stimulus.json',f'.c10_harness.entries[{i}].text') for i,e in enumerate(t['entries'])]
@@ -238,7 +278,7 @@ def transcribed_stimulus(data, root):
 
 
 def bound_parts(data, root):
-    root=Path(root); hp_hash=data.get('identity',{}).get('source_sha256',{}).get(HPARAMS)
+    root=Path(root); hp_hash=recorded_hash(data,HPARAMS)
     parts={'written_module':missing("hparams for this run's code version not read"),'structure':{'layers':missing('model structure for this revision not read')}}
     if (root/HPARAMS).is_file() and hp_hash==sha(root/HPARAMS):
         hp=json.loads((root/HPARAMS).read_text()); parts['written_module']=leaf(hp['rewrite_module_tmp'],HPARAMS,'.rewrite_module_tmp')
@@ -417,7 +457,7 @@ def validate_links(root):
 
 class Reader:
     def __init__(self, root):
-        from tools.labviz.context import load_program
+        from apps.labviz.context import load_program
         self.root=Path(root); self.program=load_program(self.root); self.cards=[]; self.files={}; self.hashes={}; self.events_cache={}; self.write_sources=set()
         self.tables={name:json.loads((PACKAGE/(name+'.json')).read_text()) for name in ('labels','gates','links','stimulus')}
         self.scales={}; self.runs=[]; self.survey={}; self.snapshots={}
@@ -449,11 +489,11 @@ class Reader:
         return leaf(resolve(self.tables[name],path),'code/apps/labviz/'+name+'.json',path)
 
     def collect(self):
-        from tools.labviz import build as legacy
+        from apps.labviz import build as legacy
         operands=[]
-        for p in sorted((self.root/'results').rglob('*.json')):
+        for p in run_files(self.root):
             source=str(p.relative_to(self.root))
-            if p.is_symlink() or not recorded(source) or any(x in source for x in ('tokenizer','vocab','c10z_','infranodus_','research_pass','research_arc','openresearch_','autoresearch_reaim')): continue
+            if p.suffix!='.json' or p.is_symlink() or not recorded(source) or any(x in source for x in ('tokenizer','vocab','c10z_','infranodus_','research_pass','research_arc','openresearch_','autoresearch_reaim')): continue
             data=self.read(source)
             if not recorded(source,data): continue
             found=legacy.parse_record(data,source,self.root)
@@ -490,7 +530,7 @@ class Reader:
         return path_of(parts)
 
     def role(self,source,recipe,arm,data):
-        if not source.startswith('results/c10'): return missing('roles apply to C10 configurations only')
+        if not is_c10(source): return missing('roles apply to C10 configurations only')
         rows=self.tables['gates']['role_table']; row=None
         if arm.startswith(('A1_','A2_')): row=0
         elif arm=='A7_shuf': row=1
@@ -501,7 +541,7 @@ class Reader:
             row=6 if recipe=='closedform' else 7 if recipe.startswith('oracle_') and arm=='A7_coined_coined' else None
         elif 'c10u_mint2/' in source and data.get('kind'):
             row=8 if data['kind']=='multi' else 9
-        elif re.search(r'results/c10(?:[b-j]_?|[k-q][_/])',source):
+        elif re.match(r'c10(?:[b-j]_?|[k-q][_/])',run_path(source)):
             row=10 if recipe in ('baseline','baseline_controls','A') else 11 if arm=='A7_coined_coined' else None
         return self.table('gates',f'.role_table[{row}].role') if row is not None and row<len(rows) else missing("role not in Lab View's table")
 
@@ -514,7 +554,7 @@ class Reader:
         arm=next((tokens[i+1] for i,k in enumerate(tokens[:-1]) if k in ('arms','delta_norms','detail')),data.get('arm') if isinstance(data.get('arm'),str) else '')
         if field=='arm' and source.startswith('experiments/c10u/runs/c10u_mint2/'): arm='A7_coined_coined'
         c={'schema':'labviz.run_card/v1','card_id':run['id'],'evidence_status':'RECORDED','built':{'builder_sha256':sha(PACKAGE/'build.py')},
-           'identity':{'name':source,'family':source.split('/')[1].split('.')[0],'field':field,'recipe':recipe,'arm':arm,
+           'identity':{'name':source,'family':run_path(source).split('/')[0].split('.')[0],'field':field,'recipe':recipe,'arm':arm,
                        'role':self.role(source,recipe,arm,data),'seed':self.jl(source,'.seed'),'replicate':self.jl(source,'.replicate'),
                        'decision_id':self.jl(source,'.decision_id'),'model':missing('model not recorded'),'model_revision':missing('model revision not recorded'),'date':missing('date not recorded')},
            'context':self.program.context(source,data),'headline':{},'label':missing('not judged yet','not-judged-yet'),'gates':[],'per_fact':[],'per_layer':[],
@@ -597,7 +637,7 @@ class Reader:
                     c['identity']['reading_bound_to_record']=self.jl(interim,'.p1_eval.sha256')
                     c['interim_label']=self.jl(interim,'.oracle_p1_A7_configuration.label')
         elif role=='binding': c['label']=self.jl(source,'.verdict.label')
-        elif not source.startswith('results/c10'): c['label']=self.jl(source,'.label','no label recorded; see the context source')
+        elif not is_c10(source): c['label']=self.jl(source,'.label','no label recorded; see the context source')
         c['label']['colour_class']=label_class(c['label']['value']); c['label']['colour_table']='code/apps/labviz/labels.json'
         if 'interim_label' in c: c['interim_label'].update(colour_class=label_class(c['interim_label']['value']),colour_table='code/apps/labviz/labels.json')
 
@@ -630,8 +670,8 @@ class Reader:
                 if i<len(proxy) and proxy[i].get('subj')==subject: fact['proxy']=self.jl(source,f'{p}.extra.proxy.rows[{i}]')
             step0=data.get('step0_directory')
             if source.startswith('experiments/c10w/runs/c10w_oracle/') and isinstance(step0,str):
-                file='results/'+step0.split('/results/',1)[-1]+'/step0.json'
-                if (self.root/file).is_file(): fact['answer_split']=self.jl(file,path_of(('head_modifier_splits',row.get('subj'))))
+                file=recorded_result(self.root,step0.split('/results/',1)[-1]+'/step0.json')
+                if file: fact['answer_split']=self.jl(file,path_of(('head_modifier_splits',row.get('subj'))))
             generated=node.get('extra',{}).get('generated')
             if isinstance(generated,list):
                 entries=generated[3*i:3*i+3]
@@ -664,7 +704,7 @@ class Reader:
             c['per_layer'].append(item)
         if any(x['written']['value'] for x in c['per_layer']):
             c['scale']={'unit':'absolute write size (Frobenius norm of ΔW)','max':{'value':self.scales['absolute_write_size']['max'],'derived':'population maximum','population':{'file':POPULATION,'path':'.absolute_write_size.operands'},'rule_src':{'spec':'§5 item 4'}}}
-        if source.startswith('results/c10'):
+        if is_c10(source):
             c['parts']['untouched_basis']=self.table('gates','.untouched_basis.oracle' if 'c10w_oracle/' in source else '.untouched_basis.memit')
         if source.startswith('experiments/c10w/runs/c10w_oracle/'):
             normalized={'model':{'id':c['identity']['model']['value'],'revision':c['identity']['model_revision']['value']}}
@@ -685,8 +725,8 @@ class Reader:
             c['stimulus']={'canonical':missing('canonical question not transcribed'),'questions':derived('context-candidates',entries)}
             step0=data.get('step0_directory')
             if isinstance(step0,str):
-                rel=step0.split('/results/',1)[-1]; file='results/'+rel+'/seal_audit.json'
-                if (self.root/file).is_file():
+                file=recorded_result(self.root,step0.split('/results/',1)[-1]+'/seal_audit.json')
+                if file:
                     for i,e in enumerate(self.read(file)['rows']):
                         if e.get('id')=='T01': c['stimulus']['canonical']=self.jl(file,f'.rows[{i}].template')
                     c['stimulus']['training_phrasings']=self.jl(file,'.rows')
@@ -755,7 +795,7 @@ class Reader:
         if family in self.events_cache: return self.events_cache[family]
         events=[]
         for source,data in self.files.copy().items():
-            if not source.startswith('results/'+family): continue
+            if not (run_path(source) or '').startswith(family): continue
             stamp=next((key for key in ('at','when_utc') if isinstance(data,dict) and isinstance(data.get(key),str)),None)
             if stamp: events.append({'name':data.get('stage','record timestamp'),'index':0,'source':leaf(source,source,'.__source__'),'at':self.jl(source,'.'+stamp),'detail':self.jl(source,'.status')})
             if isinstance(data,dict) and isinstance(data.get('losses'),list) and '/train/' in source:
@@ -773,7 +813,7 @@ class Reader:
         self.events_cache[family]={'timestamped':timed,'untimed':untimed}; return self.events_cache[family]
 
     def documentaries(self):
-        from tools.labviz.build import digest
+        from apps.labviz.build import digest
         cards=[]
         for row in self.program.registry:
             source='program/registers/EXPERIMENT_REGISTRY.md'; line=row['line']; quote=(self.root/source).read_text().splitlines()[line-1]
@@ -790,7 +830,7 @@ class Reader:
                           'identity':{'name':source,'family':'documentary','field':'verdict','recipe':'','arm':'','model':missing('model not recorded'),'date':missing('date not recorded')},
                           'context':{'experiment':missing('no registry row names this record'),'corpus':{**doc(title,source,1,lines[0]),'node_id':'corpus:'+path.name[:2]},'question':doc(title,source,1,lines[0]),'era':missing('era not recorded'),'measure':missing('context not recorded')},
                           'headline':{},'label':missing('no label recorded'),'plain_words':{'question':doc(title,source,1,lines[0]),'result':doc(verdict[1],source,*verdict) if verdict else missing('verdict header not recorded')}})
-        from tools.labviz.build import CATALOG
+        from apps.labviz.build import CATALOG
         for name,info in CATALOG.items():
             if info['status']!='tested earlier': continue
             source=info['note_source']; path=self.root/source
@@ -807,11 +847,11 @@ class Reader:
         return cards
 
     def log_cards(self):
-        from tools.labviz.build import parse_log, digest
+        from apps.labviz.build import parse_log, digest
         cards=[]
-        for path in sorted((self.root/'results').rglob('*.log')):
+        for path in run_files(self.root):
             source=str(path.relative_to(self.root))
-            if path.is_symlink() or not recorded(source) or 'c10z_' in source: continue
+            if path.suffix!='.log' or path.is_symlink() or not recorded(source) or 'c10z_' in source: continue
             lines=path.read_text(errors='replace').splitlines(); parsed=parse_log('\n'.join(lines),source)
             observations=[(run['id'],run['field'],int(run['field'].split()[1])) for run in parsed['observations']]
             if parsed['losses']:
@@ -819,15 +859,15 @@ class Reader:
                 observations.append(('run-'+digest([source,'training loss'])[:16],'training loss',line))
             for identifier,field,line in observations:
                 cards.append({'schema':'labviz.run_card/v1','card_id':identifier,'evidence_status':'RECORDED','built':{'builder_sha256':sha(PACKAGE/'build.py')},
-                              'identity':{'name':source,'family':Path(source).parts[1],'field':field,'recipe':'','arm':'','model':missing('model not recorded in this observation'),'date':missing('time not recorded')},
+                              'identity':{'name':source,'family':Path(run_path(source)).parts[0],'field':field,'recipe':'','arm':'','model':missing('model not recorded in this observation'),'date':missing('time not recorded')},
                               'context':self.program.context(source,{}),'headline':{},'label':missing('no joined reader label'),'per_fact':[],'per_layer':[],
                               'measures':doc(lines[line-1],source,line,lines[line-1]),'plain_words':{'result':doc(lines[line-1],source,line,lines[line-1])},
                               'events':{'timestamped':[],'untimed':[{'name':'log observation','field':source,'index':line,'at':missing('time not recorded'),'detail':doc(lines[line-1],source,line,lines[line-1])}]}})
         return cards
 
     def mathlab_cards(self):
-        from tools.labviz.build import digest
-        paths=sorted((self.root/'results/mathlab_staging/runs').glob('*/events.jsonl'))
+        from apps.labviz.build import digest
+        paths=L.lab_event_streams(self.root)
         if not paths: return []
         spec='projects/labviz-spec-v3/drafts/LABVIZ_V2_SPEC.md'; lines=(self.root/spec).read_text().splitlines()
         heading=next((i+1,line) for i,line in enumerate(lines) if line.startswith('## Forward requirement — math lab'))

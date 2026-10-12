@@ -185,7 +185,7 @@ class Boundaries(unittest.TestCase):
             elif isinstance(n, ast.ImportFrom):
                 names.append(n.module)
         self.assertFalse(any('c10e' in n or 'scorer' in n or 'prepare' in n for n in names if n))
-        engine = SRC.parents[2] / 'code/memit/vendor'
+        engine = SRC.parents[3] / 'code/memit/vendor'
         for f in engine.rglob('*.py'):
             text = f.read_text()
             self.assertNotIn('PTEST', text, str(f))
@@ -251,7 +251,7 @@ class Boundaries(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             (root / 'sealed/archive').mkdir(parents=True)
-            harness = SRC.parents[2] / 'code/lab/track_c/c10e_bandknob.py'
+            harness = SRC.parents[3] / 'code/lab/track_c/c10e_bandknob.py'
             c = {'fence': str(root), 'sandbox': '/fixture', 'capture': '/capture',
                  'editor_tmp': '/edit_tmp', 'scorer_tmp': '/score_tmp', 'scorer_results': '/private',
                  'harness': str(harness), 'harness_sha256': C.digest(harness)}
@@ -277,7 +277,7 @@ class Boundaries(unittest.TestCase):
             root = Path(d)
             archive = root / 'sealed/archive/run'
             archive.mkdir(parents=True)
-            harness = SRC.parents[2] / 'code/lab/track_c/c10e_bandknob.py'
+            harness = SRC.parents[3] / 'code/lab/track_c/c10e_bandknob.py'
             c = {'fence': str(root), 'sandbox': '/fixture', 'capture': '/capture',
                  'editor_tmp': '/edit_tmp', 'scorer_tmp': '/score_tmp', 'scorer_results': '/private',
                  'harness': str(harness), 'harness_sha256': C.digest(harness)}

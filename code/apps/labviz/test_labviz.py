@@ -12,8 +12,8 @@ import hashlib
 import subprocess
 from html.parser import HTMLParser
 
-ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT))
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "code"))
 TEST_PROOF = Path(tempfile.mkdtemp(prefix='labviz-cpu-proof-'))
 
 
@@ -44,7 +44,7 @@ class Page(HTMLParser):
 class LabViewTests(unittest.TestCase):
     def builder(self):
         self.assertTrue((ROOT / 'code/apps/labviz/build.py').exists(), 'builder not implemented')
-        return importlib.import_module('tools.labviz.build')
+        return importlib.import_module('apps.labviz.build')
 
     def test_builder_is_present(self):
         self.builder()
@@ -52,14 +52,14 @@ class LabViewTests(unittest.TestCase):
     def test_whole_history_older_arm_fact_and_depth_records(self):
         b = self.builder()
         examples = {
-            'c2band_compare_result.json': ('arms_raw.base', 'arms_raw.band812'),
-            'c2b_depth_map_result.json': ('numeric_key_table',),
-            'r1_select_readback.json': ('detail.LANDED', 'detail.DROPPED'),
-            'r9_deletion_residue.json': ('secrets',),
-            'd1_concentration_sweep_result.json': ('CONCENTRATED.trajectory', 'DILUTED.trajectory'),
+            'experiments/c2band/runs/c2band_compare/c2band_compare_result.json': ('arms_raw.base', 'arms_raw.band812'),
+            'experiments/c2b/runs/c2b_depth_map/c2b_depth_map_result.json': ('numeric_key_table',),
+            'experiments/r1/runs/r1_select_readback/r1_select_readback.json': ('detail.LANDED', 'detail.DROPPED'),
+            'experiments/r9/runs/r9_deletion_residue/r9_deletion_residue.json': ('secrets',),
+            'experiments/d1/runs/d1_concentration_sweep/d1_concentration_sweep_result.json': ('CONCENTRATED.trajectory', 'DILUTED.trajectory'),
         }
-        for name, fields in examples.items():
-            source = 'results/' + name
+        for source, fields in examples.items():
+            name = Path(source).name
             runs = b.parse_record(json.loads((ROOT / source).read_text()), source, ROOT)
             self.assertTrue(runs, name)
             for field in fields:
@@ -196,7 +196,7 @@ class LabViewTests(unittest.TestCase):
     def test_every_results_folder_and_corpus_header_is_surveyed(self):
         b = self.builder()
         inventory = b.collect(ROOT)
-        expected = {str(p.relative_to(ROOT)) for p in (ROOT / 'results').iterdir()
+        expected = {str(p.relative_to(ROOT)) for p in ROOT.glob('experiments/*/runs/*')
                     if p.is_dir() and p.name != 'labviz'}
         self.assertTrue(expected <= set(inventory['survey']))
         self.assertEqual(len(inventory['scoreboard']['results']), len(inventory['history']))
@@ -214,12 +214,13 @@ class LabViewTests(unittest.TestCase):
     def test_runs_use_recorded_time_within_the_same_day(self):
         b = self.builder()
         with tempfile.TemporaryDirectory() as tmp:
-            root=Path(tmp); (root/'docs').mkdir(); (root/'results').mkdir(); (root/'evidence/CORPUS').mkdir()
+            root=Path(tmp); run=root/'experiments/x/runs/fixture'; run.mkdir(parents=True)
+            (root/'program/registers').mkdir(parents=True); (root/'evidence/CORPUS').mkdir(parents=True)
             (root/'program/registers/c10_scoreboard.json').write_text(json.dumps({'results': [], 'brief': 'Test'}))
             for name,hour in [('z-old.json','01'),('a-new.json','20')]:
-                (root/'results'/name).write_text(json.dumps({'when_utc': f'2026-10-07T{hour}:00:00+00:00',
+                (run/name).write_text(json.dumps({'when_utc': f'2026-10-07T{hour}:00:00+00:00',
                     'arm': {'para_full_n': 1, 'para_n': 72}}))
-            self.assertEqual(b.collect(root)['runs'][0]['source'],'results/a-new.json')
+            self.assertEqual(b.collect(root)['runs'][0]['source'],'experiments/x/runs/fixture/a-new.json')
 
     def test_phone_css_contract(self):
         b = self.builder()
@@ -237,13 +238,13 @@ class LabViewTests(unittest.TestCase):
         b = self.builder()
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            (root / 'docs').mkdir(); (root / 'results/old').mkdir(parents=True)
-            (root / 'evidence/CORPUS').mkdir()
+            (root / 'program/registers').mkdir(parents=True); (root / 'experiments/old/runs/old').mkdir(parents=True)
+            (root / 'evidence/CORPUS').mkdir(parents=True)
             board = {'brief': 'Test', 'goal': 61, 'out_of': 72,
                      'results': [{'date': '2026-06-25', 'name': 'Old', 'best': 1,
                                   'score': '1 of 72', 'kind': 'write', 'verdict': 'Partial', 'ref': 'evidence/CORPUS/06'}], 'queue': []}
             (root / 'program/registers/c10_scoreboard.json').write_text(json.dumps(board))
-            source = root / 'results/old/run.json'
+            source = root / 'experiments/old/runs/old/run.json'
             source.write_text(json.dumps({'model': 'Qwen/Qwen2.5-3B', 'arm': {'para_full_n': 1, 'para_n': 72}}))
             (root / 'evidence/CORPUS/06_TEST.md').write_text('# Test\n_Date 2026-06-25._\n## VERDICT — PARTIAL\n')
             (root / 'program/registers/c10_evaluations.json').write_text(json.dumps(b.seed_evaluations(json.loads((root / 'program/registers/c10_scoreboard.json').read_text()))))
@@ -290,10 +291,10 @@ class LabViewTests(unittest.TestCase):
 
     def test_saved_picture_text_does_not_clip_at_right_edge(self):
         b = self.builder()
-        from tools.labviz.render import image
+        from apps.labviz.render import image
         import matplotlib.image as mpimg
         with tempfile.TemporaryDirectory() as tmp:
-            r = b.parse_record({'arm': {'para_full_n': 1, 'para_n': 72}}, 'results/c10u/test.json')[0]
+            r = b.parse_record({'arm': {'para_full_n': 1, 'para_n': 72}}, 'experiments/c10u/runs/c10u/test.json')[0]
             r['title'] = 'Give a name one or two new vocabulary words · one new word · block F · replicate 0 · seed 2'
             out = Path(tmp) / 'run'; image(r,out)
             pixels = mpimg.imread(out.with_suffix('.png'))
@@ -301,10 +302,10 @@ class LabViewTests(unittest.TestCase):
 
     def test_saved_picture_title_and_score_do_not_overlap(self):
         b = self.builder()
-        from tools.labviz.render import image
+        from apps.labviz.render import image
         import xml.etree.ElementTree as ET
         with tempfile.TemporaryDirectory() as tmp:
-            r = b.parse_record({'arm': {'para_full_n': 1, 'para_n': 72}}, 'results/c10u/test.json')[0]
+            r = b.parse_record({'arm': {'para_full_n': 1, 'para_n': 72}}, 'experiments/c10u/runs/c10u/test.json')[0]
             r['title'] = 'Give a name one or two new vocabulary words · one new word · block F · replicate 0 · seed 2'
             out = Path(tmp) / 'run'; image(r, out)
             headings = []
@@ -325,7 +326,7 @@ class LabViewV2Tests(unittest.TestCase):
 
     def api(self):
         self.assertTrue((ROOT/'code/apps/labviz/cards.py').is_file(), 'v2 typed recorded reader is not implemented')
-        return importlib.import_module('tools.labviz.cards')
+        return importlib.import_module('apps.labviz.cards')
 
     def reader(self):
         api = self.api()
@@ -544,13 +545,13 @@ class LabViewV2Tests(unittest.TestCase):
         self.assertEqual(next(x for x in p.registry if x['id']=='C10U-mint2')['decision'],'D-C10u-mint2')
         self.assertTrue({'exp:A7','hyp:A:A7','arm:A7_coined_coined','track:track_e','runbook-track:E'} <= {n['node_id'] for n in p.graph['nodes']})
         p.validate()
-        from tools.labviz.cards import resolve
+        from apps.labviz.cards import resolve
         for node in p.graph['nodes']:
             src=node.get('src',{})
             if 'path' in src:
                 self.assertTrue(src['path'].startswith('.'))
                 resolve(json.loads((ROOT/src['file']).read_text()),src['path'])
-        from tools.labviz.context import expand_braces, decision_ids
+        from apps.labviz.context import expand_braces, decision_ids
         self.assertEqual(expand_braces('results/x{,_a,_b}.json'),['results/x.json','results/x_a.json','results/x_b.json'])
         self.assertEqual(decision_ids('D-ID ROUTING-BLOCKED-UNDERFIT D-C10u-mint2'),['D-C10u-mint2'])
         ctx=p.context('experiments/c10u/runs/c10u_mint2/r2/F_r0_mint1_s0.json',{'decision_id':'D-C10u-mint2'})
@@ -565,7 +566,7 @@ class LabViewV2Tests(unittest.TestCase):
         self.api(); p=self.reader().program
         reached=p.focus('cond:C10'); self.assertIn('spec:§8.9',reached)
         line=(ROOT/'knowledge/specs/SPEC_EXPERIMENT_OVERLAY.md').read_text().splitlines()[21]
-        from tools.labviz.context import decision_ids
+        from apps.labviz.context import decision_ids
         self.assertTrue({'dec:'+d for d in decision_ids(line)} <= reached)
         self.assertIn('era:t-branch',p.focus('model:Mistral-7B'))
 
@@ -673,7 +674,7 @@ class LabViewV2Tests(unittest.TestCase):
             self.assertTrue(all('generated_text' in f for f in c['per_fact']))
 
     def test_v2_27_saved_picture_metadata(self):
-        self.api(); from tools.labviz.render import picture_readable
+        self.api(); from apps.labviz.render import picture_readable
         self.assertFalse(picture_readable({'width_px':561,'text_px':[6*110/72]},600))
         self.assertTrue(picture_readable({'width_px':561,'text_px':[9*110/72]},600))
         manifest=json.loads((ROOT/'projects/labviz-spec-v3/receipts/bulk/labviz/images_manifest.json').read_text())
@@ -681,7 +682,7 @@ class LabViewV2Tests(unittest.TestCase):
         for item in manifest.values(): self.assertTrue(picture_readable(item,600))
 
     def test_v2_28_D1_documentary_context(self):
-        self.api(); rows=[c for c in self.reader().cards if re.match(r'results/d1_[^/]*\.json$',c['identity']['name'])]
+        self.api(); rows=[c for c in self.reader().cards if re.match(r'experiments/d1/runs/[^/]+/d1_[^/]*\.json$',c['identity']['name'])]
         self.assertTrue(rows)
         named=0
         for c in rows:
@@ -764,7 +765,7 @@ class LabViewV2Tests(unittest.TestCase):
     def test_fix_round2_D1_trajectory_titles_preserve_the_cited_question(self):
         reader=self.api().Reader(ROOT)
         source='experiments/d1/runs/d1_concentration_sweep/d1_concentration_sweep_result.json'
-        runs=importlib.import_module('tools.labviz.build').parse_record(reader.read(source),source,ROOT)
+        runs=importlib.import_module('apps.labviz.build').parse_record(reader.read(source),source,ROOT)
         original=json.dumps(reader.read(source),sort_keys=True)
         for branch in ('DILUTED','CONCENTRATED'):
             card=reader.make(next(row for row in runs if row['field']==branch+'.trajectory'))

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
-LABVIZ_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+LABVIZ_ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 cd "$LABVIZ_ROOT"
-export MPLCONFIGDIR="$LABVIZ_ROOT/results/labviz/.matplotlib"
+export MPLCONFIGDIR="$LABVIZ_ROOT/projects/labviz-spec-v3/receipts/bulk/labviz/.matplotlib"
 mkdir -p "$MPLCONFIGDIR"
 .venv/bin/python -B code/apps/labviz/build.py
 # 0.0.0.0 includes localhost, LAN, and the host's Tailscale address.

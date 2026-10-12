@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from contextlib import nullcontext
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -14,10 +15,15 @@ import sys
 import tempfile
 
 if __package__:
-    from . import git_hygiene as H, engine_fingerprint as F
+    from . import git_hygiene as H
 else:
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    from tools import git_hygiene as H, engine_fingerprint as F
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import git_hygiene as H
+# engine_fingerprint lives in code/memit/, and the vendored `memit` package shadows that name (D5): load it by path.
+_fp_spec = importlib.util.spec_from_file_location(
+    "engine_fingerprint", Path(__file__).resolve().parents[2] / "memit" / "engine_fingerprint.py")
+F = importlib.util.module_from_spec(_fp_spec)
+_fp_spec.loader.exec_module(F)
 
 
 def ci_state(evidence, sha, post=False):
@@ -175,7 +181,7 @@ def gate(repo, gh, number, dry_run=True, wait_s=480, report=None):
         result = repo.run([sys.executable, '-B', 'code/memit/engine_fingerprint.py'])
         evidence = {'root': 'PASS', 'output': result.stdout, 'candidate': 'NOT-RUN'}
         if report['head_sha']:
-            engine = repo.run(['git', 'show', report['head_sha'] + ':memit_dry_run/memit/memit/memit_main.py']).raw_stdout
+            engine = repo.run(['git', 'show', report['head_sha'] + ':code/memit/vendor/memit/memit_main.py']).raw_stdout
             digest = hashlib.sha256(engine).hexdigest()
             if digest != F.EXPECTED_SHA256 or engine.count(b'_cov_cpu') != F.EXPECTED_COV_CPU_SITES:
                 raise H.Refusal('committed PR candidate engine fingerprint failed')

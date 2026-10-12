@@ -5,10 +5,11 @@ import os
 from pathlib import Path
 import sys
 
-W = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(W))
-from tools import mathlab_runtime as R
-from tools.c10w_p2_gate import check_fingerprint, check_gpu
+W = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(W / "code"))
+from apps.mathlab import mathlab_runtime as R
+from state import llmdb_records as L
+from lab.runners.c10w_p2_gate import check_fingerprint, check_gpu
 
 
 def status_reference(ref, root, tail=False):
@@ -75,7 +76,7 @@ def probe(kind, admission=None):
 
 def dispatch_check(run_dir, kind, admission_path=None):
     """Bind the separate pre-import check to this shell exec and recheck its evidence."""
-    from tools.mathlab_events import read_events
+    from apps.mathlab.mathlab_events import read_events
     run_dir = Path(run_dir); proof = R.read_json(run_dir / "admission.json")
     R.require(proof["allowed"] and proof["kind"] == kind and proof["launcher_pid"] == os.getpid(),
               "ADMISSION", "admission belongs to a different or refused shell launch")
@@ -107,7 +108,7 @@ def main():
     parser.add_argument("--step", type=int, choices=(1, 2, 3))
     parser.add_argument("--deadline-s", type=int, default=300)
     args = parser.parse_args()
-    run_dir = args.run_dir or R.new_directory(W / "results/mathlab_staging/runs", "admission")
+    run_dir = args.run_dir or R.new_directory(W / L.ML_RUNS, "admission")
     own_run = args.run_dir is None
     run = R.Run(run_dir, args.step or (1 if args.kind == "harvest" else 2), "Check whether the lab can start", args.deadline_s,
                 purpose="admission" if own_run else "experiment")

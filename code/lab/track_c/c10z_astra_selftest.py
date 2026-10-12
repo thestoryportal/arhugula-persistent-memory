@@ -15,7 +15,7 @@ import unittest
 import zlib
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[1]
+ROOT = HERE.parents[2]
 PREREG = "5ad59d2c960b44d18b5d1c5410028b969aab93298eed5d42c527bd81a4d18eac"
 C01_FIX = 7800.
 ARMS = ("A1_single", "A2_coherent2", "A7_coined_coined")
@@ -3262,7 +3262,7 @@ class TelemetryInertnessTests(unittest.TestCase):
 class TelemetryRunnerTests(unittest.TestCase):
     def test_runner_driver_module_reused(self):
         # No model is constructed; both real modules have stdlib-only imports.
-        with mock.patch.object(self.C, "ROOT", HERE.parents[1]), mock.patch.dict(sys.modules):
+        with mock.patch.object(self.C, "ROOT", HERE.parents[2]), mock.patch.dict(sys.modules):
             runner_driver = self.C.arms_module()
             benchmark = self.C.benchmark_module()
             self.assertIs(benchmark._driver_module(), runner_driver,

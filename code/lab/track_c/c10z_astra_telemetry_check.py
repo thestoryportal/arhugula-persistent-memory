@@ -8,7 +8,7 @@ import importlib
 import importlib.util
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 MODEL_REV = "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 SOURCES = ("code/lab/track_c/c10z_astra_arms.py", "code/lab/track_c/c10z_astra_read.py",
     "code/lab/track_c/c10z_astra_telemetry_check.py", "code/lab/track_c/c10z_astra_benchmark.py",

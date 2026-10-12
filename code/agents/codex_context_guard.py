@@ -16,10 +16,10 @@ Flags: --json (machine-readable), --strict (closeout hard-fail).
 Dependency-free (stdlib + git/nvidia-smi/df/free via subprocess).
 """
 from __future__ import annotations
-import os, sys, json, shutil, subprocess, glob
+import os, re, sys, json, shutil, subprocess, glob
 from pathlib import Path
 
-ROOT = Path(os.environ.get("LLMDB_ROOT", Path(__file__).resolve().parents[1]))
+ROOT = Path(os.environ.get("LLMDB_ROOT", Path(__file__).resolve().parents[2]))
 MODEL_HINT = "data/hf_cache/hub/models--Qwen--Qwen2.5-3B"   # the primary edit-validated model
 ENGINE = "code/memit/vendor"
 
@@ -107,8 +107,10 @@ def preflight(as_json=False):
 def closeout(strict=False, as_json=False):
     # §0.4: did results change without a evidence/CORPUS/runbook doc change in the same dirty set?
     dirty = sh(["git","status","--porcelain"]).splitlines()
-    res_changed = [l[3:] for l in dirty if l[3:].startswith("results/") and l[3:].endswith(".json")]
-    doc_changed = [l[3:] for l in dirty if l[3:].startswith(("evidence/CORPUS/","docs/")) or l[3:] in ("program/runbook/","program/checkpoints/","program/EVIDENCE_INDEX.md")]
+    res_changed = [l[3:] for l in dirty if re.match(r"experiments/[^/]+/runs/", l[3:]) and l[3:].endswith(".json")]
+    # git lists files, so the split runbook and checkpoints count by prefix; docs/ is now knowledge/ and the records' own documents.
+    doc_changed = [l[3:] for l in dirty if l[3:].startswith(("evidence/CORPUS/","knowledge/","program/runbook/","program/checkpoints/"))
+                   or re.match(r"experiments/[^/]+/(design|reviews|rulings)/", l[3:]) or l[3:] == "program/EVIDENCE_INDEX.md"]
     obligations=[]
     if res_changed and not doc_changed:
         obligations.append(f"{len(res_changed)} result JSON(s) changed but NO doc update. UNATTENDED → stage to experiments/ml/reviews/pending_findings/NN_<unit>.md (NOT CORPUS). SUPERVISED → full §0.4 close-out (evidence/CORPUS/NN + 00/03 + runbook §0.3/§12/§13 + checkpoint).")

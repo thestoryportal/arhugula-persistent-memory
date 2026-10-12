@@ -70,11 +70,21 @@ def event_reader(root):
     return module.read_events
 
 
+def layout(root):
+    # The v2 record layout from current source bytes, for the same reason as event_reader.
+    path = root/"code/state/llmdb_records.py"
+    module = types.ModuleType("new1_receipt_layout")
+    module.__file__ = str(path)
+    exec(compile(path.read_bytes(), str(path), "exec"), module.__dict__)
+    return module
+
+
 def prior_aborts(root, dispatch, excluded, read_events):
     """Union by namespace, so a halted stream plus its receipt counts once."""
     counted, errors, sources = set(), [], []
-    runs = root/"results/mathlab_staging/runs"
-    for directory in sorted(runs.glob("new1_*")):
+    L = layout(root)
+    runs = root/L.NEW1_RUNS
+    for directory in sorted(d for d in runs.glob("new1_*") if L.is_new1_namespace(d.name)):
         key = str(directory.resolve())
         if key in excluded: continue
         if directory.is_symlink() or not directory.is_dir():
@@ -88,7 +98,7 @@ def prior_aborts(root, dispatch, excluded, read_events):
         if any(row["type"] == "halted" and row["reason"].split(":", 1)[0] in ABORTS for row in rows):
             counted.add(key)
             sources.append({"source": str(directory/"events.jsonl"), "identity": key})
-    for receipt_path in sorted((root/"results/mathlab_staging").glob("new1_dispatch_*/dispatch_receipt.json")):
+    for receipt_path in sorted(runs.glob(L.NEW1_DISPATCH_PREFIX+"*/dispatch_receipt.json")):
         if receipt_path.parent.resolve() == dispatch.resolve(): continue
         try:
             previous = read_json(receipt_path)
@@ -132,7 +142,8 @@ def build_receipt(root, dispatch):
         namespace_errors.append("namespace anomaly: exactly one new namespace required")
     if selected:
         selected_path = Path(selected)
-        if selected_path.parent.resolve() != (root/"results/mathlab_staging/runs").resolve() or not selected_path.name.startswith("new1_") or selected_path.is_symlink():
+        L = layout(root)
+        if selected_path.parent.resolve() != (root/L.NEW1_RUNS).resolve() or not L.is_new1_namespace(selected_path.name) or selected_path.is_symlink():
             namespace_errors.append("namespace identity is invalid")
         if not namespace_errors: rows, errors = read_events(selected_path/"events.jsonl")
         else: rows, errors = [], []

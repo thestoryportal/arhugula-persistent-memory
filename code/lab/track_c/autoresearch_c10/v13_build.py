@@ -12,7 +12,7 @@ import sys
 import uuid
 
 SRC = Path(__file__).resolve().parent
-PROGRAM = SRC.parents[2]
+PROGRAM = SRC.parents[3]
 REPO = PROGRAM.parents[2]
 OLD = Path('/Volumes/memit/llm-database-poc-mirror/autoresearch_sandbox_c10')
 sys.path.insert(0, str(SRC))

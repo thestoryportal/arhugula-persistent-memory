@@ -17,9 +17,9 @@ import unittest
 from types import SimpleNamespace
 from unittest import mock
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
-from tools.test_backup_gdrive import run_process
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "code"))
+from ops.backup.test_backup_gdrive import run_process
 
 STATUS = ROOT / "code/ops/backup/backup_gdrive_status.py"
 BACKUP = ROOT / "code/ops/backup/backup_gdrive.sh"
@@ -1560,7 +1560,7 @@ class R5RecoveryTest(R5Fixture):
                     self.assertEqual((archives/relative).read_bytes(), preserved)
 
     def assert_under_lock_rechecked(self, evidence, floor):
-        from tools import backup_gdrive_status as status
+        from ops.backup import backup_gdrive_status as status
         (self.counter.parent/"counter.lock").write_bytes(b"")
         observed = []
 
@@ -1735,7 +1735,7 @@ class R7PublicationTemporaryTest(R7RecoveryFixture):
         self.assert_temporary_floor_pair("recovery_counter")
 
     def test_r7_1_under_lock_rechecks_every_live_and_archived_temporary(self):
-        from tools import backup_gdrive_status as status
+        from ops.backup import backup_gdrive_status as status
         for source in self.temporaries:
             for archived in (False, True):
                 with self.subTest(source=source, archived=archived):
@@ -1831,7 +1831,7 @@ class R8RecoveryFixture(R7RecoveryFixture):
         self.assertFalse((heartbeat.parent.parent/"memit-gdrive-backup-launch-state/counter.lock").exists())
 
     def assert_under_lock_refusal(self, heartbeat, evidence, payload, word):
-        from tools import backup_gdrive_status as status
+        from ops.backup import backup_gdrive_status as status
         (heartbeat.parent.parent/"memit-gdrive-backup-launch-state/counter.lock").write_bytes(b'')
         observed = []
 
@@ -2024,7 +2024,7 @@ class R5CompactionTest(R5Fixture):
         self.assertEqual(result.returncode, 0, result.stderr)
         snapshots = [json.loads(line) for line in result.stdout.splitlines()]
         self.assertEqual(len(snapshots), 2000)
-        from tools import backup_gdrive_status as status
+        from ops.backup import backup_gdrive_status as status
         self.write_launch_receipt(launch_generation=10, exit_code=0)
         for snapshot in snapshots:
             state = snapshot["state"]
@@ -2078,7 +2078,7 @@ class R5CompactionTest(R5Fixture):
                 self.assertEqual(self.status().returncode, 0)
 
     def test_r6_3_python_and_both_perl_publishers_agree_at_boundaries(self):
-        from tools import backup_gdrive_status as status
+        from ops.backup import backup_gdrive_status as status
         self.success_baseline()
         for count in (self.INTERVAL_LIMIT+1, self.INTERVAL_LIMIT):
             for publisher in ("generationShell", "receiptShell"):
@@ -2203,13 +2203,13 @@ class LockedReleaseTest(Fixture):
             "backup_mirror.excludes": b'# committed fixture excludes\n',
         }
         for name, content in self.original.items():
-            (self.checkout/"tools"/name).write_bytes(content)
+            (self.checkout/"code/ops/backup"/name).write_bytes(content)
         for name in ("MemitGdriveBackup.applescript", "build_gdrive_applet.sh", "stage_gdrive_release.sh"):
             source = ROOT/"code/ops/backup/launchd"/name
             if source.exists():
                 shutil.copyfile(source, launchd/name)
         self.git("init", "-q")
-        self.git("add", "tools")
+        self.git("add", *("code/ops/backup/"+name for name in self.original))
         self.git("-c", "user.name=MB32 Fixture", "-c", "user.email=fixture@invalid",
                  "-c", "core.hooksPath=/dev/null", "commit", "-qm", "locked release fixture")
         self.commit = self.git("rev-parse", "HEAD").stdout.strip()
@@ -2344,7 +2344,7 @@ class LockedReleaseTest(Fixture):
 
     def test_dirty_checkout_stages_commit_bytes(self):
         for name in self.FILES:
-            (self.checkout/"tools"/name).write_bytes(b"dirty working tree\n")
+            (self.checkout/"code/ops/backup"/name).write_bytes(b"dirty working tree\n")
         result = self.stage(baseline=False)
         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
         for name in self.FILES:

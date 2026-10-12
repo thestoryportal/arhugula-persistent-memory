@@ -24,7 +24,7 @@ import sys
 import time
 import traceback
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 # Lazy science modules must share this instance when the supervisor uses a script.
 if __name__=='__main__':sys.modules['c10x_enginepath_arms']=sys.modules[__name__]
 PIN = '3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'

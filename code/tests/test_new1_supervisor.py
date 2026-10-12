@@ -15,7 +15,8 @@ import unittest
 from types import SimpleNamespace
 from unittest import mock
 
-from tools.mathlab_events import read_events, fold
+from apps.mathlab.mathlab_events import read_events, fold
+from state import llmdb_records as L
 
 
 class Clock:
@@ -27,7 +28,7 @@ class Clock:
 class SupervisorTests(unittest.TestCase):
     def setUp(self):
         self.assertTrue(Path('code/lab/runners/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
-        self.S = importlib.import_module('tools.new1_supervisor')
+        self.S = importlib.import_module('lab.runners.new1_supervisor')
         self.tmp = tempfile.TemporaryDirectory(dir='/private/tmp')
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
@@ -205,7 +206,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
 
     def prereg_fixture(self,status):
         path=self.root/'experiments/new1/design/NEW1_ADAPTER_GEOMETRY_PREREG.md'
-        path.parent.mkdir(exist_ok=True)
+        path.parent.mkdir(parents=True,exist_ok=True)
         path.write_text('# NEW-1 — fixture\n\n'+status+'\n\nHistorical: DRAFT v2 remains NOT FROZEN.\n')
         return path,self.S.sha_file(path)
 
@@ -236,7 +237,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
             self.supervisor_main('0'*64)
 
     def test_worker_accepts_same_freeze_before_imports_without_geometry(self):
-        G=importlib.import_module('tools.new1_geometry')
+        G=importlib.import_module('lab.runners.new1_geometry')
         _,digest=self.prereg_fixture('**FROZEN v2 · 2026-10-09 (D-NEW1-1; reviewed).**')
         client=mock.Mock(); client.cell.side_effect=RuntimeError('fixture reached import admission')
         with mock.patch.object(G,'ROOT',self.root),self.assertRaisesRegex(RuntimeError,'fixture reached import admission'):
@@ -244,7 +245,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         client.cell.assert_called_once_with('imports','numerical-dependencies')
 
     def test_worker_refuses_draft_header_before_imports(self):
-        G=importlib.import_module('tools.new1_geometry')
+        G=importlib.import_module('lab.runners.new1_geometry')
         path,_=self.prereg_fixture('**DRAFT v2**')
         path.write_text(path.read_text().replace('Historical: DRAFT v2 remains NOT FROZEN.','Quoted: **FROZEN v2**'))
         client=mock.Mock(); client.cell.side_effect=RuntimeError('fixture reached imports')
@@ -296,14 +297,15 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
 
     def history_fixture(self, label='history'):
         root=self.root/label
-        current=root/'results/mathlab_staging/runs/new1_current'
+        current=root/L.NEW1_RUNS/'new1_current'
         current.mkdir(parents=True)
         return root,current
 
     def history_run(self, root, name, *, step=4, title='NEW1 history fixture',
                     purpose='experiment', reasons=()):
-        directory=root/'results/mathlab_staging/runs'/name
-        directory.mkdir()
+        # NEW-1 and MathLab-instrument runs live in separate records in v2; the name says which.
+        directory=root/(L.NEW1_RUNS if L.is_new1_namespace(name) else L.ML_RUNS)/name
+        directory.mkdir(parents=True)
         self.S.emit(directory,'run_started',step=step,title=title,purpose=purpose,
             deadline_ts='2026-10-10T03:00:00Z',pid=1)
         for reason in reasons:
@@ -317,7 +319,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         self.S.emit(directory,'run_finished',outcome='FAIL',summary='Synthetic failed MathLab calibration')
 
     def test_new1_history_ignores_failed_mathlab_calibration(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         root,current=self.history_fixture()
         self.failed_mathlab_history(root)
         decision={'allowed':True,'reasons':[]}
@@ -326,7 +328,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         probe.assert_called_once_with('cpu',None)
 
     def test_mathlab_stop_policy_still_rejects_failed_calibration(self):
-        from tools import mathlab_runtime as R
+        from apps.mathlab import mathlab_runtime as R
         root,current=self.history_fixture()
         self.failed_mathlab_history(root)
         with self.assertRaises(R.Halt) as raised:
@@ -334,7 +336,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         self.assertEqual(raised.exception.code,'LAB-STOP')
 
     def test_new1_history_fewer_than_three_aborted_runs_allows_cpu_probe(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         for count in (0,1,2):
             with self.subTest(prior_runs=count):
                 root,current=self.history_fixture(str(count))
@@ -348,7 +350,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
                 probe.assert_called_once_with('cpu',None)
 
     def test_new1_history_three_aborted_runs_requires_operator(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         for reasons in (('STOPPED-RESOURCE',)*3,('STOPPED-DEADLINE',)*3,
                         ('STOPPED-RESOURCE','STOPPED-DEADLINE','STOPPED-RESOURCE')):
             with self.subTest(reasons=reasons):
@@ -363,7 +365,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
                 probe.assert_not_called()
 
     def test_new1_history_ignores_true_mathlab_step_four_aborts(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         root,current=self.history_fixture()
         for number in range(3):
             self.history_run(root,f'm4_previous_{number}',title='MathLab candidate questions',
@@ -374,19 +376,19 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         probe.assert_called_once_with('cpu',None)
 
     def test_new1_history_ignores_other_mathlab_stops_and_unrelated_bad_streams(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         root,current=self.history_fixture()
         self.history_run(root,'m2_failed_fixture',step=2,title='MathLab reproduction',reasons=('LAB-STOP-2a',))
         self.history_run(root,'m1_halted_fixture',step=1,title='MathLab harvest',reasons=('STOPPED-RESOURCE',))
-        malformed=root/'results/mathlab_staging/runs/m3_torn_fixture'
-        malformed.mkdir(); (malformed/'events.jsonl').write_text('{')
+        malformed=root/L.ML_RUNS/'m3_torn_fixture'
+        malformed.mkdir(parents=True); (malformed/'events.jsonl').write_text('{')
         decision={'allowed':True,'reasons':[]}
         with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe',return_value=decision) as probe:
             self.assertIs(self.S.cpu_admission(current),decision)
         probe.assert_called_once_with('cpu',None)
 
     def test_new1_history_excludes_current_missing_torn_or_aborted_run(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         for current_state in ('missing','torn','aborted'):
             with self.subTest(current_state=current_state):
                 root,current=self.history_fixture(current_state)
@@ -403,7 +405,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
                 probe.assert_called_once_with('cpu',None)
 
     def test_new1_history_counts_each_prior_run_once(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         root,current=self.history_fixture()
         self.failed_mathlab_history(root)
         self.history_run(root,'new1_repeated_abort',reasons=('STOPPED-RESOURCE','STOPPED-DEADLINE','STOPPED-RESOURCE'))
@@ -421,11 +423,11 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
             probe.assert_not_called()
 
     def test_new1_history_missing_or_malformed_refuses_before_cpu_probe(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         for defect in ('missing','empty','malformed','torn','not-directory'):
             with self.subTest(defect=defect):
                 root,current=self.history_fixture(defect)
-                directory=root/'results/mathlab_staging/runs/new1_bad'
+                directory=root/L.NEW1_RUNS/'new1_bad'
                 if defect=='not-directory': directory.write_text('not a run directory')
                 elif defect=='missing': directory.mkdir()
                 else:
@@ -441,7 +443,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
                 probe.assert_not_called()
 
     def test_new1_history_contradictory_identity_refuses_before_cpu_probe(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         for defect in ('step','title','purpose','missing-purpose','no-start','duplicate-start','run-id','mixed-run-ids'):
             with self.subTest(defect=defect):
                 root,current=self.history_fixture(defect)
@@ -467,7 +469,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
                 probe.assert_not_called()
 
     def test_new1_history_symlink_alias_refuses_before_cpu_probe(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         root,current=self.history_fixture()
         previous=self.history_run(root,'new1_previous',reasons=('STOPPED-RESOURCE',))
         (previous.parent/'new1_alias').symlink_to(previous.name,target_is_directory=True)
@@ -478,7 +480,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         probe.assert_not_called()
 
     def test_default_admission_preserves_cpu_lead_probe(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         root,current=self.history_fixture()
         lead={'fixture':'verified coordinator lead'}
         path=root/'lead.json'; path.write_text(json.dumps(lead))
@@ -488,7 +490,7 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         probe.assert_called_once_with('cpu',lead)
 
     def test_default_admission_refusal_reaches_cpu_probe_without_dispatch(self):
-        from tools import mathlab_admit as A
+        from apps.mathlab import mathlab_admit as A
         root,self.run=self.history_fixture()
         self.failed_mathlab_history(root)
         with mock.patch.object(self.S,'ROOT',root), \
@@ -709,7 +711,7 @@ send({'type':'complete','path':'geometry.json'})
 
     @contextlib.contextmanager
     def terminal_fsync_control(self, failure):
-        from tools import mathlab_events as E
+        from apps.mathlab import mathlab_events as E
         write, fsync = E.os.write, E.os.fsync
         terminal_inodes = set(); snapshots = []
         def append(fd, data):
@@ -763,7 +765,7 @@ send({'type':'complete','path':'geometry.json'})
             self.assert_no_prediction_verdict(state)
 
     def test_terminal_directory_sync_or_replace_failure_with_failed_halt_has_no_verdict(self):
-        from tools import mathlab_events as E
+        from apps.mathlab import mathlab_events as E
         write, fsync, replace, receipt = E.os.write, E.os.fsync, E.os.replace, self.S.receipt
         for point in ('directory-fsync', 'replace'):
             with self.subTest(point=point):
@@ -811,7 +813,7 @@ send({'type':'complete','path':'geometry.json'})
         self.assert_no_prediction_verdict(state)
 
     def test_late_exception_after_terminal_commit_returns_recorded_outcome(self):
-        from tools import mathlab_events as E
+        from apps.mathlab import mathlab_events as E
         replace = E.os.replace
         for point in ('io', 'deadline'):
             with self.subTest(point=point):

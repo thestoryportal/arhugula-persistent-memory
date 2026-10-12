@@ -8,7 +8,7 @@ Usage: python3 dashboard_experiment.py [--once COLS ROWS]
 import glob, json, os, re, subprocess, sys, textwrap, time
 import dashboard_live
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 GOAL, OUT_OF = 61, 72
 RESET, BOLD, DIM = "\033[0m", "\033[1m", "\033[2m"
 FG, BG = "\033[38;5;{}m".format, "\033[48;5;{}m".format
@@ -282,7 +282,7 @@ def render(cols, rows):
     top, pids, job = running(state)
     logs = dashboard_live.experiment_logs(ROOT)
     if not logs:
-        out = [f"{FG(245)}No experiment logs found under results/.{RESET}"]
+        out = [f"{FG(245)}No experiment logs found under experiments/.{RESET}"]
         if top:
             out = [section('GPU RUNNING', 28, cols),
                    f" {STEP.get(top[0], top[0])} · stage {top[1]} · {top[2]} elapsed"] + out
@@ -330,9 +330,8 @@ def render(cols, rows):
     out.append(section("FINISHED RUNS", 25, cols))
     if wide:
         out.append(f" {DIM}  {'run':<{name_w}} {'reworded right (of 72)':<16}  {'train':>6}  {'ctrl':>6}  {'side effects':<18}  {'time':>7}{RESET}")
-    top_dir = os.path.relpath(run_dir, ROOT).split(os.sep)[:2]   # results/<experiment>[_logs]
-    data_dir = os.path.join(ROOT, *top_dir)
-    data_dir = data_dir[:-5] if data_dir.endswith("_logs") and os.path.isdir(data_dir[:-5]) else data_dir
+    # A run's logs sit in experiments/<id>/runs/<slug>/logs/ (or the run folder itself); its data is the run folder.
+    data_dir = os.path.join(ROOT, *os.path.relpath(run_dir, ROOT).split(os.sep)[:4])
     found = latest_answers(data_dir)
     words = words_lines(*found, cols) if found else []
     now_rows = 9 if top else 2

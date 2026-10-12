@@ -48,7 +48,7 @@ v3 changes (review 2, experiments/c10s/reviews/c10s_sharedz_codex_impl_v2.md):
   type promotion (compute in the promoted dtype, write cast once); the explicit form is used so the record states it.
 """
 import os, sys, io, json, time, hashlib, contextlib, datetime, traceback
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 DECISION_ID = "D-C10s-sharedz"
 HALT_PATH = f"{LLMDB_ROOT}/experiments/c10s/runs/c10s_sharedz/halts/c10s_sharedz_halt_diagnostic.json"   # review item 4: every SystemExit path writes it

@@ -13,7 +13,7 @@ version = "0.1.0"
 description = "Falsification-first research program: in-weight knowledge editing (MEMIT/AlphaEdit) as a storage substrate"
 requires-python = "==3.11.*"
 dependencies = [
-    # science path (vendored engine code/memit/vendor + experiments/)
+    # science path (vendored engine code/memit/vendor + code/lab/)
     "torch>=2.4,<2.9",
     "transformers==4.51.0",
     "accelerate>=1.0",

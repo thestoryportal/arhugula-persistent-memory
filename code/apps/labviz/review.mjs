@@ -4,7 +4,7 @@ import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'no
 import { dirname, join, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 const SCRATCH = '/private/tmp/labviz-review';
 const SITE = join(ROOT, 'projects/labviz-spec-v3/receipts/bulk/labviz/site');
 const MEASURE = join(ROOT, 'code/apps/labviz/measure.js');

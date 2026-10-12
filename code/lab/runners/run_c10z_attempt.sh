@@ -1,7 +1,7 @@
 #!/bin/bash
 set -u
-W="$(cd "$(dirname "$0")/.." && pwd)" || exit 2
-S="$W/tools/run_c10z_stage.sh"; OUT="${C10Z_OUT_DIR:?C10Z_OUT_DIR required}"
+W="$(cd "$(dirname "$0")/../../.." && pwd)" || exit 2
+S="$W/code/lab/runners/run_c10z_stage.sh"; OUT="${C10Z_OUT_DIR:?C10Z_OUT_DIR required}"
 case "$OUT" in /*) ;; *) echo "C10Z_OUT_DIR must be absolute"; exit 2 ;; esac
 step(){ "$S" "$1"; rc=$?; echo "STAGE_${1}_EXIT=$rc"; return "$rc"; }
 step 0 || exit $?

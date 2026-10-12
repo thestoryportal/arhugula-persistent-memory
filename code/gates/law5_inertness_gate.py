@@ -9,7 +9,7 @@ science-path change. Thresholds unchanged: |Δexpr| < 0.05 and |Δloc| < 3 pts.
 """
 from __future__ import annotations
 import os, sys, io, json, math, time, argparse, contextlib
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["HF_HOME"] = f"{LLMDB_ROOT}/data/hf_cache"; os.environ["HF_HUB_OFFLINE"] = "1"
 ENGINE = f"{LLMDB_ROOT}/code/memit/vendor"; sys.path.insert(0, ENGINE); os.chdir(ENGINE)
 

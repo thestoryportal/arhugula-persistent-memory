@@ -17,7 +17,7 @@ import c10t_secondkey_read as R
 import c10t_secondkey_arms as A
 import c10t_secondkey_step0 as S
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 CONTEXTS = [["{}"], ["The sun rose. {}", "You said it. {}"]]
 
 
@@ -592,7 +592,7 @@ class TestPersistence(unittest.TestCase):
             for reason in ("first failure", "second failure"):
                 with self.assertRaisesRegex(SystemExit, "HALT:"):
                     A.halt(reason, root=d)
-            files = list((Path(d) / "architecture_profile").glob("*.json"))
+            files = list((Path(d) / "experiments/c10t/runs/c10t_secondkey/halts").glob("*.json"))
             self.assertEqual(len(files), 2)
             self.assertEqual(json.loads((Path(d) / "experiments/c10t/runs/c10t_secondkey/halts/c10t_secondkey_halt_diagnostic.json").read_text())["reason"], "first failure")
 

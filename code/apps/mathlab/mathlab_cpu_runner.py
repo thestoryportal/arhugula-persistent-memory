@@ -8,9 +8,9 @@ import subprocess
 import sys
 import time
 
-W = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(W))
-from tools import mathlab_runtime as R
+W = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(W / "code"))
+from apps.mathlab import mathlab_runtime as R
 
 
 def validate_notebook(notebook, deadline_s):
@@ -62,7 +62,7 @@ def main():
     parser.add_argument("--run-dir", type=Path, required=True)
     args, notebook_args = parser.parse_known_args()
     step = validate_notebook(args.notebook, args.deadline_s)
-    from tools.mathlab_admit import dispatch_check
+    from apps.mathlab.mathlab_admit import dispatch_check
     command = ["nice", "-n", "10", "/opt/homebrew/bin/timeout", "-k", "30", str(args.deadline_s),
                "uv", "run", "--script", str(args.notebook.resolve()), *notebook_args]
     env = dict(os.environ, LLMDB_ROOT=str(W), LLMDB_DEVICE="cpu", CUDA_VISIBLE_DEVICES="",
@@ -79,7 +79,7 @@ def main():
             R.stage_halt(W, args.run_dir, outcome, f"resource/deadline abort {number}; " +
                          ("operator review required" if number >= 3 else "not a lab stop"), step=step)
         else:
-            from tools.mathlab_events import read_events
+            from apps.mathlab.mathlab_events import read_events
             events, errors = read_events(args.run_dir / "events.jsonl")
             R.require(not errors, "EVENTS", "; ".join(errors))
             completions = [e for e in events if e["type"] == "run_finished"]

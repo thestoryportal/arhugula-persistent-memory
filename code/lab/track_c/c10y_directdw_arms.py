@@ -23,7 +23,7 @@ import subprocess
 import time
 import traceback
 
-ROOT = Path(os.environ.get('LLMDB_ROOT', Path(__file__).resolve().parents[2]))
+ROOT = Path(os.environ.get('LLMDB_ROOT', Path(__file__).resolve().parents[3]))
 PREREG_SHA = 'e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331'
 PINNED_ENGINE_SHA = 'c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da'
 PINNED_FLAT_SHA = 'd6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0'

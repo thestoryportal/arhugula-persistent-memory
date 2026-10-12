@@ -19,7 +19,7 @@ import zlib
 import c10z_astra_read as R
 from c10z_astra_benchmark import TEMPLATES
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 HP = "code/configs/hparams/qwen25_3b_memit_hparams.json"
 PREREG = "experiments/c10z/design/C10Z_ASTRA_PREREG.md"
 HARNESS = "code/lab/track_c/c10e_bandknob.py"

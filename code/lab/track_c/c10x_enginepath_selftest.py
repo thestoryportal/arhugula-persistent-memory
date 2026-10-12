@@ -18,7 +18,7 @@ import types
 import unittest
 from unittest.mock import patch
 
-REAL = Path(__file__).resolve().parents[2]
+REAL = Path(__file__).resolve().parents[3]
 SCRATCH = Path('/private/tmp/c10x_build')
 ALLOWED_CHILDREN = set()
 GUARD_EVENTS = 0

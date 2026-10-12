@@ -5,7 +5,7 @@ as it does for K1-style requests (subject = country, keyed at the subject's last
 (unmodified) on 3 subjects per style with the engine's own context templates and reports the final target probability at the
 keyed position, the loss path, and the KL term. No weight edit. Run from code/memit/vendor. Writes experiments/c10k/runs/c10k_keying_ablation/zprobe.json."""
 import os, sys, json, io, contextlib, re
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.path.insert(0, f"{LLMDB_ROOT}/code/memit/vendor")
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer

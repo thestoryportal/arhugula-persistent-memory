@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import c10v_layerpick_read as R
 import c10v_layerpick_arms as D
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 SUBJECTS = ["S" + str(i) for i in range(R.N)]
 
 

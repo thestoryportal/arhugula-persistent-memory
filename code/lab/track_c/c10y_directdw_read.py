@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
-ROOT = Path(os.environ.get("LLMDB_ROOT", str(Path(__file__).resolve().parents[2])))
+ROOT = Path(os.environ.get("LLMDB_ROOT", str(Path(__file__).resolve().parents[3])))
 PREREG_SHA = "e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331"
 ENGINE_SHA = "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
 MODEL_REV = "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"

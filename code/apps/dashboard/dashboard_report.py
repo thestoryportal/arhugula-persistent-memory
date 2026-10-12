@@ -9,7 +9,7 @@ import glob, json, os, re, shutil, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dashboard_live as live  # noqa: E402
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 BOARD = os.path.join(ROOT, "program/registers/c10_scoreboard.json")
 PROGRAM = os.path.join(ROOT, "program/program_state.json")
 RESET, BOLD, ITAL = "\033[0m", "\033[1m", "\033[3m"
@@ -49,7 +49,7 @@ def gpu_line():
     m = next((m for m in re.finditer(r"code/lab/track_c/(c10[a-z])_\w+\.py ([\w-]+)", ps) if m.group(2) != "_job"), None)
     if not m:
         return f"{FG(244)}GPU idle — nothing running right now{RESET}"
-    logs = sorted(glob.glob(os.path.join(ROOT, "results", "c10*_logs", "**", "*.log"), recursive=True), key=os.path.getmtime)
+    logs = sorted(glob.glob(os.path.join(ROOT, "experiments", "c10*", "runs", "*", "logs", "**", "*.log"), recursive=True), key=os.path.getmtime)
     last = ""
     if logs:
         lines = [l.strip() for l in open(logs[-1], errors="replace") if l.strip()]
@@ -106,7 +106,8 @@ def render(cols, rows):
         out.append(f"{BOLD}{FG(231)}{BG(124)}{col(' ⚠ The text below predates: ' + '; '.join(behind[-3:]) + ' (the program updates it)', w)}{RESET}")
     out.append(section("WHAT IT MEANS", 30, w))
     brief = wrap(b.get("brief", ""), w - 1)
-    more = "  (more: program/registers/c10_scoreboard.json)"
+    # The v2 path is wider than a 40-column pane; the file name is unique and the full path heads this section.
+    more = "  (more: c10_scoreboard.json)"
     if len(brief) > 7:   # the pane cannot scroll: say so instead of cutting mid-sentence
         brief = brief[:6] + [fit(brief[6], max(w - 1 - len(more), 1)) + more]
     for line in brief:

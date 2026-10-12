@@ -134,7 +134,7 @@ def main():
     t0 = time.time()
     RUN_ROOT = Path(LLMDB_ROOT).resolve()
     root = RUN_ROOT
-    assert Path(__file__).resolve().parents[2] == root, "script root differs from LLMDB_ROOT"
+    assert Path(__file__).resolve().parents[3] == root, "script root differs from LLMDB_ROOT"
     out = Path(os.environ.get("OUT_DIR", str(root / "experiments/c10t/runs/c10t_secondkey"))).resolve()
     A.refuse_occupied(out, ("step0.json", "run.json", "pass1.json", "pass2.json", "second_started.json", "second_halt.json"))
     identity = A.make_identity(root)

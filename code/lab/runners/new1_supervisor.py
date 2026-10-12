@@ -17,9 +17,10 @@ import sys
 import time
 import uuid
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
-from tools.mathlab_events import emit
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "code"))
+from state import llmdb_records as L  # noqa: E402
+from apps.mathlab.mathlab_events import emit
 
 DEADLINE_S = 2700
 WAIT_S = 300
@@ -132,7 +133,7 @@ def hard_deadline(seconds, heartbeat=None, budget=None):
 
 def sample_resources(pid=None):
     """Successful complete inventories only; missing values never become zero."""
-    from tools.mathlab_runtime import vm_available_gib
+    from apps.mathlab.mathlab_runtime import vm_available_gib
     try:
         vm = subprocess.run(['/usr/bin/vm_stat'], capture_output=True, text=True, timeout=1)
         if vm.returncode or not vm.stdout.strip(): raise ValueError(vm.stderr or 'empty vm_stat')
@@ -166,12 +167,12 @@ def sample_resources(pid=None):
 
 
 def enforce_new1_retry_policy(run_dir):
-    from tools.mathlab_events import read_events
+    from apps.mathlab.mathlab_events import read_events
     resource_aborts = 0
     try:
         current = Path(run_dir).resolve()
-        for directory in (ROOT/'results/mathlab_staging/runs').iterdir():
-            if not directory.name.startswith('new1_'): continue
+        for directory in (ROOT/L.NEW1_RUNS).iterdir():
+            if not L.is_new1_namespace(directory.name): continue
             if directory.is_symlink():
                 raise Stop('INVALID-HISTORY', str(directory)+': NEW1 run namespace is a symlink')
             if directory.resolve() == current: continue
@@ -191,7 +192,7 @@ def enforce_new1_retry_policy(run_dir):
 
 
 def cpu_admission(run_dir, lead_path=None):
-    from tools import mathlab_admit as A
+    from apps.mathlab import mathlab_admit as A
     enforce_new1_retry_policy(run_dir)
     lead = strict_json(Path(lead_path).read_text()) if lead_path else None
     return A.probe('cpu', lead)
@@ -635,7 +636,7 @@ def main():
     parser.add_argument('--admission',type=Path)
     args=parser.parse_args()
     prereg=ROOT/'experiments/new1/design/NEW1_ADAPTER_GEOMETRY_PREREG.md'
-    directory=ROOT/'results/mathlab_staging/runs'/('new1_'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S.%fZ'))
+    directory=ROOT/L.NEW1_RUNS/('new1_'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S.%fZ'))
     directory.mkdir(parents=True,exist_ok=False)
     command=['nice','-n','10',sys.executable,'-B',str(ROOT/'code/lab/runners/new1_geometry.py'),
              '--run-dir',str(directory),'--prereg-sha',args.prereg_sha]

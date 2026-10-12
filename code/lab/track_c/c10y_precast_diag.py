@@ -3,7 +3,7 @@
 No behavioral readout, optimizer, calibration continuation or corrective execution.
 """
 import os, sys
-LLMDB_ROOT = os.environ.get('LLMDB_ROOT', str(__import__('pathlib').Path(__file__).resolve().parents[2]))
+LLMDB_ROOT = os.environ.get('LLMDB_ROOT', str(__import__('pathlib').Path(__file__).resolve().parents[3]))
 import argparse, ast, contextlib, copy, hashlib, importlib, importlib.util, inspect, itertools, json, re, signal, time, traceback
 from pathlib import Path
 import c10y_directdw_arms as A
