@@ -29,7 +29,7 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T00:19:35Z",
+    "edited": "2026-10-12T00:23:44Z",
     "items": [
       {
         "id": "research-engine-phase1-brief",
@@ -209,6 +209,22 @@
         ]
       },
       {
+        "id": "skills-pipeline-survey",
+        "title": "Survey our design-to-plan skills (Claude and Codex)",
+        "summary": "Your request: find the skills that turn design docs into a spec, then into small work pieces several builders can do in parallel. A builder surveys every such skill on this Mac and recommends one per step, with a first trial.",
+        "state": "running",
+        "who": "builder codexsk1 (Sol), then MAESTRO checks and reports to you",
+        "session": "codexsk1",
+        "started": "2026-10-12T00:22Z",
+        "estimate": null,
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "00:22Z (Oct 12): you asked for this. Builder codexsk1 is reading every design, spec, plan and task-splitting skill for both Claude and Codex and will recommend one per step, plus which current document to try it on first. Report only; nothing installed."
+        ]
+      },
+      {
         "id": "r4-dashboard-record",
         "title": "Phone dashboard on the Intel Mac: freeze what it shows and how",
         "summary": "Write down exactly what status record the Intel-hosted dashboard reads, how old data shows as UNAVAILABLE (never as idle), and the exact way each M3 helper is launched so the science safety gate still allows it. Then Astra reviews it.",
@@ -249,8 +265,8 @@
         "id": "drive-activate",
         "title": "Drive backup: turn it on",
         "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup. The plan is being rewritten so the first upload runs from the Intel Mac (your choice 11); your three OKs will be asked again against that version.",
-        "state": "running",
-        "who": "builder codexda1 (Sol), then MAESTRO checks, then Astra",
+        "state": "in_review",
+        "who": "MAESTRO: send to Astra next",
         "session": "codexda1",
         "started": "2026-10-12T00:10Z",
         "estimate": null,
@@ -265,7 +281,8 @@
           "13:07Z: codexdl1 finished the layout design (58d7374c): each identical file stored once, every path linked to that one copy and locked against changes, every path still uploaded to Drive, and the space math (about 130 GB stored out of 250 GB, before overhead that must be measured). It leans on the shared-drive rules still being written, so Astra reviews it once those are committed.",
           "13:22Z: The layout design points at 11 lines of the shared-drive rules by line number, and those lines moved when the rules were finished. MAESTRO will re-point them after Astra's review of the rules (which may move them again), then send the layout to Astra.",
           "00:04Z (Oct 12): You adopted the drive-sharing design (version 4). Next: rewrite this switch-on plan so the M3 hands files to the Intel over the cable and the Intel uploads to Drive, then expert review. Nothing turns on until you say go; three short setup questions come then.",
-          "00:10Z (Oct 12): builder codexda1 is writing the switch-on plan for the adopted design (the M3 hands files to the Intel over the cable; the Intel uploads to Drive) and refreshing the Intel storage layout. Writing only; nothing is copied or switched on. Astra reviews it next; your three setup questions come after that."
+          "00:10Z (Oct 12): builder codexda1 is writing the switch-on plan for the adopted design (the M3 hands files to the Intel over the cable; the Intel uploads to Drive) and refreshing the Intel storage layout. Writing only; nothing is copied or switched on. Astra reviews it next; your three setup questions come after that.",
+          "00:22Z (Oct 12): the switch-on plan and the refreshed Intel storage layout are written and checked (70c3a694). Your three setup questions are drafted in plain words; they come to you only after Astra's review. Nothing is switched on."
         ]
       },
       {
