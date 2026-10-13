@@ -63,17 +63,16 @@ def collect():
     net = sh(["bash","-lc","timeout 6 curl -sI https://huggingface.co >/dev/null 2>&1 && echo ok || echo no"])
     git_branch = sh(["git","branch","--show-current"]); git_head = sh(["git","rev-parse","--short","HEAD"])
     git_dirty = sh(["git","status","--porcelain"]);
-    s03 = ""
-    rb = ROOT/"program/runbook/"
-    if rb.exists():
-        txt = rb.read_text(errors="ignore"); i = txt.find("§0.3 — CURRENT POSITION")
-        if i!=-1:
-            s03 = "\n".join(txt[i:i+1200].splitlines()[:6])
+    # [LAW:one-source-of-truth] the rendered view of program/program_state.json; the runbook §0.3 copy is no longer re-rendered.
+    view = ROOT/"_index/program-state.md"; marker = "- **Latest:** "
+    txt = view.read_text(errors="ignore") if view.exists() else ""; i = txt.find(marker)
+    position = ("\n".join(txt[i+len(marker):][:1200].splitlines()[:6]) if i != -1
+                else f"<unavailable: no '{marker.strip()}' line in {view}>")
     flags = [Path(p).name for p in glob.glob(str(ROOT/"logs/*_DONE.flag")) + glob.glob(str(ROOT/"*_DONE.flag"))]
     return dict(gpu=g, disk=d, shm=shm, ram=r, transformers=tf, model_present=model_present,
                 engine_present=engine_present, hf_token=hf_token, network=net,
                 git=dict(branch=git_branch, head=git_head, dirty_files=len([l for l in git_dirty.splitlines() if l.strip()])),
-                running=running_experiments(), done_flags=flags, runbook_0_3=s03)
+                running=running_experiments(), done_flags=flags, current_position=position)
 
 def preflight(as_json=False):
     c = collect(); hard=[]; warn=[]
@@ -99,7 +98,7 @@ def preflight(as_json=False):
     print(f"git: {c['git']['branch']}@{c['git']['head']} dirty={c['git']['dirty_files']}")
     if c["running"]: print("RUNNING:\n  " + "\n  ".join(c["running"]))
     if c["done_flags"]: print(f"DONE flags pending review: {c['done_flags']}")
-    if c["runbook_0_3"]: print("runbook §0.3 (what's next):\n  " + c["runbook_0_3"].replace("\n","\n  "))
+    print("current position (_index/program-state.md):\n  " + c["current_position"].replace("\n","\n  "))
     if hard: print("HARD (blocks a run):\n  - " + "\n  - ".join(hard))
     if warn: print("WARN:\n  - " + "\n  - ".join(warn))
     return 2 if hard else 0

@@ -19,7 +19,7 @@ out-of-family relative to Codex and does not use an Anthropic API key.
 Feed the design/finding/approach and its evidence on stdin:
 
 ```bash
-cd /workspace
+cd "$(git rev-parse --show-toplevel)"
 printf '%s
 ' '<PASTE: design OR finding OR approach, with artifact paths + exact numbers + relevant context>'   | code/agents/claude_advisor.sh
 ```
@@ -46,14 +46,15 @@ a fallback or secondary check, and label it as weaker independence for Codex-led
 work:
 
 ```bash
-CODEX_HOME=/workspace/.codex codex exec -m gpt-5.5 "$(cat /workspace/code/agents/advisor_review_prompt.md)
+cd "$(git rev-parse --show-toplevel)"
+CODEX_HOME="$PWD/.codex" codex exec -m gpt-5.5 "$(cat code/agents/advisor_review_prompt.md)
 
 <PASTE: review package>"
 ```
 
 ## Review Contract
 
-Run `/workspace/code/agents/advisor_review_prompt.md` verbatim: real criterion vs
+Run `code/agents/advisor_review_prompt.md` from the repo root verbatim: real criterion vs
 flattering adjacent; confounds and over-claims; `EVIDENCE-SHOWS` vs `I-INFER`;
 cite-or-flag every factual claim; cheapest overturning test; F1 drift check.
 Output a one-word verdict (`PROCEED` / `FIX-FIRST` /
