@@ -406,7 +406,8 @@ def source_stamp(directory):
     seen, stamp = set(), 0.0
     while pending:
         path = os.path.realpath(pending.pop())
-        if path in seen or not path.startswith(root + os.sep):
+        # join(root, "") ends in exactly one separator, also when root is "/" (a Linux temp dir).
+        if path in seen or not path.startswith(os.path.join(root, "")):
             continue
         seen.add(path)
         stat = os.stat(path)
