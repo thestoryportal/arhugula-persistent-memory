@@ -29,19 +29,21 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, evidence/CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-12T05:28:00Z",
+    "edited": "2026-10-13T06:10:00Z",
     "items": [
       {
         "id": "context-audit",
         "title": "Context hygiene: fix every instruction file and make it stay fixed",
         "summary": "Seven read-only checkers are auditing CLAUDE.md, AGENTS.md, the three memory stores, hook text and the read-first documents for bloat, conflicts, duplicates, wrong or unclear lines. They report back; nothing changes until you approve a clean-up.",
-        "state": "paused",
+        "state": "blocked",
         "who": "MAESTRO72 (audit stopped by you)",
         "session": "codexrot1",
         "started": "2026-10-12T00:50Z",
         "estimate": null,
         "depends_on": [],
-        "blocked_by": [],
+        "blocked_by": [
+          "Paused by the operator (context audit stopped)"
+        ],
         "needs_from_you": [],
         "notes": [
           "00:51Z: your request (verbatim in results/context_audit_20261012/brief.md). Launched seven lanes (20820ccf): Claude layer, Codex layer, indexed memory in two halves, unindexed/retired notes, the three memory stores, and the read-first documents. Other work is paused at your request.",
@@ -61,7 +63,8 @@
           "23:07 MDT Oct 11 (05:07Z): All 70 approved fixes are in CLAUDE.md, AGENTS.md, MEMORY.md and 54 of its notes (57 files). Astra reviewed the result: GO-WITH-FIXES, 9 small follow-on fixes, all folded (results/context_audit_20261012/recheck/astra_review.md). Not applied, offered to you separately: four items Astra flagged as worth a follow-up (a note that suggests hiding a refused command in a script, a note that says results may be overwritten, close-out ordering, and the merge-worktree wording).",
           "23:13 MDT Oct 11 (05:13Z): Done as you said, without asking: the four leftover fixes plus CLAUDE.md's stale-mission line (CLAUDE.md, 4 notes). Astra GO-WITH-FIXES; its one in-scope fix folded (results/context_audit_20261012/recheck/astra_review_followup.md). Its other three are in _system/governance/DISCIPLINE.md and code/gates/closeout_check.py, outside your scope: reported to you, not changed.",
           "23:23 MDT Oct 11 (05:23Z): Close-out order now matches in _system/governance/DISCIPLINE.md and the checker (ea58bcd9). You asked for a very thorough context-rot audit of everything: one read-only agent (codexrot1) is working through 614 files in priority order (always-loaded guides first, science and old briefs last), writing findings with exact fixes to results/context_rot_audit_20261012/; a fresh copy takes over whenever its context runs low. It also checks every path into the parent data folder. Obvious fixes get applied without asking you.",
-          "23:28 MDT Oct 11 (05:28Z): You stopped the context-rot audit: it would have taken about 10 hours. codexrot1 was interrupted after 5 of 614 files; its 9 findings (all obvious fixes) are saved in results/context_rot_audit_20261012/ and nothing has been applied. Next: you decide how to clear the clutter in results/ (316 leftover test folders, old instruction-file snapshots) before any further audit."
+          "23:28 MDT Oct 11 (05:28Z): You stopped the context-rot audit: it would have taken about 10 hours. codexrot1 was interrupted after 5 of 614 files; its 9 findings (all obvious fixes) are saved in results/context_rot_audit_20261012/ and nothing has been applied. Next: you decide how to clear the clutter in results/ (316 leftover test folders, old instruction-file snapshots) before any further audit.",
+          "2026-10-13 00:15Z: State 'paused' is not a queue state (dashboard_queue.parse_queue rejected it, so the queue tab could not render). Set to blocked; the pause reason is in blocked_by."
         ]
       },
       {
@@ -302,13 +305,15 @@
         "id": "drive-activate",
         "title": "Drive backup: turn it on",
         "summary": "Upload the project's bulk files to Google Drive, confirm every byte arrived, then start the automatic backup. The plan is being rewritten so the first upload runs from the Intel Mac (your choice 11); your three OKs will be asked again against that version.",
-        "state": "running",
-        "who": "codexic1 building step 1 (the Intel copy tool); MAESTRO69 checks it",
-        "session": "codexda1",
+        "state": "blocked",
+        "who": "MAESTRO (no builder running)",
+        "session": null,
         "started": "2026-10-12T00:10Z",
         "estimate": null,
         "depends_on": [],
-        "blocked_by": [],
+        "blocked_by": [
+          "Paused: copy tool built but not committed (260 ic1-* temp folders to clear first)"
+        ],
         "needs_from_you": [],
         "notes": [
           "08:23Z: your earlier three questions are withdrawn until the Intel version exists (integration row I7); they are deferred, not waived.",
@@ -324,7 +329,8 @@
           "00:35Z: Astra said go with four fixes (e5416e99): spell out which failure tests the Intel must still pass, keep the check that ignores stray settings, fix one disk-space test that pointed the wrong way, and restore two storage safeguards. The builder is making those fixes now; then your three questions.",
           "03:35Z (Oct 12): You said go on making the Intel hold the memit copy. Plan: 1) copy memit to the Intel over the cable at low disk priority, pausing while science runs, every file checked; 2) once verified, stop the 6-hourly backup on the M3's internal disk and, with your OK, delete its 272 GB copy at ~/Backups/memit; 3) the Intel uploads to Drive on its own; 4) the Intel pulls repo files on demand. A fresh MAESTRO session in the main folder starts it.",
           "03:45Z (Oct 12): Step 1 started. Space checked: the Intel has 478 GB free, and storing each identical file once keeps the copy near 130 GB, inside its 250 GB limit. The pass/fail plan is written (98888273). A builder is writing the copy tool with its tests first. Next: MAESTRO runs a size check on the real files, a small trial copy with a pause test, then expert review, before the full copy.",
-          "04:14Z (Oct 12): The copy tool is built (its 30 tests pass), but its test run left ~260 temporary ic1-* folders inside projects/drive-activate/receipts/intel_memit_copy_20261012, so it is not committed yet. Paused here because you made the context clean-up top priority; nothing is copying."
+          "04:14Z (Oct 12): The copy tool is built (its 30 tests pass), but its test run left ~260 temporary ic1-* folders inside projects/drive-activate/receipts/intel_memit_copy_20261012, so it is not committed yet. Paused here because you made the context clean-up top priority; nothing is copying.",
+          "2026-10-13 00:10Z: MAESTRO found no codexic1 or codexda1 tmux session. State corrected from running to blocked (paused). Next: clear the ic1-* test folders, commit the copy tool, then resume."
         ]
       },
       {
@@ -428,6 +434,43 @@
           "A separate go for the run itself, with its disk budget."
         ],
         "notes": []
+      },
+      {
+        "id": "duckdb-component",
+        "title": "DuckDB: implement as its own component",
+        "summary": "The research engine's measurement copy: DuckDB reads admitted result families through explicit adapters and stores normalized measurements, scope information and source pointers (research engine design.md:112). Lets agents and people compare exact recorded numbers with their setup, limits and sources, rebuilt from Git at one dated source snapshot paired with Neo4j.",
+        "state": "blocked",
+        "who": "MAESTRO: brief a spec writer (first sub-unit is the spec)",
+        "session": null,
+        "started": null,
+        "estimate": null,
+        "depends_on": [
+          "research-engine-phase1-brief",
+          "ontology-design"
+        ],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "2026-10-13 00:10Z: Added as its own standalone implementation at the operator's request (2026-10-12 ~21:45 MDT). No live spec yet; sources: No standalone plan exists today: DuckDB 1.5.5 is only a pinned part of the Intel install freeze inside research-engine-phase1-brief (PyPI wheel, not a MacPorts build)."
+        ]
+      },
+      {
+        "id": "ontology-design",
+        "title": "Ontology: design and implement",
+        "summary": "The vocabulary that defines what a finding, experiment, measurement or relationship means and what it must carry (compute-storage design.md:107; handoff: 'Ontology defines record meaning'). Gives DuckDB and Neo4j (2026.09.0, planned in the Intel install) one shared set of record kinds, required fields and allowed links, with generated shape checks.",
+        "state": "blocked",
+        "who": "MAESTRO: brief a spec writer (first sub-unit is the spec)",
+        "session": null,
+        "started": null,
+        "estimate": null,
+        "depends_on": [
+          "research-engine-phase1-brief"
+        ],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "2026-10-13 00:10Z: Added as its own standalone implementation at the operator's request (2026-10-12 ~21:45 MDT). No live spec yet; sources: No live spec exists yet: the only prior design is archived (_archive/historical_backups/20261011/llm-as-database/, 'Session 1 - Ontological Schema'), and the research engine design names a versioned vocabulary with LinkML as the recommended start; the first sub-unit is a spec."
+        ]
       }
     ]
   }
