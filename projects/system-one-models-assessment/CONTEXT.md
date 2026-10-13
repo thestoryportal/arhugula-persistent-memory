@@ -13,6 +13,7 @@ Use the frontmatter to locate the project's sources.
 Read `program/program_state.json` for project state.
 It is the only authority for project state.
 
+Standard record folders. A folder exists only when it has content.
 - `brief/` holds the brief.
 - `reviews/` holds reviews.
 - `drafts/` holds drafts.

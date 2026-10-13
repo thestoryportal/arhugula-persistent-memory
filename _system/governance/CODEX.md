@@ -30,7 +30,7 @@ with actual mechanisms: deterministic scripts (`code/gates/experiment_gate.py`,
 - **Per-experiment "tests"** are the **pre-registered pass criteria** in each `evidence/CORPUS/NN` doc + `experiments/g6/design/G6_G7_PASS_CRITERIA_DRAFT.md`. A run "passes" only against criteria set BEFORE the run.
 
 ## Engineering conventions (match these exactly)
-- **Artifact naming:** scripts `experiments/<track>/<track><n>_<slug>.py`; results `experiments/<id>/runs/<slug>/<name>_result.json`; logs `experiments/<id>/runs/<slug>/logs/<name>.log` (`results/` and `logs/` are ignored legacy roots); evidence writeups `evidence/CORPUS/<NN>_<SLUG>.md`; decisions `D-<TRACK><n>` tied to the runbook decisions ledger (§5).
+- **Artifact naming:** scripts `code/lab/<track>/<name>.py`; results `experiments/<id>/runs/<slug>/<name>_result.json`; logs `experiments/<id>/runs/<slug>/logs/<name>.log` (`results/` and `logs/` are ignored legacy roots); evidence writeups `evidence/CORPUS/<NN>_<SLUG>.md`; decisions `D-<TRACK><n>` tied to the runbook decisions ledger (§5).
 - **Status flags** (use everywhere): `DONE · RUNNING · NEXT · QUEUED · GATED(on X) · BLOCKED(on X) · HALTED · ELIMINATED(revisitable)`.
 - **CORPUS writeup template** (see any of `14–20` or `evidence/CORPUS/AGENTS.md`): pre-registration (metric, PASS/PARTIAL/FAIL, prediction) → VERDICT + data table → mechanism → resolves/doesn't → **caveats kept flush** → Decision-ID → FORK.
 - **New script header** (for any new live experiment): start with

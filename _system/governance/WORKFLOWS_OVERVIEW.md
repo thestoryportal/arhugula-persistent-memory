@@ -137,7 +137,7 @@ The self-improvement loop is a **feeder**, fenced **below** the main workflow. I
 ### 4.2 The close-out gate (`code/gates/closeout_check.py`)
 Two layers: **PRESENCE** (D-ID in every required tracker) + **CURRENCY** (a content fingerprint `<D-ID>@<hash>` of the canonical source span in every tracker — catches docs frozen at a superseded result). On every **refinement** the hash changes → trackers go STALE until re-propagated (`--fp <D-ID>` prints the token to embed). Mechanical — **not the operator's job to verify.**
 
-### 4.3 Hooks (`tools/git_hooks/`, via `core.hooksPath`)
+### 4.3 Hooks (`code/ops/git/hooks/`, via `core.hooksPath`)
 - **`pre-commit` (ACTIVE)** — blocks the commit on: (1) stale generated blocks (`render_state.py --check`); (2) stale registered fingerprints (`closeout_check.py --audit`); (3) **secrets** in staged changes (credential filenames + token/key value signatures). Escape: `--no-verify`.
 - **`post-commit` (DISABLED)** — a former auto-`git push` hook, intentionally a no-op (auto-push bypasses the permission deny-list).
 - No Claude Code (`settings.json`) lifecycle hooks are configured; the `settings.json` **permissions deny-list** is the agent-side guardrail.

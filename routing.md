@@ -44,7 +44,7 @@ Read `CONTEXT.md` (the umbrella). Then read the one folder `CONTEXT.md` that you
 | `evidence/CONTEXT.md` | The attested ledger: CORPUS entries and manifests |
 | `knowledge/CONTEXT.md` | Findings, analyses, model profiles, specs, research and papers |
 | `code/CONTEXT.md` | All code, grouped by job |
-| `map/CONTEXT.md` | The system map of `code/`: objects, processes and effects |
+| `map/CONTEXT.md` | The system map of `code/`: catalog, noun index and inventory (cards, process records and an effects index come after v2) |
 | `data/CONTEXT.md` | External shared inputs (caches, covariance). They stay out of git. |
 | `_system/CONTEXT.md` | The governance rules and the agent memory mirror |
 | `_templates/CONTEXT.md` | The stamps for a new experiment or project |

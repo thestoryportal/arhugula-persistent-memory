@@ -23,6 +23,7 @@ supersedes: null
 Use the frontmatter to locate the record's sources.
 Read the cited sources for claims and verdicts.
 
+Standard record folders. A folder exists only when it has content.
 - `design/` holds the preregistration, amendments, scope, and build briefs.
 - `reviews/` holds reviews.
 - `rulings/` holds operator rulings.

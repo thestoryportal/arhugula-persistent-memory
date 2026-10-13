@@ -1,6 +1,6 @@
 # LLM-as-Database — End-to-End Production Framework (spec ground-truth snapshot)
 
-**Snapshot date:** 2026-06-21. **Source:** `research_and_specs/llm-as-database-v1_2-integrated-spec.md` (v1.2 integrated), read end-to-end; section refs inline. **Purpose:** a clean, faithful picture of *how the spec prescribes the system be implemented and how memory is managed in production*, to ground forward work. **§A–§I = what the SPEC prescribes** (faithful). **§J = our empirical overlay** (what we've proven / amended / found open against it — pointers, not restated). De-dup discipline: this is the e2e narrative; per-result detail lives in `CORPUS/` + `docs/SPEC_EXPERIMENT_OVERLAY.md`.
+**Snapshot date:** 2026-06-21. **Source:** `knowledge/specs/integrated-spec-v1_2/` (v1.2 integrated), read end-to-end; section refs inline. **Purpose:** a clean, faithful picture of *how the spec prescribes the system be implemented and how memory is managed in production*, to ground forward work. **§A–§I = what the SPEC prescribes** (faithful). **§J = our empirical overlay** (what we've proven / amended / found open against it — pointers, not restated). De-dup discipline: this is the e2e narrative; per-result detail lives in `CORPUS/` + `knowledge/specs/SPEC_EXPERIMENT_OVERLAY.md`.
 
 ---
 
@@ -80,12 +80,12 @@ Two-level mandatory probe on every write: **L1 Storage probe** (`SELECT` read-ba
 - **Three orchestration path options (§12.3)** (concurrency model) are deferred to the operator.
 
 ## §I — Deployment realization
-The spec's deployment = **the model with mounted `.vindex` serves inference** (state is in-weight, zero added retrieval step). The **physical realization our program validated** = **edit offline on GPU → COMPILE → serve on CPU** (D-SCOPE-1; the Genesis/batch-rebuild model), with the compiled store quantized (Q4_K_M) and served on commodity CPU. *(The CPU-serve realization is partly our finding, §J / `CORPUS/17,18`.)*
+The spec's deployment = **the model with mounted `.vindex` serves inference** (state is in-weight, zero added retrieval step). The **physical realization our program validated** = **edit offline on GPU → COMPILE → serve on CPU** (D-SCOPE-1; the Genesis/batch-rebuild model), with the compiled store quantized (Q4_K_M) and served on commodity CPU. *(The CPU-serve realization is partly our finding, §J / `evidence/CORPUS/17,18`.)*
 
 ---
 
 ## §J — Our empirical overlay (what's PROVEN / AMENDED / OPEN against this spec)
-Detail + per-result pointers in **`docs/SPEC_EXPERIMENT_OVERLAY.md`** (spec-section ↔ experiment map) and `CORPUS/`. Headlines:
+Detail + per-result pointers in **`knowledge/specs/SPEC_EXPERIMENT_OVERLAY.md`** (spec-section ↔ experiment map) and `evidence/CORPUS/`. Headlines:
 - **PROVEN-FOR-SCOPE (3B / N≤100 / batch):** the data-path spine — Genesis batch compile is corruption-clean (A1), survives real Q4_K_M (B3/CORPUS-17), serves edited facts on CPU (E1/CORPUS-18).
 - **AMENDED — §8.7 drift contract:** the spec's **count-only** `edge_count_since_anchor` is the *wrong predictor* — corruption is **relation-concentration- and edit-order-dominated** → our **concentration-aware `k≤1` amendment** (D1/B1/D-D1-2). Model-general (3B+7B); numeric cross-model transfer (OQ-W1) **OPEN**.
 - **DECIDED — architecture (B3/D-B3N-1):** in-weight is **not contractually required**; the spec's compaction-bounded hybrid is in-weight-viable under **3 conditions** (concentration-aware §8.7 · compaction-before-the-envelope · **compaction-at-scale cleanliness**).
