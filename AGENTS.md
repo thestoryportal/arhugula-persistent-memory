@@ -20,7 +20,7 @@ Read `CONTEXT.md` (the umbrella). Then read the one folder `CONTEXT.md` that you
 | You continue the program, or you need "what is next" | `program/CONTEXT.md` |
 | You run or read an experiment | `experiments/CONTEXT.md` |
 | You change code | `map/CLAUDE.md` (the catalog of `code/`) |
-| You plan an experiment, a hypothesis or a decision | `knowledge/specs/SPEC_E2E_GROUND_TRUTH.md` (find its layer first) |
+| You plan an experiment, a hypothesis or a decision | `knowledge/specs/SPEC_E2E_GROUND_TRUTH.md` (find its layer in §B first) |
 | You start a session, or before any dispatch or run | `_system/governance/DISCIPLINE.md` (correctness gates) |
 | A run fails, a gate misses, or you must halt | `_system/governance/DISCIPLINE.md` (halt discipline) |
 | You close an experiment or a decision | `_system/governance/DISCIPLINE.md` (close-out gate) |
@@ -32,7 +32,7 @@ Read `CONTEXT.md` (the umbrella). Then read the one folder `CONTEXT.md` that you
 | Before an unattended run of `code/lab/runners/autonomy_driver.py` | `_system/governance/AUTONOMY.md` |
 | You need the shape of the whole workflow | `_system/governance/WORKFLOWS_OVERVIEW.md` |
 | You start work that is like past work | `_system/memory/MEMORY.md` |
-| An old path does not resolve | `_index/path-map.tsv`, or `code/state/resolve_path.py <old-path>` |
+| An old path does not resolve | `_index/path-map.tsv`, or `LLMDB_ROOT=$PWD .venv/bin/python code/state/resolve_path.py <old-path>` |
 
 ## Where things live
 
