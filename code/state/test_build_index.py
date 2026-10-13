@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import subprocess
+import shutil
 import sys
 import tempfile
 import unittest
@@ -163,8 +164,10 @@ class IndexTests(unittest.TestCase):
         from state.build_index import build_anchor_map, read_anchor_map
         folder = self.root / 'program/runbook'
         folder.mkdir()
-        (folder / '00-first.md').write_text('## Rewritten first\n')
-        (folder / '08-second.md').write_text('## Rewritten second\n')
+        (folder / '00-first.md').write_text(
+            '# Preamble\n## Rewritten first\n### evidence/CORPUS/14\n')
+        (folder / '08-second.md').write_text(
+            '## Rewritten second\n### evidence/CORPUS/14\n')
         original = ('# Preamble\n## Original first\n### CORPUS/14\n'
                     '```\n## Not a heading\n```\n'
                     '## Original second\n### CORPUS/14\n')
@@ -176,25 +179,116 @@ class IndexTests(unittest.TestCase):
                          ['git', 'show', '3f1a3b95:EXPERIMENT_RUNBOOK.md'])
         entries = read_anchor_map(data, self.root)
         monolith = 'program/EXPERIMENT_RUNBOOK.md'
-        self.assertEqual(entries[(monolith, 'corpus14')], 'program/runbook/00-first.md')
-        self.assertEqual(entries[(monolith, 'corpus14-1')], 'program/runbook/08-second.md')
+        self.assertEqual(entries[(monolith, 'preamble')],
+                         ('program/runbook/00-first.md', 'preamble'))
+        self.assertEqual(entries[(monolith, 'corpus14')],
+                         ('program/runbook/00-first.md', 'evidencecorpus14'))
+        self.assertEqual(entries[(monolith, 'corpus14-1')],
+                         ('program/runbook/08-second.md', 'evidencecorpus14'))
         self.assertNotIn((monolith, 'not-a-heading'), entries)
-        self.assertEqual(data.splitlines()[0], b'monolith\tanchor\tpart')
+        self.assertEqual(data.splitlines()[0], b'monolith\tanchor\tpart\tcurrent_anchor')
+
+    def test_anchor_map_keeps_unmatched_historical_slug(self):
+        from state.build_index import build_anchor_map, read_anchor_map
+        folder = self.root / 'program/runbook'
+        folder.mkdir()
+        (folder / '00-first.md').write_text('## First\n')
+        response = subprocess.CompletedProcess([], 0, '## First\n### Missing\n', '')
+        with patch('state.build_index.subprocess.run', return_value=response):
+            data = build_anchor_map(self.root, {
+                'EXPERIMENT_RUNBOOK.md': 'program/EXPERIMENT_RUNBOOK.md'})
+        entries = read_anchor_map(data, self.root)
+        self.assertEqual(entries[('program/EXPERIMENT_RUNBOOK.md', 'missing')],
+                         ('program/runbook/00-first.md', 'missing'))
 
     def test_anchor_map_validation_without_git(self):
         self.write()
         path = self.root / '_index/anchor-map.tsv'
-        header = 'monolith\tanchor\tpart\n'
-        row = 'program/SESSION_CHECKPOINT.md\tlive\tprogram/checkpoints/001-live.md\n'
+        header = 'monolith\tanchor\tpart\tcurrent_anchor\n'
+        row = ('program/SESSION_CHECKPOINT.md\tlive\t'
+               'program/checkpoints/001-live.md\tlive-handoff\n')
         path.write_text(header + row)
         # A fixture has no git repository. --check must use the sealed map.
         self.assertEqual(self.run_tool('--check').returncode, 0)
         for data in ('bad\theader\n', header + row + row,
-                     header + 'm\ta\tmissing.md\n'):
+                     header + 'm\ta\tmissing.md\ta\n',
+                     header + 'm\ta\tprogram/checkpoints/001-live.md\t\n'):
             path.write_text(data)
             result = self.run_tool('--check')
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn('anchor-map.tsv', result.stderr)
+
+
+class LivingAnchorMapTests(unittest.TestCase):
+    def setUp(self):
+        from state.resolve_path import SPLITS
+        source = Path(os.environ['LLMDB_ROOT'])
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        (self.root / '_index').mkdir()
+        shutil.copy2(source / '_index/path-map.tsv', self.root / '_index/path-map.tsv')
+        for folder in SPLITS.values():
+            (self.root / folder).mkdir(parents=True)
+            for part in (source / folder).glob('[0-9]*.md'):
+                shutil.copy2(part, self.root / folder / part.name)
+        self.part = self.root / 'program/runbook/08-experiment-decision-tree-tracks-af.md'
+        self.git_dir = subprocess.run(
+            ['git', '-C', str(source), 'rev-parse', '--absolute-git-dir'],
+            capture_output=True, text=True, check=True).stdout.strip()
+
+    def rebuild(self):
+        from state.build_index import build_anchor_map, read_anchor_map, read_path_map
+        mapping = read_path_map((self.root / '_index/path-map.tsv').read_bytes())
+        with patch.dict(os.environ, GIT_DIR=self.git_dir):
+            data = build_anchor_map(self.root, mapping)
+        (self.root / '_index/anchor-map.tsv').write_bytes(data)
+        return read_anchor_map(data, self.root)
+
+    def assert_fragment_exists(self, destination):
+        from state.resolve_path import heading_entries
+        part, marker, fragment = destination.partition('#')
+        self.assertEqual(marker, '#')
+        slugs = {slug for _, slug in heading_entries(
+            (self.root / part).read_text(encoding='utf-8').splitlines())}
+        self.assertIn(fragment, slugs)
+
+    def test_unequal_replace_keeps_historical_slugs_and_errors(self):
+        from state.resolve_path import resolve
+        text = self.part.read_text(encoding='utf-8')
+        heading = '#### A1 · Batch vs sequential write'
+        self.assertEqual(text.count(heading), 1)
+        self.part.write_text(text.replace(heading, '### New close-out heading\n' + heading, 1),
+                             encoding='utf-8')
+        entries = self.rebuild()
+        old_anchors = (
+            'a1--batch-vs-sequential-write--done--pass-robust-corpus14-d-a1-1',
+            'a2--relation-balanced-in-solve-sentinels-3-disjoint-pools--done--partial-strong-directional-corpus15-d-a2-1')
+        with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
+            for old_anchor in old_anchors:
+                with self.subTest(anchor=old_anchor):
+                    self.assertEqual(entries[('program/EXPERIMENT_RUNBOOK.md', old_anchor)][1],
+                                     old_anchor)
+                    with self.assertRaisesRegex(ValueError, 'Unknown anchor'):
+                        resolve('EXPERIMENT_RUNBOOK.md#' + old_anchor)
+
+    def test_deleted_heading_errors_and_all_other_fragments_exist(self):
+        from state.resolve_path import resolve
+        text = self.part.read_text(encoding='utf-8')
+        heading = '### TRACK A — Cross-entity isolation fix (THE active blocker)\n'
+        self.assertEqual(text.count(heading), 1)
+        self.part.write_text(text.replace(heading, '', 1), encoding='utf-8')
+        entries = self.rebuild()
+        removed = ('program/EXPERIMENT_RUNBOOK.md',
+                   'track-a--cross-entity-isolation-fix-the-active-blocker')
+        self.assertEqual(len(entries), 517)
+        self.assertEqual(entries[removed][1], removed[1])
+        with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
+            with self.assertRaisesRegex(ValueError, 'Unknown anchor'):
+                resolve('#'.join(removed))
+            for key in entries:
+                if key != removed:
+                    self.assert_fragment_exists(resolve('#'.join(key)))
 
 
 if __name__ == '__main__':

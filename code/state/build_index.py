@@ -1,6 +1,7 @@
 """Build deterministic ICM indexes. The approved path map stays byte-identical."""
 import argparse
 import csv
+from difflib import SequenceMatcher
 import io
 import json
 import os
@@ -13,6 +14,7 @@ import yaml
 
 STATUSES = {'designed', 'frozen', 'running', 'halted', 'verdict', 'deferred'}
 MAP_HEADER = ['old', 'new', 'disposition', 'unit']
+ANCHOR_HEADER = ['monolith', 'anchor', 'part', 'current_anchor']
 MIN_MAP_ROWS = 31820
 
 
@@ -140,23 +142,24 @@ def generate(root: Path) -> dict[str, bytes]:
     }
 
 
-def read_anchor_map(data: bytes, root: Path) -> dict[tuple[str, str], str]:
-    if data.splitlines()[:1] != [b'monolith\tanchor\tpart']:
-        raise ValueError('_index/anchor-map.tsv: expected exact header monolith\tanchor\tpart')
+def read_anchor_map(data: bytes, root: Path) -> dict[tuple[str, str], tuple[str, str]]:
+    header = '\t'.join(ANCHOR_HEADER)
+    if data.splitlines()[:1] != [header.encode('utf-8')]:
+        raise ValueError(f'_index/anchor-map.tsv: expected exact header {header}')
     rows = csv.reader(io.StringIO(data.decode('utf-8')), delimiter='\t')
     next(rows)
     result = {}
     for number, row in enumerate(rows, 2):
-        if len(row) != 3 or not all(row):
+        if len(row) != 4 or not all(row):
             raise ValueError(f'_index/anchor-map.tsv: malformed row {number}')
-        monolith, anchor, part = row
+        monolith, anchor, part, current_anchor = row
         key = (monolith, anchor)
         if key in result:
             raise ValueError(f'_index/anchor-map.tsv: repeated anchor {monolith}#{anchor}')
         path = Path(part)
         if path.is_absolute() or '..' in path.parts or not (root / path).is_file():
             raise ValueError(f'_index/anchor-map.tsv: missing or invalid part {part}')
-        result[key] = part
+        result[key] = (part, current_anchor)
     return result
 
 
@@ -184,12 +187,24 @@ def build_anchor_map(root: Path, mapping: dict[str, str]) -> bytes:
             raise ValueError(f'_index/anchor-map.tsv: {old}: {boundaries} section '
                              f'boundaries do not match {len(parts)} parts')
         position = -1
+        sections = [[] for _ in parts]
         for heading, slug in entries:
             if re.match(r'^ {0,3}##\s+', heading):
                 position += 1
-            part = parts[max(position, 0)].relative_to(root).as_posix()
-            rows.append((monolith, slug, part))
-    data = ('monolith\tanchor\tpart\n' + ''.join(
+            sections[max(position, 0)].append(slug)
+        for path, historical in zip(parts, sections):
+            current = [slug for _, slug in heading_entries(
+                path.read_text(encoding='utf-8').splitlines())]
+            part = path.relative_to(root).as_posix()
+            aligned = {}
+            for tag, a, b, c, d in SequenceMatcher(
+                    None, historical, current, autojunk=False).get_opcodes():
+                if tag == 'equal' or (tag == 'replace' and b - a == d - c):
+                    aligned.update(zip(historical[a:b], current[c:d]))
+            for slug in historical:
+                rows.append((monolith, slug, part,
+                             slug if slug in current else aligned.get(slug, slug)))
+    data = ('\t'.join(ANCHOR_HEADER) + '\n' + ''.join(
         '\t'.join(row) + '\n' for row in sorted(rows))).encode('utf-8')
     read_anchor_map(data, root)
     return data

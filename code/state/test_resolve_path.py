@@ -1,3 +1,4 @@
+import csv
 import os
 from pathlib import Path
 import subprocess
@@ -7,6 +8,40 @@ import unittest
 from unittest.mock import patch
 
 SCRIPT = Path(__file__).with_name('resolve_path.py')
+
+
+class DestinationFragmentTests(unittest.TestCase):
+    def test_all_mapped_fragments_exist_in_destination(self):
+        from state.resolve_path import heading_entries, resolve
+        root = Path(os.environ['LLMDB_ROOT'])
+        missing = []
+        with (root / '_index/anchor-map.tsv').open(encoding='utf-8') as source:
+            rows = list(csv.DictReader(source, delimiter='\t'))
+        self.assertEqual(len(rows), 517)
+        for row in rows:
+            old = f'{row["monolith"]}#{row["anchor"]}'
+            destination, marker, fragment = resolve(old).partition('#')
+            slugs = {slug for _, slug in heading_entries(
+                (root / destination).read_text(encoding='utf-8').splitlines())}
+            if not marker or fragment not in slugs:
+                missing.append(f'{old} -> {destination}#{fragment}')
+        print(f'{len(rows)} rows checked and {len(missing)} missing')
+        self.assertEqual(missing, [], '\n'.join(missing))
+
+    def test_a1_fragment_exists_in_destination(self):
+        from state.resolve_path import heading_entries, resolve
+        root = Path(os.environ['LLMDB_ROOT'])
+        destination, marker, fragment = resolve(
+            'EXPERIMENT_RUNBOOK.md#'
+            'a1--batch-vs-sequential-write--done--pass-robust-corpus14-d-a1-1'
+        ).partition('#')
+        slugs = {slug for _, slug in heading_entries(
+            (root / destination).read_text(encoding='utf-8').splitlines())}
+        self.assertEqual(marker, '#')
+        self.assertIn(fragment, slugs)
+        self.assertEqual(fragment,
+                         'a1--batch-vs-sequential-write--done--pass-robust-'
+                         'evidencecorpus14-d-a1-1')
 
 
 class ResolverTests(unittest.TestCase):
@@ -24,17 +59,24 @@ class ResolverTests(unittest.TestCase):
             '## §0 — ENTRY POINT (read first, every session)\n\n### Child heading\n')
 
         (self.root / 'program/runbook/08-decisions.md').write_text(
-            '## Decisions\n### A1 evidence/CORPUS/14\n### Current only\n')
+            '## Decisions\n'
+            '#### A1 · Batch vs sequential write · **DONE — PASS (robust). '
+            '`evidence/CORPUS/14`, `D-A1-1`.**\n'
+            '#### A2 · Relation-balanced in-solve sentinels (3 disjoint pools) · '
+            '**DONE — PARTIAL (strong, directional). `evidence/CORPUS/15`, `D-A2-1`.**\n'
+            '### Child heading\n### Current only\n')
         (self.root / '_index/anchor-map.tsv').write_text(
-            'monolith\tanchor\tpart\n'
+            'monolith\tanchor\tpart\tcurrent_anchor\n'
             'program/EXPERIMENT_RUNBOOK.md\t'
             'a1--batch-vs-sequential-write--done--pass-robust-corpus14-d-a1-1\t'
-            'program/runbook/08-decisions.md\n'
+            'program/runbook/08-decisions.md\t'
+            'a1--batch-vs-sequential-write--done--pass-robust-evidencecorpus14-d-a1-1\n'
             'program/EXPERIMENT_RUNBOOK.md\t'
             'a2--relation-balanced-in-solve-sentinels-3-disjoint-pools--done--partial-strong-directional-corpus15-d-a2-1\t'
-            'program/runbook/08-decisions.md\n'
+            'program/runbook/08-decisions.md\t'
+            'a2--relation-balanced-in-solve-sentinels-3-disjoint-pools--done--partial-strong-directional-evidencecorpus15-d-a2-1\n'
             'program/EXPERIMENT_RUNBOOK.md\tchild-heading\t'
-            'program/runbook/08-decisions.md\n')
+            'program/runbook/08-decisions.md\tchild-heading\n')
 
     def run_tool(self, value):
         return subprocess.run([sys.executable, '-B', str(SCRIPT), value],
@@ -90,8 +132,24 @@ class ResolverTests(unittest.TestCase):
             for old in ('program/EXPERIMENT_RUNBOOK.md', 'EXPERIMENT_RUNBOOK.md'):
                 result = self.run_tool(old + '#' + anchor)
                 self.assertEqual(result.returncode, 0, result.stderr)
-                self.assertEqual(result.stdout.strip(),
-                                 'program/runbook/08-decisions.md#' + anchor)
+                destination, _, fragment = result.stdout.strip().partition('#')
+                from state.resolve_path import heading_entries
+                slugs = {slug for _, slug in heading_entries(
+                    (self.root / destination).read_text().splitlines())}
+                self.assertIn(fragment, slugs)
+                self.assertEqual(fragment, anchor.replace('corpus', 'evidencecorpus'))
+
+    def test_sealed_fragment_keeps_existing_encoded_anchor(self):
+        result = self.run_tool('program/EXPERIMENT_RUNBOOK.md#%63hild-heading')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.strip(),
+                         'program/runbook/08-decisions.md#%63hild-heading')
+
+    def test_stale_sealed_fragment_is_an_error(self):
+        (self.root / 'program/runbook/08-decisions.md').write_text('## Decisions\n')
+        result = self.run_tool('program/EXPERIMENT_RUNBOOK.md#child-heading')
+        self.assertEqual(result.returncode, 2)
+        self.assertIn('Unknown anchor', result.stderr)
 
     def test_sealed_anchor_precedence_and_current_exact_source(self):
         result = self.run_tool('program/EXPERIMENT_RUNBOOK.md#child-heading')
