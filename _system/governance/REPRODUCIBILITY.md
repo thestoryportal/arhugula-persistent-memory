@@ -3,9 +3,9 @@
 This document lets an independent researcher re-run any experiment and trace any claim to its raw artifact. It implements the **ML Reproducibility Checklist** (code + data + exact commands + environment + seeds + reporting of variation) and **FAIR** access norms. The authoritative per-experiment provenance is `evidence/CORPUS/01_PROVENANCE_MANIFEST.md` and `program/registers/EXPERIMENT_REGISTRY.md`; environment detail is `evidence/CORPUS/04_ENV_AND_DEPS.md`.
 
 ## Environment
-- **Hardware:** RunPod, single NVIDIA RTX 4090 (24 GB). `/workspace` is a MooseFS network volume; large infra is never moved (see path convention). Deployment target is the operator's **Intel CPU** (edit-time = GPU/offline, inference-time = CPU).
+- **SUPERSEDED 2026-10-03 (D-HW-1):** **Hardware:** RunPod, single NVIDIA RTX 4090 (24 GB). `/workspace` is a MooseFS network volume; large infra is never moved (see path convention). Deployment target is the operator's **Intel CPU** (edit-time = GPU/offline, inference-time = CPU).
 - **SUPERSEDED 2026-10-03 (D-HW-1):** the RunPod volume was lost. Science hardware **and** deployment target = the operator's MacBook M3 Pro (48 GB unified memory, Apple MPS, no CUDA); `LLMDB_ROOT` = the clone root; environment pinned in `pyproject.toml` (uv). Results above this line were produced on the 4090; any re-run here must pass the LAW#3 known-baseline gate first. MPS has no float64, so the CPU-side float64 solve (the vendored CPU-solve patch) is a requirement, not a mitigation.
-- **Python / ML stack:** `transformers==4.51.0` (PINNED — 4.45 lacks Qwen3, 5.x breaks the engine nethook), PyTorch + CUDA, `torch.float16` model loads. Qwen3-only work used transformers 5.12.1 in an isolated context where noted.
+- **SUPERSEDED 2026-10-03 (D-HW-1):** **Python / ML stack:** `transformers==4.51.0` (PINNED — 4.45 lacks Qwen3, 5.x breaks the engine nethook), PyTorch + CUDA, `torch.float16` model loads. Qwen3-only work used transformers 5.12.1 in an isolated context where noted.
 - **Editing engine:** `code/memit/vendor` — the `kmeng01/memit` reference fork, **UNMODIFIED on the science path** (LAW#5: any harness-side reimplementation must first prove bit-for-behavior reproduction on a null edit — the "inertness gate"). Scripts `sys.path.insert` + `os.chdir` to `${LLMDB_ROOT}/code/memit/vendor`. **Vendored in-repo since 2026-10-03** (the RunPod volume was lost): upstream `80426fd9` + P-1..P-7 (`code/memit/provenance/memit-patches-canonical.md`) + the S2.31 CPU-solve patch **+ P-8 device neutrality (2026-10-03, D-HW-1; `code/memit/provenance/memit-patches-canonical.md` §3.9)**; only its downloaded `data/` stats are gitignored. `python3 code/memit/engine_fingerprint.py` is the LAW#1 gate.
 - **Deployment toolchain:** self-built `code/vendor/llama_cpp_src/` (CPU build) for real Q4_K_M GGUF quantize/serve; `code/vendor/external_prior_art/larql/target/release/larql` for vindex ingest (CPU-only on NVIDIA — no CUDA backend).
 - **Caches:** `data/hf_cache/` (HF models; `HF_HOME`), `data/covariance/` (precomputed MEMIT second-moment statistics per model/band — expensive, reused).
@@ -14,12 +14,12 @@ This document lets an independent researcher re-run any experiment and trace any
 After the 2026-06-18 reorganization, live scripts resolve paths against a repo root:
 ```python
 import os, sys
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")  # **SUPERSEDED 2026-10-03 (D-HW-1):** historical pod default.
 os.environ.setdefault("HF_HOME", f"{LLMDB_ROOT}/data/hf_cache")
 ENGINE_ROOT = f"{LLMDB_ROOT}/code/memit/vendor"
 sys.path.insert(0, ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 ```
-`export LLMDB_ROOT=/path/to/repo` to run from a different location. `.sh` scripts use `$LLMDB_ROOT`. **Frozen `archive/` scripts (s-series, historical) were NOT rewritten** — they target the original flat `/workspace` layout and are kept for provenance, not re-execution.
+`export LLMDB_ROOT=/path/to/repo` to run from a different location. `.sh` scripts use `$LLMDB_ROOT`. **SUPERSEDED 2026-10-03 (D-HW-1):** **Frozen `archive/` scripts (s-series, historical) were NOT rewritten** — they target the original flat `/workspace` layout and are kept for provenance, not re-execution.
 
 ## Determinism & seeds
 - MEMIT edits are deterministic given fixed model revision + cached covariance + hyperparameters; the **inertness gate** (`|Δexpr|≈0`) checks the harness reproduces the reference engine bit-for-behavior before each run.
@@ -75,7 +75,7 @@ Pre-reorganization snapshot (2026-06-18) at `/root/migration_backup/`: `manifest
 
 | **C10 AnyEdit small-window pilot** | `python code/lab/track_c/c10h_anyedit_pilot.py --dry-run` then `python code/lab/track_c/c10h_anyedit_pilot.py` | yes | `results/c10h_anyedit_token_window_dryrun.json`; `experiments/c10h/runs/c10h_anyedit_pilot/c10h_anyedit_pilot.json` (evidence/CORPUS/40; D-C10h-anyedit-pilot ⟨D-C10h-anyedit-pilot@6413cc67⟩) |
 
-| **LAW#3 repro (M3 Pro)** | `python code/lab/track_c/c2_key_collinearity.py` ; `WRITE_MODE=batch python code/lab/scale/g6_scale_n.py` | yes (MPS) | `experiments/law3-repro/runs/law3_repro_2026-10-03/{c2_key_collinearity_repro,a1_batch_repro}.json` (2026-10-04; D-HW-1) |
+| **LAW#3 repro (M3 Pro)** | `LLMDB_ROOT=$PWD .venv/bin/python -B code/lab/track_c/c2_key_collinearity.py` ; `LLMDB_ROOT=$PWD WRITE_MODE=batch .venv/bin/python -B code/lab/scale/g6_scale_n.py` | yes (MPS) | Both are known-baseline checks under `_system/governance/DISCIPLINE.md` LAW#3. Compare the C2 stdout mean-cosine table at L4/L6/L8 with SUBJECT 0.68/0.67/0.26 and RELATION 0.93/0.94/0.94 in `evidence/CORPUS/20_C2_KEYING_DEPTH_MAP.md`. Compare the batch output `experiments/g6/runs/g6_scale_n_batch/g6_scale_n_batch_result.json`, N=100 held-out edited-relation top-1 correctness, with 100% in `evidence/CORPUS/14_A1_BATCH_VS_SEQUENTIAL.md`. Miss by >1 order of magnitude: HALT before any new data or arm. Historical repro artifacts: `experiments/law3-repro/runs/law3_repro_2026-10-03/{c2_key_collinearity_repro,a1_batch_repro}.json` (2026-10-04; D-HW-1). |
 
 | **LAW#5 inertness gate** | `python code/gates/law5_inertness_gate.py --out <path>` | yes (MPS) | `experiments/law3-repro/runs/law3_repro_2026-10-03/law5_inertness_p8.json` |
 
