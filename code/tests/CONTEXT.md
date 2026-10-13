@@ -3,5 +3,5 @@
 **Job:** Holds tests that have no code folder of their own.
 **Read it when:** You run the dashboard or git-automation tests.
 **Written by:** Writer search: none found.
-**Read by:** CI reader at the new path: none found. `.github/workflows/ci.yml` still names an old tests path.
+**Read by:** `.github/workflows/ci.yml:43–44`, step `Git automation fixtures`, runs `unittest discover -s code/tests -p test_git_automation.py` (module `test_git_automation`).
 **Not here:** Tests of a module: beside that module.

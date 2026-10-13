@@ -2,14 +2,14 @@
 
 _A structural map of how work flows through this repo: the supervised **main workflow** (falsification-first experiment cycle), the unattended **self-improvement loop** (the autonomy driver and the autoresearch loop, both deliberately fenced), and the supporting infrastructure that both depend on (gates, the anti-drift system, tool registration, durability)._
 
-> **Scope & drift discipline.** This document describes **stable workflow structure**, not program state. It deliberately carries **no experiment numbers or "current frontier"** — that content drifts and lives in generated/canonical sources. For *what's next* and *what's proven*, read the generated block in `program/runbook/ §0.3` (← `program/program_state.json`), `program/checkpoints/`, and `evidence/CORPUS/`. This file follows the **de-dup norm** (`_system/governance/DISCIPLINE.md §0.4`): pointers, not copies.
+> **Scope & drift discipline.** This document describes **stable workflow structure**, not program state. It deliberately carries **no experiment numbers or "current frontier"** — that content drifts and lives in generated/canonical sources. For *what's next* and *what's proven*, read the generated views `program/STATUS.md`, `_index/program-state.md`, and `program/scorecard.md` (`code/state/render_state.py:18–20`) (← `program/program_state.json`), handoff records in `program/checkpoints/` (sealed records retain historical state), and `evidence/CORPUS/`; runbook §0.3 links to status at `program/runbook/00-entry-point-read-first-every-session.md:41`. This file follows the **de-dup norm** (`_system/governance/DISCIPLINE.md §0.4`): pointers, not copies.
 
 **Canonical sources this doc points to (read these for the binding detail):**
 | Source | What it governs |
 |---|---|
 | `program/runbook/` `§0` | Entry point, current position (§0.3), living-document protocol (§0.4), disciplines (§2), decision tree (§8) |
 | `_system/governance/DISCIPLINE.md` | The always-in-context index: de-dup norm, close-out gate, tracker set |
-| `CLAUDE.md` | Engine LAWs (fingerprint gate, inertness, one-fix-then-halt) + close-out gate |
+| `CLAUDE.md` | Routing entry point (`CLAUDE.md:8,25–27`); Engine LAWs live in `_system/governance/DISCIPLINE.md` § Non-negotiable correctness gates (`:120`) and § Halt discipline (`:128`); close-out gate lives in § 🚦 CLOSE-OUT GATE (`:134`) |
 | `_system/governance/AUTONOMY.md` | The unattended driver contract (the self-improvement loop's execution harness) |
 | `knowledge/specs/SPEC_E2E_GROUND_TRUTH.md` | The whole-system map work must be situated on |
 
@@ -53,7 +53,7 @@ The supervised, human-in-the-loop research loop. One pass = one experiment, from
 | # | Step | Where it's defined | Key rule |
 |---|------|--------------------|----------|
 | **0** | **Re-ground / enter the discipline** — embody the role, then read `SPEC_E2E_GROUND_TRUTH.md` → `§0.3` → relevant Track `§8` → cited KB entries | `§0.1`, `§0.2` | *Situate the work on the e2e map — which cell? Never act from the prompt alone.* |
-| **1** | **Pick the next falsifier** | `§0.3` (generated) | `§0.3` "Next actions" is the **single source of what's next**. |
+| **1** | **Pick the next falsifier** | `§0.3` (links to generated status at `program/runbook/00-entry-point-read-first-every-session.md:41`) | `§0.3` "Next actions" is the **single source of what's next**. |
 | **2** | **Pre-flight hard gates** | `§3.2`, LAWs `§2.4` | Engine fingerprint SHA == expected; `grep -c _cov_cpu == 3`; pod readiness; disk. **SHA mismatch → HALT.** Engine, LARQL, git stay **UNMODIFIED**. |
 | **3** | **`advisor()` + pre-register criteria** | `§2.1`, `§2.3` | Call advisor *before* substantive work. Write **PASS / PARTIAL / FAIL / INVALID** before the run. Design an experiment that can fail; disjoint pools (anti-tautology). |
 | **4** | **Author/patch the harness** | `§2.4` | Read source before authoring. Harness-side methods need a **LAW#5 inertness proof** (e.g. `LAMBDA=0` reproduces baseline bit-exactly, \|Δ\|≈0). One-fix-then-halt. |
@@ -62,7 +62,7 @@ The supervised, human-in-the-loop research loop. One pass = one experiment, from
 | **7** | **Independent review** | `§2.5` | `advisor()` **+ a different-family model** (Codex `gpt-5.5`). Same-model self-review does **not** raise confidence. |
 | **8** | **Resolve the fork** | `§0.4` | Each experiment ends `PASS→ / PARTIAL→ / FAIL→` next-experiment-ID. Data selects the branch; if ambiguous, `advisor()`. |
 | **9** | **Close out to the full canonical-tracker set** | `§0.4`, `_system/governance/DISCIPLINE.md §0.4` | `evidence/CORPUS/NN` (the **one** detailed source) → `program/program_state.json` + `render_state.py --write` → `evidence/CORPUS/00`–`03` → runbook `§12`+`§13` (+`§5` Decision-ID) → `HYPOTHESIS_REGISTER` → `EVIDENCE_INDEX` → `EXPERIMENT_REGISTRY` → spec overlay → memory + `_system/memory/`. **Pointers, not copies.** |
-| **10** | **Binding close-out gate** | `CLAUDE.md`, `_system/governance/DISCIPLINE.md §1.1` | `python3 code/gates/closeout_check.py <D-ID>` until **✅ ALL GREEN** (presence of D-ID + currency fingerprint `<D-ID>@<hash>`). **Not done until green.** |
+| **10** | **Binding close-out gate** | `_system/governance/DISCIPLINE.md` § 🚦 CLOSE-OUT GATE (`:134`) and §1.1 | `python3 code/gates/closeout_check.py <D-ID>` until **✅ ALL GREEN** (presence of D-ID + currency fingerprint `<D-ID>@<hash>`). **Not done until green.** |
 | **11** | **Commit** | `code/ops/git/hooks/pre-commit` | Hook re-checks stale generated blocks + stale fingerprints + **secret scan**; blocks on any. Escape: `git commit --no-verify`. |
 | **12** | **Write learnings to memory**, loop to Step 1 | `§2.7` | A result that isn't durably written *did not happen*. |
 
@@ -104,7 +104,7 @@ edit edit.py ─▶ git commit ─▶ run the fixed evaluation ─▶ keep if be
 
 ### Supporting self-*correcting* loops (improve the system, not the science)
 
-- **Anti-drift integrity loop** — edit `program/program_state.json` → `code/state/render_state.py --write` regenerates the `<!-- GENERATED -->` status blocks everywhere; narrative result-refs are content-**fingerprinted** by `code/gates/closeout_check.py`; the **pre-commit hook** blocks any stale or secret-leaking commit. The knowledge base keeps *itself* consistent. (Honest scope: auto-*enforces* currency + auto-*updates* generated content; it cannot auto-write narrative prose, and guards only **registered** edges — so de-dup/pointers remain the primary defense.)
+- **Anti-drift integrity loop** — edit `program/program_state.json` → `code/state/render_state.py --write` regenerates `program/STATUS.md`, `_index/program-state.md`, and `program/scorecard.md` (`code/state/render_state.py:18–20`); narrative result-refs are content-**fingerprinted** by `code/gates/closeout_check.py`; the **pre-commit hook** blocks any stale or secret-leaking commit. The knowledge base keeps *itself* consistent. (Honest scope: auto-*enforces* currency + auto-*updates* generated content; it cannot auto-write narrative prose, and guards only **registered** edges — so de-dup/pointers remain the primary defense.)
 - **Learning-to-gate loop** — every correction/reversal → a memory note (`§2.7`); recurring discipline gets **encoded as a mechanical gate**. Examples: the **close-out gate** was born from a silent tracker lapse; the **secret-scan gate** from a `storage_state.json` leak on the public repo. The process hardens itself over iterations.
 
 ---
@@ -127,7 +127,7 @@ The self-improvement loop is a **feeder**, fenced **below** the main workflow. I
 
 ## 4. Supporting Infrastructure (both loops depend on this)
 
-### 4.1 The Engine LAWs (`CLAUDE.md`, runbook `§2.4`)
+### 4.1 The Engine LAWs (`_system/governance/DISCIPLINE.md` § Non-negotiable correctness gates (`:120`) and § Halt discipline (`:128`), runbook `§2.4`)
 1. **Engine fingerprint gate** — verify MEMIT source SHA-256 before any dispatch; **mismatch → HALT**.
 2. **LAW#5 inertness** — any harness-side method must prove it reproduces the baseline bit-exactly when disabled.
 3. **One-fix-then-halt.**
@@ -167,7 +167,7 @@ MCP tools register only on a **session reload** (Claude Code reads `~/.claude.js
 | Artifact | Role |
 |---|---|
 | `program/runbook/` | The living operating roadmap. `§0.3` = single source of "what's next"; `§0.4` = the close-out protocol; `§8` = the Track A–F decision tree. |
-| `program/program_state.json` | The machine source of truth for program state; `render_state.py` renders it into all `<!-- GENERATED -->` blocks. |
+| `program/program_state.json` | The machine source of truth for program state; `render_state.py` renders it into `program/STATUS.md`, `_index/program-state.md`, and `program/scorecard.md` (`code/state/render_state.py:18–20`). |
 | `evidence/CORPUS/` | The evidence single-source-of-truth (`00` master evidence, `03` status ledger, per-result `NN` writeups). |
 | `program/checkpoints/` | Latest-session handoff + current status head. |
 | `_system/governance/DISCIPLINE.md` | Always-in-context index: de-dup norm + close-out gate + tracker set. |
