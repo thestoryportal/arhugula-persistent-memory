@@ -231,6 +231,19 @@ class IndexTests(unittest.TestCase):
                 build_anchor_map(self.root, {
                     'EXPERIMENT_RUNBOOK.md': 'program/EXPERIMENT_RUNBOOK.md'})
 
+    def test_anchor_map_rejects_duplicate_pinned_raw_slug(self):
+        from state.build_index import build_anchor_map
+        folder = self.root / 'program/runbook'
+        folder.mkdir()
+        (folder / '00-first.md').write_text('## First\n### Child\n### Child!\n')
+        responses = [subprocess.CompletedProcess([], 0, body, '') for body in
+                     ('## First\n### Child\n### Other\n',
+                      '## First\n### Child\n### Child!\n')]
+        with patch('state.build_index.subprocess.run', side_effect=responses):
+            with self.assertRaisesRegex(ValueError, 'raw slug'):
+                build_anchor_map(self.root, {
+                    'EXPERIMENT_RUNBOOK.md': 'program/EXPERIMENT_RUNBOOK.md'})
+
     def test_anchor_map_validation_without_git(self):
         self.write()
         path = self.root / '_index/anchor-map.tsv'

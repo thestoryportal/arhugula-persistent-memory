@@ -81,12 +81,16 @@ def resolve(old: str) -> str:
         sealed = read_anchor_map((root / '_index/anchor-map.tsv').read_bytes(), root)
         if (monolith, slug) in sealed:
             part, current_anchor = sealed[(monolith, slug)]
-            current = {fragment for _, fragment in heading_entries(
-                (root / part).read_text(encoding='utf-8').splitlines())}
-            if current_anchor not in current:
+            matches = [fragment for heading, fragment in heading_entries(
+                (root / part).read_text(encoding='utf-8').splitlines())
+                if heading_slug(heading) == current_anchor]
+            if not matches:
                 raise ValueError(f'Unknown anchor for {path}: {anchor}; '
                                  'heading changed after the pin')
-            return f'{part}#{current_anchor}'
+            if len(matches) > 1:
+                raise ValueError(f'Unknown anchor for {path}: {anchor}; '
+                                 f'{len(matches)} live headings match the pinned heading')
+            return f'{part}#{matches[0]}'
         parts = anchors(root / target)
         if slug not in parts:
             raise ValueError(f'Unknown anchor for {path}: {anchor}')

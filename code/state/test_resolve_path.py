@@ -173,6 +173,38 @@ class ResolverTests(unittest.TestCase):
         self.assertIn('Unknown anchor', result.stderr)
         self.assertIn('heading changed after the pin', result.stderr)
 
+    def test_duplicate_a1_before_pinned_heading_is_an_error(self):
+        from state.resolve_path import heading_entries, resolve
+        path = self.root / 'program/runbook/08-decisions.md'
+        text = path.read_text()
+        heading = next(heading for heading, _ in heading_entries(text.splitlines())
+                       if heading.startswith('#### A1 '))
+        path.write_text(text.replace(heading, heading + '\n' + heading, 1))
+        old = ('program/EXPERIMENT_RUNBOOK.md#'
+               'a1--batch-vs-sequential-write--done--pass-robust-corpus14-d-a1-1')
+        with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
+            with self.assertRaisesRegex(ValueError, 'live headings match') as caught:
+                resolve(old)
+        self.assertEqual(str(caught.exception),
+                         'Unknown anchor for ' + old.replace('#', ': ') +
+                         '; 2 live headings match the pinned heading')
+
+    def test_duplicate_a1_after_pinned_heading_is_an_error(self):
+        from state.resolve_path import heading_entries, resolve
+        path = self.root / 'program/runbook/08-decisions.md'
+        text = path.read_text()
+        heading = next(heading for heading, _ in heading_entries(text.splitlines())
+                       if heading.startswith('#### A1 '))
+        path.write_text(text + heading + '\n')
+        old = ('program/EXPERIMENT_RUNBOOK.md#'
+               'a1--batch-vs-sequential-write--done--pass-robust-corpus14-d-a1-1')
+        with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
+            with self.assertRaisesRegex(ValueError, 'live headings match') as caught:
+                resolve(old)
+        self.assertEqual(str(caught.exception),
+                         'Unknown anchor for ' + old.replace('#', ': ') +
+                         '; 2 live headings match the pinned heading')
+
     def test_sealed_anchor_precedence_and_current_exact_source(self):
         result = self.run_tool('program/EXPERIMENT_RUNBOOK.md#child-heading')
         self.assertEqual(result.returncode, 0, result.stderr)

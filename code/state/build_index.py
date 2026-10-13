@@ -1,5 +1,6 @@
 """Build deterministic ICM indexes. The approved path map stays byte-identical."""
 import argparse
+from collections import Counter
 import csv
 import io
 import json
@@ -164,9 +165,9 @@ def read_anchor_map(data: bytes, root: Path) -> dict[tuple[str, str], tuple[str,
 
 def build_anchor_map(root: Path, mapping: dict[str, str]) -> bytes:
     if __package__:
-        from .resolve_path import SPLITS, heading_entries
+        from .resolve_path import SPLITS, heading_entries, heading_slug
     else:
-        from resolve_path import SPLITS, heading_entries
+        from resolve_path import SPLITS, heading_entries, heading_slug
     rows = []
     for old, monolith in sorted(mapping.items()):
         if monolith not in SPLITS:
@@ -202,8 +203,16 @@ def build_anchor_map(root: Path, mapping: dict[str, str]) -> bytes:
             if len(historical) != len(current):
                 raise ValueError(f'_index/anchor-map.tsv: {part}: heading counts '
                                  f'differ at the pin: {len(historical)} != {len(current)}')
+            raw_counts = Counter(heading_slug(heading) for heading, _ in current)
             # Both lists are frozen. Live edits must not change section identity.
             for (heading, slug), (pinned_heading, current_anchor) in zip(historical, current):
+                raw_slug = heading_slug(pinned_heading)
+                if raw_slug != current_anchor:
+                    raise ValueError(f'_index/anchor-map.tsv: {part}: pinned raw slug '
+                                     f'{raw_slug} differs from fragment {current_anchor}')
+                if raw_counts[raw_slug] > 1:
+                    raise ValueError(f'_index/anchor-map.tsv: {part}: pinned raw slug '
+                                     f'{raw_slug} occurs more than once')
                 level = re.match(r'^ {0,3}(#{1,6})\s+', heading).group(1)
                 pinned_level = re.match(r'^ {0,3}(#{1,6})\s+', pinned_heading).group(1)
                 if level != pinned_level:
