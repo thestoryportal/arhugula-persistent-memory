@@ -27,7 +27,7 @@ sys.path.insert(0, ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 - Most runs are **single-seed** (stated as a caveat in each CORPUS doc). Where multiple seeds were used (A2b: 3 seeds), it is noted. Report variation honestly; do not average over a confound (see `[[match-metric-to-the-claim]]`).
 
 ## Per-experiment re-run table
-`LLMDB_ROOT` assumed exported. Pre-registered pass criteria live in each `evidence/CORPUS/NN` doc and `G6_G7_PASS_CRITERIA_DRAFT.md` (now `docs/`).
+`LLMDB_ROOT` assumed exported. Pre-registered pass criteria live in each `evidence/CORPUS/NN` doc and `G6_G7_PASS_CRITERIA_DRAFT.md` (now `experiments/g6/design/`).
 
 | ID | command | needs GPU? | expected artifact |
 |---|---|---|---|
@@ -88,7 +88,7 @@ Pre-reorganization snapshot (2026-06-18) at `/root/migration_backup/`: `manifest
 
 | Decision | Scope | Detailed source |
 |---|---|---|
-| D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ | Documentation-only closeout of existing B receipt; no numerical rerun or new reproduction command; actual projector/leakage/locality UNMEASURED | [B measurement report — D-NEW1-fid warning](results/mathlab_staging/new1_v2_build_report.md#d-new1-fid) |
+| D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ | Documentation-only closeout of existing B receipt; no numerical rerun or new reproduction command; actual projector/leakage/locality UNMEASURED | [B measurement report — D-NEW1-fid warning](_archive/projects/new1-builds/new1_v2_build_report.md#d-new1-fid) |
 
 
 ## 2026-10-11 — NEW-1 one authorized execution outcome pointer (D-NEW1-c)

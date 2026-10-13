@@ -1,6 +1,6 @@
 # LLM-as-Database — End-to-End Production Framework (spec ground-truth snapshot)
 
-**Snapshot date:** 2026-06-21. **Source:** `knowledge/specs/integrated-spec-v1_2/` (v1.2 integrated), read end-to-end; section refs inline. **Purpose:** a clean, faithful picture of *how the spec prescribes the system be implemented and how memory is managed in production*, to ground forward work. **§A–§I = what the SPEC prescribes** (faithful). **§J = our empirical overlay** (what we've proven / amended / found open against it — pointers, not restated). De-dup discipline: this is the e2e narrative; per-result detail lives in `CORPUS/` + `knowledge/specs/SPEC_EXPERIMENT_OVERLAY.md`.
+**Snapshot date:** 2026-06-21. **Source:** `knowledge/specs/integrated-spec-v1_2/` (v1.2 integrated), read end-to-end; section refs inline. **Purpose:** a clean, faithful picture of *how the spec prescribes the system be implemented and how memory is managed in production*, to ground forward work. **§A–§I = what the SPEC prescribes** (faithful). **§J = our empirical overlay** (what we've proven / amended / found open against it — pointers, not restated). De-dup discipline: this is the e2e narrative; per-result detail lives in `evidence/CORPUS/` + `knowledge/specs/SPEC_EXPERIMENT_OVERLAY.md`.
 
 ---
 
