@@ -1,1 +1,0 @@
-{"event": "pid-collection", "method": "_wait", "monotonic_ns": 1465880782611833, "phase": "pid-collection", "pid": 72684, "pid_collected": 73016, "returncode": 2, "test": "tests.test_new1_construction_diag.OwnedLaunchControls.test_refused_admission_reporting_with_full_or_closed_stderr_stays_inside_original_end", "wall_ns": 1791655073552484000}

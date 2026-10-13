@@ -1,1 +1,0 @@
-{"event": "pid-collection", "method": "wait", "monotonic_ns": 1466573006077291, "phase": "pid-collection", "pid": 91637, "pid_collected": 91669, "returncode": 0, "test": "tests.test_new1_supervisor.SupervisorTests.test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline", "wall_ns": 1791655765793310000}

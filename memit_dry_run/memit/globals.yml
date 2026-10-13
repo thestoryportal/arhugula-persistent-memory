@@ -1,6 +1,0 @@
-DATA_DIR: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/memit_dry_run/memit/data
-HPARAMS_DIR: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/memit_dry_run/memit/hparams
-KV_DIR: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/kvs
-REMOTE_ROOT_URL: https://memit.baulab.info
-RESULTS_DIR: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/results
-STATS_DIR: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches

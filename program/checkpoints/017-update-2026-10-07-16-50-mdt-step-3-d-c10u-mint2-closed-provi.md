@@ -1,0 +1,4 @@
+## UPDATE - 2026-10-07 ~16:50 MDT (step 3 D-C10u-mint2 CLOSED PROVISIONAL → CORPUS/54 ⟨D-C10u-mint2@d1299b2b⟩)
+
+**State.** Both verdict reviews (Astra, advisor) were folded into prereg §8.1 and the merged verdict sentence is in CORPUS/54: no direction reading on either block (F ROUTING-BLOCKED-UNDERFIT, the in-block reference failing the same fit screen at 17/24; V2 NOT-COMPARABLE); the one-token mint's LAW#3 reproduction passed (46/37/40 vs 14/72); P4 not triggered. Close-out trackers written; runbook §5.2 row "Step 3 r3 verdict". **Owed:** the operator's ruling on r3 (prereg :172; advisor recommends ratifying; nothing routes on r3's labels until then); the V2 diagnosis of prereg :78; dispositions of reader advisories A2/A4/A5 and P4 eligibility A6. Do not re-run step 3 under the same design.
+

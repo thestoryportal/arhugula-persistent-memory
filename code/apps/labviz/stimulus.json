@@ -1,0 +1,38 @@
+{
+  "c10_harness": {
+    "source_file": "code/lab/track_c/c10e_bandknob.py",
+    "sha256": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+    "tier": "SHA-bound transcription",
+    "entries": [
+      {
+        "role": "CANON",
+        "index": 0,
+        "text": "The capital of {} is the city of",
+        "line": 51
+      },
+      {
+        "role": "PTEST",
+        "index": 0,
+        "text": "{}'s capital city is called",
+        "line": 53
+      },
+      {
+        "role": "PTEST",
+        "index": 1,
+        "text": "If you visit {}, its capital city is",
+        "line": 54
+      },
+      {
+        "role": "PTEST",
+        "index": 2,
+        "text": "The main city and seat of government of {} is",
+        "line": 55
+      }
+    ],
+    "questions": [
+      "{}'s capital city is called",
+      "If you visit {}, its capital city is",
+      "The main city and seat of government of {} is"
+    ]
+  }
+}

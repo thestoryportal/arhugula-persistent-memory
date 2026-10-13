@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rhu.memit-backup</string>
+
+    <!-- Mirrors /Volumes/memit/llm-database-poc-mirror to the internal SSD.
+         This file is the source; ~/Library/LaunchAgents holds a COPY (launchd rejects a
+         symlink onto this external volume with "Input/output error"). After any edit here:
+             cp code/ops/backup/launchd/com.rhu.memit-backup.plist ~/Library/LaunchAgents/
+             launchctl bootout gui/$(id -u)/com.rhu.memit-backup; launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.rhu.memit-backup.plist
+         The script refuses to run if the source volume is unmounted or empty, so a
+         detached drive costs one log line, never a wiped backup. -->
+    <!-- Runs through MemitBackup.app (~/Applications), which holds only the macOS
+         "Removable Volumes" grant; /bin/bash itself has no privacy grant (2026-10-08). -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/open</string>
+        <string>-W</string>
+        <string>-g</string>
+        <string>/Users/robertrhu/Applications/MemitBackup.app</string>
+    </array>
+
+    <!-- Every 6 hours. launchd runs a missed interval at the next wake, so a sleeping
+         or closed laptop still syncs once it is back. Incremental runs are seconds. -->
+    <key>StartInterval</key>
+    <integer>21600</integer>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/robertrhu/Backups/memit/backup.launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/robertrhu/Backups/memit/backup.launchd.log</string>
+
+    <key>LowPriorityIO</key>
+    <true/>
+    <key>Nice</key>
+    <integer>5</integer>
+</dict>
+</plist>

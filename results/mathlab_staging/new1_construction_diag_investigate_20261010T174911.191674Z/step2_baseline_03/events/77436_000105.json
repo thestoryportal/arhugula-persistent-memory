@@ -1,1 +1,0 @@
-{"event": "pid-collection", "method": "wait", "monotonic_ns": 1466010519002125, "phase": "pid-collection", "pid": 77436, "pid_collected": 77498, "returncode": 0, "test": "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_import_is_stdlib_only_and_unset_root_fails_loudly", "wall_ns": 1791655203289725000}

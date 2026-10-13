@@ -1,1 +1,0 @@
-{"event": "pid-collection", "method": "_handle_exitstatus", "monotonic_ns": 1466499627735708, "phase": "pid-collection", "pid": 89821, "pid_collected": 89862, "returncode": 3, "test": "tests.test_new1_supervisor.SupervisorTests.test_bare_supervisor_environment_is_not_execution_authority", "wall_ns": 1791655692414287000}

@@ -1,0 +1,6 @@
+DATA_DIR: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/code/memit/vendor/data
+HPARAMS_DIR: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/code/memit/vendor/hparams
+KV_DIR: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/kvs
+REMOTE_ROOT_URL: https://memit.baulab.info
+RESULTS_DIR: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/results
+STATS_DIR: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/data/covariance

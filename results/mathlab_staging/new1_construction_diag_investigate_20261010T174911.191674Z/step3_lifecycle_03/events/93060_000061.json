@@ -1,1 +1,0 @@
-{"event": "pid-collection", "method": "_handle_exitstatus", "monotonic_ns": 1466608143970166, "phase": "pid-collection", "pid": 93060, "pid_collected": 93200, "returncode": 0, "test": "tests.test_new1_construction_diag.Fix4LifecycleTests.test_fix4_c3_captured_exit_schedule_returns_but_true_failures_fail_stop", "wall_ns": 1791655800931529000}

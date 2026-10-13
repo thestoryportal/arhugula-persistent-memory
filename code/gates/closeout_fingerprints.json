@@ -1,0 +1,194 @@
+{
+ "_doc": "CURRENCY layer of the close-out gate — fingerprints for NARRATIVE result references (per the 2026-06-21 reconciled design: generate-what's-mechanical via code/state/render_state.py + program/program_state.json; FINGERPRINT-what's-narrative here; warn on unregistered). Each key maps to a canonical SOURCE (file, optional anchored span); the gate hashes it (stamped ⟨KEY@hex⟩ markers stripped first) and requires '<KEY>@<8hex>' wherever the key is referenced. Source change -> hash change -> dependents read STALE. Cmds: `closeout_check.py <D-ID>` (presence+currency, active close-out); `--currency <KEY>`; `--audit` (all); `--fp <KEY>`. Keys absent here = presence-only.",
+ "_not_fingerprinted": "STRUCTURED program STATUS (F1 scorecard, current-position/next-actions, governance CP1-G3 status, §0.3/§10/§12 tables, dashboards) is NOT fingerprinted — it is GENERATED from program/program_state.json via code/state/render_state.py into <!-- BEGIN GENERATED:KEY --> blocks, auto-synced (the real auto-update). Stable decision-ledger D-IDs (D-SCOPE-1, D-S242/S243 recipe locks) are presence-only.",
+ "D-D1-2": {
+  "source": "experiments/d1/design/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md",
+  "anchor_start": "→ §8.7 OPERATIONAL GUARDRAIL",
+  "anchor_end": "## 5. Honest scope",
+  "what": "§8.7 numeric guardrail k<=1 + mixed-load + seed-2"
+ },
+ "D-D1-1": {
+  "source": "evidence/CORPUS/22_D1_CAPACITY_LAW.md",
+  "what": "D1 capacity law: drift = per-relation concentration, not global edge-count"
+ },
+ "D-B1-2": {
+  "source": "evidence/CORPUS/22_D1_CAPACITY_LAW.md",
+  "what": "D1 concentration law model-size term (REPLICATES on 7B; model-general)"
+ },
+ "D-A1-1": {
+  "source": "evidence/CORPUS/14_A1_BATCH_VS_SEQUENTIAL.md",
+  "what": "batch joint-solve ELIMINATES cross-entity corruption (100->100% @N<=100)"
+ },
+ "D-A2-1": {
+  "source": "evidence/CORPUS/15_A2_RELATION_BALANCED_SENTINELS.md",
+  "what": "in-solve relation-balanced sentinels halve but don't arrest incremental corruption"
+ },
+ "D-A2b-1": {
+  "source": "evidence/CORPUS/16_A2b_REFRESH_KS.md",
+  "what": "K_S staleness RULED OUT (per-edit refresh doesn't reduce cross-entity corruption)"
+ },
+ "D-B3-1": {
+  "source": "evidence/CORPUS/17_B3_QUANTIZATION_SURVIVAL.md",
+  "what": "A1-clean batch store survives real Q4_K_M (edits 100% vs native 97.4%)"
+ },
+ "D-E1-1": {
+  "source": "evidence/CORPUS/18_E1_DEPLOYMENT_SERVING.md",
+  "what": "CPU deployment loop via llama.cpp+Q4_K_M; LARQL gguf-to-vindex falsified for Qwen2.5"
+ },
+ "D-B1-1": {
+  "source": "evidence/CORPUS/19_B1_SIZE_DENSITY.md",
+  "what": "A1 batch-clean does NOT fully replicate at 7B (100->91.7%); scopes A1 to 3B/N<=100"
+ },
+ "D-C2-1": {
+  "source": "evidence/CORPUS/20_C2_KEYING_DEPTH_MAP.md",
+  "what": "relation-keying pruned; same-relation key collinearity U-shaped, min L8-12"
+ },
+ "D-C2band-1": {
+  "source": "evidence/CORPUS/21_C2BAND_FALSIFIER.md",
+  "what": "band [8-12] = real-but-underpowered redistribution, NOT promoted"
+ },
+ "D-G6-1": {
+  "source": "evidence/CORPUS/13_G6_1_SCALE_OF_N.md",
+  "what": "first empirical falsifier: cross-entity read corruption scales with N (100->42%)"
+ },
+ "D-C10e-bandknob": {
+  "source": "evidence/CORPUS/37_C10_BANDKNOB.md",
+  "what": "C10 band-knob: later [8,12] does not materially rescue hard coined-coined values; para_full worsens"
+ },
+ "D-C10f-band412": {
+  "source": "evidence/CORPUS/38_C10_BAND412.md",
+  "what": "C10 widened [4,12] band recipe does not materially rescue hard coined-coined values; para_full worsens"
+ },
+ "D-C10g-strengthlayers": {
+  "source": "evidence/CORPUS/39_C10_STRENGTH_LAYER_SWEEP.md",
+  "what": "C10 bounded MEMIT strength/layer-count sweep: no behavioral rescue; deep recipe is non-viable tradeoff"
+ },
+ "D-C10h-anyedit-pilot": {
+  "source": "evidence/CORPUS/40_C10_ANYEDIT_PILOT.md",
+  "what": "C10 AnyEdit small-window pilot: local window_size=1 transplant passes alignment/no-op gates but collapses A1/A2 controls and worsens A7; not a clean rescue"
+ },
+ "D-C10k-m3pro-stage0": {
+  "source": "evidence/CORPUS/41_C10K_STAGE0_HARDWARE_ENVELOPE.md",
+  "what": "C10K Stage 0 on the M3 Pro: HALTED - HARDWARE_ENVELOPE (+UPSTREAM_ENV_UNDEFINED); first failure memit_ARE/compute_z.py:35; 17 module bindings; runner incomplete; Instruct-only configs; routes A/B/C for the operator"
+ },
+ "D-C10k-route-a": {
+  "source": "evidence/CORPUS/42_C10K_ROUTEA_CONTROLS_NOT_RECOVERED.md",
+  "what": "C10K Route A (ported official AnyEdit, M3 Pro): HALTED - CONTROLS_NOT_RECOVERED; L2=10 non-functional (solve realises 5-13%); one fix L2=0.01 restores canonical 24/24 but paraphrase 0/72 (last-prompt-token keying, ~0 transfer) and locality breached; C10 stays OPEN; forward = LRE-faithfulness admission test / subject-keyed hybrid / accept-bounded"
+ },
+ "D-C10k-keying-ablation": {
+  "source": "evidence/CORPUS/43_C10K_KEYING_ABLATION.md",
+  "what": "keying-locus ablation in the vendored MEMIT engine: K1 gate PASS; N=24 last-token cells INVALID (key interference: 24 keys cos>=0.985); N=1 last-token singles land 6/6 with 0/18 paraphrase hits vs subject-keyed 18/18; frame-bleed BETWEEN (partly frame-keyed); last-token-keyed writes land but do not transfer; partly frame-keyed (F3 SUFFICIENT in MEMIT, N = 1)"
+ },
+ "D-C10l-covgeom": {
+  "source": "evidence/CORPUS/44_C10L_COVGEOM_SPARSEBAND.md",
+  "what": "solve geometry (P:=I) and sparse layer sets {4,8}/{7,8} on the C10 harness: NULL x3 (A7 8/13/13 of 72 vs A 13/10/13; locality clean); P6 z-injection ceiling 24/24 canon, 49/72 para; step-0 proxies failed behaviourally; cross-process delta_norm spread = per-process context-template sampling"
+ },
+ "D-C10l-mint": {
+  "source": "evidence/CORPUS/45_C10L_MINT_TOKEN.md",
+  "what": "mint one vocabulary token per coined value in the spare embedding rows: A7-mint-G 24/24 canon, 39/72 held-out; A7-mint-N 24/24, 46/72; sibling 0, cannibal 0, L1 0/12, L3 30/30 → PARTIAL x2 (G did not beat N); ladder A1 68-72 / A1-rare 25 / mint 39-46 / A7-multi 11; M and Z excluded at P3; scoped partial lead, not route closure"
+ },
+ "D-C10m-diag": {
+  "source": "evidence/CORPUS/46_C10M_DIAG_READPARTITION_EDITINJECT.md",
+  "what": "pre-registered diagnostics on the C10 harness: Q1 gold-first-token-constrained read ABSENT-DOMINANT (gain 2/72, 3 chain subjects); Q2 edit + inject with the pre-edit z in the H1 collateral bucket (23/72, canon 7/24 vs control 51/72); secondary recomputed-z injection 55/72; Q3 minted N init SEED-SENSITIVE (46/34/36); run 2 binding, run 1 provenance echo; engine unmodified"
+ },
+ "D-C10n-ztransport": {
+  "source": "evidence/CORPUS/47_C10N_ZTRANSPORT.md",
+  "what": "2x2 target transport on the C10 harness (LOW-CONTROL process): A z_pre->pre 42/72, B z_pre->post 13, C z_post->post 61, D z_post->pre 37 -> TARGET-PORTABLE by the frozen rule, reported not promoted; geometry bimodal (4 subjects cos 1.000 / 20 subjects cos 0.82, norm x1.3); run 1 halted under v2's floor -> N1 (control is a stratum); next = magnitude/direction read; engine unmodified"
+ },
+ "D-C10o-magnitude": {
+  "source": "evidence/CORPUS/48_C10O_MAGNITUDE_DIRECTION.md",
+  "what": "magnitude vs direction on the edited model (HIGH-CONTROL, rotated population 20): B 6, C 50, E1 magnitude 5, E2 direction 34, E3 projection-preserving 47 (/60); f1 -0.02, f2 0.64, f3 0.93 -> DIRECTION (routing label); unedited E1' 38 vs E2'/E3' 17/23; next = two-pass solve arm; engine unmodified"
+ },
+ "D-C10p-twopass": {
+  "source": "evidence/CORPUS/49_C10P_TWOPASS_SOLVE.md",
+  "what": "two-pass solve on the C10 harness (fresh edit aimed at the target re-solved on the once-edited model; sham aimed at z_pre inert): baseline 7/13, two-pass 12/21 (/24, /72) -> NULL (gain 8 < 10); total dW x1.31; described_as -3.08 (gate 3.0); controls and other axes within gates; seam Z_OVERRIDE audited inert; next = I-1 / I-2 per prereg; engine unmodified"
+ },
+ "D-C10q-stacked": {
+  "source": "evidence/CORPUS/50_C10Q_STACKED_SOLVE.md",
+  "what": "stacked two-pass solve on the C10 harness (second in-place edit aimed at the target re-solved on the once-edited model; sham aimed at z_pre; permuted-target control): reference 8/12, stacked 12/24 (/24, /72) -> TRADEOFF-PERM-UNMATCHED (gain 12 >= 10; described_as 89.31 -> 85.09 fails the 3.0 gate; dW2/dW1 1.24, prose -LARGE-WRITE; sham inert 0.02 / +2; permuted control 0/72 at 1.91x, outside the x1.5 window by 0.04); next = research pass per D-C10q-rulings-1, then I-1 / I-2; capped iterated variant = OPEN register entry, not routed to the autoresearch loop; engine unmodified"
+ },
+ "D-C10s-sharedz": {
+  "source": "evidence/CORPUS/51_C10S_SHAREDZ.md",
+  "what": "shared-z target (one z fit jointly over CANON + two training phrasings) on the C10 harness, step 1 of the research-pass sequence (H-1): UNDERFIT (18 subject-frame fits < 0.98, min 0.8437; 25-evaluation budget exhausted) -> inconclusive under this solve budget, write arm not run, candidate not advanced; recorded observation only: injection screen in the unedited model canonical 51/72 vs shared 69/72 (+18), same-process noise twin +3; first inertness run HALTED at 0d422ad, amendment A2 v2 (same-batch engine parity) -> ALL INERT; next per prereg = step 2 (D-C10t); solve-feasibility follow-up = unauthorized candidate; engine unmodified"
+ },
+ "D-C10s-solvefeas": {
+  "source": "evidence/CORPUS/52_C10S_SOLVEFEAS.md",
+  "what": "shared-target solve feasibility (step 1 again with the solve cap 25 -> 50 evaluations, same radius/frames/held-out set/0.98 fit bar; H-C10s-solvefeas): UNDERFIT-AT-50, qualified objective-stopped -> valid; write arm not run, candidate not advanced; same-run paired evidence: 29 failing subject/frame entries at evaluation 25 -> 2 at the stop (min fit 0.925487 -> 0.971150); the two remaining entries stopped on the engine's averaged loss rule at evaluation 27; recorded observation only: injection in the unedited model canonical 54/72 vs shared 72/72, noise twin +2; next per prereg = step 2 (D-C10t-secondkey) carrying the canonical target; fit-guarded stopping rule = candidate only (not designed, not authorized); engine unmodified"
+ },
+ "D-C10t-secondkey": {
+  "source": "evidence/CORPUS/53_C10T_SECONDKEY.md",
+  "what": "value-internal second key on the C10 harness, step 2 of the research-pass sequence (H-10/H-5; prereg v2 + ruling D-C10t-p5rule): NULL-LARGE-WRITE -> valid rerun (experiments/c10t/runs/c10t_secondkey_r2; first pass-1 attempt HALTED on float64-on-MPS, non-binding); A7-second-B10 23/72 vs same-run reference 15/72 (+8 < 10 margin), write ratio 2.05 (LARGE-WRITE); ten per-prefix F1 locality gates fail (prefix-conditioned spillover on never-edited subjects); duplicate control null; B5 spending-screened out; candidate not advanced; no replication pending; next = step 3 (D-C10u-mint2 v3), then step 4 (D-C10v-layerpick v2); engine unmodified"
+ },
+ "D-C10u-mint2": {
+  "source": "evidence/CORPUS/54_C10U_MINT2.md",
+  "what": "two-token (block V2) and modifier-only (block F) mint on the C10 harness, step 3 of the research-pass sequence (H-19; prereg v3 + A-env + post-observation note 8.1), attempt r3: PROVISIONAL (program-authorized under D-C10r-rulings-9; operator ratification required by prereg :172 pending; V2 replication waived post-observation); no direction reading on either block; block F ROUTING-BLOCKED-UNDERFIT (modifier-only seeds 17/13/14 of 24 on the one-id fit screen, which the in-block multi reference also fails at 17/24; not run); block V2 NOT-COMPARABLE (multi 31/72, canon 24/24); LAW#3 reproduction of evidence/CORPUS/45 passed: mint-1(frozen) 46/37/40 vs reference 14/72 full answer (reference first word 53), LEAD/LEAD/TRADEOFF under the >= 30 scheme, seed-2 TRADEOFF from the reference's perplexity drop; evidence/CORPUS/45 PARTIAL unchanged; replica bit-identical under fixed inputs (repeatability, not robustness); P4 not triggered; engine unmodified"
+ },
+ "D-C10w-oracle": {
+  "source": "evidence/CORPUS/57_C10W_ORACLE_FINAL.md",
+  "what": "ceiling oracle on the C10 harness, step 5 of the research-pass sequence (H-13; ORACLE MEASUREMENT, not a route; prereg v2.2 + A-dupdev): FINAL replicated reading (P1 interim evidence/CORPUS/55 kept as history), CLOSED: PARTIAL-CEILING-LOCALITY-COST(G4,G6) with BIGRAM; rank 16 replicated 70/72 (seeds 70 and 71; same-seed retrain 70, agreement 72/72; closed form 9-16/72); G4 missed at both seeds (15 of 20 training frames), G6 missed at seed 1 (MMLU net loss 6/200 vs <= 4); P3 not required (excluded after LOCALITY-COST); canon split NOT-READ (c); reference_count null, NO-GATE-CLEAN-REFERENCE; routing INDEPENDENT-PREREG-ONLY (steps 6-7 on their own rationale); P2 eval re-run under D-C10w-p2rerun after the fp32 cosine halt (amendment A1 sha 4791183a, Astra GO; halted attempt archived 3b2fd266; re-attempt 99.25 min; projection 363.07/448); Astra CONFIRM; engine unmodified"
+ },
+ "D-C10v-layerpick": {
+  "source": "evidence/CORPUS/56_C10V_LAYERPICK.md",
+  "what": "per-fact layer pick on the C10 harness, step 4 of the research-pass sequence (H-8; prereg v2 FROZEN; delegated go D-C10v-go): pass1 NULL, not advanced under the preregistered rules; B (argmax-G map, raw argmax since measured delta 0.0) 12/72 vs band 4-8 A 11/72 (+1, inside [5, 18], below the +10 margin), fixed layer 8 B0 12/72, shuffled map Bshuf 10/72 (NULL, shuffled-map control); B beat neither control, selector not credited; B missed described_as (86.17 < 87.0); B's A1 68/72 at the floor; all recipes valid, LAW#5 (i)-(v) inert; replication not triggered; map stability under context resampling unmeasured; proxy readouts descriptive only; artifacts committed d8af793; next = step 5 P2 running; engine unmodified"
+ },
+ "D-C10x-enginepath": {
+  "source": "evidence/CORPUS/58_C10X_ENGINEPATH.md",
+  "what": "engine-path target construction on the C10 harness, step 6 of the research-pass sequence (H-11; FE-inspired I-2 and OverTone-inspired I-1; prereg v2.2 + Amendments T/M/P/Z/B): process-1 reading of re-run 3, CLOSED: reader VALID; I-1 NULL 17/72 vs recipe A 12/72 (d = -4, non-interpreted); I-2 INVALID-CONTROLS-UNDERFIT per the appended erratum (A1 64, A2 65 < 68; fit 3/24; reader printed INVALID-CONTROLS, known reader defect read.py:445-451); replication_eligible empty, process 2 not run; LAW#3 12/52/8 + A1 70 A2 71; LAW#5 INERT; re-run lineage original (X2-vii signed zero) -> re-run 1 (non-JSON flags) -> re-run 2 (STAGE_PROJECTION_REFUSED) -> re-run 3 under D-C10w-p2rerun; Astra CONFIRM; engine unmodified"
+ },
+ "D-C10z-v7diag": {
+  "source": "evidence/CORPUS/59_C10Z_V7DIAG_A1.md",
+  "anchor_start": "<!-- BEGIN D-C10z-v7diag -->",
+  "anchor_end": "<!-- END D-C10z-v7diag -->",
+  "what": "Completed V7 diagnostic A1; Astra CONFIRM; attempt 3 remains HALTED-V7"
+ },
+ "D-C10z-a1pop": {
+  "source": "evidence/CORPUS/59_C10Z_V7DIAG_A1.md",
+  "anchor_start": "<!-- BEGIN D-C10z-a1pop -->",
+  "anchor_end": "<!-- END D-C10z-a1pop -->",
+  "what": "Historical frozen R1000 preparation/admission; attempt-4 pending status superseded by D-C10z-a4"
+ },
+ "D-ML-1": {
+  "source": "evidence/CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
+  "anchor_start": "<!-- BEGIN MATHLAB CALIBRATION STOP 2026-10-09 -->",
+  "anchor_end": "<!-- END MATHLAB CALIBRATION STOP 2026-10-09 -->",
+  "what": "Harvest-2 step-2 PASS 61/61; valid step-3 calibration FAIL; lab STOPPED and step 4 SHELVED; NEW-1 separate"
+ },
+ "D-ML-2": {
+  "source": "evidence/CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
+  "anchor_start": "<!-- BEGIN D-ML-2 -->",
+  "anchor_end": "<!-- END D-ML-2 -->",
+  "what": "Bounded M2-BUDGET resource milestone and harvest-1 replay PASS/OPERANDS-ONLY"
+ },
+ "D-ML-3": {
+  "source": "evidence/CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
+  "anchor_start": "<!-- BEGIN D-ML-3 -->",
+  "anchor_end": "<!-- END D-ML-3 -->",
+  "what": "Native returned norm comparison; reviewed persistence fix; fresh corrected admission"
+ },
+ "D-ML-4": {
+  "source": "evidence/CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
+  "anchor_start": "<!-- BEGIN MATHLAB CALIBRATION STOP 2026-10-09 -->",
+  "anchor_end": "<!-- END MATHLAB CALIBRATION STOP 2026-10-09 -->",
+  "what": "Harvest-2 step-2 PASS 61/61; valid step-3 calibration FAIL; lab STOPPED and step 4 SHELVED; NEW-1 separate"
+ },
+ "D-C10z-a4": {
+  "source": "evidence/CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md",
+  "anchor_start": "<!-- BEGIN D-C10z-a4 -->",
+  "anchor_end": "<!-- END D-C10z-a4 -->",
+  "what": "Frozen attempt-4 stage-1 UNDERFIT; Astra CONFIRM; terminal under current authorization"
+ },
+  "D-NEW1-fid": {
+    "source": "_archive/projects/new1-builds/new1_v2_build_report.md",
+    "anchor_start": "<!-- BEGIN D-NEW1-fid -->",
+    "anchor_end": "<!-- END D-NEW1-fid -->",
+    "what": "Native-fp32 projector-fidelity warning only; L4 stored normalized covariance rank disagreement; actual rounded-P distance, update-weighted leakage and locality UNMEASURED; behavioral verdicts unchanged"
+  },
+  "D-NEW1-b": {
+    "source": "experiments/new1/runs/new1_launch_c4_20261011/launch_manifest.md",
+    "what": "NEW-1 second attempt C4 launch manifest (whole file, f730e0d): pinned hashes 11/11 OK, fix commits + Astra verdicts, C1-C5 status, endorsed command, one C5 dispatch from tmux -L new1; NOT RUN, predictions NOT COMPUTED, F1 unchanged"
+  },
+  "D-NEW1-c": {
+    "source": "experiments/new1/runs/new1_outcome_20261011/maestro_outcome_note.md",
+    "what": "NEW-1 one authorized execution outcome note (whole file, 01147aa): COMPLETE/CLEAN; MATH-PROXY math estimate, not evidence; H-COV BOUNDARY-SENSITIVE, excluded-energy contrast NON-SPECIFIC, H-TOP PASS, H-RANK FAIL, H-OVERLAP FAIL; INVALID envelope/rc 3 as prescribed; no queue change; quiet-host deviation retained; Astra ACCEPT-WITH-CONDITIONS"
+  }
+}

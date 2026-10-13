@@ -1,9 +1,0 @@
-{
-  "tier": "MATH-PROXY",
-  "boundary": "math estimate, not evidence",
-  "phase": "update-svd",
-  "cell": "l4",
-  "reserve_gib": 2.0,
-  "required_gib": 10.0,
-  "available_gib": 22.862701416015625
-}

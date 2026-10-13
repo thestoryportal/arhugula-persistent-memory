@@ -1,0 +1,14 @@
+# rsync exclude list for code/ops/backup/backup_mirror.sh — regenerable or machine-local only.
+# Everything not listed here IS backed up, including the Llama-era sweeps and caches.
+# Excluded paths are also PROTECTED from --delete, which is how the two destination-only
+# entries below survive the sync (without them rsync removed .deleted/ on the first run).
+/.deleted/
+/.last_success
+.DS_Store
+.cache/
+.ipynb_checkpoints/
+__pycache__/
+tmp/
+graft/
+arhugula-persistent-memory/.claude/worktrees/
+arhugula-persistent-memory/graft/

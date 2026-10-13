@@ -1,8 +1,8 @@
 # LLM-as-Database — pinned environment for the local MacBook M3 Pro (D-HW-1, 2026-10-03).
-# Source of truth for versions (was prose in CORPUS/04_ENV_AND_DEPS.md; this file now IS the pin).
+# Source of truth for versions (was prose in evidence/CORPUS/04_ENV_AND_DEPS.md; this file now IS the pin).
 #
 #   uv sync                       # creates .venv with these exact constraints
-#   uv run python experiments/track_b/b3_verdict.py      # no-GPU smoke
+#   uv run python code/lab/track_b/b3_verdict.py      # no-GPU smoke
 #
 # transformers is held at 4.51.0 on purpose: 4.45 lacks Qwen3, 5.x breaks the engine's nethook
 # (IndexError in compute_z). torch has no CUDA on Apple Silicon; the science path runs the
@@ -13,7 +13,7 @@ version = "0.1.0"
 description = "Falsification-first research program: in-weight knowledge editing (MEMIT/AlphaEdit) as a storage substrate"
 requires-python = "==3.11.*"
 dependencies = [
-    # science path (vendored engine memit_dry_run/memit + experiments/)
+    # science path (vendored engine code/memit/vendor + code/lab/)
     "torch>=2.4,<2.9",
     "transformers==4.51.0",
     "accelerate>=1.0",
@@ -25,10 +25,11 @@ dependencies = [
     "tqdm>=4.66",
     "pyyaml>=6",               # engine globals.yml
     "jsonlines>=4",
-    # governance experiments (experiments/governance/*)
+    # governance experiments (code/lab/governance/*)
     "cryptography>=42",
     # notebooks / plots used by a few experiment scripts
     "matplotlib>=3.8",
+    "markdown-it-py==3.0.0",
 ]
 
 [tool.uv]

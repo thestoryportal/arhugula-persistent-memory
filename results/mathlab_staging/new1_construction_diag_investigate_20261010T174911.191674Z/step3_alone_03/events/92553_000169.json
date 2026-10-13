@@ -1,1 +1,0 @@
-{"event": "pid-collection", "method": "wait", "monotonic_ns": 1466595192846500, "phase": "pid-collection", "pid": 92553, "pid_collected": 92779, "returncode": -9, "test": "tests.test_new1_supervisor.SupervisorTests.test_real_grandchild_is_killed_on_observed_rss_breach", "wall_ns": 1791655787980285000}

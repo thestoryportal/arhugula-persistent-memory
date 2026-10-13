@@ -1,0 +1,7 @@
+## FRESH SESSION HANDOFF - 2026-10-05 (InfraNodus gap audit RUN; operator rulings D-C10k-rulings-1; next = the research arc, then the route decision)
+
+**Start here after context reset.** The InfraNodus gap audit ran (commit cfa3c27; `results/infranodus_audit_2026-10-04/report.html`; durable record `docs/PRIOR_ART_SWEEP_2026-10-04.md` §14): eight graphs, fourteen findings, drift fixed in the handoff (the six-option candidate map was missing), the F1 C10 row and the spec overlay. The operator then ruled (D-C10k-rulings-1, runbook §5.2/§13): **(1)** the 2026-06-27 ruling stands — a side store is **not** F1 closure for C10, option (iii) is an engineering fallback, and an exhaustive InfraNodus research arc precedes any in-weight route commitment; **(2)** when multi-token values and scale vary together, both metrics are reported and held-out-paraphrase full-sequence **binds**; **(3)** a minted vocabulary token is a Git/.vindex-owned artefact, so option (iv) may run.
+
+**The next step is the research arc, not a run:** `docs/INFRANODUS_RESEARCH_ARC_PLAN_2026-10-05.md` — (1) mine the corpus and the 88 Connected Papers graphs / 2,123 papers (`results/connected_papers_index_2026-10-04.json`, `in_repo` flag) for overlooked solutions; (2) targeted keyword passes through InfraNodus's search sources; (3) a convergence pass across (1)+(2) for fragments not yet converged. Then the route decision over the six-option map (sweep §10.2/§12.1) with the audit's open prereg inputs F-05/F-06/F-07 embedded. Nothing is running; engine untouched.
+
+
