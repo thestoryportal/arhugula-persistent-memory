@@ -3,7 +3,7 @@
 `CLAUDE.md` says what to read. This file says where a new thing goes. Take the first rule that matches.
 
 1. Secrets, environments, editor debris, graft caches: nowhere in the repo.
-2. Output of an experiment run: `experiments/` (that record's runs folder; bulk parts in its bulk folder).
+2. Output of an experiment run: `experiments/<id>/runs/<slug>/`. Large or regenerable output goes in `runs/<slug>/bulk/` (git-ignored), with a committed `bulk.sha256` in `runs/<slug>/`. These bulk folders do not exist yet. The repo sync creates them.
 3. Design for one experiment: that record's design folder.
 4. Review or ruling about one record: that record's reviews or rulings folder.
 5. CORPUS ledger entry or verdict: `evidence/CORPUS/`.

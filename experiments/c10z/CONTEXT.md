@@ -7,7 +7,7 @@ decision_ids:
 - D-C10z-a1pop
 - D-C10z-a4
 - D-C10z-v7diag
-corpus: null
+corpus: ['59', '61']
 prereg:
   path: experiments/c10z/design/C10Z_ASTRA_PREREG.md
   sha256: 5ad59d2c960b44d18b5d1c5410028b969aab93298eed5d42c527bd81a4d18eac

@@ -38,7 +38,7 @@ Unstamped: 16
 | c10x | c10 | Pre-registration — D-C10x-enginepath: forward-replay target construction (arm I-2, FE) and token-level reweighting of the value objective (arm I-1, OverTone), each as a harness seam on the C10 write path (step 6 of the research pass's recommended sequence; H-11) (FROZEN v2.2, 2026-10-07) | verdict | 58 | D-C10x-enginepath |
 | c10xy | — | — | — | — | — |
 | c10y | — | — | — | — | — |
-| c10z | c10 | Pre-registration — D-C10z-astra: a forward-only joint output-margin solve (ASTRA) written into selected `W_down` columns, against the closed-form band write, on the C10 harness (queue row 5b) (v2.2, 2026-10-07) | verdict | — | D-C10z-a1pop, D-C10z-a4, D-C10z-v7diag |
+| c10z | c10 | Pre-registration — D-C10z-astra: a forward-only joint output-margin solve (ASTRA) written into selected `W_down` columns, against the closed-form band write, on the C10 harness (queue row 5b) (v2.2, 2026-10-07) | verdict | 59, 61 | D-C10z-a1pop, D-C10z-a4, D-C10z-v7diag |
 | c2 | track_c | relation-inclusive keying reduces same-relation key collinearity | verdict | 20 | D-C2-1 |
 | c2b | track_c | key-collinearity depth map (best band for isolation) | verdict | 20 | D-C2-1 |
 | c2band | — | — | verdict | 21 | D-C2band-1 |
