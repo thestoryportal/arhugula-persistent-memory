@@ -139,17 +139,39 @@ class ResolverTests(unittest.TestCase):
                 self.assertIn(fragment, slugs)
                 self.assertEqual(fragment, anchor.replace('corpus', 'evidencecorpus'))
 
-    def test_sealed_fragment_keeps_existing_encoded_anchor(self):
+    def test_sealed_fragment_returns_pinned_anchor(self):
         result = self.run_tool('program/EXPERIMENT_RUNBOOK.md#%63hild-heading')
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout.strip(),
-                         'program/runbook/08-decisions.md#%63hild-heading')
+                         'program/runbook/08-decisions.md#child-heading')
 
     def test_stale_sealed_fragment_is_an_error(self):
         (self.root / 'program/runbook/08-decisions.md').write_text('## Decisions\n')
         result = self.run_tool('program/EXPERIMENT_RUNBOOK.md#child-heading')
         self.assertEqual(result.returncode, 2)
         self.assertIn('Unknown anchor', result.stderr)
+        self.assertIn('heading changed after the pin', result.stderr)
+
+    def test_old_slug_cannot_override_pinned_identity(self):
+        anchor = 'a1--batch-vs-sequential-write--done--pass-robust-corpus14-d-a1-1'
+        path = self.root / 'program/runbook/08-decisions.md'
+        original = path.read_text()
+        decoy = ('#### A1 · Batch vs sequential write · **DONE — PASS (robust). '
+                 '`CORPUS/14`, `D-A1-1`.**\n')
+        path.write_text(original + decoy)
+        result = self.run_tool('program/EXPERIMENT_RUNBOOK.md#' + anchor)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.strip(), 'program/runbook/08-decisions.md#' +
+                         anchor.replace('corpus', 'evidencecorpus'))
+
+    def test_old_slug_cannot_rescue_changed_pinned_heading(self):
+        anchor = 'a1--batch-vs-sequential-write--done--pass-robust-corpus14-d-a1-1'
+        path = self.root / 'program/runbook/08-decisions.md'
+        path.write_text(path.read_text().replace('`evidence/CORPUS/14`', '`CORPUS/14`'))
+        result = self.run_tool('program/EXPERIMENT_RUNBOOK.md#' + anchor)
+        self.assertEqual(result.returncode, 2)
+        self.assertIn('Unknown anchor', result.stderr)
+        self.assertIn('heading changed after the pin', result.stderr)
 
     def test_sealed_anchor_precedence_and_current_exact_source(self):
         result = self.run_tool('program/EXPERIMENT_RUNBOOK.md#child-heading')

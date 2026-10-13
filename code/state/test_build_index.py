@@ -160,7 +160,7 @@ class IndexTests(unittest.TestCase):
                                ('03.md', 'Actual setext'), ('04.md', '—')]:
             self.assertIn(f'| {name} | {expected} |', evidence)
 
-    def test_original_anchor_map_by_position(self):
+    def test_original_anchor_map_at_pin(self):
         from state.build_index import build_anchor_map, read_anchor_map
         folder = self.root / 'program/runbook'
         folder.mkdir()
@@ -171,12 +171,19 @@ class IndexTests(unittest.TestCase):
         original = ('# Preamble\n## Original first\n### CORPUS/14\n'
                     '```\n## Not a heading\n```\n'
                     '## Original second\n### CORPUS/14\n')
-        response = subprocess.CompletedProcess([], 0, original, '')
-        with patch('state.build_index.subprocess.run', return_value=response) as git:
+        pinned = {
+            '3f1a3b95:EXPERIMENT_RUNBOOK.md': original,
+            '4e679b15:program/runbook/00-first.md':
+                '# Preamble\n## Rewritten first\n### evidence/CORPUS/14\n',
+            '4e679b15:program/runbook/08-second.md':
+                '## Rewritten second\n### evidence/CORPUS/14\n',
+        }
+        (folder / '00-first.md').write_text('## Later live heading\n')
+        def git_show(args, **kwargs):
+            return subprocess.CompletedProcess(args, 0, pinned[args[-1]], '')
+        with patch('state.build_index.subprocess.run', side_effect=git_show):
             data = build_anchor_map(self.root, {
                 'EXPERIMENT_RUNBOOK.md': 'program/EXPERIMENT_RUNBOOK.md'})
-        self.assertEqual(git.call_args.args[0],
-                         ['git', 'show', '3f1a3b95:EXPERIMENT_RUNBOOK.md'])
         entries = read_anchor_map(data, self.root)
         monolith = 'program/EXPERIMENT_RUNBOOK.md'
         self.assertEqual(entries[(monolith, 'preamble')],
@@ -188,18 +195,41 @@ class IndexTests(unittest.TestCase):
         self.assertNotIn((monolith, 'not-a-heading'), entries)
         self.assertEqual(data.splitlines()[0], b'monolith\tanchor\tpart\tcurrent_anchor')
 
-    def test_anchor_map_keeps_unmatched_historical_slug(self):
-        from state.build_index import build_anchor_map, read_anchor_map
+    def test_anchor_map_rejects_unequal_pinned_counts(self):
+        from state.build_index import build_anchor_map
         folder = self.root / 'program/runbook'
         folder.mkdir()
         (folder / '00-first.md').write_text('## First\n')
-        response = subprocess.CompletedProcess([], 0, '## First\n### Missing\n', '')
-        with patch('state.build_index.subprocess.run', return_value=response):
-            data = build_anchor_map(self.root, {
-                'EXPERIMENT_RUNBOOK.md': 'program/EXPERIMENT_RUNBOOK.md'})
-        entries = read_anchor_map(data, self.root)
-        self.assertEqual(entries[('program/EXPERIMENT_RUNBOOK.md', 'missing')],
-                         ('program/runbook/00-first.md', 'missing'))
+        responses = [subprocess.CompletedProcess([], 0, body, '') for body in
+                     ('## First\n### Missing\n', '## First\n')]
+        with patch('state.build_index.subprocess.run', side_effect=responses):
+            with self.assertRaisesRegex(ValueError, 'heading counts'):
+                build_anchor_map(self.root, {
+                    'EXPERIMENT_RUNBOOK.md': 'program/EXPERIMENT_RUNBOOK.md'})
+
+    def test_anchor_map_rejects_changed_pinned_level(self):
+        from state.build_index import build_anchor_map
+        folder = self.root / 'program/runbook'
+        folder.mkdir()
+        (folder / '00-first.md').write_text('## First\n#### Child\n')
+        responses = [subprocess.CompletedProcess([], 0, body, '') for body in
+                     ('## First\n### Child\n', '## First\n#### Child\n')]
+        with patch('state.build_index.subprocess.run', side_effect=responses):
+            with self.assertRaisesRegex(ValueError, 'heading level'):
+                build_anchor_map(self.root, {
+                    'EXPERIMENT_RUNBOOK.md': 'program/EXPERIMENT_RUNBOOK.md'})
+
+    def test_anchor_map_rejects_unreadable_pin(self):
+        from state.build_index import build_anchor_map
+        folder = self.root / 'program/runbook'
+        folder.mkdir()
+        (folder / '00-first.md').write_text('## First\n')
+        responses = [subprocess.CompletedProcess([], 0, '## First\n', ''),
+                     subprocess.CompletedProcess([], 1, '', 'pin not found')]
+        with patch('state.build_index.subprocess.run', side_effect=responses):
+            with self.assertRaisesRegex(ValueError, 'cannot read 4e679b15:'):
+                build_anchor_map(self.root, {
+                    'EXPERIMENT_RUNBOOK.md': 'program/EXPERIMENT_RUNBOOK.md'})
 
     def test_anchor_map_validation_without_git(self):
         self.write()
@@ -253,24 +283,66 @@ class LivingAnchorMapTests(unittest.TestCase):
             (self.root / part).read_text(encoding='utf-8').splitlines())}
         self.assertIn(fragment, slugs)
 
-    def test_unequal_replace_keeps_historical_slugs_and_errors(self):
+    def assert_mutation_keeps_identity(self, changed):
         from state.resolve_path import resolve
-        text = self.part.read_text(encoding='utf-8')
-        heading = '#### A1 · Batch vs sequential write'
-        self.assertEqual(text.count(heading), 1)
-        self.part.write_text(text.replace(heading, '### New close-out heading\n' + heading, 1),
-                             encoding='utf-8')
-        entries = self.rebuild()
+        self.rebuild()
+        before = (self.root / '_index/anchor-map.tsv').read_bytes()
+        self.part.write_text(changed, encoding='utf-8')
+        self.rebuild()
+        with self.subTest(check='map bytes'):
+            self.assertEqual((self.root / '_index/anchor-map.tsv').read_bytes(), before)
         old_anchors = (
             'a1--batch-vs-sequential-write--done--pass-robust-corpus14-d-a1-1',
             'a2--relation-balanced-in-solve-sentinels-3-disjoint-pools--done--partial-strong-directional-corpus15-d-a2-1')
+        from state.resolve_path import heading_entries
         with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
-            for old_anchor in old_anchors:
-                with self.subTest(anchor=old_anchor):
-                    self.assertEqual(entries[('program/EXPERIMENT_RUNBOOK.md', old_anchor)][1],
-                                     old_anchor)
-                    with self.assertRaisesRegex(ValueError, 'Unknown anchor'):
-                        resolve('EXPERIMENT_RUNBOOK.md#' + old_anchor)
+            for label, old_anchor in zip(('A1 ', 'A2 '), old_anchors):
+                with self.subTest(heading=label):
+                    try:
+                        part, marker, fragment = resolve(
+                            'EXPERIMENT_RUNBOOK.md#' + old_anchor).partition('#')
+                    except ValueError as error:
+                        self.fail(f'{label}valid alias was lost: {error}')
+                    headings = {slug: heading for heading, slug in heading_entries(
+                        (self.root / part).read_text(encoding='utf-8').splitlines())}
+                    self.assertEqual(marker, '#')
+                    self.assertIn(fragment, headings)
+                    self.assertIn(label, headings[fragment])
+                    print(f'{label.strip()} -> {headings[fragment]}')
+
+    def test_insert_heading_keeps_alias_identity(self):
+        text = self.part.read_text(encoding='utf-8')
+        heading = '#### A1 · Batch vs sequential write'
+        self.assertEqual(text.count(heading), 1)
+        self.assert_mutation_keeps_identity(text.replace(
+            heading, '### New close-out heading\n' + heading, 1))
+
+    def test_swap_sections_keeps_alias_identity(self):
+        text = self.part.read_text(encoding='utf-8')
+        a, z, end = [text.index('#### ' + label) for label in ('A1 ', 'A2 ', 'A2b ')]
+        self.assert_mutation_keeps_identity(
+            text[:a] + text[z:end] + text[a:z] + text[end:])
+
+    def test_identity_at_pin_differs_only_by_path_rewrite(self):
+        from state.build_index import read_path_map
+        from state.resolve_path import heading_entries
+        entries = self.rebuild()
+        mapping = read_path_map((self.root / '_index/path-map.tsv').read_bytes())
+        pairs = [(key, value) for key, value in entries.items() if key[1] != value[1]]
+        self.assertTrue(pairs)
+        for (monolith, old_anchor), (part, current_anchor) in pairs:
+            old = next(name for name, new in mapping.items() if new == monolith)
+            def headings_at(revision, path):
+                result = subprocess.run(['git', 'show', f'{revision}:{path}'],
+                                        cwd=self.root, env={**os.environ, 'GIT_DIR': self.git_dir},
+                                        capture_output=True, text=True, check=True)
+                return {slug: heading for heading, slug in heading_entries(
+                    result.stdout.splitlines())}
+            historical = headings_at('3f1a3b95', old)[old_anchor]
+            pinned = headings_at('4e679b15', part)[current_anchor]
+            self.assertEqual(pinned, historical.replace('`CORPUS/', '`evidence/CORPUS/'))
+            self.assertEqual(current_anchor, old_anchor.replace('corpus', 'evidencecorpus'))
+            print(f'PIN PAIR {monolith}#{old_anchor} -> {part}#{current_anchor}')
 
     def test_deleted_heading_errors_and_all_other_fragments_exist(self):
         from state.resolve_path import resolve

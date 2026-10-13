@@ -1,7 +1,6 @@
 """Build deterministic ICM indexes. The approved path map stays byte-identical."""
 import argparse
 import csv
-from difflib import SequenceMatcher
 import io
 import json
 import os
@@ -191,19 +190,26 @@ def build_anchor_map(root: Path, mapping: dict[str, str]) -> bytes:
         for heading, slug in entries:
             if re.match(r'^ {0,3}##\s+', heading):
                 position += 1
-            sections[max(position, 0)].append(slug)
+            sections[max(position, 0)].append((heading, slug))
         for path, historical in zip(parts, sections):
-            current = [slug for _, slug in heading_entries(
-                path.read_text(encoding='utf-8').splitlines())]
             part = path.relative_to(root).as_posix()
-            aligned = {}
-            for tag, a, b, c, d in SequenceMatcher(
-                    None, historical, current, autojunk=False).get_opcodes():
-                if tag == 'equal' or (tag == 'replace' and b - a == d - c):
-                    aligned.update(zip(historical[a:b], current[c:d]))
-            for slug in historical:
-                rows.append((monolith, slug, part,
-                             slug if slug in current else aligned.get(slug, slug)))
+            pinned = subprocess.run(['git', 'show', f'4e679b15:{part}'], cwd=root,
+                                    capture_output=True, text=True)
+            if pinned.returncode or not pinned.stdout:
+                raise ValueError(f'_index/anchor-map.tsv: cannot read 4e679b15:{part}: '
+                                 + pinned.stderr.strip())
+            current = list(heading_entries(pinned.stdout.splitlines()))
+            if len(historical) != len(current):
+                raise ValueError(f'_index/anchor-map.tsv: {part}: heading counts '
+                                 f'differ at the pin: {len(historical)} != {len(current)}')
+            # Both lists are frozen. Live edits must not change section identity.
+            for (heading, slug), (pinned_heading, current_anchor) in zip(historical, current):
+                level = re.match(r'^ {0,3}(#{1,6})\s+', heading).group(1)
+                pinned_level = re.match(r'^ {0,3}(#{1,6})\s+', pinned_heading).group(1)
+                if level != pinned_level:
+                    raise ValueError(f'_index/anchor-map.tsv: {part}: heading level '
+                                     f'differs at the pin for {slug}')
+                rows.append((monolith, slug, part, current_anchor))
     data = ('\t'.join(ANCHOR_HEADER) + '\n' + ''.join(
         '\t'.join(row) + '\n' for row in sorted(rows))).encode('utf-8')
     read_anchor_map(data, root)

@@ -83,10 +83,9 @@ def resolve(old: str) -> str:
             part, current_anchor = sealed[(monolith, slug)]
             current = {fragment for _, fragment in heading_entries(
                 (root / part).read_text(encoding='utf-8').splitlines())}
-            if slug in current:
-                return f'{part}#{anchor}'
             if current_anchor not in current:
-                raise ValueError(f'Unknown anchor for {path}: {anchor}')
+                raise ValueError(f'Unknown anchor for {path}: {anchor}; '
+                                 'heading changed after the pin')
             return f'{part}#{current_anchor}'
         parts = anchors(root / target)
         if slug not in parts:
