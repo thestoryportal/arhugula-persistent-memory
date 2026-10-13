@@ -79,7 +79,7 @@ A thin **deterministic guardrail loop** — "not a scientist." Python never fake
 | # | Step | Guarantee |
 |---|------|-----------|
 | 1 | **Launch** detached with a **mission** (one pre-registered falsifier from `§0.3`) + `--budget-min` | Hard wall-clock deadline; run cannot exceed it. |
-| 2 | **Preflight hard-gate** (`code/agents/codex_context_guard.py preflight`) | Aborts **before any experiment** if the pod is NOT-READY. |
+| 2 | **Preflight hard-gate** (`code/agents/codex_context_guard.py preflight`) | Aborts **before any experiment** if the host is NOT-READY. |
 | 3 | **Per-unit loop**, bounded by `max_loops` + `timeout_s` | A retry only ever chases a *transient* failure — never a different label on a deterministic run. |
 | 4 | **Deterministic labeling** — PASS / PARTIAL / FAIL / INVALID from a **pre-registered rule** on the result JSON | **No model judgment.** `FAIL` = real negative result; `INVALID` = couldn't evaluate / guard failed = confounded. |
 | 5 | **Gate log** | Model-pull/cov-compute = pre-approved (standing-auth); paid-provider/credential moves = **gated + skipped** → `logs/autonomy_gates.jsonl`. |

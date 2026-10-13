@@ -13,7 +13,7 @@ run. Optimizer-style "make the number go up" is NOT the goal (see *Fenced units*
 `code/lab/runners/autonomy_driver.py` is a deterministic guardrail loop:
 
 1. **Hard wall-clock stop** — `--budget-min` is a real deadline; the run cannot exceed it.
-2. **Preflight hard-gate** — `code/agents/codex_context_guard.py preflight`; if the pod is NOT-READY
+2. **Preflight hard-gate** — `code/agents/codex_context_guard.py preflight`; if the host is NOT-READY
    (engine missing, etc.) it **aborts before any experiment**.
 3. **Per-unit loop bound + timeout** — `max_loops` and `timeout_s` per unit; a retry only helps a
    *transient* failure (the driver never loops to chase a different label on a deterministic run).
