@@ -44,6 +44,63 @@ class DestinationFragmentTests(unittest.TestCase):
                          'evidencecorpus14-d-a1-1')
 
 
+class CommonMarkHeadingTests(unittest.TestCase):
+    def test_rendered_duplicates_reject_pinned_anchor(self):
+        from state.resolve_path import resolve
+        root = Path(os.environ['LLMDB_ROOT'])
+        part = root / 'knowledge/specs/integrated-spec-v1_2/11-security-layer.md'
+        text = part.read_text(encoding='utf-8')
+        key = 'knowledge/specs/llm-as-database-v1_2-integrated-spec.md#101-purpose'
+        heading = '### 10.1 Purpose\nNEW SECTION\n\n'
+        fence = '`' * 3
+        cases = [
+            ('ATX control', heading + text),
+            ('Setext', '10.1 Purpose\n---\nNEW SECTION\n\n' + text),
+            ('blockquote', '> ### 10.1 Purpose\n> NEW SECTION\n\n' + text),
+            ('list', '- ### 10.1 Purpose\n\n  NEW SECTION\n\n' + text),
+            ('mixed fence', fence + '\n~~~\n' + fence + '\n\n' + heading +
+             fence + '\n~~~\n' + fence + '\n\n' + text),
+            ('long fence', fence + '`\n' + fence + '\n' + fence + '`\n\n' +
+             heading + fence + '`\n' + fence + '\n' + fence + '`\n\n' + text),
+            ('indented code', '    ' + fence + '\n\n' + heading +
+             '    ' + fence + '\n\n' + text),
+        ]
+        read = Path.read_text
+        for name, changed in cases:
+            with self.subTest(case=name), patch.object(
+                    Path, 'read_text', lambda path, *a, **k:
+                    changed if path == part else read(path, *a, **k)):
+                with self.assertRaisesRegex(ValueError, 'live headings match'):
+                    resolve(key)
+
+    def test_html_comment_returns_original_heading_text(self):
+        from markdown_it import MarkdownIt
+        from state.resolve_path import heading_entries, resolve
+        root = Path(os.environ['LLMDB_ROOT'])
+        part = root / 'program/runbook/13-changelog-append-only.md'
+        slug = '13-changelog--2026-06-19'
+        base, number = slug.rsplit('-', 1)
+        changed = ('<!--\n' + ('### ' + base + '\n') * (int(number) + 1) +
+                   '-->\n\n' + part.read_text(encoding='utf-8') +
+                   '\n\n### ' + slug + '-1\nOTHER SECTION\n')
+        read = Path.read_text
+        with patch.object(Path, 'read_text', lambda path, *a, **k:
+                          changed if path == part else read(path, *a, **k)):
+            destination = resolve('program/EXPERIMENT_RUNBOOK.md#' + slug)
+        self.assertEqual(destination, str(part.relative_to(root)) + '#' + slug)
+        fragment = destination.partition('#')[2]
+        heading = next(heading for heading, anchor in heading_entries(changed.splitlines())
+                       if anchor == fragment)
+        self.assertEqual(heading, '### §13 changelog — 2026-06-19')
+        # Check the destination text with the parser, independent of the resolver.
+        tokens = MarkdownIt('commonmark').parse(changed)
+        headings = [tokens[i + 1].content for i, token in enumerate(tokens)
+                    if token.type == 'heading_open']
+        self.assertEqual(headings.count('§13 changelog — 2026-06-19'), 1)
+        self.assertNotIn(base, headings)
+        self.assertEqual(headings[-1], slug + '-1')
+
+
 class ResolverTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -174,11 +231,10 @@ class ResolverTests(unittest.TestCase):
         self.assertIn('heading changed after the pin', result.stderr)
 
     def test_duplicate_a1_before_pinned_heading_is_an_error(self):
-        from state.resolve_path import heading_entries, resolve
+        from state.resolve_path import resolve
         path = self.root / 'program/runbook/08-decisions.md'
         text = path.read_text()
-        heading = next(heading for heading, _ in heading_entries(text.splitlines())
-                       if heading.startswith('#### A1 '))
+        heading = next(line for line in text.splitlines() if line.startswith('#### A1 '))
         path.write_text(text.replace(heading, heading + '\n' + heading, 1))
         old = ('program/EXPERIMENT_RUNBOOK.md#'
                'a1--batch-vs-sequential-write--done--pass-robust-corpus14-d-a1-1')
@@ -190,11 +246,10 @@ class ResolverTests(unittest.TestCase):
                          '; 2 live headings match the pinned heading')
 
     def test_duplicate_a1_after_pinned_heading_is_an_error(self):
-        from state.resolve_path import heading_entries, resolve
+        from state.resolve_path import resolve
         path = self.root / 'program/runbook/08-decisions.md'
         text = path.read_text()
-        heading = next(heading for heading, _ in heading_entries(text.splitlines())
-                       if heading.startswith('#### A1 '))
+        heading = next(line for line in text.splitlines() if line.startswith('#### A1 '))
         path.write_text(text + heading + '\n')
         old = ('program/EXPERIMENT_RUNBOOK.md#'
                'a1--batch-vs-sequential-write--done--pass-robust-corpus14-d-a1-1')

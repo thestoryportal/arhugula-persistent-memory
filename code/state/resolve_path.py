@@ -8,6 +8,8 @@ import sys
 import unicodedata
 from urllib.parse import unquote
 
+from markdown_it import MarkdownIt
+
 if __package__:
     from .build_index import read_path_map, read_anchor_map
 else:
@@ -36,13 +38,12 @@ def heading_slug(heading: str) -> str:
 def heading_entries(lines, counts=None):
     if counts is None:
         counts = {}
-    fenced = False
-    for line in lines:
-        if line.lstrip().startswith(('```', '~~~')):
-            fenced = not fenced
+    tokens = MarkdownIt('commonmark').parse('\n'.join(lines))
+    for index, token in enumerate(tokens):
+        if token.type != 'heading_open':
             continue
-        if fenced or not re.match(r'^ {0,3}#{1,6}\s+', line):
-            continue
+        level = int(token.tag[1:])
+        line = '#' * level + ' ' + tokens[index + 1].content
         base = heading_slug(line)
         slug = base
         while slug in counts:
