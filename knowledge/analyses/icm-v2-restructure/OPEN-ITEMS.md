@@ -15,3 +15,16 @@ None of these items blocks the merge. Astra high ruled each one "does not block"
 | 9 | `program/STATUS.md` marks halted or closed items "⭐ NEXT". The text comes from `program/program_state.json`. | Decide what is next at the next program session, then fix the JSON. | Program session |
 | 10 | `_index/path-map.tsv` rows for the three split monoliths name the pre-split file. `code/state/resolve_path.py` resolves them correctly. | Normalize the raw map when convenient. | MAESTRO |
 | 11 | `_system/governance/REPRODUCIBILITY.md:42,61` name output files in ignored legacy roots. This is true: the group-B scripts write there. | No action unless a group-B script is repointed. | — |
+| 12 | `build_anchor_map()` reads `git show 3f1a3b95:` and `git show 4e679b15:`. CI uses a shallow checkout, so a CI step that regenerates the anchor map would fail. Today CI runs only `build_index.py --check`, which does not regenerate it. | Add `fetch-depth: 0` before any CI step regenerates the map. | MAESTRO |
+| 13 | The old-link resolver (`code/state/resolve_path.py`) proves section identity by CommonMark heading syntax, not by full GitHub rendering. Six classes of live edit can still send an old anchor to another section with exit 0. Each needs a copy of a pinned heading pasted into a history file: (a) a different heading with the same raw slug (`10.1 Purpose` vs `101 Purpose`); (b) an HTML `id=` equal to a pinned fragment; (c) inline markup in a duplicate heading (emphasis, links, padded code, inline HTML); (d) a raw HTML `<h1>`-`<h6>` heading; (e) U+2028 line separators that change block structure; (f) a section moved into a footnote. Sources: `astra-g7-confirm3-verdict.md` section 2, `astra-g7-confirm4-verdict.md` section 2. | First fix: slug the rendered inline text (`renderInline`, strip tags) to close (c). Treat the rest as known limits. | MAESTRO |
+
+## MAESTRO ruling on confirm round 4 (2026-10-12, about 22:20 MDT)
+
+Astra confirm rounds 1-4 (`astra-g7-confirm1..4-*.md`) each returned NO-GO on the old-link resolver. Each round's fix passed, and each round found a deeper class (live heading order → duplicate heading → line scanner → renderer differences). The operator delegated review-bar calls to MAESTRO at about 22:15 ("I am no longer HIL"). MAESTRO ruled: merge, and carry the round-3 and round-4 classes as item 13.
+
+Reasons:
+- The remaining classes need GitHub-renderer fidelity. No local parser gives that, so another round would find another edge.
+- Every class needs a copy of a pinned heading pasted into a history file. The resolver is a transition tool for pre-restructure links.
+- Every non-resolver finding of rounds 1-4 is fixed and confirmed.
+
+Correction: the round-4 packet says the operator accepted the `slug transfer` and `explicit ID` limits. That is false. Astra rated them NON-BLOCKING in round 3; the operator did not rule on them.
