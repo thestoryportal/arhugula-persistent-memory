@@ -9,3 +9,48 @@ Routed from the root `CLAUDE.md` (twin: `AGENTS.md`). Moved verbatim from the pr
 - **NEVER** delete `evidence/CORPUS/`, `_system/memory/`, the engine, the active model line, or any reproducibility manifest; **NEVER** overwrite a manifest in place; **NEVER** pristine-restore the engine without explicit instruction. These are deny-listed → if you believe one is needed, HALT and record the need for operator action.
   - **Reclaim eligibility is not execution permission.** The §3.3 reclaim candidates (superseded non-Qwen model/cov caches, halted-experiment artifacts) and §3.3a regenerable bulk may be *proposed* for deletion without a HALT, but each deletion runs only after explicit approval: verify contents, size and committed hashes; ask the operator naming the exact path, size and the `python3 shutil.rmtree` method; on Yes, assert the target, delete exactly that path, and verify removal (`_system/memory/approved-deletes-ask-then-rmtree.md` — Bash `rm` is deny-listed).
 - Write big canonical docs via shell/python and **re-read after an intervening operation**: on the RunPod FUSE volume, Edit-tool writes silently reverted (2026-06-18, `_system/memory/verify-canonical-state-edits-persist.md`); recurrence on the local memit volume is UNVERIFIED, so the habit stays.
+
+## ICM placement and preservation
+
+Inventory each source before a move. Include ignored and untracked files.
+Record source path, byte count, digest, Git state, object kind and destination.
+Record symlink text and hard-link relationships. Do not follow links silently.
+Record nested Git roots, branch tips and dirty files.
+Stop writers that can change the batch. Recheck the source before execution.
+Stop on a changed hash, destination collision, root escape or ambiguous link.
+Never overwrite an existing destination.
+Preserve whole experiment and sweep units.
+Keep scientific records in Git regardless of size or former ignore status.
+Scientific check and launch JSON, manifests, notebooks and used logs are records.
+Scientific notebook checkpoints are versions, not private runtime.
+Compare and preserve them with their experiment provenance.
+Ignored bulk is limited to attested regenerable non-record output.
+Do not route scientific records into bulk. Verify Git durability after placement.
+An equal file is a comparison result. It is not deletion permission.
+Keep old copies and ignored leftovers until every file has a custody record.
+Move unmatched old copies to an approved external preservation location.
+Do not install a full old repo copy inside the canonical repo.
+Promote unique files only after their owner and destination are approved.
+Repair references in a separate approved batch.
+Record the old and new paths, before and after digests, checks and rollback.
+This refinement uses inventory, preserve and move. Never delete in this arc.
+Any later purge requires its own accepted plan and approval.
+
+## Models
+
+Store each model under `models/<model-name>/`.
+Use the identity in its source manifest to select the directory name.
+Keep base payloads under `base/<format>/`.
+Keep edited payloads under `variants/<variant>/<format>/`.
+Keep model provenance under `manifests/`.
+Record upstream identity, revision, format, size, digest and license source.
+Record each variant's base digest and the experiment that produced it.
+A model CONTEXT.md links to the active variant and its source manifests.
+Keep weight bytes ignored. Track their small identity and custody records.
+Route research, raw runs, findings and evidence to their ICM homes.
+Link to them from the model guide. Do not store copies beside the weights.
+Keep covariance and datasets under data with an explicit model binding.
+Preserve cache layouts until their readers can use the new model location.
+A locator must name the exact payload and digest. It must not create a second authority.
+Check all model readers and manifests before changing a model path.
+Protect the active model line. Do not delete a model during this refinement.
