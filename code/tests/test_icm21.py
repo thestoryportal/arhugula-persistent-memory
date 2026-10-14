@@ -130,7 +130,7 @@ class FixtureCase(unittest.TestCase):
         return result.stdout
 
     def cli(self, root, relative, *args, input=None):
-        script = self.require_file(relative, ' '.join(args))
+        script = self.require_file(relative, ' '.join(map(str, args)))
         return self.run_argv(root, [sys.executable, '-B', str(script), *map(str, args)], input=input)
 
     def result(self, completed, exit_code):
