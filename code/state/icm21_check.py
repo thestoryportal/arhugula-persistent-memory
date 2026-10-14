@@ -175,6 +175,11 @@ def validate_semantics(name, value):
         linked = {key for result in results for key in result['findings']}
         require(linked == set(finding_ids), 'dangling or unreferenced finding ID')
         coverage = value['coverage']
+        require(set(coverage['checked_registry_ids'])
+                <= set(coverage['required_registry_ids']), 'unknown checked registry ID')
+        instant = datetime.fromisoformat(value['observed_at'].removesuffix('Z') + '+00:00')
+        require(value['check_id'] == instant.strftime('%H%M%S.%fZ-') + value['mode'],
+                'check ID and captured UTC instant disagree')
         missing = (set(value['required_checks']) - set(ids)
                    or set(coverage['required_registry_ids'])
                    - set(coverage['checked_registry_ids']))
