@@ -1,4 +1,4 @@
-"""Read-only workspace admission and synchronous before-tool decisions (T008)."""
+"""Workspace admission, rechecked creation and synchronous before-tool decisions."""
 from __future__ import annotations
 
 import argparse
@@ -11,6 +11,7 @@ from pathlib import Path
 import re
 import shlex
 import stat
+import subprocess
 import sys
 from typing import Literal, Mapping
 
@@ -152,6 +153,7 @@ class WorkspacePolicy:
     policy_path: str | None
     schema: dict
     validator: object
+    policy_file_sha256: str | None
 
     def validate(self, name, value):
         self.validator(value, {'$ref': '#/$defs/' + name}, self.schema['$defs'])
@@ -172,6 +174,11 @@ def wire_validator():
 
 
 def load_policy(wire, policy_path=None):
+    policy_file_sha256 = None
+    if policy_path is not None:
+        raw = read_file(policy_path)
+        require(decode(raw) == wire, 'Changed policy bytes', 'CHANGED_POLICY')
+        policy_file_sha256 = hashlib.sha256(raw).hexdigest()
     schema, validator = wire_validator()
 
     def validate(name, value):
@@ -291,10 +298,11 @@ def load_policy(wire, policy_path=None):
                     'Pure cwd differs from lane root')
         read_binding(cap['profile'], json_value=False)
         observed += [cap['cwd']] + cap['output_paths']
-    for value in observed:
+    for value in observed + protected:
         identities.update(no_links(value))
     return WorkspacePolicy(decode(encoded(wire)), config, tuple(scopes['lanes']),
-                           tuple(requests['requests']), identities, policy_path, schema, validator)
+                           tuple(requests['requests']), identities, policy_path, schema, validator,
+                           policy_file_sha256)
 
 
 def deny(request, code, reason):
@@ -333,6 +341,51 @@ def admit_workspace(request: WorkspaceRequest, policy: WorkspacePolicy) -> Admit
                 'destination': destination, 'policy_sha256': digest(policy.wire)}
     except (ValueError, TypeError, KeyError) as error:
         return deny(request, getattr(error, 'code', 'INVALID_INPUT'), str(error))
+
+
+def create_workspace(admitted: Admit, policy: WorkspacePolicy) -> dict:
+    """Recheck admission immediately before the worktree writer starts."""
+    result = {'id': 'C-CREATION', 'status': 'FAIL', 'prd_ids': ['ICM-R7', 'ICM-R13'],
+              'argv': [], 'exit_code': None, 'stdout_sha256': None,
+              'stderr_sha256': None, 'findings': [], 'reason': 'Creation denied'}
+    try:
+        require(isinstance(policy, WorkspacePolicy), 'Expected validated WorkspacePolicy')
+        policy.validate('Admit', admitted)
+        admitted = decode(encoded(admitted))
+        require(digest(admitted['request']) == admitted['request_sha256'],
+                'Changed request bytes', 'UNAPPROVED_REQUEST')
+        require(digest(policy.wire) == admitted['policy_sha256'],
+                'Changed policy digest', 'CHANGED_POLICY')
+        wire = policy.wire
+        if policy.policy_path is not None:
+            raw = read_file(policy.policy_path)
+            require(hashlib.sha256(raw).hexdigest() == policy.policy_file_sha256,
+                    'Changed policy bytes', 'CHANGED_POLICY')
+            wire = decode(raw)
+        current = load_policy(wire, policy.policy_path)
+        checked = admit_workspace(admitted['request'], current)
+        if checked['decision'] == 'deny':
+            raise AdmissionError(checked['code'], checked['reason'])
+        require(checked == admitted, 'Changed admission', 'CHANGED_POLICY')
+        require(current.identities == policy.identities,
+                'Changed ancestor identity', 'LINK_AMBIGUITY')
+        request = admitted['request']
+        argv = ['git', '-C', request['source'], 'worktree', 'add', '--detach',
+                '--', admitted['destination'], request['base_commit']]
+        for value, identity in current.identities.items():
+            require(no_links(value).get(value) == identity,
+                    'Changed ancestor identity', 'LINK_AMBIGUITY')
+        require(not os.path.lexists(admitted['destination']), 'Destination exists', 'COLLISION')
+        completed = subprocess.run(argv, capture_output=True)
+        result.update(argv=argv, exit_code=completed.returncode,
+                      stdout_sha256=hashlib.sha256(completed.stdout).hexdigest(),
+                      stderr_sha256=hashlib.sha256(completed.stderr).hexdigest(),
+                      status='PASS' if completed.returncode == 0 else 'FAIL',
+                      reason='Worktree created' if completed.returncode == 0 else
+                      'Worktree writer failed')
+    except (OSError, ValueError, TypeError, KeyError) as error:
+        result['reason'] = getattr(error, 'code', 'INVALID_INPUT') + ': ' + str(error)
+    return result
 
 
 def tool_decision(event: HookEvent, policy: WorkspacePolicy):
@@ -407,10 +460,10 @@ def hook_denial(code):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
-    for name in ('check', 'hook'):
+    for name in ('check', 'hook', 'create'):
         command = commands.add_parser(name)
         command.add_argument('--policy', required=True)
-        if name == 'check':
+        if name != 'hook':
             command.add_argument('--request', required=True)
     args = parser.parse_args()
     request = None
@@ -420,10 +473,16 @@ def main():
             decision, code = tool_decision(decode(sys.stdin.buffer.read()), policy)
             result, exit_code = ({} if decision == 'allow' else hook_denial(code)), 0
         else:
-            request = decode(read_file(args.request))
+            request_raw = read_file(args.request)
+            request = decode(request_raw)
             result = admit_workspace(request, policy)
             exit_code = 0 if result['decision'] == 'admit' else (
                 2 if result['code'] == 'INVALID_INPUT' else 1)
+            if args.command == 'create' and result['decision'] == 'admit':
+                require(read_file(args.request) == request_raw,
+                        'Changed request bytes', 'UNAPPROVED_REQUEST')
+                result = create_workspace(result, policy)
+                exit_code = 0 if result['status'] == 'PASS' else 1
     except Exception as error:
         code = getattr(error, 'code', 'INVALID_INPUT')
         if args.command == 'hook':
