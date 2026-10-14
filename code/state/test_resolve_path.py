@@ -101,6 +101,72 @@ class CommonMarkHeadingTests(unittest.TestCase):
         self.assertEqual(headings[-1], slug + '-1')
 
 
+class RenderedInlineHeadingTests(unittest.TestCase):
+    def assert_duplicate_rejected(self, inline, definitions=''):
+        from state.resolve_path import resolve
+        root = Path(os.environ['LLMDB_ROOT'])
+        part = root / 'knowledge/specs/integrated-spec-v1_2/11-security-layer.md'
+        original = part.read_text(encoding='utf-8')
+        key = 'knowledge/specs/llm-as-database-v1_2-integrated-spec.md#101-purpose'
+        read = Path.read_text
+        for position in ('before', 'after'):
+            duplicate = '### ' + inline + '\nNEW\n\n' + definitions
+            changed = (duplicate + original if position == 'before'
+                       else original + '\n\n' + duplicate)
+            with self.subTest(position=position), patch.object(
+                    Path, 'read_text', lambda path, *a, **k:
+                    changed if path == part else read(path, *a, **k)):
+                with self.assertRaisesRegex(ValueError, '2 live headings match'):
+                    resolve(key)
+
+    def test_underscore_emphasis_duplicate(self):
+        self.assert_duplicate_rejected('10.1 _Purpose_')
+
+    def test_reference_link_duplicate(self):
+        self.assert_duplicate_rejected('[10.1 Purpose][ref]',
+                                       '[ref]: https://example.com\n\n')
+
+    def test_nested_link_destination_duplicate(self):
+        self.assert_duplicate_rejected('[10.1 Purpose](https://example.com/a(b)c)')
+
+    def test_padded_code_span_duplicate(self):
+        self.assert_duplicate_rejected('` 10.1 Purpose `')
+
+    def test_quoted_html_attribute_duplicate(self):
+        self.assert_duplicate_rejected('<span title=">x">10.1 Purpose</span>')
+
+    def test_inline_html_comment_duplicate(self):
+        self.assert_duplicate_rejected('10.1 <!-- > -->Purpose')
+
+    def test_source_heading_preserved_with_rendered_slug(self):
+        from state.resolve_path import heading_entries
+        for inline in ('10.1 _Purpose_', '[10.1 Purpose][ref]',
+                       '[10.1 Purpose](https://example.com/a(b)c)',
+                       '` 10.1 Purpose `', '<span title=">x">10.1 Purpose</span>',
+                       '10.1 <!-- > -->Purpose', '10.1 Purpo&#115;e'):
+            heading = '### ' + inline
+            with self.subTest(inline=inline):
+                self.assertEqual(list(heading_entries(
+                    [heading, '', '[ref]: https://example.com'])),
+                    [(heading, '101-purpose')])
+
+    def test_rendered_slugs_share_counts(self):
+        from state.resolve_path import heading_entries
+        counts = {}
+        self.assertEqual(list(heading_entries(['### 10.1 _Purpose_'], counts)),
+                         [('### 10.1 _Purpose_', '101-purpose')])
+        self.assertEqual(list(heading_entries(['### ` 10.1 Purpose `'], counts)),
+                         [('### ` 10.1 Purpose `', '101-purpose-1')])
+        self.assertEqual(list(heading_entries(['### 10.1 Purpose'], counts)),
+                         [('### 10.1 Purpose', '101-purpose-2')])
+
+    def test_unchanged_pinned_heading_resolves(self):
+        from state.resolve_path import resolve
+        self.assertEqual(resolve(
+            'knowledge/specs/llm-as-database-v1_2-integrated-spec.md#101-purpose'),
+            'knowledge/specs/integrated-spec-v1_2/11-security-layer.md#101-purpose')
+
+
 class ResolverTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
