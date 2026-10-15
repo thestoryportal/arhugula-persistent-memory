@@ -2,11 +2,14 @@
 import argparse
 import base64
 import binascii
-from datetime import datetime
+from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
+import subprocess
+import time
 
 
 CHECK_IDS = frozenset('''C-KEEP C-CONTAINER C-HOLD C-MOVE C-PHASE C-AUDIT-IMPORT
@@ -254,6 +257,123 @@ def reject_constant(value):
 
 def read_json(path):
     return json.loads(path.read_bytes().decode('utf-8'), parse_constant=reject_constant)
+
+
+def audit_schema():
+    package = Path(os.environ['ICM_PACKAGE'])
+    binding = read_json(package / 'context.json')['sources']['WIRE-SCHEMAS.json']
+    raw = Path(binding['path'].replace('{package}', str(package))).read_bytes()
+    require(hashlib.sha256(raw).hexdigest() == binding['sha256'], 'changed wire schema')
+    return json.loads(raw)
+
+
+def active_graft(value):
+    def mentions(item):
+        if isinstance(item, str):
+            return re.search(r'\bgraft\b', item, re.IGNORECASE) is not None
+        if isinstance(item, list):
+            return any(mentions(child) for child in item)
+        if isinstance(item, dict):
+            return any(mentions(key) or mentions(child) for key, child in item.items())
+        return False
+
+    require(type(value) is dict, 'loader config must be an object')
+    return any(mentions(value[key]) for key in ('hooks', 'mcpServers', 'plugins')
+               if key in value) or mentions(value.get('search', {}).get('exceptions', [])) \
+        or any(mentions(key) and enabled is True
+               for key, enabled in value.get('enabledPlugins', {}).items())
+
+
+def audit(root, mode, config):
+    """Inspect registered loader data without executing its commands or adapters."""
+    started = time.monotonic_ns()
+    instant = datetime.now(timezone.utc)
+    schema = audit_schema()
+    validate_wire('Config', config, schema, {})
+    root = Path(root)
+    require(str(root) == config['canonical_root'] and root.is_dir(), 'invalid audit root')
+    require(mode in ('session', 'nightly'), 'invalid audit mode')
+    coverage = {'inspected': [], 'excluded': [], 'required_registry_ids': [],
+                'checked_registry_ids': []}
+    findings, results = [], []
+
+    def violation(path, reason):
+        identity = str(path) + '\n' + reason
+        finding_id = 'F-GRAFT-' + hashlib.sha256(identity.encode()).hexdigest()
+        findings.append({'id': finding_id, 'status': 'FAIL', 'prd_ids': ['ICM-R9'],
+                         'paths': [str(path)], 'evidence': [], 'reason': reason,
+                         'previous_finding': None, 'resolution_receipt': None})
+
+    def bound_bytes(path, expected):
+        raw = path.read_bytes()
+        coverage['inspected'].append(str(path))
+        require(hashlib.sha256(raw).hexdigest() == expected, 'changed bound source')
+        return raw
+
+    if 'C-GRAFT' in config['required_checks']:
+        missing = []
+        registry_path = Path(config['registries']['path'])
+        try:
+            raw = bound_bytes(registry_path, config['registries']['sha256'])
+            registry = json.loads(raw.decode('utf-8'), parse_constant=reject_constant)
+            validate_wire('Registries', registry, schema, {})
+            for role in ('reader', 'loader'):
+                require(all(entry['role'] == role for entry in registry[role + '_registry']),
+                        'registry role mismatch')
+        except OSError as error:
+            missing.append(str(error))
+        except (ValueError, KeyError, TypeError) as error:
+            violation(registry_path, str(error))
+        else:
+            entries = [entry for entry in registry['reader_registry']
+                       + registry['loader_registry'] if 'C-GRAFT' in entry['check_ids']]
+            coverage['required_registry_ids'] = sorted(entry['id'] for entry in entries)
+            if not entries:
+                missing.append('No registered Graft loader coverage')
+            for entry in entries:
+                path = root / entry['path']
+                if entry['status'] == 'UNVERIFIED' or entry['source_sha256'] is None:
+                    missing.append(entry['id'])
+                    continue
+                try:
+                    raw = bound_bytes(path, entry['source_sha256'])
+                    value = json.loads(raw.decode('utf-8'), parse_constant=reject_constant)
+                    present = active_graft(value)
+                except OSError as error:
+                    missing.append(entry['id'] + ': ' + str(error))
+                except (ValueError, KeyError, TypeError, AttributeError) as error:
+                    violation(path, str(error))
+                else:
+                    coverage['checked_registry_ids'].append(entry['id'])
+                    if present:
+                        violation(path, 'Active Graft loader or search exception')
+        status = 'FAIL' if findings else 'UNVERIFIED' if missing else 'PASS'
+        results.append({'id': 'C-GRAFT', 'status': status, 'prd_ids': ['ICM-R9'],
+                        'argv': [], 'exit_code': None, 'stdout_sha256': None,
+                        'stderr_sha256': None, 'findings': [f['id'] for f in findings],
+                        'reason': '; '.join(missing) if missing else
+                                  'Active Graft detected' if findings else
+                                  'Registered loader data is Graft-free'})
+    coverage['inspected'] = sorted(set(coverage['inspected']))
+    coverage['checked_registry_ids'].sort()
+    statuses = {result['status'] for result in results}
+    incomplete = (set(config['required_checks']) - {result['id'] for result in results}
+                  or set(coverage['required_registry_ids'])
+                  - set(coverage['checked_registry_ids']))
+    overall = ('FAIL' if 'FAIL' in statuses else
+               'UNVERIFIED' if incomplete or 'UNVERIFIED' in statuses else 'PASS')
+    commit = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=root, capture_output=True)
+    report = {'schema_version': 1, 'check_id': instant.strftime('%H%M%S.%fZ-') + mode,
+              'observed_at': instant.strftime('%Y-%m-%dT%H:%M:%S.%fZ'), 'root': str(root),
+              'source_commit': commit.stdout.decode().strip() if commit.returncode == 0
+                               else 'UNVERIFIED',
+              'dirty_source_digests': [], 'mode': mode, 'coverage': coverage,
+              'required_checks': config['required_checks'], 'check_results': results,
+              'findings': findings, 'previous_report': None, 'overall_status': overall,
+              'duration_ms': (time.monotonic_ns() - started) // 1000000,
+              'reviewed_narrative_paths': [], 'unreviewed_narrative_paths': [str(root)]}
+    validate_wire('AuditReport', report, schema, {})
+    return report
 
 
 def main():
