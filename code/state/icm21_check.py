@@ -284,8 +284,102 @@ def active_graft(value):
                for key, enabled in value.get('enabledPlugins', {}).items())
 
 
+def repository_copies(root, config, coverage):
+    """Detect copies from Git identity and layout locators, never bulk bytes."""
+    violations, missing = {}, []
+    coverage['inspected'].append(str(root))
+
+    def violation(path, reason):
+        violations.setdefault(str(path), set()).add(reason)
+
+    def git(*argv):
+        environment = {key: value for key, value in os.environ.items()
+                       if not key.startswith('GIT_')}
+        result = subprocess.run(['git', *argv], cwd=root, env=environment,
+                                capture_output=True)
+        return result.returncode, result.stdout.decode('utf-8', 'replace').strip()
+
+    ownership = Path(config['ownership_path']['path'])
+    try:
+        raw = ownership.read_bytes()
+        coverage['inspected'].append(str(ownership))
+        if hashlib.sha256(raw).hexdigest() != config['ownership_path']['sha256']:
+            missing.append('Ownership authority digest mismatch')
+    except OSError:
+        missing.append('Ownership authority is unreadable')
+
+    code, top = git('rev-parse', '--show-toplevel')
+    if code or not top or Path(top).resolve() != root.resolve():
+        missing.append('Canonical Git root identity is unavailable')
+        common = None
+    else:
+        code, value = git('rev-parse', '--git-common-dir')
+        common = (root / value).resolve() if not code and value else None
+        if common is None:
+            missing.append('Canonical Git common-dir identity is unavailable')
+        code, value = git('worktree', 'list', '--porcelain')
+        if code:
+            missing.append('Registered worktree identity is unavailable')
+        else:
+            for record in value.split('\n\n'):
+                fields = record.splitlines()
+                if not fields or not fields[0].startswith('worktree '):
+                    continue
+                path = Path(fields[0][9:])
+                if path != root and path.is_relative_to(root):
+                    coverage['inspected'].append(str(path))
+                    branch = next((line[7:] for line in fields
+                                   if line.startswith('branch ')), 'detached')
+                    violation(path, 'Registered nested worktree or residue: ' + branch)
+
+    def unreadable(error):
+        missing.append('Unreadable boundary path: ' + str(error.filename))
+
+    markers = (('CLAUDE.md', 'program/program_state.json', '_index/path-map.tsv'),
+               ('CONTEXT.md', 'RUNBOOK.md', 'EXPERIMENTS.md'))
+    for directory, children, files in os.walk(root, onerror=unreadable):
+        children.sort()
+        if '.git' in children:
+            children.remove('.git')
+        path = Path(directory)
+        coverage['inspected'].append(str(path))
+        if path == root:
+            continue
+        for names in markers:
+            if all((path / name).is_file() for name in names):
+                violation(path, 'Repository authority marker set: ' + ', '.join(names))
+        dotgit = path / '.git'
+        if not dotgit.exists() and not dotgit.is_symlink():
+            continue
+        coverage['inspected'].append(str(dotgit))
+        try:
+            if dotgit.is_dir():
+                gitdir = dotgit.resolve()
+            else:
+                text = dotgit.read_text(encoding='utf-8').strip()
+                require(text.startswith('gitdir: ') and '\n' not in text,
+                        'invalid Git directory locator')
+                gitdir = (path / text[8:]).resolve()
+            # Neither the approved engine nor a named miniature fixture can
+            # exempt a common-dir link back into this repository.
+            if common is not None and (gitdir == common or
+                    gitdir.is_relative_to(common / 'worktrees')):
+                violation(path, 'Repository Git directory identity or worktree residue')
+            commondir = gitdir / 'commondir'
+            shared = (gitdir / commondir.read_text(encoding='utf-8').strip()).resolve() \
+                if commondir.is_file() else gitdir
+            if common is not None and shared == common:
+                violation(path, 'Repository Git common-dir identity')
+            elif not gitdir.is_dir():
+                missing.append('Unresolved Git directory locator: ' + str(dotgit))
+        except (OSError, ValueError) as error:
+            missing.append('Unreadable Git identity at ' + str(dotgit) + ': '
+                           + type(error).__name__)
+    return violations, missing
+
+
 def audit(root, mode, config):
-    """Inspect registered loader data without executing its commands or adapters."""
+    """Inspect repository boundaries and registered loader data without adapters."""
     started = time.monotonic_ns()
     instant = datetime.now(timezone.utc)
     schema = audit_schema()
@@ -354,6 +448,23 @@ def audit(root, mode, config):
                         'reason': '; '.join(missing) if missing else
                                   'Active Graft detected' if findings else
                                   'Registered loader data is Graft-free'})
+    if 'C-BOUNDARY' in config['required_checks']:
+        copies, missing = repository_copies(root, config, coverage)
+        finding_ids = []
+        for path, reasons in sorted(copies.items()):
+            reason = '; '.join(sorted(reasons))
+            finding_id = 'F-BOUNDARY-' + hashlib.sha256(path.encode()).hexdigest()
+            finding_ids.append(finding_id)
+            findings.append({'id': finding_id, 'status': 'FAIL', 'prd_ids': ['ICM-R7'],
+                             'paths': [path], 'evidence': [], 'reason': reason,
+                             'previous_finding': None, 'resolution_receipt': None})
+        status = 'FAIL' if copies else 'UNVERIFIED' if missing else 'PASS'
+        results.append({'id': 'C-BOUNDARY', 'status': status, 'prd_ids': ['ICM-R7'],
+                        'argv': [], 'exit_code': None, 'stdout_sha256': None,
+                        'stderr_sha256': None, 'findings': finding_ids,
+                        'reason': '; '.join(missing) if missing else
+                                  'Repository copies or worktree residues detected' if copies else
+                                  'No repository copy signatures or worktree residues detected'})
     coverage['inspected'] = sorted(set(coverage['inspected']))
     coverage['checked_registry_ids'].sort()
     statuses = {result['status'] for result in results}
