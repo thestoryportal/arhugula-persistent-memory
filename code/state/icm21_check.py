@@ -378,6 +378,102 @@ def repository_copies(root, config, coverage):
     return violations, missing
 
 
+def lane_path(value):
+    path = Path(value)
+    require(path.is_absolute() and str(path) == value
+            and '..' not in path.parts
+            and not any(char in value for char in '\x00\r\n'),
+            'invalid lane path')
+    return path
+
+
+def parse_ownership(raw):
+    lines = raw.decode('utf-8').splitlines()
+    require(lines and lines[0] == 'phase\tlane\tpath\tscope\tprd_ids',
+            'invalid ownership header')
+    rows = []
+    for line in lines[1:]:
+        fields = line.split('\t')
+        require(len(fields) == 5, 'invalid ownership row')
+        phase, lane, path, scope, prd_ids = fields
+        require(re.fullmatch(r'[0-9]+', phase) is not None, 'invalid lane phase')
+        require(bool(lane) and lane not in ('.', '..') and '/' not in lane,
+                'invalid lane identifier')
+        require(not any(char in lane for char in '\x00\r\n'), 'invalid lane identifier')
+        require(scope == 'exact-or-prefix', 'invalid ownership scope')
+        ids = prd_ids.split(',')
+        require(all(re.fullmatch(r'ICM-R(?:[1-9]|1[0-5])', item) for item in ids),
+                'invalid ownership requirement')
+        unique(ids, 'duplicate ownership requirement')
+        rows.append((int(phase), lane, lane_path(path)))
+    return rows
+
+
+def inspect_lanes(ownership, coverage, expected=None, worktree_root=None):
+    """Check declared ownership and brief data; never act on custody or idle."""
+    violations, missing = {}, []
+    try:
+        raw = ownership.read_bytes()
+        coverage['inspected'].append(str(ownership))
+    except OSError as error:
+        return violations, ['Ownership authority is unreadable: ' + str(error)]
+    if expected is not None and hashlib.sha256(raw).hexdigest() != expected:
+        return violations, ['Ownership authority digest mismatch']
+    try:
+        rows = parse_ownership(raw)
+    except ValueError as error:
+        return {str(ownership): str(error)}, missing
+    for index, (phase, lane, path) in enumerate(rows):
+        for other_phase, other_lane, other in rows[index + 1:]:
+            if phase == other_phase and (path.is_relative_to(other)
+                                        or other.is_relative_to(path)):
+                reason = f'Overlapping ownership in phase {phase}: {lane} {path}; {other_lane} {other}'
+                violations[str(ownership)] = reason
+    if worktree_root is None:
+        return violations, missing
+    lanes = sorted({lane for _, lane, _ in rows})
+    for lane in lanes:
+        brief = worktree_root / lane / 'BRIEF.md'
+        try:
+            text = brief.read_text(encoding='utf-8')
+            coverage['inspected'].append(str(brief))
+        except OSError as error:
+            missing.append('Lane brief is unreadable: ' + str(error))
+            continue
+        except UnicodeError as error:
+            violations[str(brief)] = 'Invalid lane brief encoding: ' + str(error)
+            continue
+        fields = {}
+        required = {'owner', 'branch', 'base', 'output', 'custody', 'idle'}
+        try:
+            for line in text.splitlines():
+                key, separator, value = line.partition(':')
+                if separator and key in required:
+                    require(key not in fields, 'duplicate lane brief field: ' + key)
+                    fields[key] = value.strip()
+            absent = required - fields.keys()
+            if absent:
+                missing.append(str(brief) + ': missing ' + ', '.join(sorted(absent)))
+            if 'owner' in fields:
+                require(fields['owner'] == lane, 'lane owner mismatch')
+            if 'branch' in fields:
+                require(bool(fields['branch']), 'empty lane branch')
+            if 'base' in fields:
+                require(re.fullmatch(r'[0-9a-f]{40}', fields['base']) is not None,
+                        'invalid lane base')
+            if 'output' in fields:
+                output = lane_path(fields['output'])
+                require(output in {path for _, owner, path in rows if owner == lane},
+                        'lane output is outside its exact ownership')
+            if 'custody' in fields:
+                require(bool(fields['custody']), 'empty lane custody')
+            if 'idle' in fields:
+                require(fields['idle'] in ('true', 'false'), 'invalid lane idle state')
+        except ValueError as error:
+            violations[str(brief)] = str(error)
+    return violations, missing
+
+
 def audit(root, mode, config):
     """Inspect repository boundaries and registered loader data without adapters."""
     started = time.monotonic_ns()
@@ -465,6 +561,24 @@ def audit(root, mode, config):
                         'reason': '; '.join(missing) if missing else
                                   'Repository copies or worktree residues detected' if copies else
                                   'No repository copy signatures or worktree residues detected'})
+    if 'C-LANES' in config['required_checks']:
+        ownership = config['ownership_path']
+        problems, missing = inspect_lanes(Path(ownership['path']), coverage,
+                                         ownership['sha256'], Path(config['worktree_root']))
+        finding_ids = []
+        for path, reason in sorted(problems.items()):
+            finding_id = 'F-LANES-' + hashlib.sha256((path + '\n' + reason).encode()).hexdigest()
+            finding_ids.append(finding_id)
+            findings.append({'id': finding_id, 'status': 'FAIL', 'prd_ids': ['ICM-R11'],
+                             'paths': [path], 'evidence': [], 'reason': reason,
+                             'previous_finding': None, 'resolution_receipt': None})
+        status = 'FAIL' if problems else 'UNVERIFIED' if missing else 'PASS'
+        results.append({'id': 'C-LANES', 'status': status, 'prd_ids': ['ICM-R11'],
+                        'argv': [], 'exit_code': None, 'stdout_sha256': None,
+                        'stderr_sha256': None, 'findings': finding_ids,
+                        'reason': '; '.join(missing) if missing else
+                                  'Lane ownership or brief violations detected' if problems else
+                                  'Disjoint lane ownership and complete lane briefs'})
     coverage['inspected'] = sorted(set(coverage['inspected']))
     coverage['checked_registry_ids'].sort()
     statuses = {result['status'] for result in results}
@@ -494,10 +608,18 @@ def main():
     command.add_argument('--root', type=Path, required=True)
     command.add_argument('--schema', type=Path, required=True)
     command.add_argument('--examples', type=Path, required=True)
+    command = commands.add_parser('lanes')
+    command.add_argument('--root', type=Path, required=True)
+    command.add_argument('--ownership', type=Path, required=True)
     args = parser.parse_args()
     try:
         require(args.root.is_absolute() and args.root.is_dir(), 'invalid root')
-        result = wire(read_json(args.schema), read_json(args.examples))
+        if args.command == 'lanes':
+            problems, missing = inspect_lanes(args.ownership, {'inspected': []})
+            result = {'status': 'FAIL' if problems else 'UNVERIFIED' if missing else 'PASS',
+                      'violations': problems, 'missing': missing}
+        else:
+            result = wire(read_json(args.schema), read_json(args.examples))
     except (OSError, ValueError, KeyError, TypeError) as error:
         result = {'status': 'FAIL', 'reason': str(error)}
     print(json.dumps(result, sort_keys=True, separators=(',', ':')))
