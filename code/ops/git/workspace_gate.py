@@ -525,12 +525,16 @@ def run_lane(lane: str, capability: str, policy: WorkspacePolicy) -> dict:
                                 'Sandbox or worker failed'))
     finally:
         if process is not None:
+            returncode = process.returncode
             try:
                 kill_group()
                 process.wait()
             except (OSError, ValueError, TypeError, KeyError) as error:
                 result.update(status='FAIL', reason=result['reason'] +
                               '; Worker cleanup failed: ' + str(error))
+            if returncode is None and process.returncode is not None:
+                result.update(ended(process.returncode, result['reason'], 'Worker completed',
+                                    'Sandbox or worker failed'))
             process.stdout.close()
             process.stderr.close()
         for fd in outputs:
