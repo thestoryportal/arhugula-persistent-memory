@@ -347,6 +347,16 @@ def admit_workspace(request: WorkspaceRequest, policy: WorkspacePolicy) -> Admit
         return deny(request, getattr(error, 'code', 'INVALID_INPUT'), str(error))
 
 
+def ended(returncode, failure, success, fault):
+    """CheckResult fields for a return code; a signal has no nonnegative exit code."""
+    reason = failure or (success if returncode == 0 else fault)
+    if returncode < 0:
+        reason += '; terminated by signal ' + str(-returncode)
+    return {'exit_code': returncode if returncode >= 0 else None,
+            'status': 'PASS' if failure is None and returncode == 0 else 'FAIL',
+            'reason': reason}
+
+
 def create_workspace(admitted: Admit, policy: WorkspacePolicy) -> dict:
     """Recheck admission immediately before the worktree writer starts."""
     result = {'id': 'C-CREATION', 'status': 'FAIL', 'prd_ids': ['ICM-R7', 'ICM-R13'],
@@ -381,12 +391,11 @@ def create_workspace(admitted: Admit, policy: WorkspacePolicy) -> dict:
                     'Changed ancestor identity', 'LINK_AMBIGUITY')
         require(not os.path.lexists(admitted['destination']), 'Destination exists', 'COLLISION')
         completed = subprocess.run(argv, capture_output=True)
-        result.update(argv=argv, exit_code=completed.returncode,
+        result.update(argv=argv,
                       stdout_sha256=hashlib.sha256(completed.stdout).hexdigest(),
                       stderr_sha256=hashlib.sha256(completed.stderr).hexdigest(),
-                      status='PASS' if completed.returncode == 0 else 'FAIL',
-                      reason='Worktree created' if completed.returncode == 0 else
-                      'Worktree writer failed')
+                      **ended(completed.returncode, None, 'Worktree created',
+                              'Worktree writer failed'))
     except (OSError, ValueError, TypeError, KeyError) as error:
         result['reason'] = getattr(error, 'code', 'INVALID_INPUT') + ': ' + str(error)
     return result
@@ -438,7 +447,7 @@ def run_lane(lane: str, capability: str, policy: WorkspacePolicy) -> dict:
         environment = {'PATH': '/usr/bin:/bin:/usr/sbin:/sbin',
                        'HOME': scratch, 'TMPDIR': scratch, 'LLMDB_ROOT': scratch,
                        'PYTHONDONTWRITEBYTECODE': '1', 'PYTHONNOUSERSITE': '1',
-                       'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
+                       'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': scratch + '/.gitconfig',
                        'GIT_CONFIG_SYSTEM': '/dev/null', 'GIT_TERMINAL_PROMPT': '0'}
         limit = cap['max_output_bytes']
 
@@ -486,10 +495,8 @@ def run_lane(lane: str, capability: str, policy: WorkspacePolicy) -> dict:
         except ProcessLookupError:
             pass
         process.wait()
-        result.update(exit_code=process.returncode,
-                      status='PASS' if failure is None and process.returncode == 0 else 'FAIL',
-                      reason=failure or ('Worker completed' if process.returncode == 0
-                                         else 'Sandbox or worker failed'))
+        result.update(ended(process.returncode, failure, 'Worker completed',
+                            'Sandbox or worker failed'))
         for key, fd in zip(('stdout_sha256', 'stderr_sha256'), outputs):
             os.lseek(fd, 0, os.SEEK_SET)
             value = hashlib.sha256()
