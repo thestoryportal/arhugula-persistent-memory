@@ -407,7 +407,24 @@ def run_lane(lane: str, capability: str, policy: WorkspacePolicy) -> dict:
     result = {'id': 'C-CREATION', 'status': 'FAIL', 'prd_ids': ['ICM-R7', 'ICM-R13'],
               'argv': [], 'exit_code': None, 'stdout_sha256': None,
               'stderr_sha256': None, 'findings': [], 'reason': 'Worker denied'}
-    outputs, process = [], None
+    outputs, process, failure = [], None, None
+
+    def kill_group():
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        except PermissionError as error:
+            # Darwin can report EPERM for zombies. Accept only a vanished group.
+            try:
+                process.wait(timeout=1)
+                os.killpg(process.pid, 0)
+            except ProcessLookupError:
+                return
+            except (PermissionError, subprocess.TimeoutExpired):
+                pass
+            raise PermissionError('Worker group may contain live members that cannot be signaled') from error
+
     try:
         require(isinstance(policy, WorkspacePolicy), 'Expected validated WorkspacePolicy')
         string(lane)
@@ -490,10 +507,7 @@ def run_lane(lane: str, capability: str, policy: WorkspacePolicy) -> dict:
                 except subprocess.TimeoutExpired:
                     failure = 'Worker timeout exceeded'
         # Reap the entire worker group, including descendants holding stream handles.
-        try:
-            os.killpg(process.pid, signal.SIGKILL)
-        except ProcessLookupError:
-            pass
+        kill_group()
         process.wait()
         result.update(ended(process.returncode, failure, 'Worker completed',
                             'Sandbox or worker failed'))
@@ -504,14 +518,19 @@ def run_lane(lane: str, capability: str, policy: WorkspacePolicy) -> dict:
                 value.update(data)
             result[key] = value.hexdigest()
     except (OSError, ValueError, TypeError, KeyError) as error:
-        result['reason'] = getattr(error, 'code', 'INVALID_INPUT') + ': ' + str(error)
+        result['reason'] = ((failure + '; ' if failure else '') +
+                            getattr(error, 'code', 'INVALID_INPUT') + ': ' + str(error))
+        if process is not None and process.returncode is not None:
+            result.update(ended(process.returncode, result['reason'], 'Worker completed',
+                                'Sandbox or worker failed'))
     finally:
         if process is not None:
             try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-            process.wait()
+                kill_group()
+                process.wait()
+            except (OSError, ValueError, TypeError, KeyError) as error:
+                result.update(status='FAIL', reason=result['reason'] +
+                              '; Worker cleanup failed: ' + str(error))
             process.stdout.close()
             process.stderr.close()
         for fd in outputs:
