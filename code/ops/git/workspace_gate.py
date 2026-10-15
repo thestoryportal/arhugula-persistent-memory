@@ -9,10 +9,14 @@ import json
 import os
 from pathlib import Path
 import re
+import resource
+import selectors
+import signal
 import shlex
 import stat
 import subprocess
 import sys
+import time
 from typing import Literal, Mapping
 
 
@@ -388,6 +392,126 @@ def create_workspace(admitted: Admit, policy: WorkspacePolicy) -> dict:
     return result
 
 
+
+def run_lane(lane: str, capability: str, policy: WorkspacePolicy) -> dict:
+    """Launch only the admitted worker, with the OS profile as its effect boundary."""
+    result = {'id': 'C-CREATION', 'status': 'FAIL', 'prd_ids': ['ICM-R7', 'ICM-R13'],
+              'argv': [], 'exit_code': None, 'stdout_sha256': None,
+              'stderr_sha256': None, 'findings': [], 'reason': 'Worker denied'}
+    outputs, process = [], None
+    try:
+        require(isinstance(policy, WorkspacePolicy), 'Expected validated WorkspacePolicy')
+        string(lane)
+        string(capability)
+        wire = policy.wire
+        if policy.policy_path is not None:
+            raw = read_file(policy.policy_path)
+            require(hashlib.sha256(raw).hexdigest() == policy.policy_file_sha256,
+                    'Changed policy bytes', 'CHANGED_POLICY')
+            wire = decode(raw)
+        current = load_policy(wire, policy.policy_path)
+        require(digest(current.wire) == digest(policy.wire),
+                'Changed policy digest', 'CHANGED_POLICY')
+        require(current.identities == policy.identities,
+                'Changed ancestor identity', 'LINK_AMBIGUITY')
+        matches = [cap for cap in current.wire['capabilities']
+                   if cap['lane'] == lane and cap['id'] == capability]
+        require(len(matches) == 1, 'Unapproved lane capability', 'UNAPPROVED_REQUEST')
+        cap = matches[0]
+        sandbox = '/usr/bin/sandbox-exec'
+        require(os.path.isfile(sandbox) and os.access(sandbox, os.X_OK),
+                'Sandbox support is absent', 'UNSAFE_TOOL')
+        for value in cap['output_paths']:
+            fd = os.open(value, os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK)
+            outputs.append(fd)
+            info = os.fstat(fd)
+            require(stat.S_ISREG(info.st_mode) and
+                    (info.st_dev, info.st_ino, info.st_mode) == current.identities[value],
+                    'Changed output identity', 'LINK_AMBIGUITY')
+        for value, identity in current.identities.items():
+            require(no_links(value).get(value) == identity,
+                    'Changed ancestor identity', 'LINK_AMBIGUITY')
+        read_binding(cap['profile'], json_value=False)
+        argv = [sandbox, '-f', cap['profile']['path'], *cap['argv']]
+        result['argv'] = argv
+        scratch = cap['fixture_root'] if cap['fixture_root'] is not None else cap['cwd']
+        environment = {'PATH': '/usr/bin:/bin:/usr/sbin:/sbin',
+                       'HOME': scratch, 'TMPDIR': scratch, 'LLMDB_ROOT': scratch,
+                       'PYTHONDONTWRITEBYTECODE': '1', 'PYTHONNOUSERSITE': '1',
+                       'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
+                       'GIT_CONFIG_SYSTEM': '/dev/null', 'GIT_TERMINAL_PROMPT': '0'}
+        limit = cap['max_output_bytes']
+
+        def bound_files():
+            resource.setrlimit(resource.RLIMIT_FSIZE, (limit, limit))
+
+        for fd in outputs:
+            os.ftruncate(fd, 0)
+        deadline = time.monotonic() + cap['timeout_seconds']
+        process = subprocess.Popen(argv, cwd=cap['cwd'], env=environment,
+                                   stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE, start_new_session=True,
+                                   preexec_fn=bound_files)
+        failure, total = None, 0
+        with selectors.DefaultSelector() as streams:
+            streams.register(process.stdout, selectors.EVENT_READ, outputs[0])
+            streams.register(process.stderr, selectors.EVENT_READ, outputs[1])
+            while streams.get_map() and failure is None:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    failure = 'Worker timeout exceeded'
+                    break
+                for key, _ in streams.select(remaining):
+                    data = os.read(key.fileobj.fileno(), 65536)
+                    if not data:
+                        streams.unregister(key.fileobj)
+                        continue
+                    allowed = data[:max(0, limit - total)]
+                    view = memoryview(allowed)
+                    while view:
+                        written = os.write(key.data, view)
+                        view = view[written:]
+                    total += len(data)
+                    if total > limit:
+                        failure = 'Worker output limit exceeded'
+                        break
+            if failure is None:
+                try:
+                    process.wait(timeout=max(0, deadline - time.monotonic()))
+                except subprocess.TimeoutExpired:
+                    failure = 'Worker timeout exceeded'
+        # Reap the entire worker group, including descendants holding stream handles.
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        process.wait()
+        result.update(exit_code=process.returncode,
+                      status='PASS' if failure is None and process.returncode == 0 else 'FAIL',
+                      reason=failure or ('Worker completed' if process.returncode == 0
+                                         else 'Sandbox or worker failed'))
+        for key, fd in zip(('stdout_sha256', 'stderr_sha256'), outputs):
+            os.lseek(fd, 0, os.SEEK_SET)
+            value = hashlib.sha256()
+            while data := os.read(fd, 65536):
+                value.update(data)
+            result[key] = value.hexdigest()
+    except (OSError, ValueError, TypeError, KeyError) as error:
+        result['reason'] = getattr(error, 'code', 'INVALID_INPUT') + ': ' + str(error)
+    finally:
+        if process is not None:
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            process.wait()
+            process.stdout.close()
+            process.stderr.close()
+        for fd in outputs:
+            os.close(fd)
+    return result
+
+
 def tool_decision(event: HookEvent, policy: WorkspacePolicy):
     require(isinstance(policy, WorkspacePolicy), 'Expected validated WorkspacePolicy')
     required = {'hook_event_name', 'cwd', 'tool_name', 'tool_input', 'session_id', 'tool_use_id'}
@@ -460,16 +584,24 @@ def hook_denial(code):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
-    for name in ('check', 'hook', 'create'):
+    for name in ('check', 'hook', 'create', 'run'):
         command = commands.add_parser(name)
-        command.add_argument('--policy', required=True)
-        if name != 'hook':
-            command.add_argument('--request', required=True)
+        if name == 'run':
+            command.add_argument('--policy', default='/Volumes/memit/llmdb-tools/icm21/policy.json')
+            command.add_argument('--lane', required=True)
+            command.add_argument('--capability', required=True)
+        else:
+            command.add_argument('--policy', required=True)
+            if name != 'hook':
+                command.add_argument('--request', required=True)
     args = parser.parse_args()
     request = None
     try:
         policy = load_policy(decode(read_file(args.policy)), args.policy)
-        if args.command == 'hook':
+        if args.command == 'run':
+            result = run_lane(args.lane, args.capability, policy)
+            exit_code = 0 if result['status'] == 'PASS' else 1
+        elif args.command == 'hook':
             decision, code = tool_decision(decode(sys.stdin.buffer.read()), policy)
             result, exit_code = ({} if decision == 'allow' else hook_denial(code)), 0
         else:
@@ -487,6 +619,12 @@ def main():
         code = getattr(error, 'code', 'INVALID_INPUT')
         if args.command == 'hook':
             result, exit_code = hook_denial(code), 0
+        elif args.command == 'run':
+            result = {'id': 'C-CREATION', 'status': 'FAIL', 'prd_ids': ['ICM-R7', 'ICM-R13'],
+                      'argv': [], 'exit_code': None, 'stdout_sha256': None,
+                      'stderr_sha256': None, 'findings': [],
+                      'reason': code + ': Policy validation failed'}
+            exit_code = 1
         else:
             result, exit_code = deny(request, code, 'Policy or request validation failed'), 2
     print(encoded(result).decode())
