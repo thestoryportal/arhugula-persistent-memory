@@ -5,7 +5,7 @@ None of these items blocks the merge. Astra high ruled each one "does not block"
 | # | Item | Next action | Owner |
 |---|---|---|---|
 | 1 | The `/path` deny rules protect only the session's own worktree. The main checkout has no `Edit` deny by absolute path. | Revisit the settings at phase 5. | MAESTRO, phase 5 |
-| 2 | `_system/memory/codex-runs-inline-from-claude-bash.md` still recommends `-c mcp_servers.graft.enabled=false`. That flag fails on Codex 0.162.1. | Fix as its own small change (protected path). | MAESTRO |
+| 2 | `_system/memory/codex-runs-inline-from-claude-bash.md` still recommends `-c mcp_servers.graft.enabled=false`. That flag fails on Codex 0.162.1. | CLOSED 2026-10-15: flag removed (commit 7d70dfe2); graft removed from the host (lane F `CLOSEOUT.md`). | MAESTRO |
 | 3 | `_system/governance/WORKFLOWS_OVERVIEW.md:157-160` keeps pod-era deployment text. | Rewrite or retire the section. | MAESTRO |
 | 4 | `_system/governance/STORAGE.md` does not use the D1 vocabulary yet. | Align the terms. | MAESTRO |
 | 5 | Nine empty experiment folders exist on disk (`deployment governance infra_scripts scale track_a`-`track_e`). Git does not carry them. | Remove only with operator approval. | Operator |
