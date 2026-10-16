@@ -32,6 +32,7 @@ tmux new-window -d -t "$NEW" -n helpers "/usr/bin/python3 '$T/dashboard_subagent
 bash "$T/dashboard_science_tab.sh" "$NEW" >/dev/null || exit 1   # the Science Report alone, full width (its message goes to stderr on failure)
 bash "$T/dashboard_storage_tab.sh" "$NEW" >/dev/null || exit 1   # Drive backup and project disks, full width
 bash "$T/dashboard_queue_tab.sh" "$NEW" >/dev/null || exit 1   # current and queued work in plain words
+bash "$T/dashboard_tickets_tab.sh" "$NEW" >/dev/null || exit 1   # every ticket: live timers, review rounds and findings
 tmux set-option -t "$NEW" window-status-format "#[fg=colour250] #I #W " >/dev/null
 tmux set-option -t "$NEW" window-status-current-format "#[bg=colour214,fg=colour16,bold] #I #W " >/dev/null
 
