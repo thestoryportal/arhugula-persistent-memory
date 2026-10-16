@@ -82,10 +82,12 @@ def resolve_reference(consumer: str, spelling: str, manifest: dict) -> str:
                and consumer in (row['consumer'], row['consumer_final'])]
     if not matches:
         raise ValueError(f'Unknown reference {spelling} from {consumer}')
-    if len(matches) > 1:
+    # One spelling can occur many times in one consumer; rows that agree are one binding.
+    targets = {row['final_target'] for row in matches}
+    if len(targets) > 1:
         raise ValueError(f'Ambiguous reference {spelling} from {consumer}: '
                          + ', '.join(row['id'] for row in matches))
-    return matches[0]['final_target']
+    return targets.pop()
 
 
 def heading_slug(heading: str) -> str:
