@@ -32,9 +32,8 @@ PRD_IDS = {'C-QUEUE': ['ICM-R1'], 'C-REFERENCES': ['ICM-R6', 'ICM-R13'],
 TIMEOUT = 600
 QUEUE = 'program/program_state.json'
 # Wire type of each bound manifest input; references holds one ReferenceRow per line.
-# Executor has none: icm21_check.WIRE_TYPES omits ExecutorEvidence, so validate_wire refuses it.
 INPUTS = {'registries': 'Registries', 'references': 'ReferenceRow', 'repairs': 'RepairSet',
-          'executor': None, 'coverage': 'CoverageArtifact'}
+          'executor': 'ExecutorEvidence', 'coverage': 'CoverageArtifact'}
 # A final target's line suffix: a comma list of lines or ASCII/en-dash ranges.
 LINES = re.compile(r':([0-9]+(?:[-–][0-9]+)?(?:,[0-9]+(?:[-–][0-9]+)?)*)$')
 # A line anchor (#L<n> or #L<a>-L<b>) names lines, not a heading.
@@ -287,8 +286,7 @@ def bound_inputs(root, manifest):
                 checker.validate_wire(name, row, schema, {})
         else:
             values[key] = json.loads(data)
-            if name is not None:
-                checker.validate_wire(name, values[key], schema, {})
+            checker.validate_wire(name, values[key], schema, {})
     return values
 
 

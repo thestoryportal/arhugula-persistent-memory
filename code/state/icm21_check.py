@@ -22,7 +22,8 @@ WIRE_TYPES = frozenset('''str id path relpath sha int UTC Status PrdId b64
 Finding CheckResult Coverage Exclusion Config Binding Hold Registries RegistryEntry
 ReferenceResults ReaderResult ReferenceRow ReferenceManifest Repair RepairSet
 CoverageArtifact ByteEdit AuditReport DirtySource WorkspaceRequest WorkspacePolicy
-ApprovedRequests LaneScopes LaneScope LaneCapability Admit Deny'''.split())
+ApprovedRequests LaneScopes LaneScope LaneCapability Admit Deny
+ExecutorEvidence OperationEvidence'''.split())
 # Audit check -> (area module beside this file, PRD trace from SPEC.md:48-57).
 AUDIT_AREAS = {'C-ROOT': ('icm21_audit_root', 'ICM-R12'),
                'C-WORKTREE': ('icm21_audit_root', 'ICM-R5'),
@@ -784,6 +785,23 @@ def check_references(root, manifest):
     return results
 
 
+def save_references(root, manifest, directory):
+    """check_references, also saving each complete adapter output its digests bind as
+    directory/<sha256> (WIRE-CONTRACTS.md:44). Each file is created exclusively; an existing
+    file with identical bytes is accepted and one with different bytes refuses."""
+    require(directory.is_dir(), 'evidence directory absent: ' + str(directory))
+    results, outputs = area('icm21_references').dispatch(root, manifest)
+    validate_wire('ReferenceResults', results, audit_schema(), {})
+    for name, data in sorted(outputs.items()):
+        path = directory / name
+        try:
+            with open(path, 'xb') as handle:
+                handle.write(data)
+        except FileExistsError:
+            require(path.read_bytes() == data, str(path) + ': existing evidence differs')
+    return results
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
@@ -797,6 +815,7 @@ def main():
     command = commands.add_parser('references')
     command.add_argument('--root', type=Path, required=True)
     command.add_argument('--manifest', type=Path, required=True)
+    command.add_argument('--evidence-dir', type=Path)
     command = commands.add_parser('staged')
     command.add_argument('--root', type=Path, required=True)
     args = parser.parse_args()
@@ -811,7 +830,9 @@ def main():
             findings = check_staged(args.root)
             result = {'status': 'FAIL' if findings else 'PASS', 'findings': list(findings)}
         elif args.command == 'references':
-            result = check_references(args.root, read_json(args.manifest))
+            manifest = read_json(args.manifest)
+            result = (check_references(args.root, manifest) if args.evidence_dir is None
+                      else save_references(args.root, manifest, args.evidence_dir))
             statuses = {check['status'] for reader in result['readers']
                         for check in reader['checks']}
             code = 1 if 'FAIL' in statuses else 0 if statuses == {'PASS'} else 2
