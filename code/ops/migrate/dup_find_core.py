@@ -8,9 +8,11 @@ Input: manifests exactly as code/ops/migrate/unit_manifest.py (Step 201) emits t
 toolkit hint rows {path, sha256}.
 
 Output: one row per unit leaf, in the manifest's order (UTF-8 bytes of the relative path):
-  {source, relpath, class, equal_to, differing_from, hint}
+  {source, relpath, class, equal_to, differing_from, same_inode, hint}
 - equal_to: every reference leaf with the same content (same kind, byte count and sha256).
 - differing_from: every reference leaf at the same relpath with other content.
+- same_inode: every reference leaf with the unit leaf's (device, inode), i.e. a hard link to it.
+  It is reported only; the class is still decided by content.
 - class: "equal" when equal_to is non-empty, else "differing" when differing_from is non-empty,
   else "unique".
 - hint: the toolkit sha256 for this source and whether it agrees with the manifest, or null.
@@ -94,8 +96,8 @@ def _relpath(source: str, root: str) -> str:
     return source[len(root.rstrip("/")) + 1:]
 
 
-def _leaf(row, root: str, where: str) -> tuple[str, str, tuple]:
-    """Return (source, relpath, content key) for one LeafRecord."""
+def _leaf(row, root: str, where: str) -> tuple[str, str, tuple, tuple]:
+    """Return (source, relpath, content key, (device, inode)) for one LeafRecord."""
     row = _mapping(row, where)
     if isinstance(row.get("source"), str):
         where = row["source"]
@@ -112,14 +114,14 @@ def _leaf(row, root: str, where: str) -> tuple[str, str, tuple]:
         _refuse(source, f"a symlink needs link_text, got {row['link_text']!r}")
     if kind != "symlink" and row["link_text"] is not None:
         _refuse(source, f"a {kind} carries no link_text, got {row['link_text']!r}")
-    _int(row["device"], source, "device", 0)
-    _int(row["inode"], source, "inode", 0)
+    device = _int(row["device"], source, "device", 0)
+    inode = _int(row["inode"], source, "inode", 0)
     _int(row["nlink"], source, "nlink", 1)
-    return source, _relpath(source, root), (kind, size, digest)
+    return source, _relpath(source, root), (kind, size, digest), (device, inode)
 
 
-def _manifest(value, where: str) -> tuple[str, list[tuple[str, str, tuple]]]:
-    """Return (root, [(source, relpath, content key)]) for one Step 201 manifest."""
+def _manifest(value, where: str) -> tuple[str, list[tuple[str, str, tuple, tuple]]]:
+    """Return (root, [(source, relpath, content key, (device, inode))]) for one Step 201 manifest."""
     value = _mapping(value, where)
     _keys(value, MANIFEST_KEYS, MANIFEST_OPTIONAL, where)
     version = value["schema_version"]
@@ -129,7 +131,7 @@ def _manifest(value, where: str) -> tuple[str, list[tuple[str, str, tuple]]]:
     leaves = [_leaf(row, root, f"{where}.leaves[{i}]")
               for i, row in enumerate(_sequence(value["leaves"], f"{where}.leaves"))]
     seen: set[str] = set()
-    for source, _, _ in leaves:
+    for source, _, _, _ in leaves:
         if source in seen:
             _refuse(source, "source appears twice in one manifest")
         seen.add(source)
@@ -171,18 +173,21 @@ def classify(unit, references, hints=()) -> list[dict]:
 
     by_content: dict[tuple, list[str]] = {}
     by_relpath: dict[str, list[tuple[str, tuple]]] = {}
+    by_inode: dict[tuple, list[str]] = {}
     for _, leaves in refs:
-        for source, relpath, content in leaves:
+        for source, relpath, content, ident in leaves:
             by_content.setdefault(content, []).append(source)
             by_relpath.setdefault(relpath, []).append((source, content))
+            by_inode.setdefault(ident, []).append(source)
 
     rows = []
-    for source, relpath, content in sorted(unit_leaves, key=lambda leaf: leaf[1].encode("utf-8")):
+    for source, relpath, content, ident in sorted(unit_leaves, key=lambda leaf: leaf[1].encode("utf-8")):
         equal_to = sorted(by_content.get(content, ()), key=str.encode)
         differing_from = sorted((s for s, c in by_relpath.get(relpath, ()) if c != content), key=str.encode)
         cls = "equal" if equal_to else "differing" if differing_from else "unique"
         hinted = hint.get(source)
         rows.append({"source": source, "relpath": relpath, "class": cls, "equal_to": equal_to,
                      "differing_from": differing_from,
+                     "same_inode": sorted(by_inode.get(ident, ()), key=str.encode),
                      "hint": None if hinted is None else {"sha256": hinted, "agrees": hinted == content[2]}})
     return rows

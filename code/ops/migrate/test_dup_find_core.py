@@ -59,7 +59,8 @@ class Classify(unittest.TestCase):
         rows = core.classify(manifest(U, leaf(U, "a/x.json", b"same")),
                              [manifest(R1, leaf(R1, "other/y.json", b"same"))])
         self.assertEqual(rows, [{"source": f"{U}/a/x.json", "relpath": "a/x.json", "class": "equal",
-                                 "equal_to": [f"{R1}/other/y.json"], "differing_from": [], "hint": None}])
+                                 "equal_to": [f"{R1}/other/y.json"], "differing_from": [], "same_inode": [],
+                                 "hint": None}])
 
     def test_equal_to_lists_every_equal_reference_path_sorted(self):
         rows = core.classify(manifest(U, leaf(U, "x", b"same")),
@@ -80,12 +81,42 @@ class Classify(unittest.TestCase):
         self.assertEqual(rows[0]["class"], "unique")
         self.assertEqual((rows[0]["equal_to"], rows[0]["differing_from"]), ([], []))
 
+    def test_differing_from_excludes_an_equal_reference_at_the_same_relpath(self):
+        # T216 ruling 1: /u/x = A, /r1/x = A, /r2/x = B.
+        rows = core.classify(manifest("/u", leaf("/u", "x", b"A")),
+                             [manifest("/r1", leaf("/r1", "x", b"A")), manifest("/r2", leaf("/r2", "x", b"B"))])
+        self.assertEqual(rows[0]["class"], "equal")
+        self.assertEqual(rows[0]["equal_to"], ["/r1/x"])
+        self.assertEqual(rows[0]["differing_from"], ["/r2/x"])
+
+    def test_differing_from_lists_every_differing_reference_at_one_relpath_sorted(self):
+        # T216 ruling 1: two differing references at one relpath, given in reverse order, listed sorted.
+        rows = core.classify(manifest("/u", leaf("/u", "x", b"A")),
+                             [manifest("/r2", leaf("/r2", "x", b"C")), manifest("/r1", leaf("/r1", "x", b"B"))])
+        self.assertEqual(rows[0]["class"], "differing")
+        self.assertEqual(rows[0]["equal_to"], [])
+        self.assertEqual(rows[0]["differing_from"], ["/r1/x", "/r2/x"])
+
     def test_equal_wins_and_keeps_the_differing_same_relpath_copy(self):
         rows = core.classify(manifest(U, leaf(U, "x", b"keep")),
                              [manifest(R1, leaf(R1, "x", b"other")), manifest(R2, leaf(R2, "q", b"keep"))])
         self.assertEqual(rows[0]["class"], "equal")
         self.assertEqual(rows[0]["equal_to"], [f"{R2}/q"])
         self.assertEqual(rows[0]["differing_from"], [f"{R1}/x"])
+
+    def test_hard_link_to_a_reference_is_reported_in_same_inode(self):
+        # T216 ruling 2: a hard link stays "equal" by content and is named, not hidden.
+        unit_leaf = dict(leaf("/u", "x", b"A"), device=7, inode=42, nlink=2)
+        rows = core.classify(manifest("/u", unit_leaf), [manifest("/r", dict(leaf("/r", "y", b"A"), device=7, inode=42, nlink=2))])
+        self.assertEqual((rows[0]["class"], rows[0]["same_inode"]), ("equal", ["/r/y"]))
+        rows = core.classify(manifest("/u", unit_leaf), [manifest("/r", dict(leaf("/r", "y", b"A"), device=7, inode=43))])
+        self.assertEqual((rows[0]["class"], rows[0]["same_inode"]), ("equal", []))
+        rows = core.classify(manifest("/u", unit_leaf), [manifest("/r", dict(leaf("/r", "y", b"A"), device=8, inode=42))])
+        self.assertEqual((rows[0]["class"], rows[0]["same_inode"]), ("equal", []))
+        rows = core.classify(manifest("/u", dict(unit_leaf, nlink=3)),
+                             [manifest("/r2", dict(leaf("/r2", "b", b"A"), device=7, inode=42, nlink=3)),
+                              manifest("/r1", dict(leaf("/r1", "c", b"A"), device=7, inode=42, nlink=3))])
+        self.assertEqual(rows[0]["same_inode"], ["/r1/c", "/r2/b"])
 
     def test_relpath_is_relative_to_each_manifest_root(self):
         rows = core.classify(manifest(U, leaf(U, "d/e/f", b"1")), [manifest("/p/deep/ref", leaf("/p/deep/ref", "d/e/f", b"2"))])
@@ -140,7 +171,8 @@ class Classify(unittest.TestCase):
                              [{"path": f"{U}/a", "sha256": sha(b"1")}])
         self.assertEqual({r["class"] for r in rows}, {"equal", "differing", "unique"})
         for row in rows:
-            self.assertEqual(set(row), {"source", "relpath", "class", "equal_to", "differing_from", "hint"})
+            self.assertEqual(set(row), {"source", "relpath", "class", "equal_to", "differing_from", "same_inode",
+                                        "hint"})
             self.assertNotRegex(repr(sorted(row)) + row["class"], r"(?i)delete|purge|skip|remove|action")
 
     def test_inputs_are_not_mutated(self):
