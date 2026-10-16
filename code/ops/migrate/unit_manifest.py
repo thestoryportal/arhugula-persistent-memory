@@ -11,7 +11,9 @@ O_NOFOLLOW and descended through their fds; each leaf is opened or read through 
 directory fd and its fstat must equal the scan lstat before and after the read; the output
 is created through the opened --out directory fd, whose real path (F_GETPATH) must lie
 outside the unit before and after the write. A nested repo whose .git holds anything but
-regular files and directories is refused before Git runs.
+regular files and directories is refused before Git runs. Its .git and config are held open; the
+config check reads the held config fd, and after the last Git call both must still be what the path
+names, or the result is FAIL. The output fd stays open until its own real path is checked.
 
 Manifest: canonical JSON (sorted keys, "," and ":" separators, UTF-8, no trailing newline)
   {"schema_version": 1, "root": path, "leaves": [LeafRecord...], "git_roots": [GitRoot...]}
@@ -44,6 +46,7 @@ DIR_FLAGS = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
 # fsmonitor, sshcommand, unknown) can make Git read or run something outside the unit.
 CORE_ALLOWED = frozenset(f"core.{k}" for k in ("repositoryformatversion", "filemode", "bare", "logallrefupdates",
                                                "ignorecase", "precomposeunicode", "symlinks"))
+PROMISOR_KEYS = ("promisor", "partialclonefilter")
 EMPTY_SHA = hashlib.sha256(b"").hexdigest()
 
 
@@ -134,6 +137,10 @@ def _walk(dir_fd: int, directory: str, leaves: list, git_dirs: list, in_git: boo
 
 
 def _git(worktree: str, *args: str) -> subprocess.CompletedProcess:
+    return _run_git(worktree, args, subprocess.DEVNULL)
+
+
+def _run_git(worktree: str, args: tuple, stdin) -> subprocess.CompletedProcess:
     env = {
         "PATH": os.environ.get("PATH", "/usr/bin:/bin"),
         "GIT_DIR": os.path.join(worktree, ".git"),
@@ -141,15 +148,16 @@ def _git(worktree: str, *args: str) -> subprocess.CompletedProcess:
         "GIT_CONFIG_NOSYSTEM": "1",
         "GIT_CONFIG_GLOBAL": os.devnull,
         "GIT_OPTIONAL_LOCKS": "0",
+        "GIT_NO_LAZY_FETCH": "1",
         "LC_ALL": "C",
     }
     return subprocess.run(["git", "--no-optional-locks", "-c", "core.fsmonitor=false", *args],
-                          env=env, cwd=worktree, stdin=subprocess.DEVNULL, capture_output=True, check=False)
+                          env=env, cwd=worktree, stdin=stdin, capture_output=True, check=False)
 
 
-def _check_config(worktree: str, git_dir: str) -> None:
-    """Read only the nested repo's own config file (no includes) and refuse keys that reach outside the unit."""
-    run = _git(worktree, "config", "--file", os.path.join(git_dir, "config"), "--no-includes", "--null", "--list")
+def _check_config(worktree: str, config_fd: int) -> None:
+    """Read only the held config fd (no includes) and refuse keys that reach outside the unit or write into it."""
+    run = _run_git(worktree, ("config", "--file", "-", "--no-includes", "--null", "--list"), config_fd)
     if run.returncode != 0:
         raise Refusal(f"git config could not read the nested repo config: {worktree}")
     for record in run.stdout.split(b"\0")[:-1]:
@@ -159,14 +167,51 @@ def _check_config(worktree: str, git_dir: str) -> None:
             raise Refusal(f"nested repo config includes another file ({key}): {worktree}")
         if section == "core" and key not in CORE_ALLOWED:
             raise Refusal(f"nested repo config sets {key}; Git could read or run outside the unit: {worktree}")
+        # extensions.* changes how Git reads the repo (worktreeConfig adds config.worktree); a promisor or
+        # partial-clone remote lets Git fetch objects and write packs into the unit.
+        if section == "extensions" or (section == "remote" and key.rsplit(".", 1)[-1] in PROMISOR_KEYS):
+            raise Refusal(f"nested repo config sets {key}; Git could read outside or write into the unit: {worktree}")
 
 
 def _git_root(git_dir: str) -> dict:
     worktree = os.path.dirname(git_dir)
+    git_fd = os.open(git_dir, DIR_FLAGS)
+    try:
+        real = _real_path(git_fd)
+        if real != git_dir:
+            raise Refusal(f"nested .git is reached through a link (real path {real}): {git_dir}")
+        try:
+            config_fd = os.open("config", os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=git_fd)
+        except OSError as exc:
+            raise Refusal(f"cannot open nested repo config without following a link ({exc.strerror}): "
+                          f"{os.path.join(git_dir, 'config')}") from exc
+        try:
+            result = _git_pass(worktree, git_dir, git_fd, config_fd)
+            # Git opens .git and its config by path; a swap during the Git calls shows as a changed identity.
+            if (_sig(os.fstat(config_fd)) != _sig(os.lstat(os.path.join(git_dir, "config")))
+                    or _sig(os.fstat(git_fd)) != _sig(os.lstat(git_dir))):
+                raise Refusal(f"nested .git or its config changed while Git ran; Git may have read another file: "
+                              f"{worktree}")
+        finally:
+            os.close(config_fd)
+    finally:
+        os.close(git_fd)
+    return result
+
+
+def _git_pass(worktree: str, git_dir: str, git_fd: int, config_fd: int) -> dict:
+    if not stat.S_ISREG(os.fstat(config_fd).st_mode):
+        raise Refusal(f"nested repo config is not a regular file: {git_dir}")
     for rel in ("commondir", os.path.join("objects", "info", "alternates")):
         if os.path.lexists(os.path.join(git_dir, rel)):
             raise Refusal(f"nested repo links outside itself ({rel}): {worktree}")
-    _check_config(worktree, git_dir)
+    try:
+        _lstat_at(git_fd, "config.worktree")
+    except FileNotFoundError:
+        pass
+    else:
+        raise Refusal(f"nested repo has a config.worktree, a second config file Git would read: {worktree}")
+    _check_config(worktree, config_fd)
     filters = _git(worktree, "config", "--get-regexp", r"^filter\.")
     if filters.returncode != 1:
         raise Refusal(f"nested repo defines filter drivers (or config failed); status would run them: {worktree}")
@@ -195,17 +240,13 @@ def _git_root(git_dir: str) -> dict:
     return {"path": worktree, "head": head, "branch": branch, "dirty": dirty}
 
 
-def build_manifest(root: str) -> dict:
+def build_manifest(root: str, root_fd: int) -> dict:
     leaves: list = []
     git_dirs: list = []
-    root_fd = os.open(root, DIR_FLAGS)
-    try:
-        real = _real_path(root_fd)
-        if real != root:
-            raise Refusal(f"root path has a symlink component (real path {real}): {root}")
-        _walk(root_fd, root, leaves, git_dirs, False)
-    finally:
-        os.close(root_fd)
+    real = _real_path(root_fd)
+    if real != root:
+        raise Refusal(f"root path has a symlink component (real path {real}): {root}")
+    _walk(root_fd, root, leaves, git_dirs, False)
 
     def order(path: str) -> bytes:
         return os.path.relpath(path, root).encode("utf-8")
@@ -255,13 +296,24 @@ def _fail(reason: str) -> int:
 
 
 def _inventory(root: str, out: str, parent_fd: int) -> int:
-    name = os.path.basename(out)
     if _inside(_real_path(parent_fd), root):
         print(f"unit_manifest: output lies inside the unit: {out}", file=sys.stderr)
         return 2
 
     try:
-        manifest = build_manifest(root)
+        root_fd = os.open(root, DIR_FLAGS)
+    except OSError as exc:
+        return _fail(f"{type(exc).__name__}: {exc}")
+    try:
+        return _write(root, out, parent_fd, root_fd)
+    finally:
+        os.close(root_fd)
+
+
+def _write(root: str, out: str, parent_fd: int, root_fd: int) -> int:
+    name = os.path.basename(out)
+    try:
+        manifest = build_manifest(root, root_fd)
         body = canonical(manifest)
         if _inside(_real_path(parent_fd), root):
             raise Refusal(f"output directory moved inside the unit; nothing written: {out}")
@@ -278,14 +330,23 @@ def _inventory(root: str, out: str, parent_fd: int) -> int:
             view = memoryview(body)
             while view:
                 view = view[os.write(fd, view):]
+            # The written file itself, checked while its fd is still open: where it is, not its old name.
+            where = _real_path(fd)
+            unit = _real_path(root_fd)
+            named = os.path.join(_real_path(parent_fd), name)
+            if _inside(where, unit):
+                problem = f"output landed inside the unit during the write; {where} was written there"
+            elif where != named:
+                problem = f"output was moved during the write; it is at {where}, not {named}"
+            else:
+                problem = None
         finally:
             os.close(fd)
     except OSError as exc:
-        return _fail(f"{type(exc).__name__}: {exc}; output {out} is incomplete and was left in place")
-    where = os.path.join(_real_path(parent_fd), name)
-    if _inside(where, root):
-        return _fail(f"output directory moved inside the unit during the write; {where} was written "
-                     "there and left in place")
+        return _fail(f"{type(exc).__name__}: {exc}; output {out} is incomplete or could not be located, "
+                     "and was left in place")
+    if problem:
+        return _fail(f"{problem}; it was left in place")
     print(json.dumps({"status": "PASS", "manifest": where, "sha256": hashlib.sha256(body).hexdigest(),
                       "leaves": len(manifest["leaves"]), "git_roots": len(manifest["git_roots"])}, ensure_ascii=False))
     return 0

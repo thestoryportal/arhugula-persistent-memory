@@ -866,5 +866,379 @@ class Output(Base):
         self.assertEqual(self.out.read_bytes(), b"{")
 
 
+def fd_path(fd: int) -> str:
+    """The path an fd is open on (macOS F_GETPATH), read by the test itself."""
+    import fcntl
+    return os.fsdecode(fcntl.fcntl(fd, fcntl.F_GETPATH, bytes(1024)).split(b"\0", 1)[0])
+
+
+class GitBoundary(Base):
+    """Rulings 7-9: Git never fetches or writes, reads no second config, and a config or .git swap is detected."""
+
+    def make_repo(self) -> Path:
+        return NestedRepo.make_repo(self)
+
+    def assert_refused(self, proc, needle: str):
+        NestedRepo.assert_refused(self, proc, needle)
+
+    def run_with_git_hook(self, before=None):
+        """Run main in-process with subprocess.run wrapped (a failure witness). before(argv) runs before each call.
+        Returns (code, out, err, calls); each call is (argv, env, stdout)."""
+        real_run = subprocess.run
+        calls = []
+
+        def run(argv, *args, **kwargs):
+            if before:
+                before(argv)
+            result = real_run(argv, *args, **kwargs)
+            calls.append((list(argv), dict(kwargs.get("env") or {}), result.stdout or b""))
+            return result
+        with mock.patch.object(unit_manifest.subprocess, "run", side_effect=run):
+            code, out, err = self.run_inproc()
+        return code, out, err, calls
+
+    def promisor_fixture(self, *settings: tuple[str, str]) -> Path:
+        repo = self.make_repo()
+        remote = self.tmp / "remote"
+        remote.mkdir()
+        git(remote, "init", "-q", "-b", "main")
+        (remote / "only-remote.txt").write_bytes(b"remote only\n")
+        git(remote, "add", "only-remote.txt")
+        git(remote, "commit", "-q", "-m", "remote")
+        git(repo, "config", "remote.origin.url", str(remote))
+        for key, value in settings:
+            git(repo, "config", key, value)
+        # HEAD names a commit only the remote has: a lazy fetch would write pack files into the unit.
+        (repo / ".git" / "refs" / "heads" / "main").write_bytes(git(remote, "rev-parse", "HEAD").encode() + b"\n")
+        return repo
+
+    def test_promisor_remote_is_refused_and_nothing_is_fetched(self):
+        self.promisor_fixture(("remote.origin.promisor", "true"))
+        before = snapshot(self.unit)
+        self.assert_refused(self.run_cli(), "remote.origin.promisor")
+        self.assertEqual(snapshot(self.unit), before)
+
+    def test_partial_clone_filter_is_refused_and_nothing_is_fetched(self):
+        self.promisor_fixture(("remote.origin.partialclonefilter", "blob:none"))
+        before = snapshot(self.unit)
+        self.assert_refused(self.run_cli(), "remote.origin.partialclonefilter")
+        self.assertEqual(snapshot(self.unit), before)
+
+    def test_extensions_key_is_refused(self):
+        repo = self.make_repo()
+        git(repo, "config", "extensions.worktreeConfig", "true")
+        self.assert_refused(self.run_cli(), "extensions.worktreeconfig")
+
+    def test_config_worktree_file_is_refused(self):
+        repo = self.make_repo()
+        (repo / "hidden.txt").write_bytes(b"untracked\n")
+        external = self.tmp / "external-ignore"
+        external.write_bytes(b"hidden.txt\n")
+        (repo / ".git" / "config.worktree").write_bytes(f"[core]\n\texcludesFile = {external}\n".encode())
+        self.assert_refused(self.run_cli(), "config.worktree")
+
+    def test_every_git_call_disables_lazy_fetch_and_optional_locks(self):
+        self.make_repo()
+        code, out, err, calls = self.run_with_git_hook()
+        self.assertEqual(code, 0, out + err)
+        self.assertTrue(calls)
+        for argv, env, _ in calls:
+            with self.subTest(argv=argv):
+                self.assertIn("--no-optional-locks", argv)
+                self.assertEqual(env.get("GIT_NO_LAZY_FETCH"), "1")
+
+    def test_missing_config_is_refused(self):
+        repo = self.make_repo()
+        (repo / ".git" / "config").rename(self.tmp / "removed-config")
+        self.assert_refused(self.run_cli(), str(repo / ".git" / "config"))
+
+    def test_config_read_failure_is_refused(self):
+        self.make_repo()
+        env = NestedRepoInputs.fake_git_env(self, "--list", 128, "fatal: injected")
+        self.assert_refused(self.run_cli(env=env), "could not read")
+
+    def test_config_includes_are_never_read(self):
+        repo = self.make_repo()
+        external = self.tmp / "external-config"
+        external.write_bytes(b"[user]\n\tname = EXTERNAL_MARKER\n")
+        git(repo, "config", "include.path", str(external))
+        code, out, err, calls = self.run_with_git_hook()
+        self.assert_json_fail(code, out, "include.path", err)
+        self.assertTrue(calls)
+        self.assertFalse([argv for argv, _, stdout in calls if b"EXTERNAL_MARKER" in stdout])
+        self.assertFalse(os.path.lexists(self.out))
+
+    def outside_config(self, repo: Path) -> Path:
+        external = self.tmp / "external-config"
+        external.write_bytes((repo / ".git" / "config").read_bytes() + b"[user]\n\tname = OUTSIDE_CONFIG_MARKER\n")
+        return external
+
+    def test_config_swapped_for_a_link_after_the_walk_is_never_read(self):
+        repo = self.make_repo()
+        external = self.outside_config(repo)
+        config = repo / ".git" / "config"
+        fired = []
+
+        def hook(path, *rest):
+            # The Git pass opens the nested .git by its full path; the walk opens it by name under the parent fd.
+            if not fired and not isinstance(path, int) and os.fspath(path) == str(repo / ".git"):
+                fired.append(True)
+                config.rename(self.tmp / "original-config")
+                os.symlink(external, config)
+        with mock.patch.object(unit_manifest.os, "open", side_effect=self.wrap_before(os.open, hook)):
+            code, out, err, calls = self.run_with_git_hook()
+        self.assertTrue(fired, "the Git pass never opened the nested .git by path")
+        self.assert_json_fail(code, out, str(config), err)
+        self.assertFalse([argv for argv, _, stdout in calls if b"OUTSIDE_CONFIG_MARKER" in stdout])
+        self.assertFalse(os.path.lexists(self.out))
+
+    def test_config_check_reads_the_held_config_not_the_path(self):
+        repo = self.make_repo()
+        external = self.outside_config(repo)
+        config = repo / ".git" / "config"
+        fired = []
+
+        def before(argv):
+            if not fired and "--list" in argv:
+                fired.append(True)
+                config.rename(self.tmp / "original-config")
+                os.symlink(external, config)
+        code, out, err, calls = self.run_with_git_hook(before)
+        self.assertTrue(fired)
+        self.assertFalse([argv for argv, _, stdout in calls if b"OUTSIDE_CONFIG_MARKER" in stdout])
+        self.assert_json_fail(code, out, "changed while Git ran", err)
+        self.assertFalse(os.path.lexists(self.out))
+
+    def test_config_swapped_for_a_fifo_after_the_walk_is_refused_before_git_reads_it(self):
+        repo = self.make_repo()
+        config = repo / ".git" / "config"
+        fired = []
+
+        def hook(path, *rest):
+            if not fired and not isinstance(path, int) and os.fspath(path) == str(repo / ".git"):
+                fired.append(True)
+                config.rename(self.tmp / "original-config")
+                os.mkfifo(config)
+        real_run = subprocess.run
+
+        def run(argv, *args, **kwargs):
+            return real_run(argv, *args, timeout=20, **kwargs)  # Git would block opening the FIFO by path
+        with mock.patch.object(unit_manifest.os, "open", side_effect=self.wrap_before(os.open, hook)), \
+                mock.patch.object(unit_manifest.subprocess, "run", side_effect=run):
+            code, out, err = self.run_inproc()
+        self.assertTrue(fired)
+        self.assert_json_fail(code, out, "not a regular file", err)
+        self.assertFalse(os.path.lexists(self.out))
+
+    @staticmethod
+    def wrap_before(real, hook):
+        def wrapper(*args, **kwargs):
+            hook(*args)
+            return real(*args, **kwargs)
+        return wrapper
+
+    def swap_during_rev_parse(self, swap):
+        fired = []
+
+        def before(argv):
+            if not fired and "rev-parse" in argv:
+                fired.append(True)
+                swap()
+        code, out, err, calls = self.run_with_git_hook(before)
+        self.assertTrue(fired)
+        self.assert_json_fail(code, out, "changed while Git ran", err)
+        self.assertFalse(os.path.lexists(self.out))
+
+    def test_config_swapped_for_a_link_while_git_runs_is_refused(self):
+        repo = self.make_repo()
+        external = self.outside_config(repo)
+        config = repo / ".git" / "config"
+
+        def swap():
+            config.rename(self.tmp / "original-config")
+            os.symlink(external, config)
+        self.swap_during_rev_parse(swap)
+
+    def test_git_dir_swapped_while_git_runs_is_refused(self):
+        repo = self.make_repo()
+        dot_git = repo / ".git"
+
+        def swap():
+            # A different .git directory whose config is a hard link to the checked config: only the .git identity differs.
+            old = repo / "old-git"
+            dot_git.rename(old)
+            shutil.copytree(old, dot_git, ignore=shutil.ignore_patterns("config"))
+            os.link(old / "config", dot_git / "config")
+        self.swap_during_rev_parse(swap)
+
+    def test_nested_git_reached_through_a_linked_ancestor_is_refused(self):
+        repo = self.make_repo()
+        other = self.tmp / "other-repo"
+        other.mkdir()
+        git(other, "init", "-q", "-b", "elsewhere")
+        fired = []
+
+        def hook(path, *rest):
+            if not fired and not isinstance(path, int) and os.fspath(path) == str(repo / ".git"):
+                fired.append(True)
+                repo.rename(self.tmp / "old-inner")
+                os.symlink(other, repo)
+        with mock.patch.object(unit_manifest.os, "open", side_effect=self.wrap_before(os.open, hook)):
+            code, out, err = self.run_inproc()
+        self.assertTrue(fired)
+        self.assert_json_fail(code, out, "link", err)
+        self.assertFalse(os.path.lexists(self.out))
+
+
+class WalkRaces(Base):
+    """Ruling 11: a scan, a leaf open and a directory identity are each bound to the fd, not the path."""
+
+    def setUp(self):
+        super().setUp()
+        self.child = self.unit / "zchild"
+        self.child.mkdir()
+        (self.child / "f").write_bytes(b"inside")
+
+    def test_directory_swapped_during_scan_is_refused(self):
+        empty = self.tmp / "empty"
+        empty.mkdir()
+        real_scandir, fired = os.scandir, []
+
+        def scandir(target):
+            where = fd_path(target) if isinstance(target, int) else os.fspath(target)
+            if not fired and where == str(self.child):
+                fired.append(True)
+                self.child.rename(self.tmp / "old-child")
+                os.symlink(empty, self.child)
+            return real_scandir(target)
+        with mock.patch.object(unit_manifest.os, "scandir", side_effect=scandir):
+            code, out, err = self.run_inproc()
+        self.assertTrue(fired)
+        self.assert_json_fail(code, out, "zchild", err)
+        self.assertFalse(os.path.lexists(self.out))
+
+    def test_leaf_path_swapped_after_scan_reads_nothing_outside(self):
+        outside = self.tmp / "outside"
+        outside.mkdir()
+        (outside / "f").write_bytes(b"EXTERNAL_FILE_MARKER")
+        real_lstat, real_read = os.lstat, os.read
+        fired, reads = [], []
+
+        def lstat(path, *args, **kwargs):
+            if not fired and os.fspath(path) == str(self.child / "f"):
+                fired.append(True)
+                self.child.rename(self.tmp / "old-child")
+                os.symlink(outside, self.child)
+            return real_lstat(path, *args, **kwargs)
+
+        def read(fd, n):
+            data = real_read(fd, n)
+            reads.append(data)
+            return data
+        with mock.patch.object(unit_manifest.os, "lstat", side_effect=lstat), \
+                mock.patch.object(unit_manifest.os, "read", side_effect=read):
+            code, out, err = self.run_inproc()
+        self.assertTrue(fired)
+        self.assert_json_fail(code, out, "zchild", err)
+        self.assertFalse(any(b"EXTERNAL_FILE_MARKER" in data for data in reads), "read bytes outside the unit")
+        self.assertFalse(os.path.lexists(self.out))
+
+    def test_directory_on_another_device_is_refused(self):
+        real_fstat, forged = os.fstat, []
+
+        def fstat(fd):
+            result = real_fstat(fd)
+            if fd_path(fd) == str(self.child):
+                forged.append(True)
+                return OtherDevice(result)
+            return result
+        with mock.patch.object(unit_manifest.os, "fstat", side_effect=fstat):
+            code, out, err = self.run_inproc()
+        self.assertTrue(forged)
+        self.assert_json_fail(code, out, "changed during walk", err)
+        self.assertFalse(os.path.lexists(self.out))
+
+
+class OutputFile(Base):
+    """Rulings 10 and 11: the checks and the PASS line describe the written file itself, which is never unlinked."""
+
+    def setUp(self):
+        super().setUp()
+        (self.unit / "f").write_bytes(b"inside")
+        self.dest = self.tmp / "dest"
+        self.dest.mkdir()
+        self.out = self.dest / "manifest.json"
+
+    def move_output_during_write(self, landed: Path, extra=None):
+        fired = []
+
+        def hook(fd, *rest):
+            if not fired:
+                fired.append(True)
+                os.rename(self.out, landed)
+                if extra:
+                    extra()
+        code, out, err = self.patched_before("write", hook)
+        self.assertTrue(fired)
+        self.assertTrue(landed.exists(), "never delete: the written output must stay where it landed")
+        self.assertFalse(os.path.lexists(self.out))
+        return code, out, err
+
+    def test_output_file_renamed_during_the_write_is_a_fail_naming_where_it_is(self):
+        landed = self.dest / "renamed.json"
+        code, out, err = self.move_output_during_write(landed)
+        reason = self.assert_json_fail(code, out, "left in place", err)["reason"]
+        self.assertIn(str(landed), reason)
+
+    def test_output_file_moved_into_the_unit_during_the_write_is_a_fail(self):
+        landed = self.unit / "moved.json"
+        code, out, err = self.move_output_during_write(landed)
+        reason = self.assert_json_fail(code, out, "left in place", err)["reason"]
+        self.assertIn(str(landed), reason)
+
+    def test_unit_renamed_while_output_moves_into_it_is_judged_by_its_live_path(self):
+        moved_unit = self.tmp / "unit2"
+
+        def hook(fd, *rest):
+            if not fired:
+                fired.append(True)
+                os.rename(self.dest, self.unit / "dest")
+                os.rename(self.unit, moved_unit)
+        fired = []
+        code, out, err = self.patched_before("write", hook)
+        self.assertTrue(fired)
+        written = moved_unit / "dest" / "manifest.json"
+        reason = self.assert_json_fail(code, out, "inside the unit", err)["reason"]
+        self.assertIn(str(written), reason)
+        self.assertTrue(written.exists())
+
+    def test_every_fd_the_tool_opens_is_closed(self):
+        before = sorted(os.listdir("/dev/fd"))
+        code, out, err = self.run_inproc()
+        self.assertEqual(code, 0, out + err)
+        self.assertEqual(sorted(os.listdir("/dev/fd")), before)
+
+    def test_output_close_failure_is_one_json_fail(self):
+        real_open, real_close, opened = os.open, os.close, []
+
+        def op(path, flags, *args, **kwargs):
+            fd = real_open(path, flags, *args, **kwargs)
+            if flags & os.O_WRONLY:
+                opened.append(fd)
+            return fd
+
+        def close(fd):
+            real_close(fd)
+            if fd in opened:
+                raise OSError(errno.EIO, "injected close failure")
+        with mock.patch.object(unit_manifest.os, "open", side_effect=op), \
+                mock.patch.object(unit_manifest.os, "close", side_effect=close):
+            code, out, err = self.run_inproc()
+        self.assertTrue(opened)
+        reason = self.assert_json_fail(code, out, "injected close failure", err)["reason"]
+        self.assertIn(str(self.out), reason)
+        self.assertTrue(self.out.exists())
+
+
 if __name__ == "__main__":
     unittest.main()
