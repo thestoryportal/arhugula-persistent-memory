@@ -213,6 +213,73 @@ class ValidateMoveTest(unittest.TestCase):
                                                     'evidence', 'reason', 'previous_finding',
                                                     'resolution_receipt']))
 
+    def assertReasons(self, findings, *fragments):
+        """One FAIL finding per fragment, in any order, and nothing else."""
+        self.assertEqual(len(findings), len(fragments), findings)
+        for fragment in fragments:
+            self.assertEqual(sum(fragment in item['reason'] for item in findings), 1,
+                             (fragment, findings))
+        self.assertEqual({item['status'] for item in findings}, {'FAIL'}, findings)
+
+    def test_duplicate_leaf_records(self):
+        entry = leaf(UNIT + '/a', inode=9, nlink=2)
+        self.assertReasons(run(leaves=(entry, dict(entry))), 'duplicate leaf record', 'hard link')
+        bad = leaf(UNIT + '/link', 'symlink', '../outside')
+        safe = leaf(UNIT + '/link', 'symlink', 'a.txt')
+        self.assertReasons(run(leaves=(bad, safe)), 'duplicate leaf record', 'crosses the unit')
+        self.assertReasons(run(leaves=(safe, bad)), 'duplicate leaf record')
+
+    def test_iterators_give_the_same_findings_as_lists(self):
+        cases = {'other_moves': (move(id='MV-002', source=TARGET, target=P + '/held'),),
+                 'existing_paths': (UNIT, TARGET), 'run_units': (M + '/projects',),
+                 'leaves': (leaf(UNIT + '/a.txt'), leaf(UNIT + '/link', 'symlink', '../out'))}
+        for name, value in cases.items():
+            with self.subTest(name=name):
+                listed = run(**{name: list(value)})
+                self.assertEqual(len(listed), 1, listed)
+                self.assertEqual(run(**{name: (item for item in value)}), listed)
+        listed = run(**{name: list(value) for name, value in cases.items()})
+        self.assertEqual(len(listed), 4, listed)
+        self.assertEqual(run(**{name: iter(value) for name, value in cases.items()}), listed)
+
+    def test_move_kind_must_match_the_leaf_kind_at_its_source(self):
+        self.assertReasons(run(move(kind='symlink'), leaves=(leaf(UNIT),)), 'kind disagrees')
+        self.assertReasons(run(move(kind='file'), leaves=(leaf(UNIT, 'symlink', 'a'),)),
+                           'kind disagrees', 'crosses the unit')
+        self.assertReasons(run(leaves=(leaf(UNIT),)), 'kind disagrees')
+        self.assertReasons(run(move(kind='git-root'), leaves=(leaf(UNIT),)), 'kind disagrees')
+        self.assertEqual(run(move(kind='file'), leaves=(leaf(UNIT),)), ())
+
+    def test_git_root_is_a_container(self):
+        git_root = move(kind='git-root')
+        self.assertEqual(run(git_root), ())
+        self.assertEqual(run(git_root, leaves=()), ())
+        self.assertReasons(run(git_root, leaves=(leaf(UNIT + '/l', 'symlink', '../x'),)),
+                           'crosses the unit')
+        self.assertReasons(run(git_root, leaves=(leaf(UNIT + '/a', nlink=2),)), 'hard link')
+
+    def test_source_or_target_equal_to_any_admitted_root(self):
+        nested = ('/fixture', M, P)
+        held = move(source=M, target=P + '/held')
+        for roots in ((M, P), nested):
+            with self.subTest(roots=roots):
+                self.assertOnly(run(held, roots=roots), 'FAIL', 'equals admitted root')
+                self.assertOnly(run(move(target=M), roots=roots), 'FAIL', 'equals admitted root')
+        self.assertEqual(run(roots=nested), ())
+
+    def test_target_equal_to_its_own_source(self):
+        self.assertOnly(run(move(target=UNIT), existing_paths=frozenset()),
+                        'FAIL', 'its own source')
+
+    def test_hard_link_identity_is_device_and_inode(self):
+        cases = {'same inode, distinct devices': dict(leaf(UNIT + '/b', inode=9, nlink=2), device=8),
+                 'distinct inodes, same device': leaf(UNIT + '/b', inode=10, nlink=2)}
+        for name, other in cases.items():
+            with self.subTest(name):
+                found = run(leaves=(leaf(UNIT + '/a', inode=9, nlink=2), other))
+                self.assertEqual(len(found), 2, found)
+                self.assertTrue(all('hard link' in item['reason'] for item in found), found)
+
 
 if __name__ == '__main__':
     unittest.main()

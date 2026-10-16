@@ -16,6 +16,7 @@ SCHEMA = icm21_check.audit_schema()
 NO_ACTION = frozenset({'KEEP', 'RETAIN_CONTAINER', 'HOLD', 'FOLLOW_PARENT'})
 PATTERN_CHARS = frozenset('*?[]<>')  # SPEC.md:87
 LINK_HOPS = 40
+CONTAINERS = frozenset({'directory', 'git-root'})  # judged by their descendants alone
 
 
 def finding(move_id, status, paths, reason):
@@ -80,6 +81,9 @@ def validate_move(move, admitted_roots, *, other_moves=None, existing_paths=None
     move_id = move['id'] if type(move) is dict and type(move.get('id')) is str \
         and move['id'] else 'unidentified'
     try:
+        other_moves, existing_paths, run_units, leaves = (
+            None if fact is None else list(fact)  # one pass: later checks reread each fact
+            for fact in (other_moves, existing_paths, run_units, leaves))
         wire_record('Move', move)
         source, target = PurePosixPath(move['source']), PurePosixPath(move['target'])
         roots = tuple(wire_path(root) for root in admitted_roots)
@@ -111,7 +115,9 @@ def validate_move(move, admitted_roots, *, other_moves=None, existing_paths=None
     for name, path in (('source', source), ('target', target)):
         if PATTERN_CHARS & set(str(path)):
             fail(name + ' is a wildcard or angle-bracket path: ' + str(path))
-        if not any(root in path.parents for root in roots):
+        if path in roots:  # also when another admitted root contains it
+            fail(name + ' escapes: it equals admitted root ' + str(path))
+        elif not any(root in path.parents for root in roots):
             fail(name + ' escapes every admitted root: ' + str(path))
     if within(target, source):
         fail('target lies inside its own source')
@@ -144,8 +150,19 @@ def validate_move(move, admitted_roots, *, other_moves=None, existing_paths=None
     if leaves is None:
         fail('leaves not supplied: link boundary unchecked', 'UNVERIFIED')
     else:
-        records = [dict(record, source=PurePosixPath(record['source'])) for record in leaves]
-        if move['kind'] != 'directory' and not any(r['source'] == source for r in records):
+        unique = {}
+        for record in leaves:
+            path = PurePosixPath(record['source'])
+            if path in unique:  # first record stands: a repeat adds no link and no name
+                fail('duplicate leaf record: ' + str(path))
+            else:
+                unique[path] = dict(record, source=path)
+        records = list(unique.values())
+        if source in unique:
+            if unique[source]['kind'] != move['kind']:
+                fail('kind disagrees: Move says ' + move['kind'] + ', LeafRecord says '
+                     + unique[source]['kind'])
+        elif move['kind'] not in CONTAINERS:
             fail('leaf manifest lacks the moved object', 'UNVERIFIED')
         links = {r['source']: r['link_text'] for r in records if r['kind'] == 'symlink'}
         for link, text in sorted(links.items()):
