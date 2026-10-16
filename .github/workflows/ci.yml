@@ -44,5 +44,15 @@ jobs:
         run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest discover -s code/tests -p test_git_automation.py -v
       - name: Model-free repository suites
         run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest -v lab.runners.test_c10w_p2_gate apps.dashboard.test_dashboard_live apps.dashboard.test_dashboard_gpu_detector
+      - name: Staged closure
+        run: LLMDB_ROOT="$PWD" PYTHONPATH=code python3 -B code/state/icm21_check.py staged --root "$PWD"
       - name: ICM v2.1 checker suites
-        run: PYTHONPATH=code/tests:code LLMDB_ROOT="$PWD" python3 -B -m unittest -v test_icm21 test_context_audit
+        run: >-
+          PYTHONPATH=code/tests:code LLMDB_ROOT="$PWD" python3 -B -m unittest -v
+          test_icm21.ApprovedWireControls test_icm21.StagedControls test_icm21.ReaderControls
+          test_icm21.FixtureContractControls
+          test_icm21.GuardControls.test_admission_shapes test_icm21.GuardControls.test_fault_denial
+          test_icm21.GuardControls.test_unsupported_sandbox_denial
+          test_context_audit
+      - name: ICM v2.1 seam suites
+        run: PYTHONPATH=code/tests:code/state:code LLMDB_ROOT="$PWD" python3 -B -m unittest discover -s code/state -p 'test_icm21*.py'
