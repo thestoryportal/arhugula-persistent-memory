@@ -256,9 +256,16 @@ class Capacity(unittest.TestCase):
     def test_floor_above_free_reports_any_copy(self):
         kw = base()
         kw["free_bytes"] = {"/d": 5}
-        self.assertEqual(run(kw).capacity, ())
+        self.assertEqual(run(kw).capacity, (("/d", 0, 5, 20 * GiB, 5 - 20 * GiB),))
         kw["same_filesystem"][("/m/u2/z.json", "/d")] = False
         self.assertEqual(run(kw).capacity, (("/d", 10, 5, 20 * GiB, 5 - 20 * GiB),))
+
+    def test_renames_at_or_above_floor_report_nothing(self):
+        kw = base()
+        kw["free_bytes"] = {"/d": 20 * GiB}
+        self.assertEqual(run(kw).capacity, ())  # 0 needed, budget 0
+        kw["free_bytes"] = {"/d": 20 * GiB - 1}
+        self.assertEqual(run(kw).capacity, (("/d", 0, 20 * GiB - 1, 20 * GiB, -1),))
 
     def test_longest_root_takes_the_bytes(self):
         kw = base()

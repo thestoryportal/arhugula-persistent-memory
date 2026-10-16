@@ -326,7 +326,7 @@ def _capacity(assigned: list, free: dict, floor: int, same: Mapping) -> tuple:
             _refuse(f"same_filesystem[{key!r}]", "missing: is this move a rename?")
         needed[root] = needed.get(root, 0) + (0 if same[key] else a.leaf.size)
     rows = [(root, need, free[root], floor, free[root] - floor)
-            for root, need in needed.items() if need > 0 and need > free[root] - floor]
+            for root, need in needed.items() if need > free[root] - floor]
     return tuple(sorted(rows))
 
 
