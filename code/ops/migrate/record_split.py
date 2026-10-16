@@ -17,15 +17,19 @@ A/DESIGN.md:60-62). In order, for a regular file:
 A symlink is never followed. One whose text stays inside the unit is a tracked record
 of that text.
 
-Each file is read through one fd opened without following links; its fstat must match
-the scan's lstat before and after the read, so size and hash come from one object. The
---out file is created through an fd of its parent directory, checked outside the unit
-before the write and again after it.
+The walk is bound to fds: --root is opened once without following a link and held;
+each directory is entered only through its parent's fd and must be the (st_dev, st_ino)
+the scan saw; each file is read through one fd opened without following links, whose
+fstat must match the scan's lstat before and after the read, so size and hash come from
+one object. The --out file is created through an fd of its parent directory, whose real
+path (F_GETPATH) must lie outside the held root's real path, read at check time, before
+the write and again after it.
 
 Every expected invalid input (missing or non-directory root, missing or invalid --out
 parent, an unreadable or malformed attestation, an attested record, a changed file, a
-link that escapes the unit, a special file, a nested Git root) exits 2 with one refusal
-line. It never overwrites and never deletes: an output that lands inside the unit after
+link that escapes the unit, a special file, a nested Git root) and every OSError from a
+filesystem call on the unit, a leaf or the output exits 2 with one refusal line naming
+the path and errno. It never overwrites and never deletes: an output that lands inside the unit after
 a race is refused by name and left in place.
 
 An attestation is one JSON record per run, written by the operator or by MAESTRO under
@@ -37,6 +41,7 @@ from __future__ import annotations
 
 import argparse
 import codecs
+import contextlib
 import errno
 import fcntl
 import hashlib
@@ -55,6 +60,7 @@ BULK = "attested-bulk"
 PAYLOAD = "governed-payload"
 ATTESTERS = frozenset({"operator", "MAESTRO"})
 CHUNK = 1 << 20
+DIR_FLAGS = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
 SHA256 = re.compile(r"[0-9a-f]{64}")
 RECORD_SUFFIXES = (".json", ".jsonl", ".ipynb", ".log")
 
@@ -175,23 +181,46 @@ def link_escapes(rel: str, text: str) -> bool:
 
 # ---- filesystem edge -------------------------------------------------------------
 
-def _digest(entry: os.DirEntry) -> tuple[str, bool]:
+@contextlib.contextmanager
+def _fs(path: str):
+    """An OSError on a named input or output path is a refusal that names it and its errno."""
+    try:
+        yield
+    except OSError as exc:
+        code = errno.errorcode.get(exc.errno, str(exc.errno))
+        raise Refusal(f"{path}: {code} {exc.strerror}") from exc
+
+
+@dataclass(frozen=True)
+class _At:
+    """A scanned entry reached through its directory's fd; path names it in messages."""
+    dir_fd: int
+    name: str
+    path: str
+    st: os.stat_result
+
+    def __fspath__(self) -> str:
+        return self.path
+
+
+def _digest(at: _At) -> tuple[str, bool]:
     """sha256 of the leaf's bytes and whether they are NUL-free strict UTF-8.
 
-    The bytes come from one fd whose fstat equals the scan's (cached) lstat before and
-    after the read."""
-    scanned = _identity(entry.stat(follow_symlinks=False))
+    The bytes come from one fd, opened through the directory fd, whose fstat equals the
+    scan's lstat before and after the read."""
+    scanned = _identity(at.st)
     try:
-        fd = os.open(entry.path, os.O_RDONLY | os.O_NOFOLLOW)
+        fd = os.open(at.name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=at.dir_fd)
     except OSError as exc:
         if exc.errno == errno.ELOOP:
-            raise Refusal(f"{entry.path!r} changed into a symlink before it was hashed") from exc
+            raise Refusal(f"{at.path!r} changed into a symlink before it was hashed") from exc
         if exc.errno in (errno.ENOENT, errno.ENOTDIR):
-            raise Refusal(f"{entry.path!r} changed (gone) before it was hashed") from exc
-        raise
-    with open(fd, "rb", buffering=0) as fh:
+            raise Refusal(f"{at.path!r} changed (gone) before it was hashed") from exc
+        with _fs(at.path):
+            raise
+    with _fs(at.path), open(fd, "rb", buffering=0) as fh:
         if _identity(os.fstat(fd)) != scanned:
-            raise Refusal(f"{entry.path!r} changed before it was hashed")
+            raise Refusal(f"{at.path!r} changed before it was hashed")
         h = hashlib.sha256()
         decoder = codecs.getincrementaldecoder("utf-8")("strict")
         is_text = True
@@ -204,7 +233,7 @@ def _digest(entry: os.DirEntry) -> tuple[str, bool]:
                 except UnicodeDecodeError:
                     is_text = False
         if _identity(os.fstat(fd)) != scanned:
-            raise Refusal(f"{entry.path!r} changed while it was hashed")
+            raise Refusal(f"{at.path!r} changed while it was hashed")
     if is_text:
         try:
             decoder.decode(b"", final=True)
@@ -217,39 +246,55 @@ def _identity(st: os.stat_result) -> tuple:
     return (st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns)
 
 
-def scan(root: Path) -> list[Leaf]:
+def open_root(root: Path) -> int:
     try:
-        st = os.lstat(root)
-    except (FileNotFoundError, NotADirectoryError) as exc:
-        raise Refusal(f"unit root {root} does not exist") from exc
-    if not stat.S_ISDIR(st.st_mode):
-        raise Refusal(f"unit root {root} is not a real directory")
+        return os.open(root, DIR_FLAGS)
+    except OSError as exc:
+        code = errno.errorcode.get(exc.errno, str(exc.errno))
+        raise Refusal(f"unit root {root} is not a real directory: {code} {exc.strerror}") from exc
+
+
+def scan(root_fd: int, root: str) -> list[Leaf]:
     leaves: list[Leaf] = []
 
-    def walk(dirpath: str, prefix: str) -> None:
-        with os.scandir(dirpath) as it:
+    def walk(dir_fd: int, dirpath: str, prefix: str) -> None:
+        with _fs(dirpath), os.scandir(dir_fd) as it:
             entries = sorted(it, key=lambda e: path_key(e.name))
         for entry in entries:
             rel = prefix + entry.name
-            est = entry.stat(follow_symlinks=False)
+            path = os.path.join(dirpath, entry.name)
+            with _fs(path):
+                est = entry.stat(follow_symlinks=False)
             if entry.name == ".git":
                 raise Refusal(f"nested Git root at {rel!r}")
             if stat.S_ISLNK(est.st_mode):
-                text = os.readlink(entry.path)
+                with _fs(path):
+                    text = os.readlink(entry.name, dir_fd=dir_fd)
                 if link_escapes(rel, text):
                     raise Refusal(f"link {rel!r} -> {text!r} escapes the unit")
                 leaves.append(LinkLeaf(rel, text))
             elif stat.S_ISDIR(est.st_mode):
-                walk(entry.path, rel + "/")
+                with _fs(path):
+                    fd = os.open(entry.name, DIR_FLAGS, dir_fd=dir_fd)
+                try:
+                    with _fs(path):
+                        opened = os.fstat(fd)
+                    if (opened.st_dev, opened.st_ino) != (est.st_dev, est.st_ino):
+                        raise Refusal(f"directory {rel!r} changed during the walk")
+                    walk(fd, path, rel + "/")
+                finally:
+                    os.close(fd)
             elif stat.S_ISREG(est.st_mode):
-                sha256, is_text = _digest(entry)
-                if _identity(os.lstat(entry.path)) != _identity(est):
+                sha256, is_text = _digest(_At(dir_fd, entry.name, path, est))
+                with _fs(path):
+                    now = os.stat(entry.name, dir_fd=dir_fd, follow_symlinks=False)
+                if _identity(now) != _identity(est):
                     raise Refusal(f"{rel!r} changed while it was hashed")
                 leaves.append(FileLeaf(rel, est.st_size, sha256, is_text))
             else:
                 raise Refusal(f"{rel!r} is a special file")
 
-    walk(str(root), "")
+    walk(root_fd, root, "")
     return leaves
 
 
@@ -261,9 +306,21 @@ def load_attestation(path: Path) -> tuple[Attested, ...]:
     return parse_attestation(doc, str(path))
 
 
-def split_unit(root: Path, attestations: list[Path]) -> tuple[Row, ...]:
+def split_unit(root: Path, attestations: list[Path], root_fd: int | None = None) -> tuple[Row, ...]:
+    """Classify the unit; root_fd, when given, is the caller's held fd of root."""
     attested = [a for p in attestations for a in load_attestation(p)]
-    return classify(scan(Path(root)), attested)
+    held = contextlib.nullcontext(root_fd) if root_fd is not None else _held_root(root)
+    with held as fd:
+        return classify(scan(fd, str(root)), attested)
+
+
+@contextlib.contextmanager
+def _held_root(root: Path):
+    fd = open_root(root)
+    try:
+        yield fd
+    finally:
+        os.close(fd)
 
 
 def render(root: Path, rows: tuple[Row, ...]) -> str:
@@ -287,7 +344,8 @@ def _open_out_parent(out: Path) -> int:
     try:
         return os.open(out.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
     except OSError as exc:
-        raise Refusal(f"--out parent {out.parent} is not a usable directory: {exc.strerror}") from exc
+        code = errno.errorcode.get(exc.errno, str(exc.errno))
+        raise Refusal(f"--out parent {out.parent} is not a usable directory: {code} {exc.strerror}") from exc
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -297,24 +355,31 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", required=True, type=Path, help="new JSON file outside the unit")
     args = ap.parse_args(argv)
     try:
-        root_real = os.path.realpath(args.root)
-        parent_fd = _open_out_parent(args.out)
-        try:
-            if _inside(root_real, _dir_realpath(parent_fd)):
-                raise Refusal(f"--out {args.out} is inside the unit")
-            rows = split_unit(args.root, args.attestation)
-            out_fd = os.open(args.out.name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
-                             0o644, dir_fd=parent_fd)
-            with open(out_fd, "w", encoding="utf-8") as fh:
-                fh.write(render(args.root, rows))
-            parent_now = _dir_realpath(parent_fd)
-            if _inside(root_real, parent_now):
-                raise Refusal(f"wrote {os.path.join(parent_now, args.out.name)}, which is now inside "
-                              "the unit; it was left in place")
-        finally:
-            os.close(parent_fd)
-    except (Refusal, FileExistsError) as exc:
-        print(f"record_split: refused: {exc}", file=sys.stderr)
+        with _held_root(args.root) as root_fd:
+            parent_fd = _open_out_parent(args.out)
+            try:
+                if _inside(_dir_realpath(root_fd), _dir_realpath(parent_fd)):
+                    raise Refusal(f"--out {args.out} is inside the unit")
+                rows = split_unit(args.root, args.attestation, root_fd)
+                body = render(args.root, rows).encode("utf-8")
+                with _fs(str(args.out)):
+                    out_fd = os.open(args.out.name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                                     0o644, dir_fd=parent_fd)
+                try:
+                    with _fs(f"{args.out} (left in place, incomplete)"):
+                        view = memoryview(body)
+                        while view:
+                            view = view[os.write(out_fd, view):]
+                finally:
+                    os.close(out_fd)
+                parent_now = _dir_realpath(parent_fd)
+                if _inside(_dir_realpath(root_fd), parent_now):
+                    raise Refusal(f"wrote {os.path.join(parent_now, args.out.name)}, which is now inside "
+                                  "the unit; it was left in place")
+            finally:
+                os.close(parent_fd)
+    except Refusal as exc:
+        print("record_split: refused: " + str(exc).replace("\n", "\\n"), file=sys.stderr)
         return 2
     return 0
 

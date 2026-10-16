@@ -445,7 +445,7 @@ class Binding(Fixture):
         return self.unit / "sample.bin"
 
     def at_leaf_open(self, path, action):
-        return before_open(lambda p, kw: p == str(path), action)
+        return before_open(lambda p, kw: p == path.name and kw.get("dir_fd") is not None, action)
 
     def assertChanged(self, path, action):
         with self.at_leaf_open(path, action) as fired:
@@ -578,6 +578,274 @@ class Binding(Fixture):
         self.assertEqual(code, 2, err)
         self.assertIn("split.json", err)
         self.assertTrue((self.unit / "dest" / "split.json").exists())  # never deleted
+
+
+class Errno(Fixture):
+    """Ruling 7: an OSError on the unit, a leaf or the output is one exit-2 refusal line."""
+
+    def test_filesystem_errors_exit_2_with_one_refusal_naming_path_and_errno(self):
+        self.put("record.log", b"good\n")
+        out = self.base / "out.json"
+        loop = self.base / "loop"
+        loop.symlink_to(loop)
+
+        def unwritable_parent():
+            d = self.base / "ro"
+            d.mkdir()
+            d.chmod(0o500)
+            self.addCleanup(d.chmod, 0o700)
+            return ["--root", self.unit, "--out", d / "out.json"], "EACCES"
+
+        def unreadable_leaf():
+            leaf = self.unit / "record.log"
+            leaf.chmod(0)
+            self.addCleanup(leaf.chmod, 0o600)
+            return ["--root", self.unit, "--out", out], "EACCES"
+
+        def unreadable_subdir():
+            d = self.unit / "sub"
+            d.mkdir()
+            d.chmod(0)
+            self.addCleanup(d.chmod, 0o700)
+            return ["--root", self.unit, "--out", out], "EACCES"
+
+        cases = {
+            "unwritable out parent": unwritable_parent,
+            "unreadable leaf": unreadable_leaf,
+            "unreadable subdirectory": unreadable_subdir,
+            "root through a link loop": lambda: (["--root", loop / "unit", "--out", out], "ELOOP"),
+            "out parent is a link loop": lambda: (["--root", self.unit, "--out", loop / "out.json"],
+                                                  "ENOTDIR|ELOOP"),
+            "out parent through a link loop": lambda: (["--root", self.unit, "--out", loop / "d" / "out.json"],
+                                                       "ELOOP"),
+        }
+        for name, make in cases.items():
+            with self.subTest(case=name):
+                argv, code = make()
+                proc = self.cli(*argv)
+                self.assertRefusedCleanly(proc)
+                self.assertRegex(proc.stderr, code)
+                self.assertFalse(out.exists())
+
+    def test_attestation_name_with_newline_is_one_refusal_line(self):
+        self.put("x.pt", b"\x00")
+        proc = self.cli("--root", self.unit, "--attestation", self.base / "missing\natt.json",
+                        "--out", self.base / "out.json")
+        self.assertRefusedCleanly(proc)
+
+    def test_root_that_is_a_file_is_refused_as_the_root(self):
+        f = self.base / "afile"
+        f.write_bytes(b"")
+        with self.assertRaisesRegex(R.Refusal, "unit root"):
+            R.split_unit(f, [])
+
+    def test_failed_write_refuses_and_leaves_the_output_in_place(self):
+        self.put("a.log", b"x\n")
+        out = self.base / "split.json"
+        with mock.patch.object(os, "write", side_effect=OSError(28, "No space left on device")):
+            code, err = self.main("--root", self.unit, "--out", out)
+        self.assertEqual(code, 2, err)
+        self.assertIn("ENOSPC", err)
+        self.assertIn("split.json", err)
+        self.assertTrue(out.exists())
+
+    def test_directory_listing_error_refuses(self):
+        self.put("a.log", b"x\n")
+        with mock.patch.object(os, "scandir", side_effect=OSError(5, "Input/output error")):
+            with self.assertRaisesRegex(R.Refusal, "EIO"):
+                self.split()
+
+    def test_entry_gone_between_listing_and_stat_refuses(self):
+        self.put("a.log", b"x\n")
+        gone = self.put("gone.bin", b"\x00")
+        real = os.scandir
+
+        class Listing:
+            def __init__(self, fd):
+                with real(fd) as it:
+                    self.entries = list(it)
+                (self.unit_path / "gone.bin").unlink()
+
+            def __enter__(self):
+                return iter(self.entries)
+
+            def __exit__(self, *exc):
+                return False
+
+        Listing.unit_path = self.unit
+        self.assertEqual(gone, b"\x00")
+        with mock.patch.object(os, "scandir", Listing):
+            with self.assertRaisesRegex(R.Refusal, "ENOENT"):
+                self.split()
+
+    def test_link_that_stops_being_a_link_before_readlink_refuses(self):
+        os.symlink("a.log", self.unit / "alias")
+        self.put("a.log", b"x\n")
+        real = os.readlink
+
+        def swap_then_read(name, *args, **kwargs):
+            (self.unit / "alias").unlink()
+            (self.unit / "alias").write_bytes(b"now a file")
+            return real(name, *args, **kwargs)
+
+        with mock.patch.object(os, "readlink", swap_then_read):
+            with self.assertRaisesRegex(R.Refusal, "EINVAL"):
+                self.split()
+
+    def test_read_error_on_an_open_leaf_refuses(self):
+        self.put("a.bin", b"\x00")
+        with mock.patch.object(os, "fstat", side_effect=OSError(5, "Input/output error")):
+            with self.assertRaisesRegex(R.Refusal, "a.bin: EIO"):
+                self.split()
+
+    def test_leaf_gone_after_its_read_refuses(self):
+        p = self.put("a.bin", b"\x00")
+        leaf = self.unit / "a.bin"
+        real = os.fstat
+        calls = []
+
+        def unlink_on_second(fd):
+            calls.append(fd)
+            if len(calls) == 2:
+                leaf.unlink()
+            return real(fd)
+
+        self.assertEqual(p, b"\x00")
+        with mock.patch.object(os, "fstat", unlink_on_second):
+            with self.assertRaisesRegex(R.Refusal, "ENOENT"):
+                self.split()
+
+
+class WalkBinding(Fixture):
+    """Ruling 5: the walk enters each directory through its parent's fd."""
+
+    def outside(self):
+        out = self.base / "outside"
+        (out / "b").mkdir(parents=True)
+        secret = b"\x00SECRET OUTSIDE THE UNIT"
+        (out / "secret.bin").write_bytes(secret)
+        (out / "b" / "x.bin").write_bytes(secret)
+        return out, sha(secret)
+
+    def at_open(self, name, action):
+        return before_open(lambda p, kw: p == name and kw.get("dir_fd") is not None, action)
+
+    def test_directory_swapped_for_a_symlink_refuses(self):
+        self.put("sub/own.bin", b"\x00OWN")
+        outside, _ = self.outside()
+        sub = self.unit / "sub"
+
+        def swap():
+            sub.rename(self.base / "saved-sub")
+            sub.symlink_to(outside, target_is_directory=True)
+
+        out = self.base / "split.json"
+        with self.at_open("sub", swap) as fired:
+            code, err = self.main("--root", self.unit, "--out", out)
+        self.assertTrue(fired)
+        self.assertEqual(code, 2, err)
+        self.assertRegex(err, "sub: (ENOTDIR|ELOOP)")
+        self.assertFalse(out.exists())
+
+    def test_directory_replaced_by_another_directory_refuses(self):
+        self.put("sub/own.bin", b"\x00OWN")
+        sub = self.unit / "sub"
+
+        def replace():
+            sub.rename(self.base / "saved-sub")
+            sub.mkdir()
+            (sub / "secret.bin").write_bytes(b"\x00SECRET")
+
+        with self.at_open("sub", replace) as fired:
+            with self.assertRaisesRegex(R.Refusal, "changed during the walk"):
+                self.split()
+        self.assertTrue(fired)
+
+    def parent_swapped_before(self, name):
+        own = self.put("a/b/x.bin", b"\x00OWN BYTES")
+        outside, secret_sha = self.outside()
+        a = self.unit / "a"
+
+        def swap():
+            a.rename(self.base / "saved-a")
+            a.symlink_to(outside, target_is_directory=True)
+
+        with self.at_open(name, swap) as fired:
+            rows = self.split()
+        self.assertTrue(fired)
+        self.assertEqual(rows["a/b/x.bin"].sha256, sha(own))
+        self.assertNotEqual(rows["a/b/x.bin"].sha256, secret_sha)
+
+    def test_directory_is_entered_through_the_bound_parent_not_its_path(self):
+        self.parent_swapped_before("b")
+
+    def test_leaf_is_opened_through_the_bound_directory_not_its_path(self):
+        self.parent_swapped_before("x.bin")
+
+
+class LiveRoot(Fixture):
+    """Ruling 6: containment compares with the held root fd's real path at check time."""
+
+    def test_root_relocated_and_out_parent_moved_into_it_refuses_and_keeps_the_file(self):
+        for relink in (False, True):
+            with self.subTest(relink=relink):
+                base = self.base / f"case{int(relink)}"
+                unit = base / "unit"
+                unit.mkdir(parents=True)
+                (unit / "record.log").write_bytes(b"good\n")
+                dest = base / "dest"
+                dest.mkdir()
+                moved = base / "moved-unit"
+
+                def relocate():
+                    unit.rename(moved)
+                    if relink:
+                        unit.symlink_to(moved, target_is_directory=True)
+                    dest.rename(moved / "dest")
+
+                match = lambda p, kw: p == "split.json" and kw.get("dir_fd") is not None
+                with before_open(match, relocate) as fired:
+                    code, err = self.main("--root", unit, "--out", dest / "split.json")
+                self.assertTrue(fired)
+                self.assertEqual(code, 2, err)
+                self.assertIn("split.json", err)
+                self.assertTrue((moved / "dest" / "split.json").exists())  # never deleted
+
+    def test_out_parent_inside_the_relocated_root_is_refused_before_the_write(self):
+        self.put("record.log", b"good\n")
+        hold = self.base / "hold"
+        (hold / "dest").mkdir(parents=True)
+
+        def relocate():
+            hold.rename(self.base / "hold-old")
+            self.unit.rename(hold)
+            (self.base / "hold-old" / "dest").rename(hold / "dest")
+
+        match = lambda p, kw: p == str(hold / "dest") and "dir_fd" not in kw
+        with before_open(match, relocate) as fired:
+            code, err = self.main("--root", self.unit, "--out", hold / "dest" / "split.json")
+        self.assertTrue(fired)
+        self.assertEqual(code, 2, err)
+        self.assertIn("inside the unit", err)
+        self.assertFalse((hold / "dest" / "split.json").exists())
+
+    def test_the_scan_reads_the_held_root(self):
+        own = self.put("record.log", b"good\n")
+        dest = self.base / "dest"
+        dest.mkdir()
+
+        def replace_root():
+            self.unit.rename(self.base / "held")
+            self.unit.mkdir()
+            (self.unit / "other.log").write_bytes(b"other\n")
+
+        match = lambda p, kw: p == str(dest) and "dir_fd" not in kw
+        with before_open(match, replace_root) as fired:
+            code, err = self.main("--root", self.unit, "--out", dest / "split.json")
+        self.assertTrue(fired)
+        self.assertEqual(code, 0, err)
+        doc = json.loads((dest / "split.json").read_text())
+        self.assertEqual([(r["path"], r["sha256"]) for r in doc["leaves"]], [("record.log", sha(own))])
 
 
 class Cli(Fixture):
