@@ -30,6 +30,8 @@ dependencies = [
     # notebooks / plots used by a few experiment scripts
     "matplotlib>=3.8",
     "markdown-it-py==3.0.0",
+    # Part 2 ledger_db reports (code/ops/migrate); 1.5.6 produced the OUT/sql measurements
+    "duckdb==1.5.6",
 ]
 
 [tool.uv]
