@@ -4,7 +4,6 @@ from datetime import datetime, timezone
 import json
 from pathlib import Path
 import re
-import unittest
 
 from test_icm21 import BASE, SOURCE_ROOT, binding, encoded, sealed, snapshot
 
@@ -52,7 +51,6 @@ def publish_fixture(root, report, directive):
 
 
 class ReportGuideCases:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_report_writer_contract(self):
         self.candidate()
         directive = context_directive()
@@ -85,7 +83,6 @@ class ReportGuideCases:
         self.assertEqual(json.loads(Path(pointers['latest_complete']['path']).read_bytes())['overall_status'], 'PASS')
         self.assertEqual(json.loads(Path(pointers['newer_partial']['path']).read_bytes())['overall_status'], 'UNVERIFIED')
 
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_guide_candidate(self):
         text = self.candidate()
         for word in ('scope', 'owner', 'method', 'complete', 'partial', 'UNVERIFIED'):
