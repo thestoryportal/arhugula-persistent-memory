@@ -1,13 +1,11 @@
 """ReaderControls dispatch-coverage and ownership case."""
 import json
 from pathlib import Path
-import unittest
 
 from icm21_fixtures import binding, encoded, put, sealed
 
 
 class DispatchCoverageCase:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_dispatch_coverage_and_ownership(self):
         self.module('code/state/icm21_check.py', 'check_references')
         # Reuse the sealed representative records and semantic counterexamples.
