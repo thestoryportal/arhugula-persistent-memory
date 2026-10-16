@@ -106,6 +106,21 @@ def traced():
         yield log
 
 
+@contextlib.contextmanager
+def recased_getpath(which):
+    """F_GETPATH reports the path in swapped letter case for the fds where which(fd) is true.
+
+    A patched result, so the test holds on a case-sensitive volume too: on a case-folding one
+    both spellings can name the same object, and fdsafe must still hold the exact spelling."""
+    real = fcntl.fcntl
+
+    def hooked(fd, op, *args):
+        value = real(fd, op, *args)
+        return value.swapcase() if op == fcntl.F_GETPATH and which(fd) else value
+    with mock.patch.object(fcntl, "fcntl", hooked):
+        yield
+
+
 class Base(unittest.TestCase):
     def setUp(self):
         self.base = os.path.realpath(tempfile.mkdtemp(prefix="fdsafe-named-"))
@@ -285,6 +300,17 @@ class ReadNamed(Base):
         at = log.index(("open", "leaf.json"))
         self.assertEqual(log[at - 1], ("getpath", parent.fd))
 
+    def test_parent_live_path_differing_only_in_letter_case_is_refused_unread(self):
+        parent = self.held()
+        recased = self.root.swapcase()
+        self.assertNotEqual(recased, self.root)
+        self.assertEqual(recased.lower(), self.root.lower())
+        with recased_getpath(lambda fd: fd == parent.fd), never("read") as read:
+            exc = self.refusal(lambda: fdsafe.read_named(parent, "leaf.json"))
+        read.assert_not_called()
+        self.assertIn(f"is held at {recased}, not at {self.root}", str(exc))
+        self.assertEqual(exc.path, self.root)
+
 
 class Mkdir(Base):
     def setUp(self):
@@ -347,6 +373,18 @@ class Mkdir(Base):
         self.assertEqual(fault.fired, 1)
         self.assertIn("changed between create and open", str(cm.exception))
         self.assertTrue(os.path.isdir(fault.parked))
+
+    def test_new_directory_live_path_differing_only_in_letter_case_is_refused_and_kept(self):
+        parent = self.parent()
+        recased = self.made.swapcase()
+        self.assertNotEqual(recased, self.made)
+        self.assertEqual(recased.lower(), self.made.lower())
+        with no_deletes(), recased_getpath(lambda fd: fd != parent.fd), \
+                self.assertRaises(fdsafe.Refusal) as cm:
+            fdsafe.mkdir(parent, "new").close()
+        self.assertEqual(cm.exception.path, recased)
+        self.assertIn(f"was created away from {self.made}; left in place", str(cm.exception))
+        self.assertTrue(os.path.isdir(self.made))
 
     def test_new_directory_on_another_device_is_refused(self):
         parent = self.parent()
@@ -872,6 +910,19 @@ class ExclusiveRename(Base):
     def test_missing_exclusive_call_is_refused_without_a_fallback(self):
         parents = self.parents()
         with self.no_fallback(), mock.patch.object(fdsafe, "_NOREPLACE", None):
+            exc = self.refusal(lambda: self.move(parents=parents), errno.ENOTSUP)
+        self.assertIn(self.leaf, str(exc))
+        self.assertIn(self.target, str(exc))
+        self.assertUnmoved()
+
+    def test_libc_without_the_exclusive_call_resolves_to_none_and_rename_refuses(self):
+        # A libc with neither renameatx_np nor renameat2 (RULING.md ruling 3).
+        with mock.patch.object(ctypes, "CDLL", return_value=types.SimpleNamespace()) as cdll:
+            resolved = fdsafe._resolve_noreplace()
+        cdll.assert_called_once()
+        self.assertIsNone(resolved)
+        parents = self.parents()
+        with self.no_fallback(), mock.patch.object(fdsafe, "_NOREPLACE", resolved):
             exc = self.refusal(lambda: self.move(parents=parents), errno.ENOTSUP)
         self.assertIn(self.leaf, str(exc))
         self.assertIn(self.target, str(exc))
