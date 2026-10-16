@@ -20,7 +20,7 @@ Usage:
   python3 code/gates/closeout_check.py --fp D-D1-2  # print the current fingerprint token to embed
   python3 code/gates/closeout_check.py --list     # print the required tracker set
 """
-import sys, os, glob, filecmp, json, hashlib, re
+import sys, os, glob, filecmp, json, hashlib, re, subprocess
 
 # code/gates/closeout_check.py -> the repo root is three levels up; env overrides.
 ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -99,6 +99,15 @@ def compute_fp(spec):
     return hashlib.sha1(norm.encode("utf-8")).hexdigest()[:8], None
 
 
+def sparse_absent(path):
+    """True only when the audited repo is a sparse checkout, path is a skip-worktree (S) index entry, and it is off disk."""
+    def git(*args):
+        return subprocess.run(["git", "-C", ROOT, *args], capture_output=True, text=True).stdout
+    return (git("config", "--bool", "core.sparseCheckout").strip() == "true"
+            and git("ls-files", "-v", "-z", "--", path).split("\0")[:-1] == [f"S {path}"]
+            and not os.path.lexists(os.path.join(ROOT, path)))
+
+
 def status(txt, tok, fptok):
     """(label, ok). STALE = D-ID present but the current fingerprint token absent."""
     if txt is None:
@@ -160,6 +169,8 @@ def main():
         print(f"CURRENCY AUDIT — {len(keys)} registered fingerprint(s)\n" + "=" * 56)
         any_stale = False
         for k in keys:
+            if sparse_absent(reg[k].get("source", "")):
+                print(f"  [SPARSE] {k}: source not checked out in this sparse checkout ({reg[k]['source']})"); continue
             fptok, stale, err = currency_scan(k, reg[k])
             if err:
                 print(f"  [FP ERR] {k}: {err}"); any_stale = True; continue
