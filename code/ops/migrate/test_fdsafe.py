@@ -94,6 +94,20 @@ class Base(unittest.TestCase):
         self.assertNotIn("\n", str(cm.exception))
         return cm.exception
 
+    def enter_deleted_cwd(self):
+        """Make the process cwd a directory that no longer exists; cleanup restores the old cwd."""
+        cwd = os.open(".", os.O_RDONLY | os.O_DIRECTORY)
+        self.addCleanup(os.close, cwd)
+        self.addCleanup(os.fchdir, cwd)
+        gone = self.mkdir("gone")
+        os.chdir(gone)
+        os.rmdir(gone)
+
+    def deleted_cwd_refusal(self, call):
+        self.enter_deleted_cwd()
+        exc = self.refusal(lambda: call("."), errno.ENOENT)
+        self.assertEqual(exc.path, ".")
+
 
 class RefusalType(Base):
     def test_refusal_is_a_valueerror_naming_path_and_errno(self):
@@ -166,6 +180,9 @@ class HoldRoot(Base):
             exc = self.refusal(lambda: fdsafe.hold_root(self.root))
         self.assertIn("is not its own real path", str(exc))
         self.assertEqual(exc.path, self.root)
+
+    def test_relative_root_with_a_deleted_cwd_is_a_refusal(self):
+        self.deleted_cwd_refusal(fdsafe.hold_root)
 
 
 class Walk(Base):
@@ -496,6 +513,9 @@ class CreateFile(Base):
     def test_fifo_as_the_out_parent_refuses_without_blocking(self):
         with FK.fifo_in_place(self.outdir, timeout=5):
             self.refusal(lambda: fdsafe.open_out_parent(self.outdir), errno.ENOTDIR)
+
+    def test_relative_out_parent_with_a_deleted_cwd_is_a_refusal(self):
+        self.deleted_cwd_refusal(fdsafe.open_out_parent)
 
     def relocate_root_around_parent(self):
         """Move the root's directory to a new name and the out dir into it, then rebind both old paths."""

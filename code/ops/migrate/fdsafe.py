@@ -117,7 +117,8 @@ def _open_dir(path: str) -> Dir:
 
 def hold_root(path: str) -> Dir:
     """Open a root without following any link in its path; the caller closes it."""
-    given = os.path.abspath(path)
+    with fs(path):
+        given = os.path.abspath(path)
     held = _open_dir(given)
     try:
         real = held.live()
@@ -131,7 +132,9 @@ def hold_root(path: str) -> Dir:
 
 def open_out_parent(path: str) -> Dir:
     """Open an output's parent directory without following its final component."""
-    return _open_dir(os.path.abspath(path))
+    with fs(path):
+        given = os.path.abspath(path)
+    return _open_dir(given)
 
 
 @dataclass(frozen=True)
