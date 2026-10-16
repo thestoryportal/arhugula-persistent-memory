@@ -8,7 +8,6 @@ from icm21_fixtures import INDEX_PATHS, SOURCE_ROOT, digest, encoded, put
 
 
 class QueueCase:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_queue_compatibility_and_candidates(self):
         self.require_file('code/state/icm21_check.py', 'D1 strict queue candidate validation')
         root = self.miniature()
@@ -50,7 +49,6 @@ class QueueCase:
         self.assertEqual(json.loads(original)['work_queue']['items'][2]['notes'][1],
                          state['work_queue']['items'][2]['notes'][1])
 
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_current_index_outputs(self):
         self.require_file('code/state/icm21_check.py', 'installed D1 current index outputs')
         expected = self.generate(SOURCE_ROOT)

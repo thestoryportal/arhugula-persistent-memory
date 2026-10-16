@@ -2,7 +2,8 @@
 change is an edit here rather than a search across tools (ICM v2, G5 policy A).
 
 Shell runners cannot import this; they spell the same folders out and say so beside them."""
-from pathlib import Path
+import os
+from pathlib import Path, PurePosixPath
 
 # The MathLab runtime writes two records: the instrument's own runs (ml) and NEW-1's (new1). Before v2 they shared
 # one staging folder, and the lab-wide rules (one stop policy, one dashboard view) still read both as one set.
@@ -47,13 +48,48 @@ def read_split(folder):
     return "".join(p.read_text(encoding="utf-8", errors="replace") for p in parts)
 
 
-def project_rows(items, folders):
-    """The projects index rows: each project folder and each open work-queue item, joined by queue id."""
+# The five stored artifact kinds (SPEC 4.2). The index's absent/null labels are display text, never stored kinds.
+ARTIFACT_KINDS = ('project', 'plan', 'audit', 'research', 'experiment')
+
+
+def artifact_cells(item, root):
+    """The kind and path index cells for one queue item (ICM v2.1 D1). An absent artifact key is legacy and makes no
+    materialization claim; null means no materialized record yet. An explicit object is validated strictly, never
+    coerced: exactly kind and path, a known kind, and an existing directory beneath root with no traversal."""
+    if 'artifact' not in item:
+        return ['legacy-unspecified', None]
+    artifact = item['artifact']
+    if artifact is None:
+        return ['no-materialized-record', None]
+    where = f'program/program_state.json: queue item {item["id"]} artifact'
+    if not isinstance(artifact, dict) or set(artifact) != {'kind', 'path'}:
+        raise ValueError(f'{where} must be null or exactly {{kind, path}}: {artifact!r}')
+    kind, path = artifact['kind'], artifact['path']
+    if kind not in ARTIFACT_KINDS:
+        raise ValueError(f'{where} has unknown kind {kind!r}')
+    relative = PurePosixPath(path) if isinstance(path, str) else None
+    if (relative is None or relative.is_absolute() or relative.as_posix() != path
+            or '..' in relative.parts or '\\' in path):
+        raise ValueError(f'{where} path must be a plain repo-relative path: {path!r}')
+    base = Path(root).resolve()
+    target = (base / path).resolve()
+    if not target.is_relative_to(base) or not target.is_dir():
+        raise ValueError(f'{where} path is not an existing directory beneath the root: {path!r}')
+    return [kind, path]
+
+
+def project_rows(items, folders, root=None):
+    """The projects index rows: each project folder and each open work-queue item, joined by queue id, with each
+    queue item's artifact kind and path cells. Every queue item's artifact is validated, open or not."""
+    # build_index.generate does not pass its root yet; it runs with LLMDB_ROOT set to that root.
+    root = Path(os.environ['LLMDB_ROOT']) if root is None else root
     queue = {}
+    artifacts = {}
     for item in items:
         if item['id'] in queue:
             raise ValueError(f'program/program_state.json: repeated queue id {item["id"]}')
         queue[item['id']] = item
+        artifacts[item['id']] = artifact_cells(item, root)
     open_ids = {key for key, item in queue.items()
                 if str(item['state']).lower() not in {'done', 'closed', 'cancelled', 'canceled'}}
     projects = []
@@ -61,5 +97,5 @@ def project_rows(items, folders):
         item = queue.get(key, {})
         relation = 'folder and queue item' if key in folders and key in queue else (
             'no queue item' if key in folders else 'no folder')
-        projects.append([key, item.get('title'), item.get('state'), relation])
+        projects.append([key, item.get('title'), item.get('state'), relation, *artifacts.get(key, [None, None])])
     return projects
