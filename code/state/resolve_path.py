@@ -1,6 +1,7 @@
 """Resolve exact old paths. Split headings use GitHub-style anchor slugs."""
 import argparse
 import html
+from html.parser import HTMLParser
 import os
 from pathlib import Path
 import re
@@ -35,16 +36,33 @@ def heading_slug(heading: str) -> str:
     return text.replace(' ', '-')
 
 
+class _InlineText(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.parts = []
+
+    def handle_data(self, data):
+        self.parts.append(data)
+
+
+def _rendered_slug(inline, parser, env):
+    text = _InlineText()
+    text.feed(parser.renderInline(inline, env))
+    return heading_slug('# ' + ''.join(text.parts))
+
+
 def heading_entries(lines, counts=None):
     if counts is None:
         counts = {}
-    tokens = MarkdownIt('commonmark').parse('\n'.join(lines))
+    parser = MarkdownIt('commonmark')
+    env = {}
+    tokens = parser.parse('\n'.join(lines), env)
     for index, token in enumerate(tokens):
         if token.type != 'heading_open':
             continue
         level = int(token.tag[1:])
         line = '#' * level + ' ' + tokens[index + 1].content
-        base = heading_slug(line)
+        base = _rendered_slug(tokens[index + 1].content, parser, env)
         slug = base
         while slug in counts:
             counts[base] = counts.get(base, 0) + 1
@@ -82,9 +100,13 @@ def resolve(old: str) -> str:
         sealed = read_anchor_map((root / '_index/anchor-map.tsv').read_bytes(), root)
         if (monolith, slug) in sealed:
             part, current_anchor = sealed[(monolith, slug)]
-            matches = [fragment for heading, fragment in heading_entries(
-                (root / part).read_text(encoding='utf-8').splitlines())
-                if heading_slug(heading) == current_anchor]
+            lines = (root / part).read_text(encoding='utf-8').splitlines()
+            parser = MarkdownIt('commonmark')
+            env = {}
+            parser.parse('\n'.join(lines), env)
+            matches = [fragment for heading, fragment in heading_entries(lines)
+                if _rendered_slug(re.sub(r'^#{1,6} ', '', heading), parser, env)
+                == current_anchor]
             if not matches:
                 raise ValueError(f'Unknown anchor for {path}: {anchor}; '
                                  'heading changed after the pin')
