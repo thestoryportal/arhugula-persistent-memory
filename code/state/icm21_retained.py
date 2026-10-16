@@ -4,9 +4,15 @@ SPEC.md:208 and :602-605, as amended by A/H-SLICE.md items 1, 9 and 10: Metadata
 dropped, and M/.git is never a subject. Pure: the caller reads the bound documents and
 re-inventories the post state; this module compares only the values it is handed. Any
 document it cannot check is refused with a finding, never treated as an empty PASS.
+A rewrite counts only under a bound G5 approval (RULING round 1, item 1). The join of a Repair
+to its native rewrite_text operation (WIRE-CONTRACTS.md:162) is future build scope and is not
+made here.
 """
 import hashlib
 import json
+import re
+
+import icm21_check
 
 PRD_IDS = ['ICM-R4']
 RETENTION_KEYS = frozenset({'schema_version', 'leaves', 'routes', 'repairs', 'executor',
@@ -21,7 +27,10 @@ REPAIR_KEYS = frozenset({'schema_version', 'id', 'prd_ids', 'plan_id', 'plan_sha
 ROUTE_HEADER = ['requirement_id', 'source', 'target', 'kind', 'observed_bytes', 'action',
                 'lane', 'scientific_role']
 COMPARED = ('kind', 'bytes', 'sha256', 'link_text')
+APPROVAL_KEYS = frozenset({'approval_id', 'plan_id', 'plan_sha256', 'gate', 'approved_by',
+                           'approved_at', 'expires_at', 'decision'})  # native, core.py:367
 GIT_SUBJECT = 'M/.git is never a subject (H-SLICE.md item 1)'
+SCHEMA = icm21_check.audit_schema()
 
 
 class Refusal(Exception):
@@ -54,6 +63,13 @@ def keys(name, value, expected):
     extra, missing = sorted(value.keys() - expected), sorted(expected - value.keys())
     refuse(not extra and not missing, name + ' keys differ from the wire contract: extra '
            + str(extra) + ', missing ' + str(missing))
+
+
+def wire(name, value):
+    try:
+        icm21_check.validate_wire(name, value, SCHEMA, {})
+    except ValueError as error:
+        raise Refusal('UNVERIFIED', name + ' fails the wire schema: ' + str(error))
 
 
 def under(path, directory):
@@ -114,7 +130,8 @@ def route_table(data):
         row = dict(zip(ROUTE_HEADER, fields))
         refuse(is_path(row['source']) and is_path(row['target']),
                'route row paths are not normalized paths')
-        refuse(row['observed_bytes'].isdigit(), 'route row bytes are not a count', [row['source']])
+        refuse(re.fullmatch('[0-9]+', row['observed_bytes']) is not None,
+               'route row bytes are not a count', [row['source']])
         refuse(row['source'] not in routes, 'duplicate route source', [row['source']])
         refuse(row['target'] not in targets, 'duplicate route target', [row['target']])
         routes[row['source']] = row
@@ -132,6 +149,7 @@ def repair_set(value):
         refuse(type(repair['id']) is str and repair['id'] and is_path(repair['source'])
                and is_path(repair['target']) and is_sha(repair['before_sha256'])
                and is_sha(repair['after_sha256']), 'Repair is malformed')
+        wire('Repair', repair)
         refuse(repair['id'] not in repairs, 'duplicate Repair ID')
         repairs[repair['id']] = repair
     return repairs
@@ -161,16 +179,35 @@ def container_list(value):
     return value
 
 
+def approved_plans(binding, documents):
+    """The (plan_id, plan_sha256) pairs that a bound G5 approval approves."""
+    evidence = parse_json(bound(binding, documents), 'ExecutorEvidence')
+    wire('ExecutorEvidence', evidence)
+    plans = set()
+    for operation in evidence['operations']:
+        path = operation['approval']['path']
+        approval = parse_json(bound(operation['approval'], documents), 'approval')
+        keys('approval', approval, APPROVAL_KEYS)
+        refuse(type(approval['plan_id']) is str and approval['plan_id']
+               and is_sha(approval['plan_sha256']), 'approval is malformed', [path])
+        refuse(approval['plan_sha256'] == operation['plan']['sha256'],
+               'approval does not bind its operation plan', [path], 'FAIL')
+        if approval['gate'] == 'G5' and approval['decision'] == 'approved':
+            plans.add((approval['plan_id'], approval['plan_sha256']))
+    return plans
+
+
 def differs(before, after):
     return [key for key in COMPARED if before[key] != after[key]]
 
 
-def rewritten(repair, path, before, after):
+def rewritten(repair, path, before, after, approved):
     """The exact approved rewrite binds this leaf's before and after bytes."""
     return (repair['source'] == repair['target'] == path and before['kind'] == after['kind']
             == 'file' and before['link_text'] is None and after['link_text'] is None
             and repair['before_sha256'] == before['sha256']
-            and repair['after_sha256'] == after['sha256'])
+            and repair['after_sha256'] == after['sha256']
+            and (repair['plan_id'], repair['plan_sha256']) in approved)
 
 
 def check_retained(root, manifest, documents, observed):
@@ -202,23 +239,27 @@ def check_retained(root, manifest, documents, observed):
                             'admitted')
         routes = route_table(bound(manifest['routes'], documents))
         repairs = repair_set(parse_json(bound(manifest['repairs'], documents), 'RepairSet'))
+        approved = approved_plans(manifest['executor'], documents)
         post = leaf_manifest(observed, 'observed')
     except Refusal as refusal:
         finding(refusal.status, refusal.reason, refusal.paths)
         return tuple(sorted(findings.values(), key=lambda item: item['id']))
 
     # Git is its own authority: an observed M/.git leaf is not compared (H-SLICE.md item 2).
+    # Every filter builds a new collection: no argument is ever changed.
     post = {path: leaf for path, leaf in post.items() if not in_git(path)}
-    for path in [path for path in pre if in_git(path)]:
+    for path in sorted(path for path in pre if in_git(path)):
         finding('FAIL', 'admitted leaf: ' + GIT_SUBJECT, [path])
-        del pre[path]
-    for source, row in list(routes.items()):
+    pre = {path: leaf for path, leaf in pre.items() if not in_git(path)}
+    for source, row in routes.items():
         if in_git(source) or in_git(row['target']):
             finding('FAIL', 'route: ' + GIT_SUBJECT, [source, row['target']])
-            del routes[source]
-    for container in [item for item in containers if in_git(item['source'])]:
-        finding('FAIL', 'container: ' + GIT_SUBJECT, [container['source']])
-        containers.remove(container)
+    routes = {source: row for source, row in routes.items()
+              if not (in_git(source) or in_git(row['target']))}
+    for container in containers:
+        if in_git(container['source']):
+            finding('FAIL', 'container: ' + GIT_SUBJECT, [container['source']])
+    containers = [item for item in containers if not in_git(item['source'])]
     if not pre:
         finding('UNVERIFIED', 'no admitted leaves to compare', [root])
 
@@ -258,13 +299,17 @@ def check_retained(root, manifest, documents, observed):
             finding('UNVERIFIED', 'C-KEEP: retained leaf has no admitted leaf', [source])
         elif source not in post:
             finding('FAIL', 'C-KEEP: retained leaf is absent', [source])
-        elif differs(pre[source], post[source]):
+        else:
             bound_repairs = [repair for repair in repairs.values()
                              if source in (repair['source'], repair['target'])]
-            if not (len(bound_repairs) == 1
-                    and rewritten(bound_repairs[0], source, pre[source], post[source])):
+            exact = len(bound_repairs) == 1 and rewritten(bound_repairs[0], source, pre[source],
+                                                          post[source], approved)
+            if differs(pre[source], post[source]) and not exact:
                 finding('FAIL', 'C-KEEP: retained leaf changed without an exact approved '
                         'rewrite', [source])
+            elif bound_repairs and not exact:
+                finding('FAIL', 'C-KEEP: Repair of an unchanged retained leaf does not bind its '
+                        'digests and approval', [source])
 
     # C-CONTAINER (H-SLICE.md item 4 and :28): descendants derive from named moves and rewrites.
     for container in containers:
@@ -309,10 +354,21 @@ def check_retained(root, manifest, documents, observed):
         for path in sorted(present - expected):
             finding('FAIL', 'C-CONTAINER: unexplained descendant', [folder, path])
         for path in sorted(residual & present):
-            if differs(pre[path], post[path]) and not (
-                    path in rewrites and rewritten(rewrites[path], path, pre[path], post[path])):
+            exact = path in rewrites and rewritten(rewrites[path], path, pre[path], post[path],
+                                                   approved)
+            if differs(pre[path], post[path]) and not exact:
                 finding('FAIL', 'C-CONTAINER: residual leaf changed without a named approved '
                         'rewrite', [folder, path])
+            elif path in rewrites and not exact:
+                finding('FAIL', "C-CONTAINER: named rewrite does not bind the unchanged leaf's "
+                        'digests and approval', [folder, path])
+
+    # WIRE-CONTRACTS.md:165-166 (H-SLICE.md item 9): every Repair binds an affected leaf.
+    named = {identity for container in containers for identity in container['rewrite_ids']}
+    for identity, repair in sorted(repairs.items()):
+        if identity not in named and not keeps & {repair['source'], repair['target']}:
+            finding('FAIL', 'Repair target is not a KEEP leaf or a named container rewrite: '
+                    + identity, [repair['source'], repair['target']])
 
     folders = [container['source'] for container in containers]
     for path in sorted(pre):

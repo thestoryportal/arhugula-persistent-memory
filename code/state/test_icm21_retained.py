@@ -5,6 +5,7 @@ LeafManifest, performs the moves and the approved rewrite with os.rename and a w
 inventories it again. Variants then edit those observed manifests. check_retained itself
 never touches the filesystem (SPEC.md:208; H-SLICE.md items 1, 9 and 10).
 """
+import base64
 import builtins
 import copy
 import hashlib
@@ -89,6 +90,17 @@ class Retained(unittest.TestCase):
              'rewrite_ids': ['RP-GUIDE']},
             {'id': 'MV-030', 'source': self.path('experiments'), 'moved_source_paths': [],
              'added_source_paths': [self.path('projects/a.md')], 'rewrite_ids': []}]
+        # The G5 approval that authorizes every fixture Repair (WIRE-CONTRACTS.md:115, :163).
+        self.approval = {'approval_id': 'approval-1', 'plan_id': 'G5-PLAN',
+                         'plan_sha256': digest(b'plan'), 'gate': 'G5', 'approved_by': 'operator',
+                         'approved_at': '2026-10-16T00:00:00+00:00',
+                         'expires_at': '2026-10-17T00:00:00+00:00', 'decision': 'approved'}
+        self.operation = {'operation_id': 'OP-1', 'prd_ids': ['ICM-R6'],
+                          'plan': {'path': '/fixture/plan.json', 'sha256': digest(b'plan')},
+                          'approval': {'path': '/fixture/approval.json', 'sha256': ''},
+                          'journal': {'path': '/fixture/journal.jsonl', 'sha256': digest(b'')},
+                          'verification': None, 'readers': None, 'acceptance': None,
+                          'rollback': None}
         self.extra_documents = {}
 
     def write(self, relative, data):
@@ -104,8 +116,9 @@ class Retained(unittest.TestCase):
                 'plan_sha256': digest(b'plan'), 'source': self.path(relative),
                 'target': self.path(relative), 'before_sha256': digest(before),
                 'after_sha256': digest(after),
-                'edits': [{'start': 4, 'end': len(before) - 1,
-                           'before_base64': '', 'after_base64': ''}],
+                'edits': [{'start': 0, 'end': len(before),
+                           'before_base64': base64.b64encode(before).decode(),
+                           'after_base64': base64.b64encode(after).decode()}],
                 'reader_ids': ['R-1'], 'reference_ids': ['REF-1']}
 
     def route_bytes(self):
@@ -129,7 +142,11 @@ class Retained(unittest.TestCase):
                      '/fixture/routes.tsv': self.route_bytes(),
                      '/fixture/repairs.json': json.dumps(
                          {'schema_version': 1, 'repairs': self.repairs}, sort_keys=True).encode(),
-                     '/fixture/executor.json': b'{}'}
+                     '/fixture/approval.json': json.dumps(self.approval, sort_keys=True).encode()}
+        operation = copy.deepcopy(self.operation)
+        operation['approval']['sha256'] = digest(documents['/fixture/approval.json'])
+        documents['/fixture/executor.json'] = json.dumps(
+            {'schema_version': 1, 'operations': [operation]}, sort_keys=True).encode()
         documents.update(self.extra_documents)
         manifest = {'schema_version': 1, 'containers': copy.deepcopy(self.containers)}
         for key, path in (('leaves', '/fixture/leaves.json'), ('routes', '/fixture/routes.tsv'),
@@ -542,6 +559,266 @@ class Retained(unittest.TestCase):
                 patch.stop()
         self.assertEqual(clean, expected_clean)
         self.assertEqual(stray, expected_stray)
+
+    # --- fixer round 1: helpers -----------------------------------------------------------
+
+    def rebind(self, manifest, documents, key, data):
+        documents[manifest[key]['path']] = data
+        manifest[key]['sha256'] = digest(data)
+
+    def edit_json(self, key, mutate):
+        def change(manifest, documents, observed):
+            value = json.loads(documents[manifest[key]['path']])
+            mutate(value)
+            self.rebind(manifest, documents, key, json.dumps(value).encode())
+        return change
+
+    def refused(self, change, reason, status='UNVERIFIED'):
+        """Exactly one refusal finding, with this status and reason."""
+        manifest, documents = self.arguments()
+        observed = copy.deepcopy(self.post)
+        replaced = change(manifest, documents, observed)
+        observed = observed if replaced is None else replaced
+        findings = check_retained(self.root, manifest, documents, observed)
+        self.assertEqual([(f['status'], reason in f['reason']) for f in findings],
+                         [(status, True)], findings)
+
+    # --- ruling 1: executor authority -----------------------------------------------------
+
+    def test_executor_binding_is_checked(self):
+        cases = [('null', lambda m, d, o: m.update(executor=None), 'Binding is not an object',
+                  'UNVERIFIED'),
+                 ('missing bytes', lambda m, d, o: d.pop('/fixture/executor.json'),
+                  'bound document was not supplied', 'UNVERIFIED'),
+                 ('digest mismatch', lambda m, d, o: d.update(
+                     {'/fixture/executor.json': b'tampered'}), 'binding digest differs', 'FAIL')]
+        for name, change, reason, status in cases:
+            with self.subTest(name):
+                self.refused(change, reason, status)
+
+    def test_executor_evidence_is_validated(self):
+        cases = [('json', lambda m, d, o: self.rebind(m, d, 'executor', b'{'),
+                  'ExecutorEvidence is not valid JSON'),
+                 ('operations', self.edit_json('executor', lambda v: v.update(operations={})),
+                  'ExecutorEvidence fails the wire schema'),
+                 ('journal', self.edit_json('executor', lambda v: v['operations'][0].pop('journal')),
+                  'ExecutorEvidence fails the wire schema')]
+        for name, change, reason in cases:
+            with self.subTest(name):
+                self.refused(change, reason)
+
+    def test_approval_bytes_are_checked(self):
+        self.refused(lambda m, d, o: d.pop('/fixture/approval.json'),
+                     'bound document was not supplied')
+        self.refused(lambda m, d, o: d.update({'/fixture/approval.json': b'{}'}),
+                     'binding digest differs', 'FAIL')
+
+    def test_approval_keys_are_checked(self):
+        self.approval['expiry'] = 'never'
+        self.refused(lambda m, d, o: None, 'approval keys differ')
+
+    def test_approval_values_are_checked(self):
+        self.approval['plan_sha256'] = 'bad'
+        self.refused(lambda m, d, o: None, 'approval is malformed')
+
+    def test_approval_plan_id_is_checked(self):
+        self.approval['plan_id'] = ''
+        self.refused(lambda m, d, o: None, 'approval is malformed')
+
+    def test_approval_must_bind_its_operation_plan(self):
+        self.operation['plan']['sha256'] = digest(b'another plan')
+        self.refused(lambda m, d, o: None, 'approval does not bind its operation plan', 'FAIL')
+
+    def test_container_rewrite_needs_its_g5_plan_id(self):
+        self.repairs[0]['plan_id'] = 'G5-OTHER'
+        self.assertFinding(self.check(), 'FAIL', 'C-CONTAINER: residual leaf changed',
+                           'projects/guide.md')
+
+    def test_container_rewrite_needs_its_g5_plan_digest(self):
+        self.repairs[0]['plan_sha256'] = digest(b'another plan')
+        self.assertFinding(self.check(), 'FAIL', 'C-CONTAINER: residual leaf changed',
+                           'projects/guide.md')
+
+    def test_container_rewrite_needs_a_g5_gate(self):
+        self.approval['gate'] = 'G4'
+        self.assertFinding(self.check(), 'FAIL', 'C-CONTAINER: residual leaf changed',
+                           'projects/guide.md')
+
+    def test_container_rewrite_needs_an_approved_decision(self):
+        self.approval['decision'] = 'rejected'
+        self.assertFinding(self.check(), 'FAIL', 'C-CONTAINER: residual leaf changed',
+                           'projects/guide.md')
+
+    def test_keep_rewrite_needs_its_g5_approval(self):
+        self.edit_post('CLAUDE.md', sha256=digest(b'edited\n'), bytes=7)
+        self.repairs.append(self.repair('RP-ROUTING', 'CLAUDE.md', b'routing\n', b'edited\n'))
+        self.repairs[-1]['plan_id'] = 'UNAPPROVED'
+        self.assertFinding(self.check(), 'FAIL', 'C-KEEP: retained leaf changed', 'CLAUDE.md')
+
+    # --- ruling 2: purity -----------------------------------------------------------------
+
+    def test_inputs_are_never_mutated(self):
+        self.containers.append({'id': 'MV-004', 'source': self.path('.git'),
+                                'moved_source_paths': [], 'added_source_paths': [],
+                                'rewrite_ids': []})
+        self.add_post('stray.md')
+        manifest, documents = self.arguments()
+        observed = copy.deepcopy(self.post)
+        before = copy.deepcopy((manifest, documents, observed))
+        first = check_retained(self.root, manifest, documents, observed)
+        second = check_retained(self.root, manifest, documents, observed)
+        self.assertEqual((manifest, documents, observed), before)
+        self.assertEqual(first, second)
+        self.assertFinding(first, 'FAIL', 'M/.git is never a subject', '.git')
+        self.assertFinding(first, 'FAIL', 'observed leaf is not explained', 'stray.md')
+
+    # --- ruling 3: Repair wire schema -----------------------------------------------------
+
+    def test_repair_wire_schema_is_enforced(self):
+        cases = [('schema_version', 999), ('prd_ids', []), ('plan_id', None),
+                 ('plan_sha256', 'bad'), ('edits', 'not-an-array'), ('reader_ids', False),
+                 ('reference_ids', 17), ('reader_ids', [])]
+        for field, value in cases:
+            with self.subTest(field=field, value=value):
+                self.refused(self.edit_json('repairs', lambda v: v['repairs'][0].update(
+                    {field: value})), 'Repair fails the wire schema')
+
+    # --- ruling 4: unaffected and stale repairs -------------------------------------------
+
+    def test_repair_of_no_leaf_fails(self):
+        self.repairs.append(self.repair('RP-DANGLING', 'nonexistent.md', b'a', b'b'))
+        self.assertFinding(self.check(), 'FAIL',
+                           'Repair target is not a KEEP leaf or a named container rewrite',
+                           'nonexistent.md')
+
+    def test_unnamed_repair_of_a_container_leaf_fails(self):
+        self.repairs.append(self.repair('RP-NOTES', 'projects/notes.md', b'unchanged residual\n',
+                                        b'unchanged residual\n'))
+        self.assertFinding(self.check(), 'FAIL',
+                           'Repair target is not a KEEP leaf or a named container rewrite',
+                           'projects/notes.md')
+
+    def test_named_repair_of_unchanged_leaf_is_checked(self):
+        self.repairs.append(self.repair('RP-NOTES', 'projects/notes.md', b'unchanged residual\n',
+                                        b'unchanged residual\n'))
+        self.containers[0]['rewrite_ids'].append('RP-NOTES')
+        self.assertEqual(self.check(), ())
+        self.repairs[-1]['before_sha256'] = self.repairs[-1]['after_sha256'] = digest(b'stale\n')
+        self.assertFinding(self.check(), 'FAIL', 'C-CONTAINER: named rewrite does not bind',
+                           'projects/notes.md')
+
+    def test_keep_repair_of_unchanged_leaf_is_checked(self):
+        self.repairs.append(self.repair('RP-ROUTING', 'CLAUDE.md', b'stale\n', b'stale\n'))
+        self.assertFinding(self.check(), 'FAIL', 'C-KEEP: Repair of an unchanged retained leaf',
+                           'CLAUDE.md')
+
+    # --- ruling 5: route counts -----------------------------------------------------------
+
+    def test_route_count_is_ascii_digits(self):
+        for text in ('²', '٨'):
+            with self.subTest(text=text):
+                self.refused(lambda m, d, o: self.rebind(m, d, 'routes', d['/fixture/routes.tsv']
+                                                         .replace(b'\t8\tKEEP', b'\t' + text.encode()
+                                                                  + b'\tKEEP', 1)),
+                             'route row bytes are not a count')
+
+    # --- ruling 6: coverage ---------------------------------------------------------------
+
+    def test_move_target_kind_differs(self):
+        self.edit_post('experiments/x/a.md', kind='socket')
+        self.assertFinding(self.check(), 'FAIL', 'C-MOVE: target differs from the admitted leaf '
+                           'in kind', 'experiments/x/a.md')
+
+    def test_move_target_byte_count_differs(self):
+        self.edit_post('experiments/x/a.md', bytes=999)
+        self.assertFinding(self.check(), 'FAIL', 'C-MOVE: target differs from the admitted leaf '
+                           'in bytes', 'experiments/x/a.md')
+
+    def keep_rewrite(self):
+        self.edit_post('CLAUDE.md', sha256=digest(b'edited\n'), bytes=7)
+        self.repairs.append(self.repair('RP-ROUTING', 'CLAUDE.md', b'routing\n', b'edited\n'))
+        return self.repairs[-1]
+
+    def test_keep_rewrite_target_must_be_the_leaf(self):
+        self.keep_rewrite()['target'] = self.path('projects/notes.md')
+        self.assertFinding(self.check(), 'FAIL', 'C-KEEP: retained leaf changed', 'CLAUDE.md')
+
+    def test_keep_rewrite_source_must_be_the_leaf(self):
+        self.keep_rewrite()['source'] = self.path('projects/notes.md')
+        self.assertFinding(self.check(), 'FAIL', 'C-KEEP: retained leaf changed', 'CLAUDE.md')
+
+    def test_keep_rewrite_binds_file_kinds(self):
+        self.keep_rewrite()
+        self.edit_post('CLAUDE.md', kind='socket')
+        self.assertFinding(self.check(), 'FAIL', 'C-KEEP: retained leaf changed', 'CLAUDE.md')
+
+    def test_keep_rewrite_binds_before_link_text(self):
+        self.keep_rewrite()
+        self.leaf(self.pre, 'CLAUDE.md')['link_text'] = 'elsewhere.md'
+        self.assertFinding(self.check(), 'FAIL', 'C-KEEP: retained leaf changed', 'CLAUDE.md')
+
+    def test_keep_rewrite_binds_after_link_text(self):
+        self.keep_rewrite()
+        self.edit_post('CLAUDE.md', link_text='elsewhere.md')
+        self.assertFinding(self.check(), 'FAIL', 'C-KEEP: retained leaf changed', 'CLAUDE.md')
+
+    def test_container_rewrites_cannot_overlap(self):
+        self.repairs.append(self.repair('RP-GUIDE-2', 'projects/guide.md', b'see projects/a.md\n',
+                                        b'see experiments/x/a.md\n'))
+        self.containers[0]['rewrite_ids'].append('RP-GUIDE-2')
+        self.assertFinding(self.check(), 'FAIL', 'rewrite does not bind a residual leaf of the '
+                           'container: RP-GUIDE-2', 'projects/guide.md')
+
+    def test_container_rewrite_cannot_relocate(self):
+        self.repairs.append(self.repair('RP-MOVE', 'projects/guide.md', b'see projects/a.md\n',
+                                        b'see experiments/x/a.md\n'))
+        self.repairs[-1]['target'] = self.path('projects/notes.md')
+        self.containers[0]['rewrite_ids'] = ['RP-MOVE']
+        self.assertFinding(self.check(), 'FAIL', 'rewrite does not bind a residual leaf of the '
+                           'container: RP-MOVE', 'projects/guide.md')
+
+    def test_route_kind_disagrees_with_admitted_leaf(self):
+        manifest, documents = self.arguments()
+        self.rebind(manifest, documents, 'routes', documents['/fixture/routes.tsv'].replace(
+            b'\tfile\t8\tKEEP', b'\tsymlink\t8\tKEEP', 1))
+        self.assertFinding(self.check(manifest, documents), 'FAIL',
+                           'route row disagrees with the admitted leaf', 'CLAUDE.md')
+
+    def test_malformed_values_are_refused(self):
+        def leaf(**fields):
+            def change(manifest, documents, observed):
+                observed['leaves'].append(dict(copy.deepcopy(self.leaf(self.post, 'CLAUDE.md')),
+                                               **fields))
+            return change
+
+        def repair(**fields):
+            return self.edit_json('repairs', lambda v: v['repairs'][0].update(fields))
+
+        root = str(self.root)
+        cases = [
+            ('observed object', lambda m, d, o: [], 'observed is not an object'),
+            ('dot component', leaf(source=root + '/projects/./x.md'),
+             'observed leaf source is not a normalized path'),
+            ('empty component', leaf(source=root + '/projects//x.md'),
+             'observed leaf source is not a normalized path'),
+            ('digest alphabet', leaf(source=root + '/x.md', sha256='A' * 64),
+             'observed leaf is malformed'),
+            ('boolean integer', leaf(source=root + '/x.md', bytes=True),
+             'observed leaf is malformed'),
+            ('negative integer', leaf(source=root + '/x.md', inode=-1),
+             'observed leaf is malformed'),
+            ('leaf manifest keys', self.edit_json('leaves', lambda v: v.update(extra=1)),
+             'admitted keys differ'),
+            ('repair set keys', self.edit_json('repairs', lambda v: v.update(extra=1)),
+             'RepairSet keys differ'),
+            ('repair set version', self.edit_json('repairs', lambda v: v.update(schema_version=2)),
+             'RepairSet is malformed'),
+            ('repair before digest', repair(before_sha256='bad'), 'Repair is malformed'),
+            ('repair after digest', repair(after_sha256='B' * 64), 'Repair is malformed'),
+        ]
+        for name, change, reason in cases:
+            with self.subTest(name):
+                self.refused(change, reason)
 
 if __name__ == '__main__':
     unittest.main()
