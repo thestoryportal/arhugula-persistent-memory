@@ -14,6 +14,9 @@ from unittest.mock import patch
 
 import test_icm21 as shared
 from test_icm21 import BASE, FixtureCase, binding, digest, encoded, put, sealed, snapshot
+from audit_case_model import ModelLocatorCases
+from audit_case_reduction import PartialReductionCases
+from audit_case_views import ViewTwinCases
 
 
 SOURCE_ROOT = Path(os.environ['LLMDB_ROOT'])
@@ -148,7 +151,7 @@ class AuditCase(FixtureCase):
         return path.read_text(encoding='utf-8')
 
 
-class AuditControls(AuditCase):
+class AuditControls(PartialReductionCases, ViewTwinCases, ModelLocatorCases, AuditCase):
     def test_result_joins(self):
         module = self.module('code/state/icm21_check.py', 'validate_wire')
         schema = json.loads(sealed('WIRE-SCHEMAS.json'))
@@ -184,33 +187,6 @@ class AuditControls(AuditCase):
         partial['coverage']['required_registry_ids'] = ['external-loader']
         partial['overall_status'] = 'UNVERIFIED'
         module.validate_wire('AuditReport', partial, schema, {})
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_partial_reduction(self):
-        module = self.checker()
-        root, config = self.seed(['C-ROOT', 'C-WORKTREE'])
-        # No commit or custody evidence exists in this miniature: never invent it.
-        value = self.observe(module, root, config)
-        self.assertEqual(value['overall_status'], 'UNVERIFIED')
-        self.assertTrue(value['coverage']['inspected'])
-        self.assertTrue(value['unreviewed_narrative_paths'] or
-                        not value['reviewed_narrative_paths'])
-        nightly = self.observe(module, root, config, 'nightly')
-        self.assertEqual(nightly['overall_status'], 'UNVERIFIED')
-        self.assertNotEqual(nightly['check_id'], value['check_id'])
-        # A known violation wins over missing custody, source or nightly evidence.
-        copy_root = root / 'ignored-copy'
-        put(copy_root, 'CLAUDE.md', b'# Copy\n')
-        put(copy_root, 'program/program_state.json', b'{}')
-        put(copy_root, '_index/path-map.tsv', shared.HEADER)
-        put(copy_root, '.git', 'gitdir: ' + str(root / '.git') + '\n')
-        config['required_checks'].append('C-BOUNDARY')
-        failed = self.observe(module, root, config)
-        self.assertEqual(failed['overall_status'], 'FAIL')
-        again = self.observe(module, root, config)
-        self.assertEqual([f['id'] for f in failed['findings']],
-                         [f['id'] for f in again['findings']])
-        self.assertTrue(failed['findings'])
 
     def test_repository_copies(self):
         module = self.checker()
@@ -269,53 +245,6 @@ class AuditControls(AuditCase):
         self.check_status(self.observe(module, root, config), 'C-LANES', 'PASS')
         put(Path(config['worktree_root']) / 'A', 'BRIEF.md', 'owner: A\n')
         self.assertNotEqual(self.observe(module, root, config)['overall_status'], 'PASS')
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_view_twin_freshness(self):
-        module = self.checker()
-        root, config = self.seed(['C-GENERATED', 'C-TWINS'])
-        # Reuse the actual generators with miniature inputs, not mocked PASS rows.
-        shared.StagedControls.seed_closure(self, root)
-        before = snapshot(root)
-        value = self.observe(module, root, config)
-        self.check_status(value, 'C-GENERATED', 'PASS')
-        self.check_status(value, 'C-TWINS', 'PASS')
-        self.assertEqual(snapshot(root), before)
-        for path, check in (('_index/projects.md', 'C-GENERATED'),
-                            ('program/STATUS.md', 'C-GENERATED'),
-                            ('map/AGENTS.md', 'C-TWINS')):
-            original = (root / path).read_bytes()
-            put(root, path, original + b'\nstale\n')
-            observed = self.observe(module, root, config)
-            self.check_status(observed, check, 'FAIL')
-            self.assertEqual(observed['overall_status'], 'FAIL')
-            put(root, path, original)
-        self.check_status(self.observe(module, root, config), 'C-GENERATED', 'PASS')
-        self.check_status(self.observe(module, root, config), 'C-TWINS', 'PASS')
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_model_bulk_locators(self):
-        module = self.checker()
-        root, config = self.seed(['C-MODEL'])
-        payload = put(root, 'models/miniature.gguf', b'locator fixture; never a model\n')
-        entries = [self.entry(root, 'models/miniature.gguf', 'C-MODEL', 'loader', 'model-readers')]
-        self.registry(root, config, entries)
-        checked = self.check_status(self.observe(module, root, config), 'C-MODEL', 'PASS')
-        self.assertEqual(checked['status'], 'PASS', checked)
-        parked = payload.with_suffix('.parked')
-        payload.rename(parked)
-        checked = self.check_status(self.observe(module, root, config), 'C-MODEL', 'FAIL')
-        self.assertEqual(checked['status'], 'FAIL', checked)
-        outside = put(self.scratch, 'outside.gguf', b'outside\n')
-        payload.symlink_to(outside)
-        checked = self.check_status(self.observe(module, root, config), 'C-MODEL', 'FAIL')
-        self.assertEqual(checked['status'], 'FAIL', checked)
-        missing = self.entry(root, str(self.scratch / 'unobserved/models'), 'C-MODEL',
-                             'loader', 'model-readers')
-        missing.update(status='UNVERIFIED', hold_id='H1-EXTERNAL-LOADERS')
-        self.registry(root, config, [missing])
-        checked = self.check_status(self.observe(module, root, config), 'C-MODEL', 'UNVERIFIED')
-        self.assertEqual(checked['status'], 'UNVERIFIED', checked)
 
     def test_registered_memory_loaders(self):
         module = self.checker()
