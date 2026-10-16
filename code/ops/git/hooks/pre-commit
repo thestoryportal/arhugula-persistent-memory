@@ -18,14 +18,25 @@ done
 [ -n "$PY" ] || { echo "[pre-commit] BLOCKED: no python interpreter (.venv, python3.11 or python3)"; exit 1; }
 "$PY" -c 'import yaml, markdown_it' || { echo "[pre-commit] BLOCKED: $PY cannot import yaml and markdown_it, which the staged checks need — use the project .venv (pyyaml, markdown-it-py)"; exit 1; }
 export LLMDB_ROOT="$ROOT"
-LOG=$(mktemp "${TMPDIR:-/tmp}/pre-commit-audit.XXXXXX") || { echo "[pre-commit] BLOCKED: cannot create a temporary log"; exit 1; }
+# The log stays outside the checkout: a TMPDIR at or under $ROOT falls back to /tmp.
+TMP=$(cd "${TMPDIR:-/tmp}" && pwd -P) || { echo "[pre-commit] BLOCKED: cannot resolve the temporary directory ${TMPDIR:-/tmp}"; exit 1; }
+case "$TMP/" in "$(pwd -P)/"*) TMP=/tmp ;; esac
+LOG=$(mktemp "$TMP/pre-commit-audit.XXXXXX") || { echo "[pre-commit] BLOCKED: cannot create a temporary log"; exit 1; }
 trap 'rm -f "$LOG"' EXIT
 fail=0
 echo "[pre-commit] anti-drift + secret checks…"
 resolve() { "$PY" -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "$1"; }
+# Passes only when both paths canonicalize (exit 0, non-empty) to the same path; any failure refuses.
+default_index=
+same_index() {
+  local given default
+  default_index=$(env -u GIT_INDEX_FILE git rev-parse --git-path index) && [ -n "$default_index" ] || return 1
+  given=$(resolve "$GIT_INDEX_FILE") && [ -n "$given" ] || return 1
+  default=$(resolve "$default_index") && [ -n "$default" ] || return 1
+  [ "$given" = "$default" ]
+}
 if [ -n "${GIT_INDEX_FILE:-}" ]; then
-  default_index=$(env -u GIT_INDEX_FILE git rev-parse --git-path index) || default_index=
-  if [ -z "$default_index" ] || [ "$(resolve "$GIT_INDEX_FILE")" != "$(resolve "$default_index")" ]; then
+  if ! same_index; then
     echo "[pre-commit] ⛔ this commit uses index $GIT_INDEX_FILE, not the default index ${default_index:-<unresolved>}."
     echo "[pre-commit]   \`git commit <paths>\`, \`-a\` and \`-i\` are refused: the staged-closure check reads only the default index."
     echo "[pre-commit]   → stage with \`git add\`, then run a plain \`git commit\`."
