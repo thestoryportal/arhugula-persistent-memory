@@ -6,9 +6,12 @@ repo-relative path, read beneath the caller's explicit admitted root.
 Every other Binding keeps the sealed schema's absolute-path contract.
 Failures are ValueError, so wire() records each example as an observed FAIL.
 """
+import errno
 import hashlib
+import os
 from pathlib import Path
 import re
+import stat
 
 ABOUT = 'Derived from sealed path map and approved ICM v2.1 relocations.'
 MAP_INPUTS = {'sealed': '_index/path-map.tsv',
@@ -25,14 +28,41 @@ def exact_keys(value, keys, what):
     require(set(value) == set(keys), what + ' keys are not exact')
 
 
+def open_at(parent, name, flags, relative):
+    """Open name relative to the parent fd; map a refused component to the input's ValueError."""
+    try:
+        return os.open(name, flags, dir_fd=parent)
+    except OSError as error:
+        if error.errno not in (errno.ELOOP, errno.ENOTDIR, errno.ENOENT):
+            raise
+        # macOS reports O_DIRECTORY|O_NOFOLLOW on a symlink as ENOTDIR; lstat only names
+        # the reason, since the open has already refused the component.
+        link = flags & os.O_NOFOLLOW and (error.errno == errno.ELOOP or (
+            error.errno == errno.ENOTDIR
+            and stat.S_ISLNK(os.stat(name, dir_fd=parent, follow_symlinks=False).st_mode)))
+        raise ValueError(relative + (': symlink component' if link else ': missing input')) from None
+
+
 def read_input(root, relative):
-    """Read a fixed map input beneath root, refusing any symlink component below root."""
-    path = root
-    for part in Path(relative).parts:
-        path = path / part
-        require(not path.is_symlink(), relative + ': symlink component')
-    require(path.is_file(), relative + ': missing input')
-    return path.read_bytes()
+    """Read a fixed map input beneath root, refusing any symlink component below root.
+
+    Each component is opened relative to its parent's fd with O_NOFOLLOW, and the bytes
+    come from the leaf fd that fstat checked, so a component swapped by name after the
+    check is never followed.
+    """
+    *parents, leaf = Path(relative).parts
+    fds = [open_at(None, root, os.O_RDONLY | os.O_DIRECTORY, relative)]
+    try:
+        for part in parents:
+            fds.append(open_at(fds[-1], part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                               relative))
+        fds.append(open_at(fds[-1], leaf, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, relative))
+        require(stat.S_ISREG(os.fstat(fds[-1]).st_mode), relative + ': missing input')
+        with open(fds[-1], 'rb', closefd=False) as handle:
+            return handle.read()
+    finally:
+        for fd in fds:
+            os.close(fd)
 
 
 def validate_labviz_moves(value, schema, fixtures, root):
