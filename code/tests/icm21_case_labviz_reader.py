@@ -7,7 +7,6 @@ from icm21_fixtures import D2_POSITIVE, INDEX_PATHS, MAP_PATH, digest, encoded, 
 
 
 class LabvizReaderCase:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_portable_map_identity(self):
         module = self.index_module()
         self.assertIn('--labviz-map-only', inspect.getsource(module.main),
@@ -38,7 +37,6 @@ class LabvizReaderCase:
             self.labviz(second)
             self.assertEqual((second / MAP_PATH).read_bytes(), original)
 
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_labviz_adapter_identity(self):
         self.module('code/state/resolve_path.py', 'relocate')
         root = self.miniature()
