@@ -3,18 +3,20 @@
 ## Operating rules
 - [Answer the gate's real criterion](resolve-the-gates-real-criterion.md) — State the gate's literal criterion first; a passing necessary proxy isn't it
 - [Anti-drift: de-dup, enforce](anti-drift-enforce-not-autowrite.md) — One source + D-ID pointers; to retract a pushed claim, grep-sweep every tracker
-- [Approved deletes: ask, then rmtree](approved-deletes-ask-then-rmtree.md) — Ask per path via AskUserQuestion, then shutil.rmtree; never retry a denied rm
+- [Approved deletes: ask, then rmtree](approved-deletes-ask-then-rmtree.md) — Regenerable bulk: autonomous via reclaim.py (2026-10-15); otherwise ask per path, then shutil.rmtree; never retry a denied rm
 - [C10 accept-bounded = hybrid](c10-accept-bounded-means-hybrid-not-general-db.md) — If accepting bounded deployment, label side-store routing an engineering fallback; C10 stays OPEN for F1
 - [Close-out gate before done](closeout-gate-before-done.md) — Not done until closeout_check <D-ID> is ALL GREEN (LLMDB_ROOT=$PWD in worktree)
 - [Git roles: MAESTRO master, builders brief-scoped](commit-forward-work-without-asking.md) — MAESTRO commits/pushes master after checks; builders never push/merge; integration uses the coordinated gate; never bypass controls
 - [Disk budget before dispatch](disk-budget-before-dispatch.md) — Wait for free disk ≥ projected writes + 20 GiB; every scope states a disk budget
 - [Encode discipline as a gate](encode-recurring-discipline-as-a-gate.md) — When a discipline keeps lapsing, build an exit-code gate instead of more prose
 - [Evidence over scaffolding](evidence-over-scaffolding.md) — Next live experiment runnable, pre-registered and authorized? Pass its gates, then launch before more planning
+- [Exhaust options before 'blocked'](exhaust-options-before-blocked.md) — On an operator certainty challenge, genuinely re-search (config, composed primitives, no-code) before declaring blocked
 - [Fallback is not F1 closure](fallback-that-nullifies-spec-is-not-f1-closure.md) — Never present a side-store/hybrid fallback as F1 closure; keep C10 OPEN
-- [Forward infra is pre-approved](standing-auth-forward-requirements.md) — Do downloads/cov compute/model pulls and narrate; deletions need a per-path ask
+- [Forward infra is pre-approved](standing-auth-forward-requirements.md) — Do downloads/cov compute/model pulls and narrate; regenerable-bulk deletes autonomous (2026-10-15), other deletions need a per-path ask
 - [InfraNodus standing approval](infranodus-standing-approval.md) — Use InfraNodus freely on scrubbed prose (no code/emails/paths); gaps are leads
-- [Lab View + telemetry](lab-view-and-live-telemetry.md) — Each close-out: refresh docs/c10_evaluations.json; builds get inert telemetry
+- [Lab View + telemetry](lab-view-and-live-telemetry.md) — Each close-out: refresh program/registers/c10_evaluations.json; builds get inert telemetry
 - [Local only, no rented compute](local-only-no-rented-compute.md) — Never propose rentals; design the local-faithful port and state its limits
+- [MAESTRO owns reset via Memento](maestro-owns-reset-via-memento.md) — operator 16 Oct durable governance: finalize-session --reset clear yourself; no /clear+paste
 - [Never idle: arm a completion watch](never-idle-arm-completion-watch.md) — Never end a turn with work in flight and no Monitor; push after every commit
 - [Operator decision scope](operator-decision-scope.md) — Bring only go/no-go/scope; decide design details with advisor + Astra
 - [Operator profile + standing directive](operator-profile-and-standing-directive.md) — Make the call and proceed; ask once, recommend first, make each approval durable
@@ -33,14 +35,14 @@
 ## Workflow & tools
 - [Autoresearch loop per fork](autoresearch-editing-loop-per-fork.md) — Never seed ideas or corpus into the loop; outputs are leads, not port validation
 - [Browser Harness, not Chrome ext](browser-harness-for-browser-automation.md) — For browser tasks use Browser Harness from a script file, not Claude in Chrome
-- [Claude advisor for Codex-led work](claude-subscription-advisor-for-codex.md) — Codex-led work: review via LLMDB_ROOT=$PWD tools/claude_advisor.sh
+- [Claude advisor for Codex-led work](claude-subscription-advisor-for-codex.md) — Codex-led work: review via LLMDB_ROOT=$PWD code/agents/claude_advisor.sh
 - [Connected Papers](connected-papers-api.md) — No API key: build graphs on the site via Browser Harness, export .bib to INBOX
 - [Cross-family review sequencing](codex-runs-inline-from-claude-bash.md) — Run Astra review before asking the operator; Perplexity advisory only if Codex is down; Astra-high promotion gate remains blocked
 - [Dashboard live derivation](dashboard-live-derivation.md) — Write 'awaiting operator' in the §5.2 status cell to surface a pending ruling
 - [gdrive rclone remote](gdrive-rclone-remote.md) — gdrive: is the archive tier; after publishing OAuth app run config reconnect
 - [InfraNodus is a lens](infranodus-discourse-lens-not-coverage-tool.md) — For coverage questions enumerate, triage, read; use InfraNodus only to rank gaps
 - [Interim SSD mirror (MemitBackup)](backup-via-memitbackup-app.md) — Removable Volumes grant, never FDA; applet error dialogs hang launchd silently (exit 0) — try-wrap, judge by heartbeat
-- [Memory paths + mirror sync](memory-paths-and-mirror-discipline.md) — Keep LIVE memory and memory_mirror identical; never cp a thin dir over MEMORY.md
+- [Memory paths + mirror sync](memory-paths-and-mirror-discipline.md) — Keep LIVE memory and _system/memory identical; never cp a thin dir over MEMORY.md
 - [Model and compute allocation](model-and-compute-allocation.md) — Sonnet subagents; Codex builders in tmux on gpt-6.1-sol max, not codex exec
 - [NotebookLM via Browser Harness](notebooklm-via-browser-harness.md) — CLI is broken; use Browser Harness in signed-in Chrome; answers are advisory
 - [Runbook is canonical](experiment-runbook-is-canonical.md) — Start at runbook §0.3; edit program_state.json and re-render, never the block
@@ -125,7 +127,7 @@
 - [Background shell is nice 10](background-shell-niceness-10.md) — main server observed at 10 (2026-10-10); verify per launch; nice -n is an increment; a pinned `nice -n 10` launch needs the operator-started `tmux -L new1` server (launchd is denied the volume)
 - [Codex sandbox has no network](codex-sandbox-no-network.md) — Builders can't reach Drive/gh; MAESTRO runs live network checks itself
 - [Rerun builder tests on host TMPDIR + CI](rerun-builder-tests-host-tmpdir.md) — builder green ≠ host/CI green; /var symlink + macOS-only stat fields
-- [Merge gate first-use learnings](merge-gate-first-use-learnings.md) — ask operator in chat before --apply; hygiene --dry-run early; detached integration worktree
+- [Merge gate first-use learnings](merge-gate-first-use-learnings.md) — gate --apply allow-listed 15 Oct (no chat OK); since 16 Oct (T035) a stale base with no file overlap is accepted; hygiene --dry-run early; detached integration worktree
 - [Native applet Removable Volumes prompt](native-applet-removable-volumes-prompt.md) — native .app on memit blocks silently until operator Allows; fixtures under /private/tmp
 - [Parallel builders: name each other's files](parallel-builders-name-each-others-files.md) — two builders in one worktree; each brief lists the other's authorized files or a hash check false-STOPs
 - [Count running duplicates before launch](check-for-running-duplicate-before-launch.md) — a prior chain may already run the same check; verify inventory status before counting; denied observation is UNAVAILABLE

@@ -5,7 +5,7 @@ metadata:
   type: feedback
 ---
 
-2026-10-11 (MAESTRO46), operator's dashboard/skills/dataviz lists reviewed by five Codex lanes (`results/dashboard_integration_review_20261011/`).
+2026-10-11 (MAESTRO46), operator's dashboard/skills/dataviz lists reviewed by five Codex lanes (`projects/dashboard-integration-review/brief/`).
 
 1. **Launch with `codex --search` only.** Adding `-c sandbox_workspace_write.network_access=true` (plus curl fallback) to unattended `-a never` builders was refused by the Claude Code auto-mode classifier ("Create Unsafe Agents"). `--search` (model-side web search, sandbox stays offline) worked for every lane.
 **Why:** an unattended agent with sandbox network is treated as unsafe; model-side search is enough for reading READMEs and SKILL.md pages.

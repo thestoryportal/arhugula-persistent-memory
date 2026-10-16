@@ -9,10 +9,10 @@ metadata:
 
 **Why:** keeps the durable git record current without round-trips; the operator was repeatedly approving commits ("Commit D1 fold in", "commit it") and made it standing. Extends [[standing-auth-forward-requirements]] to the commit action.
 
-**How to apply (current rule: CLAUDE.md operating model and Merging sections):**
-- MAESTRO commits authorized forward work on master, pushes after local checks and fixes red master CI first. Builders commit only if their brief expressly permits it and never push/merge/touch the PR. Only MAESTRO integrates builder branches through `tools/git_merge_gate.py`, with green candidate-head CI and the full cooperative reserve/suspend/drain/lock rule in CLAUDE.md.
+**How to apply (current rule: `_system/governance/OPERATING-MODEL.md` § CURRENT OPERATING MODEL and `_system/governance/MERGING.md`):**
+- MAESTRO commits authorized forward work on master, pushes after local checks and fixes red master CI first. Builders commit only if their brief expressly permits it and never push/merge/touch the PR. Only MAESTRO integrates builder branches through `code/ops/git/git_merge_gate.py`, with green candidate-head CI and the full cooperative reserve/suspend/drain/lock rule in `_system/governance/MERGING.md`.
 - **General principle (2026-06-21):** when a permission/safety gate blocks an action the operator authorized *in intent*, **relax the control through the legitimate channel** (the operator edits the permission), **do NOT build a mechanism that routes around the gate** (hook, wrapper, subprocess). A post-commit auto-push hook was correctly rejected by the safety classifier as a permission bypass.
-- `reset --hard` / `clean` / force-push stay gated (the deny list in `.claude/settings.json`).
+- `reset --hard` / `clean` are deny-listed (`.claude/settings.json:53-54`); force-push is not deny-listed but needs explicit operator approval ([[git-add-all-leaks-secrets-on-public-repo]]).
 - Repo hygiene: scope every `git add` and never commit tokens ([[git-add-all-leaks-secrets-on-public-repo]]); exclude local-only files (e.g. `.claude/settings.local.json`).
 - The correctness LAWs and the supervised-promotion discipline are unchanged — "commit freely" is about the *git action*, not about lowering the bar for what counts as a promoted/proven result.
 - History: until 2026-06 the pattern was branch → commit → ff-merge to local `master` on the pod; that was superseded by branch pushes and has since been superseded by the 2026-10-12 main-folder/master ruling; builder integration still uses the merge gate.

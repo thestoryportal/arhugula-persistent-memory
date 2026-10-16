@@ -15,4 +15,4 @@ Traps, in the order they hit:
 - Phone flow: run authorize/reconnect in tmux `rclone`, fetch the Google URL from the localhost 307 with python urllib, append `&prompt=select_account`. The phone reaching rclone's "Success" page delivered the code directly.
 - The auto-mode classifier blocks writing the authorize blob to a file. Keep it in tmux/process memory and get explicit operator authorization in chat. After use, run `tmux clear-history` on the rclone panes.
 
-Related: runbook §3.3a (storage & archival policy: gdrive replaces the internal-SSD backup), [[backup-via-memitbackup-app]].
+Related: `program/runbook/03-operational-hygiene-runpod-gpu-memory-disk.md:28` (§3.3a), [[backup-via-memitbackup-app]].
