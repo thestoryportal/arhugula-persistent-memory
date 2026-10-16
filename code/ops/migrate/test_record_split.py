@@ -893,5 +893,171 @@ class Cli(Fixture):
         self.assertFalse(out.exists())
 
 
+@contextlib.contextmanager
+def fail_call(module, name, call_no, err=OSError(5, "Input/output error"), after=False):
+    """The call_no-th module.name call raises err; after=True runs the real call first."""
+    real = getattr(module, name)
+    calls = []
+
+    def hook(*args, **kwargs):
+        calls.append(args)
+        if len(calls) == call_no and not after:
+            raise err
+        result = real(*args, **kwargs)
+        if len(calls) == call_no:
+            raise err
+        return result
+
+    with mock.patch.object(module, name, hook):
+        yield calls
+
+
+# A child process holds the os.open hook, so a blocking open fails the test by timeout.
+FIFO_FOR_DIRECTORY = r"""
+import os, sys
+sys.path.insert(0, os.path.dirname(sys.argv[1]))
+import record_split as R
+unit, out = sys.argv[2], sys.argv[3]
+real = os.open
+fired = []
+def hook(path, flags, *args, **kwargs):
+    if path == "sub" and kwargs.get("dir_fd") is not None and not fired:
+        fired.append(True)
+        os.rmdir(os.path.join(unit, "sub"))
+        os.mkfifo(os.path.join(unit, "sub"))
+    return real(path, flags, *args, **kwargs)
+os.open = hook
+sys.exit(R.main(["--root", unit, "--out", out]))
+"""
+
+
+class Round3(Fixture):
+    """Rulings 8-10: F_GETPATH and close errors are refusals, leaf refusals carry errno,
+    and the round-3 surviving guards each have a witness."""
+
+    BLOCK_TIMEOUT = 10
+
+    def run_main(self, out):
+        code, err = self.main("--root", self.unit, "--out", out)
+        lines = err.strip().splitlines()
+        self.assertEqual(len(lines), 1, err)
+        self.assertTrue(lines[0].startswith("record_split: refused: "), err)
+        return code, err
+
+    def test_getpath_error_is_a_refusal_naming_path_and_errno(self):
+        # Calls 1-2 are the pre-write check (root, out parent); 3-4 come after the write.
+        self.put("record.log", b"good\n")
+        for call_no, written in ((1, False), (2, False), (3, True), (4, True)):
+            with self.subTest(call=call_no):
+                out = self.base / f"split{call_no}.json"
+                with fail_call(R.fcntl, "fcntl", call_no) as calls:
+                    code, err = self.run_main(out)
+                self.assertEqual(len(calls), call_no)
+                self.assertEqual(code, 2, err)
+                self.assertIn("EIO", err)
+                self.assertIn(str(self.unit if call_no in (1, 4) else self.base), err)
+                self.assertEqual(out.exists(), written)
+                if written:
+                    self.assertIn(str(out), err)
+
+    def test_close_error_is_a_refusal_and_keeps_the_written_output(self):
+        # Closes in order: the output, its parent, the root. Each is after the write.
+        self.put("record.log", b"good\n")
+        for call_no, named in ((1, "split1.json"), (2, str(self.base)), (3, str(self.unit))):
+            with self.subTest(call=call_no):
+                out = self.base / f"split{call_no}.json"
+                with fail_call(os, "close", call_no, after=True):
+                    code, err = self.run_main(out)
+                self.assertEqual(code, 2, err)
+                self.assertIn("EIO", err)
+                self.assertIn(named, err)
+                self.assertIn(str(out), err)
+                self.assertTrue(out.exists())  # never deleted
+                self.assertEqual(json.loads(out.read_text())["leaves"][0]["path"], "record.log")
+
+    def test_directory_close_error_is_a_refusal_naming_the_directory(self):
+        (self.unit / "sub").mkdir()
+        out = self.base / "split.json"
+        with fail_call(os, "close", 1, after=True):
+            code, err = self.run_main(out)
+        self.assertEqual(code, 2, err)
+        self.assertIn(f"{self.unit / 'sub'}: EIO", err)
+        self.assertFalse(out.exists())
+
+    def test_leaf_refusals_carry_the_errno_name(self):
+        leaf = self.unit / "sample.bin"
+
+        def to_symlink():
+            leaf.unlink()
+            leaf.symlink_to("missing")
+
+        def enotdir(path, flags, *args, real=os.open, **kwargs):
+            if path == "sample.bin" and kwargs.get("dir_fd") is not None:
+                raise OSError(20, "Not a directory")
+            return real(path, flags, *args, **kwargs)
+
+        cases = {
+            "ELOOP": lambda: before_open(lambda p, kw: p == "sample.bin" and "dir_fd" in kw, to_symlink),
+            "ENOENT": lambda: before_open(lambda p, kw: p == "sample.bin" and "dir_fd" in kw, leaf.unlink),
+            "ENOTDIR": lambda: mock.patch.object(os, "open", enotdir),
+        }
+        for name, hook in cases.items():
+            with self.subTest(errno=name):
+                self.put("sample.bin", b"\x00OWN")
+                try:
+                    with hook():
+                        code, err = self.run_main(self.base / f"{name}.json")
+                finally:
+                    with contextlib.suppress(FileNotFoundError):
+                        leaf.unlink()
+                self.assertEqual(code, 2, err)
+                self.assertIn("sample.bin", err)
+                self.assertIn(f"[{name}]", err)
+
+    def test_out_parent_that_is_a_fifo_refuses_without_blocking(self):  # M61
+        self.put("record.log", b"good\n")
+        fifo = self.base / "fifo-parent"
+        os.mkfifo(fifo)
+        proc = subprocess.run([sys.executable, "-B", str(TOOL), "--root", str(self.unit),
+                               "--out", str(fifo / "out.json")],
+                              capture_output=True, text=True, timeout=self.BLOCK_TIMEOUT)
+        self.assertRefusedCleanly(proc)
+        self.assertIn("ENOTDIR", proc.stderr)
+
+    def test_directory_replaced_by_a_fifo_refuses_without_blocking(self):  # M70
+        (self.unit / "sub").mkdir()
+        out = self.base / "split.json"
+        proc = subprocess.run([sys.executable, "-B", "-c", FIFO_FOR_DIRECTORY, str(TOOL),
+                               str(self.unit), str(out)],
+                              capture_output=True, text=True, timeout=self.BLOCK_TIMEOUT)
+        self.assertRefusedCleanly(proc)
+        self.assertIn("sub: ENOTDIR", proc.stderr)
+        self.assertFalse(out.exists())
+
+    def test_directory_on_another_device_refuses(self):  # M72
+        (self.unit / "sub").mkdir()
+        with fstat_reports(1, st_dev=1) as calls:
+            with self.assertRaisesRegex(R.Refusal, "directory 'sub' changed during the walk"):
+                self.split()
+        self.assertEqual(len(calls), 1)
+
+    def test_directory_fstat_error_is_a_refusal(self):  # M85
+        (self.unit / "sub").mkdir()
+        out = self.base / "split.json"
+        with mock.patch.object(os, "fstat", side_effect=OSError(5, "Input/output error")):
+            code, err = self.run_main(out)
+        self.assertEqual(code, 2, err)
+        self.assertIn(f"{self.unit / 'sub'}: EIO", err)
+        self.assertFalse(out.exists())
+
+    def test_non_oserror_from_the_scan_still_propagates(self):  # M93
+        self.put("record.log", b"good\n")
+        out = self.base / "split.json"
+        with mock.patch.object(os, "scandir", side_effect=RuntimeError("not a filesystem error")):
+            with self.assertRaisesRegex(RuntimeError, "not a filesystem error"):
+                R.main(["--root", str(self.unit), "--out", str(out)])
+        self.assertFalse(out.exists())
+
+
 if __name__ == "__main__":
     unittest.main()

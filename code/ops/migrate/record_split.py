@@ -212,10 +212,11 @@ def _digest(at: _At) -> tuple[str, bool]:
     try:
         fd = os.open(at.name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=at.dir_fd)
     except OSError as exc:
+        code = errno.errorcode.get(exc.errno, str(exc.errno))
         if exc.errno == errno.ELOOP:
-            raise Refusal(f"{at.path!r} changed into a symlink before it was hashed") from exc
+            raise Refusal(f"{at.path!r} changed into a symlink before it was hashed [{code}]") from exc
         if exc.errno in (errno.ENOENT, errno.ENOTDIR):
-            raise Refusal(f"{at.path!r} changed (gone) before it was hashed") from exc
+            raise Refusal(f"{at.path!r} changed (gone) before it was hashed [{code}]") from exc
         with _fs(at.path):
             raise
     with _fs(at.path), open(fd, "rb", buffering=0) as fh:
@@ -283,7 +284,7 @@ def scan(root_fd: int, root: str) -> list[Leaf]:
                         raise Refusal(f"directory {rel!r} changed during the walk")
                     walk(fd, path, rel + "/")
                 finally:
-                    os.close(fd)
+                    _close(fd, path)
             elif stat.S_ISREG(est.st_mode):
                 sha256, is_text = _digest(_At(dir_fd, entry.name, path, est))
                 with _fs(path):
@@ -320,6 +321,11 @@ def _held_root(root: Path):
     try:
         yield fd
     finally:
+        _close(fd, f"unit root {root}")
+
+
+def _close(fd: int, path: str) -> None:
+    with _fs(path):
         os.close(fd)
 
 
@@ -329,8 +335,9 @@ def render(root: Path, rows: tuple[Row, ...]) -> str:
     return json.dumps({"root": str(root), "leaves": leaves}, indent=1, sort_keys=True) + "\n"
 
 
-def _dir_realpath(fd: int) -> str:
-    buf = fcntl.fcntl(fd, fcntl.F_GETPATH, bytes(1024))
+def _dir_realpath(fd: int, path: str) -> str:
+    with _fs(path):
+        buf = fcntl.fcntl(fd, fcntl.F_GETPATH, bytes(1024))
     return os.fsdecode(buf.split(b"\0", 1)[0])
 
 
@@ -354,30 +361,36 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--attestation", action="append", default=[], type=Path)
     ap.add_argument("--out", required=True, type=Path, help="new JSON file outside the unit")
     args = ap.parse_args(argv)
+    kept = ""  # once the output exists, every later refusal names it as left in place
     try:
-        with _held_root(args.root) as root_fd:
+        root_fd = open_root(args.root)
+        try:
             parent_fd = _open_out_parent(args.out)
             try:
-                if _inside(_dir_realpath(root_fd), _dir_realpath(parent_fd)):
+                root_real = _dir_realpath(root_fd, f"unit root {args.root}")
+                if _inside(root_real, _dir_realpath(parent_fd, f"--out parent {args.out.parent}")):
                     raise Refusal(f"--out {args.out} is inside the unit")
                 rows = split_unit(args.root, args.attestation, root_fd)
                 body = render(args.root, rows).encode("utf-8")
                 with _fs(str(args.out)):
                     out_fd = os.open(args.out.name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
                                      0o644, dir_fd=parent_fd)
+                kept = f" ({args.out} was created and left in place)"
                 try:
                     with _fs(f"{args.out} (left in place, incomplete)"):
                         view = memoryview(body)
                         while view:
                             view = view[os.write(out_fd, view):]
                 finally:
-                    os.close(out_fd)
-                parent_now = _dir_realpath(parent_fd)
-                if _inside(_dir_realpath(root_fd), parent_now):
+                    _close(out_fd, f"{args.out} (written, left in place)")
+                parent_now = _dir_realpath(parent_fd, f"--out parent {args.out.parent}{kept}")
+                if _inside(_dir_realpath(root_fd, f"unit root {args.root}{kept}"), parent_now):
                     raise Refusal(f"wrote {os.path.join(parent_now, args.out.name)}, which is now inside "
                                   "the unit; it was left in place")
             finally:
-                os.close(parent_fd)
+                _close(parent_fd, f"--out parent {args.out.parent}{kept}")
+        finally:
+            _close(root_fd, f"unit root {args.root}{kept}")
     except Refusal as exc:
         print("record_split: refused: " + str(exc).replace("\n", "\\n"), file=sys.stderr)
         return 2
