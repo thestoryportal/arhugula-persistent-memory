@@ -1,8 +1,5 @@
 """Build deterministic ICM indexes. The approved path map stays byte-identical."""
 import argparse
-from collections import Counter
-import csv
-import io
 import json
 import os
 from pathlib import Path
@@ -12,28 +9,15 @@ import subprocess
 
 import yaml
 
+if __package__:
+    from .llmdb_records import project_rows
+    from .resolve_path import build_anchor_map, read_anchor_map, read_path_map
+else:
+    from llmdb_records import project_rows
+    from resolve_path import build_anchor_map, read_anchor_map, read_path_map
+
 STATUSES = {'designed', 'frozen', 'running', 'halted', 'verdict', 'deferred'}
-MAP_HEADER = ['old', 'new', 'disposition', 'unit']
-ANCHOR_HEADER = ['monolith', 'anchor', 'part', 'current_anchor']
 MIN_MAP_ROWS = 31820
-
-
-def read_path_map(data: bytes, minimum: int = 0) -> dict[str, str]:
-    if data.splitlines()[:1] != [b'old\tnew\tdisposition\tunit']:
-        raise ValueError('_index/path-map.tsv: expected exact header old\tnew\tdisposition\tunit')
-    rows = csv.reader(io.StringIO(data.decode('utf-8')), delimiter='\t')
-    if next(rows, None) != MAP_HEADER:
-        raise ValueError('_index/path-map.tsv: expected header old\tnew\tdisposition\tunit')
-    result = {}
-    for number, row in enumerate(rows, 2):
-        if len(row) != 4 or not row[0]:
-            raise ValueError(f'_index/path-map.tsv: malformed row {number}')
-        if row[0] in result:
-            raise ValueError(f'_index/path-map.tsv: repeated old path {row[0]}')
-        result[row[0]] = row[1]
-    if len(result) < minimum:
-        raise ValueError(f'_index/path-map.tsv: {len(result)} rows; need at least {minimum}')
-    return result
 
 
 def cell(value):
@@ -110,20 +94,8 @@ def generate(root: Path) -> dict[str, bytes]:
                             ('family', 'title', 'status', 'corpus', 'decision_ids')])
 
     state = json.loads((root / 'program/program_state.json').read_text(encoding='utf-8'))
-    queue = {}
-    for item in state['work_queue']['items']:
-        if item['id'] in queue:
-            raise ValueError(f'program/program_state.json: repeated queue id {item["id"]}')
-        queue[item['id']] = item
     folders = {p.name for p in (root / 'projects').iterdir() if f'projects/{p.name}' in present}
-    open_ids = {key for key, item in queue.items()
-                if str(item['state']).lower() not in {'done', 'closed', 'cancelled', 'canceled'}}
-    projects = []
-    for key in sorted(folders | open_ids):
-        item = queue.get(key, {})
-        relation = 'folder and queue item' if key in folders and key in queue else (
-            'no queue item' if key in folders else 'no folder')
-        projects.append([key, item.get('title'), item.get('state'), relation])
+    projects = project_rows(state['work_queue']['items'], folders)
     evidence = [[p.name, first_heading(p)] for p in sorted((root / 'evidence/CORPUS').iterdir())
                 if p.is_file() and p.name != 'CONTEXT.md']
     checkpoints = [[p.name, first_heading(p)] for p in sorted(
@@ -140,89 +112,6 @@ def generate(root: Path) -> dict[str, bytes]:
         'checkpoints.md': table('Checkpoints', ['file', 'first heading'], checkpoints,
                                 f'Newest live handoff: {newest}'),
     }
-
-
-def read_anchor_map(data: bytes, root: Path) -> dict[tuple[str, str], tuple[str, str]]:
-    header = '\t'.join(ANCHOR_HEADER)
-    if data.splitlines()[:1] != [header.encode('utf-8')]:
-        raise ValueError(f'_index/anchor-map.tsv: expected exact header {header}')
-    rows = csv.reader(io.StringIO(data.decode('utf-8')), delimiter='\t')
-    next(rows)
-    result = {}
-    for number, row in enumerate(rows, 2):
-        if len(row) != 4 or not all(row):
-            raise ValueError(f'_index/anchor-map.tsv: malformed row {number}')
-        monolith, anchor, part, current_anchor = row
-        key = (monolith, anchor)
-        if key in result:
-            raise ValueError(f'_index/anchor-map.tsv: repeated anchor {monolith}#{anchor}')
-        path = Path(part)
-        if path.is_absolute() or '..' in path.parts or not (root / path).is_file():
-            raise ValueError(f'_index/anchor-map.tsv: missing or invalid part {part}')
-        result[key] = (part, current_anchor)
-    return result
-
-
-def build_anchor_map(root: Path, mapping: dict[str, str]) -> bytes:
-    if __package__:
-        from .resolve_path import SPLITS, heading_entries, heading_slug
-    else:
-        from resolve_path import SPLITS, heading_entries, heading_slug
-    rows = []
-    for old, monolith in sorted(mapping.items()):
-        if monolith not in SPLITS:
-            continue
-        folder = SPLITS[monolith]
-        parts = sorted((root / folder).glob('[0-9]*.md'))
-        source = subprocess.run(['git', 'show', f'3f1a3b95:{old}'], cwd=root,
-                                capture_output=True, text=True)
-        if source.returncode or not source.stdout:
-            raise ValueError(f'_index/anchor-map.tsv: cannot read 3f1a3b95:{old}: '
-                             + source.stderr.strip())
-        entries = list(heading_entries(source.stdout.splitlines()))
-        # All three lossless splits start each part at a level-two heading.
-        boundaries = sum(bool(re.match(r'^ {0,3}##\s+', heading))
-                         for heading, slug in entries)
-        if not parts or boundaries != len(parts):
-            raise ValueError(f'_index/anchor-map.tsv: {old}: {boundaries} section '
-                             f'boundaries do not match {len(parts)} parts')
-        position = -1
-        sections = [[] for _ in parts]
-        for heading, slug in entries:
-            if re.match(r'^ {0,3}##\s+', heading):
-                position += 1
-            sections[max(position, 0)].append((heading, slug))
-        for path, historical in zip(parts, sections):
-            part = path.relative_to(root).as_posix()
-            pinned = subprocess.run(['git', 'show', f'4e679b15:{part}'], cwd=root,
-                                    capture_output=True, text=True)
-            if pinned.returncode or not pinned.stdout:
-                raise ValueError(f'_index/anchor-map.tsv: cannot read 4e679b15:{part}: '
-                                 + pinned.stderr.strip())
-            current = list(heading_entries(pinned.stdout.splitlines()))
-            if len(historical) != len(current):
-                raise ValueError(f'_index/anchor-map.tsv: {part}: heading counts '
-                                 f'differ at the pin: {len(historical)} != {len(current)}')
-            raw_counts = Counter(heading_slug(heading) for heading, _ in current)
-            # Both lists are frozen. Live edits must not change section identity.
-            for (heading, slug), (pinned_heading, current_anchor) in zip(historical, current):
-                raw_slug = heading_slug(pinned_heading)
-                if raw_slug != current_anchor:
-                    raise ValueError(f'_index/anchor-map.tsv: {part}: pinned raw slug '
-                                     f'{raw_slug} differs from fragment {current_anchor}')
-                if raw_counts[raw_slug] > 1:
-                    raise ValueError(f'_index/anchor-map.tsv: {part}: pinned raw slug '
-                                     f'{raw_slug} occurs more than once')
-                level = re.match(r'^ {0,3}(#{1,6})\s+', heading).group(1)
-                pinned_level = re.match(r'^ {0,3}(#{1,6})\s+', pinned_heading).group(1)
-                if level != pinned_level:
-                    raise ValueError(f'_index/anchor-map.tsv: {part}: heading level '
-                                     f'differs at the pin for {slug}')
-                rows.append((monolith, slug, part, current_anchor))
-    data = ('\t'.join(ANCHOR_HEADER) + '\n' + ''.join(
-        '\t'.join(row) + '\n' for row in sorted(rows))).encode('utf-8')
-    read_anchor_map(data, root)
-    return data
 
 
 def main():
