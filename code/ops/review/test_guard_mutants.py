@@ -1007,6 +1007,172 @@ class Scratch(Base):
         self.assertFalse(os.path.exists(self.out))
 
 
+class Bound(Base):
+    """A pathname is used only while it still names the fd that was checked."""
+
+    def arm_first_mutant(self, attack):
+        """Patch Session._run so attack(that run's lane copy path) is armed around the first mutant run."""
+        real_run = gm.Session._run
+        box = {}
+
+        def run(session, m, timeout):
+            if m is None or "copy" in box:
+                return real_run(session, m, timeout)
+            box["copy"] = os.path.join(session.scratch, f"m{session.runs + 1:04d}", "lane")
+            with attack(box["copy"]) as fault:
+                box["fault"] = fault
+                return real_run(session, m, timeout)
+        return mock.patch.object(gm.Session, "_run", run), box
+
+    def where(self, log):
+        """A test command that logs whether its cwd is the populated copy."""
+        return f"if test -f pkg/guarded.py; then echo held >> {log}; else echo empty >> {log}; fi"
+
+    def rebound_copy(self, when):
+        log = os.path.join(self.tmp, "where.log")
+        patch, box = self.arm_first_mutant(lambda copy: fk.rename_and_rebind(
+            fk.GETPATH, 1, copy, when=when, match=lambda fd, *a: real_getpath(fd) == copy))
+        with patch:
+            code, out, err = self.run_main(self.args(test=self.where(log)))
+        self.assertEqual(box["fault"].fired, 1)
+        self.assertFalse(os.path.exists(self.out))
+        self.assertEqual(os.listdir(box["copy"]), [])  # the replacement is kept
+        self.assertTrue(os.path.isfile(os.path.join(box["fault"].parked, "pkg", "guarded.py")))  # so is the copy
+        with open(log) as fh:
+            return code, err, box["copy"], fh.read().split()
+
+    def test_copy_rebound_after_the_check_runs_the_test_in_the_held_copy_and_refuses(self):
+        code, err, copy, where = self.rebound_copy("after")
+        self.assertRefused(code, err, copy, "after the test run", "kept")
+        self.assertEqual(where, ["held", "held"])  # the baseline, then the attacked mutant: never the empty path
+
+    def test_copy_rebound_before_the_test_runs_is_refused_and_the_test_never_runs(self):
+        code, err, copy, where = self.rebound_copy("before")
+        self.assertRefused(code, err, copy, "before the test run", "kept")
+        self.assertEqual(where, ["held"])  # the baseline only
+
+    def test_replacement_directory_found_by_the_cleanup_scan_is_kept(self):
+        for child in ("lane", os.path.join("lane", "pkg")):
+            with self.subTest(child=child):
+                self.setUp()
+                real_remove = gm._remove_dir
+                box = {}
+
+                def remove(parent_fd, name, path, owned, child=child, box=box):
+                    if name != "m0001" or box:
+                        return real_remove(parent_fd, name, path, owned)
+                    box["target"] = target = os.path.join(path, child)
+                    scanned = os.path.dirname(target)
+                    with fk.rename_and_rebind("scandir", 1, target, match=lambda fd=None: isinstance(fd, int)
+                                              and real_getpath(fd) == scanned) as fault:
+                        box["fault"] = fault
+                        return real_remove(parent_fd, name, path, owned)
+                with mock.patch.object(gm, "_remove_dir", remove):
+                    code, out, err = self.run_main(self.args(test="true"))
+                self.assertEqual(box["fault"].fired, 1)
+                self.assertRefused(code, err, "kept")
+                self.assertEqual(os.listdir(box["target"]), [])  # the replacement
+                parked = box["fault"].parked
+                self.assertTrue(os.path.isfile(os.path.join(parked, "guarded.py") if child != "lane"
+                                               else os.path.join(parked, "pkg", "guarded.py")))
+                self.assertFalse(os.path.exists(self.out))
+
+    def test_a_removed_directory_leaves_the_ownership_record(self):
+        """A recycled inode never inherits ownership: only the live scratch stays recorded."""
+        root_fd = gm.open_root(self.lane)
+        self.addCleanup(os.close, root_fd)
+        targets = gm.read_targets(root_fd, self.lane, ["pkg/guarded.py"])
+        with mock.patch.object(tempfile, "tempdir", self.tooltmp), \
+                gm.Session(self.lane, root_fd, targets, "true", 30) as s:
+            s.baseline()
+            st = os.fstat(s.scratch_fd)
+            self.assertEqual(s.owned, {(st.st_dev, st.st_ino)})
+        self.assertEqual(s.owned, set())
+        self.assertNoScratchLeft()
+
+    def watch_lane_writes(self):
+        real = os.write
+        inside = []
+
+        def write(fd, data):
+            if real_getpath(fd).startswith(self.lane + "/"):
+                inside.append(len(data))
+            return real(fd, data)
+        return mock.patch.object(gm.os, "write", write), inside
+
+    def test_output_parent_moved_into_the_lane_at_the_create_writes_no_byte_inside(self):
+        moved = os.path.join(self.lane, "data", "moved-out")
+        real = os.open
+        fired = []
+
+        def opened(path, flags, *a, **kw):
+            if path == "out.json" and flags & os.O_CREAT and not fired:
+                fired.append(path)
+                os.rename(self.outdir, moved)
+            return real(path, flags, *a, **kw)
+        watch, inside = self.watch_lane_writes()
+        with mock.patch.object(gm.os, "open", opened), watch:
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertTrue(fired)
+        self.assertRefused(code, err, "moved-out/out.json", "inside")
+        self.assertEqual(inside, [])
+        self.assertEqual(os.path.getsize(os.path.join(moved, "out.json")), 0)
+
+    def test_output_parent_moved_into_the_lane_before_the_create_is_refused_and_creates_nothing(self):
+        moved = os.path.join(self.lane, "data", "moved-out")
+        real = gm.Session.verify_lane
+
+        def verify(session):
+            real(session)
+            os.rename(self.outdir, moved)
+        with mock.patch.object(gm.Session, "verify_lane", verify):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertRefused(code, err, "inside the lane")
+        self.assertEqual(os.listdir(moved), [])
+
+    def test_output_parent_moved_into_the_lane_at_the_first_write_is_refused_and_kept(self):
+        moved = os.path.join(self.lane, "data", "moved-out")
+        real = os.write
+        fired = []
+
+        def write(fd, data):
+            if not fired and real_getpath(fd) == self.out:
+                fired.append(fd)
+                os.rename(self.outdir, moved)
+            return real(fd, data)
+        with mock.patch.object(gm.os, "write", write):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertTrue(fired)
+        self.assertRefused(code, err, "moved-out/out.json", "inside")
+        self.assertTrue(os.path.isfile(os.path.join(moved, "out.json")))
+
+    def test_tmpdir_inside_the_lane_is_refused_before_any_write_there(self):
+        inner = os.path.join(self.lane, "tmp")
+        os.mkdir(inner)
+        before = os.stat(inner).st_mtime_ns
+        env = dict(os.environ, TMPDIR=inner)
+        env.pop("PYTHONPATH", None)
+        proc = subprocess.run([sys.executable, "-B", TOOL, *self.args(test="true")], cwd=self.lane, env=env,
+                              capture_output=True, text=True, timeout=240)
+        self.assertRefused(proc.returncode, proc.stderr, "scratch", "inside the lane")
+        self.assertEqual(os.listdir(inner), [])
+        self.assertEqual(os.stat(inner).st_mtime_ns, before)  # not even a file made and unlinked
+
+    def test_lane_is_the_current_directory_not_the_name_getcwd_gives(self):
+        decoy = os.path.join(self.tmp, "decoy")
+        os.mkdir(decoy)
+        old = os.getcwd()
+        os.chdir(self.lane)
+        self.addCleanup(os.chdir, old)
+        err = io.StringIO()
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(err), \
+                mock.patch.object(tempfile, "tempdir", self.tooltmp), \
+                mock.patch.object(gm.os, "getcwd", return_value=decoy):
+            code = gm.main(self.args(test="true"))
+        self.assertEqual(code, 1, err.getvalue())
+        self.assertEqual({key(r) for r in self.rows()}, ALL_KEYS)
+
+
 class Faults(Base):
     """An injected EIO per call class is one refusal line naming the path and the errno."""
 

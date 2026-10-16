@@ -19,31 +19,35 @@ finds the guards and makes one mutant per guard, each a text splice of one node:
 
 CMD first runs once on an unmutated copy and must exit 0 (else exit 2, nothing written).
 Then each mutant gets a fresh copy of the lane (never the lane itself; the top-level
-.git is not copied) under a new temp directory, and CMD runs there with sh, cwd, PWD
-and LLMDB_ROOT set to the copy, TMPDIR to a directory beside it, and PYTHONPATH
-removed. Result: killed (CMD exits non-zero), survived (exit 0), or error (the mutant
+.git is not copied) under a new temp directory, and CMD runs there with sh: the child
+enters the copy through its held fd (fchdir), never by path; PWD and LLMDB_ROOT name
+the copy, TMPDIR a directory beside it, and PYTHONPATH is removed. Just before and just
+after the run, each of those names must still be the directory held for it (st_dev,
+st_ino and F_GETPATH); otherwise the run refuses, nothing is reported and both are kept. Result: killed (CMD exits non-zero), survived (exit 0), or error (the mutant
 does not compile, or CMD timed out; never killed). The timeout is --timeout, else
 10x the baseline time (at least 60 s); the whole process group is killed.
 
-The lane is read through fds: its root is opened once without following links and
-held; each directory is entered through its parent's fd and must be the (st_dev,
+The lane is the current directory, opened once as "." and held; each directory is entered through its parent's fd and must be the (st_dev,
 st_ino) the scan saw; each file is read through an O_NOFOLLOW fd whose fstat matches
 the scan before and after the read. Every copy and a final scan must see the same lane
 as the first copy (each entry's identity and each file's sha256), and each --file the
 same bytes it was parsed from. A special file, a link that is absolute or leaves the
 lane, or any change refuses. NEW.json is created
 O_EXCL through its parent's fd after the scratch directory is removed; the parent's
-real path (F_GETPATH) must lie outside the lane's live path before the run, and the
-file fd's real path must be the parent's live path plus the name, outside the lane,
-after the write.
+real path (F_GETPATH) must lie outside the lane's live path before the run and again
+as the last call before the create, and the file fd's real path must be the parent's
+live path plus the name, outside the lane, before the first byte and after the write.
 
 Exit 0 when every mutant is killed or listed in ALLOW, exit 1 when one is not, exit 2
 on bad invocation or refusal: one line naming the path and errno, no traceback. It never
 overwrites and never deletes an input or output; it deletes only the temp directory it
-made. That directory is made through the temp parent's fd, and refused when the parent's
-or its own real path is the lane or inside it. It is removed only through fds: each
-directory is opened through its parent's fd and must be the one this run made, and its
-name must still name the held fd just before rmdir; on a mismatch both are kept.
+made. That directory is made through the temp parent's fd ($TMPDIR, or tempfile.tempdir
+when a caller set it, else /tmp; never tempfile.gettempdir(), which writes a probe file
+into its candidates by path), and refused when the parent's or its own real path is the
+lane or inside it. It is removed only through fds: each directory is opened through its
+parent's fd and its (st_dev, st_ino) must be one recorded when this run made it (never
+one taken from the removal's own scan), and its name must still name the held fd just
+before rmdir; on a mismatch both are kept.
 ALLOW is a JSON list of {"id": <mutant id>, "reason": <non-empty text>}. NEW.json
 is a JSON list of rows {id, location ("file:line"), operator, change, result, detail,
 allowed (the ALLOW reason or null)}.
@@ -114,6 +118,10 @@ def _realpath(fd: int, path: str) -> str:
 
 def _inside(root_real: str, path_real: str) -> bool:
     return os.path.commonpath([root_real, path_real]) == root_real
+
+
+def _temp_parent() -> str:
+    return tempfile.tempdir or os.environ.get("TMPDIR") or "/tmp"
 
 
 def open_root(root: str) -> int:
@@ -389,9 +397,10 @@ class Session:
         self.snapshot: dict | None = None
         self.runs = 0
         self.keep = False  # a removal found a directory this run did not make: remove nothing more
+        self.owned: set[tuple[int, int]] = set()  # (st_dev, st_ino) of each directory made, taken at its creation
 
     def __enter__(self) -> Session:
-        parent = tempfile.gettempdir()
+        parent = _temp_parent()
         with _fs(f"scratch parent {parent}"):
             self.parent_fd = os.open(parent, os.O_RDONLY | os.O_DIRECTORY)
         try:
@@ -400,10 +409,7 @@ class Session:
                 raise Refusal(f"scratch parent {parent_real} is inside the lane {self.root}; set TMPDIR outside it")
             self.name = "guard_mutants-" + secrets.token_hex(8)
             self.scratch = os.path.join(parent_real, self.name)
-            with _fs(f"scratch {self.scratch}"):
-                os.mkdir(self.name, 0o700, dir_fd=self.parent_fd)
-            with _fs(f"scratch {self.scratch}"):
-                self.scratch_fd = os.open(self.name, DIR_FLAGS, dir_fd=self.parent_fd)
+            self.scratch_fd = self._made(self.parent_fd, self.name, f"scratch {self.scratch}", 0o700)
             try:
                 self.scratch = _realpath(self.scratch_fd, f"scratch {self.scratch}")
                 if _inside(_realpath(self.root_fd, f"lane {self.root}"), self.scratch):
@@ -418,13 +424,9 @@ class Session:
 
     def __exit__(self, *exc) -> None:
         try:
-            try:
-                with _fs(f"scratch {self.scratch}"):
-                    held = os.fstat(self.scratch_fd)
-            finally:
-                _close(self.scratch_fd, f"scratch {self.scratch}")
+            _close(self.scratch_fd, f"scratch {self.scratch}")
             if not self.keep:
-                _remove_dir(self.parent_fd, self.name, self.scratch, (held.st_dev, held.st_ino))
+                _remove_dir(self.parent_fd, self.name, self.scratch, self.owned)
         finally:
             _close(self.parent_fd, f"scratch parent of {self.scratch}")
 
@@ -453,47 +455,63 @@ class Session:
             if seen.get(rel) != self.snapshot.get(rel):
                 raise Refusal(f"the lane changed during the run at {os.path.join(self.root, rel)}; nothing is reported")
 
+    def _made(self, parent_fd: int, name: str, path: str, mode: int) -> int:
+        """Make and open directory name in parent_fd; its identity, taken here, is what cleanup may remove."""
+        with _fs(path):
+            os.mkdir(name, mode, dir_fd=parent_fd)
+        with _fs(path):
+            fd = os.open(name, DIR_FLAGS, dir_fd=parent_fd)
+        try:
+            with _fs(path):
+                st = os.fstat(fd)
+        except BaseException:
+            _close(fd, path)
+            raise
+        self.owned.add((st.st_dev, st.st_ino))
+        return fd
+
+    def _check_bound(self, bound: tuple, when: str) -> None:
+        """Each (parent_fd, name, fd, path): name in parent_fd is still fd's directory, and fd lives at path."""
+        for parent_fd, name, fd, path in bound:
+            with _fs(path):
+                now = os.stat(name, dir_fd=parent_fd, follow_symlinks=False)
+            with _fs(path):
+                held = os.fstat(fd)
+            if (now.st_dev, now.st_ino) != (held.st_dev, held.st_ino) or _realpath(fd, path) != path:
+                self.keep = True
+                raise Refusal(f"{path} no longer names the directory this run made (checked {when} the test run); "
+                              "nothing is reported and both were kept")
+
     def _run(self, m: Mutant | None, timeout: float) -> tuple[str, str]:
         self.runs += 1
         name = f"m{self.runs:04d}"
         mpath = os.path.join(self.scratch, name)
-        with _fs(mpath):
-            os.mkdir(name, 0o700, dir_fd=self.scratch_fd)
-        with _fs(mpath):
-            mfd = os.open(name, DIR_FLAGS, dir_fd=self.scratch_fd)
+        lane, tmp = os.path.join(mpath, "lane"), os.path.join(mpath, "tmp")
+        mfd = self._made(self.scratch_fd, name, mpath, 0o700)
         try:
-            with _fs(mpath):
-                made = os.fstat(mfd)  # the copy this run made; until here the session's cleanup removes it
-        except BaseException:
-            _close(mfd, mpath)
-            raise
-        try:
-            lane = os.path.join(mpath, "lane")
-            tmp = os.path.join(mpath, "tmp")
-            try:
-                with _fs(lane):
-                    os.mkdir("lane", 0o755, dir_fd=mfd)
-                with _fs(tmp):
-                    os.mkdir("tmp", 0o700, dir_fd=mfd)
-                with _fs(lane):
-                    lfd = os.open("lane", DIR_FLAGS, dir_fd=mfd)
-                try:
-                    seen: dict = {}
-                    self._walk(self.root_fd, self.root, "", lfd, lane, seen, {m.rel: m.source} if m else {})
-                finally:
-                    _close(lfd, lane)
-            finally:
-                _close(mfd, mpath)
-            if self.snapshot is None:
-                self.snapshot = seen
-            self._compare(seen)
-            return _execute(self.cmd, lane, tmp, timeout)
+            with contextlib.ExitStack() as held:
+                held.callback(_close, mfd, mpath)
+                lfd = self._made(mfd, "lane", lane, 0o755)
+                held.callback(_close, lfd, lane)
+                tfd = self._made(mfd, "tmp", tmp, 0o700)
+                held.callback(_close, tfd, tmp)
+                seen: dict = {}
+                self._walk(self.root_fd, self.root, "", lfd, lane, seen, {m.rel: m.source} if m else {})
+                if self.snapshot is None:
+                    self.snapshot = seen
+                self._compare(seen)
+                bound = ((self.scratch_fd, name, mfd, mpath), (mfd, "lane", lfd, lane), (mfd, "tmp", tfd, tmp))
+                self._check_bound(bound, "before")
+                outcome = _execute(self.cmd, lane, tmp, timeout, lfd)
+                self._check_bound(bound, "after")
+                return outcome
         finally:
-            try:
-                _remove_dir(self.scratch_fd, name, mpath, (made.st_dev, made.st_ino))
-            except Refusal:
-                self.keep = True
-                raise
+            if not self.keep:
+                try:
+                    _remove_dir(self.scratch_fd, name, mpath, self.owned)
+                except Refusal:
+                    self.keep = True
+                    raise
 
     def _walk(self, src_fd, src, rel, dst_fd, dst, seen, replace) -> None:
         """Copy (or with dst_fd None, only scan) one lane directory through fds."""
@@ -517,10 +535,7 @@ class Session:
                     seen[r] = ("dir", st.st_dev, st.st_ino)
                     sub = None
                     if dst_fd is not None:
-                        with _fs(dpath):
-                            os.mkdir(name, 0o755, dir_fd=dst_fd)
-                        with _fs(dpath):
-                            sub = os.open(name, DIR_FLAGS, dir_fd=dst_fd)
+                        sub = self._made(dst_fd, name, dpath, 0o755)
                     try:
                         self._walk(fd, spath, r + "/", sub, dpath, seen, replace)
                     finally:
@@ -555,15 +570,19 @@ class Session:
                 raise Refusal(f"{spath} is a special file")
 
 
-def _remove_dir(parent_fd: int, name: str, path: str, made: tuple) -> None:
-    """Remove the directory this run made (made: its st_dev, st_ino) only through fds bound to it."""
+def _remove_dir(parent_fd: int, name: str, path: str, owned: set) -> None:
+    """Remove a directory this run made, only through fds bound to it.
+
+    owned holds the (st_dev, st_ino) of each directory this run made, recorded when it made it;
+    a directory (or child directory) not in it is never removed, and the removal refuses."""
     with _fs(path):
         fd = os.open(name, DIR_FLAGS, dir_fd=parent_fd)
     try:
         with _fs(path):
             held = os.fstat(fd)
-        if (held.st_dev, held.st_ino) != made:
-            raise Refusal(f"{path} is not the directory this run made; both were kept")
+        made = (held.st_dev, held.st_ino)
+        if made not in owned:
+            raise Refusal(f"{path} is not a directory this run made; both were kept")
         with _fs(path), os.scandir(fd) as it:
             entries = list(it)
         for entry in entries:
@@ -571,25 +590,30 @@ def _remove_dir(parent_fd: int, name: str, path: str, made: tuple) -> None:
             with _fs(epath):
                 st = entry.stat(follow_symlinks=False)
             if stat.S_ISDIR(st.st_mode):
-                _remove_dir(fd, entry.name, epath, (st.st_dev, st.st_ino))
+                _remove_dir(fd, entry.name, epath, owned)
             else:
                 with _fs(epath):
                     os.unlink(entry.name, dir_fd=fd)
         with _fs(path):
             now = os.stat(name, dir_fd=parent_fd, follow_symlinks=False)
-        if (now.st_dev, now.st_ino) != (held.st_dev, held.st_ino):
+        if (now.st_dev, now.st_ino) != made:
             raise Refusal(f"{path} now names another directory; both were kept")
         with _fs(path):
             os.rmdir(name, dir_fd=parent_fd)
+        owned.discard(made)
     finally:
         _close(fd, path)
 
 
-def _execute(cmd: str, lane: str, tmp: str, timeout: float) -> tuple[str, str]:
+def _execute(cmd: str, lane: str, tmp: str, timeout: float, cwd_fd: int | None = None) -> tuple[str, str]:
+    """Run cmd with sh in the copy held by cwd_fd: the child enters it with fchdir, never by path.
+
+    Without cwd_fd the child fails before exec (fchdir(None)); lane and tmp only name the copy in the env."""
     env = dict(os.environ, PWD=lane, LLMDB_ROOT=lane, TMPDIR=tmp)
     env.pop("PYTHONPATH", None)
-    proc = subprocess.Popen(["/bin/sh", "-c", cmd], cwd=lane, env=env, stdin=subprocess.DEVNULL,
-                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+    proc = subprocess.Popen(["/bin/sh", "-c", cmd], preexec_fn=lambda: os.fchdir(cwd_fd), env=env,
+                            stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                            start_new_session=True)
     try:
         code = proc.wait(timeout=timeout)
     except subprocess.TimeoutExpired:
@@ -665,9 +689,10 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if name in ("", ".", ".."):
             raise Refusal(f"--out {args.out} names no file")
-        root = os.getcwd()
-        root_fd = open_root(root)
+        root = "(the current directory)"
+        root_fd = open_root(os.curdir)
         try:
+            root = _realpath(root_fd, f"lane {root}")
             targets = read_targets(root_fd, root, args.file)
             mutants = [m for t in targets.values() for m in mutants_for(t.rel, t.data)]
             allow = load_allow(args.allow, {m.id for m in mutants}) if args.allow else {}
@@ -693,17 +718,24 @@ def main(argv: list[str] | None = None) -> int:
                     session.verify_lane()
                 # The scratch directory is gone before the output exists, so its cleanup never reaches it.
                 body = (json.dumps(rows, indent=1, sort_keys=True) + "\n").encode("utf-8")
-                with _fs(out):
+                lane_real = _realpath(root_fd, f"lane {root}")
+                if _inside(lane_real, _realpath(parent_fd, f"--out parent {parent}")):
+                    raise Refusal(f"--out {out} is now inside the lane; nothing was created")
+                with _fs(out):  # no call between the parent's check above and this create
                     out_fd = os.open(name, CREATE_FLAGS, 0o644, dir_fd=parent_fd)
                 kept = f" ({out} was created and left in place)"
-                try:
-                    _write_all(out_fd, body, f"{out} (left in place, incomplete)")
+
+                def placed(verb: str) -> None:
                     real = _realpath(out_fd, f"{out}{kept}")
                     expected = os.path.join(_realpath(parent_fd, f"--out parent {parent}{kept}"), name)
                     if real != expected:
-                        raise Refusal(f"wrote {real}, not {expected}; it was left in place")
+                        raise Refusal(f"{verb} {real}, not {expected}; it was left in place")
                     if _inside(_realpath(root_fd, f"lane {root}{kept}"), real):
-                        raise Refusal(f"wrote {real}, which is now inside the lane; it was left in place")
+                        raise Refusal(f"{verb} {real}, which is now inside the lane; it was left in place")
+                try:
+                    placed("created")  # before the first byte: a move at the create writes nothing inside
+                    _write_all(out_fd, body, f"{out} (left in place, incomplete)")
+                    placed("wrote")
                 finally:
                     _close(out_fd, f"{out} (written, left in place)")
             finally:
