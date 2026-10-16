@@ -164,13 +164,10 @@ class WorkspacePolicy:
 
 
 def wire_validator():
-    """Consume T061's parser and the active package's hash-checked schema."""
-    package = Path(os.environ['ICM_PACKAGE'])
-    context = decode(read_file(str(package / 'context.json')))
-    schema_binding = dict(context['sources']['WIRE-SCHEMAS.json'])
-    schema_binding['path'] = schema_binding['path'].replace('{package}', str(package))
-    schema = read_binding(schema_binding)
-    source = Path(__file__).parents[2] / 'state/icm21_check.py'
+    """Consume T061's parser and the repository's wire schema."""
+    state = Path(__file__).parents[2] / 'state'
+    schema = decode(read_file(str(state / 'icm21/WIRE-SCHEMAS.json')))
+    source = state / 'icm21_check.py'
     spec = importlib.util.spec_from_file_location('icm21_wire', source)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)

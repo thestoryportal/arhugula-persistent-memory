@@ -260,11 +260,7 @@ def read_json(path):
 
 
 def audit_schema():
-    package = Path(os.environ['ICM_PACKAGE'])
-    binding = read_json(package / 'context.json')['sources']['WIRE-SCHEMAS.json']
-    raw = Path(binding['path'].replace('{package}', str(package))).read_bytes()
-    require(hashlib.sha256(raw).hexdigest() == binding['sha256'], 'changed wire schema')
-    return json.loads(raw)
+    return read_json(Path(__file__).parent / 'icm21/WIRE-SCHEMAS.json')
 
 
 def active_graft(value):

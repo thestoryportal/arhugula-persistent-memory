@@ -1,0 +1,101 @@
+{
+  "T004": {
+    "subject": "code/tests/test_icm21.py",
+    "contract": "FixtureContractControls",
+    "required": {
+      "ApprovedWireControls": [],
+      "GuardControls": [
+        "test_admission_shapes",
+        "test_bounded_runner",
+        "test_create_recheck",
+        "test_fault_denial",
+        "test_unsupported_sandbox_denial"
+      ],
+      "ReaderControls": [
+        "test_candidate_registry_adapter",
+        "test_current_index_outputs",
+        "test_current_labviz_output",
+        "test_d2_wire_parser",
+        "test_dispatch_coverage_and_ownership",
+        "test_exact_relocation_and_citations",
+        "test_labviz_adapter_identity",
+        "test_portable_map_identity",
+        "test_queue_compatibility_and_candidates",
+        "test_relocated_anchor_targets"
+      ],
+      "StagedControls": [
+        "test_ci_bypass",
+        "test_generator_scope",
+        "test_real_hook",
+        "test_source_output_closure"
+      ]
+    }
+  },
+  "T006": {
+    "subject": "code/tests/test_context_audit.py",
+    "contract": "AuditFixtureControls",
+    "required": {
+      "AuditControls": [
+        "test_guide_candidate",
+        "test_handoff_context",
+        "test_lane_ownership",
+        "test_model_bulk_locators",
+        "test_partial_reduction",
+        "test_registered_memory_loaders",
+        "test_report_writer_contract",
+        "test_repository_copies",
+        "test_result_joins",
+        "test_view_twin_freshness"
+      ],
+      "GraftControls": []
+    }
+  },
+  "T088": {
+    "subject": "code/tests/test_icm21_successor.py",
+    "contract": "FixtureSuccessorControls",
+    "required": {
+      "GuardControls": [
+        "test_approved_copy_kinds_denied",
+        "test_canonical_read_denial",
+        "test_create_direct_rechecks",
+        "test_creator_signal_result",
+        "test_fixture_git_hook_rerun",
+        "test_pure_profile_mkdir_denial",
+        "test_runner_complete_results",
+        "test_runner_fixture_git_config",
+        "test_runner_scope_and_environment",
+        "test_system_python_hook_envelope"
+      ],
+      "ReaderControls": [
+        "test_anchor_parser_relocation",
+        "test_generator_portable_provenance",
+        "test_labviz_adapter_identity",
+        "test_labviz_provenance_rejection",
+        "test_relocated_resolution_integration"
+      ],
+      "StagedControls": [
+        "test_generator_write_scope"
+      ]
+    }
+  },
+  "T090": {
+    "subject": "code/tests/test_context_audit_successor.py",
+    "contract": "AuditSuccessorControls",
+    "required": {
+      "AuditControls": [
+        "test_copy_missing_authority",
+        "test_copy_no_rehash",
+        "test_copy_signatures_isolated",
+        "test_foreign_git_is_not_copy",
+        "test_lane_component_prefix_overlap",
+        "test_lane_field_validation",
+        "test_lane_missing_authority",
+        "test_lane_ownership",
+        "test_lane_worktree_readonly"
+      ],
+      "GraftControls": [
+        "test_unknown_malformed_ids"
+      ]
+    }
+  }
+}
