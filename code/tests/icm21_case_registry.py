@@ -6,7 +6,6 @@ from icm21_fixtures import sealed
 
 
 class CandidateRegistryCase:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_candidate_registry_adapter(self):
         self.require_file('code/state/icm21_check.py', 'candidate registry adapter integration')
         candidate = self.require_file('plans/icm21/specs/REGISTRIES.json', 'candidate registry')
