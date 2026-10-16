@@ -163,11 +163,16 @@ class WorkspacePolicy:
         self.validator(value, {'$ref': '#/$defs/' + name}, self.schema['$defs'])
 
 
-def wire_validator():
-    """Consume T061's parser and the repository's wire schema."""
-    state = Path(__file__).parents[2] / 'state'
-    schema = decode(read_file(str(state / 'icm21/WIRE-SCHEMAS.json')))
-    source = state / 'icm21_check.py'
+def wire_paths(repo_root):
+    """T061's wire schema and parser in the policy's canonical repository."""
+    state = Path(repo_root) / 'code/state'
+    return state / 'icm21/WIRE-SCHEMAS.json', state / 'icm21_check.py'
+
+
+def wire_validator(repo_root):
+    """Consume T061's parser and wire schema from the repository, not the gate's copy."""
+    schema_path, source = wire_paths(repo_root)
+    schema = decode(read_file(str(schema_path)))
     spec = importlib.util.spec_from_file_location('icm21_wire', source)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -180,25 +185,26 @@ def load_policy(wire, policy_path=None):
         raw = read_file(policy_path)
         require(decode(raw) == wire, 'Changed policy bytes', 'CHANGED_POLICY')
         policy_file_sha256 = hashlib.sha256(raw).hexdigest()
-    schema, validator = wire_validator()
+    object_fields(wire, ('schema_version', 'config', 'gate', 'scopes', 'approved_requests',
+                         'capabilities', 'read_tools', 'disabled_tool_names'))
+    config = read_binding(wire['config'])
+    object_fields(config, ('schema_version', 'canonical_root', 'source_roots',
+                          'preservation_root', 'worktree_root', 'tool_root', 'ownership_path',
+                          'registries', 'references', 'retention', 'required_checks',
+                          'nightly_utc', 'migration_holds'))
+    path(config['canonical_root'])
+    schema, validator = wire_validator(config['canonical_root'])
 
     def validate(name, value):
         validator(value, {'$ref': '#/$defs/' + name}, schema['$defs'])
 
     validate('WorkspacePolicy', wire)
-    object_fields(wire, ('schema_version', 'config', 'gate', 'scopes', 'approved_requests',
-                         'capabilities', 'read_tools', 'disabled_tool_names'))
     version(wire)
     for key in ('read_tools', 'disabled_tool_names'):
         strings(wire[key])
     require(set(wire['read_tools']) <= {'Read', 'Glob', 'Grep'}, 'Unknown read tool')
     require(type(wire['capabilities']) is list, 'Invalid capabilities')
-    config = read_binding(wire['config'])
     validate('Config', config)
-    object_fields(config, ('schema_version', 'canonical_root', 'source_roots',
-                          'preservation_root', 'worktree_root', 'tool_root', 'ownership_path',
-                          'registries', 'references', 'retention', 'required_checks',
-                          'nightly_utc', 'migration_holds'))
     version(config)
     roots = [config[key] for key in ('canonical_root', 'preservation_root',
                                     'worktree_root', 'tool_root')]
@@ -252,6 +258,7 @@ def load_policy(wire, policy_path=None):
     protected = [wire[k]['path'] for k in ('config', 'gate', 'scopes', 'approved_requests')]
     protected += [config[k]['path'] for k in ('registries', 'references', 'retention')]
     protected += [cap['profile']['path'] for cap in wire['capabilities']]
+    protected += [str(p) for p in wire_paths(config['canonical_root'])]
     if policy_path is not None:
         protected.append(policy_path)
     require(not files.intersection(protected), 'Guard or policy is in native edit scope')
@@ -570,9 +577,11 @@ def tool_decision(event: HookEvent, policy: WorkspacePolicy):
     if tool == 'Bash':
         object_fields(data, ('command',))
         string(data['command'])
+        require(policy.policy_path is not None, 'Run needs a policy file', 'UNSAFE_TOOL')
         for cap in policy.wire['capabilities']:
             fixed = [cap['interpreter'], '-B', policy.wire['gate']['path'], 'run',
-                     '--lane', cap['lane'], '--capability', cap['id']]
+                     '--policy', policy.policy_path, '--lane', cap['lane'],
+                     '--capability', cap['id']]
             if data['command'] == shlex.join(fixed) and event['cwd'] == cap['cwd']:
                 return 'allow', None
         return 'deny', 'UNSAFE_TOOL'
@@ -613,14 +622,12 @@ def main():
     commands = parser.add_subparsers(dest='command', required=True)
     for name in ('check', 'hook', 'create', 'run'):
         command = commands.add_parser(name)
+        command.add_argument('--policy', required=True)
         if name == 'run':
-            command.add_argument('--policy', default='/Volumes/memit/llmdb-tools/icm21/policy.json')
             command.add_argument('--lane', required=True)
             command.add_argument('--capability', required=True)
-        else:
-            command.add_argument('--policy', required=True)
-            if name != 'hook':
-                command.add_argument('--request', required=True)
+        elif name != 'hook':
+            command.add_argument('--request', required=True)
     args = parser.parse_args()
     request = None
     try:
