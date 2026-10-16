@@ -1093,7 +1093,7 @@ class AutomationTests(unittest.TestCase):
         self.assertFalse(self.gate()['ok'])
 
     def test_pr_behind_current_master_refuses(self):
-        (self.fixture.root / 'new-master.txt').write_text('new base')
+        (self.fixture.root / 'feature.txt').write_text('new base')
         self.fixture.git('add', '.')
         self.fixture.git('commit', '-m', 'advance master')
         self.fixture.git('push', 'origin', 'master')

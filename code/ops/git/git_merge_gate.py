@@ -140,11 +140,26 @@ def poll_ci(repo, gh, number, sha, base, wait_s, post=False):
         backoff = min(10, backoff * 2)
 
 
+def stale_base(repo, master, head, mergeable):
+    """None when head contains master; otherwise the merge-base overlap evidence and whether the stale base is accepted."""
+    if H.ancestor(repo, master, head):
+        return None
+    base = repo.git('merge-base', head, master).strip()
+    def changed(tip):
+        # --no-renames: a rename lists both its old and new path.
+        return sorted(set(repo.git('diff', '--name-only', '--no-renames', '-z', base, tip).split('\0')) - {''})
+    pr_files, master_files = changed(head), changed(master)
+    overlap = sorted(set(pr_files) & set(master_files))
+    return {'accepted': not overlap and mergeable == 'MERGEABLE', 'master_sha': master, 'head_sha': head,
+            'merge_base': base, 'pr_files': pr_files, 'master_files': master_files, 'overlap': overlap}
+
+
 def new_report(number, dry_run):
     names = ('pr', 'fingerprint', 'branches', 'ci', 'stable_head_base', 'ready', 'merge', 'master_ci', 'post_hygiene')
     return {'ok': False, 'mode': 'dry-run' if dry_run else 'apply', 'pr_number': number,
               'status': 'REFUSED', 'merged': False, 'head_sha': None, 'base_sha': None,
               'merge_sha': None, 'merge_first_parent': None, 'final_ci': None, 'head_ci_audit': None, 'errors': [],
+              'stale_base': None,
               'checks': {name: {'status': 'NOT-RUN', 'reason': 'prerequisite unavailable'} for name in names}}
 
 
@@ -195,8 +210,13 @@ def gate(repo, gh, number, dry_run=True, wait_s=480, report=None):
         allowed.update(w['branch'] for w in inventory['worktrees'] if w['branch'] and Path(w['path']).is_dir())
         if pr:
             allowed.add(pr['headRefName'])
-            if inventory['master_sha'] != pr['baseRefOid'] or not H.ancestor(repo, inventory['master_sha'], pr['headRefOid']):
+            if inventory['master_sha'] != pr['baseRefOid']:
                 raise H.Refusal('PR must include the current origin/master; update branch then obtain fresh CI')
+            stale = report['stale_base'] = stale_base(repo, inventory['master_sha'], pr['headRefOid'], pr['mergeable'])
+            if stale and not stale['accepted']:
+                raise H.Refusal('stale base refused: files changed on master since merge-base ' + stale['merge_base'] +
+                                ': ' + (', '.join(stale['overlap']) or 'none') + '; mergeable=' + str(pr['mergeable']) +
+                                ' (MERGEABLE required); update branch then obtain fresh CI')
         extras = sorted({b['name'] for b in inventory['branches'] if b['name'] not in allowed})
         if extras:
             raise H.Refusal('extra branches remain; run hygiene first and review unmerged extras: ' + ', '.join(extras))
