@@ -23,7 +23,7 @@ Usage:
 import sys, os, glob, filecmp, json, hashlib, re, subprocess
 
 # code/gates/closeout_check.py -> the repo root is three levels up; env overrides.
-ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Keep each tracker equivalent to its old text after the generated block moves.
 TRACKER_PARTS = {
