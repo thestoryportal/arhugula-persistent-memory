@@ -1,11 +1,9 @@
 """Staged source/output closure case (StagedControls)."""
-import unittest
 
 from icm21_fixtures import put
 
 
 class SourceOutputClosureCase:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_source_output_closure(self):
         self.checker()
         root = self.miniature()

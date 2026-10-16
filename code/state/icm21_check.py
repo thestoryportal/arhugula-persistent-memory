@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import sys
 import time
 
 
@@ -311,6 +312,11 @@ def active_graft(value):
                for key, enabled in value.get('enabledPlugins', {}).items())
 
 
+def git_environment():
+    """The caller's environment without GIT_*, so cwd alone names the repository."""
+    return {key: value for key, value in os.environ.items() if not key.startswith('GIT_')}
+
+
 def repository_copies(root, config, coverage):
     """Detect copies from Git identity and layout locators, never bulk bytes."""
     violations, missing = {}, []
@@ -320,9 +326,7 @@ def repository_copies(root, config, coverage):
         violations.setdefault(str(path), set()).add(reason)
 
     def git(*argv):
-        environment = {key: value for key, value in os.environ.items()
-                       if not key.startswith('GIT_')}
-        result = subprocess.run(['git', *argv], cwd=root, env=environment,
+        result = subprocess.run(['git', *argv], cwd=root, env=git_environment(),
                                 capture_output=True)
         return result.returncode, result.stdout.decode('utf-8', 'replace').strip()
 
@@ -627,7 +631,8 @@ def audit(root, mode, config):
                   - set(coverage['checked_registry_ids']))
     overall = ('FAIL' if 'FAIL' in statuses else
                'UNVERIFIED' if incomplete or 'UNVERIFIED' in statuses else 'PASS')
-    commit = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=root, capture_output=True)
+    commit = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=root, env=git_environment(),
+                            capture_output=True)
     report = {'schema_version': 1, 'check_id': instant.strftime('%H%M%S.%fZ-') + mode,
               'observed_at': instant.strftime('%Y-%m-%dT%H:%M:%S.%fZ'), 'root': str(root),
               'source_commit': commit.stdout.decode().strip() if commit.returncode == 0
@@ -639,6 +644,136 @@ def audit(root, mode, config):
               'reviewed_narrative_paths': [], 'unreviewed_narrative_paths': [str(root)]}
     validate_wire('AuditReport', report, schema, {})
     return report
+
+
+# Staged source/output closure (SPEC.md:445-460). An entry names a file or a whole tree.
+STAGED_CLOSURE = (
+    # Generator, resolver, checker and hook implementations; admission configuration.
+    'code/state/build_index.py', 'code/state/resolve_path.py', 'code/state/llmdb_records.py',
+    'code/state/render_state.py', 'code/agents/twins.py', 'code/gates/closeout_check.py',
+    'code/gates/closeout_fingerprints.json', 'code/ops/git/hooks/pre-commit',
+    'code/state/icm21_check.py', 'code/state/icm21/WIRE-SCHEMAS.json',
+    '_system/governance/workspace-admission.json',
+    # Generator inputs.
+    'program/program_state.json', 'evidence/CORPUS', 'program/checkpoints',
+    '_index/path-map.tsv', '_index/icm21-path-map.tsv', '_index/anchor-map.tsv',
+    # Close-out narrative trackers and the globbed hypothesis register (closeout_check.py).
+    'program/runbook', 'program/registers', 'program/PROGRESS.md',
+    'program/EVIDENCE_INDEX.md', 'README.md', 'program/SESSION_BOOTSTRAP.md',
+    '_system/governance/REPRODUCIBILITY.md',
+    # Outputs and authority twins.
+    '_index/experiments.md', '_index/projects.md', '_index/evidence.md',
+    '_index/checkpoints.md', 'code/apps/labviz/results_moves.json', 'program/STATUS.md',
+    '_index/program-state.md', 'program/scorecard.md', 'CLAUDE.md', 'AGENTS.md',
+    'routing.md', 'map/CLAUDE.md', 'map/AGENTS.md', 'map/routing.md')
+# Folder membership is a generator input: every tracked or untracked non-ignored path
+# under these trees counts, but only experiment CONTEXT.md bytes are read.
+STAGED_MEMBERSHIP = ('experiments', 'projects')
+STAGED_CHECKS = (('code/state/build_index.py', '--check'),
+                 ('code/state/render_state.py', '--check'),
+                 ('code/agents/twins.py', '--check'),
+                 ('code/gates/closeout_check.py', '--audit'))
+
+
+def disk_entry(path, object_format):
+    """(mode, blob id) of the bytes on disk, as Git would stage them; None when absent."""
+    if path.is_symlink():
+        mode, raw = '120000', os.readlink(path).encode('utf-8', 'surrogateescape')
+    elif path.is_file():
+        mode = '100755' if path.stat().st_mode & 0o100 else '100644'
+        raw = path.read_bytes()
+    else:
+        return None
+    header = b'blob ' + str(len(raw)).encode() + b'\0'
+    return mode, hashlib.new(object_format, header + raw).hexdigest()
+
+
+def check_staged(root):
+    """Read-only: reject disk/index differences and stale outputs across the staged closure."""
+    root = Path(root)
+    findings = []
+
+    def fail(relative, reason):
+        identity = relative + '\n' + reason
+        findings.append({'id': 'F-STAGED-' + hashlib.sha256(identity.encode()).hexdigest(),
+                         'status': 'FAIL', 'prd_ids': ['ICM-R8'],
+                         'paths': [str(root / relative)], 'evidence': [], 'reason': reason,
+                         'previous_finding': None, 'resolution_receipt': None})
+
+    def git(*argv):
+        result = subprocess.run(['git', '--literal-pathspecs', *argv], cwd=root,
+                                env=git_environment(), capture_output=True)
+        if result.returncode:
+            raise ValueError('git ' + argv[0] + ' failed: '
+                             + result.stderr.decode('utf-8', 'replace').strip())
+        return result.stdout.decode('utf-8', 'surrogateescape')
+
+    try:
+        top = git('rev-parse', '--show-toplevel').strip()
+        require(top and Path(top).resolve() == root.resolve(), 'staged root is not the Git root')
+        object_format = git('rev-parse', '--show-object-format').strip()
+        filemode = git('config', '--bool', '--default', 'true', 'core.filemode').strip() == 'true'
+        closure = set(STAGED_CLOSURE)
+        registry = read_json(root / 'code/gates/closeout_fingerprints.json')
+        require(type(registry) is dict, 'fingerprint registry must be an object')
+        for key, spec in registry.items():
+            if not key.startswith('_'):
+                require(type(spec) is dict and type(spec.get('source')) is str and spec['source'],
+                        'fingerprint ' + key + ' has no source')
+                closure.add(spec['source'].rstrip('/'))
+        anchors = (root / '_index/anchor-map.tsv').read_bytes().decode('utf-8').splitlines()
+        for row in anchors[1:]:
+            fields = row.split('\t')
+            require(len(fields) == 4 and fields[2], 'malformed anchor-map row')
+            closure.add(fields[2])
+        pathspecs = sorted(closure | set(STAGED_MEMBERSHIP))
+        index = git('ls-files', '-z', '-t', '-s', '--', *pathspecs)
+        untracked = git('ls-files', '-z', '--others', '--exclude-standard', '--', *pathspecs)
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        fail('.', 'Staged closure is unverifiable: ' + str(error))
+        return tuple(findings)
+
+    def read_bytes(relative):
+        return relative in closure or any(relative.startswith(entry + '/') for entry in closure) \
+            or (relative.startswith('experiments/') and relative.count('/') == 2
+                and relative.endswith('/CONTEXT.md'))
+
+    for relative in sorted(filter(None, untracked.split('\0'))):
+        fail(relative, 'Untracked closure path is absent from the index')
+    for record in filter(None, index.split('\0')):
+        meta, relative = record.split('\t', 1)
+        tag, mode, blob, stage = meta.split(' ')
+        if stage != '0':
+            fail(relative, 'Unmerged closure path')
+            continue
+        if tag == 'S':  # skip-worktree: a sparse checkout makes no disk claim
+            continue
+        try:
+            disk = disk_entry(root / relative, object_format)
+        except OSError as error:
+            fail(relative, 'Unreadable closure path: ' + type(error).__name__)
+            continue
+        if disk is None:
+            fail(relative, 'Staged closure path is missing on disk')
+        elif read_bytes(relative) and disk[1] != blob:
+            fail(relative, 'Disk bytes differ from the staged blob')
+        elif read_bytes(relative) and (disk[0] != mode if filemode or mode == '120000'
+                                       else (disk[0] == '120000') != (mode == '120000')):
+            fail(relative, 'Disk mode ' + disk[0] + ' differs from staged mode ' + mode)
+    environment = dict(git_environment(), LLMDB_ROOT=str(root), PYTHONDONTWRITEBYTECODE='1')
+    for script, mode in STAGED_CHECKS:
+        if not (root / script).is_file():
+            fail(script, 'Staged check implementation is missing')
+            continue
+        result = subprocess.run([sys.executable, '-B', str(root / script), mode], cwd=root,
+                                env=environment, capture_output=True)
+        if result.returncode:
+            tail = (result.stdout + result.stderr).decode('utf-8', 'replace').strip()
+            fail(script, script + ' ' + mode + ' failed: ' + tail[-400:])
+    schema = audit_schema()
+    for finding in findings:
+        validate_wire('Finding', finding, schema, {})
+    return tuple(findings)
 
 
 def check_references(root, manifest):
@@ -660,6 +795,8 @@ def main():
     command = commands.add_parser('references')
     command.add_argument('--root', type=Path, required=True)
     command.add_argument('--manifest', type=Path, required=True)
+    command = commands.add_parser('staged')
+    command.add_argument('--root', type=Path, required=True)
     args = parser.parse_args()
     code = None
     try:
@@ -668,6 +805,9 @@ def main():
             problems, missing = inspect_lanes(args.ownership, {'inspected': []})
             result = {'status': 'FAIL' if problems else 'UNVERIFIED' if missing else 'PASS',
                       'violations': problems, 'missing': missing}
+        elif args.command == 'staged':
+            findings = check_staged(args.root)
+            result = {'status': 'FAIL' if findings else 'PASS', 'findings': list(findings)}
         elif args.command == 'references':
             result = check_references(args.root, read_json(args.manifest))
             statuses = {check['status'] for reader in result['readers']
