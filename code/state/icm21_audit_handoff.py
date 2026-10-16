@@ -3,6 +3,7 @@
 Read-only. A handoff is compared, never edited. `Unverified` is injected by icm21_check.area().
 """
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -17,29 +18,64 @@ FIELDS = (('done', r'Done'), ('in flight', r'In flight'),
 BUDGET = 'context-budget.json'
 
 
+def wire_checker():
+    """The checker's own Registries validator, loaded by file path like area()."""
+    path = Path(__file__).parent / 'icm21_check.py'
+    spec = importlib.util.spec_from_file_location('icm21_check', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def directive():
-    texts = [entry['text'] for entry in json.loads(VERBATIM.read_bytes())
-             if entry['text'].startswith(HEADING)]
+    try:
+        texts = [entry['text'] for entry in json.loads(VERBATIM.read_bytes())
+                 if entry['text'].startswith(HEADING)]
+    except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
+        raise Unverified('Unreadable sealed directive ' + str(VERBATIM) + ': '
+                         + type(error).__name__ + ': ' + str(error))
     if len(texts) != 1:
         raise Unverified('Sealed context directive is not unique in ' + str(VERBATIM))
     return texts[0]
 
 
+def finding(path, reason):
+    finding_id = 'F-HANDOFF-' + hashlib.sha256((str(path) + '\n' + reason).encode()).hexdigest()
+    return {'id': finding_id, 'status': 'FAIL', 'prd_ids': ['ICM-R11'],
+            'paths': [str(path)], 'evidence': [], 'reason': reason,
+            'previous_finding': None, 'resolution_receipt': None}
+
+
 def entries(config, coverage):
+    """Bound registry rows for C-HANDOFF, or a FAIL finding for malformed authority."""
     path = Path(config['registries']['path'])
     try:
         raw = path.read_bytes()
-        registry = json.loads(raw)
-        found = [entry for entry in registry['reader_registry'] + registry['loader_registry']
-                 if 'C-HANDOFF' in entry['check_ids']]
-    except (OSError, ValueError, KeyError, TypeError) as error:
+    except OSError as error:
         raise Unverified('Unreadable registry ' + str(path) + ': ' + str(error))
     coverage['inspected'].append(str(path))
     if hashlib.sha256(raw).hexdigest() != config['registries']['sha256']:
         raise Unverified('Changed bound registry: ' + str(path))
+    checker = wire_checker()
+    try:
+        registry = json.loads(raw.decode('utf-8'), parse_constant=checker.reject_constant)
+        checker.validate_wire('Registries', registry, checker.audit_schema(), {})
+        for role in ('reader', 'loader'):
+            checker.require(all(entry['role'] == role
+                                for entry in registry[role + '_registry']),
+                            'registry role mismatch')
+    except OSError as error:
+        raise Unverified('Unreadable wire schema: ' + str(error))
+    except (ValueError, KeyError, TypeError, AttributeError) as error:
+        return [], finding(path, 'Invalid bound registry: ' + str(error))
+    found = [entry for entry in registry['reader_registry'] + registry['loader_registry']
+             if 'C-HANDOFF' in entry['check_ids']]
+    for entry in found:
+        if entry['id'] not in coverage['required_registry_ids']:
+            coverage['required_registry_ids'].append(entry['id'])
     if not found:
         raise Unverified('No registered handoff coverage')
-    return found
+    return found, None
 
 
 def text_breaches(text, sealed):
@@ -70,9 +106,13 @@ def budget_breaches(path):
 
 
 def check(check_id, root, mode, config, coverage):
+    # Registry IDs are recorded before any other evidence can stop the check.
+    registered, invalid = entries(config, coverage)
+    if invalid is not None:
+        return 'FAIL', 'Invalid bound handoff registry', [invalid]
     sealed = directive()
     findings, missing = {}, []
-    for entry in entries(config, coverage):
+    for entry in registered:
         path = Path(entry['path']) if Path(entry['path']).is_absolute() else root / entry['path']
         if entry['status'] == 'UNVERIFIED' or entry['source_sha256'] is None:
             missing.append(entry['id'])
@@ -86,18 +126,17 @@ def check(check_id, root, mode, config, coverage):
         except Unverified as error:
             missing.append(str(error))
             budget = []
+        else:
+            if entry['id'] not in coverage['checked_registry_ids']:
+                coverage['checked_registry_ids'].append(entry['id'])
         coverage['inspected'].extend([str(path), str(path.parent / BUDGET)])
         breaches = budget
         if hashlib.sha256(raw).hexdigest() != entry['source_sha256']:
             breaches = breaches + ['handoff differs from its registered digest']
         breaches = breaches + text_breaches(raw.decode('utf-8', 'replace'), sealed)
         for reason in breaches:
-            finding_id = 'F-HANDOFF-' + hashlib.sha256(
-                (str(path) + '\n' + reason).encode()).hexdigest()
-            findings[finding_id] = {
-                'id': finding_id, 'status': 'FAIL', 'prd_ids': ['ICM-R11'],
-                'paths': [str(path)], 'evidence': [], 'reason': reason,
-                'previous_finding': None, 'resolution_receipt': None}
+            item = finding(path, reason)
+            findings[item['id']] = item
     if findings:
         return 'FAIL', 'Handoff context violations detected', list(findings.values())
     if missing:
