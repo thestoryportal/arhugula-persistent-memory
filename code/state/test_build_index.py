@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import re
 import subprocess
 import shutil
 import sys
@@ -260,6 +261,31 @@ class IndexTests(unittest.TestCase):
             result = self.run_tool('--check')
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn('anchor-map.tsv', result.stderr)
+
+
+class TableShape(unittest.TestCase):
+    setUp = IndexTests.setUp
+
+    def test_header_width_matches_rows(self):
+        from state.build_index import generate
+        for name, data in generate(self.root).items():
+            widths = [len(re.split(r'(?<!\\)\|', line)) - 2
+                      for line in data.decode().splitlines() if line.startswith('|')]
+            with self.subTest(name=name):
+                self.assertGreater(len(widths), 2)
+                self.assertEqual(set(widths), {widths[0]})
+
+    def test_generate_reads_given_root(self):
+        from state.build_index import generate
+        path = self.root / 'program/program_state.json'
+        state = json.loads(path.read_text())
+        state['work_queue']['items'][0]['artifact'] = {'kind': 'project', 'path': 'projects/w1'}
+        path.write_text(json.dumps(state))
+        (self.root / 'projects/w1/notes.md').write_text('# Notes\n')
+        with tempfile.TemporaryDirectory() as other, patch.dict(os.environ, LLMDB_ROOT=other):
+            projects = generate(self.root)['projects.md'].decode()
+        self.assertIn('| w1 | First | running | folder and queue item | project | projects/w1 |',
+                      projects)
 
 
 class LivingAnchorMapTests(unittest.TestCase):
