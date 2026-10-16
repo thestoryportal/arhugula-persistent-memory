@@ -4,29 +4,21 @@ Sources: sealed COMMAND-DERIVATION.md, SPEC.md and IMPLEMENTATION_PLAN.md D1/D2.
 Fixtures contain miniature data only. No operational client, model or loader runs.
 """
 import copy
-import dataclasses
-import hashlib
-import importlib.util
 import inspect
-import io
 import json
 import os
 from pathlib import Path
-import subprocess
 import sys
-import tempfile
 import unittest
 from unittest.mock import patch
 
+# BASE, binding, snapshot and the rest stay importable here for test_context_audit.
+from icm21_fixtures import (BASE, D2_POSITIVE, HEADER, INDEX_PATHS, MAP_PATH, SOURCE_ROOT,
+                            FixtureCase, binding, d2_map, digest, encoded, put, sealed, snapshot)
+from icm21_staged_cases import StagedCases
+from icm21_case_labviz_map import CurrentLabvizOutputCase, GeneratorScopeCase
 
-SOURCE_ROOT = Path(os.environ['LLMDB_ROOT'])
-SOURCES = Path(__file__).resolve().parents[1] / 'state/icm21'
-BASE = 'c4e8ff310a2ccaf48f8661eccdcfd734ccc7a977'
-HEADER = b'old\tnew\tdisposition\tunit\n'
-ABOUT = 'Derived from sealed path map and approved ICM v2.1 relocations.'
-MAP_PATH = 'code/apps/labviz/results_moves.json'
-INDEX_PATHS = tuple('_index/' + name + '.md' for name in
-                    ('experiments', 'projects', 'evidence', 'checkpoints'))
+
 SELECTED = {
     'GuardControls': ('test_admission_shapes', 'test_bounded_runner',
                       'test_create_recheck', 'test_fault_denial',
@@ -42,168 +34,6 @@ SELECTED = {
                        'test_relocated_anchor_targets'),
     'ApprovedWireControls': ('test_approved_scope_examples',),
 }
-
-
-def encoded(value):
-    return json.dumps(value, sort_keys=True, separators=(',', ':')).encode('utf-8')
-
-
-def digest(data):
-    return hashlib.sha256(data).hexdigest()
-
-
-def d2_map(inputs, moves):
-    return encoded({'about': ABOUT, 'derived_from': {
-        key: {'path': path, 'sha256': digest(inputs[path])}
-        for key, path in (('sealed', '_index/path-map.tsv'),
-                          ('relocations', '_index/icm21-path-map.tsv'))}, 'moves': moves})
-
-
-D2_POSITIVE = {'inputs': {'_index/path-map.tsv': HEADER,
-                          '_index/icm21-path-map.tsv': HEADER}}
-D2_POSITIVE['map'] = d2_map(D2_POSITIVE['inputs'], {})
-
-
-def sealed(name):
-    return (SOURCES / name).read_bytes()
-
-
-def put(root, relative, data):
-    path = root / relative
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(data if isinstance(data, bytes) else data.encode('utf-8'))
-    return path
-
-
-def binding(path):
-    return {'path': str(path), 'sha256': digest(path.read_bytes())}
-
-
-def snapshot(root):
-    return {str(p.relative_to(root)): (p.lstat().st_mode, p.lstat().st_mtime_ns,
-                                      os.readlink(p) if p.is_symlink() else digest(p.read_bytes()))
-            for p in root.rglob('*') if p.is_file() or p.is_symlink()}
-
-
-class FixtureCase(unittest.TestCase):
-    def setUp(self):
-        self.temporary = tempfile.TemporaryDirectory(prefix='icm21-', dir=os.path.realpath('/tmp'))
-        self.addCleanup(self.temporary.cleanup)
-        self.scratch = Path(self.temporary.name)
-
-    def require_file(self, relative, behavior):
-        path = SOURCE_ROOT / relative
-        self.assertTrue(path.is_file(), 'absent behavior: ' + behavior + ' (' + relative + ')')
-        return path
-
-    def module(self, relative, *functions):
-        path = self.require_file(relative, ', '.join(functions) or relative)
-        name = path.stem
-        spec = importlib.util.spec_from_file_location(name, path)
-        module = importlib.util.module_from_spec(spec)
-        with patch.dict(sys.modules, {name: module}), patch.object(
-                sys, 'path', [str(SOURCE_ROOT / 'code/state')] + sys.path):
-            spec.loader.exec_module(module)
-        for function in functions:
-            self.assertTrue(callable(getattr(module, function, None)),
-                            'absent behavior: ' + relative + ':' + function)
-        return module
-
-    def run_argv(self, root, argv, **kwargs):
-        environment = {k: v for k, v in os.environ.items() if not k.startswith('GIT_')}
-        environment.update(LLMDB_ROOT=str(root), PYTHONDONTWRITEBYTECODE='1',
-                           HOME=str(self.scratch), TMPDIR=str(self.scratch),
-                           GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull,
-                           GIT_AUTHOR_NAME='ICM fixture', GIT_AUTHOR_EMAIL='fixture@example.invalid',
-                           GIT_COMMITTER_NAME='ICM fixture', GIT_COMMITTER_EMAIL='fixture@example.invalid')
-        return subprocess.run(argv, cwd=root, env=environment, capture_output=True,
-                              timeout=30, **kwargs)
-
-    def git(self, root, *args):
-        result = self.run_argv(root, ['git', *args])
-        self.assertEqual(result.returncode, 0, result.stderr.decode())
-        return result.stdout
-
-    def cli(self, root, relative, *args, input=None):
-        script = self.require_file(relative, ' '.join(map(str, args)))
-        return self.run_argv(root, [sys.executable, '-B', str(script), *map(str, args)], input=input)
-
-    def result(self, completed, exit_code):
-        self.assertEqual(completed.returncode, exit_code,
-                         (completed.stdout + completed.stderr).decode('utf-8', 'replace'))
-        self.assertTrue(completed.stdout.strip(), 'missing JSON result')
-        value = json.loads(completed.stdout)
-        self.assertIsInstance(value, dict)
-        return value
-
-    def miniature(self, name='repo'):
-        root = self.scratch / name
-        root.mkdir()
-        for folder in ('experiments', 'projects', 'evidence/CORPUS', 'program/checkpoints', '_index'):
-            (root / folder).mkdir(parents=True, exist_ok=True)
-        self.git(root, 'init', '-q')
-        put(root, '_index/path-map.tsv', HEADER)
-        put(root, '_index/icm21-path-map.tsv', HEADER)
-        put(root, '_index/anchor-map.tsv', b'monolith\tanchor\tpart\tcurrent_anchor\n')
-        put(root, 'program/program_state.json', encoded({'work_queue': {'items': []}}))
-        return root
-
-    def index_module(self):
-        return self.module('code/state/build_index.py', 'generate')
-
-    def generate(self, root):
-        """Use the one real generator; permit writes only in this miniature root."""
-        with patch.dict(os.environ, {'LLMDB_ROOT': str(root)}):
-            generated = self.index_module().generate(root)
-        self.assertIsInstance(generated, dict)
-        for name in ('experiments.md', 'projects.md', 'evidence.md', 'checkpoints.md'):
-            self.assertIn(name, generated)
-        return generated
-
-    def portable_fixture(self, root):
-        old = ('results/context_rot_audit_20261012/findings.md',
-               'results/skills_pipeline_survey_20261012/skills_pipeline_survey.md',
-               'results/autoresearch_reaim/reaim-oct06/iter_01/pass0.json')
-        middle = ('audits/context/check/findings.md',
-                  'knowledge/research/skills-pipeline/skills_pipeline_survey.md',
-                  'experiments/autoresearch/runs/reaim-oct06/iter_01/pass0.json')
-        final = ('audits/context/final/findings.md',
-                 'knowledge/research/skills-final/skills_pipeline_survey.md',
-                 'experiments/autoresearch/runs/final/iter_01/pass0.json')
-        sealed_bytes = HEADER + b''.join((a + '\t' + b + '\tmove\tfixture\n').encode()
-                                        for a, b in zip(old, middle))
-        relocation_bytes = HEADER + b''.join((a + '\t' + b + '\tmove\tfixture\n').encode()
-                                            for a, b in zip(middle, final))
-        put(root, '_index/path-map.tsv', sealed_bytes)
-        put(root, '_index/icm21-path-map.tsv', relocation_bytes)
-        leaves = []
-        for source, target in zip(old, final):
-            raw = encoded({'fixture_source': source})
-            put(root, target, raw)
-            leaves.append({'source': source, 'target': target, 'sha256': digest(raw)})
-        put(root, 'leaves.json', encoded(leaves))
-        put(root, 'code/apps/labviz/contexts.json', encoded({}))
-        return leaves
-
-    def publish_miniature(self, root):
-        generated = self.generate(root)
-        for name, raw in generated.items():
-            put(root, name if '/' in name else '_index/' + name, raw)
-        result = self.cli(root, 'code/state/build_index.py', '--write', '--labviz-map-only')
-        self.assertEqual(result.returncode, 0, (result.stdout + result.stderr).decode())
-        return (root / MAP_PATH).read_bytes()
-
-    def labviz(self, root):
-        module = self.module('code/apps/labviz/context.py', '_moved')
-        with patch.dict(os.environ, {'LLMDB_ROOT': str(root)}):
-            return module, module.Program(root)
-
-    def wire(self, root, examples):
-        self.require_file('code/state/icm21_check.py', 'approved-scope wire validation')
-        schema = put(root, 'schema.json', sealed('WIRE-SCHEMAS.json'))
-        path = put(root, 'examples.json', encoded(examples))
-        return self.cli(root, 'code/state/icm21_check.py', 'wire', '--root', root,
-                        '--schema', schema, '--examples', path)
 
 
 class ApprovedWireControls(FixtureCase):
@@ -413,139 +243,11 @@ class GuardControls(FixtureCase):
         self.assertTrue(callable(module.run_lane))
 
 
-class StagedControls(FixtureCase):
-    def checker(self):
-        return self.module('code/state/icm21_check.py', 'check_staged')
-
-    def seed_closure(self, root):
-        for relative in ('code/state/build_index.py', 'code/state/resolve_path.py',
-                         'code/state/icm21_check.py', 'code/state/render_state.py',
-                         'code/state/llmdb_records.py', 'code/agents/twins.py',
-                         'code/gates/closeout_check.py', 'code/gates/closeout_fingerprints.json',
-                         'code/ops/git/hooks/pre-commit'):
-            put(root, relative, self.require_file(relative, 'staged source closure').read_bytes())
-        for relative in ('CLAUDE.md', 'AGENTS.md', 'routing.md',
-                         'map/CLAUDE.md', 'map/AGENTS.md', 'map/routing.md'):
-            put(root, relative, b'# Miniature authority\n')
-        put(root, 'code/gates/closeout_fingerprints.json', b'{}')
-        put(root, '_system/governance/workspace-admission.json', b'{}')
-        self.publish_miniature(root)
-        state = json.loads((SOURCE_ROOT / 'program/program_state.json').read_bytes())
-        state['work_queue']['items'] = []
-        put(root, 'program/program_state.json', encoded(state))
-        for script in ('code/state/render_state.py', 'code/agents/twins.py'):
-            value = self.cli(root, script, '--write')
-            self.assertEqual(value.returncode, 0, (value.stdout + value.stderr).decode())
-        for name, raw in self.generate(root).items():
-            put(root, name if '/' in name else '_index/' + name, raw)
-        self.git(root, 'add', '.')
-
-    def staged(self, root):
-        with patch.dict(os.environ, {'LLMDB_ROOT': str(root)}):
-            result = self.checker().check_staged(root)
-        self.assertIsInstance(result, tuple)
-        return [dataclasses.asdict(x) if dataclasses.is_dataclass(x) else x for x in result]
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_source_output_closure(self):
-        self.checker()
-        root = self.miniature()
-        self.seed_closure(root)
-        self.assertFalse(any(x['status'] == 'FAIL' for x in self.staged(root)))
-        paths = ('program/program_state.json', 'code/state/resolve_path.py',
-                 '_index/experiments.md', 'program/STATUS.md', 'map/CLAUDE.md',
-                 'code/gates/closeout_fingerprints.json',
-                 '_system/governance/workspace-admission.json')
-        for relative in paths:
-            with self.subTest(path=relative):
-                original = (root / relative).read_bytes()
-                (root / relative).write_bytes(original + b'\n')
-                findings = self.staged(root)
-                self.assertTrue(any(x['status'] == 'FAIL' for x in findings), relative)
-                (root / relative).write_bytes(original)
-        put(root, 'experiments/new/CONTEXT.md', b'---\nstatus: designed\n---\n')
-        self.assertTrue(any(x['status'] == 'FAIL' for x in self.staged(root)))
-        self.git(root, 'add', 'experiments/new/CONTEXT.md')
-        self.assertTrue(any(x['status'] == 'FAIL' for x in self.staged(root)), 'stale staged index')
-        for name, raw in self.generate(root).items():
-            put(root, name if '/' in name else '_index/' + name, raw)
-        self.assertTrue(any(x['status'] == 'FAIL' for x in self.staged(root)), 'fresh unstaged outputs')
-        self.git(root, 'add', '.')
-        self.assertFalse(any(x['status'] == 'FAIL' for x in self.staged(root)))
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_generator_scope(self):
-        module = self.index_module()
-        self.assertIn('--labviz-map-only', inspect.getsource(module.main),
-                      'absent behavior: scoped LabViz generation')
-        root = self.miniature()
-        self.portable_fixture(root)
-        self.publish_miniature(root)
-        sealed_paths = (root / '_index/path-map.tsv', root / '_index/anchor-map.tsv')
-        for flags in (('--write',), ('--write', '--labviz-map-only'),
-                      ('--check',), ('--check', '--labviz-map-only')):
-            before = snapshot(root)
-            writes = []
-            original_open = io.open
-
-            def observing_open(file, mode='r', *args, **kwargs):
-                if isinstance(file, (str, os.PathLike)) and any(c in mode for c in 'wax+'):
-                    writes.append(Path(file))
-                return original_open(file, mode, *args, **kwargs)
-
-            with patch.dict(os.environ, {'LLMDB_ROOT': str(root)}), patch.object(
-                    sys, 'argv', ['build_index.py', *flags]), patch('io.open', observing_open):
-                self.assertEqual(module.main(), 0)
-            self.assertFalse(set(writes) & set(sealed_paths), 'opened sealed map for writing')
-            if '--check' in flags:
-                self.assertEqual(writes, [])
-                self.assertEqual(snapshot(root), before)
-            else:
-                allowed = {root / MAP_PATH} if '--labviz-map-only' in flags else {
-                    root / name for name in (*INDEX_PATHS, MAP_PATH)}
-                self.assertTrue(set(writes) <= allowed, writes)
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_real_hook(self):
-        self.checker()
-        root = self.miniature()
-        self.seed_closure(root)
-        hook = put(root, '.git/hooks/pre-commit',
-                   (SOURCE_ROOT / 'code/ops/git/hooks/pre-commit').read_bytes())
-        hook.chmod(0o755)
-        put(root, 'projects/new/CONTEXT.md', b'# New fixture\n')
-        self.git(root, 'add', 'projects/new/CONTEXT.md')
-        rejected = self.run_argv(root, ['git', 'commit', '-qm', 'stale fixture'])
-        self.assertNotEqual(rejected.returncode, 0, 'real hook accepted stale staged index')
-        self.assertTrue((rejected.stdout + rejected.stderr).strip())
-        for name, raw in self.generate(root).items():
-            put(root, name if '/' in name else '_index/' + name, raw)
-        self.git(root, 'add', '.')
-        accepted = self.run_argv(root, ['git', 'commit', '-qm', 'fresh fixture'])
-        self.assertEqual(accepted.returncode, 0, (accepted.stdout + accepted.stderr).decode())
-        self.assertFalse((self.scratch / '_audit.out').exists())
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_ci_bypass(self):
-        self.checker()
-        workflow = (SOURCE_ROOT / '.github/workflows/ci.yml').read_text()
-        for command in ('code/state/build_index.py --check', 'code/state/render_state.py --check',
-                        'code/agents/twins.py --check', 'test_git_automation.py',
-                        'lab.runners.test_c10w_p2_gate', 'apps.dashboard.test_dashboard_live',
-                        'apps.dashboard.test_dashboard_gpu_detector', 'test_icm21',
-                        'test_context_audit', 'staged'):
-            self.assertIn(command, workflow)
-        root = self.miniature()
-        self.seed_closure(root)
-        put(root, 'projects/new/CONTEXT.md', b'# Stale CI fixture\n')
-        self.git(root, 'add', '.')
-        self.git(root, '-c', 'core.hooksPath=/dev/null', 'commit', '-qm', 'bypassed fixture')
-        result = self.cli(root, 'code/state/build_index.py', '--check')
-        self.assertEqual(result.returncode, 1, 'clean committed stale checkout passed CI command')
-        self.assertTrue(any(x['status'] == 'FAIL' for x in self.staged(root)))
+class StagedControls(StagedCases, GeneratorScopeCase, FixtureCase):
+    pass
 
 
-class ReaderControls(FixtureCase):
+class ReaderControls(CurrentLabvizOutputCase, FixtureCase):
     @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_queue_compatibility_and_candidates(self):
         self.require_file('code/state/icm21_check.py', 'D1 strict queue candidate validation')
@@ -789,21 +491,6 @@ class ReaderControls(FixtureCase):
         ordinary['examples'][0].update(type='Binding', value={'path': '_index/path-map.tsv',
                                                              'sha256': digest(HEADER)})
         self.assertEqual(self.wire(self.scratch, ordinary).returncode, 1)
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_current_labviz_output(self):
-        for name in ('_index/icm21-path-map.tsv', '_index/path-map.tsv'):
-            self.require_file(name, 'installed D2 input identity')
-        path = self.require_file(MAP_PATH, 'installed current map output')
-        data = json.loads(path.read_bytes())
-        self.assertIn('derived_from', data, 'absent behavior: D2 current map provenance')
-        inputs = {name: (SOURCE_ROOT / name).read_bytes() for name in D2_POSITIVE['inputs']}
-        self.assertEqual(path.read_bytes(), d2_map(inputs, data['moves']))
-        self.assertEqual(inputs['_index/icm21-path-map.tsv'], HEADER)
-        before = path.read_bytes()
-        result = self.cli(SOURCE_ROOT, 'code/state/build_index.py', '--check', '--labviz-map-only')
-        self.assertEqual(result.returncode, 0, (result.stdout + result.stderr).decode())
-        self.assertEqual(digest(path.read_bytes()), digest(before))
 
     @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_current_index_outputs(self):
