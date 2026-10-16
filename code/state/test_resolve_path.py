@@ -1,4 +1,6 @@
 import csv
+import hashlib
+import json
 import os
 from pathlib import Path
 import subprocess
@@ -341,6 +343,59 @@ class ResolverTests(unittest.TestCase):
         result = self.run_tool('program/EXPERIMENT_RUNBOOK.md#current-only')
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout.strip(), 'program/runbook/08-decisions.md#current-only')
+
+
+class DuplicateBinding(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+
+    def manifest(self, targets):
+        rows = [{'id': f'R{number}', 'reference': 'old/file.md', 'consumer': 'a.md',
+                 'consumer_final': 'b/a.md', 'final_target': target}
+                for number, target in enumerate(targets, 1)]
+        data = ''.join(json.dumps(row) + '\n' for row in rows).encode('utf-8')
+        (self.root / 'refs.jsonl').write_bytes(data)
+        return {'references': {'path': 'refs.jsonl',
+                               'sha256': hashlib.sha256(data).hexdigest()}}
+
+    def test_identical_targets_resolve(self):
+        from state.resolve_path import resolve_reference
+        manifest = self.manifest(['new/file.md#part', 'new/file.md#part'])
+        with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
+            self.assertEqual(resolve_reference('a.md', 'old/file.md', manifest),
+                             'new/file.md#part')
+
+    def test_distinct_targets_ambiguous(self):
+        from state.resolve_path import resolve_reference
+        manifest = self.manifest(['new/file.md', 'other/file.md'])
+        with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
+            with self.assertRaisesRegex(ValueError, 'Ambiguous') as caught:
+                resolve_reference('a.md', 'old/file.md', manifest)
+        self.assertIn('R1', str(caught.exception))
+        self.assertIn('R2', str(caught.exception))
+
+    def test_three_distinct_targets_ambiguous(self):
+        from state.resolve_path import resolve_reference
+        manifest = self.manifest(['new/file.md', 'other/file.md', 'third/file.md'])
+        with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
+            with self.assertRaisesRegex(ValueError, 'Ambiguous') as caught:
+                resolve_reference('a.md', 'old/file.md', manifest)
+        for row_id in ('R1', 'R2', 'R3'):
+            self.assertIn(row_id, str(caught.exception))
+
+    def test_suffix_only_difference_ambiguous(self):
+        from state.resolve_path import resolve_reference
+        for targets in (['new/file.md#a', 'new/file.md#b'],
+                        ['new/file.md:3', 'new/file.md:4']):
+            with self.subTest(targets=targets):
+                manifest = self.manifest(targets)
+                with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
+                    with self.assertRaisesRegex(ValueError, 'Ambiguous') as caught:
+                        resolve_reference('a.md', 'old/file.md', manifest)
+                self.assertIn('R1', str(caught.exception))
+                self.assertIn('R2', str(caught.exception))
 
 
 if __name__ == '__main__':
