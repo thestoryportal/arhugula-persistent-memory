@@ -8,10 +8,20 @@ other unit's rows and the new rows. Any doubt is a refusal (exit 2) and nothing 
 
   write --unit S220 --pairs PAIRS.tsv --units DIR   creates DIR/S220/path-map-rows.tsv
   compose [--check] --units DIR                     prints the composed map, or compares it
-                                                    with `_index/icm21-path-map.tsv` (exit 1)
+                                                    with `_index/icm21-path-map.tsv` (exit 1,
+                                                    naming both sha256 and the first differing key)
+The row file is created through fds: M is opened once without following a symlink, the walk
+to the unit folder opens one component at a time under its parent's fd, and the file is
+created O_EXCL under the unit folder's fd. After the write, the file's real path must lie
+inside M's real path; if not, it is refused and left in place (never unlinked). An OSError on
+a named path is a refusal that names the path and errno.
 The sealed `_index/path-map.tsv` and `_index/anchor-map.tsv` are only read.
 """
 import argparse
+import contextlib
+import errno
+import fcntl
+import hashlib
 import os
 from pathlib import Path
 import re
@@ -30,6 +40,7 @@ T_ROOT = '/Volumes/memit/llmdb-tools'
 UNIT_ID = re.compile(r'S[0-9]{3}')
 # TSV and csv readers cannot carry these; such a path needs a human decision.
 UNSAFE = re.compile(r'[\x00-\x1f\x7f"]')
+DIR_FLAGS = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
 
 
 def _under(path: str, root: str) -> bool:
@@ -146,6 +157,87 @@ def load_units(units: Path, root: Path) -> list[tuple]:
     return rows
 
 
+@contextlib.contextmanager
+def _fs(path):
+    """An OSError on a named path is a refusal that names the path and its errno."""
+    try:
+        yield
+    except OSError as error:
+        code = errno.errorcode.get(error.errno, str(error.errno))
+        raise ValueError(f'{path}: {code} {error.strerror}') from None
+
+
+def _real(fd: int, path) -> str:
+    with _fs(path):
+        buffer = fcntl.fcntl(fd, fcntl.F_GETPATH, bytes(1024))
+    return os.fsdecode(buffer.split(b'\0', 1)[0])
+
+
+def _close(fd: int, path) -> None:
+    with _fs(path):
+        os.close(fd)
+
+
+def _walk(root_fd: int, root: Path, folder: Path) -> int:
+    """Open folder one component at a time under its parent's fd, creating a missing one."""
+    fd, path = root_fd, root
+    for name in folder.relative_to(root).parts:
+        parent, path = fd, path / name
+        try:
+            with _fs(path):
+                try:
+                    fd = os.open(name, DIR_FLAGS, dir_fd=parent)
+                except FileNotFoundError:
+                    os.mkdir(name, dir_fd=parent)
+                    fd = os.open(name, DIR_FLAGS, dir_fd=parent)
+        finally:
+            if parent != root_fd:
+                _close(parent, path.parent)
+    return fd
+
+
+def _create(root: Path, folder: Path, target: Path, data: bytes) -> None:
+    with _fs(root):
+        root_fd = os.open(root, DIR_FLAGS)
+    try:
+        folder_fd = _walk(root_fd, root, folder)
+        try:
+            # O_EXCL refuses a file or symlink that appeared after the check above.
+            flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW
+            with _fs(target):
+                fd = os.open(ROW_FILE, flags, 0o644, dir_fd=folder_fd)
+            try:
+                with _fs(f'{target} (left in place, incomplete)'):
+                    view = memoryview(data)
+                    while view:
+                        view = view[os.write(fd, view):]
+                written, inside = _real(fd, target), _real(root_fd, root)
+                if os.path.commonpath([inside, written]) != inside:
+                    raise ValueError(f'wrote {written}, which is outside M {inside}; '
+                                     'it was left in place')
+            finally:
+                _close(fd, target)
+        finally:
+            _close(folder_fd, folder)
+    finally:
+        _close(root_fd, root)
+
+
+def first_differing_key(expected: bytes, actual: bytes):
+    """The first row key, in sorted order, whose rows differ between two map files."""
+    def by_key(data: bytes) -> dict:
+        rows = {}
+        for line in data.split(b'\n')[1:]:
+            if line:
+                rows.setdefault(line.split(b'\t', 1)[0], []).append(line)
+        return rows
+    left, right = by_key(expected), by_key(actual)
+    for key in sorted(left.keys() | right.keys()):
+        if left.get(key) != right.get(key):
+            return key.decode('utf-8', 'backslashreplace')
+    return None
+
+
 def write(args, root: Path, sealed: dict[str, str]) -> int:
     if not UNIT_ID.fullmatch(args.unit):
         raise ValueError(f'--unit {args.unit!r}: a unit ID looks like S220')
@@ -155,13 +247,8 @@ def write(args, root: Path, sealed: dict[str, str]) -> int:
     if os.path.lexists(target):
         raise ValueError(f'{target}: row file exists; it is never overwritten')
     rows = parse_pairs(Path(args.pairs).read_bytes(), args.unit, str(root), args.pairs)
-    # load_units refuses a symlinked unit folder, so mkdir and open stay inside the root.
     validate(load_units(units, root) + rows, sealed)
-    folder.mkdir(exist_ok=True)
-    # O_EXCL also refuses a symlink or file that appeared after the check above.
-    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
-    with os.fdopen(os.open(target, flags, 0o644), 'wb') as handle:
-        handle.write(render(rows))
+    _create(root, folder, target, render(rows))
     print(target)
     return 0
 
@@ -175,9 +262,14 @@ def compose(args, root: Path, sealed: dict[str, str]) -> int:
     if not args.check:
         sys.stdout.write(data.decode('utf-8'))
         return 0
-    if (root / RELOCATIONS).read_bytes() != data:
-        print(f'path_map_rows: {RELOCATIONS} differs from the composed unit rows',
-              file=sys.stderr)
+    stored = (root / RELOCATIONS).read_bytes()
+    if stored != data:
+        key = first_differing_key(data, stored)
+        where = (f'first differing key {key!r}' if key is not None else
+                 'no row key differs; the header, row order or blank lines differ')
+        print(f'path_map_rows: {RELOCATIONS} (sha256 {hashlib.sha256(stored).hexdigest()}) '
+              f'differs from the composed unit rows (sha256 {hashlib.sha256(data).hexdigest()}); '
+              f'{where}', file=sys.stderr)
         return 1
     return 0
 

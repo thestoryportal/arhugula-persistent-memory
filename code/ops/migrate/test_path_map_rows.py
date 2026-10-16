@@ -295,6 +295,158 @@ class PathMapRows(unittest.TestCase):
         (self.units / 'S220').mkdir()
         self.row_file('S220').symlink_to(outside / 'path-map-rows.tsv')
         self.assert_refused(self.run_tool('compose', '--units', str(self.units)), 'symlink')
+    def call_main(self, *args):
+        sys.path.insert(0, str(CODE))
+        self.addCleanup(sys.path.remove, str(CODE))
+        from ops.migrate import path_map_rows
+        stdout, stderr = io.StringIO(), io.StringIO()
+        with mock.patch.dict(os.environ, LLMDB_ROOT=str(self.root)), \
+                contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+            code = path_map_rows.main(list(args))
+        return code, stdout.getvalue(), stderr.getvalue()
+
+    def test_unit_dir_swapped_for_a_symlink_after_validation_is_refused(self):
+        # Witness: the unit folder becomes a symlink after load_units has scanned the units.
+        outside = self.tmp / 'outside'
+        outside.mkdir()
+        real_scandir = os.scandir
+
+        def scan_then_swap(path):
+            entries = list(real_scandir(path))
+            (self.units / 'S220').symlink_to(outside, target_is_directory=True)
+            return iter(entries)
+        pairs = str(self.pairs('a/x\tb/x\n'))
+        with mock.patch.object(os, 'scandir', side_effect=scan_then_swap):
+            code, out, err = self.call_main('write', '--unit', 'S220', '--pairs', pairs,
+                                            '--units', str(self.units))
+        self.assertEqual(code, 2, err)
+        self.assertIn('path_map_rows: refused: ', err)
+        self.assertIn(str(self.units / 'S220'), err)
+        self.assertRegex(err, 'ELOOP|ENOTDIR')  # macOS reports ENOTDIR
+        self.assertEqual(out, '')
+        self.assertEqual(list(outside.iterdir()), [])
+
+    def test_unit_dir_moved_out_of_m_before_the_create_is_refused_and_kept(self):
+        # Witness: the held unit folder is renamed outside M between the walk and the create.
+        outside = self.tmp / 'outside'
+        outside.mkdir()
+        real_open = os.open
+
+        def move_then_open(name, flags, *rest, dir_fd=None, **kwargs):
+            if name == 'path-map-rows.tsv' and dir_fd is not None:
+                os.rename(self.units / 'S220', outside / 'S220')
+            return real_open(name, flags, *rest, dir_fd=dir_fd, **kwargs)
+        pairs = str(self.pairs('a/x\tb/x\n'))
+        with mock.patch.object(os, 'open', side_effect=move_then_open):
+            code, out, err = self.call_main('write', '--unit', 'S220', '--pairs', pairs,
+                                            '--units', str(self.units))
+        kept = outside / 'S220' / 'path-map-rows.tsv'
+        self.assertEqual(code, 2, err)
+        self.assertIn(str(kept), err)
+        self.assertIn('left in place', err)
+        self.assertEqual(out, '')
+        self.assertEqual(kept.read_text(encoding='utf-8'), HEADER + 'a/x\tb/x\tmove\tS220\n')
+        self.assertFalse((self.units / 'S220').exists())
+
+    def test_symlinked_root_is_refused(self):
+        link = self.tmp / 'M-link'
+        link.symlink_to(self.root, target_is_directory=True)
+        env = dict(os.environ, LLMDB_ROOT=str(link), PYTHONPATH=str(CODE))
+        result = subprocess.run(
+            [sys.executable, '-B', str(TOOL), 'write', '--unit', 'S220', '--pairs',
+             str(self.pairs('a/x\tb/x\n')), '--units',
+             str(link / 'program/migrations/icm21/units')],
+            cwd=self.tmp, env=env, capture_output=True, text=True, timeout=60)
+        self.assert_refused(result, str(link))
+        self.assertRegex(result.stderr, 'ELOOP|ENOTDIR')
+        self.assertFalse((self.units / 'S220').exists())
+
+    def test_fifo_in_place_of_the_unit_dir_is_refused_without_blocking(self):
+        os.mkfifo(self.units / 'S220')
+        result = self.write('S220', 'a/x\tb/x\n')
+        self.assert_refused(result, str(self.units / 'S220'), 'ENOTDIR')
+
+    def test_filesystem_errors_name_the_path_and_errno(self):
+        self.units.chmod(0o555)
+        self.addCleanup(self.units.chmod, 0o755)
+        before = self.tree()
+        result = self.write('S220', 'a/x\tb/x\n')
+        self.assert_refused(result, str(self.units / 'S220'), 'EACCES')
+        self.assertNotIn('Traceback', result.stderr)
+        self.assertEqual(len(result.stderr.splitlines()), 1, result.stderr)
+        self.assertEqual(self.tree(), before)
+
+    def test_unexpected_errors_still_surface(self):
+        pairs = str(self.pairs('a/x\tb/x\n'))
+        with mock.patch.object(os, 'mkdir', side_effect=RuntimeError('injected')), \
+                self.assertRaises(RuntimeError):
+            self.call_main('write', '--unit', 'S220', '--pairs', pairs,
+                           '--units', str(self.units))
+
+    def test_compose_check_mismatch_names_both_digests_and_the_first_key(self):
+        self.assertEqual(self.write('S220', 'a/x\tb/x\n').returncode, 0)
+        self.assertEqual(self.write('S221', 'c/x\td/x\n').returncode, 0)
+        composed = (HEADER + 'a/x\tb/x\tmove\tS220\n' + 'c/x\td/x\tmove\tS221\n').encode()
+        cases = {
+            'changed row': (HEADER + 'a/x\tb/x\tmove\tS220\n' + 'c/x\tq/x\tmove\tS221\n'
+                            + 'z/x\tz/y\tmove\tS299\n', "'c/x'"),
+            'missing rows': (HEADER, "'a/x'"),
+            'extra row only': (composed.decode() + 'b/q\tb/r\tmove\tS299\n', "'b/q'"),
+            'no key differs': (composed.decode() + '\n', 'no row key differs'),
+        }
+        for name, (stored, needle) in cases.items():
+            with self.subTest(case=name):
+                (self.root / '_index/icm21-path-map.tsv').write_bytes(stored.encode())
+                check = self.run_tool('compose', '--check', '--units', str(self.units))
+                self.assertEqual(check.returncode, 1, check.stderr)
+                self.assertEqual(check.stdout, '')
+                self.assertIn(hashlib.sha256(composed).hexdigest(), check.stderr)
+                self.assertIn(hashlib.sha256(stored.encode()).hexdigest(), check.stderr)
+                self.assertIn(needle, check.stderr)
+                self.assertEqual(len(check.stderr.splitlines()), 1, check.stderr)
+
+    def test_sealed_cycle_apart_from_the_new_rows_is_refused(self):
+        sealed = self.root / '_index/path-map.tsv'
+        sealed.write_bytes(sealed.read_bytes() + b'cycle/a\tcycle/b\tmove\tM:c\n'
+                           b'cycle/b\tcycle/a\tmove\tM:c\n')
+        self.assert_write_refused('S220', 'a/x\tb/x\n', 'cycle')
+        self.hand_unit(self.units, 'S221', 'a/x\tb/x\tmove\tS221\n')
+        self.assert_refused(self.run_tool('compose', '--units', str(self.units)), 'cycle')
+
+    def test_compose_refuses_malformed_stored_paths(self):
+        cases = {
+            'dotdot old': 'a/../x\tb/x\tmove\tS220\n',
+            'dot old': 'a/./x\tb/x\tmove\tS220\n',
+            'dotdot new': 'a/x\tb/../x\tmove\tS220\n',
+            'double slash old': 'a//x\tb/x\tmove\tS220\n',
+            'empty old': '\tb/x\tmove\tS220\n',
+            'control old': 'a/\x01x\tb/x\tmove\tS220\n',
+            'DEL old': 'a/\x7fx\tb/x\tmove\tS220\n',
+            'quote old': 'a/"x\tb/x\tmove\tS220\n',
+            'absolute old inside M': f'{self.root}/a/x\tb/x\tmove\tS220\n',
+        }
+        for number, (name, rows) in enumerate(cases.items()):
+            with self.subTest(case=name):
+                folder = self.root / 'bad' / str(number)
+                self.hand_unit(folder, 'S220', rows)
+                before = self.tree()
+                self.assert_refused(self.run_tool('compose', '--units', str(folder)))
+                result = self.run_tool('write', '--unit', 'S221', '--pairs',
+                                       str(self.pairs('c/x\td/x\n')), '--units', str(folder))
+                self.assert_refused(result)
+                self.assertEqual(self.tree(), before)
+
+    def test_invalid_utf8_and_del_are_refused(self):
+        raw = self.tmp / 'pairs-raw.tsv'
+        raw.write_bytes(b'old\tnew\na/\xffx\tb/x\n')
+        before = self.tree()
+        result = self.run_tool('write', '--unit', 'S220', '--pairs', str(raw),
+                               '--units', str(self.units))
+        self.assert_refused(result)
+        self.assertEqual(self.tree(), before)
+        self.assert_write_refused('S220', 'a/\x7fx\tb/x\n')
+        self.assert_write_refused('S220', 'a/x\tb/\x7fx\n')
+        self.assertFalse(self.row_file('S220').exists())
 
 
 if __name__ == '__main__':
