@@ -49,6 +49,8 @@ def area(name):
         raise Unverified('Absent area module: ' + name + '.py')
     spec = importlib.util.spec_from_file_location(name, path)
     module = importlib.util.module_from_spec(spec)
+    # The checker's own class: a fresh import of this file would define a second one.
+    module.Unverified = Unverified
     spec.loader.exec_module(module)
     return module
 

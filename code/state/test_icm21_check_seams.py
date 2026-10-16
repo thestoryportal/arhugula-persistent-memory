@@ -46,7 +46,11 @@ def validate_labviz_moves(value, schema, fixtures, root):
     if not (Path(root) / 'labviz-marker').is_file() or value.get('bad'):
         raise ValueError(__name__ + ' rejected')
 '''
-EXPLODING_AREA = 'raise ImportError("loaded " + __name__)\n'
+EXPLODING_AREA = '''
+from pathlib import Path
+Path(__file__).with_suffix('.imported').touch()
+raise ImportError('loaded ' + __name__)
+'''
 
 
 def digest(data):
@@ -146,6 +150,21 @@ class CheckerSeams(unittest.TestCase):
             self.assertIn(name, rows[check_id]['reason'])
         self.assertEqual(report['overall_status'], 'UNVERIFIED')
 
+    def test_area_raising_the_checker_unverified_is_unverified(self):
+        areas = {name: AUDIT_AREA for name in set(AREAS.values())}
+        areas['icm21_audit_model'] = AUDIT_AREA + (
+            "def check(check_id, root, mode, config, coverage):\n"
+            "    raise Unverified('fixture cannot verify ' + check_id)\n")
+        module = self.checker(areas)
+        root, config = self.config(['C-MODEL', 'C-HANDOFF'])
+        report = module.audit(root, 'session', config)
+        module.validate_wire('AuditReport', report, self.schema, {})
+        rows = self.results(report)
+        self.assertEqual((rows['C-MODEL']['status'], rows['C-MODEL']['reason']),
+                         ('UNVERIFIED', 'fixture cannot verify C-MODEL'))
+        self.assertEqual(rows['C-HANDOFF']['status'], 'PASS')
+        self.assertEqual(report['overall_status'], 'UNVERIFIED')
+
     def test_one_absent_area_keeps_the_report_unverified(self):
         present = {name: AUDIT_AREA for name in set(AREAS.values()) if name != 'icm21_audit_views'}
         module = self.checker(present)
@@ -170,6 +189,31 @@ class CheckerSeams(unittest.TestCase):
             code, value = self.cli(module, 'references', '--root', root, '--manifest', manifest)
             self.assertEqual(code, exit_code, value)
             self.assertEqual(value['readers'][0]['checks'][0]['status'], status)
+
+    def references_cli(self, source):
+        module = self.checker({'icm21_references': source})
+        root = self.scratch / 'root'
+        root.mkdir()
+        manifest = self.scratch / 'manifest.json'
+        manifest.write_text('{}', encoding='utf-8')
+        return self.cli(module, 'references', '--root', root, '--manifest', manifest)
+
+    def test_references_without_readers_is_unverified(self):
+        code, value = self.references_cli(
+            "def check_references(root, manifest):\n"
+            "    return {'schema_version': 1, 'readers': []}\n")
+        self.assertEqual((code, value), (2, {'schema_version': 1, 'readers': []}))
+
+    def test_references_out_of_order_readers_fail(self):
+        code, value = self.references_cli('''
+def check_references(root, manifest):
+    return {'schema_version': 1, 'readers': [{'registry_id': reader, 'checks': [
+        {'id': 'C-REFERENCES', 'status': 'PASS', 'prd_ids': ['ICM-R6'], 'argv': [],
+         'exit_code': None, 'stdout_sha256': None, 'stderr_sha256': None,
+         'findings': [], 'reason': 'fixture'}]} for reader in ('z', 'a')]}
+''')
+        self.assertEqual((code, value), (1, {'reason': 'reader results not in ID order',
+                                             'status': 'FAIL'}))
 
     def test_absent_references_is_unverified(self):
         module = self.checker({})
@@ -215,12 +259,24 @@ class CheckerSeams(unittest.TestCase):
         module = self.checker({'icm21_labviz_wire': source})
         example = next(x for x in self.examples['examples']
                        if x['type'] == 'LabvizMoves' and x['expected'] == 'PASS')
-        with self.assertRaisesRegex(ValueError, 'wire type outside approved scope'):
+        with self.assertRaisesRegex(TypeError, 'wire type outside approved scope'):
             module.validate_wire('LabvizMoves', example['value'], self.schema, {},
                                  self.scratch)
         code, value = self.wire(module, self.labviz_examples('PASS'))
         self.assertEqual((code, value['status']), (1, 'FAIL'))
-        self.assertEqual(value['results'][0]['reason'], 'wire type outside approved scope')
+        self.assertEqual(value, {'reason': 'wire type outside approved scope', 'status': 'FAIL'})
+
+    def test_sealed_negative_labviz_example_alone_fails_the_run(self):
+        source = (STATE / 'icm21_labviz_wire.py').read_text(encoding='utf-8')
+        module = self.checker({'icm21_labviz_wire': source})
+        negative = [x for x in self.examples['examples']
+                    if x['id'] == 'labviz-map-input-binding-invalid']
+        self.assertEqual([x['expected'] for x in negative], ['FAIL'])
+        path = self.scratch / 'labviz-negative.json'
+        path.write_text(json.dumps(dict(self.examples, examples=negative)), encoding='utf-8')
+        code, value = self.wire(module, path)
+        self.assertEqual((code, value), (1, {'reason': 'wire type outside approved scope',
+                                             'status': 'FAIL'}))
 
     def test_absent_labviz_seam_is_unverified_never_pass(self):
         module = self.checker({})
@@ -242,6 +298,7 @@ class CheckerSeams(unittest.TestCase):
         root, config = self.config(['C-LANES'])
         report = module.audit(root, 'session', config)
         self.assertEqual(self.results(report)['C-LANES']['status'], 'PASS')
+        self.assertEqual(sorted(path.name for path in self.scratch.rglob('*.imported')), [])
 
 
 if __name__ == '__main__':
