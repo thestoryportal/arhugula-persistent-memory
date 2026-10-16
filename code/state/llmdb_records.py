@@ -45,3 +45,21 @@ def read_split(folder):
     if not parts:
         raise FileNotFoundError(f"no parts in {folder}")
     return "".join(p.read_text(encoding="utf-8", errors="replace") for p in parts)
+
+
+def project_rows(items, folders):
+    """The projects index rows: each project folder and each open work-queue item, joined by queue id."""
+    queue = {}
+    for item in items:
+        if item['id'] in queue:
+            raise ValueError(f'program/program_state.json: repeated queue id {item["id"]}')
+        queue[item['id']] = item
+    open_ids = {key for key, item in queue.items()
+                if str(item['state']).lower() not in {'done', 'closed', 'cancelled', 'canceled'}}
+    projects = []
+    for key in sorted(folders | open_ids):
+        item = queue.get(key, {})
+        relation = 'folder and queue item' if key in folders and key in queue else (
+            'no queue item' if key in folders else 'no folder')
+        projects.append([key, item.get('title'), item.get('state'), relation])
+    return projects
