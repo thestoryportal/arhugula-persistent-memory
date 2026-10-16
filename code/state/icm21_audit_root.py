@@ -17,11 +17,32 @@ RETENTION_FIELDS = frozenset(('schema_version', 'leaves', 'routes', 'repairs',
                               'metadata', 'executor', 'containers'))
 
 
-def git(root, *argv):
+def run_git(root, *argv):
     environment = {key: value for key, value in os.environ.items()
                    if not key.startswith('GIT_')}
-    result = subprocess.run(['git', *argv], cwd=root, env=environment, capture_output=True)
+    return subprocess.run(['git', *argv], cwd=root, env=environment, capture_output=True)
+
+
+def git(root, *argv):
+    result = run_git(root, *argv)
     return result.returncode, result.stdout.decode('utf-8', 'replace').strip()
+
+
+def tip_state(root, tip):
+    """'commit', 'absent', 'not-commit' or None when the object store was not observed.
+
+    git cat-file -e on an unpeeled id exits 1 with silent stderr only for an absent
+    object; any other failure (permission, corruption) is missing evidence.
+    """
+    probe = run_git(root, 'cat-file', '-e', tip)
+    if probe.returncode == 1 and not probe.stderr.strip():
+        return 'absent'
+    if probe.returncode:
+        return None
+    code, kind = git(root, 'cat-file', '-t', tip)
+    if code or not kind:
+        return None
+    return 'commit' if kind == 'commit' else 'not-commit'
 
 
 def root_identity(root, coverage):
@@ -59,7 +80,10 @@ def worktree_custody(root, config, coverage):
             if any(line.startswith('prunable') for line in fields):
                 violations[str(path)] = 'Registered worktree residue: lane directory is absent'
             tip = next((line[5:] for line in fields if line.startswith('HEAD ')), None)
-            if tip is None or git(root, 'cat-file', '-e', tip + '^{commit}')[0]:
+            state = 'absent' if tip is None else tip_state(root, tip)
+            if state is None:
+                missing.append('Worktree branch tip could not be read: ' + tip)
+            elif state != 'commit':
                 violations[str(path)] = 'Worktree branch tip is unreachable: ' + str(tip)
     binding = config['retention']
     try:
