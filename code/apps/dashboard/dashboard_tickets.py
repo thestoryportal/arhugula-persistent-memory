@@ -44,10 +44,13 @@ PHASES = {"ready": "ready", "running": "building", "merged": "merged"}
 BUILD, REVIEW, NOW_MARK, BEFORE = "▒", "█", "│", "‹"
 LEGEND = ("▶ building ◆ PR ■ merged ○ ready · waiting | review ✓ GO ✗ NO-GO ? none | CI ✓ pass ✗ fail … pending | "
           "timer ! >15 min !! >30 min")
+# Every key the tab handles: (label, long words, short words). The key row and the help line both render from it.
+KEYS = (("↑↓ j k", "select", "select"), ("Enter/Tab", "open detail", "open"), ("Esc", "back", "back"),
+        ("t", "timeline", "timeline"), ("f", "folder", "folder"), ("a", "active only", "active"),
+        ("h", "help", "help"), ("Ctrl-a d", "leave teamdash", "leave"))
 HELP = ("state ▶ running ◆ PR ■ merged (timer final) ○ ready · waiting | reviews ✓ GO ✗ NO-GO ? no verdict | "
-        "CI ✓ pass ✗ fail … pending · none | timer ! over 15 min, !! over 30 min | t timeline ▒ build █ review/land "
-        "│ now ‹ began earlier | keys j/k ↑/↓ or swipe select (scroll in detail) · tap select, tap again open · "
-        "Enter/Tab detail · Esc back · f folder · a active only · h hide help")
+        "CI ✓ pass ✗ fail … pending · none | timer ! over 15 min, !! over 30 min | timeline ▒ build █ review/land "
+        "│ now ‹ began earlier | swipe = ↑↓ · tap select, tap again open")
 TL_LEGEND = "▒ build = dispatch → PR open   █ review/land = PR open → merged   │ now   ‹ began before the axis"
 TL_LEGEND_NARROW = ("▒ build = dispatch → PR open", "█ review/land = PR → merged  │ now")
 ESC = 27
@@ -296,6 +299,29 @@ def header(snap, now, width, notes, loading):
     if errors:
         lines.append([(" ✗ " + " | ".join(clean(e) for e in errors), "red")])
     return lines
+
+
+def key_items(short):
+    return [label + " " + (brief if short else full) for label, full, brief in KEYS]
+
+
+def key_rows(width):
+    """The key reference: one row of long words when it fits, else short words wrapped only at " · "."""
+    whole = "keys " + " · ".join(key_items(False))
+    if cells(whole) <= width:
+        return [[(whole, "dim")]]
+    lines, line = [], "keys " + key_items(True)[0]
+    for item in key_items(True)[1:]:
+        if cells(line + " · " + item) <= width:
+            line += " · " + item
+        else:
+            lines.append(line)
+            line = "     " + item
+    return [[(text, "dim")] for text in lines + [line]]
+
+
+def help_text():
+    return HELP + " | keys " + " · ".join(key_items(True))
 
 
 def legend(width):
@@ -567,7 +593,7 @@ def footer(ui, width):
                 " h help · t timeline · tap/Enter open · f %s" % (ui.folder or "all"))
         return [[(text, "dim")]]
     if ui.help:
-        return [[(text, "dim")] for text in wrap(HELP, width, " ", " ")][:4]
+        return [[(text, "dim")] for text in wrap(help_text(), width, " ", " ")][:4]
     mode = "full screen detail" if ui.full else "timeline" if ui.timeline else "split"
     return [[(" h help · j/k select · Enter detail · t timeline · f folder: %s · a active only: %s · %s " %
              (ui.folder or "all", "on" if ui.active_only else "off", mode), "dim")]]
@@ -581,7 +607,7 @@ def render(snap, ui, now, width, height, notes=(), loading=False):
         return Frame([fit([("too small %dx%d (need %dx%d) · tickets %s" % (width, height, MIN_W, MIN_H, clock(now)),
                             "red")], width)])
     narrow = width < CARD_W
-    rows = [(line, None) for line in header(snap, now, width, notes, loading)]
+    rows = [(line, None) for line in key_rows(width) + header(snap, now, width, notes, loading)]
     tickets = visible(snap, ui) if snap is not None else []
     chosen = tickets[min(ui.selected, len(tickets) - 1)] if tickets else None
     ui = replace(ui, selected=min(ui.selected, max(0, len(tickets) - 1)))
@@ -592,7 +618,7 @@ def render(snap, ui, now, width, height, notes=(), loading=False):
         rows.append(([(" loading the first snapshot… the clock keeps running" if loading else " no snapshot yet",
                        "dim")], None))
     elif ui.help and narrow:
-        rows += [([(text, "dim")], None) for text in wrap(LEGEND + " | " + HELP, width, " ", " ")][:room]
+        rows += [([(text, "dim")], None) for text in wrap(LEGEND + " | " + help_text(), width, " ", " ")][:room]
     elif ui.full:
         info = detail(chosen, snap, now, width, notes)
         max_scroll = max(0, len(info) - room)
