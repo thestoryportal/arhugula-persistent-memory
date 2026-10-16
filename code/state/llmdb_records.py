@@ -2,7 +2,6 @@
 change is an edit here rather than a search across tools (ICM v2, G5 policy A).
 
 Shell runners cannot import this; they spell the same folders out and say so beside them."""
-import os
 from pathlib import Path, PurePosixPath
 
 # The MathLab runtime writes two records: the instrument's own runs (ml) and NEW-1's (new1). Before v2 they shared
@@ -78,11 +77,9 @@ def artifact_cells(item, root):
     return [kind, path]
 
 
-def project_rows(items, folders, root=None):
+def project_rows(items, folders, root):
     """The projects index rows: each project folder and each open work-queue item, joined by queue id, with each
     queue item's artifact kind and path cells. Every queue item's artifact is validated, open or not."""
-    # build_index.generate does not pass its root yet; it runs with LLMDB_ROOT set to that root.
-    root = Path(os.environ['LLMDB_ROOT']) if root is None else root
     queue = {}
     artifacts = {}
     for item in items:
