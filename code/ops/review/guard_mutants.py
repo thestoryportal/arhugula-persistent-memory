@@ -29,8 +29,9 @@ The lane is read through fds: its root is opened once without following links an
 held; each directory is entered through its parent's fd and must be the (st_dev,
 st_ino) the scan saw; each file is read through an O_NOFOLLOW fd whose fstat matches
 the scan before and after the read. Every copy and a final scan must see the same lane
-as the first copy, and each --file the same bytes it was parsed from. A special file, a
-link that is absolute or leaves the lane, or any change refuses. NEW.json is created
+as the first copy (each entry's identity and each file's sha256), and each --file the
+same bytes it was parsed from. A special file, a link that is absolute or leaves the
+lane, or any change refuses. NEW.json is created
 O_EXCL through its parent's fd after the scratch directory is removed; the parent's
 real path (F_GETPATH) must lie outside the lane's live path before the run, and the
 file fd's real path must be the parent's live path plus the name, outside the lane,
@@ -39,7 +40,11 @@ after the write.
 Exit 0 when every mutant is killed or listed in ALLOW, exit 1 when one is not, exit 2
 on bad invocation or refusal: one line naming the path and errno, no traceback. It never
 overwrites and never deletes an input or output; it deletes only the temp directory it
-made. ALLOW is a JSON list of {"id": <mutant id>, "reason": <non-empty text>}. NEW.json
+made. That directory is made through the temp parent's fd, and refused when the parent's
+or its own real path is the lane or inside it. It is removed only through fds: each
+directory is opened through its parent's fd and must be the one this run made, and its
+name must still name the held fd just before rmdir; on a mismatch both are kept.
+ALLOW is a JSON list of {"id": <mutant id>, "reason": <non-empty text>}. NEW.json
 is a JSON list of rows {id, location ("file:line"), operator, change, result, detail,
 allowed (the ALLOW reason or null)}.
 """
@@ -55,7 +60,7 @@ import json
 import os
 import posixpath
 import re
-import shutil
+import secrets
 import signal
 import stat
 import subprocess
@@ -383,18 +388,45 @@ class Session:
         self.timeout = timeout
         self.snapshot: dict | None = None
         self.runs = 0
+        self.keep = False  # a removal found a directory this run did not make: remove nothing more
 
     def __enter__(self) -> Session:
-        self.scratch = os.path.realpath(tempfile.mkdtemp(prefix="guard_mutants-"))
-        self.scratch_fd = open_root(self.scratch)
+        parent = tempfile.gettempdir()
+        with _fs(f"scratch parent {parent}"):
+            self.parent_fd = os.open(parent, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            parent_real = _realpath(self.parent_fd, f"scratch parent {parent}")
+            if _inside(_realpath(self.root_fd, f"lane {self.root}"), parent_real):
+                raise Refusal(f"scratch parent {parent_real} is inside the lane {self.root}; set TMPDIR outside it")
+            self.name = "guard_mutants-" + secrets.token_hex(8)
+            self.scratch = os.path.join(parent_real, self.name)
+            with _fs(f"scratch {self.scratch}"):
+                os.mkdir(self.name, 0o700, dir_fd=self.parent_fd)
+            with _fs(f"scratch {self.scratch}"):
+                self.scratch_fd = os.open(self.name, DIR_FLAGS, dir_fd=self.parent_fd)
+            try:
+                self.scratch = _realpath(self.scratch_fd, f"scratch {self.scratch}")
+                if _inside(_realpath(self.root_fd, f"lane {self.root}"), self.scratch):
+                    raise Refusal(f"scratch {self.scratch} is inside the lane {self.root}; it was kept")
+            except BaseException:
+                _close(self.scratch_fd, f"scratch {self.scratch}")
+                raise
+        except BaseException:
+            _close(self.parent_fd, f"scratch parent {parent}")
+            raise
         return self
 
     def __exit__(self, *exc) -> None:
         try:
-            _close(self.scratch_fd, f"scratch {self.scratch}")
+            try:
+                with _fs(f"scratch {self.scratch}"):
+                    held = os.fstat(self.scratch_fd)
+            finally:
+                _close(self.scratch_fd, f"scratch {self.scratch}")
+            if not self.keep:
+                _remove_dir(self.parent_fd, self.name, self.scratch, (held.st_dev, held.st_ino))
         finally:
-            with _fs(f"scratch {self.scratch}"):
-                shutil.rmtree(self.scratch)
+            _close(self.parent_fd, f"scratch parent of {self.scratch}")
 
     def baseline(self) -> None:
         start = time.monotonic()
@@ -427,11 +459,17 @@ class Session:
         mpath = os.path.join(self.scratch, name)
         with _fs(mpath):
             os.mkdir(name, 0o700, dir_fd=self.scratch_fd)
+        with _fs(mpath):
+            mfd = os.open(name, DIR_FLAGS, dir_fd=self.scratch_fd)
+        try:
+            with _fs(mpath):
+                made = os.fstat(mfd)  # the copy this run made; until here the session's cleanup removes it
+        except BaseException:
+            _close(mfd, mpath)
+            raise
         try:
             lane = os.path.join(mpath, "lane")
             tmp = os.path.join(mpath, "tmp")
-            with _fs(mpath):
-                mfd = os.open(name, DIR_FLAGS, dir_fd=self.scratch_fd)
             try:
                 with _fs(lane):
                     os.mkdir("lane", 0o755, dir_fd=mfd)
@@ -451,8 +489,11 @@ class Session:
             self._compare(seen)
             return _execute(self.cmd, lane, tmp, timeout)
         finally:
-            with _fs(mpath):
-                shutil.rmtree(name, dir_fd=self.scratch_fd)
+            try:
+                _remove_dir(self.scratch_fd, name, mpath, (made.st_dev, made.st_ino))
+            except Refusal:
+                self.keep = True
+                raise
 
     def _walk(self, src_fd, src, rel, dst_fd, dst, seen, replace) -> None:
         """Copy (or with dst_fd None, only scan) one lane directory through fds."""
@@ -497,12 +538,13 @@ class Session:
                     with _fs(dpath):
                         os.symlink(text, name, dir_fd=dst_fd)
             elif stat.S_ISREG(st.st_mode):
-                seen[r] = ("file",) + _identity(st)
+                data = _read_file(src_fd, name, spath, st)
+                digest = hashlib.sha256(data).hexdigest()
+                if r in self.targets and digest != self.targets[r].sha256:
+                    raise Refusal(f"{spath} changed since it was parsed")
+                seen[r] = ("file",) + _identity(st) + (digest,)
                 if dst_fd is None:
                     continue
-                data = _read_file(src_fd, name, spath, st)
-                if r in self.targets and hashlib.sha256(data).hexdigest() != self.targets[r].sha256:
-                    raise Refusal(f"{spath} changed since it was parsed")
                 with _fs(dpath):
                     out = os.open(name, CREATE_FLAGS, stat.S_IMODE(st.st_mode) & 0o777, dir_fd=dst_fd)
                 try:
@@ -511,6 +553,36 @@ class Session:
                     _close(out, dpath)
             else:
                 raise Refusal(f"{spath} is a special file")
+
+
+def _remove_dir(parent_fd: int, name: str, path: str, made: tuple) -> None:
+    """Remove the directory this run made (made: its st_dev, st_ino) only through fds bound to it."""
+    with _fs(path):
+        fd = os.open(name, DIR_FLAGS, dir_fd=parent_fd)
+    try:
+        with _fs(path):
+            held = os.fstat(fd)
+        if (held.st_dev, held.st_ino) != made:
+            raise Refusal(f"{path} is not the directory this run made; both were kept")
+        with _fs(path), os.scandir(fd) as it:
+            entries = list(it)
+        for entry in entries:
+            epath = os.path.join(path, entry.name)
+            with _fs(epath):
+                st = entry.stat(follow_symlinks=False)
+            if stat.S_ISDIR(st.st_mode):
+                _remove_dir(fd, entry.name, epath, (st.st_dev, st.st_ino))
+            else:
+                with _fs(epath):
+                    os.unlink(entry.name, dir_fd=fd)
+        with _fs(path):
+            now = os.stat(name, dir_fd=parent_fd, follow_symlinks=False)
+        if (now.st_dev, now.st_ino) != (held.st_dev, held.st_ino):
+            raise Refusal(f"{path} now names another directory; both were kept")
+        with _fs(path):
+            os.rmdir(name, dir_fd=parent_fd)
+    finally:
+        _close(fd, path)
 
 
 def _execute(cmd: str, lane: str, tmp: str, timeout: float) -> tuple[str, str]:

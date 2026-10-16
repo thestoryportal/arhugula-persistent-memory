@@ -23,6 +23,9 @@ from unittest import mock
 
 import guard_mutants as gm
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, os.pardir, "tests"))
+import fault_kit as fk  # noqa: E402  (code/tests/fault_kit.py: the standard filesystem attacks)
+
 TOOL = os.path.join(os.path.dirname(os.path.abspath(__file__)), "guard_mutants.py")
 
 MODULE = '''\
@@ -520,6 +523,23 @@ class Results(Base):
         self.assertEqual(pypath, "unset")
         self.assertEqual({r["result"] for r in self.rows()}, {"survived"})
 
+    def test_unexpected_error_while_waiting_for_the_test_surfaces(self):
+        """Only a timeout becomes an error row; any other failure of the wait is not hidden as one."""
+        proc = mock.Mock(pid=1 << 22)
+        proc.wait.side_effect = [RuntimeError("unexpected wait failure"), 0]
+        with mock.patch.object(gm.subprocess, "Popen", return_value=proc), \
+                mock.patch.object(gm, "_kill_group"), self.assertRaises(RuntimeError):
+            gm._execute("true", self.lane, self.tooltmp, 1)
+
+    def test_kill_group_failure_other_than_a_gone_group_surfaces(self):
+        """A group that cannot be killed is reported, never taken for a group that is gone."""
+        with mock.patch.object(gm.os, "killpg", side_effect=PermissionError(errno.EPERM, "Operation not permitted")) \
+                as killpg, self.assertRaises(PermissionError):
+            gm._kill_group(1 << 22)
+        killpg.assert_called_once_with(1 << 22, gm.signal.SIGKILL)
+        with mock.patch.object(gm.os, "killpg", side_effect=ProcessLookupError(errno.ESRCH, "No such process")):
+            self.assertIsNone(gm._kill_group(1 << 22))
+
 
 class Contract(Base):
     def test_bad_invocation_exits_2(self):
@@ -652,6 +672,53 @@ class Contract(Base):
         proc = self.run_tool(self.args(test=f"printf '#' >> {target}"))
         self.assertRefused(proc.returncode, proc.stderr, "pkg/guarded.py")
         self.assertFalse(os.path.exists(self.out))
+
+    def edit_at_run(self, n, rel, old, new):
+        """A test command that, at run n, rewrites rel in the lane in place: same inode, size and mtime."""
+        assert len(old) == len(new)
+        target = os.path.join(self.lane, rel)
+        count = os.path.join(self.tmp, "count")
+        helper = os.path.join(self.tmp, "edit.py")
+        with open(helper, "w") as fh:
+            fh.write(textwrap.dedent(f"""\
+                import os
+                n = int(open({count!r}).read()) + 1 if os.path.exists({count!r}) else 1
+                open({count!r}, "w").write(str(n))
+                if n == {n}:
+                    st = os.stat({target!r})
+                    with open({target!r}, "rb") as fh:
+                        data = fh.read()
+                    assert {old!r} in data
+                    with open({target!r}, "r+b") as fh:
+                        fh.write(data.replace({old!r}, {new!r}))
+                    os.utime({target!r}, ns=(st.st_atime_ns, st.st_mtime_ns))
+                """))
+        return target, f"{sys.executable} -B {helper} && {self.cmd()}"
+
+    def assertEditedWithIdentityKept(self, target, before, marker):
+        with open(target, "rb") as fh:
+            self.assertIn(marker, fh.read())
+        self.assertEqual(gm._identity(os.stat(target)), before)
+
+    def test_test_file_rewritten_with_its_identity_kept_after_the_baseline_is_refused(self):
+        # Run 2 makes the lane's fixture test fail on import: every later copy would "kill" every mutant.
+        target, cmd = self.edit_at_run(2, "pkg/test_guarded.py", b"import guarded", b"assert False  ")
+        before = gm._identity(os.stat(target))
+        proc = self.run_tool(self.args(test=cmd))
+        self.assertEditedWithIdentityKept(target, before, b"assert False")
+        self.assertRefused(proc.returncode, proc.stderr, "changed", "pkg/test_guarded.py")
+        self.assertFalse(os.path.exists(self.out))
+        self.assertNoScratchLeft()
+
+    def test_product_file_rewritten_with_its_identity_kept_after_the_last_copy_is_refused(self):
+        # Run 12 (the last mutant) changes the product after the last copy: only the final scan can see it.
+        target, cmd = self.edit_at_run(12, "pkg/guarded.py", b"n < 0", b"n > 0")
+        before = gm._identity(os.stat(target))
+        proc = self.run_tool(self.args(test=cmd))
+        self.assertEditedWithIdentityKept(target, before, b"n > 0")
+        self.assertRefused(proc.returncode, proc.stderr, "changed", "pkg/guarded.py")
+        self.assertFalse(os.path.exists(self.out))
+        self.assertNoScratchLeft()
 
 
 class Races(Base):
@@ -824,6 +891,120 @@ class Races(Base):
         self.assertTrue(fired)
         self.assertRefused(code, err, "other.json")
         self.assertTrue(os.path.isfile(os.path.join(self.outdir, "other.json")))
+
+
+class Scratch(Base):
+    """The scratch lies outside the lane and is removed only through fds bound to what this run made."""
+
+    def run_with_attack_on_exit(self, attack):
+        """run_main with attack(scratch path) armed around the session's cleanup."""
+        real_exit = gm.Session.__exit__
+        box = {}
+
+        def attacked_exit(session, *exc):
+            box["scratch"] = session.scratch
+            with attack(session.scratch) as fault:
+                box["fault"] = fault
+                return real_exit(session, *exc)
+        with mock.patch.object(gm.Session, "__exit__", attacked_exit):
+            code, out, err = self.run_main(self.args(test="true"))
+        return code, err, box["scratch"], box["fault"]
+
+    def assertBothKept(self, scratch, fault):
+        self.assertEqual(fault.fired, 1)
+        self.assertTrue(os.path.isdir(scratch) and not os.path.islink(scratch), scratch)  # the replacement
+        self.assertEqual(os.listdir(scratch), [])
+        self.assertTrue(os.path.isdir(fault.parked), fault.parked)  # the real scratch
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_scratch_rebound_before_cleanup_is_refused_and_both_are_kept(self):
+        code, err, scratch, fault = self.run_with_attack_on_exit(
+            lambda s: fk.rename_and_rebind("close", 1, s, match=lambda fd: real_getpath(fd) == s))
+        self.assertRefused(code, err, scratch, "kept")
+        self.assertBothKept(scratch, fault)
+
+    def test_scratch_rebound_during_cleanup_is_refused_and_both_are_kept(self):
+        code, err, scratch, fault = self.run_with_attack_on_exit(
+            lambda s: fk.rename_and_rebind("scandir", 1, s,
+                                           match=lambda fd=None: isinstance(fd, int) and real_getpath(fd) == s))
+        self.assertRefused(code, err, scratch, "kept")
+        self.assertBothKept(scratch, fault)
+
+    def test_mutant_copy_rebound_before_its_removal_is_refused_and_both_are_kept(self):
+        root_fd = gm.open_root(self.lane)
+        self.addCleanup(os.close, root_fd)
+        targets = gm.read_targets(root_fd, self.lane, ["pkg/guarded.py"])
+        with mock.patch.object(tempfile, "tempdir", self.tooltmp):
+            session = gm.Session(self.lane, root_fd, targets, "true", 30)
+            with self.assertRaises(gm.Refusal) as caught, session:
+                copy = os.path.join(session.scratch, "m0001")
+                # Call 1 opens the new copy; call 2 opens it for removal.
+                with fk.rename_and_rebind("open", 2, copy, match=lambda p, *a, **k: p == "m0001" and
+                                          k.get("dir_fd") is not None) as fault:
+                    session.baseline()
+        self.assertIn(copy, str(caught.exception))
+        self.assertIn("kept", str(caught.exception))
+        self.assertTrue(os.path.isdir(copy))
+        self.assertEqual(os.listdir(copy), [])
+        self.assertEqual(sorted(os.listdir(fault.parked)), ["lane", "tmp"])
+        self.assertTrue(os.path.isfile(os.path.join(fault.parked, "lane", "pkg", "guarded.py")))
+
+    def watch_creates(self):
+        """Patches that record every directory, file or link the tool creates, by its real path."""
+        made = []
+        real_mkdir, real_open, real_symlink = os.mkdir, os.open, os.symlink
+
+        def where(path, dir_fd):
+            return os.path.join(real_getpath(dir_fd), path) if dir_fd is not None else os.path.abspath(path)
+
+        def mkdir(path, *a, dir_fd=None, **kw):
+            made.append(where(path, dir_fd))
+            return real_mkdir(path, *a, dir_fd=dir_fd, **kw)
+
+        def open_(path, flags, *a, dir_fd=None, **kw):
+            if flags & os.O_CREAT:
+                made.append(where(path, dir_fd))
+            return real_open(path, flags, *a, dir_fd=dir_fd, **kw)
+
+        def symlink(src, dst, *a, dir_fd=None, **kw):
+            made.append(where(dst, dir_fd))
+            return real_symlink(src, dst, *a, dir_fd=dir_fd, **kw)
+        stack = contextlib.ExitStack()
+        for name, fn in (("mkdir", mkdir), ("open", open_), ("symlink", symlink)):
+            stack.enter_context(mock.patch.object(gm.os, name, fn))
+        return stack, made
+
+    def test_scratch_parent_in_the_lane_is_refused_with_no_write_in_the_lane(self):
+        for parent in (os.path.join(self.lane, "tmp"), self.lane):
+            with self.subTest(parent=parent):
+                os.makedirs(parent, exist_ok=True)
+                self.tooltmp = parent
+                before = tree_digest(self.lane)
+                stack, made = self.watch_creates()
+                with stack:
+                    code, out, err = self.run_main(self.args(test="true"))
+                self.assertRefused(code, err, "scratch", "inside the lane")
+                self.assertEqual([p for p in made if p == self.lane or p.startswith(self.lane + "/")], [])
+                self.assertEqual(tree_digest(self.lane), before)
+                self.assertFalse(os.path.exists(self.out))
+
+    def test_scratch_moved_into_the_lane_after_it_is_made_is_refused(self):
+        moved = os.path.join(self.lane, "moved")
+        real = os.mkdir
+        made = []
+
+        def hooked(path, *a, **kw):
+            result = real(path, *a, **kw)
+            if not made and os.path.basename(path).startswith("guard_mutants-"):
+                made.append(os.path.basename(path))
+                os.rename(self.tooltmp, moved)
+            return result
+        with mock.patch.object(gm.os, "mkdir", hooked):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertEqual(len(made), 1)
+        self.assertRefused(code, err, "scratch", "inside the lane")
+        self.assertEqual(os.listdir(os.path.join(moved, made[0])), [])  # no copy was made, the scratch is kept
+        self.assertFalse(os.path.exists(self.out))
 
 
 class Faults(Base):
