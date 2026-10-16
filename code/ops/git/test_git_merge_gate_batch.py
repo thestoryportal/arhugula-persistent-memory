@@ -841,6 +841,49 @@ class BatchTests(unittest.TestCase):
         self.assert_landed_with_failure(report, 'candidate_delete', 'candidate branch restored', sha)
         self.assertEqual(self.remote_tip('master'), self.base)
 
+    # ---- T304 pre-review round 2 rulings 10-12 ----
+
+    def test_delete_hook_directory_replaced_after_creation_is_refused_and_writes_nothing(self):  # ruling 10
+        sha = self.build()
+        self.ci(sha)
+        report = self.gate_with_scratch_swapped('git-delete-guard-', dry_run=False)
+        self.assert_landed_with_failure(report, 'candidate_delete', 'temporary directory', sha)
+        self.assertEqual(self.remote_tip('master'), sha)
+
+    def test_delete_error_after_master_moved_back_restores_the_candidate(self):  # ruling 11
+        kit = self.fault_kit()
+        sha = self.build()
+        self.ci(sha)
+        hook = self.root / '.git' / 'hooks' / 'pre-push'
+        hook.write_text('#!/bin/sh\nread localref localsha remoteref remotesha\n'
+                        'if [ "$localsha" = "%s" ]; then git --git-dir="%s" update-ref refs/heads/master %s; fi\n'
+                        % ('0' * 40, self.remote, self.base))
+        hook.chmod(0o755)
+        def delete_directory(fd, *args, **kwargs):
+            try:
+                return isinstance(fd, int) and '/git-delete-guard-' in self.M.live_path(fd)
+            except OSError:
+                return False
+        with kit.inject_oserror('scandir', 1, errno.EIO, match=delete_directory) as fault:
+            report = self.gate(dry_run=False)
+        self.assertEqual(fault.fired, 1)
+        self.assert_landed_with_failure(report, 'candidate_delete', 'Input/output error', sha)
+        self.assertEqual(self.remote_tip('master'), self.base)
+
+    def test_push_error_after_master_moved_past_the_candidate_reports_merged(self):  # ruling 12
+        sha = self.build()
+        self.ci(sha)
+        top = self.commit_tree(self.git('rev-parse', sha + '^{tree}'), sha)
+        original = self.M.push_master
+        def push_then_land_on_top_then_fail(*args):
+            original(*args)
+            self.git('push', 'origin', top + ':refs/heads/master')  # fixture origin only
+            raise self.H.Refusal('connection reset after the ref update')
+        with mock.patch.object(self.M, 'push_master', side_effect=push_then_land_on_top_then_fail):
+            report = self.gate(dry_run=False)
+        self.assert_landed_with_failure(report, 'push', 'connection reset after the ref update', sha)
+        self.assertEqual(self.remote_tip('master'), top)
+
     # ---- CLI and CI trigger ----
 
     def run_cli(self, *argv):

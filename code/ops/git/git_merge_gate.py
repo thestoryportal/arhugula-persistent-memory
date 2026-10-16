@@ -530,21 +530,34 @@ def guarded_push(repo, sha, branch, expected, last_read):
     """Plain push of sha to branch: the hook refuses unless origin advertises branch at `expected`
     (zeros: absent), and receive-pack then compares that old OID atomically. last_read() is the last
     external read before the push (T304 ruling 4)."""
+    ref = 'refs/heads/' + branch
+    hooked_push(repo, 'git-land-guard-', [sha, sha, ref, expected], [sha + ':' + ref], branch, last_read)
+
+
+def guarded_delete(repo, sha, branch):
+    """Delete branch on origin only while origin advertises it at sha, through a hook directory the
+    gate owns and binds, as guarded_push does (T304 ruling 10)."""
+    hooked_push(repo, 'git-delete-guard-', ['(delete)', '0' * 40, 'refs/heads/' + branch, sha],
+                ['--delete', branch], branch, lambda: None)
+
+
+def hooked_push(repo, prefix, accepted, refspec, branch, last_read):
+    """Push refspec with a pre-push hook in a bound scratch() directory that refuses any update but the
+    one pre-push line `accepted`, then chains to the repository's own hook."""
     original = Path(bgit(repo, 'rev-parse', '--git-path', 'hooks/pre-push', network=True).stdout.strip())
     if not original.is_absolute():
         original = repo.root / original
     original = original.resolve()
     existing = str(original) if original.is_file() and os.access(original, os.X_OK) else None
-    ref = 'refs/heads/' + branch
-    with scratch('git-land-guard-') as (directory, fd, bound):
+    with scratch(prefix) as (directory, fd, bound):
         opener = lambda name, flags: os.open(name, flags | os.O_EXCL | os.O_NOFOLLOW, 0o700, dir_fd=fd)
         with open('pre-push', 'w', opener=opener) as hook:
             hook.write('#!/usr/bin/env python3\n'
                 'import subprocess,sys\n'
-                f'sha={sha!r}; ref={ref!r}; expected={expected!r}; original={existing!r}\n'
+                f'accepted={accepted!r}; original={existing!r}\n'
                 'data=sys.stdin.buffer.read(); rows=data.decode().splitlines()\n'
                 'fields=rows[0].split() if len(rows)==1 else []\n'
-                'if fields!=[sha,sha,ref,expected]:\n'
+                'if fields!=accepted:\n'
                 f' print("REFUSE: origin/{branch} moved or unexpected update",file=sys.stderr);sys.exit(1)\n'
                 'if original:\n'
                 ' result=subprocess.run([original,*sys.argv[1:]],input=data,timeout=30)\n'
@@ -552,7 +565,7 @@ def guarded_push(repo, sha, branch, expected, last_read):
             os.fchmod(hook.fileno(), 0o755)
         last_read()
         bound()
-        bgit(repo, '-c', 'core.hooksPath=' + directory, 'push', 'origin', sha + ':' + ref, network=True)
+        bgit(repo, '-c', 'core.hooksPath=' + directory, 'push', 'origin', *refspec, network=True)
         bound()
 
 
@@ -654,6 +667,12 @@ def batch_gate(repo, gh, candidate, numbers, dry_run=True, wait_s=480, report=No
         def landed():
             report['merged'], report['merge_sha'], report['status'] = True, sha, 'MERGED_WITH_FAILURE'
         with repo.lock():
+            def containing():
+                """Live origin/master when it contains the candidate, else None."""
+                tip = remote_tips(repo, 'master').get('master')
+                if not tip or bgit(repo, 'merge-base', '--is-ancestor', sha, tip, allowed=(0, 1)).returncode:
+                    return None
+                return tip
             def push():
                 stable()
                 extras()
@@ -672,7 +691,7 @@ def batch_gate(repo, gh, candidate, numbers, dry_run=True, wait_s=480, report=No
                     error = sys.exc_info()[1]  # any exception, then it surfaces (T304 ruling 7)
                     if error is not None:
                         try:
-                            if remote_tips(repo, 'master').get('master') == sha:
+                            if containing():  # master contains the candidate: landed (T304 ruling 12)
                                 landed()
                         except H.Refusal as unknown:
                             raise H.Refusal(f'{error}; push outcome unverified: {unknown}') from error
@@ -699,21 +718,17 @@ def batch_gate(repo, gh, candidate, numbers, dry_run=True, wait_s=480, report=No
                 if gh.master() != sha:
                     raise H.Refusal('master moved during post-merge verification')
                 return result
-            def containing():
-                """Live origin/master when it contains the candidate, else None."""
-                tip = remote_tips(repo, 'master').get('master')
-                if not tip or bgit(repo, 'merge-base', '--is-ancestor', sha, tip, allowed=(0, 1)).returncode:
-                    return None
-                return tip
             def delete():
                 if not containing():
                     raise H.Refusal('origin/master does not contain the candidate; candidate branch kept')
-                H.delete_remote(repo, candidate, sha)
                 tip = None
                 try:
-                    tip = containing()
+                    try:
+                        guarded_delete(repo, sha, candidate)
+                    finally:
+                        tip = containing()  # after the delete or any error from it (T304 ruling 11)
                 finally:
-                    if not tip:  # master lost the candidate, or containment is unverified (T304 ruling 8)
+                    if not tip:  # master lost the candidate, or containment is unverified (T304 rulings 8, 11)
                         guarded_push(repo, sha, candidate, '0' * 40, lambda: None)
                 if not tip:
                     raise H.Refusal('origin/master no longer contains the candidate after the delete; candidate branch restored')
