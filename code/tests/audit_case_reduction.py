@@ -1,12 +1,9 @@
 """AuditControls partial-reduction case; a mixin composed by test_context_audit."""
-import unittest
-
 import test_icm21 as shared
 from test_icm21 import put
 
 
 class PartialReductionCases:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_partial_reduction(self):
         module = self.checker()
         root, config = self.seed(['C-ROOT', 'C-WORKTREE'])
