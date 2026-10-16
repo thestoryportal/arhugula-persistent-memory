@@ -3,6 +3,7 @@
 No test touches the real remote: origin is a bare repository inside the test's temp dir.
 """
 from contextlib import redirect_stderr, redirect_stdout
+import errno
 import fcntl
 import importlib
 import io
@@ -599,7 +600,7 @@ class BatchTests(unittest.TestCase):
         sha = self.build()
         self.ci(sha)
         first = self.git('rev-parse', sha + '^1')
-        self.effect(on='candidate-runs', nth=2, do='move', ref='master', to=first)
+        self.effect(on='master-ref', nth=4, do='move', ref='master', to=first)
         report = self.gate(dry_run=False)
         self.assert_refused(report, 'push', 'origin/master moved or unexpected update', pushes=1)
         self.assertEqual(self.remote_tip('master'), first)
@@ -735,6 +736,110 @@ class BatchTests(unittest.TestCase):
             report = self.gate(dry_run=False)
         self.assert_refused(report, 'push', 'push rejected; push outcome unverified: ls-remote failed')
         self.assertEqual(len(attempted), 1)
+
+    # ---- T304 pre-review rulings 3-8 ----
+
+    def fault_kit(self):
+        sys.path.insert(0, str(LANE / 'code' / 'tests'))
+        self.addCleanup(sys.path.remove, str(LANE / 'code' / 'tests'))
+        return importlib.import_module('fault_kit')
+
+    def gate_with_scratch_swapped(self, prefix, dry_run, name='mkdir', match=None):
+        """fault_kit replaces the gate's `prefix` temp directory with a symlink into the clone right after
+        the first matched `name` call (default: its mkdir)."""
+        kit = self.fault_kit()
+        scratch, target = self.home / 'tmp', self.root / 'attack-destination'
+        scratch.mkdir()
+        target.mkdir()
+        path = str(scratch / (prefix + 'fixture'))
+        with mock.patch.object(tempfile, 'tempdir', str(scratch)), \
+             mock.patch.object(tempfile, '_get_candidate_names', return_value=iter(['fixture'] * 100)), \
+             kit.swap_for_symlink(name, 1, path, str(target), when='after',
+                                  match=match or (lambda p, *a, **k: str(p) == path)):
+            report = self.gate(dry_run=dry_run)
+        self.assertEqual([p for p in target.rglob('*')], [], 'nothing may be written inside the unit')
+        return report
+
+    def test_pr_switched_to_draft_after_the_first_read_is_refused_before_push(self):  # ruling 3
+        sha = self.build()
+        self.ci(sha)
+        self.effect(on='candidate-runs', do='pr-set', pr='22', field='draft', to=True)
+        self.assert_refused(self.gate(dry_run=False), 'stable', 'PR 22 moved')
+        self.assertEqual(self.remote_tip('master'), self.base)
+
+    def test_pr_closed_during_the_final_ci_read_is_refused_before_push(self):  # ruling 4
+        sha = self.build()
+        self.ci(sha)
+        self.effect(on='candidate-runs', nth=2, do='pr-set', pr='22', field='state', to='CLOSED')
+        self.assert_refused(self.gate(dry_run=False), 'push', 'PR 22 moved')
+        self.assertEqual(self.remote_tip('master'), self.base)
+
+    def test_fsmonitor_program_never_runs_in_any_git_call_the_gate_causes(self):  # ruling 5
+        sha = self.build()
+        self.ci(sha)
+        marker, monitor = self.home / 'fsmonitor-ran', self.home / 'monitor'
+        monitor.write_text('#!/bin/sh\ntouch "%s"\nprintf "token\\0"\n' % marker)
+        monitor.chmod(0o755)
+        self.git('config', 'core.fsmonitor', str(monitor))
+        report = self.gate(dry_run=False)
+        self.assertEqual(report['status'], 'MERGED', report['errors'])
+        self.assertFalse(marker.exists(), 'the fsmonitor program ran')
+
+    def test_hook_directory_replaced_after_creation_is_refused_before_push(self):  # ruling 6
+        sha = self.build()
+        self.ci(sha)
+        report = self.gate_with_scratch_swapped('git-land-guard-', dry_run=False)
+        self.assert_refused(report, 'push', 'temporary directory')
+        self.assertEqual(self.remote_tip('master'), self.base)
+
+    def test_hook_directory_replaced_after_the_hook_write_is_refused_before_push(self):  # ruling 6
+        sha = self.build()
+        self.ci(sha)
+        report = self.gate_with_scratch_swapped('git-land-guard-', dry_run=False, name='open',
+                                                match=lambda p, *a, **k: p == 'pre-push')
+        self.assert_refused(report, 'push', 'is no longer the directory the gate created')
+        self.assertEqual(self.remote_tip('master'), self.base)
+
+    def test_object_directory_replaced_after_creation_is_refused_before_any_write(self):  # ruling 6
+        merged = self.build()
+        expected = self.git('rev-parse', merged + '^{tree}')
+        first = self.git('rev-parse', merged + '^1')
+        sha = self.commit_tree(self.git('rev-parse', first + '^{tree}'), first, self.heads[22])
+        self.git('push', '-f', 'origin', sha + ':refs/heads/' + self.candidate)  # fixture origin only
+        self.ci(sha)
+        (self.root / '.git' / 'objects' / expected[:2] / expected[2:]).unlink()  # recomputing must write this tree
+        report = self.gate_with_scratch_swapped('git-merge-gate-objects-', dry_run=True)
+        self.assert_refused(report, 'candidate', 'temporary directory')
+
+    def test_exception_after_the_push_still_reports_the_merge(self):  # ruling 7
+        kit = self.fault_kit()
+        sha = self.build()
+        self.ci(sha)
+        def guard_directory(fd, *args, **kwargs):
+            try:
+                if hasattr(fcntl, 'F_GETPATH'):
+                    path = os.fsdecode(fcntl.fcntl(fd, fcntl.F_GETPATH, bytes(1024)).split(b'\0', 1)[0])
+                else:
+                    path = os.readlink('/proc/self/fd/%d' % fd)
+            except OSError:
+                return False  # a pipe has no path
+            return '/git-land-guard-' in path
+        with kit.inject_oserror('close', 1, errno.EIO, match=guard_directory):
+            report = self.gate(dry_run=False)
+        self.assert_landed_with_failure(report, 'push', 'Input/output error', sha)
+        self.assertEqual(self.remote_tip('master'), sha)
+
+    def test_master_moved_back_during_the_candidate_delete_restores_the_candidate(self):  # ruling 8
+        sha = self.build()
+        self.ci(sha)
+        hook = self.root / '.git' / 'hooks' / 'pre-push'
+        hook.write_text('#!/bin/sh\nread localref localsha remoteref remotesha\n'
+                        'if [ "$localsha" = "%s" ]; then git --git-dir="%s" update-ref refs/heads/master %s; fi\n'
+                        % ('0' * 40, self.remote, self.base))
+        hook.chmod(0o755)
+        report = self.gate(dry_run=False)
+        self.assert_landed_with_failure(report, 'candidate_delete', 'candidate branch restored', sha)
+        self.assertEqual(self.remote_tip('master'), self.base)
 
     # ---- CLI and CI trigger ----
 
