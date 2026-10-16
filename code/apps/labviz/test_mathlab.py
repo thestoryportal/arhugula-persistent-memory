@@ -68,6 +68,11 @@ def prepare(root):
         target = root/'code/apps/labviz'/path.name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(path, target)
+    # The copied results_moves.json binds these inputs by path and digest beneath the root.
+    for name in ('_index/path-map.tsv', '_index/icm21-path-map.tsv'):
+        target = root/name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT/name, target)
     target = root/'code/apps/mathlab/mathlab_events.py'
     target.parent.mkdir(parents=True)
     shutil.copyfile(ROOT/'code/apps/mathlab/mathlab_events.py', target)

@@ -7,6 +7,7 @@ and from a chain of those relationships.
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -20,7 +21,11 @@ E2E = "knowledge/specs/SPEC_E2E_GROUND_TRUTH.md"
 HYPOTHESES = "program/registers/HYPOTHESIS_REGISTER_2026-06-18.md"
 RUNBOOK = "program/runbook"
 TABLE = "code/apps/labviz/contexts.json"
-MOVES = "code/apps/labviz/results_moves.json"
+LABVIZ_APP = "code/apps/labviz"
+MOVES = LABVIZ_APP + "/results_moves.json"
+MOVES_ABOUT = "Derived from sealed path map and approved ICM v2.1 relocations."
+# D2 MapBinding: each input of the map is bound by its fixed path beneath the root and its raw-byte digest.
+MAP_INPUTS = {"sealed": "_index/path-map.tsv", "relocations": "_index/icm21-path-map.tsv"}
 _DECISION = re.compile(r"(?<![A-Za-z0-9-])(D-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)(?![A-Za-z0-9-])")
 _ANCHOR = re.compile(r"⟨(D-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)@[^⟩]+⟩")
 # Sealed documents cite pre-v2 results/ paths; current ones cite run folders.
@@ -91,6 +96,8 @@ def _moved(pattern, moves):
     pattern names whole, its new path (and, for a folder pattern, everything under it)."""
     homes = []
     for old, new in moves.items():
+        if new in moves:
+            raise ValueError("results move does not end at a final path: " + old)
         if pattern.startswith(old + "/"):
             homes.append(new + pattern[len(old):])
         elif _path_matches(pattern, old):
@@ -134,6 +141,45 @@ def _resolve_json(data, path):
     return data
 
 
+def _read_beneath(root, relative):
+    """The bytes of a fixed relative input beneath root; a symlink component or a missing file is an error."""
+    path = root
+    for part in Path(relative).parts:
+        path = path / part
+        if path.is_symlink():
+            raise ValueError(f"{relative}: symlink component {path.relative_to(root)}")
+    if not path.is_file():
+        raise ValueError(f"{relative}: missing input")
+    return path.read_bytes()
+
+
+def _load_moves(root):
+    """LabvizMoves under root, accepted only after both input identities match beneath that same root.
+    A root without LabViz carries no map (build_index generates none there) and so has no moves."""
+    if not (root / LABVIZ_APP).is_dir():
+        return {}
+    data = json.loads(_read_beneath(root, MOVES).decode("utf-8"))
+    if not isinstance(data, dict) or set(data) != {"about", "derived_from", "moves"}:
+        raise ValueError(MOVES + ": keys must be exactly about, derived_from and moves")
+    if data["about"] != MOVES_ABOUT:
+        raise ValueError(MOVES + ": unexpected about text")
+    derived = data["derived_from"]
+    if not isinstance(derived, dict) or set(derived) != set(MAP_INPUTS):
+        raise ValueError(MOVES + ": derived_from keys must be exactly " + ", ".join(sorted(MAP_INPUTS)))
+    for key, relative in MAP_INPUTS.items():
+        binding = derived[key]
+        if not isinstance(binding, dict) or set(binding) != {"path", "sha256"}:
+            raise ValueError(f"{MOVES}: derived_from.{key} must be exactly path and sha256")
+        if binding["path"] != relative:
+            raise ValueError(f"{MOVES}: derived_from.{key}.path must be {relative}")
+        if hashlib.sha256(_read_beneath(root, relative)).hexdigest() != binding["sha256"]:
+            raise ValueError(f"{MOVES}: {relative} differs from its recorded sha256")
+    moves = data["moves"]
+    if not isinstance(moves, dict) or not all(isinstance(k, str) and isinstance(v, str) for k, v in moves.items()):
+        raise ValueError(MOVES + ": moves must map paths to paths")
+    return moves
+
+
 def _missing(reason):
     return {"value": None, "missing": reason, "tier": 1}
 
@@ -147,8 +193,7 @@ class Program:
         local_table = self.root / TABLE
         self._table_file = local_table if local_table.is_file() else PACKAGE / "contexts.json"
         self.tables = json.loads(self._table_file.read_text(encoding="utf-8"))
-        local_moves = self.root / MOVES
-        self.moves = json.loads((local_moves if local_moves.is_file() else PACKAGE / "results_moves.json").read_text(encoding="utf-8"))["moves"]
+        self.moves = _load_moves(self.root)
         self._homes = {}
         self.registry = self._read_registry()
         self.headers = self._read_headers()
