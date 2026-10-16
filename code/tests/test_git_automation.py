@@ -1365,7 +1365,7 @@ class Contracts(unittest.TestCase):
         text = workflow.read_text()
         self.assertIn('push:', text)
         self.assertIn('pull_request:', text)
-        self.assertRegex(text, r'push:\s*\n\s+branches: \[master\]')
+        self.assertRegex(text, r'push:\s*\n\s+branches: \[master, "land/\*\*"\]\n')
         self.assertRegex(text, r'pull_request:\s*\n\s+branches: \[master\]')
         self.assertIn('python-version: "3.11"', text)
         self.assertIn('timeout-minutes: 8', text)
