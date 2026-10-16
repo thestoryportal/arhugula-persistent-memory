@@ -97,7 +97,7 @@ class Parsers(unittest.TestCase):
 
 class Row(unittest.TestCase):
     SAMPLE = dict(utc="2026-10-16T14:00:00Z", load1=3.1, load5=2.9, cpu_idle_pct=83.0, mem_free_pct=88,
-                  swap_used_mib=3606.06, groups=C.parse_processes(PS), gpu=("1", "0"), memit_free_gib=123.456)
+                  swap_used_mib=3606.06, groups=C.parse_processes(PS), gpu=("1", "0"), memit_free_gib=123.456, research_blockers="0")
 
     def test_row_matches_header(self):
         row = C.format_row(self.SAMPLE)
