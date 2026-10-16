@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [master, "land/**"]
   pull_request:
     branches: [master]
 
@@ -42,6 +42,8 @@ jobs:
         run: LLMDB_ROOT="$PWD" python3 -B -S code/agents/twins.py --check
       - name: Git automation fixtures
         run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest discover -s code/tests -p test_git_automation.py -v
+      - name: Git merge gate batch fixtures
+        run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest discover -s code/ops/git -p test_git_merge_gate_batch.py -v
       - name: Model-free repository suites
         run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest -v lab.runners.test_c10w_p2_gate apps.dashboard.test_dashboard_live apps.dashboard.test_dashboard_gpu_detector
       - name: Staged closure
