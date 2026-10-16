@@ -25,10 +25,12 @@ exists is named and left in place.
 from __future__ import annotations
 
 import contextlib
+import ctypes
 import errno
 import fcntl
 import os
 import stat
+import sys
 from dataclasses import dataclass
 from typing import Callable, Iterator, Sequence
 
@@ -240,3 +242,142 @@ def create_file(parent: Dir, name: str, data: bytes, roots: Sequence[Dir]) -> st
     finally:
         close(fd, kept)
     return where
+
+
+def _child(parent: Dir, name: str) -> str:
+    path = os.path.join(parent.path, name)
+    if name in ("", ".", "..") or "/" in name or "\0" in name:
+        raise Refusal(path, "names no single entry")
+    return path
+
+
+def _settled(parent: Dir, label: str | None = None) -> str:
+    """The parent's live path, which must still be the path it is held as (a moved parent refuses)."""
+    live = live_path(parent.fd, parent.path if label is None else f"{parent.path}; {label}")
+    if live != parent.path:
+        raise Refusal(label or parent.path, f"is held at {live}, not at {parent.path}")
+    return live
+
+
+def _within(parent_live: str, parent: Dir, root_lives: Sequence[tuple[Dir, str]], label: str | None = None) -> None:
+    if not any(inside(root_live, parent_live) for _, root_live in root_lives):
+        raise Refusal(label or parent.path, f"live path {parent_live} is inside no held root "
+                      f"({', '.join(root.path for root, _ in root_lives)})")
+
+
+def read_named(parent: Dir, name: str) -> bytes:
+    """Return the bytes of the regular file parent/name, read through the held parent with read_leaf's checks.
+
+    The parent's live path check is the last filesystem call before the leaf is opened."""
+    path = _child(parent, name)
+    with fs(path):
+        st = os.lstat(name, dir_fd=parent.fd)
+    entry = Entry(parent.fd, name, path, name, st)
+    _settled(parent)
+    return read_bytes(entry)
+
+
+def mkdir(parent: Dir, name: str) -> Dir:
+    """Create the directory parent/name and return it held; the caller closes it.
+
+    The parent's live path check is the last filesystem call before the mkdir. Never
+    overwrites; a refusal after the directory exists names it and leaves it in place."""
+    path = _child(parent, name)
+    before = _settled(parent)
+    with fs(path):
+        os.mkdir(name, 0o755, dir_fd=parent.fd)
+    kept = f"{path} (created, left in place)"
+    with fs(kept):
+        st = os.lstat(name, dir_fd=parent.fd)
+    with fs(kept):
+        fd = os.open(name, DIR_FLAGS, dir_fd=parent.fd)
+    try:
+        opened = _fstat(fd, kept)
+        if (opened.st_dev, opened.st_ino) != (st.st_dev, st.st_ino):
+            raise Refusal(kept, "changed between create and open")
+        where = live_path(fd, kept)
+        expected = os.path.join(before, name)
+        if where != expected:
+            raise Refusal(where, f"was created away from {expected}; left in place")
+    except BaseException:
+        close(fd, kept)
+        raise
+    return Dir(fd, path)
+
+
+def _resolve_noreplace() -> tuple[Callable[..., int], int] | None:
+    """libc's rename that refuses an existing target, and its flag; None when libc has neither call.
+
+    macOS renameatx_np(..., RENAME_EXCL); Linux renameat2(..., RENAME_NOREPLACE)."""
+    name, flag = ("renameatx_np", 0x4) if sys.platform == "darwin" else ("renameat2", 0x1)
+    func = getattr(ctypes.CDLL(None, use_errno=True), name, None)
+    if func is None:
+        return None
+    func.argtypes = (ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint)
+    func.restype = ctypes.c_int
+    return func, flag
+
+
+_NOREPLACE = _resolve_noreplace()
+
+
+def _rename_noreplace(src_name: str, dst_name: str, *, src_dir_fd: int, dst_dir_fd: int) -> None:
+    """Rename through dir fds without ever replacing a target; an existing target is EEXIST.
+
+    There is no fallback: a missing call, or a filesystem that rejects the flag (EINVAL,
+    ENOTSUP), is an OSError like any other."""
+    if _NOREPLACE is None:
+        raise OSError(errno.ENOTSUP, "libc has no exclusive rename (renameatx_np or renameat2)")
+    func, flag = _NOREPLACE
+    if func(src_dir_fd, os.fsencode(src_name), dst_dir_fd, os.fsencode(dst_name), flag) != 0:
+        err = ctypes.get_errno()
+        raise OSError(err, os.strerror(err))
+
+
+def rename(src_parent: Dir, src_name: str, dst_parent: Dir, dst_name: str, roots: Sequence[Dir]) -> str:
+    """Move src_parent/src_name to dst_parent/dst_name inside the held roots; return its live path.
+
+    The source is held open, must be a regular file or a directory, and must be the same
+    object (fstat st_dev, st_ino, st_size, st_mtime_ns) before and after the move, and the
+    object at the target. Both parents must be at their held paths and inside a held root;
+    their live path checks are the last filesystem calls before the rename. Never overwrites
+    an existing target, even one created after the absent-target check: the rename itself is
+    exclusive (_rename_noreplace). A refusal after the move names the target and leaves it in place."""
+    src = _child(src_parent, src_name)
+    dst = _child(dst_parent, dst_name)
+    if not roots:
+        raise Refusal(dst, "no held root to check the move against")
+    with fs(src):
+        fd = os.open(src_name, LEAF_FLAGS, dir_fd=src_parent.fd)
+    label = src
+    try:
+        held = _fstat(fd, src)
+        if not (stat.S_ISREG(held.st_mode) or stat.S_ISDIR(held.st_mode)):
+            raise Refusal(src, "is not a regular file or directory")
+        try:
+            with fs(dst):
+                os.lstat(dst_name, dir_fd=dst_parent.fd)
+        except Refusal as exc:
+            if exc.errno != errno.ENOENT:
+                raise
+        else:
+            raise Refusal(dst, "already exists; rename never overwrites", errno.EEXIST)
+        root_lives = [(root, root.live()) for root in roots]
+        src_live = _settled(src_parent)
+        dst_live = _settled(dst_parent)
+        _within(src_live, src_parent, root_lives)
+        _within(dst_live, dst_parent, root_lives)
+        with fs(f"{src} -> {dst}"):
+            _rename_noreplace(src_name, dst_name, src_dir_fd=src_parent.fd, dst_dir_fd=dst_parent.fd)
+        label = f"{dst} (moved, left in place)"
+        if _identity(_fstat(fd, label)) != _identity(held):
+            raise Refusal(label, "changed while it was moved")
+        with fs(label):
+            landed = os.lstat(dst_name, dir_fd=dst_parent.fd)
+        if (landed.st_dev, landed.st_ino) != (held.st_dev, held.st_ino):
+            raise Refusal(label, "is not the object that was held")
+        root_lives = [(root, live_path(root.fd, f"{root.path}; {label}")) for root in roots]
+        _within(_settled(dst_parent, label), dst_parent, root_lives, label)
+    finally:
+        close(fd, label)
+    return os.path.join(dst_live, dst_name)
