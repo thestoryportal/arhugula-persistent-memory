@@ -18,6 +18,8 @@ class GuardCases:
         put(source, 'seed.txt', b'miniature fixture\n')
         self.git(source, 'add', 'seed.txt')
         self.git(source, 'commit', '-qm', 'miniature seed')
+        for relative in ('code/state/icm21_check.py', 'code/state/icm21/WIRE-SCHEMAS.json'):
+            put(source, relative, (SOURCE_ROOT / relative).read_bytes())
         commit = self.git(source, 'rev-parse', 'HEAD').decode().strip()
         owned = put(self.scratch, 'owned.txt', b'owned fixture\n')
         request = {'schema_version': 1, 'id': 'WS-1', 'kind': 'worktree',
