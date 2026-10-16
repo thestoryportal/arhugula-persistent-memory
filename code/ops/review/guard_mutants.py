@@ -480,8 +480,9 @@ class Session:
         with _fs(f"scratch parent {parent}"):
             self.parent_fd = os.open(parent, os.O_RDONLY | os.O_DIRECTORY)
         try:
+            lane_real = _realpath(self.root_fd, f"lane {self.root}")
             parent_real = _realpath(self.parent_fd, f"scratch parent {parent}")
-            if _inside(_realpath(self.root_fd, f"lane {self.root}"), parent_real):
+            if _inside(lane_real, parent_real):
                 raise Refusal(f"scratch parent {parent_real} is inside the lane {self.root}; set TMPDIR outside it")
             self.name = "guard_mutants-" + secrets.token_hex(8)
             self.scratch = os.path.join(parent_real, self.name)
@@ -971,11 +972,13 @@ def main(argv: list[str] | None = None) -> int:
                 kept = f" ({out} was created and left in place)"
 
                 def placed(verb: str) -> None:
-                    real = _realpath(out_fd, f"{out}{kept}")
+                    """The lane, then the parent, then the file: the file's live path is the last call."""
+                    live_lane = _realpath(root_fd, f"lane {root}{kept}")
                     expected = os.path.join(_realpath(parent_fd, f"--out parent {parent}{kept}"), name)
+                    real = _realpath(out_fd, f"{out}{kept}")
                     if real != expected:
                         raise Refusal(f"{verb} {real}, not {expected}; it was left in place")
-                    if _inside(_realpath(root_fd, f"lane {root}{kept}"), real):
+                    if _inside(live_lane, real):
                         raise Refusal(f"{verb} {real}, which is now inside the lane; it was left in place")
                 try:
                     # Before each write (the first: a move at the create writes nothing inside), and after the last.

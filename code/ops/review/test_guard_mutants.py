@@ -1852,5 +1852,45 @@ class SourceChecks(Base):
         self.assertEqual(reads, [])
 
 
+class OutputOrder(Base):
+    """Ruling 19: the output fd's live path is the last query before each write (astra-r5 output_order_tests)."""
+
+    def probe(self, trigger, move_parent, short):
+        real_fcntl, real_write = gm.fcntl.fcntl, os.write
+        moved = os.path.join(self.lane, "moved-output")
+        fired, inside, output_writes = [], [], []
+
+        def fcntl_(fd, command, *args):
+            ready = bool(output_writes) if short else os.path.exists(self.out)
+            if command == gm.fcntl.F_GETPATH and not fired and ready:
+                if real_getpath(fd) == (self.lane if trigger == "root" else self.outdir):
+                    os.rename(self.outdir if move_parent else self.out, moved)
+                    fired.append(True)
+            return real_fcntl(fd, command, *args)
+
+        def write(fd, data):
+            path = real_getpath(fd)
+            n = real_write(fd, memoryview(data)[:1] if short else data)
+            if path == self.out:
+                output_writes.append(n)
+            if path.startswith(self.lane + "/"):
+                inside.append(n)
+            return n
+        with mock.patch.object(gm.fcntl, "fcntl", fcntl_), mock.patch.object(gm.os, "write", write):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertTrue(fired, "fault did not fire")
+        self.assertEqual(code, 2, err)
+        self.assertEqual(inside, [], f"tool wrote {sum(inside)} bytes inside lane")
+
+    def test_parent_moves_at_root_check_before_first_byte(self):
+        self.probe("root", True, False)
+
+    def test_file_moves_at_parent_check_before_first_byte(self):
+        self.probe("parent", False, False)
+
+    def test_parent_moves_at_root_check_after_short_write(self):
+        self.probe("root", True, True)
+
+
 if __name__ == "__main__":
     unittest.main()
