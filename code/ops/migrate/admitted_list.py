@@ -12,13 +12,18 @@ whose rows put one blob on both the deletion side (D rows, R100 sources) and the
 differently (A/H-SLICE.md:42); split such moves into separate tickets. Malformed input exits 2.
 
 Plan JSON: {"move": [{"src", "dst"}], "remove": [path], "add": [{"dst", "src"?}], "modify": [path]}.
-Paths are relative to the repository root. An add's bytes are read, never following a final
-symlink, from "src" (any path) or else from the repository's "dst". The add whose "dst" is the
-output file itself is hashed from the text being written.
+Paths are relative to the repository root. No path may hold a control character (U+0000-U+001F,
+U+007F): stage_check reads the written file as text, which would split or change such a row.
+Every repository destination (each move "dst", each R100 target, each add "dst") is reached from
+the repository root through real directories only, never a symlink, before anything is written.
+An add's bytes are read, never following a final symlink, from "src" (any path) or else from the
+repository's "dst" through the directory fd that check opened. The add whose "dst" is the output
+file itself (same name, same directory inode) is hashed from the text being written.
 """
 from __future__ import annotations
 
 import argparse
+import contextlib
 import errno
 import json
 import os
@@ -29,6 +34,8 @@ from collections import defaultdict
 
 PLAN_KEYS = frozenset({"move", "remove", "add", "modify"})
 READ_ONLY_GIT = frozenset({"rev-parse", "ls-tree", "ls-files", "hash-object"})
+CONTROL = frozenset(map(chr, [*range(0x20), 0x7F]))
+DIR_FLAGS = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_NONBLOCK
 
 
 class PlanError(Exception):
@@ -50,14 +57,20 @@ def git(repo: str, *args: str, stdin: bytes | None = None) -> bytes:
     return proc.stdout
 
 
-def check_rel(path) -> str:
+def check_chars(path, field: str) -> str:
     if not isinstance(path, str) or not path:
-        raise PlanError(f"path {path!r} is not a non-empty string")
-    if "\t" in path or "\n" in path:
-        raise PlanError(f"path {path!r} contains a tab or newline; stage_check rows cannot hold it")
+        raise PlanError(f"{field}: path {path!r} is not a non-empty string")
+    if CONTROL & set(path):
+        raise PlanError(f"{field}: path {path!r} contains a control character (U+0000-U+001F or U+007F, "
+                        "such as a tab or newline); the admitted file cannot carry it")
+    return path
+
+
+def check_rel(path, field: str) -> str:
+    check_chars(path, field)
     parts = path.split("/")
     if any(p in ("", ".", "..") for p in parts) or parts[0] == ".git":
-        raise PlanError(f"path {path!r} is not a plain path inside the repository")
+        raise PlanError(f"{field}: path {path!r} is not a plain path inside the repository")
     return path
 
 
@@ -86,38 +99,42 @@ def load_plan(plan) -> dict:
     out = {k: plan.get(k, []) for k in PLAN_KEYS}
     if not all(isinstance(v, list) for v in out.values()):
         raise PlanError("every plan key holds a list")
-    for m in out["move"]:
+    for i, m in enumerate(out["move"]):
         if not isinstance(m, dict) or set(m) != {"src", "dst"}:
             raise PlanError(f"move {m!r} needs exactly src and dst")
-        check_rel(m["src"]), check_rel(m["dst"])
-    for a in out["add"]:
+        check_rel(m["src"], f"move[{i}].src"), check_rel(m["dst"], f"move[{i}].dst")
+    for i, a in enumerate(out["add"]):
         if not isinstance(a, dict) or not {"dst"} <= set(a) <= {"dst", "src"}:
             raise PlanError(f"add {a!r} needs dst and an optional src")
-        check_rel(a["dst"])
+        check_rel(a["dst"], f"add[{i}].dst")
         if "src" in a and not isinstance(a["src"], str):
             raise PlanError(f"add {a!r} has a src that is not a string")
-    for p in out["remove"] + out["modify"]:
-        check_rel(p)
+        if "src" in a:
+            check_chars(a["src"], f"add[{i}].src")
+    for key in ("remove", "modify"):
+        for i, p in enumerate(out[key]):
+            check_rel(p, f"{key}[{i}]")
     return out
 
 
 def build_rows(plan: dict, tracked: dict) -> tuple:
-    rows = []
-    for m in plan["move"]:
-        rows += [("R100", p, m["dst"] + p[len(m["src"]):]) for p in under(tracked, m["src"])]
-    for src in plan["remove"]:
-        rows += [("D", p) for p in under(tracked, src)]
-    rows += [("A", a["dst"]) for a in plan["add"]]
-    for p in plan["modify"]:
+    fielded = []  # (row, the plan field it came from, named when one of its paths is refused)
+    for i, m in enumerate(plan["move"]):
+        fielded += [(("R100", p, m["dst"] + p[len(m["src"]):]), f"move[{i}]") for p in under(tracked, m["src"])]
+    for i, src in enumerate(plan["remove"]):
+        fielded += [(("D", p), f"remove[{i}]") for p in under(tracked, src)]
+    fielded += [(("A", a["dst"]), f"add[{i}].dst") for i, a in enumerate(plan["add"])]
+    for i, p in enumerate(plan["modify"]):
         if p not in tracked:
             raise PlanError(f"modify {p!r} is not a tracked file")
-        rows.append(("M", p))
+        fielded.append((("M", p), f"modify[{i}]"))
+    rows = [row for row, _ in fielded]
     if not rows:
         raise PlanError("the plan yields no rows; an empty admitted list is never a pass")
     seen = set()
-    for row in rows:
+    for row, field in fielded:
         for p in row[1:]:
-            check_rel(p)
+            check_rel(p, field)
             if p in seen:
                 raise PlanError(f"path {p!r} is in two rows")
             seen.add(p)
@@ -143,26 +160,55 @@ def check_pairing(rows: tuple, tracked: dict, add_blobs: dict) -> None:
                           "split these rows into separate tickets")
 
 
-def read_link_or_file(path: str) -> tuple:
+def read_link_or_file(path: str, dir_fd: int | None = None) -> tuple:
     try:
-        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=dir_fd)
     except OSError as exc:
         if exc.errno != errno.ELOOP:
             raise
-        return os.readlink(os.fsencode(path)), True  # Git stores a symlink as its link text.
+        return os.readlink(os.fsencode(path), dir_fd=dir_fd), True  # Git stores a symlink as its link text.
     with os.fdopen(fd, "rb") as f:
         if not stat.S_ISREG(os.fstat(f.fileno()).st_mode):
             raise PlanError(f"{path!r} is not a regular file or symlink")
         return f.read(), False
 
 
-def repo_file(repo: str, rel: str) -> str:
-    cur = repo
+def repo_file(repo_fd: int, rel: str) -> int | None:
+    """Open rel's parent directory from the repository root, one real directory at a time.
+
+    A symlink or non-directory on the way refuses. None means a parent does not exist yet, so
+    nothing below it can be a symlink now. Callers act through the returned fd, never the path.
+    """
+    fd = os.dup(repo_fd)
     for part in rel.split("/")[:-1]:
-        cur = os.path.join(cur, part)
-        if not stat.S_ISDIR(os.lstat(cur).st_mode):
-            raise PlanError(f"{rel!r} passes through {cur!r}, which is a symlink or not a directory")
-    return os.path.join(repo, rel)
+        try:
+            child = os.open(part, DIR_FLAGS, dir_fd=fd)
+        except OSError as exc:
+            if exc.errno in (errno.ELOOP, errno.ENOTDIR):
+                raise PlanError(f"destination {rel!r} passes through {part!r}, "
+                                "which is a symlink or not a directory") from exc
+            if exc.errno != errno.ENOENT:
+                raise
+            return None
+        finally:
+            os.close(fd)
+        fd = child
+    return fd
+
+
+def created_destination(repo_fd: int, rel: str) -> None:
+    """A path the move will create: no symlink on the way to it, and it is not a symlink itself."""
+    parent = repo_file(repo_fd, rel)
+    if parent is None:
+        return
+    try:
+        mode = os.stat(os.path.basename(rel), dir_fd=parent, follow_symlinks=False).st_mode
+    except FileNotFoundError:
+        return
+    finally:
+        os.close(parent)
+    if stat.S_ISLNK(mode):
+        raise PlanError(f"destination {rel!r} is a symlink")
 
 
 def blob_of(repo: str, dst: str, data: bytes, is_link: bool) -> str:
@@ -170,9 +216,22 @@ def blob_of(repo: str, dst: str, data: bytes, is_link: bool) -> str:
     return git(repo, *args, stdin=data).decode().strip()
 
 
-def same_file_path(a: str, b: str) -> bool:
-    return (os.path.basename(a) == os.path.basename(b)
-            and os.path.realpath(os.path.dirname(a)) == os.path.realpath(os.path.dirname(b)))
+def same_file_path(a: str, b: str, a_dir: int, b_dir: int) -> bool:
+    da, db = os.fstat(a_dir), os.fstat(b_dir)
+    return os.path.basename(a) == os.path.basename(b) and (da.st_dev, da.st_ino) == (db.st_dev, db.st_ino)
+
+
+def add_bytes(repo_fd: int, out_dir: int, out: str, add: dict, text: str) -> tuple:
+    """(bytes, is_link) of an add without "src", read through the checked parent directory fd."""
+    parent = repo_file(repo_fd, add["dst"])
+    if parent is None:
+        raise FileNotFoundError(errno.ENOENT, "a parent directory does not exist", add["dst"])
+    try:
+        if same_file_path(add["dst"], out, parent, out_dir):
+            return text.encode("utf-8"), False
+        return read_link_or_file(os.path.basename(add["dst"]), dir_fd=parent)
+    finally:
+        os.close(parent)
 
 
 def run(repo: str, plan, out: str) -> str:
@@ -183,21 +242,28 @@ def run(repo: str, plan, out: str) -> str:
     tracked = tracked_files(repo)
     rows = build_rows(plan, tracked)
     text = "".join("\t".join(row) + "\n" for row in rows)
-    add_blobs = {}
-    for a in plan["add"]:
-        if "src" not in a and same_file_path(os.path.join(repo, a["dst"]), out):
-            data, is_link = text.encode("utf-8"), False
-        else:
+    with contextlib.ExitStack() as fds:
+        repo_fd = os.open(repo, os.O_RDONLY | os.O_DIRECTORY)
+        fds.callback(os.close, repo_fd)
+        out_dir = os.open(os.path.dirname(out) or ".", os.O_RDONLY | os.O_DIRECTORY)
+        fds.callback(os.close, out_dir)
+        created = ([m["dst"] for m in plan["move"]] + [row[2] for row in rows if row[0] == "R100"]
+                   + [a["dst"] for a in plan["add"] if "src" in a])
+        for rel in created:
+            created_destination(repo_fd, rel)
+        add_blobs = {}
+        for a in plan["add"]:
             try:
-                data, is_link = read_link_or_file(a["src"] if "src" in a else repo_file(repo, a["dst"]))
+                data, is_link = read_link_or_file(a["src"]) if "src" in a else add_bytes(repo_fd, out_dir, out, a, text)
             except FileNotFoundError as exc:
                 raise PlanError(f"add {a['dst']!r}: its bytes are missing ({exc})") from exc
-        add_blobs[a["dst"]] = blob_of(repo, a["dst"], data, is_link)
-    check_pairing(rows, tracked, add_blobs)
-    # O_EXCL never overwrites; with O_CREAT it also refuses an existing symlink instead of following it.
-    fd = os.open(out, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
-    with os.fdopen(fd, "w", encoding="utf-8", newline="") as f:
-        f.write(text)
+            add_blobs[a["dst"]] = blob_of(repo, a["dst"], data, is_link)
+        check_pairing(rows, tracked, add_blobs)
+        # O_EXCL never overwrites; with O_CREAT it also refuses an existing symlink instead of following it.
+        # The output is created in the directory fd that the self-output identity was checked against.
+        fd = os.open(os.path.basename(out), os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644, dir_fd=out_dir)
+        with os.fdopen(fd, "w", encoding="utf-8", newline="") as f:
+            f.write(text)
     return text
 
 

@@ -12,6 +12,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest import mock
@@ -249,6 +250,165 @@ class InputRefusals(Fixture):
         self.assert_refused({"move": [{"src": "a/gone.md"}]}, 2, "src and dst")
         self.assert_refused({"add": [{"dst": "rec.json", "from": "x"}]}, 2, "optional src")
         self.assert_refused({"add": [{"dst": "rec.json", "src": 5}]}, 2, "not a string")
+
+
+class Destinations(Fixture):
+    """Every repository destination is checked before anything is written (ruling 1)."""
+
+    def setUp(self):
+        super().setUp()
+        os.symlink(self.outside, os.path.join(self.repo, "escape"))
+
+    def assert_outside_untouched(self, plan: dict, out: str | None = None) -> str:
+        code, text, err = self.run_cli(plan, out)
+        self.assertEqual(code, 2, err)
+        self.assertIsNone(text, "a refused plan must write no admitted list")
+        self.assertEqual(os.listdir(self.outside), [], "nothing may be written outside the repository")
+        return err
+
+    def test_self_output_destination_through_a_symlink_is_refused(self):
+        out = os.path.join(self.repo, "escape", "admitted.tsv")
+        err = self.assert_outside_untouched({"add": [{"dst": "escape/admitted.tsv"}]}, out)
+        self.assertIn("symlink", err)
+
+    def test_explicit_source_destination_through_a_symlink_is_refused(self):
+        source = self.write("src/record.json", b"record\n", root=self.tmp)
+        err = self.assert_outside_untouched({"add": [{"dst": "escape/record.json", "src": source}]})
+        self.assertIn("escape/record.json", err)
+        self.assertIn("symlink", err)
+
+    def test_explicit_source_destination_that_is_a_symlink_is_refused(self):
+        source = self.write("src/record.json", b"record\n", root=self.tmp)
+        err = self.assert_outside_untouched({"add": [{"dst": "escape", "src": source}]})
+        self.assertIn("symlink", err)
+
+    def test_move_destination_through_a_symlink_is_refused(self):
+        err = self.assert_outside_untouched({"move": [{"src": "a/dir", "dst": "escape/dir"}]})
+        self.assertIn("symlink", err)
+        self.assert_outside_untouched({"move": [{"src": "a/gone.md", "dst": "escape"}]})
+        # The move dst is a real directory, but a target below it passes through a symlink.
+        os.makedirs(os.path.join(self.repo, "b/dir"))
+        os.symlink(self.outside, os.path.join(self.repo, "b/dir/sub"))
+        err = self.assert_outside_untouched({"move": [{"src": "a/dir", "dst": "b/dir"}]})
+        self.assertIn("b/dir/sub/two.md", err)
+        # An untracked move emits no row, but its destination is still checked.
+        self.write("loose/u.md", b"untracked\n")
+        self.assert_outside_untouched({"move": [{"src": "loose", "dst": "escape/loose"}],
+                                       "remove": ["a/gone.md"]})
+
+    def test_destination_under_a_file_is_refused(self):
+        self.assert_refused({"move": [{"src": "a/keep.md", "dst": "a/gone.md/keep.md"}]}, 2, "not a directory")
+
+
+class ControlCharacters(Fixture):
+    """Every plan path must survive the file handoff to stage_check (ruling 2)."""
+
+    def test_control_characters_are_refused_and_name_the_field(self):
+        for ch in ("\r", "\0", "\x01", "\x1f", "\x7f"):
+            with self.subTest(ch=ch):
+                self.assert_refused({"move": [{"src": "a/gone.md", "dst": f"b/x{ch}y.md"}]}, 2, "move[0].dst")
+                self.assert_refused({"move": [{"src": f"a/x{ch}y", "dst": "b/y"}]}, 2, "move[0].src")
+                self.assert_refused({"remove": ["a/gone.md", f"a/x{ch}y.md"]}, 2, "remove[1]")
+                self.assert_refused({"modify": [f"a/x{ch}y.md"]}, 2, "modify[0]")
+                self.assert_refused({"add": [{"dst": f"r{ch}.json"}]}, 2, "add[0].dst")
+                self.assert_refused({"add": [{"dst": "r.json", "src": f"/tmp/x{ch}y"}]}, 2, "add[0].src")
+
+    def test_tracked_name_with_carriage_return_is_refused(self):
+        self.seed({"t/a\rb.md": b"carriage\n"})
+        self.assert_refused({"move": [{"src": "t", "dst": "u"}]}, 2, "move[0]")
+        self.assert_refused({"remove": ["t"]}, 2, "remove[0]")
+
+    def test_written_file_passes_the_stage_check_cli(self):
+        self.seed({"a/dir/with space.md": b"spaced\n"})
+        out = os.path.join(self.repo, "units/u1/admitted.tsv")
+        os.makedirs(os.path.dirname(out))
+        plan = {"move": [{"src": "a/dir", "dst": "b/dir"}], "remove": ["a/gone.md"],
+                "add": [{"dst": "units/u1/admitted.tsv"}], "modify": ["a/regen.md"]}
+        code, text, err = self.run_cli(plan, out)
+        self.assertEqual(code, 0, err)
+        os.makedirs(os.path.join(self.repo, "b"))
+        self.git("mv", "a/dir", "b/dir")
+        shutil.move(os.path.join(self.repo, "a/gone.md"), os.path.join(self.outside, "gone.md"))
+        self.git("rm", "-q", "--cached", "--", "a/gone.md")
+        self.write("a/regen.md", b"regen v2\n")
+        self.git("add", "--", "units/u1/admitted.tsv", "a/regen.md")
+        stage_check = os.path.join(os.path.dirname(os.path.abspath(S.__file__)), "stage_check.py")
+        proc = subprocess.run([sys.executable, "-B", stage_check, "--repo", self.repo, "--admitted", out],
+                              env=S.git_env(), capture_output=True, text=True, check=False)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertEqual(json.loads(proc.stdout), {"ok": True, "missing": [], "extra": []})
+
+
+class Coverage(Fixture):
+    """Behavioral witnesses for the guards Astra round 1 found unprotected (ruling 3)."""
+
+    def test_inherited_git_variables_do_not_redirect_reads(self):
+        absent = os.path.join(self.tmp, "absent-index")
+        with mock.patch.dict(os.environ, {"GIT_INDEX_FILE": absent, "GIT_DIR": os.path.join(self.tmp, "no.git")}):
+            code, text, err = self.run_cli({"remove": ["a/gone.md"]})
+        self.assertEqual(code, 0, err)
+        self.assertEqual(text, "D\ta/gone.md\n")
+
+    def test_failing_git_command_is_refused(self):
+        # An unborn HEAD makes `git ls-tree HEAD` fail; its empty output must not read as "nothing tracked".
+        self.repo = os.path.join(self.tmp, "unborn")
+        self.git("init", "-q", self.repo, cwd=self.tmp)
+        self.write("rec.json", b"record\n")
+        self.assert_refused({"add": [{"dst": "rec.json"}]}, 2, "ls-tree")
+
+    def test_non_object_plan_and_entries_are_refused(self):
+        self.assert_refused(["move"], 2, "plan keys")
+        self.assert_refused({"move": [["src", "dst"]]}, 2, "src and dst")
+        self.assert_refused({"add": [["dst"]]}, 2, "optional src")
+
+    def seed_filtered_pair(self):
+        self.seed({".gitattributes": b"*.txt text eol=lf\n", "gone.txt": b"paired\n"})
+
+    def test_regular_file_is_hashed_through_git_filters(self):
+        self.seed_filtered_pair()
+        self.write("rec.txt", b"paired\r\n")  # Git stores it as paired\n, equal to gone.txt
+        self.assert_refused({"remove": ["gone.txt"], "add": [{"dst": "rec.txt"}]}, 1, "gone.txt")
+
+    def test_symlink_link_text_is_hashed_without_filters(self):
+        self.seed_filtered_pair()
+        os.symlink("paired\r\n", os.path.join(self.repo, "rec.txt"))  # Git stores the link text unfiltered
+        code, text, err = self.run_cli({"remove": ["gone.txt"], "add": [{"dst": "rec.txt"}]})
+        self.assertEqual(code, 0, err)
+        self.assertEqual(text, "A\trec.txt\nD\tgone.txt\n")
+
+    def test_self_output_needs_the_same_directory(self):
+        self.write("new/admitted.tsv", b"gone\n")  # not the output: hashed from disk, equal to a/gone.md
+        self.assert_refused({"remove": ["a/gone.md"], "add": [{"dst": "new/admitted.tsv"}]}, 1, "a/gone.md")
+
+    def test_self_output_needs_the_same_name(self):
+        self.write("new/record.json", b"gone\n")  # not the output: hashed from disk, equal to a/gone.md
+        out = os.path.join(self.repo, "new/admitted.tsv")
+        code, text, err = self.run_cli({"remove": ["a/gone.md"], "add": [{"dst": "new/record.json"}]}, out)
+        self.assertEqual(code, 1, err)
+        self.assertIn("a/gone.md", err)
+        self.assertIsNone(text)
+
+    def test_no_git_object_is_written(self):
+        self.write("rec.json", b"unique untracked object\n")
+        objects = os.path.join(self.repo, ".git", "objects")
+
+        def listing():
+            return sorted(os.path.join(d, f) for d, _, files in os.walk(objects) for f in files)
+
+        before = listing()
+        code, _, err = self.run_cli({"add": [{"dst": "rec.json"}]})
+        self.assertEqual(code, 0, err)
+        self.assertEqual(listing(), before)
+
+    def test_move_takes_only_descendants_of_the_source_directory(self):
+        self.seed({"a/directory/extra.md": b"extra\n"})
+        code, text, err = self.run_cli({"move": [{"src": "a/dir", "dst": "b/dir"}]})
+        self.assertEqual(code, 0, err)
+        self.assertEqual(text, "R100\ta/dir/one.md\tb/dir/one.md\nR100\ta/dir/sub/two.md\tb/dir/sub/two.md\n")
+
+    def test_index_mode_change_is_refused(self):
+        self.git("update-index", "--chmod=+x", "a/keep.md")
+        self.assert_refused({"remove": ["a/gone.md"]}, 2, "index")
 
 
 class ReadOnlyGit(unittest.TestCase):
