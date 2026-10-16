@@ -14,12 +14,18 @@ import subprocess
 
 
 PYTHON = '.venv/bin/python'
+INDEX = (PYTHON, '-B', 'code/state/build_index.py', '--check')
+READER_CONTROLS = (PYTHON, '-B', '-m', 'unittest', 'test_icm21.ReaderControls')
+SEALED_READER_CONTROLS = (PYTHON, '-B', '-m', 'unittest', 'code.tests.test_icm21.ReaderControls')
 # The only two concrete adapters (plan Step 16 out); any other argv never runs.
-ADAPTERS = {
-    (PYTHON, '-B', 'code/state/build_index.py', '--check'): 'index',
-    (PYTHON, '-B', '-m', 'unittest', 'code.tests.test_icm21.ReaderControls'): 'unittest',
-    (PYTHON, '-B', '-m', 'unittest', 'test_icm21.ReaderControls'): 'unittest',
-}
+ADAPTERS = {INDEX: 'index', SEALED_READER_CONTROLS: 'unittest', READER_CONTROLS: 'unittest'}
+# The argv each adapter spelling runs. The sealed registry's `code.tests...` spelling cannot
+# load (stdlib `code` shadows it), so both ReaderControls aliases run the loadable spelling.
+DISPATCH = {INDEX: INDEX, SEALED_READER_CONTROLS: READER_CONTROLS,
+            READER_CONTROLS: READER_CONTROLS}
+# Checks that consume a concrete adapter's result of one kind (WIRE-CONTRACTS.md:73-75).
+# Owned link rows still count for them, but never replace that result.
+CONSUMES = {'C-LABVIZ': 'unittest', 'C-GENERATED': 'index'}
 # PRD trace of each reader check from SPEC.md:608-623.
 PRD_IDS = {'C-QUEUE': ['ICM-R1'], 'C-REFERENCES': ['ICM-R6', 'ICM-R13'],
            'C-LABVIZ': ['ICM-R6'], 'C-GENERATED': ['ICM-R8']}
@@ -92,7 +98,21 @@ def owned_rows(readers, rows):
 
 def identity(argv):
     """The one argv that runs a concrete adapter: ReaderControls aliases share one run."""
-    return next((known for known, kind in ADAPTERS.items() if kind == ADAPTERS.get(argv)), argv)
+    return DISPATCH.get(argv, argv)
+
+
+def path_problem(root, entry):
+    """Why a SPECIFIED reader's required path cannot be read (WIRE-CONTRACTS.md:38), or None.
+    A relative path lies beneath root; an absolute (external) path is used as written."""
+    path = Path(root) / entry['path']
+    try:
+        if path.is_dir():
+            os.listdir(path)
+        else:
+            path.read_bytes()
+    except OSError as error:
+        return 'required reader path unreadable: ' + entry['path'] + ' (' + str(error) + ')'
+    return None
 
 
 def repair_readers(repairs, rows, reader_ids):
@@ -187,6 +207,9 @@ def row_status(root, entry, row, context):
                 return 'FAIL', row['id'] + ': ' + problem
     except ValueError as error:
         return 'FAIL', row['id'] + ': ' + str(error)
+    except OSError as error:
+        # An existing but unreadable target (or resolver input) is unproven, not a violation.
+        return 'UNVERIFIED', row['id'] + ': unreadable: ' + str(error)
     if row['owner'] != entry['owner']:
         return 'FAIL', row['id'] + ': owner ' + row['owner'] + ' differs from ' + entry['owner']
     if row['role'] != 'current-reader':
@@ -214,11 +237,18 @@ def reader_check(root, entry, check_id, rows, runs, producers, context):
     else:
         argv = entry['adapter_argv']
         argv = producers.get(check_id) if argv is None else argv
+        problem = path_problem(root, entry)
+        if problem:
+            statuses.append('UNVERIFIED')
+            reasons.append(problem)
     if argv is not None:
         argv = identity(tuple(argv))
         status, reason, run = runs[argv]
         statuses.append(status)
         reasons.append(reason)
+    if check_id in CONSUMES and ADAPTERS.get(argv) != CONSUMES[check_id]:
+        statuses.append('UNVERIFIED')
+        reasons.append(check_id + ' has no ' + CONSUMES[check_id] + ' adapter result')
     if check_id == 'C-QUEUE':
         status, reason = queue_status(root, context['records'])
         statuses.append(status)
