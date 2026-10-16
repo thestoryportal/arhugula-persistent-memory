@@ -5,7 +5,7 @@ metadata:
   type: feedback
 ---
 
-Cross-family Codex review runs **inline from Claude's own Bash** — it is not a separate-host or "pod-only" step (first verified 2026-06-21 on the pod, where the carry-forward belief "codex cannot run from Claude's tools" was false). The current command is CLAUDE.md:16 / AGENTS.md:102: `codex exec --model gpt-6-astra -c model_reasoning_effort=high -c mcp_servers.graft.enabled=false -s read-only --skip-git-repo-check -C <worktree> -o out.md < packet.md`.
+Cross-family Codex review runs **inline from Claude's own Bash** — it is not a separate-host or "pod-only" step (first verified 2026-06-21 on the pod, where the carry-forward belief "codex cannot run from Claude's tools" was false). The current command is CLAUDE.md:16 / AGENTS.md:102: `codex exec --model gpt-6-astra -c model_reasoning_effort=high -s read-only --skip-git-repo-check -C <worktree> -o out.md < packet.md`.
 
 **Why cross-family reviews once silently stopped running (2026-06):** (1) behavioral — leaned on `advisor()` (Opus) at every gate and never invoked the out-of-family path; (2) a stale "can't reach network" belief ([[exhaust-options-before-blocked]] — a falsifiable blocker treated as fixed); (3) the codex binary dropped off PATH after a pod restart.
 

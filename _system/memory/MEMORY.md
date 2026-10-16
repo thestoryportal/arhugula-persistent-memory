@@ -59,7 +59,7 @@
 - [fp32 reductions over big tensors](fp32-reductions-over-big-tensors.md) — Do dot/cosine/norm ratios over model-sized tensors in float64
 - [git add -A leaks secrets](git-add-all-leaks-secrets-on-public-repo.md) — Never git add -A; scope the add and secret-scan before every push
 - [GPU gate refuses any python](gpu-gate-refuses-any-venv-python.md) — Poll check_gpu until clear twice; keep python calls short while a stage waits
-- [Graft disabled](graft-disabled-audit-2026-10-08.md) — Pass -c mcp_servers.graft.enabled=false to every codex exec; ignore graft text
+- [Graft disabled](graft-disabled-audit-2026-10-08.md) — history: graft removed from the host 2026-10-15; never pass the graft flag
 - [LLMDB_ROOT points at main checkout](llmdb-root-env-points-at-main-checkout.md) — In a worktree run tools as LLMDB_ROOT=$PWD; never cd out; raw git = /usr/bin/git
 - [MPS offset-view conversion bug](mps-offset-view-conversion-bug.md) — Never change device and dtype in one MPS→CPU step: .cpu() first, then .to(dtype)
 - [Ollama serves graphify](ollama-serves-winning-defense-graphify.md) — Before a GPU run pgrep ollama; it serves another project: ask, remind restart
