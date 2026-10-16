@@ -731,6 +731,12 @@ class Retained(unittest.TestCase):
                                                                   + b'\tKEEP', 1)),
                              'route row bytes are not a count')
 
+    def test_empty_route_count_is_refused(self):
+        """An empty count gives UNVERIFIED and raises nothing (ruling 7)."""
+        self.refused(lambda m, d, o: self.rebind(m, d, 'routes', d['/fixture/routes.tsv']
+                                                 .replace(b'\t8\tKEEP', b'\t\tKEEP', 1)),
+                     'route row bytes are not a count')
+
     # --- ruling 6: coverage ---------------------------------------------------------------
 
     def test_move_target_kind_differs(self):
