@@ -1,11 +1,9 @@
 """Staged real pre-commit hook case (StagedControls)."""
-import unittest
 
 from icm21_fixtures import SOURCE_ROOT, put
 
 
 class RealHookCase:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_real_hook(self):
         self.checker()
         root = self.miniature()
