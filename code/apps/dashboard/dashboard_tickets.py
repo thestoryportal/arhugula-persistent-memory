@@ -1,7 +1,10 @@
 """Live tickets tab: /usr/bin/python3 code/apps/dashboard/dashboard_tickets.py [FOLDER ...].
 
-Every ticket of the lean ticket folders (default: each G-build/LEAN/*/ with tickets/)
-with a live timer, a shared timeline, review rounds and every blocking finding.
+Every ticket of the lean ticket folders (default: each folder up to 3 levels under G-build/LEAN
+with tickets/) with a live timer, its phase in words, review rounds, every blocking finding and,
+on its own screen (t), a labeled timeline. Layout follows the terminal width: a table at 100+
+columns, a compact table at 80-99, cards below 80 (a phone); taps and swipes work where the
+terminal sends mouse events.
 The only data source is dashboard_tickets_data.snapshot, re-read every 15 s in a
 background thread; the screen redraws every second from the latest snapshot, so a
 slow gh call never stops the clock. render() is pure: snapshot, UI state, clock and
@@ -27,16 +30,30 @@ REFRESH_S = 15
 TARGET_S = 15 * 60
 AXIS_MAX_S = 8 * 3600      # the shared timeline shows at most the last 8 h, so today's 15 min tickets stay visible
 ACTIVE = ("running", "pr")
+TABLE_W, CARD_W = 100, 80   # >= TABLE_W full table; >= CARD_W compact table; below that, cards
+MIN_W, MIN_H = 40, 16
+ROOMY_H = 20                # from this height a table ticket may take two rows and the legend shows
+DETAIL_H = 22               # split rows of idle tickets give way when the detail pane would get fewer lines
 # Each state carries a glyph and a word as well as a colour.
 STATES = {"running": ("▶", "RUNNING", "cyan"), "pr": ("◆", "PR", "magenta"), "merged": ("■", "MERGED", "green"),
           "ready": ("○", "READY", "blue"), "waiting": ("·", "WAITING", "dim")}
 VERDICTS = {"GO": ("✓", "green"), "NO-GO": ("✗", "red")}
 CI = {"pass": ("✓", "green"), "fail": ("✗", "red"), "pending": ("…", "yellow"), "none": ("·", "dim")}
+CI_WORDS = {"pass": "passed", "fail": "failed", "pending": "pending", "none": "not run"}
+PHASES = {"ready": "ready", "running": "building", "merged": "merged"}
 BUILD, REVIEW, NOW_MARK, BEFORE = "▒", "█", "│", "‹"
+LEGEND = ("▶ building ◆ PR ■ merged ○ ready · waiting | review ✓ GO ✗ NO-GO ? none | CI ✓ pass ✗ fail … pending | "
+          "timer ! >15 min !! >30 min")
 HELP = ("state ▶ running ◆ PR ■ merged (timer final) ○ ready · waiting | reviews ✓ GO ✗ NO-GO ? no verdict | "
-        "CI ✓ pass ✗ fail … pending · none | timer ! over 15 min, !! over 30 min | timeline ▒ build █ PR/review "
-        "│ now ‹ began earlier | keys j/k ↑/↓ select (scroll when full screen) · Enter/Tab detail full screen · "
-        "f folder · a active only · h hide help")
+        "CI ✓ pass ✗ fail … pending · none | timer ! over 15 min, !! over 30 min | t timeline ▒ build █ review/land "
+        "│ now ‹ began earlier | keys j/k ↑/↓ or swipe select (scroll in detail) · tap select, tap again open · "
+        "Enter/Tab detail · Esc back · f folder · a active only · h hide help")
+TL_LEGEND = "▒ build = dispatch → PR open   █ review/land = PR open → merged   │ now   ‹ began before the axis"
+TL_LEGEND_NARROW = ("▒ build = dispatch → PR open", "█ review/land = PR → merged  │ now")
+ESC = 27
+TAP = curses.BUTTON1_PRESSED | curses.BUTTON1_CLICKED
+WHEEL_UP = curses.BUTTON4_PRESSED
+WHEEL_DOWN = getattr(curses, "BUTTON5_PRESSED", 0x200000)   # ncurses mouse v1 has no name for the wheel-down bit
 
 Seg = Tuple[str, str]
 Line = List[Seg]
@@ -50,12 +67,17 @@ class UI:
     active_only: bool = False
     help: bool = False
     scroll: int = 0
+    timeline: bool = False
+
+
+Row = Tuple[Line, Optional[int]]   # a screen line and the visible-ticket index it shows (None: no ticket)
 
 
 @dataclass(frozen=True)
 class Frame:
     lines: List[Line] = field(default_factory=list)
     max_scroll: int = 0
+    hits: Tuple[Optional[int], ...] = ()   # per line: the ticket a tap there selects
 
 
 def clean(value):
@@ -128,6 +150,59 @@ def duration(seconds):
     return "%d:%02d:%02d" % (hours, rest // 60, rest % 60) if hours else "%d:%02d" % divmod(rest, 60)
 
 
+def goal_rows(text, width, rows):
+    """At most rows lines of whole words; a longer goal ends with "…" after its last whole word that fits."""
+    lines, line = [], ""
+    for word in clean(text).split():
+        joined = line + " " + word if line else word
+        if cells(joined) <= width:
+            line = joined
+        elif line and len(lines) + 1 < rows and cells(word) <= width:
+            lines.append(line)
+            line = word
+        else:
+            words = line.split()
+            while words and cells(" ".join(words) + "…") > width:
+                words.pop()
+            return lines + [" ".join(words) + "…"]
+    return lines + [line]
+
+
+def words(seconds):
+    seconds = int(max(0, seconds))
+    if seconds < 60:
+        return "%ds" % seconds
+    if seconds < 3600:
+        return "%dm" % (seconds // 60)
+    if seconds < 86400:
+        return "%dh%02dm" % (seconds // 3600, seconds % 3600 // 60)
+    return "%dd%02dh" % (seconds // 86400, seconds % 86400 // 3600)
+
+
+def split_text(ticket, now):
+    """Build = dispatch to PR open; review = PR open to merge (or to now). Empty when not known."""
+    times = ticket["times"]
+    dispatch, pr_open, merged = times.get("dispatch"), times.get("pr_open"), times.get("merged")
+    if dispatch is None or (pr_open is None and merged is not None):
+        return ""
+    build = "build " + words((pr_open if pr_open is not None else now) - dispatch)
+    if pr_open is None:
+        return build
+    return build + " · review " + words((merged if merged is not None else now) - pr_open)
+
+
+def phase(ticket, by_id):
+    state = ticket["state"]
+    if state == "waiting":
+        pending = [dep for dep in ticket["deps"] if by_id.get(dep, {}).get("state") != "merged"]
+        return "waiting on " + clean(pending[0]) if pending else "waiting"
+    if state == "pr":
+        if ticket["reviews"]:
+            return "in review (round %d)" % max(r["round"] for r in ticket["reviews"])
+        return "PR open, CI " + CI_WORDS.get(ticket["ci"], clean(ticket["ci"]))
+    return PHASES.get(state, clean(state))
+
+
 def clock(epoch, seconds=True):
     return time.strftime("%H:%M:%S" if seconds else "%H:%M", time.localtime(epoch))
 
@@ -187,6 +262,14 @@ def header(snap, now, width, notes, loading):
     errors = errors_of(snap, notes)
     tickets = [] if snap is None else snap["tickets"]
     merged = sum(t["state"] == "merged" for t in tickets)
+    if width < CARD_W:
+        counts = [(glyph, sum(t["state"] == name for t in tickets), word if name == "pr" else word.lower(), style)
+                  for name, (glyph, word, style) in STATES.items()]
+        worded = [("%s%d %s " % (glyph, count, word), style) for glyph, count, word, style in counts]
+        bare = [("%s%d " % (glyph, count), style) for glyph, count, _, style in counts]
+        return [[(" TICKETS ", "title"), (clock(now) + " ", "bold"), (" %d/%d merged " % (merged, len(tickets)), "bold"),
+                 (" ✗ %d errors" % len(errors) if errors else " errors 0", "red" if errors else "dim")],
+                [(" ", "")] + (worded if sum(cells(s[0]) for s in worded) < width else bare)]
     bar_w = 20
     filled = bar_w * merged // len(tickets) if tickets else 0
     age = "loading the first snapshot…" if loading else "no snapshot" if snap is None else \
@@ -213,6 +296,10 @@ def header(snap, now, width, notes, loading):
     if errors:
         lines.append([(" ✗ " + " | ".join(clean(e) for e in errors), "red")])
     return lines
+
+
+def legend(width):
+    return [[(text, "dim")] for text in wrap(LEGEND, width, " ", " ")][:2]
 
 
 def axis_of(tickets, now):
@@ -244,52 +331,173 @@ def timeline(ticket, start, now, width):
     return cells_out + [(NOW_MARK, "yellow")]
 
 
-def table(snap, ui, rows, width, now):
-    tickets = visible(snap, ui)
-    fixed = 52
-    rest = width - fixed
-    goal_w = rest // 3 if rest >= 60 else 0
-    line_w = rest - goal_w - (1 if goal_w else 0) if rest >= 12 else 0
-    start = axis_of(tickets, now)
-    head = [(pad("  ID     STATE      TIMER        REVIEWS   PR    CI", fixed), "dim")]
-    if goal_w:
-        head.append((pad("GOAL", goal_w + 1), "dim"))
-    if line_w:
-        head.append((pad("%s %s build %s PR/review" % (clock(start, False), BUILD, REVIEW), line_w - 4) + "now",
-                     "dim"))
-    body, selected_row, last = [], 0, None
+def group_heading(group, size):
+    return [("▌ %s · wave %s · %d ticket%s" % (clean(group[0]), group[1], size, "" if size == 1 else "s"), "title")]
+
+
+def grouped(tickets):
+    """(index, ticket, heading or None) in display order; a heading opens each folder/wave group."""
+    out, last = [], None
     for index, ticket in enumerate(tickets):
         group = (ticket["label"], ticket["wave"])
-        if group != last:
-            size = sum(1 for t in tickets if (t["label"], t["wave"]) == group)
-            body.append([("▌ %s · wave %s · %d ticket%s" % (clean(group[0]), group[1], size, "" if size == 1 else "s"),
-                          "title")])
-            last = group
+        size = sum(1 for t in tickets if (t["label"], t["wave"]) == group)
+        out.append((index, ticket, group_heading(group, size) if group != last else None))
+        last = group
+    return out
+
+
+def no_match(ui):
+    return [("  no tickets match (f folder: %s, a active only: %s)" %
+             (ui.folder or "all", "on" if ui.active_only else "off"), "dim")]
+
+
+def table(snap, ui, width, now, roomy, every_split=True):
+    """Column heading and every ticket row. GOAL takes the columns left over and wraps at whole words.
+    Without every_split, a build/review split that would need a row of its own shows only for the selected ticket."""
+    tickets = visible(snap, ui)
+    by_id = {t["id"]: t for t in snap["tickets"]}
+    phases = [phase(t, by_id) for t in tickets]
+    full = width >= TABLE_W
+    id_w = max([4] + [cells(clean(t["id"])) for t in tickets]) + 1
+    phase_w = max([len("STATE · PHASE") - 2] + [cells(p) for p in phases]) + 3
+    rev_w = 8 if full else 4
+    split_w = 12 + rev_w + 5 + 3
+    left = 2 + id_w + phase_w + split_w
+    goal_w = width - left if width - left >= 16 else 0
+    head = [(pad("  " + pad("ID", id_w) + pad("STATE · PHASE", phase_w) + pad("TIME", 12) +
+                 pad("REVIEWS" if full else "REV", rev_w) + pad("PR", 5) + "CI", left), "dim")]
+    if goal_w:
+        head.append(("GOAL", "dim"))
+    rows = [(head, None)]
+    for index, ticket, heading in grouped(tickets):
+        if heading:
+            rows.append((heading, None))
         chosen = index == ui.selected
-        if chosen:
-            selected_row = len(body)
-        glyph, word, style = state_of(ticket)
-        reviews = review_segs(ticket["reviews"])
-        review_w = sum(cells(s[0]) for s in reviews)
+        glyph, _, style = state_of(ticket)
+        reviews = review_segs(ticket["reviews"], 3) if full else review_segs(ticket["reviews"], 1)[-2:]
         ci_glyph, ci_style = CI.get(ticket["ci"], ("?", "red"))
-        line = [("›" if chosen else " ", "bold"), (" ", ""), (pad(clean(ticket["id"]), 6), "sel" if chosen else "bold"),
-                (" ", ""), (pad("%s %s" % (glyph, word), 10), style), (" ", ""), timer_seg(ticket, now),
-                (pad("", 13 - cells(timer_seg(ticket, now)[0])), "")]
-        line += reviews + [(" " * max(1, 10 - review_w), "")]
-        line += [(pad("#%d" % ticket["pr"] if ticket["pr"] is not None else "-", 6), ""), (ci_glyph, ci_style),
-                 ("  ", "")]
-        used = sum(cells(s[0]) for s in line)
-        line.append((" " * max(0, fixed - used), ""))
-        if goal_w:
-            line.append((pad(clean(ticket["goal"]), goal_w) + " ", "dim"))
-        if line_w:
-            line += timeline(ticket, start, now, line_w)
-        body.append(line)
+        timer = timer_seg(ticket, now)
+        line = [("›" if chosen else " ", "bold"), (" ", ""), (pad(clean(ticket["id"]), id_w), "sel" if chosen else "bold"),
+                (pad("%s %s" % (glyph, phases[index]), phase_w), style), timer,
+                (" " * max(0, 12 - cells(timer[0])), "")]
+        line += reviews + [(" " * (rev_w - sum(cells(s[0]) for s in reviews)), "")]
+        line += [(pad("#%d" % ticket["pr"] if ticket["pr"] is not None else "-", 5), ""), (ci_glyph + "  ", ci_style)]
+        goal = goal_rows(ticket["goal"], goal_w, 2 if roomy else 1) if goal_w else []
+        rows.append((line + [(goal[0], "")] if goal else line, index))
+        own_row = len(goal) < 2 and not (every_split or chosen)
+        split = split_text(ticket, now) if full and roomy and not own_row else ""
+        if split or len(goal) > 1:
+            rows.append(([(" " * (2 + id_w + phase_w), ""), (pad(split, split_w), "dim")]
+                         + [(text, "") for text in goal[1:]], index))
     if not tickets:
-        body.append([("  no tickets match (f folder: %s, a active only: %s)" %
-                      (ui.folder or "all", "on" if ui.active_only else "off"), "dim")])
-    top = min(max(0, selected_row - rows + 1), max(0, len(body) - rows))
-    return [head] + body[top:top + max(0, rows)], len(body)
+        rows.append((no_match(ui), None))
+    return rows
+
+
+def cards(snap, ui, width, now):
+    """Phone layout: one card per ticket: state, ID and timer; phase, reviews, PR and CI; the goal; a separator."""
+    tickets = visible(snap, ui)
+    by_id = {t["id"]: t for t in snap["tickets"]}
+    rows = []
+    for index, ticket, heading in grouped(tickets):
+        if heading:
+            rows.append((heading, None))
+        chosen = index == ui.selected
+        glyph, word, style = state_of(ticket)
+        timer_text, timer_style = timer_seg(ticket, now)
+        timer_text = timer_text.rstrip()
+        left = [("›" if chosen else " ", "bold"), (" ", ""), ("%s %s" % (glyph, word), style), ("  ", ""),
+                (clean(ticket["id"]), "sel" if chosen else "bold")]
+        gap = width - sum(cells(s[0]) for s in left) - cells(timer_text)
+        rows.append((left + [(" " * max(1, gap), ""), (timer_text, timer_style)], index))
+        ci_glyph, ci_style = CI.get(ticket["ci"], ("?", "red"))
+        reviews = review_segs(ticket["reviews"], 3) or [("no review", "dim")]
+        rows.append(([("  " + phase(ticket, by_id), style), (" · ", "dim")] + reviews +
+                     [(" · ", "dim"), ("#%d" % ticket["pr"] if ticket["pr"] is not None else "no PR", ""),
+                      (" CI ", "dim"), (ci_glyph, ci_style)], index))
+        rows += [([("  " + text, "")], index) for text in goal_rows(ticket["goal"], width - 2, 3)]
+        rows.append(([("  " + "┈" * max(0, width - 4), "dim")], index))
+    if not tickets:
+        rows.append((no_match(ui), None))
+    return rows
+
+
+def timeline_text(ticket, now, narrow):
+    seconds, _ = elapsed(ticket, now)
+    if seconds is None:
+        return "-" if narrow else "not dispatched"
+    split = split_text(ticket, now)
+    if narrow:
+        return words(seconds)
+    return (split + " · " if split else "") + "total " + words(seconds)
+
+
+def timeline_screen(snap, ui, width, now):
+    """(fixed lines, ticket rows): title, legend, HH:MM axis and ruler, then one bar per ticket with its durations."""
+    tickets = visible(snap, ui)
+    narrow = width < CARD_W
+    start = axis_of(tickets, now)
+    span = max(now - start, 1.0)
+    id_w = max([4] + [cells(clean(t["id"])) for t in tickets]) + 1
+    left_w = 2 + id_w + (0 if narrow else 2)
+    texts = [timeline_text(t, now, narrow) for t in tickets]
+    dur_w = min(40, max([1] + [cells(text) for text in texts]))
+    bar_w = max(3, width - left_w - dur_w - 1)
+    slots = bar_w - 1
+
+    def at(epoch):
+        return min(slots, max(0, int((epoch - start) / span * slots)))
+
+    capped = any(t["times"].get("dispatch") is not None and t["times"]["dispatch"] < start for t in tickets)
+    title = "TIMELINE · %s → now %s" % (clock(start, False), clock(now, False))
+    if not narrow:
+        title = "TIMELINE · one row per ticket, dispatch → merge · %s%s" % (
+            title[len("TIMELINE · "):], " · capped at 8 h" if capped else "")
+    labels, ruler = [" "] * bar_w, ["─"] * bar_w
+    marks = [(0, clock(start, False))]
+    if not narrow:
+        step = 1800 if span <= 4 * 3600 else 3600
+        offset = time.localtime(start).tm_gmtoff
+        tick = ((start + offset) // step + 1) * step - offset
+        while tick < now:
+            marks.append((at(tick), clock(tick, False)))
+            tick += step
+    end_label = clock(now, False)
+    marks.append((slots - cells(end_label) + 1, end_label))
+    taken = -1
+    for position, text in marks:
+        last = position == marks[-1][0] and text == end_label
+        if position <= taken or (not last and position + cells(text) >= marks[-1][0]):
+            continue
+        labels[position:position + len(text)] = list(text)
+        ruler[min(slots, position + (len(text) - 1 if last else 0))] = "┬"
+        taken = position + len(text)
+    fixed = [[(" " + title, "title")]]
+    fixed += [[(" " + text, "dim")] for text in (TL_LEGEND_NARROW if narrow else (TL_LEGEND,))]
+    fixed += [[(" " * left_w, ""), ("".join(labels), "dim")], [(" " * left_w, ""), ("".join(ruler), "dim")]]
+    rows = []
+    for index, ticket in enumerate(tickets):
+        chosen = index == ui.selected
+        glyph, _, style = state_of(ticket)
+        line = [("›" if chosen else " ", "bold"), (" ", ""), (pad(clean(ticket["id"]), id_w), "sel" if chosen else "bold")]
+        if not narrow:
+            line.append((glyph + " ", style))
+        line += timeline(ticket, start, now, bar_w)
+        line += [(" ", ""), (texts[index], "")]
+        rows.append((line, index))
+    if not tickets:
+        rows.append((no_match(ui), None))
+    return fixed, rows
+
+
+def window(rows, selected, count):
+    """count rows that keep every row of the selected ticket in view where they fit."""
+    if count <= 0:
+        return []
+    marks = [i for i, (_, hit) in enumerate(rows) if hit == selected]
+    top = min(max(0, marks[-1] - count + 1), max(0, len(rows) - count)) if marks else 0
+    top = min(top, marks[0]) if marks else top
+    return rows[top:top + count]
 
 
 def detail(ticket, snap, now, width, notes):
@@ -354,30 +562,37 @@ def detail(ticket, snap, now, width, notes):
 
 
 def footer(ui, width):
+    if width < CARD_W:
+        text = (" Enter/Esc/tap: back · swipe scrolls" if ui.full else " h close help" if ui.help else
+                " h help · t timeline · tap/Enter open · f %s" % (ui.folder or "all"))
+        return [[(text, "dim")]]
     if ui.help:
         return [[(text, "dim")] for text in wrap(HELP, width, " ", " ")][:4]
-    return [[(" h help · j/k select · Enter detail · f folder: %s · a active only: %s · %s " %
-             (ui.folder or "all", "on" if ui.active_only else "off", "full screen detail" if ui.full else "split"),
-             "dim")]]
+    mode = "full screen detail" if ui.full else "timeline" if ui.timeline else "split"
+    return [[(" h help · j/k select · Enter detail · t timeline · f folder: %s · a active only: %s · %s " %
+             (ui.folder or "all", "on" if ui.active_only else "off", mode), "dim")]]
 
 
 def render(snap, ui, now, width, height, notes=(), loading=False):
     """Pure: the whole screen as styled lines, at most height lines of at most width cells."""
     if width <= 0 or height <= 0:
         return Frame()
-    if width < 40 or height < 10:
-        return Frame([fit([("too small %dx%d (need 40x10) · tickets %s" % (width, height, clock(now)), "red")],
-                          width)])
-    lines = header(snap, now, width, notes, loading)
+    if width < MIN_W or height < MIN_H:
+        return Frame([fit([("too small %dx%d (need %dx%d) · tickets %s" % (width, height, MIN_W, MIN_H, clock(now)),
+                            "red")], width)])
+    narrow = width < CARD_W
+    rows = [(line, None) for line in header(snap, now, width, notes, loading)]
     tickets = visible(snap, ui) if snap is not None else []
     chosen = tickets[min(ui.selected, len(tickets) - 1)] if tickets else None
     ui = replace(ui, selected=min(ui.selected, max(0, len(tickets) - 1)))
-    tail = footer(ui, width)
-    room = height - len(lines) - len(tail)
-    pane, max_scroll = [], 0
+    tail = [(line, None) for line in footer(ui, width)]
+    room = height - len(rows) - len(tail)
+    max_scroll = 0
     if snap is None:
-        lines.append([(" loading the first snapshot… the clock keeps running" if loading else " no snapshot yet",
-                       "dim")])
+        rows.append(([(" loading the first snapshot… the clock keeps running" if loading else " no snapshot yet",
+                       "dim")], None))
+    elif ui.help and narrow:
+        rows += [([(text, "dim")], None) for text in wrap(LEGEND + " | " + HELP, width, " ", " ")][:room]
     elif ui.full:
         info = detail(chosen, snap, now, width, notes)
         max_scroll = max(0, len(info) - room)
@@ -385,25 +600,34 @@ def render(snap, ui, now, width, height, notes=(), loading=False):
         pane = info[top:top + room]
         if max_scroll and top < max_scroll and pane:
             pane[-1] = [("… %d more lines (↓ to scroll)" % (len(info) - top - room + 1), "yellow")]
-        lines += pane
+        rows += [(line, None) for line in pane]
+    elif ui.timeline:
+        fixed, body = timeline_screen(snap, ui, width, now)
+        rows += [(line, None) for line in fixed] + window(body, ui.selected, room - len(fixed))
+    elif narrow:
+        rows += window(cards(snap, ui, width, now), ui.selected, room)
     else:
-        _, total = table(snap, ui, 0, width, now)
-        body_room = room - 1   # below the column heading
-        body_rows = min(total, max(4, body_room - max(8, room // 2) - 1))
+        roomy = height >= ROOMY_H
+        keys = [(line, None) for line in legend(width)] if roomy else []
+        rows += keys
+        body_room = room - len(keys) - 1   # below the column heading
+        body = table(snap, ui, width, now, roomy)
+        if len(body) - 1 > body_room - DETAIL_H - 1:
+            body = table(snap, ui, width, now, roomy, every_split=False)
+        body_rows = min(len(body) - 1, max(4, body_room - 12))   # the detail pane keeps at least 11 lines
         detail_room = body_room - body_rows - 1   # below the separator
         if detail_room < 6:
             body_rows, detail_room = body_room, 0
-        rows, _ = table(snap, ui, body_rows, width, now)
-        lines += rows
+        rows += body[:1] + window(body[1:], ui.selected, body_rows)
         if detail_room:
             info = detail(chosen, snap, now, width, notes)
-            lines.append([("─" * width, "dim")])
+            rows.append(([("─" * width, "dim")], None))
             pane = info[:detail_room]
             if len(info) > detail_room:
                 pane[-1] = [("… %d more lines (Enter: full screen)" % (len(info) - detail_room + 1), "yellow")]
-            lines += pane
-    lines = lines[:max(0, height - len(tail))] + tail
-    return Frame([fit(line, width) for line in lines[-height:]], max_scroll)
+            rows += [(line, None) for line in pane]
+    rows = (rows[:max(0, height - len(tail))] + tail)[-height:]
+    return Frame([fit(line, width) for line, _ in rows], max_scroll, tuple(hit for _, hit in rows))
 
 
 def on_key(ui, key, snap, max_scroll):
@@ -415,7 +639,11 @@ def on_key(ui, key, snap, max_scroll):
         target = ui.selected + (1 if down else -1)
         return replace(ui, selected=min(max(0, target), max(0, count - 1)), scroll=0)
     if key in (10, 13, 9, curses.KEY_ENTER):
-        return replace(ui, full=not ui.full, scroll=0)
+        return replace(ui, full=not ui.full, timeline=False, scroll=0)
+    if key == ESC:
+        return replace(ui, full=False, timeline=False, help=False, scroll=0)
+    if key == ord("t"):
+        return replace(ui, timeline=not ui.timeline, full=False, scroll=0)
     if key == ord("f") and snap is not None:
         cycle = [None] + folder_labels(snap)
         position = cycle.index(ui.folder) if ui.folder in cycle else 0
@@ -425,6 +653,25 @@ def on_key(ui, key, snap, max_scroll):
     if key == ord("h"):
         return replace(ui, help=not ui.help)
     return ui
+
+
+def on_mouse(ui, frame, y, bstate, snap):
+    """A tap selects the ticket under it, a second tap opens its detail, a tap in the detail goes back; the wheel
+    (a swipe on a phone) moves the selection, or scrolls the detail."""
+    if bstate & WHEEL_UP:
+        return on_key(ui, ord("k"), snap, frame.max_scroll)
+    if bstate & WHEEL_DOWN:
+        return on_key(ui, ord("j"), snap, frame.max_scroll)
+    if not bstate & TAP:
+        return ui
+    if ui.full:
+        return replace(ui, full=False, scroll=0)
+    hit = frame.hits[y] if 0 <= y < len(frame.hits) else None
+    if hit is None:
+        return ui
+    if hit == ui.selected:
+        return replace(ui, full=True, timeline=False, scroll=0)
+    return replace(ui, selected=hit)
 
 
 class Loader:
@@ -457,8 +704,14 @@ class Loader:
         threading.Thread(target=loop, daemon=True).start()
 
 
-def default_folders(lean):
-    return [str(path) for path in sorted(Path(lean).iterdir()) if (path / "tickets").is_dir()]
+def default_folders(lean, depth=3):
+    """Every folder up to depth levels under lean that holds a tickets/ folder (so recut/followup counts)."""
+    found, level = [], [Path(lean)]
+    for _ in range(depth):
+        level = [child for folder in level for child in sorted(folder.iterdir())
+                 if child.is_dir() and child.name != "tickets"]
+        found += [folder for folder in level if (folder / "tickets").is_dir()]
+    return [str(folder) for folder in sorted(found)]
 
 
 STYLES = {"cyan": 1, "magenta": 2, "green": 3, "blue": 4, "yellow": 5, "red": 6}
@@ -494,20 +747,31 @@ def run(screen, loader):
         for name, pair in STYLES.items():
             curses.init_pair(pair, getattr(curses, "COLOR_" + name.upper()), -1)
     screen.keypad(True)
-    ui, max_scroll = UI(), 0
+    curses.mousemask(curses.ALL_MOUSE_EVENTS)
+    curses.mouseinterval(0)
+    curses.set_escdelay(25)
+    ui = UI()
     while True:
         snap, problem, loaded = loader.state()
         height, width = screen.getmaxyx()
         frame = render(snap, ui, time.time(), width, height, (problem,) if problem else (), loading=not loaded)
-        max_scroll = frame.max_scroll
         draw(screen, frame)
         screen.timeout(max(50, int(1000 - (time.time() % 1) * 1000)))
-        ui = on_key(ui, screen.getch(), snap, max_scroll)
+        key = screen.getch()
+        if key != curses.KEY_MOUSE:
+            ui = on_key(ui, key, snap, frame.max_scroll)
+            continue
+        try:
+            _, _, y, _, bstate = curses.getmouse()
+        except curses.error:   # a mouse report ncurses could not decode carries no position; it changes nothing
+            continue
+        ui = on_mouse(ui, frame, y, bstate, snap)
 
 
 def main():
     parser = argparse.ArgumentParser(description="Live tickets tab")
-    parser.add_argument("folders", nargs="*", help="ticket folders (default: every %s/*/ with tickets/)" % LEAN)
+    parser.add_argument("folders", nargs="*",
+                        help="ticket folders (default: every folder up to 3 levels under %s with tickets/)" % LEAN)
     args = parser.parse_args()
     import dashboard_tickets_data   # step 36's data module; imported here so tests render fixture snapshots
     loader = Loader(lambda: dashboard_tickets_data.snapshot(args.folders or default_folders(LEAN)))
