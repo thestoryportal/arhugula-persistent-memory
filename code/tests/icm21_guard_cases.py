@@ -174,7 +174,6 @@ class GuardCases:
                 self.assertEqual(failed['status'], 'FAIL')
                 self.assertTrue(failed['reason'])
 
-    @unittest.skipUnless(sys.platform == 'darwin', 'sandbox-exec is macOS-only')
     def test_unsupported_sandbox_denial(self):
         module = self.module('code/ops/git/workspace_gate.py', 'run_lane')
         policy, stdout, stderr = self.runner_fixture('self.fail("writer launched")')
