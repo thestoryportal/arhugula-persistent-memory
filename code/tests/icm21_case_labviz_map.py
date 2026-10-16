@@ -13,7 +13,6 @@ from icm21_fixtures import (D2_POSITIVE, HEADER, INDEX_PATHS, MAP_PATH, SOURCE_R
 
 
 class GeneratorScopeCase:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_generator_scope(self):
         module = self.index_module()
         self.assertIn('--labviz-map-only', inspect.getsource(module.main),
@@ -47,7 +46,6 @@ class GeneratorScopeCase:
 
 
 class CurrentLabvizOutputCase:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_current_labviz_output(self):
         for name in ('_index/icm21-path-map.tsv', '_index/path-map.tsv'):
             self.require_file(name, 'installed D2 input identity')
