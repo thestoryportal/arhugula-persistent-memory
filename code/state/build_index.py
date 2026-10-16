@@ -12,10 +12,10 @@ import yaml
 
 if __package__:
     from .llmdb_records import project_rows
-    from .resolve_path import build_anchor_map, read_anchor_map, read_path_map
+    from .resolve_path import build_anchor_map, read_anchor_map, read_path_map, relocate
 else:
     from llmdb_records import project_rows
-    from resolve_path import build_anchor_map, read_anchor_map, read_path_map
+    from resolve_path import build_anchor_map, read_anchor_map, read_path_map, relocate
 
 STATUSES = {'designed', 'frozen', 'running', 'halted', 'verdict', 'deferred'}
 MIN_MAP_ROWS = 31820
@@ -144,16 +144,6 @@ def read_relocations(data: bytes) -> dict[str, str]:
     return relocations
 
 
-def relocated(path: str, relocations: dict[str, str]) -> str:
-    seen = {path}
-    while path in relocations:
-        path = relocations[path]
-        if path in seen:
-            raise ValueError(f'{RELOCATIONS}: relocation cycle at {path}')
-        seen.add(path)
-    return path
-
-
 def labviz_map(sealed: bytes, relocations: bytes) -> bytes:
     """LabvizMoves: every sealed results/ key at its final path, bound to both complete inputs."""
     moves = read_relocations(relocations)
@@ -162,7 +152,7 @@ def labviz_map(sealed: bytes, relocations: bytes) -> bytes:
         'derived_from': {key: {'path': name, 'sha256': hashlib.sha256(raw).hexdigest()}
                          for key, name, raw in (('sealed', SEALED_MAP, sealed),
                                                 ('relocations', RELOCATIONS, relocations))},
-        'moves': {old: relocated(new, moves) for old, new in read_path_map(sealed).items()
+        'moves': {old: relocate(new, moves) for old, new in read_path_map(sealed).items()
                   if old.startswith('results/')},
     }
     return json.dumps(data, sort_keys=True, separators=(',', ':')).encode('utf-8')

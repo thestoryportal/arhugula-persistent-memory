@@ -288,6 +288,23 @@ class TableShape(unittest.TestCase):
                       projects)
 
 
+class RelocationSource(unittest.TestCase):
+    HEADER = 'old\tnew\tdisposition\tunit\n'
+
+    def test_cycle_off_walked_path_rejected(self):
+        from state.build_index import labviz_map
+        sealed = (self.HEADER + 'results/a\tresults/b\tmove\tu\n').encode()
+        relocations = (self.HEADER + 'results/b\tresults/c\tmove\tu\n'
+                       'other/x\tother/y\tmove\tu\nother/y\tother/x\tmove\tu\n').encode()
+        with self.assertRaisesRegex(ValueError, 'relocation cycle'):
+            labviz_map(sealed, relocations)
+
+    def test_relocated_is_resolve_path_relocate(self):
+        from state import build_index
+        from state.resolve_path import relocate
+        self.assertIs(getattr(build_index, 'relocated', relocate), relocate)
+
+
 class LivingAnchorMapTests(unittest.TestCase):
     def setUp(self):
         from state.resolve_path import SPLITS
