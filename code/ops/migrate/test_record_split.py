@@ -1,12 +1,15 @@
 """Tests for record_split: tracked record, attested bulk or governed payload per leaf."""
 from __future__ import annotations
 
+import contextlib
 import hashlib
+import io
 import json
 import os
 import subprocess
 import sys
 import tempfile
+import types
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -36,6 +39,40 @@ def tree_state(root: Path) -> dict:
     return state
 
 
+@contextlib.contextmanager
+def before_open(match, action):
+    """Run action once, just before the first os.open call that match(path, kwargs) accepts."""
+    real = os.open
+    fired = []
+
+    def hook(path, flags, *args, **kwargs):
+        if not fired and match(os.fspath(path), kwargs):
+            fired.append(True)
+            action()
+        return real(path, flags, *args, **kwargs)
+
+    with mock.patch.object(os, "open", hook):
+        yield fired
+
+
+@contextlib.contextmanager
+def fstat_reports(call_no, **delta):
+    """The call_no-th os.fstat reports its fields shifted by delta (the M46 witness)."""
+    real = os.fstat
+    calls = []
+
+    def fake(fd):
+        st = real(fd)
+        calls.append(fd)
+        if len(calls) != call_no:
+            return st
+        fields = {k: getattr(st, k) for k in ("st_mode", "st_dev", "st_ino", "st_size", "st_mtime_ns")}
+        return types.SimpleNamespace(**{k: v + delta.get(k, 0) for k, v in fields.items()})
+
+    with mock.patch.object(os, "fstat", fake):
+        yield calls
+
+
 class Fixture(unittest.TestCase):
     def setUp(self):
         tmp = tempfile.TemporaryDirectory()
@@ -63,6 +100,19 @@ class Fixture(unittest.TestCase):
         return subprocess.run([sys.executable, "-B", str(TOOL), *map(str, args)],
                               capture_output=True, text=True, timeout=120)
 
+    def main(self, *args):
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            code = R.main([str(a) for a in args])
+        return code, err.getvalue()
+
+    def assertRefusedCleanly(self, proc):
+        self.assertEqual(proc.returncode, 2, proc.stderr)
+        self.assertNotIn("Traceback", proc.stderr)
+        lines = proc.stderr.strip().splitlines()
+        self.assertEqual(len(lines), 1, proc.stderr)
+        self.assertTrue(lines[0].startswith("record_split: refused: "), proc.stderr)
+
 
 class Controls(Fixture):
     def test_launch_json_and_log_are_tracked_regardless_of_size_folder_and_ignore(self):
@@ -84,14 +134,22 @@ class Controls(Fixture):
         self.assertEqual(rows["results/overlay.pt"].cls, R.PAYLOAD)
         self.assertNotIn(R.BULK, {r.cls for r in rows.values()})
 
-    def test_extension_is_not_the_rule(self):
+    def test_record_kind_raises_to_record_and_encoding_never_lowers_it(self):
+        # Ruling 1: launch/check JSON, manifests, notebooks and logs are records whatever
+        # their bytes (SPEC.md:632-633). The record-kind list only raises; it never lowers.
         self.put("binary.json", b"\x00\x00binary")
-        self.put("notes.pt", b"plain text that happens to end in .pt\n")
         self.put("latin1.log", "café\n".encode("latin-1"))
+        self.put("science.LOG", "step 1 loss 0.5\n".encode("utf-16"))
+        self.put("rows.jsonl", b"\xff\xfe\x00")
+        self.put("run.ipynb", b"\x00nb")
+        self.put("RUN_Manifest.tsv", b"\x00\x01")
+        self.put("notes.pt", b"plain text that happens to end in .pt\n")
+        self.put("latin1.bin", "café\n".encode("latin-1"))
         rows = self.split()
-        self.assertEqual(rows["binary.json"].cls, R.PAYLOAD)
-        self.assertEqual(rows["notes.pt"].cls, R.TRACKED)
-        self.assertEqual(rows["latin1.log"].cls, R.PAYLOAD)
+        for rel in ("binary.json", "latin1.log", "science.LOG", "rows.jsonl", "run.ipynb",
+                    "RUN_Manifest.tsv", "notes.pt"):
+            self.assertEqual(rows[rel].cls, R.TRACKED, rel)
+        self.assertEqual(rows["latin1.bin"].cls, R.PAYLOAD)
 
     def test_small_binary_without_attestation_is_payload(self):
         self.put("tiny.bin", b"\x00")
@@ -104,8 +162,8 @@ class Controls(Fixture):
         self.assertEqual(self.split()["record.log"].cls, R.TRACKED)
 
     def test_bytes_ending_in_a_cut_utf8_sequence_are_not_text(self):
-        self.put("cut.log", b"loss 0.5 " + "é".encode("utf-8")[:1])
-        self.assertEqual(self.split()["cut.log"].cls, R.PAYLOAD)
+        self.put("cut.bin", b"loss 0.5 " + "é".encode("utf-8")[:1])
+        self.assertEqual(self.split()["cut.bin"].cls, R.PAYLOAD)
 
     def test_rows_are_sorted_by_utf8_path_bytes(self):
         for rel in ("b.txt", "a/z.txt", "a.txt", "Z.txt"):
@@ -197,6 +255,11 @@ class Refusals(Fixture):
         self.assertEqual(row.link, "data/big.pt")
         self.assertIsNone(row.sha256)
 
+    def test_link_to_exactly_the_parent_refuses(self):
+        os.symlink("..", self.unit / "up")
+        with self.assertRaisesRegex(R.Refusal, "escapes"):
+            self.split()
+
     def test_link_escaping_root_by_dotdot_refuses(self):
         (self.base / "outside.pt").write_bytes(b"\x00")
         os.symlink("../outside.pt", self.unit / "esc.pt")
@@ -248,6 +311,273 @@ class Refusals(Fixture):
         with mock.patch.object(R, "_digest", append_after_read):
             with self.assertRaisesRegex(R.Refusal, "changed"):
                 self.split()
+
+
+class RecordKind(Fixture):
+    def test_attested_record_kind_file_refuses_and_names_it(self):
+        for rel in ("launch.json", "check.jsonl", "nb.ipynb", "train.log", "MANIFEST.sha256"):
+            with self.subTest(rel=rel):
+                data = self.put(rel, b'{"seed": 0}\n')
+                with self.assertRaisesRegex(R.Refusal, rel.replace(".", r"\.")):
+                    self.split(self.attest([(rel, sha(data))], name=rel + ".att"))
+                (self.unit / rel).unlink()
+
+    def test_attested_record_kind_cli_exits_2(self):
+        data = self.put("launch.json", b'{"run": "scientific-run", "seed": 0}\n')
+        out = self.base / "split.json"
+        proc = self.cli("--root", self.unit, "--attestation", self.attest([("launch.json", sha(data))]),
+                        "--out", out)
+        self.assertRefusedCleanly(proc)
+        self.assertIn("launch.json", proc.stderr)
+        self.assertFalse(out.exists())
+
+    def test_attested_text_that_is_not_a_record_is_bulk(self):
+        data = self.put("regen/table.txt", b"col\n1\n2\n")
+        rows = self.split(self.attest([("regen/table.txt", sha(data))]))
+        self.assertEqual(rows["regen/table.txt"].cls, R.BULK)
+
+
+class AttestationShape(Fixture):
+    def doc(self, **over):
+        doc = {"attested_by": "operator", "regenerate": "python run.py",
+               "leaves": [{"path": "x.pt", "sha256": "0" * 64}]}
+        doc.update(over)
+        return doc
+
+    def refused(self, doc, pattern):
+        with self.assertRaisesRegex(R.Refusal, pattern):
+            R.parse_attestation(doc, "att.json")
+
+    def test_top_level_not_an_object(self):
+        self.refused([self.doc()], "not a JSON object")
+
+    def test_attester_of_wrong_type(self):
+        self.refused(self.doc(attested_by=[]), "attested_by")
+        self.refused(self.doc(attested_by={"operator": 1}), "attested_by")
+
+    def test_regenerate_of_wrong_type(self):
+        self.refused(self.doc(regenerate=5), "regenerate")
+        self.refused(self.doc(regenerate=["python", "run.py"]), "regenerate")
+
+    def test_leaves_not_a_list(self):
+        self.refused(self.doc(leaves="x.pt"), "non-empty list")
+        self.refused(self.doc(leaves={"path": "x.pt", "sha256": "0" * 64}), "non-empty list")
+
+    def test_leaf_item_not_an_object(self):
+        self.refused(self.doc(leaves=["x.pt"]), "needs a path")
+
+    def test_leaf_path_not_a_string(self):
+        self.refused(self.doc(leaves=[{"path": 5, "sha256": "0" * 64}]), "needs a path")
+        self.refused(self.doc(leaves=[{"sha256": "0" * 64}]), "needs a path")
+
+    def test_leaf_digest_not_a_string(self):
+        self.refused(self.doc(leaves=[{"path": "x.pt", "sha256": 5}]), "sha256")
+
+    def test_unreadable_attestation_refuses(self):
+        self.put("x.pt", b"\x00")
+        with self.assertRaisesRegex(R.Refusal, "unreadable"):
+            self.split(self.base / "absent.json")
+        with self.assertRaisesRegex(R.Refusal, "unreadable"):
+            self.split(self.base)
+
+    def test_attestation_not_utf8_refuses(self):
+        self.put("x.pt", b"\x00")
+        p = self.base / "latin1.json"
+        p.write_bytes('{"attested_by": "opérateur"}'.encode("latin-1"))
+        with self.assertRaisesRegex(R.Refusal, "unreadable"):
+            self.split(p)
+
+
+class ExitContract(Fixture):
+    def test_invalid_inputs_exit_2_with_one_refusal_and_no_traceback(self):
+        self.put("x.pt", b"\x00")
+        (self.base / "afile").write_bytes(b"")
+        good = {"attested_by": "operator", "regenerate": "python run.py",
+                "leaves": [{"path": "x.pt", "sha256": sha(b"\x00")}]}
+
+        def att(name, payload):
+            p = self.base / name
+            p.write_bytes(payload if isinstance(payload, bytes) else json.dumps(payload).encode())
+            return p
+
+        cases = {
+            "missing root": ["--root", self.base / "absent"],
+            "root is a file": ["--root", self.base / "afile"],
+            "missing out parent": ["--out", self.base / "missing" / "split.json"],
+            "out parent is a file": ["--out", self.base / "afile" / "split.json"],
+            "out names no file": ["--out", self.base / ".."],
+            "out is the current directory": ["--out", "."],
+            "attestation missing": ["--attestation", self.base / "absent.json"],
+            "attestation is a directory": ["--attestation", self.base],
+            "attestation not utf-8": ["--attestation", att("l1.json", '{"a": "é"}'.encode("latin-1"))],
+            "attestation not json": ["--attestation", att("bad.json", b"{not json")],
+            "attestation a list": ["--attestation", att("list.json", [good])],
+            "attested_by a list": ["--attestation", att("by.json", {**good, "attested_by": []})],
+            "leaf not an object": ["--attestation", att("item.json", {**good, "leaves": ["x.pt"]})],
+            "path not a string": ["--attestation",
+                                  att("path.json", {**good, "leaves": [{"path": 5, "sha256": sha(b"\x00")}]})],
+            "sha256 not a string": ["--attestation",
+                                    att("dig.json", {**good, "leaves": [{"path": "x.pt", "sha256": 5}]})],
+            "regenerate not a string": ["--attestation", att("reg.json", {**good, "regenerate": 5})],
+        }
+        for name, extra in cases.items():
+            with self.subTest(case=name):
+                args = {"--root": self.unit, "--out": self.base / "split.json"}
+                attestations = []
+                for flag, value in zip(extra[::2], extra[1::2]):
+                    if flag == "--attestation":
+                        attestations.append(value)
+                    else:
+                        args[flag] = value
+                argv = [x for kv in args.items() for x in kv]
+                for a in attestations:
+                    argv += ["--attestation", a]
+                self.assertRefusedCleanly(self.cli(*argv))
+                self.assertFalse((self.base / "split.json").exists())
+
+
+class Binding(Fixture):
+    """Ruling 2: size and hash come from the object that was read, and the output's parent
+    is the directory that was checked."""
+
+    def leaf(self, data=b"\x00ORIGINAL"):
+        self.put("sample.bin", data)
+        return self.unit / "sample.bin"
+
+    def at_leaf_open(self, path, action):
+        return before_open(lambda p, kw: p == str(path), action)
+
+    def assertChanged(self, path, action):
+        with self.at_leaf_open(path, action) as fired:
+            with self.assertRaisesRegex(R.Refusal, "changed"):
+                self.split()
+        self.assertTrue(fired)
+
+    def test_same_size_rewrite_in_place_refuses(self):
+        p = self.leaf()
+        st = os.lstat(p)
+
+        def rewrite():
+            with open(p, "r+b") as fh:
+                fh.write(b"\x00REPLACED")
+            os.utime(p, ns=(st.st_atime_ns, st.st_mtime_ns + 10**9))
+
+        self.assertChanged(p, rewrite)
+
+    def test_size_only_change_refuses(self):
+        p = self.leaf()
+        st = os.lstat(p)
+
+        def grow_keep_mtime():
+            with open(p, "ab") as fh:
+                fh.write(b"MORE")
+            os.utime(p, ns=(st.st_atime_ns, st.st_mtime_ns))
+
+        self.assertChanged(p, grow_keep_mtime)
+
+    def test_replaced_file_with_same_size_and_mtime_refuses(self):
+        p = self.leaf()
+        st = os.lstat(p)
+
+        def replace():
+            new = self.unit / "sample.new"
+            new.write_bytes(b"\x00REPLACED")
+            os.utime(new, ns=(st.st_atime_ns, st.st_mtime_ns))
+            os.replace(new, p)
+            self.assertNotEqual(os.lstat(p).st_ino, st.st_ino)
+
+        self.assertChanged(p, replace)
+
+    def test_leaf_swapped_for_a_symlink_refuses_and_never_reads_the_target(self):
+        p = self.leaf()
+        external = self.base / "external"
+        external.write_bytes(b"\x00SECRET OUTSIDE THE UNIT")
+
+        def swap():
+            p.unlink()
+            p.symlink_to(external)
+
+        with self.at_leaf_open(p, swap):
+            with self.assertRaisesRegex(R.Refusal, "symlink"):
+                self.split()
+
+    def test_leaf_removed_before_open_refuses(self):
+        p = self.leaf()
+        self.assertChanged(p, p.unlink)
+
+    def test_symlink_swap_cli_exits_2(self):
+        p = self.leaf()
+        external = self.base / "external"
+        external.write_bytes(b"\x00SECRET OUTSIDE THE UNIT")
+        out = self.base / "split.json"
+
+        def swap():
+            p.unlink()
+            p.symlink_to(external)
+
+        with self.at_leaf_open(p, swap):
+            code, err = self.main("--root", self.unit, "--out", out)
+        self.assertEqual(code, 2, err)
+        self.assertIn("sample.bin", err)
+        self.assertFalse(out.exists())
+
+    def test_open_fd_on_another_device_refuses_before_any_byte_is_hashed(self):
+        self.leaf()
+        with fstat_reports(1, st_dev=1) as calls, \
+                mock.patch.object(hashlib, "sha256", side_effect=hashlib.sha256) as hashers:
+            with self.assertRaisesRegex(R.Refusal, "changed before"):
+                self.split()
+        self.assertEqual(len(calls), 1)
+        hashers.assert_not_called()
+
+    def test_open_fd_that_changes_during_the_read_refuses(self):
+        self.leaf()
+        with fstat_reports(2, st_size=1) as calls:
+            with self.assertRaisesRegex(R.Refusal, "changed"):
+                self.split()
+        self.assertEqual(len(calls), 2)
+
+    def test_out_parent_that_is_a_symlink_refuses(self):
+        self.put("a.log", b"x\n")
+        real = self.base / "realdest"
+        real.mkdir()
+        (self.base / "dest").symlink_to(real, target_is_directory=True)
+        code, err = self.main("--root", self.unit, "--out", self.base / "dest" / "split.json")
+        self.assertEqual(code, 2, err)
+        self.assertEqual(list(real.iterdir()), [])
+
+    def test_out_parent_swapped_after_the_check_still_writes_outside_the_unit(self):
+        leaf = self.leaf()
+        dest = self.base / "dest"
+        dest.mkdir()
+        moved = self.base / "moved-dest"
+        before = tree_state(self.unit)
+
+        def swap():
+            dest.rename(moved)
+            dest.symlink_to(self.unit, target_is_directory=True)
+
+        with self.at_leaf_open(leaf, swap) as fired:
+            code, err = self.main("--root", self.unit, "--out", dest / "split.json")
+        self.assertTrue(fired)
+        self.assertEqual(code, 0, err)
+        self.assertEqual(tree_state(self.unit), before)
+        self.assertTrue((moved / "split.json").exists())
+
+    def test_out_parent_moved_into_the_unit_refuses_and_keeps_the_written_file(self):
+        self.leaf()
+        dest = self.base / "dest"
+        dest.mkdir()
+
+        def move_in():
+            dest.rename(self.unit / "dest")
+
+        with before_open(lambda p, kw: p == "split.json" and "dir_fd" in kw, move_in) as fired:
+            code, err = self.main("--root", self.unit, "--out", dest / "split.json")
+        self.assertTrue(fired)
+        self.assertEqual(code, 2, err)
+        self.assertIn("split.json", err)
+        self.assertTrue((self.unit / "dest" / "split.json").exists())  # never deleted
 
 
 class Cli(Fixture):
