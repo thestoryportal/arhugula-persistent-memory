@@ -229,6 +229,17 @@ class ValidateMoveTest(unittest.TestCase):
         self.assertReasons(run(leaves=(bad, safe)), 'duplicate leaf record', 'crosses the unit')
         self.assertReasons(run(leaves=(safe, bad)), 'duplicate leaf record')
 
+    def test_each_repeat_of_a_leaf_is_its_own_finding(self):
+        for entry in (leaf(UNIT + '/a.txt'), leaf(UNIT + '/link', 'symlink', 'a.txt')):
+            for copies in (3, 4):
+                with self.subTest(kind=entry['kind'], copies=copies):
+                    found = run(leaves=tuple(dict(entry) for _ in range(copies)))
+                    self.assertReasons(found, *['duplicate leaf record: %s (copy %d)'
+                                                % (entry['source'], n)
+                                                for n in range(2, copies + 1)])
+                    self.assertEqual(found, run(leaves=tuple(dict(entry)
+                                                             for _ in range(copies))))
+
     def test_iterators_give_the_same_findings_as_lists(self):
         cases = {'other_moves': (move(id='MV-002', source=TARGET, target=P + '/held'),),
                  'existing_paths': (UNIT, TARGET), 'run_units': (M + '/projects',),

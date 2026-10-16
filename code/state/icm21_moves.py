@@ -150,11 +150,13 @@ def validate_move(move, admitted_roots, *, other_moves=None, existing_paths=None
     if leaves is None:
         fail('leaves not supplied: link boundary unchecked', 'UNVERIFIED')
     else:
-        unique = {}
+        unique, copies = {}, {}
         for record in leaves:
             path = PurePosixPath(record['source'])
+            copies[path] = copies.get(path, 0) + 1
             if path in unique:  # first record stands: a repeat adds no link and no name
-                fail('duplicate leaf record: ' + str(path))
+                # The copy number keeps each repeat's finding ID distinct.
+                fail('duplicate leaf record: %s (copy %d)' % (path, copies[path]))
             else:
                 unique[path] = dict(record, source=path)
         records = list(unique.values())
