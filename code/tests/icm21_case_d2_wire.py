@@ -1,13 +1,11 @@
 """ReaderControls D2 wire parser case."""
 import copy
 import json
-import unittest
 
 from icm21_fixtures import D2_POSITIVE, HEADER, digest, put, sealed
 
 
 class D2WireParserCase:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_d2_wire_parser(self):
         self.require_file('code/state/icm21_check.py', 'D2-only MapBinding parser')
         examples = json.loads(sealed('WIRE-EXAMPLES.json'))

@@ -254,19 +254,21 @@ def check_references(root, manifest):
         code, value = self.wire(module, self.labviz_examples('FAIL', {'bad': True}))
         self.assertEqual((code, value['status']), (0, 'PASS'))
 
-    def test_labviz_moves_validation_is_unchanged(self):
+    def test_labviz_moves_rejects_pre_d2_sealed_positive(self):
         source = (STATE / 'icm21_labviz_wire.py').read_text(encoding='utf-8')
         module = self.checker({'icm21_labviz_wire': source})
         example = next(x for x in self.examples['examples']
                        if x['type'] == 'LabvizMoves' and x['expected'] == 'PASS')
-        with self.assertRaisesRegex(TypeError, 'wire type outside approved scope'):
+        with self.assertRaisesRegex(ValueError, 'not the D2 identity'):
             module.validate_wire('LabvizMoves', example['value'], self.schema, {},
                                  self.scratch)
         code, value = self.wire(module, self.labviz_examples('PASS'))
         self.assertEqual((code, value['status']), (1, 'FAIL'))
-        self.assertEqual(value, {'reason': 'wire type outside approved scope', 'status': 'FAIL'})
+        self.assertEqual([(x['expected'], x['observed']) for x in value['results']],
+                         [('PASS', 'FAIL')])
+        self.assertIn('not the D2 identity', value['results'][0]['reason'])
 
-    def test_sealed_negative_labviz_example_alone_fails_the_run(self):
+    def test_sealed_negative_labviz_example_alone_passes_as_observed_fail(self):
         source = (STATE / 'icm21_labviz_wire.py').read_text(encoding='utf-8')
         module = self.checker({'icm21_labviz_wire': source})
         negative = [x for x in self.examples['examples']
@@ -275,8 +277,9 @@ def check_references(root, manifest):
         path = self.scratch / 'labviz-negative.json'
         path.write_text(json.dumps(dict(self.examples, examples=negative)), encoding='utf-8')
         code, value = self.wire(module, path)
-        self.assertEqual((code, value), (1, {'reason': 'wire type outside approved scope',
-                                             'status': 'FAIL'}))
+        self.assertEqual((code, value['status']), (0, 'PASS'))
+        self.assertEqual([(x['id'], x['expected'], x['observed']) for x in value['results']],
+                         [('labviz-map-input-binding-invalid', 'FAIL', 'FAIL')])
 
     def test_absent_labviz_seam_is_unverified_never_pass(self):
         module = self.checker({})
