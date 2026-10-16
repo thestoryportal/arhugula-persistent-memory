@@ -271,6 +271,7 @@ class LivingAnchorMapTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         (self.root / '_index').mkdir()
         shutil.copy2(source / '_index/path-map.tsv', self.root / '_index/path-map.tsv')
+        shutil.copy2(source / '_index/icm21-path-map.tsv', self.root / '_index/icm21-path-map.tsv')
         for folder in SPLITS.values():
             (self.root / folder).mkdir(parents=True)
             for part in (source / folder).glob('[0-9]*.md'):
