@@ -2,7 +2,7 @@
 """Find guards that no test kills: one mutant per guard, run against a scratch lane copy.
 
   guard_mutants.py --file F [--file F...] --test "CMD" --out NEW.json [--allow ALLOW.json]
-                   [--timeout SECONDS]
+                   [--timeout SECONDS] [--base REV]
 
 The lane is the current directory. Each --file is a UTF-8 Python file inside it. `ast`
 finds the guards and makes one mutant per guard, each a text splice of one node:
@@ -16,6 +16,17 @@ finds the guards and makes one mutant per guard, each a text splice of one node:
   except-remove  one `except` clause can never match (NEVER below): removal, kept compilable
   negate-if      an `if` whose body (or plain `else`) has a raise or return gets `not (...)`
   write-loop     a loop that calls write/pwrite/writev becomes its first such call
+
+With --base REV only the lines of each --file that differ from REV are in scope, and a mutant
+is made only when its anchor line (the line in its id and location) is in scope. git is
+asked once per file in the lane, before any copy, with no GIT_* variable of the caller and
+literal pathspecs: REV must resolve to a commit (git rev-parse); a file absent at REV (git
+cat-file -e fails) is in scope as a whole; otherwise its index entry must be plain (git
+ls-files -v gives "H": not skip-worktree, assume-unchanged, unmerged or untracked, which
+git diff would not compare), and its lines are the new-side lines of each hunk of
+`git diff -U0 --no-color --no-ext-diff REV -- F` (the worktree against REV). A git command
+that fails, a binary diff, or an unreadable hunk header refuses (exit 2). Without --base
+every line is in scope.
 
 CMD first runs once on an unmutated copy and must exit 0 (else exit 2, nothing written).
 Then each mutant gets a fresh copy of the lane (never the lane itself; the top-level
@@ -82,6 +93,7 @@ import posixpath
 import re
 import secrets
 import select
+import shlex
 import signal
 import stat
 import subprocess
@@ -101,6 +113,7 @@ RE_FUNCS = frozenset({"compile", "match", "fullmatch", "search", "findall", "fin
 NEVER = '__import__("builtins").type("GuardMutantNever", (BaseException,), {})'
 BRACE = re.compile(r"\{(\d*)(?:,(\d*))?\}")
 SIMPLE = (ast.Name, ast.Attribute, ast.Call, ast.Constant, ast.Subscript)
+HUNK = re.compile(rb"@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
 
 
 class Refusal(Exception):
@@ -282,6 +295,70 @@ def read_targets(root_fd: int, root: str, files: list[str]) -> dict[str, Target]
     return targets
 
 
+# ---- scope -----------------------------------------------------------------------
+
+class _Whole:
+    """The scope of a file mutated as a whole: every line is in it."""
+
+    def __contains__(self, line: object) -> bool:
+        return True
+
+    def __repr__(self) -> str:
+        return "WHOLE"
+
+
+WHOLE = _Whole()
+
+
+def _git(*args: str) -> subprocess.CompletedProcess:
+    """Run git in the lane (cwd) without the caller's GIT_* (a hook's GIT_DIR names another repo)."""
+    cmd = ["git", *args]
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+    env["GIT_LITERAL_PATHSPECS"] = "1"  # a file name is a path, never a glob or magic pathspec
+    try:
+        return subprocess.run(cmd, env=env, stdin=subprocess.DEVNULL, capture_output=True)
+    except OSError as exc:
+        raise Refusal(f"`{shlex.join(cmd)}` did not run: {exc}") from exc
+
+
+def _git_ok(*args: str) -> bytes:
+    """git's stdout; a non-zero exit is a refusal that names the command and its stderr."""
+    proc = _git(*args)
+    if proc.returncode != 0:
+        err = proc.stderr.decode("utf-8", "replace").strip()
+        raise Refusal(f"`{shlex.join(proc.args)}` failed (exit {proc.returncode}): {err}")
+    return proc.stdout
+
+
+def _changed_lines(rev: str, rel: str):
+    """The lines of rel (relative to the lane) that differ from commit rev, or WHOLE when rel is absent there."""
+    if _git("cat-file", "-e", f"{rev}:./{rel}").returncode != 0:
+        return WHOLE
+    entries = _git_ok("ls-files", "-v", "-z", "--", rel).split(b"\0")
+    if entries != [b"H " + os.fsencode(rel), b""]:
+        raise Refusal(f"`git ls-files -v -z -- {rel}` gives {entries[:-1]!r}, not one plain index entry; "
+                      "git diff would not compare its worktree bytes")
+    lines: set[int] = set()
+    for raw in _git_ok("diff", "-U0", "--no-color", "--no-ext-diff", rev, "--", rel).split(b"\n"):
+        if raw.startswith(b"Binary files "):
+            raise Refusal(f"`git diff {rev} -- {rel}` shows a binary diff; no changed line is known")
+        if raw.startswith(b"@@"):
+            m = HUNK.match(raw)
+            if m is None:
+                raise Refusal(f"`git diff {rev} -- {rel}` has a hunk header it cannot read: {raw!r}")
+            start, count = int(m[1]), 1 if m[2] is None else int(m[2])
+            lines.update(range(start, start + count))  # count 0 (a pure deletion) adds no line
+    return frozenset(lines)
+
+
+def line_scope(base: str | None, rels) -> dict:
+    """Each file's scope: the lines that differ from base (asked of git once, in the lane), else WHOLE."""
+    if base is None:
+        return dict.fromkeys(rels, WHOLE)
+    rev = _git_ok("rev-parse", "--verify", "--end-of-options", base + "^{commit}").decode("ascii").strip()
+    return {rel: _changed_lines(rev, rel) for rel in rels}
+
+
 # ---- mutants ---------------------------------------------------------------------
 
 @dataclass(frozen=True)
@@ -388,7 +465,8 @@ def _plain_else(node: ast.If) -> list[ast.stmt]:
     return [] if len(node.orelse) == 1 and isinstance(node.orelse[0], ast.If) else node.orelse
 
 
-def mutants_for(rel: str, data: bytes) -> list[Mutant]:
+def mutants_for(rel: str, data: bytes, lines=WHOLE) -> list[Mutant]:
+    """One mutant per guard whose anchor line (node.lineno) is in lines."""
     try:
         tree = ast.parse(data, filename=rel)
     except SyntaxError as exc:
@@ -397,7 +475,8 @@ def mutants_for(rel: str, data: bytes) -> list[Mutant]:
     found: list[tuple] = []
 
     def add(node, op, tag, change, a, b, new):
-        found.append((node.lineno, node.col_offset, op, tag, change, src.splice(a, b, new)))
+        if node.lineno in lines:
+            found.append((node.lineno, node.col_offset, op, tag, change, src.splice(a, b, new)))
 
     inner = {id(side) for n in ast.walk(tree) if _is_bitor(n) for side in (n.left, n.right) if _is_bitor(side)}
     for node in ast.walk(tree):
@@ -969,6 +1048,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", required=True, help="a new JSON file outside the lane")
     ap.add_argument("--allow", help="JSON list of {id, reason} for mutants that may stay unkilled")
     ap.add_argument("--timeout", type=_positive, help="seconds per test run (default 10x baseline, >= 60)")
+    ap.add_argument("--base", help="mutate only the lines that differ from this git revision")
     args = ap.parse_args(argv)
     out = os.path.abspath(args.out)
     parent, name = os.path.dirname(out), os.path.basename(args.out)
@@ -981,7 +1061,8 @@ def main(argv: list[str] | None = None) -> int:
         try:
             root = _realpath(root_fd, f"lane {root}")
             targets = read_targets(root_fd, root, args.file)
-            mutants = [m for t in targets.values() for m in mutants_for(t.rel, t.data)]
+            scope = line_scope(args.base, targets)
+            mutants = [m for t in targets.values() for m in mutants_for(t.rel, t.data, scope[t.rel])]
             allow = load_allow(args.allow, {m.id for m in mutants}) if args.allow else {}
             with _fs(f"--out parent {parent}"):
                 parent_fd = os.open(parent, DIR_FLAGS)
