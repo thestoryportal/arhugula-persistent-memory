@@ -1,5 +1,6 @@
 """The references CLI saves the complete adapter outputs its digests bind (WIRE-CONTRACTS.md:44),
 and the executor input is validated as ExecutorEvidence (T016 fix-round ruling). Adapter runs are mocked."""
+import builtins
 import contextlib
 import hashlib
 import importlib.util
@@ -10,8 +11,9 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import types
 import unittest
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 
 STATE = Path(__file__).resolve().parent
@@ -156,6 +158,56 @@ class ReferenceEvidence(unittest.TestCase):
             self.assertEqual(len(results['readers']), 2)
             with self.assertRaises(ValueError):
                 references.dispatch(self.root, self.manifest([invalid])[0])
+
+    def save(self, directory, results, outputs, **patches):
+        """save_references with a mocked dispatch; returns the dispatch mock and the raised error."""
+        module = load('icm21_check')
+        dispatch = MagicMock(return_value=(results, outputs))
+        loaded = module.area
+        def area(name):
+            return types.SimpleNamespace(dispatch=dispatch) if name == 'icm21_references' \
+                else loaded(name)
+        with contextlib.ExitStack() as stack:
+            stack.enter_context(patch.object(module, 'area', area))
+            for name, value in patches.items():
+                stack.enter_context(patch.object(module, name, value, create=True))
+            with self.assertRaises(ValueError) as raised:
+                module.save_references(self.root, None, directory)
+        return dispatch, raised.exception
+
+    def test_missing_dir_refused_before_dispatch(self):
+        missing = self.scratch / 'absent'
+        data = b'complete adapter output\n'
+        dispatch, error = self.save(missing, {'schema_version': 1, 'readers': []},
+                                    {digest(data): data})
+        self.assertIn('evidence directory absent', str(error))
+        dispatch.assert_not_called()
+        self.assertFalse(os.path.lexists(missing))
+
+    def test_invalid_dispatch_result_refused(self):
+        data = b'complete adapter output\n'
+        dispatch, _ = self.save(self.evidence, {'schema_version': 2, 'readers': []},
+                                {digest(data): data})
+        dispatch.assert_called_once()
+        self.assertEqual(list(self.evidence.iterdir()), [])
+
+    def test_exclusive_create_race_refused(self):
+        data = b'complete adapter output\n'
+        competing = b'concurrent bytes\n'
+        modes = []
+        def race_open(path, mode='r', *args, **kwargs):
+            modes.append(mode)
+            with builtins.open(path, 'wb') as handle:
+                handle.write(competing)
+            if mode == 'xb':
+                raise FileExistsError(str(path))
+            return builtins.open(path, mode, *args, **kwargs)
+        _, error = self.save(self.evidence, {'schema_version': 1, 'readers': []},
+                             {digest(data): data}, open=race_open)
+        self.assertIn('existing evidence differs', str(error))
+        self.assertEqual(modes, ['xb'])
+        self.assertEqual((self.evidence / digest(data)).read_bytes(), competing)
+        self.assertEqual(list(self.evidence.iterdir()), [self.evidence / digest(data)])
 
 
 if __name__ == '__main__':
