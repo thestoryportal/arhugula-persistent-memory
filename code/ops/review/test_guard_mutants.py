@@ -1557,5 +1557,300 @@ class Links(Base):
             self.assertIsNotNone(gm._link_leaves(rel, text, record), (rel, text))
 
 
+def markers(root: str) -> list[str]:
+    return sorted(os.path.join(d, f) for d, _, files in os.walk(root) for f in files if f == "irreplaceable")
+
+
+class Ownership(Base):
+    """Ruling 12: a directory is taken as made only empty and bound to its name; removal is per recorded entry."""
+
+    def victim(self, name):
+        path = os.path.join(self.tmp, name)
+        os.mkdir(path)
+        with open(os.path.join(path, "irreplaceable"), "w") as fh:
+            fh.write("keep")
+        return path
+
+    def test_directory_substituted_at_its_creation_is_refused_and_kept(self):
+        """Pre-review round 4 adopt_falsekill: a pre-existing directory takes a new copy directory's name."""
+        victims = [self.victim(f"victim-{i}") for i in range(2, 13)]
+        real = os.open
+        adopted = []
+
+        def opened(name, flags, *a, **kw):
+            parent = real_getpath(kw["dir_fd"]) if kw.get("dir_fd") is not None else ""
+            if name == "data" and parent.endswith("/copy"):
+                run = int(parent.split("/")[-2][1:])
+                if run >= 2:
+                    path = os.path.join(parent, "data")
+                    os.rename(path, os.path.join(self.tmp, f"park-created-{run}"))
+                    os.rename(victims[run - 2], path)
+                    adopted.append(path)
+            return real(name, flags, *a, **kw)
+        with mock.patch.object(gm.os, "open", opened):
+            code, out, err = self.run_main(self.args(test="test ! -e data/irreplaceable"))
+        self.assertEqual(len(adopted), 1)  # the first substitution refuses: no later run
+        self.assertRefused(code, err, adopted[0], "kept")
+        self.assertFalse(os.path.exists(self.out))
+        self.assertEqual(len(markers(self.tmp)), 11)
+        self.assertTrue(os.path.isfile(os.path.join(adopted[0], "irreplaceable")))
+
+    def test_empty_directory_substituted_after_the_open_is_refused_and_both_are_kept(self):
+        """The opened directory must be the one the name gives (lstat), not only empty."""
+        real = os.open
+        box = {}
+
+        def opened(name, flags, *a, **kw):
+            fd = real(name, flags, *a, **kw)
+            parent = real_getpath(kw["dir_fd"]) if kw.get("dir_fd") is not None else ""
+            if name == "data" and parent.endswith("/copy") and not box:
+                box["path"] = path = os.path.join(parent, "data")
+                box["parked"] = os.path.join(self.tmp, "parked-data")
+                os.rename(path, box["parked"])
+                os.mkdir(path)
+            return fd
+        with mock.patch.object(gm.os, "open", opened):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertRefused(code, err, box["path"], "kept")
+        self.assertTrue(os.path.isdir(box["parked"]))
+        self.assertEqual(os.listdir(box["path"]), [])
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_entry_the_run_did_not_make_found_at_removal_is_refused_and_kept(self):
+        for kind in ("file", "link", "hardlink"):
+            with self.subTest(kind=kind):
+                self.setUp()
+                foreign = os.path.join(self.tmp, "foreign.txt")
+                with open(foreign, "w") as fh:
+                    fh.write("keep")
+                real_remove = gm._remove_dir
+                box = {}
+
+                def remove(parent_fd, name, path, owned, kind=kind, foreign=foreign, box=box):
+                    if name == "m0001" and not box:
+                        box["at"] = at = os.path.join(path, "lane", "data", "foreign.txt")
+                        if kind == "file":
+                            os.rename(foreign, at)
+                        elif kind == "link":
+                            os.symlink(foreign, at)
+                        else:
+                            os.link(foreign, at)
+                    return real_remove(parent_fd, name, path, owned)
+                with mock.patch.object(gm, "_remove_dir", remove):
+                    code, out, err = self.run_main(self.args(test="true"))
+                self.assertRefused(code, err, box["at"], "kept")
+                self.assertTrue(os.path.lexists(box["at"]))
+                self.assertFalse(os.path.exists(self.out))
+
+    def test_entry_older_than_the_test_run_put_in_the_copy_by_the_test_is_kept(self):
+        """What the test makes during its run is removed; an older entry it moves in is not the run's."""
+        for kind in ("directory", "file"):
+            with self.subTest(kind=kind):
+                self.setUp()
+                victim = self.victim("victim")
+                if kind == "file":
+                    victim = os.path.join(victim, "irreplaceable")
+                code, out, err = self.run_main(self.args(test=f"mv {victim} data/irreplaceable-moved"))
+                self.assertRefused(code, err, "data/irreplaceable-moved", "kept")
+                if kind == "file":
+                    self.assertIn("before the test run", err)
+                    found = [os.path.join(d, f) for d, _, fs in os.walk(self.tmp) for f in fs
+                             if f == "irreplaceable-moved"]
+                    self.assertEqual(len(found), 1)
+                else:
+                    self.assertEqual(len(markers(self.tmp)), 1)
+                self.assertFalse(os.path.exists(self.out))
+
+    def test_files_and_links_the_test_makes_are_removed_with_the_copy(self):
+        cmd = 'echo x > "$TMPDIR/f" && ln -s f "$TMPDIR/l" && echo y > data/new.txt && ln data/new.txt data/hard'
+        code, out, err = self.run_main(self.args(test=cmd))
+        self.assertEqual(code, 1, err)
+        self.assertNoScratchLeft()
+
+    def test_directory_the_test_makes_is_kept(self):
+        code, out, err = self.run_main(self.args(test='mkdir "$TMPDIR/d"'))
+        self.assertRefused(code, err, "tmp/d", "kept")
+        self.assertFalse(os.path.exists(self.out))
+
+
+class TargetsInTheWalk(Base):
+    """Sweep finding: a target gone from the lane between its parse and the first walk is never mutated."""
+
+    def test_target_directory_rebound_after_the_parse_is_refused(self):
+        real = gm.read_targets
+        box = {}
+
+        def read_targets(root_fd, root, files):
+            targets = real(root_fd, root, files)
+            pkg = os.path.join(self.lane, "pkg")
+            box["fault"] = fault = fk.Fault()
+            fault.parked = fk._park(pkg)
+            os.mkdir(pkg)
+            return targets
+        with mock.patch.object(gm, "read_targets", read_targets):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertRefused(code, err, "pkg/guarded.py", "as it was parsed")
+        self.assertFalse(os.path.exists(self.out))
+
+
+class SweepFindings(Base):
+    """Ruling 16 sweep: a move right after a check must still be seen before the run reports or removes."""
+
+    def test_source_directory_moved_out_before_its_last_read_of_the_final_scan_is_refused(self):
+        sub, outside = os.path.join(self.lane, "data", "sub"), os.path.join(self.tmp, "outside-sub")
+        real_verify, real_read = gm.Session.verify_lane, os.read
+        box = {}
+
+        def verify(session):
+            box["final"] = True
+            return real_verify(session)
+
+        def read(fd, n):
+            where = real_getpath(fd)
+            if box.get("final") and where == os.path.join(sub, "deep.txt"):
+                box["reads"] = box.get("reads", 0) + 1
+                if box["reads"] == 2:  # the read that finds the end, after its check
+                    os.rename(sub, outside)
+                    os.mkdir(sub)
+            return real_read(fd, n)
+        with mock.patch.object(gm.Session, "verify_lane", verify), mock.patch.object(gm.os, "read", read):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertEqual(box.get("reads"), 2)
+        self.assertRefused(code, err, outside, "outside the lane")
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_copy_directory_replaced_after_its_identity_check_is_not_removed(self):
+        moved = os.path.join(self.lane, "moved-m0001")
+        real_stat = os.stat
+        box = {"n": 0}
+
+        def stat_(name, *a, dir_fd=None, **kw):
+            result = real_stat(name, *a, dir_fd=dir_fd, **kw)
+            if name == "m0001" and dir_fd is not None:
+                box["n"] += 1
+                if box["n"] == 4:  # at its creation, before and after the run, then the removal's check
+                    box["path"] = path = os.path.join(real_getpath(dir_fd), name)
+                    os.rename(path, moved)
+                    os.mkdir(path)
+            return result
+        with mock.patch.object(gm.os, "stat", stat_):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertIn("path", box)
+        self.assertRefused(code, err, "kept")
+        self.assertTrue(os.path.isdir(box["path"]))  # the replacement is not removed
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_scratch_replaced_at_its_rmdir_is_refused(self):
+        """The replacement is removed at the instant (no rmdir is bound to an fd); the run must not report."""
+        real_exit, real_rmdir = gm.Session.__exit__, os.rmdir
+        parked = os.path.join(self.tmp, "parked-scratch")
+        box = {}
+
+        def exit_(session, *exc):
+            box["name"], box["path"] = session.name, session.scratch
+            return real_exit(session, *exc)
+
+        def rmdir(name, *a, dir_fd=None, **kw):
+            if name == box.get("name") and "fired" not in box:
+                box["fired"] = True
+                os.rename(box["path"], parked)
+                os.mkdir(box["path"])
+            return real_rmdir(name, *a, dir_fd=dir_fd, **kw)
+        with mock.patch.object(gm.Session, "__exit__", exit_), mock.patch.object(gm.os, "rmdir", rmdir):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertTrue(box.get("fired"))
+        self.assertRefused(code, err, box["path"], "kept")
+        self.assertTrue(os.path.isdir(parked))
+        self.assertFalse(os.path.exists(self.out))
+
+
+class WriteChecks(Base):
+    """Ruling 13: each os.write is preceded by the live-path check of its fd."""
+
+    def moved_after_first_byte(self, ends, dest):
+        real_write = os.write
+        inside, box = [], {}
+
+        def write(fd, data):
+            where = real_getpath(fd)
+            n = real_write(fd, memoryview(data).cast("B")[:1])
+            if where.startswith(self.lane + "/"):
+                inside.append(where)
+            if where.endswith(ends) and not where.startswith(self.lane + "/") and not box:
+                box["file"] = os.path.join(dest, os.path.basename(where))
+                os.rename(os.path.dirname(where), dest)
+            return n
+        with mock.patch.object(gm.os, "write", write):
+            code, out, err = self.run_main(self.args(test="true"))
+        return code, err, box["file"], inside
+
+    def test_copy_directory_moved_into_the_lane_after_a_short_write_gets_no_more_bytes(self):
+        """Pre-review round 4 boundary_probes short-write-move."""
+        code, err, moved, inside = self.moved_after_first_byte("/pkg/test_guarded.py", os.path.join(self.lane, "moved-pkg"))
+        self.assertRefused(code, err, moved, "inside the lane", "kept")
+        self.assertEqual(inside, [])
+        self.assertEqual(os.path.getsize(moved), 1)  # only the byte written before the move
+
+    def test_output_parent_moved_into_the_lane_after_a_short_write_gets_no_more_bytes(self):
+        code, err, moved, inside = self.moved_after_first_byte("/outdir/out.json", os.path.join(self.lane, "moved-out"))
+        self.assertRefused(code, err, moved, "inside the lane")
+        self.assertEqual(inside, [])
+        self.assertEqual(os.path.getsize(moved), 1)
+
+
+class SourceChecks(Base):
+    """Ruling 14: each scandir, child open and read through a held source fd is preceded by its containment check."""
+
+    def test_source_directory_moved_out_of_the_lane_is_never_read(self):
+        """Pre-review round 4 source_escape."""
+        data, outside = os.path.join(self.lane, "data"), os.path.join(self.tmp, "outside-data")
+        real_scandir, real_read, real_open = os.scandir, os.read, os.open
+        moved, reads = [], []
+
+        def scandir(fd=None):
+            if isinstance(fd, int) and real_getpath(fd) == data and not moved:
+                os.rename(data, outside)
+                os.mkdir(data)
+                moved.append(outside)
+            return real_scandir(fd)
+
+        def read(fd, n):
+            if real_getpath(fd).startswith(outside + "/"):
+                reads.append(real_getpath(fd))
+            return real_read(fd, n)
+
+        def opened(name, flags, *a, dir_fd=None, **kw):
+            if dir_fd is not None and real_getpath(dir_fd).startswith(outside):
+                reads.append(os.path.join(real_getpath(dir_fd), name))
+            return real_open(name, flags, *a, dir_fd=dir_fd, **kw)
+        with mock.patch.object(gm.os, "scandir", scandir), mock.patch.object(gm.os, "read", read), \
+                mock.patch.object(gm.os, "open", opened):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertTrue(moved)
+        self.assertRefused(code, err, outside, "outside the lane")
+        self.assertEqual(reads, [])
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_source_file_moved_out_of_the_lane_between_reads_is_not_read_again(self):
+        note, outside = os.path.join(self.lane, "data", "note.txt"), os.path.join(self.tmp, "outside-note.txt")
+        real_read = os.read
+        moved, reads = [], []
+
+        def read(fd, n):
+            where = real_getpath(fd)
+            if where == outside:
+                reads.append(where)
+            data = real_read(fd, n)
+            if where == note and not moved:
+                os.rename(note, outside)
+                moved.append(fd)
+            return data
+        with mock.patch.object(gm.os, "read", read):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertTrue(moved)
+        self.assertRefused(code, err, outside, "outside the lane")
+        self.assertEqual(reads, [])
+
+
 if __name__ == "__main__":
     unittest.main()
