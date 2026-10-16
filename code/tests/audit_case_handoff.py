@@ -1,12 +1,10 @@
 """AuditControls handoff-context case; a mixin composed by test_context_audit."""
-import unittest
 
 from test_icm21 import encoded, put
 from audit_case_guide import context_directive
 
 
 class HandoffContextCases:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_handoff_context(self):
         module = self.checker()
         root, config = self.seed(['C-HANDOFF'])
