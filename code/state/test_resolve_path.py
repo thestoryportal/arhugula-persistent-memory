@@ -376,6 +376,27 @@ class DuplicateBinding(unittest.TestCase):
         self.assertIn('R1', str(caught.exception))
         self.assertIn('R2', str(caught.exception))
 
+    def test_three_distinct_targets_ambiguous(self):
+        from state.resolve_path import resolve_reference
+        manifest = self.manifest(['new/file.md', 'other/file.md', 'third/file.md'])
+        with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
+            with self.assertRaisesRegex(ValueError, 'Ambiguous') as caught:
+                resolve_reference('a.md', 'old/file.md', manifest)
+        for row_id in ('R1', 'R2', 'R3'):
+            self.assertIn(row_id, str(caught.exception))
+
+    def test_suffix_only_difference_ambiguous(self):
+        from state.resolve_path import resolve_reference
+        for targets in (['new/file.md#a', 'new/file.md#b'],
+                        ['new/file.md:3', 'new/file.md:4']):
+            with self.subTest(targets=targets):
+                manifest = self.manifest(targets)
+                with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
+                    with self.assertRaisesRegex(ValueError, 'Ambiguous') as caught:
+                        resolve_reference('a.md', 'old/file.md', manifest)
+                self.assertIn('R1', str(caught.exception))
+                self.assertIn('R2', str(caught.exception))
+
 
 if __name__ == '__main__':
     unittest.main()
