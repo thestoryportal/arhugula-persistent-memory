@@ -713,6 +713,8 @@ def check_staged(root):
         require(top and Path(top).resolve() == root.resolve(), 'staged root is not the Git root')
         object_format = git('rev-parse', '--show-object-format').strip()
         filemode = git('config', '--bool', '--default', 'true', 'core.filemode').strip() == 'true'
+        sparse = git('config', '--bool', '--default', 'false',
+                     'core.sparseCheckout').strip() == 'true'
         closure = set(STAGED_CLOSURE)
         registry = read_json(root / 'code/gates/closeout_fingerprints.json')
         require(type(registry) is dict, 'fingerprint registry must be an object')
@@ -746,8 +748,8 @@ def check_staged(root):
         if stage != '0':
             fail(relative, 'Unmerged closure path')
             continue
-        if tag == 'S':  # skip-worktree: a sparse checkout makes no disk claim
-            continue
+        if tag == 'S' and sparse and not os.path.lexists(root / relative):
+            continue  # skip-worktree path a sparse checkout left off disk: no disk claim
         try:
             disk = disk_entry(root / relative, object_format)
         except OSError as error:
