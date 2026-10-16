@@ -1,0 +1,4 @@
+requirement_id	source	target	action	observed_bytes	class	lane	check_id	admission	prd_ids
+MV-157	/Volumes/memit/llm-database-project-artifacts	/Volumes/memit/llmdb-preserved/icm21-20261013/external/llm-database-project-artifacts	HOLD	1874796	unresolved-export	legacy-preservation	C-HOLD	G0/G1/G3/G4; admission hold	ICM-R4
+MV-158	/Volumes/memit/stage_2_sweep	/Volumes/memit/llmdb-preserved/icm21-20261013/external/stage_2_sweep	HOLD	49325881679	legacy-science-unit	legacy-preservation	C-HOLD	G0/G1/G3/G4; admission hold	ICM-R2,ICM-R4
+MV-159	/Volumes/memit/corpus-quarantine	/Volumes/memit/corpus-quarantine	RETAIN_CONTAINER	97822437767	toolkit-quarantine-custody	integration	C-CONTAINER	none	ICM-R4
