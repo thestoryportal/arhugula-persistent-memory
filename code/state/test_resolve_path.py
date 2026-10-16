@@ -178,6 +178,7 @@ class ResolverTests(unittest.TestCase):
             'old\tnew\tdisposition\tunit\n'
             'old/file.md\tnew/file.md\tmove\tu\n'
             'program/EXPERIMENT_RUNBOOK.md\tprogram/runbook\tsplit\tu\n')
+        (self.root / '_index/icm21-path-map.tsv').write_text('old\tnew\tdisposition\tunit\n')
         (self.root / 'program/runbook/00-entry.md').write_text(
             '## §0 — ENTRY POINT (read first, every session)\n\n### Child heading\n')
 
@@ -228,6 +229,13 @@ class ResolverTests(unittest.TestCase):
         from state.resolve_path import resolve
         with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
             self.assertEqual(resolve('old/file.md'), 'new/file.md')
+
+    def test_absent_relocation_map_raises(self):
+        from state.resolve_path import resolve
+        (self.root / '_index/icm21-path-map.tsv').unlink()
+        with patch.dict(os.environ, LLMDB_ROOT=str(self.root)):
+            with self.assertRaisesRegex(ValueError, 'icm21-path-map.tsv'):
+                resolve('old/file.md')
 
     def test_no_assigned_destination(self):
         path = self.root / '_index/path-map.tsv'
