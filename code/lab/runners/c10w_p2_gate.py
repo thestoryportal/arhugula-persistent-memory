@@ -30,6 +30,8 @@ EXEMPT = (
     r"^\S*\.venv/bin/python -B \S*/(?:tools|code/agents)/context_watch\.py \S+\.jsonl \d+ \d+$",
     # model-free readers of this program (no torch import: checked 2026-10-07)
     r"^\S*\.venv/bin/python -B \S*/(?:experiments|code/lab)/track_c/c10(v_layerpick|w_oracle)_read\.py( .*)?$",
+    # M3 load sampler, model-free: imports only the stdlib plus this file, which is stdlib (checked 2026-10-16)
+    r"^\S*\.venv/bin/python -B \S*/code/agents/compute_sample\.py( .*)?$",
     # operator desktop tooling on system Pythons
     r"^\S*/Python \S*/\.claude/powerline-config/server\.py$",
     r"^\S*/Python \S*/\.harness-dashboard/serve\.py$",
