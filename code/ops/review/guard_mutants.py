@@ -19,7 +19,13 @@ finds the guards and makes one mutant per guard, each a text splice of one node:
 
 CMD first runs once on an unmutated copy and must exit 0 (else exit 2, nothing written).
 Then each mutant gets a fresh copy of the lane (never the lane itself; the top-level
-.git is not copied) under a new temp directory, and CMD runs there with sh: the child
+.git is not copied) under a new temp directory. Each create in a copy (directory, file,
+link) is made through its parent's held fd, and immediately before it that fd's live path
+(F_GETPATH) must be the path recorded when this run made it, outside the lane; each new
+directory's and file's fd must live at its own path outside the lane (a file before its
+first byte and after its last). A copy is built as mNNNN/copy and renamed to mNNNN/lane
+(never over an existing entry) once it is complete. Any mismatch, or a failed create in a
+directory that moved, refuses and keeps everything. CMD runs in the copy with sh: the child
 enters the copy through its held fd (fchdir), never by path; PWD and LLMDB_ROOT name
 the copy, TMPDIR a directory beside it, and PYTHONPATH is removed. Just before and just
 after the run, each of those names must still be the directory held for it (st_dev,
@@ -29,10 +35,12 @@ does not compile, or CMD timed out; never killed). The timeout is --timeout, els
 
 The lane is the current directory, opened once as "." and held; each directory is entered through its parent's fd and must be the (st_dev,
 st_ino) the scan saw; each file is read through an O_NOFOLLOW fd whose fstat matches
-the scan before and after the read. Every copy and a final scan must see the same lane
-as the first copy (each entry's identity and each file's sha256), and each --file the
-same bytes it was parsed from. A special file, a link that is absolute or leaves the
-lane, or any change refuses. NEW.json is created
+the scan before and after the read. The lane is walked once before any copy, and then
+each link is resolved one component at a time from its directory through that walk's
+record: an absolute target, a component that is a link or names nothing recorded, or a
+'..' above the lane root refuses. Every copy and a final scan must see the same lane as
+that first walk (each entry's identity and each file's sha256), and each --file the
+same bytes it was parsed from. A special file or any change refuses. NEW.json is created
 O_EXCL through its parent's fd after the scratch directory is removed; the parent's
 real path (F_GETPATH) must lie outside the lane's live path before the run and again
 as the last call before the create, and the file fd's real path must be the parent's
@@ -46,8 +54,9 @@ when a caller set it, else /tmp; never tempfile.gettempdir(), which writes a pro
 into its candidates by path), and refused when the parent's or its own real path is the
 lane or inside it. It is removed only through fds: each directory is opened through its
 parent's fd and its (st_dev, st_ino) must be one recorded when this run made it (never
-one taken from the removal's own scan), and its name must still name the held fd just
-before rmdir; on a mismatch both are kept.
+one taken from the removal's own scan), its name must still name the held fd just
+before rmdir, and each unlink and rmdir happens only while the directory it acts in
+still lives at its recorded path; on a mismatch both are kept.
 ALLOW is a JSON list of {"id": <mutant id>, "reason": <non-empty text>}. NEW.json
 is a JSON list of rows {id, location ("file:line"), operator, change, result, detail,
 allowed (the ALLOW reason or null)}.
@@ -78,6 +87,7 @@ READ_FLAGS = os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK  # a FIFO swapped in ne
 CREATE_FLAGS = os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW
 CHUNK = 1 << 20
 BASELINE_TIMEOUT = 1800.0
+STAGE = "copy"  # a copy's name in its mNNNN until it is complete; then it is renamed to "lane"
 WRITE_CALLS = frozenset({"write", "pwrite", "writev"})
 RE_FUNCS = frozenset({"compile", "match", "fullmatch", "search", "findall", "finditer", "sub", "subn", "split"})
 NEVER = '__import__("builtins").type("GuardMutantNever", (BaseException,), {})'
@@ -154,11 +164,32 @@ def _write_all(fd: int, data: bytes, path: str) -> None:
             view = view[os.write(fd, view):]
 
 
-def _link_escapes(rel: str, text: str) -> bool:
+def _link_leaves(rel: str, text: str, record: dict) -> str | None:
+    """Why the link at rel (its text) may not resolve inside the lane, or None.
+
+    The target is resolved one component at a time from the link's directory, through the
+    walk's record (rel -> (kind, ...)): no component may be a link, or a name the walk did not
+    record; only the last may be a non-directory; and no '..' may climb above the lane root."""
     if posixpath.isabs(text):
-        return True
-    target = posixpath.normpath(posixpath.join(posixpath.dirname(rel), text))
-    return target == ".." or target.startswith("../")
+        return "is absolute"
+    at = rel.split("/")[:-1]  # every element is a directory the walk recorded, never a link
+    parts = [c for c in text.split("/") if c not in ("", ".")]
+    for i, part in enumerate(parts):
+        if part == "..":
+            if not at:
+                return "climbs above the lane root"
+            at.pop()
+            continue
+        here = "/".join(at + [part])
+        kind = record.get(here, ("missing",))[0]
+        if kind == "link":
+            return f"goes through the link {here}"
+        if kind == "missing":
+            return f"names {here}, which the walk did not record"
+        if kind != "dir" and i < len(parts) - 1:
+            return f"goes through {here}, which is not a directory"
+        at.append(part)
+    return None
 
 
 @dataclass(frozen=True)
@@ -409,14 +440,7 @@ class Session:
                 raise Refusal(f"scratch parent {parent_real} is inside the lane {self.root}; set TMPDIR outside it")
             self.name = "guard_mutants-" + secrets.token_hex(8)
             self.scratch = os.path.join(parent_real, self.name)
-            self.scratch_fd = self._made(self.parent_fd, self.name, f"scratch {self.scratch}", 0o700)
-            try:
-                self.scratch = _realpath(self.scratch_fd, f"scratch {self.scratch}")
-                if _inside(_realpath(self.root_fd, f"lane {self.root}"), self.scratch):
-                    raise Refusal(f"scratch {self.scratch} is inside the lane {self.root}; it was kept")
-            except BaseException:
-                _close(self.scratch_fd, f"scratch {self.scratch}")
-                raise
+            self.scratch_fd = self._made(self.parent_fd, parent_real, self.name, 0o700, "scratch", "scratch parent")
         except BaseException:
             _close(self.parent_fd, f"scratch parent {parent}")
             raise
@@ -455,51 +479,120 @@ class Session:
             if seen.get(rel) != self.snapshot.get(rel):
                 raise Refusal(f"the lane changed during the run at {os.path.join(self.root, rel)}; nothing is reported")
 
-    def _made(self, parent_fd: int, name: str, path: str, mode: int) -> int:
-        """Make and open directory name in parent_fd; its identity, taken here, is what cleanup may remove."""
-        with _fs(path):
-            os.mkdir(name, mode, dir_fd=parent_fd)
+    def _check_at(self, fd: int, path: str, what: str, child: str = "") -> None:
+        """fd lives at path, the path recorded when this run made it, outside the lane; else keep all, refuse.
+
+        The fd's F_GETPATH is the last call here, so a create may follow with no call between."""
+        try:
+            lane = _realpath(self.root_fd, f"lane {self.root}")
+            live = _realpath(fd, os.path.join(path, child) if child else path)
+        except Refusal:
+            self.keep = True
+            raise
+        if live == path and not _inside(lane, live):
+            return
+        self.keep = True
+        shown = os.path.join(live, child) if child else live
+        if _inside(lane, live):
+            raise Refusal(f"{what} {shown} is inside the lane {self.root}; it was kept and nothing is reported")
+        expected = os.path.join(path, child) if child else path
+        raise Refusal(f"{what} {expected} is now at {shown}; it was kept and nothing is reported")
+
+    def _create(self, parent_fd: int, parent_path: str, path: str, make, what: str = "copy directory"):
+        """make() creates path's last name in parent_fd, checked at its recorded place immediately before.
+
+        A create that fails is checked again: a failure in a directory that moved keeps everything."""
+        self._check_at(parent_fd, parent_path, what)
+        try:
+            with _fs(path):
+                return make()  # no call between the check above and this create
+        except Refusal:
+            self._check_at(parent_fd, parent_path, what)
+            raise
+
+    def _made(self, parent_fd: int, parent_path: str, name: str, mode: int,
+              what: str = "copy directory", parent_what: str = "copy directory") -> int:
+        """Make and open directory name in parent_fd; its identity, taken here, is what cleanup may remove.
+
+        Its path is recorded as parent_path/name, and the new fd must live there, outside the lane."""
+        path = os.path.join(parent_path, name)
+        self._create(parent_fd, parent_path, path, lambda: os.mkdir(name, mode, dir_fd=parent_fd), parent_what)
         with _fs(path):
             fd = os.open(name, DIR_FLAGS, dir_fd=parent_fd)
         try:
             with _fs(path):
                 st = os.fstat(fd)
+            self.owned.add((st.st_dev, st.st_ino))
+            self._check_at(fd, path, what)
         except BaseException:
             _close(fd, path)
             raise
-        self.owned.add((st.st_dev, st.st_ino))
         return fd
 
+    def _publish(self, mfd: int, mpath: str) -> None:
+        """Give the finished copy the name the test runs under: STAGE becomes lane, inside mfd."""
+        lane = os.path.join(mpath, "lane")
+        try:
+            with _fs(lane):
+                try:
+                    os.stat("lane", dir_fd=mfd, follow_symlinks=False)
+                    raise Refusal(f"{lane} exists before the copy was given that name; it was kept")
+                except FileNotFoundError:
+                    pass  # the expected state: a rename never replaces an entry
+        except Refusal:
+            self.keep = True
+            raise
+        self._check_at(mfd, mpath, "copy directory")
+        with _fs(lane):  # no call between the check above and this rename
+            os.rename(STAGE, "lane", src_dir_fd=mfd, dst_dir_fd=mfd)
+
     def _check_bound(self, bound: tuple, when: str) -> None:
-        """Each (parent_fd, name, fd, path): name in parent_fd is still fd's directory, and fd lives at path."""
-        for parent_fd, name, fd, path in bound:
-            with _fs(path):
-                now = os.stat(name, dir_fd=parent_fd, follow_symlinks=False)
-            with _fs(path):
-                held = os.fstat(fd)
-            if (now.st_dev, now.st_ino) != (held.st_dev, held.st_ino) or _realpath(fd, path) != path:
-                self.keep = True
-                raise Refusal(f"{path} no longer names the directory this run made (checked {when} the test run); "
-                              "nothing is reported and both were kept")
+        """Each (parent_fd, name, fd, path): name in parent_fd is still fd's directory, and fd lives at path.
+
+        Any error here (the name gone, say) keeps everything, as a mismatch does."""
+        try:
+            for parent_fd, name, fd, path in bound:
+                with _fs(path):
+                    now = os.stat(name, dir_fd=parent_fd, follow_symlinks=False)
+                with _fs(path):
+                    held = os.fstat(fd)
+                if (now.st_dev, now.st_ino) != (held.st_dev, held.st_ino) or _realpath(fd, path) != path:
+                    raise Refusal(f"{path} no longer names the directory this run made (checked {when} the test "
+                                  "run); nothing is reported and both were kept")
+        except Refusal:
+            self.keep = True
+            raise
+
+    def _scan(self) -> dict:
+        """The whole lane walked first; then each link resolved against what the walk recorded."""
+        seen: dict = {}
+        self._walk(self.root_fd, self.root, "", None, "", seen, {})
+        for rel, record in sorted(seen.items()):
+            if record[0] == "link":
+                why = _link_leaves(rel, record[1], seen)
+                if why is not None:
+                    raise Refusal(f"link {os.path.join(self.root, rel)} -> {record[1]!r} {why}; nothing was judged")
+        return seen
 
     def _run(self, m: Mutant | None, timeout: float) -> tuple[str, str]:
+        if self.snapshot is None:
+            self.snapshot = self._scan()  # before any copy or test run
         self.runs += 1
         name = f"m{self.runs:04d}"
         mpath = os.path.join(self.scratch, name)
-        lane, tmp = os.path.join(mpath, "lane"), os.path.join(mpath, "tmp")
-        mfd = self._made(self.scratch_fd, name, mpath, 0o700)
+        lane, stage, tmp = (os.path.join(mpath, n) for n in ("lane", STAGE, "tmp"))
+        mfd = self._made(self.scratch_fd, self.scratch, name, 0o700)
         try:
             with contextlib.ExitStack() as held:
                 held.callback(_close, mfd, mpath)
-                lfd = self._made(mfd, "lane", lane, 0o755)
+                lfd = self._made(mfd, mpath, STAGE, 0o755)
                 held.callback(_close, lfd, lane)
-                tfd = self._made(mfd, "tmp", tmp, 0o700)
+                tfd = self._made(mfd, mpath, "tmp", 0o700)
                 held.callback(_close, tfd, tmp)
                 seen: dict = {}
-                self._walk(self.root_fd, self.root, "", lfd, lane, seen, {m.rel: m.source} if m else {})
-                if self.snapshot is None:
-                    self.snapshot = seen
+                self._walk(self.root_fd, self.root, "", lfd, stage, seen, {m.rel: m.source} if m else {})
                 self._compare(seen)
+                self._publish(mfd, mpath)
                 bound = ((self.scratch_fd, name, mfd, mpath), (mfd, "lane", lfd, lane), (mfd, "tmp", tfd, tmp))
                 self._check_bound(bound, "before")
                 outcome = _execute(self.cmd, lane, tmp, timeout, lfd)
@@ -535,7 +628,7 @@ class Session:
                     seen[r] = ("dir", st.st_dev, st.st_ino)
                     sub = None
                     if dst_fd is not None:
-                        sub = self._made(dst_fd, name, dpath, 0o755)
+                        sub = self._made(dst_fd, dst, name, 0o755)
                     try:
                         self._walk(fd, spath, r + "/", sub, dpath, seen, replace)
                     finally:
@@ -546,12 +639,12 @@ class Session:
             elif stat.S_ISLNK(st.st_mode):
                 with _fs(spath):
                     text = os.readlink(name, dir_fd=src_fd)
-                if _link_escapes(r, text):
-                    raise Refusal(f"link {spath} -> {text!r} is absolute or leaves the lane")
                 seen[r] = ("link", text) + _identity(st)
                 if dst_fd is not None:
-                    with _fs(dpath):
-                        os.symlink(text, name, dir_fd=dst_fd)
+                    if seen[r] != self.snapshot.get(r):  # only a link the first walk recorded and checked
+                        raise Refusal(f"the lane changed during the run at {spath}; nothing is reported")
+                    self._create(dst_fd, dst, dpath, lambda: os.symlink(text, name, dir_fd=dst_fd))
+                    self._check_at(dst_fd, dst, "link", child=name)  # where the create put it
             elif stat.S_ISREG(st.st_mode):
                 data = _read_file(src_fd, name, spath, st)
                 digest = hashlib.sha256(data).hexdigest()
@@ -560,21 +653,36 @@ class Session:
                 seen[r] = ("file",) + _identity(st) + (digest,)
                 if dst_fd is None:
                     continue
-                with _fs(dpath):
-                    out = os.open(name, CREATE_FLAGS, stat.S_IMODE(st.st_mode) & 0o777, dir_fd=dst_fd)
+                mode = stat.S_IMODE(st.st_mode) & 0o777
+                out = self._create(dst_fd, dst, dpath, lambda: os.open(name, CREATE_FLAGS, mode, dir_fd=dst_fd))
                 try:
-                    _write_all(out, replace.get(r, data), dpath)
+                    self._check_at(out, dpath, "copy file")  # before the first byte
+                    try:
+                        _write_all(out, replace.get(r, data), dpath)
+                    except Refusal:
+                        self._check_at(out, dpath, "copy file")
+                        raise
+                    self._check_at(out, dpath, "copy file")  # after the last byte
                 finally:
                     _close(out, dpath)
             else:
                 raise Refusal(f"{spath} is a special file")
 
 
+def _still_at(fd: int, path: str) -> None:
+    """fd's live path (F_GETPATH) is still path; else refuse and keep it."""
+    live = _realpath(fd, path)
+    if live != path:
+        raise Refusal(f"{path} is now at {live}; both were kept")
+
+
 def _remove_dir(parent_fd: int, name: str, path: str, owned: set) -> None:
     """Remove a directory this run made, only through fds bound to it.
 
     owned holds the (st_dev, st_ino) of each directory this run made, recorded when it made it;
-    a directory (or child directory) not in it is never removed, and the removal refuses."""
+    a directory (or child directory) not in it is never removed, and the removal refuses. path is
+    the path recorded when it was made (outside the lane): each unlink and the rmdir happen only
+    while the directory they act in still lives there."""
     with _fs(path):
         fd = os.open(name, DIR_FLAGS, dir_fd=parent_fd)
     try:
@@ -592,13 +700,15 @@ def _remove_dir(parent_fd: int, name: str, path: str, owned: set) -> None:
             if stat.S_ISDIR(st.st_mode):
                 _remove_dir(fd, entry.name, epath, owned)
             else:
-                with _fs(epath):
+                _still_at(fd, path)
+                with _fs(epath):  # no call between the check above and this unlink
                     os.unlink(entry.name, dir_fd=fd)
         with _fs(path):
             now = os.stat(name, dir_fd=parent_fd, follow_symlinks=False)
         if (now.st_dev, now.st_ino) != made:
             raise Refusal(f"{path} now names another directory; both were kept")
-        with _fs(path):
+        _still_at(parent_fd, os.path.dirname(path))
+        with _fs(path):  # no call between the check above and this rmdir
             os.rmdir(name, dir_fd=parent_fd)
         owned.discard(made)
     finally:

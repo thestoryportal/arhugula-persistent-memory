@@ -1278,5 +1278,284 @@ class Faults(Base):
         self.assertNoScratchLeft()
 
 
+class CopyWrites(Base):
+    """Each create in a lane copy happens in the directory this run made, at its recorded path outside the lane."""
+
+    def lane_writes(self):
+        real = os.write
+        inside = []
+
+        def write(fd, data):
+            where = real_getpath(fd)
+            if where.startswith(self.lane + "/"):
+                inside.append((where, len(data)))
+            return real(fd, data)
+        return mock.patch.object(gm.os, "write", write), inside
+
+    def new_in_lane(self, before):
+        return sorted(set(tree_digest(self.lane)) - set(before))
+
+    def test_copy_moved_into_the_lane_at_a_file_create_writes_no_byte_inside(self):
+        """Pre-review round 3 probe_copy_inside: the copy is renamed into the lane inside note.txt's O_CREAT open."""
+        before = tree_digest(self.lane)
+        moved = os.path.join(self.lane, "arrived-copy")
+        real = os.open
+        box = {}
+
+        def opened(name, flags, *a, **kw):
+            if name == "note.txt" and flags & os.O_CREAT and not box:
+                box["copy"] = os.path.dirname(real_getpath(kw["dir_fd"]))
+                os.rename(box["copy"], moved)
+            return real(name, flags, *a, **kw)
+        watch, inside = self.lane_writes()
+        with mock.patch.object(gm.os, "open", opened), watch:
+            code, out, err = self.run_main(self.args(test="true"))
+        note = os.path.join(moved, "data", "note.txt")
+        self.assertRefused(code, err, note, "inside the lane", "kept")
+        self.assertEqual(inside, [])
+        self.assertEqual(os.path.getsize(note), 0)  # the empty file the create made is kept
+        self.assertEqual(self.new_in_lane(before), ["arrived-copy", "arrived-copy/data", "arrived-copy/data/link",
+                                                    "arrived-copy/data/note.txt"])
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_copy_directory_moved_into_the_lane_before_a_create_gets_nothing_more(self):
+        before = tree_digest(self.lane)
+        moved = os.path.join(self.lane, "arrived-data")
+        real_open, real_symlink = os.open, os.symlink
+        box = {}
+
+        def symlink(src, dst, *a, dir_fd=None, **kw):
+            result = real_symlink(src, dst, *a, dir_fd=dir_fd, **kw)
+            if dst == "link" and "data" not in box:
+                box["data"] = real_getpath(dir_fd)  # the copy's data directory
+            return result
+
+        def opened(name, flags, *a, **kw):
+            if name == "note.txt" and "data" in box and "moved" not in box:  # the source read before its copy
+                box["moved"] = True
+                os.rename(box["data"], moved)
+            return real_open(name, flags, *a, **kw)
+        watch, inside = self.lane_writes()
+        with mock.patch.object(gm.os, "open", opened), mock.patch.object(gm.os, "symlink", symlink), watch:
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertTrue(box.get("moved"))
+        self.assertRefused(code, err, moved, "inside the lane", "kept")
+        self.assertEqual(inside, [])
+        self.assertEqual(self.new_in_lane(before), ["arrived-data", "arrived-data/link"])
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_last_entry_created_after_its_directory_moved_into_the_lane_is_kept_and_named(self):
+        """The create's own place is checked: no later create in that directory would see the move."""
+        for name, fn in (("zz-empty", "mkdir"), ("zz-link", "symlink"), ("zz-file", "open")):
+            with self.subTest(name=name):
+                self.setUp()
+                if fn == "mkdir":
+                    os.mkdir(os.path.join(self.lane, "pkg", name))
+                elif fn == "symlink":
+                    os.symlink("guarded.py", os.path.join(self.lane, "pkg", name))
+                else:
+                    with open(os.path.join(self.lane, "pkg", name), "w") as fh:
+                        fh.write("last\n")
+                before = tree_digest(self.lane)
+                moved = os.path.join(self.lane, "arrived-pkg")
+                log = os.path.join(self.tmp, "runs.log")
+                real = getattr(os, fn)
+                box = []
+
+                def hooked(*a, dir_fd=None, real=real, fn=fn, name=name, box=box, moved=moved, **kw):
+                    made = a[1] if fn == "symlink" else a[0]
+                    creates = fn != "open" or a[1] & os.O_CREAT
+                    if made == name and dir_fd is not None and creates and not box:
+                        box.append(real_getpath(dir_fd))
+                        os.rename(box[0], moved)
+                    return real(*a, dir_fd=dir_fd, **kw)
+                watch, inside = self.lane_writes()
+                with mock.patch.object(gm.os, fn, hooked), watch:
+                    code, out, err = self.run_main(self.args(test=f"echo run >> {log}"))
+                self.assertEqual(len(box), 1)
+                self.assertRefused(code, err, os.path.join(moved, name), "inside the lane", "kept")
+                self.assertTrue(os.path.lexists(os.path.join(moved, name)))
+                self.assertEqual(inside, [])
+                self.assertFalse(os.path.exists(log))  # the test never ran
+                self.assertFalse(os.path.exists(self.out))
+
+    def test_copy_file_moved_into_the_lane_during_its_write_is_refused_before_the_test_runs(self):
+        """The last file of the walk: only the check after its last byte sees the move."""
+        moved = os.path.join(self.lane, "arrived-pkg")
+        log = os.path.join(self.tmp, "runs.log")
+        real = os.write
+        box = []
+
+        def write(fd, data):
+            where = real_getpath(fd)
+            if where.endswith("/pkg/test_guarded.py") and not where.startswith(self.lane + "/") and not box:
+                box.append(where)
+                os.rename(os.path.dirname(where), moved)
+            return real(fd, data)
+        with mock.patch.object(gm.os, "write", write):
+            code, out, err = self.run_main(self.args(test=f"echo run >> {log}"))
+        self.assertEqual(len(box), 1)
+        self.assertRefused(code, err, os.path.join(moved, "test_guarded.py"), "inside the lane", "kept")
+        self.assertTrue(os.path.isfile(os.path.join(moved, "test_guarded.py")))
+        self.assertFalse(os.path.exists(log))
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_failed_create_in_a_directory_moved_into_the_lane_keeps_everything(self):
+        for fn in ("mkdir", "write"):
+            with self.subTest(fn=fn):
+                self.setUp()
+                moved = os.path.join(self.lane, "arrived-data")
+                real = getattr(os, fn)
+                box = []
+
+                def mkdir(path, *a, dir_fd=None, **kw):
+                    if path == "sub" and dir_fd is not None and not box:
+                        box.append(real_getpath(dir_fd))
+                        os.rename(box[0], moved)
+                        raise OSError(errno.EIO, "Input/output error")
+                    return real(path, *a, dir_fd=dir_fd, **kw)
+
+                def write(fd, data):
+                    where = real_getpath(fd)
+                    if where.endswith("/data/note.txt") and not where.startswith(self.lane + "/") and not box:
+                        box.append(os.path.dirname(where))
+                        os.rename(box[0], moved)
+                        raise OSError(errno.EIO, "Input/output error")
+                    return real(fd, data)
+                with mock.patch.object(gm.os, fn, mkdir if fn == "mkdir" else write):
+                    code, out, err = self.run_main(self.args(test="true"))
+                self.assertEqual(len(box), 1)
+                self.assertRefused(code, err, moved, "inside the lane", "kept")
+                self.assertTrue(os.path.isdir(os.path.dirname(box[0])))  # the rest of the copy is kept
+                self.assertFalse(os.path.exists(self.out))
+
+    def test_a_directory_already_at_the_copy_name_is_refused_and_kept(self):
+        real = os.mkdir
+        box = []
+
+        def mkdir(path, *a, dir_fd=None, **kw):
+            result = real(path, *a, dir_fd=dir_fd, **kw)
+            if path == "tmp" and dir_fd is not None and not box:
+                real("lane", 0o700, dir_fd=dir_fd)
+                box.append(os.path.join(real_getpath(dir_fd), "lane"))
+            return result
+        with mock.patch.object(gm.os, "mkdir", mkdir):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertEqual(len(box), 1)
+        self.assertRefused(code, err, box[0], "exists", "kept")
+        self.assertEqual(os.listdir(box[0]), [])  # not replaced
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_copy_name_gone_at_the_check_keeps_the_copy(self):
+        """An error (ENOENT) in the check around the test run keeps everything, like a mismatch."""
+        real = os.rename
+        box = []
+
+        def rename(src, dst, *a, **kw):
+            result = real(src, dst, *a, **kw)
+            if dst == "lane" and kw.get("dst_dir_fd") is not None and not box:
+                mpath = real_getpath(kw["dst_dir_fd"])
+                box.append(mpath)
+                real(os.path.join(mpath, "lane"), os.path.join(self.tmp, "away"))
+            return result
+        with mock.patch.object(gm.os, "rename", rename):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertEqual(len(box), 1)
+        self.assertRefused(code, err, os.path.join(box[0], "lane"), "ENOENT")
+        self.assertEqual(sorted(os.listdir(box[0])), ["tmp"])  # the copy directory is kept
+        self.assertFalse(os.path.exists(self.out))
+
+
+class CleanupBound(Base):
+    """Removal works only on directories still at the path recorded when this run made them."""
+
+    def test_scratch_moved_into_the_lane_before_cleanup_is_kept(self):
+        moved = os.path.join(self.lane, "moved-tmp")
+        real_exit = gm.Session.__exit__
+        box = {}
+
+        def exit_(session, *exc):
+            box["name"] = session.name
+            os.rename(self.tooltmp, moved)
+            return real_exit(session, *exc)
+        with mock.patch.object(gm.Session, "__exit__", exit_):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertRefused(code, err, "kept")
+        self.assertTrue(os.path.isdir(os.path.join(moved, box["name"])))
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_copy_directory_moved_into_the_lane_during_its_removal_keeps_its_files(self):
+        moved = os.path.join(self.lane, "moved-sub")
+        real = os.scandir
+        box = []
+
+        def scandir(fd=None):
+            if isinstance(fd, int) and not box:
+                where = real_getpath(fd)
+                if where.endswith("/data/sub") and not where.startswith(self.lane + "/"):
+                    box.append(where)
+                    os.rename(where, moved)
+            return real(fd)
+        with mock.patch.object(gm.os, "scandir", scandir):
+            code, out, err = self.run_main(self.args(test="true"))
+        self.assertEqual(len(box), 1)
+        self.assertRefused(code, err, "kept")
+        self.assertEqual(os.listdir(moved), ["deep.txt"])
+        self.assertFalse(os.path.exists(self.out))
+
+
+class Links(Base):
+    """Each link is resolved against the walk's record, one component at a time, before any copy or test run."""
+
+    def chain(self):
+        os.symlink(".", os.path.join(self.lane, "anchor"))  # the lane itself
+        os.symlink("anchor/..", os.path.join(self.lane, "escape"))  # normpath says ".": really the lane's parent
+
+    def test_link_through_another_link_is_refused_before_any_copy(self):
+        """Pre-review round 3 probe_link_chain."""
+        self.chain()
+        log = os.path.join(self.tmp, "runs.log")
+        proc = self.run_tool(self.args(test=f"echo run >> {log}; cd escape && pwd -P >> {log}"))
+        self.assertRefused(proc.returncode, proc.stderr, os.path.join(self.lane, "escape"), "link")
+        self.assertFalse(os.path.exists(log))
+        self.assertFalse(os.path.exists(self.out))
+        self.assertNoScratchLeft()
+
+    def test_link_chain_that_shares_state_across_copies_gives_no_killed_row(self):
+        """Pre-review round 3 probe_link_falsekill: a weak suite must never pass the gate through shared state."""
+        self.set_suite(WEAK)
+        self.chain()
+        os.symlink("escape/..", os.path.join(self.lane, "shared"))
+        proc = self.run_tool(self.args(test=self.cmd() + " && test ! -e shared/stamp && touch shared/stamp"))
+        self.assertRefused(proc.returncode, proc.stderr, "escape", "link")
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_link_changed_after_the_first_walk_is_never_created_in_a_copy(self):
+        link = os.path.join(self.lane, "data", "link")
+        flag = os.path.join(self.tmp, "done")
+        real = os.symlink
+        made = []
+
+        def symlink(src, dst, *a, **kw):
+            made.append(src)
+            return real(src, dst, *a, **kw)
+        with mock.patch.object(gm.os, "symlink", symlink):
+            code, out, err = self.run_main(self.args(test=f"if [ ! -e {flag} ]; then touch {flag}; "
+                                                          f"ln -sfn ../.. {link}; fi; true"))
+        self.assertRefused(code, err, "changed", "data/link")
+        self.assertEqual(made, ["note.txt"])  # the baseline copy's link only, never the unchecked one
+        self.assertFalse(os.path.exists(self.out))
+
+    def test_link_resolution_cases(self):
+        record = {"d": ("dir",), "d/s": ("dir",), "d/f": ("file",), "d/l": ("link", "f"), "top": ("link", ".")}
+        ok = [("d/x", "f"), ("d/x", "s/../f"), ("d/x", "../d/s"), ("d/x", "./s/"), ("x", "."), ("x", "d")]
+        bad = [("d/x", "/etc"), ("d/x", "../.."), ("d/x", "l"), ("d/x", "../top/d"), ("d/x", "f/x"),
+               ("d/x", "missing"), ("x", ".git"), ("d/x", "S/../../..")]
+        for rel, text in ok:
+            self.assertIsNone(gm._link_leaves(rel, text, record), (rel, text))
+        for rel, text in bad:
+            self.assertIsNotNone(gm._link_leaves(rel, text, record), (rel, text))
+
+
 if __name__ == "__main__":
     unittest.main()
