@@ -1,12 +1,10 @@
 """AuditControls view-twin freshness case; a mixin composed by test_context_audit."""
-import unittest
 
 import test_icm21 as shared
 from test_icm21 import put, snapshot
 
 
 class ViewTwinCases:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_view_twin_freshness(self):
         module = self.checker()
         root, config = self.seed(['C-GENERATED', 'C-TWINS'])
