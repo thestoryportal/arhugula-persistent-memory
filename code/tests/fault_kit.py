@@ -1,22 +1,26 @@
 """Filesystem attacks for tests: each is a context manager that a test wraps around one call of the tool under test.
 
 Every attack patches one os or fcntl function, restores it on exit (also when the body raises),
-and fails the test on a normal exit unless it fired exactly once. Displaced paths are parked under
-`<path>` + PARKED, never deleted or overwritten. Kit failures are FaultKitError, a BaseException,
+and fails the test on a normal exit unless it fired exactly once. A displaced path is parked by
+rename into a new directory that the kit creates next to it (PARK_PREFIX + random); it is never
+deleted or overwritten, and Fault.parked names it. Kit failures are FaultKitError, a BaseException,
 so a tool's `except Exception` cannot swallow them.
 """
 import contextlib
 import errno
 import fcntl
+import math
 import os
+import secrets
 import signal
 import stat
+import threading
 
 GETPATH = 'fcntl.F_GETPATH'
 TARGETS = ('open', 'scandir', 'read', 'write', 'fstat', 'close', GETPATH, 'mkdir', 'rename')
 ERRNOS = (errno.EIO, errno.ENOSPC, errno.EBADF, errno.ENOTDIR, errno.ELOOP)
 UNEXPECTED = (ValueError, KeyError, RuntimeError)
-PARKED = '.fault_kit-parked'
+PARK_PREFIX = '.fault_kit-park-'
 WHEN = ('before', 'after')
 
 # The kit's own filesystem moves use the functions as they were at import, so an active patch never sees them.
@@ -38,6 +42,7 @@ class Fault:
         self.calls = 0
         self.fired = 0
         self.error = None
+        self.parked = None
 
 
 def _target(name):
@@ -84,8 +89,8 @@ def _at_call(name, n, action, match):
         fault.fired += 1
         return action(fault, real, args, kwargs)
 
-    setattr(module, attr, hooked)
     try:
+        setattr(module, attr, hooked)
         yield fault
     finally:
         setattr(module, attr, real)
@@ -97,9 +102,9 @@ def _at_call(name, n, action, match):
 
 
 def _setup(fault, move):
-    """Run a filesystem move for an attack; any failure is recorded as a FaultKitError and re-raised on exit."""
+    """Run a filesystem move for an attack and record its parked path; any failure is recorded as a FaultKitError and re-raised on exit."""
     try:
-        move()
+        fault.parked = move()
     except FaultKitError as error:
         fault.error = error
         raise
@@ -109,13 +114,10 @@ def _setup(fault, move):
 
 
 def _park(path):
-    parked = path + PARKED
-    try:
-        _lstat(parked)
-    except FileNotFoundError:
-        pass
-    else:
-        raise FaultKitError(f'fault_kit: {parked} exists; refusing to overwrite it')
+    """Rename path into a directory that this call creates exclusively (mkdir fails on any existing name)."""
+    park = os.path.join(os.path.dirname(path), PARK_PREFIX + secrets.token_hex(8))
+    _mkdir(park, 0o700)
+    parked = os.path.join(park, os.path.basename(path))
     _rename(path, parked)
     return parked
 
@@ -142,30 +144,59 @@ def swap_for_symlink(name, n, path, target, *, when='before', match=None):
     path, target = _path(path), _path(target)
 
     def move():
-        _park(path)
+        parked = _park(path)
         _symlink(target, path)
+        return parked
     return _at_call(name, n, _moving(when, move), match)
+
+
+class _Clock:
+    """The FIFO timer's state. The alarm raises only while the body runs; outside it, the alarm is
+    recorded and raised once setup or restore is complete, so it can never cut a restore short."""
+
+    def __init__(self, timeout):
+        self.timeout = timeout
+        self.live = False
+        self.expired = False
+
+    def error(self):
+        return AttackTimeout(f'fault_kit: FIFO attack body ran past {self.timeout} s')
+
+    def alarm(self, signum, frame):
+        self.expired = True
+        if self.live:
+            raise self.error()
+
+    @contextlib.contextmanager
+    def body(self):
+        try:
+            self.live = True
+            if self.expired:
+                raise self.error()
+            yield
+        finally:
+            self.live = False
 
 
 @contextlib.contextmanager
 def _deadline(timeout):
-    if isinstance(timeout, bool) or not isinstance(timeout, (int, float)) or not timeout > 0:
-        raise FaultKitError(f'fault_kit: timeout must be a number > 0, got {timeout!r}')
+    if isinstance(timeout, bool) or not isinstance(timeout, (int, float)) or not 0 < timeout < math.inf:
+        raise FaultKitError(f'fault_kit: timeout must be a finite number > 0, got {timeout!r}')
     if signal.getitimer(signal.ITIMER_REAL) != (0.0, 0.0):
         raise FaultKitError('fault_kit: a real-time timer is already running')
-
-    def expired(signum, frame):
-        raise AttackTimeout(f'fault_kit: FIFO attack body ran past {timeout} s')
+    if threading.current_thread() is not threading.main_thread():
+        raise FaultKitError('fault_kit: FIFO attack needs the main thread')
+    clock = _Clock(timeout)
+    previous = signal.getsignal(signal.SIGALRM)
     try:
-        previous = signal.signal(signal.SIGALRM, expired)
-    except ValueError as error:
-        raise FaultKitError(f'fault_kit: FIFO attack needs the main thread: {error}') from error
-    signal.setitimer(signal.ITIMER_REAL, timeout)
-    try:
-        yield
+        signal.signal(signal.SIGALRM, clock.alarm)
+        signal.setitimer(signal.ITIMER_REAL, timeout)
+        yield clock
     finally:
         signal.setitimer(signal.ITIMER_REAL, 0)
         signal.signal(signal.SIGALRM, previous)
+    if clock.expired:
+        raise clock.error()
 
 
 @contextlib.contextmanager
@@ -175,16 +206,18 @@ def fifo_in_place(path, *, name=None, n=1, when='before', match=None, timeout=5.
     path = _path(path)
 
     def move():
-        _park(path)
+        parked = _park(path)
         _mkfifo(path)
-    with _deadline(timeout):
+        return parked
+    with _deadline(timeout) as clock:
         if name is None:
             fault = Fault()
             _setup(fault, move)
             fault.fired = 1
-            yield fault
+            with clock.body():
+                yield fault
         else:
-            with _at_call(name, n, _moving(when, move), match) as fault:
+            with _at_call(name, n, _moving(when, move), match) as fault, clock.body():
                 yield fault
 
 
@@ -208,9 +241,9 @@ def one_byte_writes():
 
     def hooked(fd, data):
         fault.calls += 1
-        return real(fd, data[:1])
-    os.write = hooked
+        return real(fd, memoryview(data).cast('B')[:1])
     try:
+        os.write = hooked
         yield fault
     finally:
         os.write = real
@@ -227,8 +260,9 @@ def rename_and_rebind(name, n, path, *, when='before', match=None):
     def move():
         if not stat.S_ISDIR(_lstat(path).st_mode):
             raise FaultKitError(f'fault_kit: {path} is not a real directory')
-        _park(path)
+        parked = _park(path)
         _mkdir(path)
+        return parked
     return _at_call(name, n, _moving(when, move), match)
 
 

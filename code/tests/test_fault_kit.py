@@ -1,4 +1,5 @@
 """Tests for fault_kit. Every attack runs against a tiny target function defined here."""
+import array
 import errno
 import fcntl
 import os
@@ -15,14 +16,25 @@ import unittest
 
 import fault_kit as FK
 
+# The required capabilities, copied from the Step 301 "out:"; never derived from fault_kit's own lists.
+GETPATH = 'fcntl.F_GETPATH'
+REQUIRED_TARGETS = ('open', 'scandir', 'read', 'write', 'fstat', 'close', GETPATH, 'mkdir', 'rename')
+REQUIRED_ERRNOS = (errno.EIO, errno.ENOSPC, errno.EBADF, errno.ENOTDIR, errno.ELOOP)
+REQUIRED_UNEXPECTED = (ValueError, KeyError, RuntimeError)
+PARK_PREFIX = '.fault_kit-park-'
+
 REAL = {name: getattr(os, name) for name in
         ('open', 'scandir', 'read', 'write', 'fstat', 'close', 'mkdir', 'rename')}
-REAL[FK.GETPATH] = fcntl.fcntl
+REAL[GETPATH] = fcntl.fcntl
 HAS_GETPATH = hasattr(fcntl, 'F_GETPATH')
 
 
 def current(name):
-    return fcntl.fcntl if name == FK.GETPATH else getattr(os, name)
+    return fcntl.fcntl if name == GETPATH else getattr(os, name)
+
+
+def park_dirs(base):
+    return sorted(name for name in os.listdir(base) if name.startswith(PARK_PREFIX))
 
 
 def getpath(fd):
@@ -113,7 +125,7 @@ class Base(unittest.TestCase):
                 self.last_close_fd = fd
                 os.close(fd)
             return close
-        if name == FK.GETPATH:
+        if name == GETPATH:
             fd = self.fd(leaf, os.O_RDONLY)
             return lambda: getpath(fd)
         if name == 'mkdir':
@@ -129,13 +141,13 @@ class Base(unittest.TestCase):
 
 
 def targets():
-    return [name for name in FK.TARGETS if name != FK.GETPATH or HAS_GETPATH]
+    return [name for name in REQUIRED_TARGETS if name != GETPATH or HAS_GETPATH]
 
 
 class InjectOSErrorTest(Base):
     def test_each_errno_fires_once_at_nth_call_of_each_target(self):
         for name in targets():
-            for err in FK.ERRNOS:
+            for err in REQUIRED_ERRNOS:
                 with self.subTest(name=name, err=errno.errorcode[err]):
                     call = self.one_call(name, self.tmp())
                     with FK.inject_oserror(name, 2, err) as fault:
@@ -163,7 +175,7 @@ class InjectOSErrorTest(Base):
     def test_getpath_counts_only_getpath_commands(self):
         base = self.tmp()
         fd = self.fd(base, os.O_RDONLY)
-        with FK.inject_oserror(FK.GETPATH, 1, errno.EBADF) as fault:
+        with FK.inject_oserror(GETPATH, 1, errno.EBADF) as fault:
             fcntl.fcntl(fd, fcntl.F_GETFD)
             fcntl.fcntl(fd, fcntl.F_GETFL)
             self.assertEqual(fault.calls, 0)
@@ -242,19 +254,19 @@ class RefusalTest(Base):
                 tolerant_tool()
         self.assertRestored()
 
-    def test_park_name_collision_is_refused_without_overwrite(self):
+    def test_existing_park_names_are_never_overwritten(self):
         base = self.tmp()
         victim = os.path.join(base, 'victim')
         Path(victim).write_bytes(b'victim')
-        Path(victim + FK.PARKED).write_bytes(b'already parked')
-        with self.assertRaises(FK.FaultKitError):
-            with FK.swap_for_symlink('open', 1, victim, base):
-                try:
-                    read_all(victim)
-                except BaseException:
-                    pass
-        self.assertEqual(Path(victim).read_bytes(), b'victim')
-        self.assertEqual(Path(victim + FK.PARKED).read_bytes(), b'already parked')
+        Path(victim + '.fault_kit-parked').write_bytes(b'already parked')
+        os.mkdir(os.path.join(base, PARK_PREFIX + 'old'))
+        Path(base, PARK_PREFIX + 'old', 'victim').write_bytes(b'old evidence')
+        with FK.swap_for_symlink('open', 1, victim, base) as fault:
+            self.assertEqual(outcome(lambda: read_all(victim)), 'ELOOP')
+        self.assertEqual(Path(fault.parked).read_bytes(), b'victim')
+        self.assertEqual(Path(victim + '.fault_kit-parked').read_bytes(), b'already parked')
+        self.assertEqual(Path(base, PARK_PREFIX + 'old', 'victim').read_bytes(), b'old evidence')
+        self.assertEqual(len(park_dirs(base)), 2)
         self.assertRestored()
 
 
@@ -316,8 +328,8 @@ class SymlinkSwapTest(Base):
             self.assertEqual(scan_names(d), ['outside'])
         self.assertEqual((fault.calls, fault.fired), (3, 1))
         self.assertEqual(os.readlink(d), outside)
-        self.assertEqual(os.listdir(d + FK.PARKED), ['inside'])
-        self.assertFalse(os.path.lexists(d + FK.PARKED + FK.PARKED))
+        self.assertEqual(os.listdir(fault.parked), ['inside'])
+        self.assertEqual(len(park_dirs(base)), 1)
         self.assertRestored()
 
     def test_file_swapped_before_open_is_refused_by_nofollow(self):
@@ -325,19 +337,19 @@ class SymlinkSwapTest(Base):
         leaf, secret = os.path.join(base, 'leaf'), os.path.join(outside, 'secret')
         Path(leaf).write_bytes(b'inside')
         Path(secret).write_bytes(b'outside')
-        with FK.swap_for_symlink('open', 1, leaf, secret):
+        with FK.swap_for_symlink('open', 1, leaf, secret) as fault:
             self.assertEqual(outcome(lambda: read_all(leaf)), 'ELOOP')
-        self.assertEqual(Path(leaf + FK.PARKED).read_bytes(), b'inside')
+        self.assertEqual(Path(fault.parked).read_bytes(), b'inside')
         self.assertTrue(os.path.islink(leaf))
         self.assertRestored()
 
     def test_swap_after_mkdir_replaces_the_new_directory(self):
         base, outside = self.tmp(), self.tmp()
         made = os.path.join(base, 'made')
-        with FK.swap_for_symlink('mkdir', 1, made, outside, when='after'):
+        with FK.swap_for_symlink('mkdir', 1, made, outside, when='after') as fault:
             os.mkdir(made)
             self.assertEqual(os.readlink(made), outside)
-        self.assertTrue(stat.S_ISDIR(os.lstat(made + FK.PARKED).st_mode))
+        self.assertTrue(stat.S_ISDIR(os.lstat(fault.parked).st_mode))
         self.assertRestored()
 
 
@@ -353,7 +365,7 @@ class FifoTest(Base):
                 self.assertTrue(stat.S_ISFIFO(os.lstat(leaf).st_mode))
                 read_all(leaf)
         self.assertLess(time.monotonic() - started, 5)
-        self.assertEqual(Path(leaf + FK.PARKED).read_bytes(), b'inside')
+        self.assertEqual(Path(fault.parked).read_bytes(), b'inside')
         self.assertIs(signal.getsignal(signal.SIGALRM), signal.SIG_DFL)
         self.assertEqual(signal.getitimer(signal.ITIMER_REAL), (0.0, 0.0))
         self.assertRestored()
@@ -372,7 +384,7 @@ class FifoTest(Base):
             self.assertEqual(open_dir(), stat.S_IFDIR)
             self.assertEqual(open_dir(), stat.S_IFIFO)
         self.assertEqual((fault.calls, fault.fired), (2, 1))
-        self.assertTrue(stat.S_ISDIR(os.lstat(d + FK.PARKED).st_mode))
+        self.assertTrue(stat.S_ISDIR(os.lstat(fault.parked).st_mode))
         self.assertEqual(signal.getitimer(signal.ITIMER_REAL), (0.0, 0.0))
         self.assertRestored()
 
@@ -455,16 +467,16 @@ class RenameRebindTest(Base):
         d = os.path.join(base, 'd')
         os.mkdir(d)
         fd = self.fd(d, os.O_RDONLY | os.O_DIRECTORY)
-        with FK.rename_and_rebind('open', 1, d, match=lambda *a, dir_fd=None, **k: dir_fd == fd):
+        with FK.rename_and_rebind('open', 1, d, match=lambda *a, dir_fd=None, **k: dir_fd == fd) as fault:
             out = os.open('leaf', os.O_WRONLY | os.O_CREAT | os.O_EXCL, dir_fd=fd)
             os.close(out)
-        self.assertEqual(os.listdir(d + FK.PARKED), ['leaf'])
+        self.assertEqual(os.listdir(fault.parked), ['leaf'])
         self.assertEqual(os.listdir(d), [])
         self.assertFalse(os.path.islink(d))
         self.assertNotEqual(os.stat(d).st_ino, os.fstat(fd).st_ino)
-        self.assertEqual(os.stat(d + FK.PARKED).st_ino, os.fstat(fd).st_ino)
+        self.assertEqual(os.stat(fault.parked).st_ino, os.fstat(fd).st_ino)
         if HAS_GETPATH:
-            self.assertEqual(getpath(fd), d + FK.PARKED)
+            self.assertEqual(getpath(fd), fault.parked)
         self.assertRestored()
 
     def test_a_file_is_refused(self):
@@ -478,12 +490,12 @@ class RenameRebindTest(Base):
                 except BaseException:
                     pass
         self.assertEqual(Path(leaf).read_bytes(), b'keep')
-        self.assertFalse(os.path.lexists(leaf + FK.PARKED))
+        self.assertEqual(os.listdir(base), ['leaf'])
 
 
 class RaiseUnexpectedTest(Base):
     def test_each_type_fires_once_at_nth_call(self):
-        for exc in FK.UNEXPECTED:
+        for exc in REQUIRED_UNEXPECTED:
             with self.subTest(exc=exc.__name__):
                 call = self.one_call('mkdir', self.tmp())
                 with FK.raise_unexpected('mkdir', 2, exc) as fault:
@@ -491,6 +503,291 @@ class RaiseUnexpectedTest(Base):
                 self.assertEqual(seen, ['ok', exc.__name__, 'ok'])
                 self.assertEqual(fault.fired, 1)
                 self.assertRestored()
+
+
+class RequiredCapabilityTest(Base):
+    def test_each_required_target_errno_and_type_is_accepted(self):
+        for name in targets():
+            with self.subTest(target=name):
+                call = self.one_call(name, self.tmp())
+                with FK.raise_unexpected(name, 1, RuntimeError) as fault:
+                    self.assertEqual(outcome(call), 'RuntimeError')
+                self.assertEqual(fault.fired, 1)
+        for err in REQUIRED_ERRNOS:
+            with self.subTest(err=errno.errorcode[err]):
+                call = self.one_call('rename', self.tmp())
+                with FK.inject_oserror('rename', 1, err):
+                    self.assertEqual(outcome(call), errno.errorcode[err])
+        for exc in REQUIRED_UNEXPECTED:
+            with self.subTest(exc=exc.__name__):
+                call = self.one_call('rename', self.tmp())
+                with FK.raise_unexpected('rename', 1, exc):
+                    self.assertEqual(outcome(call), exc.__name__)
+        self.assertRestored()
+
+    def test_getpath_target_is_refused_when_the_platform_lacks_it(self):
+        if HAS_GETPATH:
+            value = fcntl.F_GETPATH
+            del fcntl.F_GETPATH
+            self.addCleanup(setattr, fcntl, 'F_GETPATH', value)
+        base = self.tmp()
+        for make in (lambda: FK.inject_oserror(GETPATH, 1, errno.EIO),
+                     lambda: FK.raise_unexpected(GETPATH, 1, ValueError),
+                     lambda: FK.swap_for_symlink(GETPATH, 1, base, base),
+                     lambda: FK.rename_and_rebind(GETPATH, 1, base),
+                     lambda: FK.fifo_in_place(base, name=GETPATH, timeout=1)):
+            entered = []
+            with self.assertRaises(FK.FaultKitError):
+                with make():
+                    entered.append(True)
+            self.assertEqual(entered, [])
+            self.assertRestored()
+        self.assertTrue(os.path.isdir(base))
+        self.assertEqual(park_dirs(os.path.dirname(base)), [])
+
+
+class ParkTest(Base):
+    def test_parked_path_is_in_a_new_directory_the_kit_made(self):
+        base = self.tmp()
+        leaf = os.path.join(base, 'leaf')
+        Path(leaf).write_bytes(b'evidence')
+        before = os.listdir(base)
+        with FK.swap_for_symlink('open', 1, leaf, base) as fault:
+            self.assertEqual(outcome(lambda: read_all(leaf)), 'ELOOP')
+        made = park_dirs(base)
+        self.assertEqual(len(made), 1)
+        self.assertNotIn(made[0], before)
+        self.assertEqual(fault.parked, os.path.join(base, made[0], 'leaf'))
+        self.assertEqual(os.listdir(os.path.join(base, made[0])), ['leaf'])
+        self.assertEqual(Path(fault.parked).read_bytes(), b'evidence')
+        self.assertFalse(os.path.lexists(leaf + '.fault_kit-parked'))
+
+    def test_kit_moves_are_not_counted_as_target_calls(self):
+        base, outside = self.tmp(), self.tmp()
+        made = os.path.join(base, 'made')
+        with FK.swap_for_symlink('mkdir', 1, made, outside, when='after') as fault:
+            os.mkdir(made)
+        self.assertEqual((fault.calls, fault.fired), (1, 1))
+        d = os.path.join(base, 'd')
+        os.mkdir(d)
+        with FK.rename_and_rebind('mkdir', 1, d) as fault:
+            os.mkdir(os.path.join(base, 'other'))
+        self.assertEqual((fault.calls, fault.fired), (1, 1))
+        self.assertTrue(os.path.isdir(fault.parked))
+
+
+def sleep_in(func_name, ready, seconds=0.3):
+    """A trace function that sleeps once at the first line run in fault_kit's func_name while ready() is true."""
+    slept = []
+    def trace(frame, event, arg):
+        if (not slept and event == 'line' and frame.f_code.co_name == func_name
+                and frame.f_globals.get('__name__') == 'fault_kit' and ready()):
+            slept.append(True)
+            time.sleep(seconds)
+        return trace
+    return trace, slept
+
+
+class FifoCleanupTest(Base):
+    def setUp(self):
+        self.addCleanup(signal.setitimer, signal.ITIMER_REAL, 0)
+        self.addCleanup(signal.signal, signal.SIGALRM, signal.getsignal(signal.SIGALRM))
+        self.addCleanup(setattr, os, 'open', REAL['open'])
+
+    def run_traced(self, func_name, ready, body):
+        """Run a 0.05 s FIFO attack on the first open of a leaf, sleeping inside func_name once ready() holds."""
+        leaf = os.path.join(self.tmp(), 'leaf')
+        Path(leaf).write_bytes(b'keep')
+        trace, slept = sleep_in(func_name, ready)
+        caught = None
+        sys.settrace(trace)
+        try:
+            with FK.fifo_in_place(leaf, name='open', timeout=0.05):
+                body(leaf)
+        except BaseException as error:
+            caught = type(error)
+        finally:
+            sys.settrace(None)
+            restored = (os.open is REAL['open'], signal.getsignal(signal.SIGALRM) is signal.SIG_DFL,
+                        signal.getitimer(signal.ITIMER_REAL) == (0.0, 0.0))
+        self.assertEqual(slept, [True])
+        self.assertIs(caught, FK.AttackTimeout)
+        self.assertEqual(restored, (True, True, True))
+
+    @staticmethod
+    def open_once(leaf):
+        os.close(os.open(leaf, os.O_RDONLY | os.O_NONBLOCK))
+
+    def test_alarm_after_patch_install_restores_the_function(self):
+        self.run_traced('_at_call', lambda: os.open is not REAL['open'], lambda leaf: None)
+
+    def test_alarm_after_timer_arm_restores_the_handler(self):
+        self.run_traced('_deadline', lambda: signal.getitimer(signal.ITIMER_REAL)[0] > 0, lambda leaf: None)
+
+    def test_alarm_while_restoring_the_function_still_restores_it(self):
+        done = []
+        def body(leaf):
+            self.open_once(leaf)
+            done.append(True)
+        self.run_traced('_at_call', lambda: bool(done), body)
+
+    def test_alarm_while_restoring_the_handler_still_restores_it(self):
+        done = []
+        def body(leaf):
+            self.open_once(leaf)
+            done.append(True)
+        self.run_traced('_deadline', lambda: bool(done) and signal.getitimer(signal.ITIMER_REAL)[0] > 0, body)
+
+    def test_timer_arm_failure_restores_the_handler(self):
+        base = self.tmp()
+        with self.assertRaises(OverflowError):
+            with FK.fifo_in_place(base, timeout=1e300):
+                self.fail('entered')
+        self.assertIs(signal.getsignal(signal.SIGALRM), signal.SIG_DFL)
+        self.assertEqual(signal.getitimer(signal.ITIMER_REAL), (0.0, 0.0))
+        self.assertTrue(os.path.isdir(base))
+
+    def test_timeout_that_is_not_finite_is_refused_before_install(self):
+        base = self.tmp()
+        for timeout in (float('inf'), float('-inf'), float('nan')):
+            entered = []
+            with self.subTest(timeout=timeout), self.assertRaises(FK.FaultKitError):
+                with FK.fifo_in_place(base, timeout=timeout):
+                    entered.append(True)
+            self.assertEqual(entered, [])
+            self.assertIs(signal.getsignal(signal.SIGALRM), signal.SIG_DFL)
+        self.assertTrue(os.path.isdir(base))
+        self.assertEqual(park_dirs(os.path.dirname(base)), [])
+
+
+class Interrupted(BaseException):
+    """Stands for an asynchronous exception such as KeyboardInterrupt."""
+
+
+class InterruptAfterPatchTest(Base):
+    """An asynchronous exception right after a patch is installed must still restore it."""
+
+    def interrupt_after_patch(self, func_name, attr, attack):
+        real = getattr(os, attr)
+        self.addCleanup(setattr, os, attr, real)
+        self.addCleanup(signal.signal, signal.SIGALRM, signal.getsignal(signal.SIGALRM))
+        self.addCleanup(signal.setitimer, signal.ITIMER_REAL, 0)
+        def interrupt(signum, frame):
+            raise Interrupted()
+        signal.signal(signal.SIGALRM, interrupt)
+        trace, slept = sleep_in(func_name, lambda: getattr(os, attr) is not real)
+        signal.setitimer(signal.ITIMER_REAL, 0.05)
+        sys.settrace(trace)
+        try:
+            with self.assertRaises(Interrupted):
+                with attack():
+                    self.fail('body entered')
+        finally:
+            sys.settrace(None)
+            restored = getattr(os, attr) is real
+        self.assertEqual(slept, [True])
+        self.assertTrue(restored)
+
+    def test_named_call_patch(self):
+        self.interrupt_after_patch('_at_call', 'read', lambda: FK.inject_oserror('read', 1, errno.EIO))
+
+    def test_one_byte_writes_patch(self):
+        self.interrupt_after_patch('one_byte_writes', 'write', FK.one_byte_writes)
+
+
+class TypedBufferTest(Base):
+    def test_typed_buffer_writes_one_byte(self):
+        out = os.path.join(self.tmp(), 'out')
+        fd = self.fd(out, os.O_WRONLY | os.O_CREAT | os.O_EXCL)
+        data = array.array('i', [0x01020304, 0x05060708])
+        with FK.one_byte_writes():
+            self.assertEqual(os.write(fd, memoryview(data)), 1)
+            self.assertEqual(os.write(fd, data), 1)
+        self.assertEqual(Path(out).read_bytes(), data.tobytes()[:1] * 2)
+
+
+class ForwardingTest(Base):
+    def test_rebind_after_mode_parks_the_directory_the_call_made(self):
+        base = self.tmp()
+        d = os.path.join(base, 'd')
+        with FK.rename_and_rebind('mkdir', 1, d, when='after') as fault:
+            os.mkdir(d)
+        self.assertEqual((fault.calls, fault.fired), (1, 1))
+        self.assertTrue(stat.S_ISDIR(os.lstat(d).st_mode))
+        self.assertTrue(stat.S_ISDIR(os.lstat(fault.parked).st_mode))
+
+    def test_swap_after_mode_parks_the_directory_the_call_made(self):
+        base, outside = self.tmp(), self.tmp()
+        d = os.path.join(base, 'd')
+        with FK.swap_for_symlink('mkdir', 1, d, outside, when='after') as fault:
+            os.mkdir(d)
+        self.assertEqual(os.readlink(d), outside)
+        self.assertTrue(stat.S_ISDIR(os.lstat(fault.parked).st_mode))
+
+    def test_fifo_after_mode_parks_the_directory_the_call_made(self):
+        base = self.tmp()
+        d = os.path.join(base, 'd')
+        with FK.fifo_in_place(d, name='mkdir', when='after', timeout=2) as fault:
+            os.mkdir(d)
+            self.assertTrue(stat.S_ISFIFO(os.lstat(d).st_mode))
+        self.assertEqual((fault.calls, fault.fired), (1, 1))
+        self.assertTrue(stat.S_ISDIR(os.lstat(fault.parked).st_mode))
+
+    def test_rebind_fires_at_the_nth_call(self):
+        base = self.tmp()
+        d = os.path.join(base, 'd')
+        os.mkdir(d)
+        ino = os.stat(d).st_ino
+        with FK.rename_and_rebind('scandir', 2, d) as fault:
+            scan_names(d)
+            self.assertEqual(os.stat(d).st_ino, ino)
+            scan_names(d)
+            self.assertNotEqual(os.stat(d).st_ino, ino)
+        self.assertEqual((fault.calls, fault.fired), (2, 1))
+        self.assertEqual(os.stat(fault.parked).st_ino, ino)
+
+    def test_rebind_counts_only_matching_calls(self):
+        base = self.tmp()
+        d = os.path.join(base, 'd')
+        os.mkdir(d)
+        ino = os.stat(d).st_ino
+        with FK.rename_and_rebind('scandir', 1, d, match=lambda path, *a, **k: path == d) as fault:
+            scan_names(base)
+            self.assertEqual(os.stat(d).st_ino, ino)
+            scan_names(d)
+            self.assertNotEqual(os.stat(d).st_ino, ino)
+        self.assertEqual((fault.calls, fault.fired), (1, 1))
+
+    def test_swap_counts_only_matching_calls(self):
+        base, outside = self.tmp(), self.tmp()
+        d = os.path.join(base, 'd')
+        os.mkdir(d)
+        Path(outside, 'outside').write_bytes(b'')
+        with FK.swap_for_symlink('scandir', 1, d, outside, match=lambda path, *a, **k: path == d) as fault:
+            scan_names(base)
+            self.assertFalse(os.path.islink(d))
+            self.assertEqual(scan_names(d), ['outside'])
+        self.assertEqual((fault.calls, fault.fired), (1, 1))
+
+    def test_fifo_counts_only_matching_calls(self):
+        base = self.tmp()
+        d = os.path.join(base, 'd')
+        os.mkdir(d)
+        with FK.fifo_in_place(d, name='open', match=lambda path, *a, **k: path == d, timeout=2) as fault:
+            os.close(os.open(base, os.O_RDONLY))
+            self.assertTrue(stat.S_ISDIR(os.lstat(d).st_mode))
+            os.close(os.open(d, os.O_RDONLY | os.O_NONBLOCK))
+            self.assertTrue(stat.S_ISFIFO(os.lstat(d).st_mode))
+        self.assertEqual((fault.calls, fault.fired), (1, 1))
+
+    def test_raise_unexpected_counts_only_matching_calls(self):
+        base = self.tmp()
+        d = os.path.join(base, 'd')
+        with FK.raise_unexpected('mkdir', 1, ValueError, match=lambda path, *a, **k: path == d) as fault:
+            os.mkdir(os.path.join(base, 'unrelated'))
+            self.assertEqual(outcome(lambda: os.mkdir(d)), 'ValueError')
+        self.assertEqual((fault.calls, fault.fired), (1, 1))
+        self.assertFalse(os.path.lexists(d))
 
 
 class ParallelTempDirTest(unittest.TestCase):
