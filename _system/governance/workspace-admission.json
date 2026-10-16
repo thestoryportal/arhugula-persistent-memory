@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "config": {
+    "path": "/Volumes/memit/llmdb-tools/icm21/config.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gate": {
+    "path": "/Volumes/memit/llmdb-tools/icm21/workspace_gate.py",
+    "sha256": "b0c8c71a151d8f0d7286ed0535dc1a412872ddee67778ea25689d53709775167"
+  },
+  "scopes": {
+    "path": "/Volumes/memit/llmdb-tools/icm21/scopes.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "approved_requests": {
+    "path": "/Volumes/memit/llmdb-tools/icm21/approved-requests.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "capabilities": [],
+  "read_tools": [
+    "Read",
+    "Glob",
+    "Grep"
+  ],
+  "disabled_tool_names": [
+    "write_stdin",
+    "MCPWriter"
+  ]
+}

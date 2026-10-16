@@ -44,3 +44,5 @@ jobs:
         run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest discover -s code/tests -p test_git_automation.py -v
       - name: Model-free repository suites
         run: LLMDB_ROOT="$PWD" python3 -B -S -m unittest -v lab.runners.test_c10w_p2_gate apps.dashboard.test_dashboard_live apps.dashboard.test_dashboard_gpu_detector
+      - name: ICM v2.1 checker suites
+        run: PYTHONPATH=code/tests:code LLMDB_ROOT="$PWD" python3 -B -S -m unittest -v test_icm21 test_context_audit

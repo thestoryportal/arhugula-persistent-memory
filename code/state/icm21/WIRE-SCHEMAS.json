@@ -1,0 +1,1810 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:llmdb:icm21:wire:v1",
+  "$defs": {
+    "b64": {
+      "type": "string"
+    },
+    "str": {
+      "type": "string",
+      "minLength": 1
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "path": {
+      "type": "string",
+      "pattern": "^/(?!.*(?:^|/)\\.{1,2}(?:/|$))(?:[^/]+/)*[^/]+/?$"
+    },
+    "relpath": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?:[^/]+/)*[^/]+$"
+    },
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "int": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "UTC": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
+    },
+    "Status": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNVERIFIED"
+      ]
+    },
+    "PrdId": {
+      "enum": [
+        "ICM-R1",
+        "ICM-R2",
+        "ICM-R3",
+        "ICM-R4",
+        "ICM-R5",
+        "ICM-R6",
+        "ICM-R7",
+        "ICM-R8",
+        "ICM-R9",
+        "ICM-R10",
+        "ICM-R11",
+        "ICM-R12",
+        "ICM-R13",
+        "ICM-R14",
+        "ICM-R15"
+      ]
+    },
+    "MoveMap": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "Finding": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "status": {
+          "$ref": "#/$defs/Status"
+        },
+        "prd_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PrdId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relpath"
+          }
+        },
+        "reason": {
+          "$ref": "#/$defs/str"
+        },
+        "previous_finding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "resolution_receipt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/relpath"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "status",
+        "prd_ids",
+        "paths",
+        "evidence",
+        "reason",
+        "previous_finding",
+        "resolution_receipt"
+      ],
+      "additionalProperties": false
+    },
+    "CheckResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "status": {
+          "$ref": "#/$defs/Status"
+        },
+        "prd_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PrdId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "argv": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/str"
+          }
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/int"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stdout_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stderr_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "reason": {
+          "$ref": "#/$defs/str"
+        }
+      },
+      "required": [
+        "id",
+        "status",
+        "prd_ids",
+        "argv",
+        "exit_code",
+        "stdout_sha256",
+        "stderr_sha256",
+        "findings",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "Coverage": {
+      "type": "object",
+      "properties": {
+        "inspected": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "excluded": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Exclusion"
+          }
+        },
+        "required_registry_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "checked_registry_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      },
+      "required": [
+        "inspected",
+        "excluded",
+        "required_registry_ids",
+        "checked_registry_ids"
+      ],
+      "additionalProperties": false
+    },
+    "Exclusion": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "reason": {
+          "$ref": "#/$defs/str"
+        },
+        "hold_id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "path",
+        "reason",
+        "hold_id"
+      ],
+      "additionalProperties": false
+    },
+    "Config": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "canonical_root": {
+          "$ref": "#/$defs/path"
+        },
+        "source_roots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "preservation_root": {
+          "$ref": "#/$defs/path"
+        },
+        "worktree_root": {
+          "$ref": "#/$defs/path"
+        },
+        "tool_root": {
+          "$ref": "#/$defs/path"
+        },
+        "ownership_path": {
+          "$ref": "#/$defs/Binding"
+        },
+        "registries": {
+          "$ref": "#/$defs/Binding"
+        },
+        "references": {
+          "$ref": "#/$defs/Binding"
+        },
+        "retention": {
+          "$ref": "#/$defs/Binding"
+        },
+        "required_checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "nightly_utc": {
+          "$ref": "#/$defs/str"
+        },
+        "migration_holds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Hold"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "canonical_root",
+        "source_roots",
+        "preservation_root",
+        "worktree_root",
+        "tool_root",
+        "ownership_path",
+        "registries",
+        "references",
+        "retention",
+        "required_checks",
+        "nightly_utc",
+        "migration_holds"
+      ],
+      "additionalProperties": false
+    },
+    "Binding": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "Hold": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "prd_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PrdId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "source": {
+          "$ref": "#/$defs/path"
+        },
+        "source_manifest": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "plan_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expiry": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/UTC"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "permitted_operation": {
+          "anyOf": [
+            {
+              "const": "none"
+            },
+            {
+              "const": "preservation-only"
+            }
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/str"
+        }
+      },
+      "required": [
+        "id",
+        "prd_ids",
+        "source",
+        "source_manifest",
+        "plan_id",
+        "expiry",
+        "permitted_operation",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "Registries": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "dispatcher": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/str"
+          }
+        },
+        "reader_registry": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RegistryEntry"
+          }
+        },
+        "loader_registry": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RegistryEntry"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "dispatcher",
+        "reader_registry",
+        "loader_registry"
+      ],
+      "additionalProperties": false
+    },
+    "RegistryEntry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/path"
+            },
+            {
+              "$ref": "#/$defs/relpath"
+            }
+          ]
+        },
+        "role": {
+          "anyOf": [
+            {
+              "const": "reader"
+            },
+            {
+              "const": "loader"
+            }
+          ]
+        },
+        "owner": {
+          "$ref": "#/$defs/id"
+        },
+        "source_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "adapter_argv": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/str"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "check_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "status": {
+          "anyOf": [
+            {
+              "const": "SPECIFIED"
+            },
+            {
+              "const": "UNVERIFIED"
+            }
+          ]
+        },
+        "hold_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "path",
+        "role",
+        "owner",
+        "source_sha256",
+        "adapter_argv",
+        "check_ids",
+        "status",
+        "hold_id"
+      ],
+      "additionalProperties": false
+    },
+    "ReferenceResults": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "readers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReaderResult"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "readers"
+      ],
+      "additionalProperties": false
+    },
+    "ReaderResult": {
+      "type": "object",
+      "properties": {
+        "registry_id": {
+          "$ref": "#/$defs/id"
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CheckResult"
+          }
+        }
+      },
+      "required": [
+        "registry_id",
+        "checks"
+      ],
+      "additionalProperties": false
+    },
+    "Move": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "prd_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PrdId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "action": {
+          "anyOf": [
+            {
+              "const": "KEEP"
+            },
+            {
+              "const": "RETAIN_CONTAINER"
+            },
+            {
+              "const": "MOVE"
+            },
+            {
+              "const": "HOLD"
+            },
+            {
+              "const": "FOLLOW_PARENT"
+            },
+            {
+              "const": "SPLIT_FILES"
+            },
+            {
+              "const": "ROOT_SWITCH"
+            }
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/path"
+        },
+        "target": {
+          "$ref": "#/$defs/path"
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "const": "file"
+            },
+            {
+              "const": "directory"
+            },
+            {
+              "const": "symlink"
+            },
+            {
+              "const": "git-root"
+            },
+            {
+              "const": "socket"
+            }
+          ]
+        },
+        "bytes": {
+          "$ref": "#/$defs/int"
+        },
+        "before_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "source_manifest": {
+          "$ref": "#/$defs/Binding"
+        },
+        "lane": {
+          "$ref": "#/$defs/id"
+        },
+        "reader_check_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "prd_ids",
+        "action",
+        "source",
+        "target",
+        "kind",
+        "bytes",
+        "before_sha256",
+        "source_manifest",
+        "lane",
+        "reader_check_ids"
+      ],
+      "additionalProperties": false
+    },
+    "ContainerExpectation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/path"
+        },
+        "moved_source_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "added_source_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "rewrite_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "metadata_operation_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "moved_source_paths",
+        "added_source_paths",
+        "rewrite_ids",
+        "metadata_operation_ids"
+      ],
+      "additionalProperties": false
+    },
+    "LeafManifest": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "leaves": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LeafRecord"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "leaves"
+      ],
+      "additionalProperties": false
+    },
+    "LeafRecord": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/path"
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "const": "file"
+            },
+            {
+              "const": "symlink"
+            },
+            {
+              "const": "socket"
+            }
+          ]
+        },
+        "bytes": {
+          "$ref": "#/$defs/int"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "link_text": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/str"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "device": {
+          "$ref": "#/$defs/int"
+        },
+        "inode": {
+          "$ref": "#/$defs/int"
+        },
+        "nlink": {
+          "$ref": "#/$defs/int"
+        }
+      },
+      "required": [
+        "source",
+        "kind",
+        "bytes",
+        "sha256",
+        "link_text",
+        "device",
+        "inode",
+        "nlink"
+      ],
+      "additionalProperties": false
+    },
+    "RetentionManifest": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "leaves": {
+          "$ref": "#/$defs/Binding"
+        },
+        "routes": {
+          "$ref": "#/$defs/Binding"
+        },
+        "repairs": {
+          "$ref": "#/$defs/Binding"
+        },
+        "metadata": {
+          "$ref": "#/$defs/Binding"
+        },
+        "executor": {
+          "$ref": "#/$defs/Binding"
+        },
+        "containers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ContainerExpectation"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "leaves",
+        "routes",
+        "repairs",
+        "metadata",
+        "executor",
+        "containers"
+      ],
+      "additionalProperties": false
+    },
+    "MetadataSet": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MetadataChange"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "changes"
+      ],
+      "additionalProperties": false
+    },
+    "MetadataChange": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "before_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "after_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "plan": {
+          "$ref": "#/$defs/Binding"
+        },
+        "receipt": {
+          "$ref": "#/$defs/Binding"
+        }
+      },
+      "required": [
+        "operation_id",
+        "path",
+        "before_sha256",
+        "after_sha256",
+        "plan",
+        "receipt"
+      ],
+      "additionalProperties": false
+    },
+    "ExecutorEvidence": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OperationEvidence"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "operations"
+      ],
+      "additionalProperties": false
+    },
+    "OperationEvidence": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "$ref": "#/$defs/id"
+        },
+        "prd_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PrdId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "plan": {
+          "$ref": "#/$defs/Binding"
+        },
+        "approval": {
+          "$ref": "#/$defs/Binding"
+        },
+        "journal": {
+          "$ref": "#/$defs/Binding"
+        },
+        "verification": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "readers": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "acceptance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rollback": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "operation_id",
+        "prd_ids",
+        "plan",
+        "approval",
+        "journal",
+        "verification",
+        "readers",
+        "acceptance",
+        "rollback"
+      ],
+      "additionalProperties": false
+    },
+    "StageReceipt": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "operation_id": {
+          "$ref": "#/$defs/id"
+        },
+        "plan": {
+          "$ref": "#/$defs/Binding"
+        },
+        "approval": {
+          "$ref": "#/$defs/Binding"
+        },
+        "repository": {
+          "$ref": "#/$defs/path"
+        },
+        "head": {
+          "$ref": "#/$defs/str"
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relpath"
+          }
+        },
+        "index_before_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "index_after_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "result": {
+          "$ref": "#/$defs/CheckResult"
+        }
+      },
+      "required": [
+        "schema_version",
+        "operation_id",
+        "plan",
+        "approval",
+        "repository",
+        "head",
+        "paths",
+        "index_before_sha256",
+        "index_after_sha256",
+        "result"
+      ],
+      "additionalProperties": false
+    },
+    "ReferenceRow": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "prd_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PrdId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "consumer": {
+          "$ref": "#/$defs/relpath"
+        },
+        "consumer_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "consumer_final": {
+          "$ref": "#/$defs/relpath"
+        },
+        "reference": {
+          "$ref": "#/$defs/str"
+        },
+        "intermediate": {
+          "$ref": "#/$defs/str"
+        },
+        "final_target": {
+          "$ref": "#/$defs/str"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "const": "current-reader"
+            },
+            {
+              "const": "historical-source"
+            },
+            {
+              "const": "sealed-map"
+            },
+            {
+              "const": "sealed-anchor"
+            }
+          ]
+        },
+        "byte_offset": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/int"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "repair_path": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/relpath"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "owner": {
+          "$ref": "#/$defs/id"
+        },
+        "check_id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "schema_version",
+        "id",
+        "prd_ids",
+        "consumer",
+        "consumer_sha256",
+        "consumer_final",
+        "reference",
+        "intermediate",
+        "final_target",
+        "role",
+        "byte_offset",
+        "repair_path",
+        "owner",
+        "check_id"
+      ],
+      "additionalProperties": false
+    },
+    "ReferenceManifest": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "references": {
+          "$ref": "#/$defs/Binding"
+        },
+        "registries": {
+          "$ref": "#/$defs/Binding"
+        },
+        "executor": {
+          "$ref": "#/$defs/Binding"
+        },
+        "repairs": {
+          "$ref": "#/$defs/Binding"
+        },
+        "coverage": {
+          "$ref": "#/$defs/Binding"
+        }
+      },
+      "required": [
+        "schema_version",
+        "references",
+        "registries",
+        "executor",
+        "repairs",
+        "coverage"
+      ],
+      "additionalProperties": false
+    },
+    "Repair": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "prd_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PrdId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "plan_id": {
+          "$ref": "#/$defs/id"
+        },
+        "plan_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "source": {
+          "$ref": "#/$defs/path"
+        },
+        "target": {
+          "$ref": "#/$defs/path"
+        },
+        "before_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "after_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "edits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ByteEdit"
+          }
+        },
+        "reader_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "reference_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "id",
+        "prd_ids",
+        "plan_id",
+        "plan_sha256",
+        "source",
+        "target",
+        "before_sha256",
+        "after_sha256",
+        "edits",
+        "reader_ids",
+        "reference_ids"
+      ],
+      "additionalProperties": false
+    },
+    "RepairSet": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "repairs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Repair"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "repairs"
+      ],
+      "additionalProperties": false
+    },
+    "CoverageArtifact": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "scope": {
+          "$ref": "#/$defs/str"
+        },
+        "coverage": {
+          "$ref": "#/$defs/Coverage"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Binding"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "scope",
+        "coverage",
+        "sources"
+      ],
+      "additionalProperties": false
+    },
+    "ByteEdit": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "$ref": "#/$defs/int"
+        },
+        "end": {
+          "$ref": "#/$defs/int"
+        },
+        "before_base64": {
+          "$ref": "#/$defs/b64"
+        },
+        "after_base64": {
+          "$ref": "#/$defs/b64"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "before_base64",
+        "after_base64"
+      ],
+      "additionalProperties": false
+    },
+    "LabvizMoves": {
+      "type": "object",
+      "properties": {
+        "about": {
+          "$ref": "#/$defs/str"
+        },
+        "derived_from": {
+          "$ref": "#/$defs/MapInputs"
+        },
+        "moves": {
+          "$ref": "#/$defs/MoveMap"
+        }
+      },
+      "required": [
+        "about",
+        "derived_from",
+        "moves"
+      ],
+      "additionalProperties": false
+    },
+    "MapInputs": {
+      "type": "object",
+      "properties": {
+        "sealed": {
+          "$ref": "#/$defs/Binding"
+        },
+        "relocations": {
+          "$ref": "#/$defs/Binding"
+        }
+      },
+      "required": [
+        "sealed",
+        "relocations"
+      ],
+      "additionalProperties": false
+    },
+    "AuditReport": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "check_id": {
+          "$ref": "#/$defs/id"
+        },
+        "observed_at": {
+          "$ref": "#/$defs/UTC"
+        },
+        "root": {
+          "$ref": "#/$defs/path"
+        },
+        "source_commit": {
+          "$ref": "#/$defs/str"
+        },
+        "dirty_source_digests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DirtySource"
+          }
+        },
+        "mode": {
+          "anyOf": [
+            {
+              "const": "session"
+            },
+            {
+              "const": "nightly"
+            }
+          ]
+        },
+        "coverage": {
+          "$ref": "#/$defs/Coverage"
+        },
+        "required_checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "check_results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CheckResult"
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Finding"
+          }
+        },
+        "previous_report": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "overall_status": {
+          "$ref": "#/$defs/Status"
+        },
+        "duration_ms": {
+          "$ref": "#/$defs/int"
+        },
+        "reviewed_narrative_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "unreviewed_narrative_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "check_id",
+        "observed_at",
+        "root",
+        "source_commit",
+        "dirty_source_digests",
+        "mode",
+        "coverage",
+        "required_checks",
+        "check_results",
+        "findings",
+        "previous_report",
+        "overall_status",
+        "duration_ms",
+        "reviewed_narrative_paths",
+        "unreviewed_narrative_paths"
+      ],
+      "additionalProperties": false
+    },
+    "DirtySource": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "const": "file"
+            },
+            {
+              "const": "symlink"
+            },
+            {
+              "const": "manifest"
+            }
+          ]
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "kind"
+      ],
+      "additionalProperties": false
+    },
+    "WorkspaceRequest": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "const": "clone"
+            },
+            {
+              "const": "repo-copy"
+            },
+            {
+              "const": "worktree"
+            }
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/path"
+        },
+        "destination": {
+          "$ref": "#/$defs/path"
+        },
+        "lane": {
+          "$ref": "#/$defs/id"
+        },
+        "base_commit": {
+          "$ref": "#/$defs/str"
+        },
+        "plan": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "id",
+        "kind",
+        "source",
+        "destination",
+        "lane",
+        "base_commit",
+        "plan"
+      ],
+      "additionalProperties": false
+    },
+    "WorkspacePolicy": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "config": {
+          "$ref": "#/$defs/Binding"
+        },
+        "gate": {
+          "$ref": "#/$defs/Binding"
+        },
+        "scopes": {
+          "$ref": "#/$defs/Binding"
+        },
+        "approved_requests": {
+          "$ref": "#/$defs/Binding"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LaneCapability"
+          }
+        },
+        "read_tools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/str"
+          }
+        },
+        "disabled_tool_names": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/str"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "config",
+        "gate",
+        "scopes",
+        "approved_requests",
+        "capabilities",
+        "read_tools",
+        "disabled_tool_names"
+      ],
+      "additionalProperties": false
+    },
+    "ApprovedRequests": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "requests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WorkspaceRequest"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "requests"
+      ],
+      "additionalProperties": false
+    },
+    "LaneScopes": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "lanes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LaneScope"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "lanes"
+      ],
+      "additionalProperties": false
+    },
+    "LaneScope": {
+      "type": "object",
+      "properties": {
+        "lane": {
+          "$ref": "#/$defs/id"
+        },
+        "root": {
+          "$ref": "#/$defs/path"
+        },
+        "file_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          }
+        }
+      },
+      "required": [
+        "lane",
+        "root",
+        "file_paths"
+      ],
+      "additionalProperties": false
+    },
+    "LaneCapability": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "lane": {
+          "$ref": "#/$defs/id"
+        },
+        "argv": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/str"
+          }
+        },
+        "interpreter": {
+          "$ref": "#/$defs/path"
+        },
+        "cwd": {
+          "$ref": "#/$defs/path"
+        },
+        "profile": {
+          "$ref": "#/$defs/Binding"
+        },
+        "output_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "fixture_root": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/path"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "executable_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "read_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "timeout_seconds": {
+          "$ref": "#/$defs/int"
+        },
+        "max_output_bytes": {
+          "$ref": "#/$defs/int"
+        }
+      },
+      "required": [
+        "id",
+        "lane",
+        "argv",
+        "interpreter",
+        "cwd",
+        "profile",
+        "output_paths",
+        "fixture_root",
+        "executable_paths",
+        "read_paths",
+        "timeout_seconds",
+        "max_output_bytes"
+      ],
+      "additionalProperties": false
+    },
+    "Admit": {
+      "type": "object",
+      "properties": {
+        "decision": {
+          "const": "admit"
+        },
+        "request": {
+          "$ref": "#/$defs/WorkspaceRequest"
+        },
+        "request_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "destination": {
+          "$ref": "#/$defs/path"
+        },
+        "policy_sha256": {
+          "$ref": "#/$defs/sha"
+        }
+      },
+      "required": [
+        "decision",
+        "request",
+        "request_sha256",
+        "destination",
+        "policy_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "Deny": {
+      "type": "object",
+      "properties": {
+        "decision": {
+          "const": "deny"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "code": {
+          "anyOf": [
+            {
+              "const": "NESTED_DESTINATION"
+            },
+            {
+              "const": "UNAPPROVED_REQUEST"
+            },
+            {
+              "const": "UNSAFE_TOOL"
+            },
+            {
+              "const": "INVALID_INPUT"
+            },
+            {
+              "const": "CHANGED_POLICY"
+            },
+            {
+              "const": "COLLISION"
+            },
+            {
+              "const": "LINK_AMBIGUITY"
+            }
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/str"
+        }
+      },
+      "required": [
+        "decision",
+        "request_id",
+        "code",
+        "reason"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

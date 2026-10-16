@@ -1,0 +1,26 @@
+[
+  {
+    "src": "brief",
+    "lines": [
+      31,
+      37
+    ],
+    "text": "## Context management (BINDING, operator directive 2026-10-09; copy this section into every handoff you write)\n\nOperator: \"Do not forget to manage context usage for yours and every team session you are orchestrating. Memento provides some tools to assist with this.\" \"This context directive must be made durable through any and all handoffs.\"\n\n- Watch your own context. Start a new piece of work only at 60% or more context left.\n- At 45% or less left, with a long step pending: stop, and write the handoff file.\n- At 40% or less left, or at once on any \"Context compacted\": stop starting work. Write `HANDOFF.md` in your lane folder (what is done, what is in flight, exact file paths, the next step, open risks, and this section verbatim). Then reply with your lane's HANDOFF token.\n"
+  },
+  {
+    "src": "base/_system/governance/DISCIPLINE.md",
+    "lines": [
+      128,
+      132
+    ],
+    "text": "## Halt discipline (prevents the correction-loop failure mode)\n\n- On an unresolved science-path bug: emit **AT MOST ONE** speculative fix AFTER a `cat`-read of the relevant source. If that fix does not clear the gate, **HALT** — do not iterate blindly. The blind correction-loop (each fix a new regression) is the primary failure mode; one-fix-then-halt is the guard.\n- On HALT: (a) write a diagnostic JSON to `runs/<slug>/halts/sNNN_halt_diagnostic.json` with full bug state + the offending output for later diff; (b) record the halt state in `program/checkpoints/` (the carry-forward) + a `evidence/CORPUS/` note if a finding; (c) STOP. Do not start the next arm.\n- **Rerun, never read around (operator ruling D-C10w-p2rerun).** A halted or compromised run is never salvaged by re-reading its partial output under a deviation note. You will be tempted — *\"the data is all there, a reread under a deviation note saves a GPU run\"* — and the operator has ruled that out: diagnose, make one reviewed fix with a failing-first test, and re-run the affected stage in fresh processes. When the halted run was authorized as a single attempt, the re-run needs a new operator authorization (`_system/memory/rerun-never-patch.md`).\n"
+  },
+  {
+    "src": "brief",
+    "lines": [
+      9,
+      9
+    ],
+    "text": "Operator build lifecycle (verbatim): \"The idea with atomic units for builders is you can delegate multiple agents to each implement a unit, fast and with a small amount of context usage. Omce they implement a unit, it is reviewed and runs through the review implementatiion loop and once that loop is GREEN those agents are released and session window cleared so those agents can pick up the next unit. If acode crosses over into multiple agents units they complete, push and the code that crossed over is evaluated to determine which might be the better implementation and the winner is what lands with the merge.\" And: \"Effective and durable but not bloated overcomplicated design and implementation\".\n"
+  }
+]
