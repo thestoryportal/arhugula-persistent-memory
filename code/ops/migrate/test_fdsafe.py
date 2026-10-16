@@ -154,6 +154,19 @@ class HoldRoot(Base):
                 self.assertIn("[EIO]", str(cm.exception))
                 self.assertIn(self.root, str(cm.exception))
 
+    def test_live_path_differing_only_in_letter_case_is_refused(self):
+        # Patched F_GETPATH result, so the test holds on a case-sensitive volume too.
+        real = fdsafe.live_path
+        head, tail = os.path.split(self.root)
+        recased = os.path.join(head, tail.upper())
+        self.assertNotEqual(recased, self.root)
+        self.assertEqual(recased.lower(), self.root.lower())
+        with mock.patch.object(fdsafe, "live_path",
+                               lambda fd, path: recased if real(fd, path) == self.root else real(fd, path)):
+            exc = self.refusal(lambda: fdsafe.hold_root(self.root))
+        self.assertIn("is not its own real path", str(exc))
+        self.assertEqual(exc.path, self.root)
+
 
 class Walk(Base):
     def test_walk_visits_every_entry_sorted_and_depth_first_without_following_links(self):
@@ -341,6 +354,24 @@ class ReadLeaf(Base):
             exc = self.refusal(lambda: fdsafe.read_leaf(entry, lambda chunk: None))
         self.assertIn("changed while it was read", str(exc))
 
+    def changed_after_read(self, **change):
+        """The post-read fstat (the 2nd) reports one changed field; every other field stays equal."""
+        entry = self.entry(b"0123456789")
+        with patched_fstat(2, **change) as calls:
+            exc = self.refusal(lambda: fdsafe.read_leaf(entry, lambda chunk: None))
+        self.assertEqual(calls[0], 2)
+        self.assertIn("changed while it was read", str(exc))
+        self.assertEqual(exc.path, self.leaf)
+
+    def test_post_read_st_dev_change_alone_is_refused(self):
+        self.changed_after_read(st_dev=lambda st: st.st_dev + 1)
+
+    def test_post_read_st_ino_change_alone_is_refused(self):
+        self.changed_after_read(st_ino=lambda st: st.st_ino + 1)
+
+    def test_post_read_st_size_change_alone_is_refused(self):
+        self.changed_after_read(st_size=lambda st: st.st_size + 1)
+
     def test_short_read_is_refused(self):
         entry = self.entry()
         with mock.patch.object(os, "read", lambda fd, n: b""):
@@ -506,6 +537,15 @@ class CreateFile(Base):
         with no_deletes(), self.write_hook(lambda: os.rename(self.outdir, inside)):
             exc = self.refusal(lambda: fdsafe.create_file(parent, "result.json", b"x", [root]))
         self.assertIn("was written inside root", str(exc))
+        self.assertTrue(os.path.isfile(os.path.join(inside, "result.json")))
+
+    def test_parent_moved_into_the_second_held_root_during_the_write_is_refused_and_kept(self):
+        second = self.mkdir("second")
+        roots, parent = [self.held(), self.held(second)], self.parent()
+        inside = os.path.join(second, "out")
+        with no_deletes(), self.write_hook(lambda: os.rename(self.outdir, inside)):
+            exc = self.refusal(lambda: fdsafe.create_file(parent, "result.json", b"x", roots))
+        self.assertIn(f"was written inside root {second}", str(exc))
         self.assertTrue(os.path.isfile(os.path.join(inside, "result.json")))
 
     def test_file_renamed_during_the_write_is_refused_and_kept(self):
