@@ -186,7 +186,7 @@ class TicketsView(unittest.TestCase):
         self.frame(snap={"generated_epoch": NOW, "folders": [], "errors": [], "tickets": []})
         loading = self.text(self.frame(loading=True, width=100, height=30))
         self.assertIn("loading", " ".join(loading))
-        self.assertTrue(any(":" in line for line in loading[:1]))
+        self.assertTrue(any(":" in line for line in loading[len(self.view.key_rows(100)):][:1]))
 
     def test_07_errors_badge_red_when_nonzero(self):
         red = [s for s in self.styled(self.frame(), "ERRORS 2") if s[1] == "red"]
@@ -492,9 +492,10 @@ class RoundTwo(unittest.TestCase):
             for chosen in ("T036", "T037", "T039"):
                 frame = self.frame(snap=snap, width=width, height=height, ui=self.select(chosen, snap))
                 lines = self.text(frame)
-                self.assertIn("merged", lines[0])
-                self.assertRegex(lines[0], r"\d\d:\d\d:\d\d")
-                self.assertIn("▶2", lines[1])
+                keys = len(self.view.key_rows(width))
+                self.assertIn("merged", lines[keys])
+                self.assertRegex(lines[keys], r"\d\d:\d\d:\d\d")
+                self.assertIn("▶2", lines[keys + 1])
                 self.assertNotIn("GOAL", "\n".join(lines))
                 self.assertFalse(set("".join(lines)) & set("▒░▓"), "bars on the card screen")
                 shown = [tid for tid in order if any(re.search(r"\b%s\b" % tid, line) for line in lines)]
@@ -520,7 +521,7 @@ class RoundTwo(unittest.TestCase):
         self.assertIn("too small", self.text(self.frame(width=60, height=15))[0])
         self.assertNotIn("too small", self.text(self.frame(width=40, height=16))[0])
         full = self.text(self.frame(width=45, height=40, ui=self.view.UI(selected=order.index("T005"), full=True)))
-        self.assertIn("T005", full[2])
+        self.assertIn("T005", full[len(self.view.key_rows(45)) + 2])
         helped = " ".join(" ".join(self.text(self.frame(width=50, height=30, ui=self.view.UI(help=True)))).split())
         for needle in ("▶ building", "✓ GO", "… pending", "! >15 min", "t timeline"):
             self.assertIn(needle, helped)
@@ -566,6 +567,84 @@ class RoundTwo(unittest.TestCase):
         y = next(i for i, line in enumerate(self.text(wide)) if " T005 " in line[:12])
         self.assertEqual(view.on_mouse(view.UI(), wide, y, view.TAP, snap).selected, order.index("T005"))
         self.assertEqual(view.on_mouse(view.UI(), wide, y + 1, view.TAP, snap).selected, order.index("T005"))
+
+
+SIZES = ((131, 54), (100, 30), (80, 30), (50, 30), (45, 40))
+
+
+class RoundThree(unittest.TestCase):
+    """Round 3 (operator request): the first screen row lists every key, at every width and on every screen."""
+    setUp = TicketsView.setUp
+    frame = TicketsView.frame
+    text = TicketsView.text
+    select = TicketsView.select
+
+    def screens(self):
+        chosen = self.select("T005")
+        return {"main": chosen, "timeline": replace_ui(self.view, chosen, timeline=True),
+                "detail": replace_ui(self.view, chosen, full=True), "help": self.view.UI(help=True)}
+
+    def key_rows(self, lines):
+        top = next(i for i, line in enumerate(lines) if line.startswith(" TICKETS"))
+        return lines[:top]
+
+    def test_r3_01_first_row_starts_with_keys_on_every_screen(self):
+        for width, height in SIZES:
+            for name, ui in self.screens().items():
+                frame = self.frame(width=width, height=height, ui=ui)
+                lines = self.text(frame)
+                self.assertTrue(lines[0].startswith("keys "), (width, name, lines[0]))
+                self.assertEqual(frame.lines[0][0][1], "dim")
+                rows = self.key_rows(lines)
+                self.assertTrue(rows, (width, name))
+                self.assertTrue(all(row.startswith("keys ") or row.startswith("     ") for row in rows), rows)
+        loading = self.text(self.frame(loading=True, width=50, height=30))
+        self.assertTrue(loading[0].startswith("keys "))
+
+    def test_r3_02_every_key_label_whole_in_the_key_rows_before_the_header(self):
+        for width, height in SIZES:
+            for name, ui in self.screens().items():
+                rows = self.key_rows(self.text(self.frame(width=width, height=height, ui=ui)))
+                items = [item.strip() for row in rows for item in row[len("keys "):].split(" · ")]
+                for label, long_words, short_words in self.view.KEYS:
+                    self.assertTrue(any(item in (label + " " + long_words, label + " " + short_words)
+                                        for item in items), (width, name, label, rows))
+                self.assertIn("Ctrl-a d", " ".join(rows))
+
+    def test_r3_03_no_row_wider_than_the_terminal(self):
+        for width, height in SIZES:
+            for ui in self.screens().values():
+                for line in self.text(self.view.render(fixture(), ui, NOW, width, height)):
+                    self.assertLessEqual(sum(cell_width(ch) for ch in line), width, line)
+            rows = self.key_rows(self.text(self.frame(width=width, height=height)))
+            for row in rows:
+                self.assertFalse(row.rstrip().endswith("·"), row)
+
+    def test_r3_04_long_words_at_131_short_words_when_narrow(self):
+        for ui in self.screens().values():
+            rows = self.key_rows(self.text(self.frame(width=131, height=54, ui=ui)))
+            self.assertEqual(len(rows), 1, rows)
+            for label, long_words, _ in self.view.KEYS:
+                self.assertIn(label + " " + long_words, rows[0])
+        for width, height in SIZES[1:]:
+            rows = " · ".join(self.key_rows(self.text(self.frame(width=width, height=height))))
+            self.assertNotIn("leave teamdash", rows)
+            self.assertIn("Ctrl-a d leave", rows)
+
+    def test_r3_05_keys_table_is_the_single_source(self):
+        from unittest import mock
+        extra = self.view.KEYS + (("F9-probe", "probe action", "probe"),)
+        with mock.patch.object(self.view, "KEYS", extra):
+            for width, height in ((131, 54), (50, 30)):
+                rows = self.key_rows(self.text(self.frame(width=width, height=height)))
+                self.assertIn("F9-probe", " ".join(rows))
+                helped = self.text(self.frame(width=width, height=height, ui=self.view.UI(help=True)))
+                below = helped[len(self.key_rows(helped)):]
+                self.assertIn("F9-probe probe", " ".join(" ".join(below).split()))
+        self.assertNotIn("F9-probe", " ".join(self.text(self.frame(ui=self.view.UI(help=True)))))
+        source = (TOOLS / "dashboard_tickets.py").read_text()
+        self.assertEqual(source.count("leave teamdash"), 1, "a second hand-written key list")
+        self.assertEqual(source.count("Ctrl-a d"), 1, "a second hand-written key list")
 
 
 def replace_ui(view, ui, **changes):
