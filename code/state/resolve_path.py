@@ -1,20 +1,19 @@
 """Resolve exact old paths. Split headings use GitHub-style anchor slugs."""
 import argparse
+from collections import Counter
+import csv
 import html
 from html.parser import HTMLParser
+import io
 import os
 from pathlib import Path
 import re
+import subprocess
 import sys
 import unicodedata
 from urllib.parse import unquote
 
 from markdown_it import MarkdownIt
-
-if __package__:
-    from .build_index import read_path_map, read_anchor_map
-else:
-    from build_index import read_path_map, read_anchor_map
 
 # These three split destinations come from phase3/splits.json.
 SPLITS = {
@@ -23,6 +22,26 @@ SPLITS = {
     'knowledge/specs/llm-as-database-v1_2-integrated-spec.md':
         'knowledge/specs/integrated-spec-v1_2',
 }
+MAP_HEADER = ['old', 'new', 'disposition', 'unit']
+ANCHOR_HEADER = ['monolith', 'anchor', 'part', 'current_anchor']
+
+
+def read_path_map(data: bytes, minimum: int = 0) -> dict[str, str]:
+    if data.splitlines()[:1] != [b'old\tnew\tdisposition\tunit']:
+        raise ValueError('_index/path-map.tsv: expected exact header old\tnew\tdisposition\tunit')
+    rows = csv.reader(io.StringIO(data.decode('utf-8')), delimiter='\t')
+    if next(rows, None) != MAP_HEADER:
+        raise ValueError('_index/path-map.tsv: expected header old\tnew\tdisposition\tunit')
+    result = {}
+    for number, row in enumerate(rows, 2):
+        if len(row) != 4 or not row[0]:
+            raise ValueError(f'_index/path-map.tsv: malformed row {number}')
+        if row[0] in result:
+            raise ValueError(f'_index/path-map.tsv: repeated old path {row[0]}')
+        result[row[0]] = row[1]
+    if len(result) < minimum:
+        raise ValueError(f'_index/path-map.tsv: {len(result)} rows; need at least {minimum}')
+    return result
 
 
 def heading_slug(heading: str) -> str:
@@ -79,6 +98,85 @@ def anchors(folder: Path):
                 part.read_text(encoding='utf-8').splitlines(), counts):
             result[slug] = part.name
     return result
+
+
+def read_anchor_map(data: bytes, root: Path) -> dict[tuple[str, str], tuple[str, str]]:
+    header = '\t'.join(ANCHOR_HEADER)
+    if data.splitlines()[:1] != [header.encode('utf-8')]:
+        raise ValueError(f'_index/anchor-map.tsv: expected exact header {header}')
+    rows = csv.reader(io.StringIO(data.decode('utf-8')), delimiter='\t')
+    next(rows)
+    result = {}
+    for number, row in enumerate(rows, 2):
+        if len(row) != 4 or not all(row):
+            raise ValueError(f'_index/anchor-map.tsv: malformed row {number}')
+        monolith, anchor, part, current_anchor = row
+        key = (monolith, anchor)
+        if key in result:
+            raise ValueError(f'_index/anchor-map.tsv: repeated anchor {monolith}#{anchor}')
+        path = Path(part)
+        if path.is_absolute() or '..' in path.parts or not (root / path).is_file():
+            raise ValueError(f'_index/anchor-map.tsv: missing or invalid part {part}')
+        result[key] = (part, current_anchor)
+    return result
+
+
+def build_anchor_map(root: Path, mapping: dict[str, str]) -> bytes:
+    rows = []
+    for old, monolith in sorted(mapping.items()):
+        if monolith not in SPLITS:
+            continue
+        folder = SPLITS[monolith]
+        parts = sorted((root / folder).glob('[0-9]*.md'))
+        source = subprocess.run(['git', 'show', f'3f1a3b95:{old}'], cwd=root,
+                                capture_output=True, text=True)
+        if source.returncode or not source.stdout:
+            raise ValueError(f'_index/anchor-map.tsv: cannot read 3f1a3b95:{old}: '
+                             + source.stderr.strip())
+        entries = list(heading_entries(source.stdout.splitlines()))
+        # All three lossless splits start each part at a level-two heading.
+        boundaries = sum(bool(re.match(r'^ {0,3}##\s+', heading))
+                         for heading, slug in entries)
+        if not parts or boundaries != len(parts):
+            raise ValueError(f'_index/anchor-map.tsv: {old}: {boundaries} section '
+                             f'boundaries do not match {len(parts)} parts')
+        position = -1
+        sections = [[] for _ in parts]
+        for heading, slug in entries:
+            if re.match(r'^ {0,3}##\s+', heading):
+                position += 1
+            sections[max(position, 0)].append((heading, slug))
+        for path, historical in zip(parts, sections):
+            part = path.relative_to(root).as_posix()
+            pinned = subprocess.run(['git', 'show', f'4e679b15:{part}'], cwd=root,
+                                    capture_output=True, text=True)
+            if pinned.returncode or not pinned.stdout:
+                raise ValueError(f'_index/anchor-map.tsv: cannot read 4e679b15:{part}: '
+                                 + pinned.stderr.strip())
+            current = list(heading_entries(pinned.stdout.splitlines()))
+            if len(historical) != len(current):
+                raise ValueError(f'_index/anchor-map.tsv: {part}: heading counts '
+                                 f'differ at the pin: {len(historical)} != {len(current)}')
+            raw_counts = Counter(heading_slug(heading) for heading, _ in current)
+            # Both lists are frozen. Live edits must not change section identity.
+            for (heading, slug), (pinned_heading, current_anchor) in zip(historical, current):
+                raw_slug = heading_slug(pinned_heading)
+                if raw_slug != current_anchor:
+                    raise ValueError(f'_index/anchor-map.tsv: {part}: pinned raw slug '
+                                     f'{raw_slug} differs from fragment {current_anchor}')
+                if raw_counts[raw_slug] > 1:
+                    raise ValueError(f'_index/anchor-map.tsv: {part}: pinned raw slug '
+                                     f'{raw_slug} occurs more than once')
+                level = re.match(r'^ {0,3}(#{1,6})\s+', heading).group(1)
+                pinned_level = re.match(r'^ {0,3}(#{1,6})\s+', pinned_heading).group(1)
+                if level != pinned_level:
+                    raise ValueError(f'_index/anchor-map.tsv: {part}: heading level '
+                                     f'differs at the pin for {slug}')
+                rows.append((monolith, slug, part, current_anchor))
+    data = ('\t'.join(ANCHOR_HEADER) + '\n' + ''.join(
+        '\t'.join(row) + '\n' for row in sorted(rows))).encode('utf-8')
+    read_anchor_map(data, root)
+    return data
 
 
 def resolve(old: str) -> str:
