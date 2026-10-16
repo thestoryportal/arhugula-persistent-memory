@@ -6,20 +6,23 @@ from lab.runners import c10w_p2_gate as G
 M = "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory"
 WT = M + "/.claude/worktrees/c10k-route-a"
 CLT = "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python"
-ROW = r"^\S*\.venv/bin/python -B \S*/code/agents/compute_sample\.py( .*)?$"
+ROW = r"^\S*\.venv/bin/python -B /\S*/code/agents/compute_sample\.py( .*)?$"
 
 
 def sampler(root, args, exe=None):
     return "%s -B %s/code/agents/compute_sample.py%s" % (exe or root + "/.venv/bin/python", root, args)
 
 
-# The sampler as ship.sh (--once) and an admission loop (--interval N OUT.tsv / OUT.tsv) start it, from two checkouts.
+# The sampler as ship.sh (--once, by absolute path) and an admission loop (--interval N OUT.tsv / OUT.tsv) start it,
+# from two checkouts; --header is admitted as a command-line shape (RULING.md ruling 2).
 SAMPLER_LINES = [
     "600 " + sampler(M, " --once"),
     "601 " + sampler(M, " --interval 10 /Volumes/memit/corpus-consolidation-toolkit/workspace/load.tsv"),
     "602 " + sampler(M, " /Volumes/memit/corpus-consolidation-toolkit/workspace/load.tsv"),
     "603 " + sampler(WT, " --once"),
     "604 " + sampler(WT, " --interval 5 /tmp/load.tsv"),
+    "605 " + sampler(M, " --header"),
+    "606 " + sampler(WT, " --header"),
 ]
 GPU_JOB = "79246 %s/.venv/bin/python -B %s/code/lab/track_c/c10v_layerpick_arms.py pass1 --root %s" % (M, M, M)
 
@@ -63,6 +66,22 @@ NEAR_MISSES = {
         "750 %s -B %s/code/lab/train.py %s/code/agents/compute_sample.py --once" % (PY, M, M),
         "751 %s -B %s/code/agents/other.py --script %s/code/agents/compute_sample.py" % (PY, M, M),
         "752 %s -B -m torch.distributed.run %s/code/agents/compute_sample.py --once" % (PY, M),
+    ],
+    "option token that ends in the sampler path (Astra round 1 reproductions)": [
+        "770 %s -B -cprint(314)#/code/agents/compute_sample.py --once" % PY,
+        "771 %s -B -cprint(1)#/code/agents/compute_sample.py" % PY,
+        "772 %s -B -Xanything/code/agents/compute_sample.py %s/code/lab/train.py" % (PY, M),
+        "773 %s -B -Xx/code/agents/compute_sample.py --once" % PY,
+        "774 %s -B -c#%s/code/agents/compute_sample.py --once" % (PY, M),
+    ],
+    "relative sampler path": [
+        "780 %s -B ./code/agents/compute_sample.py --once" % PY,
+        "781 %s -B sub/code/agents/compute_sample.py --once" % PY,
+        "782 %s -B code/agents/compute_sample.py --once" % PY,
+        "783 %s -B ../code/agents/compute_sample.py" % PY,
+    ],
+    "unescaped extension dot": [
+        "790 %s -B %s/code/agents/compute_sampleXpy --once" % (PY, M),
     ],
     "sampler without -B": [
         "760 %s %s/code/agents/compute_sample.py --once" % (PY, M),
