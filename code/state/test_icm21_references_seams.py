@@ -358,6 +358,19 @@ class ReferenceSeams(unittest.TestCase):
             value = module.check_references(self.root, manifest)
         self.assertEqual(value['readers'][0]['checks'][0]['status'], 'UNVERIFIED')
 
+    # Round 3 finding 1: an unanchored final target is read too; a directory target is listed.
+    def test_unreadable_unanchored_target_is_unverified(self):
+        locked = put(self.root, 'locked.md', '# Present\n')
+        locked.chmod(0)
+        self.addCleanup(locked.chmod, 0o644)
+        self.assertFalse(os.access(locked, os.R_OK))
+        (self.root / 'folder').mkdir()
+        for target, expected in (('locked.md', 'UNVERIFIED'), ('folder', 'PASS'),
+                                 ('absent.md', 'FAIL')):
+            with self.subTest(target=target):
+                manifest = self.manifest([reader_entry()], [reference_row(final_target=target)])
+                self.assertEqual(self.checked(manifest), {('reader', 'C-REFERENCES'): expected})
+
     # Round 2 finding 4, round 1 finding 1: M39, M41, M44, M45, M48.
     def test_target_boundaries(self):
         put(self.root.parent, 'outside.md', '# Present\n')

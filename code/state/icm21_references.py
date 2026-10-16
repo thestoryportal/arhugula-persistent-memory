@@ -153,11 +153,15 @@ def target_problem(root, target, headings):
     file = (base / path).resolve()
     if not file.is_relative_to(base) or not file.exists():
         return 'final target ' + path + ' is absent beneath the root'
+    # Read every existing target: an unreadable one raises OSError, which row_status makes UNVERIFIED.
+    if file.is_dir():
+        os.listdir(file)
+    elif file.is_file():
+        text = file.read_bytes().decode('utf-8', 'replace').splitlines()
     if anchor is None and lines is None:
         return None
     if not file.is_file():
         return 'final target ' + path + ' is not a file'
-    text = file.read_bytes().decode('utf-8', 'replace').splitlines()
     if anchor is not None:
         if anchor not in {slug for _, slug in headings(text)}:
             return 'anchor #' + anchor + ' is no heading of ' + path
