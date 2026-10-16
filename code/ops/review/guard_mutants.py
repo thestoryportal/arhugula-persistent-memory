@@ -81,6 +81,7 @@ import os
 import posixpath
 import re
 import secrets
+import select
 import signal
 import stat
 import subprocess
@@ -860,14 +861,54 @@ def _execute(cmd: str, lane: str, tmp: str, timeout: float, cwd_fd: int | None =
     proc = subprocess.Popen(["/bin/sh", "-c", cmd], preexec_fn=lambda: os.fchdir(cwd_fd), env=env,
                             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                             start_new_session=True)
+    exited = _wait_exit(proc.pid, timeout)
+    # The child is not reaped yet, so its pid still names its own group: the kill reaches only the test's group.
     try:
-        code = proc.wait(timeout=timeout)
-    except subprocess.TimeoutExpired:
-        _kill_group(proc.pid)
-        proc.wait()
+        _kill_group(proc.pid)  # anything the test left running, and the test itself on a timeout
+    except PermissionError:
+        pass  # only exited members remain: macOS answers EPERM for a group of zombies
+    code = proc.wait()
+    if not exited:
         return "error", f"timeout after {timeout:g}s"
-    _kill_group(proc.pid)  # anything the test left running
     return ("survived", "exit 0") if code == 0 else ("killed", f"exit {code}")
+
+
+def _wait_exit_waitid(pid: int, timeout: float) -> bool:
+    """True once child pid has exited (left unreaped), False after timeout seconds; polls like Popen.wait."""
+    deadline = time.monotonic() + timeout
+    delay = 0.0005
+    while True:
+        try:
+            if os.waitid(os.P_PID, pid, os.WEXITED | os.WNOWAIT | os.WNOHANG) is not None:
+                return True
+        except ChildProcessError:
+            return True  # no longer a waitable child: proc.wait() settles it, as Popen.wait does
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            return False
+        delay = min(delay * 2, remaining, 0.05)
+        time.sleep(delay)
+
+
+def _wait_exit_kqueue(pid: int, timeout: float) -> bool:
+    """True once child pid has exited (left unreaped), False after timeout seconds."""
+    kq = select.kqueue()
+    try:
+        change = select.kevent(pid, filter=select.KQ_FILTER_PROC,
+                               flags=select.KQ_EV_ADD | select.KQ_EV_ONESHOT, fflags=select.KQ_NOTE_EXIT)
+        events = kq.control([change], 1, timeout)
+    finally:
+        kq.close()
+    if not events:
+        return False
+    event = events[0]
+    # A child that already exited (unreaped) refuses the registration with ESRCH: that is its exit.
+    if event.flags & select.KQ_EV_ERROR and event.data != errno.ESRCH:
+        raise OSError(event.data, os.strerror(event.data))
+    return True
+
+
+_wait_exit = _wait_exit_waitid if hasattr(os, "waitid") else _wait_exit_kqueue
 
 
 def _kill_group(pgid: int) -> None:
