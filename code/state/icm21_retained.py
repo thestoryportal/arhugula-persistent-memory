@@ -130,7 +130,8 @@ def route_table(data):
         row = dict(zip(ROUTE_HEADER, fields))
         refuse(is_path(row['source']) and is_path(row['target']),
                'route row paths are not normalized paths')
-        refuse(re.fullmatch('[0-9]+', row['observed_bytes']) is not None,
+        # At most 18 ASCII digits: int() below can never pass Python's int-string limit.
+        refuse(re.fullmatch('[0-9]{1,18}', row['observed_bytes']) is not None,
                'route row bytes are not a count', [row['source']])
         refuse(row['source'] not in routes, 'duplicate route source', [row['source']])
         refuse(row['target'] not in targets, 'duplicate route target', [row['target']])
