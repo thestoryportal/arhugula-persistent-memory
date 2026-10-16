@@ -1,5 +1,7 @@
 """path_map_rows: exact unit relocation rows, composed and checked over the combined graph."""
 import contextlib
+import errno
+import fcntl
 import hashlib
 import io
 import os
@@ -447,6 +449,160 @@ class PathMapRows(unittest.TestCase):
         self.assert_write_refused('S220', 'a/\x7fx\tb/x\n')
         self.assert_write_refused('S220', 'a/x\tb/\x7fx\n')
         self.assertFalse(self.row_file('S220').exists())
+    def test_unexpected_value_and_key_errors_still_surface(self):
+        pairs = str(self.pairs('a/x\tb/x\n'))
+        for error in (ValueError('injected'), KeyError('injected')):
+            with self.subTest(error=type(error).__name__):
+                with mock.patch.object(os, 'mkdir', side_effect=error), \
+                        self.assertRaises(type(error)):
+                    self.call_main('write', '--unit', 'S220', '--pairs', pairs,
+                                   '--units', str(self.units))
+                self.assertFalse(self.row_file('S220').exists())
+
+    def test_bad_environment_and_sealed_map_are_refused(self):
+        env = {k: v for k, v in os.environ.items() if k != 'LLMDB_ROOT'}
+        env['PYTHONPATH'] = str(CODE)
+        result = subprocess.run([sys.executable, '-B', str(TOOL), 'compose', '--units',
+                                 str(self.units)], cwd=self.tmp, env=env,
+                                capture_output=True, text=True, timeout=60)
+        self.assert_refused(result, 'LLMDB_ROOT')
+        sealed = self.root / '_index/path-map.tsv'
+        for name, data in {'bad header': b'old\tnew\n',
+                           'not UTF-8': HEADER.encode() + b'a/\xff\tb\tmove\tM:x\n'}.items():
+            with self.subTest(case=name):
+                sealed.write_bytes(data)
+                self.assert_write_refused('S220', 'a/x\tb/x\n', '_index/path-map.tsv')
+
+    def test_units_spelled_through_a_symlinked_ancestor_is_refused(self):
+        alias = self.tmp / 'alias'
+        alias.symlink_to(self.root, target_is_directory=True)
+        before = self.tree()
+        result = self.run_tool('write', '--unit', 'S220', '--pairs',
+                               str(self.pairs('a/x\tb/x\n')), '--units',
+                               str(alias / 'program/migrations/icm21/units'))
+        self.assert_refused(result, 'under the root')
+        self.assertEqual(self.tree(), before)
+
+    def test_unit_dir_swapped_for_a_symlink_after_mkdir_is_refused(self):
+        # Witness: the folder just made is parked and replaced by a symlink before its reopen.
+        outside = self.tmp / 'outside'
+        outside.mkdir()
+        real_mkdir = os.mkdir
+
+        def mkdir_then_swap(name, *rest, dir_fd=None, **kwargs):
+            real_mkdir(name, *rest, dir_fd=dir_fd, **kwargs)
+            if name == 'S220' and dir_fd is not None:
+                os.rename(self.units / 'S220', self.units / 'parked')
+                (self.units / 'S220').symlink_to(outside, target_is_directory=True)
+        pairs = str(self.pairs('a/x\tb/x\n'))
+        with mock.patch.object(os, 'mkdir', side_effect=mkdir_then_swap):
+            code, out, err = self.call_main('write', '--unit', 'S220', '--pairs', pairs,
+                                            '--units', str(self.units))
+        self.assertEqual(code, 2, err)
+        self.assertIn(str(self.units / 'S220'), err)
+        self.assertRegex(err, 'ELOOP|ENOTDIR')
+        self.assertEqual(out, '')
+        self.assertEqual(list(outside.iterdir()), [])
+        self.assertEqual(list((self.units / 'parked').iterdir()), [])
+
+    def test_m_renamed_and_its_path_rebound_while_the_unit_dir_is_held_is_refused(self):
+        # Witness: M moves away, the held unit folder moves outside, and M's old path is
+        # rebound to that outside folder. Only the held M fd tells the two apart.
+        outside = self.tmp / 'outside'
+        outside.mkdir()
+        saved = self.tmp / 'saved-M'
+        real_open = os.open
+
+        def rebind_then_open(name, flags, *rest, dir_fd=None, **kwargs):
+            if name == 'path-map-rows.tsv' and dir_fd is not None:
+                self.root.rename(saved)
+                (outside / 'units').mkdir()
+                (saved / 'program/migrations/icm21/units/S220').rename(outside / 'units/S220')
+                self.root.symlink_to(outside, target_is_directory=True)
+            return real_open(name, flags, *rest, dir_fd=dir_fd, **kwargs)
+        pairs = str(self.pairs('a/x\tb/x\n'))
+        with mock.patch.object(os, 'open', side_effect=rebind_then_open):
+            code, out, err = self.call_main('write', '--unit', 'S220', '--pairs', pairs,
+                                            '--units', str(self.units))
+        kept = outside / 'units/S220/path-map-rows.tsv'
+        self.assertEqual(code, 2, err)
+        self.assertIn(str(kept), err)
+        self.assertIn(str(saved), err)
+        self.assertIn('left in place', err)
+        self.assertEqual(kept.read_text(encoding='utf-8'), HEADER + 'a/x\tb/x\tmove\tS220\n')
+
+    def assert_injected_refusal(self, code, out, err, path, errno_name):
+        self.assertEqual(code, 2, err)
+        self.assertEqual(out, '')
+        self.assertTrue(err.startswith('path_map_rows: refused: '), err)
+        self.assertIn(str(path), err)
+        self.assertIn(errno_name, err)
+        self.assertEqual(len(err.splitlines()), 1, err)
+        self.assertNotIn('Traceback', err)
+
+    def test_write_getpath_and_close_errors_name_the_path(self):
+        pairs = str(self.pairs('a/x\tb/x\n'))
+        target = self.row_file('S220')
+        complete = HEADER + 'a/x\tb/x\tmove\tS220\n'
+        real_open, real_close = os.open, os.close
+
+        def write_args():
+            return ('write', '--unit', 'S220', '--pairs', pairs, '--units', str(self.units))
+
+        with self.subTest(case='write'):
+            with mock.patch.object(os, 'write', side_effect=OSError(errno.ENOSPC, 'injected')):
+                result = self.call_main(*write_args())
+            self.assert_injected_refusal(*result, target, 'ENOSPC')
+            self.assertEqual(target.read_bytes(), b'')
+            os.rename(self.units / 'S220', self.tmp / 'kept-write')
+        with self.subTest(case='F_GETPATH'):
+            with mock.patch.object(fcntl, 'fcntl', side_effect=OSError(errno.EBADF, 'injected')):
+                result = self.call_main(*write_args())
+            self.assert_injected_refusal(*result, target, 'EBADF')
+            self.assertEqual(target.read_text(encoding='utf-8'), complete)
+            os.rename(self.units / 'S220', self.tmp / 'kept-getpath')
+        with self.subTest(case='close of a walked folder'):
+            failed = []
+
+            def close_once(fd):
+                real_close(fd)
+                if not failed:
+                    failed.append(fd)
+                    raise OSError(errno.EIO, 'injected')
+            with mock.patch.object(os, 'close', side_effect=close_once):
+                result = self.call_main(*write_args())
+            # The first close in the walk is M/program, once M/program/migrations is open.
+            self.assert_injected_refusal(*result, f'{self.root / "program"}: EIO', 'EIO')
+            if (self.units / 'S220').exists():
+                os.rename(self.units / 'S220', self.tmp / 'kept-close-dir')
+        with self.subTest(case='close of the row file'):
+            row_fds = []
+
+            def open_recording(name, flags, *rest, dir_fd=None, **kwargs):
+                fd = real_open(name, flags, *rest, dir_fd=dir_fd, **kwargs)
+                if name == 'path-map-rows.tsv':
+                    row_fds.append(fd)
+                return fd
+
+            def close_failing_row(fd):
+                real_close(fd)
+                if fd in row_fds:
+                    raise OSError(errno.EIO, 'injected')
+            with mock.patch.object(os, 'open', side_effect=open_recording), \
+                    mock.patch.object(os, 'close', side_effect=close_failing_row):
+                result = self.call_main(*write_args())
+            self.assert_injected_refusal(*result, target, 'EIO')
+            self.assertEqual(target.read_text(encoding='utf-8'), complete)
+
+    def test_short_writes_still_produce_the_exact_row_file(self):
+        real_write = os.write
+        pairs = str(self.pairs('a/x\tb/x\nc/x\td/x\n'))
+        with mock.patch.object(os, 'write', side_effect=lambda fd, data: real_write(fd, data[:1])):
+            code, out, err = self.call_main('write', '--unit', 'S220', '--pairs', pairs,
+                                            '--units', str(self.units))
+        self.assertEqual(code, 0, err)
+        self.assertEqual(self.row_file('S220').read_text(encoding='utf-8'),
+                         HEADER + 'a/x\tb/x\tmove\tS220\n' + 'c/x\td/x\tmove\tS220\n')
 
 
 if __name__ == '__main__':
