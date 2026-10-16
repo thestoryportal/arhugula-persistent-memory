@@ -117,5 +117,26 @@ class SparseSource(unittest.TestCase):
         self.assertNotIn("[SPARSE]", out)
 
 
+class DefaultRoot(unittest.TestCase):
+    """ROOT defaults to the directory that holds code/; LLMDB_ROOT overrides it."""
+
+    GATES = os.path.dirname(os.path.abspath(cc.__file__))
+
+    def fresh_root(self, env):
+        # A fresh interpreter, so the ROOT this test process already imported does not decide the result.
+        r = subprocess.run([sys.executable, "-B", "-c", "import closeout_check as cc; print(cc.ROOT)"],
+                           capture_output=True, text=True, cwd=self.GATES, env={**env, "PYTHONPATH": self.GATES})
+        self.assertEqual(r.returncode, 0, r.stderr)
+        return r.stdout.strip()
+
+    def test_default_root_is_repository(self):
+        env = {k: v for k, v in os.environ.items() if k != "LLMDB_ROOT"}
+        self.assertEqual(self.fresh_root(env), os.path.dirname(os.path.dirname(self.GATES)))
+
+    def test_llmdb_root_overrides_default(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.assertEqual(self.fresh_root({**os.environ, "LLMDB_ROOT": root}), root)
+
+
 if __name__ == "__main__":
     unittest.main()
