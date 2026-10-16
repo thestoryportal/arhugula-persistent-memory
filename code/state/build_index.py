@@ -1,5 +1,6 @@
-"""Build deterministic ICM indexes. The approved path map stays byte-identical."""
+"""Build deterministic ICM indexes and the LabViz map. Generation never writes a sealed map."""
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -18,6 +19,11 @@ else:
 
 STATUSES = {'designed', 'frozen', 'running', 'halted', 'verdict', 'deferred'}
 MIN_MAP_ROWS = 31820
+SEALED_MAP = '_index/path-map.tsv'
+RELOCATIONS = '_index/icm21-path-map.tsv'
+LABVIZ_APP = 'code/apps/labviz'
+LABVIZ_MAP = LABVIZ_APP + '/results_moves.json'
+LABVIZ_ABOUT = 'Derived from sealed path map and approved ICM v2.1 relocations.'
 
 
 def cell(value):
@@ -114,40 +120,98 @@ def generate(root: Path) -> dict[str, bytes]:
     }
 
 
+def read_input(root: Path, relative: str) -> bytes:
+    """Read a fixed map input beneath root, refusing any symlink component below root."""
+    path = root
+    for part in Path(relative).parts:
+        path = path / part
+        if path.is_symlink():
+            raise ValueError(f'{relative}: symlink component {path.relative_to(root)}')
+    if not path.is_file():
+        raise ValueError(f'{relative}: missing input')
+    return path.read_bytes()
+
+
+def read_relocations(data: bytes) -> dict[str, str]:
+    try:
+        relocations = read_path_map(data)
+    except ValueError as error:
+        raise ValueError(f'{RELOCATIONS}: {error}') from error
+    for old, new in relocations.items():
+        if old == new:
+            raise ValueError(f'{RELOCATIONS}: identity relocation {old}')
+    return relocations
+
+
+def relocated(path: str, relocations: dict[str, str]) -> str:
+    seen = {path}
+    while path in relocations:
+        path = relocations[path]
+        if path in seen:
+            raise ValueError(f'{RELOCATIONS}: relocation cycle at {path}')
+        seen.add(path)
+    return path
+
+
+def labviz_map(sealed: bytes, relocations: bytes) -> bytes:
+    """LabvizMoves: every sealed results/ key at its final path, bound to both complete inputs."""
+    moves = read_relocations(relocations)
+    data = {
+        'about': LABVIZ_ABOUT,
+        'derived_from': {key: {'path': name, 'sha256': hashlib.sha256(raw).hexdigest()}
+                         for key, name, raw in (('sealed', SEALED_MAP, sealed),
+                                                ('relocations', RELOCATIONS, relocations))},
+        'moves': {old: relocated(new, moves) for old, new in read_path_map(sealed).items()
+                  if old.startswith('results/')},
+    }
+    return json.dumps(data, sort_keys=True, separators=(',', ':')).encode('utf-8')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--write', action='store_true')
     mode.add_argument('--check', action='store_true')
-    parser.add_argument('--path-map', type=Path)
+    parser.add_argument('--labviz-map-only', action='store_true',
+                        help='generate or check only ' + LABVIZ_MAP)
+    parser.add_argument('--path-map', type=Path,
+                        help='install this sealed path map and rebuild its anchor map')
     args = parser.parse_args()
-    if args.check and args.path_map:
-        parser.error('--path-map requires --write')
+    if args.path_map and (args.check or args.labviz_map_only):
+        parser.error('--path-map requires --write without --labviz-map-only')
     try:
         root = Path(os.environ['LLMDB_ROOT'])
-        expected = generate(root)
         index = root / '_index'
-        map_data = (args.path_map or index / 'path-map.tsv').read_bytes()
-        mapping = read_path_map(map_data, MIN_MAP_ROWS)
+        map_data = args.path_map.read_bytes() if args.path_map else read_input(root, SEALED_MAP)
+        # A root that holds LabViz binds the sealed map by digest in LABVIZ_MAP;
+        # elsewhere the row floor is the only guard against a truncated map.
+        with_labviz = args.labviz_map_only or (root / LABVIZ_APP).is_dir()
+        read_path_map(map_data, 0 if with_labviz else MIN_MAP_ROWS)
+        expected = {} if args.labviz_map_only else {
+            '_index/' + name: data for name, data in generate(root).items()}
+        if with_labviz:
+            expected[LABVIZ_MAP] = labviz_map(map_data, read_input(root, RELOCATIONS))
         if args.write:
-            anchor_data = build_anchor_map(root, mapping)
-            index.mkdir(exist_ok=True)
-            for name, data in expected.items():
-                (index / name).write_bytes(data)
-                print(f'Wrote _index/{name}')
             if args.path_map:
+                anchor_data = build_anchor_map(root, read_path_map(map_data, MIN_MAP_ROWS))
+                index.mkdir(exist_ok=True)
                 (index / 'path-map.tsv').write_bytes(map_data)
-                print('Copied _index/path-map.tsv')
-            (index / 'anchor-map.tsv').write_bytes(anchor_data)
-            print('Wrote _index/anchor-map.tsv')
+                print('Copied _index/path-map.tsv', flush=True)
+                (index / 'anchor-map.tsv').write_bytes(anchor_data)
+                print('Wrote _index/anchor-map.tsv', flush=True)
+            for name, data in expected.items():
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
+                (root / name).write_bytes(data)
+                print(f'Wrote {name}', flush=True)
             return 0
-        read_anchor_map((index / 'anchor-map.tsv').read_bytes(), root)
+        if not args.labviz_map_only:
+            read_anchor_map((index / 'anchor-map.tsv').read_bytes(), root)
         drift = [name for name, data in expected.items()
-                 if not (index / name).exists() or (index / name).read_bytes() != data]
+                 if not (root / name).is_file() or (root / name).read_bytes() != data]
         for name in drift:
-            print(f'Drift: _index/{name}')
+            print(f'Drift: {name}', flush=True)
         if not drift:
-            print('INDEX CLEAN')
+            print('INDEX CLEAN', flush=True)
         return int(bool(drift))
     except (OSError, ValueError, KeyError, TypeError) as error:
         print(f'Error: {error}', file=sys.stderr)
