@@ -1,11 +1,8 @@
 """AuditControls model bulk-locator case; a mixin composed by test_context_audit."""
-import unittest
-
 from test_icm21 import put
 
 
 class ModelLocatorCases:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_model_bulk_locators(self):
         module = self.checker()
         root, config = self.seed(['C-MODEL'])
