@@ -4,19 +4,21 @@ Authority: sealed SPEC 494-537, WIRE-CONTRACTS 224-239 and plan S6.
 All filesystem effects belong to miniature repositories, never the source root.
 """
 import copy
-from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
-import re
 import unittest
 from unittest.mock import patch
 
 import test_icm21 as shared
 from test_icm21 import BASE, FixtureCase, binding, digest, encoded, put, sealed, snapshot
+from audit_case_guide import ReportGuideCases, context_directive, report_fixture
+from audit_case_handoff import HandoffContextCases
+from audit_case_model import ModelLocatorCases
+from audit_case_reduction import PartialReductionCases
+from audit_case_views import ViewTwinCases
 
 
-SOURCE_ROOT = Path(os.environ['LLMDB_ROOT'])
 SELECTED = {
     'AuditControls': (
         'test_guide_candidate', 'test_handoff_context', 'test_lane_ownership',
@@ -25,48 +27,6 @@ SELECTED = {
         'test_repository_copies', 'test_result_joins', 'test_view_twin_freshness'),
     'GraftControls': ('test_active_loader', 'test_historical_and_missing_coverage'),
 }
-
-
-def context_directive():
-    text = sealed('brief.md').decode('utf-8')
-    start = text.index('## Context management (BINDING,')
-    end = text.find('\n## ', start + 1)
-    return text[start:end if end != -1 else len(text)]
-
-
-def report_fixture(root, status='PASS', instant='2026-10-13T23:59:59.000001Z'):
-    """A wire example, not an observation of the host or a custody receipt."""
-    return {
-        'schema_version': 1, 'check_id': instant[11:].replace(':', '') + '-session',
-        'observed_at': instant, 'root': str(root), 'source_commit': BASE,
-        'dirty_source_digests': [], 'mode': 'session',
-        'coverage': {'inspected': [str(root)], 'excluded': [],
-                     'required_registry_ids': [], 'checked_registry_ids': []},
-        'required_checks': ['C-AUDIT'],
-        'check_results': [{'id': 'C-AUDIT', 'status': status, 'prd_ids': ['ICM-R10'],
-                           'argv': [], 'exit_code': None, 'stdout_sha256': None,
-                           'stderr_sha256': None, 'findings': [], 'reason': 'Fixture'}],
-        'findings': [], 'previous_report': None, 'overall_status': status,
-        'duration_ms': 0, 'reviewed_narrative_paths': [],
-        'unreviewed_narrative_paths': [],
-    }
-
-
-def publish_fixture(root, report, directive):
-    """MAESTRO's miniature writer contract; this is never a product publisher."""
-    instant = datetime.fromisoformat(report['observed_at'].replace('Z', '+00:00'))
-    if instant.utcoffset().total_seconds() != 0:
-        raise ValueError('UTC required')
-    check_id = instant.strftime('%H%M%S.%fZ-') + report['mode']
-    if report['check_id'] != check_id:
-        raise ValueError('check ID and captured UTC instant disagree')
-    directory = root / 'audits/context' / instant.strftime('%Y-%m-%d') / check_id
-    directory.mkdir(parents=True, exist_ok=False)
-    with (directory / 'report.json').open('xb') as stream:
-        stream.write(encoded(report))
-    with (directory / 'REPORT.md').open('x', encoding='utf-8') as stream:
-        stream.write('# Context audit\n\n' + report['overall_status'] + '\n\n' + directive)
-    return directory
 
 
 class AuditCase(FixtureCase):
@@ -148,7 +108,8 @@ class AuditCase(FixtureCase):
         return path.read_text(encoding='utf-8')
 
 
-class AuditControls(AuditCase):
+class AuditControls(PartialReductionCases, ViewTwinCases, ModelLocatorCases,
+                    HandoffContextCases, ReportGuideCases, AuditCase):
     def test_result_joins(self):
         module = self.module('code/state/icm21_check.py', 'validate_wire')
         schema = json.loads(sealed('WIRE-SCHEMAS.json'))
@@ -184,33 +145,6 @@ class AuditControls(AuditCase):
         partial['coverage']['required_registry_ids'] = ['external-loader']
         partial['overall_status'] = 'UNVERIFIED'
         module.validate_wire('AuditReport', partial, schema, {})
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_partial_reduction(self):
-        module = self.checker()
-        root, config = self.seed(['C-ROOT', 'C-WORKTREE'])
-        # No commit or custody evidence exists in this miniature: never invent it.
-        value = self.observe(module, root, config)
-        self.assertEqual(value['overall_status'], 'UNVERIFIED')
-        self.assertTrue(value['coverage']['inspected'])
-        self.assertTrue(value['unreviewed_narrative_paths'] or
-                        not value['reviewed_narrative_paths'])
-        nightly = self.observe(module, root, config, 'nightly')
-        self.assertEqual(nightly['overall_status'], 'UNVERIFIED')
-        self.assertNotEqual(nightly['check_id'], value['check_id'])
-        # A known violation wins over missing custody, source or nightly evidence.
-        copy_root = root / 'ignored-copy'
-        put(copy_root, 'CLAUDE.md', b'# Copy\n')
-        put(copy_root, 'program/program_state.json', b'{}')
-        put(copy_root, '_index/path-map.tsv', shared.HEADER)
-        put(copy_root, '.git', 'gitdir: ' + str(root / '.git') + '\n')
-        config['required_checks'].append('C-BOUNDARY')
-        failed = self.observe(module, root, config)
-        self.assertEqual(failed['overall_status'], 'FAIL')
-        again = self.observe(module, root, config)
-        self.assertEqual([f['id'] for f in failed['findings']],
-                         [f['id'] for f in again['findings']])
-        self.assertTrue(failed['findings'])
 
     def test_repository_copies(self):
         module = self.checker()
@@ -270,53 +204,6 @@ class AuditControls(AuditCase):
         put(Path(config['worktree_root']) / 'A', 'BRIEF.md', 'owner: A\n')
         self.assertNotEqual(self.observe(module, root, config)['overall_status'], 'PASS')
 
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_view_twin_freshness(self):
-        module = self.checker()
-        root, config = self.seed(['C-GENERATED', 'C-TWINS'])
-        # Reuse the actual generators with miniature inputs, not mocked PASS rows.
-        shared.StagedControls.seed_closure(self, root)
-        before = snapshot(root)
-        value = self.observe(module, root, config)
-        self.check_status(value, 'C-GENERATED', 'PASS')
-        self.check_status(value, 'C-TWINS', 'PASS')
-        self.assertEqual(snapshot(root), before)
-        for path, check in (('_index/projects.md', 'C-GENERATED'),
-                            ('program/STATUS.md', 'C-GENERATED'),
-                            ('map/AGENTS.md', 'C-TWINS')):
-            original = (root / path).read_bytes()
-            put(root, path, original + b'\nstale\n')
-            observed = self.observe(module, root, config)
-            self.check_status(observed, check, 'FAIL')
-            self.assertEqual(observed['overall_status'], 'FAIL')
-            put(root, path, original)
-        self.check_status(self.observe(module, root, config), 'C-GENERATED', 'PASS')
-        self.check_status(self.observe(module, root, config), 'C-TWINS', 'PASS')
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_model_bulk_locators(self):
-        module = self.checker()
-        root, config = self.seed(['C-MODEL'])
-        payload = put(root, 'models/miniature.gguf', b'locator fixture; never a model\n')
-        entries = [self.entry(root, 'models/miniature.gguf', 'C-MODEL', 'loader', 'model-readers')]
-        self.registry(root, config, entries)
-        checked = self.check_status(self.observe(module, root, config), 'C-MODEL', 'PASS')
-        self.assertEqual(checked['status'], 'PASS', checked)
-        parked = payload.with_suffix('.parked')
-        payload.rename(parked)
-        checked = self.check_status(self.observe(module, root, config), 'C-MODEL', 'FAIL')
-        self.assertEqual(checked['status'], 'FAIL', checked)
-        outside = put(self.scratch, 'outside.gguf', b'outside\n')
-        payload.symlink_to(outside)
-        checked = self.check_status(self.observe(module, root, config), 'C-MODEL', 'FAIL')
-        self.assertEqual(checked['status'], 'FAIL', checked)
-        missing = self.entry(root, str(self.scratch / 'unobserved/models'), 'C-MODEL',
-                             'loader', 'model-readers')
-        missing.update(status='UNVERIFIED', hold_id='H1-EXTERNAL-LOADERS')
-        self.registry(root, config, [missing])
-        checked = self.check_status(self.observe(module, root, config), 'C-MODEL', 'UNVERIFIED')
-        self.assertEqual(checked['status'], 'UNVERIFIED', checked)
-
     def test_registered_memory_loaders(self):
         module = self.checker()
         root, config, path, entry = self.loader_fixture()
@@ -337,97 +224,6 @@ class AuditControls(AuditCase):
         self.assertIn('global-claude', value['coverage']['required_registry_ids'])
         self.assertNotIn('global-claude', value['coverage']['checked_registry_ids'])
         self.assertEqual(path.read_bytes(), encoded({'hooks': {}}))
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_handoff_context(self):
-        module = self.checker()
-        root, config = self.seed(['C-HANDOFF'])
-        directive = context_directive()
-        text = ('# Handoff\n\nDone: fixture\nIn flight: none\n'
-                f'Exact paths: {root / "record.md"}\nNext action: verify\n'
-                'Open risks: host UNVERIFIED\n\n' + directive)
-        path = put(root, 'HANDOFF.md', text)
-        self.registry(root, config, [self.entry(root, 'HANDOFF.md', 'C-HANDOFF')])
-        # Budget evidence belongs to the scoped lane handoff, not a global store.
-        budget = {'context_left_percent': 60, 'starting_new_work': True,
-                  'long_step_pending': False, 'compacted': False}
-        put(root, 'context-budget.json', encoded(budget))
-        checked = self.check_status(self.observe(module, root, config), 'C-HANDOFF', 'PASS')
-        self.assertEqual(checked['status'], 'PASS', checked)
-        for label, changed in (
-                ('directive', text.replace('60%', '59%', 1)),
-                ('done', text.replace('Done: fixture\n', '')),
-                ('in-flight', text.replace('In flight: none\n', '')),
-                ('paths', text.replace(f'Exact paths: {root / "record.md"}\n', '')),
-                ('next', text.replace('Next action: verify\n', '')),
-                ('risks', text.replace('Open risks: host UNVERIFIED\n', ''))):
-            put(root, 'HANDOFF.md', changed)
-            self.registry(root, config, [self.entry(root, 'HANDOFF.md', 'C-HANDOFF')])
-            with self.subTest(mutant=label):
-                checked = self.check_status(self.observe(module, root, config), 'C-HANDOFF', 'FAIL')
-                self.assertEqual(checked['status'], 'FAIL', checked)
-        put(root, 'HANDOFF.md', text)
-        self.registry(root, config, [self.entry(root, 'HANDOFF.md', 'C-HANDOFF')])
-        for remaining, long_step, compacted in ((59, False, False), (45, True, False),
-                                               (40, False, False), (90, False, True)):
-            budget.update(context_left_percent=remaining, long_step_pending=long_step,
-                          compacted=compacted)
-            put(root, 'context-budget.json', encoded(budget))
-            checked = self.check_status(self.observe(module, root, config), 'C-HANDOFF', 'FAIL')
-            self.assertEqual(checked['status'], 'FAIL', checked)
-        put(root, 'context-budget.json', b'null')
-        checked = self.check_status(self.observe(module, root, config), 'C-HANDOFF', 'UNVERIFIED')
-        self.assertEqual(checked['status'], 'UNVERIFIED', checked)
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_report_writer_contract(self):
-        self.candidate()
-        directive = context_directive()
-        complete = report_fixture(self.scratch)
-        partial = report_fixture(self.scratch, 'UNVERIFIED', '2026-10-14T00:00:00.000002Z')
-        first = publish_fixture(self.scratch, complete, directive)
-        complete_binding = binding(first / 'report.json')
-        second = publish_fixture(self.scratch, partial, directive)
-        partial_binding = binding(second / 'report.json')
-        self.assertEqual(first.parent.name, '2026-10-13')
-        self.assertEqual(second.parent.name, '2026-10-14')
-        self.assertNotEqual(first, second)
-        for path, value in ((first, complete), (second, partial)):
-            self.assertEqual((path / 'report.json').read_bytes(), encoded(value))
-            self.assertIn(directive, (path / 'REPORT.md').read_text())
-            self.assertEqual(path.name, value['check_id'])
-        before = snapshot(self.scratch)
-        with self.assertRaises(FileExistsError):
-            publish_fixture(self.scratch, complete, directive)
-        self.assertEqual(snapshot(self.scratch), before)
-        wrong = copy.deepcopy(partial)
-        wrong['check_id'] = '235959.000001Z-nightly'
-        with self.assertRaises(ValueError):
-            publish_fixture(self.scratch, wrong, directive)
-        pointers = {'latest_complete': binding(first / 'report.json'),
-                    'newer_partial': binding(second / 'report.json')}
-        expected = {'latest_complete': complete_binding, 'newer_partial': partial_binding}
-        for key, value in pointers.items():
-            self.assertEqual(value, expected[key], key)
-        self.assertEqual(json.loads(Path(pointers['latest_complete']['path']).read_bytes())['overall_status'], 'PASS')
-        self.assertEqual(json.loads(Path(pointers['newer_partial']['path']).read_bytes())['overall_status'], 'UNVERIFIED')
-
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
-    def test_guide_candidate(self):
-        text = self.candidate()
-        for word in ('scope', 'owner', 'method', 'complete', 'partial', 'UNVERIFIED'):
-            self.assertIn(word.lower(), text.lower())
-        self.assertIn(context_directive(), text)
-        pointers = re.findall(r'\[[^\]]+\]\(([^)]+(?:report\.json|REPORT\.md))\)', text)
-        for target in pointers:
-            self.assertFalse(Path(target).is_absolute())
-            path = SOURCE_ROOT / 'audits/context' / target
-            self.assertTrue(path.is_file(), 'unbound report pointer: ' + target)
-            if path.name == 'report.json':
-                value = json.loads(path.read_bytes())
-                self.assertEqual(value['check_id'], path.parent.name)
-        if not pointers:
-            self.assertIn('UNVERIFIED', text)
 
 
 class GraftControls(AuditCase):
