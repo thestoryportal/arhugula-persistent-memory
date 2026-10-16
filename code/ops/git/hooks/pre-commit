@@ -3,14 +3,40 @@
 #   (1) stale GENERATED blocks vs program/program_state.json  (code/state/render_state.py --check)
 #   (2) stale REGISTERED narrative fingerprints             (code/gates/closeout_check.py --audit)
 #   (3) SECRETS in staged changes (PUBLIC repo) — cred filenames + token/key value signatures
+#   (4) a stale or unstaged staged closure                  (code/state/icm21_check.py staged)
+#   (5) a commit index other than the default one (`git commit <paths>`, `-a`, `-i`): the
+#       staged check reads only the default index, so it cannot vouch for those commits
 # Escape (rare/WIP/false-positive): git commit --no-verify
 set -u
-ROOT="$(git rev-parse --show-toplevel)"; cd "$ROOT" || exit 0
-PY=$(command -v python3.11 || command -v python3)
+ROOT="$(git rev-parse --show-toplevel)" && cd "$ROOT" || { echo "[pre-commit] BLOCKED: cannot resolve the repository root"; exit 1; }
+# Interpreter: the checkout's .venv, then the main checkout's .venv (lanes share it), then PATH.
+COMMON=$(git rev-parse --path-format=absolute --git-common-dir) || { echo "[pre-commit] BLOCKED: cannot resolve the Git common directory"; exit 1; }
+PY=
+for candidate in "$ROOT/.venv/bin/python" "$COMMON/../.venv/bin/python" "$(command -v python3.11)" "$(command -v python3)"; do
+  if [ -n "$candidate" ] && [ -x "$candidate" ]; then PY=$candidate; break; fi
+done
+[ -n "$PY" ] || { echo "[pre-commit] BLOCKED: no python interpreter (.venv, python3.11 or python3)"; exit 1; }
+"$PY" -c 'import yaml, markdown_it' || { echo "[pre-commit] BLOCKED: $PY cannot import yaml and markdown_it, which the staged checks need — use the project .venv (pyyaml, markdown-it-py)"; exit 1; }
+export LLMDB_ROOT="$ROOT"
+LOG=$(mktemp "${TMPDIR:-/tmp}/pre-commit-audit.XXXXXX") || { echo "[pre-commit] BLOCKED: cannot create a temporary log"; exit 1; }
+trap 'rm -f "$LOG"' EXIT
 fail=0
 echo "[pre-commit] anti-drift + secret checks…"
+resolve() { "$PY" -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "$1"; }
+if [ -n "${GIT_INDEX_FILE:-}" ]; then
+  default_index=$(env -u GIT_INDEX_FILE git rev-parse --git-path index) || default_index=
+  if [ -z "$default_index" ] || [ "$(resolve "$GIT_INDEX_FILE")" != "$(resolve "$default_index")" ]; then
+    echo "[pre-commit] ⛔ this commit uses index $GIT_INDEX_FILE, not the default index ${default_index:-<unresolved>}."
+    echo "[pre-commit]   \`git commit <paths>\`, \`-a\` and \`-i\` are refused: the staged-closure check reads only the default index."
+    echo "[pre-commit]   → stage with \`git add\`, then run a plain \`git commit\`."
+    fail=1
+  fi
+fi
 "$PY" code/state/render_state.py --check || { echo "[pre-commit] ↑ stale generated blocks — run: python3 code/state/render_state.py --write"; fail=1; }
-"$PY" code/gates/closeout_check.py --audit >/tmp/_audit.out 2>&1 || { tail -3 /tmp/_audit.out; echo "[pre-commit] ↑ stale registered fingerprint(s) — re-propagate (code/gates/closeout_check.py --fp <ID>)"; fail=1; }
+"$PY" code/gates/closeout_check.py --audit >"$LOG" 2>&1 || { tail -3 "$LOG"; echo "[pre-commit] ↑ stale registered fingerprint(s) — re-propagate (code/gates/closeout_check.py --fp <ID>)"; fail=1; }
+"$PY" code/state/icm21_check.py staged --root "$ROOT" >"$LOG" 2>&1 \
+  && "$PY" -c 'import json, sys; sys.exit(json.load(sys.stdin).get("status") != "PASS")' <"$LOG" \
+  || { tail -c 2000 "$LOG"; echo; echo "[pre-commit] ↑ staged closure is not PASS — stage every changed input and regenerated output (git add), then commit"; fail=1; }
 # (3) secret-leak gate — the incident (storage_state.json via git add -A) made this a GATE not a remembered practice ([[encode-recurring-discipline-as-a-gate]], [[git-add-all-leaks-secrets-on-public-repo]])
 staged=$(git diff --cached --name-only --diff-filter=ACM)
 if [ -n "$staged" ]; then

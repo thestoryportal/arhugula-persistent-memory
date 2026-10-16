@@ -2,6 +2,7 @@
 import dataclasses
 import json
 import os
+import sys
 from unittest.mock import patch
 
 from icm21_case_ci import CiBypassCase
@@ -19,8 +20,11 @@ class StagedCases(SourceOutputClosureCase, RealHookCase, CiBypassCase):
                          'code/state/icm21_check.py', 'code/state/render_state.py',
                          'code/state/llmdb_records.py', 'code/agents/twins.py',
                          'code/gates/closeout_check.py', 'code/gates/closeout_fingerprints.json',
-                         'code/ops/git/hooks/pre-commit'):
+                         'code/ops/git/hooks/pre-commit', 'code/state/icm21/WIRE-SCHEMAS.json'):
             put(root, relative, self.require_file(relative, 'staged source closure').read_bytes())
+        # As in production: an ignored .venv whose bin/python is the running test interpreter.
+        (root / '.venv').symlink_to(sys.prefix, target_is_directory=True)
+        put(root, '.git/info/exclude', b'.venv\n')
         for relative in ('CLAUDE.md', 'AGENTS.md', 'routing.md',
                          'map/CLAUDE.md', 'map/AGENTS.md', 'map/routing.md'):
             put(root, relative, b'# Miniature authority\n')
