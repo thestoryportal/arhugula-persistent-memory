@@ -2,6 +2,7 @@
 import array
 import errno
 import fcntl
+import inspect
 import os
 from pathlib import Path
 import shutil
@@ -13,6 +14,7 @@ import tempfile
 import threading
 import time
 import unittest
+from unittest import mock
 
 import fault_kit as FK
 
@@ -575,6 +577,22 @@ class ParkTest(Base):
         self.assertEqual((fault.calls, fault.fired), (1, 1))
         self.assertTrue(os.path.isdir(fault.parked))
 
+    def test_park_name_collision_refuses_and_keeps_both_files(self):
+        base = self.tmp()
+        victim = os.path.join(base, 'victim')
+        Path(victim).write_bytes(b'victim')
+        os.mkdir(os.path.join(base, PARK_PREFIX + 'forced'))
+        evidence = Path(base, PARK_PREFIX + 'forced', 'victim')
+        evidence.write_bytes(b'pre-existing evidence')
+        with mock.patch.object(FK.secrets, 'token_hex', return_value='forced'):
+            with self.assertRaises(FK.FaultKitError):
+                with FK.swap_for_symlink('open', 1, victim, base):
+                    read_all(victim)
+        self.assertEqual(evidence.read_bytes(), b'pre-existing evidence')
+        self.assertFalse(os.path.islink(victim))
+        self.assertEqual(Path(victim).read_bytes(), b'victim')
+        self.assertRestored()
+
 
 def sleep_in(func_name, ready, seconds=0.3):
     """A trace function that sleeps once at the first line run in fault_kit's func_name while ready() is true."""
@@ -637,6 +655,44 @@ class FifoCleanupTest(Base):
             self.open_once(leaf)
             done.append(True)
         self.run_traced('_deadline', lambda: bool(done) and signal.getitimer(signal.ITIMER_REAL)[0] > 0, body)
+
+    def test_success_restores_the_callers_own_handler(self):
+        def handler(signum, frame):
+            raise AssertionError('caller alarm ran')
+        signal.signal(signal.SIGALRM, handler)
+        leaf = os.path.join(self.tmp(), 'leaf')
+        Path(leaf).write_bytes(b'keep')
+        with FK.fifo_in_place(leaf, timeout=1):
+            self.open_once(leaf)
+        self.assertIs(signal.getsignal(signal.SIGALRM), handler)
+
+    def test_alarm_between_timer_cancel_and_handler_restore_skips_the_caller(self):
+        called, fired = [], []
+        signal.signal(signal.SIGALRM, lambda signum, frame: called.append(True))
+        code = FK._deadline.__wrapped__.__code__
+        lines, first = inspect.getsourcelines(FK._deadline.__wrapped__)
+        cancel = first + next(i for i, line in enumerate(lines)
+                              if 'signal.setitimer(signal.ITIMER_REAL, 0)' in line)
+        def trace(frame, event, arg):
+            if not fired and frame.f_code is code and event == 'line' and frame.f_lineno == cancel:
+                fired.append(True)
+                os.kill(os.getpid(), signal.SIGALRM)
+            return trace
+        leaf = os.path.join(self.tmp(), 'leaf')
+        Path(leaf).write_bytes(b'keep')
+        caught = None
+        sys.settrace(trace)
+        try:
+            with FK.fifo_in_place(leaf, timeout=5):
+                self.open_once(leaf)
+        except FK.AttackTimeout as error:
+            caught = type(error)
+        finally:
+            sys.settrace(None)
+        self.assertEqual(fired, [True])
+        self.assertEqual(called, [])
+        self.assertIs(caught, FK.AttackTimeout)
+        self.assertEqual(signal.getitimer(signal.ITIMER_REAL), (0.0, 0.0))
 
     def test_timer_arm_failure_restores_the_handler(self):
         base = self.tmp()
