@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import contextlib
+import errno
 import hashlib
 import io
 import json
@@ -56,7 +57,8 @@ def snapshot(top: Path) -> dict:
 
 class Base(unittest.TestCase):
     def setUp(self):
-        self.tmp = Path(tempfile.mkdtemp(prefix="um"))
+        # Resolved: the tool refuses a root with a symlink component (macOS TMPDIR is under /var -> private/var).
+        self.tmp = Path(tempfile.mkdtemp(prefix="um")).resolve()
         self.addCleanup(shutil.rmtree, self.tmp, True)
         self.unit = self.tmp / "unit"
         self.unit.mkdir()
@@ -79,6 +81,36 @@ class Base(unittest.TestCase):
 
         with mock.patch.object(unit_manifest.os, name, side_effect=wrapper):
             return self.run_inproc()
+
+    def patched_before(self, name: str, hook):
+        """Run main in-process with os.<name> wrapped: hook(*args) runs before the real call."""
+        real = getattr(os, name)
+
+        def wrapper(*args, **kwargs):
+            hook(*args)
+            return real(*args, **kwargs)
+
+        with mock.patch.object(unit_manifest.os, name, side_effect=wrapper):
+            return self.run_inproc()
+
+    def bind_socket(self, path: Path) -> None:
+        """Bind an AF_UNIX socket at path through a short alias, so a long TMPDIR stays under the 104-byte limit."""
+        short = Path(tempfile.mkdtemp(prefix="um", dir="/private/tmp"))
+        self.addCleanup(shutil.rmtree, short, True)
+        os.symlink(path.parent, short / "d")
+        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        self.addCleanup(sock.close)
+        sock.bind(str(short / "d" / path.name))
+        self.assertTrue(stat.S_ISSOCK(os.lstat(path).st_mode))
+
+    def assert_json_fail(self, code: int, out: str, needle: str, err: str = ""):
+        self.assertEqual(code, 1, out + err)
+        lines = out.splitlines()
+        self.assertEqual(len(lines), 1, out + err)
+        result = json.loads(lines[0])
+        self.assertEqual(result["status"], "FAIL")
+        self.assertIn(needle, result["reason"])
+        return result
 
     def run_inproc(self):
         buf_out, buf_err = io.StringIO(), io.StringIO()
@@ -108,9 +140,7 @@ class ManifestContent(Base):
         os.link(u / "a.txt", u / "hard")
         os.symlink("../outside", u / "dirlink")
         os.symlink("a.txt", u / "filelink")
-        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        self.addCleanup(sock.close)
-        sock.bind(str(u / "sock"))
+        self.bind_socket(u / "sock")
         return files
 
     def test_manifest_is_sorted_hashed_canonical_and_no_follow(self):
@@ -417,8 +447,8 @@ class NestedRepo(Base):
         hook.write_bytes(f"#!/bin/sh\ntouch '{marker}'\nexit 1\n".encode())
         hook.chmod(0o755)
         git(repo, "config", "core.fsmonitor", str(hook))
-        proc = self.run_cli()
-        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        # MAESTRO follow-up A: a core.fsmonitor key is now refused before any git call.
+        self.assert_refused(self.run_cli(), "core.fsmonitor")
         self.assertFalse(marker.exists())
 
     def test_filter_driver_is_refused_and_not_run(self):
@@ -488,6 +518,352 @@ class Refusals(Base):
         proc = self.run_cli()
         self.assertEqual(proc.returncode, 2)
         self.assertFalse(os.path.lexists(target))
+
+
+class OtherDevice:
+    """A stat result for the same inode number on another device: the witness for the device component."""
+
+    def __init__(self, st):
+        self._st = st
+
+    def __getattr__(self, name):
+        return getattr(self._st, name)
+
+    @property
+    def st_dev(self):
+        return self._st.st_dev + 1
+
+
+def basename_is(path, name: str) -> bool:
+    return not isinstance(path, int) and os.path.basename(os.fspath(path)) == name
+
+
+class Traversal(Base):
+    """Ruling 1: descend only through directory fds, never through a link, and refuse a linked root ancestor."""
+
+    def setUp(self):
+        super().setUp()
+        self.child = self.unit / "child"
+        self.child.mkdir()
+        (self.child / "in.txt").write_bytes(b"inside")
+        self.outside = self.tmp / "outside"
+        self.outside.mkdir()
+        (self.outside / "secret.txt").write_bytes(SECRET)
+
+    def swap_child_before_open(self, make):
+        fired = []
+
+        def hook(path, *rest):
+            if not fired and basename_is(path, "child"):
+                fired.append(True)
+                os.rename(self.child, self.tmp / "moved-child")
+                make()
+        code, out, err = self.patched_before("open", hook)
+        self.assertTrue(fired, "the tool never opened the directory by name: it did not descend through an fd")
+        self.assertNotIn(SECRET.decode(), out + err)
+        self.assertFalse(os.path.lexists(self.out))
+        return code, out, err
+
+    def test_directory_swapped_for_a_symlink_is_not_followed(self):
+        code, out, err = self.swap_child_before_open(lambda: os.symlink(self.outside, self.child))
+        # Refused by the no-follow open itself, not only by the identity check after it.
+        self.assert_json_fail(code, out, os.strerror(errno.ENOTDIR), err)
+
+    def test_directory_replaced_by_another_directory_is_refused(self):
+        code, out, err = self.swap_child_before_open(lambda: os.rename(self.outside, self.child))
+        self.assertIn("child", self.assert_json_fail(code, out, "changed during walk", err)["reason"])
+
+    def test_root_with_a_symlinked_ancestor_is_a_json_fail(self):
+        alias = self.tmp / "alias"
+        os.symlink(self.tmp, alias)
+        proc = self.run_cli(root=alias / "unit")
+        self.assert_json_fail(proc.returncode, proc.stdout.decode(), "symlink", proc.stderr.decode())
+        self.assertFalse(os.path.lexists(self.out))
+
+
+class LeafIdentity(Base):
+    """Ruling 1: a leaf is read through its directory fd and must stay the scanned object before and after the read."""
+
+    def setUp(self):
+        super().setUp()
+        self.target = self.unit / "data.bin"
+        self.target.write_bytes(b"0123456789" * 1000)
+        self.st = os.lstat(self.target)
+
+    def test_file_replaced_before_open_is_refused_before_any_read(self):
+        new = b"NEW_UNADMITTED_" * 700
+        fired, reads = [], []
+
+        def hook(path, *rest):
+            if not fired and basename_is(path, "data.bin"):
+                fired.append(True)
+                repl = self.tmp / "repl.bin"
+                repl.write_bytes(new)
+                os.replace(repl, self.target)
+        real_read = os.read
+
+        def read(fd, n):
+            data = real_read(fd, n)
+            reads.append(data)
+            return data
+        with mock.patch.object(unit_manifest.os, "read", side_effect=read):
+            code, out, err = self.patched_before("open", hook)
+        self.assertTrue(fired)
+        self.assert_json_fail(code, out, "data.bin", err)
+        self.assertFalse(any(b"NEW_UNADMITTED_" in data for data in reads), "read the replacement before refusing")
+        self.assertFalse(os.path.lexists(self.out))
+
+    def test_change_seen_only_by_the_after_read_fstat_is_refused(self):
+        real_read, real_fstat = os.read, os.fstat
+        state = {"appended": False, "fstats": 0}
+
+        def read(fd, n):
+            if not state["appended"] and real_fstat(fd).st_ino == self.st.st_ino:
+                state["appended"] = True
+                with open(self.target, "ab") as fh:
+                    fh.write(b"X")
+                os.utime(self.target, ns=(self.st.st_atime_ns, self.st.st_mtime_ns))
+            return real_read(fd, n)
+
+        def fstat(fd):
+            result = real_fstat(fd)
+            if result.st_ino == self.st.st_ino:
+                state["fstats"] += 1
+                if state["fstats"] == 2:  # after the read: restore size and mtime before any later check
+                    os.truncate(self.target, self.st.st_size)
+                    os.utime(self.target, ns=(self.st.st_atime_ns, self.st.st_mtime_ns))
+            return result
+        with mock.patch.object(unit_manifest.os, "read", side_effect=read), \
+                mock.patch.object(unit_manifest.os, "fstat", side_effect=fstat):
+            code, out, err = self.run_inproc()
+        self.assertTrue(state["appended"])
+        self.assertEqual(state["fstats"], 2)
+        self.assert_json_fail(code, out, "data.bin", err)
+        self.assertFalse(os.path.lexists(self.out))
+
+    def test_opened_file_on_another_device_is_refused(self):
+        real_fstat = os.fstat
+        forged = []
+
+        def fstat(fd):
+            result = real_fstat(fd)
+            if not forged and result.st_ino == self.st.st_ino:
+                forged.append(True)
+                return OtherDevice(result)
+            return result
+        with mock.patch.object(unit_manifest.os, "fstat", side_effect=fstat):
+            code, out, err = self.run_inproc()
+        self.assertTrue(forged)
+        self.assert_json_fail(code, out, "data.bin", err)
+        self.assertFalse(os.path.lexists(self.out))
+
+
+class NestedRepoInputs(Base):
+    """Ruling 2 and guard coverage: Git reads nothing outside the unit and every Git failure refuses."""
+
+    def make_repo(self) -> Path:
+        return NestedRepo.make_repo(self)
+
+    def assert_refused(self, proc, needle: str):
+        NestedRepo.assert_refused(self, proc, needle)
+
+    def link_inside_git(self, rel: str):
+        repo = self.make_repo()
+        link = repo / ".git" / rel
+        external = self.tmp / "external"
+        source = link if link.exists() else repo / ".git" / "refs" / "heads" / "main"
+        external.write_bytes(source.read_bytes())
+        if link.exists():
+            link.unlink()
+        os.symlink(external, link)
+        self.assert_refused(self.run_cli(), f".git/{rel}")
+
+    def test_config_symlink_inside_nested_git_is_refused(self):
+        self.link_inside_git("config")
+
+    def test_deep_symlink_inside_nested_git_is_refused(self):
+        self.link_inside_git("refs/heads/evil")
+
+    def test_socket_inside_nested_git_is_refused(self):
+        repo = self.make_repo()
+        self.bind_socket(repo / ".git" / "fsmonitor--daemon.ipc")
+        self.assert_refused(self.run_cli(), "fsmonitor--daemon.ipc")
+
+    def fake_git_env(self, subcommand: str, code: int, message: str) -> dict:
+        real = shutil.which("git")
+        bindir = self.tmp / "fakebin"
+        bindir.mkdir()
+        script = bindir / "git"
+        script.write_text(f'#!/bin/sh\nfor a in "$@"; do\n  if [ "$a" = "{subcommand}" ]; then\n'
+                          f'    echo "{message}" >&2\n    exit {code}\n  fi\ndone\nexec "{real}" "$@"\n')
+        script.chmod(0o755)
+        return dict(os.environ, PATH=f"{bindir}{os.pathsep}{os.environ.get('PATH', '')}")
+
+    def test_rev_parse_error_is_refused(self):
+        self.make_repo()
+        self.assert_refused(self.run_cli(env=self.fake_git_env("rev-parse", 128, "fatal: injected")), "rev-parse")
+
+    def test_rev_parse_exit_1_with_stderr_is_refused(self):
+        self.make_repo()
+        self.assert_refused(self.run_cli(env=self.fake_git_env("rev-parse", 1, "warning: injected")), "rev-parse")
+
+    def test_symbolic_ref_error_is_refused(self):
+        self.make_repo()
+        self.assert_refused(self.run_cli(env=self.fake_git_env("symbolic-ref", 128, "fatal: injected")),
+                            "symbolic-ref")
+
+    def test_status_error_is_refused(self):
+        self.make_repo()
+        self.assert_refused(self.run_cli(env=self.fake_git_env("status", 128, "fatal: injected")), "status failed")
+
+    def test_dirty_submodule_is_reported_by_its_own_root_only(self):
+        repo = self.make_repo()
+        sub = repo / "sub"
+        sub.mkdir()
+        git(sub, "init", "-q", "-b", "main")
+        (sub / "s.txt").write_bytes(b"s1\n")
+        git(sub, "add", "s.txt")
+        git(sub, "commit", "-q", "-m", "s")
+        git(repo, "add", "sub")
+        git(repo, "commit", "-q", "-m", "gitlink")
+        (sub / "s.txt").write_bytes(b"s2 changed\n")
+        proc = self.run_cli()
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        roots = {r["path"]: r["dirty"] for r in json.loads(self.out.read_bytes())["git_roots"]}
+        self.assertEqual(roots, {str(repo): [], str(sub): [" M s.txt"]})
+
+    def refused_config(self, key: str, value: str, needle: str):
+        repo = self.make_repo()
+        outside = self.tmp / "outside.cfg"
+        outside.write_bytes(b"[user]\n\tname = outside\n")
+        git(repo, "config", key, value.format(outside=outside))
+        self.assert_refused(self.run_cli(), needle)
+
+    def test_config_include_path_is_refused(self):
+        self.refused_config("include.path", "{outside}", "include.path")
+
+    def test_config_include_if_is_refused(self):
+        self.refused_config("includeIf.gitdir:/.path", "{outside}", "includeif.gitdir:/.path")
+
+    def test_config_core_excludes_file_is_refused(self):
+        self.refused_config("core.excludesFile", "{outside}", "core.excludesfile")
+
+    def test_config_core_attributes_file_is_refused(self):
+        self.refused_config("core.attributesFile", "{outside}", "core.attributesfile")
+
+    def test_config_unknown_core_key_is_refused(self):
+        self.refused_config("core.somethingNew", "1", "core.somethingnew")
+
+    def test_non_utf8_branch_name_is_a_json_fail(self):
+        repo = self.make_repo()
+        (repo / ".git" / "HEAD").write_bytes(b"ref: refs/heads/\xff\n")
+        self.assert_refused(self.run_cli(), "UnicodeDecodeError")
+
+
+class Invocation(Base):
+    def test_missing_root_exits_2(self):
+        proc = self.run_cli(root=self.tmp / "missing")
+        self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+        self.assertEqual(proc.stdout, b"")
+        self.assertFalse(os.path.lexists(self.out))
+
+    def test_root_and_out_are_required(self):
+        for argv in (["--out", str(self.out)], ["--root", str(self.unit)]):
+            with self.subTest(argv=argv):
+                proc = subprocess.run([sys.executable, "-B", str(TOOL), *argv], capture_output=True, timeout=60,
+                                      stdin=subprocess.DEVNULL)
+                self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+                self.assertIn(b"required", proc.stderr)
+                self.assertFalse(os.path.lexists(self.out))
+
+    def test_output_in_a_subdirectory_of_the_unit_is_refused(self):
+        (self.unit / "dest").mkdir()
+        before = snapshot(self.unit)
+        proc = self.run_cli(out=self.unit / "dest" / "m.json")
+        self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+        self.assertEqual(snapshot(self.unit), before)
+
+    def test_output_reached_through_a_linked_ancestor_is_refused(self):
+        (self.unit / "dest").mkdir()
+        alias = self.tmp / "alias"
+        os.symlink(self.tmp, alias)
+        before = snapshot(self.unit)
+        proc = self.run_cli(out=alias / "unit" / "dest" / "m.json")
+        self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+        self.assertEqual(snapshot(self.unit), before)
+
+
+class Output(Base):
+    """Rulings 3 and 4: containment bound to the opened output directory; write failures are one JSON FAIL."""
+
+    def setUp(self):
+        super().setUp()
+        (self.unit / "f").write_bytes(b"inside")
+        self.dest = self.tmp / "dest"
+        self.dest.mkdir()
+        self.out = self.dest / "manifest.json"
+
+    def run_with_leaf_hook(self, action):
+        fired = []
+
+        def hook(path, *rest):
+            if not fired and basename_is(path, "f"):
+                fired.append(True)
+                action()
+        result = self.patched_before("open", hook)
+        self.assertTrue(fired)
+        return result
+
+    def test_output_parent_swapped_for_a_link_into_the_unit_writes_nothing_inside(self):
+        before = snapshot(self.unit)
+
+        def swap():
+            os.rename(self.dest, self.tmp / "old-dest")
+            os.symlink(self.unit, self.dest)
+        self.run_with_leaf_hook(swap)
+        self.assertFalse(os.path.lexists(self.unit / "manifest.json"))
+        self.assertEqual(snapshot(self.unit), before)
+
+    def test_pass_names_the_real_path_of_the_written_file(self):
+        def swap():
+            os.rename(self.dest, self.tmp / "old-dest")
+            os.symlink(self.unit, self.dest)
+        code, out, err = self.run_with_leaf_hook(swap)
+        self.assertEqual(code, 0, out + err)
+        result = json.loads(out)
+        landed = self.tmp / "old-dest" / "manifest.json"
+        self.assertEqual(result["manifest"], str(landed))
+        self.assertEqual(result["sha256"], sha(landed.read_bytes()))
+
+    def test_output_parent_moved_into_the_unit_during_the_walk_is_refused(self):
+        code, out, err = self.run_with_leaf_hook(lambda: os.rename(self.dest, self.unit / "dest"))
+        self.assert_json_fail(code, out, "inside the unit", err)
+        self.assertEqual(os.listdir(self.unit / "dest"), [])
+
+    def test_output_parent_moved_into_the_unit_during_the_write_is_reported_and_kept(self):
+        fired = []
+
+        def hook(fd, *rest):
+            if not fired:
+                fired.append(True)
+                os.rename(self.dest, self.unit / "dest")
+        code, out, err = self.patched_before("write", hook)
+        self.assertTrue(fired, "the output was not written with os.write on the created fd")
+        written = self.unit / "dest" / "manifest.json"
+        reason = self.assert_json_fail(code, out, "inside the unit", err)["reason"]
+        self.assertIn(str(written), reason)
+        self.assertIn("left in place", reason)
+        self.assertTrue(written.exists(), "never delete: the written output must stay where it landed")
+
+    def test_write_failure_is_one_json_fail_and_the_partial_output_is_kept(self):
+        launcher = ("import resource, runpy, signal, sys; signal.signal(signal.SIGXFSZ, signal.SIG_IGN); "
+                    "resource.setrlimit(resource.RLIMIT_FSIZE, (1, 1)); sys.argv = sys.argv[1:]; "
+                    "runpy.run_path(sys.argv[0], run_name='__main__')")
+        proc = subprocess.run([sys.executable, "-B", "-c", launcher, str(TOOL), "--root", str(self.unit),
+                               "--out", str(self.out)], capture_output=True, timeout=60, stdin=subprocess.DEVNULL)
+        reason = self.assert_json_fail(proc.returncode, proc.stdout.decode(), "incomplete", proc.stderr.decode())
+        self.assertIn(str(self.out), reason["reason"])
+        self.assertEqual(self.out.read_bytes(), b"{")
 
 
 if __name__ == "__main__":

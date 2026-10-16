@@ -4,7 +4,14 @@
 Read only. It walks the unit without following any link, hashes regular files, records
 symlinks and sockets without opening them, and records each nested `.git` root with its
 HEAD, branch and dirty entries. It writes exactly one new file, the --out path, and never
-overwrites it.
+overwrites or deletes it.
+
+Every check binds the object it checks: the root and each directory are opened with
+O_NOFOLLOW and descended through their fds; each leaf is opened or read through its
+directory fd and its fstat must equal the scan lstat before and after the read; the output
+is created through the opened --out directory fd, whose real path (F_GETPATH) must lie
+outside the unit before and after the write. A nested repo whose .git holds anything but
+regular files and directories is refused before Git runs.
 
 Manifest: canonical JSON (sorted keys, "," and ":" separators, UTF-8, no trailing newline)
   {"schema_version": 1, "root": path, "leaves": [LeafRecord...], "git_roots": [GitRoot...]}
@@ -14,13 +21,16 @@ dirty (`git status --porcelain=v1 -z` records).
 Leaves and git roots are sorted by the UTF-8 bytes of their path relative to the root.
 
 Exit 0: manifest written; stdout is {"status": "PASS", "manifest", "sha256", "leaves", "git_roots"}.
-Exit 1: a refusal (changed during hash, unsupported object, link out of the unit, unsafe
-        nested repo, unreadable path); stdout is {"status": "FAIL", "reason"}; nothing written.
+Exit 1: a refusal (changed during hash, unsupported object, link out of the unit, linked root
+        ancestor, unsafe nested repo, unreadable path); stdout is {"status": "FAIL", "reason"};
+        nothing written. A failed or raced write is also exit 1: the reason names the output,
+        which is left in place (never deleted).
 Exit 2: malformed invocation (root not a real directory, output exists or lies inside the root).
 """
 from __future__ import annotations
 
 import argparse
+import fcntl
 import hashlib
 import json
 import os
@@ -29,6 +39,11 @@ import subprocess
 import sys
 
 CHUNK = 1 << 20
+DIR_FLAGS = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+# core.* keys a plain repo carries; any other core key (excludesfile, attributesfile, hookspath, worktree,
+# fsmonitor, sshcommand, unknown) can make Git read or run something outside the unit.
+CORE_ALLOWED = frozenset(f"core.{k}" for k in ("repositoryformatversion", "filemode", "bare", "logallrefupdates",
+                                               "ignorecase", "precomposeunicode", "symlinks"))
 EMPTY_SHA = hashlib.sha256(b"").hexdigest()
 
 
@@ -44,32 +59,43 @@ def _sig(st: os.stat_result) -> tuple:
     return (st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns)
 
 
-def _hash_regular(path: str, before: os.stat_result) -> str:
-    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+def _real_path(fd: int) -> str:
+    """The path of the object an fd is open on (macOS F_GETPATH), not of whatever a path names now."""
+    return os.fsdecode(fcntl.fcntl(fd, fcntl.F_GETPATH, bytes(1024)).split(b"\0", 1)[0])
+
+
+def _lstat_at(dir_fd: int, name: str) -> os.stat_result:
+    return os.stat(name, dir_fd=dir_fd, follow_symlinks=False)
+
+
+def _hash_regular(dir_fd: int, name: str, path: str, before: os.stat_result) -> str:
+    fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=dir_fd)
     try:
         opened = os.fstat(fd)
         if not stat.S_ISREG(opened.st_mode):
             raise Refusal(f"object changed kind while opening: {path}")
+        if _sig(opened) != _sig(before):
+            raise Refusal(f"changed before read: {path}")
         digest = hashlib.sha256()
         while chunk := os.read(fd, CHUNK):
             digest.update(chunk)
-        after_read = os.fstat(fd)
+        if _sig(os.fstat(fd)) != _sig(before):
+            raise Refusal(f"changed during hash: {path}")
     finally:
         os.close(fd)
-    after = os.lstat(path)
-    if len({_sig(before), _sig(opened), _sig(after_read), _sig(after)}) != 1:
+    if _sig(_lstat_at(dir_fd, name)) != _sig(before):
         raise Refusal(f"changed during hash: {path}")
     return digest.hexdigest()
 
 
-def _leaf(path: str, st: os.stat_result) -> dict:
+def _leaf(dir_fd: int, name: str, path: str, st: os.stat_result) -> dict:
     mode = st.st_mode
     link_text = None
     if stat.S_ISREG(mode):
-        kind, digest = "file", _hash_regular(path, st)
+        kind, digest = "file", _hash_regular(dir_fd, name, path, st)
     elif stat.S_ISLNK(mode):
-        link_text = os.readlink(path)
-        if _sig(os.lstat(path)) != _sig(st):
+        link_text = os.readlink(name, dir_fd=dir_fd)
+        if os.readlink(path) != link_text or _sig(_lstat_at(dir_fd, name)) != _sig(st):
             raise Refusal(f"changed during hash: {path}")
         kind, digest = "symlink", hashlib.sha256(os.fsencode(link_text)).hexdigest()
     elif stat.S_ISSOCK(mode):
@@ -80,20 +106,31 @@ def _leaf(path: str, st: os.stat_result) -> dict:
             "device": st.st_dev, "inode": st.st_ino, "nlink": st.st_nlink}
 
 
-def _walk(directory: str, leaves: list, git_dirs: list) -> None:
-    with os.scandir(directory) as it:
-        names = [entry.name for entry in it]
+def _walk(dir_fd: int, directory: str, leaves: list, git_dirs: list, in_git: bool) -> None:
+    """Walk the directory open on dir_fd. The path lstat is the scan reference; each object is then
+    reached only through dir_fd and must be that same object, so a swapped path refuses."""
+    with os.scandir(dir_fd) as it:
+        names = sorted((entry.name for entry in it), key=os.fsencode)
     for name in names:
         path = os.path.join(directory, name)
         st = os.lstat(path)
         if name == ".git" and not stat.S_ISDIR(st.st_mode):
             raise Refusal(f"nested .git is not a directory (link to another git dir): {path}")
+        if in_git and not (stat.S_ISDIR(st.st_mode) or stat.S_ISREG(st.st_mode)):
+            raise Refusal(f"nested repo has a link or special file inside .git; Git would follow it: {path}")
         if stat.S_ISDIR(st.st_mode):
-            if name == ".git":
-                git_dirs.append(path)
-            _walk(path, leaves, git_dirs)
+            fd = os.open(name, DIR_FLAGS, dir_fd=dir_fd)
+            try:
+                opened = os.fstat(fd)
+                if (opened.st_dev, opened.st_ino) != (st.st_dev, st.st_ino):
+                    raise Refusal(f"directory changed during walk: {path}")
+                if name == ".git":
+                    git_dirs.append(path)
+                _walk(fd, path, leaves, git_dirs, in_git or name == ".git")
+            finally:
+                os.close(fd)
         else:
-            leaves.append(_leaf(path, st))
+            leaves.append(_leaf(dir_fd, name, path, st))
 
 
 def _git(worktree: str, *args: str) -> subprocess.CompletedProcess:
@@ -110,11 +147,26 @@ def _git(worktree: str, *args: str) -> subprocess.CompletedProcess:
                           env=env, cwd=worktree, stdin=subprocess.DEVNULL, capture_output=True, check=False)
 
 
+def _check_config(worktree: str, git_dir: str) -> None:
+    """Read only the nested repo's own config file (no includes) and refuse keys that reach outside the unit."""
+    run = _git(worktree, "config", "--file", os.path.join(git_dir, "config"), "--no-includes", "--null", "--list")
+    if run.returncode != 0:
+        raise Refusal(f"git config could not read the nested repo config: {worktree}")
+    for record in run.stdout.split(b"\0")[:-1]:
+        key = record.split(b"\n", 1)[0].decode("utf-8")
+        section = key.split(".", 1)[0]
+        if section in ("include", "includeif"):
+            raise Refusal(f"nested repo config includes another file ({key}): {worktree}")
+        if section == "core" and key not in CORE_ALLOWED:
+            raise Refusal(f"nested repo config sets {key}; Git could read or run outside the unit: {worktree}")
+
+
 def _git_root(git_dir: str) -> dict:
     worktree = os.path.dirname(git_dir)
     for rel in ("commondir", os.path.join("objects", "info", "alternates")):
         if os.path.lexists(os.path.join(git_dir, rel)):
             raise Refusal(f"nested repo links outside itself ({rel}): {worktree}")
+    _check_config(worktree, git_dir)
     filters = _git(worktree, "config", "--get-regexp", r"^filter\.")
     if filters.returncode != 1:
         raise Refusal(f"nested repo defines filter drivers (or config failed); status would run them: {worktree}")
@@ -146,7 +198,14 @@ def _git_root(git_dir: str) -> dict:
 def build_manifest(root: str) -> dict:
     leaves: list = []
     git_dirs: list = []
-    _walk(root, leaves, git_dirs)
+    root_fd = os.open(root, DIR_FLAGS)
+    try:
+        real = _real_path(root_fd)
+        if real != root:
+            raise Refusal(f"root path has a symlink component (real path {real}): {root}")
+        _walk(root_fd, root, leaves, git_dirs, False)
+    finally:
+        os.close(root_fd)
 
     def order(path: str) -> bytes:
         return os.path.relpath(path, root).encode("utf-8")
@@ -179,28 +238,57 @@ def main(argv: list[str] | None = None) -> int:
     if os.path.lexists(out):
         print(f"unit_manifest: output exists, never overwritten: {out}", file=sys.stderr)
         return 2
-    if _inside(os.path.realpath(os.path.dirname(out)), os.path.realpath(root)):
+    try:
+        parent_fd = os.open(os.path.dirname(out), DIR_FLAGS)
+    except OSError as exc:
+        print(f"unit_manifest: cannot open output directory (not followed through a link): {exc}", file=sys.stderr)
+        return 2
+    try:
+        return _inventory(root, out, parent_fd)
+    finally:
+        os.close(parent_fd)
+
+
+def _fail(reason: str) -> int:
+    print(json.dumps({"status": "FAIL", "reason": reason}, ensure_ascii=False))
+    return 1
+
+
+def _inventory(root: str, out: str, parent_fd: int) -> int:
+    name = os.path.basename(out)
+    if _inside(_real_path(parent_fd), root):
         print(f"unit_manifest: output lies inside the unit: {out}", file=sys.stderr)
         return 2
 
     try:
         manifest = build_manifest(root)
         body = canonical(manifest)
+        if _inside(_real_path(parent_fd), root):
+            raise Refusal(f"output directory moved inside the unit; nothing written: {out}")
     except (Refusal, OSError, UnicodeError) as exc:
-        print(json.dumps({"status": "FAIL", "reason": f"{type(exc).__name__}: {exc}"}, ensure_ascii=False))
-        return 1
+        return _fail(f"{type(exc).__name__}: {exc}")
 
     try:
-        fd = os.open(out, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o644)
+        fd = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o644, dir_fd=parent_fd)
     except OSError as exc:
         print(f"unit_manifest: cannot create output, never overwritten: {exc}", file=sys.stderr)
         return 2
-    with os.fdopen(fd, "wb") as fh:
-        fh.write(body)
-    print(json.dumps({"status": "PASS", "manifest": out, "sha256": hashlib.sha256(body).hexdigest(),
+    try:
+        try:
+            view = memoryview(body)
+            while view:
+                view = view[os.write(fd, view):]
+        finally:
+            os.close(fd)
+    except OSError as exc:
+        return _fail(f"{type(exc).__name__}: {exc}; output {out} is incomplete and was left in place")
+    where = os.path.join(_real_path(parent_fd), name)
+    if _inside(where, root):
+        return _fail(f"output directory moved inside the unit during the write; {where} was written "
+                     "there and left in place")
+    print(json.dumps({"status": "PASS", "manifest": where, "sha256": hashlib.sha256(body).hexdigest(),
                       "leaves": len(manifest["leaves"]), "git_roots": len(manifest["git_roots"])}, ensure_ascii=False))
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())
