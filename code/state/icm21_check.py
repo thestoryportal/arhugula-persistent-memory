@@ -4,6 +4,7 @@ import base64
 import binascii
 from datetime import datetime, timezone
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -21,11 +22,35 @@ Finding CheckResult Coverage Exclusion Config Binding Hold Registries RegistryEn
 ReferenceResults ReaderResult ReferenceRow ReferenceManifest Repair RepairSet
 CoverageArtifact ByteEdit AuditReport DirtySource WorkspaceRequest WorkspacePolicy
 ApprovedRequests LaneScopes LaneScope LaneCapability Admit Deny'''.split())
+# Audit check -> (area module beside this file, PRD trace from SPEC.md:48-57).
+AUDIT_AREAS = {'C-ROOT': ('icm21_audit_root', 'ICM-R12'),
+               'C-WORKTREE': ('icm21_audit_root', 'ICM-R5'),
+               'C-GENERATED': ('icm21_audit_views', 'ICM-R8'),
+               'C-TWINS': ('icm21_audit_views', 'ICM-R11'),
+               'C-MODEL': ('icm21_audit_model', 'ICM-R3'),
+               'C-HANDOFF': ('icm21_audit_handoff', 'ICM-R11')}
+
+
+# Not a ValueError: per-example wire catches must not turn an absent seam
+# into an observed FAIL that could match an expected FAIL.
+class Unverified(Exception):
+    pass
 
 
 def require(condition, reason):
     if not condition:
         raise ValueError(reason)
+
+
+def area(name):
+    """Load a sibling area module by file path, never through sys.path."""
+    path = Path(__file__).parent / (name + '.py')
+    if not path.is_file():
+        raise Unverified('Absent area module: ' + name + '.py')
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def unique(values, reason):
@@ -192,7 +217,10 @@ def validate_semantics(name, value):
         require(value['overall_status'] == status, 'false audit reduction')
 
 
-def validate_wire(name, value, schema, fixtures):
+def validate_wire(name, value, schema, fixtures, root=None):
+    if name == 'LabvizMoves':
+        area('icm21_labviz_wire').validate_labviz_moves(value, schema, fixtures, root)
+        return
     if name == 'ReferenceRow[]':
         require(type(value) is list, 'expected reference array')
         for row in value:
@@ -214,7 +242,7 @@ def validate_wire(name, value, schema, fixtures):
                     == binding['sha256'], 'changed binding')
 
 
-def wire(schema, examples):
+def wire(schema, examples, root=None):
     require(type(examples) is dict and set(examples) == {'schema_version', 'fixtures',
                                                        'examples'}, 'invalid examples envelope')
     require(type(examples['schema_version']) is int and examples['schema_version'] == 1,
@@ -237,10 +265,11 @@ def wire(schema, examples):
             require(type(example[key]) is str and bool(example[key]), 'invalid example field')
         require(example['expected'] in ('PASS', 'FAIL'), 'invalid expected status')
         require(example['layer'] in ('schema', 'semantic'), 'invalid example layer')
-        require(example['type'] in WIRE_TYPES or example['type'] == 'ReferenceRow[]',
+        require(example['type'] in WIRE_TYPES
+                or example['type'] in ('ReferenceRow[]', 'LabvizMoves'),
                 'wire type outside approved scope')
         try:
-            validate_wire(example['type'], example['value'], schema, fixtures)
+            validate_wire(example['type'], example['value'], schema, fixtures, root)
             observed, reason = 'PASS', 'Valid wire value'
         except ValueError as error:
             observed, reason = 'FAIL', str(error)
@@ -575,6 +604,19 @@ def audit(root, mode, config):
                         'reason': '; '.join(missing) if missing else
                                   'Lane ownership or brief violations detected' if problems else
                                   'Disjoint lane ownership and complete lane briefs'})
+    for check_id in [item for item in config['required_checks'] if item in AUDIT_AREAS]:
+        name, prd_id = AUDIT_AREAS[check_id]
+        try:
+            status, reason, area_findings = area(name).check(check_id, root, mode,
+                                                             config, coverage)
+        except Unverified as error:
+            status, reason, area_findings = 'UNVERIFIED', str(error), []
+        findings.extend(area_findings)
+        results.append({'id': check_id, 'status': status, 'prd_ids': [prd_id],
+                        'argv': [], 'exit_code': None, 'stdout_sha256': None,
+                        'stderr_sha256': None,
+                        'findings': [finding['id'] for finding in area_findings],
+                        'reason': reason})
     coverage['inspected'] = sorted(set(coverage['inspected']))
     coverage['checked_registry_ids'].sort()
     statuses = {result['status'] for result in results}
@@ -597,6 +639,12 @@ def audit(root, mode, config):
     return report
 
 
+def check_references(root, manifest):
+    results = area('icm21_references').check_references(root, manifest)
+    validate_wire('ReferenceResults', results, audit_schema(), {})
+    return results
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
@@ -607,19 +655,30 @@ def main():
     command = commands.add_parser('lanes')
     command.add_argument('--root', type=Path, required=True)
     command.add_argument('--ownership', type=Path, required=True)
+    command = commands.add_parser('references')
+    command.add_argument('--root', type=Path, required=True)
+    command.add_argument('--manifest', type=Path, required=True)
     args = parser.parse_args()
+    code = None
     try:
         require(args.root.is_absolute() and args.root.is_dir(), 'invalid root')
         if args.command == 'lanes':
             problems, missing = inspect_lanes(args.ownership, {'inspected': []})
             result = {'status': 'FAIL' if problems else 'UNVERIFIED' if missing else 'PASS',
                       'violations': problems, 'missing': missing}
+        elif args.command == 'references':
+            result = check_references(args.root, read_json(args.manifest))
+            statuses = {check['status'] for reader in result['readers']
+                        for check in reader['checks']}
+            code = 1 if 'FAIL' in statuses else 0 if statuses == {'PASS'} else 2
         else:
-            result = wire(read_json(args.schema), read_json(args.examples))
+            result = wire(read_json(args.schema), read_json(args.examples), args.root)
+    except Unverified as error:
+        result, code = {'status': 'UNVERIFIED', 'reason': str(error)}, 2
     except (OSError, ValueError, KeyError, TypeError) as error:
-        result = {'status': 'FAIL', 'reason': str(error)}
+        result, code = {'status': 'FAIL', 'reason': str(error)}, 1
     print(json.dumps(result, sort_keys=True, separators=(',', ':')))
-    return 0 if result['status'] == 'PASS' else 1
+    return (0 if result['status'] == 'PASS' else 1) if code is None else code
 
 
 if __name__ == '__main__':
