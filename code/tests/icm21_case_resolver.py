@@ -1,14 +1,12 @@
 """Exact relocation and relocated anchor resolver cases (ReaderControls)."""
 import inspect
 import os
-import unittest
 from unittest.mock import patch
 
 from icm21_fixtures import HEADER, digest, put
 
 
 class ResolverCase:
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_exact_relocation_and_citations(self):
         resolver = self.module('code/state/resolve_path.py', 'relocate', 'resolve_reference')
         mapping = {'old/file.md': 'middle/file.md', 'middle/file.md': 'final/file.md'}
@@ -45,7 +43,6 @@ class ResolverCase:
         with self.assertRaises(ValueError):
             resolver.resolve_reference(rows[0]['consumer'], rows[0]['reference'], manifest)
 
-    @unittest.skip('ICM v2.1 open ticket: not built yet')
     def test_relocated_anchor_targets(self):
         module = self.index_module()
         self.assertIn('relocations', inspect.signature(module.read_anchor_map).parameters,

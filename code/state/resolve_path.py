@@ -2,9 +2,11 @@
 import argparse
 from collections import Counter
 import csv
+import hashlib
 import html
 from html.parser import HTMLParser
 import io
+import json
 import os
 from pathlib import Path
 import re
@@ -24,6 +26,7 @@ SPLITS = {
 }
 MAP_HEADER = ['old', 'new', 'disposition', 'unit']
 ANCHOR_HEADER = ['monolith', 'anchor', 'part', 'current_anchor']
+RELOCATIONS = '_index/icm21-path-map.tsv'
 
 
 def read_path_map(data: bytes, minimum: int = 0) -> dict[str, str]:
@@ -42,6 +45,47 @@ def read_path_map(data: bytes, minimum: int = 0) -> dict[str, str]:
     if len(result) < minimum:
         raise ValueError(f'_index/path-map.tsv: {len(result)} rows; need at least {minimum}')
     return result
+
+
+def relocate(path: str, mapping: dict[str, str]) -> str:
+    """Follow exact relocation keys to the final path. Identity rows and cycles are errors."""
+    for start in mapping:
+        seen = {start}
+        current = start
+        while current in mapping:
+            current = mapping[current]
+            if current in seen:
+                raise ValueError(f'{RELOCATIONS}: relocation cycle at {current}')
+            seen.add(current)
+    while path in mapping:
+        path = mapping[path]
+    return path
+
+
+def read_relocations(root: Path) -> dict[str, str]:
+    # The file is tracked; an absent copy is a damaged root, never an empty map.
+    path = root / RELOCATIONS
+    if not path.is_file():
+        raise ValueError(f'{RELOCATIONS}: missing relocation map')
+    return read_path_map(path.read_bytes())
+
+
+def resolve_reference(consumer: str, spelling: str, manifest: dict) -> str:
+    """Final target, suffix included, of one spelling bound to its original or final consumer."""
+    binding = manifest['references']
+    path = Path(os.environ['LLMDB_ROOT']) / binding['path']
+    data = path.read_bytes()
+    if hashlib.sha256(data).hexdigest() != binding['sha256']:
+        raise ValueError(f'{binding["path"]}: sha256 differs from the reference manifest')
+    rows = [json.loads(line) for line in data.decode('utf-8').splitlines() if line.strip()]
+    matches = [row for row in rows if row['reference'] == spelling
+               and consumer in (row['consumer'], row['consumer_final'])]
+    if not matches:
+        raise ValueError(f'Unknown reference {spelling} from {consumer}')
+    if len(matches) > 1:
+        raise ValueError(f'Ambiguous reference {spelling} from {consumer}: '
+                         + ', '.join(row['id'] for row in matches))
+    return matches[0]['final_target']
 
 
 def heading_slug(heading: str) -> str:
@@ -100,7 +144,9 @@ def anchors(folder: Path):
     return result
 
 
-def read_anchor_map(data: bytes, root: Path) -> dict[tuple[str, str], tuple[str, str]]:
+def read_anchor_map(data: bytes, root: Path, relocations: dict[str, str] | None = None
+                    ) -> dict[tuple[str, str], tuple[str, str]]:
+    relocations = relocations or {}
     header = '\t'.join(ANCHOR_HEADER)
     if data.splitlines()[:1] != [header.encode('utf-8')]:
         raise ValueError(f'_index/anchor-map.tsv: expected exact header {header}')
@@ -115,7 +161,8 @@ def read_anchor_map(data: bytes, root: Path) -> dict[tuple[str, str], tuple[str,
         if key in result:
             raise ValueError(f'_index/anchor-map.tsv: repeated anchor {monolith}#{anchor}')
         path = Path(part)
-        if path.is_absolute() or '..' in path.parts or not (root / path).is_file():
+        if path.is_absolute() or '..' in path.parts or not (
+                root / relocate(part, relocations)).is_file():
             raise ValueError(f'_index/anchor-map.tsv: missing or invalid part {part}')
         result[key] = (part, current_anchor)
     return result
@@ -182,6 +229,7 @@ def build_anchor_map(root: Path, mapping: dict[str, str]) -> bytes:
 def resolve(old: str) -> str:
     root = Path(os.environ['LLMDB_ROOT'])
     mapping = read_path_map((root / '_index/path-map.tsv').read_bytes())
+    relocations = read_relocations(root)
     path, marker, anchor = old.partition('#')
     if path in SPLITS:
         target = SPLITS[path]
@@ -195,9 +243,11 @@ def resolve(old: str) -> str:
     if target in SPLITS.values() and marker:
         slug = unquote(anchor)
         monolith = next(name for name, folder in SPLITS.items() if folder == target)
-        sealed = read_anchor_map((root / '_index/anchor-map.tsv').read_bytes(), root)
+        sealed = read_anchor_map((root / '_index/anchor-map.tsv').read_bytes(), root,
+                                 relocations)
         if (monolith, slug) in sealed:
             part, current_anchor = sealed[(monolith, slug)]
+            part = relocate(part, relocations)
             lines = (root / part).read_text(encoding='utf-8').splitlines()
             parser = MarkdownIt('commonmark')
             env = {}
@@ -215,8 +265,8 @@ def resolve(old: str) -> str:
         parts = anchors(root / target)
         if slug not in parts:
             raise ValueError(f'Unknown anchor for {path}: {anchor}')
-        return f'{target}/{parts[slug]}#{anchor}'
-    return target + (f'#{anchor}' if marker else '')
+        return relocate(f'{target}/{parts[slug]}', relocations) + f'#{anchor}'
+    return relocate(target, relocations) + (f'#{anchor}' if marker else '')
 
 
 def main():
