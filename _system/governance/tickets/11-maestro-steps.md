@@ -1,0 +1,26 @@
+# Stage 11 — MAESTRO steps (changing the workflow tools)
+Part of the tickets guide. Router: `_system/governance/TICKETS.md`. Roots (L, M, S, W, TD, MEM, HO): `00-roots-and-roles.md`.
+
+A MAESTRO step changes `L/tools`, `L/land.sh` or the skill. It is built against stub suites in a staged copy, never edited live. install_staged.sh covers only files whose live twin is in `L/tools` (step 5); `L/land.sh`, the skill and any new file go by hand (step 5b).
+
+1. Stage in `L/w1opt/staged/<STEP>/` (the staging area `L/w1opt/staged/`; steps 307-313, 325, 326 are there): `<b>.new` copies (`L/w1opt/staged/<STEP>/<b>.new`), NOTES.md, the stager's brief.
+2. Stub suites: `L/tools/test_ship.sh` (124 `check` call sites, 134 checks when run after Step 325) runs a copy `L/tools/ship.sh<SUF>` against recording stubs in a mktemp tree; `L/tools/test_train.sh` (56 checks) does the same for `L/tools/train.sh<SUF>`. A staged suite runs against the staged `.new`. Positive control: the new cases fail against the live script.
+3. Real-scale dry run: run each new or changed gate on a real lane and a real-size file before install. Fixture-green gates refused real lanes on vendor symlinks, and a whole-file mutation stopped every edit [R29].
+4. A change to the land path (train.sh, land.sh, the gate) gets a fresh decorrelated reviewer before install (Step 307 rule) [R31].
+5. Install with `L/tools/install_staged.sh STEP`:
+   ```sh
+   zsh /Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/install_staged.sh 326
+   ```
+   Type it in exactly this absolute form: the allow rule (settings.json:40) matches that literal command, and the file is mode 644, so it runs only through `zsh`. For each `L/w1opt/staged/<STEP>/*.new` with a live twin `L/tools/<b>`, it backs up to `L/tools/<b>.bak-<DAY>-<STEP>`, copies to `L/tools/.<b>.install-<pid>` with the live mode, moves it atomically, and compares. It refuses while `L/tools/land.lock` is held or a ship, train or land runs, because a ship starting mid-install could read half a pair; its pgrep (:15) also matches a running test_ship.sh or test_train.sh, so let a suite finish first. Install ship.sh and test_ship.sh as a pair [R30]. Edit and Write on install_staged.sh and reclaim.py are denied (settings.json:46-49).
+   - A `skip <b>.new: no live ...` line means that file was NOT installed: its twin is not in L/tools (install_staged.sh:18-21). Step 326's `SKILL.md.new` and `prober.md.new` print it. Install those by 5b.
+   - Its other refusals exit 2 with nothing changed: a STEP name outside `[0-9a-z-]+` (:11), no staged folder (:13), no `.new` with a live twin (:22), and an existing `L/tools/<b>.bak-<DAY>-<STEP>` (:23). So a second install of a revised step on the same day refuses: rename the earlier backup (for example to `.bak-<DAY>-<STEP>a`) after checking it holds the pre-step file, then install again.
+   - The per-file loop (:24-30) is not transactional: if the second file fails, the first is already live. Restore the pair together from their backups (`mv` each `.bak-<DAY>-<STEP>` back over its live file), never one alone.
+
+5b. Files install_staged.sh does not cover: `L/land.sh` (it lives in L, not L/tools), the skill's files in S, and any new file (a `.new` with no live twin, such as `S/references/prober.md` that staged ship.sh.new:18 points at). Do by hand what the script does: `cp -p` the live file to `<file>.bak-<DAY>-<STEP>`, copy the `.new` to a temp name in the same folder, `chmod` it to the live mode, `mv` it over the live file, `cmp` against the `.new`. Step 326 left `S/SKILL.md.bak-20261017-326` (the pre-326 SKILL.md) and the new `S/references/prober.md`. A new file has no backup; `mv` it into place only after checking nothing by that name exists. S is editable by the Edit tool under settings.json:38 (`Edit(//Users/robertrhu/.claude/skills/atomic-ticketizer/**)`); if a shell `mv` there prompts, hand the operator the `!` allow-rule command. Install a new reference before the script that names it, so no ship reads a missing file. trace.py counts every file in S, backups included (it skips `*.bak-*` only under L/tools), so a new file or backup in S fails `trace.py --doc` (`path-index.md`) until the guide names it: that failure is the close-out rule doing its job.
+
+You will have the `.new` ready, the suite green, and think *"`cp` it over, it's one file."* `cp` writes into the live file's inode, and zsh reads a script as it runs, so a ship already running continues from its old offset into the new bytes; a ship starting mid-copy reads half a script; and there is no backup to diff against when something breaks at land. An atomic `mv` leaves running ships on the old inode. install_staged.sh is the station; use it.
+
+6. Log an `install` row in the plan's TD/ledger.tsv (the step number in the ticket column), with the suite numbers, the positive control and the doc status, then close it under `close-out.md`.
+
+Backups are the only history [G1]. Restoring one alone can break the flow, because several pairs changed together [G13]: restore a ship.sh backup with its test_ship.sh backup.
+

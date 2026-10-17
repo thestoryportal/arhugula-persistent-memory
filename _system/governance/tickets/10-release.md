@@ -1,0 +1,7 @@
+# Stage 10 — Release (cleanup, hygiene, builders)
+Part of the tickets guide. Router: `_system/governance/TICKETS.md`. Roots (L, M, S, W, TD, MEM, HO): `00-roots-and-roles.md`.
+
+- Lanes and branches are removed by train.sh (`worktree remove` without --force, then `update-ref -d` against the marker HEAD) or by ship.sh with TRAIN=0. Do not remove a lane by hand while its marker is claimed or its PR is open. (close_unit.py, named in older memory, belongs to the 14 Oct package era and is not part of this flow; `tickets.py close` plus the train replace it.)
+- `M/code/ops/git/git_hygiene.py --apply` keeps worktrees and deletes only eligible merged branches. It refuses on incomplete lsof evidence ("lsof cwd unreadable or unavailable") while any process sits in a vanishing temp dir or in a lane or reviews dir, and the gate refuses when "hygiene protection evidence changed before merge" (a parallel close moved a branch). ship.sh and train.sh retry both refusals 6 times, 20 s apart (ship.sh:64, train.sh:133, :195). ship.sh never retries a PR that is already merged: it logs `land` "merged; land.sh refused after the merge" and goes on with rc 0 to cleanup (ship.sh:65-68). A hung orphan test (ppid 1, far past its suite's runtime) is a permanent cause: kill it. Run your own probes from your scratch dir, not under reviews/ or a lane [R22].
+- One builder per ticket. Release it after its unit: TaskStop a subagent builder; clear a Codex builder with `/quit` and relaunch, never `/new`, which joins the old conversation [R45].
+
