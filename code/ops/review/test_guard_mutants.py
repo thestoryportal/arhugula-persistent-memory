@@ -625,7 +625,7 @@ class Contract(Base):
 
     def test_lane_changed_by_the_test_is_refused(self):
         note = os.path.join(self.lane, "data", "note.txt")
-        proc = self.run_tool(self.args(test=f"printf x >> {note}"))
+        proc = self.run_tool(self.args("--jobs", "1", test=f"printf x >> {note}"))
         self.assertRefused(proc.returncode, proc.stderr, "changed", "data/note.txt")
         self.assertFalse(os.path.exists(self.out))
         self.assertNoScratchLeft()
@@ -662,7 +662,7 @@ class Contract(Base):
 
     def test_each_mutant_copy_is_removed_before_the_next(self):
         log = os.path.join(self.tmp, "dirs.log")
-        proc = self.run_tool(self.args(test=f'ls "$PWD/../.." >> {log}; echo --- >> {log}'))
+        proc = self.run_tool(self.args("--jobs", "1", test=f'ls "$PWD/../.." >> {log}; echo --- >> {log}'))
         self.assertEqual(proc.returncode, 1, proc.stderr)
         with open(log) as fh:
             blocks = fh.read().split("---\n")[:-1]
@@ -708,7 +708,7 @@ class Contract(Base):
         # Run 2 makes the lane's fixture test fail on import: every later copy would "kill" every mutant.
         target, cmd = self.edit_at_run(2, "pkg/test_guarded.py", b"import guarded", b"assert False  ")
         before = gm._identity(os.stat(target))
-        proc = self.run_tool(self.args(test=cmd))
+        proc = self.run_tool(self.args("--jobs", "1", test=cmd))
         self.assertEditedWithIdentityKept(target, before, b"assert False")
         self.assertRefused(proc.returncode, proc.stderr, "changed", "pkg/test_guarded.py")
         self.assertFalse(os.path.exists(self.out))
@@ -718,7 +718,7 @@ class Contract(Base):
         # Run 12 (the last mutant) changes the product after the last copy: only the final scan can see it.
         target, cmd = self.edit_at_run(12, "pkg/guarded.py", b"n < 0", b"n > 0")
         before = gm._identity(os.stat(target))
-        proc = self.run_tool(self.args(test=cmd))
+        proc = self.run_tool(self.args("--jobs", "1", test=cmd))
         self.assertEditedWithIdentityKept(target, before, b"n > 0")
         self.assertRefused(proc.returncode, proc.stderr, "changed", "pkg/guarded.py")
         self.assertFalse(os.path.exists(self.out))
@@ -1037,7 +1037,7 @@ class Bound(Base):
         patch, box = self.arm_first_mutant(lambda copy: fk.rename_and_rebind(
             fk.GETPATH, 1, copy, when=when, match=lambda fd, *a: real_getpath(fd) == copy))
         with patch:
-            code, out, err = self.run_main(self.args(test=self.where(log)))
+            code, out, err = self.run_main(self.args("--jobs", "1", test=self.where(log)))
         self.assertEqual(box["fault"].fired, 1)
         self.assertFalse(os.path.exists(self.out))
         self.assertEqual(os.listdir(box["copy"]), [])  # the replacement is kept

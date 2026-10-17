@@ -2,14 +2,16 @@
 """Find guards that no test kills: one mutant per guard, run against a scratch lane copy.
 
   guard_mutants.py --file F [--file F...] --test "CMD" --out NEW.json [--allow ALLOW.json]
-                   [--timeout SECONDS] [--base REV]
+                   [--timeout SECONDS] [--base REV] [--jobs N]
 
 The lane is the current directory. Each --file is a UTF-8 Python file inside it. `ast`
 finds the guards and makes one mutant per guard, each a text splice of one node:
 
   raise-remove   a `raise` directly in an `if` (or its plain `else`) body becomes `pass`
   flag-drop      one os.O_* flag (or getattr(os, "O_*", ...)) dropped from a `|` chain
-                 or from `flags |= os.O_*`
+                 or from `flags |= os.O_*`; an inert flag makes no mutant, here or in
+                 callsite-flag-drop (Steps 328, 329): one os has as 0 (O_RDONLY), and
+                 O_NOFOLLOW in a chain that also has O_CREAT and O_EXCL
   regex-zero     one quantifier of a re.<fn>() literal pattern widened to lower bound 0
                  (`+` -> `*`, `{n}` -> `{0,n}`, `{n,m}` -> `{0,m}`, `{n,}` -> `{0,}`)
   except-class   an `except` class (or tuple) becomes `Exception`
@@ -53,6 +55,18 @@ during the test run (the test's own); it is then removed with the copy. Any othe
 run did not make (a directory, or anything older) refuses and is kept. Result: killed (CMD exits non-zero), survived (exit 0), or error (the mutant
 does not compile, or CMD timed out; never killed). The timeout is --timeout, else
 10x the baseline time (at least 60 s); the whole process group is killed.
+
+--jobs N (an integer >= 1; default min(4, os.cpu_count())) runs up to N mutant test runs
+at once; --jobs 1 runs them one at a time. No Python thread is used: each run is a
+generator of the one main thread that builds and checks its copy, starts its test (the
+child still enters the copy by fchdir of the held fd) and suspends at the wait; the main
+thread resumes a run once its test has exited, or once the timeout counted from that run's
+own start has passed (its group alone is then killed), and the run does every after-run
+check above and removes its mNNNN. A new run starts only while fewer than N are in flight.
+Rows and printed lines are in sorted mutant order, never completion order, so NEW.json and
+the output equal those of --jobs 1. A refusal in a run with N > 1 starts no new run, kills
+and reaps the test of each run in flight (each still gets its after-run checks), keeps the
+scratch, writes no NEW.json and exits 2; any other error stops them the same way.
 
 The lane is the current directory, opened once as "." and held; each directory is entered through its parent's fd and must be the (st_dev,
 st_ino) the scan saw; each file is read through an O_NOFOLLOW fd whose fstat matches
@@ -476,11 +490,46 @@ class Session:
             self.timeout = max(60.0, 10 * (time.monotonic() - start))
 
     def result(self, m: Mutant) -> tuple[str, str]:
+        return _compile_error(m) or self._run(m, self.timeout)
+
+    def results(self, mutants: list[Mutant], jobs: int) -> list[tuple[str, str]]:
+        """Each mutant's (result, detail), in the order given, with up to jobs test runs in flight at once.
+
+        A run in flight is its steps (a generator) suspended at the wait, keyed by the mutant's index; its
+        test is a child of this one thread. Any exception keeps the scratch, and kills and reaps the test of
+        each run in flight (its timeout path, so each still gets its after-run checks) before it propagates."""
+        if jobs == 1:
+            return [self.result(m) for m in mutants]  # one at a time, as before --jobs
+        found: list = [None] * len(mutants)
+        flights: dict[int, tuple] = {}  # index -> (steps, pid, deadline on time.monotonic())
         try:
-            compile(m.source, m.rel, "exec", dont_inherit=True)
-        except (SyntaxError, ValueError) as exc:
-            return "error", f"does not compile: {exc}"
-        return self._run(m, self.timeout)
+            for i, m in enumerate(mutants):
+                found[i] = _compile_error(m)
+                if found[i] is None:
+                    while len(flights) >= jobs:
+                        self._land(flights, found)
+                    steps = self._steps(m, self.timeout)
+                    pid, timeout = next(steps)
+                    flights[i] = (steps, pid, time.monotonic() + timeout)  # counted from this run's own start
+            while flights:
+                self._land(flights, found)
+        except BaseException:
+            self.keep = True
+            with contextlib.ExitStack() as stop:  # every run in flight is stopped, even when one stop fails
+                for steps, _, _ in flights.values():
+                    stop.callback(_finish, steps, False)
+            raise
+        return found
+
+    def _land(self, flights: dict, found: list) -> None:
+        """Wait until a run's test exits or the earliest deadline passes; finish each such run, in index order."""
+        wait = min(deadline for _, _, deadline in flights.values()) - time.monotonic()
+        exited = _wait_any([pid for _, pid, _ in flights.values()], max(wait, 0.0))
+        for i in sorted(flights):
+            steps, pid, deadline = flights[i]
+            if pid in exited or time.monotonic() >= deadline:
+                del flights[i]  # out of flight before its steps resume: a refusal there leaves the others to stop
+                found[i] = _finish(steps, pid in exited)
 
     def verify_lane(self) -> None:
         seen: dict = {}
@@ -604,6 +653,11 @@ class Session:
         return seen
 
     def _run(self, m: Mutant | None, timeout: float) -> tuple[str, str]:
+        return _drive(self._steps(m, timeout))
+
+    def _steps(self, m: Mutant | None, timeout: float):
+        """One run, as a generator: it yields (pid, timeout) once its test has started, takes back whether the
+        test exited (False: it timed out) and returns the outcome."""
         if self.snapshot is None:
             self.snapshot = self._scan()  # before any copy or test run
         self.runs += 1
@@ -625,7 +679,7 @@ class Session:
                 bound = ((self.scratch_fd, name, mfd, mpath), (mfd, "lane", lfd, lane), (mfd, "tmp", tfd, tmp))
                 self._check_bound(bound, "before")
                 start = time.time()
-                outcome = _execute(self.cmd, lane, tmp, timeout, lfd)
+                outcome = yield from _execute_steps(self.cmd, lane, tmp, timeout, lfd)
                 window = (start, time.time())
                 self._check_bound(bound, "after")
                 try:
@@ -818,16 +872,46 @@ def _remove_dir(parent_fd: int, name: str, path: str, owned: set) -> None:
         _close(fd, path)
 
 
+def _compile_error(m: Mutant) -> tuple[str, str] | None:
+    """The error row of a mutant that does not compile (it never runs), else None."""
+    try:
+        compile(m.source, m.rel, "exec", dont_inherit=True)
+    except (SyntaxError, ValueError) as exc:
+        return "error", f"does not compile: {exc}"
+    return None
+
+
 def _execute(cmd: str, lane: str, tmp: str, timeout: float, cwd_fd: int | None = None) -> tuple[str, str]:
     """Run cmd with sh in the copy held by cwd_fd: the child enters it with fchdir, never by path.
 
     Without cwd_fd the child fails before exec (fchdir(None)); lane and tmp only name the copy in the env."""
+    return _drive(_execute_steps(cmd, lane, tmp, timeout, cwd_fd))
+
+
+def _drive(steps):
+    """Run one run's steps to their end in this thread: wait for its test, then resume them."""
+    pid, timeout = next(steps)
+    return _finish(steps, _wait_exit(pid, timeout))
+
+
+def _finish(steps, exited: bool):
+    """Resume steps suspended at their wait with whether the test exited; their return value."""
+    try:
+        steps.send(exited)
+    except StopIteration as done:
+        return done.value
+    raise RuntimeError("a run's steps waited twice")  # _execute_steps yields once
+
+
+def _execute_steps(cmd: str, lane: str, tmp: str, timeout: float, cwd_fd: int | None):
+    """_execute as a generator: it yields (pid, timeout) once the child has started and takes back whether
+    the child exited (False: it timed out, and the kill below ends it)."""
     env = dict(os.environ, PWD=lane, LLMDB_ROOT=lane, TMPDIR=tmp)
     env.pop("PYTHONPATH", None)
     proc = subprocess.Popen(["/bin/sh", "-c", cmd], preexec_fn=lambda: os.fchdir(cwd_fd), env=env,
                             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                             start_new_session=True)
-    exited = _wait_exit(proc.pid, timeout)
+    exited = yield proc.pid, timeout
     # The child is not reaped yet, so its pid still names its own group: the kill reaches only the test's group.
     try:
         _kill_group(proc.pid)  # anything the test left running, and the test itself on a timeout
@@ -875,6 +959,16 @@ def _wait_exit_kqueue(pid: int, timeout: float) -> bool:
 
 
 _wait_exit = _wait_exit_waitid if hasattr(os, "waitid") else _wait_exit_kqueue
+
+
+def _wait_any(pids: list[int], timeout: float) -> list[int]:
+    """The pids of these children that have exited (left unreaped), once one has; [] after timeout seconds."""
+    deadline = time.monotonic() + timeout
+    delay = 0.0005
+    while not (exited := [pid for pid in pids if _wait_exit(pid, 0)]) and (left := deadline - time.monotonic()) > 0:
+        delay = min(delay * 2, left, 0.05)
+        time.sleep(delay)  # polls like _wait_exit_waitid
+    return exited
 
 
 def _kill_group(pgid: int) -> None:
@@ -928,6 +1022,13 @@ def _positive(text: str) -> float:
     return value
 
 
+def _jobs(text: str) -> int:
+    value = int(text)  # argparse turns a ValueError into a usage error (exit 2)
+    if value < 1:
+        raise argparse.ArgumentTypeError(f"must be 1 or more: {text!r}")
+    return value
+
+
 def main(argv: list[str] | None = None, ops_dir: str = OPS_DIR) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--file", action="append", required=True, help="a Python file in the lane (cwd)")
@@ -936,6 +1037,8 @@ def main(argv: list[str] | None = None, ops_dir: str = OPS_DIR) -> int:
     ap.add_argument("--allow", help="JSON list of {id, reason} for mutants that may stay unkilled")
     ap.add_argument("--timeout", type=_positive, help="seconds per test run (default 10x baseline, >= 60)")
     ap.add_argument("--base", help="mutate only the lines that differ from this git revision")
+    ap.add_argument("--jobs", type=_jobs, default=min(4, os.cpu_count() or 1),
+                    help="mutant test runs at once (an integer >= 1; default min(4, cpu count))")
     args = ap.parse_args(argv)
     out = os.path.abspath(args.out)
     parent, name = os.path.dirname(out), os.path.basename(args.out)
@@ -968,8 +1071,7 @@ def main(argv: list[str] | None = None, ops_dir: str = OPS_DIR) -> int:
                 with Session(root, root_fd, targets, args.test, args.timeout) as session:
                     session.baseline()
                     rows = []
-                    for m in mutants:
-                        result, detail = session.result(m)
+                    for m, (result, detail) in zip(mutants, session.results(mutants, args.jobs)):
                         rows.append({"id": m.id, "location": f"{m.rel}:{m.line}", "operator": m.operator,
                                      "change": m.change, "result": result, "detail": detail,
                                      "allowed": allow.get(m.id) if result != "killed" else None})
