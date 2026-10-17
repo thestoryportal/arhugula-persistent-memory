@@ -1,9 +1,9 @@
 # TICKETS — the atomic-ticket workflow, from an approved plan to merged master
 Job: how one approved plan becomes many atomic tickets that fresh builders implement in parallel lanes and that ship, train and land without hand work; which tool owns each stage; the traps each stage has already sprung; the gaps still open.
-Routed from the root CLAUDE.md (twin: AGENTS.md). Written 2026-10-16 from the sweep `L/w1opt/staged/tickets-doc/INVENTORY.md` (the audit, one row per component; this file is the guide for the moment of decision). This guide is the registry of every tag (`[R12]`, `[G7]`): INVENTORY.md is the frozen sweep evidence for R1-R53 and G1-G20, and later tags exist only here.
+Routed from the root CLAUDE.md (twin: AGENTS.md). Written 2026-10-16 from the sweep `L/w1opt/staged/tickets-doc/INVENTORY.md` (the audit, one row per component; this guide is for the moment of decision). The guide (this router plus `tickets/*.md`) is the registry of every tag (`[R12]`, `[G7]`): a tag is defined by the rule or gap it is attached to, found with the grep under "Where to read next". INVENTORY.md is only the frozen sweep evidence for R1-R53 and G1-G20; later tags exist only in the guide.
 
 This file is the router. It holds the goal, the belt and where to read next. Every rule lives in one file under `_system/governance/tickets/`.
-Read `tickets/00-roots-and-roles.md` first, then only the file for your stage or moment.
+Read `tickets/00-roots-and-roles.md` once per session (it defines the roots L, M, S, W, TD, MEM, HO and who does what), then only the file for your stage or moment.
 
 ## The goal
 
@@ -38,7 +38,7 @@ So at every stage, ask first: *which station owns this, and am I about to do its
 
 | Moment | File |
 |---|---|
-| Any stage, first: roots and names, who does what (old § Roots and names, § Who does what) | `tickets/00-roots-and-roles.md` |
+| Once per session, before any stage: roots and names, who does what (old § Roots and names, § Who does what) | `tickets/00-roots-and-roles.md` |
 | Setting a variable for a test or a one-off (old § Environment overrides) | `tickets/env-overrides.md` |
 | A ledger row, METRICS.md, counting landed tickets, the dashboard tab (old § Ledger and metrics) | `tickets/ledger-and-metrics.md` |
 | Disk floor, a permission prompt, a session reset, watchers, zsh traps (old § Disk, permissions, sessions) | `tickets/disk-permissions-sessions.md` |
