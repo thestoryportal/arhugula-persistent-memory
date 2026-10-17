@@ -471,6 +471,22 @@
         "notes": [
           "2026-10-13 00:10Z: Added as its own standalone implementation at the operator's request (2026-10-12 ~21:45 MDT). No live spec yet; sources: No live spec exists yet: the only prior design is archived (_archive/historical_backups/20261011/llm-as-database/, 'Session 1 - Ontological Schema'), and the research engine design names a versioned vocabulary with LinkML as the recommended start; the first sub-unit is a spec."
         ]
+      },
+      {
+        "id": "storage-monitor",
+        "title": "Storage monitor: threshold-triggered deterministic audit",
+        "summary": "Operator 2026-10-17: monitor storage availability programmatically; at a set threshold, run a deterministic python audit of where storage is consumed and write a schema audit report for agents and the operator. Growth locations: program/runbook/03-operational-hygiene-runpod-gpu-memory-disk.md §3.3b. Until built, MAESTRO checks storage at every close (_system/governance/STORAGE.md § Close what you open).",
+        "state": "blocked",
+        "who": "operator: deferred",
+        "session": null,
+        "started": null,
+        "estimate": null,
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "2026-10-17: Deferred by the operator: \"We will not build this right now as we need to keep our current implementation running first.\" Provenance: knowledge/analyses/storage-audit-20261017.md."
+        ]
       }
     ]
   }

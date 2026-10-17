@@ -35,6 +35,25 @@ Incident: the C10Y pre-cast diagnostic wrote 105 GB of float64 operand packets, 
 - **Drive backup build (2026-10-10):** host self-tests PASS on real Drive; upload 1.16 MB/s, first full copy ≈ 69 h, day-capped by operator choice (D-C10r-rulings-15); Astra r1 NO-GO → fixes in build; activation waits for the PR #21 merge + a never-dialog applet with the operator's one-time Removable Volumes grant. Detail: [backup build report](_archive/projects/backup-gdrive/backup_gdrive_build_report.md), [host findings](_archive/projects/backup-gdrive/backup_gdrive_host_20261010/HOST_FINDINGS.md). **2026-10-11:** the backup-only release merged as PR #22 → master 5ccbb836 (D-C10r-gitmerge-2); activation awaits the operator's three OKs (full read-back, write pause, fresh history vs recovery).
 - First application: pre-cast operands hashed (`experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/OPERANDS_SHA256SUMS.txt`, 131 files), A7-L4 set kept on memit for the controls-timing measurement, the other 96 (86 GB) approved for deletion from `~/Backups/memit_offload/`.
 
+### §3.3b — Where storage hides, and the close-time check (storage audit 2026-10-17)
+Rules: `_system/governance/STORAGE.md` § Close what you open. Audit, decisions and removal ledger: `knowledge/analyses/storage-audit-20261017.md`.
+At every close of work that wrote files: `df -h /Volumes/memit /`, then check the locations below that the work could have written. Space still held → trace the source tool at once.
+
+| location | what grows it | check |
+|---|---|---|
+| `LEAN/w1opt/followup-*/reviews/T*/work-probe/` | prober clone (was a full 5.7 GB clone; sparse since `prober.md:19`) | `du -sh` after ship |
+| `LEAN/w1opt/followup-*/reviews/T*/` other work trees | review work trees of merged tickets, not removed at close | `du -sh` per merged ticket |
+| `/Volumes/memit/llmdb-lanes/` | closed lanes not removed; `r*/T*/evidence/*/run/*/icm-predecessor-*/worktree` verifier copies (~25 MB each) | `git worktree list`; `du -sh r*/T*/evidence` |
+| `G-build/package-v*/` attempts, `evidence-v*` | superseded package proof attempts | keep receipts; bulk is regenerable |
+| main repo `.git` | cruft packs and `tmp_obj_*` from aborted `git add` of bulk | `git count-objects -vH` (garbage, size-garbage) |
+| `/Volumes/memit/.Spotlight-V100` (system data) | Spotlight index of memit | `df` vs `du` gap |
+| `/private/tmp/claude-501/<project>/<session>/` | every MAESTRO session (each /clear) leaves its scratchpad | `du -sh` older than the live session |
+| `/private/tmp/claude-501/{v-T*,combined.*,spot-T*,astra-T*}`, `/private/tmp/t0*-review*` | `LEAN/tools/verify_ticket.sh`, `combined.sh` (~360 MB/run), `spot.sh` (~18 MB/run) `mktemp -d` with no cleanup; Astra mutant trees (~43 MB × 25 per ticket) | `du -sh` |
+| host TMPDIR (`getconf DARWIN_USER_TEMP_DIR`) | package-v13 predecessor runner copies (~27 MB/run); tests leaking empty `mkdtemp` dirs | `du -sh icm-predecessor-*` |
+| `~/.claude/jobs/*/tmp` | Claude Code daemon job temp (restore-sample 9 GB, incl. a GGUF: science) | `du -sh` |
+| `~/.codex` | old Codex builds, rollouts (~0.8 MiB per Astra review), `thread_history_1.sqlite` | `du -sh` |
+| `~/.cache/uv` | uv package cache (kept, 9 GB) | `uv cache dir`; prune only on approval |
+
 ### §3.4 — Cov-cache & /dev/shm discipline
 - Covariance is the expensive precompute (~1–2 h per 5-layer band on a 3B). It **caches to `data/covariance/<model>/wikipedia_stats/`** — reuse aggressively; never recompute a cached band.
 - `/dev/shm` (29 GB RAM tmpfs) holds vindex/overlays for speed; it is **ephemeral** — rebuild from scripts after a pod restart. Cap BLAS threads (`OPENBLAS_NUM_THREADS=8`) so cov inversion doesn't thrash.

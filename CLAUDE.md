@@ -28,7 +28,7 @@ Read `CONTEXT.md` (the umbrella). Then read the one folder `CONTEXT.md` that you
 | You work as a Codex builder, or you need a Codex tool | `_system/governance/CODEX.md` |
 | Before any merge | `_system/governance/MERGING.md` |
 | You plan, cut, build, review, ship or land an atomic ticket, or change its tools | `_system/governance/TICKETS.md` |
-| Before a bulk write, a download or a deletion | `_system/governance/STORAGE.md` |
+| Before a bulk write, a download or a deletion, or when you close work that wrote files | `_system/governance/STORAGE.md` |
 | You re-run a known arm, or trace a claim to its artifact | `_system/governance/REPRODUCIBILITY.md` |
 | Before an unattended run of `code/lab/runners/autonomy_driver.py` | `_system/governance/AUTONOMY.md` |
 | You need the shape of the whole workflow | `_system/governance/WORKFLOWS_OVERVIEW.md` |
