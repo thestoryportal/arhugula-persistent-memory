@@ -6,6 +6,11 @@
                       file binds it exactly once, by `NAME = <chain>` in module scope (the module body
                       and the bodies of its if/try/with/for/while/match statements, not a def, class
                       or lambda), and <chain> is a `|` chain whose every operand is a plain `os.O_*`.
+                      It makes no mutant for an inert flag of the chain, whose drop cannot change the
+                      open: a flag with `getattr(os, name, None) == 0` in the running interpreter
+                      (O_RDONLY), and O_NOFOLLOW when the chain also has O_CREAT and O_EXCL (the open
+                      then fails EEXIST on a symlink either way). The chain still qualifies: its other
+                      flags keep their mutants.
 
 The anchor is the call (its first line), so with --base a changed call site is in scope even when the
 constant's line is not, and the ids never meet flag-drop's (anchored at the definition's operands):
@@ -18,6 +23,7 @@ from __future__ import annotations
 
 import ast
 import collections
+import os
 
 from mutant_ops import _is_bitor, _operands, _os_flag
 
@@ -59,6 +65,11 @@ def _chain(value: ast.AST) -> list[str]:
     return []
 
 
+def _inert(flag: str, flags: list[str]) -> bool:
+    """Whether dropping flag from the chain of flags cannot change the open."""
+    return getattr(os, flag, None) == 0 or (flag == "O_NOFOLLOW" and {"O_CREAT", "O_EXCL"} <= set(flags))
+
+
 def _constants(tree: ast.Module) -> dict[str, list[str]]:
     count = collections.Counter(name for node in ast.walk(tree) for name in _bound(node))
     found = {}
@@ -66,7 +77,7 @@ def _constants(tree: ast.Module) -> dict[str, list[str]]:
         if isinstance(stmt, ast.Assign) and (flags := _chain(stmt.value)):
             for target in stmt.targets:
                 if isinstance(target, ast.Name) and count[target.id] == 1:
-                    found[target.id] = flags
+                    found[target.id] = [flag for flag in flags if not _inert(flag, flags)]
     return found
 
 
