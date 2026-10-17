@@ -298,7 +298,7 @@ The tool works, the suite is green, and you will think *"docs after the next ste
 - Halt discipline and correctness gates: `_system/governance/DISCIPLINE.md`.
 - Codex builders and tools: `_system/governance/CODEX.md`.
 - Memory that holds this workflow's lessons (update in place, never append a duplicate): MEM/lean-ticket-lane-traps.md, MEM/lean-tools-ship-and-cut-base.md, MEM/atomic-units-parallel-worktree-lanes.md, MEM/workflow-change-closes-with-doc-updates.md, MEM/icm21-part2-and-workflow-approvals.md, MEM/check-gpu-counts-team-pythons.md, MEM/fix-lane-evidence-fills-memit.md, MEM/merge-gate-first-use-learnings.md, MEM/build-gate-allow-rules.md, MEM/atomic-unit-builder-lifecycle.md, MEM/rerun-builder-tests-host-tmpdir.md, MEM/review-substitution-is-exception.md, MEM/one-shot-run-needs-real-scale-dry-run.md.
-- Handoffs: HO/HANDOFF-STEP64.md is the latest (it supersedes HO/HANDOFF-STEP63.md; STEP50-62 before them). A handoff carries a session's state; a rule found in one belongs in this file or in memory, where the next session will look.
+- Handoffs: HO/HANDOFF-STEP65.md is the latest (it supersedes HO/HANDOFF-STEP64.md; STEP50-63 before them). A handoff carries a session's state; a rule found in one belongs in this file or in memory, where the next session will look.
 - Wave-1 filesystem rulings: `L/part2/extra-fd-binding.md` and `L/part2/reviews/<T>/RULING.md` (for example `L/part2/reviews/T201/RULING.md`).
 
 ## Known gaps (all open on 2026-10-17)
