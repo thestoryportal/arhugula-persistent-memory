@@ -58,7 +58,9 @@ def load_operators(directory: str = OPS_DIR) -> tuple:
             sys.modules[module.__name__] = module
             try:
                 exec(compile(code, path, "exec", dont_inherit=True), module.__dict__)
-            except Exception as exc:  # any failure of an operator module's own code is a refusal
+            except KeyboardInterrupt:
+                raise
+            except BaseException as exc:  # any failure of a module's own code, SystemExit too, is a refusal
                 del sys.modules[module.__name__]
                 raise Refusal(f"operator module {path} does not import: {type(exc).__name__}: {exc}") from exc
             ops = getattr(module, "OPERATORS", None)

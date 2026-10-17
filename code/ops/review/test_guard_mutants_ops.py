@@ -600,6 +600,134 @@ class FilesystemRefusals(TempDirs):
             self.assertMainRefused(ops, ops, "ENOTDIR")
 
 
+# ---- a module's own exits refuse; each module is read whole; no fd outlives the load ----------
+
+MAIN = ("import sys\nimport guard_mutants as gm\n"
+        "sys.exit(gm.main(['--file', 'x.py', '--test', 'true', '--out', sys.argv[2]], ops_dir=sys.argv[1]))\n")
+TWO = '''\
+import ast
+
+
+def first(tree, src, add):
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assign):
+            add(node, "first", "", "first", *src.span(node), b"pass")
+{pad}
+
+def second(tree, src, add):
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assign):
+            add(node, "second", "", "second", *src.span(node), b"pass")
+
+
+OPERATORS = (first, second)
+'''
+
+
+def open_fds() -> int:
+    return len(os.listdir("/dev/fd"))
+
+
+class ModuleExits(TempDirs):
+    def run_main(self, ops_dir: str) -> tuple[subprocess.CompletedProcess, str]:
+        """main in a child process (a SystemExit that escapes main ends the child, not this suite)."""
+        lane = self.mkdtemp()
+        with open(os.path.join(lane, "x.py"), "wb") as fh:
+            fh.write(b"if x: raise ValueError\n")
+        out = os.path.join(self.mkdtemp(), "out.json")
+        env = dict(os.environ, PYTHONPATH=HERE, LLMDB_ROOT=lane)
+        proc = subprocess.run([sys.executable, "-B", "-c", MAIN, ops_dir, out], cwd=lane, env=env,
+                              capture_output=True, text=True, timeout=20)  # under the gate's 60 s
+        return proc, out
+
+    def test_control_main_in_a_child_reports(self):  # positive control of run_main
+        proc, out = self.run_main(self.ops_dir(**{"ok.py": MARK.format(op="m", change="c")}))
+        self.assertNotEqual(proc.returncode, 2, proc.stderr)
+        self.assertTrue(os.path.exists(out), proc.stderr)
+
+    def test_system_exit_and_base_exceptions_of_a_module_refuse(self):
+        odd = "class Odd318(BaseException):\n    pass\n\n\nraise Odd318('odd 318')\n"
+        for body, needle in (("raise SystemExit(0)\n", "SystemExit: 0"), ("raise SystemExit(3)\n", "SystemExit: 3"),
+                             (odd, "Odd318: odd 318")):
+            with self.subTest(body=body):
+                d = self.ops_dir(**{"ok.py": MARK.format(op="m", change="c"), "zz_exit.py": body})
+                path = os.path.join(d, "zz_exit.py")
+                with self.assertRaises(mutant_ops.Refusal) as caught:
+                    mutant_ops.load_operators(d)
+                self.assertIn(f"operator module {path} does not import: {needle}", str(caught.exception))
+                self.assertNotIn("mutant_ops.zz_exit", sys.modules)
+                proc, out = self.run_main(d)
+                self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+                self.assertIn(f"operator module {path} does not import: {needle}", proc.stderr)
+                self.assertFalse(os.path.lexists(out))
+
+    def test_keyboard_interrupt_of_a_module_propagates(self):
+        d = self.ops_dir(**{"ok.py": MARK.format(op="m", change="c"), "zz_ki.py": "raise KeyboardInterrupt('ki 318')\n"})
+        self.addCleanup(sys.modules.pop, "mutant_ops.zz_ki", None)
+        with self.assertRaises(KeyboardInterrupt) as caught:
+            mutant_ops.load_operators(d)
+        self.assertEqual(str(caught.exception), "ki 318")
+
+
+class WholeReads(TempDirs):
+    def ids(self, ops: tuple) -> list:
+        return [m.id for m in gm.mutants_for("m.py", SOURCE, {1}, ops)]
+
+    def test_short_reads_give_every_operator(self):
+        d = self.ops_dir(**{"two.py": TWO.format(pad="")})
+        read, calls = os.read, []
+
+        def short(fd, n):
+            calls.append(n)
+            return read(fd, min(n, 7))
+
+        with mock.patch("os.read", short):
+            ops = mutant_ops.load_operators(d)
+        self.assertGreater(len(calls), 2)
+        self.assertEqual([fn.__name__ for fn in ops], ["first", "second"])
+        self.assertEqual(self.ids(ops), ["m.py:1:0:first", "m.py:1:0:second"])
+
+    def test_module_larger_than_one_read_gives_every_operator(self):
+        pad = "# " + "p" * 1021 + "\n"
+        d = self.ops_dir(**{"two.py": TWO.format(pad=pad * 2048)})  # 2 MiB of comment between the operators
+        self.assertGreater(os.path.getsize(os.path.join(d, "two.py")), 2 << 20)
+        ops = mutant_ops.load_operators(d)
+        self.assertEqual([fn.__name__ for fn in ops], ["first", "second"])
+        self.assertEqual(self.ids(ops), ["m.py:1:0:first", "m.py:1:0:second"])
+
+
+class NoFdLeak(TempDirs):
+    def assertSameFds(self, call) -> None:
+        with contextlib.suppress(mutant_ops.Refusal):
+            call()  # a first call may open what it keeps for good (lazy imports)
+        before = open_fds()
+        with contextlib.suppress(mutant_ops.Refusal):
+            call()
+        self.assertEqual(open_fds(), before)
+
+    def test_positive_control_counts_a_leaked_fd(self):
+        before = open_fds()
+        fd = os.open(self.mkdtemp(), os.O_RDONLY)
+        self.addCleanup(os.close, fd)
+        self.assertEqual(open_fds(), before + 1)
+
+    def test_success_leaves_no_fd(self):
+        d = self.ops_dir(**{"ok.py": MARK.format(op="m", change="c")})
+        self.assertEqual(len(mutant_ops.load_operators(d)), 1)
+        self.assertSameFds(lambda: mutant_ops.load_operators(d))
+
+    def test_refusals_leave_no_fd(self):
+        no_ops = self.ops_dir(**{"ok.py": MARK.format(op="m", change="c"), "none.py": "X = 1\n"})
+        fifo = self.ops_dir(**{"ok.py": MARK.format(op="m", change="c"), "zz.py": MARK.format(op="z", change="c")})
+        for d, needle, attack in ((no_ops, "no OPERATORS", contextlib.nullcontext()),
+                                  (fifo, "is a FIFO", fk.fifo_in_place(os.path.join(fifo, "zz.py"), timeout=2))):
+            with self.subTest(needle=needle), attack:  # the FIFO body never blocks past 2 s
+                with self.assertRaises(mutant_ops.Refusal) as caught:
+                    mutant_ops.load_operators(d)
+                self.assertIn(needle, str(caught.exception))
+                self.assertSameFds(lambda: mutant_ops.load_operators(d))
+
+
 if __name__ == "__main__":
     if sys.argv[1:] == ["--head-oracle"]:
         sys.exit(head_oracle())
