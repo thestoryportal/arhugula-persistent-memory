@@ -205,6 +205,26 @@ class RevertFile(unittest.TestCase):
         self.assertIn("lists m.py:3:0:revert-file, which is no mutant of these files", proc.stderr)
         self.assertFalse(os.path.lexists(out))
 
+    # a source at REV that does not parse is refused like any mutant's: before a test run or a report
+    def test_unparseable_rev_source_refuses_before_any_run_with_or_without_allow(self):
+        self.write("m.py", BASE.replace("VALUE = 1", "VALUE = = 1"))  # the syntax error is only at REV
+        self.git("commit", "-q", "-am", "broken base")
+        self.write("m.py", EDITED)  # the lane's file parses: its operator mutants do too
+        allow = os.path.join(self.tmp, "allow-broken.json")
+        with open(allow, "w") as fh:
+            json.dump([{"id": "m.py:3:0:revert-file", "reason": "allowed, still refused"}], fh)
+        marker = os.path.join(self.tmp, "ran")
+        test = f"echo ran >> {shlex.quote(marker)}; {CHECKS}"
+        for extra in ((), ("--allow", allow)):
+            with self.subTest(extra=extra):
+                proc, out = self.run_tool("--base", "HEAD", *extra, test=test)
+                self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+                self.assertTrue(proc.stderr.startswith("guard_mutants: refused: operator revert-file made "
+                                                       "m.py:3:0:revert-file, whose source does not parse: "),
+                                proc.stderr)
+                self.assertFalse(os.path.lexists(marker), "the test command ran")
+                self.assertFalse(os.path.lexists(out))
+
     def test_revert_file_follows_its_files_operator_mutants(self):
         self.write("g.py", GUARDED)
         self.git("add", "g.py")
