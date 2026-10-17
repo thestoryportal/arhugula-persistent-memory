@@ -367,7 +367,7 @@ class Operators(Base):
         got = {(m.operator, m.line, m.id.split(":")[4] if m.id.count(":") > 3 else "")
                for m in gm.mutants_for("f.py", src)}
         self.assertEqual(got, {
-            ("flag-drop", 4, "O_NOFOLLOW"), ("flag-drop", 5, "O_RDONLY"), ("flag-drop", 5, "O_CLOEXEC"),
+            ("flag-drop", 4, "O_NOFOLLOW"), ("flag-drop", 5, "O_CLOEXEC"),
             ("raise-remove", 9, ""), ("negate-if", 6, ""),
             ("except-remove", 12, ""), ("except-class", 16, ""), ("except-remove", 16, ""),
             ("except-remove", 18, ""), ("write-loop", 20, ""),

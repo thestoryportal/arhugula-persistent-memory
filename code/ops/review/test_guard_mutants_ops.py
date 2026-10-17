@@ -215,10 +215,58 @@ for é in s:
 # Made by 2a21541b's tool, the last tool before the split, with this command from the lane root:
 #   .venv/bin/python -B code/ops/review/test_guard_mutants_ops.py --pin 2a21541b
 # (git show 2a21541b:code/ops/review/guard_mutants.py into a temp dir, imported as guard_mutants_head, then
-# corpus_pin(head.mutants_for)). Never edit these by hand; never make them with the working tree's tool.
-PINNED_DIGEST = "7524e44988f2986b6017c14ac1aa3b1678bd02c52a2afe4a1eab2f9d43b7f866"
-PINNED_COUNTS = {"except-class": 5, "except-remove": 8, "flag-drop": 18, "negate-if": 8, "raise-remove": 6,
+# corpus_pin(minus_inert(head.mutants_for))). Never edit these by hand; never make them with the working tree's tool.
+PINNED_DIGEST = "dd4c23b3323aff0a47e6dc9f1f14bfd09d84e3d9db517e3f077dfe319af6343b"
+PINNED_COUNTS = {"except-class": 5, "except-remove": 8, "flag-drop": 16, "negate-if": 8, "raise-remove": 6,
                  "regex-zero": 22, "write-loop": 10}
+
+
+def _flag(node: ast.AST) -> str | None:
+    """The O_* name of os.O_X or getattr(os, "O_X", ...), else None."""
+    if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name) and node.value.id == "os" \
+            and node.attr.startswith("O_"):
+        return node.attr
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "getattr" \
+            and len(node.args) >= 2 and isinstance(node.args[0], ast.Name) and node.args[0].id == "os" \
+            and isinstance(node.args[1], ast.Constant) and isinstance(node.args[1].value, str) \
+            and node.args[1].value.startswith("O_"):
+        return node.args[1].value
+    return None
+
+
+def _chain(node: ast.AST) -> list[ast.AST]:
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.BitOr):
+        return _chain(node.left) + _chain(node.right)
+    return [node]
+
+
+def inert_ids(rel: str, data: bytes) -> set[str]:
+    """Ids of the flag-drop mutants that Step 328's out:(1)-(2) remove, as 2a21541b's tool names them: a flag
+    with getattr(os, name, None) == 0 in a `|` chain or `|=`, and O_NOFOLLOW in a `|` chain that also names
+    O_CREAT and O_EXCL. Written here, never imported from mutant_ops: the pin stays a check against the old tool."""
+    ids = set()
+    for node in ast.walk(ast.parse(data)):
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.BitOr):
+            ops = _chain(node)  # an inner chain names a subset of its root's flags: same result as the root
+        elif isinstance(node, ast.AugAssign) and isinstance(node.op, ast.BitOr):
+            ops = [node.value]
+        else:
+            continue
+        names = {_flag(o) for o in ops}
+        for o in ops:
+            flag = _flag(o)
+            if flag is not None and (getattr(os, flag, None) == 0 or
+                                     (flag == "O_NOFOLLOW" and {"O_CREAT", "O_EXCL"} <= names)):
+                ids.add(f"{rel}:{o.lineno}:{o.col_offset}:flag-drop:{flag}")
+    return ids
+
+
+def minus_inert(mutants_for):
+    """mutants_for, less the mutants whose ids inert_ids gives."""
+    def made(rel: str, data: bytes) -> list:
+        mutants, inert = mutants_for(rel, data), inert_ids(rel, data)
+        return [m for m in mutants if m.id not in inert]
+    return made
 
 
 def corpus_pin(mutants_for) -> tuple[str, dict[str, int]]:
@@ -301,7 +349,8 @@ def tool_at(rev: str, tmp: str):
 
 
 def head_oracle() -> int:
-    """Exit 0 when HEAD's tool and mutant_ops.base.OPERATORS give the same set for every tracked code file."""
+    """Exit 0 when HEAD's tool, less inert_ids, and mutant_ops.base.OPERATORS give the same set for every
+    tracked code file."""
     t0, tmp = time.monotonic(), tempfile.mkdtemp(prefix="gm-ops-oracle-")
     try:
         head, blobs = tool_at("HEAD", tmp), head_blobs()
@@ -310,6 +359,9 @@ def head_oracle() -> int:
             warnings.simplefilter("ignore")  # some tracked files have invalid escapes: ast.parse warns, both alike
             for rel, data in sorted(blobs.items()):
                 want = rows(head, rel, data)
+                if isinstance(want, set):
+                    inert = inert_ids(rel, data)
+                    want = {r for r in want if r[0] not in inert}
                 if rows(gm, rel, data, gm.WHOLE, base.OPERATORS) != want:
                     bad.append(rel)
                 total += len(want) if isinstance(want, set) else 0
@@ -325,10 +377,10 @@ def head_oracle() -> int:
 
 
 def pin(rev: str) -> int:
-    """Print the PINNED_* values that rev's tool gives on CORPUS."""
+    """Print the PINNED_* values that rev's tool, less inert_ids, gives on CORPUS."""
     tmp = tempfile.mkdtemp(prefix="gm-ops-pin-")
     try:
-        digest, counts = corpus_pin(tool_at(rev, tmp).mutants_for)
+        digest, counts = corpus_pin(minus_inert(tool_at(rev, tmp).mutants_for))
     finally:
         sys.modules.pop("guard_mutants_head", None)
         shutil.rmtree(tmp, ignore_errors=True)
