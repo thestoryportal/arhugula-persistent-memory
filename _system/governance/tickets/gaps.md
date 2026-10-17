@@ -1,4 +1,4 @@
-# Known gaps (all open on 2026-10-17)
+# Known gaps (status on 2026-10-17)
 Part of the tickets guide. Router: `_system/governance/TICKETS.md`. Roots (L, M, S, W, TD, MEM, HO): `00-roots-and-roles.md`.
 
 Evidence is from the sweep unless marked "since".
@@ -25,12 +25,18 @@ Evidence is from the sweep unless marked "since".
 - [G20] open. Memory marks item 3 of the 2026-10-16 approvals (the review-round rule) "unverified"; the rule is present in SKILL.md:88-95 and reviewer.md:12-18, so the memory is stale on that point. Evidence: MEM/icm21-part2-and-workflow-approvals.md:24.
 - Since the sweep: M93 (a kill must fail for the right reason) is a known gap of the guard_mutants gate (HO/HANDOFF-STEP59.md:49).
 - [G21] open. The INT-after-mkdir stub case in test_ship.sh is timing-flaky: 1 of 3 live runs, 1 of 3 staged runs in 326 round 2, 4 of 30 mutant runs under load.
-- [G22] open. guard_mutants' O_RDONLY drop mutant is always equivalent (`os.O_RDONLY == 0`): it needs an allow entry each time; consider skipping zero-valued flags.
+- [G22] closed by T328 and T329 (merged 2026-10-17, PRs #103, #102): guard_mutants makes no flag-drop or callsite-flag-drop mutant for a flag that cannot change the open. It was: the O_RDONLY drop mutant is always equivalent (`os.O_RDONLY == 0`) and needed an allow entry each time. Another equivalent class allowed with a proof gets its own entry here, so the tool can stop making it (`L/w1opt/followup-327/RULING-327C.md:17`).
 - [G23] open. A ticket that repairs a syntax error cannot pass gate 1a: the revert-file mutant refuses to parse the base file. MAESTRO handles such a ticket by hand.
 - [G24] open. The train's gate refuses on lsof while a review or mutant run holds a temp lane; the retry cap is 6 tries.
 - [G25] open. The OpenAI content filter stops Astra on signal-stress reviews of ship.sh cleanup (326 r3) and stopped the Codex pre-review before (T303 r3, T318 r2). A dead codex leaves its stub suites running as orphans: check `ps` and kill them before hygiene.
 - [G26] open. ship.sh survivors ignore_pid, no_term_pid_fallback and no_kill_pid_fallback are race-only (the fork-to-setpgid window); no stub case can reach them (326 ruling 14).
 - [G27] open. Two signals back to back: the second signal's exit code can win in sig(); release runs once and cleanup is correct.
 - [G28] open. A background subagent that resumes after its own background job, after a MAESTRO /clear, runs on the parent's model (326 r3 went from claude-fable-5-1 to claude-opus-5-5). A brief for a model-specific reviewer says "foreground only".
+- [G29] open. "test_guard_mutants_ops.py --head-oracle fails on unchanged master (differ=390): since the operator split, HEAD's guard_mutants.py loads every mutant_ops module while the oracle side runs base.OPERATORS only" (HO/HANDOFF-STEP67.md:33).
+- [G30] closed 2026-10-17. The prober made a full clone of the lane in its review folder (`TD/reviews/T330/work-probe/tree`, 5.7 GB, mostly `experiments/`); memit fell under the 20 GiB floor and the T330 re-ship stopped. Fixed in `S/references/prober.md:19` (sparse clone of `/code/` without `/code/memit/`; backup `S/references/prober.md.bak-20261017-probe-sparse`). Evidence: HO/HANDOFF-STEP68.md:42.
+- [G31] open. `L/tools/verify_ticket.sh`, `L/tools/spot.sh` and `L/tools/combined.sh` each make a `mktemp -d` dir under `/private/tmp/claude-501/` and never remove it (combined.sh about 360 MB per run). Evidence: verify_ticket.sh:6, spot.sh:4, combined.sh:6 (no trap, no cleanup).
+- [G32] open, minor. A re-ship's close runs `gh pr create` again; it fails because the PR exists, and ship.sh goes on when the open PR's branch holds this HEAD (ship.sh:241). The error in the log is expected, not a failure (T330 PR #104).
+- [G33] open. Review work trees are not removed when a ticket closes: on 2026-10-17 the storage audit removed 26 of them from merged tickets (0.51 GiB) and the T330 probe clone (5.74 GiB) by hand (`knowledge/analyses/storage-audit-20261017.md`). Until a tool does it, Stage 10's storage check is the step that finds them. See also [G15].
+- [G34] open. `L/tools/verify_ticket.sh`, `L/tools/spot.sh` and `L/tools/combined.sh` hardcode TD = `L/w1opt/followup-318` (verify_ticket.sh:4, spot.sh:5, combined.sh:5); for a ticket of another plan, copy the script and change TD.
 - Inherited coverage gaps from the T319 reviews: M17 and M19 (round 1); M03, M35, M36 (pre-review round 2); M34-M36 (Astra round 1). T319 sweep N3 at :334 is equivalent on APFS only.
 

@@ -13,3 +13,5 @@ The builder says GREEN. You will think *"done, ship it."* That is the moment to 
 - read the kill table, and check the gate's mutant count per file: master's gate made 0 mutants in `mutant_ops/base.py`, so "0 survived" there proved nothing (HO/HANDOFF-STEP59.md:44);
 - log a `verified` row (`ledger-and-metrics.md`).
 
+`L/tools/verify_ticket.sh` runs most of this list for a wave-b lane: the ticket test twice on the host TMPDIR and once on /private/tmp, the skip check, porcelain against the write list, the gate as written and four existing suites [G31].
+

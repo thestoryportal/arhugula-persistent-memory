@@ -1,6 +1,6 @@
 # TICKETS — the atomic-ticket workflow, from an approved plan to merged master
 Job: how one approved plan becomes many atomic tickets that fresh builders implement in parallel lanes and that ship, train and land without hand work; which tool owns each stage; the traps each stage has already sprung; the gaps still open.
-Routed from the root CLAUDE.md (twin: AGENTS.md). Written 2026-10-16 from the sweep `L/w1opt/staged/tickets-doc/INVENTORY.md` (the audit, one row per component; this file is the guide for the moment of decision). Tags `[R12]` and `[G7]` point at that inventory's rule and gap numbers.
+Routed from the root CLAUDE.md (twin: AGENTS.md). Written 2026-10-16 from the sweep `L/w1opt/staged/tickets-doc/INVENTORY.md` (the audit, one row per component; this file is the guide for the moment of decision). This guide is the registry of every tag (`[R12]`, `[G7]`): INVENTORY.md is the frozen sweep evidence for R1-R53 and G1-G20, and later tags exist only here.
 
 This file is the router. It holds the goal, the belt and where to read next. Every rule lives in one file under `_system/governance/tickets/`.
 Read `tickets/00-roots-and-roles.md` first, then only the file for your stage or moment.
@@ -57,7 +57,7 @@ A tag cited elsewhere lives where its rule or gap lives: `grep -n '\[R<n>\]' _sy
 - Halt discipline and correctness gates: `_system/governance/DISCIPLINE.md`.
 - Codex builders and tools: `_system/governance/CODEX.md`.
 - Memory that holds this workflow's lessons (update in place, never append a duplicate): MEM/lean-ticket-lane-traps.md, MEM/lean-tools-ship-and-cut-base.md, MEM/atomic-units-parallel-worktree-lanes.md, MEM/workflow-change-closes-with-doc-updates.md, MEM/icm21-part2-and-workflow-approvals.md, MEM/check-gpu-counts-team-pythons.md, MEM/fix-lane-evidence-fills-memit.md, MEM/merge-gate-first-use-learnings.md, MEM/build-gate-allow-rules.md, MEM/atomic-unit-builder-lifecycle.md, MEM/rerun-builder-tests-host-tmpdir.md, MEM/review-substitution-is-exception.md, MEM/one-shot-run-needs-real-scale-dry-run.md.
-- Handoffs: HO/HANDOFF-STEP67.md is the latest (it supersedes HO/HANDOFF-STEP66.md and HO/HANDOFF-STEP65.md; STEP50-64 before them). A handoff carries a session's state; a rule found in one belongs in this guide or in memory, where the next session will look.
+- Handoffs: HO/HANDOFF-STEP69.md is the latest (it supersedes HO/HANDOFF-STEP68.md and HO/HANDOFF-STEP67.md; STEP50-66 before them). A handoff carries a session's state; a rule found in one belongs in this guide or in memory, where the next session will look.
 - Wave-1 filesystem rulings: `L/part2/extra-fd-binding.md` and `L/part2/reviews/<T>/RULING.md` (for example `L/part2/reviews/T201/RULING.md`).
 
 ## Recap
