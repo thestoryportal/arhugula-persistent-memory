@@ -501,42 +501,58 @@ class Session:
 
         A run in flight is its steps (a generator) suspended at the wait, keyed by the mutant's index; its
         test is a child of this one thread. Any exception keeps the scratch, and kills and reaps the test of
-        each run in flight (its timeout path, so each still gets its after-run checks) before it propagates."""
+        each run in flight (its timeout path, so each still gets its after-run checks) before it propagates.
+        An error the SIGCHLD handler meets is one too: the main thread raises it where every started test is
+        in flight (before a new run starts, at each wait, and once the handler is restored)."""
         if jobs == 1:
             return [self.result(m) for m in mutants]  # one at a time, as before --jobs
         found: list = [None] * len(mutants)
         flights: dict[int, tuple] = {}  # index -> (steps, pid, deadline on time.monotonic())
+        met: list[BaseException] = []  # the errors the SIGCHLD handler met, oldest first
+
+        def stamp(*_) -> None:
+            # The handler runs at whatever bytecode the main thread is at, as between a spawn and its entry in
+            # flights, where an exception would leave that test in no list: it records its error, never raises.
+            try:
+                _stamp_exits(flights, self.ended)
+            except BaseException as exc:
+                met.append(exc)
         # A test's exit is stamped at the next bytecode after it, so a copy build before the next poll moves
         # neither its deadline judgment nor its window's end. Known gap: a file made in that one bytecode (or
         # syscall) is in the window, as one made before the wait returns is with --jobs 1.
-        previous = signal.signal(signal.SIGCHLD, lambda *_: _stamp_exits(flights, self.ended))
+        previous = signal.signal(signal.SIGCHLD, stamp)
         try:
-            for i, m in enumerate(mutants):
-                found[i] = _compile_error(m)
-                if found[i] is None:
-                    while len(flights) >= jobs:
-                        self._land(flights, found)
-                    steps = self._steps(m, self.timeout)
-                    pid, timeout = next(steps)
-                    flights[i] = (steps, pid, time.monotonic() + timeout)  # counted from this run's own start
-                    _stamp_exits(flights, self.ended)  # a test that exited before it was in flight
-            while flights:
-                self._land(flights, found)
+            try:
+                for i, m in enumerate(mutants):
+                    found[i] = _compile_error(m)
+                    if found[i] is None:
+                        while len(flights) >= jobs:
+                            self._land(flights, found, met)
+                        _raise_met(met)  # before a new run starts
+                        steps = self._steps(m, self.timeout)
+                        pid, timeout = next(steps)
+                        flights[i] = (steps, pid, time.monotonic() + timeout)  # counted from this run's own start
+                        _stamp_exits(flights, self.ended)  # a test that exited before it was in flight
+                while flights:
+                    self._land(flights, found, met)
+            finally:
+                signal.signal(signal.SIGCHLD, previous)
+            _raise_met(met)  # an error met after the last wait, before the handler was restored
         except BaseException:
             self.keep = True
             with contextlib.ExitStack() as stop:  # every run in flight is stopped, even when one stop fails
                 for steps, _, _ in flights.values():
                     stop.callback(_finish, steps, False)
             raise
-        finally:
-            signal.signal(signal.SIGCHLD, previous)
         return found
 
-    def _land(self, flights: dict, found: list) -> None:
+    def _land(self, flights: dict, found: list, met: list) -> None:
         """Wait until a run's test exits or the earliest deadline passes; finish each such run, in index order.
 
         A run is judged by its stamped exit (self.ended), never by when this poll saw it: an exit at or before
-        its deadline is a normal result; an exit after it, or a test still running at it, is a timeout."""
+        its deadline is a normal result; an exit after it, or a test still running at it, is a timeout. First,
+        an error the SIGCHLD handler met (met) is raised: every started test is in flights here."""
+        _raise_met(met)
         wait = min(deadline for _, _, deadline in flights.values()) - time.monotonic()
         _wait_any([pid for _, pid, _ in flights.values()], max(wait, 0.0))
         _stamp_exits(flights, self.ended)  # an exit this wait saw before the handler ran
@@ -996,6 +1012,12 @@ def _stamp_exits(flights: dict, ended: dict) -> None:
     for _, pid, _ in flights.values():
         if pid not in ended and _wait_exit(pid, 0):
             ended[pid] = (time.time(), time.monotonic())
+
+
+def _raise_met(met: list) -> None:
+    """Raise the first error the SIGCHLD handler met, if it met one."""
+    if met:
+        raise met[0]
 
 
 def _kill_group(pgid: int) -> None:

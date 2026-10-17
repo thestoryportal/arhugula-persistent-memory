@@ -8,6 +8,7 @@ from barriers that only runs in flight together can pass, never from a wall-cloc
 from __future__ import annotations
 
 import contextlib
+import errno
 import fcntl
 import io
 import json
@@ -750,6 +751,318 @@ class KillSet(Base):
         self.assertEqual([names[-1] for names in held], ["m0001", *RUN_OF])  # the baseline, then each mutant
         self.assertEqual(max(len(names) for names in held), 2, held)
         self.assertEqual(os.listdir(self.tooltmp), [])
+
+    def test_a_copy_directory_rebound_at_an_unlink_keeps_the_file_now_at_its_path(self):
+        # T330 ruling 13 (rd-unlink-path, F4): as m0002's pkg/mod.py is removed, its directory is parked and a new
+        # one holding another mod.py is put at its path. The unlink through the held fd removes the held entry:
+        # the other file is kept, and the removal refuses.
+        real = os.unlink
+        box = {}
+
+        def unlink(path, *, dir_fd=None):
+            target = os.path.join(real_getpath(dir_fd), path) if dir_fd is not None else path
+            if not box and target.startswith(self.tooltmp + os.sep) and target.endswith("/m0002/lane/pkg/mod.py"):
+                pkg = os.path.dirname(target)
+                box["parked"] = os.path.join(os.path.dirname(pkg), "parked")
+                os.mkdir(box["parked"])
+                os.rename(pkg, os.path.join(box["parked"], "pkg"))
+                os.mkdir(pkg)
+                box["other"] = target
+                with open(target, "w") as fh:
+                    fh.write("not the copy's")
+            return real(path, dir_fd=dir_fd)
+        with mock.patch.object(gm.os, "unlink", unlink):
+            code, out, err = self.run_main(self.args("--jobs", "2"))
+        self.assertRefused(code, err, "kept")
+        self.assertTrue(os.path.isfile(box["other"]))
+        with open(box["other"]) as fh:
+            self.assertEqual(fh.read(), "not the copy's")
+        self.assertFalse(os.path.exists(os.path.join(box["parked"], "pkg", "mod.py")))  # the held entry went
+        self.assertFalse(os.path.exists(self.out))
+        self.assertNoChildLeft()
+
+    def test_a_copy_directory_replaced_once_it_is_empty_is_kept(self):
+        # T330 ruling 13 (rd-now-ident): once m0002's pkg is emptied, it is removed and a new empty directory is
+        # made at its name. F_GETPATH of the held fd still gives the removed directory's last path (macOS), so
+        # only the identity check of the name sees the swap: the new directory is kept and the removal refuses.
+        real = os.stat
+        box = {}
+
+        def stat(path, *a, dir_fd=None, **kw):
+            where = real_getpath(dir_fd) if dir_fd is not None else ""
+            if not box and path == "pkg" and where.startswith(self.tooltmp + os.sep) and where.endswith("/m0002/lane"):
+                held = os.path.join(where, "pkg")
+                if os.listdir(held) == []:
+                    os.rmdir(held)
+                    os.mkdir(held)
+                    box["new"] = held
+            return real(path, *a, dir_fd=dir_fd, **kw)
+        with mock.patch.object(gm.os, "stat", stat):
+            code, out, err = self.run_main(self.args("--jobs", "2"))
+        self.assertRefused(code, err, box["new"], "kept")
+        self.assertTrue(os.path.isdir(box["new"]))
+        self.assertFalse(os.path.exists(self.out))
+        self.assertNoChildLeft()
+
+    def test_a_copy_directory_swapped_before_its_record_is_refused_and_all_kept(self):
+        # T330 ruling 13 (rec-sub-ident): as m0002's run is recorded, its pkg is parked and a new empty directory
+        # is put at its name between the stat and the open. The record refuses at once: nothing is removed.
+        patch, box = self.arm_first_mutant(lambda copy: fk.rename_and_rebind(
+            "open", 1, os.path.join(copy, "pkg"), when="before",
+            match=lambda name, *a, dir_fd=None, **kw: name == "pkg" and dir_fd is not None
+            and real_getpath(dir_fd) == copy))
+        with patch:
+            code, out, err = self.run_main(self.args("--jobs", "2"))
+        self.assertEqual(box["fault"].fired, 1)
+        self.assertRefused(code, err, os.path.join(box["copy"], "pkg"), "changed after the test run", "kept")
+        self.assertTrue(os.path.isfile(os.path.join(box["fault"].parked, "mod.py")))
+        self.assertEqual(sorted(os.listdir(os.path.dirname(box["copy"]))), ["lane", "tmp"])
+        self.assertFalse(os.path.exists(self.out))
+        self.assertNoChildLeft()
+
+    def test_a_baseline_copy_rebound_before_its_removal_is_refused_by_that_removal(self):
+        # T330 ruling 15 (rm-keep): the baseline's copy m0001 is parked and a new empty directory put at its name
+        # just before its removal opens it. That removal refuses and marks everything kept, so the session's end
+        # removes nothing: the refusal reported is the removal's own, whatever order the scratch is listed in.
+        real_baseline = gm.Session.baseline
+        box = {}
+
+        def baseline(session):
+            box["copy"] = os.path.join(session.scratch, "m0001")
+            with fk.rename_and_rebind("open", 2, box["copy"], match=lambda p, *a, **k: p == "m0001"
+                                      and k.get("dir_fd") is not None) as fault:  # call 1 makes it, 2 removes it
+                box["fault"] = fault
+                return real_baseline(session)
+        with mock.patch.object(gm.Session, "baseline", baseline):
+            code, out, err = self.run_main(self.args("--jobs", "2"))
+        self.assertRefused(code, err, box["copy"], "is not a directory this run made", "kept")
+        self.assertEqual(os.listdir(box["copy"]), [])
+        self.assertEqual(sorted(os.listdir(box["fault"].parked)), ["lane", "tmp"])
+        self.assertEqual(set(self.started()), {"m0001"})
+        self.assertFalse(os.path.exists(self.out))
+        self.assertNoChildLeft()
+
+    def test_a_test_that_exits_before_its_run_is_in_flight_ends_its_window_at_that_exit(self):
+        # T330 ruling 14 (stamp-spawn): m0002's test has exited before its run is in flight, so the handler had no
+        # run to stamp; then m0003's copy is built and a file appears in m0002's copy. m0002's window ends at its
+        # own exit (stamped as its run entered flights): that file is not the test's, and it is refused and kept.
+        spawned, made = [], []
+        real_popen, real_walk = gm.subprocess.Popen, gm.Session._walk
+
+        def popen(*a, **kw):
+            spawned.append(real_popen(*a, **kw))
+            if len(spawned) == 2:  # m0002: its test has exited (left unreaped) before the spawn returns
+                self.assertTrue(gm._wait_exit(spawned[-1].pid, CAP))
+            return spawned[-1]
+
+        def walk(session, *a, **kw):
+            if session.runs == 3 and a[2] == "" and a[3] is not None:  # m0003's copy, before it is built
+                made.append(os.path.join(session.scratch, "m0002", "lane", "foreign"))
+                with open(made[0], "w") as fh:
+                    fh.write("not made by the test")
+            return real_walk(session, *a, **kw)
+        with mock.patch.object(gm.subprocess, "Popen", popen), mock.patch.object(gm.Session, "_walk", walk):
+            code, out, err = self.run_main(self.args("--jobs", "2"))
+        self.assertRefused(code, err, made[0], "kept")
+        self.assertTrue(os.path.isfile(made[0]))
+        self.assertFalse(os.path.exists(self.out))
+        self.assertNoChildLeft()
+
+    def test_runs_are_judged_by_their_own_exits_while_sigchld_is_blocked(self):
+        # T330 ruling 14 (stamp-wait): a caller can start the tool with SIGCHLD blocked (the mask is inherited),
+        # and then the handler never runs: each exit is stamped by the wait that sees it. Without that stamp no
+        # run would land before its deadline, and every row would be a timeout.
+        old = signal.pthread_sigmask(signal.SIG_BLOCK, {signal.SIGCHLD})
+        self.addCleanup(signal.pthread_sigmask, signal.SIG_SETMASK, old)
+        code, out, err = self.run_main(self.args("--jobs", "2", "--timeout", "5"))
+        signal.pthread_sigmask(signal.SIG_SETMASK, old)
+        self.assertEqual(code, 1, err)
+        self.assertEqual(out.splitlines()[-1],
+                         f"guard_mutants: 10 mutants, 8 killed, 2 survived, 0 error, 0 allowed; wrote {self.out}")
+        self.assertNoChildLeft()
+
+
+class Deadline(Base):
+    def test_a_test_still_running_at_its_deadline_is_killed_there(self):
+        # T330 ruling 10 (M08): m0002 sleeps past its 1 s timeout and then logs a mark. It is killed at its
+        # deadline: its row is the timeout, and neither the mark nor its end is ever logged.
+        self.plan(m0002=[["sleep", 3], ["mark", "late"]])
+        code, out, err = self.run_main(self.args("--jobs", "2", "--timeout", "1"))
+        self.assertEqual(code, 1, err)
+        row = self.rows()[0]
+        self.assertEqual((row["id"], row["result"], row["detail"]), (RUN_OF["m0002"], "error", "timeout after 1s"))
+        self.assertEqual([e["ev"] for e in self.events() if e["name"] == "m0002"], ["start"])
+        self.assertGone(self.started()["m0002"]["pid"])
+
+
+class Restore(Base):
+    def test_the_previous_sigchld_handler_is_back_after_a_return_a_refusal_and_an_error(self):
+        # T330 ruling 11 (M30): a handler installed before main() is the one installed after it, however it ends.
+        original = signal.getsignal(signal.SIGCHLD)
+        self.addCleanup(signal.signal, signal.SIGCHLD, original)
+
+        def sentinel(signum, frame):
+            pass
+
+        def ends_by_return():
+            self.assertEqual(self.run_main(self.args("--jobs", "2"))[0], 1)
+
+        def ends_by_refusal():
+            self.plan(m0002=[["mkdir", "stray"]])
+            self.assertEqual(self.run_main(self.args("--jobs", "2"))[0], 2)
+
+        def ends_by_error():
+            with mock.patch.object(gm, "_wait_any", side_effect=RuntimeError("test: unexpected")), \
+                    self.assertRaises(RuntimeError):
+                self.run_main(self.args("--jobs", "2"))
+        for ends in (ends_by_return, ends_by_refusal, ends_by_error):
+            with self.subTest(ends=ends.__name__):
+                self.setUp()
+                signal.signal(signal.SIGCHLD, sentinel)
+                ends()
+                self.assertIs(signal.getsignal(signal.SIGCHLD), sentinel)
+
+
+class HandlerError(Base):
+    """An error the SIGCHLD handler meets, at --jobs 2 (T330 ruling 9): no test is left alive or unreaped, no new
+    run starts, the scratch is kept, no NEW.json is written, and the error propagates."""
+
+    def handler_error(self, error=None):
+        """Patch gm._wait_exit to raise error (EMFILE) once, called inside the SIGCHLD handler after box["armed"].
+
+        box["fire"]() arms it and sends SIGCHLD to this process: Python runs the handler at the next bytecode,
+        within fire() itself; box["in_fire"] counts the errors met by then."""
+        error = error or OSError(errno.EMFILE, "test: the handler's exit check failed")
+        box = {"armed": False, "fired": 0, "error": error}
+        real = gm._wait_exit
+
+        def in_handler(frame):
+            code = getattr(signal.getsignal(signal.SIGCHLD), "__code__", None)
+            while frame is not None and frame.f_code is not code:
+                frame = frame.f_back
+            return frame is not None
+
+        def wait_exit(pid, timeout):
+            if box["armed"] and not box["fired"] and in_handler(sys._getframe(1)):
+                box["fired"] += 1
+                raise box["error"]
+            return real(pid, timeout)
+
+        def fire():
+            box["armed"] = True
+            try:
+                os.kill(os.getpid(), signal.SIGCHLD)
+            finally:
+                box["in_fire"] = box["fired"]
+        box["fire"] = fire
+        return mock.patch.object(gm, "_wait_exit", wait_exit), box
+
+    def spawns(self, after=None):
+        """Patch gm.subprocess.Popen to keep each child; after(n) runs once the nth spawn has returned."""
+        spawned = []
+        real = gm.subprocess.Popen
+
+        def popen(*a, **kw):
+            spawned.append(real(*a, **kw))
+            if after is not None:
+                after(len(spawned))
+            return spawned[-1]
+
+        def stop():
+            for proc in spawned:
+                if proc.poll() is None:
+                    gm._kill_group(proc.pid)
+                    proc.wait()
+        self.addCleanup(stop)
+        return mock.patch.object(gm.subprocess, "Popen", popen), spawned
+
+    def note(self, **ev):
+        ev.update(t=time.time())
+        with open(self.log, "a") as fh:
+            fh.write(json.dumps(ev) + "\n")
+
+    def assertStopped(self, caught, box, spawned, runs):
+        self.assertIs(caught.exception, box["error"])
+        self.assertEqual(box["fired"], 1)
+        self.assertEqual(len(spawned), runs)  # the baseline and runs - 1 mutant runs: no new run after the error
+        self.assertEqual([proc.returncode is not None for proc in spawned], [True] * runs)  # each reaped by the tool
+        for proc in spawned:
+            self.assertGone(proc.pid)
+        self.assertFalse(os.path.exists(self.out))
+        self.assertEqual(len(os.listdir(self.tooltmp)), 1)  # the scratch is kept
+
+    def test_an_error_in_the_handler_right_after_a_spawn_leaves_no_test_alive(self):
+        # Reviewer probe handler_probe.py (T330 ruling 9a, K1), with a line-independent trigger: SIGCHLD is sent
+        # right after m0003's spawn returns, before its run is in flights, and the handler meets an error there:
+        # an OSError, or a BaseException such as KeyboardInterrupt.
+        for error in (OSError(errno.EMFILE, "test: the handler's exit check failed"), KeyboardInterrupt()):
+            with self.subTest(error=type(error).__name__):
+                self.setUp()
+                self.plan(m0002=[["hang"]], m0003=[["hang"]])
+                wait_patch, box = self.handler_error(error)
+                popen_patch, spawned = self.spawns(after=lambda n: box["fire"]() if n == 3 else None)
+                with wait_patch, popen_patch, self.assertRaises(type(error)) as caught:
+                    self.run_main(self.args("--jobs", "2"))
+                self.assertStopped(caught, box, spawned, 3)
+                self.assertEqual(box["in_fire"], 1)  # met inside the spawn, before m0003's run was in flights
+                self.assertNotIn("end", [e["ev"] for e in self.events() if e["name"] == "m0002"])  # stopped at once
+
+    def test_an_error_in_the_handler_while_a_timed_out_run_is_finished_leaves_no_test_alive(self):
+        # T330 ruling 9, second member: m0002 is out of flights at its deadline and its test still runs when the
+        # handler meets an error, before _finish kills it. It is killed and reaped, and no new run (m0004) starts.
+        self.plan(m0002=[["hang"]], m0003=[["hang"]])
+        wait_patch, box = self.handler_error()
+        popen_patch, spawned = self.spawns()
+        real, alive = gm._finish, gm._wait_exit
+
+        def finish(steps, exited):
+            if not exited and not box["armed"]:
+                self.assertFalse(alive(spawned[1].pid, 0))  # m0002's test still runs: only _finish kills it
+                box["fire"]()
+            return real(steps, exited)
+        with wait_patch, popen_patch, mock.patch.object(gm, "_finish", finish), \
+                self.assertRaises(OSError) as caught:
+            self.run_main(self.args("--jobs", "2", "--timeout", "1"))
+        self.assertStopped(caught, box, spawned, 3)
+        self.assertEqual(box["in_fire"], 1)
+
+    def test_an_error_in_the_handler_while_the_last_runs_drain_stops_the_rest_at_the_next_wait(self):
+        # m0010 ends once m0011 has started; the handler meets an error while m0010 is finished, with m0011 in
+        # flight. The next wait raises it: m0011 is stopped there, never run to its end.
+        self.plan(m0010=[["barrier", 10, CAP]], m0011=[["await_end", "never", CAP]])
+        wait_patch, box = self.handler_error()
+        popen_patch, spawned = self.spawns()
+        real = gm._finish
+
+        def finish(steps, exited):
+            if exited and len(spawned) == 11 and not box["armed"]:
+                box["fire"]()
+            return real(steps, exited)
+        with wait_patch, popen_patch, mock.patch.object(gm, "_finish", finish), \
+                self.assertRaises(OSError) as caught:
+            self.run_main(self.args("--jobs", "2"))
+        self.assertStopped(caught, box, spawned, 11)
+        self.assertEqual(box["in_fire"], 1)
+        self.assertEqual([e["ev"] for e in self.events() if e["name"] == "m0011"], ["start"])
+
+    def test_an_error_in_the_handler_during_the_last_wait_is_raised_once_it_is_restored(self):
+        # m0011 runs alone at the end and ends only once the last wait has begun; the handler meets an error at
+        # its exit. No wait follows: the error is raised once the handler is restored, and no NEW.json is written.
+        self.plan(m0011=[["await_end", "go", CAP]])
+        wait_patch, box = self.handler_error()
+        popen_patch, spawned = self.spawns()
+        real = gm._wait_any
+
+        def wait_any(pids, timeout):
+            if len(spawned) == 11 and len(pids) == 1 and not box["armed"]:
+                box["armed"] = True
+                self.note(ev="end", name="go")  # m0011 may end now
+            return real(pids, timeout)
+        with wait_patch, popen_patch, mock.patch.object(gm, "_wait_any", wait_any), \
+                self.assertRaises(OSError) as caught:
+            self.run_main(self.args("--jobs", "2"))
+        self.assertStopped(caught, box, spawned, 11)
+        self.assertNoGiveUp()
 
 
 if __name__ == "__main__":
