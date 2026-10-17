@@ -24,6 +24,15 @@ EDITED = "A = 0\nB = 0\nVALUE = 2\nC = 0\nD = 9\n"  # two hunks, lines 3 and 5: 
 CHECKS = f'{PY} -B -c "import m; assert m.VALUE == 2"'  # fails when m.py is put back to BASE
 GUARDED = "def f(n):\n    if n:\n        raise ValueError(n)\n    return n\n"
 SHORT = 12  # hex digits of the resolved commit in the change text
+# rel: (bytes at REV, edited bytes (UTF-8, as --file needs), first changed line)
+BYTE_SHAPES = {
+    "crlf.py": (b"A = 0\r\n\r\nVALUE = 1\r\nB = 0\nC = 0\r\n", b"A = 0\r\n\r\nVALUE = 2\r\nB = 0\nC = 0\r\n", 3),
+    "spaces.py": (b"A = 0 \t\nVALUE = 1\t \nB = 0  \n", b"A = 0 \t\nVALUE = 2\t \nB = 0  \n", 2),
+    "no_eol.py": (b"A = 0\nVALUE = 1", b"A = 0\nVALUE = 2", 2),
+    "extra_eol.py": (b"A = 0\nVALUE = 1\n\n\n", b"A = 0\nVALUE = 2\n\n\n", 2),
+    "latin1.py": (b"# -*- coding: latin-1 -*-\nNAME = '\xe9'\nVALUE = 1\n",
+                  b"# -*- coding: latin-1 -*-\nNAME = 'e'\nVALUE = 2\n", 2),
+}
 
 
 def git_env() -> dict:
@@ -57,6 +66,10 @@ class RevertFile(unittest.TestCase):
     def write(self, rel: str, text: str) -> None:
         with open(os.path.join(self.lane, rel), "w") as fh:
             fh.write(text)
+
+    def write_bytes(self, rel: str, data: bytes) -> None:
+        with open(os.path.join(self.lane, rel), "wb") as fh:
+            fh.write(data)
 
     def run_tool(self, *extra: str, files=("m.py",), test=CHECKS, env_extra=None, cwd=None):
         self.n += 1
@@ -98,6 +111,28 @@ class RevertFile(unittest.TestCase):
             fh.write(BASE)
         test = f"! cmp -s m.py {shlex.quote(copy)}"
         self.assertEqual(self.reverts("--base", "HEAD", code=0, test=test), [self.row("m.py", 3, "killed")])
+
+    def test_source_is_the_exact_rev_bytes_of_each_byte_shape(self):
+        """Bytes written and compared as bytes: no newline, whitespace or encoding normalization reaches the copy."""
+        expect = os.path.join(self.tmp, "expect")
+        os.mkdir(expect)
+        for rel, (base, _, _) in BYTE_SHAPES.items():
+            self.write_bytes(rel, base)
+            with open(os.path.join(expect, rel), "wb") as fh:
+                fh.write(base)
+        self.git("add", *BYTE_SHAPES)
+        self.git("commit", "-q", "-m", "byte shapes")
+        sha = self.git("rev-parse", "HEAD").strip()
+        for rel, (base, _, _) in BYTE_SHAPES.items():  # the fixture is at REV byte for byte
+            blob = subprocess.run(["git", "cat-file", "blob", f"HEAD:{rel}"], cwd=self.lane, env=git_env(),
+                                  capture_output=True)
+            self.assertEqual((blob.returncode, blob.stdout), (0, base), rel)
+        for rel, (_, edited, _) in BYTE_SHAPES.items():
+            self.write_bytes(rel, edited)
+        # the test fails exactly when one file in the copy holds its REV bytes
+        same = " || ".join(f"cmp -s {rel} {shlex.quote(os.path.join(expect, rel))}" for rel in BYTE_SHAPES)
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, files=tuple(BYTE_SHAPES), test=f"! {{ {same}; }}"),
+                         [self.row(rel, line, "killed", sha=sha) for rel, (_, _, line) in BYTE_SHAPES.items()])
 
     # a change that the test does not exercise: a survivor, reported like any other
     def test_unexercised_change_survives_and_is_reported(self):
@@ -281,6 +316,21 @@ class RevertFile(unittest.TestCase):
         with open(log) as fh:
             self.assertEqual(fh.read(), star.replace("VALUE = 1", "VALUE = 2") + "==\n" + star + "==\n")
 
+    def test_name_with_crlf_is_matched_as_its_exact_bytes(self):
+        """git's ls-tree answer for `c\\r\\nr.py` is compared as bytes: a normalized answer would not name the file."""
+        rel = "c\r\nr.py"
+        self.write_bytes(rel, b"VALUE = 1\n")
+        self.git("add", "--", rel)
+        self.git("commit", "-q", "-m", "crlf name")
+        sha = self.git("rev-parse", "HEAD").strip()
+        self.write_bytes(rel, b"VALUE = 2\n")
+        expect = os.path.join(self.tmp, "crlf-name-base")
+        with open(expect, "wb") as fh:
+            fh.write(b"VALUE = 1\n")
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, files=(rel,),
+                                      test=f"! cmp -s {shlex.quote(rel)} {shlex.quote(expect)}"),
+                         [self.row(rel, 1, "killed", sha=sha)])
+
     # (3) (5) a file is absent at REV only on git's explicit answer; any other answer refuses
     def test_existence_probe_failure_refuses_naming_the_command(self):
         self.write("m.py", EDITED)
@@ -300,6 +350,18 @@ class RevertFile(unittest.TestCase):
         self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
         self.assertEqual(proc.stderr, f"guard_mutants: refused: `git ls-tree -z {self.base_sha} -- m.py` gives "
                                       "b'100644 blob 0\\tother.py\\x00', not one entry for m.py\n")
+        self.assertFalse(os.path.lexists(out))
+
+    def test_two_entry_existence_answer_ending_in_the_name_refuses(self):
+        self.write("m.py", EDITED)
+        self.assertEqual(self.reverts("--base", "HEAD", code=0), [self.row("m.py", 3, "killed")])  # no stand-in
+        env = self.stand_in_git('if [ "$1" = ls-tree ]; then '
+                                'printf "100644 blob 0\\tother.py\\000100644 blob 0\\tm.py\\000"; exit 0; fi')
+        proc, out = self.run_tool("--base", "HEAD", env_extra=env)
+        self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+        self.assertEqual(proc.stderr, f"guard_mutants: refused: `git ls-tree -z {self.base_sha} -- m.py` gives "
+                                      "b'100644 blob 0\\tother.py\\x00100644 blob 0\\tm.py\\x00', "
+                                      "not one entry for m.py\n")
         self.assertFalse(os.path.lexists(out))
 
 
