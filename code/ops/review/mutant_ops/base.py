@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import ast
+import os
 
 from mutant_ops import NEVER, RE_FUNCS, SIMPLE, _is_bitor, _operands, _os_flag, _plain_else, _quantifiers, _write_call
 
@@ -25,22 +26,34 @@ def negate_if(tree, src, add):
 
 
 def flag_drop(tree, src, add):
-    """One os.O_* flag (or getattr(os, "O_*", ...)) dropped from a `|` chain or from `flags |= os.O_*`."""
+    """One os.O_* flag (or getattr(os, "O_*", ...)) dropped from a `|` chain or from `flags |= os.O_*`.
+
+    No mutant for an inert flag, whose drop cannot change the open: (1) a flag with
+    getattr(os, name, None) == 0 in the running interpreter (O_RDONLY), in every form above; a flag that os
+    lacks is not inert. (2) O_NOFOLLOW in a `|` chain that also names O_CREAT and O_EXCL: open fails EEXIST on
+    any symlink there, whatever O_NOFOLLOW says."""
     inner = {id(side) for n in ast.walk(tree) if _is_bitor(n) for side in (n.left, n.right) if _is_bitor(side)}
     for node in ast.walk(tree):
         if not ((_is_bitor(node) and id(node) not in inner) or
                 (isinstance(node, ast.AugAssign) and isinstance(node.op, ast.BitOr))):
             continue
         ops = [node.value] if isinstance(node, ast.AugAssign) else _operands(node)
+        names = {_os_flag(o) for o in ops}
         for i, operand in enumerate(ops):
             flag = _os_flag(operand)
-            if flag is None:
+            if flag is None or _inert(flag, names):
                 continue
             rest = [o for j, o in enumerate(ops) if j != i]
             parts = [src.text(o) if isinstance(o, SIMPLE) else b"(" + src.text(o) + b")" for o in rest]
             new = b"(" + b" | ".join(parts) + b")" if parts else b"0"
             target = node.value if isinstance(node, ast.AugAssign) else node
             add(operand, "flag-drop", flag, f"drop {flag}", *src.span(target), new)
+
+
+
+def _inert(flag: str, names: set) -> bool:
+    """flag_drop's rules (1) and (2); names are the flags of flag's `|` chain (only flag itself for `|=`)."""
+    return getattr(os, flag, None) == 0 or (flag == "O_NOFOLLOW" and {"O_CREAT", "O_EXCL"} <= names)
 
 
 def regex_zero(tree, src, add):
