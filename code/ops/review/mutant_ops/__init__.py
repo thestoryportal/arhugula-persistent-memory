@@ -12,11 +12,19 @@ guard_mutants would load a second copy of it.
 from __future__ import annotations
 
 import ast
-import importlib.util
+import errno
 import os
 import re
+import stat
+import sys
+import types
 
 OPS_DIR = os.path.dirname(os.path.abspath(__file__))
+# O_RDONLY is 0: named in these chains it would make a flag-drop mutant that no test can kill.
+DIR_FLAGS = os.O_DIRECTORY | os.O_NOFOLLOW
+MODULE_FLAGS = os.O_NOFOLLOW | os.O_NONBLOCK  # a FIFO in place of a module never blocks the open
+KINDS = {stat.S_IFDIR: "directory", stat.S_IFIFO: "FIFO", stat.S_IFCHR: "character device",
+         stat.S_IFBLK: "block device", stat.S_IFSOCK: "socket", stat.S_IFLNK: "symlink"}
 WRITE_CALLS = frozenset({"write", "pwrite", "writev"})
 RE_FUNCS = frozenset({"compile", "match", "fullmatch", "search", "findall", "finditer", "sub", "subn", "split"})
 NEVER = '__import__("builtins").type("GuardMutantNever", (BaseException,), {})'
@@ -31,25 +39,66 @@ class Refusal(Exception):
 def load_operators(directory: str = OPS_DIR) -> tuple:
     """Every operator of every module in directory not named _*, in sorted module-name order.
 
-    A directory without such a module, a module that fails to import, and a module whose OPERATORS is
-    not a tuple of callables refuse. An OSError of the listing reaches the caller."""
-    names = sorted(e[:-3] for e in os.listdir(directory) if e.endswith(".py") and not e.startswith("_"))
-    if not names:
-        raise Refusal(f"operator directory {directory} has no operator module")
-    operators: list = []
-    for name in names:
-        path = os.path.join(directory, name + ".py")
-        try:
-            spec = importlib.util.spec_from_file_location(f"{__name__}.{name}", path)
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
-        except Exception as exc:  # any failure of an operator module's import is a refusal
-            raise Refusal(f"operator module {path} does not import: {type(exc).__name__}: {exc}") from exc
-        ops = getattr(module, "OPERATORS", None)
-        if not (isinstance(ops, tuple) and all(callable(fn) for fn in ops)):
-            raise Refusal(f"operator module {path} has no OPERATORS tuple of functions fn(tree, src, add)")
-        operators.extend(ops)
+    The directory is opened once and listed from its fd; each module is opened from that fd with
+    O_NOFOLLOW | O_NONBLOCK, and the bytes that run are the bytes read from the fd that fstat found a
+    regular file (a path swapped after the listing is never read). A directory without such a module, a
+    module that is not a regular file or cannot be read, a module that fails to import, and a module
+    whose OPERATORS is not a tuple of callables refuse. An OSError of the directory reaches the caller."""
+    dir_fd = os.open(directory, DIR_FLAGS)
+    try:
+        names = sorted(e[:-3] for e in os.listdir(dir_fd) if e.endswith(".py") and not e.startswith("_"))
+        if not names:
+            raise Refusal(f"operator directory {directory} has no operator module")
+        operators: list = []
+        for name in names:
+            path = os.path.join(directory, name + ".py")
+            module = types.ModuleType(f"{__name__}.{name}")
+            module.__file__, module.__package__ = path, __name__
+            code = _read_module(dir_fd, name + ".py", path)
+            sys.modules[module.__name__] = module
+            try:
+                exec(compile(code, path, "exec", dont_inherit=True), module.__dict__)
+            except Exception as exc:  # any failure of an operator module's own code is a refusal
+                del sys.modules[module.__name__]
+                raise Refusal(f"operator module {path} does not import: {type(exc).__name__}: {exc}") from exc
+            ops = getattr(module, "OPERATORS", None)
+            if not (isinstance(ops, tuple) and all(callable(fn) for fn in ops)):
+                raise Refusal(f"operator module {path} has no OPERATORS tuple of functions fn(tree, src, add)")
+            operators.extend(ops)
+    finally:
+        os.close(dir_fd)
     return tuple(operators)
+
+
+def _oserror(path: str, exc: OSError) -> Refusal:
+    return Refusal(f"operator module {path}: [{errno.errorcode.get(exc.errno, exc.errno)}] {exc.strerror}")
+
+
+def _read_module(dir_fd: int, entry: str, path: str) -> bytes:
+    """All bytes of entry in dir_fd, read from one fd that fstat found a regular file."""
+    try:
+        fd = os.open(entry, MODULE_FLAGS, dir_fd=dir_fd)
+    except OSError as exc:
+        raise _oserror(path, exc) from exc
+    try:
+        try:
+            kind = stat.S_IFMT(os.fstat(fd).st_mode)
+        except OSError as exc:
+            raise _oserror(path, exc) from exc
+        if kind != stat.S_IFREG:
+            raise Refusal(f"operator module {path} is a {KINDS.get(kind, oct(kind))}, not a regular file")
+        chunks = []
+        try:
+            while chunk := os.read(fd, 1 << 20):
+                chunks.append(chunk)
+        except OSError as exc:
+            raise _oserror(path, exc) from exc
+    finally:
+        try:
+            os.close(fd)
+        except OSError as exc:
+            raise _oserror(path, exc) from exc
+    return b"".join(chunks)
 
 
 class _Source:

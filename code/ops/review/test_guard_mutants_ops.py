@@ -12,6 +12,7 @@ from __future__ import annotations
 import ast
 import collections
 import contextlib
+import errno
 import hashlib
 import importlib.util
 import io
@@ -32,6 +33,9 @@ import mutant_ops
 from mutant_ops import base
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, os.pardir, os.pardir, "tests"))
+import fault_kit as fk  # noqa: E402  (code/tests/fault_kit.py: the standard filesystem attacks)
+
 TOOL_REL = "code/ops/review/guard_mutants.py"
 
 
@@ -491,6 +495,109 @@ class Refusals(TempDirs):
         self.assertFalse(os.path.lexists(out))
         with open(os.path.join(lane, "m.py"), "rb") as fh:
             self.assertEqual(fh.read(), SOURCE)
+
+
+# ---- discovery reads each module from one fd (O_NOFOLLOW | O_NONBLOCK, fstat-checked) --------
+
+OUTSIDE = 'open({marker!r}, "x").close()\nOPERATORS = ()\n'
+
+
+class FilesystemRefusals(TempDirs):
+    def setUp(self):
+        self.ops = self.ops_dir(**{"ops.py": MARK.format(op="m", change="c")})
+        self.module = os.path.join(self.ops, "ops.py")
+        away = self.mkdtemp()
+        self.marker = os.path.join(away, "ran")  # made only when outside.py runs
+        self.outside = os.path.join(away, "outside.py")
+        with open(self.outside, "w", encoding="utf-8") as fh:
+            fh.write(OUTSIDE.format(marker=self.marker))
+
+    @staticmethod
+    def at_module(path, *args, **kwargs) -> bool:  # the open of ops.py, after the listing
+        return path == "ops.py"
+
+    def assertRefused(self, ops_dir: str, *needles: str) -> None:
+        with self.assertRaises(mutant_ops.Refusal) as caught:
+            mutant_ops.load_operators(ops_dir)
+        for needle in needles:
+            self.assertIn(needle, str(caught.exception))
+        self.assertFalse(os.path.lexists(self.marker), "code outside the operator directory ran")
+
+    def assertMainRefused(self, ops_dir: str, *needles: str) -> None:
+        out = os.path.join(self.mkdtemp(), "out.json")
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            rc = gm.main(["--file", "x.py", "--test", "true", "--out", out], ops_dir=ops_dir)
+        self.assertEqual(rc, 2)
+        for needle in needles:
+            self.assertIn(needle, err.getvalue())
+        self.assertFalse(os.path.lexists(out))
+        self.assertFalse(os.path.lexists(self.marker), "code outside the operator directory ran")
+
+    def test_the_outside_module_leaves_a_marker_when_it_runs(self):  # positive control of the marker
+        self.assertEqual(mutant_ops.load_operators(self.ops_dir(**{"o.py": OUTSIDE.format(marker=self.marker)})), ())
+        self.assertTrue(os.path.exists(self.marker))
+
+    def test_symlink_swapped_in_between_listing_and_open(self):
+        with fk.swap_for_symlink("open", 1, self.module, self.outside, match=self.at_module):
+            self.assertRefused(self.ops, self.module, "ELOOP")
+        self.setUp()
+        with fk.swap_for_symlink("open", 1, self.module, self.outside, match=self.at_module):
+            self.assertMainRefused(self.ops, self.module, "ELOOP")
+
+    def test_symlink_swapped_in_after_the_open_is_never_read(self):
+        with fk.swap_for_symlink("open", 1, self.module, self.outside, when="after", match=self.at_module):
+            ops = mutant_ops.load_operators(self.ops)
+        self.assertEqual([fn.__module__ for fn in ops], ["mutant_ops.ops"])
+        self.assertFalse(os.path.lexists(self.marker), "the module path was opened a second time")
+
+    def test_link_in_place_of_a_module(self):
+        for target in (self.outside, os.path.join(self.mkdtemp(), "absent.py")):
+            with self.subTest(target=target):
+                link = os.path.join(self.ops, "zz.py")
+                with contextlib.suppress(FileNotFoundError):
+                    os.unlink(link)
+                os.symlink(target, link)
+                self.assertRefused(self.ops, link, "ELOOP")
+
+    def test_fifo_in_place_of_a_module(self):
+        with fk.fifo_in_place(self.module, name="open", match=self.at_module, timeout=2):
+            self.assertRefused(self.ops, self.module, "is a FIFO, not a regular file")
+        self.setUp()
+        with fk.fifo_in_place(self.module, timeout=2):
+            self.assertMainRefused(self.ops, self.module, "is a FIFO, not a regular file")
+
+    def test_oserror_on_open_fstat_read_close(self):
+        for name in ("open", "fstat", "read", "close"):
+            with self.subTest(name=name):
+                self.setUp()
+                with fk.inject_oserror(name, 1, errno.EIO, match=self.at_module if name == "open" else None):
+                    self.assertRefused(self.ops, self.module, "[EIO]")
+
+    def test_unexpected_error_surfaces(self):
+        for name in ("open", "fstat", "read", "close"):
+            with self.subTest(name=name):
+                self.setUp()
+                with fk.raise_unexpected(name, 1, RuntimeError, match=self.at_module if name == "open" else None):
+                    with self.assertRaises(RuntimeError):
+                        mutant_ops.load_operators(self.ops)
+
+    def test_directory_that_is_a_symlink(self):
+        link = os.path.join(self.mkdtemp(), "ops")
+        os.symlink(self.ops, link)
+        with self.assertRaises(OSError) as caught:
+            mutant_ops.load_operators(link)
+        code = errno.errorcode[caught.exception.errno]
+        self.assertIn(code, ("ELOOP", "ENOTDIR"))  # O_DIRECTORY | O_NOFOLLOW on a link: macOS gives ENOTDIR
+        self.assertMainRefused(link, link, f"[{code}]")
+
+    def test_directory_replaced_by_a_fifo(self):
+        ops = os.path.join(self.mkdtemp(), "ops")  # the kit parks it next to itself: inside a temp dir
+        os.rename(self.ops, ops)
+        with fk.fifo_in_place(ops, timeout=2):
+            with self.assertRaises(NotADirectoryError):
+                mutant_ops.load_operators(ops)
+            self.assertMainRefused(ops, ops, "ENOTDIR")
 
 
 if __name__ == "__main__":
