@@ -90,6 +90,7 @@ DIGEST_FULL = """
 self.assertTrue(guarded.DIGEST.fullmatch("abcdx"))
 self.assertIsNone(guarded.DIGEST.fullmatch("x"))
 self.assertIsNone(guarded.DIGEST.fullmatch("abcd"))
+self.assertTrue(guarded.DIGEST.fullmatch("0123x"))
 """
 DIGEST_WEAK = 'self.assertTrue(guarded.DIGEST.fullmatch("abcdx"))\nself.assertIsNone(guarded.DIGEST.fullmatch("x"))\n'
 PARSE_FULL = """
@@ -141,6 +142,8 @@ ALL_KEYS = {
     ("flag-drop", L_FLAGS, "O_EXCL"),
     ("regex-zero", L_DIGEST, "8"),
     ("regex-zero", L_DIGEST, "12"),
+    ("class-drop", L_DIGEST, "1"),
+    ("class-drop", L_DIGEST, "4"),
     ("except-class", L_EXCEPT, ""),
     ("except-remove", L_EXCEPT, ""),
     ("write-loop", L_LOOP, ""),
@@ -150,6 +153,7 @@ WEAK_SURVIVORS = {
     ("flag-drop", L_FLAGS, "O_WRONLY"),
     ("flag-drop", L_FLAGS, "O_EXCL"),
     ("regex-zero", L_DIGEST, "12"),
+    ("class-drop", L_DIGEST, "1"),
     ("except-class", L_EXCEPT, ""),
     ("write-loop", L_LOOP, ""),
 }
@@ -629,9 +633,9 @@ class Contract(Base):
     def test_lane_changed_after_the_last_copy_is_refused(self):
         note = os.path.join(self.lane, "data", "note.txt")
         flag = os.path.join(self.tmp, "count")
-        # The 12th run (the last mutant) changes the lane: only the final scan can see it.
+        # The 14th run (the last mutant) changes the lane: only the final scan can see it.
         cmd = f'n=$(cat {flag} 2>/dev/null || echo 0); n=$((n+1)); echo $n > {flag}; ' \
-              f'if [ $n -ge 12 ]; then echo extra >> {note}; fi; true'
+              f'if [ $n -ge 14 ]; then echo extra >> {note}; fi; true'
         proc = self.run_tool(self.args(test=cmd))
         self.assertRefused(proc.returncode, proc.stderr, "changed", "data/note.txt")
         self.assertFalse(os.path.exists(self.out))
@@ -662,7 +666,7 @@ class Contract(Base):
         self.assertEqual(proc.returncode, 1, proc.stderr)
         with open(log) as fh:
             blocks = fh.read().split("---\n")[:-1]
-        self.assertEqual(len(blocks), 12)
+        self.assertEqual(len(blocks), 14)
         for block in blocks:
             self.assertEqual(len(block.split()), 1, block)
         self.assertNoScratchLeft()
