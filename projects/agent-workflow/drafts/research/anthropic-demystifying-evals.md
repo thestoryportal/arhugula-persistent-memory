@@ -157,6 +157,15 @@ All INFERENCE (absence in a single fetched digest; the article body was not read
 - Environment fidelity for repo-level work on macOS with sandbox/permission-mode differences (hooks, classifier denials) that change agent behaviour.
 - Effect of changing the model underneath a role (version drift) on baselines.
 
+## MAESTRO verification against the raw article (2026-10-17, Opus 5.5)
+Method: MAESTRO read the full article text in Chrome (`get_page_text` on [1], 2026-10-17; curl from the MAESTRO shell was denied). Result: every [verbatim] quote above matches the article. The [truncated] quotes are complete sentences in the article. Corrections and additions:
+- "a hill to climb" is verbatim: "They should start at a low pass rate, targeting tasks the agent struggles with and giving teams a hill to climb."
+- The CORE-Bench (42% to 95%) and METR facts are in the article body, not only in X posts. Open question 3 is closed.
+- Not in the digest, verbatim: "Each task should be passable by an agent that follows instructions correctly." / "Everything the grader checks should be clear from the task description; agents shouldn't fail due to ambiguous specs." / "As a rule, we do not take eval scores at face value until someone digs into the details of the eval and reads some transcripts." / "sample transcripts to read weekly" / "grade each dimension with an isolated LLM-as-judge rather than using one to grade all dimensions" / "Once the system is robust, it's sufficient to use human review only occasionally."
+- Tool-selection eval: "In our Claude for Chrome product, we developed evals to check that the agent was selecting the right tool for each context." (This is the nearest the article comes to a context or routing eval.)
+- The article names multi-agent work as open: "As agents take on longer tasks, collaborate in multi-agent systems, and handle increasingly subjective work, we will need to adapt our techniques." This confirms the first item of "What the article does not cover".
+- Open question 2 is closed. Open question 1 (the linked posts) stays open.
+
 ## Open questions for MAESTRO
 1. Follow the article's linked posts ("Effective harnesses for long-running agents", "Building effective agents") in a separate equip task? They are likely relevant to handoff/reset design; not fetched here.
 2. Fetch the raw page (curl was denied by the permission system) to confirm that the two truncated quotes and the "hill to climb" wording are exact? The fetcher also can paraphrase silently; verbatim tags rely on a second pass.
