@@ -11,9 +11,11 @@ import json
 import os
 import shlex
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 
 TOOL = os.path.join(os.path.dirname(os.path.abspath(__file__)), "guard_mutants.py")
@@ -224,6 +226,78 @@ class RevertFile(unittest.TestCase):
                                 proc.stderr)
                 self.assertFalse(os.path.lexists(marker), "the test command ran")
                 self.assertFalse(os.path.lexists(out))
+
+    # the engine's other outcomes, for a revert-file source: compile error, timeout, allowed error
+    def compile_error_base(self) -> tuple[str, str, str]:
+        """REV holds `return 1` (it parses, it does not compile); the lane's m.py compiles and has no operator site.
+
+        Returns the REV sha, the marker each test run appends a line to, and that test command."""
+        self.write("m.py", "return 1\n")
+        self.git("commit", "-q", "-am", "base parses, does not compile")
+        self.write("m.py", "VALUE = 2\n")
+        marker = os.path.join(self.tmp, "runs")
+        return self.git("rev-parse", "HEAD").strip(), marker, f"echo ran >> {shlex.quote(marker)}; {CHECKS}"
+
+    def assert_compile_error_run(self, rows: list[dict], stdout: str, sha: str, marker: str,
+                                 allowed: str | None = None) -> None:
+        detail = "does not compile: 'return' outside function (m.py, line 1)"
+        self.assertEqual(rows, [dict(self.row("m.py", 1, "error", sha=sha, allowed=allowed), detail=detail)])
+        note = f" (allowed: {allowed})" if allowed is not None else ""
+        self.assertIn(f"error m.py:1:0:revert-file: file -> HEAD {sha[:SHORT]} [{detail}]{note}\n", stdout)
+        self.assertIn(f" 1 mutants, 0 killed, 0 survived, 1 error, {0 if allowed is None else 1} allowed; wrote ",
+                      stdout)
+        with open(marker) as fh:
+            self.assertEqual(fh.read(), "ran\n", "a test run besides the baseline")
+
+    def test_compile_error_rev_source_is_an_error_row_and_its_test_never_runs(self):
+        sha, marker, test = self.compile_error_base()
+        rows, stdout = self.rows("--base", "HEAD", code=1, test=test)
+        self.assert_compile_error_run(rows, stdout, sha, marker)
+
+    def test_allow_entry_for_a_compile_error_revert_file_passes(self):
+        sha, marker, test = self.compile_error_base()
+        allow = os.path.join(self.tmp, "allow-error.json")
+        with open(allow, "w") as fh:
+            json.dump([{"id": "m.py:1:0:revert-file", "reason": "REV does not compile"}], fh)
+        rows, stdout = self.rows("--base", "HEAD", "--allow", allow, code=0, test=test)
+        self.assert_compile_error_run(rows, stdout, sha, marker, allowed="REV does not compile")
+
+    def test_timeout_on_the_rev_bytes_is_an_error_row_and_ends_the_process_group(self):
+        """The test hangs only when the copy's m.py holds BASE; the sleeper it leaves in its group must be gone."""
+        self.write("m.py", EDITED)
+        copy = os.path.join(self.tmp, "base-bytes")
+        with open(copy, "w") as fh:
+            fh.write(BASE)
+        pidfile = os.path.join(self.tmp, "sleeper.pid")
+
+        def alive(pid: int) -> bool:
+            try:
+                os.kill(pid, 0)
+            except ProcessLookupError:
+                return False
+            return True
+
+        def end_a_left_sleeper() -> None:  # a failing run's only; a passing run leaves none
+            if os.path.exists(pidfile):
+                with open(pidfile) as fh:
+                    pid = int(fh.read())
+                if alive(pid):
+                    os.kill(pid, signal.SIGKILL)
+        self.addCleanup(end_a_left_sleeper)
+        test = (f"if cmp -s m.py {shlex.quote(copy)}; then sleep 60 & echo $! > {shlex.quote(pidfile)}; wait; fi; "
+                f"{CHECKS}")
+        start = time.monotonic()
+        rows, stdout = self.rows("--base", "HEAD", "--timeout", "2", code=1, test=test)
+        self.assertLess(time.monotonic() - start, 30)  # the hang was cut at the timeout, not at the sleep's end
+        self.assertEqual([r for r in rows if r["operator"] == "revert-file"],
+                         [dict(self.row("m.py", 3, "error"), detail="timeout after 2s")])
+        self.assertIn(f"error m.py:3:0:revert-file: file -> HEAD {self.base_sha[:SHORT]} [timeout after 2s]\n", stdout)
+        with open(pidfile) as fh:
+            pid = int(fh.read())
+        deadline = time.monotonic() + 5  # killed with its group; gone once its orphaned zombie is reaped
+        while alive(pid) and time.monotonic() < deadline:
+            time.sleep(0.05)
+        self.assertFalse(alive(pid), f"the hung command's child {pid} outlived the run")
 
     def test_revert_file_follows_its_files_operator_mutants(self):
         self.write("g.py", GUARDED)
