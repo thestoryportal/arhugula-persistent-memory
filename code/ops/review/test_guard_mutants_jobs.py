@@ -1048,6 +1048,9 @@ class HandlerError(Base):
     def test_an_error_in_the_handler_during_the_last_wait_is_raised_once_it_is_restored(self):
         # m0011 runs alone at the end and ends only once the last wait has begun; the handler meets an error at
         # its exit. No wait follows: the error is raised once the handler is restored, and no NEW.json is written.
+        # The test runs the installed handler itself once that wait has seen the exit (T330 ruling 21): m0011 is
+        # then still in flights and unstamped, since before the wait returns only the handler stamps it, so the
+        # error is met in the last wait whenever the kernel delivers m0011's SIGCHLD.
         self.plan(m0011=[["await_end", "go", CAP]])
         wait_patch, box = self.handler_error()
         popen_patch, spawned = self.spawns()
@@ -1057,12 +1060,57 @@ class HandlerError(Base):
             if len(spawned) == 11 and len(pids) == 1 and not box["armed"]:
                 box["armed"] = True
                 self.note(ev="end", name="go")  # m0011 may end now
+                exited = real(pids, timeout)
+                signal.getsignal(signal.SIGCHLD)(signal.SIGCHLD, None)  # no error left if a delivered SIGCHLD met it
+                return exited
             return real(pids, timeout)
         with wait_patch, popen_patch, mock.patch.object(gm, "_wait_any", wait_any), \
                 self.assertRaises(OSError) as caught:
             self.run_main(self.args("--jobs", "2"))
         self.assertStopped(caught, box, spawned, 11)
         self.assertNoGiveUp()
+
+    def test_of_two_errors_the_handler_meets_the_first_is_raised(self):
+        # T330 ruling 22 (M31), trigger of the reviewer's two_errors.py: right after m0003's spawn returns, before
+        # its run is in flights, the test runs the installed handler twice; each run meets an error at m0002's exit
+        # check. The first error recorded propagates; every started test is stopped and reaped; no NEW.json.
+        first = RuntimeError("test: the first handler error")
+        second = OSError(errno.EMFILE, "test: the second handler error")
+        self.plan(m0002=[["hang"]], m0003=[["hang"]])
+        errors, met, armed = [first, second], [], []
+        real = gm._wait_exit
+
+        def in_handler(frame):
+            code = getattr(signal.getsignal(signal.SIGCHLD), "__code__", None)
+            while frame is not None and frame.f_code is not code:
+                frame = frame.f_back
+            return frame is not None
+
+        def wait_exit(pid, timeout):
+            if armed and errors and in_handler(sys._getframe(1)):
+                met.append(errors.pop(0))
+                raise met[-1]
+            return real(pid, timeout)
+
+        def after(n):
+            if n == 3:
+                armed.append(True)
+                for _ in range(2):
+                    signal.getsignal(signal.SIGCHLD)(signal.SIGCHLD, None)
+                self.assertEqual(met, [first, second])  # both met before m0003's run is in flights
+        popen_patch, spawned = self.spawns(after=after)
+        with mock.patch.object(gm, "_wait_exit", wait_exit), popen_patch, \
+                self.assertRaises(BaseException) as caught:
+            self.run_main(self.args("--jobs", "2"))
+        self.assertIs(caught.exception, first)
+        self.assertIs(type(caught.exception), RuntimeError)
+        self.assertEqual(str(caught.exception), "test: the first handler error")
+        self.assertEqual(len(spawned), 3)  # the baseline, m0002 and m0003: no new run after the errors
+        self.assertEqual([proc.returncode is not None for proc in spawned], [True] * 3)  # each reaped by the tool
+        for proc in spawned:
+            self.assertGone(proc.pid)
+        self.assertFalse(os.path.exists(self.out))
+        self.assertEqual(len(os.listdir(self.tooltmp)), 1)  # the scratch is kept
 
 
 if __name__ == "__main__":
