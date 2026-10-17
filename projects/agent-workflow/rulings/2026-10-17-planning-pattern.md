@@ -11,3 +11,8 @@ Continue with your track and once you arrive at the multi agent skilled expert p
 - Planners and MAESTRO talk to each other: questions, answers, debate. The channel is set at launch.
 - At launch, MAESTRO sends the operator one `tmux attach` command per session.
 - Phase 1 context and ICM must be clear to every planner.
+
+## Operator, same day: what the evals evaluate (verbatim)
+"Our repo is INDEED an ICM Architected repo and build form the workspace context. And these evaluations are specifically being designed to evaluate how the current ICM architecture is implemented and how agents operate in it in order to optimize the ICM architecture for our builder/reviewers/testers/orchestrator workflow, which is one narrow use of this ICM repo - our roster is framed specifically around this."
+
+MAESTRO reading: the repo is an ICM in the `icm-architect` forms (signpost `CLAUDE.md`, per-folder `CONTEXT.md` contracts, `map/` system map, `_templates/`, generated `_index/`). The `icm-workspace` linter detects only `stages/` trees, so it refuses this repo; its five-layer model and patterns still apply. The evaluated object is the ICM as built plus agent behaviour in it, for the belt roster.
