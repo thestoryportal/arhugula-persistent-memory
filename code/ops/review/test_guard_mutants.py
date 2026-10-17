@@ -636,7 +636,7 @@ class Contract(Base):
         # The 14th run (the last mutant) changes the lane: only the final scan can see it.
         cmd = f'n=$(cat {flag} 2>/dev/null || echo 0); n=$((n+1)); echo $n > {flag}; ' \
               f'if [ $n -ge 14 ]; then echo extra >> {note}; fi; true'
-        proc = self.run_tool(self.args(test=cmd))
+        proc = self.run_tool(self.args("--jobs", "1", test=cmd))
         self.assertRefused(proc.returncode, proc.stderr, "changed", "data/note.txt")
         self.assertFalse(os.path.exists(self.out))
 
@@ -645,7 +645,7 @@ class Contract(Base):
         flag = os.path.join(self.tmp, "count")
         cmd = f'n=$(cat {flag} 2>/dev/null || echo 0); n=$((n+1)); echo $n > {flag}; ' \
               f'if [ $n -eq 1 ]; then mv {note} {note}.x; fi; if [ $n -eq 2 ]; then mv {note}.x {note}; fi; true'
-        proc = self.run_tool(self.args(test=cmd))
+        proc = self.run_tool(self.args("--jobs", "1", test=cmd))
         self.assertRefused(proc.returncode, proc.stderr, "changed", "data/note.txt")
         self.assertFalse(os.path.exists(self.out))
 

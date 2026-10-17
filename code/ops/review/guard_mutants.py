@@ -62,7 +62,9 @@ generator of the one main thread that builds and checks its copy, starts its tes
 child still enters the copy by fchdir of the held fd) and suspends at the wait; the main
 thread resumes a run once its test has exited, or once the timeout counted from that run's
 own start has passed (its group alone is then killed), and the run does every after-run
-check above and removes its mNNNN. A new run starts only while fewer than N are in flight.
+check above and removes its mNNNN. A run's end is when its test exited, noted by a SIGCHLD
+handler at once (before a copy build or another run's checks): an exit after the deadline is
+a timeout, and the born-during-run window closes at that exit. A new run starts only while fewer than N are in flight.
 Rows and printed lines are in sorted mutant order, never completion order, so NEW.json and
 the output equal those of --jobs 1. A refusal in a run with N > 1 starts no new run, kills
 and reaps the test of each run in flight (each still gets its after-run checks), keeps the
@@ -455,6 +457,8 @@ class Session:
         # (st_dev, st_ino) of each entry this run made (directory, file, link), taken at its creation, and of
         # each file or link its test run made (born during that run); cleanup removes nothing else.
         self.owned: set[tuple[int, int]] = set()
+        # pid -> (time.time(), time.monotonic()) when that test exited, stamped by results() with N > 1 only.
+        self.ended: dict[int, tuple[float, float]] = {}
 
     def __enter__(self) -> Session:
         parent = _temp_parent()
@@ -502,6 +506,10 @@ class Session:
             return [self.result(m) for m in mutants]  # one at a time, as before --jobs
         found: list = [None] * len(mutants)
         flights: dict[int, tuple] = {}  # index -> (steps, pid, deadline on time.monotonic())
+        # A test's exit is stamped at the next bytecode after it, so a copy build before the next poll moves
+        # neither its deadline judgment nor its window's end. Known gap: a file made in that one bytecode (or
+        # syscall) is in the window, as one made before the wait returns is with --jobs 1.
+        previous = signal.signal(signal.SIGCHLD, lambda *_: _stamp_exits(flights, self.ended))
         try:
             for i, m in enumerate(mutants):
                 found[i] = _compile_error(m)
@@ -511,6 +519,7 @@ class Session:
                     steps = self._steps(m, self.timeout)
                     pid, timeout = next(steps)
                     flights[i] = (steps, pid, time.monotonic() + timeout)  # counted from this run's own start
+                    _stamp_exits(flights, self.ended)  # a test that exited before it was in flight
             while flights:
                 self._land(flights, found)
         except BaseException:
@@ -519,17 +528,25 @@ class Session:
                 for steps, _, _ in flights.values():
                     stop.callback(_finish, steps, False)
             raise
+        finally:
+            signal.signal(signal.SIGCHLD, previous)
         return found
 
     def _land(self, flights: dict, found: list) -> None:
-        """Wait until a run's test exits or the earliest deadline passes; finish each such run, in index order."""
+        """Wait until a run's test exits or the earliest deadline passes; finish each such run, in index order.
+
+        A run is judged by its stamped exit (self.ended), never by when this poll saw it: an exit at or before
+        its deadline is a normal result; an exit after it, or a test still running at it, is a timeout."""
         wait = min(deadline for _, _, deadline in flights.values()) - time.monotonic()
-        exited = _wait_any([pid for _, pid, _ in flights.values()], max(wait, 0.0))
+        _wait_any([pid for _, pid, _ in flights.values()], max(wait, 0.0))
+        _stamp_exits(flights, self.ended)  # an exit this wait saw before the handler ran
         for i in sorted(flights):
             steps, pid, deadline = flights[i]
-            if pid in exited or time.monotonic() >= deadline:
+            now = time.monotonic()
+            end = self.ended.get(pid)  # read after now: an exit stamped later is later than now
+            if end is not None or now >= deadline:
                 del flights[i]  # out of flight before its steps resume: a refusal there leaves the others to stop
-                found[i] = _finish(steps, pid in exited)
+                found[i] = _finish(steps, end is not None and end[1] <= deadline)
 
     def verify_lane(self) -> None:
         seen: dict = {}
@@ -679,8 +696,11 @@ class Session:
                 bound = ((self.scratch_fd, name, mfd, mpath), (mfd, "lane", lfd, lane), (mfd, "tmp", tfd, tmp))
                 self._check_bound(bound, "before")
                 start = time.time()
-                outcome = yield from _execute_steps(self.cmd, lane, tmp, timeout, lfd)
-                window = (start, time.time())
+                run = _execute_steps(self.cmd, lane, tmp, timeout, lfd)
+                pid, _ = started = next(run)
+                outcome = _finish(run, (yield started))
+                end = self.ended.pop(pid, None)  # its test's exit (N > 1); else now, after the reap (--jobs 1)
+                window = (start, time.time() if end is None else end[0])
                 self._check_bound(bound, "after")
                 try:
                     self._record_run(mfd, mpath, window)
@@ -969,6 +989,13 @@ def _wait_any(pids: list[int], timeout: float) -> list[int]:
         delay = min(delay * 2, left, 0.05)
         time.sleep(delay)  # polls like _wait_exit_waitid
     return exited
+
+
+def _stamp_exits(flights: dict, ended: dict) -> None:
+    """Stamp (time.time(), time.monotonic()) in ended for each run in flight whose test has exited (unreaped)."""
+    for _, pid, _ in flights.values():
+        if pid not in ended and _wait_exit(pid, 0):
+            ended[pid] = (time.time(), time.monotonic())
 
 
 def _kill_group(pgid: int) -> None:

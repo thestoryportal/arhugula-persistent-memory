@@ -438,6 +438,30 @@ class Timeout(Base):
         self.assertNoGiveUp()
         self.assertEqual(os.listdir(self.tooltmp), [])
 
+    def test_a_test_that_exits_after_its_deadline_during_a_copy_build_is_a_timeout(self):
+        # Reviewer probe test_deadline_during_build (T330 ruling 5, K1): m0002 sleeps past its 0.3 s timeout
+        # and exits while m0003's copy is built; the build ends only after that exit, so the next poll sees an
+        # exited test. Its exit came after its deadline: the row is the timeout, never m0002's exit code.
+        self.plan(m0002=[["sleep", 0.6]])
+        spawned = []
+        real_popen, real_walk = gm.subprocess.Popen, gm.Session._walk
+
+        def popen(*a, **kw):
+            spawned.append(real_popen(*a, **kw))
+            return spawned[-1]
+
+        def walk(session, *a, **kw):
+            if session.runs == 3 and a[2] == "" and a[3] is not None:  # m0003's copy, before it is built
+                self.assertTrue(gm._wait_exit(spawned[1].pid, CAP))  # m0002's test has exited
+            return real_walk(session, *a, **kw)
+        with mock.patch.object(gm.subprocess, "Popen", popen), mock.patch.object(gm.Session, "_walk", walk):
+            code, out, err = self.run_main(self.args("--jobs", "2", "--timeout", ".3"))
+        self.assertIn(code, (0, 1), err)
+        row = self.rows()[0]
+        self.assertEqual(row["id"], RUN_OF["m0002"])
+        self.assertEqual((row["result"], row["detail"]), ("error", "timeout after 0.3s"))
+        self.assertEqual([e["rc"] for e in self.events() if e["ev"] == "end" and e["name"] == "m0002"], [1])
+
 
 class Units(Base):
     def session(self, cmd):
@@ -501,6 +525,10 @@ class Units(Base):
         entry = doc[doc.index("  flag-drop"):doc.index("  regex-zero")]
         self.assertIn("inert", entry)
         self.assertIn("O_RDONLY", entry)
+
+    def test_docstring_names_jobs_and_says_an_inert_flag_makes_no_mutant(self):
+        self.assertIn("--jobs", gm.__doc__)
+        self.assertIn("an inert flag makes no mutant", " ".join(gm.__doc__.split()))
 
 
 _REAL_FCNTL = fcntl.fcntl
@@ -657,6 +685,71 @@ class KillSet(Base):
         self.assertFalse(os.path.exists(self.out))
         self.assertEqual(set(self.started()), {"m0001", *RUN_OF})
         self.assertNoChildLeft()
+
+    def test_a_file_made_after_the_test_exited_during_a_copy_build_is_refused(self):
+        # Reviewer probe test_foreign_file_after_exit (T330 ruling 5, K2): once m0002's test has exited, a
+        # file appears in its copy while m0003's copy is built. It was born after the run ended: not the test's.
+        spawned, made = [], []
+        real_popen, real_walk = gm.subprocess.Popen, gm.Session._walk
+
+        def popen(*a, **kw):
+            spawned.append(real_popen(*a, **kw))
+            return spawned[-1]
+
+        def walk(session, *a, **kw):
+            if session.runs == 3 and not made:  # m0003's copy, before it is built
+                self.assertTrue(gm._wait_exit(spawned[1].pid, CAP))  # m0002's test has exited
+                made.append(os.path.join(session.scratch, "m0002", "lane", "foreign"))
+                with open(made[0], "w") as fh:
+                    fh.write("not made by the test")
+            return real_walk(session, *a, **kw)
+        with mock.patch.object(gm.subprocess, "Popen", popen), mock.patch.object(gm.Session, "_walk", walk):
+            code, out, err = self.run_main(self.args("--jobs", "2"))
+        self.assertRefused(code, err, made[0], "kept")
+        self.assertEqual(out, "")
+        self.assertFalse(os.path.exists(self.out))
+        self.assertTrue(os.path.isfile(made[0]))
+        self.assertNoChildLeft()
+
+    def test_a_file_born_before_its_run_started_is_refused(self):
+        # A file appears in m0002's copy after the copy is built and before its test starts (T330 ruling 6, M22).
+        planted = []
+        real_walk = gm.Session._walk
+
+        def walk(session, *a, **kw):
+            done = real_walk(session, *a, **kw)
+            if session.runs == 2 and a[2] == "" and a[3] is not None:  # m0002's whole copy is built
+                planted.append(os.path.join(a[4], "planted"))
+                with open(planted[0], "w") as fh:
+                    fh.write("not made by the test")
+            return done
+        with mock.patch.object(gm.Session, "_walk", walk):
+            code, out, err = self.run_main(self.args("--jobs", "2"))
+        kept = os.path.join(os.path.dirname(os.path.dirname(planted[0])), "lane", "planted")
+        self.assertRefused(code, err, kept, "made before the test run", "kept")
+        self.assertEqual(out, "")
+        self.assertFalse(os.path.exists(self.out))
+        self.assertTrue(os.path.isfile(kept))
+        self.assertIn("m0002", self.started())  # m0002's test ran: the refusal is its after-run record
+        self.assertNoChildLeft()
+
+    def test_each_finished_runs_copy_is_removed_while_the_next_runs_go_on(self):
+        # When each mutant copy is built, the scratch holds that copy and those of the runs still in flight:
+        # never more than N (T330 ruling 6, M20). A check after main() returns would miss it: the end of the
+        # session removes the whole scratch.
+        held = []
+        real_walk = gm.Session._walk
+
+        def walk(session, *a, **kw):
+            if a[2] == "" and a[3] is not None:  # a copy, before it is built
+                held.append(sorted(os.listdir(session.scratch)))
+            return real_walk(session, *a, **kw)
+        with mock.patch.object(gm.Session, "_walk", walk):
+            code, out, err = self.run_main(self.args("--jobs", "2"))
+        self.assertEqual(code, 1, err)
+        self.assertEqual([names[-1] for names in held], ["m0001", *RUN_OF])  # the baseline, then each mutant
+        self.assertEqual(max(len(names) for names in held), 2, held)
+        self.assertEqual(os.listdir(self.tooltmp), [])
 
 
 if __name__ == "__main__":
