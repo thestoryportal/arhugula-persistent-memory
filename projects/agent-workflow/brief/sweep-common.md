@@ -1,29 +1,53 @@
 # Rules for every Phase 1 inventory sweep (read this first, then your own brief)
 
-You are one of four read-only sweeps for the agent-workflow program. Purpose (operator, 2026-10-17, verbatim): "we need to clearly outline every agent that will be working on the next sets of tickets, including yourself, with exactly how each operates in the workflow, what context they require as well as all additional context that will maximize performance exponentially, what tools, what skills, what governance, what documents". Your job is the FACTUAL part only: what exists and how it works TODAY. You do not design the ideal and you do not judge quality; MAESTRO does that from your file.
+You are one of four read-only sweeps for the agent-workflow program (charter: M/projects/agent-workflow/brief/charter.md; read its "Operator, verbatim" section once). Purpose (operator, 2026-10-17, verbatim): "we need to clearly outline every agent that will be working on the next sets of tickets, including yourself, with exactly how each operates in the workflow, what context they require as well as all additional context that will maximize performance exponentially, what tools, what skills, what governance, what documents". Your job is the FACTUAL part only: what exists and how it works TODAY. You do not design the ideal, you do not judge quality, and you do not propose fixes, evals, graders or metrics. MAESTRO does that from your file.
+
+## How to find things: walk the ICM routes
+This program evaluates how agents move through the ICM repo. The route an agent follows to a file is part of what we measure, so you locate things the way the ICM tells an agent to:
+1. Start at M/CLAUDE.md ("What do I read now?" and "Where things live"). Follow the file it names to the folder CONTEXT.md, and from there to the governance file, guide or catalog. The main routes are: M/_system/governance/TICKETS.md -> M/_system/governance/tickets/*.md (roots in 00-roots-and-roles.md, script paths in path-index.md); M/map/CLAUDE.md for code; M/_index/path-map.tsv or `LLMDB_ROOT=<M> <M>/.venv/bin/python <M>/code/state/resolve_path.py <old-path>` (put M's absolute path where `<M>` appears; exit 2 means unknown old path) for an old path.
+2. Record the route of each fact: the chain of `path:line` hops from M/CLAUDE.md to the file, or at least the last hop (the ICM line that names the path).
+3. Use `find`, a broad `ls` or a guessed path only when the route fails. Tag the result `OFF-ROUTE`, and record the route you tried and where it stopped. An OFF-ROUTE item is a finding. It also goes under `## Missing or dead paths` when a doc names a path that the route cannot reach.
+4. The roots L, M, S, W, TD, MEM and HO below come from M/_system/governance/tickets/00-roots-and-roles.md:7-20. MAESTRO added the others (P, the transcript folders, the Memento handoffs, the Codex and Claude homes) for this sweep. You may use all of them as shorthand. For each MAESTRO-added path, record whether an ICM doc names it. A path that no ICM doc names is OFF-ROUTE even when you know where it is.
+
+These two lines show the form only; their facts are not checked.
+- BAD: "step-X watcher: /Volumes/.../old-run/team/watch.py (found with find)." (an off-route file reported as if an agent can reach it)
+- GOOD: "step-X watcher: OFF-ROUTE. Route tried: M/CLAUDE.md:NN -> TICKETS.md:NN -> tickets/disk-permissions-sessions.md:NN names it by absolute path in an old run folder; path-index.md has no entry (grep). Located by `ls <path>`."
 
 ## Roots
-- M = /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory (the ICM repo; master)
+- M = /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory (the ICM repo; master). P = M/projects/agent-workflow.
 - L = /Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN (ticket tools: L/tools/, L/land.sh)
-- W = L/w1opt (plans, briefs, staged tool changes); TD = W/followup-327 (the latest plan: PLAN.md, tickets/, reviews/, ledger.tsv, METRICS.md); wave 2 tickets: L/part2/tickets/
+- W = L/w1opt (plans, briefs, staged tool changes); TD = W/followup-327 (per HO/HANDOFF-STEP73.md:12; the latest plan: PLAN.md, tickets/, reviews/, ledger.tsv, METRICS.md); wave 2 tickets: L/part2/tickets/
 - S = /Users/robertrhu/.claude/skills/atomic-ticketizer (the ticket skill: SKILL.md, references/worker.md, reviewer.md, prober.md, scripts/tickets.py)
-- HO = /Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013T114331Z-2ec28dcb/icm-v2 (HANDOFF-STEP*.md; latest HANDOFF-STEP71.md)
-- MEM = /Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory (Claude auto-memory)
-- The governance router: M/CLAUDE.md -> M/_system/governance/TICKETS.md -> M/_system/governance/tickets/*.md (00-roots-and-roles.md defines the roots and who does what).
+- HO = /Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013T114331Z-2ec28dcb/icm-v2 (HANDOFF-STEP*.md; the latest is the highest STEP number in `ls HO`; on 2026-10-17 it is HANDOFF-STEP73.md)
+- MEM = /Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/memory (Claude auto-memory). Claude transcripts: the `*.jsonl` files and `*/subagents/` folders in its parent folder. Memento handoffs: /Users/robertrhu/.claude/memento/handoffs/.
 - Codex home: ~/.codex (config.toml, AGENTS.md, skills/, memories/, rules/, sessions/). Claude home: ~/.claude (settings.json, CLAUDE.md, skills/, agents/, plugins/, projects/).
 
 ## Hard rules
-- Read-only everywhere. Write ONLY your one output file under M/projects/agent-workflow/drafts/inventory/. No commits, no installs, no network, no edits, no running tests, ship.sh, train.sh, land.sh, codex or claude.
-- Do not open or print secrets (tokens, keys, OAuth files, .env). If a config holds one, name the key, never the value.
+- Read-only everywhere. Write ONLY your one output file under P/drafts/inventory/. No commits, no installs, no network, no edits. Do not run tests, ship.sh, train.sh, land.sh, install_staged.sh, reclaim.py, codex or claude. You may run `command -v <tool>` and `<tool> --version` (not for codex or claude: read their versions from files or record UNVERIFIED).
+- Do not open or print secrets (tokens, keys, OAuth files, .env, `auth.json`). If a config holds one, name the key, never the value.
 - Do not read whole transcript files (*.jsonl): they are huge. Use `ls -la`, `wc -l`, `du -sh`, `head -c 2000` only.
-- Every claim cites its source as `path:line` (or the exact command and its output for counts and sizes). A claim you cannot cite is marked UNVERIFIED and says why.
-- Use exact paths with the root prefix (M/..., L/..., S/...). When a doc names a path that does not exist, record that as a finding (cite the doc line and your `ls` result).
-- Report what IS. When two sources disagree (a doc says X, the script does Y), record both with citations under "Disagreements"; do not pick one.
-- Context: keep your own window lean. Read headers, usage text and the sections you need; grep before you read; do not read a file over ~400 lines whole unless your brief says so.
+- Context: keep your own window lean. Read headers, usage text and the sections you need; grep before you read; do not read a file over ~400 lines whole unless your brief says so. You cannot see your context gauge. If you think you have used about 45% of your context window, write what you have to the output file, mark unfinished sections INCOMPLETE, and stop.
+
+## Evidence rules (from the equip research, P/drafts/research/)
+1. **Cite every claim to `path:line`**, read by you in this sweep. For counts and sizes, cite the exact command and its output. A claim you cannot cite is marked UNVERIFIED and says why. Do not copy a fact from another summary (a handoff, INVENTORY.md, a memory file) as if you had checked it: cite the summary as the source, or open the file it names and cite that.
+2. **Report the end state, not the claim.** A doc that says a script does X is a claim. The script line that does X is the evidence. Tag each fact with its evidence kind: `CODE` (a script, config or permission rule that executes), `DOC` (a governance or guide file that says so), `REPORT` (a handoff, memory file, review or agent reply that says so). When a DOC or REPORT fact has a CODE source, cite the CODE line. When they disagree, record both under "Disagreements"; do not pick one.
+3. **Separate enforced rules from interpreted rules.** For every rule you record, give its class: `ENFORCED` (a permission rule in a settings file, a hook, a sandbox flag, or a gate script that exits non-zero; cite the enforcing line) or `INTERPRETED` (text that only an agent reads and obeys). Also give its surface: `harness-loaded` (CLAUDE.md, AGENTS.md, a system prompt that a script passes), `told-to-read` (a file that a brief or guide names), `brief`, `skill-body`, `skill-description`, `tool-description`. Why: only about 4-16% of CLAUDE.md security rules have an enforcing control (arXiv 2608.23550), and agents obey skill and tool descriptions less than project files (arXiv 2608.11727).
+4. **Record authority, date and supersession for every context store and every ruling you cite.** Authority class: `operator-verbatim` (the operator's own words, quoted), `operator-ruling-recorded` (a ruling written down by MAESTRO, not quoted), `maestro-ruling`, `agent-report` (builder, reviewer or subagent output), `inference`. Date: the date written in the text, else the file mtime (say which). Supersession: cite the line that marks an entry as superseded, or write `none found` with the grep you ran. Why: memory consolidation loses who authorized a claim (arXiv 2608.01679), and agents accept stale facts (arXiv 2605.06527).
+5. **Record incidents verbatim and uncoded.** When a source records a failure (a `gaps.md` G-id, a memory "trap", a handoff "Traps found" line, a review NO-GO, a ledger fail row), quote it short with its citation in an `## Incidents (uncoded)` section. For each incident, record: which agent or station, which belt stage, whether a handoff between agents was involved, and whether a check or gate was involved. Do NOT assign a failure category (MAST, arXiv 2503.13657, or any other) and do not say what caused it. Why: error analysis comes before any grader, and open coding of failures is done later by a human-led pass; your categories would bias it.
+6. **Record trace identifiers, not trace content.** Where your brief covers transcripts or logs, record which fields identify the session, the agent (or tool) that wrote each message, the parent, the model and the position, from `head -c 2000` only. Why: debugging a multi-agent trace needs "a session or trace ID" and each message's "source (which agent or tool)" (Husain and Shankar, evals FAQ, item 7 in P/drafts/research/skills-comparative.md:124).
+
+## Bad and good lines
+These lines show the form only. Their facts and line numbers (NN) are not checked; do not cite them.
+- BAD: "Builders get good context from the brief template." (no citation; a judgment)
+- GOOD: "Builder brief template names worker.md as the rule file (L/w1opt/brief-template.md:12) [DOC]; worker.md:10-11 requires the revert check [DOC, INTERPRETED, told-to-read]."
+- BAD: "ship.sh runs Astra on every ticket." (copied from a handoff; the claim, not the end state)
+- GOOD: "ship.sh calls astra.sh only when the ticket JSON has `astra: true` (L/tools/ship.sh:NN) [CODE, ENFORCED]; HANDOFF-STEP70.md:NN says 'every ticket' [REPORT] (see Disagreements)."
+- BAD: "Incident: the builder context was too small (system design issue)." (coded, and a cause given)
+- GOOD: "Incident: 'R2 builders last ~8-10 min' (MEM/sol-builders-blind-to-context.md:NN) [REPORT, maestro-ruling, 2026-10-1N]; agent: Codex builder; stage: build; handoff: yes; gate: no."
 
 ## Output form
-Markdown. First line: `# <title> (sweep, <date> UTC, read-only)`. Then the sections your brief names, then `## Disagreements`, `## Missing or dead paths`, `## UNVERIFIED`, `## Commands run` (each command, one line). Hard cap: 600 lines. Tables where your brief asks for them.
+Markdown, in Simplified Technical English (short sentences, active voice, one fact per sentence). First line: `# <title> (sweep, <date> UTC, read-only)`. Then the sections your brief names, then `## Incidents (uncoded)` (if your brief asks for it), `## Off-route items` (each OFF-ROUTE item: what, where it was found, the route tried and where it stopped), `## Disagreements`, `## Missing or dead paths` (a doc names a path that does not exist: cite the doc line and your `ls` result), `## UNVERIFIED`, `## Commands run` (each command, one line). Hard cap: 600 lines. Use tables where your brief asks for them. Use exact paths with the root prefix (M/..., L/..., S/...).
 
-Bad output (do not do this): "Builders get good context from the brief template." (no citation, a judgment, not a fact). Good output: "Builder brief template names worker.md as the rule file (L/w1opt/brief-template.md:12); worker.md:10-11 requires the revert check."
+Before you finish: pick 10 citations from your file at random, re-open each cited line, and confirm it says what you wrote. Fix any that do not. Record "Self-check: 10 citations re-read, N fixed" as the last line.
 
-When done, reply in at most 15 lines: the output path, its line count, and the three facts you think MAESTRO most needs.
+When done, reply in at most 15 lines: the output path, its line count, and the three facts you think MAESTRO most needs. Your reply is not evidence; MAESTRO checks the file against its sources.
