@@ -25,12 +25,13 @@ With --base REV only the lines of each --file that differ from REV are in scope,
 is made only when its anchor line (the line in its id and location) is in scope. git is
 asked once per file in the lane, before any copy, with no GIT_* variable of the caller and
 literal pathspecs: REV must resolve to a commit (git rev-parse); a file absent at REV (git
-cat-file -e fails) is in scope as a whole; otherwise its index entry must be plain (git
+ls-tree -z REV -- F exits 0 and lists no entry) is in scope as a whole; otherwise its index entry must be plain (git
 ls-files -v gives "H": not skip-worktree, assume-unchanged, unmerged or untracked, which
 git diff would not compare), and its lines are the new-side lines of each hunk of
 `git diff -U0 --no-color --no-ext-diff REV -- F` (the worktree against REV). A git command
-that fails, a binary diff, or an unreadable hunk header refuses (exit 2). Without --base
+that fails, an ls-tree answer that is not one entry for F, a binary diff, or an unreadable hunk header refuses (exit 2). Without --base
 every line is in scope.
+With --base, a file present at REV with a changed line also gets revert-file: its REV bytes (git cat-file blob, once).
 
 CMD first runs once on an unmutated copy and must exit 0 (else exit 2, nothing written).
 Then each mutant gets a fresh copy of the lane (never the lane itself; the top-level
@@ -115,6 +116,7 @@ CHUNK = 1 << 20
 BASELINE_TIMEOUT = 1800.0
 STAGE = "copy"  # a copy's name in its mNNNN until it is complete; then it is renamed to "lane"
 HUNK = re.compile(rb"@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
+SHORT_SHA = 12  # hex digits of the resolved REV in a revert-file change text
 
 
 # ---- filesystem edge -------------------------------------------------------------
@@ -329,8 +331,12 @@ def _git_ok(*args: str) -> bytes:
 
 def _changed_lines(rev: str, rel: str):
     """The lines of rel (relative to the lane) that differ from commit rev, or WHOLE when rel is absent there."""
-    if _git("cat-file", "-e", f"{rev}:./{rel}").returncode != 0:
+    entry = _git_ok("ls-tree", "-z", rev, "--", rel)  # exit 0 with no entry is git's answer "absent"
+    if not entry:
         return WHOLE
+    if entry.count(b"\0") != 1 or not entry.endswith(b"\t" + os.fsencode(rel) + b"\0"):
+        raise Refusal(f"`{shlex.join(['git', 'ls-tree', '-z', rev, '--', rel])}` gives {entry!r}, "
+                      f"not one entry for {rel}")
     entries = _git_ok("ls-files", "-v", "-z", "--", rel).split(b"\0")
     if entries != [b"H " + os.fsencode(rel), b""]:
         raise Refusal(f"`git ls-files -v -z -- {rel}` gives {entries[:-1]!r}, not one plain index entry; "
@@ -348,12 +354,25 @@ def _changed_lines(rev: str, rel: str):
     return frozenset(lines)
 
 
-def line_scope(base: str | None, rels) -> dict:
-    """Each file's scope: the lines that differ from base (asked of git once, in the lane), else WHOLE."""
+def line_scope(base: str | None, rels) -> tuple[dict, dict]:
+    """Each file's scope: the lines that differ from base (asked of git once, in the lane), else WHOLE;
+    and each file's revert-file mutants (asked of git in the same pass)."""
     if base is None:
-        return dict.fromkeys(rels, WHOLE)
+        return dict.fromkeys(rels, WHOLE), dict.fromkeys(rels, [])
     rev = _git_ok("rev-parse", "--verify", "--end-of-options", base + "^{commit}").decode("ascii").strip()
-    return {rel: _changed_lines(rev, rel) for rel in rels}
+    scope = {rel: _changed_lines(rev, rel) for rel in rels}
+    return scope, {rel: revert_file(base, rev, rel, lines) for rel, lines in scope.items()}
+
+
+def revert_file(base: str, rev: str, rel: str, lines) -> list[Mutant]:
+    """rel put back to its bytes at commit rev, anchored at its first changed line; none for a file absent
+    at rev (WHOLE) or one with no changed line (a pure deletion)."""
+    if lines is WHOLE or not lines:
+        return []
+    line = min(lines)
+    source = _git_ok("cat-file", "blob", f"{rev}:./{rel}")
+    change = f"file -> {base} {rev[:SHORT_SHA]}"
+    return [Mutant(f"{rel}:{line}:0:revert-file", rel, line, "revert-file", change, source)]
 
 
 # ---- mutants ---------------------------------------------------------------------
@@ -931,8 +950,9 @@ def main(argv: list[str] | None = None, ops_dir: str = OPS_DIR) -> int:
         try:
             root = _realpath(root_fd, f"lane {root}")
             targets = read_targets(root_fd, root, args.file)
-            scope = line_scope(args.base, targets)
-            mutants = parsed([m for t in targets.values() for m in mutants_for(t.rel, t.data, scope[t.rel], operators)])
+            scope, reverts = line_scope(args.base, targets)
+            mutants = parsed([m for t in targets.values()
+                              for m in mutants_for(t.rel, t.data, scope[t.rel], operators) + reverts[t.rel]])
             allow = load_allow(args.allow, {m.id for m in mutants}) if args.allow else {}
             with _fs(f"--out parent {parent}"):
                 parent_fd = os.open(parent, DIR_FLAGS)

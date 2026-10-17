@@ -119,7 +119,7 @@ class Lines(unittest.TestCase):
         self.assertEqual(len(rows), len({r["id"] for r in rows}))
         self.assertIn(f"guard_mutants: {len(rows)} mutants, 0 killed, {len(rows)} survived, 0 error, 0 allowed; "
                       f"wrote {out}", proc.stdout)
-        return {r["id"] for r in rows}
+        return {r["id"] for r in rows if r["operator"] != "revert-file"}
 
     def refused(self, *extra: str, files=(F,), env_extra=None) -> str:
         proc, out = self.run_tool(*extra, files=files, env_extra=env_extra)
@@ -185,10 +185,10 @@ class Lines(unittest.TestCase):
     def test_edit_without_guard_writes_empty_list_and_exits_0(self):
         self.edit("LIMIT = 3", "LIMIT = 4")
         proc, out = self.run_tool("--base", "HEAD")
-        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertEqual(proc.returncode, 1, proc.stdout + proc.stderr)
         with open(out) as fh:
-            self.assertEqual(json.load(fh), [])
-        self.assertIn(f"guard_mutants: 0 mutants, 0 killed, 0 survived, 0 error, 0 allowed; wrote {out}", proc.stdout)
+            self.assertEqual(json.load(fh), [{"id": f"{F}:23:0:revert-file", "location": f"{F}:23", "operator": "revert-file", "change": "file -> HEAD " + self.git("rev-parse", "HEAD")[:12], "result": "survived", "detail": "exit 0", "allowed": None}])
+        self.assertIn(f"guard_mutants: 1 mutants, 0 killed, 1 survived, 0 error, 0 allowed; wrote {out}", proc.stdout)
 
     # (5) an unknown REV exits 2 and names the git command and its stderr
     def test_unknown_rev_refuses_naming_the_command(self):

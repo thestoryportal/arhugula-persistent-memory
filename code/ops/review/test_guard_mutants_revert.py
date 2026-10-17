@@ -1,0 +1,463 @@
+"""Tests for guard_mutants' revert-file mutant: with --base REV, a changed file is put back to its bytes at REV.
+
+Each lane is a temp git repo made by the test and removed by addCleanup; no real lane,
+branch or PR is touched. The tool runs as a subprocess with cwd = the temp repo.
+Rows are selected by operator == "revert-file"; the fixture modules have no guard, so other
+operator modules add no row to a run that must exit 0.
+"""
+from __future__ import annotations
+
+import json
+import os
+import shlex
+import shutil
+import signal
+import subprocess
+import sys
+import tempfile
+import time
+import unittest
+
+TOOL = os.path.join(os.path.dirname(os.path.abspath(__file__)), "guard_mutants.py")
+PY = os.path.abspath(sys.executable)
+
+BASE = "A = 0\nB = 0\nVALUE = 1\nC = 0\nD = 0\n"
+EDITED = "A = 0\nB = 0\nVALUE = 2\nC = 0\nD = 9\n"  # two hunks, lines 3 and 5: the anchor is line 3
+CHECKS = f'{PY} -B -c "import m; assert m.VALUE == 2"'  # fails when m.py is put back to BASE
+GUARDED = "def f(n):\n    if n:\n        raise ValueError(n)\n    return n\n"
+SHORT = 12  # hex digits of the resolved commit in the change text
+# rel: (bytes at REV, edited bytes (UTF-8, as --file needs), first changed line)
+BYTE_SHAPES = {
+    "crlf.py": (b"A = 0\r\n\r\nVALUE = 1\r\nB = 0\nC = 0\r\n", b"A = 0\r\n\r\nVALUE = 2\r\nB = 0\nC = 0\r\n", 3),
+    "spaces.py": (b"A = 0 \t\nVALUE = 1\t \nB = 0  \n", b"A = 0 \t\nVALUE = 2\t \nB = 0  \n", 2),
+    "no_eol.py": (b"A = 0\nVALUE = 1", b"A = 0\nVALUE = 2", 2),
+    "extra_eol.py": (b"A = 0\nVALUE = 1\n\n\n", b"A = 0\nVALUE = 2\n\n\n", 2),
+    "latin1.py": (b"# -*- coding: latin-1 -*-\nNAME = '\xe9'\nVALUE = 1\n",
+                  b"# -*- coding: latin-1 -*-\nNAME = 'e'\nVALUE = 2\n", 2),
+}
+
+
+def git_env() -> dict:
+    """The env without GIT_* (a hook's GIT_DIR or GIT_INDEX_FILE would aim git at another repo)."""
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+    env.update(GIT_AUTHOR_NAME="t", GIT_AUTHOR_EMAIL="t@t", GIT_COMMITTER_NAME="t", GIT_COMMITTER_EMAIL="t@t",
+               GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull)
+    return env
+
+
+class RevertFile(unittest.TestCase):
+    def setUp(self):
+        self.tmp = os.path.realpath(tempfile.mkdtemp(prefix="gm-revert-"))
+        self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
+        self.lane = os.path.join(self.tmp, "lane")
+        self.tooltmp = os.path.join(self.tmp, "tooltmp")
+        os.mkdir(self.lane)
+        os.mkdir(self.tooltmp)
+        self.n = 0
+        self.git("init", "-q")
+        self.write("m.py", BASE)
+        self.git("add", "m.py")
+        self.git("commit", "-q", "-m", "base")
+        self.base_sha = self.git("rev-parse", "HEAD").strip()
+
+    def git(self, *args: str) -> str:
+        proc = subprocess.run(["git", *args], cwd=self.lane, env=git_env(), capture_output=True, text=True)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        return proc.stdout
+
+    def write(self, rel: str, text: str) -> None:
+        with open(os.path.join(self.lane, rel), "w") as fh:
+            fh.write(text)
+
+    def write_bytes(self, rel: str, data: bytes) -> None:
+        with open(os.path.join(self.lane, rel), "wb") as fh:
+            fh.write(data)
+
+    def run_tool(self, *extra: str, files=("m.py",), test=CHECKS, env_extra=None, cwd=None):
+        self.n += 1
+        out = os.path.join(self.tmp, f"out{self.n}.json")
+        argv = [a for f in files for a in ("--file", f)] + ["--test", test, "--out", out, *extra]
+        env = dict(git_env(), TMPDIR=self.tooltmp, **(env_extra or {}))
+        env.pop("PYTHONPATH", None)
+        proc = subprocess.run([PY, "-B", TOOL, *argv], cwd=cwd or self.lane, env=env,
+                              capture_output=True, text=True, timeout=240)
+        self.assertEqual(os.listdir(self.tooltmp), [], "the tool left its scratch directory")
+        return proc, out
+
+    def rows(self, *extra: str, code: int, **kw) -> tuple[list[dict], str]:
+        """All rows of a run that exits code, and its stdout."""
+        proc, out = self.run_tool(*extra, **kw)
+        self.assertEqual(proc.returncode, code, proc.stdout + proc.stderr)
+        with open(out) as fh:
+            return json.load(fh), proc.stdout
+
+    def reverts(self, *extra: str, code: int, **kw) -> list[dict]:
+        return [r for r in self.rows(*extra, code=code, **kw)[0] if r["operator"] == "revert-file"]
+
+    def row(self, rel: str, line: int, result: str, rev: str = "HEAD", sha: str | None = None,
+            allowed: str | None = None) -> dict:
+        return {"id": f"{rel}:{line}:0:revert-file", "location": f"{rel}:{line}", "operator": "revert-file",
+                "change": f"file -> {rev} {(sha or self.base_sha)[:SHORT]}", "result": result,
+                "detail": "exit 0" if result == "survived" else "exit 1", "allowed": allowed}
+
+    # (1) (2) a change that the test checks: the file put back to REV fails the test
+    def test_checked_change_gives_a_killed_revert_file(self):
+        self.write("m.py", EDITED)
+        self.assertEqual(self.reverts("--base", "HEAD", code=0), [self.row("m.py", 3, "killed")])
+
+    def test_source_is_the_bytes_at_rev(self):
+        """The test fails (kills) exactly when m.py in the copy holds BASE's bytes."""
+        self.write("m.py", EDITED)
+        copy = os.path.join(self.tmp, "base-bytes")
+        with open(copy, "w") as fh:
+            fh.write(BASE)
+        test = f"! cmp -s m.py {shlex.quote(copy)}"
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, test=test), [self.row("m.py", 3, "killed")])
+
+    def test_source_is_the_exact_rev_bytes_of_each_byte_shape(self):
+        """Bytes written and compared as bytes: no newline, whitespace or encoding normalization reaches the copy."""
+        expect = os.path.join(self.tmp, "expect")
+        os.mkdir(expect)
+        for rel, (base, _, _) in BYTE_SHAPES.items():
+            self.write_bytes(rel, base)
+            with open(os.path.join(expect, rel), "wb") as fh:
+                fh.write(base)
+        self.git("add", *BYTE_SHAPES)
+        self.git("commit", "-q", "-m", "byte shapes")
+        sha = self.git("rev-parse", "HEAD").strip()
+        for rel, (base, _, _) in BYTE_SHAPES.items():  # the fixture is at REV byte for byte
+            blob = subprocess.run(["git", "cat-file", "blob", f"HEAD:{rel}"], cwd=self.lane, env=git_env(),
+                                  capture_output=True)
+            self.assertEqual((blob.returncode, blob.stdout), (0, base), rel)
+        for rel, (_, edited, _) in BYTE_SHAPES.items():
+            self.write_bytes(rel, edited)
+        # the test fails exactly when one file in the copy holds its REV bytes
+        same = " || ".join(f"cmp -s {rel} {shlex.quote(os.path.join(expect, rel))}" for rel in BYTE_SHAPES)
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, files=tuple(BYTE_SHAPES), test=f"! {{ {same}; }}"),
+                         [self.row(rel, line, "killed", sha=sha) for rel, (_, _, line) in BYTE_SHAPES.items()])
+
+    # a change that the test does not exercise: a survivor, reported like any other
+    def test_unexercised_change_survives_and_is_reported(self):
+        self.write("m.py", EDITED)
+        rows, stdout = self.rows("--base", "HEAD", code=1, test="true")
+        reverts = [r for r in rows if r["operator"] == "revert-file"]
+        self.assertEqual(reverts, [self.row("m.py", 3, "survived")])
+        self.assertIn(f"survived m.py:3:0:revert-file: file -> HEAD {self.base_sha[:SHORT]} [exit 0]\n", stdout)
+
+    def test_rev_text_as_given_and_the_resolved_commit(self):
+        self.write("m.py", EDITED)
+        self.git("commit", "-q", "-am", "edit")
+        self.assertEqual(self.reverts("--base", "HEAD~1", code=0),
+                         [self.row("m.py", 3, "killed", rev="HEAD~1", sha=self.base_sha)])
+        self.assertEqual(self.reverts("--base", "HEAD", code=0), [])  # no changed line against HEAD
+
+    def test_anchor_is_the_first_changed_line(self):
+        self.write("m.py", "A = 0\nB = 0\nVALUE = 2\nC = 0\nD = 0\nE = 0\n")  # changed lines 3 and 6
+        self.assertEqual(self.reverts("--base", "HEAD", code=0), [self.row("m.py", 3, "killed")])
+        self.write("m.py", "A = 7\nB = 0\nVALUE = 2\nC = 0\nD = 0\n")  # lines 1 and 3
+        self.assertEqual(self.reverts("--base", "HEAD", code=0), [self.row("m.py", 1, "killed")])
+
+    # (3) a file new since REV gives no revert-file id (it is in scope as a whole)
+    def test_file_absent_at_rev_gives_no_revert_file(self):
+        self.write("m.py", EDITED)
+        self.write("new.py", "X = 1\n")
+        files = ("m.py", "new.py")
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, files=files), [self.row("m.py", 3, "killed")])
+        self.git("add", "new.py")  # staged, still not at REV
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, files=files), [self.row("m.py", 3, "killed")])
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, files=("new.py",), test="true"), [])
+
+    def test_pure_deletion_gives_no_revert_file(self):
+        self.write("m.py", BASE.replace("D = 0\n", ""))
+        self.assertIn("@@ -5 +4,0 @@", self.git("diff", "-U0", "HEAD", "--", "m.py"))
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, test="true"), [])
+
+    def test_lane_below_the_repo_top_reads_its_own_file(self):
+        sub = os.path.join(self.lane, "sub")
+        os.mkdir(sub)
+        sub_base = BASE + "# sub\n"  # differs from the top-level m.py at REV
+        self.write("sub/m.py", sub_base)
+        self.git("add", "sub/m.py")
+        self.git("commit", "-q", "-m", "sub")
+        sha = self.git("rev-parse", "HEAD").strip()
+        self.write("sub/m.py", EDITED)
+        copy = os.path.join(self.tmp, "sub-base-bytes")
+        with open(copy, "w") as fh:
+            fh.write(sub_base)
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, cwd=sub, test=f"! cmp -s m.py {shlex.quote(copy)}"),
+                         [self.row("m.py", 3, "killed", sha=sha)])
+
+    # (4) a run without --base has no revert-file id
+    def test_without_base_no_revert_file(self):
+        self.write("m.py", EDITED)
+        self.assertEqual(self.rows(code=0, test="true")[0], [])
+
+    # (6) an allow entry for the id passes; the allow file knows the id only when it is made
+    def test_allow_entry_for_the_id_passes(self):
+        self.write("m.py", EDITED)
+        allow = os.path.join(self.tmp, "allow.json")
+        with open(allow, "w") as fh:
+            json.dump([{"id": "m.py:3:0:revert-file", "reason": "VALUE is not checked here"}], fh)
+        rows, stdout = self.rows("--base", "HEAD", "--allow", allow, code=0, test="true")
+        self.assertEqual([r for r in rows if r["operator"] == "revert-file"],
+                         [self.row("m.py", 3, "survived", allowed="VALUE is not checked here")])
+        self.assertIn(" 1 allowed; wrote ", stdout)
+        proc, out = self.run_tool("--allow", allow, test="true")  # no --base: no such mutant
+        self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+        self.assertIn("lists m.py:3:0:revert-file, which is no mutant of these files", proc.stderr)
+        self.assertFalse(os.path.lexists(out))
+
+    # a source at REV that does not parse is refused like any mutant's: before a test run or a report
+    def test_unparseable_rev_source_refuses_before_any_run_with_or_without_allow(self):
+        self.write("m.py", BASE.replace("VALUE = 1", "VALUE = = 1"))  # the syntax error is only at REV
+        self.git("commit", "-q", "-am", "broken base")
+        self.write("m.py", EDITED)  # the lane's file parses: its operator mutants do too
+        allow = os.path.join(self.tmp, "allow-broken.json")
+        with open(allow, "w") as fh:
+            json.dump([{"id": "m.py:3:0:revert-file", "reason": "allowed, still refused"}], fh)
+        marker = os.path.join(self.tmp, "ran")
+        test = f"echo ran >> {shlex.quote(marker)}; {CHECKS}"
+        for extra in ((), ("--allow", allow)):
+            with self.subTest(extra=extra):
+                proc, out = self.run_tool("--base", "HEAD", *extra, test=test)
+                self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+                self.assertTrue(proc.stderr.startswith("guard_mutants: refused: operator revert-file made "
+                                                       "m.py:3:0:revert-file, whose source does not parse: "),
+                                proc.stderr)
+                self.assertFalse(os.path.lexists(marker), "the test command ran")
+                self.assertFalse(os.path.lexists(out))
+
+    # the engine's other outcomes, for a revert-file source: compile error, timeout, allowed error
+    def compile_error_base(self) -> tuple[str, str, str]:
+        """REV holds `return 1` (it parses, it does not compile); the lane's m.py compiles and has no operator site.
+
+        Returns the REV sha, the marker each test run appends a line to, and that test command."""
+        self.write("m.py", "return 1\n")
+        self.git("commit", "-q", "-am", "base parses, does not compile")
+        self.write("m.py", "VALUE = 2\n")
+        marker = os.path.join(self.tmp, "runs")
+        return self.git("rev-parse", "HEAD").strip(), marker, f"echo ran >> {shlex.quote(marker)}; {CHECKS}"
+
+    def assert_compile_error_run(self, rows: list[dict], stdout: str, sha: str, marker: str,
+                                 allowed: str | None = None) -> None:
+        detail = "does not compile: 'return' outside function (m.py, line 1)"
+        self.assertEqual(rows, [dict(self.row("m.py", 1, "error", sha=sha, allowed=allowed), detail=detail)])
+        note = f" (allowed: {allowed})" if allowed is not None else ""
+        self.assertIn(f"error m.py:1:0:revert-file: file -> HEAD {sha[:SHORT]} [{detail}]{note}\n", stdout)
+        self.assertIn(f" 1 mutants, 0 killed, 0 survived, 1 error, {0 if allowed is None else 1} allowed; wrote ",
+                      stdout)
+        with open(marker) as fh:
+            self.assertEqual(fh.read(), "ran\n", "a test run besides the baseline")
+
+    def test_compile_error_rev_source_is_an_error_row_and_its_test_never_runs(self):
+        sha, marker, test = self.compile_error_base()
+        rows, stdout = self.rows("--base", "HEAD", code=1, test=test)
+        self.assert_compile_error_run(rows, stdout, sha, marker)
+
+    def test_allow_entry_for_a_compile_error_revert_file_passes(self):
+        sha, marker, test = self.compile_error_base()
+        allow = os.path.join(self.tmp, "allow-error.json")
+        with open(allow, "w") as fh:
+            json.dump([{"id": "m.py:1:0:revert-file", "reason": "REV does not compile"}], fh)
+        rows, stdout = self.rows("--base", "HEAD", "--allow", allow, code=0, test=test)
+        self.assert_compile_error_run(rows, stdout, sha, marker, allowed="REV does not compile")
+
+    def test_timeout_on_the_rev_bytes_is_an_error_row_and_ends_the_process_group(self):
+        """The test hangs only when the copy's m.py holds BASE; the sleeper it leaves in its group must be gone."""
+        self.write("m.py", EDITED)
+        copy = os.path.join(self.tmp, "base-bytes")
+        with open(copy, "w") as fh:
+            fh.write(BASE)
+        pidfile = os.path.join(self.tmp, "sleeper.pid")
+
+        def alive(pid: int) -> bool:
+            try:
+                os.kill(pid, 0)
+            except ProcessLookupError:
+                return False
+            return True
+
+        def end_a_left_sleeper() -> None:  # a failing run's only; a passing run leaves none
+            if os.path.exists(pidfile):
+                with open(pidfile) as fh:
+                    pid = int(fh.read())
+                if alive(pid):
+                    os.kill(pid, signal.SIGKILL)
+        self.addCleanup(end_a_left_sleeper)
+        test = (f"if cmp -s m.py {shlex.quote(copy)}; then sleep 60 & echo $! > {shlex.quote(pidfile)}; wait; fi; "
+                f"{CHECKS}")
+        start = time.monotonic()
+        rows, stdout = self.rows("--base", "HEAD", "--timeout", "2", code=1, test=test)
+        self.assertLess(time.monotonic() - start, 30)  # the hang was cut at the timeout, not at the sleep's end
+        self.assertEqual([r for r in rows if r["operator"] == "revert-file"],
+                         [dict(self.row("m.py", 3, "error"), detail="timeout after 2s")])
+        self.assertIn(f"error m.py:3:0:revert-file: file -> HEAD {self.base_sha[:SHORT]} [timeout after 2s]\n", stdout)
+        with open(pidfile) as fh:
+            pid = int(fh.read())
+        deadline = time.monotonic() + 5  # killed with its group; gone once its orphaned zombie is reaped
+        while alive(pid) and time.monotonic() < deadline:
+            time.sleep(0.05)
+        self.assertFalse(alive(pid), f"the hung command's child {pid} outlived the run")
+
+    def test_revert_file_follows_its_files_operator_mutants(self):
+        self.write("g.py", GUARDED)
+        self.git("add", "g.py")
+        self.git("commit", "-q", "-m", "g")
+        sha = self.git("rev-parse", "HEAD").strip()
+        self.write("g.py", GUARDED.replace("if n:", "if n > 1:").replace("ValueError", "KeyError"))
+        self.write("m.py", "A = 0\nB = 0\nVALUE = 3\nC = 0\nD = 0\n")
+        rows, _ = self.rows("--base", "HEAD", code=1, files=("g.py", "m.py"), test="true")
+        rels = [r["location"].split(":")[0] for r in rows]
+        self.assertEqual(rels, sorted(rels, key=("g.py", "m.py").index))  # each file's rows together
+        for rel, line in (("g.py", 2), ("m.py", 3)):
+            mine = [r for r in rows if r["location"].split(":")[0] == rel]
+            self.assertGreater(len(mine), 1 if rel == "g.py" else 0)
+            self.assertEqual(mine[-1], self.row(rel, line, "survived", sha=sha))
+            self.assertEqual([r for r in mine if r["operator"] == "revert-file"], [mine[-1]])
+
+    # (5) a git failure while reading REV bytes refuses (exit 2), naming the command
+    def stand_in_git(self, body: str) -> dict:
+        real = shutil.which("git", path=git_env()["PATH"])
+        self.assertIsNotNone(real)
+        fake = os.path.join(self.tmp, "fakebin")
+        os.mkdir(fake)
+        with open(os.path.join(fake, "git"), "w") as fh:
+            fh.write(f"#!/bin/sh\n{body}\nexec {shlex.quote(real)} \"$@\"\n")
+        os.chmod(os.path.join(fake, "git"), 0o755)
+        return {"PATH": fake + os.pathsep + git_env()["PATH"]}
+
+    def test_cat_file_failure_refuses_naming_the_command(self):
+        self.write("m.py", EDITED)
+        env = self.stand_in_git('if [ "$1" = cat-file ] && [ "$2" = blob ]; then echo "fatal: no blob" >&2; exit 7; fi')
+        proc, out = self.run_tool("--base", "HEAD", env_extra=env)
+        self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+        self.assertEqual(proc.stderr, f"guard_mutants: refused: `git cat-file blob {self.base_sha}:./m.py` failed "
+                                      "(exit 7): fatal: no blob\n")
+        self.assertFalse(os.path.lexists(out))
+
+    def test_rev_bytes_read_once_per_file_before_any_test_run(self):
+        self.write("m.py", EDITED)
+        self.write("n.py", BASE)
+        self.git("add", "n.py")
+        self.git("commit", "-q", "-m", "n")
+        self.write("n.py", EDITED)
+        log = os.path.join(self.tmp, "calls.log")
+        env = self.stand_in_git(f'echo "git $*" >> {shlex.quote(log)}')
+        test = f'echo test >> {shlex.quote(log)}; {PY} -B -c "import m, n; assert m.VALUE == n.VALUE == 2"'
+        self.assertEqual(len(self.reverts("--base", "HEAD", code=0, files=("m.py", "n.py"), test=test,
+                                          env_extra=env)), 2)
+        with open(log) as fh:
+            calls = fh.read().splitlines()
+        blobs = [c for c in calls if c.startswith("git cat-file blob ")]
+        sha = self.git("rev-parse", "HEAD").strip()
+        self.assertEqual(blobs, [f"git cat-file blob {sha}:./m.py", f"git cat-file blob {sha}:./n.py"])
+        first_test = calls.index("test")
+        self.assertTrue(all(c == "test" for c in calls[first_test:]), calls)  # no git call after a copy ran
+
+    def copies(self) -> str:
+        """sh that sets n to the number of lane copies (STAGE "copy" or "lane") under the tool's TMPDIR now."""
+        return (f"n=$(find {shlex.quote(self.tooltmp)} -type d \\( -name copy -o -name lane \\) "
+                "| wc -l | tr -d ' ')")
+
+    def test_every_git_call_comes_before_the_first_lane_copy(self):
+        """Ordering from side effects: each git call logs how many copies exist; the test run logs the same."""
+        self.write("m.py", EDITED)
+        log = os.path.join(self.tmp, "order.log")
+        env = self.stand_in_git(f'{self.copies()}; echo "git $1 $2 copies=$n" >> {shlex.quote(log)}')
+        test = f'{self.copies()}; echo "test copies=$n" >> {shlex.quote(log)}; {CHECKS}'
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, test=test, env_extra=env),
+                         [self.row("m.py", 3, "killed")])
+        with open(log) as fh:
+            calls = fh.read().splitlines()
+        self.assertIn("git cat-file blob copies=0", calls)
+        self.assertEqual([c for c in calls if c.startswith("git ") and not c.endswith(" copies=0")], [], calls)
+        self.assertEqual(next(c for c in calls if c.startswith("test ")), "test copies=1")  # the probe sees a copy
+
+    def test_caller_git_variables_do_not_reach_the_rev_read(self):
+        """A caller's GIT_* names a second repo whose REV bytes differ; the revert source is still the lane's."""
+        other = os.path.join(self.tmp, "other")
+        os.mkdir(other)
+        with open(os.path.join(other, "m.py"), "w") as fh:
+            fh.write(BASE.replace("VALUE = 1", "VALUE = 5"))
+        for args in (("init", "-q"), ("add", "m.py"), ("commit", "-q", "-m", "other")):
+            proc = subprocess.run(["git", *args], cwd=other, env=git_env(), capture_output=True, text=True)
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+        dot = os.path.join(other, ".git")
+        hostile = {"GIT_DIR": dot, "GIT_WORK_TREE": other, "GIT_INDEX_FILE": os.path.join(dot, "index"),
+                   "GIT_OBJECT_DIRECTORY": os.path.join(dot, "objects")}
+        self.write("m.py", EDITED)
+        log = os.path.join(self.tmp, "bytes.log")
+        test = f"cat m.py >> {shlex.quote(log)}; echo == >> {shlex.quote(log)}; {CHECKS}"
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, test=test, env_extra=hostile),
+                         [self.row("m.py", 3, "killed")])
+        with open(log) as fh:
+            self.assertEqual(fh.read(), EDITED + "==\n" + BASE + "==\n")  # baseline, then the revert-file copy
+
+    def test_pathspec_magic_name_gets_only_its_own_rev_bytes(self):
+        """`a*.py` next to `ab.py`: as a glob it would match both; it is read as the one literal path."""
+        star = BASE + "# star\n"
+        self.write("a*.py", star)
+        self.write("ab.py", "AB = 0\n")
+        self.git("add", "--", "a*.py", "ab.py")
+        self.git("commit", "-q", "-m", "magic")
+        sha = self.git("rev-parse", "HEAD").strip()
+        self.write("a*.py", star.replace("VALUE = 1", "VALUE = 2"))  # changed line 3
+        self.write("ab.py", "AB = 7\n")  # changed line 1: a glob's scope would anchor here
+        log = os.path.join(self.tmp, "magic.log")
+        test = f"cat 'a*.py' >> {shlex.quote(log)}; echo == >> {shlex.quote(log)}; grep -q 'VALUE = 2' 'a*.py'"
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, files=("a*.py",), test=test),
+                         [self.row("a*.py", 3, "killed", sha=sha)])
+        with open(log) as fh:
+            self.assertEqual(fh.read(), star.replace("VALUE = 1", "VALUE = 2") + "==\n" + star + "==\n")
+
+    def test_name_with_crlf_is_matched_as_its_exact_bytes(self):
+        """git's ls-tree answer for `c\\r\\nr.py` is compared as bytes: a normalized answer would not name the file."""
+        rel = "c\r\nr.py"
+        self.write_bytes(rel, b"VALUE = 1\n")
+        self.git("add", "--", rel)
+        self.git("commit", "-q", "-m", "crlf name")
+        sha = self.git("rev-parse", "HEAD").strip()
+        self.write_bytes(rel, b"VALUE = 2\n")
+        expect = os.path.join(self.tmp, "crlf-name-base")
+        with open(expect, "wb") as fh:
+            fh.write(b"VALUE = 1\n")
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, files=(rel,),
+                                      test=f"! cmp -s {shlex.quote(rel)} {shlex.quote(expect)}"),
+                         [self.row(rel, 1, "killed", sha=sha)])
+
+    # (3) (5) a file is absent at REV only on git's explicit answer; any other answer refuses
+    def test_existence_probe_failure_refuses_naming_the_command(self):
+        self.write("m.py", EDITED)
+        self.assertEqual(self.reverts("--base", "HEAD", code=0), [self.row("m.py", 3, "killed")])  # no stand-in
+        env = self.stand_in_git('if [ "$1" = ls-tree ] || { [ "$1" = cat-file ] && [ "$2" = -e ]; }; then '
+                                'echo "fatal: injected EIO" >&2; exit 7; fi')
+        proc, out = self.run_tool("--base", "HEAD", env_extra=env)
+        self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+        self.assertEqual(proc.stderr, f"guard_mutants: refused: `git ls-tree -z {self.base_sha} -- m.py` failed "
+                                      "(exit 7): fatal: injected EIO\n")
+        self.assertFalse(os.path.lexists(out))
+
+    def test_unreadable_existence_answer_refuses_naming_the_command(self):
+        self.write("m.py", EDITED)
+        env = self.stand_in_git('if [ "$1" = ls-tree ]; then printf "100644 blob 0\\tother.py\\0"; exit 0; fi')
+        proc, out = self.run_tool("--base", "HEAD", env_extra=env)
+        self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+        self.assertEqual(proc.stderr, f"guard_mutants: refused: `git ls-tree -z {self.base_sha} -- m.py` gives "
+                                      "b'100644 blob 0\\tother.py\\x00', not one entry for m.py\n")
+        self.assertFalse(os.path.lexists(out))
+
+    def test_two_entry_existence_answer_ending_in_the_name_refuses(self):
+        self.write("m.py", EDITED)
+        self.assertEqual(self.reverts("--base", "HEAD", code=0), [self.row("m.py", 3, "killed")])  # no stand-in
+        env = self.stand_in_git('if [ "$1" = ls-tree ]; then '
+                                'printf "100644 blob 0\\tother.py\\000100644 blob 0\\tm.py\\000"; exit 0; fi')
+        proc, out = self.run_tool("--base", "HEAD", env_extra=env)
+        self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+        self.assertEqual(proc.stderr, f"guard_mutants: refused: `git ls-tree -z {self.base_sha} -- m.py` gives "
+                                      "b'100644 blob 0\\tother.py\\x00100644 blob 0\\tm.py\\x00', "
+                                      "not one entry for m.py\n")
+        self.assertFalse(os.path.lexists(out))
+
+
+if __name__ == "__main__":
+    unittest.main()
