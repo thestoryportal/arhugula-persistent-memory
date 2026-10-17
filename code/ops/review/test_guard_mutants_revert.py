@@ -225,6 +225,83 @@ class RevertFile(unittest.TestCase):
         first_test = calls.index("test")
         self.assertTrue(all(c == "test" for c in calls[first_test:]), calls)  # no git call after a copy ran
 
+    def copies(self) -> str:
+        """sh that sets n to the number of lane copies (STAGE "copy" or "lane") under the tool's TMPDIR now."""
+        return (f"n=$(find {shlex.quote(self.tooltmp)} -type d \\( -name copy -o -name lane \\) "
+                "| wc -l | tr -d ' ')")
+
+    def test_every_git_call_comes_before_the_first_lane_copy(self):
+        """Ordering from side effects: each git call logs how many copies exist; the test run logs the same."""
+        self.write("m.py", EDITED)
+        log = os.path.join(self.tmp, "order.log")
+        env = self.stand_in_git(f'{self.copies()}; echo "git $1 $2 copies=$n" >> {shlex.quote(log)}')
+        test = f'{self.copies()}; echo "test copies=$n" >> {shlex.quote(log)}; {CHECKS}'
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, test=test, env_extra=env),
+                         [self.row("m.py", 3, "killed")])
+        with open(log) as fh:
+            calls = fh.read().splitlines()
+        self.assertIn("git cat-file blob copies=0", calls)
+        self.assertEqual([c for c in calls if c.startswith("git ") and not c.endswith(" copies=0")], [], calls)
+        self.assertEqual(next(c for c in calls if c.startswith("test ")), "test copies=1")  # the probe sees a copy
+
+    def test_caller_git_variables_do_not_reach_the_rev_read(self):
+        """A caller's GIT_* names a second repo whose REV bytes differ; the revert source is still the lane's."""
+        other = os.path.join(self.tmp, "other")
+        os.mkdir(other)
+        with open(os.path.join(other, "m.py"), "w") as fh:
+            fh.write(BASE.replace("VALUE = 1", "VALUE = 5"))
+        for args in (("init", "-q"), ("add", "m.py"), ("commit", "-q", "-m", "other")):
+            proc = subprocess.run(["git", *args], cwd=other, env=git_env(), capture_output=True, text=True)
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+        dot = os.path.join(other, ".git")
+        hostile = {"GIT_DIR": dot, "GIT_WORK_TREE": other, "GIT_INDEX_FILE": os.path.join(dot, "index"),
+                   "GIT_OBJECT_DIRECTORY": os.path.join(dot, "objects")}
+        self.write("m.py", EDITED)
+        log = os.path.join(self.tmp, "bytes.log")
+        test = f"cat m.py >> {shlex.quote(log)}; echo == >> {shlex.quote(log)}; {CHECKS}"
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, test=test, env_extra=hostile),
+                         [self.row("m.py", 3, "killed")])
+        with open(log) as fh:
+            self.assertEqual(fh.read(), EDITED + "==\n" + BASE + "==\n")  # baseline, then the revert-file copy
+
+    def test_pathspec_magic_name_gets_only_its_own_rev_bytes(self):
+        """`a*.py` next to `ab.py`: as a glob it would match both; it is read as the one literal path."""
+        star = BASE + "# star\n"
+        self.write("a*.py", star)
+        self.write("ab.py", "AB = 0\n")
+        self.git("add", "--", "a*.py", "ab.py")
+        self.git("commit", "-q", "-m", "magic")
+        sha = self.git("rev-parse", "HEAD").strip()
+        self.write("a*.py", star.replace("VALUE = 1", "VALUE = 2"))  # changed line 3
+        self.write("ab.py", "AB = 7\n")  # changed line 1: a glob's scope would anchor here
+        log = os.path.join(self.tmp, "magic.log")
+        test = f"cat 'a*.py' >> {shlex.quote(log)}; echo == >> {shlex.quote(log)}; grep -q 'VALUE = 2' 'a*.py'"
+        self.assertEqual(self.reverts("--base", "HEAD", code=0, files=("a*.py",), test=test),
+                         [self.row("a*.py", 3, "killed", sha=sha)])
+        with open(log) as fh:
+            self.assertEqual(fh.read(), star.replace("VALUE = 1", "VALUE = 2") + "==\n" + star + "==\n")
+
+    # (3) (5) a file is absent at REV only on git's explicit answer; any other answer refuses
+    def test_existence_probe_failure_refuses_naming_the_command(self):
+        self.write("m.py", EDITED)
+        self.assertEqual(self.reverts("--base", "HEAD", code=0), [self.row("m.py", 3, "killed")])  # no stand-in
+        env = self.stand_in_git('if [ "$1" = ls-tree ] || { [ "$1" = cat-file ] && [ "$2" = -e ]; }; then '
+                                'echo "fatal: injected EIO" >&2; exit 7; fi')
+        proc, out = self.run_tool("--base", "HEAD", env_extra=env)
+        self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+        self.assertEqual(proc.stderr, f"guard_mutants: refused: `git ls-tree -z {self.base_sha} -- m.py` failed "
+                                      "(exit 7): fatal: injected EIO\n")
+        self.assertFalse(os.path.lexists(out))
+
+    def test_unreadable_existence_answer_refuses_naming_the_command(self):
+        self.write("m.py", EDITED)
+        env = self.stand_in_git('if [ "$1" = ls-tree ]; then printf "100644 blob 0\\tother.py\\0"; exit 0; fi')
+        proc, out = self.run_tool("--base", "HEAD", env_extra=env)
+        self.assertEqual(proc.returncode, 2, proc.stdout + proc.stderr)
+        self.assertEqual(proc.stderr, f"guard_mutants: refused: `git ls-tree -z {self.base_sha} -- m.py` gives "
+                                      "b'100644 blob 0\\tother.py\\x00', not one entry for m.py\n")
+        self.assertFalse(os.path.lexists(out))
+
 
 if __name__ == "__main__":
     unittest.main()

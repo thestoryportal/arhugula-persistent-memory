@@ -25,11 +25,11 @@ With --base REV only the lines of each --file that differ from REV are in scope,
 is made only when its anchor line (the line in its id and location) is in scope. git is
 asked once per file in the lane, before any copy, with no GIT_* variable of the caller and
 literal pathspecs: REV must resolve to a commit (git rev-parse); a file absent at REV (git
-cat-file -e fails) is in scope as a whole; otherwise its index entry must be plain (git
+ls-tree -z REV -- F exits 0 and lists no entry) is in scope as a whole; otherwise its index entry must be plain (git
 ls-files -v gives "H": not skip-worktree, assume-unchanged, unmerged or untracked, which
 git diff would not compare), and its lines are the new-side lines of each hunk of
 `git diff -U0 --no-color --no-ext-diff REV -- F` (the worktree against REV). A git command
-that fails, a binary diff, or an unreadable hunk header refuses (exit 2). Without --base
+that fails, an ls-tree answer that is not one entry for F, a binary diff, or an unreadable hunk header refuses (exit 2). Without --base
 every line is in scope.
 With --base, a file present at REV with a changed line also gets revert-file: its REV bytes (git cat-file blob, once).
 
@@ -331,8 +331,12 @@ def _git_ok(*args: str) -> bytes:
 
 def _changed_lines(rev: str, rel: str):
     """The lines of rel (relative to the lane) that differ from commit rev, or WHOLE when rel is absent there."""
-    if _git("cat-file", "-e", f"{rev}:./{rel}").returncode != 0:
+    entry = _git_ok("ls-tree", "-z", rev, "--", rel)  # exit 0 with no entry is git's answer "absent"
+    if not entry:
         return WHOLE
+    if entry.count(b"\0") != 1 or not entry.endswith(b"\t" + os.fsencode(rel) + b"\0"):
+        raise Refusal(f"`{shlex.join(['git', 'ls-tree', '-z', rev, '--', rel])}` gives {entry!r}, "
+                      f"not one entry for {rel}")
     entries = _git_ok("ls-files", "-v", "-z", "--", rel).split(b"\0")
     if entries != [b"H " + os.fsencode(rel), b""]:
         raise Refusal(f"`git ls-files -v -z -- {rel}` gives {entries[:-1]!r}, not one plain index entry; "
