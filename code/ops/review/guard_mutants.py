@@ -13,9 +13,13 @@ finds the guards and makes one mutant per guard, each a text splice of one node:
   regex-zero     one quantifier of a re.<fn>() literal pattern widened to lower bound 0
                  (`+` -> `*`, `{n}` -> `{0,n}`, `{n,m}` -> `{0,m}`, `{n,}` -> `{0,}`)
   except-class   an `except` class (or tuple) becomes `Exception`
-  except-remove  one `except` clause can never match (NEVER below): removal, kept compilable
+  except-remove  one `except` clause can never match (mutant_ops.NEVER): removal, kept compilable
   negate-if      an `if` whose body (or plain `else`) has a raise or return gets `not (...)`
   write-loop     a loop that calls write/pwrite/writev becomes its first such call
+
+These operators live in mutant_ops/base.py. Every module of mutant_ops/ not named _* is loaded in
+sorted name order (its contract: mutant_ops/__init__.py); a module that fails to import or has no
+OPERATORS, and a mutant whose source does not parse (named by operator and id), refuse (exit 2).
 
 With --base REV only the lines of each --file that differ from REV are in scope, and a mutant
 is made only when its anchor line (the line in its id and location) is in scope. git is
@@ -102,22 +106,15 @@ import tempfile
 import time
 from dataclasses import dataclass
 
+from mutant_ops import NEVER, OPS_DIR, Refusal, _Source, load_operators  # noqa: F401  (NEVER: the tests read gm.NEVER)
+
 DIR_FLAGS = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
 READ_FLAGS = os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK  # a FIFO swapped in never blocks
 CREATE_FLAGS = os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW
 CHUNK = 1 << 20
 BASELINE_TIMEOUT = 1800.0
 STAGE = "copy"  # a copy's name in its mNNNN until it is complete; then it is renamed to "lane"
-WRITE_CALLS = frozenset({"write", "pwrite", "writev"})
-RE_FUNCS = frozenset({"compile", "match", "fullmatch", "search", "findall", "finditer", "sub", "subn", "split"})
-NEVER = '__import__("builtins").type("GuardMutantNever", (BaseException,), {})'
-BRACE = re.compile(r"\{(\d*)(?:,(\d*))?\}")
-SIMPLE = (ast.Name, ast.Attribute, ast.Call, ast.Constant, ast.Subscript)
 HUNK = re.compile(rb"@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
-
-
-class Refusal(Exception):
-    """Input the tool will not judge; every input stays unchanged."""
 
 
 # ---- filesystem edge -------------------------------------------------------------
@@ -371,102 +368,9 @@ class Mutant:
     source: bytes  # the whole mutated file
 
 
-class _Source:
-    def __init__(self, data: bytes):
-        self.data = data
-        self.starts = [0]
-        for line in data.splitlines(keepends=True):
-            self.starts.append(self.starts[-1] + len(line))
-
-    def at(self, line: int, col: int) -> int:  # ast columns are UTF-8 byte offsets
-        return self.starts[line - 1] + col
-
-    def span(self, node: ast.AST) -> tuple[int, int]:
-        return self.at(node.lineno, node.col_offset), self.at(node.end_lineno, node.end_col_offset)
-
-    def text(self, node: ast.AST) -> bytes:
-        a, b = self.span(node)
-        return self.data[a:b]
-
-    def splice(self, a: int, b: int, new: bytes) -> bytes:
-        return self.data[:a] + new + self.data[b:]
-
-
-def _os_flag(node: ast.AST) -> str | None:
-    if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name) and node.value.id == "os" \
-            and node.attr.startswith("O_"):
-        return node.attr
-    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "getattr" \
-            and len(node.args) >= 2 and isinstance(node.args[0], ast.Name) and node.args[0].id == "os" \
-            and isinstance(node.args[1], ast.Constant) and isinstance(node.args[1].value, str) \
-            and node.args[1].value.startswith("O_"):
-        return node.args[1].value
-    return None
-
-
-def _is_bitor(node: ast.AST) -> bool:
-    return isinstance(node, ast.BinOp) and isinstance(node.op, ast.BitOr)
-
-
-def _operands(node: ast.AST) -> list[ast.AST]:
-    return _operands(node.left) + _operands(node.right) if _is_bitor(node) else [node]
-
-
-def _quantifiers(pattern: str):
-    """(start, end, replacement) for each quantifier with a lower bound above 0."""
-    i, n, prev_quant = 0, len(pattern), False
-    while i < n:
-        c = pattern[i]
-        if c == "\\":
-            i, prev_quant = i + 2, False
-        elif c == "[":
-            j = i + 1
-            if j < n and pattern[j] == "^":
-                j += 1
-            if j < n and pattern[j] == "]":
-                j += 1
-            while j < n and pattern[j] != "]":
-                j += 2 if pattern[j] == "\\" else 1
-            i, prev_quant = j + 1, False
-        elif c in "*?":
-            i, prev_quant = i + 1, not prev_quant  # after a quantifier, a lazy/possessive mark
-        elif c == "+":
-            if not prev_quant:
-                yield i, i + 1, "*"
-            i, prev_quant = i + 1, not prev_quant
-        elif c == "{" and (m := BRACE.match(pattern, i)):
-            lo, comma_hi = m.group(1), m.group(2)
-            if lo and int(lo) > 0:
-                hi = lo if comma_hi is None else comma_hi
-                yield i, m.end(), "{0," + hi + "}"
-            i, prev_quant = m.end(), True
-        else:
-            i, prev_quant = i + 1, False
-
-
-def _write_call(loop: ast.AST) -> ast.Call | None:
-    found: list[ast.Call] = []
-
-    def visit(node: ast.AST) -> None:
-        for child in ast.iter_child_nodes(node):
-            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Lambda)):
-                continue
-            if isinstance(child, ast.Call):
-                f = child.func
-                name = f.attr if isinstance(f, ast.Attribute) else f.id if isinstance(f, ast.Name) else None
-                if name in WRITE_CALLS:
-                    found.append(child)
-            visit(child)
-    visit(loop)
-    return min(found, key=lambda c: (c.lineno, c.col_offset)) if found else None
-
-
-def _plain_else(node: ast.If) -> list[ast.stmt]:
-    return [] if len(node.orelse) == 1 and isinstance(node.orelse[0], ast.If) else node.orelse
-
-
-def mutants_for(rel: str, data: bytes, lines=WHOLE) -> list[Mutant]:
-    """One mutant per guard whose anchor line (node.lineno) is in lines."""
+def mutants_for(rel: str, data: bytes, lines=WHOLE, operators=None) -> list[Mutant]:
+    """One mutant per guard whose anchor line (node.lineno) is in lines, from operators (default: the
+    mutant_ops package's). Ids are given after every operator ran, so module order cannot change one."""
     try:
         tree = ast.parse(data, filename=rel)
     except SyntaxError as exc:
@@ -478,54 +382,8 @@ def mutants_for(rel: str, data: bytes, lines=WHOLE) -> list[Mutant]:
         if node.lineno in lines:
             found.append((node.lineno, node.col_offset, op, tag, change, src.splice(a, b, new)))
 
-    inner = {id(side) for n in ast.walk(tree) if _is_bitor(n) for side in (n.left, n.right) if _is_bitor(side)}
-    for node in ast.walk(tree):
-        if isinstance(node, ast.If):
-            branches = node.body + _plain_else(node)
-            for stmt in branches:
-                if isinstance(stmt, ast.Raise):
-                    add(stmt, "raise-remove", "", "raise -> pass", *src.span(stmt), b"pass")
-            if any(isinstance(s, (ast.Raise, ast.Return)) for s in branches):
-                test = src.text(node.test)
-                add(node, "negate-if", "", "if X -> if not (X)", *src.span(node.test), b"not (" + test + b")")
-        elif (_is_bitor(node) and id(node) not in inner) or \
-                (isinstance(node, ast.AugAssign) and isinstance(node.op, ast.BitOr)):
-            ops = [node.value] if isinstance(node, ast.AugAssign) else _operands(node)
-            for i, operand in enumerate(ops):
-                flag = _os_flag(operand)
-                if flag is None:
-                    continue
-                rest = [o for j, o in enumerate(ops) if j != i]
-                parts = [src.text(o) if isinstance(o, SIMPLE) else b"(" + src.text(o) + b")" for o in rest]
-                new = b"(" + b" | ".join(parts) + b")" if parts else b"0"
-                target = node.value if isinstance(node, ast.AugAssign) else node
-                add(operand, "flag-drop", flag, f"drop {flag}", *src.span(target), new)
-        elif isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) \
-                and isinstance(node.func.value, ast.Name) and node.func.value.id == "re" \
-                and node.func.attr in RE_FUNCS:
-            pat = node.args[0] if node.args else next((k.value for k in node.keywords if k.arg == "pattern"), None)
-            if not (isinstance(pat, ast.Constant) and isinstance(pat.value, (str, bytes))):
-                continue
-            text = pat.value if isinstance(pat.value, str) else pat.value.decode("latin-1")
-            for start, end, repl in _quantifiers(text):
-                new = text[:start] + repl + text[end:]
-                value = new if isinstance(pat.value, str) else new.encode("latin-1")
-                add(pat, "regex-zero", str(start), f"{text[start:end]} -> {repl} at {start}",
-                    *src.span(pat), repr(value).encode("utf-8"))
-        elif isinstance(node, ast.ExceptHandler):
-            if node.type is None:
-                at = src.at(node.lineno, node.col_offset) + len("except")
-                add(node, "except-remove", "", "bare except never matches", at, at, b" " + NEVER.encode())
-                continue
-            if not (isinstance(node.type, ast.Name) and node.type.id == "Exception"):
-                add(node, "except-class", "", f"{src.text(node.type).decode()} -> Exception",
-                    *src.span(node.type), b"Exception")
-            add(node, "except-remove", "", f"except {src.text(node.type).decode()} never matches",
-                *src.span(node.type), NEVER.encode())
-        elif isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
-            call = _write_call(node)
-            if call is not None:
-                add(node, "write-loop", "", "loop -> one call", *src.span(node), src.text(call))
+    for fn in load_operators() if operators is None else operators:
+        fn(tree, src, add)
 
     mutants: list[Mutant] = []
     seen: set[str] = set()
@@ -537,6 +395,16 @@ def mutants_for(rel: str, data: bytes, lines=WHOLE) -> list[Mutant]:
             mid = f"{base}#{k}"
         seen.add(mid)
         mutants.append(Mutant(mid, rel, line, op, change, source))
+    return mutants
+
+
+def parsed(mutants: list[Mutant]) -> list[Mutant]:
+    """mutants, once each one's source parses; one that does not refuses, naming its operator and id."""
+    for m in mutants:
+        try:
+            ast.parse(m.source, filename=m.rel)
+        except Exception as exc:  # any failure to parse a mutant is a refusal
+            raise Refusal(f"operator {m.operator} made {m.id}, whose source does not parse: {exc}") from exc
     return mutants
 
 
@@ -1041,7 +909,7 @@ def _positive(text: str) -> float:
     return value
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None, ops_dir: str = OPS_DIR) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--file", action="append", required=True, help="a Python file in the lane (cwd)")
     ap.add_argument("--test", required=True, help="the test command, run with sh in each lane copy")
@@ -1056,13 +924,15 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if name in ("", ".", ".."):
             raise Refusal(f"--out {args.out} names no file")
+        with _fs(f"operator directory {ops_dir}"):
+            operators = load_operators(ops_dir)
         root = "(the current directory)"
         root_fd = open_root(os.curdir)
         try:
             root = _realpath(root_fd, f"lane {root}")
             targets = read_targets(root_fd, root, args.file)
             scope = line_scope(args.base, targets)
-            mutants = [m for t in targets.values() for m in mutants_for(t.rel, t.data, scope[t.rel])]
+            mutants = parsed([m for t in targets.values() for m in mutants_for(t.rel, t.data, scope[t.rel], operators)])
             allow = load_allow(args.allow, {m.id for m in mutants}) if args.allow else {}
             with _fs(f"--out parent {parent}"):
                 parent_fd = os.open(parent, DIR_FLAGS)
