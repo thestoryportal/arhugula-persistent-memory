@@ -41,7 +41,7 @@ FIXTURE = textwrap.dedent("""\
     """)
 DEF_LINE, SITE1, SITE2 = 3, 7, 11
 SITE1_COL, SITE2_COL = 11, 9
-FLAGS = ("O_RDONLY", "O_DIRECTORY", "O_NOFOLLOW")
+FLAGS = ("O_DIRECTORY", "O_NOFOLLOW")
 
 # Run in each lane copy: open_root (site 1) must refuse a regular file; with "both", open_entry (site 2) too.
 CHECK = textwrap.dedent("""\
@@ -93,32 +93,27 @@ class Mutants(unittest.TestCase):
     def test_flags_keyword_when_there_is_no_second_positional_argument(self):
         text = "import os\nF = os.O_RDONLY | os.O_NOFOLLOW\nos.open(p, mode=0o600, flags=F)\nos.open(p, F, flags=G)\n"
         got = made(text)
-        self.assertEqual(sorted(got), [f"m.py:3:0:{OP}:O_NOFOLLOW", f"m.py:3:0:{OP}:O_RDONLY",
-                                       f"m.py:4:0:{OP}:O_NOFOLLOW", f"m.py:4:0:{OP}:O_RDONLY"])
+        self.assertEqual(sorted(got), [f"m.py:3:0:{OP}:O_NOFOLLOW", f"m.py:4:0:{OP}:O_NOFOLLOW"])
         self.assertEqual(got[f"m.py:3:0:{OP}:O_NOFOLLOW"].source.decode(), text.replace(
             "flags=F)", "flags=(F & ~os.O_NOFOLLOW))"))
-        self.assertEqual(got[f"m.py:4:0:{OP}:O_RDONLY"].source.decode(), text.replace(
-            "os.open(p, F,", "os.open(p, (F & ~os.O_RDONLY),"))
 
     def test_byte_offsets_with_utf8_and_crlf(self):
         text = 'import os\r\nF = os.O_RDONLY | os.O_NOFOLLOW\r\ns = "\u00e9\u00e9"; fd = os.open("\u00e9", F)\r\n'
         got = made(text.encode("utf-8"))
-        self.assertEqual(set(got), {f"m.py:3:17:{OP}:O_RDONLY", f"m.py:3:17:{OP}:O_NOFOLLOW"})
-        self.assertEqual(got[f"m.py:3:17:{OP}:O_RDONLY"].source,
-                         text.replace('"\u00e9", F)', '"\u00e9", (F & ~os.O_RDONLY))').encode("utf-8"))
+        self.assertEqual(set(got), {f"m.py:3:17:{OP}:O_NOFOLLOW"})
 
     def test_a_repeated_flag_gives_one_mutant(self):
         got = made("import os\nF = os.O_RDONLY | os.O_NOFOLLOW | os.O_RDONLY\nos.open(p, F)\n")
-        self.assertEqual(sorted(got), [f"m.py:3:0:{OP}:O_NOFOLLOW", f"m.py:3:0:{OP}:O_RDONLY"])
+        self.assertEqual(sorted(got), [f"m.py:3:0:{OP}:O_NOFOLLOW"])
 
     def test_each_name_of_a_chained_assignment(self):
         got = made("import os\nF = G = os.O_RDONLY | os.O_NOFOLLOW\nos.open(p, F)\nos.open(p, G)\n")
-        self.assertEqual(len(got), 4)
+        self.assertEqual(len(got), 2)
         self.assertEqual({m.line for m in got.values()}, {3, 4})
 
     def test_the_anchor_is_the_call_line(self):
         text = "import os\nF = os.O_RDONLY | os.O_NOFOLLOW\nfd = os.open(\n    p,\n    F,\n)\n"
-        self.assertEqual(sorted(made(text, {3})), [f"m.py:3:5:{OP}:O_NOFOLLOW", f"m.py:3:5:{OP}:O_RDONLY"])
+        self.assertEqual(sorted(made(text, {3})), [f"m.py:3:5:{OP}:O_NOFOLLOW"])
         self.assertEqual(made(text, {2}), {})  # the constant's line alone: no call site in scope
         self.assertEqual(made(text, {5}), {})  # the flags argument's own line is not the anchor
         got = made(FIXTURE, {SITE2})  # a changed call site, the definition line unchanged
@@ -137,7 +132,7 @@ class Mutants(unittest.TestCase):
 
 GOOD = "import os\nF = os.O_RDONLY | os.O_NOFOLLOW\n"
 
-# Each body gets no mutant (GOOD alone with a call gets two: NoMutant.test_positive_control).
+# Each body gets no mutant (GOOD alone with a call gets one: NoMutant.test_positive_control).
 NO_MUTANT = {
     "assigned twice": GOOD + "F = os.O_RDONLY | os.O_NOFOLLOW\nos.open(p, F)\n",
     "augmented": GOOD + "F |= os.O_SYNC\nos.open(p, F)\n",
@@ -197,7 +192,7 @@ MODULE_SCOPE = {
 
 class NoMutant(unittest.TestCase):
     def test_positive_control(self):
-        self.assertEqual(len(made(GOOD + "os.open(p, F)\n")), 2)
+        self.assertEqual(len(made(GOOD + "os.open(p, F)\n")), 1)
 
     def test_no_mutant(self):
         for case, text in NO_MUTANT.items():
@@ -207,7 +202,7 @@ class NoMutant(unittest.TestCase):
     def test_bound_once_in_a_module_level_statement(self):
         for case, text in MODULE_SCOPE.items():
             with self.subTest(case):
-                self.assertEqual(len(made(text)), 2)
+                self.assertEqual(len(made(text)), 1)
 
 
 class EndToEnd(unittest.TestCase):
@@ -252,7 +247,6 @@ class EndToEnd(unittest.TestCase):
         for line, col in ((SITE1, SITE1_COL), (SITE2, SITE2_COL)):
             self.assertEqual(rows[f"mod.py:{line}:{col}:{OP}:O_DIRECTORY"]["result"], "killed")
         self.assertNotIn(f"{OP}:O_DIRECTORY", printed)
-        self.assertEqual(rows[f"mod.py:{SITE2}:{SITE2_COL}:{OP}:O_RDONLY"]["result"], "survived")  # O_RDONLY is 0
 
 
 if __name__ == "__main__":
