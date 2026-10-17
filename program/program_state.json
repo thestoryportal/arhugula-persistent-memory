@@ -29,8 +29,24 @@
     "read_contract": "CHARACTERIZED along weights↔index seam (2026-06-25, evidence/CORPUS/26-30): native-knowing weight-native + ROBUST for no-pretrained-prior facts (insert R5 100%, re-edit R5b 94%), fragile-but-recipe-rescuable vs pretrained priors (R13/R5 22-25%→65% diverse); structured-query (reverse R2/delete R9/closed-world R6) confirmed NOT weight-native → index-delegated; index/query layer (R1/R4/R7/R8/R11/R16) UNTESTED + prototyped-not-empirical = load-bearing"
   },
   "work_queue": {
-    "edited": "2026-10-13T06:10:00Z",
+    "edited": "2026-10-17T20:40:00Z",
     "items": [
+      {
+        "id": "agent-workflow",
+        "title": "Agent workflow: ideal roles, baseline, alignment and evals for the ticket belt",
+        "summary": "Operator 2026-10-17: before wave 2, define the ideal workflow for every agent on the ticket belt (MAESTRO included), measure history and current behaviour with evals, find the causes of the gap in context, governance, skills and tools, design and build the fix (with a memory architecture that consolidates transcripts into repo context), and keep evals as a lasting instrument. Phase 1 (roster, role cards, ideal) approved; step 0 equips with eval research and tools first. Charter: projects/agent-workflow/brief/charter.md.",
+        "state": "running",
+        "who": "MAESTRO",
+        "session": "a2acfd79",
+        "started": "2026-10-17T20:40Z",
+        "estimate": null,
+        "depends_on": [],
+        "blocked_by": [],
+        "needs_from_you": [],
+        "notes": [
+          "2026-10-17: opened from the operator's request (verbatim in the charter). Phase 1 only. Fable reviews the role cards before the operator. Four equip research subagents running (Anthropic evals article, arXiv, promptfoo + marimo + local eval skills, skills.sh candidates); outputs in projects/agent-workflow/drafts/research/. Wave 2 stays paused."
+        ]
+      },
       {
         "id": "context-audit",
         "title": "Context hygiene: fix every instruction file and make it stay fixed",
