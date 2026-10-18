@@ -317,6 +317,23 @@ class PositiveControl(Base):
         target = self.fx.target(self.u) + "/notes.txt"
         self.assertEqual(git(self.fx.m, "ls-files", "-s", "--", target).split()[0], b"100755")
 
+    def test_added_object_already_in_the_store_is_staged(self):
+        blob = git(self.fx.m, "rev-parse", "HEAD:old/u1/a.json").decode().strip()
+        data = self.u.files["a.json"]
+        self.fx.rewrite(self.u.source + "/notes.txt", data)
+        self.u.files["notes.txt"] = data
+        self.fx.seal()
+        self.run_ok()
+        target = self.fx.target(self.u) + "/notes.txt"
+        row = git(self.fx.m, "ls-files", "-s", "--", target).split()
+        self.assertEqual(row[1].decode(), blob)
+        self.assertEqual(git(self.fx.m, "cat-file", "-p", blob), data)
+
+    def test_added_plain_file_is_staged_100644(self):
+        self.run_ok()
+        target = self.fx.target(self.u) + "/notes.txt"
+        self.assertEqual(git(self.fx.m, "ls-files", "-s", "--", target).split()[0], b"100644")
+
     def test_added_symlink_is_staged_120000(self):
         os.symlink("notes.txt", self.u.source + "/link.txt")
         self.u.files["link.txt"] = b"notes.txt"
@@ -379,6 +396,10 @@ class PositiveControl(Base):
         self.assertEqual([a["action"] for a in seen[0]["actions"]], ["mkdir", "git-mv", "git-add"])
 
     def test_the_actions_run_in_core_order_and_nothing_else_runs(self):
+        oid = subprocess.run(["git", "-C", self.fx.m, "hash-object", "--stdin"],
+                             input=self.u.files["notes.txt"], env=clean_env(), check=True,
+                             capture_output=True).stdout.decode().strip()
+        self.assertFalse(os.path.lexists(self.fx.m + "/.git/objects/" + oid[:2]))
         with recording() as events:
             self.run_ok()
         gits = [args[1] for event, args in events if event == "subprocess.Popen"]
@@ -394,16 +415,16 @@ class PositiveControl(Base):
             ["update-index", "-z", "--index-info"],
             ["ls-files", "-s", "-z", "--full-name", "--", "experiments/c10r/runs/u1"],
             ["cat-file", "--batch"],
-            ["hash-object", "-w", "--no-filters", "--stdin"],
+            ["hash-object", "--no-filters", "--stdin"],
             ["update-index", "-z", "--index-info"],
             ["ls-files", "-s", "-z", "--full-name", "--", "experiments/c10r/runs/u1/notes.txt"],
             ["cat-file", "--batch"]])
-        self.assertEqual([args[0] for event, args in events if event == "os.mkdir"], ["runs"])
+        self.assertEqual([args[0] for event, args in events if event == "os.mkdir"], ["runs", oid[:2]])
         others = {event for event, _ in events} - {"open", "subprocess.Popen", "os.mkdir"}
         self.assertEqual(others, set())
         created = [args[0] for event, args in events if event == "open" and isinstance(args[0], str)
                    and args[0] != os.devnull and args[2] & WRITE_FLAGS]
-        self.assertEqual(created, list(CUSTODY))
+        self.assertEqual(created, list(CUSTODY) + [oid[2:]])
 
     def test_every_input_and_folder_is_opened_through_a_held_folder(self):
         with recording() as events:
@@ -1119,6 +1140,91 @@ class LateInputParents(Base):
 
 
 class LateWindows(Base):
+    def test_late_objects_link_gets_no_object_in_the_unit(self):
+        target = self.fx.target(self.u)
+        objects = self.fx.m + "/.git/objects"
+        real = move_unit._git
+        fired = []
+
+        def late(repo, *args, **kwargs):
+            if args[0] != "hash-object" or fired:
+                return real(repo, *args, **kwargs)
+            refs = []
+            real_open = os.open
+
+            def opened(path, *a, **kw):
+                fd = real_open(path, *a, **kw)
+                if path == "refs" and kw.get("dir_fd") == repo.git.fd:
+                    refs.append(fd)
+                return fd
+            with mock.patch.object(os, "open", opened), FK.swap_for_symlink(
+                    "close", 1, objects, target, when="after", match=lambda fd: fd in refs) as fault:
+                try:
+                    return real(repo, *args, **kwargs)
+                finally:
+                    fired.append(fault.fired)
+        with mock.patch.object(move_unit, "_git", late):
+            result = self.main(*self.fx.args())
+        self.assertEqual(fired, [1])
+        self.assert_refused(result, objects, "link or special file")
+        actual = sorted(os.path.relpath(os.path.join(folder, name), target)
+                        for folder, dirs, files in os.walk(target) for name in dirs + files)
+        self.assertEqual(actual, sorted(self.u.files))
+
+    def test_objects_open_eio_is_refused(self):
+        real = move_unit._git
+        faults = []
+        with contextlib.ExitStack() as stack:
+            def late(repo, *args, **kwargs):
+                result = real(repo, *args, **kwargs)
+                if args[0] == "hash-object":
+                    faults.append(stack.enter_context(FK.inject_oserror(
+                        "open", 1, errno.EIO, match=named("objects"))))
+                return result
+            with mock.patch.object(move_unit, "_git", late):
+                result = self.main(*self.fx.args())
+        self.assertEqual([fault.fired for fault in faults], [1])
+        self.assert_refused(result, self.fx.m + "/.git/objects", "[EIO]")
+        target = self.fx.target(self.u) + "/notes.txt"
+        self.assertEqual(git(self.fx.m, "ls-files", "-s", "--", target), b"")
+
+    def test_object_write_failure_is_refused(self):
+        oid = subprocess.run(["git", "-C", self.fx.m, "hash-object", "--stdin"],
+                             input=self.u.files["notes.txt"], env=clean_env(), check=True,
+                             capture_output=True).stdout.decode().strip()
+        with FK.inject_oserror("open", 1, errno.EIO, match=named(oid[2:])) as fault:
+            result = self.main(*self.fx.args())
+        self.assertEqual(fault.fired, 1)
+        self.assert_refused(result, self.fx.m + "/.git/objects/" + oid[:2] + "/" + oid[2:], "[EIO]")
+        # [LAW:no-silent-failure] a failed object write must not stage its git-add target.
+        target = self.fx.target(self.u) + "/notes.txt"
+        self.assertEqual(git(self.fx.m, "ls-files", "-s", "--", target), b"")
+
+    def test_late_fanout_link_after_hash_object_refuses(self):
+        target = self.fx.target(self.u)
+        real = move_unit._git
+        fired = []
+
+        def late(repo, *args, **kwargs):
+            result = real(repo, *args, **kwargs)
+            if args[0] == "hash-object" and not fired:
+                oid = result.decode().strip()
+                fanout = self.fx.m + "/.git/objects/" + oid[:2]
+                os.makedirs(fanout, exist_ok=True)
+                os.rename(fanout, fanout + "-held")
+                os.symlink(target, fanout)
+                fired.append(fanout)
+            return result
+        with mock.patch.object(move_unit, "_git", late):
+            result = self.main(*self.fx.args())
+        self.assertEqual(len(fired), 1)
+        self.assert_refused(result, fired[0])
+        self.assertTrue(any(text in result[2] for text in
+                            ("[ELOOP]", "[ENOTDIR]", "link or special file")), result[2])
+        actual = sorted(os.path.relpath(os.path.join(folder, name), target)
+                        for folder, dirs, files in os.walk(target) for name in dirs + files)
+        self.assertEqual(actual, sorted(self.u.files))
+
     def test_late_attributes_link_is_not_read(self):
         self.fx.rewrite(self.u.source + "/notes.txt", b"notes\r\n")
         self.u.files["notes.txt"] = b"notes\r\n"

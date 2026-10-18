@@ -56,6 +56,7 @@ import re
 import stat
 import subprocess
 import sys
+import zlib
 from dataclasses import dataclass
 from typing import Callable
 
@@ -593,6 +594,7 @@ class Held:
     manifests: dict[str, bytes]
     leaves: dict[str, dict]
     tracked: list[str]
+    roots: list[fdsafe.Dir]
     stack: contextlib.ExitStack
 
 
@@ -714,6 +716,33 @@ def _do_git_rm_cached(held: Held, action: dict) -> None:
     _index_is(held, action["source"], [])
 
 
+def _write_object(held: Held, object_name: str, data: bytes) -> None:
+    # [LAW:effects-at-boundaries] Git computes identity; held fds own every object-store write.
+    # [LAW:carrying-cost] object-store fds are needed only until this write finishes.
+    with contextlib.ExitStack() as stack:
+        objects_path = held.repo.git.path + "/objects"
+        with fdsafe.fs(objects_path):
+            fd = os.open("objects", fdsafe.DIR_FLAGS, dir_fd=held.repo.git.fd)
+        objects = stack.enter_context(fdsafe.Dir(fd, objects_path))
+        name = object_name[:2]
+        fanout_path = objects_path + "/" + name
+        try:
+            with fdsafe.fs(fanout_path):
+                fd = os.open(name, fdsafe.DIR_FLAGS, dir_fd=objects.fd)
+            fanout = stack.enter_context(fdsafe.Dir(fd, fanout_path))
+        except Refusal as exc:
+            if exc.errno != errno.ENOENT:
+                raise
+            fanout = stack.enter_context(fdsafe.mkdir(objects, name))
+        compressed = zlib.compress(b"blob %d\0" % len(data) + data)
+        try:
+            fdsafe.create_file(fanout, object_name[2:], compressed, held.roots)
+        except Refusal as exc:
+            # [LAW:one-source-of-truth] the index readback verifies an existing object's manifest bytes.
+            if exc.errno != errno.EEXIST:
+                raise
+
+
 def _do_git_add(held: Held, action: dict) -> None:
     target = action["target"]
     parent_path, name = os.path.split(target)
@@ -730,7 +759,8 @@ def _do_git_add(held: Held, action: dict) -> None:
             mode = "120000"
         else:
             raise Refusal(target, "is not a regular file or a symlink")
-    object_name = _git(held.repo, "hash-object", "-w", "--no-filters", "--stdin", stdin=data).decode("ascii").strip()
+    object_name = _git(held.repo, "hash-object", "--no-filters", "--stdin", stdin=data).decode("ascii").strip()
+    _write_object(held, object_name, data)
     _write_index(held, [(mode, object_name, target[len(held.repo.root) + 1:])])
     _index_is(held, action["target"], [action["target"]])
 
@@ -787,7 +817,7 @@ def run(args) -> tuple[int, object]:
         files = [(os.path.basename(doc["path"]), doc["bytes"]) for doc in result["documents"]] + \
             [(ADMITTED, _admitted(root, result["actions"], tracked))]
         custody = _write_custody(args.custody_dir, files, roots)
-        held = Held(repo, folders, sources, manifests, leaves, tracked, stack)
+        held = Held(repo, folders, sources, manifests, leaves, tracked, roots, stack)
         for action in result["actions"]:
             ACTIONS[action["action"]](held, action)
     return 0, {"actions": result["actions"], "custody": custody}
