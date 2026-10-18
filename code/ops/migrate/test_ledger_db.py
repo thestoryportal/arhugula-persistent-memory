@@ -1565,20 +1565,17 @@ class Round2Fences(Base):
 
     def test_output_moved_into_a_free_root_between_creates_has_its_report_removed(self):
         fx = self.fx
-        into, real, done = os.path.join(fx.dst, "ledger"), os.close, []
-        first = os.path.join(fx.out, "drift.tsv")
+        into, real, done = os.path.join(fx.dst, "ledger"), fdsafe.settle, []
 
-        def hooked(fd):  # right after the first report's fd is closed
-            try:
-                here = getpath(fd)
-            except OSError:
-                here = None
-            real(fd)
-            if here == first and not done:
+        def hooked(held, roots):  # right after the first report's post-write checks pass
+            where = real(held, roots)
+            if not done:
                 done.append(True)
                 os.rename(fx.out, into)
-        with mock.patch.object(os, "close", hooked):
+            return where
+        with mock.patch.object(fdsafe, "settle", hooked):
             result = fx.run()
+        self.assertEqual(done, [True])
         self.assertRefused(result, fx.dst)
         self.assertIn("lies inside this free root; removed drift.tsv", result[2])
         self.assertEqual(os.listdir(into), [])
@@ -1697,24 +1694,21 @@ class Round3Removal(Base):
 
     def test_k9_eio_on_the_check_after_a_report_closed_inside_a_source_leaves_no_report_there(self):
         fx = self.fx
-        moved, first = fx.u("u1/ledger"), os.path.join(fx.out, "drift.tsv")
-        real_close, real_stat, done = os.close, os.stat, []
+        moved = fx.u("u1/ledger")
+        real_settle, real_stat, done = fdsafe.settle, os.stat, []
 
-        def close(fd):  # right after the first report's fd is closed, --out moves into u1
-            try:
-                here = getpath(fd)
-            except OSError:
-                here = None
-            real_close(fd)
-            if here == first and not done:
+        def settle(held, roots):  # right after the first report's post-write checks pass, --out moves into u1
+            where = real_settle(held, roots)
+            if not done:
                 done.append(True)
                 os.rename(fx.out, moved)
+            return where
 
         def stat(path, *args, **kwargs):  # then every ancestry check of --out fails, the fresh one too
             if done and path == "." and "dir_fd" in kwargs:
                 raise OSError(errno.EIO, os.strerror(errno.EIO))
             return real_stat(path, *args, **kwargs)
-        with mock.patch.object(os, "close", close), mock.patch.object(os, "stat", stat):
+        with mock.patch.object(fdsafe, "settle", settle), mock.patch.object(os, "stat", stat):
             result = fx.run()
         self.assertEqual(done, [True])
         self.assertRefused(result, fx.out, "EIO")
@@ -1761,22 +1755,163 @@ class Round3Removal(Base):
                 fx.run()
         self.assertIsInstance(caught.exception.__context__, fdsafe.Refusal)
         self.assertIn("left in place, incomplete", str(caught.exception.__context__))
+        self.assertEqual(os.listdir(moved), [])
 
     def test_a_normal_exit_keeps_every_report_though_a_later_check_would_fail(self):
         fx = self.fx
-        real, checks = os.stat, []
+        real, real_write, returned = os.stat, ledger_db._write, []
 
-        def stat(path, *args, **kwargs):  # the 6 ancestry checks of a run pass; any later one fails
-            if path == "." and "dir_fd" in kwargs:
-                checks.append(path)
-                if len(checks) > 6:
-                    raise OSError(errno.EIO, os.strerror(errno.EIO))
+        def write(*args, **kwargs):  # the write owner's own checks pass
+            lines = real_write(*args, **kwargs)
+            returned.append(True)
+            return lines
+
+        def stat(path, *args, **kwargs):  # any ancestry check after the write owner returned fails
+            if returned and path == "." and "dir_fd" in kwargs:
+                raise OSError(errno.EIO, os.strerror(errno.EIO))
             return real(path, *args, **kwargs)
-        with mock.patch.object(os, "stat", stat):
+        with mock.patch.object(ledger_db, "_write", write), mock.patch.object(os, "stat", stat):
             code, out, err = fx.run()
+        self.assertEqual(returned, [True])
         self.assertEqual((code, err), (0, ""))
         self.assertEqual(sorted(os.listdir(fx.out)), sorted(REPORTS))
 
 
+class Round5HeldReports(Base):
+ def test_report_moved_into_source_during_write(self):
+  fx=self.fx; moved=fx.u('u1/drift.tsv'); real=os.write;fired=[]
+  def write(fd,data):
+   if not fired:
+    fired.append(True);os.rename(os.path.join(fx.out,'drift.tsv'),moved)
+   return real(fd,data)
+  with mock.patch.object(os,'write',write):result=fx.run()
+  self.assertEqual(result[0],2);self.assertFalse(os.path.exists(moved),'report remains inside source')
+ def test_unexpected_cleanup_check_leaves_report_inside_source(self):
+  fx=self.fx;moved=fx.u('u1/ledger');real_open=os.open;real_stat=os.stat;fired=[]
+  def opened(name,*args,**kw):
+   if name=='drift.tsv' and not fired:
+    fired.append(True);os.rename(fx.out,moved)
+   return real_open(name,*args,**kw)
+  def stat(path,*args,**kw):
+   if fired and path=='.' and 'dir_fd' in kw:raise RuntimeError('unexpected cleanup ancestry')
+   return real_stat(path,*args,**kw)
+  with mock.patch.object(os,'open',opened),mock.patch.object(os,'stat',stat),FK.inject_oserror('write',1,errno.EIO):
+   with self.assertRaises(RuntimeError) as caught:fx.run()
+  self.assertEqual(os.listdir(moved),[],'report remains inside source after unexpected cleanup exception')
+
+
+
+class Round7MutantKills(Base):
+    """RULING-7: one behaviour per guard that the ticket test did not reach."""
+
+    def test_fdsafe_create_file_returns_the_live_path_of_the_file_it_wrote(self):
+        fx = self.fx
+        into = os.path.join(fx.base, "elsewhere")
+        os.mkdir(into)
+        parent, root = fdsafe.hold_root(into), fdsafe.hold_root(fx.src)
+        try:
+            where = fdsafe.create_file(parent, "r.tsv", b"x\n", [root])
+        finally:
+            fdsafe.close(parent.fd, into)
+            fdsafe.close(root.fd, fx.src)
+        self.assertEqual(where, os.path.join(into, "r.tsv"))
+        self.assertEqual(readb(where), b"x\n")
+
+    def test_eio_on_the_stat_of_a_report_by_its_live_name_is_a_one_line_refusal(self):
+        fx, real, fired = self.fx, os.stat, []
+
+        def stat(path, *args, **kwargs):  # the after-check binds drift.tsv's live name to the held fd
+            if path == "drift.tsv" and "dir_fd" in kwargs and not fired:
+                fired.append(True)
+                raise OSError(errno.EIO, os.strerror(errno.EIO))
+            return real(path, *args, **kwargs)
+        with mock.patch.object(os, "stat", stat):
+            result = fx.run()
+        self.assertEqual(fired, [True])
+        self.assertRefused(result, os.path.join(fx.out, "drift.tsv"), "EIO")
+        self.assertEqual(sorted(os.listdir(fx.out)), sorted(REPORTS))
+
+    def test_a_report_name_that_no_longer_holds_the_report_refuses_and_keeps_the_stranger(self):
+        fx, real, fired = self.fx, fdsafe.live_path, []
+        aside = os.path.join(fx.base, "elsewhere")
+        os.mkdir(aside)
+        stranger = os.path.join(fx.out, "drift.tsv")
+
+        def live_path(fd, label):  # between drift.tsv's live path and its stat, another file takes the name
+            where = real(fd, label)
+            if os.path.basename(label) == "drift.tsv" and not fired:
+                fired.append(True)
+                os.rename(where, os.path.join(aside, "drift.tsv"))
+                fx.write(where, b"stranger\n")
+            return where
+        with mock.patch.object(fdsafe, "live_path", live_path):
+            result = fx.run()
+        self.assertEqual(fired, [True])
+        self.assertRefused(result, stranger)
+        self.assertIn("is not the held report; removal refused", result[2])
+        self.assertEqual(readb(stranger), b"stranger\n")
+
+    def test_removal_by_name_spares_a_stranger_at_the_name_of_a_held_report_moved_into_a_source(self):
+        fx, real, done = self.fx, fdsafe.settle, []
+        stranger = os.path.join(fx.out, "drift.tsv")
+
+        def settle(held, roots):  # after drift.tsv settles it moves into u1 and a stranger takes its name
+            where = real(held, roots)
+            if not done:
+                done.append(True)
+                os.rename(where, fx.u("u1/drift.tsv"))
+                fx.write(stranger, b"stranger\n")
+            return where
+        with mock.patch.object(fdsafe, "settle", settle):
+            result = fx.run()
+        self.assertEqual(done, [True])
+        self.assertRefused(result, fx.u("u1"))
+        self.assertFalse(os.path.lexists(fx.u("u1/drift.tsv")))
+        self.assertEqual(os.listdir(fx.out), ["drift.tsv"])
+        self.assertEqual(readb(stranger), b"stranger\n")
+
+    def test_a_failed_removal_of_an_unheld_report_is_a_one_line_refusal_naming_it(self):
+        fx, moved, real_open, fired = self.fx, self.fx.u("u1/ledger"), os.open, []
+
+        def opened(name, *args, **kwargs):  # --out moves into u1 as drift.tsv is created; its write fails
+            if name == "drift.tsv" and not fired:
+                fired.append(True)
+                os.rename(fx.out, moved)
+            return real_open(name, *args, **kwargs)
+
+        def fail(*args, **kwargs):
+            raise OSError(errno.EIO, os.strerror(errno.EIO))
+        with mock.patch.object(os, "open", opened), FK.inject_oserror("write", 1, errno.EIO), \
+                mock.patch.object(os, "unlink", fail):
+            result = fx.run()
+        self.assertEqual(fired, [True])
+        self.assertRefused(result, os.path.join(moved, "drift.tsv"), "EIO")
+        self.assertIn("its removal failed, left in place", result[2])
+        self.assertEqual(os.listdir(moved), ["drift.tsv"])
+
 if __name__ == "__main__":
     unittest.main()
+
+
+class Round6SettledReports(Base):
+    def test_report_moved_during_write_to_non_fence_is_refused_and_kept(self):
+        fx = self.fx
+        elsewhere = os.path.join(fx.base, "elsewhere")
+        os.mkdir(elsewhere)
+        moved = os.path.join(elsewhere, "drift.tsv")
+        real, fired = os.write, []
+
+        # [LAW:behavior-not-structure] A rename outside all fences still violates the create contract.
+        def write(fd, data):
+            if not fired:
+                fired.append(True)
+                os.rename(os.path.join(fx.out, "drift.tsv"), moved)
+            return real(fd, data)
+
+        with mock.patch.object(os, "write", write):
+            result = fx.run()
+        self.assertEqual(fired, [True])
+        self.assertRefused(result, moved)
+        self.assertIn("was moved during the write", result[2])
+        self.assertTrue(os.path.isfile(moved))
+        self.assertTrue(readb(moved))
