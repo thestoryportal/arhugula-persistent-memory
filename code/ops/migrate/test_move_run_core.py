@@ -37,6 +37,8 @@ WORKTREE = {"top": M, "git_dir": "/m/.git", "common_dir": "/m/.git"}
 HEADER = "requirement_id\tsource\ttarget\taction\tobserved_bytes\tclass\tlane\tcheck_id\tadmission\tprd_ids"
 RECORD, BULK, PAYLOAD = "tracked-record", "attested-bulk", "governed-payload"
 ALLOWED = {"mkdir", "mv", "git-mv", "git-rm-cached", "git-add"}
+BIG = b"9" * 5000                          # over the interpreter integer digit limit (4300)
+DEEP = b"[" * 100000 + b"]" * 100000      # past the recursion limit of json.loads
 
 
 def sha(data: bytes) -> str:
@@ -479,6 +481,19 @@ class ApprovalRefuses(Refuses):
                 self.refuses({**kw, "approval": value}, "approval", "")
 
 
+    def test_an_oversized_integer_or_deep_nesting_in_the_approval(self):
+        kw = scenario()[0]
+        for data, reason in ((b'{"approval_id":' + BIG + b'}', "5000 digits"),
+                             (b'{"a":' + DEEP + b'}', "nests too deeply")):
+            with self.subTest(reason=reason):
+                self.refuses({**kw, "approval": (APPROVAL_PATH, data)}, APPROVAL_PATH, reason)
+
+    def test_a_negative_integer_at_the_digit_limit_parses(self):
+        kw = scenario()[0]
+        data = kw["approval"][1].replace(b'"approval-0123456789ab"', b"-" + b"9" * 4300)  # the sign is no digit
+        self.refuses({**kw, "approval": (APPROVAL_PATH, data)}, APPROVAL_PATH, "approval_id must be")
+
+
 class PlanRefuses(Refuses):
     def plan(self, edit, where, reason, reseal_it=True):
         if reseal_it:
@@ -569,6 +584,22 @@ class PlanRefuses(Refuses):
         self.plan(lambda d: d["units"][0].update(bytes=11), U1.source, "bytes")
 
 
+    def test_an_oversized_integer_or_deep_nesting_in_the_plan(self):
+        kw = scenario()[0]
+        for data, reason in ((BIG, "5000 digits"), (DEEP, "nests too deeply")):
+            with self.subTest(reason=reason):
+                self.refuses({**kw, "plan": (PLAN_PATH, data)}, PLAN_PATH, reason)
+
+    def test_no_interpreter_digit_limit_admits_any_integer(self):
+        old = sys.get_int_max_str_digits()
+        self.addCleanup(sys.set_int_max_str_digits, old)
+        sys.set_int_max_str_digits(0)
+        self.assertEqual(len(run()["actions"]), 5)
+        units = copy.deepcopy(scenario()[0]["units"])
+        units[0]["split"] = units[0]["split"].replace(b'"size": 2', b'"size": ' + BIG, 1)
+        self.refuses(self.over(units=units), "split", "disagrees")
+
+
 class UnitRefuses(Refuses):
     def test_corrupted_byte_names_both_digests(self):
         def corrupt(fresh):
@@ -612,6 +643,19 @@ class UnitRefuses(Refuses):
         self.refuses(scenario([spec])[0], "/v/p/u2/c\tlog", "control character")
         spec = U2._replace(leaves=(Leaf("c\nlog", b"x"),))
         self.refuses(scenario([spec])[0], "/v/p/u2/c\nlog", "control character")
+
+
+    def test_control_characters_in_plan_targets(self):
+        for target in ("/v/preserved/u\t2", "/v/preserved/u\n2"):
+            def edit(plan, target=target):
+                for unit in plan["units"]:
+                    if unit["source"] == U2.source:
+                        unit["target"] = target
+                plan["moves"] = [{"source": u["source"], "target": u["target"]} for u in plan["units"]]
+            kw = scenario(plan_edit=edit)[0]
+            kw["targets"] = [r if r["target"] != T2 else {**r, "target": target} for r in kw["targets"]]
+            with self.subTest(target=target):
+                self.refuses(kw, target + "/c.log", "holds a control character")
 
 
 class SplitRefuses(Refuses):
@@ -669,6 +713,22 @@ class SplitRefuses(Refuses):
         k.update(plan=(PLAN_PATH, data), approval=(APPROVAL_PATH, canonical(approval_doc(data))))
         k["units"][0]["manifest"] = canonical(doc)
         self.refuses(k, "split", "does not cover")
+
+
+    def test_non_string_class_or_kind(self):
+        for field, value in (("class", []), ("class", {}), ("kind", []), ("kind", {"a": 1})):
+            with self.subTest(field=field, value=value):
+                self.split(self.leaf(**{field: value}), "split", field)
+
+    def test_an_oversized_size(self):
+        units = copy.deepcopy(scenario()[0]["units"])
+        units[0]["split"] = units[0]["split"].replace(b'"size": 2', b'"size": ' + BIG, 1)
+        self.refuses(self.over(units=units), "split", "5000 digits")
+
+    def test_a_size_equal_in_value_but_not_an_integer(self):
+        self.split(self.leaf(size=2.0), "split", "disagrees")  # a.json holds 2 bytes
+        one = U1._replace(leaves=(Leaf("a.json", b"1"),) + U1.leaves[1:])
+        self.refuses(scenario([one, U2], split_edit=self.leaf(size=True))[0], "split", "disagrees")
 
 
 class ObservationRefuses(Refuses):

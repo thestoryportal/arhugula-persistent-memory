@@ -39,6 +39,7 @@ import hashlib
 import json
 import posixpath
 import re
+import sys
 from typing import NamedTuple
 
 from ops.migrate import fdsafe
@@ -109,7 +110,8 @@ def _pair(value, where: str) -> tuple:
 
 
 def _json(data, where: str):
-    """The one parse of a JSON document: bytes, strict UTF-8, no repeated key, no NaN, no lone surrogate."""
+    """The one parse of a JSON document: bytes, strict UTF-8, no repeated key, no NaN, no integer over the
+    interpreter digit limit, no nesting past the recursion limit, no lone surrogate."""
     if not isinstance(data, bytes):
         _refuse(where, f"expected the document bytes, got {type(data).__name__}")
     try:
@@ -128,14 +130,24 @@ def _json(data, where: str):
     def constant(token):
         _refuse(where, f"holds {token}")
 
+    def integer(token):
+        # [LAW:parse-dont-validate] refused inside the one parse, so no ValueError from int() escapes it.
+        # [LAW:one-source-of-truth] the bound is the interpreter's own limit (0 means none), not a copy of it.
+        digits, limit = len(token.lstrip("-")), sys.get_int_max_str_digits()
+        if 0 < limit < digits:
+            _refuse(where, f"holds an integer of {digits} digits, over the interpreter limit of {limit}")
+        return int(token)
+
+    # [LAW:single-enforcer] RecursionError is caught around these two calls only: the parse and its re-encode.
     try:
-        doc = json.loads(text, object_pairs_hook=pairs, parse_constant=constant)
+        doc = json.loads(text, object_pairs_hook=pairs, parse_constant=constant, parse_int=integer)
+        canonical(doc)
     except json.JSONDecodeError as exc:
         _refuse(where, f"is not JSON ({exc.msg})")
-    try:
-        canonical(doc)
     except UnicodeEncodeError:
         _refuse(where, "holds a lone surrogate")
+    except RecursionError:
+        _refuse(where, "nests too deeply")
     return doc
 
 
@@ -260,8 +272,11 @@ def _split(unit: Unit, data, leaves: list) -> dict:
             _refuse(rwhere, f"{rel!r} is not a manifest leaf")
         if leaf["source"] in classes:
             _refuse(rwhere, f"{rel!r} is split twice")
-        if row["class"] not in CLASSES:
+        # [LAW:parse-dont-validate] a non-string class or kind is refused before a set or dict lookup can raise.
+        if not isinstance(row["class"], str) or row["class"] not in CLASSES:
             _refuse(rwhere, f"class {row['class']!r} is not one of {sorted(CLASSES)}")
+        if not isinstance(row["kind"], str):
+            _refuse(rwhere, f"kind {row['kind']!r} is not a string")
         split = (SPLIT_KINDS.get(row["kind"]), row["size"], row["sha256"], row["link"])
         file = leaf["kind"] == "file"
         fresh = (leaf["kind"], leaf["bytes"] if file else None, leaf["sha256"] if file else None, leaf["link_text"])
