@@ -31,6 +31,7 @@ import hashlib
 import json
 import posixpath
 import re
+import sys
 from collections.abc import Mapping
 
 from ops.migrate import dup_find_core, fdsafe
@@ -102,6 +103,15 @@ def _id(value, where: str) -> str:
     if not isinstance(value, str) or not ID_RE.fullmatch(value):
         _refuse(where, f"expected an ID, got {value!r}")
     return value
+
+
+def _int(token: str, where: str) -> int:
+    """Decimal text -> int. [LAW:single-enforcer] the one digit-limit check for manifest and TSV integers;
+    [LAW:one-source-of-truth] the bound is the interpreter's own limit (0 means none)."""
+    digits, limit = len(token.lstrip("-")), sys.get_int_max_str_digits()
+    if 0 < limit < digits:
+        _refuse(where, f"holds an integer of {digits} digits, over the interpreter limit of {limit}")
+    return int(token)
 
 
 def _line(value, where: str) -> int:
@@ -193,7 +203,8 @@ def _requirements(tables) -> dict[str, dict]:
                 _refuse(at, f"observed_bytes {row['observed_bytes']!r} is not a byte count")
             _text(row["action"], at)
             out[row["requirement_id"]] = {"source": _path(row["source"], at), "target": _path(row["target"], at),
-                                          "action": row["action"], "observed_bytes": int(row["observed_bytes"])}
+                                          "action": row["action"],
+                                          "observed_bytes": _int(row["observed_bytes"], at)}
     return out
 
 
@@ -202,11 +213,13 @@ def _manifest(data, where: str) -> tuple[str, list, list[str], str]:
     if not isinstance(data, bytes):
         _refuse(where, f"expected the manifest bytes, got {type(data).__name__}")
     try:
-        doc = json.loads(data.decode("utf-8"))
+        doc = json.loads(data.decode("utf-8"), parse_int=lambda token: _int(token, where))
     except UnicodeDecodeError:
         _refuse(where, "is not UTF-8")
     except json.JSONDecodeError as exc:
         _refuse(where, f"is not JSON ({exc.msg})")
+    except RecursionError:  # [LAW:single-enforcer] caught only here and at the re-encode below
+        _refuse(where, "nests too deeply")
     doc = _map(doc, where)
     if "git_roots" not in doc:
         _refuse(where, "has no git_roots; not a Step 201 manifest")
@@ -215,6 +228,8 @@ def _manifest(data, where: str) -> tuple[str, list, list[str], str]:
         same = canonical(doc) == data
     except UnicodeEncodeError:
         same = False
+    except RecursionError:
+        _refuse(where, "nests too deeply")
     if not same:
         _refuse(where, "is not the canonical JSON that Step 201 writes")
     git = []
@@ -480,7 +495,7 @@ def check_plans(*, root, entries, occurrences, repairs) -> tuple:
         file, old_text, new_text = (_text(row[k], f"{at}.{k}") for k in ("file", "old_text", "new_text"))
         if not DIGITS.fullmatch(row["line"]) or not DIGITS.fullmatch(row["step"]):
             _refuse(at, "line and step are decimal numbers")
-        line, step = _line(int(row["line"]), at), int(row["step"])
+        line, step = _line(_int(row["line"], at), at), _int(row["step"], at)
         if step not in REPAIR_STEPS:
             _refuse(at, f"repair step {step} is not one of 261-269")
         key = (file, line, old_text)
