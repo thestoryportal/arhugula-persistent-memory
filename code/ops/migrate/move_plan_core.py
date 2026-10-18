@@ -55,7 +55,8 @@ STALE_KEYS = frozenset(("file", "line", "old_text", "old"))
 UNVERIFIED_REQUIRED, UNVERIFIED_OPTIONAL = frozenset(("file", "reason")), frozenset(("line", "text"))
 COMPARISON_KEYS = frozenset(("source", "relpath", "class", "equal_to", "differing_from", "same_inode", "hint"))
 HINT_KEYS = frozenset(("sha256", "agrees"))
-MOVE_KEYS = frozenset(("source", "target"))
+MOVE_KEYS = frozenset(("id", "prd_ids", "action", "source", "target", "kind", "bytes",
+                       "before_sha256", "source_manifest", "lane", "reader_check_ids"))
 OCCURRENCE_KEYS = frozenset(("file", "line", "old_text", "old", "text"))
 ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*")
 MV_RE = re.compile(r"MV-[0-9]{3}")
@@ -202,9 +203,15 @@ def _requirements(tables) -> dict[str, dict]:
             if not DIGITS.fullmatch(row["observed_bytes"]):
                 _refuse(at, f"observed_bytes {row['observed_bytes']!r} is not a byte count")
             _text(row["action"], at)
+            # [LAW:parse-dont-validate] Parse annex shape here; the wire schema owns PRD values.
+            lane = _id(row["lane"], f"{at}.lane")
+            prd_ids = row["prd_ids"].split(",")
+            if "" in prd_ids or len(set(prd_ids)) != len(prd_ids):
+                _refuse(f"{at}.prd_ids", "empty or repeated item")
             out[row["requirement_id"]] = {"source": _path(row["source"], at), "target": _path(row["target"], at),
                                           "action": row["action"],
-                                          "observed_bytes": _int(row["observed_bytes"], at)}
+                                          "observed_bytes": _int(row["observed_bytes"], at),
+                                          "lane": lane, "prd_ids": prd_ids}
     return out
 
 
@@ -330,7 +337,7 @@ def _comparison(value, where: str, leaves: list) -> dict[str, list[str]] | None:
     return {cls: sorted(paths) for cls, paths in out.items()}
 
 
-def _unit(value, where: str, root: str, table: dict, existing: frozenset) -> tuple[dict, list[dict]]:
+def _unit(value, where: str, root: str, table: dict, existing: frozenset) -> tuple[dict, list[dict], dict]:
     row = _map(value, where)
     _keys(row, UNIT_KEYS, where)
     rid = row["requirement_id"]
@@ -391,8 +398,13 @@ def _unit(value, where: str, root: str, table: dict, existing: frozenset) -> tup
                "experiment_id": eid if basis == "registry" else None,
                "manifest": {"path": manifest_path, "sha256": digest},
                "leaves": len(leaves), "bytes": total, "observed_bytes": req["observed_bytes"]}
+    # [LAW:one-source-of-truth] Bind the wire action to the same parsed manifest as the unit.
+    move = {"id": rid, "prd_ids": req["prd_ids"], "action": "MOVE",
+            "source": source, "target": target, "kind": "git-root" if source in git else "directory",
+            "bytes": total, "before_sha256": digest, "source_manifest": planned["manifest"],
+            "lane": req["lane"], "reader_check_ids": []}
     return planned, [{"requirement_id": rid, "kind": k, "items": sorted(v)}
-                     for k, v in risks.items()]
+                     for k, v in risks.items()], move
 
 
 def build_plan(*, entry_id, root, requirement_tables, units, existing_targets) -> dict:
@@ -404,17 +416,18 @@ def build_plan(*, entry_id, root, requirement_tables, units, existing_targets) -
     raw = _seq(units, "units")
     if not raw:
         _refuse("units", "an entry places at least one unit")
-    planned, risks = [], []
+    planned, risks, moves = [], [], []
     for i, value in enumerate(raw):
-        u, r = _unit(value, f"units[{i}]", root, table, existing)
+        u, r, move = _unit(value, f"units[{i}]", root, table, existing)
         for other in planned:  # a requirement named twice has one source, so it overlaps itself
             if _overlap(u["source"], other["source"]) or _overlap(u["target"], other["target"]) \
                     or _overlap(u["target"], other["source"]) or _overlap(u["source"], other["target"]):
                 _refuse(u["requirement_id"], f"overlaps {other['requirement_id']} (source or target)")
         planned.append(u)
+        moves.append(move)
         risks += r
     planned.sort(key=lambda u: u["source"])  # code point order is UTF-8 byte order
-    moves = [{"source": u["source"], "target": u["target"]} for u in planned]
+    moves.sort(key=lambda move: move["source"])
     body = {
         "schema_version": 1,
         "id": eid,
