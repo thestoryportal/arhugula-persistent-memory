@@ -29,7 +29,11 @@ existing path under it is also an existing target.
 
 Every walk, read, create, close and F_GETPATH goes through fdsafe; any other filesystem call runs
 inside fdsafe.fs. DuckDB opens the toolkit file by path; the shell checks before the attach that it is
-a regular file (a FIFO would block DuckDB) and after the query that its lstat is unchanged.
+a regular file (a FIFO would block DuckDB), holds it (no-follow) and its parent, and keeps a kqueue
+vnode watch on both from before the ATTACH until after the DETACH: any event is a refusal, as is a
+changed lstat after the query. A target is looked up through its held parent, never by a path that
+could follow a link. A string that a report could carry is refused at parse time when it holds a tab,
+CR or LF. --out may not lie inside a move source, a move target or a free root.
 
 Exit 0: targets.tsv and capacity.tsv have no rows. Exit 1: either has a row.
 Exit 2: a refusal (unreadable or malformed input, a plans file with no entries, a raced object):
@@ -44,6 +48,7 @@ import hashlib
 import json
 import os
 import re
+import select
 import stat
 import sys
 from collections.abc import Mapping
@@ -62,6 +67,13 @@ ANNEX_COLUMNS = ("requirement_id", "source", "action")
 FLOOR_BYTES = 20 * (1 << 30)
 SHA256_HEX = frozenset("0123456789abcdef")
 SURROGATE = re.compile("[\ud800-\udfff]")  # a lone surrogate (JSON \u escapes allow one) has no UTF-8 form
+# LeafRecord fields beyond source and device, with their wire types (A-icm21/WIRE-CONTRACTS.md:91-92).
+LEAF_FIELDS = (("kind", (str,)), ("bytes", (int,)), ("sha256", (str,)), ("link_text", (str, type(None))),
+               ("inode", (int,)), ("nlink", (int,)))
+WATCH = select.KQ_EV_ADD | select.KQ_EV_CLEAR
+FILE_NOTES = (select.KQ_NOTE_DELETE | select.KQ_NOTE_RENAME | select.KQ_NOTE_WRITE | select.KQ_NOTE_LINK
+              | select.KQ_NOTE_REVOKE)
+PARENT_NOTES = select.KQ_NOTE_WRITE | select.KQ_NOTE_DELETE | select.KQ_NOTE_RENAME
 
 
 def _identity(st: os.stat_result) -> tuple:
@@ -130,7 +142,7 @@ def _manifest_path(value, where: str, plans: str) -> str:
     return value
 
 
-def _leaves(entry: Mapping, where: str, plans: str) -> list:
+def _leaves(entry: Mapping, where: str, plans: str, carry: str) -> list:
     for key in ("manifest", "manifest_sha256"):
         if key not in entry:
             raise Refusal(plans, f"{where}: missing field {key}")
@@ -154,10 +166,15 @@ def _leaves(entry: Mapping, where: str, plans: str) -> list:
         if not isinstance(leaf, Mapping) or not isinstance(leaf.get("source"), str) or \
                 type(leaf.get("device")) is not int:
             raise Refusal(path, f"leaves[{i}]: expected an object with a source string and a device integer")
+        for field, kinds in LEAF_FIELDS:
+            if field not in leaf or type(leaf[field]) not in kinds:
+                raise Refusal(path, f"leaves[{i}] ({leaf['source']!r}).{field}: missing or not "
+                                    f"{' or '.join(k.__name__ for k in kinds)} (LeafRecord, WIRE-CONTRACTS.md:91)")
+        _cell(leaf["source"], f"{path} leaves[{i}].source{carry}")
     return leaves
 
 
-def _plans(path: str) -> list:
+def _plans(path: str, carry: str) -> list:
     doc = _json(_read(path), path)
     if not isinstance(doc, Mapping) or not isinstance(doc.get("entries"), list):
         raise Refusal(path, 'expected {"entries": [...]}')
@@ -165,12 +182,21 @@ def _plans(path: str) -> list:
     for i, entry in enumerate(doc["entries"]):
         if not isinstance(entry, Mapping):
             raise Refusal(path, f"entries[{i}]: expected an object")
+        # Each string a report can carry, whether or not a row holds it; the core checks the shapes. A
+        # requirement id cannot hold a tab, CR or LF: the annex parse splits on them or refuses them,
+        # and the core refuses a replaces id that names no annex row.
+        _cell(entry.get("id"), f"{path} entries[{i}].id{carry}")
+        moves = entry.get("moves")
+        for j, move in enumerate(moves if isinstance(moves, list) else ()):
+            for key in ("source", "target"):
+                _cell(move.get(key) if isinstance(move, Mapping) else None,
+                      f"{path} entries[{i}].moves[{j}].{key}{carry}")
         fields = {k: v for k, v in entry.items() if k not in ("manifest", "manifest_sha256")}
-        entries.append({**fields, "leaves": _leaves(entry, f"entries[{i}]", path)})
+        entries.append({**fields, "leaves": _leaves(entry, f"entries[{i}]", path, carry)})
     return entries
 
 
-def _free_roots(specs: list, stack: contextlib.ExitStack, written: list) -> list:
+def _free_roots(specs: list, stack: contextlib.ExitStack, written: list, carry: str) -> list:
     """Each free root held: (Dir, st_dev, free bytes). The ExitStack closes them."""
     roots, labels = [], set()
     for spec in specs:
@@ -185,6 +211,8 @@ def _free_roots(specs: list, stack: contextlib.ExitStack, written: list) -> list
                                                      f"{d.path}; {written[0]} (written, left in place)"))
         if any(held.path == other.path for other, _, _ in roots):
             raise Refusal(held.path, "is given as two free roots")
+        _cell(label, f"--free-root {held.path} label{carry}")
+        _cell(held.path, f"--free-root {label} path{carry}")
         with fdsafe.fs(held.path):
             dev = os.fstat(held.fd).st_dev
         with fdsafe.fs(held.path):
@@ -206,21 +234,48 @@ def _lstat_at(parent: fdsafe.Dir, name: str, path: str) -> os.stat_result:
         return os.lstat(name, dir_fd=parent.fd)
 
 
+def _close_watch(kq, label: str) -> None:
+    with fdsafe.fs(label):
+        kq.close()
+
+
 def _toolkit_rows(path: str) -> list:
-    """inventory(abspath, sha256) from the toolkit file, attached READ_ONLY to an in-memory database."""
+    """inventory(abspath, sha256) from the toolkit file, attached READ_ONLY to an in-memory database.
+
+    DuckDB opens the file by path, so the shell holds the file and its parent and watches both with
+    kqueue from before the ATTACH until after the DETACH: a swap and restore inside that window is an
+    event. A swap or move before the watch starts shows in the lstat and live-path checks after it."""
     name = os.path.basename(path)
-    with fdsafe.hold_root(os.path.dirname(path)) as parent:
+    with fdsafe.hold_root(os.path.dirname(path)) as parent, contextlib.ExitStack() as stack:
         given = os.path.join(parent.path, name)
         before = _lstat_at(parent, name, given)
         if not stat.S_ISREG(before.st_mode):
             raise Refusal(given, "is not a regular file")
-        con = duckdb.connect(":memory:")
-        try:
-            with _duck(given):
+        with fdsafe.fs(given):
+            fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=parent.fd)
+        stack.callback(fdsafe.close, fd, given)
+        with fdsafe.fs(given):
+            opened = os.fstat(fd)
+            kq = select.kqueue()
+        stack.callback(_close_watch, kq, given)
+        if _identity(opened) != _identity(before):
+            raise Refusal(given, "changed between its check and its open")
+        with fdsafe.fs(given):
+            kq.control([select.kevent(fd, select.KQ_FILTER_VNODE, WATCH, FILE_NOTES),
+                        select.kevent(parent.fd, select.KQ_FILTER_VNODE, WATCH, PARENT_NOTES)], 0, 0)
+        with _duck(given):
+            con = duckdb.connect(":memory:")
+            try:
                 con.execute("ATTACH '" + given.replace("'", "''") + "' AS toolkit (READ_ONLY)")
                 rows = con.execute("SELECT abspath, sha256 FROM toolkit.inventory").fetchall()
-        finally:
-            con.close()
+                con.execute("DETACH toolkit")
+            finally:
+                con.close()
+        with fdsafe.fs(given):
+            events = kq.control(None, 8, 0)
+        if events:
+            raise Refusal(given, "changed while DuckDB read it (kqueue: "
+                                 + ", ".join(f"fd {e.ident} fflags {e.fflags:#x}" for e in events) + ")")
         after = _lstat_at(parent, name, given)
         if _identity(after) != _identity(before) or not stat.S_ISREG(after.st_mode):
             raise Refusal(given, "changed while DuckDB read it")
@@ -229,21 +284,59 @@ def _toolkit_rows(path: str) -> list:
     return rows
 
 
+def _target_stat(target: str):
+    """The no-follow lstat of a move target, made through its held parent; None when it is absent.
+
+    The parent is held by fdsafe.hold_root, which refuses a path with a link in it. When the parent
+    is missing (ENOENT), the lookup climbs to the nearest ancestor that hold_root can hold, so no
+    existing component above it is a link, and lstats the next component through that held fd: it must
+    be absent too (ENOENT). Anything there now (a dangling link, or a component that appeared) refuses."""
+    path, name = os.path.split(target)
+    while True:
+        try:
+            anc = fdsafe.hold_root(path)
+        except Refusal as exc:
+            if exc.errno == errno.ENOENT:
+                path, name = os.path.split(path)
+                continue
+            raise Refusal(target, f"its directory cannot be held ({exc})", exc.errno) from None
+        break
+    with anc:
+        try:
+            with fdsafe.fs(target):
+                st = os.lstat(name, dir_fd=anc.fd)
+        except Refusal as exc:
+            if exc.errno != errno.ENOENT:
+                raise
+            st = None
+        if anc.live() != anc.path:
+            raise Refusal(target, f"its directory {anc.path} moved during the lookup (now {anc.live()})")
+    if st is not None and os.path.join(anc.path, name) != target:
+        raise Refusal(target, f"{os.path.join(anc.path, name)} exists, but the path below it could not be "
+                              "opened: a component is a link or changed during the lookup")
+    return st
+
+
 def _existing(entries: list) -> set:
     """Every move target that exists, and every path under an existing directory target."""
     found = set()
     for target in sorted({m["target"] for e in entries for m in e["moves"]}):
-        try:
-            with fdsafe.fs(target):
-                st = os.lstat(target)
-        except Refusal as exc:
-            if exc.errno != errno.ENOENT:
-                raise
+        st = _target_stat(target)
+        if st is None:
             continue
         found.add(target)
         if stat.S_ISDIR(st.st_mode):
-            with fdsafe.hold_root(target) as held:
-                fdsafe.walk(held, lambda entry: found.add(f"{target}/{entry.rel}"))
+            def visit(entry, target=target):
+                _cell(entry.rel, f"{target} (a name walked under this existing target)")
+                found.add(f"{target}/{entry.rel}")
+            with fdsafe.hold_root(target) as tdir:
+                with fdsafe.fs(target):
+                    held = os.fstat(tdir.fd)
+                if (held.st_dev, held.st_ino) != (st.st_dev, st.st_ino):
+                    raise Refusal(target, "changed between its stat and its walk")
+                fdsafe.walk(tdir, visit)
+                if tdir.live() != tdir.path:
+                    raise Refusal(target, f"was rebound during the walk (the walked directory is now {tdir.live()})")
     return found
 
 
@@ -261,10 +354,11 @@ def _render(name: str, columns: tuple, rows: tuple, out: str) -> bytes:
 
 def run(args) -> int:
     written: list = []
+    carry = " (a value for " + ", ".join(os.path.join(args.out, name) for name, _, _ in REPORTS) + ")"
     with contextlib.ExitStack() as stack:
-        roots = _free_roots(args.free_root, stack, written)
+        roots = _free_roots(args.free_root, stack, written, carry)
         annex = [row for path in args.requirements for row in _annex(path)]
-        entries = _plans(args.plans)
+        entries = _plans(args.plans, carry)
         toolkit = _toolkit_rows(args.toolkit_db)
         values = dict(annex_rows=annex, toolkit_rows=toolkit, floor_bytes=args.floor_bytes,
                       free_bytes={held.path: free for held, _, free in roots},
@@ -281,6 +375,10 @@ def run(args) -> int:
         datas = [(name, _render(name, columns, getattr(reports, field), out)) for name, columns, field in REPORTS]
         parent = fdsafe.open_out_parent(parent_path)
         stack.callback(fdsafe.close, parent.fd, parent.path)
+        out_live = os.path.join(parent.live(), os.path.basename(out))
+        for unit in sorted({p for e in entries for m in e["moves"] for p in (m["source"], m["target"])}):
+            if fdsafe.inside(unit, out_live):
+                raise Refusal(unit, f"--out {out_live} lies inside, or is, this move source or target")
         for held, _, _ in roots:
             if fdsafe.inside(held.live(), parent.live()):
                 raise Refusal(held.path, f"--out {out} lies inside this free root")

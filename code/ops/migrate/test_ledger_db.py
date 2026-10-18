@@ -13,6 +13,7 @@ import hashlib
 import io
 import json
 import os
+import select
 import shutil
 import subprocess
 import sys
@@ -761,7 +762,7 @@ class Attacks(Base):
 
     def test_eio_on_close_of_the_free_root_after_the_write_names_the_output(self):
         fx = self.fx
-        _, _, msg = self.eio("close", 1, fx.dst, match=lambda fd: getpath(fd) == fx.dst)
+        _, _, msg = self.eio("close", 1, fx.dst, match=lambda fd: getpath(fd) == fx.dst and os.path.lexists(fx.out))
         self.assertIn(fx.out, msg)
         self.assertEqual(sorted(os.listdir(fx.out)), sorted(REPORTS))
 
@@ -777,8 +778,8 @@ class Attacks(Base):
         fx = self.fx
         target, real = f"{fx.dst}/x", os.lstat
 
-        def hooked(path, *args, **kwargs):
-            if path == target:
+        def hooked(path, *args, **kwargs):  # the target's name, looked up through its held parent
+            if path == os.path.basename(target) and "dir_fd" in kwargs:
                 raise OSError(errno.EIO, os.strerror(errno.EIO))
             return real(path, *args, **kwargs)
         with mock.patch.object(os, "lstat", hooked):
@@ -864,8 +865,8 @@ class Attacks(Base):
         fx = self.fx
         target, real = f"{fx.dst}/x", os.lstat
 
-        def hooked(path, *args, **kwargs):
-            if path == target:
+        def hooked(path, *args, **kwargs):  # the target's name, looked up through its held parent
+            if path == os.path.basename(target) and "dir_fd" in kwargs:
                 raise RuntimeError("unexpected")
             return real(path, *args, **kwargs)
         with mock.patch.object(os, "lstat", hooked), self.assertRaises(RuntimeError):
@@ -895,6 +896,429 @@ class Attacks(Base):
         with mock.patch.object(duckdb, "connect", lambda *a, **k: Con(real(*a, **k))), \
                 self.assertRaises(RuntimeError):
             self.fx.run()
+
+
+class Con:
+    """A DuckDB connection (the library object) that logs each statement's verb and runs test hooks around it."""
+
+    def __init__(self, con, log, hooks):
+        self.con, self.log, self.hooks = con, log, hooks
+
+    def execute(self, sql, *args):
+        verb = sql.split()[0]
+        self.log.append(verb)
+        self.hooks.get(("before", verb), lambda: None)()
+        self.con.execute(sql, *args)
+        self.hooks.get(("after", verb), lambda: None)()
+        return self
+
+    def fetchall(self):
+        return self.con.fetchall()
+
+    def close(self):
+        self.log.append("close")
+        self.con.close()
+
+
+def park(path: str) -> str:
+    """Move path into a new directory beside it (never deleted); return where it went."""
+    where = os.path.join(os.path.dirname(path), FK.PARK_PREFIX + "test")
+    os.mkdir(where)
+    os.rename(path, os.path.join(where, os.path.basename(path)))
+    return os.path.join(where, os.path.basename(path))
+
+
+class ToolkitWindow(Base):
+    """Ruling 1a and 7: the toolkit file and its parent are held and watched (kqueue) around the ATTACH."""
+
+    def test_clean_run_reports_no_kqueue_event(self):
+        fx = self.fx
+        log = []
+        real_kq, real_connect = select.kqueue, duckdb.connect
+
+        class Kq:
+            def __init__(self):
+                self.kq = real_kq()
+
+            def control(self, changes, n, timeout=None):
+                got = self.kq.control(changes, n, timeout)
+                log.append(("register", len(changes)) if changes else ("poll", list(got)))
+                return got
+
+            def close(self):
+                log.append("kq-close")
+                self.kq.close()
+        with mock.patch.object(select, "kqueue", Kq), \
+                mock.patch.object(duckdb, "connect", lambda *a, **k: Con(real_connect(*a, **k), log, {})):
+            code, _, err = fx.run()
+        self.assertEqual((code, err), (0, ""))
+        self.assertEqual(log, [("register", 2), "ATTACH", "SELECT", "DETACH", "close", ("poll", []), "kq-close"])
+
+    def test_toolkit_swapped_and_restored_inside_the_attach_window_refuses(self):
+        fx = self.fx
+        other = os.path.join(fx.base, "other.duckdb")
+        fx.make_db(other, [])
+        before = os.lstat(fx.toolkit)
+        moved = []
+        real = duckdb.connect
+
+        def swap():
+            moved.append(park(fx.toolkit))
+            os.symlink(other, fx.toolkit)
+
+        def restore():
+            os.unlink(fx.toolkit)
+            os.rename(moved[0], fx.toolkit)
+        hooks = {("before", "ATTACH"): swap, ("after", "SELECT"): restore}
+        with mock.patch.object(duckdb, "connect", lambda *a, **k: Con(real(*a, **k), [], hooks)):
+            result = fx.run()
+        self.assertRefused(result, fx.toolkit)
+        self.assertIn("kqueue", result[2])
+        self.assertNothingWritten()
+        after = os.lstat(fx.toolkit)
+        self.assertEqual((after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns),
+                         (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns))
+
+    def test_toolkit_changed_before_the_watch_starts_refuses(self):
+        real = select.kqueue
+        for what in ("file", "directory"):
+            with self.subTest(what=what):
+                fx = Fixture(self)
+                fresh = os.path.join(fx.base, "fresh")
+                os.mkdir(fresh)
+                fx.make_db(os.path.join(fresh, "toolkit.duckdb"), [])
+
+                def kqueue():  # the shell creates its kqueue after its open and before the watch
+                    if what == "file":
+                        park(fx.toolkit)
+                        os.rename(os.path.join(fresh, "toolkit.duckdb"), fx.toolkit)
+                    else:
+                        park(fx.inp)
+                        os.rename(fresh, fx.inp)
+                    return real()
+                with mock.patch.object(select, "kqueue", kqueue):
+                    result = fx.run()
+                self.assertRefused(result, fx.toolkit)
+                self.assertFalse(os.path.lexists(fx.out))
+
+    def test_toolkit_swapped_for_a_symlink_at_its_open_refuses(self):
+        fx = self.fx
+        other = os.path.join(fx.base, "other.duckdb")
+        fx.make_db(other, [])
+        with FK.swap_for_symlink("open", 1, fx.toolkit, other, match=named("toolkit.duckdb")):
+            result = fx.run()
+        self.assertRefused(result, fx.toolkit, "ELOOP")
+        self.assertNothingWritten()
+
+    def test_fifo_in_place_of_the_toolkit_at_its_open_refuses_without_blocking(self):
+        fx = self.fx
+        child = ("import sys\nimport fault_kit as FK\nfrom ops.migrate import ledger_db\n"
+                 "with FK.fifo_in_place(sys.argv[1], name='open', timeout=30,\n"
+                 "                      match=lambda first, *a, **k: first == 'toolkit.duckdb'):\n"
+                 "    code = ledger_db.main(sys.argv[2:])\n"
+                 "sys.exit(code)\n")
+        proc = subprocess.run([sys.executable, "-B", "-c", child, fx.toolkit, *fx.argv()], capture_output=True,
+                              text=True, timeout=15)
+        self.assertEqual(proc.returncode, 2, proc.stderr)
+        self.assertIn(fx.toolkit, proc.stderr)
+        self.assertEqual(proc.stderr.count("\n"), 1, proc.stderr)
+        self.assertNotIn("Traceback", proc.stderr)
+        self.assertNothingWritten()
+
+    def test_errors_on_the_held_toolkit_and_its_watch_refuse(self):
+        real = select.kqueue
+
+        def kq_failing(step):
+            class Kq:
+                def __init__(self):
+                    if step == "create":
+                        raise OSError(errno.EIO, os.strerror(errno.EIO))
+                    self.kq = real()
+
+                def control(self, changes, n, timeout=None):
+                    if step == ("register" if changes else "poll"):
+                        raise OSError(errno.EIO, os.strerror(errno.EIO))
+                    return self.kq.control(changes, n, timeout)
+
+                def close(self):
+                    self.kq.close()
+                    if step == "close":
+                        raise OSError(errno.EIO, os.strerror(errno.EIO))
+            return mock.patch.object(select, "kqueue", Kq)
+        for step in ("open", "fstat", "file-close", "create", "register", "poll", "close"):
+            with self.subTest(step=step):
+                fx = Fixture(self)
+                fault = {"open": lambda: FK.inject_oserror("open", 1, errno.EIO, match=named("toolkit.duckdb")),
+                         "fstat": lambda: FK.inject_oserror("fstat", 1, errno.EIO,
+                                                            match=lambda fd: getpath(fd) == fx.toolkit),
+                         "file-close": lambda: FK.inject_oserror("close", 1, errno.EIO,
+                                                                 match=lambda fd: getpath(fd) == fx.toolkit)}
+                start = open_fds()
+                with fault.get(step, lambda: kq_failing(step))():
+                    result = fx.run()
+                self.assertRefused(result, fx.toolkit, "EIO")
+                self.assertFalse(os.path.lexists(fx.out))
+                self.assertEqual(open_fds(), start)
+
+    def test_in_memory_connect_error_is_a_one_line_refusal(self):
+        fx = self.fx
+        start = open_fds()
+        with mock.patch.object(duckdb, "connect", side_effect=duckdb.IOException("injected open failure")):
+            result = fx.run()
+        self.assertRefused(result, fx.toolkit)
+        self.assertIn("injected open failure", result[2])
+        self.assertNothingWritten()
+        self.assertEqual(open_fds(), start)
+
+    def test_duckdb_is_in_memory_and_only_the_four_reports_are_written(self):
+        fx = self.fx
+        cwd, tmp = os.path.join(fx.base, "cwd"), os.path.join(fx.base, "tmp")
+        os.mkdir(cwd)
+        os.mkdir(tmp)
+        listing = tree(fx.base)
+        calls = []
+        real = duckdb.connect
+
+        def spy(*args, **kwargs):
+            calls.append((args, kwargs))
+            return real(*args, **kwargs)
+        here = os.getcwd()
+        os.chdir(cwd)
+        self.addCleanup(os.chdir, here)
+        with mock.patch.object(duckdb, "connect", spy), mock.patch.dict(os.environ, {"TMPDIR": tmp}):
+            code, _, err = fx.run()
+        self.assertEqual((code, err), (0, ""))
+        self.assertTrue(calls)
+        self.assertEqual([c for c in calls if c != ((":memory:",), {})], [])
+        self.assertEqual(sorted(set(tree(fx.base)) - set(listing)),
+                         sorted(["outp/ledger"] + [f"outp/ledger/{n}" for n in REPORTS]))
+        self.assertEqual((os.listdir(cwd), os.listdir(tmp)), ([], []))
+
+
+class TargetLookup(Base):
+    """Rulings 3 and 4: each target is looked up through its held parent; a walked directory must stay put."""
+
+    def set_target(self, target, i=0):
+        entries = self.fx.entries()
+        entries[i]["moves"][0]["target"] = target
+        self.fx.write_plans(entries)
+
+    def test_a_link_in_the_target_path_refuses(self):
+        for case in ("link-parent", "link-ancestor", "dangling-parent", "dangling-ancestor"):
+            with self.subTest(case=case):
+                fx = Fixture(self)
+                outside = os.path.join(fx.base, "outside")
+                os.makedirs(os.path.join(outside, "sub"))
+                fx.write(os.path.join(outside, "x"), b"outside")
+                fx.write(os.path.join(outside, "sub", "x"), b"outside")
+                link = os.path.join(fx.dst, "link")
+                os.symlink(outside if case.startswith("link") else os.path.join(fx.base, "nowhere"), link)
+                target = f"{link}/x" if case.endswith("parent") else f"{link}/sub/x"
+                self.fx = fx
+                self.set_target(target)
+                self.assertRefused(fx.run(), target)
+                self.assertNothingWritten()
+
+    def test_target_under_missing_directories_is_absent(self):
+        fx = self.fx
+        self.set_target(f"{fx.dst}/a/b/x")
+        code, _, err = fx.run()
+        self.assertEqual((code, err), (0, ""))
+        self.assertEqual(fx.report("targets.tsv"), [["kind", "entry", "source", "target"]])
+
+    def test_target_parent_moved_during_the_lookup_refuses(self):
+        fx = self.fx
+        sub = os.path.join(fx.dst, "sub")
+        os.mkdir(sub)
+        self.set_target(f"{sub}/x")
+        real = os.lstat
+
+        def hooked(path, *args, **kwargs):
+            if path == "x" and "dir_fd" in kwargs:
+                try:
+                    return real(path, *args, **kwargs)
+                finally:
+                    park(sub)
+                    os.mkdir(sub)
+            return real(path, *args, **kwargs)
+        with mock.patch.object(os, "lstat", hooked):
+            result = fx.run()
+        self.assertRefused(result, f"{sub}/x")
+        self.assertIn("moved during the lookup", result[2])
+        self.assertNothingWritten()
+
+    def test_missing_directory_that_appears_during_the_lookup_refuses(self):
+        fx = self.fx
+        self.set_target(f"{fx.dst}/a/x")
+        real = os.lstat
+
+        def hooked(path, *args, **kwargs):
+            if path == "a" and "dir_fd" in kwargs:
+                os.mkdir(os.path.join(fx.dst, "a"))
+            return real(path, *args, **kwargs)
+        with mock.patch.object(os, "lstat", hooked):
+            result = fx.run()
+        self.assertRefused(result, f"{fx.dst}/a/x")
+        self.assertIn("a component is a link or changed", result[2])
+        self.assertNothingWritten()
+
+    def test_unexpected_exception_from_holding_a_target_parent_propagates(self):
+        fx = self.fx
+        with FK.raise_unexpected("open", 2, RuntimeError, match=named(fx.dst)), self.assertRaises(RuntimeError):
+            fx.run()
+
+    def test_target_directory_rebound_during_its_walk_refuses(self):
+        fx = self.fx
+        os.mkdir(f"{fx.dst}/x")
+        fx.write(f"{fx.dst}/x/a.txt", b"old")
+        with FK.rename_and_rebind("scandir", 1, f"{fx.dst}/x") as fault:
+            result = fx.run()
+        self.assertRefused(result, f"{fx.dst}/x")
+        self.assertIn("rebound during the walk", result[2])
+        self.assertNothingWritten()
+        self.assertEqual(os.listdir(fault.parked), ["a.txt"])
+
+    def test_target_directory_swapped_between_its_stat_and_its_walk_refuses(self):
+        fx = self.fx
+        target = f"{fx.dst}/x"
+        os.mkdir(target)
+        fx.write(f"{target}/a.txt", b"old")
+        decoy = os.path.join(fx.base, "decoy")
+        os.mkdir(decoy)
+        fx.write(os.path.join(decoy, "decoy.txt"), b"decoy")
+        real, parked = fdsafe.hold_root, []
+
+        def hooked(path):  # a real directory renamed over the target just before it is held for the walk
+            if path == target and not parked:
+                parked.append(park(target))
+                os.rename(decoy, target)
+            return real(path)
+        with mock.patch.object(fdsafe, "hold_root", hooked):
+            result = fx.run()
+        self.assertRefused(result, target)
+        self.assertIn("changed between its stat and its walk", result[2])
+        self.assertNothingWritten()
+        self.assertEqual((os.listdir(parked[0]), os.listdir(target)), (["a.txt"], ["decoy.txt"]))
+
+    def test_target_directory_with_the_same_inode_on_another_device_refuses(self):
+        fx = self.fx
+        target, real = f"{fx.dst}/x", os.lstat
+        os.mkdir(target)
+
+        def hooked(path, *args, **kwargs):  # the target's lstat says another device, same inode
+            st = real(path, *args, **kwargs)
+            if path == os.path.basename(target) and "dir_fd" in kwargs:
+                fields = list(st)
+                fields[2] += 1  # st_dev
+                return os.stat_result(fields)
+            return st
+        with mock.patch.object(os, "lstat", hooked):
+            result = fx.run()
+        self.assertRefused(result, target)
+        self.assertIn("changed between its stat and its walk", result[2])
+        self.assertNothingWritten()
+
+    def test_eio_on_fstat_of_a_held_target_directory_refuses(self):
+        fx = self.fx
+        target = f"{fx.dst}/x"
+        os.mkdir(target)
+        start = open_fds()
+        with FK.inject_oserror("fstat", 1, errno.EIO, match=lambda fd: getpath(fd) == target):
+            result = fx.run()
+        self.assertRefused(result, target, "EIO")
+        self.assertNothingWritten()
+        self.assertEqual(open_fds(), start)
+
+
+class Round1Inputs(Base):
+    """Rulings 2, 5, 6 and 8: --out placement, LeafRecord fields, tab/CR/LF at parse time, three guards."""
+
+    def check(self, path, says=None, argv=None):
+        result = self.fx.run(argv)
+        self.assertRefused(result, path)
+        if says is not None:
+            self.assertIn(says, result[2])
+        self.assertNothingWritten()
+
+    def test_output_inside_or_equal_to_a_move_source_or_target_refuses_and_creates_nothing(self):
+        fx = self.fx
+        os.mkdir(f"{fx.dst}/x")
+        for out, unit in ((fx.u("u1/ledger"), fx.u("u1")), (fx.u("u1/sub/ledger"), fx.u("u1")), (fx.u("u1"), fx.u("u1")),
+                          (f"{fx.dst}/x/ledger", f"{fx.dst}/x"), (f"{fx.dst}/y", f"{fx.dst}/y")):
+            with self.subTest(out=out):
+                listing = (tree(fx.src), tree(fx.dst))
+                result = fx.run(fx.argv(out=out))
+                self.assertRefused(result, unit)
+                self.assertIn("move source or target", result[2])
+                self.assertEqual((tree(fx.src), tree(fx.dst)), listing)
+
+    def test_leaf_record_fields_follow_the_wire_contract(self):
+        fx = self.fx
+        good = fx.leaf("u1/a.txt")
+        wrong = {"kind": 1, "bytes": "6", "sha256": None, "link_text": 0, "inode": True, "nlink": "1"}
+        for field, bad in wrong.items():
+            for leaf in ({k: v for k, v in good.items() if k != field}, {**good, field: bad}):
+                with self.subTest(leaf=leaf):
+                    fx.m1 = fx.manifest("m1.json", "u1", leaves=[fx.leaf("u1/sub/b.bin"), leaf])
+                    fx.write_plans(fx.entries())
+                    self.check(fx.m1[0], f"leaves[1] ({good['source']!r}).{field}:")
+        fx.m1 = fx.manifest("m1.json", "u1", leaves=[fx.leaf("u1/sub/b.bin"), {**good, "link_text": "text"}])
+        fx.write_plans(fx.entries())
+        self.assertEqual(fx.run()[0], 0)
+
+    def test_tab_cr_and_lf_refuse_at_parse_time_whether_or_not_a_row_holds_them(self):
+        for char in ("\t", "\r", "\n"):
+            for case in ("entry id", "move source", "move target", "leaf source", "free-root label", "free-root path",
+                         "walked name"):
+                with self.subTest(char=char, case=case):
+                    self.fx = fx = Fixture(self)
+                    entries, argv = fx.entries(), fx.argv()
+                    if case == "entry id":
+                        entries[1]["id"], says = f"E{char}2", "entries[1].id"
+                    elif case == "move source":
+                        entries[0]["moves"].append({"source": fx.u(f"u1/a{char}b"), "target": f"{fx.dst}/z"})
+                        says = "entries[0].moves[1].source"
+                    elif case == "move target":
+                        entries[0]["moves"][0]["target"], says = f"{fx.dst}/x{char}", "entries[0].moves[0].target"
+                    elif case == "leaf source":  # the toolkit agrees and no other leaf has its bytes: no row holds it
+                        leaf = {**fx.leaf("u2/e.txt"), "source": fx.u(f"u2/e{char}x")}
+                        fx.m2 = fx.manifest("m2.json", "u2", leaves=[fx.leaf("u2/c.txt"), leaf])
+                        entries = fx.entries()
+                        fx.toolkit = os.path.join(fx.inp, "agrees.duckdb")
+                        fx.make_db(fx.toolkit, [(fx.u("u1/a.txt"), sha(b"alpha\n")), (fx.u("u1/sub/b.bin"), sha(b"\x00\x01")),
+                                                (fx.u("u2/c.txt"), sha(b"alpha\n")), (leaf["source"], sha(b"echo\n"))])
+                        argv, says = fx.argv(), f"{fx.m2[0]} leaves[1].source"
+                    elif case == "free-root label":
+                        argv[argv.index("--free-root") + 1], says = f"D{char}X={fx.dst}", "--free-root"
+                    elif case == "free-root path":
+                        other = os.path.join(fx.base, f"d{char}w")
+                        os.mkdir(other)
+                        argv, says = fx.argv(extra=("--free-root", f"W={other}")), "--free-root"
+                    else:
+                        os.mkdir(f"{fx.dst}/x")
+                        fx.write(f"{fx.dst}/x/a{char}b", b"")
+                        says = f"{fx.dst}/x"
+                    fx.write_plans(entries)
+                    self.check("", says, argv)
+                    self.assertIn("holds a tab or line break", self.fx.run(argv)[2])
+
+    def test_plans_entry_without_moves_refuses(self):
+        fx = self.fx
+        entries = fx.entries()
+        del entries[0]["moves"]
+        fx.write_plans(entries)
+        self.check("entries[0].moves")
+
+    def test_non_json_constant_in_an_unused_plans_field_refuses(self):
+        fx = self.fx
+        fx.write_plans(json.dumps({"entries": fx.entries(), "ignored": float("nan")}).encode())
+        self.check(fx.plans, "non-JSON constant NaN")
+
+    def test_existing_empty_output_directory_refuses(self):
+        fx = self.fx
+        os.mkdir(fx.out)
+        self.assertRefused(fx.run(), fx.out, "EEXIST")
+        self.assertEqual(os.listdir(fx.out), [])
 
 
 if __name__ == "__main__":
