@@ -13,10 +13,10 @@ of truth.
                [--floor-bytes N] --out DIR
 
 Inputs:
-  --plans         {"entries": [{"id", "replaces", "moves": [{"source", "target"}], "manifest": absolute
-                  path of the entry's Step 201 manifest, "manifest_sha256": sha256 of its bytes}, ...]}.
-                  Other entry fields are ignored. The manifest's bytes must have that digest; its
-                  "leaves" (schema_version 1) are the entry's leaves.
+  --plans         {"entries": [{"id", "replaces", "moves": [{"source", "target",
+                  "source_manifest": {"path": absolute Step 201 manifest path, "sha256": digest}}]}]}.
+                  Each move binds its own manifest bytes; their schema_version 1 leaves are joined
+                  in move order. Other entry fields are ignored.
   --requirements  annex TSVs (MOVE-REQUIREMENTS and amendment 1): a header with requirement_id, source
                   and action, then one row per requirement.
   --toolkit-db    the toolkit DuckDB file; inventory(abspath, sha256) gives the toolkit rows.
@@ -253,15 +253,32 @@ def _annex(path: AbsPath) -> list:
 
 
 def _leaves(entry: Mapping, at: str, plans: AbsPath, carry: str) -> list:
-    for key in ("manifest", "manifest_sha256"):
-        if key not in entry:
-            raise Refusal(plans, f"{at}: missing field {key}")
     if "leaves" in entry:
         raise Refusal(plans, f"{at}: leaves come from the manifest, not the plans file")
-    path = _path(entry["manifest"], plans, f"{at}.manifest")
-    digest = _label(entry["manifest_sha256"], plans, f"{at}.manifest_sha256")
+    moves = entry.get("moves")
+    if not isinstance(moves, list):
+        raise Refusal(plans, f"{at}.moves: expected a list")
+    parsed = []
+    # [LAW:one-source-of-truth] Only each move binds the manifest for its unit.
+    for j, move in enumerate(moves):
+        binding_at = f"{at}.moves[{j}].source_manifest"
+        binding = move.get("source_manifest") if isinstance(move, Mapping) else None
+        try:
+            parsed.extend(_manifest_leaves(binding, binding_at, plans, carry))
+        except Refusal as exc:
+            # [LAW:no-silent-failure] Preserve fd-safe diagnostics and name the binding that failed.
+            raise Refusal(f"{plans} {binding_at}", str(exc), exc.errno) from None
+    return parsed
+
+
+def _manifest_leaves(binding, at: str, plans: AbsPath, carry: str) -> list:
+    # [LAW:parse-dont-validate] Parse the binding at the input boundary before reading its bytes.
+    if not isinstance(binding, Mapping) or set(binding) != {"path", "sha256"}:
+        raise Refusal(plans, f"{at}: expected {{path, sha256}}")
+    path = _path(binding["path"], plans, at)
+    digest = _label(binding["sha256"], plans, at)
     if len(digest) != 64 or not set(digest) <= SHA256_HEX:
-        raise Refusal(plans, f"{at}.manifest_sha256: expected a lowercase hex sha256")
+        raise Refusal(plans, f"{at}: expected a lowercase hex sha256")
     data = _read(path)
     actual = hashlib.sha256(data).hexdigest()
     if actual != digest:
@@ -290,7 +307,7 @@ def _leaves(entry: Mapping, at: str, plans: AbsPath, carry: str) -> list:
 
 def _plans(path: AbsPath, carry: str) -> list:
     """Each entry: the fields the core reads (id, replaces, moves), every string in them parsed, and its
-    manifest's parsed leaves. A missing field stays missing and a wrong shape stays as given: the core
+    moves' manifest leaves, in move order. A missing field stays missing and a wrong shape stays as given: the core
     refuses both."""
     doc = _json(_read(path), path)
     if not isinstance(doc, Mapping) or not isinstance(doc.get("entries"), list):

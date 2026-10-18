@@ -124,10 +124,10 @@ class Fixture:
         return path, sha(data)
 
     def entries(self) -> list:
-        return [{"id": "E1", "replaces": ["MV-901"], "moves": [{"source": self.u("u1"), "target": f"{self.dst}/x"}],
-                 "manifest": self.m1[0], "manifest_sha256": self.m1[1]},
-                {"id": "E2", "replaces": ["MV-902"], "moves": [{"source": self.u("u2"), "target": f"{self.dst}/y"}],
-                 "manifest": self.m2[0], "manifest_sha256": self.m2[1]}]
+        return [{"id": "E1", "replaces": ["MV-901"], "moves": [{"source": self.u("u1"), "target": f"{self.dst}/x",
+                 "source_manifest": {"path": self.m1[0], "sha256": self.m1[1]}}]},
+                {"id": "E2", "replaces": ["MV-902"], "moves": [{"source": self.u("u2"), "target": f"{self.dst}/y",
+                 "source_manifest": {"path": self.m2[0], "sha256": self.m2[1]}}]}]
 
     def write_plans(self, doc) -> None:
         data = doc if isinstance(doc, bytes) else json.dumps({"entries": doc} if isinstance(doc, list) else doc).encode()
@@ -363,23 +363,23 @@ class Malformed(Base):
 
     def test_entry_manifest_fields(self):
         fx = self.fx
-        for change, says in (({"manifest": None}, "entries[0].manifest:"), ({"manifest": "in/m1.json"}, "entries[0].manifest:"),
-                             ({"manifest": fx.m1[0] + "/"}, "entries[0].manifest:"),
-                             ({"manifest": fx.inp + "/./m1.json"}, "entries[0].manifest:"),
-                             ({"manifest_sha256": None}, "entries[0].manifest_sha256:"),
-                             ({"manifest_sha256": fx.m1[1].upper()}, "entries[0].manifest_sha256:"),
-                             ({"manifest_sha256": fx.m1[1][:63]}, "entries[0].manifest_sha256:"),
-                             ({"manifest_sha256": sha(b"other")}, "is not the plan's"),
+        for change, says in (({"path": None}, "entries[0].moves[0].source_manifest:"), ({"path": "in/m1.json"}, "entries[0].moves[0].source_manifest:"),
+                             ({"path": fx.m1[0] + "/"}, "entries[0].moves[0].source_manifest:"),
+                             ({"path": fx.inp + "/./m1.json"}, "entries[0].moves[0].source_manifest:"),
+                             ({"sha256": None}, "entries[0].moves[0].source_manifest:"),
+                             ({"sha256": fx.m1[1].upper()}, "entries[0].moves[0].source_manifest:"),
+                             ({"sha256": fx.m1[1][:63]}, "entries[0].moves[0].source_manifest:"),
+                             ({"sha256": sha(b"other")}, "is not the plan's"),
                              ({"leaves": []}, "leaves come from the manifest")):
             with self.subTest(change=change):
                 entries = fx.entries()
-                entries[0].update(change)
+                (entries[0] if "leaves" in change else entries[0]["moves"][0]["source_manifest"]).update(change)
                 fx.write_plans(entries)
                 self.check(says)
-        for key in ("manifest", "manifest_sha256"):
+        for key in ("path", "sha256"):
             with self.subTest(missing=key):
                 entries = fx.entries()
-                del entries[0][key]
+                del entries[0]["moves"][0]["source_manifest"][key]
                 fx.write_plans(entries)
                 self.check(fx.plans)
 
@@ -1373,9 +1373,9 @@ class Round2Parse(Base):
                  "entries[0].replaces[0]"),
                 ("move source", "path", entry(move("source")), "entries[0].moves[0].source"),
                 ("move target", "path", entry(move("target")), "entries[0].moves[0].target"),
-                ("manifest", "path", entry(lambda e, change: e.update(manifest=change(e["manifest"]))), "entries[0].manifest"),
-                ("manifest_sha256", "label", entry(lambda e, change: e.update(manifest_sha256=change(e["manifest_sha256"]))),
-                 "entries[0].manifest_sha256"),
+                ("manifest", "path", entry(lambda e, change: e["moves"][0]["source_manifest"].update(path=change(e["moves"][0]["source_manifest"]["path"]))), "entries[0].moves[0].source_manifest"),
+                ("manifest_sha256", "label", entry(lambda e, change: e["moves"][0]["source_manifest"].update(sha256=change(e["moves"][0]["source_manifest"]["sha256"]))),
+                 "entries[0].moves[0].source_manifest"),
                 ("leaf source", "path", leaf("source"), "leaves[0].source"),
                 ("leaf kind", "label", leaf("kind"), "leaves[0].kind"),
                 ("leaf sha256", "label", leaf("sha256"), "leaves[0].sha256"),
@@ -1446,9 +1446,9 @@ class Round2Parse(Base):
     def test_nul_in_a_manifest_parent_refuses_before_any_open(self):
         fx = self.fx
         entries = fx.entries()
-        entries[0]["manifest"] = fx.inp + "/bad\0dir/m.json"
+        entries[0]["moves"][0]["source_manifest"]["path"] = fx.inp + "/bad\0dir/m.json"
         fx.write_plans(entries)
-        self.refused(fx, fx.argv(), "entries[0].manifest", "holds a NUL")
+        self.refused(fx, fx.argv(), "entries[0].moves[0].source_manifest", "holds a NUL")
 
     def test_a_walked_name_with_no_utf8_form_refuses(self):
         fx = self.fx
