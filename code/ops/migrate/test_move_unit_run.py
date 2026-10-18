@@ -572,7 +572,7 @@ class NegativeControls(Base):
         other = os.path.join(self.fx.base, "other")
         git(self.fx.base, "init", "-q", other)
         self.fx.put(os.path.join(self.fx.m, ".git", "commondir"), f"{other}/.git\n".encode())
-        self.assert_refused(self.main(*self.fx.args()), "worktree", "linked worktree")
+        self.assert_refused(self.main(*self.fx.args()), f"{self.fx.m}/.git/commondir", "common directory")
         self.assert_unmoved(staged=False)
         self.assert_sources_in_place()
 
@@ -694,6 +694,11 @@ class GitConfig(Base):
     def test_config_worktree_refuses(self):
         self.fx.put(os.path.join(self.fx.m, ".git", "config.worktree"), b"")
         self.refuses_config(f"{self.fx.m}/.git/config.worktree", "second config")
+
+    def test_alternates_refuses(self):
+        self.fx.put(os.path.join(self.fx.m, ".git", "objects", "info", "alternates"),
+                    (self.fx.decoy + "\n").encode())
+        self.refuses_config(f"{self.fx.m}/.git/objects/info/alternates", "another object store")
 
     def test_link_inside_dot_git_refuses(self):
         os.mkdir(os.path.join(self.fx.m, ".git", "info"))
@@ -1147,6 +1152,30 @@ class LateWindows(Base):
                 objects = git(self.fx.m, "cat-file", "--batch-all-objects", "--batch-check=%(objectname)")
                 self.assertNotIn(missing.encode("ascii"), objects.splitlines())
                 git(self.fx.m, "update-index", "--cacheinfo", f"100644,{missing},old/u1/a.json")
+            return made
+        with mock.patch.object(fdsafe, "mkdir", mkdir):
+            result = self.main(*self.fx.args())
+        self.assertTrue(fired)
+        self.assert_refused(result, self.u.source, "index under it changed")
+        self.assert_unmoved(staged=False)
+
+    def test_nonblob_index(self):
+        # [LAW:behavior-not-structure] matching bytes and mode leave object type as the only mismatch.
+        tree = git(self.fx.m, "rev-parse", "HEAD^{tree}").decode().strip()
+        data = git(self.fx.m, "cat-file", "tree", tree)
+        self.fx.rewrite(self.u.source + "/a.json", data)
+        self.u.files["a.json"] = data
+        git(self.fx.m, "add", "--", "old/u1/a.json")
+        git(self.fx.m, "commit", "-qm", "blob with tree bytes")
+        self.fx.seal()
+        real = fdsafe.mkdir
+        fired = []
+
+        def mkdir(parent, name):
+            made = real(parent, name)
+            if not fired:
+                fired.append(True)
+                git(self.fx.m, "update-index", "--cacheinfo", "100644," + tree + ",old/u1/a.json")
             return made
         with mock.patch.object(fdsafe, "mkdir", mkdir):
             result = self.main(*self.fx.args())

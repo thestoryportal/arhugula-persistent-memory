@@ -468,9 +468,19 @@ def _git(repo: Repo, *args: str, stdin=subprocess.DEVNULL) -> bytes:
     return proc.stdout
 
 
+# [LAW:single-enforcer] keep Git's file-based redirections at the walk boundary.
+GIT_REDIRECTIONS = {
+    "config.worktree": "is a second config file Git would read",
+    "commondir": "names a common directory; Git would read refs, objects and config outside M",
+    "objects/info/alternates": "names another object store; Git would read objects outside M",
+}
+
+
 def _git_entry(entry: fdsafe.Entry) -> None:
-    if entry.rel == "config.worktree":
-        raise Refusal(entry.path, "is a second config file Git would read")
+    # [LAW:one-type-per-behavior] every redirection shares one refusal path.
+    reason = GIT_REDIRECTIONS.get(entry.rel)
+    if reason is not None:
+        raise Refusal(entry.path, reason)
     if not (stat.S_ISDIR(entry.st.st_mode) or stat.S_ISREG(entry.st.st_mode)):
         raise Refusal(entry.path, "is a link or special file inside .git; Git would follow or open it")
 
