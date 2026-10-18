@@ -374,7 +374,7 @@ class Consumer(unittest.TestCase):
 
     def test_executor_is_wire_executor_evidence(self):
         self.check.validate_wire("ExecutorEvidence", json.loads(self.docs[f"{CUSTODY}/executor.json"]),
-                                 self.retained.SCHEMA, {})
+                                 self.retained.wire_schema(), {})
 
     def test_documents_parse_with_the_consumer_parsers(self):
         R = self.retained
