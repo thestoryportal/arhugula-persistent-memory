@@ -160,6 +160,16 @@ class OnlyTheParseAndReEncodeAreCovered(unittest.TestCase):
             with self.assertRaises(RecursionError):
                 plan([unit(comparison=None)])
 
+    def test_recursion_error_in_the_git_roots_check_after_the_re_encode_propagates(self):
+        g = {"path": "/p/u1/sub", "head": None, "branch": None, "dirty": []}
+        data = manifest_bytes("/p/u1", leaf("/p/u1", "a.json"), git_roots=[g])
+        self.assertEqual(core._manifest(data, "m")[2], ["/p/u1/sub"])  # positive control: the check runs
+        with mock.patch.object(core, "_strings", side_effect=RecursionError("boom")) as spy:
+            with self.assertRaises(RecursionError) as caught:
+                core._manifest(data, "m")
+        self.assertNotIsInstance(caught.exception, fdsafe.Refusal)
+        spy.assert_called_once_with([])
+
     def test_unexpected_exceptions_from_the_parse_and_re_encode_propagate(self):
         for target in ((core.json, "loads"), (core, "canonical")):
             for exc in (ValueError, KeyError, RuntimeError):
