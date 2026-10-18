@@ -1738,7 +1738,7 @@ class Round3Removal(Base):
         self.assertEqual(fired, [True])
         self.assertRefused(result, moved, "EIO")
         self.assertIn("could not be listed for removal, left in place", result[2])
-        self.assertEqual(os.listdir(moved), ["drift.tsv"])
+        self.assertEqual(os.listdir(moved), [])
 
     def test_an_unexpected_exception_from_the_fresh_check_propagates_chained_to_the_run_error(self):
         fx = self.fx
@@ -1972,3 +1972,82 @@ class Round9FinalDirectoryContainment(Base):
             result = fx.run()
         self.assertEqual(len(calls), 4)
         self.assertRefused(result, fx.u("u1"))
+
+
+class IncompleteMovedReports(unittest.TestCase):
+    def test_partial_write_failures_remove_report_from_source(self):
+        for label, attack in (("EIO", lambda: FK.inject_oserror("write", 2, errno.EIO)),
+                              ("ENOSPC", lambda: FK.inject_oserror("write", 2, errno.ENOSPC)),
+                              ("RuntimeError", lambda: FK.raise_unexpected("write", 2, RuntimeError))):
+            with self.subTest(fault=label):
+                fx = Fixture(self)
+                moved = fx.u("u1/drift.tsv")
+                seen = []
+                before = open_fds()
+                with FK.one_byte_writes(), attack():
+                    real = os.write
+
+                    def write(fd, data):
+                        if not seen:
+                            os.rename(os.path.join(fx.out, "drift.tsv"), moved)
+                            count = real(fd, data)
+                            seen.append(readb(moved))
+                            return count
+                        return real(fd, data)
+
+                    with mock.patch.object(os, "write", write):
+                        if label == "RuntimeError":
+                            with self.assertRaisesRegex(RuntimeError, "fault_kit: unexpected RuntimeError from write"):
+                                fx.run()
+                        else:
+                            code, out, err = fx.run()
+                            self.assertEqual((code, out), (2, ""))
+                            self.assertEqual(len(err.splitlines()), 1)
+                            self.assertIn(f"[{label}]", err)
+                self.assertEqual(seen, [b"s"])
+                self.assertFalse(os.path.exists(moved), "incomplete report remained inside source")
+                self.assertEqual(open_fds(), before)
+
+
+class RenamedOutputOneLine(unittest.TestCase):
+    def test_live_lf_cr_path_is_escaped_in_refusal(self):
+        for char, escaped in (("\n", r"\n"), ("\r", r"\r")):
+            with self.subTest(char=repr(char)):
+                fx = Fixture(self)
+                real, fired = os.write, []
+                moved = os.path.join(fx.base, "line" + char + "break")
+
+                def write(fd, data):
+                    if not fired:
+                        fired.append(True)
+                        os.rename(fx.out, moved)
+                    return real(fd, data)
+
+                with mock.patch.object(os, "write", write):
+                    code, out, err = fx.run()
+                self.assertEqual(fired, [True])
+                self.assertEqual((code, out), (2, ""))
+                self.assertEqual(len(err.splitlines()), 1)
+                self.assertIn(os.path.join(fx.base, "line" + escaped + "break"), err)
+
+
+class Round10ExistingAttemptRemoval(Base):
+    def test_existing_attempt_removal_failure_names_the_moved_report(self):
+        fx, moved, real_open, fired = self.fx, self.fx.u("u1/ledger"), os.open, []
+
+        # [LAW:behavior-not-structure] EEXIST leaves an attempted name without a held report.
+        def opened(name, *args, **kwargs):
+            if name == "drift.tsv" and not fired:
+                fired.append(True)
+                os.rename(fx.out, moved)
+                fx.write(os.path.join(moved, "drift.tsv"), b"existing\n")
+            return real_open(name, *args, **kwargs)
+
+        def fail(*args, **kwargs):
+            raise OSError(errno.EIO, os.strerror(errno.EIO))
+        with mock.patch.object(os, "open", opened), mock.patch.object(os, "unlink", fail):
+            result = fx.run()
+        self.assertEqual(fired, [True])
+        self.assertRefused(result, os.path.join(moved, "drift.tsv"), "EIO")
+        self.assertIn("its removal failed, left in place", result[2])
+        self.assertEqual(os.listdir(moved), ["drift.tsv"])
