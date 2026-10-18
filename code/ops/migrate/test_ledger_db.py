@@ -1915,3 +1915,60 @@ class Round6SettledReports(Base):
         self.assertIn("was moved during the write", result[2])
         self.assertTrue(os.path.isfile(moved))
         self.assertTrue(readb(moved))
+
+
+class Round9DecoderLimits(Base):
+    def check_document(self, data, *, manifest=False):
+        fx = self.fx
+        if manifest:
+            fx.write(fx.m1[0], data)
+            entries = fx.entries()
+            entries[0]["manifest_sha256"] = sha(data)
+            fx.write_plans(entries)
+            path = fx.m1[0]
+        else:
+            fx.write_plans(data)
+            path = fx.plans
+        result = subprocess.run([sys.executable, "-B", SCRIPT, *fx.argv()],
+                                capture_output=True, text=True, timeout=10)
+        self.assertRefused((result.returncode, result.stdout, result.stderr), path)
+        self.assertNothingWritten()
+
+    def test_plan_integer_digit_limit(self):
+        self.check_document(b'{"entries":[],"unused":' + b'9' * 5000 + b'}')
+
+    def test_plan_deep_nesting(self):
+        self.check_document(b'{"entries":[],"unused":' + b'[' * 2000 + b'0' + b']' * 2000 + b'}')
+
+    def test_manifest_integer_digit_limit(self):
+        self.check_document(b'{"schema_version":1,"leaves":[],"unused":' + b'9' * 5000 + b'}', manifest=True)
+
+    def test_manifest_deep_nesting(self):
+        self.check_document(b'{"schema_version":1,"leaves":[],"unused":' + b'[' * 2000 + b'0' + b']' * 2000 + b'}',
+                            manifest=True)
+
+
+class Round9FinalDirectoryContainment(Base):
+    def test_final_directory_containment_without_fenced_report(self):
+        fx = self.fx
+        safe = os.path.join(fx.base, "safe")
+        old_parent = os.path.join(fx.base, "old-parent")
+        os.mkdir(safe)
+        real, calls = fdsafe.settle, []
+
+        # [LAW:behavior-not-structure] Safe report parents do not prove the output directory is safe.
+        def settled(held, roots):
+            result = real(held, roots)
+            calls.append(held.name)
+            if len(calls) == 4:
+                for name in REPORTS:
+                    os.rename(os.path.join(fx.out, name), os.path.join(safe, name))
+                os.rename(fx.outp, old_parent)
+                os.rename(os.path.join(old_parent, "ledger"), fx.u("u1/ledger"))
+                os.rename(fx.u("u1"), fx.outp)
+            return result
+
+        with mock.patch.object(fdsafe, "settle", settled):
+            result = fx.run()
+        self.assertEqual(len(calls), 4)
+        self.assertRefused(result, fx.u("u1"))
