@@ -401,6 +401,14 @@ class PlanInputs(Base):
                 fx.rewrite(fx.match, json.dumps(doc).encode())
                 self.assert_refused(self.main(*fx.plan_args()), fx.match)
 
+    def test_registry_matches_of_the_wrong_type_refuse(self):
+        # MAESTRO T209 RULING-2 ruling 6 (M21): a one-key object or a one-character string has length 1 too.
+        fx = self.fx
+        for matches in ({"unit": "u1"}, "x"):
+            with self.subTest(matches=matches):
+                fx.rewrite(fx.match, json.dumps({"root": fx.m, "matches": matches}).encode())
+                self.assert_refused(self.main(*fx.plan_args()), fx.match, "holding exactly one match")
+
     def test_json_inputs_must_be_strict_utf8_json(self):
         for data, word in ((b"\xff[]", "UTF-8"), (b"[", "JSON"), (b'{"stale": [], "stale": []}', "duplicate key"),
                            (b"[NaN]", "NaN"), (b"[Infinity]", "Infinity")):
@@ -723,6 +731,22 @@ class Attacks(Base):
                         result = self.main(*ARGS[cmd](fx))
                     self.assert_refused(result, path, f"[{errno.errorcode[err]}]")
 
+    def test_a_failing_target_prefix_close_names_the_prefix(self):
+        # MAESTRO T209 RULING-2 ruling 6 (M56).
+        fx = self.fx
+        runs = os.path.dirname(fx.candidate)
+        real, fds = os.open, {}
+
+        def opened(first, *args, **kwargs):
+            fd = real(first, *args, **kwargs)
+            if first == "runs" and "dir_fd" in kwargs:
+                fds["runs"] = fd
+            return fd
+        with mock.patch.object(os, "open", opened):
+            with FK.inject_oserror("close", 1, errno.EIO, match=lambda fd: fd == fds.get("runs")):
+                result = self.main(*fx.plan_args())
+        self.assert_refused(result, runs, "[EIO]")
+
     def test_unexpected_exceptions_propagate(self):
         for cmd, target in (("plan", "read"), ("plan", "open"), ("check-plans", "read"),
                             ("check-routes", "scandir"), ("check-routes", "read")):
@@ -913,6 +937,105 @@ class HeldIdentity(Base):
         with mock.patch.object(os, "stat", hooked):
             result = self.main(*self.fx.check_plans_args())
         self.assert_refused(result, self.fx.docs, "[EIO]")
+
+
+@contextlib.contextmanager
+def after_open_then(name, action):
+    """Run action() at the first os.read after the first os.open of name: the file is open and its parent
+    has had its last use before the read."""
+    real_open, real_read, state = os.open, os.read, []
+
+    def opened(first, *args, **kwargs):
+        fd = real_open(first, *args, **kwargs)
+        if first == name and not state:
+            state.append("open")
+        return fd
+
+    def read(fd, n):
+        if state == ["open"]:
+            state.append("done")
+            action()
+        return real_read(fd, n)
+    with mock.patch.object(os, "open", opened), mock.patch.object(os, "read", read):
+        yield
+    if state != ["open", "done"]:
+        raise AssertionError(f"after_open_then: no read after the open of {name!r} ({state})")
+
+
+class HeldAfterUse(Base):
+    """MAESTRO T209 RULING-2 ruling 5: every directory the tool holds is after-checked once its last use is
+    past (still at its path, still below the held root by identity). K7-K10 are the reviewer's probes."""
+
+    def test_k7_a_target_prefix_rebound_after_its_open_refuses(self):
+        fx = self.fx
+        runs = os.path.dirname(fx.candidate)
+        real, done = os.stat, []
+
+        def stat_(first, *args, **kwargs):
+            if first == "u1" and "dir_fd" in kwargs and not done:
+                done.append(first)
+                os.mkdir(fx.candidate)  # the target now exists at its path, not in the parked directory
+            return real(first, *args, **kwargs)
+        with FK.rename_and_rebind("open", 1, runs, when="after", match=named("runs")):
+            with mock.patch.object(os, "stat", stat_):
+                result = self.main(*fx.plan_args())
+        self.assertEqual(done, ["u1"])
+        self.assert_refused(result, runs, "was moved while it was held")
+
+    def test_k8_a_target_prefix_swapped_for_a_link_after_its_open_refuses(self):
+        fx = self.fx
+        runs = os.path.dirname(fx.candidate)
+        outside = fx.mk("outside")
+        os.mkdir(os.path.join(outside, "u1"))
+        with FK.swap_for_symlink("open", 1, runs, outside, when="after", match=named("runs")):
+            result = self.main(*fx.plan_args())
+        self.assertTrue(os.path.isdir(fx.candidate))  # occupied through the link
+        self.assert_refused(result, runs, "was moved while it was held")
+
+    def test_k9_a_reader_parent_moved_outside_the_root_during_the_read_refuses(self):
+        fx = self.fx
+        with FK.rename_and_rebind("open", 1, fx.docs, when="after", match=named("a.md")) as fault:
+            with after_open_then("a.md", lambda: os.rename(fault.parked, os.path.join(fx.other, "docs"))):
+                result = self.main(*fx.check_plans_args())
+        self.assertEqual(fault.fired, 1)
+        self.assert_refused(result, fx.docs, "was moved while it was held", fx.other)
+
+    def test_k10_a_reader_parent_rebound_with_a_forged_reader_refuses(self):
+        fx = self.fx
+        forged = f"intro\n{fx.old} {fx.old}\n".encode()
+        with FK.rename_and_rebind("open", 1, fx.docs, when="after", match=named("a.md")):
+            with after_open_then("a.md", lambda: fx.write(fx.reader, forged)):
+                result = self.main(*fx.check_plans_args())
+        self.assert_refused(result, fx.docs, "was moved while it was held")
+        self.assertEqual(self.main(*fx.check_plans_args())[0], 1)  # the forged reader is a finding when read
+
+    def test_a_reader_parent_moved_into_a_new_root_refuses_by_identity(self):
+        # The parent is back at its path, but under a different directory than the held root.
+        fx = self.fx
+
+        def move():
+            os.rename(fx.m, fx.m + ".away")
+            os.mkdir(fx.m)
+            os.rename(os.path.join(fx.m + ".away", "docs"), fx.docs)
+        with after_open_then("a.md", move):
+            result = self.main(*fx.check_plans_args())
+        self.assert_refused(result, fx.docs, f"is not below the held root {fx.m}")
+
+    def test_a_v_target_prefix_rebound_after_its_open_refuses(self):
+        fx = self.fx
+        fx.rewrite(fx.units, json.dumps([fx.spec(candidate=None)]).encode())
+        v = os.path.join(fx.base, "v")
+        os.makedirs(os.path.join(v, "p"))
+        with FK.rename_and_rebind("open", 1, v, when="after", match=named("v")):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, v, "was moved while it was held")
+
+    def test_plan_root_replaced_with_no_target_below_it_refuses(self):
+        fx = self.fx
+        fx.rewrite(fx.units, json.dumps([fx.spec(candidate=None)]).encode())
+        with root_replaced_at_open("dup.json", fx.m):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, fx.m, "was moved while it was held")
 
 
 class ReadOnly(Base):

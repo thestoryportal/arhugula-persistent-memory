@@ -135,10 +135,13 @@ def _read(path: str) -> tuple[str, bytes]:
 
 
 def _read_below(root: fdsafe.Dir, path: str) -> tuple[str, bytes]:
-    """As _read, for a file whose held parent must be below the held root by identity before it is read."""
+    """As _read, for a file whose held parent must be below the held root by identity before it is read, and
+    still at its path and below the root after."""
     with _held_parent(path) as (given, held, name):
         _below(root, held)
-        return given, fdsafe.read_named(held, name)
+        data = fdsafe.read_named(held, name)
+        _still_held(root, held)
+    return given, data
 
 
 def _text(path: str) -> tuple[str, str]:
@@ -169,11 +172,15 @@ def _json(path: str):
     return given, doc
 
 
-def _still_held(held: fdsafe.Dir) -> None:
-    """The held directory is still at the path it was held as; path-based reads below it saw that directory."""
+def _still_held(root: fdsafe.Dir, held: fdsafe.Dir) -> None:
+    """The after-check of a held directory, run once its last use is past: it is still at the path it was
+    opened for, and still the held root or below it by identity, so what was read through it is what that
+    path names. A directory swapped for a link after its open is caught here too: its live path differs.
+    [LAW:single-enforcer] the one after-check owner for every directory this tool holds."""
     live = held.live()
     if live != held.path:
         raise Refusal(held.path, f"was moved while it was held (now {live})")
+    _below(root, held)
 
 
 def _entry(parent_fd: int, name: str, path: str, prefix: str) -> bool:
@@ -192,20 +199,31 @@ def _entry(parent_fd: int, name: str, path: str, prefix: str) -> bool:
 def _exists(root: fdsafe.Dir, path: str) -> bool:
     """Whether the absolute path exists, observed component by component from the held root fd (or a held /
     for a path outside it). Each directory is opened with O_NOFOLLOW through the one before it, so a component
-    swapped for a link after its own observation refuses at its open. [LAW:no-silent-failure]"""
+    swapped for a link after its own observation refuses at its open, and one moved or swapped after its open
+    refuses at its after-check. [LAW:no-silent-failure]"""
     below = path.startswith(root.path + "/")
     with contextlib.ExitStack() as stack:
         start = root if below else stack.enter_context(fdsafe.hold_root("/"))
+        # [LAW:single-enforcer] every directory the observation used is after-checked once, below, the start
+        # first: a moved --root is named as the root, not as its first component.
+        held = [start]
         *dirs, leaf = path[len(start.path):].strip("/").split("/")
-        fd, prefix = start.fd, start.path
+        parent, there = start, True
         for name in dirs:
-            prefix = os.path.join(prefix, name)
-            if not _entry(fd, name, path, prefix):
-                return False
+            prefix = os.path.join(parent.path, name)
+            there = _entry(parent.fd, name, path, prefix)
+            if not there:
+                break
             with fdsafe.fs(path):
-                fd = os.open(name, fdsafe.DIR_FLAGS, dir_fd=fd)
+                fd = os.open(name, fdsafe.DIR_FLAGS, dir_fd=parent.fd)
             stack.callback(fdsafe.close, fd, prefix)
-        return _entry(fd, leaf, path, os.path.join(prefix, leaf))
+            parent = fdsafe.Dir(fd, prefix)
+            held.append(parent)
+        else:
+            there = _entry(parent.fd, leaf, path, os.path.join(parent.path, leaf))
+        for opened in held:
+            _still_held(start, opened)
+        return there
 
 
 def _below(root: fdsafe.Dir, held: fdsafe.Dir) -> None:
@@ -231,7 +249,7 @@ def _observed_plan(build: Callable[[list], dict], held: fdsafe.Dir) -> dict:
 
     A target the plan names but the observation lacks is observed and the plan is rebuilt; the set of paths
     only grows and is bounded by the candidates and V targets, so this ends. Each observation ends with the
-    root's live check, so the plan returned is built after the last one."""
+    root's after-check, so the plan returned is built after the last one, even when no target is below it."""
     seen: dict[str, bool] = {}
     while True:
         plan = build(sorted(path for path, there in seen.items() if there))
@@ -239,7 +257,7 @@ def _observed_plan(build: Callable[[list], dict], held: fdsafe.Dir) -> dict:
         if not fresh:
             return plan
         seen.update((path, _exists(held, path)) for path in fresh)
-        _still_held(held)
+        _still_held(held, held)
 
 
 def _core_unit(files: UnitFiles) -> dict:
@@ -298,7 +316,7 @@ def check_plans(args) -> tuple[int, object]:
         plans = _keys(plans, frozenset(("entries",)), plans_path)
         repairs = _text(args.repairs)
         occurrences = [o for path in args.readers for o in _occurrences(held, *_json(path))]
-        _still_held(held)
+        _still_held(held, held)
     found = core.check_plans(root=held.path, entries=plans["entries"], occurrences=occurrences, repairs=repairs)
     return int(bool(found)), found
 
@@ -308,7 +326,7 @@ def check_routes(args) -> tuple[int, object]:
     with fdsafe.hold_root(args.source) as held:
         with fdsafe.fs(held.path), os.scandir(held.fd) as it:
             children = sorted(entry.name for entry in it)
-        _still_held(held)
+        _still_held(held, held)
     found = core.check_routes(routes=routes, source=held.path, children=children, hold_target=args.hold_target)
     return int(bool(found)), found
 
