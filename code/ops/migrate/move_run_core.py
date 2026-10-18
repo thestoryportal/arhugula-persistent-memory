@@ -91,6 +91,7 @@ class Plan(NamedTuple):
     id: str
     binding: dict
     units: tuple
+    lanes: dict
 
 
 class Observed(NamedTuple):
@@ -215,12 +216,25 @@ def _plan(value) -> Plan:
         for j, other in enumerate(units[:i]):
             if any(plan_core._overlap(a, b) for a in (unit.source, unit.target) for b in (other.source, other.target)):
                 _refuse(f"units[{i}]", f"overlaps units[{j}] (source or target)")
-    if doc["moves"] != [{"source": u.source, "target": u.target} for u in units]:
-        _refuse(path, "moves are not the units' sources and targets in order")
+    moves = _seq(doc["moves"], f"{path}.moves")
+    if len(moves) != len(units):
+        _refuse(path, "moves must name every unit in order")
+    lanes = {}
+    for i, (move, unit) in enumerate(zip(moves, raw)):
+        where = f"{path}.moves[{i}]"
+        # [LAW:no-silent-failure] malformed wire records refuse at the named boundary, never by lookup.
+        move = _map(move, where)
+        _keys(move, plan_core.MOVE_KEYS, where)
+        # [LAW:one-source-of-truth] compare the already bound unit fields, without parsing its manifest again.
+        if (move["id"], move["source"], move["target"], move["source_manifest"]) != (
+                unit["requirement_id"], unit["source"], unit["target"], unit["manifest"]):
+            _refuse(where, "moves disagree with the unit's id, source, target or manifest in order")
+        # [LAW:parse-dont-validate] retain the parsed lane for custody rendering.
+        lanes[unit["requirement_id"]] = _id(move["lane"], f"{where}.lane")
     rids = [u.rid for u in units]
     if doc["replaces"] != sorted(rids) or len(set(rids)) != len(rids):
         _refuse(path, "replaces is not the units' unique MV ids")
-    return Plan(eid, {"path": path, "sha256": _sha(data)}, units)
+    return Plan(eid, {"path": path, "sha256": _sha(data)}, units, lanes)
 
 
 def _approval(value, plan: Plan, now: tuple) -> dict:
@@ -419,7 +433,7 @@ def run_unit(*, root, plan, approval, now, units, tracked, worktree, targets, ru
             actions.append(_action(u.rid, "git-rm-cached", source=u.source))
         for leaf in o.leaves:
             target = u.target + leaf["source"][len(u.source):]
-            routes.append((u.rid, leaf["source"], target, leaf["kind"], str(leaf["bytes"]), "MOVE", parsed.id,
+            routes.append((u.rid, leaf["source"], target, leaf["kind"], str(leaf["bytes"]), "MOVE", parsed.lanes[u.rid],
                            o.classes[leaf["source"]]))
             if lands_in_m and o.classes[leaf["source"]] == RECORD and leaf["source"] not in tracked_leaves:
                 actions.append(_action(u.rid, "git-add", target=target))
