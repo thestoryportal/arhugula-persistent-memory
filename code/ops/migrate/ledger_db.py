@@ -214,10 +214,20 @@ def _json(data: bytes, path: str):
 
     def constant(name):
         raise Refusal(path, f"holds the non-JSON constant {name}")
+    def integer(token):
+        # [LAW:one-source-of-truth] Match move_plan_core's interpreter-owned digit limit.
+        digits, limit = len(token.lstrip("-")), sys.get_int_max_str_digits()
+        if 0 < limit < digits:
+            raise Refusal(path, f"holds an integer of {digits} digits, over the interpreter limit of {limit}")
+        return int(token)
+
+    text = _text(data, path)
     try:
-        return json.loads(_text(data, path), object_pairs_hook=pairs, parse_constant=constant)
+        return json.loads(text, object_pairs_hook=pairs, parse_constant=constant, parse_int=integer)
     except json.JSONDecodeError as exc:
         raise Refusal(path, f"is not JSON ({exc.msg} at line {exc.lineno} column {exc.colno})") from None
+    except RecursionError:
+        raise Refusal(path, "nests too deeply") from None
 
 
 def _annex(path: AbsPath) -> list:
