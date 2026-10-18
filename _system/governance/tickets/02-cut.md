@@ -12,6 +12,8 @@ python3 -B $S/scripts/tickets.py cut TD/PLAN.md TD/tickets --base /Volumes/memit
 - On a new plan, show the operator the cut output (a few tickets) before GO [R13].
 - The cut checks neither Stage 1's (`01-plan.md`) frozen-suite check nor its size rule. Do both before GO on a cut, and log one `ruling` row per TD: `pre-dispatch: frozen suites <none, or each hit and its ruling>; size <ok, or the split>` [R54] [R55].
 - After a hand edit of a ticket file, run `python3 -B $S/scripts/tickets.py check TD/tickets --base /Volumes/memit/llmdb-lanes/base`.
+- Plain `check` counts every ticket, so it refuses a third ticket that writes a hub file two merged tickets already wrote (tickets.py:180-190). Pass `--merged T316,T317` (comma-separated, tickets.py:294) to count only unmerged tickets in the writer-width limit (`MAX_SERIAL`) and the own-test rule: `tickets.py check TD/tickets --merged T316,T317`. `ready` takes the same `--merged` list.
+- `tickets.py close` needs no `--merged`: it takes the merged set from `origin/<into>` commit subjects that match `^T###:` and have a ticket JSON (tickets.py:222-232).
 - `tickets.py ready TD/tickets --merged T316,T317 --running T318` lists the tickets whose deps have merged. Both lists are comma-separated (tickets.py:286-287), and an unknown `--merged` id fails (tickets.py:214-215). Pass every dispatched, unmerged ticket in `--running` so nothing is dispatched twice.
 - The cut writes `TD/tickets` with one `TD/tickets/<T>.json` per step (keys id goal plan approval write deps test out astra rules, plus reads).
 

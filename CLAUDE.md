@@ -11,7 +11,7 @@ Context directive (operator, binding): "Do not forget to manage context usage fo
 
 ## Start here
 
-Read `CONTEXT.md` (the umbrella). Then read the one folder `CONTEXT.md` that your task needs. Do not read the whole tree.
+Read `CONTEXT.md` (the umbrella). Then read the `CONTEXT.md` of the one folder that your task needs. Do not read the whole tree.
 
 ## What do I read now?
 

@@ -20,5 +20,9 @@ What one train does, under `L/tools/land.lock`:
 - Recovering a marker from `L/tools/ready/stopped/<T>`: fix the cause, then re-ship the ticket; ship.sh writes a fresh marker (an unchanged lane re-ships). Do not move the old marker back by hand: its HEAD and READY_AT describe the earlier attempt. For hand cleanup of a merged PR's lane and branch, the single-command allow rules are `git worktree remove /Volumes/memit/llmdb-lanes/<lane>`, `git branch -D tk/<T>` and `git push origin --delete tk/<T>` (settings.json:31, :33, :35), one command per call, never chained [R23].
 - Last line: `train done: landed N, waiting N (conflict), stopped N`.
 
+Linux CI does not run `code/ops/migrate` (ci.yml:60 runs only `code/state/test_icm21*.py`) until Step 213 lands. So a green candidate can still break master there.
+- Before a train: a ticket that changes a shape a known consumer reads (a design or PLAN "Ref" names the consumer's step) rides the same train as that consumer's fix. While the fix is not in `L/tools/ready/`, move the producer's marker to `TD/held-markers/<T>` and re-ship the producer after the fix ships. T273 landed alone at 13:57Z on 2026-10-18, and its consumer fix T275 (STEP273-DESIGN.md:22) did not. Master b9dc22fd then failed 210 `test_move_run_core` tests.
+- After every train: run `unittest discover -s code/ops/migrate -p 'test_*.py'` on the new master in a clean sparse clone (`git clone --no-checkout --shared M <scratch>`, `sparse-checkout set code`). Control a failure on the previous master with the same command before you call it a break.
+
 One train lands every ready PR in one CI cycle; that is how a batch of tickets meets the 15-minute goal together. You will have one PR ready and two still in Astra and think *"land this one now."* Usually wait for the others: a second train costs a second CI cycle. Land alone only when the others are far behind.
 
