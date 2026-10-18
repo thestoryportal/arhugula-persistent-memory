@@ -65,7 +65,8 @@ def blocking_tmux(names):
 
 
 def run(cmd, env=None):
-    p = subprocess.run(cmd, capture_output=True, text=True, env=env)
+    # Process command lines are untrusted text that check_gpu only matches and counts: a non-UTF-8 byte becomes U+FFFD.
+    p = subprocess.run(cmd, capture_output=True, text=True, errors="replace", env=env)
     return p.returncode, p.stdout, p.stderr
 
 
