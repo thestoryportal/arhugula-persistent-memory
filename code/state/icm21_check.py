@@ -914,9 +914,22 @@ def check_moves(args):
         if not args.root.is_absolute():
             raise fdsafe.Refusal(str(args.root), 'is not an absolute path (moves has no default '
                                  'root)')
-        if (args.stage == 'post') != (args.observed is not None):
-            raise fdsafe.Refusal('--observed', '--observed is required by --stage post and '
-                                 'refused by --stage pre')
+        # [LAW:single-enforcer] All stage-bound arguments share one presence rule.
+        for flag, value, stage, required in (
+                ('--observed', args.observed, 'post', True),
+                ('--admitted-root', args.admitted_root, 'pre', True),
+                ('--run-units', args.run_units, 'pre', False)):
+            if (args.stage == stage) != (value is not None) and (required or value is not None):
+                raise fdsafe.Refusal(flag, flag + (' is required by --stage ' + stage + ' and'
+                                     if required else '') + ' refused by --stage '
+                                     + ('pre' if stage == 'post' else 'post'))
+        # [LAW:parse-dont-validate] Keep caller observations checked at the CLI boundary.
+        admitted_roots = args.admitted_root
+        run_units = None
+        if args.run_units is not None:
+            run_units_path, run_units = load(str(args.run_units))
+            if type(run_units) is not list or any(type(path) is not str for path in run_units):
+                raise fdsafe.Refusal(run_units_path, 'is not a JSON list of path strings')
         root = fdsafe.hold_root(str(args.root))
         parents = contextlib.ExitStack()  # pre: each target's folder, held from bind() to probe
         try:
@@ -1007,8 +1020,8 @@ def check_moves(args):
                         leaf for path, leaf in sorted(leaves.items()) if type(source) is str
                         and (path == source or path.startswith(source + '/'))]
                     found += icm21_moves.validate_move(
-                        move, entry['roots'], other_moves=moves[:index] + moves[index + 1:],
-                        existing_paths=existing, run_units=entry.get('run_units'),
+                        move, admitted_roots, other_moves=moves[:index] + moves[index + 1:],
+                        existing_paths=existing, run_units=run_units,
                         leaves=inside)
             else:
                 observed_path, observed = load(str(args.observed))
@@ -1061,6 +1074,8 @@ def main():
     command.add_argument('--manifest', type=Path, required=True)
     command.add_argument('--retention', type=Path, required=True)
     command.add_argument('--observed', type=Path)
+    command.add_argument('--admitted-root', action='append')
+    command.add_argument('--run-units', type=Path)
     command.add_argument('--stage', choices=('pre', 'post'), required=True)
     args = parser.parse_args()
     if args.command == 'moves':

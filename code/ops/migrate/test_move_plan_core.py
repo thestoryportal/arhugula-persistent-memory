@@ -95,7 +95,11 @@ def risks(result, kind):
 class BuildPlan(unittest.TestCase):
     def test_exact_registry_and_absent_candidate_place_the_unit_at_the_candidate(self):
         p = plan()
-        self.assertEqual(p["moves"], [{"source": "/p/u1", "target": "/m/experiments/c10r/runs/u1"}])
+        self.assertEqual(p["moves"], [{"source": "/p/u1", "target": "/m/experiments/c10r/runs/u1",
+            "id": "MV-101", "prd_ids": ["ICM-R4"], "action": "MOVE", "kind": "directory",
+            "bytes": 3, "before_sha256": p["units"][0]["manifest"]["sha256"],
+            "source_manifest": p["units"][0]["manifest"], "lane": "legacy-preservation",
+            "reader_check_ids": []}])
         u = p["units"][0]
         self.assertEqual((u["basis"], u["experiment_id"], u["target"]),
                          ("registry", "c10r", "/m/experiments/c10r/runs/u1"))
@@ -464,7 +468,11 @@ def repairs(*rows, name="/m/program/repairs.tsv"):
     return (name, "\n".join([REPAIR_HEADER, *("\t".join(map(str, r)) for r in rows)]) + "\n")
 
 
-ENTRY = {"id": "S220", "moves": [{"source": "/p/u1", "target": "/m/experiments/c10r/runs/u1"}]}
+ENTRY = {"id": "S220", "moves": [{"source": "/p/u1", "target": "/m/experiments/c10r/runs/u1",
+    "id": "MV-101", "prd_ids": ["ICM-R4"], "action": "MOVE", "kind": "directory",
+    "bytes": 3, "before_sha256": "a" * 64,
+    "source_manifest": {"path": "/m/manifest.json", "sha256": "a" * 64},
+    "lane": "legacy-preservation", "reader_check_ids": []}]}
 
 
 def check_plans(occurrences, rep, entries=None):
@@ -500,7 +508,7 @@ class CheckPlans(unittest.TestCase):
         self.assertEqual([f[0] for f in found], ["not-once"])
 
     def test_truly_overlapping_old_text_counts_twice(self):
-        entries = [{"id": "S220", "moves": [{"source": "/p/p", "target": "/v/p/p"}]}]
+        entries = [{"id": "S220", "moves": [{**ENTRY["moves"][0], "source": "/p/p", "target": "/v/p/p"}]}]
         o = occ(old_text="/p/p", old="/p/p", text="path=/p/p/p")
         found = check_plans([o], repairs(("code/x.py", 3, "/p/p", "/v/p/p", 261)), entries=entries)
         self.assertEqual(found, (("not-once", "code/x.py", 3, "/p/p", "old_text occurs 2 times on its line"),))
@@ -532,7 +540,7 @@ class CheckPlans(unittest.TestCase):
         self.assertEqual(found, (("no-entry", "code/x.py", 3, "/p/u9", "no entry moves /p/u9"),))
 
     def test_longest_move_source_names_the_target(self):
-        entries = [ENTRY, {"id": "S221", "moves": [{"source": "/p/u1/inner", "target": "/v/inner"}]}]
+        entries = [ENTRY, {"id": "S221", "moves": [{**ENTRY["moves"][0], "source": "/p/u1/inner", "target": "/v/inner"}]}]
         o = occ(old_text="/p/u1/inner/a", old="/p/u1/inner")
         found = check_plans([o], repairs(("code/x.py", 3, "/p/u1/inner/a", "/v/inner/a", 261)), entries)
         self.assertEqual(found, ())
@@ -541,7 +549,7 @@ class CheckPlans(unittest.TestCase):
         self.assertEqual([f[0] for f in found], ["not-under-target"])
 
     def test_relative_old_path_is_resolved_against_the_root(self):
-        entries = [{"id": "S241", "moves": [{"source": "/m/results/u1", "target": "/v/m/results/u1"}]}]
+        entries = [{"id": "S241", "moves": [{**ENTRY["moves"][0], "source": "/m/results/u1", "target": "/v/m/results/u1"}]}]
         o = occ(old_text="results/u1", old="results/u1")
         self.assertEqual(check_plans([o], repairs(("code/x.py", 3, "results/u1", "/v/m/results/u1", 261)), entries), ())
 
@@ -564,11 +572,11 @@ class CheckPlansRefuses(unittest.TestCase):
 
     def test_entries(self):
         for bad in ([], None, [None], [{"id": "S1"}], [{"id": "", "moves": []}], [{"id": "S1", "moves": None}],
-                    [{"id": "S1", "moves": [{"source": "p", "target": "/v"}]}],
-                    [{"id": "S1", "moves": [{"source": "/p", "target": "/v", "x": 1}]}],
-                    [ENTRY, {"id": "S221", "moves": [{"source": "/p/u1", "target": "/v/u1"}]}], [ENTRY, ENTRY],
+                    [{"id": "S1", "moves": [{**ENTRY["moves"][0], "source": "p", "target": "/v"}]}],
+                    [{"id": "S1", "moves": [{**ENTRY["moves"][0], "source": "/p", "target": "/v", "x": 1}]}],
+                    [ENTRY, {"id": "S221", "moves": [{**ENTRY["moves"][0], "source": "/p/u1", "target": "/v/u1"}]}], [ENTRY, ENTRY],
                     [{**ENTRY, "id": ""}], [{**ENTRY, "id": 5}], [{**ENTRY, "id": "S 1"}], [{"id": "S1", "moves": []}],
-                    [ENTRY, {"id": "S220", "moves": [{"source": "/p/u2", "target": "/v/u2"}]}]):
+                    [ENTRY, {"id": "S220", "moves": [{**ENTRY["moves"][0], "source": "/p/u2", "target": "/v/u2"}]}]):
             with self.subTest(bad=bad):
                 self.refuses(entries=bad)
 

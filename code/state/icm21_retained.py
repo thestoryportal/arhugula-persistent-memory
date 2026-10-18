@@ -8,6 +8,7 @@ A rewrite counts only under a bound G5 approval (RULING round 1, item 1). The jo
 to its native rewrite_text operation (WIRE-CONTRACTS.md:162) is future build scope and is not
 made here.
 """
+from functools import cache
 import hashlib
 import json
 import re
@@ -30,7 +31,12 @@ COMPARED = ('kind', 'bytes', 'sha256', 'link_text')
 APPROVAL_KEYS = frozenset({'approval_id', 'plan_id', 'plan_sha256', 'gate', 'approved_by',
                            'approved_at', 'expires_at', 'decision'})  # native, core.py:367
 GIT_SUBJECT = 'M/.git is never a subject (H-SLICE.md item 1)'
-SCHEMA = icm21_check.audit_schema()
+
+
+@cache
+def wire_schema():
+    # [LAW:one-source-of-truth] Cache only the canonical schema reader's result.
+    return icm21_check.audit_schema()
 
 
 class Refusal(Exception):
@@ -66,8 +72,10 @@ def keys(name, value, expected):
 
 
 def wire(name, value):
+    # [LAW:effects-at-boundaries] Defer I/O; schema read errors are not value refusals.
+    schema = wire_schema()
     try:
-        icm21_check.validate_wire(name, value, SCHEMA, {})
+        icm21_check.validate_wire(name, value, schema, {})
     except ValueError as error:
         raise Refusal('UNVERIFIED', name + ' fails the wire schema: ' + str(error))
 
