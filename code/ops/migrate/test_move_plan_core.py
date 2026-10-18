@@ -636,6 +636,25 @@ class CheckRoutes(unittest.TestCase):
             with self.subTest(bad=bad):
                 self.assertEqual(kinds(check_routes(rows)), ["inexact-target"])
 
+    def hold_row_for(self, child):
+        return core.check_routes(routes=routes((child, "", "hold", f"{HOLD_T}/{child}")), source=SRC,
+                                 children=[child], hold_target=HOLD_T)
+
+    def test_hold_row_child_with_open_and_close_brackets_is_inexact(self):
+        self.assertEqual(self.hold_row_for("<x>"),
+                         (("inexact-target", "<x>", "the hold target /v/m/results/<x> is not exact"),))
+
+    def test_hold_row_child_ending_in_an_open_bracket_is_inexact(self):
+        self.assertEqual(self.hold_row_for("x<"),
+                         (("inexact-target", "x<", "the hold target /v/m/results/x< is not exact"),))
+
+    def test_hold_row_child_ending_in_a_close_bracket_is_inexact(self):
+        self.assertEqual(self.hold_row_for("x>"),
+                         (("inexact-target", "x>", "the hold target /v/m/results/x> is not exact"),))
+
+    def test_hold_row_plain_child_with_its_exact_target_gives_no_finding(self):
+        self.assertEqual(self.hold_row_for("x"), ())
+
     def test_hold_row_needs_the_v_target_of_its_child(self):
         for bad in ("/v/m/results", "/v/m/results/e", "/v/m/results/d/x", "/m/results/d"):
             rows = list(GOOD_ROUTES)

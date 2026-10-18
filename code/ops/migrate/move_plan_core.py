@@ -537,7 +537,9 @@ def check_routes(*, routes, source, children, hold_target) -> tuple:
         if child not in known:
             found.append(("unknown-child", child, f"{source} has no child {child}"))
         if owner == "hold":
-            if target != f"{hold_target}/{child}":
+            if not _exact(f"{hold_target}/{child}"):
+                found.append(("inexact-target", child, f"the hold target {hold_target}/{child} is not exact"))
+            elif target != f"{hold_target}/{child}":
                 found.append(("hold-target", child, f"a hold row targets {hold_target}/{child}, not {target}"))
         elif owner not in OWNERS:
             found.append(("bad-owner", child, f"owner {owner!r} is not run, audit, build-receipt or hold"))
