@@ -802,6 +802,240 @@ def save_references(root, manifest, directory):
     return results
 
 
+MOVES_TABLES = {'requirements': ['requirement_id', 'source', 'target', 'action', 'observed_bytes',
+                                 'class', 'lane', 'check_id', 'admission', 'prd_ids'],
+                'phase-files': ['source_relative', 'target_relative', 'observed_sha256']}
+MOVES_STATUS = ('PASS', 'FAIL', 'UNVERIFIED')  # index = exit code (SPEC.md:226-230)
+
+
+def check_moves(args):
+    """The moves subcommand (plan Step 204): wiring over icm21_moves.validate_move (pre stage)
+    and icm21_retained.check_retained (post stage). Every read goes through fdsafe; nothing is
+    written. The required MV set is the --entry's `replaces` in --plans, never the executor
+    evidence: a required row that no --manifest operation names is incomplete coverage (exit 2),
+    and an operation or route row naming a row outside the entry fails (exit 1). The imports
+    stay in this branch, so the other subcommands keep their import closure (ruling F1)."""
+    import contextlib
+    import errno
+    from ops.migrate import fdsafe
+    import icm21_moves
+    import icm21_retained as R
+
+    def read(path):
+        """(absolute path, bytes) of one named regular file, read through its held folder."""
+        with fdsafe.hold_root(os.path.dirname(path)) as parent:
+            name = os.path.basename(path)
+            data = fdsafe.read_named(parent, name)
+            if parent.live() != parent.path:
+                raise fdsafe.Refusal(path, 'its folder moved while it was read')
+        return os.path.join(parent.path, name), data
+
+    def decode(path, data):
+        decoded = data.decode('utf-8', 'replace')
+        if decoded.encode('utf-8', 'strict') != data:
+            raise fdsafe.Refusal(path, 'is not UTF-8')
+        return decoded
+
+    def parse(path, data):
+        decoded = decode(path, data)
+        try:
+            return json.loads(decoded, parse_constant=reject_constant)
+        except ValueError as error:
+            raise fdsafe.Refusal(path, 'is not JSON: ' + str(error)) from error
+
+    def load(path):
+        path, data = read(path)
+        return path, parse(path, data)
+
+    def table(path, name):
+        path, data = read(path)
+        header, lines = MOVES_TABLES[name], decode(path, data).split('\n')
+        if lines[-1] == '':
+            lines.pop()
+        if not lines or lines[0].split('\t') != header:
+            raise fdsafe.Refusal(path, 'does not start with the ' + name + ' header')
+        rows = [line.split('\t') for line in lines[1:]]
+        if any(len(row) != len(header) for row in rows):
+            raise fdsafe.Refusal(path, 'has a row without %d fields' % len(header))
+        return [dict(zip(header, row)) for row in rows]
+
+    def bind(path):
+        """(held folder, name, leaf) for one target: its parent held no-follow, or, when that is
+        missing, its nearest held ancestor and the first missing folder's name (leaf False)."""
+        folder, name, leaf = os.path.dirname(path), os.path.basename(path), True
+        while True:
+            try:
+                return parents.enter_context(fdsafe.hold_root(folder)), name, leaf
+            except fdsafe.Refusal as refusal:
+                if refusal.errno != errno.ENOENT:
+                    raise
+            folder, name, leaf = os.path.dirname(folder), os.path.basename(folder), False
+
+    def exists(path, held, name, leaf):
+        """Whether the target is present: name lstat'ed under the folder held since bind()."""
+        try:
+            with fdsafe.fs(path if leaf else os.path.join(held.path, name)):
+                os.lstat(name, dir_fd=held.fd)
+            present = True
+        except fdsafe.Refusal as refusal:
+            if refusal.errno != errno.ENOENT:
+                raise
+            present = False
+        if present and not leaf:
+            raise fdsafe.Refusal(path, 'its folder %s was missing when bound and exists now'
+                                 % os.path.join(held.path, name))
+        if held.live() != held.path:
+            raise fdsafe.Refusal(path, 'its folder %s moved after it was bound' % held.path)
+        return present
+
+    def binding_path(key):
+        value = retention.get(key)
+        if type(value) is not dict or not R.is_path(value.get('path')):
+            raise fdsafe.Refusal(retention_path, key + ' is not a Binding with an absolute path')
+        return value['path']
+
+    def admitted():
+        """check_retained's own parsers over the bound documents: (leaves by source, routes)."""
+        R.keys('RetentionManifest', retention, R.RETENTION_KEYS)
+        R.refuse(type(retention['schema_version']) is int and retention['schema_version'] == 1,
+                 'RetentionManifest schema_version is not 1')  # as check_retained (SPEC.md:196)
+        leaves = R.leaf_manifest(R.parse_json(R.bound(retention['leaves'], documents),
+                                              'LeafManifest'), 'admitted')
+        routes = R.route_table(R.bound(retention['routes'], documents))
+        R.repair_set(R.parse_json(R.bound(retention['repairs'], documents), 'RepairSet'))
+        R.approved_plans(retention['executor'], documents)
+        R.container_list(retention['containers'])
+        return leaves, routes
+
+    def finding(status, paths, reason):
+        return icm21_moves.finding(args.entry, status, paths, reason)
+
+    try:
+        if not args.root.is_absolute():
+            raise fdsafe.Refusal(str(args.root), 'is not an absolute path (moves has no default '
+                                 'root)')
+        if (args.stage == 'post') != (args.observed is not None):
+            raise fdsafe.Refusal('--observed', '--observed is required by --stage post and '
+                                 'refused by --stage pre')
+        root = fdsafe.hold_root(str(args.root))
+        parents = contextlib.ExitStack()  # pre: each target's folder, held from bind() to probe
+        try:
+            requirements = set()
+            for path in args.requirements:
+                for row in table(str(path), 'requirements'):
+                    if row['requirement_id'] in requirements:
+                        raise fdsafe.Refusal(str(path), 'repeats ' + row['requirement_id'])
+                    requirements.add(row['requirement_id'])
+            table(str(args.phase_files), 'phase-files')
+            plans_path, plans = load(str(args.plans))
+            entries = plans.get('entries') if type(plans) is dict else None
+            if type(entries) is not list or any(type(item) is not dict for item in entries):
+                raise fdsafe.Refusal(plans_path, 'has no entries list of objects')
+            chosen = [item for item in entries if item.get('id') == args.entry]
+            if len(chosen) != 1:
+                raise fdsafe.Refusal(plans_path, 'names entry %r %d times, not once'
+                                     % (args.entry, len(chosen)))
+            entry = chosen[0]
+            replaces = entry.get('replaces')
+            if not {'replaces', 'roots', 'moves'} <= entry.keys() \
+                    or type(entry['moves']) is not list or type(replaces) is not list \
+                    or not replaces or any(type(item) is not str for item in replaces) \
+                    or len(set(replaces)) != len(replaces):
+                raise fdsafe.Refusal(plans_path, 'entry %r lacks unique replaces, roots or a '
+                                     'moves list' % args.entry)
+            if not set(replaces) <= requirements:
+                raise fdsafe.Refusal(plans_path, 'entry %r replaces rows that no --requirements '
+                                     'file has: %s' % (args.entry,
+                                                       sorted(set(replaces) - requirements)))
+            bound = [(move['target'], bind(move['target'])) for move in entry['moves']
+                     if args.stage == 'pre' and type(move) is dict
+                     and R.is_path(move.get('target'))]
+            manifest_path, evidence_bytes = read(str(args.manifest))
+            evidence = parse(manifest_path, evidence_bytes)
+            # Not audit_schema(): its Path read follows links and blocks on a FIFO.
+            schema = load(os.path.join(os.path.dirname(__file__), 'icm21',
+                                       'WIRE-SCHEMAS.json'))[1]
+            try:
+                validate_wire('ExecutorEvidence', evidence, schema, {})
+            except ValueError as error:
+                raise fdsafe.Refusal(manifest_path, 'is not ExecutorEvidence: '
+                                     + str(error)) from error
+            retention_path, retention = load(str(args.retention))
+            if type(retention) is not dict:
+                raise fdsafe.Refusal(retention_path, 'is not a RetentionManifest object')
+            # retention.executor is never read by its own path: it must bind the --manifest bytes.
+            documents = {manifest_path: evidence_bytes}
+            wanted = [binding_path(key) for key in ('leaves', 'routes', 'repairs')] \
+                + [operation['approval']['path'] for operation in evidence['operations']]
+            for path in sorted(set(wanted) - set(documents)):
+                documents[path] = read(path)[1]
+            named = [operation['operation_id'] for operation in evidence['operations']]
+            missing = sorted(set(replaces) - set(named))
+            found = [finding('UNVERIFIED', [], 'the entry replaces ' + identity + ' and the '
+                             'executor evidence names no operation for it')
+                     for identity in missing]
+            found += [finding('FAIL', [], 'the executor evidence names ' + identity
+                              + ', which the entry does not replace')
+                      for identity in sorted(set(named) - set(replaces))]
+            found += [finding('FAIL', [], 'the executor evidence names ' + identity + ' twice')
+                      for identity in sorted({item for item in named if named.count(item) > 1})]
+            found += [finding('UNVERIFIED', [], 'C-PHASE (SPLIT_FILES) is not checked by moves')
+                      for move in entry['moves']
+                      if type(move) is dict and move.get('action') == 'SPLIT_FILES']
+            # No core joins a required container to its ContainerExpectation (builder reading 8).
+            unchecked = [finding('UNVERIFIED', [], 'C-CONTAINER (RETAIN_CONTAINER) is not checked '
+                                 'by moves: no core joins the container to its '
+                                 'ContainerExpectation')
+                         for move in entry['moves'] if args.stage == 'post'
+                         and type(move) is dict and move.get('action') == 'RETAIN_CONTAINER']
+            found += unchecked
+            try:
+                leaves, routes = admitted()
+            except R.Refusal as refusal:
+                leaves, routes = None, {}
+                found.append(finding(refusal.status, refusal.paths, refusal.reason))
+            found += [finding('FAIL', [source], 'route row names ' + row['requirement_id']
+                              + ', which the entry does not replace')
+                      for source, row in sorted(routes.items())
+                      if row['requirement_id'] not in replaces]
+            if args.stage == 'pre':
+                moves = entry['moves']
+                existing = [target for target, held in bound if exists(target, *held)]
+                for index, move in enumerate(moves):
+                    source = move.get('source') if type(move) is dict else None
+                    inside = None if leaves is None else [
+                        leaf for path, leaf in sorted(leaves.items()) if type(source) is str
+                        and (path == source or path.startswith(source + '/'))]
+                    found += icm21_moves.validate_move(
+                        move, entry['roots'], other_moves=moves[:index] + moves[index + 1:],
+                        existing_paths=existing, run_units=entry.get('run_units'),
+                        leaves=inside)
+            else:
+                observed_path, observed = load(str(args.observed))
+                if type(observed) is not dict \
+                        or not {'schema_version', 'leaves'} <= observed.keys():
+                    raise fdsafe.Refusal(observed_path, 'is not a unit manifest document')
+                # The strict LeafManifest refuses unit_manifest's root and git_roots.
+                projection = {'schema_version': observed['schema_version'],
+                              'leaves': observed['leaves']}
+                found += R.check_retained(root.path, retention, documents, projection)
+            if root.live() != root.path:
+                raise fdsafe.Refusal(root.path, 'moved while the check ran')
+        finally:
+            try:
+                parents.close()
+            finally:
+                root.close()
+        statuses = {item['status'] for item in found}
+        code = 2 if missing or unchecked else 1 if 'FAIL' in statuses else 2 if statuses else 0
+        result = {'status': MOVES_STATUS[code], 'stage': args.stage, 'entry': args.entry,
+                  'findings': found}
+    except fdsafe.Refusal as refusal:
+        result, code = {'status': 'UNVERIFIED', 'reason': str(refusal)}, 2
+    print(json.dumps(result, sort_keys=True, separators=(',', ':')))
+    return code
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
@@ -818,7 +1052,19 @@ def main():
     command.add_argument('--evidence-dir', type=Path)
     command = commands.add_parser('staged')
     command.add_argument('--root', type=Path, required=True)
+    command = commands.add_parser('moves')
+    command.add_argument('--root', type=Path, required=True)
+    command.add_argument('--requirements', type=Path, required=True, action='append')
+    command.add_argument('--phase-files', type=Path, required=True)
+    command.add_argument('--plans', type=Path, required=True)
+    command.add_argument('--entry', required=True)
+    command.add_argument('--manifest', type=Path, required=True)
+    command.add_argument('--retention', type=Path, required=True)
+    command.add_argument('--observed', type=Path)
+    command.add_argument('--stage', choices=('pre', 'post'), required=True)
     args = parser.parse_args()
+    if args.command == 'moves':
+        return check_moves(args)  # before the try below: moves catches only fdsafe.Refusal
     code = None
     try:
         require(args.root.is_absolute() and args.root.is_dir(), 'invalid root')
