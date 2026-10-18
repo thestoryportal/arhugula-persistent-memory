@@ -23,6 +23,7 @@ import io
 import json
 import os
 import shutil
+import shlex
 import stat
 import subprocess
 import sys
@@ -42,7 +43,9 @@ REQ_HEADER = "requirement_id\tsource\ttarget\taction\tobserved_bytes\tclass\tlan
 PHASE_HEADER = "source_relative\ttarget_relative\tobserved_sha256"
 CUSTODY = ("leaves.json", "routes.tsv", "repairs.json", "journal.jsonl", "executor.json", "retention.json",
            "admitted.tsv")
-GIT_ALLOWED = {"config", "rev-parse", "ls-files", "update-index", "rm", "add"}
+GIT_ALLOWED = {"config", "rev-parse", "ls-files", "update-index", "rm", "add", "cat-file"}
+# [LAW:one-source-of-truth] both command audits share the required Git boundary options.
+GIT_PREFIX = ["git", "--no-optional-locks", "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null"]
 
 
 def sha(data: bytes) -> str:
@@ -362,16 +365,21 @@ class PositiveControl(Base):
         with recording() as events:
             self.run_ok()
         gits = [args[1] for event, args in events if event == "subprocess.Popen"]
-        commands = [list(argv[argv.index("core.fsmonitor=false") + 1:]) for argv in gits]
         for argv in gits:
-            self.assertEqual(list(argv[:4]), ["git", "--no-optional-locks", "-c", "core.fsmonitor=false"])
+            self.assertEqual(list(argv[:len(GIT_PREFIX)]), GIT_PREFIX)
+        commands = [list(argv[len(GIT_PREFIX):]) for argv in gits]
         self.assertEqual(commands, [
             ["config", "--file", "-", "--no-includes", "--null", "--list"],
             ["rev-parse", "--path-format=absolute", "--show-toplevel", "--git-dir", "--git-common-dir"],
             ["ls-files", "-z", "--full-name", "--", "old/u1"],
             ["ls-files", "-s", "-z", "--full-name", "--", "old/u1"],
+            ["cat-file", "--batch"],
             ["update-index", "-z", "--index-info"],
-            ["add", "--", "experiments/c10r/runs/u1/notes.txt"]])
+            ["ls-files", "-s", "-z", "--full-name", "--", "experiments/c10r/runs/u1"],
+            ["cat-file", "--batch"],
+            ["add", "--", "experiments/c10r/runs/u1/notes.txt"],
+            ["ls-files", "-s", "-z", "--full-name", "--", "experiments/c10r/runs/u1/notes.txt"],
+            ["cat-file", "--batch"]])
         self.assertEqual([args[0] for event, args in events if event == "os.mkdir"], ["runs"])
         others = {event for event, _ in events} - {"open", "subprocess.Popen", "os.mkdir"}
         self.assertEqual(others, set())
@@ -639,11 +647,26 @@ class NegativeControls(Base):
                          & {event for event, _ in events})
         for event, args in events:
             if event == "subprocess.Popen":
-                self.assertIn(args[1][4], GIT_ALLOWED, args)
+                self.assertIn(args[1][len(GIT_PREFIX)], GIT_ALLOWED, args)
         self.assertEqual(git(self.fx.m, "rev-list", "--count", "HEAD"), b"1\n")
 
 
 class GitConfig(Base):
+    def test_default_index_hook_writes_in_unit(self):
+        target = self.fx.target(self.u) + "/notes.txt"
+        marker = self.fx.base + "/hook-marker"
+        hook = self.fx.put("m/.git/hooks/post-index-change", (
+            "#!/bin/sh\nprintf 'called\\n' >> " + shlex.quote(marker) + "\n"
+            "if test -e " + shlex.quote(target) + "; then\n"
+            "  printf 'hook changed\\n' > " + shlex.quote(target) + "\nfi\n").encode())
+        os.chmod(hook, 0o755)
+        self.run_ok()
+        self.assertFalse(os.path.exists(marker))
+        for unit in self.fx.units:
+            for rel, data in unit.files.items():
+                with open(os.path.join(self.fx.target(unit), rel), "rb") as fh:
+                    self.assertEqual(fh.read(), data)
+
     # [LAW:behavior-not-structure] config and repo attacks must refuse while preserving sources.
     def refuses_config(self, path, *words, staged=True):
         self.assert_refused(self.main(*self.fx.args()), path, *words)
@@ -1075,6 +1098,112 @@ class LateInputParents(Base):
 
 class LateWindows(Base):
     # [LAW:behavior-not-structure] inject changes at effects and assert refusal and preserved state.
+    def test_index_blob_changed_after_update_index(self):
+        real = subprocess.run
+        target = self.fx.target(self.u)
+        blob = git(self.fx.m, "rev-parse", "HEAD:README.md").decode().strip()
+        mode = git(self.fx.m, "ls-files", "-s", "--", "old/u1/a.json").decode().split()[0]
+        fired = []
+
+        def changed(argv, **kw):
+            out = real(argv, **kw)
+            if "update-index" in argv and "--index-info" in argv:
+                fired.append(True)
+                git(self.fx.m, "update-index", "--cacheinfo",
+                    f"{mode},{blob},experiments/c10r/runs/u1/a.json")
+            return out
+        with mock.patch.object(move_unit.subprocess, "run", changed):
+            result = self.main(*self.fx.args())
+        self.assertEqual(fired, [True])
+        self.assert_refused(result, target, "index under it changed")
+
+    def test_late_index_blob_change(self):
+        real = fdsafe.mkdir
+        fired = []
+
+        def mkdir(parent, name):
+            made = real(parent, name)
+            if not fired:
+                fired.append(True)
+                blob = git(self.fx.m, "rev-parse", "HEAD:README.md")
+                git(self.fx.m, "update-index", "--cacheinfo", "100644," + blob.decode().strip() + ",old/u1/a.json")
+            return made
+        with mock.patch.object(fdsafe, "mkdir", mkdir):
+            result = self.main(*self.fx.args())
+        self.assertTrue(fired)
+        self.assert_refused(result, self.u.source, "index under it changed")
+        self.assert_unmoved(staged=False)
+
+    def test_late_index_missing_blob(self):
+        real = fdsafe.mkdir
+        fired = []
+
+        def mkdir(parent, name):
+            made = real(parent, name)
+            if not fired:
+                fired.append(True)
+                blob = git(self.fx.m, "rev-parse", "HEAD:README.md").decode().strip()
+                missing = "1" * len(blob)
+                objects = git(self.fx.m, "cat-file", "--batch-all-objects", "--batch-check=%(objectname)")
+                self.assertNotIn(missing.encode("ascii"), objects.splitlines())
+                git(self.fx.m, "update-index", "--cacheinfo", f"100644,{missing},old/u1/a.json")
+            return made
+        with mock.patch.object(fdsafe, "mkdir", mkdir):
+            result = self.main(*self.fx.args())
+        self.assertTrue(fired)
+        self.assert_refused(result, self.u.source, "index under it changed")
+        self.assert_unmoved(staged=False)
+
+    def test_late_add_leaf_swap(self):
+        real = move_unit.ACTIONS["git-add"]
+        target = self.fx.target(self.u) + "/notes.txt"
+
+        def add(held, action):
+            with FK.swap_for_symlink("scandir", 1, target, self.fx.decoy + "/a.json") as fault:
+                try:
+                    real(held, action)
+                finally:
+                    self.assertEqual(fault.fired, 1)
+        with mock.patch.dict(move_unit.ACTIONS, {"git-add": add}):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, target, "index under it changed")
+
+    def test_late_add_leaf_mode_swap_with_same_blob(self):
+        real = move_unit.ACTIONS["git-add"]
+        target = self.fx.target(self.u) + "/notes.txt"
+        link_text = self.u.files["notes.txt"].decode("utf-8")
+
+        def add(held, action):
+            with FK.swap_for_symlink("scandir", 1, target, link_text) as fault:
+                try:
+                    real(held, action)
+                finally:
+                    self.assertEqual(fault.fired, 1)
+        with mock.patch.dict(move_unit.ACTIONS, {"git-add": add}):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, target, "index under it changed")
+
+    def test_late_add_parent_rebind(self):
+        real = move_unit.ACTIONS["git-add"]
+        target = self.fx.target(self.u)
+
+        def add(held, action):
+            scan = os.scandir
+
+            def populate(fd):
+                if os.path.isdir(target) and not os.path.exists(target + "/notes.txt"):
+                    with open(target + "/notes.txt", "xb") as fh:
+                        fh.write(b"changed record\n")
+                return scan(fd)
+            with mock.patch.object(os, "scandir", populate), FK.rename_and_rebind("scandir", 1, target) as fault:
+                try:
+                    real(held, action)
+                finally:
+                    self.assertEqual(fault.fired, 1)
+        with mock.patch.dict(move_unit.ACTIONS, {"git-add": add}):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, target + "/notes.txt", "index under it changed")
+
     def test_w1a_source_leaf_swapped_during_mkdir(self):
         leaf = self.u.source + "/notes.txt"
         with FK.swap_for_symlink("mkdir", 1, leaf, self.fx.decoy + "/a.json", when="after") as fault:
@@ -1238,6 +1367,22 @@ class OutsideLateWindows(Base):
         for rel, data in u2.files.items():
             with open(os.path.join(u2.source, rel), "rb") as fh:
                 self.assertEqual(fh.read(), data)
+
+    def test_index_row_added_after_rm_cached(self):
+        real = subprocess.run
+        blob = git(self.fx.m, "ls-files", "-s", "--", "old/u3/x.json").decode().split()[1]
+        fired = []
+
+        def changed(argv, **kw):
+            out = real(argv, **kw)
+            if "rm" in argv:
+                fired.append(True)
+                git(self.fx.m, "update-index", "--add", "--cacheinfo", f"100644,{blob},old/u3/late.txt")
+            return out
+        with mock.patch.object(move_unit.subprocess, "run", changed):
+            result = self.main(*self.fx.args())
+        self.assertEqual(fired, [True])
+        self.assert_refused(result, self.u.source, "index under it changed")
 
     def test_w5_index_changed_before_git_rm_cached(self):
         real = fdsafe.mkdir

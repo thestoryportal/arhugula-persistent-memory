@@ -48,6 +48,7 @@ import argparse
 import contextlib
 import datetime
 import errno
+import hashlib
 import json
 import os
 import posixpath
@@ -455,8 +456,10 @@ def _git(repo: Repo, *args: str, stdin=subprocess.DEVNULL) -> bytes:
            "GIT_OPTIONAL_LOCKS": "0", "GIT_LITERAL_PATHSPECS": "1", "LC_ALL": "C"}
     _check_repo(repo, "changed before Git ran; Git would read another file")
     stream = {"input": stdin} if isinstance(stdin, bytes) else {"stdin": stdin}
+    # [LAW:single-enforcer] every Git call crosses this hook-free boundary.
     with fdsafe.fs(command):
-        proc = subprocess.run(["git", "--no-optional-locks", "-c", "core.fsmonitor=false", *args], cwd=repo.root,
+        proc = subprocess.run(["git", "--no-optional-locks", "-c", "core.fsmonitor=false",
+                               "-c", "core.hooksPath=/dev/null", *args], cwd=repo.root,
                               env=env, **stream, capture_output=True, check=False)
     _check_repo(repo, "changed while Git ran; Git may have read another file")
     if proc.returncode != 0:
@@ -475,7 +478,6 @@ def _git_entry(entry: fdsafe.Entry) -> None:
 def _open_repo(stack: contextlib.ExitStack, root: str) -> Repo:
     """M's .git held and checked before any Git call (T201 rulings 2, 7 and 8)."""
     git = stack.enter_context(fdsafe.hold_root(os.path.join(root, ".git")))
-    fdsafe.walk(git, _git_entry)
     config = os.path.join(git.path, "config")
     with fdsafe.fs(config):
         fd = os.open("config", fdsafe.LEAF_FLAGS, dir_fd=git.fd)
@@ -579,6 +581,7 @@ class Held:
     folders: dict
     sources: dict
     manifests: dict[str, bytes]
+    leaves: dict[str, dict]
     tracked: list[str]
     stack: contextlib.ExitStack
 
@@ -630,17 +633,38 @@ def _do_mv(held: Held, action: dict) -> None:
     _same_manifest(held, action["target"], action["source"], "changed since it was inventoried; left in place")
 
 
-def _index_under(held: Held, source: str) -> list[tuple[str, str, str, str]]:
+def _index_is(held: Held, path: str, expected: list[str]) -> list[tuple[str, str, str, str]]:
+    # [LAW:single-enforcer] index content is compared with the admitted manifest only here.
     root = held.repo.root
-    listed = _git(held.repo, "ls-files", "-s", "-z", "--full-name", "--", source[len(root) + 1:])
+    reason = "Git's index under it changed since it was read"
+    listed = _git(held.repo, "ls-files", "-s", "-z", "--full-name", "--", path[len(root) + 1:])
     entries = []
     for record in listed.split(b"\0")[:-1]:
-        metadata, path = _utf8(source, record).split("\t", 1)
+        metadata, name = _utf8(path, record).split("\t", 1)
         mode, object_name, stage = metadata.split(" ")
-        entries.append((mode, object_name, stage, path))
-    expected = {path for path in held.tracked if path.startswith(source + "/")}
-    if {root + "/" + entry[3] for entry in entries} != expected or any(entry[2] != "0" for entry in entries):
-        raise Refusal(source, "Git's index under it changed since it was read")
+        entries.append((mode, object_name, stage, name))
+    if {root + "/" + entry[3] for entry in entries} != set(expected) or any(entry[2] != "0" for entry in entries):
+        raise Refusal(path, reason)
+    blobs = _git(held.repo, "cat-file", "--batch",
+                 stdin="".join(entry[1] + "\n" for entry in entries).encode("ascii"))
+    offset = 0
+    for mode, object_name, stage, name in entries:
+        end = blobs.find(b"\n", offset)
+        header = blobs[offset:end].split(b" ")
+        if end < 0 or len(header) != 3 or header[0] != object_name.encode("ascii") \
+                or header[1] != b"blob" or not header[2].isdigit():
+            raise Refusal(path, reason)
+        start = end + 1
+        offset = start + int(header[2])
+        if offset >= len(blobs) or blobs[offset:offset + 1] != b"\n":
+            raise Refusal(path, reason)
+        leaf = held.leaves[root + "/" + name]
+        modes = {"symlink": ("120000",), "file": ("100644", "100755")}
+        if mode not in modes[leaf["kind"]] or hashlib.sha256(blobs[start:offset]).hexdigest() != leaf["sha256"]:
+            raise Refusal(path, reason)
+        offset += 1
+    if offset != len(blobs):
+        raise Refusal(path, reason)
     return entries
 
 
@@ -648,7 +672,8 @@ def _do_git_mv(held: Held, action: dict) -> None:
     src_parent, src_name, dst_parent, dst_name = _ends(held, action)
     _still_held(src_parent, src_parent)
     root = held.repo.root
-    entries = _index_under(held, action["source"])
+    expected = [path for path in held.tracked if path.startswith(action["source"] + "/")]
+    entries = _index_is(held, action["source"], expected)
     _is_source(held, src_parent, src_name, action["source"], action["source"])
     _same_manifest(held, action["source"], action["source"], "changed since it was inventoried; nothing moved")
     # [LAW:single-enforcer] exclusive rename owns collision refusal, including late target creation.
@@ -658,17 +683,22 @@ def _do_git_mv(held: Held, action: dict) -> None:
         target = action["target"][len(root) + 1:] + path[len(action["source"][len(root) + 1:]):]
         records.extend((f"0 {'0' * len(object_name)}\t{path}\0", f"{mode} {object_name} 0\t{target}\0"))
     _git(held.repo, "update-index", "-z", "--index-info", stdin="".join(records).encode("utf-8"))
+    _index_is(held, action["target"],
+              [action["target"] + path[len(action["source"]):] for path in expected])
     _is_source(held, dst_parent, dst_name, action["target"], action["source"])
     _same_manifest(held, action["target"], action["source"], "changed since it was inventoried; left in place")
 
 
 def _do_git_rm_cached(held: Held, action: dict) -> None:
-    _index_under(held, action["source"])
+    _index_is(held, action["source"],
+              [path for path in held.tracked if path.startswith(action["source"] + "/")])
     _git(held.repo, "rm", "--cached", "-r", "-q", "--", action["source"][len(held.repo.root) + 1:])
+    _index_is(held, action["source"], [])
 
 
 def _do_git_add(held: Held, action: dict) -> None:
     _git(held.repo, "add", "--", action["target"][len(held.repo.root) + 1:])
+    _index_is(held, action["target"], [action["target"]])
 
 
 # [LAW:dataflow-not-control-flow] each action kind the core returns names its one runner.
@@ -703,11 +733,15 @@ def run(args) -> tuple[int, object]:
         repo = _open_repo(stack, root)
         worktree = _worktree(repo)
         tracked = _tracked(repo, [unit.source for unit in units])
-        observed, sources, manifests = [], {}, {}
+        observed, sources, manifests, leaves = [], {}, {}, {}
         for unit in units:
             hold(os.path.dirname(unit.source))
             manifest, sources[unit.source] = _inventory(unit.source)
             manifests[unit.source] = manifest
+            # [LAW:one-source-of-truth] both path names derive from the same admitted manifest bytes.
+            for leaf in json.loads(manifest)["leaves"]:
+                leaves[leaf["source"]] = leaf
+                leaves[unit.target + leaf["source"][len(unit.source):]] = leaf
             observed.append({"source": unit.source, "manifest": manifest, "split": splits.get(unit.source)})
         targets = [_target(hold, unit.target) for unit in units]
         result = run_core.run_unit(root=root, plan=plan, approval=approval, now=_now(), units=observed,
@@ -719,7 +753,7 @@ def run(args) -> tuple[int, object]:
         files = [(os.path.basename(doc["path"]), doc["bytes"]) for doc in result["documents"]] + \
             [(ADMITTED, _admitted(root, result["actions"], tracked))]
         custody = _write_custody(args.custody_dir, files, roots)
-        held = Held(repo, folders, sources, manifests, tracked, stack)
+        held = Held(repo, folders, sources, manifests, leaves, tracked, stack)
         for action in result["actions"]:
             ACTIONS[action["action"]](held, action)
     return 0, {"actions": result["actions"], "custody": custody}
