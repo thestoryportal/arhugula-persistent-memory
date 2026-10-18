@@ -431,6 +431,7 @@ class Repo:
     """M with its .git folder and .git/config held open, so each Git call is checked against them."""
     root: str
     git: fdsafe.Dir
+    objects: fdsafe.Dir
     config_fd: int
     config_id: tuple
     git_id: tuple
@@ -493,6 +494,10 @@ def _git_entry(entry: fdsafe.Entry) -> None:
 def _open_repo(stack: contextlib.ExitStack, root: str) -> Repo:
     """M's .git held and checked before any Git call (T201 rulings 2, 7 and 8)."""
     git = stack.enter_context(fdsafe.hold_root(os.path.join(root, ".git")))
+    objects_path = os.path.join(git.path, "objects")
+    with fdsafe.fs(objects_path):
+        fd = os.open("objects", fdsafe.DIR_FLAGS, dir_fd=git.fd)
+    objects = stack.enter_context(fdsafe.Dir(fd, objects_path))
     config = os.path.join(git.path, "config")
     with fdsafe.fs(config):
         fd = os.open("config", fdsafe.LEAF_FLAGS, dir_fd=git.fd)
@@ -503,7 +508,7 @@ def _open_repo(stack: contextlib.ExitStack, root: str) -> Repo:
         raise Refusal(config, "is not a regular file")
     with fdsafe.fs(git.path):
         git_st = os.fstat(git.fd)
-    repo = Repo(root, git, fd, _config_id(config_st), _git_id(git_st))
+    repo = Repo(root, git, objects, fd, _config_id(config_st), _git_id(git_st))
     listed = _git(repo, "config", "--file", "-", "--no-includes", "--null", "--list", stdin=fd)
     for record in listed.split(b"\0")[:-1]:
         key = _utf8(config, record.split(b"\n", 1)[0])
@@ -743,14 +748,11 @@ def _do_git_rm_cached(held: Held, action: dict) -> None:
 
 def _write_object(held: Held, object_name: str, data: bytes) -> None:
     # [LAW:effects-at-boundaries] Git computes identity; held fds own every object-store write.
-    # [LAW:carrying-cost] object-store fds are needed only until this write finishes.
+    # [LAW:one-source-of-truth] the object store is held once at repo open; a renamed objects path cannot redirect this write.
     with contextlib.ExitStack() as stack:
-        objects_path = held.repo.git.path + "/objects"
-        with fdsafe.fs(objects_path):
-            fd = os.open("objects", fdsafe.DIR_FLAGS, dir_fd=held.repo.git.fd)
-        objects = stack.enter_context(fdsafe.Dir(fd, objects_path))
+        objects = held.repo.objects
         name = object_name[:2]
-        fanout_path = objects_path + "/" + name
+        fanout_path = objects.path + "/" + name
         try:
             with fdsafe.fs(fanout_path):
                 fd = os.open(name, fdsafe.DIR_FLAGS, dir_fd=objects.fd)

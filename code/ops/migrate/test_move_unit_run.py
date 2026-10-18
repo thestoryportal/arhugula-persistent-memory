@@ -1199,7 +1199,6 @@ class LateWindows(Base):
             result = self.main(*self.fx.args())
         self.assertEqual(len(fanouts), 1)
         self.assert_refused(result, objects)
-        self.assertTrue(any(text in result[2] for text in ("[ELOOP]", "[ENOTDIR]")), result[2])
         self.assertEqual(os.listdir(fanouts[0]), [])
 
     def test_late_objects_link_gets_no_object_in_the_unit(self):
@@ -1228,27 +1227,17 @@ class LateWindows(Base):
         with mock.patch.object(move_unit, "_git", late):
             result = self.main(*self.fx.args())
         self.assertEqual(fired, [1])
-        self.assert_refused(result, objects, "link or special file")
+        self.assert_refused(result, objects)
         actual = sorted(os.path.relpath(os.path.join(folder, name), target)
                         for folder, dirs, files in os.walk(target) for name in dirs + files)
         self.assertEqual(actual, sorted(self.u.files))
 
-    def test_objects_open_eio_is_refused(self):
-        real = move_unit._git
-        faults = []
-        with contextlib.ExitStack() as stack:
-            def late(repo, *args, **kwargs):
-                result = real(repo, *args, **kwargs)
-                if args[0] == "hash-object":
-                    faults.append(stack.enter_context(FK.inject_oserror(
-                        "open", 1, errno.EIO, match=named("objects"))))
-                return result
-            with mock.patch.object(move_unit, "_git", late):
-                result = self.main(*self.fx.args())
-        self.assertEqual([fault.fired for fault in faults], [1])
+    def test_objects_open_eio_at_repo_open_is_refused(self):
+        with FK.inject_oserror("open", 1, errno.EIO, match=named("objects")) as fault:
+            result = self.main(*self.fx.args())
+        self.assertEqual(fault.fired, 1)
         self.assert_refused(result, self.fx.m + "/.git/objects", "[EIO]")
-        target = self.fx.target(self.u) + "/notes.txt"
-        self.assertEqual(git(self.fx.m, "ls-files", "-s", "--", target), b"")
+        self.assert_unmoved(staged=False)
 
     def test_object_write_failure_is_refused(self):
         oid = subprocess.run(["git", "-C", self.fx.m, "hash-object", "--stdin"],
@@ -1880,3 +1869,43 @@ class OutsideLateWindows(Base):
         for rel, data in u2.files.items():
             with open(os.path.join(u2.source, rel), "rb") as fh:
                 self.assertEqual(fh.read(), data)
+
+
+class HeldObjectStore(Base):
+    def test_objects_renamed_to_the_unit_gets_no_fanout(self):
+        objects = self.fx.m + "/.git/objects"
+        real = move_unit._git
+        fired = []
+
+        def late(repo, *args, **kwargs):
+            result = real(repo, *args, **kwargs)
+            if args[0] == "hash-object" and not fired:
+                os.rename(objects, objects + "-parked")
+                os.rename(self.fx.target(self.u), objects)
+                fired.append(True)
+            return result
+        with mock.patch.object(move_unit, "_git", late):
+            result = self.main(*self.fx.args())
+        self.assertEqual(fired, [True])
+        self.assertEqual(result[0], 2)
+        self.assertNotIn("Traceback", result[2])
+        actual = sorted(os.path.relpath(os.path.join(folder, name), objects)
+                        for folder, dirs, files in os.walk(objects) for name in dirs + files)
+        self.assertEqual(actual, sorted(self.u.files))
+
+
+class GitCoverage(Base):
+    def test_tracked_lists_an_index_row_at_the_unit_source(self):
+        rel = "gitlink-unit"
+        source = self.fx.mk("m/" + rel)
+        commit = git(self.fx.m, "rev-parse", "HEAD").decode().strip()
+        git(self.fx.m, "update-index", "--add", "--cacheinfo", f"160000,{commit},{rel}")
+        with contextlib.ExitStack() as stack:
+            repo = move_unit._open_repo(stack, self.fx.m)
+            tracked, _ = move_unit._tracked(repo, [source])
+        self.assertIn(source, tracked)
+
+    def test_promisor_named_key_outside_remote_is_accepted(self):
+        git(self.fx.m, "config", "user.promisor", "true")
+        result = self.main(*self.fx.args())
+        self.assertEqual(result[0], 0, result[2])
