@@ -1776,6 +1776,20 @@ class LateWindows(Base):
         result = self.main(*self.fx.args())
         self.assert_refused(result, self.u.source, "index under it changed")
 
+    def test_tree_object_in_the_index_at_start_refuses(self):
+        tree = git(self.fx.m, "rev-parse", "HEAD^{tree}").decode().strip()
+        raw = git(self.fx.m, "cat-file", "tree", tree)
+        self.fx.rewrite(self.u.source + "/a.json", raw)
+        self.u.files["a.json"] = raw
+        git(self.fx.m, "add", "--", "old/u1/a.json")
+        git(self.fx.m, "commit", "-q", "-m", "tree bytes as a regular file")
+        self.fx.seal()
+        git(self.fx.m, "update-index", "--cacheinfo", f"100644,{tree},old/u1/a.json")
+        result = self.main(*self.fx.args())
+        self.assert_refused(result, self.u.source, "index under it changed")
+        self.assert_unmoved(staged=False)
+        self.assert_sources_in_place()
+
 
 class OutsideLateWindows(Base):
     # [LAW:behavior-not-structure] late mv attacks assert refusal paths and preserved unit bytes.
@@ -1892,6 +1906,37 @@ class HeldObjectStore(Base):
         actual = sorted(os.path.relpath(os.path.join(folder, name), objects)
                         for folder, dirs, files in os.walk(objects) for name in dirs + files)
         self.assertEqual(actual, sorted(self.u.files))
+
+    def test_transient_objects_link_at_repo_open_never_opens_the_outside_store(self):
+        oid = subprocess.run(["git", "-C", self.fx.m, "hash-object", "--stdin"],
+                             input=self.u.files["notes.txt"], env=clean_env(),
+                             capture_output=True, check=True).stdout.decode().strip()
+        outside = self.fx.mk("outside-objects")
+        os.mkdir(outside + "/" + oid[:2])
+        objects = self.fx.m + "/.git/objects"
+        opened = []
+        restored = []
+        real = os.open
+
+        def open_then_restore(name, *args, **kwargs):
+            if restored or name != "objects" or fault.fired != 1 or fault.parked is None:
+                return real(name, *args, **kwargs)
+            try:
+                fd = real(name, *args, **kwargs)
+                opened.append(True)
+                return fd
+            finally:
+                restored.append(True)
+                os.rename(objects, self.fx.base + "/parked-link")
+                os.rename(fault.parked, objects)
+        with mock.patch.object(os, "open", open_then_restore):
+            with FK.swap_for_symlink("open", 1, objects, outside, match=named("objects")) as fault:
+                result = self.main(*self.fx.args())
+        leaked = os.path.exists(outside + "/" + oid[:2] + "/" + oid[2:])
+        self.assertFalse(opened, "opened a redirected object store outside M")
+        self.assertFalse(leaked, "wrote a loose object outside M")
+        self.assert_refused(result, objects)
+        self.assert_unmoved(staged=False)
 
 
 class GitCoverage(Base):

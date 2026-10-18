@@ -690,14 +690,13 @@ def _index_is(held: Held, path: str) -> list[tuple[str, str, str, str]]:
                  stdin="".join(entry[1] + "\n" for entry in entries).encode("ascii"))
     offset = 0
     for mode, object_name, stage, name in entries:
-        end = blobs.find(b"\n", offset)
-        header = blobs[offset:end].split(b" ")
-        if end < 0 or len(header) != 3 or header[0] != object_name.encode("ascii") \
-                or header[1] != b"blob" or not header[2].isdigit():
+        # [LAW:parse-dont-validate] one anchored match is the record header's whole contract: this id, a blob, its size, LF.
+        header = re.compile(re.escape(object_name.encode("ascii")) + rb" blob ([0-9]+)\n").match(blobs, offset)
+        if header is None:
             raise Refusal(path, reason)
-        start = end + 1
-        offset = start + int(header[2])
-        if offset >= len(blobs) or blobs[offset:offset + 1] != b"\n":
+        start = header.end()
+        offset = start + int(header[1])
+        if blobs[offset:offset + 1] != b"\n":
             raise Refusal(path, reason)
         leaf = held.leaves[root + "/" + name]
         modes = {"symlink": ("120000",), "file": ("100644", "100755")}
