@@ -71,6 +71,30 @@ def link_stays_inside(link, text, unit, links):
     return True
 
 
+def link_boundary_failures(records, unit):
+    """Why the unit's links cross its boundary, in check order; [] when none does.
+
+    records: one LeafRecord per leaf, each source a PurePosixPath inside unit.
+    """
+    # [LAW:single-enforcer] the one link-boundary rule; validate_move and move_run_core both call it.
+    failures = []
+    links = {r['source']: r['link_text'] for r in records if r['kind'] == 'symlink'}
+    for link, text in sorted(links.items()):
+        inside = link_stays_inside(link, text, unit, links)
+        if inside is None:
+            failures.append('ambiguous link (loop): ' + str(link))
+        elif not inside:
+            failures.append('link crosses the unit boundary: ' + str(link))
+    names = {}
+    for r in records:
+        if r['kind'] == 'file':
+            names.setdefault((r['device'], r['inode']), []).append(r)
+    for group in names.values():
+        if any(r['nlink'] > len(group) for r in group):
+            failures.append('hard link crosses the unit boundary: ' + str(group[0]['source']))
+    return failures
+
+
 def validate_move(move, admitted_roots, *, other_moves=None, existing_paths=None,
                   run_units=None, leaves=None):
     """Findings that block this move; () admits it.
@@ -166,19 +190,7 @@ def validate_move(move, admitted_roots, *, other_moves=None, existing_paths=None
                      + unique[source]['kind'])
         elif move['kind'] not in CONTAINERS:
             fail('leaf manifest lacks the moved object', 'UNVERIFIED')
-        links = {r['source']: r['link_text'] for r in records if r['kind'] == 'symlink'}
-        for link, text in sorted(links.items()):
-            inside = link_stays_inside(link, text, source, links)
-            if inside is None:
-                fail('ambiguous link (loop): ' + str(link))
-            elif not inside:
-                fail('link crosses the unit boundary: ' + str(link))
-        names = {}
-        for r in records:
-            if r['kind'] == 'file':
-                names.setdefault((r['device'], r['inode']), []).append(r)
-        for group in names.values():
-            if any(r['nlink'] > len(group) for r in group):
-                fail('hard link crosses the unit boundary: ' + str(group[0]['source']))
+        for reason in link_boundary_failures(records, source):
+            fail(reason)
 
     return tuple({item['id']: item for item in found}.values())

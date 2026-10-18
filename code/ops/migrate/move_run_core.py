@@ -40,11 +40,17 @@ import json
 import posixpath
 import re
 import sys
+from pathlib import PurePosixPath
 from typing import NamedTuple
 
 from ops.migrate import fdsafe
 from ops.migrate import move_plan_core as plan_core
 from ops.migrate.unit_manifest import canonical
+
+# [LAW:no-shared-mutable-globals] exception: icm21_moves imports its code/state siblings by bare name, so that
+# folder joins the process import path once, here at import, before any run.
+sys.path.append(posixpath.join(posixpath.dirname(posixpath.dirname(posixpath.dirname(__file__))), "state"))
+import icm21_moves  # noqa: E402
 
 Refusal = fdsafe.Refusal
 _refuse, _seq, _map, _keys, _id, _path = (plan_core._refuse, plan_core._seq, plan_core._map, plan_core._keys,
@@ -391,6 +397,12 @@ def run_unit(*, root, plan, approval, now, units, tracked, worktree, targets, ru
                 _refuse(unit.source, f"the move splits run unit {run} (SPEC.md:711)")
         if plan_core._overlap(custody, unit.source) or plan_core._overlap(custody, unit.target):
             _refuse("custody_dir", f"{custody!r} overlaps {unit.source!r} or its target {unit.target!r}")
+    for o in observed:
+        # [LAW:single-enforcer] the link-boundary rule is icm21_moves'; this core refuses on its first finding.
+        failures = icm21_moves.link_boundary_failures(
+            [dict(leaf, source=PurePosixPath(leaf["source"])) for leaf in o.leaves], PurePosixPath(o.unit.source))
+        if failures:
+            _refuse(o.unit.source, failures[0])
 
     # [LAW:effects-at-boundaries] the actions are descriptions; Step 210 performs them.
     actions, made, routes = [], set(), []

@@ -168,6 +168,21 @@ def scenario(specs=(U1, U2), plan_edit=None, approval_over=None, manifest_edit=N
     return kw, plan, manifests
 
 
+def rebind(kw: dict, edit) -> dict:
+    """kw for a one-unit scenario whose fresh manifest leaves edit() changed, with the plan and approval
+    resealed to bind the new manifest bytes (so the edit is observed evidence, not a changed pre-digest)."""
+    manifest = json.loads(kw["units"][0]["manifest"])
+    edit(manifest["leaves"])
+    data = canonical(manifest)
+    plan = json.loads(kw["plan"][1])
+    plan["units"][0]["manifest"]["sha256"] = sha(data)
+    plan_bytes = canonical(reseal(plan))
+    units = copy.deepcopy(kw["units"])
+    units[0]["manifest"] = data
+    return {**kw, "units": units, "plan": (PLAN_PATH, plan_bytes),
+            "approval": (APPROVAL_PATH, canonical(approval_doc(plan_bytes)))}
+
+
 def run(**over):
     kw = scenario()[0]
     kw.update(over)
@@ -656,6 +671,57 @@ class UnitRefuses(Refuses):
             kw["targets"] = [r if r["target"] != T2 else {**r, "target": target} for r in kw["targets"]]
             with self.subTest(target=target):
                 self.refuses(kw, target + "/c.log", "holds a control character")
+
+
+class LinkBoundary(Refuses):
+    """SPEC.md:711: a link that crosses the unit boundary refuses the unit (icm21_moves.link_boundary_failures)."""
+
+    def links(self, *leaves):
+        return scenario([U1._replace(leaves=leaves, tracked=())])[0]
+
+    def test_a_symlink_leaving_or_looping_refuses_the_unit(self):
+        for text, reason in (("../outside", "link crosses the unit boundary: /m/old/u1/link"),
+                             ("/outside", "link crosses the unit boundary: /m/old/u1/link"),
+                             ("link", "ambiguous link (loop): /m/old/u1/link")):
+            with self.subTest(text=text):
+                err = self.refuses(self.links(Leaf("a.json", b"{}"), Leaf("link", None, text)), U1.source, reason)
+                self.assertEqual(err.path, U1.source)
+
+    def test_the_refusal_names_the_first_failure_in_check_order(self):
+        kw = self.links(Leaf("a", None, "/x"), Leaf("b", None, "b"))
+        err = self.refuses(kw, U1.source, "link crosses the unit boundary: /m/old/u1/a")
+        self.assertNotIn("/m/old/u1/b", str(err))
+
+    def test_a_hard_link_with_a_name_outside_the_unit_refuses(self):
+        def outside(leaves):
+            leaves[0]["nlink"] = 2
+
+        kw = rebind(scenario([U2])[0], outside)
+        err = self.refuses(kw, U2.source, "hard link crosses the unit boundary: /v/p/u2/c.log")
+        self.assertEqual(err.path, U2.source)
+
+    def test_links_that_stay_inside_the_unit_return_actions(self):
+        kw = self.links(Leaf("a.json", b"{}"), Leaf("d/link", None, "../a.json"))
+        self.assertIn(act("MV-101", "mv", "/m/old/u1", T1), core.run_unit(**kw)["actions"])
+
+        def pair(leaves):
+            for leaf in leaves:
+                leaf.update(inode=leaves[0]["inode"], nlink=2)
+
+        kw = rebind(scenario([U2._replace(leaves=(Leaf("c.log", b"x"), Leaf("d.log", b"x")))])[0], pair)
+        self.assertEqual(core.run_unit(**kw)["actions"],
+                         [act("MV-102", "mkdir", target="/v/preserved"), act("MV-102", "mv", "/v/p/u2", T2)])
+
+
+class ZeroSizes(unittest.TestCase):
+    """Zero is a legal size: a unit of zero-byte files and a unit with no leaves both move."""
+
+    def test_zero_byte_and_zero_leaf_units_return_actions(self):
+        for leaves in ((Leaf("zero", b""), Leaf("empty", b"")), ()):
+            with self.subTest(leaves=len(leaves)):
+                kw = scenario([U2._replace(leaves=leaves)])[0]
+                self.assertEqual(core.run_unit(**kw)["actions"],
+                                 [act("MV-102", "mkdir", target="/v/preserved"), act("MV-102", "mv", "/v/p/u2", T2)])
 
 
 class SplitRefuses(Refuses):
