@@ -42,7 +42,7 @@ REQ_HEADER = "requirement_id\tsource\ttarget\taction\tobserved_bytes\tclass\tlan
 PHASE_HEADER = "source_relative\ttarget_relative\tobserved_sha256"
 CUSTODY = ("leaves.json", "routes.tsv", "repairs.json", "journal.jsonl", "executor.json", "retention.json",
            "admitted.tsv")
-GIT_ALLOWED = {"config", "rev-parse", "ls-files", "mv", "rm", "add"}
+GIT_ALLOWED = {"config", "rev-parse", "ls-files", "update-index", "rm", "add"}
 
 
 def sha(data: bytes) -> str:
@@ -125,7 +125,7 @@ class Fixture:
     def __init__(self, base: str, kind: str = "in-m"):
         self.base = os.path.realpath(tempfile.mkdtemp(prefix="fx", dir=base))
         self.m = self.mk("m")
-        git(self.m, "init", "-q", "-b", "master")
+        git(self.m, "init", "-q", "--template=", "-b", "master")
         self.put("m/README.md", b"readme\n")
         self.put("m/experiments/c10r/README.md", b"c10r\n")
         self.custody = self.mk("m/program/migrations/icm21/units/S220")
@@ -369,7 +369,8 @@ class PositiveControl(Base):
             ["config", "--file", "-", "--no-includes", "--null", "--list"],
             ["rev-parse", "--path-format=absolute", "--show-toplevel", "--git-dir", "--git-common-dir"],
             ["ls-files", "-z", "--full-name", "--", "old/u1"],
-            ["mv", "--", "old/u1", "experiments/c10r/runs/u1"],
+            ["ls-files", "-s", "-z", "--full-name", "--", "old/u1"],
+            ["update-index", "-z", "--index-info"],
             ["add", "--", "experiments/c10r/runs/u1/notes.txt"]])
         self.assertEqual([args[0] for event, args in events if event == "os.mkdir"], ["runs"])
         others = {event for event, _ in events} - {"open", "subprocess.Popen", "os.mkdir"}
@@ -643,6 +644,7 @@ class NegativeControls(Base):
 
 
 class GitConfig(Base):
+    # [LAW:behavior-not-structure] config and repo attacks must refuse while preserving sources.
     def refuses_config(self, path, *words, staged=True):
         self.assert_refused(self.main(*self.fx.args()), path, *words)
         self.assert_unmoved(staged)
@@ -671,10 +673,12 @@ class GitConfig(Base):
         self.refuses_config(f"{self.fx.m}/.git/config.worktree", "second config")
 
     def test_link_inside_dot_git_refuses(self):
+        os.mkdir(os.path.join(self.fx.m, ".git", "info"))
         os.symlink(self.fx.decoy, os.path.join(self.fx.m, ".git", "info", "link"))
         self.refuses_config(f"{self.fx.m}/.git/info/link", "link or special file")
 
     def test_fifo_inside_dot_git_refuses(self):
+        os.mkdir(os.path.join(self.fx.m, ".git", "info"))
         os.mkfifo(os.path.join(self.fx.m, ".git", "info", "fifo"))
         self.refuses_config(f"{self.fx.m}/.git/info/fifo", "link or special file")
 
@@ -691,6 +695,45 @@ class GitConfig(Base):
             return out
         with mock.patch.object(move_unit.subprocess, "run", swap):
             self.refuses_config(config, "changed while Git ran")
+
+    def test_config_edited_with_mtime_restored_refuses_on_ctime(self):
+        config = f"{self.fx.m}/.git/config"
+        real = subprocess.run
+
+        def edit(argv, **kw):
+            out = real(argv, **kw)
+            if "rev-parse" in argv:
+                st = os.stat(config)
+                with open(config, "r+b") as fh:
+                    data = fh.read()
+                    self.assertIn(b"filemode = true", data)
+                    fh.seek(0)
+                    fh.write(data.replace(b"filemode = true", b"filemode = TRUE", 1))
+                os.utime(config, ns=(st.st_atime_ns, st.st_mtime_ns))
+                after = os.stat(config)
+                self.assertEqual((after.st_ino, after.st_size, after.st_mtime_ns),
+                                 (st.st_ino, st.st_size, st.st_mtime_ns))
+                self.assertNotEqual(after.st_ctime_ns, st.st_ctime_ns)
+            return out
+        with mock.patch.object(move_unit.subprocess, "run", edit):
+            self.refuses_config(config, "changed while Git ran")
+
+    def test_dot_git_swapped_with_same_config_inode_refuses(self):
+        dotgit = f"{self.fx.m}/.git"
+        copy = self.fx.base + "/git-copy"
+        shutil.copytree(dotgit, copy, symlinks=True)
+        os.remove(copy + "/config")
+        os.link(dotgit + "/config", copy + "/config")
+        real = subprocess.run
+
+        def swap(argv, **kw):
+            out = real(argv, **kw)
+            if "rev-parse" in argv:
+                os.rename(dotgit, dotgit + "-old")
+                os.rename(copy, dotgit)
+            return out
+        with mock.patch.object(move_unit.subprocess, "run", swap):
+            self.refuses_config(dotgit, "changed while Git ran")
 
     def test_dot_git_swapped_while_git_runs_refuses(self):
         dotgit = f"{self.fx.m}/.git"
@@ -867,7 +910,7 @@ class Attacks(Base):
             return held
         with mock.patch.object(move_unit.fdsafe, "mkdir", made_then_rebound):
             result = self.main(*self.fx.args())
-        self.assert_refused(result, runs, "was moved")
+        self.assert_refused(result, runs, "is held at")
         self.assert_unmoved()
         self.assert_sources_in_place()
 
@@ -905,7 +948,7 @@ class Attacks(Base):
 
         def swap(argv, **kw):
             out = real(argv, **kw)
-            if "mv" in argv:
+            if "update-index" in argv:
                 os.rename(target, os.path.join(self.fx.base, "parked-u1"))
                 os.mkdir(target)
             return out
@@ -938,6 +981,15 @@ class Attacks(Base):
             return fdsafe.live_path(fd, "probe").endswith("/.git/config")
         with FK.inject_oserror("fstat", 1, errno.EIO, match=is_config):
             self.assert_refused(self.main(*self.fx.args()), config, "[EIO]")
+        self.assert_unmoved()
+
+    def test_injected_eio_at_the_git_fstat_names_git(self):
+        git_path = f"{self.fx.m}/.git"
+
+        def is_git(fd):
+            return fdsafe.live_path(fd, "probe").endswith("/.git")
+        with FK.inject_oserror("fstat", 1, errno.EIO, match=is_git):
+            self.assert_refused(self.main(*self.fx.args()), git_path, "[EIO]")
         self.assert_unmoved()
 
     def test_an_os_error_inside_the_inventory_names_the_source(self):
@@ -1019,3 +1071,193 @@ class LateInputParents(Base):
                     self.assert_unmoved()
                     self.assert_sources_in_place()
                     self.assertEqual(self.fx.custody_files(), [])
+
+
+class LateWindows(Base):
+    # [LAW:behavior-not-structure] inject changes at effects and assert refusal and preserved state.
+    def test_w1a_source_leaf_swapped_during_mkdir(self):
+        leaf = self.u.source + "/notes.txt"
+        with FK.swap_for_symlink("mkdir", 1, leaf, self.fx.decoy + "/a.json", when="after") as fault:
+            result = self.main(*self.fx.args())
+        self.assertEqual(fault.fired, 1)
+        self.assert_refused(result, self.u.source)
+        self.assert_unmoved()
+        self.assertTrue(os.path.isdir(self.u.source))
+        self.assertEqual(os.readlink(leaf), self.fx.decoy + "/a.json")
+        for rel in ("a.json", "b.bin"):
+            with open(self.u.source + "/" + rel, "rb") as fh:
+                self.assertEqual(fh.read(), self.u.files[rel])
+
+    def test_w1b_target_leaf_swapped_after_rename(self):
+        target = self.fx.target(self.u)
+        real = move_unit.fdsafe.rename
+
+        def moved_then_swapped(*args):
+            result = real(*args)
+            leaf = target + "/notes.txt"
+            os.rename(leaf, self.fx.base + "/parked-notes")
+            os.symlink(self.fx.decoy + "/a.json", leaf)
+            return result
+        with mock.patch.object(move_unit.fdsafe, "rename", moved_then_swapped):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, target)
+        self.assertTrue(os.path.islink(target + "/notes.txt"))
+
+    def test_w2_attributes_link_during_mkdir(self):
+        os.mkdir(os.path.join(self.fx.m, ".git", "info"))
+        attrs = self.fx.put("m/.git/info/attributes", b"")
+        outside = self.fx.put("decoy/attributes", b"*.txt text eol=lf\n")
+        before = git(self.fx.m, "ls-files", "-z")
+        with FK.swap_for_symlink("mkdir", 1, attrs, outside, when="after") as fault:
+            result = self.main(*self.fx.args())
+        self.assertEqual(fault.fired, 1)
+        self.assert_refused(result, attrs, "link or special file")
+        self.assert_unmoved()
+        self.assert_sources_in_place()
+        self.assertEqual(git(self.fx.m, "ls-files", "-z"), before)
+
+    def test_w3_config_edited_in_place_during_mkdir(self):
+        config = self.fx.m + "/.git/config"
+        outside = self.fx.put("decoy/attributes", b"*.txt text eol=lf\n")
+        inode = os.stat(config).st_ino
+        before = git(self.fx.m, "ls-files", "-s", "-z")
+        real = move_unit.fdsafe.mkdir
+
+        def made_then_edited(parent, name):
+            held = real(parent, name)
+            with open(config, "ab") as fh:
+                fh.write(("[core]\n\tattributesFile = " + outside + "\n").encode())
+            return held
+        with mock.patch.object(move_unit.fdsafe, "mkdir", made_then_edited):
+            result = self.main(*self.fx.args())
+        self.assertEqual(os.stat(config).st_ino, inode)
+        self.assert_refused(result, config, "changed before Git ran")
+        self.assert_unmoved()
+        self.assert_sources_in_place()
+        self.assertEqual(git(self.fx.m, "ls-files", "-s", "-z"), before)
+
+    def test_w4_target_created_before_rename(self):
+        target = self.fx.target(self.u)
+        real = move_unit.fdsafe.rename
+
+        def occupied_then_rename(*args):
+            os.mkdir(target)
+            self.fx.put(target + "/keep", b"keep")
+            return real(*args)
+        with mock.patch.object(move_unit.fdsafe, "rename", occupied_then_rename):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, target, "already exists", "[EEXIST]")
+        self.assert_sources_in_place()
+        self.assertEqual(os.listdir(target), ["keep"])
+        with open(target + "/keep", "rb") as fh:
+            self.assertEqual(fh.read(), b"keep")
+
+    def test_w5_index_changed_during_mkdir(self):
+        real = move_unit.fdsafe.mkdir
+
+        def made_then_staged(parent, name):
+            held = real(parent, name)
+            added = self.fx.put(self.u.source + "/new.txt", b"new\n")
+            git(self.fx.m, "add", "--", added)
+            return held
+        with mock.patch.object(move_unit.fdsafe, "mkdir", made_then_staged):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, self.u.source, "index under it changed")
+        self.assert_unmoved(staged=False)
+        self.assert_sources_in_place()
+
+    def test_w5_unmerged_index_entry_during_mkdir(self):
+        real = move_unit.fdsafe.mkdir
+
+        def made_then_unmerged(parent, name):
+            held = real(parent, name)
+            mode, object_name, _, _ = git(self.fx.m, "ls-files", "-s", "--", "old/u1/a.json").decode().split()
+            records = (f"0 {'0' * 40}\told/u1/a.json\n"
+                       f"{mode} {object_name} 1\told/u1/a.json\n"
+                       f"{mode} {object_name} 2\told/u1/a.json\n")
+            subprocess.run(["git", "-C", self.fx.m, "update-index", "--index-info"],
+                           input=records.encode(), env=clean_env(), check=True, capture_output=True)
+            return held
+        with mock.patch.object(move_unit.fdsafe, "mkdir", made_then_unmerged):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, self.u.source, "index under it changed")
+        self.assert_unmoved(staged=False)
+        self.assert_sources_in_place()
+
+
+class OutsideLateWindows(Base):
+    # [LAW:behavior-not-structure] late mv attacks assert refusal paths and preserved unit bytes.
+    kind = "outside"
+
+    def test_rebound_target_parent_refuses_the_mv(self):
+        parent_path = os.path.dirname(self.fx.target(self.u))
+        real = fdsafe.mkdir
+
+        def made_then_rebound(parent, name):
+            held = real(parent, name)
+            if os.path.join(parent.path, name) == parent_path:
+                os.rename(parent_path, parent_path + "-parked")
+                os.mkdir(parent_path)
+            return held
+        with mock.patch.object(move_unit.fdsafe, "mkdir", made_then_rebound):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, parent_path, "is held at")
+        self.assert_unmoved()
+        self.assert_sources_in_place()
+
+    def test_w1a_mv_source_leaf_swapped_during_mkdir(self):
+        leaf = self.u.source + "/x.json"
+        with FK.swap_for_symlink("mkdir", 1, leaf, self.fx.decoy + "/a.json", when="after") as fault:
+            result = self.main(*self.fx.args())
+        self.assertEqual(fault.fired, 1)
+        self.assert_refused(result, self.u.source)
+        self.assert_unmoved()
+        self.assertEqual(os.readlink(leaf), self.fx.decoy + "/a.json")
+        u2 = self.fx.units[1]
+        for rel, data in u2.files.items():
+            with open(os.path.join(u2.source, rel), "rb") as fh:
+                self.assertEqual(fh.read(), data)
+
+    def test_w1b_mv_target_leaf_swapped_after_rename(self):
+        target = self.fx.target(self.u)
+        real = fdsafe.rename
+
+        def moved_then_swapped(src_parent, src_name, dst_parent, dst_name, roots):
+            result = real(src_parent, src_name, dst_parent, dst_name, roots)
+            if dst_name == os.path.basename(self.u.source):
+                leaf = target + "/x.json"
+                os.rename(leaf, self.fx.base + "/parked-x")
+                os.symlink(self.fx.decoy + "/a.json", leaf)
+            return result
+        with mock.patch.object(move_unit.fdsafe, "rename", moved_then_swapped):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, target)
+        self.assertEqual(os.readlink(target + "/x.json"), self.fx.decoy + "/a.json")
+        u2 = self.fx.units[1]
+        self.assertFalse(os.path.lexists(self.fx.target(u2)))
+        for rel, data in u2.files.items():
+            with open(os.path.join(u2.source, rel), "rb") as fh:
+                self.assertEqual(fh.read(), data)
+
+    def test_w5_index_changed_before_git_rm_cached(self):
+        real = fdsafe.mkdir
+        first_target = self.fx.base + "/v"
+
+        def made_then_staged(parent, name):
+            held = real(parent, name)
+            if os.path.join(parent.path, name) == first_target:
+                object_name = git(self.fx.m, "ls-files", "-s", "--", "old/u3/x.json").decode().split()[1]
+                git(self.fx.m, "update-index", "--add", "--cacheinfo", f"100644,{object_name},old/u3/new.txt")
+            return held
+        with mock.patch.object(move_unit.fdsafe, "mkdir", made_then_staged):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, self.u.source, "index under it changed")
+        target = self.fx.target(self.u)
+        with open(target + "/x.json", "rb") as fh:
+            self.assertEqual(fh.read(), self.u.files["x.json"])
+        self.assertEqual(git(self.fx.m, "ls-files", "--", "old/u3"), b"old/u3/new.txt\nold/u3/x.json\n")
+        u2 = self.fx.units[1]
+        self.assertFalse(os.path.lexists(self.fx.target(u2)))
+        for rel, data in u2.files.items():
+            with open(os.path.join(u2.source, rel), "rb") as fh:
+                self.assertEqual(fh.read(), data)

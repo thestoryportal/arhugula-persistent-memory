@@ -411,8 +411,13 @@ def _splits(values: list) -> dict[str, str]:
     return out
 
 
-def _identity(st: os.stat_result) -> tuple:
-    return (st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns)
+# [LAW:one-source-of-truth] recording and checking each held object use one identity definition.
+def _config_id(st: os.stat_result) -> tuple:
+    return (st.st_dev, st.st_ino, st.st_ctime_ns)
+
+
+def _git_id(st: os.stat_result) -> tuple:
+    return (st.st_dev, st.st_ino)
 
 
 @dataclass(frozen=True)
@@ -421,28 +426,39 @@ class Repo:
     root: str
     git: fdsafe.Dir
     config_fd: int
+    config_id: tuple
+    git_id: tuple
 
     @property
     def config(self) -> str:
         return os.path.join(self.git.path, "config")
 
 
+def _check_repo(repo: Repo, reason: str) -> None:
+    # [LAW:no-ambient-temporal-coupling] held fds pin both inodes, preventing replacement reuse;
+    # compare live names to the recorded state.
+    for path, expected, identity in (
+            (repo.config, repo.config_id, _config_id),
+            (repo.git.path, repo.git_id, _git_id)):
+        with fdsafe.fs(path):
+            named = os.lstat(path)
+        if identity(named) != expected:
+            raise Refusal(path, reason)
+    fdsafe.walk(repo.git, _git_entry)
+
+
 def _git(repo: Repo, *args: str, stdin=subprocess.DEVNULL) -> bytes:
-    """Stdout of one Git command in M; a failed command, or a .git or config swapped while it ran, refuses."""
+    """Stdout of one Git command, bound to the recorded repo before and after the call."""
     command = f"{repo.root}: git {' '.join(args)}"
     env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "GIT_DIR": repo.git.path, "GIT_WORK_TREE": repo.root,
            "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull, "GIT_NO_LAZY_FETCH": "1",
            "GIT_OPTIONAL_LOCKS": "0", "GIT_LITERAL_PATHSPECS": "1", "LC_ALL": "C"}
+    _check_repo(repo, "changed before Git ran; Git would read another file")
+    stream = {"input": stdin} if isinstance(stdin, bytes) else {"stdin": stdin}
     with fdsafe.fs(command):
         proc = subprocess.run(["git", "--no-optional-locks", "-c", "core.fsmonitor=false", *args], cwd=repo.root,
-                              env=env, stdin=stdin, capture_output=True, check=False)
-    # [LAW:no-silent-failure] Git opens .git and its config by path: a swap shows as a held fd that is no longer
-    # what the path names (T201 ruling 9), checked after every call, so also after the last one.
-    for fd, path in ((repo.config_fd, repo.config), (repo.git.fd, repo.git.path)):
-        with fdsafe.fs(path):
-            held, named = os.fstat(fd), os.lstat(path)
-        if _identity(held) != _identity(named):
-            raise Refusal(path, "changed while Git ran; Git may have read another file")
+                              env=env, **stream, capture_output=True, check=False)
+    _check_repo(repo, "changed while Git ran; Git may have read another file")
     if proc.returncode != 0:
         detail = "; ".join(proc.stderr.decode("utf-8", "replace").split("\n")).strip("; ")
         raise Refusal(command, f"exited {proc.returncode}: {detail}")
@@ -465,10 +481,12 @@ def _open_repo(stack: contextlib.ExitStack, root: str) -> Repo:
         fd = os.open("config", fdsafe.LEAF_FLAGS, dir_fd=git.fd)
     stack.callback(fdsafe.close, fd, config)
     with fdsafe.fs(config):
-        mode = os.fstat(fd).st_mode
-    if not stat.S_ISREG(mode):
+        config_st = os.fstat(fd)
+    if not stat.S_ISREG(config_st.st_mode):
         raise Refusal(config, "is not a regular file")
-    repo = Repo(root, git, fd)
+    with fdsafe.fs(git.path):
+        git_st = os.fstat(git.fd)
+    repo = Repo(root, git, fd, _config_id(config_st), _git_id(git_st))
     listed = _git(repo, "config", "--file", "-", "--no-includes", "--null", "--list", stdin=fd)
     for record in listed.split(b"\0")[:-1]:
         key = _utf8(config, record.split(b"\n", 1)[0])
@@ -560,6 +578,8 @@ class Held:
     repo: Repo
     folders: dict
     sources: dict
+    manifests: dict[str, bytes]
+    tracked: list[str]
     stack: contextlib.ExitStack
 
 
@@ -583,27 +603,67 @@ def _do_mkdir(held: Held, action: dict) -> None:
     held.folders[folder] = held.stack.enter_context(fdsafe.mkdir(parent, os.path.basename(folder)))
 
 
+def _same_manifest(held: Held, path: str, source: str, reason: str) -> None:
+    # [LAW:one-source-of-truth] compare unit_manifest's own document, rebasing only moved paths.
+    manifest = _inventory(path)[0]
+
+    def rebase(value):
+        if isinstance(value, str):
+            return source + value[len(path):] if value == path or value.startswith(path + "/") else value
+        if isinstance(value, list):
+            return [rebase(item) for item in value]
+        if isinstance(value, dict):
+            return {rebase(key): rebase(item) for key, item in value.items()}
+        return value
+
+    if canonical(rebase(json.loads(manifest))) != held.manifests[source]:
+        raise Refusal(path, reason)
+
+
 def _do_mv(held: Held, action: dict) -> None:
     src_parent, src_name, dst_parent, dst_name = _ends(held, action)
+    _still_held(src_parent, src_parent)
     _is_source(held, src_parent, src_name, action["source"], action["source"])
+    _same_manifest(held, action["source"], action["source"], "changed since it was inventoried; nothing moved")
     fdsafe.rename(src_parent, src_name, dst_parent, dst_name, [src_parent, dst_parent])
     _is_source(held, dst_parent, dst_name, action["target"], action["source"])
+    _same_manifest(held, action["target"], action["source"], "changed since it was inventoried; left in place")
+
+
+def _index_under(held: Held, source: str) -> list[tuple[str, str, str, str]]:
+    root = held.repo.root
+    listed = _git(held.repo, "ls-files", "-s", "-z", "--full-name", "--", source[len(root) + 1:])
+    entries = []
+    for record in listed.split(b"\0")[:-1]:
+        metadata, path = _utf8(source, record).split("\t", 1)
+        mode, object_name, stage = metadata.split(" ")
+        entries.append((mode, object_name, stage, path))
+    expected = {path for path in held.tracked if path.startswith(source + "/")}
+    if {root + "/" + entry[3] for entry in entries} != expected or any(entry[2] != "0" for entry in entries):
+        raise Refusal(source, "Git's index under it changed since it was read")
+    return entries
 
 
 def _do_git_mv(held: Held, action: dict) -> None:
     src_parent, src_name, dst_parent, dst_name = _ends(held, action)
-    root = held.repo.root
-    _is_source(held, src_parent, src_name, action["source"], action["source"])
-    # `git mv` into an existing folder would move the unit inside it.
-    if _entry(dst_parent.fd, dst_name, action["target"], action["target"]):
-        raise Refusal(action["target"], "already exists; git mv never runs onto it", errno.EEXIST)
     _still_held(src_parent, src_parent)
-    _still_held(dst_parent, dst_parent)
-    _git(held.repo, "mv", "--", action["source"][len(root) + 1:], action["target"][len(root) + 1:])
+    root = held.repo.root
+    entries = _index_under(held, action["source"])
+    _is_source(held, src_parent, src_name, action["source"], action["source"])
+    _same_manifest(held, action["source"], action["source"], "changed since it was inventoried; nothing moved")
+    # [LAW:single-enforcer] exclusive rename owns collision refusal, including late target creation.
+    fdsafe.rename(src_parent, src_name, dst_parent, dst_name, [src_parent, dst_parent])
+    records = []
+    for mode, object_name, stage, path in entries:
+        target = action["target"][len(root) + 1:] + path[len(action["source"][len(root) + 1:]):]
+        records.extend((f"0 {'0' * len(object_name)}\t{path}\0", f"{mode} {object_name} 0\t{target}\0"))
+    _git(held.repo, "update-index", "-z", "--index-info", stdin="".join(records).encode("utf-8"))
     _is_source(held, dst_parent, dst_name, action["target"], action["source"])
+    _same_manifest(held, action["target"], action["source"], "changed since it was inventoried; left in place")
 
 
 def _do_git_rm_cached(held: Held, action: dict) -> None:
+    _index_under(held, action["source"])
     _git(held.repo, "rm", "--cached", "-r", "-q", "--", action["source"][len(held.repo.root) + 1:])
 
 
@@ -643,10 +703,11 @@ def run(args) -> tuple[int, object]:
         repo = _open_repo(stack, root)
         worktree = _worktree(repo)
         tracked = _tracked(repo, [unit.source for unit in units])
-        observed, sources = [], {}
+        observed, sources, manifests = [], {}, {}
         for unit in units:
             hold(os.path.dirname(unit.source))
             manifest, sources[unit.source] = _inventory(unit.source)
+            manifests[unit.source] = manifest
             observed.append({"source": unit.source, "manifest": manifest, "split": splits.get(unit.source)})
         targets = [_target(hold, unit.target) for unit in units]
         result = run_core.run_unit(root=root, plan=plan, approval=approval, now=_now(), units=observed,
@@ -658,7 +719,7 @@ def run(args) -> tuple[int, object]:
         files = [(os.path.basename(doc["path"]), doc["bytes"]) for doc in result["documents"]] + \
             [(ADMITTED, _admitted(root, result["actions"], tracked))]
         custody = _write_custody(args.custody_dir, files, roots)
-        held = Held(repo, folders, sources, stack)
+        held = Held(repo, folders, sources, manifests, tracked, stack)
         for action in result["actions"]:
             ACTIONS[action["action"]](held, action)
     return 0, {"actions": result["actions"], "custody": custody}
