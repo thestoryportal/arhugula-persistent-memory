@@ -1104,6 +1104,25 @@ class Attacks(Base):
         self.assertIn(repr(self.u.source), proc.stderr)
 
 
+    def test_custody_rebound_into_the_relocated_unit_refuses(self):
+        real = fdsafe.create_file
+        relocated = self.fx.base + "/relocated-source"
+        written = []
+
+        def create(parent, name, data, roots):
+            if not written:
+                os.rename(self.u.source, relocated)
+                os.rename(parent.path, relocated + "/custody")
+                os.mkdir(parent.path)
+                written.append(parent.path + "/" + name)
+            return real(parent, name, data, roots)
+        with mock.patch.object(fdsafe, "create_file", create):
+            result = self.main(*self.fx.args())
+        self.assertEqual(len(written), 1)
+        self.assertEqual(os.listdir(relocated + "/custody"), [])
+        self.assert_refused(result, written[0], "inside root")
+
+
 if __name__ == "__main__":
     unittest.main()
 
@@ -1624,6 +1643,49 @@ class LateWindows(Base):
             result = self.main(*self.fx.args())
         self.assert_refused(result, target, "is not a regular file or a symlink")
         self.assertEqual(git(self.fx.m, "ls-files", "-s", "--", target), b"")
+
+
+    def test_fanout_rebound_into_the_relocated_unit_refuses(self):
+        target = self.fx.target(self.u)
+        relocated = self.fx.base + "/relocated-unit"
+        real = fdsafe.create_file
+        written = []
+
+        def create(parent, name, data, roots):
+            if "/.git/objects/" in parent.path:
+                os.rename(target, relocated)
+                os.mkdir(target)
+                os.rename(parent.path, relocated + "/loose-object")
+                os.mkdir(parent.path)
+                written.append(parent.path + "/" + name)
+            return real(parent, name, data, roots)
+        with mock.patch.object(fdsafe, "create_file", create):
+            result = self.main(*self.fx.args())
+        self.assertEqual(len(written), 1)
+        self.assertEqual(os.listdir(relocated + "/loose-object"), [])
+        self.assert_refused(result, written[0], "inside root")
+
+    def test_fanout_rebound_into_the_relocated_unit_with_an_existing_parent_refuses(self):
+        os.makedirs(os.path.dirname(self.fx.target(self.u)))
+        self.fx.seal()
+        target = self.fx.target(self.u)
+        relocated = self.fx.base + "/relocated-unit"
+        real = fdsafe.create_file
+        written = []
+
+        def create(parent, name, data, roots):
+            if "/.git/objects/" in parent.path:
+                os.rename(target, relocated)
+                os.mkdir(target)
+                os.rename(parent.path, relocated + "/loose-object")
+                os.mkdir(parent.path)
+                written.append(parent.path + "/" + name)
+            return real(parent, name, data, roots)
+        with mock.patch.object(fdsafe, "create_file", create):
+            result = self.main(*self.fx.args())
+        self.assertEqual(len(written), 1)
+        self.assertEqual(os.listdir(relocated + "/loose-object"), [])
+        self.assert_refused(result, written[0], "inside root")
 
 
 class OutsideLateWindows(Base):

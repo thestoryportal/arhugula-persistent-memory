@@ -32,8 +32,9 @@ is followed and the bytes come from the object scanned; each directory it holds 
       fdsafe.mkdir, mv by fdsafe.rename, git-mv by fdsafe.rename and `git update-index`, and git-rm-cached
       by `git update-index`. For git-add, Git computes the blob id with `hash-object --no-filters --stdin`;
       the run writes the compressed loose object through held fds with fdsafe.create_file, then stages it
-      with `git update-index`. Its roots are the folders that hold each unit source, each existing target
-      parent, and every folder the run creates, never M, so custody files are created outside every root.
+      with `git update-index`. Its roots are each unit folder (held by fd, so it stays a root wherever it
+      moves), the folders that hold each unit source, each existing target parent, and every folder the run
+      creates, never M, so custody files are created outside every root.
       Before any Git call it holds M/.git and its config without following links and refuses (T201
       rulings 2, 7 and 8) a link or special file under .git, a config.worktree, an include, includeIf,
       extensions or filter key, a core key outside the plain set, or a remote promisor or partial-clone
@@ -526,18 +527,22 @@ def _tracked(repo: Repo, sources: list) -> list[str]:
     return [f"{repo.root}/{_utf8(repo.root, rel)}" for rel in listed.split(b"\0")[:-1]]
 
 
-def _inventory(source: str) -> tuple[bytes, tuple]:
-    """Fresh Step 201 manifest bytes of the source and its (st_dev, st_ino).
+def _inventory(source: str) -> tuple[bytes, tuple, fdsafe.Dir]:
+    """Fresh Step 201 manifest bytes, (st_dev, st_ino), and the walked Dir, owned by the caller.
 
     [LAW:one-source-of-truth] the bytes come from unit_manifest's own fd-bound walk over the held source, so
     they equal the plan's manifest exactly when nothing changed; no second inventory is written here."""
-    with fdsafe.hold_root(source) as held, fdsafe.fs(source):
-        try:
-            doc = unit_manifest.build_manifest(source, held.fd)
-        except unit_manifest.Refusal as exc:
-            raise Refusal(source, str(exc)) from exc
-        st = os.fstat(held.fd)
-    return canonical(doc), (st.st_dev, st.st_ino)
+    with contextlib.ExitStack() as stack:
+        held = stack.enter_context(fdsafe.hold_root(source))
+        with fdsafe.fs(source):
+            try:
+                doc = unit_manifest.build_manifest(source, held.fd)
+            except unit_manifest.Refusal as exc:
+                raise Refusal(source, str(exc)) from exc
+            st = os.fstat(held.fd)
+        result = canonical(doc), (st.st_dev, st.st_ino), held
+        stack.pop_all()
+        return result
 
 
 def _nearest(hold: Callable[[str], fdsafe.Dir], path: str) -> fdsafe.Dir:
@@ -625,7 +630,8 @@ def _do_mkdir(held: Held, action: dict) -> None:
 
 def _same_manifest(held: Held, path: str, source: str, reason: str) -> None:
     # [LAW:one-source-of-truth] compare unit_manifest's own document, rebasing only moved paths.
-    manifest = _inventory(path)[0]
+    manifest, _, walked = _inventory(path)
+    walked.close()
 
     def rebase(value):
         if isinstance(value, str):
@@ -805,7 +811,8 @@ def run(args) -> tuple[int, object]:
         observed, sources, manifests, leaves = [], {}, {}, {}
         for unit in units:
             hold(os.path.dirname(unit.source))
-            manifest, sources[unit.source] = _inventory(unit.source)
+            manifest, sources[unit.source], walked = _inventory(unit.source)
+            folders[unit.source] = stack.enter_context(walked)
             manifests[unit.source] = manifest
             # [LAW:one-source-of-truth] both path names derive from the same admitted manifest bytes.
             for leaf in json.loads(manifest)["leaves"]:
@@ -817,7 +824,8 @@ def run(args) -> tuple[int, object]:
                                    tracked=tracked, worktree=worktree, targets=targets, run_units=run_units,
                                    custody_dir=args.custody_dir)
         # [LAW:effects-at-boundaries] the roots are the unit's own folders only, never M.
-        roots = [folders[os.path.dirname(unit.source)] for unit in units] + \
+        roots = [folders[unit.source] for unit in units] + \
+            [folders[os.path.dirname(unit.source)] for unit in units] + \
             [folders[t["base"]] for t in targets if t["base"] == os.path.dirname(t["target"])]
         files = [(os.path.basename(doc["path"]), doc["bytes"]) for doc in result["documents"]] + \
             [(ADMITTED, _admitted(root, result["actions"], tracked))]
