@@ -176,6 +176,7 @@ def rebind(kw: dict, edit) -> dict:
     data = canonical(manifest)
     plan = json.loads(kw["plan"][1])
     plan["units"][0]["manifest"]["sha256"] = sha(data)
+    plan["moves"][0]["source_manifest"]["sha256"] = plan["moves"][0]["before_sha256"] = sha(data)
     plan_bytes = canonical(reseal(plan))
     units = copy.deepcopy(kw["units"])
     units[0]["manifest"] = data
@@ -302,10 +303,10 @@ class Documents(unittest.TestCase):
         lines = self.doc("routes.tsv").decode().split("\n")
         self.assertEqual(lines[0], "requirement_id\tsource\ttarget\tkind\tobserved_bytes\taction\tlane\tscientific_role")
         self.assertEqual(lines[1:], [
-            f"MV-101\t/m/old/u1/a.json\t{T1}/a.json\tfile\t2\tMOVE\tS220\ttracked-record",
-            f"MV-101\t/m/old/u1/b.bin\t{T1}/b.bin\tfile\t2\tMOVE\tS220\tgoverned-payload",
-            f"MV-101\t/m/old/u1/link\t{T1}/link\tsymlink\t6\tMOVE\tS220\ttracked-record",
-            f"MV-102\t/v/p/u2/c.log\t{T2}/c.log\tfile\t4\tMOVE\tS220\ttracked-record",
+            f"MV-101\t/m/old/u1/a.json\t{T1}/a.json\tfile\t2\tMOVE\tlegacy-preservation\ttracked-record",
+            f"MV-101\t/m/old/u1/b.bin\t{T1}/b.bin\tfile\t2\tMOVE\tlegacy-preservation\tgoverned-payload",
+            f"MV-101\t/m/old/u1/link\t{T1}/link\tsymlink\t6\tMOVE\tlegacy-preservation\ttracked-record",
+            f"MV-102\t/v/p/u2/c.log\t{T2}/c.log\tfile\t4\tMOVE\tlegacy-preservation\ttracked-record",
             ""])
 
     def test_repairs_are_an_empty_repair_set(self):
@@ -585,7 +586,7 @@ class PlanRefuses(Refuses):
 
     def test_repeated_mv_ids(self):
         def edit(d):
-            d["units"][1]["requirement_id"] = "MV-101"
+            d["units"][1]["requirement_id"] = d["moves"][1]["id"] = "MV-101"
             d["replaces"] = ["MV-101", "MV-101"]
         self.plan(edit, PLAN_PATH, "unique MV ids")
 
@@ -666,7 +667,8 @@ class UnitRefuses(Refuses):
                 for unit in plan["units"]:
                     if unit["source"] == U2.source:
                         unit["target"] = target
-                plan["moves"] = [{"source": u["source"], "target": u["target"]} for u in plan["units"]]
+                for move, unit in zip(plan["moves"], plan["units"]):
+                    move["target"] = unit["target"]
             kw = scenario(plan_edit=edit)[0]
             kw["targets"] = [r if r["target"] != T2 else {**r, "target": target} for r in kw["targets"]]
             with self.subTest(target=target):
@@ -773,6 +775,7 @@ class SplitRefuses(Refuses):
         k = scenario([U2])[0]
         plan_doc = json.loads(k["plan"][1])
         plan_doc["units"][0]["manifest"]["sha256"] = sha(canonical(doc))
+        plan_doc["moves"][0]["source_manifest"]["sha256"] = plan_doc["moves"][0]["before_sha256"] = sha(canonical(doc))
         plan_doc["units"][0]["leaves"] = 2
         plan_doc = reseal(plan_doc)
         data = canonical(plan_doc)

@@ -581,8 +581,9 @@ def _write(parent: fdsafe.Dir, name: str, reports: list, roots: list, fences: li
     for report, data in reports:
         _refuse_inside(_ancestry(outdir), outdir.live(), fences, attempted)
         attempted.append(report)
-        held = fdsafe.create_held(outdir, report, data, [root.held for root in roots])
+        held = fdsafe.open_held(outdir, report, [root.held for root in roots])
         held_reports.append(held)
+        fdsafe.write_held(held, data)
         lines.append(fdsafe.settle(held, [root.held for root in roots]))
     _refuse_inside(_ancestry(outdir), outdir.live(), fences, attempted)
     # [LAW:single-enforcer] Each file may move independently of --out.

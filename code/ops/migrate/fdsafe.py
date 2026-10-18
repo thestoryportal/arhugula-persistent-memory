@@ -50,7 +50,11 @@ class Refusal(ValueError):
         self.path = path
         self.errno = err
         tag = "" if err is None else f" [{errno.errorcode.get(err, err)}]"
-        super().__init__(f"{path!r}: {reason}{tag}")
+        super().__init__(f"{path!r}: {reason}{tag}".translate(str.maketrans({
+            "\n": r"\n", "\r": r"\r", "\v": r"\x0b", "\f": r"\x0c",
+            "\x1c": r"\x1c", "\x1d": r"\x1d", "\x1e": r"\x1e", "\x85": r"\x85",
+            "\u2028": r"\u2028", "\u2029": r"\u2029",
+        })))
 
 
 @contextlib.contextmanager
@@ -219,11 +223,8 @@ class Held:
     name: str
 
 
-def create_held(parent: Dir, name: str, data: bytes, roots: Sequence[Dir]) -> Held:
-    """Create and fully write a file; transfer its fd before any post-write location check.
-
-    The caller closes through close. A failed write leaves the named file in place.
-    """
+def open_held(parent: Dir, name: str, roots: Sequence[Dir]) -> Held:
+    """[LAW:one-source-of-truth] Check and exclusively open an empty file; caller owns its fd."""
     target = os.path.join(parent.path, name)
     if name in ("", ".", "..") or "/" in name or "\0" in name:
         raise Refusal(target, "names no single file")
@@ -235,19 +236,33 @@ def create_held(parent: Dir, name: str, data: bytes, roots: Sequence[Dir]) -> He
             raise Refusal(target, f"output parent {before} is inside root {root.path}")
     with fs(target):
         fd = os.open(name, CREATE_FLAGS, 0o644, dir_fd=parent.fd)
-    kept = f"{target} (created, left in place)"
+    return Held(fd, parent, name)
+
+
+def write_held(held: Held, data: bytes) -> None:
+    """[LAW:composability] Complete the write without changing descriptor ownership."""
+    target = os.path.join(held.parent.path, held.name)
+    with fs(f"{target} (left in place, incomplete)"):
+        view = memoryview(data)
+        while view:
+            view = view[os.write(held.fd, view):]
+
+
+def create_held(parent: Dir, name: str, data: bytes, roots: Sequence[Dir]) -> Held:
+    """Create and fully write a file; transfer its fd before any post-write location check.
+
+    The caller closes through close. A failed write leaves the named file in place.
+    """
+    held = open_held(parent, name, roots)
+    kept = f"{os.path.join(parent.path, name)} (created, left in place)"
     transferred = False
     try:
-        with fs(f"{target} (left in place, incomplete)"):
-            view = memoryview(data)
-            while view:
-                view = view[os.write(fd, view):]
-        held = Held(fd, parent, name)
+        write_held(held, data)
         transferred = True
         return held
     finally:
         if not transferred:
-            close(fd, kept)
+            close(held.fd, kept)
 
 
 def create_file(parent: Dir, name: str, data: bytes, roots: Sequence[Dir]) -> str:
