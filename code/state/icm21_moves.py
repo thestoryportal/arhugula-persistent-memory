@@ -1,17 +1,17 @@
 """Pure pre-run validation of one ICM v2.1 Move (SPEC.md:206, plan Step 202).
 
-validate_move opens no file, writes none and decides no target: every fact it judges
-is an argument, and the wire schema is read once at import. An empty tuple admits the
-move. A fact the caller did not supply yields UNVERIFIED, never an empty PASS
+validate_move writes nothing and decides no target: every fact it judges is an
+argument. The wire schema is read once at first wire check. An empty tuple admits
+the move. A fact the caller did not supply yields UNVERIFIED, never an empty PASS
 (SPEC.md:230). Malformed input is refused with one FAIL, never repaired.
 """
+from functools import cache
 import hashlib
 from pathlib import PurePath, PurePosixPath
 
 import icm21_check
 
 
-SCHEMA = icm21_check.audit_schema()
 # SPEC.md:83-84 and WIRE-CONTRACTS.md:133: these rows emit no move operation.
 NO_ACTION = frozenset({'KEEP', 'RETAIN_CONTAINER', 'HOLD', 'FOLLOW_PARENT'})
 PATTERN_CHARS = frozenset('*?[]<>')  # SPEC.md:87
@@ -26,16 +26,25 @@ def finding(move_id, status, paths, reason):
             'reason': reason, 'previous_finding': None, 'resolution_receipt': None}
 
 
+# [LAW:effects-at-boundaries] importing a validator must not read its schema.
+@cache
+def wire_schema():
+    # [LAW:one-source-of-truth] reuse the canonical schema reader and its result.
+    return icm21_check.audit_schema()
+
+
 def wire_path(value):
+    schema = wire_schema()
     text = str(value) if isinstance(value, PurePath) else value
-    icm21_check.validate_schema(text, {'$ref': '#/$defs/path'}, SCHEMA['$defs'])
+    icm21_check.validate_schema(text, {'$ref': '#/$defs/path'}, schema['$defs'])
     return PurePosixPath(text)
 
 
 def wire_record(name, value):
     """Validate against the sealed definition itself: icm21_check.WIRE_TYPES, which
     gates validate_wire, does not list Move or LeafRecord."""
-    icm21_check.validate_schema(value, SCHEMA['$defs'][name], SCHEMA['$defs'])
+    schema = wire_schema()
+    icm21_check.validate_schema(value, schema['$defs'][name], schema['$defs'])
 
 
 def within(path, root):
@@ -102,6 +111,7 @@ def validate_move(move, admitted_roots, *, other_moves=None, existing_paths=None
     other_moves: the plan's other Moves. existing_paths: absolute paths observed present.
     run_units: absolute run-unit roots. leaves: the LeafRecords of this move's source.
     """
+    wire_schema()  # Schema failures are not malformed move values.
     move_id = move['id'] if type(move) is dict and type(move.get('id')) is str \
         and move['id'] else 'unidentified'
     try:
