@@ -133,5 +133,38 @@ class CallerInputs(MovesCase):
                              'PASS' if roots else 'UNVERIFIED')
 
 
+    def test_valid_root_is_decisive_in_each_position(self):
+        # [LAW:behavior-not-structure] Root order cannot change admission.
+        for roots in ((self.fx.root, self.fx.decoy),
+                      (self.fx.decoy, self.fx.root)):
+            with self.subTest(roots=roots):
+                argv = self.argv(roots=False)
+                for root in roots:
+                    argv += ['--admitted-root', str(root)]
+                self.assertEqual(self.main(argv), (0, {
+                    'status': 'PASS', 'stage': 'pre', 'entry': 'E-1', 'findings': []}))
+                code, result = self.main(self.argv(roots=False) +
+                                         ['--admitted-root', str(self.fx.decoy)])
+                self.assertEqual((code, result['status']), (1, 'FAIL'), result)
+                self.assertIn('target escapes every admitted root: ' +
+                              self.fx.moves[0]['target'], self.reasons(result))
+
+    def test_blocking_run_unit_is_decisive_in_each_position(self):
+        unrelated = [str(self.fx.decoy), str(self.fx.specs)]
+        for position in range(3):
+            with self.subTest(position=position):
+                runs = unrelated[:]
+                runs.insert(position, str(self.fx.root))
+                self.runs.write_bytes(dumps(runs))
+                code, result = self.main(self.argv())
+                self.assertEqual((code, result['status']), (1, 'FAIL'), result)
+                self.assertIn('move splits run unit ' + str(self.fx.root),
+                              self.reasons(result))
+        self.runs.write_bytes(dumps(unrelated))
+        self.assertEqual(self.main(self.argv()), (0, {
+            'status': 'PASS', 'stage': 'pre', 'entry': 'E-1', 'findings': []}))
+
+
+
 if __name__ == '__main__':
     unittest.main()
