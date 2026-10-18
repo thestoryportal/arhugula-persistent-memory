@@ -47,13 +47,22 @@ class LazySchemaTests(unittest.TestCase):
             self.assertEqual(read.call_count, 1)
 
     def test_schema_read_error_propagates_from_first_wire(self):
-        error = ValueError('x')
-        with mock.patch.object(icm21_check, 'audit_schema', side_effect=error):
-            module = fresh_module()
-            with self.assertRaises(ValueError) as raised:
-                module.wire('Binding', {'path': '/fixture/a', 'sha256': 'a' * 64})
-            self.assertIs(raised.exception, error)
-            self.assertNotIsInstance(raised.exception, module.Refusal)
+        errors = (
+            ValueError('x'),
+            OSError('x'),
+            FileNotFoundError('x'),
+            PermissionError('x'),
+            UnicodeDecodeError('utf-8', b'\xff', 0, 1, 'invalid start byte'),
+            RecursionError('x'),
+        )
+        for error in errors:
+            with self.subTest(error=type(error).__name__):
+                with mock.patch.object(icm21_check, 'audit_schema', side_effect=error):
+                    module = fresh_module()
+                    with self.assertRaises(type(error)) as raised:
+                        module.wire('Binding', {'path': '/fixture/a', 'sha256': 'a' * 64})
+                    self.assertIs(raised.exception, error)
+                    self.assertNotIsInstance(raised.exception, module.Refusal)
 
 
 if __name__ == '__main__':
