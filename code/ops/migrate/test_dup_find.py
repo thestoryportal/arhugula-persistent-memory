@@ -77,6 +77,45 @@ def before_connect(action):
         yield
 
 
+WRITE_FLAGS = os.O_WRONLY | os.O_RDWR | os.O_CREAT | os.O_TRUNC | os.O_APPEND
+_opens: list | None = None  # the "open" audit events while recording_opens runs; None outside it
+
+
+def _audit(event, args):
+    if event == "open" and _opens is not None:
+        _opens.append(args)
+
+
+sys.addaudithook(_audit)  # an audit hook cannot be removed, so it records only inside recording_opens
+
+
+@contextlib.contextmanager
+def recording_opens():
+    """Record every Python-level open (open, io.open, os.open, pathlib) in the block as (path, mode, flags)."""
+    global _opens
+    _opens = []
+    try:
+        yield _opens
+    finally:
+        _opens = None
+
+
+def opens_to_write(events) -> list:
+    """The events that can write or create: a mode with w, a, x or +, or flags with a write or create bit."""
+    return [(path, mode, flags) for path, mode, flags in events
+            if (isinstance(mode, str) and set(mode) & set("wax+")) or (isinstance(flags, int) and flags & WRITE_FLAGS)]
+
+
+def tree_state(root: str) -> list:
+    """Every entry under root, root included, with its type, size, mtime and inode; links are not followed."""
+    state = []
+    for top, dirs, files in os.walk(root):
+        for path in [top] + [os.path.join(top, name) for name in dirs + files]:
+            st = os.lstat(path)
+            state.append((os.path.relpath(path, root), st.st_mode, st.st_size, st.st_mtime_ns, st.st_ino))
+    return sorted(set(state))
+
+
 class Base(unittest.TestCase):
     def setUp(self):
         self.tmp = os.path.realpath(tempfile.mkdtemp(prefix="dupfind"))
@@ -418,6 +457,36 @@ class DbAttacks(Base):
                 with lstat_error(errno.EIO, n):
                     result = self.main(*self.args(self.db))
                 self.assert_refused(result, self.db, "[EIO]")
+
+
+class ComparisonOnly(Base):
+    def test_main_opens_no_file_to_write_or_create_and_changes_no_fixture(self):
+        overlay, stage, other = self.mkdir("S/L01"), self.mkdir("P/stage_1_sect"), self.mkdir("P/other")
+        for root in (overlay, stage):
+            os.makedirs(os.path.join(root, "sect"))
+            self.write(os.path.join(root, "sect", "layer_7.json"), b'{"layer": 7}')
+            self.write(os.path.join(root, "notes.md"), b"overlay notes\n")
+        self.write(os.path.join(other, "notes.md"), b"other notes\n")
+        paths = []
+        for root, name in ((overlay, "l01.json"), (stage, "stage.json"), (other, "other.json")):
+            out = os.path.join(self.mdir, name)
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(unit_manifest.main(["--root", root, "--out", out]), 0)
+            paths.append(out)
+        db = self.make_db([(os.path.join(overlay, "notes.md"), sha(b"overlay notes\n"))])
+        roots = (overlay, stage, other, self.mdir, self.ddir)
+        before = [sorted(os.listdir(root)) for root in roots], tree_state(self.tmp)
+        with recording_opens() as opens:
+            code, out, err = self.main("--unit", paths[0], "--reference", paths[1], "--reference", paths[2],
+                                       "--toolkit-db", db)
+        self.assertEqual((code, err), (0, ""))
+        rows = json.loads(out)
+        self.assertEqual([row["class"] for row in rows], ["equal", "equal"])
+        self.assertEqual(rows[0]["hint"], {"sha256": sha(b"overlay notes\n"), "agrees": True})
+        # The hook saw the tool's own read-only manifest opens, so an empty write list is not a dead hook.
+        self.assertLessEqual({"l01.json", "stage.json", "other.json"}, {os.path.basename(str(e[0])) for e in opens})
+        self.assertEqual(opens_to_write(opens), [])
+        self.assertEqual(([sorted(os.listdir(root)) for root in roots], tree_state(self.tmp)), before)
 
 
 if __name__ == "__main__":
