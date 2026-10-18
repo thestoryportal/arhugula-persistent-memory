@@ -79,14 +79,22 @@ def before_connect(action):
 
 WRITE_FLAGS = os.O_WRONLY | os.O_RDWR | os.O_CREAT | os.O_TRUNC | os.O_APPEND
 _opens: list | None = None  # the "open" audit events while recording_opens runs; None outside it
+# The audit events of Python-level directory, link, rename, removal and metadata changes (T205 ruling 2).
+MUTATING_EVENTS = frozenset({
+    "os.mkdir", "os.rename", "os.symlink", "os.link", "os.remove", "os.rmdir", "os.truncate", "os.chmod",
+    "os.chflags", "os.chown", "os.utime", "shutil.copyfile", "shutil.copymode", "shutil.copystat",
+    "shutil.copytree", "shutil.rmtree", "shutil.move"})
+_mutations: list | None = None  # (event, args) for MUTATING_EVENTS while recording_mutations runs; None outside it
 
 
 def _audit(event, args):
     if event == "open" and _opens is not None:
         _opens.append(args)
+    elif event in MUTATING_EVENTS and _mutations is not None:
+        _mutations.append((event, args))
 
 
-sys.addaudithook(_audit)  # an audit hook cannot be removed, so it records only inside recording_opens
+sys.addaudithook(_audit)  # an audit hook cannot be removed, so it records only inside recording_opens/_mutations
 
 
 @contextlib.contextmanager
@@ -98,6 +106,17 @@ def recording_opens():
         yield _opens
     finally:
         _opens = None
+
+
+@contextlib.contextmanager
+def recording_mutations():
+    """Record every MUTATING_EVENTS audit event in the block as (event, args)."""
+    global _mutations
+    _mutations = []
+    try:
+        yield _mutations
+    finally:
+        _mutations = None
 
 
 def opens_to_write(events) -> list:
@@ -475,10 +494,19 @@ class ComparisonOnly(Base):
             paths.append(out)
         db = self.make_db([(os.path.join(overlay, "notes.md"), sha(b"overlay notes\n"))])
         roots = (overlay, stage, other, self.mdir, self.ddir)
+        control = os.path.realpath(tempfile.mkdtemp(prefix="dupfind-control"))
+        self.addCleanup(shutil.rmtree, control)
         before = [sorted(os.listdir(root)) for root in roots], tree_state(self.tmp)
-        with recording_opens() as opens:
+        with recording_opens() as opens, recording_mutations() as mutations:
             code, out, err = self.main("--unit", paths[0], "--reference", paths[1], "--reference", paths[2],
                                        "--toolkit-db", db)
+            during_main = list(mutations)
+            # Positive control: the test's own mkdir and symlink in the same window are recorded, so an
+            # empty during_main is not a dead hook.
+            os.mkdir(os.path.join(control, "made"))
+            os.symlink("/", os.path.join(control, "link"))
+        self.assertEqual(during_main, [])
+        self.assertEqual([event for event, _ in mutations], ["os.mkdir", "os.symlink"])
         self.assertEqual((code, err), (0, ""))
         rows = json.loads(out)
         self.assertEqual([row["class"] for row in rows], ["equal", "equal"])
