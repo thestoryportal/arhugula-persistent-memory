@@ -289,6 +289,11 @@ class BuildPlanRefuses(unittest.TestCase):
             with self.subTest(label):
                 self.refuses(tables=[tab])
 
+    def test_unselected_requirement_row_with_an_empty_action(self):
+        tables = [table(req_row("MV-101", "/p/u1", "/v/p/u1"), req_row("MV-102", "/p/u2", "/v/p/u2", action=""))]
+        refusal = self.refuses("/m/plans/MOVE-REQUIREMENTS.tsv:3", tables=tables)
+        self.assertIn("expected a non-empty UTF-8 string, got ''", str(refusal))
+
     def test_table_refusal_names_the_table_and_line(self):
         bad = ("/m/t.tsv", HEADER + "\n" + req_row("MV-1", "/p/u1", "/v/p/u1") + "\n")
         self.assertEqual(self.refuses(tables=[bad]).path, "/m/t.tsv:2")
@@ -412,6 +417,12 @@ class BuildPlanRefuses(unittest.TestCase):
                 u["readers"] = bad
                 self.refuses(units=[u])
 
+    def test_stale_reader_with_an_empty_old_text(self):
+        u = unit()
+        u["readers"] = {"stale": [{"file": "x.py", "line": 1, "old_text": "", "old": "/p/u1"}], "unverified": []}
+        refusal = self.refuses("units[0].readers.stale[0]", units=[u])
+        self.assertIn("expected a non-empty UTF-8 string, got ''", str(refusal))
+
     def test_comparison(self):
         row = unit()["comparison"][0]
         cases = [[], "x", [{**row, "source": "/p/u1/b.json"}], [row, row], [{**row, "class": "same"}],
@@ -487,6 +498,12 @@ class CheckPlans(unittest.TestCase):
         o = occ(old_text="/p/u1/aa", text="x /p/u1/aa/p/u1/aa")
         found = check_plans([o], repairs(("code/x.py", 3, "/p/u1/aa", "/m/experiments/c10r/runs/u1/aa", 261)))
         self.assertEqual([f[0] for f in found], ["not-once"])
+
+    def test_truly_overlapping_old_text_counts_twice(self):
+        entries = [{"id": "S220", "moves": [{"source": "/p/p", "target": "/v/p/p"}]}]
+        o = occ(old_text="/p/p", old="/p/p", text="path=/p/p/p")
+        found = check_plans([o], repairs(("code/x.py", 3, "/p/p", "/v/p/p", 261)), entries=entries)
+        self.assertEqual(found, (("not-once", "code/x.py", 3, "/p/p", "old_text occurs 2 times on its line"),))
 
     def test_new_text_not_under_the_entry_target(self):
         for new in ("/m/experiments/c10r/runs/u1x", "/v/p/u1", "experiments/c10r/runs", "../m/experiments/c10r/runs/u1",
