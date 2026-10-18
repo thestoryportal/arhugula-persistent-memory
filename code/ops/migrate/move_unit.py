@@ -678,6 +678,14 @@ def _index_is(held: Held, path: str, expected: list[str]) -> list[tuple[str, str
     return entries
 
 
+def _write_index(held: Held, entries: list[tuple[str, str, str]]) -> None:
+    # [LAW:one-source-of-truth] all actions share the index record format and write boundary.
+    # [LAW:dataflow-not-control-flow] removal mode uses the same record shape as addition.
+    records = [f"{mode} {object_name} 0\t{path}\0"
+               for mode, object_name, path in entries]
+    _git(held.repo, "update-index", "-z", "--index-info", stdin="".join(records).encode("utf-8"))
+
+
 def _do_git_mv(held: Held, action: dict) -> None:
     src_parent, src_name, dst_parent, dst_name = _ends(held, action)
     _still_held(src_parent, src_parent)
@@ -691,8 +699,8 @@ def _do_git_mv(held: Held, action: dict) -> None:
     records = []
     for mode, object_name, stage, path in entries:
         target = action["target"][len(root) + 1:] + path[len(action["source"][len(root) + 1:]):]
-        records.extend((f"0 {'0' * len(object_name)}\t{path}\0", f"{mode} {object_name} 0\t{target}\0"))
-    _git(held.repo, "update-index", "-z", "--index-info", stdin="".join(records).encode("utf-8"))
+        records.extend((("0", "0" * len(object_name), path), (mode, object_name, target)))
+    _write_index(held, records)
     _index_is(held, action["target"],
               [action["target"] + path[len(action["source"]):] for path in expected])
     _is_source(held, dst_parent, dst_name, action["target"], action["source"])
@@ -700,14 +708,30 @@ def _do_git_mv(held: Held, action: dict) -> None:
 
 
 def _do_git_rm_cached(held: Held, action: dict) -> None:
-    _index_is(held, action["source"],
+    entries = _index_is(held, action["source"],
               [path for path in held.tracked if path.startswith(action["source"] + "/")])
-    _git(held.repo, "rm", "--cached", "-r", "-q", "--", action["source"][len(held.repo.root) + 1:])
+    _write_index(held, [("0", "0" * len(object_name), path) for mode, object_name, stage, path in entries])
     _index_is(held, action["source"], [])
 
 
 def _do_git_add(held: Held, action: dict) -> None:
-    _git(held.repo, "add", "--", action["target"][len(held.repo.root) + 1:])
+    target = action["target"]
+    parent_path, name = os.path.split(target)
+    parent = held.stack.enter_context(fdsafe.hold_root(parent_path))
+    # [LAW:single-enforcer] one boundary translates every leaf-read OS error.
+    with fdsafe.fs(target):
+        st = os.lstat(name, dir_fd=parent.fd)
+        # [LAW:effects-at-boundaries] Git receives bytes, never a worktree path to filter.
+        if stat.S_ISREG(st.st_mode):
+            data = fdsafe.read_bytes(fdsafe.Entry(parent.fd, name, target, name, st))
+            mode = "100755" if st.st_mode & stat.S_IXUSR else "100644"
+        elif stat.S_ISLNK(st.st_mode):
+            data = os.fsencode(os.readlink(name, dir_fd=parent.fd))
+            mode = "120000"
+        else:
+            raise Refusal(target, "is not a regular file or a symlink")
+    object_name = _git(held.repo, "hash-object", "-w", "--no-filters", "--stdin", stdin=data).decode("ascii").strip()
+    _write_index(held, [(mode, object_name, target[len(held.repo.root) + 1:])])
     _index_is(held, action["target"], [action["target"]])
 
 

@@ -43,7 +43,7 @@ REQ_HEADER = "requirement_id\tsource\ttarget\taction\tobserved_bytes\tclass\tlan
 PHASE_HEADER = "source_relative\ttarget_relative\tobserved_sha256"
 CUSTODY = ("leaves.json", "routes.tsv", "repairs.json", "journal.jsonl", "executor.json", "retention.json",
            "admitted.tsv")
-GIT_ALLOWED = {"config", "rev-parse", "ls-files", "update-index", "rm", "add", "cat-file"}
+GIT_ALLOWED = {"config", "rev-parse", "ls-files", "update-index", "hash-object", "cat-file"}
 # [LAW:one-source-of-truth] both command audits share the required Git boundary options.
 GIT_PREFIX = ["git", "--no-optional-locks", "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null"]
 
@@ -310,6 +310,23 @@ class Base(unittest.TestCase):
 
 
 class PositiveControl(Base):
+    def test_added_executable_file_is_staged_100755(self):
+        os.chmod(self.u.source + "/notes.txt", 0o755)
+        self.fx.seal()
+        self.run_ok()
+        target = self.fx.target(self.u) + "/notes.txt"
+        self.assertEqual(git(self.fx.m, "ls-files", "-s", "--", target).split()[0], b"100755")
+
+    def test_added_symlink_is_staged_120000(self):
+        os.symlink("notes.txt", self.u.source + "/link.txt")
+        self.u.files["link.txt"] = b"notes.txt"
+        self.fx.seal()
+        self.run_ok()
+        target = self.fx.target(self.u) + "/link.txt"
+        row = git(self.fx.m, "ls-files", "-s", "--", target).split()
+        self.assertEqual(row[0], b"120000")
+        self.assertEqual(git(self.fx.m, "cat-file", "blob", row[1].decode()), b"notes.txt")
+
     def test_one_unit_moves_and_both_checks_pass(self):
         result = self.run_ok()
         target = self.fx.target(self.u)
@@ -377,7 +394,8 @@ class PositiveControl(Base):
             ["update-index", "-z", "--index-info"],
             ["ls-files", "-s", "-z", "--full-name", "--", "experiments/c10r/runs/u1"],
             ["cat-file", "--batch"],
-            ["add", "--", "experiments/c10r/runs/u1/notes.txt"],
+            ["hash-object", "-w", "--no-filters", "--stdin"],
+            ["update-index", "-z", "--index-info"],
             ["ls-files", "-s", "-z", "--full-name", "--", "experiments/c10r/runs/u1/notes.txt"],
             ["cat-file", "--batch"]])
         self.assertEqual([args[0] for event, args in events if event == "os.mkdir"], ["runs"])
@@ -623,13 +641,12 @@ class NegativeControls(Base):
         self.refuses_unmoved(os.path.join(inside, "leaves.json"), "inside root", argv=argv)
 
     def test_a_failing_git_command_refuses_with_its_exit(self):
-        self.fx.put(os.path.join(self.fx.m, ".gitignore"), b"*.txt\n")
-        git(self.fx.m, "add", ".gitignore")
-        git(self.fx.m, "commit", "-q", "-m", "ignore")
+        self.fx.seal()
+        self.fx.put(os.path.join(self.fx.m, ".git", "index.lock"), b"")
         code, out, err = self.main(*self.fx.args())
         self.assertEqual(code, 2, err)
-        self.assertIn("git add -- experiments/c10r/runs/u1/notes.txt", err)
-        self.assertIn("exited 1", err)
+        self.assertIn("git update-index -z --index-info", err)
+        self.assertIn("exited 128", err)
         self.assertEqual(len(err.splitlines()), 1, err)
 
     def test_admitted_rows_are_strict_utf8(self):
@@ -1102,6 +1119,62 @@ class LateInputParents(Base):
 
 
 class LateWindows(Base):
+    def test_late_attributes_link_is_not_read(self):
+        self.fx.rewrite(self.u.source + "/notes.txt", b"notes\r\n")
+        self.u.files["notes.txt"] = b"notes\r\n"
+        self.fx.seal()
+        attrs = self.fx.put("m/.git/info/attributes", b"")
+        external = self.fx.put("external-attributes", b"* text\n")
+        target = self.fx.target(self.u) + "/notes.txt"
+        real = move_unit._do_git_add
+
+        def add(held, action):
+            refs = []
+            real_open = os.open
+
+            def opened(path, *args, **kw):
+                fd = real_open(path, *args, **kw)
+                if path == "refs":
+                    refs.append(fd)
+                return fd
+            with mock.patch.object(os, "open", opened), FK.swap_for_symlink(
+                    "close", 1, attrs, external, when="after", match=lambda fd: fd in refs):
+                real(held, action)
+        with mock.patch.dict(move_unit.ACTIONS, {"git-add": add}):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, attrs)
+        with open(target, "rb") as fh:
+            self.assertEqual(fh.read(), self.u.files["notes.txt"])
+        self.assertEqual(git(self.fx.m, "ls-files", "-s", "--", target), b"")
+
+    def test_late_config_filter_does_not_run(self):
+        config = self.fx.m + "/.git/config"
+        target = self.fx.target(self.u) + "/notes.txt"
+        self.fx.put("m/.git/info/attributes", b"notes.txt filter=late\n")
+        command = "printf changed > " + shlex.quote(target) + "; cat"
+        extra = '\n[filter "late"]\n clean = ' + command + "\n required = true\n"
+        with open(config, "rb") as fh:
+            external = self.fx.put("external-config", fh.read() + extra.encode())
+        real = move_unit._do_git_add
+
+        def add(held, action):
+            refs = []
+            real_open = os.open
+
+            def opened(path, *args, **kw):
+                fd = real_open(path, *args, **kw)
+                if path == "refs":
+                    refs.append(fd)
+                return fd
+            with mock.patch.object(os, "open", opened), FK.swap_for_symlink(
+                    "close", 1, config, external, when="after", match=lambda fd: fd in refs):
+                real(held, action)
+        with mock.patch.dict(move_unit.ACTIONS, {"git-add": add}):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, config)
+        with open(target, "rb") as fh:
+            self.assertEqual(fh.read(), b"notes\n")
+
     # [LAW:behavior-not-structure] inject changes at effects and assert refusal and preserved state.
     def test_index_blob_changed_after_update_index(self):
         real = subprocess.run
@@ -1188,7 +1261,8 @@ class LateWindows(Base):
         target = self.fx.target(self.u) + "/notes.txt"
 
         def add(held, action):
-            with FK.swap_for_symlink("scandir", 1, target, self.fx.decoy + "/a.json") as fault:
+            with FK.swap_for_symlink("open", 1, target, self.fx.decoy + "/a.json",
+                                     when="before", match=named(os.path.dirname(target))) as fault:
                 try:
                     real(held, action)
                 finally:
@@ -1203,7 +1277,8 @@ class LateWindows(Base):
         link_text = self.u.files["notes.txt"].decode("utf-8")
 
         def add(held, action):
-            with FK.swap_for_symlink("scandir", 1, target, link_text) as fault:
+            with FK.swap_for_symlink("open", 1, target, link_text,
+                                     when="before", match=named(os.path.dirname(target))) as fault:
                 try:
                     real(held, action)
                 finally:
@@ -1217,14 +1292,15 @@ class LateWindows(Base):
         target = self.fx.target(self.u)
 
         def add(held, action):
-            scan = os.scandir
+            opened = os.open
 
-            def populate(fd):
+            def populate(path, *args, **kwargs):
                 if os.path.isdir(target) and not os.path.exists(target + "/notes.txt"):
                     with open(target + "/notes.txt", "xb") as fh:
                         fh.write(b"changed record\n")
-                return scan(fd)
-            with mock.patch.object(os, "scandir", populate), FK.rename_and_rebind("scandir", 1, target) as fault:
+                return opened(path, *args, **kwargs)
+            with mock.patch.object(os, "open", populate), FK.rename_and_rebind(
+                    "open", 1, target, when="before", match=named(target)) as fault:
                 try:
                     real(held, action)
                 finally:
@@ -1343,6 +1419,64 @@ class LateWindows(Base):
         self.assert_sources_in_place()
 
 
+    def test_late_add_leaf_lstat_error_names_the_target(self):
+        target = self.fx.target(self.u) + "/notes.txt"
+        real = move_unit.ACTIONS["git-add"]
+        fired = []
+
+        def add(held, action):
+            lstat = os.lstat
+
+            def fail(path, *args, **kwargs):
+                if path == os.path.basename(target) and not fired:
+                    fired.append(True)
+                    raise OSError(errno.EIO, os.strerror(errno.EIO))
+                return lstat(path, *args, **kwargs)
+            with mock.patch.object(os, "lstat", fail):
+                real(held, action)
+        with mock.patch.dict(move_unit.ACTIONS, {"git-add": add}):
+            result = self.main(*self.fx.args())
+        self.assertEqual(fired, [True])
+        self.assert_refused(result, target, "[EIO]")
+        self.assertEqual(git(self.fx.m, "ls-files", "-s", "--", target), b"")
+
+    def test_late_add_symlink_readlink_error_names_the_target(self):
+        os.symlink("notes.txt", self.u.source + "/link.txt")
+        self.u.files["link.txt"] = b"notes.txt"
+        self.fx.seal()
+        target = self.fx.target(self.u) + "/link.txt"
+        real = move_unit.ACTIONS["git-add"]
+        fired = []
+
+        def add(held, action):
+            readlink = os.readlink
+
+            def fail(path, *args, **kwargs):
+                if path == "link.txt" and not fired:
+                    fired.append(True)
+                    raise OSError(errno.EIO, os.strerror(errno.EIO))
+                return readlink(path, *args, **kwargs)
+            with mock.patch.object(os, "readlink", fail):
+                real(held, action)
+        with mock.patch.dict(move_unit.ACTIONS, {"git-add": add}):
+            result = self.main(*self.fx.args())
+        self.assertEqual(fired, [True])
+        self.assert_refused(result, target, "[EIO]")
+        self.assertEqual(git(self.fx.m, "ls-files", "-s", "--", target), b"")
+
+    def test_late_add_leaf_fifo_refuses(self):
+        target = self.fx.target(self.u) + "/notes.txt"
+        real = move_unit.ACTIONS["git-add"]
+
+        def add(held, action):
+            with FK.fifo_in_place(target):
+                real(held, action)
+        with mock.patch.dict(move_unit.ACTIONS, {"git-add": add}):
+            result = self.main(*self.fx.args())
+        self.assert_refused(result, target, "is not a regular file or a symlink")
+        self.assertEqual(git(self.fx.m, "ls-files", "-s", "--", target), b"")
+
+
 class OutsideLateWindows(Base):
     # [LAW:behavior-not-structure] late mv attacks assert refusal paths and preserved unit bytes.
     kind = "outside"
@@ -1404,7 +1538,7 @@ class OutsideLateWindows(Base):
 
         def changed(argv, **kw):
             out = real(argv, **kw)
-            if "rm" in argv:
+            if "update-index" in argv and "--index-info" in argv:
                 fired.append(True)
                 git(self.fx.m, "update-index", "--add", "--cacheinfo", f"100644,{blob},old/u3/late.txt")
             return out
