@@ -173,9 +173,13 @@ def _json(path: str, inputs: InputParents):
     def constant(name: str):
         raise Refusal(given, f"holds {name}, which is not JSON")
     try:
-        doc = json.loads(text, object_pairs_hook=pairs, parse_constant=constant)
+        # [LAW:single-enforcer] Share the core's interpreter digit-limit boundary.
+        doc = json.loads(text, object_pairs_hook=pairs, parse_constant=constant,
+                         parse_int=lambda token: core._int(token, given))
     except json.JSONDecodeError as exc:
         raise Refusal(given, f"is not JSON: {exc}") from exc
+    except RecursionError:
+        raise Refusal(given, "nests too deeply")
     # A JSON escape such as "\udcff" decodes to a lone surrogate, which no later step could encode.
     if LONE.search(json.dumps(doc, ensure_ascii=False)):
         raise Refusal(given, "holds a lone surrogate")
@@ -189,7 +193,7 @@ def _still_held(root: fdsafe.Dir, held: fdsafe.Dir) -> None:
     [LAW:single-enforcer] the one after-check owner for every directory this tool holds."""
     live = held.live()
     if live != held.path:
-        raise Refusal(held.path, f"was moved while it was held (now {live})")
+        raise Refusal(held.path, f"was moved while it was held (now {live!r})")
     # [LAW:single-enforcer] live-path and fresh no-follow identity share this after-check.
     with fdsafe.fs(held.path):
         opened = os.fstat(held.fd)
@@ -206,9 +210,9 @@ def _entry(parent_fd: int, name: str, path: str, prefix: str) -> bool:
     except FileNotFoundError:
         return False
     except OSError as exc:
-        raise Refusal(path, f"{exc.strerror} (at {prefix})", exc.errno) from exc
+        raise Refusal(path, f"{exc.strerror} (at {prefix!r})", exc.errno) from exc
     if stat.S_ISLNK(st.st_mode):
-        raise Refusal(path, f"component {prefix} is a link; a target is observed without following links")
+        raise Refusal(path, f"component {prefix!r} is a link; a target is observed without following links")
     return True
 
 
@@ -256,7 +260,7 @@ def _below(root: fdsafe.Dir, held: fdsafe.Dir) -> None:
         if here == want:
             return
         if here == last:  # "/" is its own ".."
-            raise Refusal(held.path, f"is not below the held root {root.path}")
+            raise Refusal(held.path, f"is not below the held root {root.path!r}")
         up, last = os.path.join(up, ".."), here
 
 

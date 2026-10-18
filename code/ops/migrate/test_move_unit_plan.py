@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import contextlib
 import errno
+import hashlib
 import io
 import json
 import os
@@ -151,7 +152,12 @@ class Fixture:
         self.dup = self.json("dup.json", self.dup_doc)
         self.units_doc = [self.spec()]
         self.units = self.json("units.json", self.units_doc)
-        self.plans_doc = {"entries": [{"id": "S220", "moves": [{"source": self.src, "target": self.candidate}]}]}
+        # [LAW:one-source-of-truth] Check the same wire Moves that the real plan command emits.
+        out = io.TextIOWrapper(io.BytesIO(), encoding="utf-8")
+        with contextlib.redirect_stdout(out):
+            assert move_unit.main(self.plan_args()) == 0
+        out.flush()
+        self.plans_doc = {"entries": [json.loads(out.buffer.getvalue())]}
         self.plans = self.json("plans.json", self.plans_doc)
         self.repairs_text = f"{REPAIR_HEADER}\ndocs/a.md\t2\t{self.old}\t{self.candidate}/a.json\t261\n"
         self.repairs = self.write(os.path.join(self.inp, "repairs.tsv"), self.repairs_text.encode())
@@ -249,7 +255,15 @@ class Plan(Base):
         code, out, err = self.main(*self.fx.plan_args())
         self.assertEqual((code, err), (0, ""))
         self.assertEqual(out, canonical_line(self.fx.expected_plan()))
-        self.assertEqual(json.loads(out)["moves"], [{"source": self.fx.src, "target": self.fx.candidate}])
+        row = dict(zip(REQ_HEADER.split("\t"), self.fx.req_text.splitlines()[1].split("\t")))
+        digest = hashlib.sha256(self.fx.manifest_bytes).hexdigest()
+        # [LAW:behavior-not-structure] Bind every wire field to the fixture inputs, independently of the core.
+        self.assertEqual(json.loads(out)["moves"], [{
+            "id": "MV-101", "action": "MOVE", "source": self.fx.src, "target": self.fx.candidate,
+            "kind": "directory", "bytes": len(DATA), "before_sha256": digest,
+            "source_manifest": {"path": self.fx.manifest, "sha256": digest},
+            "lane": row["lane"], "prd_ids": row["prd_ids"].split(","), "reader_check_ids": [],
+        }])
 
     def test_existing_candidate_is_observed_and_keeps_the_v_target(self):
         os.mkdir(self.fx.candidate)
@@ -836,7 +850,7 @@ class HeldRootAndTargets(Base):
     def test_k1_check_plans_root_replaced_before_a_reader_file_is_read_refuses(self):
         with root_replaced_at_open("readers.json", self.fx.m):
             result = self.main(*self.fx.check_plans_args())
-        self.assert_refused(result, self.fx.docs, f"is not below the held root {self.fx.m}")
+        self.assert_refused(result, self.fx.docs, f"is not below the held root {self.fx.m!r}")
 
     def test_k1b_check_plans_root_replaced_after_the_last_reader_file_read_refuses(self):
         fx = self.fx
@@ -877,23 +891,23 @@ class HeldRootAndTargets(Base):
         fx = self.fx
         link = os.path.join(fx.m, "experiments", "c10r")
         self.link_ancestor(fx, os.path.join(fx.base, "c10r_real"), link, "runs/u1")
-        self.assert_refused(self.main(*fx.plan_args()), fx.candidate, f"component {link} is a link")
+        self.assert_refused(self.main(*fx.plan_args()), fx.candidate, f"component {link!r} is a link")
         fx = self.fresh()
         self.unmatched(fx)
         os.makedirs(os.path.join(fx.base, "v_real", "p", "u1"))
         os.symlink(os.path.join(fx.base, "v_real"), os.path.join(fx.base, "v"))
-        self.assert_refused(self.main(*fx.plan_args()), fx.v_target, f"component {fx.base}/v is a link")
+        self.assert_refused(self.main(*fx.plan_args()), fx.v_target, f"component {fx.base + '/v'!r} is a link")
 
     def test_k4_a_link_ancestor_to_a_directory_without_the_target_refuses(self):
         fx = self.fx
         link = os.path.join(fx.m, "experiments", "c10r")
         self.link_ancestor(fx, os.path.join(fx.base, "c10r_real"), link)
-        self.assert_refused(self.main(*fx.plan_args()), fx.candidate, f"component {link} is a link")
+        self.assert_refused(self.main(*fx.plan_args()), fx.candidate, f"component {link!r} is a link")
         fx = self.fresh()
         self.unmatched(fx)
         os.makedirs(os.path.join(fx.base, "v_real"))
         os.symlink(os.path.join(fx.base, "v_real"), os.path.join(fx.base, "v"))
-        self.assert_refused(self.main(*fx.plan_args()), fx.v_target, f"component {fx.base}/v is a link")
+        self.assert_refused(self.main(*fx.plan_args()), fx.v_target, f"component {fx.base + '/v'!r} is a link")
 
 
 @contextlib.contextmanager
@@ -964,7 +978,7 @@ class HeldIdentity(Base):
         with mock.patch.object(os, "open", opened), mock.patch.object(os, "close", closed):
             result = self.main(*fx.check_plans_args())
         self.assertEqual(state, {"away", "back"})
-        self.assert_refused(result, fx.docs, f"is not below the held root {fx.m}")
+        self.assert_refused(result, fx.docs, f"is not below the held root {fx.m!r}")
 
     def test_identity_check_errors_name_the_path_and_errno(self):
         # fstat 1-6 are the before and after checks of plans.json, repairs.tsv and readers.json; 7 is the root's.
@@ -1062,7 +1076,7 @@ class HeldAfterUse(Base):
             os.rename(os.path.join(fx.m + ".away", "docs"), fx.docs)
         with after_open_then("a.md", move):
             result = self.main(*fx.check_plans_args())
-        self.assert_refused(result, fx.docs, f"is not below the held root {fx.m}")
+        self.assert_refused(result, fx.docs, f"is not below the held root {fx.m!r}")
 
     def test_a_v_target_prefix_rebound_after_its_open_refuses(self):
         fx = self.fx
@@ -1175,3 +1189,105 @@ class HeldParentIdentity(Base):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RefusalPathRendering(Base):
+    """Filesystem names remain one stderr line at every reason interpolation."""
+
+    def moved_parent(self, suffix):
+        fx = self.fx
+        moved = fx.mdir + suffix
+        with after_open_then("u1.json", lambda: os.rename(fx.mdir, moved)):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, fx.mdir, f"was moved while it was held (now {moved!r})")
+
+    def test_live_parent_with_lf_is_one_line(self):
+        self.moved_parent("\nrenamed")
+
+    def test_live_parent_with_cr_is_one_line(self):
+        self.moved_parent("\rrenamed")
+
+    def test_candidate_with_lf_observation_error_is_one_line(self):
+        fx = self.fx
+        candidate = fx.candidate + "\nleaf"
+        fx.rewrite(fx.units, json.dumps([fx.spec(candidate=candidate)]).encode())
+        with stat_error(errno.EACCES, os.path.basename(candidate)):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, candidate, f"(at {candidate!r})", "[EACCES]")
+
+    def test_candidate_with_lf_link_is_one_line(self):
+        fx = self.fx
+        candidate = fx.candidate + "\nleaf"
+        fx.rewrite(fx.units, json.dumps([fx.spec(candidate=candidate)]).encode())
+        os.symlink(fx.other, candidate)
+        self.assert_refused(self.main(*fx.plan_args()), candidate, f"component {candidate!r} is a link")
+
+    def test_relative_root_under_lf_cwd_containment_is_one_line(self):
+        fx = self.fx
+        root = fx.m + "\nroot"
+        os.rename(fx.m, root)
+        argv = fx.check_plans_args()
+        argv[argv.index("--root") + 1] = "."
+        # [LAW:behavior-not-structure] cwd contributes bytes absent from the validated CLI spelling.
+        with contextlib.chdir(root), root_replaced_at_open("readers.json", root):
+            result = self.main(*argv)
+        self.assert_refused(result, os.path.join(root, "docs"), f"is not below the held root {root!r}")
+
+
+class IsolatedInputParents(Base):
+    """Each input's own held parent must refuse independently of every other input."""
+
+    def moved_input(self, command, attr):
+        fx = self.fx
+        old = getattr(fx, attr)
+        parent = fx.mk("isolated-" + attr)
+        leaf = os.path.join(parent, os.path.basename(old))
+        os.rename(old, leaf)
+        setattr(fx, attr, leaf)
+        fx.rewrite(fx.units, json.dumps([fx.spec()]).encode())
+        argv = ARGS[command](fx)
+        self.assertEqual(self.main(*argv)[0], 0)
+        # [LAW:behavior-not-structure] replacement bytes stay valid; only this parent's identity changes.
+        with FK.rename_and_rebind("open", 1, parent, when="after", match=named(os.path.basename(leaf))) as fault:
+            with after_open_then(os.path.basename(leaf),
+                                 lambda: shutil.copytree(fault.parked, parent, dirs_exist_ok=True)):
+                result = self.main(*argv)
+        self.assertEqual(fault.fired, 1)
+        self.assert_refused(result, parent, "was moved while it was held")
+
+    def test_units_parent_moved_alone_refuses(self):
+        self.moved_input("plan", "units")
+
+    def test_registry_parent_moved_alone_refuses(self):
+        self.moved_input("plan", "match")
+
+    def test_readers_report_parent_moved_alone_refuses(self):
+        self.moved_input("plan", "readers")
+
+    def test_comparison_parent_moved_alone_refuses(self):
+        self.moved_input("plan", "dup")
+
+    def test_repairs_parent_moved_alone_refuses(self):
+        self.moved_input("check-plans", "repairs")
+
+
+class DecoderLimits(Base):
+    """Decoder limits obey the same CLI refusal contract for either JSON input."""
+
+    def refuse_limit(self, command, attr, data, reason):
+        # [LAW:behavior-not-structure] Real file bytes cross the CLI boundary without decoder mocks.
+        path = getattr(self.fx, attr)
+        self.fx.rewrite(path, data)
+        self.assert_refused(self.main(*ARGS[command](self.fx)), path, reason)
+
+    def test_plan_units_deep_nesting_refuses(self):
+        self.refuse_limit("plan", "units", b"[" * 200000, "nests too deeply")
+
+    def test_plan_units_large_integer_refuses(self):
+        self.refuse_limit("plan", "units", b"1" * 5000, "integer of 5000 digits")
+
+    def test_check_plans_deep_nesting_refuses(self):
+        self.refuse_limit("check-plans", "plans", b"[" * 200000, "nests too deeply")
+
+    def test_check_plans_large_integer_refuses(self):
+        self.refuse_limit("check-plans", "plans", b"1" * 5000, "integer of 5000 digits")
