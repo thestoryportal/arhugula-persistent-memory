@@ -46,6 +46,10 @@ def named(name):
     return lambda first, *args, **kwargs: first == name
 
 
+def open_fds():
+    return sorted(os.listdir('/dev/fd'))
+
+
 def snapshot(base):
     """Every entry under base: lstat identity and, for a regular file, its bytes."""
     seen = {}
@@ -392,7 +396,7 @@ class PreCases(MovesCase):
         real = os.lstat
 
         def failing(path, *args, **kwargs):
-            if path == target:
+            if path == os.path.basename(target) and 'dir_fd' in kwargs:  # T204 ruling 1
                 raise OSError(errno.EIO, os.strerror(errno.EIO))
             return real(path, *args, **kwargs)
         self.fx.publish()
@@ -405,12 +409,26 @@ class PreCases(MovesCase):
         real = os.lstat
 
         def failing(path, *args, **kwargs):
-            if path == target:
+            if path == os.path.basename(target) and 'dir_fd' in kwargs:  # T204 ruling 1
                 raise RuntimeError('unexpected')
             return real(path, *args, **kwargs)
         self.fx.publish()
         with mock.patch.object(os, 'lstat', failing), self.assertRaises(RuntimeError):
             self.main(self.fx.argv('pre', observed=False))
+
+    def test_unexpected_parent_hold_error_propagates(self):  # T204 ruling 8
+        parent = os.path.dirname(self.fx.moves[0]['target'])
+        real = fdsafe.hold_root  # check_moves imports this module and reaches hold_root on it
+
+        def failing(path, *args, **kwargs):
+            if path == parent:
+                raise OSError(errno.ENOENT, os.strerror(errno.ENOENT))
+            return real(path, *args, **kwargs)
+        self.fx.publish()
+        with mock.patch.object(fdsafe, 'hold_root', failing), \
+                self.assertRaises(OSError) as raised:
+            self.main(self.fx.argv('pre', observed=False))
+        self.assertEqual(raised.exception.errno, errno.ENOENT)
 
 
 class InputCases(MovesCase):
@@ -662,6 +680,262 @@ class ProcessCases(MovesCase):
         self.assertEqual(done.stdout.count(b'\n'), 1)
         self.assertEqual(json.loads(done.stdout)['reason'],
                          '%r: Not a directory [ENOTDIR]' % str(self.fx.base / 'link'))
+
+
+class TargetParentCases(MovesCase):
+    """T204 ruling 1: each target's folder is held no-follow from bind to probe."""
+
+    def retarget(self, *parts):
+        for number, move in enumerate(self.fx.moves, 1):
+            move['target'] = str(self.fx.root.joinpath(*parts, 'u%d' % number))
+
+    def test_target_folder_swapped_for_a_link_after_bind_refuses(self):
+        self.fx.publish()
+        (self.fx.decoy / 'u1').mkdir()
+        with FK.swap_for_symlink('open', 1, self.fx.root / 'dest', self.fx.decoy, when='after',
+                                 match=named('routes.tsv')):
+            reason = self.assertRefused('pre', publish=False)
+        self.assertEqual(reason, '%r: its folder %s moved after it was bound'
+                         % (self.fx.moves[0]['target'], self.fx.root / 'dest'))
+
+    def test_target_folder_renamed_and_rebound_after_bind_refuses(self):
+        (self.fx.root / 'dest' / 'u1').mkdir()
+        self.fx.publish()
+        with FK.rename_and_rebind('open', 1, self.fx.root / 'dest', when='after',
+                                  match=named('routes.tsv')):
+            reason = self.assertRefused('pre', publish=False)
+        self.assertEqual(reason, '%r: its folder %s moved after it was bound'
+                         % (self.fx.moves[0]['target'], self.fx.root / 'dest'))
+
+    def test_target_folder_that_is_a_link_refuses(self):
+        (self.fx.decoy / 'u1').mkdir()
+        os.rmdir(self.fx.root / 'dest')
+        os.symlink(self.fx.decoy, self.fx.root / 'dest')
+        reason = self.assertRefused('pre')
+        self.assertEqual(reason, '%r: Not a directory [ENOTDIR]' % str(self.fx.root / 'dest'))
+
+    def test_missing_target_folder_is_absent(self):
+        self.retarget('new', 'deep')
+        result = self.assertExit(0, 'pre')
+        self.assertEqual(result['findings'], [])
+
+    def test_link_above_a_missing_target_folder_refuses(self):
+        for link, points_to in (('elink', self.fx.decoy), ('dlink', self.fx.base / 'nowhere')):
+            with self.subTest(link=link):
+                os.symlink(points_to, self.fx.root / link)
+                self.retarget(link, 'missing')
+                reason = self.assertRefused('pre')
+                self.assertEqual(reason, '%r: Not a directory [ENOTDIR]'
+                                 % str(self.fx.root / link))
+
+    def test_missing_target_folder_that_appears_after_bind_refuses(self):
+        self.retarget('new')
+        self.fx.publish()
+        real = os.open
+
+        def opening(path, *args, **kwargs):
+            fd = real(path, *args, **kwargs)
+            if path == 'routes.tsv' and not (self.fx.root / 'new').exists():
+                os.mkdir(self.fx.root / 'new')
+            return fd
+        with mock.patch.object(os, 'open', opening):
+            reason = self.assertRefused('pre', publish=False)
+        self.assertEqual(reason, '%r: its folder %s was missing when bound and exists now'
+                         % (self.fx.moves[0]['target'], self.fx.root / 'new'))
+
+    def test_post_stage_never_binds_target_folders(self):
+        # The post stage judges the observed manifest; only pre probes targets.
+        os.rmdir(self.fx.root / 'dest')
+        os.symlink(self.fx.decoy, self.fx.root / 'dest')
+        self.assertExit(0, 'post')
+
+    def test_root_is_closed_when_a_target_folder_close_fails(self):
+        self.fx.publish()
+        folder, held, real = str(self.fx.root / 'dest'), set(), os.open
+
+        def opening(path, *args, **kwargs):
+            fd = real(path, *args, **kwargs)
+            if path == folder:
+                held.add(fd)
+            return fd
+        before = open_fds()
+        with mock.patch.object(os, 'open', opening), \
+                FK.inject_oserror('close', 1, errno.EIO, match=lambda fd: fd in held):
+            reason = self.assertRefused('pre', publish=False)
+        self.assertEqual(reason, '%r: Input/output error [EIO]' % folder)
+        self.assertEqual(open_fds(), before)
+
+    def test_eio_holding_a_target_folder_names_the_folder(self):
+        self.fx.publish()
+        folder = str(self.fx.root / 'dest')
+        with FK.inject_oserror('open', 1, errno.EIO, match=named(folder)):
+            reason = self.assertRefused('pre', publish=False)
+        self.assertEqual(reason, '%r: Input/output error [EIO]' % folder)
+
+
+class SchemaReadCases(MovesCase):
+    """T204 ruling 2: moves reads WIRE-SCHEMAS.json beside the script through fdsafe."""
+
+    def setUp(self):
+        super().setUp()
+        runtime = self.fx.base / 'runtime'
+        (runtime / 'icm21').mkdir(parents=True)
+        self.schema = runtime / 'icm21' / 'WIRE-SCHEMAS.json'
+        self.schema.write_bytes((SCRIPT.parent / 'icm21' / 'WIRE-SCHEMAS.json').read_bytes())
+        # The script's location, not its code: the schema is read beside __file__.
+        self.enterContext(mock.patch.object(icm21_check, '__file__',
+                                            str(runtime / 'icm21_check.py')))
+        self.fx.publish()
+
+    def test_schema_beside_the_script_is_the_one_read(self):
+        for stage in ('pre', 'post'):
+            self.assertEqual(self.run_stage(stage, publish=False)[0], 0)
+        self.schema.write_bytes(b'{')
+        for stage in ('pre', 'post'):
+            reason = self.assertRefused(stage, publish=False)
+            self.assertTrue(reason.startswith('%r: is not JSON' % str(self.schema)), reason)
+
+    def test_schema_fifo_link_or_absence_refuses(self):
+        valid = self.schema.read_bytes()
+        for stage in ('pre', 'post'):
+            with self.subTest(stage=stage, attack='fifo'), FK.fifo_in_place(self.schema):
+                self.assertEqual(self.assertRefused(stage, publish=False),
+                                 '%r: is not a regular file' % str(self.schema))
+        os.unlink(self.schema)  # the FIFO; fault_kit parked each real schema beside it
+        copy_path = self.schema.with_name('copy.json')
+        copy_path.write_bytes(valid)
+        os.symlink(copy_path, self.schema)
+        for stage in ('pre', 'post'):
+            self.assertEqual(self.assertRefused(stage, publish=False),
+                             '%r: is not a regular file' % str(self.schema))
+        os.unlink(self.schema)
+        for stage in ('pre', 'post'):
+            self.assertEqual(self.assertRefused(stage, publish=False),
+                             '%r: No such file or directory [ENOENT]' % str(self.schema))
+
+
+class RetentionAndContainerCases(MovesCase):
+    def publish_retention(self, key, value):
+        self.fx.publish()
+        path = self.fx.path('retention.json')
+        document = json.loads(path.read_bytes())
+        document[key] = value
+        path.write_bytes(dumps(document))
+
+    def test_pre_refuses_a_bad_retention_version_as_post_does(self):
+        # T204 ruling 3 (SPEC.md:196): both stages refuse the same RetentionManifest.
+        for value in (999, True, '1'):
+            for stage in ('pre', 'post'):
+                with self.subTest(value=value, stage=stage):
+                    self.publish_retention('schema_version', value)
+                    result = self.assertExit(2, stage, publish=False)
+                    self.assertIn('RetentionManifest schema_version is not 1',
+                                  self.reasons(result))
+
+    def test_retain_container_move_is_unverified_in_post_only(self):
+        # T204 ruling 4: no core joins a required container to its ContainerExpectation.
+        text = ('C-CONTAINER (RETAIN_CONTAINER) is not checked by moves: no core joins the '
+                'container to its ContainerExpectation')
+        self.fx.moves[0]['action'] = 'RETAIN_CONTAINER'
+        result = self.assertExit(2, 'post')
+        self.assertEqual(self.reasons(result), [text])
+        self.fx.observed_leaves[0]['sha256'] = '9' * 64
+        result = self.assertExit(2, 'post')
+        self.assertIn('FAIL', {finding['status'] for finding in result['findings']})
+        self.assertIn(text, self.reasons(result))
+        self.fx.observed_leaves[0]['sha256'] = self.fx.leaves[0]['sha256']
+        result = self.assertExit(1, 'pre')
+        self.assertNotIn(text, self.reasons(result))
+        self.assertIn('RETAIN_CONTAINER emits no executable action', self.reasons(result))
+
+
+class GuardCases(MovesCase):
+    """T204 ruling 5: each pre parser, binding check, close and argparse choice has a control."""
+
+    def test_pre_checks_the_retention_keys(self):
+        self.fx.publish()
+        path = self.fx.path('retention.json')
+        path.write_bytes(dumps(dict(json.loads(path.read_bytes()), extra=1)))
+        result = self.assertExit(2, 'pre', publish=False)
+        self.assertIn('RetentionManifest keys differ from the wire contract: extra '
+                      "['extra'], missing []", self.reasons(result))
+
+    def test_pre_parses_the_repair_set(self):
+        self.fx.repairs = {'schema_version': 1, 'repairs': 'bad'}
+        result = self.assertExit(2, 'pre')
+        self.assertIn('RepairSet is malformed', self.reasons(result))
+
+    def test_pre_parses_the_containers(self):
+        self.fx.containers = 'bad'
+        result = self.assertExit(2, 'pre')
+        self.assertIn('containers is not an array', self.reasons(result))
+
+    def test_pre_checks_the_route_binding_digest(self):
+        self.fx.publish()
+        path = self.fx.path('routes.tsv')
+        path.write_bytes(path.read_bytes().replace(b'\trecord\n', b'\tRECORD\n', 1))
+        result = self.assertExit(1, 'pre', publish=False)
+        self.assertIn(([str(path)], 'binding digest differs from the supplied bytes'),
+                      [(finding['paths'], finding['reason']) for finding in result['findings']])
+
+    def test_every_held_folder_is_closed(self):
+        self.fx.publish()
+        before = open_fds()
+        for stage in ('pre', 'post'):
+            self.assertEqual(self.run_stage(stage, publish=False)[0], 0)
+            self.assertEqual(open_fds(), before, stage)
+        self.fx.path('retention.json').write_bytes(b'[]')
+        self.assertRefused('pre', 'is not a RetentionManifest object', publish=False)
+        self.assertEqual(open_fds(), before)
+
+    def test_unknown_stage_is_a_parse_error(self):
+        self.fx.publish()
+        argv = self.fx.argv('pre')
+        argv[argv.index('--stage') + 1] = 'mid'
+        stderr = io.StringIO()
+        with contextlib.redirect_stderr(stderr), contextlib.redirect_stdout(io.StringIO()), \
+                mock.patch.object(sys, 'argv', ['x'] + argv), \
+                self.assertRaises(SystemExit) as raised:
+            icm21_check.main()
+        self.assertEqual(raised.exception.code, 2)
+        self.assertIn("invalid choice: 'mid'", stderr.getvalue())
+
+
+class DelegationCases(MovesCase):
+    """T204 ruling 6 (out: "Logic stays in icm21_moves.py and icm21_retained.py"): spies
+    replace the two cores; the CLI output carries their sentinel and nothing of its own."""
+
+    def spy(self, calls, sentinel):
+        def core(*args, **kwargs):
+            calls.append((args, kwargs))
+            return (sentinel,)
+        return core
+
+    def test_pre_stage_hands_each_move_to_validate_move(self):
+        calls, sentinel = [], {'id': 'F-SPY-MOVE', 'status': 'FAIL', 'reason': 'spy'}
+        with mock.patch.object(icm21_moves, 'validate_move', self.spy(calls, sentinel)):
+            result = self.assertExit(1, 'pre')
+        self.assertEqual(result['findings'], [sentinel] * len(IDS))
+        moves = self.fx.moves
+        self.assertEqual(calls, [
+            ((move, self.fx.entry['roots']),
+             {'other_moves': moves[:index] + moves[index + 1:], 'existing_paths': [],
+              'run_units': [], 'leaves': [self.fx.leaves[index]]})
+            for index, move in enumerate(moves)])
+
+    def test_post_stage_hands_the_projection_to_check_retained(self):
+        calls, sentinel = [], {'id': 'F-SPY-RETAINED', 'status': 'FAIL', 'reason': 'spy'}
+        with mock.patch.object(icm21_retained, 'check_retained', self.spy(calls, sentinel)):
+            result = self.assertExit(1, 'post')
+        self.assertEqual(result['findings'], [sentinel])
+        documents = {str(self.fx.path(name)): self.fx.path(name).read_bytes()
+                     for name in ('executor.json', 'leaves.json', 'routes.tsv', 'repairs.json',
+                                  'approval.json')}
+        self.assertEqual(calls, [((str(self.fx.root),
+                                   json.loads(self.fx.path('retention.json').read_bytes()),
+                                   documents,
+                                   {'schema_version': 1, 'leaves': self.fx.observed_leaves}),
+                                  {})])
 
 
 class ImportClosureCases(unittest.TestCase):

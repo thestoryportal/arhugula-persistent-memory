@@ -815,6 +815,7 @@ def check_moves(args):
     evidence: a required row that no --manifest operation names is incomplete coverage (exit 2),
     and an operation or route row naming a row outside the entry fails (exit 1). The imports
     stay in this branch, so the other subcommands keep their import closure (ruling F1)."""
+    import contextlib
     import errno
     from ops.migrate import fdsafe
     import icm21_moves
@@ -858,15 +859,34 @@ def check_moves(args):
             raise fdsafe.Refusal(path, 'has a row without %d fields' % len(header))
         return [dict(zip(header, row)) for row in rows]
 
-    def exists(path):
+    def bind(path):
+        """(held folder, name, leaf) for one target: its parent held no-follow, or, when that is
+        missing, its nearest held ancestor and the first missing folder's name (leaf False)."""
+        folder, name, leaf = os.path.dirname(path), os.path.basename(path), True
+        while True:
+            try:
+                return parents.enter_context(fdsafe.hold_root(folder)), name, leaf
+            except fdsafe.Refusal as refusal:
+                if refusal.errno != errno.ENOENT:
+                    raise
+            folder, name, leaf = os.path.dirname(folder), os.path.basename(folder), False
+
+    def exists(path, held, name, leaf):
+        """Whether the target is present: name lstat'ed under the folder held since bind()."""
         try:
-            with fdsafe.fs(path):
-                os.lstat(path)
+            with fdsafe.fs(path if leaf else os.path.join(held.path, name)):
+                os.lstat(name, dir_fd=held.fd)
+            present = True
         except fdsafe.Refusal as refusal:
             if refusal.errno != errno.ENOENT:
                 raise
-            return False
-        return True
+            present = False
+        if present and not leaf:
+            raise fdsafe.Refusal(path, 'its folder %s was missing when bound and exists now'
+                                 % os.path.join(held.path, name))
+        if held.live() != held.path:
+            raise fdsafe.Refusal(path, 'its folder %s moved after it was bound' % held.path)
+        return present
 
     def binding_path(key):
         value = retention.get(key)
@@ -877,6 +897,8 @@ def check_moves(args):
     def admitted():
         """check_retained's own parsers over the bound documents: (leaves by source, routes)."""
         R.keys('RetentionManifest', retention, R.RETENTION_KEYS)
+        R.refuse(type(retention['schema_version']) is int and retention['schema_version'] == 1,
+                 'RetentionManifest schema_version is not 1')  # as check_retained (SPEC.md:196)
         leaves = R.leaf_manifest(R.parse_json(R.bound(retention['leaves'], documents),
                                               'LeafManifest'), 'admitted')
         routes = R.route_table(R.bound(retention['routes'], documents))
@@ -896,6 +918,7 @@ def check_moves(args):
             raise fdsafe.Refusal('--observed', '--observed is required by --stage post and '
                                  'refused by --stage pre')
         root = fdsafe.hold_root(str(args.root))
+        parents = contextlib.ExitStack()  # pre: each target's folder, held from bind() to probe
         try:
             requirements = set()
             for path in args.requirements:
@@ -924,10 +947,16 @@ def check_moves(args):
                 raise fdsafe.Refusal(plans_path, 'entry %r replaces rows that no --requirements '
                                      'file has: %s' % (args.entry,
                                                        sorted(set(replaces) - requirements)))
+            bound = [(move['target'], bind(move['target'])) for move in entry['moves']
+                     if args.stage == 'pre' and type(move) is dict
+                     and R.is_path(move.get('target'))]
             manifest_path, evidence_bytes = read(str(args.manifest))
             evidence = parse(manifest_path, evidence_bytes)
+            # Not audit_schema(): its Path read follows links and blocks on a FIFO.
+            schema = load(os.path.join(os.path.dirname(__file__), 'icm21',
+                                       'WIRE-SCHEMAS.json'))[1]
             try:
-                validate_wire('ExecutorEvidence', evidence, audit_schema(), {})
+                validate_wire('ExecutorEvidence', evidence, schema, {})
             except ValueError as error:
                 raise fdsafe.Refusal(manifest_path, 'is not ExecutorEvidence: '
                                      + str(error)) from error
@@ -953,6 +982,13 @@ def check_moves(args):
             found += [finding('UNVERIFIED', [], 'C-PHASE (SPLIT_FILES) is not checked by moves')
                       for move in entry['moves']
                       if type(move) is dict and move.get('action') == 'SPLIT_FILES']
+            # No core joins a required container to its ContainerExpectation (builder reading 8).
+            unchecked = [finding('UNVERIFIED', [], 'C-CONTAINER (RETAIN_CONTAINER) is not checked '
+                                 'by moves: no core joins the container to its '
+                                 'ContainerExpectation')
+                         for move in entry['moves'] if args.stage == 'post'
+                         and type(move) is dict and move.get('action') == 'RETAIN_CONTAINER']
+            found += unchecked
             try:
                 leaves, routes = admitted()
             except R.Refusal as refusal:
@@ -964,8 +1000,7 @@ def check_moves(args):
                       if row['requirement_id'] not in replaces]
             if args.stage == 'pre':
                 moves = entry['moves']
-                existing = [move['target'] for move in moves if type(move) is dict
-                            and R.is_path(move.get('target')) and exists(move['target'])]
+                existing = [target for target, held in bound if exists(target, *held)]
                 for index, move in enumerate(moves):
                     source = move.get('source') if type(move) is dict else None
                     inside = None if leaves is None else [
@@ -987,9 +1022,12 @@ def check_moves(args):
             if root.live() != root.path:
                 raise fdsafe.Refusal(root.path, 'moved while the check ran')
         finally:
-            root.close()
+            try:
+                parents.close()
+            finally:
+                root.close()
         statuses = {item['status'] for item in found}
-        code = 2 if missing else 1 if 'FAIL' in statuses else 2 if statuses else 0
+        code = 2 if missing or unchecked else 1 if 'FAIL' in statuses else 2 if statuses else 0
         result = {'status': MOVES_STATUS[code], 'stage': args.stage, 'entry': args.entry,
                   'findings': found}
     except fdsafe.Refusal as refusal:
