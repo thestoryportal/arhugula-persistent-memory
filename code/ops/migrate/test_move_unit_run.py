@@ -409,15 +409,15 @@ class PositiveControl(Base):
         self.assertEqual(commands, [
             ["config", "--file", "-", "--no-includes", "--null", "--list"],
             ["rev-parse", "--path-format=absolute", "--show-toplevel", "--git-dir", "--git-common-dir"],
-            ["ls-files", "-z", "--full-name", "--", "old/u1"],
-            ["ls-files", "-s", "-z", "--full-name", "--", "old/u1"],
+            ["ls-files", "-s", "-z", "--full-name"],
+            ["ls-files", "-s", "-z", "--full-name"],
             ["cat-file", "--batch"],
             ["update-index", "-z", "--index-info"],
-            ["ls-files", "-s", "-z", "--full-name", "--", "experiments/c10r/runs/u1"],
+            ["ls-files", "-s", "-z", "--full-name"],
             ["cat-file", "--batch"],
             ["hash-object", "--no-filters", "--stdin"],
             ["update-index", "-z", "--index-info"],
-            ["ls-files", "-s", "-z", "--full-name", "--", "experiments/c10r/runs/u1/notes.txt"],
+            ["ls-files", "-s", "-z", "--full-name"],
             ["cat-file", "--batch"]])
         self.assertEqual([args[0] for event, args in events if event == "os.mkdir"], ["runs", oid[:2]])
         others = {event for event, _ in events} - {"open", "subprocess.Popen", "os.mkdir"}
@@ -1686,6 +1686,106 @@ class LateWindows(Base):
         self.assertEqual(len(written), 1)
         self.assertEqual(os.listdir(relocated + "/loose-object"), [])
         self.assert_refused(result, written[0], "inside root")
+
+
+    def test_restored_source_row_after_git_mv_refuses(self):
+        original = git(self.fx.m, "ls-files", "-s", "--", "old/u1/a.json").decode().split()
+        real = subprocess.run
+        fired = []
+
+        def changed(argv, **kw):
+            result = real(argv, **kw)
+            if "update-index" in argv and "--index-info" in argv and not fired:
+                fired.append(True)
+                git(self.fx.m, "update-index", "--add", "--cacheinfo",
+                    f"{original[0]},{original[1]},old/u1/a.json")
+            return result
+        with mock.patch.object(move_unit.subprocess, "run", changed):
+            result = self.main(*self.fx.args())
+        self.assertEqual(fired, [True])
+        self.assert_refused(result, self.fx.target(self.u), "index under it changed")
+
+    def test_unrelated_row_after_update_index_refuses(self):
+        blob = subprocess.run(["git", "-C", self.fx.m, "hash-object", "-w", "--stdin"],
+                              input=b"unadmitted\n", env=clean_env(), check=True,
+                              capture_output=True).stdout.decode().strip()
+        real = subprocess.run
+        fired = []
+
+        def changed(argv, **kw):
+            result = real(argv, **kw)
+            if "update-index" in argv and "--index-info" in argv and not fired:
+                fired.append(True)
+                git(self.fx.m, "update-index", "--add", "--cacheinfo", f"100644,{blob},unadmitted.txt")
+            return result
+        with mock.patch.object(move_unit.subprocess, "run", changed):
+            result = self.main(*self.fx.args())
+        self.assertEqual(fired, [True])
+        self.assert_refused(result, self.fx.target(self.u), "index under it changed")
+
+    def test_extra_sibling_row_after_git_add_refuses(self):
+        blob = git(self.fx.m, "rev-parse", "HEAD:README.md").decode().strip()
+        real = subprocess.run
+        fired = []
+
+        def changed(argv, **kw):
+            result = real(argv, **kw)
+            if "update-index" in argv and "--index-info" in argv and \
+                    b"notes.txt" in kw.get("input", b"") and not fired:
+                fired.append(True)
+                git(self.fx.m, "update-index", "--add", "--cacheinfo",
+                    f"100644,{blob},experiments/c10r/runs/u1/unadmitted.txt")
+            return result
+        with mock.patch.object(move_unit.subprocess, "run", changed):
+            result = self.main(*self.fx.args())
+        self.assertEqual(fired, [True])
+        self.assert_refused(result, self.fx.target(self.u) + "/notes.txt", "index under it changed")
+
+    def test_rebound_fanout_into_a_created_parent_refuses(self):
+        target = self.fx.target(self.u)
+        self.assertFalse(os.path.exists(os.path.dirname(target)))
+        destination = os.path.dirname(target) + "/loose-object"
+        real = fdsafe.create_file
+        rebound = []
+
+        def create(parent, name, data, roots):
+            if "/.git/objects/" in parent.path:
+                os.rename(parent.path, destination)
+                os.mkdir(parent.path)
+                rebound.append(parent.path + "/" + name)
+            return real(parent, name, data, roots)
+        with mock.patch.object(fdsafe, "create_file", create):
+            result = self.main(*self.fx.args())
+        self.assertEqual(len(rebound), 1)
+        actual = sorted(os.path.relpath(os.path.join(folder, name), target)
+                        for folder, dirs, files in os.walk(target) for name in files)
+        self.assertEqual(actual, sorted(self.u.files))
+        for name, data in self.u.files.items():
+            with open(target + "/" + name, "rb") as fh:
+                self.assertEqual(fh.read(), data)
+        self.assertEqual(os.listdir(destination), [])
+        self.assert_refused(result, rebound[0], "inside root")
+
+
+    def test_unmerged_source_row_at_start_refuses(self):
+        mode, oid = git(self.fx.m, "ls-files", "-s", "--", "old/u1/a.json").decode().split()[:2]
+        records = (f"0 {'0' * len(oid)} 0\told/u1/a.json\0"
+                   f"{mode} {oid} 2\told/u1/a.json\0")
+        subprocess.run(["git", "-C", self.fx.m, "update-index", "-z", "--index-info"],
+                       input=records.encode(), env=clean_env(), check=True, capture_output=True)
+        result = self.main(*self.fx.args())
+        self.assert_refused(result, self.u.source, "index under it changed")
+
+    def test_missing_object_source_row_at_start_refuses(self):
+        mode, oid = git(self.fx.m, "ls-files", "-s", "--", "old/u1/a.json").decode().split()[:2]
+        missing = "1" * len(oid)
+        objects = git(self.fx.m, "cat-file", "--batch-all-objects", "--batch-check=%(objectname)")
+        self.assertNotIn(missing.encode(), objects.splitlines())
+        records = f"{mode} {missing} 0\told/u1/a.json\0"
+        subprocess.run(["git", "-C", self.fx.m, "update-index", "-z", "--index-info"],
+                       input=records.encode(), env=clean_env(), check=True, capture_output=True)
+        result = self.main(*self.fx.args())
+        self.assert_refused(result, self.u.source, "index under it changed")
 
 
 class OutsideLateWindows(Base):

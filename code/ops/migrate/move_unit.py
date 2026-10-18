@@ -520,11 +520,24 @@ def _worktree(repo: Repo) -> dict:
     return {"top": top, "git_dir": git_dir, "common_dir": common_dir}
 
 
-def _tracked(repo: Repo, sources: list) -> list[str]:
-    """Absolute paths of the files Git tracks under each unit source in M."""
+def _index_rows(repo: Repo) -> list[tuple[str, str, str, str]]:
+    # [LAW:one-source-of-truth] start reads and readbacks share the index record parser.
+    listed = _git(repo, "ls-files", "-s", "-z", "--full-name")
+    entries = []
+    for record in listed.split(b"\0")[:-1]:
+        metadata, name = _utf8(repo.root, record).split("\t", 1)
+        mode, object_name, stage = metadata.split(" ")
+        entries.append((mode, object_name, stage, name))
+    return entries
+
+
+def _tracked(repo: Repo, sources: list) -> tuple[list[str], set[tuple[str, str, str, str]]]:
+    """Absolute tracked paths under each unit source in M, and the whole start index's rows."""
     inside = [source[len(repo.root) + 1:] for source in sources if source.startswith(repo.root + "/")]
-    listed = b"".join(_git(repo, "ls-files", "-z", "--full-name", "--", rel) for rel in inside)
-    return [f"{repo.root}/{_utf8(repo.root, rel)}" for rel in listed.split(b"\0")[:-1]]
+    entries = _index_rows(repo)
+    tracked = [f"{repo.root}/{name}" for _, _, _, name in entries
+               if any(name == rel or name.startswith(rel + "/") for rel in inside)]
+    return tracked, set(entries)
 
 
 def _inventory(source: str) -> tuple[bytes, tuple, fdsafe.Dir]:
@@ -602,6 +615,7 @@ class Held:
     manifests: dict[str, bytes]
     leaves: dict[str, dict]
     tracked: list[str]
+    index: set[tuple[str, str, str, str]]
     roots: list[fdsafe.Dir]
     stack: contextlib.ExitStack
 
@@ -656,17 +670,16 @@ def _do_mv(held: Held, action: dict) -> None:
     _same_manifest(held, action["target"], action["source"], "changed since it was inventoried; left in place")
 
 
-def _index_is(held: Held, path: str, expected: list[str]) -> list[tuple[str, str, str, str]]:
-    # [LAW:single-enforcer] index content is compared with the admitted manifest only here.
+def _index_is(held: Held, path: str) -> list[tuple[str, str, str, str]]:
+    # [LAW:single-enforcer] compare the whole index with the run's own record of it.
     root = held.repo.root
     reason = "Git's index under it changed since it was read"
-    listed = _git(held.repo, "ls-files", "-s", "-z", "--full-name", "--", path[len(root) + 1:])
-    entries = []
-    for record in listed.split(b"\0")[:-1]:
-        metadata, name = _utf8(path, record).split("\t", 1)
-        mode, object_name, stage = metadata.split(" ")
-        entries.append((mode, object_name, stage, name))
-    if {root + "/" + entry[3] for entry in entries} != set(expected) or any(entry[2] != "0" for entry in entries):
+    entries = _index_rows(held.repo)
+    if set(entries) != held.index:
+        raise Refusal(path, reason)
+    entries = [entry for entry in entries
+               if root + "/" + entry[3] == path or (root + "/" + entry[3]).startswith(path + "/")]
+    if any(entry[2] != "0" for entry in entries):
         raise Refusal(path, reason)
     blobs = _git(held.repo, "cat-file", "--batch",
                  stdin="".join(entry[1] + "\n" for entry in entries).encode("ascii"))
@@ -697,14 +710,17 @@ def _write_index(held: Held, entries: list[tuple[str, str, str]]) -> None:
     records = [f"{mode} {object_name} 0\t{path}\0"
                for mode, object_name, path in entries]
     _git(held.repo, "update-index", "-z", "--index-info", stdin="".join(records).encode("utf-8"))
+    for mode, object_name, path in entries:
+        held.index.difference_update({row for row in held.index if row[3] == path})
+        if mode != "0":
+            held.index.add((mode, object_name, "0", path))
 
 
 def _do_git_mv(held: Held, action: dict) -> None:
     src_parent, src_name, dst_parent, dst_name = _ends(held, action)
     _still_held(src_parent, src_parent)
     root = held.repo.root
-    expected = [path for path in held.tracked if path.startswith(action["source"] + "/")]
-    entries = _index_is(held, action["source"], expected)
+    entries = _index_is(held, action["source"])
     _is_source(held, src_parent, src_name, action["source"], action["source"])
     _same_manifest(held, action["source"], action["source"], "changed since it was inventoried; nothing moved")
     # [LAW:single-enforcer] exclusive rename owns collision refusal, including late target creation.
@@ -714,17 +730,15 @@ def _do_git_mv(held: Held, action: dict) -> None:
         target = action["target"][len(root) + 1:] + path[len(action["source"][len(root) + 1:]):]
         records.extend((("0", "0" * len(object_name), path), (mode, object_name, target)))
     _write_index(held, records)
-    _index_is(held, action["target"],
-              [action["target"] + path[len(action["source"]):] for path in expected])
+    _index_is(held, action["target"])
     _is_source(held, dst_parent, dst_name, action["target"], action["source"])
     _same_manifest(held, action["target"], action["source"], "changed since it was inventoried; left in place")
 
 
 def _do_git_rm_cached(held: Held, action: dict) -> None:
-    entries = _index_is(held, action["source"],
-              [path for path in held.tracked if path.startswith(action["source"] + "/")])
+    entries = _index_is(held, action["source"])
     _write_index(held, [("0", "0" * len(object_name), path) for mode, object_name, stage, path in entries])
-    _index_is(held, action["source"], [])
+    _index_is(held, action["source"])
 
 
 def _write_object(held: Held, object_name: str, data: bytes) -> None:
@@ -773,7 +787,7 @@ def _do_git_add(held: Held, action: dict) -> None:
     object_name = _git(held.repo, "hash-object", "--no-filters", "--stdin", stdin=data).decode("ascii").strip()
     _write_object(held, object_name, data)
     _write_index(held, [(mode, object_name, target[len(held.repo.root) + 1:])])
-    _index_is(held, action["target"], [action["target"]])
+    _index_is(held, action["target"])
 
 
 # [LAW:dataflow-not-control-flow] each action kind the core returns names its one runner.
@@ -807,7 +821,7 @@ def run(args) -> tuple[int, object]:
 
         repo = _open_repo(stack, root)
         worktree = _worktree(repo)
-        tracked = _tracked(repo, [unit.source for unit in units])
+        tracked, index = _tracked(repo, [unit.source for unit in units])
         observed, sources, manifests, leaves = [], {}, {}, {}
         for unit in units:
             hold(os.path.dirname(unit.source))
@@ -830,7 +844,7 @@ def run(args) -> tuple[int, object]:
         files = [(os.path.basename(doc["path"]), doc["bytes"]) for doc in result["documents"]] + \
             [(ADMITTED, _admitted(root, result["actions"], tracked))]
         custody = _write_custody(args.custody_dir, files, roots)
-        held = Held(repo, folders, sources, manifests, leaves, tracked, roots, stack)
+        held = Held(repo, folders, sources, manifests, leaves, tracked, index, roots, stack)
         for action in result["actions"]:
             ACTIONS[action["action"]](held, action)
     return 0, {"actions": result["actions"], "custody": custody}
