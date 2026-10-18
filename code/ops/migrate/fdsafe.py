@@ -50,7 +50,11 @@ class Refusal(ValueError):
         self.path = path
         self.errno = err
         tag = "" if err is None else f" [{errno.errorcode.get(err, err)}]"
-        super().__init__(f"{path!r}: {reason}{tag}")
+        super().__init__(f"{path!r}: {reason}{tag}".translate(str.maketrans({
+            "\n": r"\n", "\r": r"\r", "\v": r"\x0b", "\f": r"\x0c",
+            "\x1c": r"\x1c", "\x1d": r"\x1d", "\x1e": r"\x1e", "\x85": r"\x85",
+            "\u2028": r"\u2028", "\u2029": r"\u2029",
+        })))
 
 
 @contextlib.contextmanager
@@ -211,10 +215,16 @@ def read_bytes(entry: Entry) -> bytes:
     return b"".join(parts)
 
 
-def create_file(parent: Dir, name: str, data: bytes, roots: Sequence[Dir]) -> str:
-    """Create parent/name holding exactly data, outside every held root; return its live path.
+@dataclass(frozen=True)
+class Held:
+    """[LAW:types-are-the-program] A created file whose descriptor the caller owns."""
+    fd: int
+    parent: Dir
+    name: str
 
-    Never overwrites. A refusal after the file exists names it and leaves it in place."""
+
+def open_held(parent: Dir, name: str, roots: Sequence[Dir]) -> Held:
+    """[LAW:one-source-of-truth] Check and exclusively open an empty file; caller owns its fd."""
     target = os.path.join(parent.path, name)
     if name in ("", ".", "..") or "/" in name or "\0" in name:
         raise Refusal(target, "names no single file")
@@ -226,21 +236,59 @@ def create_file(parent: Dir, name: str, data: bytes, roots: Sequence[Dir]) -> st
             raise Refusal(target, f"output parent {before} is inside root {root.path}")
     with fs(target):
         fd = os.open(name, CREATE_FLAGS, 0o644, dir_fd=parent.fd)
-    kept = f"{target} (created, left in place)"
+    return Held(fd, parent, name)
+
+
+def write_held(held: Held, data: bytes) -> None:
+    """[LAW:composability] Complete the write without changing descriptor ownership."""
+    target = os.path.join(held.parent.path, held.name)
+    with fs(f"{target} (left in place, incomplete)"):
+        view = memoryview(data)
+        while view:
+            view = view[os.write(held.fd, view):]
+
+
+def create_held(parent: Dir, name: str, data: bytes, roots: Sequence[Dir]) -> Held:
+    """Create and fully write a file; transfer its fd before any post-write location check.
+
+    The caller closes through close. A failed write leaves the named file in place.
+    """
+    held = open_held(parent, name, roots)
+    kept = f"{os.path.join(parent.path, name)} (created, left in place)"
+    transferred = False
     try:
-        with fs(f"{target} (left in place, incomplete)"):
-            view = memoryview(data)
-            while view:
-                view = view[os.write(fd, view):]
-        where = live_path(fd, kept)
-        for root in roots:
-            if inside(live_path(root.fd, f"{root.path}; {kept}"), where):
-                raise Refusal(where, f"was written inside root {root.path}; left in place")
-        named = os.path.join(live_path(parent.fd, f"{parent.path}; {kept}"), name)
-        if where != named:
-            raise Refusal(where, f"was moved during the write (expected {named}); left in place")
+        write_held(held, data)
+        transferred = True
+        return held
     finally:
-        close(fd, kept)
+        if not transferred:
+            close(held.fd, kept)
+
+
+def create_file(parent: Dir, name: str, data: bytes, roots: Sequence[Dir]) -> str:
+    """Create parent/name holding exactly data, outside every held root; return its live path.
+
+    Never overwrites. A refusal after the file exists names it and leaves it in place.
+    """
+    # [LAW:one-source-of-truth] Both public creates share pre-checks and the write loop.
+    held = create_held(parent, name, data, roots)
+    try:
+        return settle(held, roots)
+    finally:
+        close(held.fd, f"{os.path.join(parent.path, name)} (created, left in place)")
+
+
+def settle(held: Held, roots: Sequence[Dir]) -> str:
+    """[LAW:single-enforcer] The post-write location checks of a held created file; return its live path. Leaves the fd open."""
+    parent, name = held.parent, held.name
+    kept = f"{os.path.join(parent.path, name)} (created, left in place)"
+    where = live_path(held.fd, kept)
+    for root in roots:
+        if inside(live_path(root.fd, f"{root.path}; {kept}"), where):
+            raise Refusal(where, f"was written inside root {root.path}; left in place")
+    named = os.path.join(live_path(parent.fd, f"{parent.path}; {kept}"), name)
+    if where != named:
+        raise Refusal(where, f"was moved during the write (expected {named}); left in place")
     return where
 
 
