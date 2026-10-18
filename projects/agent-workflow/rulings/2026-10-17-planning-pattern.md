@@ -16,3 +16,10 @@ Continue with your track and once you arrive at the multi agent skilled expert p
 "Our repo is INDEED an ICM Architected repo and build form the workspace context. And these evaluations are specifically being designed to evaluate how the current ICM architecture is implemented and how agents operate in it in order to optimize the ICM architecture for our builder/reviewers/testers/orchestrator workflow, which is one narrow use of this ICM repo - our roster is framed specifically around this."
 
 MAESTRO reading: the repo is an ICM in the `icm-architect` forms (signpost `CLAUDE.md`, per-folder `CONTEXT.md` contracts, `map/` system map, `_templates/`, generated `_index/`). The `icm-workspace` linter detects only `stages/` trees, so it refuses this repo; its five-layer model and patterns still apply. The evaluated object is the ICM as built plus agent behaviour in it, for the belt roster.
+
+## Operator, same day: how the planners work together (verbatim)
+"These questions should be posed to each other, each agent session. Each agent grounds and writes a brief about their findings with questions, recommendation, etc then they read each others briefs and discuss among themselves to work through a design and approach that combines both of their very powerful reasoning powers from different lenses."
+
+Also same day: the seated planners are Fable (medium) and Astra (medium); Opus and Sol only as 3rd/4th seats.
+
+MAESTRO reading: rounds are ground, findings brief alone (findings with evidence, recommendations, questions for the other seat), read each other's briefs and question each other, discuss to one design, merge, check. Design questions go seat to seat; MAESTRO relays pointers and manages context, and does not answer design questions.
