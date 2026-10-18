@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Build one dry-run unit plan, or check the repairs rows or a producer route table (ICM v2.1 Part 2, Step 209).
+"""Build one dry-run unit plan, check the repairs rows or a producer route table (ICM v2.1 Part 2, Step 209),
+or run one approved unit plan in M (Step 210).
 
-I/O shell of move_plan_core (Step 217), which holds all the plan and check logic. Dry run only: it moves
-nothing, creates no file and runs no Git or other process. Every input file is read with fdsafe.read_named
-through its held parent directory, so no link is followed and the bytes come from the object scanned; each
-directory it holds must be its own real path.
+I/O shell of move_plan_core (Step 217) and move_run_core (Step 218), which hold all the plan, check and run
+logic. plan, check-plans and check-routes are dry runs: they move nothing, create no file and run no Git or
+other process. Every input file is read with fdsafe.read_named through its held parent directory, so no link
+is followed and the bytes come from the object scanned; each directory it holds must be its own real path.
 
   plan --entry ID --root DIR --requirements FILE... --units FILE
       Prints move_plan_core.build_plan's plan unchanged, as one canonical JSON line. --units is a JSON list
@@ -20,8 +21,28 @@ directory it holds must be its own real path.
   check-routes --routes FILE --source DIR --hold-target PATH
       The children are the entries of the held --source directory. Prints move_plan_core.check_routes's
       findings.
+  run --root M --plan FILE --approval FILE --split SOURCE FILE... --run-units FILE --custody-dir DIR
+      Executes the Step 209 plan document in FILE under its native G4 approval. It observes the plan, the
+      approval, a fresh Step 201 inventory of each unit source (unit_manifest's own fd-bound walk), each
+      unit's Step 212 split document, the targets (each held from its nearest existing folder, no link
+      followed), the run-unit roots (a JSON list) and the worktree and tracked files (git rev-parse, git
+      ls-files), passes them to move_run_core.run_unit and refuses whatever it refuses. It then writes the six
+      custody documents and admitted.tsv (the H-SLICE.md:40 rows of the core's actions) into the existing
+      --custody-dir with fdsafe.create_file, and runs only the core's actions, in order: mkdir by
+      fdsafe.mkdir, mv by fdsafe.rename, git-mv by fdsafe.rename and `git update-index`, and git-rm-cached
+      by `git update-index`. For git-add, Git computes the blob id with `hash-object --no-filters --stdin`;
+      the run writes the compressed loose object through held fds with fdsafe.create_file, then stages it
+      with `git update-index`. Its roots are each unit folder (held by fd, so it stays a root wherever it
+      moves), the folders that hold each unit source, each existing target parent, and every folder the run
+      creates, never M, so custody files are created outside every root.
+      Before any Git call it holds M/.git and its config without following links and refuses (T201
+      rulings 2, 7 and 8) a link or special file under .git, a config.worktree, an include, includeIf,
+      extensions or filter key, a core key outside the plain set, or a remote promisor or partial-clone
+      key; after each Git call the held .git and config must still be what their paths name (ruling 9).
+      It never overwrites, deletes or commits; a refusal after a file or folder exists names it and
+      leaves it in place. Stdout: {"actions", "custody"}.
 
-Exit 0: the plan, or no finding ("[]"). Exit 1: one or more findings, printed as one canonical JSON list.
+Exit 0: the plan, no finding ("[]"), or the unit plan run. Exit 1: one or more findings, printed as one canonical JSON list.
 Exit 2: a refusal (fdsafe.Refusal from the shell or the core), one line on stderr naming the path (and the
 errno name for a filesystem error); or a malformed invocation. Any other exception propagates.
 """
@@ -29,18 +50,24 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import datetime
 import errno
+import hashlib
 import json
 import os
 import posixpath
 import re
 import stat
+import subprocess
 import sys
+import zlib
 from dataclasses import dataclass
 from typing import Callable
 
 from ops.migrate import fdsafe
 from ops.migrate import move_plan_core as core
+from ops.migrate import move_run_core as run_core
+from ops.migrate import unit_manifest
 from ops.migrate.unit_manifest import canonical
 
 Refusal = fdsafe.Refusal
@@ -358,6 +385,472 @@ def check_routes(args) -> tuple[int, object]:
     return int(bool(found)), found
 
 
+# --- run (Step 210): the I/O shell of move_run_core ---------------------------------------------------------
+
+# T201 ruling 2: the core keys a plain repo carries; any other can make Git read or run outside M.
+GIT_CORE = frozenset(f"core.{k}" for k in ("repositoryformatversion", "filemode", "bare", "logallrefupdates",
+                                           "ignorecase", "precomposeunicode", "symlinks"))
+# include/includeIf read another file; extensions change how Git reads the repo (ruling 7); a filter driver is
+# a program that `git add` runs.
+GIT_SECTIONS = frozenset(("include", "includeif", "extensions", "filter"))
+GIT_PROMISOR = frozenset(("promisor", "partialclonefilter"))
+ADMITTED = "admitted.tsv"
+
+
+def _absolute_at(where: str, value) -> str:
+    path = _path_at(where, value)
+    if not path.startswith("/"):
+        raise Refusal(where, f"{path!r} is not an absolute path")
+    return path
+
+
+def _absolute(value: str) -> str:
+    return _absolute_at(value, value)
+
+
+def _splits(values: list) -> dict[str, str]:
+    """{unit source: split file}; a source named twice refuses, so no --split is silently dropped."""
+    pairs = [(_absolute(source), _path(path)) for source, path in values]
+    out = dict(pairs)
+    if len(out) != len(pairs):
+        raise Refusal("--split", "names a unit source twice")
+    return out
+
+
+# [LAW:one-source-of-truth] recording and checking each held object use one identity definition.
+def _config_id(st: os.stat_result) -> tuple:
+    return (st.st_dev, st.st_ino, st.st_ctime_ns)
+
+
+def _git_id(st: os.stat_result) -> tuple:
+    return (st.st_dev, st.st_ino)
+
+
+@dataclass(frozen=True)
+class Repo:
+    """M with its .git folder and .git/config held open, so each Git call is checked against them."""
+    root: str
+    git: fdsafe.Dir
+    objects: fdsafe.Dir
+    config_fd: int
+    config_id: tuple
+    git_id: tuple
+
+    @property
+    def config(self) -> str:
+        return os.path.join(self.git.path, "config")
+
+
+def _check_repo(repo: Repo, reason: str) -> None:
+    # [LAW:no-ambient-temporal-coupling] held fds pin both inodes, preventing replacement reuse;
+    # compare live names to the recorded state.
+    for path, expected, identity in (
+            (repo.config, repo.config_id, _config_id),
+            (repo.git.path, repo.git_id, _git_id)):
+        with fdsafe.fs(path):
+            named = os.lstat(path)
+        if identity(named) != expected:
+            raise Refusal(path, reason)
+    fdsafe.walk(repo.git, _git_entry)
+
+
+def _git(repo: Repo, *args: str, stdin=subprocess.DEVNULL) -> bytes:
+    """Stdout of one Git command, bound to the recorded repo before and after the call."""
+    command = f"{repo.root}: git {' '.join(args)}"
+    env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "GIT_DIR": repo.git.path, "GIT_WORK_TREE": repo.root,
+           "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull, "GIT_NO_LAZY_FETCH": "1",
+           "GIT_OPTIONAL_LOCKS": "0", "GIT_LITERAL_PATHSPECS": "1", "LC_ALL": "C"}
+    _check_repo(repo, "changed before Git ran; Git would read another file")
+    stream = {"input": stdin} if isinstance(stdin, bytes) else {"stdin": stdin}
+    # [LAW:single-enforcer] every Git call crosses this hook-free boundary.
+    with fdsafe.fs(command):
+        proc = subprocess.run(["git", "--no-optional-locks", "-c", "core.fsmonitor=false",
+                               "-c", "core.hooksPath=/dev/null", *args], cwd=repo.root,
+                              env=env, **stream, capture_output=True, check=False)
+    _check_repo(repo, "changed while Git ran; Git may have read another file")
+    if proc.returncode != 0:
+        detail = "; ".join(proc.stderr.decode("utf-8", "replace").split("\n")).strip("; ")
+        raise Refusal(command, f"exited {proc.returncode}: {detail}")
+    return proc.stdout
+
+
+# [LAW:single-enforcer] keep Git's file-based redirections at the walk boundary.
+GIT_REDIRECTIONS = {
+    "config.worktree": "is a second config file Git would read",
+    "commondir": "names a common directory; Git would read refs, objects and config outside M",
+    "objects/info/alternates": "names another object store; Git would read objects outside M",
+}
+
+
+def _git_entry(entry: fdsafe.Entry) -> None:
+    # [LAW:one-type-per-behavior] every redirection shares one refusal path.
+    reason = GIT_REDIRECTIONS.get(entry.rel)
+    if reason is not None:
+        raise Refusal(entry.path, reason)
+    if not (stat.S_ISDIR(entry.st.st_mode) or stat.S_ISREG(entry.st.st_mode)):
+        raise Refusal(entry.path, "is a link or special file inside .git; Git would follow or open it")
+
+
+def _open_repo(stack: contextlib.ExitStack, root: str) -> Repo:
+    """M's .git held and checked before any Git call (T201 rulings 2, 7 and 8)."""
+    git = stack.enter_context(fdsafe.hold_root(os.path.join(root, ".git")))
+    objects_path = os.path.join(git.path, "objects")
+    with fdsafe.fs(objects_path):
+        fd = os.open("objects", fdsafe.DIR_FLAGS, dir_fd=git.fd)
+    objects = stack.enter_context(fdsafe.Dir(fd, objects_path))
+    config = os.path.join(git.path, "config")
+    with fdsafe.fs(config):
+        fd = os.open("config", fdsafe.LEAF_FLAGS, dir_fd=git.fd)
+    stack.callback(fdsafe.close, fd, config)
+    with fdsafe.fs(config):
+        config_st = os.fstat(fd)
+    if not stat.S_ISREG(config_st.st_mode):
+        raise Refusal(config, "is not a regular file")
+    with fdsafe.fs(git.path):
+        git_st = os.fstat(git.fd)
+    repo = Repo(root, git, objects, fd, _config_id(config_st), _git_id(git_st))
+    listed = _git(repo, "config", "--file", "-", "--no-includes", "--null", "--list", stdin=fd)
+    for record in listed.split(b"\0")[:-1]:
+        key = _utf8(config, record.split(b"\n", 1)[0])
+        section = key.split(".", 1)[0]
+        if section in GIT_SECTIONS or (section == "core" and key not in GIT_CORE) \
+                or (section == "remote" and key.rsplit(".", 1)[-1] in GIT_PROMISOR):
+            raise Refusal(config, f"sets {key}; Git could read, run or fetch outside M")
+    return repo
+
+
+def _worktree(repo: Repo) -> dict:
+    out = _git(repo, "rev-parse", "--path-format=absolute", "--show-toplevel", "--git-dir", "--git-common-dir")
+    top, git_dir, common_dir, end = _utf8(repo.root, out).split("\n")
+    return {"top": top, "git_dir": git_dir, "common_dir": common_dir}
+
+
+def _index_rows(repo: Repo) -> list[tuple[str, str, str, str]]:
+    # [LAW:one-source-of-truth] start reads and readbacks share the index record parser.
+    listed = _git(repo, "ls-files", "-s", "-z", "--full-name")
+    entries = []
+    for record in listed.split(b"\0")[:-1]:
+        metadata, name = _utf8(repo.root, record).split("\t", 1)
+        mode, object_name, stage = metadata.split(" ")
+        entries.append((mode, object_name, stage, name))
+    return entries
+
+
+def _tracked(repo: Repo, sources: list) -> tuple[list[str], set[tuple[str, str, str, str]]]:
+    """Absolute tracked paths under each unit source in M, and the whole start index's rows."""
+    inside = [source[len(repo.root) + 1:] for source in sources if source.startswith(repo.root + "/")]
+    entries = _index_rows(repo)
+    tracked = [f"{repo.root}/{name}" for _, _, _, name in entries
+               if any(name == rel or name.startswith(rel + "/") for rel in inside)]
+    return tracked, set(entries)
+
+
+def _inventory(source: str) -> tuple[bytes, tuple, fdsafe.Dir]:
+    """Fresh Step 201 manifest bytes, (st_dev, st_ino), and the walked Dir, owned by the caller.
+
+    [LAW:one-source-of-truth] the bytes come from unit_manifest's own fd-bound walk over the held source, so
+    they equal the plan's manifest exactly when nothing changed; no second inventory is written here."""
+    with contextlib.ExitStack() as stack:
+        held = stack.enter_context(fdsafe.hold_root(source))
+        with fdsafe.fs(source):
+            try:
+                doc = unit_manifest.build_manifest(source, held.fd)
+            except unit_manifest.Refusal as exc:
+                raise Refusal(source, str(exc)) from exc
+            st = os.fstat(held.fd)
+        result = canonical(doc), (st.st_dev, st.st_ino), held
+        stack.pop_all()
+        return result
+
+
+def _nearest(hold: Callable[[str], fdsafe.Dir], path: str) -> fdsafe.Dir:
+    """The nearest existing folder at or above path, held without following a link."""
+    while True:
+        try:
+            return hold(path)
+        except Refusal as exc:
+            if exc.errno != errno.ENOENT:
+                raise
+        path = os.path.dirname(path)
+
+
+def _target(hold: Callable[[str], fdsafe.Dir], target: str) -> dict:
+    """{target, exists, base}: base is the nearest existing ancestor; exists observes the first entry below it."""
+    base = _nearest(hold, os.path.dirname(target))
+    first = target[len(base.path):].strip("/").split("/")[0]
+    exists = _entry(base.fd, first, target, os.path.join(base.path, first))
+    return {"target": target, "exists": exists, "base": base.path}
+
+
+def _admitted(root: str, actions: list, tracked: list) -> bytes:
+    """The stage_check rows of the core's actions (A/H-SLICE.md:40): R100 per tracked file a git-mv moves, D per
+    tracked file a git-rm-cached removes, A per git-add; paths relative to M."""
+    def rel(path: str) -> str:
+        return path[len(root) + 1:]
+
+    def under(action: dict) -> list:
+        return [path for path in tracked if path.startswith(action["source"] + "/")]
+
+    rows = {"mkdir": lambda a: [], "mv": lambda a: [],
+            "git-mv": lambda a: [("R100", rel(p), rel(a["target"] + p[len(a["source"]):])) for p in under(a)],
+            "git-rm-cached": lambda a: [("D", rel(p)) for p in under(a)],
+            "git-add": lambda a: [("A", rel(a["target"]))]}
+    return "".join("\t".join(row) + "\n" for a in actions for row in rows[a["action"]](a)).encode("utf-8")
+
+
+def _write_custody(custody: str, files: list, roots: list) -> list[str]:
+    """Create each (name, bytes) in the custody folder, outside every root; return the live paths."""
+    written = []
+    with fdsafe.open_out_parent(custody) as parent:
+        for name, data in files:
+            written.append(fdsafe.create_file(parent, name, data, roots))
+            live = parent.live()
+            if live != parent.path:
+                raise Refusal(written[-1], f"its folder {parent.path} moved during the write (now {live}); "
+                                           "left in place")
+    return written
+
+
+@dataclass(frozen=True)
+class Held:
+    """What the actions run against: M's repo, every held folder by path, each source's inventoried identity."""
+    repo: Repo
+    folders: dict
+    sources: dict
+    manifests: dict[str, bytes]
+    leaves: dict[str, dict]
+    tracked: list[str]
+    index: set[tuple[str, str, str, str]]
+    roots: list[fdsafe.Dir]
+    stack: contextlib.ExitStack
+
+
+def _ends(held: Held, action: dict) -> tuple:
+    src, dst = action["source"], action["target"]
+    return (held.folders[os.path.dirname(src)], os.path.basename(src),
+            held.folders[os.path.dirname(dst)], os.path.basename(dst))
+
+
+def _is_source(held: Held, parent: fdsafe.Dir, name: str, path: str, source: str) -> None:
+    """parent/name is the folder inventoried as the unit source, by (st_dev, st_ino)."""
+    with fdsafe.fs(path):
+        st = os.lstat(name, dir_fd=parent.fd)
+    if (st.st_dev, st.st_ino) != held.sources[source]:
+        raise Refusal(path, f"is not the directory inventoried as the unit source {source}")
+
+
+def _do_mkdir(held: Held, action: dict) -> None:
+    folder = action["target"]
+    parent = held.folders[os.path.dirname(folder)]
+    held.folders[folder] = held.stack.enter_context(fdsafe.mkdir(parent, os.path.basename(folder)))
+    # [LAW:one-source-of-truth] created target folders join the same non-unit-write exclusion roots.
+    held.roots.append(held.folders[folder])
+
+
+def _same_manifest(held: Held, path: str, source: str, reason: str) -> None:
+    # [LAW:one-source-of-truth] compare unit_manifest's own document, rebasing only moved paths.
+    manifest, _, walked = _inventory(path)
+    walked.close()
+
+    def rebase(value):
+        if isinstance(value, str):
+            return source + value[len(path):] if value == path or value.startswith(path + "/") else value
+        if isinstance(value, list):
+            return [rebase(item) for item in value]
+        if isinstance(value, dict):
+            return {rebase(key): rebase(item) for key, item in value.items()}
+        return value
+
+    if canonical(rebase(json.loads(manifest))) != held.manifests[source]:
+        raise Refusal(path, reason)
+
+
+def _do_mv(held: Held, action: dict) -> None:
+    src_parent, src_name, dst_parent, dst_name = _ends(held, action)
+    _still_held(src_parent, src_parent)
+    _is_source(held, src_parent, src_name, action["source"], action["source"])
+    _same_manifest(held, action["source"], action["source"], "changed since it was inventoried; nothing moved")
+    fdsafe.rename(src_parent, src_name, dst_parent, dst_name, [src_parent, dst_parent])
+    _is_source(held, dst_parent, dst_name, action["target"], action["source"])
+    _same_manifest(held, action["target"], action["source"], "changed since it was inventoried; left in place")
+
+
+def _index_is(held: Held, path: str) -> list[tuple[str, str, str, str]]:
+    # [LAW:single-enforcer] compare the whole index with the run's own record of it.
+    root = held.repo.root
+    reason = "Git's index under it changed since it was read"
+    entries = _index_rows(held.repo)
+    if set(entries) != held.index:
+        raise Refusal(path, reason)
+    entries = [entry for entry in entries
+               if root + "/" + entry[3] == path or (root + "/" + entry[3]).startswith(path + "/")]
+    if any(entry[2] != "0" for entry in entries):
+        raise Refusal(path, reason)
+    blobs = _git(held.repo, "cat-file", "--batch",
+                 stdin="".join(entry[1] + "\n" for entry in entries).encode("ascii"))
+    offset = 0
+    for mode, object_name, stage, name in entries:
+        # [LAW:parse-dont-validate] one anchored match is the record header's whole contract: this id, a blob, its size, LF.
+        header = re.compile(re.escape(object_name.encode("ascii")) + rb" blob ([0-9]+)\n").match(blobs, offset)
+        if header is None:
+            raise Refusal(path, reason)
+        start = header.end()
+        offset = start + int(header[1])
+        if blobs[offset:offset + 1] != b"\n":
+            raise Refusal(path, reason)
+        leaf = held.leaves[root + "/" + name]
+        modes = {"symlink": ("120000",), "file": ("100644", "100755")}
+        if mode not in modes[leaf["kind"]] or hashlib.sha256(blobs[start:offset]).hexdigest() != leaf["sha256"]:
+            raise Refusal(path, reason)
+        offset += 1
+    if offset != len(blobs):
+        raise Refusal(path, reason)
+    return entries
+
+
+def _write_index(held: Held, entries: list[tuple[str, str, str]]) -> None:
+    # [LAW:one-source-of-truth] all actions share the index record format and write boundary.
+    # [LAW:dataflow-not-control-flow] removal mode uses the same record shape as addition.
+    records = [f"{mode} {object_name} 0\t{path}\0"
+               for mode, object_name, path in entries]
+    _git(held.repo, "update-index", "-z", "--index-info", stdin="".join(records).encode("utf-8"))
+    for mode, object_name, path in entries:
+        held.index.difference_update({row for row in held.index if row[3] == path})
+        if mode != "0":
+            held.index.add((mode, object_name, "0", path))
+
+
+def _do_git_mv(held: Held, action: dict) -> None:
+    src_parent, src_name, dst_parent, dst_name = _ends(held, action)
+    _still_held(src_parent, src_parent)
+    root = held.repo.root
+    entries = _index_is(held, action["source"])
+    _is_source(held, src_parent, src_name, action["source"], action["source"])
+    _same_manifest(held, action["source"], action["source"], "changed since it was inventoried; nothing moved")
+    # [LAW:single-enforcer] exclusive rename owns collision refusal, including late target creation.
+    fdsafe.rename(src_parent, src_name, dst_parent, dst_name, [src_parent, dst_parent])
+    records = []
+    for mode, object_name, stage, path in entries:
+        target = action["target"][len(root) + 1:] + path[len(action["source"][len(root) + 1:]):]
+        records.extend((("0", "0" * len(object_name), path), (mode, object_name, target)))
+    _write_index(held, records)
+    _index_is(held, action["target"])
+    _is_source(held, dst_parent, dst_name, action["target"], action["source"])
+    _same_manifest(held, action["target"], action["source"], "changed since it was inventoried; left in place")
+
+
+def _do_git_rm_cached(held: Held, action: dict) -> None:
+    entries = _index_is(held, action["source"])
+    _write_index(held, [("0", "0" * len(object_name), path) for mode, object_name, stage, path in entries])
+    _index_is(held, action["source"])
+
+
+def _write_object(held: Held, object_name: str, data: bytes) -> None:
+    # [LAW:effects-at-boundaries] Git computes identity; held fds own every object-store write.
+    # [LAW:one-source-of-truth] the object store is held once at repo open; a renamed objects path cannot redirect this write.
+    with contextlib.ExitStack() as stack:
+        objects = held.repo.objects
+        name = object_name[:2]
+        fanout_path = objects.path + "/" + name
+        try:
+            with fdsafe.fs(fanout_path):
+                fd = os.open(name, fdsafe.DIR_FLAGS, dir_fd=objects.fd)
+            fanout = stack.enter_context(fdsafe.Dir(fd, fanout_path))
+        except Refusal as exc:
+            if exc.errno != errno.ENOENT:
+                raise
+            fanout = stack.enter_context(fdsafe.mkdir(objects, name))
+        compressed = zlib.compress(b"blob %d\0" % len(data) + data)
+        try:
+            fdsafe.create_file(fanout, object_name[2:], compressed, held.roots)
+        except Refusal as exc:
+            # [LAW:one-source-of-truth] the index readback verifies an existing object's manifest bytes.
+            if exc.errno != errno.EEXIST:
+                raise
+
+
+def _do_git_add(held: Held, action: dict) -> None:
+    target = action["target"]
+    parent_path, name = os.path.split(target)
+    parent = held.stack.enter_context(fdsafe.hold_root(parent_path))
+    # [LAW:single-enforcer] one boundary translates every leaf-read OS error.
+    with fdsafe.fs(target):
+        st = os.lstat(name, dir_fd=parent.fd)
+        # [LAW:effects-at-boundaries] Git receives bytes, never a worktree path to filter.
+        if stat.S_ISREG(st.st_mode):
+            data = fdsafe.read_bytes(fdsafe.Entry(parent.fd, name, target, name, st))
+            mode = "100755" if st.st_mode & stat.S_IXUSR else "100644"
+        elif stat.S_ISLNK(st.st_mode):
+            data = os.fsencode(os.readlink(name, dir_fd=parent.fd))
+            mode = "120000"
+        else:
+            raise Refusal(target, "is not a regular file or a symlink")
+    object_name = _git(held.repo, "hash-object", "--no-filters", "--stdin", stdin=data).decode("ascii").strip()
+    _write_object(held, object_name, data)
+    _write_index(held, [(mode, object_name, target[len(held.repo.root) + 1:])])
+    _index_is(held, action["target"])
+
+
+# [LAW:dataflow-not-control-flow] each action kind the core returns names its one runner.
+ACTIONS = {"mkdir": _do_mkdir, "mv": _do_mv, "git-mv": _do_git_mv, "git-rm-cached": _do_git_rm_cached,
+           "git-add": _do_git_add}
+
+
+def _now() -> str:
+    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+
+
+def run(args) -> tuple[int, object]:
+    root = args.run_root
+    with InputParents() as inputs:
+        plan = _read(args.plan, inputs)
+        approval = _read(args.approval, inputs)
+        run_units = _json(args.run_units, inputs)[1]
+        splits = {source: _read(path, inputs)[1] for source, path in args.split.items()}
+        inputs.check()
+    # [LAW:single-enforcer] the core's own plan parser names the units to observe.
+    units = run_core._plan(plan).units
+    for source in sorted(set(splits) - {unit.source for unit in units}):
+        raise Refusal(source, "has a --split but is no unit of the plan")
+    with contextlib.ExitStack() as stack:
+        folders: dict[str, fdsafe.Dir] = {}
+
+        def hold(path: str) -> fdsafe.Dir:
+            if path not in folders:
+                folders[path] = stack.enter_context(fdsafe.hold_root(path))
+            return folders[path]
+
+        repo = _open_repo(stack, root)
+        worktree = _worktree(repo)
+        tracked, index = _tracked(repo, [unit.source for unit in units])
+        observed, sources, manifests, leaves = [], {}, {}, {}
+        for unit in units:
+            hold(os.path.dirname(unit.source))
+            manifest, sources[unit.source], walked = _inventory(unit.source)
+            folders[unit.source] = stack.enter_context(walked)
+            manifests[unit.source] = manifest
+            # [LAW:one-source-of-truth] both path names derive from the same admitted manifest bytes.
+            for leaf in json.loads(manifest)["leaves"]:
+                leaves[leaf["source"]] = leaf
+                leaves[unit.target + leaf["source"][len(unit.source):]] = leaf
+            observed.append({"source": unit.source, "manifest": manifest, "split": splits.get(unit.source)})
+        targets = [_target(hold, unit.target) for unit in units]
+        result = run_core.run_unit(root=root, plan=plan, approval=approval, now=_now(), units=observed,
+                                   tracked=tracked, worktree=worktree, targets=targets, run_units=run_units,
+                                   custody_dir=args.custody_dir)
+        # [LAW:effects-at-boundaries] the roots are the unit's own folders only, never M.
+        roots = [folders[unit.source] for unit in units] + \
+            [folders[os.path.dirname(unit.source)] for unit in units] + \
+            [folders[t["base"]] for t in targets if t["base"] == os.path.dirname(t["target"])]
+        files = [(os.path.basename(doc["path"]), doc["bytes"]) for doc in result["documents"]] + \
+            [(ADMITTED, _admitted(root, result["actions"], tracked))]
+        custody = _write_custody(args.custody_dir, files, roots)
+        held = Held(repo, folders, sources, manifests, leaves, tracked, index, roots, stack)
+        for action in result["actions"]:
+            ACTIONS[action["action"]](held, action)
+    return 0, {"actions": result["actions"], "custody": custody}
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = parser.add_subparsers(dest="command", required=True)
@@ -378,6 +871,14 @@ def _parser() -> argparse.ArgumentParser:
     r.add_argument("--source", required=True)
     r.add_argument("--hold-target", required=True)
     r.set_defaults(run=check_routes)
+    u = sub.add_parser("run", help="execute one approved unit plan in M and write its custody files")
+    u.add_argument("--root", required=True, dest="run_root")
+    u.add_argument("--plan", required=True)
+    u.add_argument("--approval", required=True)
+    u.add_argument("--split", required=True, action="append", nargs=2, metavar=("SOURCE", "FILE"))
+    u.add_argument("--run-units", required=True)
+    u.add_argument("--custody-dir", required=True)
+    u.set_defaults(run=run)
     return parser
 
 
@@ -386,7 +887,9 @@ def _paths(values: list) -> list[str]:
 
 
 FIELDS = {"entry": _string, "hold_target": _string, "root": _path, "units": _path, "plans": _path,
-          "repairs": _path, "routes": _path, "source": _path, "requirements": _paths, "readers": _paths}
+          "repairs": _path, "routes": _path, "source": _path, "requirements": _paths, "readers": _paths,
+          "run_root": _absolute, "plan": _path, "approval": _path, "split": _splits, "run_units": _path,
+          "custody_dir": _absolute}
 
 
 def main(argv: list[str] | None = None) -> int:
