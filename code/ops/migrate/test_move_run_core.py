@@ -979,5 +979,130 @@ class AuditedPurity(unittest.TestCase):
                 self.assertIn(where, caught.exception.path)
 
 
+class ValidatorShapeRefuses(unittest.TestCase):
+    """Every untrusted object/list/path boundary refuses with its input path.
+
+    Manifest edits are rebound into the plan and approval: a stale digest must not
+    hide a missing delegated validation. Each row starts with an independent fixture.
+    """
+
+    def test_malformed_boundary_rows(self):
+        manifest = "units[0].manifest"
+        leaf = manifest + ".leaves[0]"
+        git = manifest + ".git_roots[0]"
+        split = U2.source + " split"
+        source = U2.source + "/c.log"
+        missing_git = manifest_doc(U2)
+        del missing_git["git_roots"]
+        # document, field path, malformed value, exact Refusal.path, reason
+        rows = [
+            ("kw", ("plan",), None, "plan", "list"),
+            ("kw", ("plan",), [], "plan", "pair"),
+            ("kw", ("plan",), ({}, b"{}"), "plan", "path"),
+            ("kw", ("approval",), None, "approval", "list"),
+            ("kw", ("approval",), [], "approval", "pair"),
+            ("kw", ("approval",), ({}, b"{}"), "approval", "path"),
+            ("plan", (), [], PLAN_PATH, "object"),
+            ("plan", ("id",), {}, PLAN_PATH, "ID"),
+            ("plan", ("units",), None, PLAN_PATH, "list"),
+            ("plan", ("units", 0), None, "units[0]", "object"),
+            ("plan", ("units", 0), [], "units[0]", "object"),
+            ("plan", ("units", 0, "requirement_id"), {}, "units[0]", "MV-NNN"),
+            ("plan", ("units", 0, "source"), {}, "units[0]", "path"),
+            ("plan", ("units", 0, "target"), [], "units[0]", "path"),
+            ("plan", ("units", 0, "manifest"), None, manifest, "object"),
+            ("plan", ("units", 0, "manifest"), [], manifest, "object"),
+            ("plan", ("units", 0, "manifest", "path"), {}, manifest, "path"),
+            ("plan", ("units", 0, "leaves"), None, "units[0]", "leaves"),
+            ("plan", ("units", 0, "bytes"), [], "units[0]", "bytes"),
+            ("approval", (), [], APPROVAL_PATH, "object"),
+            ("approval", ("approved_at",), None, APPROVAL_PATH, "UTC instant"),
+            ("kw", ("worktree",), None, "worktree", "object"),
+            ("kw", ("worktree", "top"), {}, "worktree", "path"),
+            ("kw", ("worktree", "git_dir"), [], "worktree", "path"),
+            ("kw", ("worktree", "common_dir"), None, "worktree", "path"),
+            ("kw", ("units",), None, "units", "list"),
+            ("kw", ("units", 0), None, "units[0]", "object"),
+            ("kw", ("units", 0), [], "units[0]", "object"),
+            ("kw", ("units", 0, "source"), {}, "units[0]", "path"),
+            ("split", (), [], split, "object"),
+            ("split", ("root",), {}, split, "root"),
+            ("split", ("leaves",), None, split, "list"),
+            ("split", ("leaves", 0), None, split + ".leaves[0]", "object"),
+            ("split", ("leaves", 0), [], split + ".leaves[0]", "object"),
+            ("split", ("leaves", 0, "path"), {}, split + ".leaves[0]", "relative path"),
+            ("kw", ("tracked",), None, "tracked", "list"),
+            ("kw", ("tracked",), [{}], "tracked", "path"),
+            ("kw", ("targets",), None, "targets", "list"),
+            ("kw", ("targets", 0), None, "targets[0]", "object"),
+            ("kw", ("targets", 0), [], "targets[0]", "object"),
+            ("kw", ("targets", 0, "target"), [], "targets[0]", "path"),
+            ("kw", ("targets", 0, "base"), {}, "targets[0]", "path"),
+            ("kw", ("run_units",), None, "run_units", "list"),
+            ("kw", ("run_units",), [{}], "run_units", "path"),
+            ("kw", ("root",), {}, "root", "path"),
+            ("kw", ("custody_dir",), [], "custody_dir", "path"),
+            ("manifest", (), missing_git, manifest, "has no git_roots; not a Step 201 manifest"),
+            ("manifest", (), [], manifest, "object"),
+            ("manifest", ("extra",), None, manifest, "unknown field"),
+            ("manifest", ("schema_version",), None, manifest, "schema_version"),
+            ("manifest", ("root",), {}, manifest, "path"),
+            ("manifest", ("leaves",), None, manifest + ".leaves", "list"),
+            ("manifest", ("leaves", 0), None, leaf, "object"),
+            ("manifest", ("leaves", 0), [], leaf, "object"),
+            ("manifest", ("leaves", 0, "extra"), None, source, "unknown field"),
+            ("manifest", ("leaves", 0, "source"), {}, leaf, "path"),
+            ("manifest", ("leaves", 0, "kind"), [], source, "kind"),
+            ("manifest", ("leaves", 0, "bytes"), None, source, "bytes"),
+            ("manifest", ("leaves", 0, "sha256"), {}, source, "sha256"),
+            ("manifest", ("leaves", 0, "link_text"), [], source, "link_text"),
+            ("manifest", ("leaves", 0, "device"), None, source, "device"),
+            ("manifest", ("leaves", 0, "inode"), [], source, "inode"),
+            ("manifest", ("leaves", 0, "nlink"), {}, source, "nlink"),
+            ("manifest", ("git_roots",), None, manifest + ".git_roots", "list"),
+            ("manifest", ("git_roots", 0), None, git, "object"),
+            ("manifest", ("git_roots", 0), [], git, "object"),
+            ("manifest", ("git_roots", 0, "extra"), None, git, "unknown field"),
+            ("manifest", ("git_roots", 0, "path"), {}, git, "path"),
+            ("manifest", ("git_roots", 0, "head"), [], git + ".head", "string or null"),
+            ("manifest", ("git_roots", 0, "branch"), {}, git + ".branch", "string or null"),
+            ("manifest", ("git_roots", 0, "dirty"), None, git + ".dirty", "list"),
+            ("manifest", ("git_roots", 0, "dirty"), [None], git + ".dirty", "status records"),
+        ]
+        for document, path, value, where, reason in rows:
+            with self.subTest(document=document, field=path, value=value):
+                kw, plan, _ = scenario([U2])
+                documents = {"kw": kw, "plan": plan, "approval": json.loads(kw["approval"][1]),
+                             "split": json.loads(kw["units"][0]["split"]),
+                             "manifest": json.loads(kw["units"][0]["manifest"])}
+                if document == "manifest" and path[:1] == ("git_roots",) and len(path) > 1:
+                    documents["manifest"]["git_roots"] = [
+                        {"path": U2.source, "head": None, "branch": None, "dirty": []}]
+                if path:
+                    parent = documents[document]
+                    for key in path[:-1]:
+                        parent = parent[key]
+                    parent[path[-1]] = copy.deepcopy(value)
+                else:
+                    documents[document] = copy.deepcopy(value)
+                if document == "manifest":
+                    data = canonical(documents["manifest"])
+                    kw["units"][0]["manifest"] = data
+                    plan["units"][0]["manifest"]["sha256"] = sha(data)
+                if document in ("plan", "manifest"):
+                    doc = documents["plan"]
+                    data = canonical(reseal(doc) if isinstance(doc, dict) else doc)
+                    kw["plan"] = (PLAN_PATH, data)
+                    kw["approval"] = (APPROVAL_PATH, canonical(approval_doc(data)))
+                if document == "approval":
+                    kw["approval"] = (APPROVAL_PATH, canonical(documents["approval"]))
+                if document == "split":
+                    kw["units"][0]["split"] = canonical(documents["split"])
+                with self.assertRaises(fdsafe.Refusal) as caught:
+                    core.run_unit(**kw)
+                self.assertEqual(caught.exception.path, where)
+                self.assertIn(reason, str(caught.exception))
+
+
 if __name__ == "__main__":
     unittest.main()
