@@ -3,9 +3,10 @@
 (ICM v2.1 Part 2, Step 271: the I/O shell over ledger_db_core, Step 272).
 
 Read only. It reads the inputs, the toolkit database and free disk space, and passes them to
-ledger_db_core.compute as values. It never moves, overwrites or deletes anything. Its DuckDB database
-is in memory and is never written to disk; the toolkit database is attached READ_ONLY. Neither is an
-authority: the Step 201 manifests and the annex rows stay the source of truth.
+ledger_db_core.compute as values. It never moves, overwrites or deletes anything but its own reports
+(see _write). Its DuckDB database is in memory and is never written to disk; the toolkit database is
+attached READ_ONLY. Neither is an authority: the Step 201 manifests and the annex rows stay the source
+of truth.
 
   ledger_db.py --plans PLANS.json --requirements ANNEX.tsv [--requirements ...]
                --toolkit-db TOOLKIT.duckdb --free-root LABEL=PATH [--free-root ...]
@@ -22,18 +23,23 @@ Inputs:
   --free-root     a destination root; its free bytes are f_bavail * f_frsize of the held root, and a
                   leaf whose manifest device is the root's st_dev moves to it by a rename (no bytes).
   --floor-bytes   bytes each root must keep free (default 20 GiB, the disk floor).
-Outputs: DIR (created; it must not exist and must lie outside every free root) holds drift.tsv,
-cross_unit_dups.tsv, targets.tsv and capacity.tsv, the core's rows under its column headers.
-A target exists when a no-follow lstat finds it; an existing directory target is walked, so each
-existing path under it is also an existing target.
+Outputs: DIR (created; it must not exist and must lie outside every move source, move target and free
+root) holds drift.tsv, cross_unit_dups.tsv, targets.tsv and capacity.tsv, the core's rows under its
+column headers. A target exists when a no-follow lstat finds it; an existing directory target is
+walked, so each existing path under it is also an existing target.
+
+Every raw string (each CLI argument, and each path or label read from the plans file, the manifests
+and the annexes) passes one parse step (_label, _path) before any other use: it refuses a NUL, a
+string with no UTF-8 form, a tab, CR or LF, and, for a path, one that is not absolute and normalized.
+A CLI path may be relative; the parse step makes it absolute once, from the working directory.
 
 Every walk, read, create, close and F_GETPATH goes through fdsafe; any other filesystem call runs
 inside fdsafe.fs. DuckDB opens the toolkit file by path; the shell checks before the attach that it is
 a regular file (a FIFO would block DuckDB), holds it (no-follow) and its parent, and keeps a kqueue
 vnode watch on both from before the ATTACH until after the DETACH: any event is a refusal, as is a
-changed lstat after the query. A target is looked up through its held parent, never by a path that
-could follow a link. A string that a report could carry is refused at parse time when it holds a tab,
-CR or LF. --out may not lie inside a move source, a move target or a free root.
+changed lstat after the query. A move source or target is looked up through its held parent, never by
+a path that could follow a link; one that exists is held and known by its (st_dev, st_ino), as is
+each free root, and --out may not have any of them among its own and its ancestors' identities.
 
 Exit 0: targets.tsv and capacity.tsv have no rows. Exit 1: either has a row.
 Exit 2: a refusal (unreadable or malformed input, a plans file with no entries, a raced object):
@@ -52,6 +58,7 @@ import select
 import stat
 import sys
 from collections.abc import Mapping
+from typing import NamedTuple, NewType
 
 import duckdb
 
@@ -66,7 +73,9 @@ REPORTS = (("drift.tsv", ledger_db_core.DRIFT_COLUMNS, "drift"),
 ANNEX_COLUMNS = ("requirement_id", "source", "action")
 FLOOR_BYTES = 20 * (1 << 30)
 SHA256_HEX = frozenset("0123456789abcdef")
-SURROGATE = re.compile("[\ud800-\udfff]")  # a lone surrogate (JSON \u escapes allow one) has no UTF-8 form
+# A lone surrogate has no UTF-8 form: a JSON \u escape can make one, and so can a byte that is not UTF-8
+# in argv or in a walked name (Python decodes those with surrogateescape).
+SURROGATE = re.compile("[\ud800-\udfff]")
 # LeafRecord fields beyond source and device, with their wire types (A-icm21/WIRE-CONTRACTS.md:91-92).
 LEAF_FIELDS = (("kind", (str,)), ("bytes", (int,)), ("sha256", (str,)), ("link_text", (str, type(None))),
                ("inode", (int,)), ("nlink", (int,)))
@@ -74,10 +83,111 @@ WATCH = select.KQ_EV_ADD | select.KQ_EV_CLEAR
 FILE_NOTES = (select.KQ_NOTE_DELETE | select.KQ_NOTE_RENAME | select.KQ_NOTE_WRITE | select.KQ_NOTE_LINK
               | select.KQ_NOTE_REVOKE)
 PARENT_NOTES = select.KQ_NOTE_WRITE | select.KQ_NOTE_DELETE | select.KQ_NOTE_RENAME
+UNIT = "lies inside, or is, this move source or target"
+ROOT = "lies inside this free root"
+
+# [LAW:parse-dont-validate] The stamps of the one parse step: code past it takes these, never raw strings.
+Label = NewType("Label", str)      # strict UTF-8 text with no NUL, tab, CR or LF
+AbsPath = NewType("AbsPath", str)  # a Label that is an absolute, normalized path
+
+
+class Inputs(NamedTuple):
+    """Every CLI string, parsed: nothing past _inputs reads argv."""
+    plans: AbsPath
+    requirements: tuple
+    toolkit: AbsPath
+    free_roots: tuple  # (Label, AbsPath) pairs, the labels distinct
+    floor_bytes: int
+    out: AbsPath
+
+
+class Fence(NamedTuple):
+    """A place --out may not lie in. ident is the held (st_dev, st_ino) of an object that exists: a link
+    alias or a rename leaves it unchanged. It is None for a path where nothing exists; that path is
+    compared as parsed, and its existing ancestors were held link-free when it was looked up."""
+    path: str
+    ident: tuple | None
+    says: str
+
+
+class Root(NamedTuple):
+    held: fdsafe.Dir
+    dev: int
+    free: int
+    fence: Fence
+
+
+class Unit(NamedTuple):
+    """A move source or target as found; held is its directory fd when it is an existing directory."""
+    fence: Fence
+    held: fdsafe.Dir | None
 
 
 def _identity(st: os.stat_result) -> tuple:
     return (st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns)
+
+
+def _node(st: os.stat_result) -> tuple:
+    return (st.st_dev, st.st_ino)
+
+
+def _label(value, source: str, field: str, carry: str = "") -> Label:
+    """[LAW:single-enforcer] The one parse step for a raw string: refused, naming its source and field,
+    unless it is a string a TSV report can carry. carry names the reports that could hold the value."""
+    at = f"{source} {field}{carry}"
+    if not isinstance(value, str):
+        raise Refusal(at, f"{field}: expected a string, got {type(value).__name__}")
+    if "\0" in value:
+        raise Refusal(at, f"{field}: value {value!r} holds a NUL")
+    if SURROGATE.search(value):
+        raise Refusal(at, f"{field}: value {value!r} has no UTF-8 form (a lone surrogate)")
+    if "\t" in value or "\n" in value or "\r" in value:
+        raise Refusal(at, f"{field}: value {value!r} holds a tab or line break; TSV cannot carry it")
+    return Label(value)
+
+
+def _path(value, source: str, field: str, carry: str = "") -> AbsPath:
+    text = _label(value, source, field, carry)
+    if os.path.normpath("/" + text.lstrip("/")) != text:  # relative, '.', '..', '//' or a trailing '/'
+        raise Refusal(f"{source} {field}{carry}", f"{field}: {text!r} is not an absolute normalized path")
+    return AbsPath(text)
+
+
+def _cli_path(value: str, flag: str) -> AbsPath:
+    """A CLI path, made absolute once, here, from the working directory, then parsed."""
+    with fdsafe.fs(flag):
+        cwd = os.getcwd()
+    return _path(os.path.join(cwd, value), flag, "path")
+
+
+def _given(value, parse, source: str, field: str, carry: str = ""):
+    """value parsed when it is a string; ledger_db_core owns the shapes and refuses any other type."""
+    return parse(value, source, field, carry) if isinstance(value, str) else value
+
+
+def _each(value, parse):
+    return [parse(item, j) for j, item in enumerate(value)] if isinstance(value, list) else value
+
+
+def _move(move, source: str, at: str, carry: str):
+    keys = ("source", "target")
+    return {k: _given(move[k], _path, source, f"{at}.{k}", carry) for k in keys if k in move} \
+        if isinstance(move, Mapping) else move
+
+
+def _inputs(ns: argparse.Namespace) -> Inputs:
+    free_roots, labels = [], set()
+    for spec in ns.free_root:
+        label, sep, path = _label(spec, "--free-root", "LABEL=PATH").partition("=")
+        if not sep or not label or not path:
+            raise Refusal(spec, "expected --free-root LABEL=PATH")
+        if label in labels:
+            raise Refusal(spec, f"duplicate free root label {label}")
+        labels.add(label)
+        free_roots.append((Label(label), _cli_path(path, "--free-root")))
+    return Inputs(_cli_path(ns.plans, "--plans"), tuple(_cli_path(p, "--requirements") for p in ns.requirements),
+                  _cli_path(ns.toolkit_db, "--toolkit-db"), tuple(free_roots), ns.floor_bytes,
+                  _cli_path(ns.out, "--out"))
 
 
 def _read(path: str) -> bytes:
@@ -105,19 +215,12 @@ def _json(data: bytes, path: str):
     def constant(name):
         raise Refusal(path, f"holds the non-JSON constant {name}")
     try:
-        doc = json.loads(_text(data, path), object_pairs_hook=pairs, parse_constant=constant)
+        return json.loads(_text(data, path), object_pairs_hook=pairs, parse_constant=constant)
     except json.JSONDecodeError as exc:
         raise Refusal(path, f"is not JSON ({exc.msg} at line {exc.lineno} column {exc.colno})") from None
-    pending = [doc]
-    while pending:
-        item = pending.pop()
-        if isinstance(item, str) and SURROGATE.search(item):
-            raise Refusal(path, f"holds the string {item!r}, which has no UTF-8 form")
-        pending.extend(item.values() if isinstance(item, dict) else item if isinstance(item, list) else ())
-    return doc
 
 
-def _annex(path: str) -> list:
+def _annex(path: AbsPath) -> list:
     text = _text(_read(path), path)
     if "\r" in text or not text.endswith("\n"):
         raise Refusal(path, "needs LF line ends and a final newline")
@@ -132,26 +235,23 @@ def _annex(path: str) -> list:
         fields = line.split("\t")
         if len(fields) != len(columns):
             raise Refusal(path, f"row {number} has {len(fields)} fields, the header {len(columns)}")
-        rows.append(dict(zip(columns, fields)))
+        row = dict(zip(columns, fields))
+        rows.append({"requirement_id": _label(row["requirement_id"], path, f"row {number} requirement_id"),
+                     "source": _path(row["source"], path, f"row {number} source"),
+                     "action": _label(row["action"], path, f"row {number} action")})
     return rows
 
 
-def _manifest_path(value, where: str, plans: str) -> str:
-    if not isinstance(value, str) or not value.startswith("/") or os.path.normpath(value) != value:
-        raise Refusal(plans, f"{where}: expected an absolute normalized manifest path")
-    return value
-
-
-def _leaves(entry: Mapping, where: str, plans: str, carry: str) -> list:
+def _leaves(entry: Mapping, at: str, plans: AbsPath, carry: str) -> list:
     for key in ("manifest", "manifest_sha256"):
         if key not in entry:
-            raise Refusal(plans, f"{where}: missing field {key}")
+            raise Refusal(plans, f"{at}: missing field {key}")
     if "leaves" in entry:
-        raise Refusal(plans, f"{where}: leaves come from the manifest, not the plans file")
-    path = _manifest_path(entry["manifest"], f"{where}.manifest", plans)
-    digest = entry["manifest_sha256"]
-    if not isinstance(digest, str) or len(digest) != 64 or not set(digest) <= SHA256_HEX:
-        raise Refusal(plans, f"{where}.manifest_sha256: expected a lowercase hex sha256")
+        raise Refusal(plans, f"{at}: leaves come from the manifest, not the plans file")
+    path = _path(entry["manifest"], plans, f"{at}.manifest")
+    digest = _label(entry["manifest_sha256"], plans, f"{at}.manifest_sha256")
+    if len(digest) != 64 or not set(digest) <= SHA256_HEX:
+        raise Refusal(plans, f"{at}.manifest_sha256: expected a lowercase hex sha256")
     data = _read(path)
     actual = hashlib.sha256(data).hexdigest()
     if actual != digest:
@@ -162,19 +262,26 @@ def _leaves(entry: Mapping, where: str, plans: str, carry: str) -> list:
     leaves = doc.get("leaves")
     if not isinstance(leaves, list):
         raise Refusal(path, "has no leaves list")
+    parsed = []
     for i, leaf in enumerate(leaves):
-        if not isinstance(leaf, Mapping) or not isinstance(leaf.get("source"), str) or \
-                type(leaf.get("device")) is not int:
-            raise Refusal(path, f"leaves[{i}]: expected an object with a source string and a device integer")
+        if not isinstance(leaf, Mapping) or type(leaf.get("device")) is not int:
+            raise Refusal(path, f"leaves[{i}]: expected an object with a device integer")
+        source = _path(leaf.get("source"), path, f"leaves[{i}].source", carry)
         for field, kinds in LEAF_FIELDS:
             if field not in leaf or type(leaf[field]) not in kinds:
-                raise Refusal(path, f"leaves[{i}] ({leaf['source']!r}).{field}: missing or not "
+                raise Refusal(path, f"leaves[{i}] ({source!r}).{field}: missing or not "
                                     f"{' or '.join(k.__name__ for k in kinds)} (LeafRecord, WIRE-CONTRACTS.md:91)")
-        _cell(leaf["source"], f"{path} leaves[{i}].source{carry}")
-    return leaves
+        parsed.append({"source": source, "device": leaf["device"], "bytes": leaf["bytes"], "inode": leaf["inode"],
+                       "nlink": leaf["nlink"], "kind": _label(leaf["kind"], path, f"leaves[{i}].kind"),
+                       "sha256": _label(leaf["sha256"], path, f"leaves[{i}].sha256", carry),
+                       "link_text": _given(leaf["link_text"], _label, path, f"leaves[{i}].link_text")})
+    return parsed
 
 
-def _plans(path: str, carry: str) -> list:
+def _plans(path: AbsPath, carry: str) -> list:
+    """Each entry: the fields the core reads (id, replaces, moves), every string in them parsed, and its
+    manifest's parsed leaves. A missing field stays missing and a wrong shape stays as given: the core
+    refuses both."""
     doc = _json(_read(path), path)
     if not isinstance(doc, Mapping) or not isinstance(doc.get("entries"), list):
         raise Refusal(path, 'expected {"entries": [...]}')
@@ -182,42 +289,34 @@ def _plans(path: str, carry: str) -> list:
     for i, entry in enumerate(doc["entries"]):
         if not isinstance(entry, Mapping):
             raise Refusal(path, f"entries[{i}]: expected an object")
-        # Each string a report can carry, whether or not a row holds it; the core checks the shapes. A
-        # requirement id cannot hold a tab, CR or LF: the annex parse splits on them or refuses them,
-        # and the core refuses a replaces id that names no annex row.
-        _cell(entry.get("id"), f"{path} entries[{i}].id{carry}")
-        moves = entry.get("moves")
-        for j, move in enumerate(moves if isinstance(moves, list) else ()):
-            for key in ("source", "target"):
-                _cell(move.get(key) if isinstance(move, Mapping) else None,
-                      f"{path} entries[{i}].moves[{j}].{key}{carry}")
-        fields = {k: v for k, v in entry.items() if k not in ("manifest", "manifest_sha256")}
-        entries.append({**fields, "leaves": _leaves(entry, f"entries[{i}]", path, carry)})
+        at = f"entries[{i}]"
+        parse = {"id": lambda v: _given(v, _label, path, f"{at}.id", carry),
+                 "replaces": lambda v: _each(v, lambda r, j: _given(r, _label, path, f"{at}.replaces[{j}]")),
+                 "moves": lambda v: _each(v, lambda m, j: _move(m, path, f"{at}.moves[{j}]", carry))}
+        fields = {key: parse[key](entry[key]) for key in parse if key in entry}
+        entries.append({**fields, "leaves": _leaves(entry, at, path, carry)})
     return entries
 
 
-def _free_roots(specs: list, stack: contextlib.ExitStack, written: list, carry: str) -> list:
-    """Each free root held: (Dir, st_dev, free bytes). The ExitStack closes them."""
-    roots, labels = [], set()
-    for spec in specs:
-        label, sep, path = spec.partition("=")
-        if not sep or not label or not path:
-            raise Refusal(spec, "expected --free-root LABEL=PATH")
-        if label in labels:
-            raise Refusal(spec, f"duplicate free root label {label}")
-        labels.add(label)
+def _close_later(stack: contextlib.ExitStack, held: fdsafe.Dir, written: list) -> None:
+    """Close a held directory when the run ends; once a report is written, a failed close names it."""
+    stack.callback(lambda: fdsafe.close(held.fd, held.path if not written else
+                                        f"{held.path}; {written[0]} (written, left in place)"))
+
+
+def _free_roots(specs: tuple, stack: contextlib.ExitStack, written: list) -> list:
+    """Each free root held, with its st_dev, its free bytes and its fence. The ExitStack closes them."""
+    roots = []
+    for _, path in specs:
         held = fdsafe.hold_root(path)
-        stack.callback(lambda d=held: fdsafe.close(d.fd, d.path if not written else
-                                                     f"{d.path}; {written[0]} (written, left in place)"))
-        if any(held.path == other.path for other, _, _ in roots):
-            raise Refusal(held.path, "is given as two free roots")
-        _cell(label, f"--free-root {held.path} label{carry}")
-        _cell(held.path, f"--free-root {label} path{carry}")
+        _close_later(stack, held, written)
         with fdsafe.fs(held.path):
-            dev = os.fstat(held.fd).st_dev
+            st = os.fstat(held.fd)
+        if any(_node(st) == root.fence.ident for root in roots):
+            raise Refusal(held.path, "is given as two free roots")
         with fdsafe.fs(held.path):
             vfs = os.statvfs(held.fd)
-        roots.append((held, dev, vfs.f_bavail * vfs.f_frsize))
+        roots.append(Root(held, st.st_dev, vfs.f_bavail * vfs.f_frsize, Fence(held.path, _node(st), ROOT)))
     return roots
 
 
@@ -284,8 +383,8 @@ def _toolkit_rows(path: str) -> list:
     return rows
 
 
-def _target_stat(target: str):
-    """The no-follow lstat of a move target, made through its held parent; None when it is absent.
+def _lookup(target: str):
+    """The no-follow lstat of an absolute path, made through its held parent; None when it is absent.
 
     The parent is held by fdsafe.hold_root, which refuses a path with a link in it. When the parent
     is missing (ENOENT), the lookup climbs to the nearest ancestor that hold_root can hold, so no
@@ -317,80 +416,130 @@ def _target_stat(target: str):
     return st
 
 
-def _existing(entries: list) -> set:
+def _unit(path: AbsPath, stack: contextlib.ExitStack, written: list) -> Unit:
+    """[LAW:one-source-of-truth] A move source or target as it is now: an existing directory is held for
+    the whole run, so its (st_dev, st_ino) stays the unit's identity wherever it is moved."""
+    st = _lookup(path)
+    if st is None:
+        return Unit(Fence(path, None, UNIT), None)
+    if not stat.S_ISDIR(st.st_mode):
+        return Unit(Fence(path, _node(st), UNIT), None)
+    held = fdsafe.hold_root(path)
+    _close_later(stack, held, written)
+    with fdsafe.fs(path):
+        now = os.fstat(held.fd)
+    if _node(now) != _node(st):
+        raise Refusal(path, "changed between its stat and its walk or hold")
+    return Unit(Fence(path, _node(st), UNIT), held)
+
+
+def _existing(targets: set, units: dict) -> set:
     """Every move target that exists, and every path under an existing directory target."""
-    found = set()
-    for target in sorted({m["target"] for e in entries for m in e["moves"]}):
-        st = _target_stat(target)
-        if st is None:
-            continue
-        found.add(target)
-        if stat.S_ISDIR(st.st_mode):
-            def visit(entry, target=target):
-                _cell(entry.rel, f"{target} (a name walked under this existing target)")
-                found.add(f"{target}/{entry.rel}")
-            with fdsafe.hold_root(target) as tdir:
-                with fdsafe.fs(target):
-                    held = os.fstat(tdir.fd)
-                if (held.st_dev, held.st_ino) != (st.st_dev, st.st_ino):
-                    raise Refusal(target, "changed between its stat and its walk")
-                fdsafe.walk(tdir, visit)
-                if tdir.live() != tdir.path:
-                    raise Refusal(target, f"was rebound during the walk (the walked directory is now {tdir.live()})")
+    found = {target for target in targets if units[target].fence.ident is not None}
+    for target in sorted(t for t in targets if units[t].held is not None):
+        tdir = units[target].held
+
+        def visit(entry, target=target):
+            _label(entry.rel, target, "(a name walked under this existing target)")
+            found.add(f"{target}/{entry.rel}")
+        fdsafe.walk(tdir, visit)
+        if tdir.live() != tdir.path:
+            raise Refusal(target, f"was rebound during the walk (the walked directory is now {tdir.live()})")
     return found
 
 
-def _cell(value, path: str) -> bytes:
-    text = "" if value is None else str(value)
-    if "\t" in text or "\n" in text or "\r" in text:
-        raise Refusal(path, f"value {text!r} holds a tab or line break; TSV cannot carry it")
-    return text.encode("utf-8", "strict")
+def _ancestry(held: fdsafe.Dir) -> frozenset:
+    """(st_dev, st_ino) of the held directory and of each directory above it, up to '/', reached through
+    '..' from the held fd: what the directory is inside now, whatever path names it."""
+    ids, up = [], "."
+    with fdsafe.fs(held.path):
+        st = os.stat(up, dir_fd=held.fd)
+        while _node(st) not in ids:  # '/' is its own '..'
+            ids.append(_node(st))
+            up += "/.."
+            st = os.stat(up, dir_fd=held.fd)
+    return frozenset(ids)
 
 
-def _render(name: str, columns: tuple, rows: tuple, out: str) -> bytes:
-    path = os.path.join(out, name)
-    return b"".join(b"\t".join(_cell(v, path) for v in row) + b"\n" for row in (columns, *rows))
+def _occupant(path: str) -> frozenset:
+    """The identity of what exists at path now (none when nothing does)."""
+    st = _lookup(path)
+    return frozenset([_node(st)] if st is not None else [])
 
 
-def run(args) -> int:
+def _refuse_inside(ids: frozenset, live: str, fences: list, held: fdsafe.Dir, created: list) -> None:
+    """Refuse when --out, live at `live` with the identities ids, lies in a fence; first remove the reports
+    already created (names in held, unlinked through its fd), so that none stays there."""
+    hit = next((f for f in fences if (f.ident in ids if f.ident else fdsafe.inside(f.path, live))), None)
+    if hit is not None:
+        for name in created:
+            with fdsafe.fs(f"{os.path.join(live, name)} (inside {hit.path}; its removal failed, left in place)"):
+                os.unlink(name, dir_fd=held.fd)
+        raise Refusal(hit.path, f"--out {live} {hit.says}" + "".join(f"; removed {name}" for name in created))
+
+
+def _render(columns: tuple, rows: tuple) -> bytes:
+    # Each string here is a parsed input, a parsed walked name or a sha256 the core checked as hex: strict
+    # UTF-8 with no tab or line break, so nothing is re-checked here [LAW:parse-dont-validate].
+    return b"".join(b"\t".join(("" if v is None else str(v)).encode("utf-8", "strict") for v in row) + b"\n"
+                    for row in (columns, *rows))
+
+
+def _write(parent: fdsafe.Dir, name: str, reports: list, roots: list, fences: list,
+           stack: contextlib.ExitStack, written: list) -> list:
+    """[LAW:single-enforcer] The one writer of the reports: the directory parent/name, then each report in it.
+
+    Before the mkdir and before each create, --out's identities (the held directory and each ancestor,
+    and before the mkdir what is at its name) must meet no fence: no held move source, move target or
+    free root, and no absent unit path. After the last create the check runs once more; a failed check
+    removes the reports created so far, by name through the held directory fd, then refuses.
+    [LAW:comments-carry-meaning] Residual (ruling 3): a rename that lands between a check and the
+    create after it cannot be prevented from user space without a lock; the next check, or the one
+    after the last create, and the removal close its effect, not the window."""
+    out = os.path.join(parent.live(), name)
+    _refuse_inside(_ancestry(parent) | _occupant(out), out, fences, parent, [])
+    outdir = fdsafe.mkdir(parent, name)
+    written.append(outdir.path)
+    stack.callback(fdsafe.close, outdir.fd, f"{outdir.path} (written, left in place)")
+    created, lines = [], []
+    for report, data in reports:
+        _refuse_inside(_ancestry(outdir), outdir.live(), fences, outdir, created)
+        lines.append(fdsafe.create_file(outdir, report, data, [root.held for root in roots]))
+        created.append(report)
+    _refuse_inside(_ancestry(outdir), outdir.live(), fences, outdir, created)
+    if outdir.live() != outdir.path:
+        raise Refusal(outdir.path, f"moved to {outdir.live()} during the write; its reports are left in place")
+    return lines
+
+
+def run(inputs: Inputs) -> int:
     written: list = []
-    carry = " (a value for " + ", ".join(os.path.join(args.out, name) for name, _, _ in REPORTS) + ")"
+    carry = " (a value for " + ", ".join(os.path.join(inputs.out, name) for name, _, _ in REPORTS) + ")"
     with contextlib.ExitStack() as stack:
-        roots = _free_roots(args.free_root, stack, written, carry)
-        annex = [row for path in args.requirements for row in _annex(path)]
-        entries = _plans(args.plans, carry)
-        toolkit = _toolkit_rows(args.toolkit_db)
-        values = dict(annex_rows=annex, toolkit_rows=toolkit, floor_bytes=args.floor_bytes,
-                      free_bytes={held.path: free for held, _, free in roots},
-                      same_filesystem={(leaf["source"], held.path): leaf["device"] == dev
-                                       for e in entries for leaf in e["leaves"] for held, dev, _ in roots})
+        roots = _free_roots(inputs.free_roots, stack, written)
+        annex = [row for path in inputs.requirements for row in _annex(path)]
+        entries = _plans(inputs.plans, carry)
+        toolkit = _toolkit_rows(inputs.toolkit)
+        values = dict(annex_rows=annex, toolkit_rows=toolkit, floor_bytes=inputs.floor_bytes,
+                      free_bytes={root.held.path: root.free for root in roots},
+                      same_filesystem={(leaf["source"], root.held.path): leaf["device"] == root.dev
+                                       for e in entries for leaf in e["leaves"] for root in roots})
         ledger_db_core.compute(entries=entries, existing_targets=(), **values)
-        reports = ledger_db_core.compute(entries=entries, existing_targets=_existing(entries), **values)
-        for held, _, _ in roots:
-            if held.live() != held.path:
-                raise Refusal(held.path, f"is held at {held.live()}; the root moved during the run")
-        with fdsafe.fs(args.out):
-            parent_path = os.path.realpath(os.path.dirname(os.path.abspath(args.out)))
-        out = os.path.join(parent_path, os.path.basename(args.out))
-        datas = [(name, _render(name, columns, getattr(reports, field), out)) for name, columns, field in REPORTS]
+        units = {path: _unit(path, stack, written)
+                 for path in sorted({p for e in entries for m in e["moves"] for p in (m["source"], m["target"])})}
+        targets = {m["target"] for e in entries for m in e["moves"]}
+        reports = ledger_db_core.compute(entries=entries, existing_targets=_existing(targets, units), **values)
+        for root in roots:
+            if root.held.live() != root.held.path:
+                raise Refusal(root.held.path, f"is held at {root.held.live()}; the root moved during the run")
+        with fdsafe.fs(inputs.out):
+            parent_path = os.path.realpath(os.path.dirname(inputs.out))
         parent = fdsafe.open_out_parent(parent_path)
         stack.callback(fdsafe.close, parent.fd, parent.path)
-        out_live = os.path.join(parent.live(), os.path.basename(out))
-        for unit in sorted({p for e in entries for m in e["moves"] for p in (m["source"], m["target"])}):
-            if fdsafe.inside(unit, out_live):
-                raise Refusal(unit, f"--out {out_live} lies inside, or is, this move source or target")
-        for held, _, _ in roots:
-            if fdsafe.inside(held.live(), parent.live()):
-                raise Refusal(held.path, f"--out {out} lies inside this free root")
-        outdir = fdsafe.mkdir(parent, os.path.basename(out))
-        written.append(outdir.path)
-        stack.callback(fdsafe.close, outdir.fd, f"{outdir.path} (written, left in place)")
-        lines = []
-        for (name, data), (_, _, field) in zip(datas, REPORTS):
-            where = fdsafe.create_file(outdir, name, data, [held for held, _, _ in roots])
-            lines.append(f"{where}\t{len(getattr(reports, field))}")
-        if outdir.live() != outdir.path:
-            raise Refusal(outdir.path, f"moved to {outdir.live()} during the write; its reports are left in place")
+        fences = [unit.fence for unit in units.values()] + [root.fence for root in roots]
+        datas = [(name, _render(columns, getattr(reports, field))) for name, columns, field in REPORTS]
+        lines = [f"{where}\t{len(getattr(reports, field))}" for where, (_, _, field) in
+                 zip(_write(parent, os.path.basename(inputs.out), datas, roots, fences, stack, written), REPORTS)]
     print("\n".join(lines))
     return 1 if reports.targets or reports.capacity else 0
 
@@ -405,7 +554,7 @@ def main(argv=None) -> int:
     parser.add_argument("--out", required=True)
     args = parser.parse_args(argv)
     try:
-        return run(args)
+        return run(_inputs(args))
     except Refusal as exc:
         print(f"ledger_db: refused: {exc}", file=sys.stderr)
         return 2

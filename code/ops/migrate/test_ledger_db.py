@@ -1321,5 +1321,343 @@ class Round1Inputs(Base):
         self.assertEqual(os.listdir(fx.out), [])
 
 
+class Round2Parse(Base):
+    """Round 2 ruling 1 (and the ruling 5 sweep): every raw string passes one parse step before any use."""
+
+    TEXT = (("NUL", "\0", "holds a NUL"), ("lone surrogate", "\udcff", "has no UTF-8 form"),
+            ("tab", "\t", "holds a tab or line break"), ("CR", "\r", "holds a tab or line break"),
+            ("LF", "\n", "holds a tab or line break"))
+    NOT_NORMAL = "is not an absolute normalized path"
+
+    def inputs(self):
+        """(name, kind, apply, label): apply(fx, change) sets one raw input to change(its value), returns argv."""
+        def cli(flag):
+            def apply(fx, change):
+                argv = fx.argv()
+                argv[argv.index(flag) + 1] = change(argv[argv.index(flag) + 1])
+                return argv
+            return apply
+
+        def free_root(fx, change, part):
+            argv = fx.argv()
+            argv[argv.index("--free-root") + 1] = f"{change('DD')}={fx.dst}" if part == "label" else f"D={change(fx.dst)}"
+            return argv
+
+        def entry(edit):
+            def apply(fx, change):
+                entries = fx.entries()
+                edit(entries[0], change)
+                fx.write_plans(entries)
+                return fx.argv()
+            return apply
+
+        def leaf(field):
+            def apply(fx, change):
+                leaves = [fx.leaf("u1/a.txt"), fx.leaf("u1/sub/b.bin")]
+                leaves[0][field] = change(leaves[0][field] or "link")
+                fx.m1 = fx.manifest("m1.json", "u1", leaves=leaves)
+                fx.write_plans(fx.entries())
+                return fx.argv()
+            return apply
+
+        def move(key):
+            return lambda e, change: e["moves"][0].update({key: change(e["moves"][0][key])})
+        return (("--plans", "cli", cli("--plans"), "--plans path"),
+                ("--requirements", "cli", cli("--requirements"), "--requirements path"),
+                ("--toolkit-db", "cli", cli("--toolkit-db"), "--toolkit-db path"),
+                ("--out", "cli", cli("--out"), "--out path"),
+                ("--free-root label", "label", lambda fx, change: free_root(fx, change, "label"), "--free-root LABEL=PATH"),
+                ("--free-root path", "cli", lambda fx, change: free_root(fx, change, "path"), "--free-root"),
+                ("entry id", "label", entry(lambda e, change: e.update(id=change(e["id"]))), "entries[0].id"),
+                ("replaces id", "label", entry(lambda e, change: e.update(replaces=[change(e["replaces"][0])])),
+                 "entries[0].replaces[0]"),
+                ("move source", "path", entry(move("source")), "entries[0].moves[0].source"),
+                ("move target", "path", entry(move("target")), "entries[0].moves[0].target"),
+                ("manifest", "path", entry(lambda e, change: e.update(manifest=change(e["manifest"]))), "entries[0].manifest"),
+                ("manifest_sha256", "label", entry(lambda e, change: e.update(manifest_sha256=change(e["manifest_sha256"]))),
+                 "entries[0].manifest_sha256"),
+                ("leaf source", "path", leaf("source"), "leaves[0].source"),
+                ("leaf kind", "label", leaf("kind"), "leaves[0].kind"),
+                ("leaf sha256", "label", leaf("sha256"), "leaves[0].sha256"),
+                ("leaf link_text", "label", leaf("link_text"), "leaves[0].link_text"))
+
+    def refused(self, fx, argv, label, says):
+        listing = tree(fx.base)
+        result = fx.run(argv)
+        self.assertRefused(result, label)
+        self.assertIn(says, result[2])
+        self.assertEqual(tree(fx.base), listing)
+
+    def test_each_raw_string_with_a_nul_surrogate_tab_cr_or_lf_refuses_at_its_parse(self):
+        for name, _, apply, label in self.inputs():
+            for attack, char, says in self.TEXT:
+                with self.subTest(input=name, attack=attack):
+                    fx = Fixture(self)
+                    self.refused(fx, apply(fx, lambda value: value[:-1] + char + value[-1:]), label, says)
+
+    def test_each_path_that_is_relative_or_not_normalized_refuses_at_its_parse(self):
+        changes = (("relative", lambda p: p.lstrip("/")), ("dot-dot", lambda p: f"{p}/../{os.path.basename(p)}"),
+                   ("trailing slash", lambda p: p + "/"), ("dot", lambda p: f"{os.path.dirname(p)}/./{os.path.basename(p)}"),
+                   ("double slash", lambda p: "/" + p))
+        for name, kind, apply, label in self.inputs():
+            for attack, change in changes:
+                if kind == "label" or (kind == "cli" and attack == "relative"):
+                    continue  # a label is no path; a relative CLI path is made absolute (Malformed.test_relative_paths...)
+                with self.subTest(input=name, attack=attack):
+                    fx = Fixture(self)
+                    self.refused(fx, apply(fx, change), label, self.NOT_NORMAL)
+
+    def test_annex_fields_refuse_at_their_parse_or_their_format(self):
+        attacks = self.TEXT + (("dot-dot", None, self.NOT_NORMAL), ("trailing slash", None, self.NOT_NORMAL),
+                               ("relative", None, self.NOT_NORMAL))
+        by_format = {"tab": "fields, the header", "LF": "fields, the header", "CR": "needs LF line ends",
+                     "lone surrogate": "is not UTF-8"}
+        paths = {"dot-dot": lambda p: f"{p}/../u1", "trailing slash": lambda p: p + "/", "relative": lambda p: p.lstrip("/")}
+        for column, index in (("requirement_id", 0), ("source", 1), ("action", 2)):
+            for attack, char, says in attacks:
+                if char is None and column != "source":
+                    continue
+                with self.subTest(column=column, attack=attack):
+                    fx = Fixture(self)
+                    row = ["MV-901", fx.u("u1"), "HOLD"]
+                    row[index] = paths[attack](row[index]) if char is None else row[index][:-1] + char + row[index][-1:]
+                    body = "".join(f"{r}\t{s}\t\t{a}\t0\tc\tl\tC-HOLD\tnone\tICM-R4\n"
+                                   for r, s, a in (row, ("MV-902", fx.u("u2"), "HOLD")))
+                    fx.write(fx.req, (REQ_HEADER + body).encode("utf-8", "surrogateescape"))
+                    label = fx.req if attack in by_format else f"row 2 {column}"
+                    self.refused(fx, fx.argv(), label, by_format.get(attack, says))
+
+    def test_surrogate_in_each_cli_argument_is_a_one_line_refusal_without_traceback(self):
+        fx = self.fx
+        for flag in ("--plans", "--requirements", "--toolkit-db", "--free-root", "--out"):
+            with self.subTest(flag=flag):
+                argv = fx.argv()
+                i = argv.index(flag) + 1
+                argv[i] = "D\udcff=" + fx.dst if flag == "--free-root" else argv[i] + "\udcff"
+                listing = tree(fx.base)
+                proc = subprocess.run([sys.executable, "-B", SCRIPT, *argv], capture_output=True, text=True, timeout=60)
+                self.assertEqual(proc.returncode, 2, proc.stderr)
+                self.assertEqual((proc.stdout, proc.stderr.count("\n")), ("", 1), proc.stderr)
+                self.assertIn(flag, proc.stderr)
+                self.assertIn("has no UTF-8 form", proc.stderr)
+                self.assertNotIn("Traceback", proc.stderr)
+                self.assertEqual(tree(fx.base), listing)
+
+    def test_nul_in_a_manifest_parent_refuses_before_any_open(self):
+        fx = self.fx
+        entries = fx.entries()
+        entries[0]["manifest"] = fx.inp + "/bad\0dir/m.json"
+        fx.write_plans(entries)
+        self.refused(fx, fx.argv(), "entries[0].manifest", "holds a NUL")
+
+    def test_a_walked_name_with_no_utf8_form_refuses(self):
+        fx = self.fx
+        os.mkdir(f"{fx.dst}/x")
+        name = "a\udcffb"  # APFS refuses such a name (EILSEQ): another filesystem's walk could give one
+
+        def walk(root, visit):
+            visit(fdsafe.Entry(root.fd, name, os.path.join(root.path, name), name, os.lstat(root.path)))
+        with mock.patch.object(fdsafe, "walk", walk):
+            result = fx.run()
+        self.assertRefused(result, f"{fx.dst}/x")
+        self.assertIn("has no UTF-8 form", result[2])
+        self.assertNothingWritten()
+
+    def test_eio_on_the_working_directory_refuses(self):
+        def fail():
+            raise OSError(errno.EIO, os.strerror(errno.EIO))
+        with mock.patch.object(os, "getcwd", fail):
+            result = self.fx.run()
+        self.assertRefused(result, "--free-root", "EIO")
+        self.assertNothingWritten()
+
+
+class Round2Fences(Base):
+    """Round 2 rulings 2 and 3: units and free roots are fenced by held identity; one owner writes the reports."""
+
+    def alias_plans(self, alias):
+        """Plans, annex and manifests that name the units through alias, a link to src."""
+        fx = self.fx
+        swap = lambda p: p.replace(fx.src, alias)
+        fx.write_req([("MV-901", swap(fx.u("u1")), "HOLD"), ("MV-902", swap(fx.u("u2")), "HOLD")])
+        for name, unit in (("m1", "u1"), ("m2", "u2")):
+            leaves = [{**fx.leaf(rel), "source": swap(fx.u(rel))} for rel in sorted(fx.data) if rel.startswith(unit + "/")]
+            setattr(fx, name, fx.manifest(f"{name}.json", unit, leaves=leaves))
+        entries = fx.entries()
+        for e in entries:
+            e["moves"][0]["source"] = swap(e["moves"][0]["source"])
+        fx.write_plans(entries)
+
+    def test_a_move_source_named_through_a_link_refuses_and_writes_nothing(self):
+        fx = self.fx
+        alias = os.path.join(fx.base, "alias")
+        os.symlink(fx.src, alias)
+        self.alias_plans(alias)
+        listing = tree(fx.base)
+        out = fx.u("u1/ledger")
+        self.assertRefused(fx.run(fx.argv(out=out)), os.path.join(alias, "u1"), "ENOTDIR")
+        self.assertEqual(tree(fx.base), listing)
+
+    def test_output_through_a_link_alias_of_a_source_refuses(self):
+        fx = self.fx
+        alias = os.path.join(fx.base, "alias")
+        os.symlink(fx.src, alias)
+        listing = tree(fx.base)
+        result = fx.run(fx.argv(out=os.path.join(alias, "u1", "ledger")))
+        self.assertRefused(result, fx.u("u1"))
+        self.assertIn("move source or target", result[2])
+        self.assertEqual(tree(fx.base), listing)
+
+    def test_output_inside_a_source_moved_after_it_is_held_refuses(self):
+        fx = self.fx
+        moved, real = fx.u("u1-moved"), os.path.realpath
+
+        def hooked(path):  # the output's parent is resolved after every unit is held
+            os.rename(fx.u("u1"), moved)
+            return real(path)
+        with mock.patch.object(os.path, "realpath", hooked):
+            result = fx.run(fx.argv(out=os.path.join(moved, "ledger")))
+        self.assertRefused(result, fx.u("u1"))
+        self.assertIn("move source or target", result[2])
+        self.assertEqual(sorted(os.listdir(moved)), ["a.txt", "sub"])
+
+    def hook_open(self, moves):
+        """Patch os.open: before each report named in moves is opened, rename moves[name] = (from, to)."""
+        real, seen = os.open, []
+
+        def hooked(name, *args, **kwargs):
+            if name in moves and "dir_fd" in kwargs:
+                seen.append(name)
+                os.rename(*moves[name])
+            return real(name, *args, **kwargs)
+        return mock.patch.object(os, "open", hooked), seen
+
+    def test_output_moved_into_a_source_before_the_first_report_leaves_no_report_there(self):
+        fx = self.fx
+        moved = fx.u("u1/ledger")
+        patch, _ = self.hook_open({"drift.tsv": (fx.out, moved)})
+        with patch:
+            result = fx.run()
+        self.assertRefused(result, fx.u("u1"))
+        self.assertIn("move source or target; removed drift.tsv", result[2])
+        self.assertEqual(os.listdir(moved), [])
+
+    def test_output_moved_into_a_source_and_back_refuses_before_the_next_create(self):
+        fx = self.fx
+        moved = fx.u("u1/ledger")
+        patch, seen = self.hook_open({"drift.tsv": (fx.out, moved), "cross_unit_dups.tsv": (moved, fx.out)})
+        with patch:
+            result = fx.run()
+        self.assertRefused(result, fx.u("u1"))
+        self.assertEqual(seen, ["drift.tsv"])
+        self.assertEqual(os.listdir(moved), [])
+
+    def test_output_moved_into_a_source_at_the_last_create_has_every_report_removed(self):
+        fx = self.fx
+        moved = fx.u("u1/ledger")
+        patch, _ = self.hook_open({"capacity.tsv": (fx.out, moved)})
+        with patch:
+            result = fx.run()
+        self.assertRefused(result, fx.u("u1"))
+        self.assertIn("removed drift.tsv; removed cross_unit_dups.tsv; removed targets.tsv; removed capacity.tsv",
+                      result[2])
+        self.assertEqual(os.listdir(moved), [])
+
+    def test_output_moved_into_a_free_root_between_creates_has_its_report_removed(self):
+        fx = self.fx
+        into, real, done = os.path.join(fx.dst, "ledger"), os.close, []
+        first = os.path.join(fx.out, "drift.tsv")
+
+        def hooked(fd):  # right after the first report's fd is closed
+            try:
+                here = getpath(fd)
+            except OSError:
+                here = None
+            real(fd)
+            if here == first and not done:
+                done.append(True)
+                os.rename(fx.out, into)
+        with mock.patch.object(os, "close", hooked):
+            result = fx.run()
+        self.assertRefused(result, fx.dst)
+        self.assertIn("lies inside this free root; removed drift.tsv", result[2])
+        self.assertEqual(os.listdir(into), [])
+
+    def test_removal_that_fails_names_the_report_left_in_place(self):
+        fx = self.fx
+        moved = fx.u("u1/ledger")
+        patch, _ = self.hook_open({"drift.tsv": (fx.out, moved)})
+
+        def fail(*args, **kwargs):
+            raise OSError(errno.EIO, os.strerror(errno.EIO))
+        with patch, mock.patch.object(os, "unlink", fail):
+            result = fx.run()
+        self.assertRefused(result, os.path.join(moved, "drift.tsv"), "EIO")
+        self.assertIn("left in place", result[2])
+        self.assertEqual(os.listdir(moved), ["drift.tsv"])
+
+    def test_eio_on_stat_of_an_output_ancestor_refuses(self):
+        real = os.stat
+
+        def hooked(path, *args, **kwargs):  # the walk up from the held output parent: ".", "./..", ...
+            if "dir_fd" in kwargs and path.startswith("."):
+                raise OSError(errno.EIO, os.strerror(errno.EIO))
+            return real(path, *args, **kwargs)
+        with mock.patch.object(os, "stat", hooked):
+            result = self.fx.run()
+        self.assertRefused(result, self.fx.outp, "EIO")
+        self.assertNothingWritten()
+
+
+class Round2Watch(Base):
+    """Round 2 ruling 4: a change that only the file's vnode notes see, and one that only the parent's notes see."""
+
+    def run_with(self, hooks):
+        real = duckdb.connect
+        with mock.patch.object(duckdb, "connect", lambda *a, **k: Con(real(*a, **k), [], hooks)):
+            return self.fx.run()
+
+    def test_toolkit_rewritten_in_place_and_restored_is_seen_by_the_file_watch(self):
+        fx = self.fx
+        other = os.path.join(fx.base, "other.duckdb")
+        fx.make_db(other, [(fx.u("u1/a.txt"), sha(b"alpha\n")), (fx.u("u1/sub/b.bin"), None),
+                           (fx.u("u2/c.txt"), sha(b"alpha\n"))])
+        saved, replacement, before = readb(fx.toolkit), readb(other), os.lstat(fx.toolkit)
+        self.assertEqual(len(saved), len(replacement))
+
+        def put(data):  # same inode, size and mtime: no lstat and no parent event can see it
+            with open(fx.toolkit, "r+b") as fh:
+                fh.write(data)
+            os.utime(fx.toolkit, ns=(before.st_atime_ns, before.st_mtime_ns))
+        result = self.run_with({("before", "ATTACH"): lambda: put(replacement), ("after", "SELECT"): lambda: put(saved)})
+        self.assertRefused(result, fx.toolkit)
+        self.assertIn("kqueue", result[2])
+        self.assertNothingWritten()
+        after = os.lstat(fx.toolkit)
+        self.assertEqual(ledger_db._identity(after), ledger_db._identity(before))
+
+    def test_toolkit_directory_swapped_and_restored_is_seen_by_the_parent_watch(self):
+        fx = self.fx
+        other = os.path.join(fx.base, "other.duckdb")
+        fx.make_db(other, [])
+        parked = os.path.join(fx.base, "parked-in")
+
+        def swap():  # the held toolkit file itself is not renamed: only its directory moves
+            os.rename(fx.inp, parked)
+            os.mkdir(fx.inp)
+            fx.write(fx.toolkit, readb(other))
+
+        def restore():
+            os.unlink(fx.toolkit)
+            os.rmdir(fx.inp)
+            os.rename(parked, fx.inp)
+        before = os.lstat(fx.toolkit)
+        result = self.run_with({("before", "ATTACH"): swap, ("after", "SELECT"): restore})
+        self.assertRefused(result, fx.toolkit)
+        self.assertIn("kqueue", result[2])
+        self.assertNothingWritten()
+        self.assertEqual(ledger_db._identity(os.lstat(fx.toolkit)), ledger_db._identity(before))
+
+
 if __name__ == "__main__":
     unittest.main()
