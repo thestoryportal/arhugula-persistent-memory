@@ -97,6 +97,8 @@ class Fixture:
                                'lane': 'integration', 'reader_check_ids': []})
         self.entry = {'id': 'E-1', 'replaces': list(IDS), 'roots': [str(self.root)],
                       'run_units': [], 'moves': self.moves}
+        self.admitted_roots = [str(self.root)]
+        self.run_units = []
         self.plans = {'entries': [{'id': 'E-0', 'replaces': ['MV-9']}, self.entry]}
         self.operations = list(IDS)
         self.repairs = {'schema_version': 1, 'repairs': []}
@@ -146,6 +148,7 @@ class Fixture:
             'schema_version': 1, 'root': str(self.root / 'dest'), 'leaves': self.observed_leaves,
             'git_roots': []}
         self.put('observed.json', dumps(observed))
+        self.put('run-units.json', dumps(self.run_units))
 
     def argv(self, stage, observed=None):
         argv = ['moves', '--root', str(self.root)]
@@ -157,6 +160,11 @@ class Fixture:
                  '--stage', stage]
         if (stage == 'post') if observed is None else observed:
             argv += ['--observed', str(self.path('observed.json'))]
+        if stage == 'pre':
+            for root in self.admitted_roots:
+                argv += ['--admitted-root', root]
+            if self.run_units is not None:
+                argv += ['--run-units', str(self.path('run-units.json'))]
         return argv
 
 
@@ -354,20 +362,20 @@ class PreCases(MovesCase):
                          ['target already exists: ' + str(self.fx.root / 'dest' / 'u2')])
 
     def test_absent_run_units_are_unverified(self):
-        del self.fx.entry['run_units']
+        self.fx.run_units = None
         result = self.assertExit(2, 'pre')
         self.assertEqual(set(self.reasons(result)),
                          {'run_units not supplied: run splitting unchecked'})
 
     def test_run_unit_around_a_source_fails(self):
-        self.fx.entry['run_units'] = [str(self.fx.root / 'u1')]
+        self.fx.run_units = [str(self.fx.root / 'u1')]
         self.fx.moves[0]['source'] = str(self.fx.root / 'u1' / 'inner')
         self.fx.leaves[0]['source'] = str(self.fx.root / 'u1' / 'inner' / 'f.txt')
         result = self.assertExit(1, 'pre')
         self.assertIn('move splits run unit ' + str(self.fx.root / 'u1'), self.reasons(result))
 
     def test_target_outside_the_entry_roots_fails(self):
-        self.fx.entry['roots'] = [str(self.fx.root / 'u1'), str(self.fx.root / 'u2'),
+        self.fx.admitted_roots = [str(self.fx.root / 'u1'), str(self.fx.root / 'u2'),
                                   str(self.fx.root / 'u3'), str(self.fx.root / 'u4')]
         result = self.assertExit(1, 'pre')
         self.assertIn('target escapes every admitted root: ' + str(self.fx.root / 'dest' / 'u1'),
@@ -918,7 +926,7 @@ class DelegationCases(MovesCase):
         self.assertEqual(result['findings'], [sentinel] * len(IDS))
         moves = self.fx.moves
         self.assertEqual(calls, [
-            ((move, self.fx.entry['roots']),
+            ((move, self.fx.admitted_roots),
              {'other_moves': moves[:index] + moves[index + 1:], 'existing_paths': [],
               'run_units': [], 'leaves': [self.fx.leaves[index]]})
             for index, move in enumerate(moves)])
