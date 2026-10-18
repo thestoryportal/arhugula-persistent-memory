@@ -670,6 +670,16 @@ class NegativeControls(Base):
         self.assertIn("exited 128", err)
         self.assertEqual(len(err.splitlines()), 1, err)
 
+    def test_a_non_utf8_git_error_is_a_one_line_refusal(self):
+        with open(self.fx.m + "/.git/config", "ab") as fh:
+            fh.write(b"[core]\nfilemode = \xff\n")
+        result = self.main(*self.fx.args())
+        self.assertEqual(result[0], 2)
+        self.assertEqual(len(result[2].splitlines()), 1)
+        self.assertIn("exited 128", result[2])
+        self.assert_unmoved(staged=False)
+        self.assert_sources_in_place()
+
     def test_admitted_rows_are_strict_utf8(self):
         # The parse steps refuse a lone surrogate before it reaches a row (move_run_core._json for plan paths,
         # _utf8 for git ls-files names), so this witness calls the row builder directly: a lossy encode would
