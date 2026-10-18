@@ -1291,3 +1291,74 @@ class DecoderLimits(Base):
 
     def test_check_plans_large_integer_refuses(self):
         self.refuse_limit("check-plans", "plans", b"1" * 5000, "integer of 5000 digits")
+
+
+class RuledBoundaryCases(Base):
+    """RULING-11: after-live parent swaps, cross-device root ABA, and final reader lines."""
+
+    def test_k22_manifest_parent_symlink_after_live_refuses(self):
+        fx, real_stat, fired = self.fx, os.stat, []
+
+        def stat_(path, *args, **kwargs):
+            # [LAW:no-ambient-temporal-coupling] Attack the stat boundary after live(), without sleeps.
+            if path == fx.mdir and "dir_fd" not in kwargs and not fired:
+                fired.append(path)
+                os.rename(fx.mdir, fx.mdir + ".parked")
+                os.symlink(fx.mdir + ".parked", fx.mdir)
+            return real_stat(path, *args, **kwargs)
+
+        with mock.patch.object(os, "stat", stat_):
+            result = self.main(*fx.plan_args())
+        self.assertEqual(fired, [fx.mdir])
+        self.assertTrue(os.path.islink(fx.mdir))
+        self.assert_refused(result, fx.mdir, "was moved during the run")
+
+    def test_k23_root_aba_same_inode_other_device_refuses_before_reader(self):
+        fx = self.fx
+        real_open, real_close, real_stat = os.open, os.close, os.stat
+        root_st = real_stat(fx.m)
+        fds, state, readers, injected = {}, set(), [], []
+
+        def opened(path, *args, **kwargs):
+            if path == fx.docs and "away" not in state:
+                state.add("away")
+                os.rename(fx.m, fx.m + ".away")
+                shutil.copytree(fx.m + ".away", fx.m)
+                fx.rewrite(fx.reader, f"intro\nforged {fx.old} {fx.old}\n".encode())
+            fd = real_open(path, *args, **kwargs)
+            fds[fd] = path
+            if path == "a.md":
+                readers.append(fd)
+            return fd
+
+        def closed(fd):
+            result = real_close(fd)
+            if fds.get(fd) == fx.docs and "back" not in state:
+                state.add("back")
+                shutil.rmtree(fx.m)
+                os.rename(fx.m + ".away", fx.m)
+            return result
+
+        def stat_(path, *args, **kwargs):
+            st = real_stat(path, *args, **kwargs)
+            if (path in ("..", "./..") and fds.get(kwargs.get("dir_fd")) == fx.docs
+                    and state == {"away"}):
+                # [LAW:behavior-not-structure] Inject mount identity; replacement bytes and I/O stay real.
+                fields = list(st)
+                fields[1], fields[2] = root_st.st_ino, root_st.st_dev + 1
+                injected.append((fields[2], fields[1]))
+                return os.stat_result(fields)
+            return st
+
+        with mock.patch.object(os, "open", opened), mock.patch.object(os, "close", closed), \
+                mock.patch.object(os, "stat", stat_):
+            result = self.main(*fx.check_plans_args())
+        self.assertEqual(state, {"away", "back"})
+        self.assertEqual(set(injected), {(root_st.st_dev + 1, root_st.st_ino)})
+        self.assert_refused(result, fx.docs, f"is not below the held root {fx.m!r}")
+        self.assertEqual(readers, [])
+
+    def test_k24_reader_final_line_without_terminal_lf_is_valid(self):
+        fx = self.fx
+        fx.rewrite(fx.reader, f"intro\nsee {fx.old} here".encode())
+        self.assertEqual(self.main(*fx.check_plans_args()), (0, "[]\n", ""))
