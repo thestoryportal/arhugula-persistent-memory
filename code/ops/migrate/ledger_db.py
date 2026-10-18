@@ -467,15 +467,51 @@ def _occupant(path: str) -> frozenset:
     return frozenset([_node(st)] if st is not None else [])
 
 
-def _refuse_inside(ids: frozenset, live: str, fences: list, held: fdsafe.Dir, created: list) -> None:
-    """Refuse when --out, live at `live` with the identities ids, lies in a fence; first remove the reports
-    already created (names in held, unlinked through its fd), so that none stays there."""
-    hit = next((f for f in fences if (f.ident in ids if f.ident else fdsafe.inside(f.path, live))), None)
+def _hit(ids: frozenset, live: str, fences: list) -> Fence | None:
+    """[LAW:one-source-of-truth] The fence that --out, live at `live` with the identities ids, lies in, or
+    None: the one containment test, for the refusal and for the exit removal alike."""
+    return next((f for f in fences if (f.ident in ids if f.ident else fdsafe.inside(f.path, live))), None)
+
+
+def _refuse_inside(ids: frozenset, live: str, fences: list, attempted: list) -> None:
+    """Refuse when --out, live at `live` with the identities ids, lies in a fence. The reports attempted so
+    far are removed by _write's exit callback, the one remover, as this refusal leaves the write owner."""
+    hit = _hit(ids, live, fences)
     if hit is not None:
-        for name in created:
-            with fdsafe.fs(f"{os.path.join(live, name)} (inside {hit.path}; its removal failed, left in place)"):
-                os.unlink(name, dir_fd=held.fd)
-        raise Refusal(hit.path, f"--out {live} {hit.says}" + "".join(f"; removed {name}" for name in created))
+        raise Refusal(hit.path, f"--out {live} {hit.says}" + "".join(f"; removed {name}" for name in attempted))
+
+
+def _fenced(outdir: fdsafe.Dir, fences: list) -> tuple | None:
+    """(where, why) when the held --out lies in a fence now, or when that cannot be proved because the
+    fresh check itself fails (then it counts as inside); None when it lies in no fence."""
+    try:
+        ids, live = _ancestry(outdir), outdir.live()
+    except Refusal as exc:  # [LAW:no-silent-failure] the run's own exception still propagates; this only decides
+        return outdir.path, f"its containment could not be proved: {exc}"
+    hit = _hit(ids, live, fences)
+    return None if hit is None else (live, f"inside {hit.path}")
+
+
+def _exit_removal(outdir: fdsafe.Dir, fences: list, attempted: list):
+    """[LAW:single-enforcer] The one remover of the reports: an ExitStack exit callback on the write owner's
+    held --out. It returns False, so whatever exception ends the run propagates unchanged, traceback and all;
+    a failed removal raises in its place, chained to it (ExitStack sets __context__) [LAW:no-silent-failure]."""
+    def remove(exc_type, exc, tb) -> bool:
+        # [LAW:dataflow-not-control-flow] The same loop on every exit; what it removes is a value. A normal
+        # exit removes nothing: the final check proved --out outside every fence.
+        fenced = None if exc is None else _fenced(outdir, fences)
+        present = set() if fenced is None else _names(outdir, fenced)
+        for name in (n for n in attempted if n in present):  # a name whose create never made it: nothing to remove
+            with fdsafe.fs(f"{os.path.join(fenced[0], name)} ({fenced[1]}; its removal failed, left in place)"):
+                os.unlink(name, dir_fd=outdir.fd)
+        return False
+    return remove
+
+
+def _names(held: fdsafe.Dir, fenced: tuple) -> set:
+    """The names in the held --out now, read so that only attempted reports that exist are removed."""
+    with fdsafe.fs(f"{fenced[0]} ({fenced[1]}; its reports could not be listed for removal, left in place)"):
+        return set(os.listdir(held.fd))
 
 
 def _render(columns: tuple, rows: tuple) -> bytes:
@@ -491,22 +527,29 @@ def _write(parent: fdsafe.Dir, name: str, reports: list, roots: list, fences: li
 
     Before the mkdir and before each create, --out's identities (the held directory and each ancestor,
     and before the mkdir what is at its name) must meet no fence: no held move source, move target or
-    free root, and no absent unit path. After the last create the check runs once more; a failed check
-    removes the reports created so far, by name through the held directory fd, then refuses.
+    free root, and no absent unit path. After the last create the check runs once more. Whatever exception
+    leaves the run after the mkdir (a failed check, a create, write or close that fails, a create that
+    fdsafe refuses after the file exists), the exit callback (_exit_removal) checks --out afresh and, when
+    it lies in a fence or that cannot be proved, removes each report attempted, by name through the held
+    directory fd. A name is attempted before its create starts, so a report made by a create that then
+    raises is removed too.
     [LAW:comments-carry-meaning] Residual (ruling 3): a rename that lands between a check and the
     create after it cannot be prevented from user space without a lock; the next check, or the one
-    after the last create, and the removal close its effect, not the window."""
+    after the last create, and the removal close its effect, not the window. The removal runs on every
+    exit by exception, so an exception between a create and its record no longer leaves a report."""
     out = os.path.join(parent.live(), name)
-    _refuse_inside(_ancestry(parent) | _occupant(out), out, fences, parent, [])
+    _refuse_inside(_ancestry(parent) | _occupant(out), out, fences, [])
     outdir = fdsafe.mkdir(parent, name)
     written.append(outdir.path)
     stack.callback(fdsafe.close, outdir.fd, f"{outdir.path} (written, left in place)")
-    created, lines = [], []
+    attempted, lines = [], []
+    # Pushed after the close above, so it runs before it, while the held fd is open.
+    stack.push(_exit_removal(outdir, fences, attempted))
     for report, data in reports:
-        _refuse_inside(_ancestry(outdir), outdir.live(), fences, outdir, created)
+        _refuse_inside(_ancestry(outdir), outdir.live(), fences, attempted)
+        attempted.append(report)
         lines.append(fdsafe.create_file(outdir, report, data, [root.held for root in roots]))
-        created.append(report)
-    _refuse_inside(_ancestry(outdir), outdir.live(), fences, outdir, created)
+    _refuse_inside(_ancestry(outdir), outdir.live(), fences, attempted)
     if outdir.live() != outdir.path:
         raise Refusal(outdir.path, f"moved to {outdir.live()} during the write; its reports are left in place")
     return lines

@@ -1659,5 +1659,124 @@ class Round2Watch(Base):
         self.assertEqual(ledger_db._identity(os.lstat(fx.toolkit)), ledger_db._identity(before))
 
 
+class Round3Removal(Base):
+    """Round 3 ruling 4: one exit callback removes every attempted report, whatever exception ends the write."""
+
+    def move_at_open(self, report, to):
+        """Patch os.open (as it is now): before report is first opened, rename --out to `to`."""
+        real, fired, out = os.open, [], self.fx.out
+
+        def hooked(name, *args, **kwargs):
+            if name == report and not fired:
+                fired.append(True)
+                os.rename(out, to)
+            return real(name, *args, **kwargs)
+        return mock.patch.object(os, "open", hooked), fired
+
+    def test_k7_output_moved_into_a_target_during_the_first_create_leaves_no_report_there(self):
+        fx = self.fx
+        target = f"{fx.dst}/x"
+        os.mkdir(target)
+        moved = os.path.join(target, "ledger")
+        patch, fired = self.move_at_open("drift.tsv", moved)
+        with patch:
+            result = fx.run()
+        self.assertEqual(fired, [True])
+        self.assertRefused(result, os.path.join(moved, "drift.tsv"))
+        self.assertEqual(os.listdir(moved), [])
+
+    def test_k8_eio_on_a_write_after_the_output_moved_into_a_source_leaves_no_report_there(self):
+        fx = self.fx
+        moved = fx.u("u1/ledger")
+        patch, fired = self.move_at_open("drift.tsv", moved)
+        with patch, FK.inject_oserror("write", 1, errno.EIO):
+            result = fx.run()
+        self.assertEqual(fired, [True])
+        self.assertRefused(result, os.path.join(fx.out, "drift.tsv"), "EIO")
+        self.assertEqual(os.listdir(moved), [])
+
+    def test_k9_eio_on_the_check_after_a_report_closed_inside_a_source_leaves_no_report_there(self):
+        fx = self.fx
+        moved, first = fx.u("u1/ledger"), os.path.join(fx.out, "drift.tsv")
+        real_close, real_stat, done = os.close, os.stat, []
+
+        def close(fd):  # right after the first report's fd is closed, --out moves into u1
+            try:
+                here = getpath(fd)
+            except OSError:
+                here = None
+            real_close(fd)
+            if here == first and not done:
+                done.append(True)
+                os.rename(fx.out, moved)
+
+        def stat(path, *args, **kwargs):  # then every ancestry check of --out fails, the fresh one too
+            if done and path == "." and "dir_fd" in kwargs:
+                raise OSError(errno.EIO, os.strerror(errno.EIO))
+            return real_stat(path, *args, **kwargs)
+        with mock.patch.object(os, "close", close), mock.patch.object(os, "stat", stat):
+            result = fx.run()
+        self.assertEqual(done, [True])
+        self.assertRefused(result, fx.out, "EIO")
+        self.assertEqual(os.listdir(moved), [])
+
+    def test_a_create_that_fails_before_its_file_exists_inside_a_source_refuses_with_its_own_error(self):
+        fx = self.fx
+        moved = fx.u("u1/ledger")
+        with FK.inject_oserror("open", 1, errno.EIO, match=named("drift.tsv")):
+            patch, fired = self.move_at_open("drift.tsv", moved)
+            with patch:
+                result = fx.run()
+        self.assertEqual(fired, [True])
+        self.assertRefused(result, os.path.join(fx.out, "drift.tsv"), "EIO")
+        self.assertNotIn("removal failed", result[2])
+        self.assertEqual(os.listdir(moved), [])
+
+    def test_a_failed_listing_for_the_removal_is_a_one_line_refusal_naming_what_is_left(self):
+        fx = self.fx
+        moved = fx.u("u1/ledger")
+        patch, fired = self.move_at_open("drift.tsv", moved)
+
+        def fail(*args, **kwargs):
+            raise OSError(errno.EIO, os.strerror(errno.EIO))
+        with patch, FK.inject_oserror("write", 1, errno.EIO), mock.patch.object(os, "listdir", fail):
+            result = fx.run()
+        self.assertEqual(fired, [True])
+        self.assertRefused(result, moved, "EIO")
+        self.assertIn("could not be listed for removal, left in place", result[2])
+        self.assertEqual(os.listdir(moved), ["drift.tsv"])
+
+    def test_an_unexpected_exception_from_the_fresh_check_propagates_chained_to_the_run_error(self):
+        fx = self.fx
+        moved = fx.u("u1/ledger")
+        patch, fired = self.move_at_open("drift.tsv", moved)
+        real = os.stat
+
+        def stat(path, *args, **kwargs):  # after the move, the next ancestry check is the exit callback's
+            if fired and path == "." and "dir_fd" in kwargs:
+                raise RuntimeError("unexpected")
+            return real(path, *args, **kwargs)
+        with patch, FK.inject_oserror("write", 1, errno.EIO), mock.patch.object(os, "stat", stat):
+            with self.assertRaises(RuntimeError) as caught:
+                fx.run()
+        self.assertIsInstance(caught.exception.__context__, fdsafe.Refusal)
+        self.assertIn("left in place, incomplete", str(caught.exception.__context__))
+
+    def test_a_normal_exit_keeps_every_report_though_a_later_check_would_fail(self):
+        fx = self.fx
+        real, checks = os.stat, []
+
+        def stat(path, *args, **kwargs):  # the 6 ancestry checks of a run pass; any later one fails
+            if path == "." and "dir_fd" in kwargs:
+                checks.append(path)
+                if len(checks) > 6:
+                    raise OSError(errno.EIO, os.strerror(errno.EIO))
+            return real(path, *args, **kwargs)
+        with mock.patch.object(os, "stat", stat):
+            code, out, err = fx.run()
+        self.assertEqual((code, err), (0, ""))
+        self.assertEqual(sorted(os.listdir(fx.out)), sorted(REPORTS))
+
+
 if __name__ == "__main__":
     unittest.main()
