@@ -152,6 +152,36 @@ class CellDigits(Refuses):
                      "/m/program/repairs.tsv:2", "is not one of 261-269")
 
 
+class ManifestRecursionScope(unittest.TestCase):
+    def test_unwrapped_collaborators_propagate_recursion_error(self):
+        g = {"path": "/p/u1/sub", "head": None, "branch": None, "dirty": []}
+        data = manifest_bytes("/p/u1", leaf("/p/u1", "a.json"), git_roots=[g])
+        self.assertEqual(core._manifest(data, "m")[2], [g["path"]])
+        calls = (
+            ("_map", (core, "_map")),
+            ("dup_find_core._manifest", (core.dup_find_core, "_manifest")),
+            ("_seq", (core, "_seq")),
+            ("_keys", (core, "_keys")),
+            ("_path", (core, "_path")),
+            ("_under", (core, "_under")),
+            ("_strings", (core, "_strings")),
+            ("hashlib.sha256", (core.hashlib, "sha256")),
+        )
+        # [LAW:behavior-not-structure] Collaborator faults must retain their exception type.
+        for name, target in calls:
+            with self.subTest(call=name), mock.patch.object(*target, side_effect=RecursionError) as spy:
+                with self.assertRaises(RecursionError):
+                    core._manifest(data, "m")
+                spy.assert_called_once()
+
+    def test_json_loads_recursion_error_is_a_nesting_refusal(self):
+        data = manifest_bytes("/p/u1", leaf("/p/u1", "a.json"))
+        with mock.patch.object(core.json, "loads", side_effect=RecursionError) as spy:
+            with self.assertRaisesRegex(fdsafe.Refusal, "nests too deeply"):
+                core._manifest(data, "m")
+            spy.assert_called_once()
+
+
 class OnlyTheParseAndReEncodeAreCovered(unittest.TestCase):
     """RecursionError is refused only from the parse and the re-encode; anything else propagates."""
 
