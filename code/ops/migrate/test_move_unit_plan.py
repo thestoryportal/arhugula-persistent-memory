@@ -448,7 +448,7 @@ class PlanInputs(Base):
 
 class Arguments(Base):
     def test_cli_strings_with_control_characters_or_lone_surrogates_refuse(self):
-        for bad in ("S2\x0020", "S2\t20", "S2\n20", "S2\r20", "S2\udcff20"):
+        for bad in ("S2\x0020", "S2\t20", "S2\n20", "S2\r20", "S2\r\n20", "S2\udcff20"):
             with self.subTest(bad=bad):
                 argv = self.fx.plan_args()
                 argv[argv.index("--entry") + 1] = bad
@@ -506,6 +506,14 @@ class CheckPlans(Base):
         self.fx.rewrite(self.fx.reader, f"intro\r\nsee {self.fx.old}\r\n".encode())
         code, out, err = self.main(*self.fx.check_plans_args())
         self.assertEqual((code, err, out), (0, "", "[]\n"))
+
+    def test_crlf_text_reaches_the_core_unchanged(self):
+        # [LAW:behavior-not-structure] compare the actual text crossing the I/O boundary.
+        self.fx.rewrite(self.fx.reader, f"intro\r\nsee {self.fx.old}\r\n".encode())
+        with mock.patch.object(core, "check_plans", wraps=core.check_plans) as checked:
+            result = self.main(*self.fx.check_plans_args())
+        self.assertEqual(result, (0, "[]\n", ""))
+        self.assertEqual(checked.call_args.kwargs["occurrences"][0]["text"], f"see {self.fx.old}\r")
 
     def test_every_readers_report_is_read(self):
         fx = self.fx
@@ -691,6 +699,32 @@ class Attacks(Base):
                 result = self.main(*argv)
             self.assert_refused(result, path, "a component is a link")
 
+    def test_late_parent_attacks_refuse_for_every_input(self):
+        # [LAW:behavior-not-structure] the same late attack must refuse at every input boundary.
+        for cmd, attrs in LEAVES.items():
+            for attr in attrs:
+                for kind in ("rebind", "link"):
+                    with self.subTest(cmd=cmd, attr=attr, kind=kind):
+                        fx = self.fresh()
+                        leaf = getattr(fx, attr)
+                        parent = os.path.dirname(leaf)
+                        if kind == "link":
+                            replacement = os.path.join(fx.other, "replacement")
+                            shutil.copytree(parent, replacement)
+                            attack = FK.swap_for_symlink("open", 1, parent, replacement,
+                                                         when="after", match=named(os.path.basename(leaf)))
+                        else:
+                            attack = FK.rename_and_rebind("open", 1, parent,
+                                                         when="after", match=named(os.path.basename(leaf)))
+                        with attack as fault:
+                            def restore():
+                                if kind == "rebind":
+                                    shutil.copytree(fault.parked, parent, dirs_exist_ok=True)
+                            with after_open_then(os.path.basename(leaf), restore):
+                                result = self.main(*ARGS[cmd](fx))
+                        self.assertEqual(fault.fired, 1)
+                        self.assert_refused(result, parent)
+
     def test_leaf_open_errors_name_the_path_and_errno(self):
         for fx, path, argv in self.cases(LEAVES):
             for err in (errno.EIO, errno.EBADF):
@@ -712,23 +746,32 @@ class Attacks(Base):
 
     def test_call_class_errors_name_the_path_and_errno(self):
         fx = self.fx
-        # The first object each subcommand reads: plan holds --root for the run, reads --requirements first and
-        # closes --root last (after the 3 directories the target observation opens); check-plans holds --root for the run, reads --plans first and closes --root last;
-        # check-routes reads --routes, then holds --source.
+        # [LAW:behavior-not-structure] parent-close faults select the opened fd, not close order.
         cases = [("plan", "fstat", 1, fx.req), ("plan", "read", 1, fx.req), ("plan", GETPATH, 1, fx.m),
-                 ("plan", "close", 1, fx.req), ("plan", "close", 2, fx.inp), ("plan", "close", 16, fx.m),
+                 ("plan", "close", 1, fx.req), ("plan", "close-of", 1, fx.inp), ("plan", "close", 16, fx.m),
                  ("check-plans", "fstat", 1, fx.plans), ("check-plans", "read", 1, fx.plans),
                  ("check-plans", GETPATH, 1, fx.m), ("check-plans", "close", 1, fx.plans),
-                 ("check-plans", "close", 2, fx.inp), ("check-plans", "close", 9, fx.m),
+                 ("check-plans", "close-of", 1, fx.inp), ("check-plans", "close", 9, fx.m),
                  ("check-routes", "fstat", 1, fx.routes), ("check-routes", "read", 1, fx.routes),
                  ("check-routes", GETPATH, 1, fx.inp), ("check-routes", "close", 1, fx.routes),
-                 ("check-routes", "close", 2, fx.inp), ("check-routes", "scandir", 1, fx.source),
-                 ("check-routes", GETPATH, 3, fx.source), ("check-routes", "close", 3, fx.source)]
+                 ("check-routes", "close-of", 1, fx.inp), ("check-routes", "scandir", 1, fx.source),
+                 ("check-routes", GETPATH, 3, fx.source), ("check-routes", "close-of", 1, fx.source)]
         for cmd, target, n, path in cases:
             for err in (errno.EIO, errno.EBADF):
                 with self.subTest(cmd=cmd, target=target, n=n, err=err):
-                    with FK.inject_oserror(target, n, err):
-                        result = self.main(*ARGS[cmd](fx))
+                    if target == "close-of":
+                        real, held = os.open, {}
+
+                        def opened(first, *args, **kwargs):
+                            fd = real(first, *args, **kwargs)
+                            held[fd] = first
+                            return fd
+                        with mock.patch.object(os, "open", opened), \
+                                FK.inject_oserror("close", 1, err, match=lambda fd: held.get(fd) == path):
+                            result = self.main(*ARGS[cmd](fx))
+                    else:
+                        with FK.inject_oserror(target, n, err):
+                            result = self.main(*ARGS[cmd](fx))
                     self.assert_refused(result, path, f"[{errno.errorcode[err]}]")
 
     def test_a_failing_target_prefix_close_names_the_prefix(self):
@@ -1081,6 +1124,53 @@ class ReadOnly(Base):
     def test_check_routes_opens_only_its_inputs_to_read_and_changes_nothing(self):
         fx = self.fx
         self.check(fx.check_routes_args(), {fx.inp, fx.source, "routes.tsv"}, 0)
+
+
+class HeldParentIdentity(Base):
+    """MAESTRO T209 RULING-5 rulings 13-15: an input parent's after-check refuses when its path now names another
+    directory although the held fd still reports that path (macOS F_GETPATH keeps a removed directory's path),
+    and an error in that identity check is a refusal naming the parent and the errno."""
+
+    def test_an_input_parent_removed_and_remade_at_its_path_refuses(self):
+        fx = self.fx
+        aside = os.path.join(fx.other, "u1.json")
+
+        def remake():
+            os.rename(fx.manifest, aside)
+            os.rmdir(fx.mdir)
+            os.mkdir(fx.mdir)
+            os.rename(aside, fx.manifest)
+        with after_open_then("u1.json", remake):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, fx.mdir, "was moved during the run")
+
+    def test_an_input_parent_covered_by_another_device_at_its_path_refuses(self):
+        # A volume mounted over the parent: the same inode number (volume roots are all 2), another st_dev.
+        fx, real = self.fx, os.stat
+
+        def stat_(first, *args, **kwargs):
+            st = real(first, *args, **kwargs)
+            if first != fx.mdir or "dir_fd" in kwargs:
+                return st
+            fields = list(st)
+            fields[2] = st.st_dev + 1  # stat_result index 2 is st_dev; st_ino (index 1) is kept
+            return os.stat_result(fields)
+        with mock.patch.object(os, "stat", stat_):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, fx.mdir, "was moved during the run")
+
+    def test_an_input_parent_identity_error_names_the_path_and_errno(self):
+        fx, real, calls = self.fx, os.stat, []
+
+        def stat_(first, *args, **kwargs):
+            if first == fx.mdir and "dir_fd" not in kwargs and not calls:
+                calls.append(first)
+                raise OSError(errno.EACCES, os.strerror(errno.EACCES))
+            return real(first, *args, **kwargs)
+        with mock.patch.object(os, "stat", stat_):
+            result = self.main(*fx.plan_args())
+        self.assertEqual(calls, [fx.mdir])
+        self.assert_refused(result, fx.mdir, "[EACCES]")
 
 
 if __name__ == "__main__":
