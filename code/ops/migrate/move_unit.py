@@ -29,14 +29,17 @@ is followed and the bytes come from the object scanned; each directory it holds 
       ls-files), passes them to move_run_core.run_unit and refuses whatever it refuses. It then writes the six
       custody documents and admitted.tsv (the H-SLICE.md:40 rows of the core's actions) into the existing
       --custody-dir with fdsafe.create_file, and runs only the core's actions, in order: mkdir by
-      fdsafe.mkdir, mv by fdsafe.rename, git-mv, git-rm-cached and git-add as `git mv`, `git rm --cached -r`
-      and `git add`. Its roots are only the folders that hold each unit source and each existing target
-      parent, never M, so the custody files are created outside every root. Before any Git call it holds
-      M/.git and its config without following links and refuses (T201 rulings 2, 7 and 8) a link or special
-      file under .git, a config.worktree, and an include, includeIf, extensions or filter key, a core key
-      outside the plain set, or a remote promisor or partial-clone key; after each Git call the held .git and
-      config must still be what their paths name (ruling 9). It never overwrites, deletes or commits; a
-      refusal after a file or folder exists names it and leaves it in place. Stdout: {"actions", "custody"}.
+      fdsafe.mkdir, mv by fdsafe.rename, git-mv by fdsafe.rename and `git update-index`, and git-rm-cached
+      by `git update-index`. For git-add, Git computes the blob id with `hash-object --no-filters --stdin`;
+      the run writes the compressed loose object through held fds with fdsafe.create_file, then stages it
+      with `git update-index`. Its roots are the folders that hold each unit source, each existing target
+      parent, and every folder the run creates, never M, so custody files are created outside every root.
+      Before any Git call it holds M/.git and its config without following links and refuses (T201
+      rulings 2, 7 and 8) a link or special file under .git, a config.worktree, an include, includeIf,
+      extensions or filter key, a core key outside the plain set, or a remote promisor or partial-clone
+      key; after each Git call the held .git and config must still be what their paths name (ruling 9).
+      It never overwrites, deletes or commits; a refusal after a file or folder exists names it and
+      leaves it in place. Stdout: {"actions", "custody"}.
 
 Exit 0: the plan, no finding ("[]"), or the unit plan run. Exit 1: one or more findings, printed as one canonical JSON list.
 Exit 2: a refusal (fdsafe.Refusal from the shell or the core), one line on stderr naming the path (and the
@@ -616,6 +619,8 @@ def _do_mkdir(held: Held, action: dict) -> None:
     folder = action["target"]
     parent = held.folders[os.path.dirname(folder)]
     held.folders[folder] = held.stack.enter_context(fdsafe.mkdir(parent, os.path.basename(folder)))
+    # [LAW:one-source-of-truth] created target folders join the same non-unit-write exclusion roots.
+    held.roots.append(held.folders[folder])
 
 
 def _same_manifest(held: Held, path: str, source: str, reason: str) -> None:

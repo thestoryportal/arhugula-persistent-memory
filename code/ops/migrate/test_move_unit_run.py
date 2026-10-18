@@ -1140,6 +1140,49 @@ class LateInputParents(Base):
 
 
 class LateWindows(Base):
+    def test_rebound_fanout_into_a_created_target_refuses(self):
+        target = self.fx.target(self.u)
+        self.assertFalse(os.path.exists(os.path.dirname(target)))
+        real = fdsafe.create_file
+        rebound = []
+
+        def create(parent, name, data, roots):
+            if "/.git/objects/" in parent.path:
+                os.rename(parent.path, target + "/loose-object")
+                os.mkdir(parent.path)
+                rebound.append(parent.path + "/" + name)
+            return real(parent, name, data, roots)
+        with mock.patch.object(fdsafe, "create_file", create):
+            result = self.main(*self.fx.args())
+        self.assertEqual(len(rebound), 1)
+        actual = sorted(os.path.relpath(os.path.join(folder, name), target)
+                        for folder, dirs, files in os.walk(target) for name in files)
+        self.assertEqual(actual, sorted(self.u.files))
+        self.assert_refused(result, rebound[0], "inside root")
+
+    def test_late_objects_link_after_hash_object_refuses(self):
+        target = self.fx.target(self.u)
+        objects = self.fx.m + "/.git/objects"
+        real = move_unit._git
+        fanouts = []
+
+        def late(repo, *args, **kwargs):
+            result = real(repo, *args, **kwargs)
+            if args[0] == "hash-object" and not fanouts:
+                oid = result.decode().strip()
+                fanout = target + "/" + oid[:2]
+                os.mkdir(fanout)
+                os.rename(objects, objects + "-held")
+                os.symlink(target, objects)
+                fanouts.append(fanout)
+            return result
+        with mock.patch.object(move_unit, "_git", late):
+            result = self.main(*self.fx.args())
+        self.assertEqual(len(fanouts), 1)
+        self.assert_refused(result, objects)
+        self.assertTrue(any(text in result[2] for text in ("[ELOOP]", "[ENOTDIR]")), result[2])
+        self.assertEqual(os.listdir(fanouts[0]), [])
+
     def test_late_objects_link_gets_no_object_in_the_unit(self):
         target = self.fx.target(self.u)
         objects = self.fx.m + "/.git/objects"
