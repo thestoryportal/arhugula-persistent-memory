@@ -30,6 +30,13 @@ class WireMoves(unittest.TestCase):
                 self.refuses(lambda p: p["moves"][0].update(source_manifest={
                     **p["moves"][0]["source_manifest"], field: value}))
 
+    def test_unknown_move_field_refuses(self):
+        self.refuses(lambda p: p["moves"][0].update(unknown=1))
+
+    def test_extra_manifest_field_refuses(self):
+        self.refuses(lambda p: p["moves"][0].update(source_manifest={
+            **p["moves"][0]["source_manifest"], "size": 1}))
+
     def test_missing_fields_refuse(self):
         for field in fixtures.scenario()[1]["moves"][0]:
             with self.subTest(field=field):
