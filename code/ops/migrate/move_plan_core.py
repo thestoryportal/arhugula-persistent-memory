@@ -31,6 +31,7 @@ import hashlib
 import json
 import posixpath
 import re
+import sys
 from collections.abc import Mapping
 
 from ops.migrate import dup_find_core, fdsafe
@@ -54,7 +55,8 @@ STALE_KEYS = frozenset(("file", "line", "old_text", "old"))
 UNVERIFIED_REQUIRED, UNVERIFIED_OPTIONAL = frozenset(("file", "reason")), frozenset(("line", "text"))
 COMPARISON_KEYS = frozenset(("source", "relpath", "class", "equal_to", "differing_from", "same_inode", "hint"))
 HINT_KEYS = frozenset(("sha256", "agrees"))
-MOVE_KEYS = frozenset(("source", "target"))
+MOVE_KEYS = frozenset(("id", "prd_ids", "action", "source", "target", "kind", "bytes",
+                       "before_sha256", "source_manifest", "lane", "reader_check_ids"))
 OCCURRENCE_KEYS = frozenset(("file", "line", "old_text", "old", "text"))
 ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*")
 MV_RE = re.compile(r"MV-[0-9]{3}")
@@ -102,6 +104,15 @@ def _id(value, where: str) -> str:
     if not isinstance(value, str) or not ID_RE.fullmatch(value):
         _refuse(where, f"expected an ID, got {value!r}")
     return value
+
+
+def _int(token: str, where: str) -> int:
+    """Decimal text -> int. [LAW:single-enforcer] the one digit-limit check for manifest and TSV integers;
+    [LAW:one-source-of-truth] the bound is the interpreter's own limit (0 means none)."""
+    digits, limit = len(token.lstrip("-")), sys.get_int_max_str_digits()
+    if 0 < limit < digits:
+        _refuse(where, f"holds an integer of {digits} digits, over the interpreter limit of {limit}")
+    return int(token)
 
 
 def _line(value, where: str) -> int:
@@ -192,8 +203,15 @@ def _requirements(tables) -> dict[str, dict]:
             if not DIGITS.fullmatch(row["observed_bytes"]):
                 _refuse(at, f"observed_bytes {row['observed_bytes']!r} is not a byte count")
             _text(row["action"], at)
+            # [LAW:parse-dont-validate] Parse annex shape here; the wire schema owns PRD values.
+            lane = _id(row["lane"], f"{at}.lane")
+            prd_ids = row["prd_ids"].split(",")
+            if "" in prd_ids or len(set(prd_ids)) != len(prd_ids):
+                _refuse(f"{at}.prd_ids", "empty or repeated item")
             out[row["requirement_id"]] = {"source": _path(row["source"], at), "target": _path(row["target"], at),
-                                          "action": row["action"], "observed_bytes": int(row["observed_bytes"])}
+                                          "action": row["action"],
+                                          "observed_bytes": _int(row["observed_bytes"], at),
+                                          "lane": lane, "prd_ids": prd_ids}
     return out
 
 
@@ -202,11 +220,13 @@ def _manifest(data, where: str) -> tuple[str, list, list[str], str]:
     if not isinstance(data, bytes):
         _refuse(where, f"expected the manifest bytes, got {type(data).__name__}")
     try:
-        doc = json.loads(data.decode("utf-8"))
+        doc = json.loads(data.decode("utf-8"), parse_int=lambda token: _int(token, where))
     except UnicodeDecodeError:
         _refuse(where, "is not UTF-8")
     except json.JSONDecodeError as exc:
         _refuse(where, f"is not JSON ({exc.msg})")
+    except RecursionError:  # [LAW:single-enforcer] caught only here and at the re-encode below
+        _refuse(where, "nests too deeply")
     doc = _map(doc, where)
     if "git_roots" not in doc:
         _refuse(where, "has no git_roots; not a Step 201 manifest")
@@ -215,6 +235,8 @@ def _manifest(data, where: str) -> tuple[str, list, list[str], str]:
         same = canonical(doc) == data
     except UnicodeEncodeError:
         same = False
+    except RecursionError:
+        _refuse(where, "nests too deeply")
     if not same:
         _refuse(where, "is not the canonical JSON that Step 201 writes")
     git = []
@@ -315,7 +337,7 @@ def _comparison(value, where: str, leaves: list) -> dict[str, list[str]] | None:
     return {cls: sorted(paths) for cls, paths in out.items()}
 
 
-def _unit(value, where: str, root: str, table: dict, existing: frozenset) -> tuple[dict, list[dict]]:
+def _unit(value, where: str, root: str, table: dict, existing: frozenset) -> tuple[dict, list[dict], dict]:
     row = _map(value, where)
     _keys(row, UNIT_KEYS, where)
     rid = row["requirement_id"]
@@ -376,8 +398,13 @@ def _unit(value, where: str, root: str, table: dict, existing: frozenset) -> tup
                "experiment_id": eid if basis == "registry" else None,
                "manifest": {"path": manifest_path, "sha256": digest},
                "leaves": len(leaves), "bytes": total, "observed_bytes": req["observed_bytes"]}
+    # [LAW:one-source-of-truth] Bind the wire action to the same parsed manifest as the unit.
+    move = {"id": rid, "prd_ids": req["prd_ids"], "action": "MOVE",
+            "source": source, "target": target, "kind": "git-root" if source in git else "directory",
+            "bytes": total, "before_sha256": digest, "source_manifest": planned["manifest"],
+            "lane": req["lane"], "reader_check_ids": []}
     return planned, [{"requirement_id": rid, "kind": k, "items": sorted(v)}
-                     for k, v in risks.items()]
+                     for k, v in risks.items()], move
 
 
 def build_plan(*, entry_id, root, requirement_tables, units, existing_targets) -> dict:
@@ -389,17 +416,18 @@ def build_plan(*, entry_id, root, requirement_tables, units, existing_targets) -
     raw = _seq(units, "units")
     if not raw:
         _refuse("units", "an entry places at least one unit")
-    planned, risks = [], []
+    planned, risks, moves = [], [], []
     for i, value in enumerate(raw):
-        u, r = _unit(value, f"units[{i}]", root, table, existing)
+        u, r, move = _unit(value, f"units[{i}]", root, table, existing)
         for other in planned:  # a requirement named twice has one source, so it overlaps itself
             if _overlap(u["source"], other["source"]) or _overlap(u["target"], other["target"]) \
                     or _overlap(u["target"], other["source"]) or _overlap(u["source"], other["target"]):
                 _refuse(u["requirement_id"], f"overlaps {other['requirement_id']} (source or target)")
         planned.append(u)
+        moves.append(move)
         risks += r
     planned.sort(key=lambda u: u["source"])  # code point order is UTF-8 byte order
-    moves = [{"source": u["source"], "target": u["target"]} for u in planned]
+    moves.sort(key=lambda move: move["source"])
     body = {
         "schema_version": 1,
         "id": eid,
@@ -480,7 +508,7 @@ def check_plans(*, root, entries, occurrences, repairs) -> tuple:
         file, old_text, new_text = (_text(row[k], f"{at}.{k}") for k in ("file", "old_text", "new_text"))
         if not DIGITS.fullmatch(row["line"]) or not DIGITS.fullmatch(row["step"]):
             _refuse(at, "line and step are decimal numbers")
-        line, step = _line(int(row["line"]), at), int(row["step"])
+        line, step = _line(_int(row["line"], at), at), _int(row["step"], at)
         if step not in REPAIR_STEPS:
             _refuse(at, f"repair step {step} is not one of 261-269")
         key = (file, line, old_text)

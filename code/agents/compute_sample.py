@@ -161,7 +161,9 @@ def format_row(s):
 # ---- probes (the only place that runs commands) ----
 
 def probe(cmd):
-    r = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+    # [LAW:no-silent-failure] exception: process command lines are untrusted text that is only counted and
+    # grouped, so a non-UTF-8 byte becomes U+FFFD instead of stopping the sample (Step 339, here and in ps below).
+    r = subprocess.run(cmd, capture_output=True, text=True, errors="replace", timeout=60)
     if r.returncode != 0 or not r.stdout.strip():
         raise Refusal(f"probe {' '.join(cmd)} failed rc={r.returncode}: {r.stderr.strip()}")
     return r.stdout
@@ -185,7 +187,8 @@ def collect():
 # ---- owner rule (copied from code/agents/context_watch.py owner_pid/alive; no signal is sent) ----
 
 def _ps_ppid_comm(pid):
-    r = subprocess.run(["/bin/ps", "-o", "ppid=,comm=", "-p", str(pid)], capture_output=True, text=True)
+    r = subprocess.run(["/bin/ps", "-o", "ppid=,comm=", "-p", str(pid)], capture_output=True, text=True,
+                       errors="replace")
     if r.returncode != 0 or not r.stdout.strip():
         return None
     return parse_ppid_comm(r.stdout)
@@ -206,7 +209,7 @@ def owner_pid(start=None, lookup=_ps_ppid_comm):
 
 
 def alive(pid):
-    r = subprocess.run(["/bin/ps", "-o", "pid=", "-p", str(pid)], capture_output=True, text=True)
+    r = subprocess.run(["/bin/ps", "-o", "pid=", "-p", str(pid)], capture_output=True, text=True, errors="replace")
     if r.returncode == 0 and r.stdout.strip() == str(pid):
         return True
     if r.returncode == 1 and not r.stdout.strip() and not r.stderr.strip():

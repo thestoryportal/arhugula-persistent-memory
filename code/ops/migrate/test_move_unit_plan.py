@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import contextlib
 import errno
+import hashlib
 import io
 import json
 import os
@@ -151,7 +152,12 @@ class Fixture:
         self.dup = self.json("dup.json", self.dup_doc)
         self.units_doc = [self.spec()]
         self.units = self.json("units.json", self.units_doc)
-        self.plans_doc = {"entries": [{"id": "S220", "moves": [{"source": self.src, "target": self.candidate}]}]}
+        # [LAW:one-source-of-truth] Check the same wire Moves that the real plan command emits.
+        out = io.TextIOWrapper(io.BytesIO(), encoding="utf-8")
+        with contextlib.redirect_stdout(out):
+            assert move_unit.main(self.plan_args()) == 0
+        out.flush()
+        self.plans_doc = {"entries": [json.loads(out.buffer.getvalue())]}
         self.plans = self.json("plans.json", self.plans_doc)
         self.repairs_text = f"{REPAIR_HEADER}\ndocs/a.md\t2\t{self.old}\t{self.candidate}/a.json\t261\n"
         self.repairs = self.write(os.path.join(self.inp, "repairs.tsv"), self.repairs_text.encode())
@@ -249,7 +255,15 @@ class Plan(Base):
         code, out, err = self.main(*self.fx.plan_args())
         self.assertEqual((code, err), (0, ""))
         self.assertEqual(out, canonical_line(self.fx.expected_plan()))
-        self.assertEqual(json.loads(out)["moves"], [{"source": self.fx.src, "target": self.fx.candidate}])
+        row = dict(zip(REQ_HEADER.split("\t"), self.fx.req_text.splitlines()[1].split("\t")))
+        digest = hashlib.sha256(self.fx.manifest_bytes).hexdigest()
+        # [LAW:behavior-not-structure] Bind every wire field to the fixture inputs, independently of the core.
+        self.assertEqual(json.loads(out)["moves"], [{
+            "id": "MV-101", "action": "MOVE", "source": self.fx.src, "target": self.fx.candidate,
+            "kind": "directory", "bytes": len(DATA), "before_sha256": digest,
+            "source_manifest": {"path": self.fx.manifest, "sha256": digest},
+            "lane": row["lane"], "prd_ids": row["prd_ids"].split(","), "reader_check_ids": [],
+        }])
 
     def test_existing_candidate_is_observed_and_keeps_the_v_target(self):
         os.mkdir(self.fx.candidate)
@@ -401,6 +415,14 @@ class PlanInputs(Base):
                 fx.rewrite(fx.match, json.dumps(doc).encode())
                 self.assert_refused(self.main(*fx.plan_args()), fx.match)
 
+    def test_registry_matches_of_the_wrong_type_refuse(self):
+        # MAESTRO T209 RULING-2 ruling 6 (M21): a one-key object or a one-character string has length 1 too.
+        fx = self.fx
+        for matches in ({"unit": "u1"}, "x"):
+            with self.subTest(matches=matches):
+                fx.rewrite(fx.match, json.dumps({"root": fx.m, "matches": matches}).encode())
+                self.assert_refused(self.main(*fx.plan_args()), fx.match, "holding exactly one match")
+
     def test_json_inputs_must_be_strict_utf8_json(self):
         for data, word in ((b"\xff[]", "UTF-8"), (b"[", "JSON"), (b'{"stale": [], "stale": []}', "duplicate key"),
                            (b"[NaN]", "NaN"), (b"[Infinity]", "Infinity")):
@@ -440,7 +462,7 @@ class PlanInputs(Base):
 
 class Arguments(Base):
     def test_cli_strings_with_control_characters_or_lone_surrogates_refuse(self):
-        for bad in ("S2\x0020", "S2\t20", "S2\n20", "S2\r20", "S2\udcff20"):
+        for bad in ("S2\x0020", "S2\t20", "S2\n20", "S2\r20", "S2\r\n20", "S2\udcff20"):
             with self.subTest(bad=bad):
                 argv = self.fx.plan_args()
                 argv[argv.index("--entry") + 1] = bad
@@ -498,6 +520,14 @@ class CheckPlans(Base):
         self.fx.rewrite(self.fx.reader, f"intro\r\nsee {self.fx.old}\r\n".encode())
         code, out, err = self.main(*self.fx.check_plans_args())
         self.assertEqual((code, err, out), (0, "", "[]\n"))
+
+    def test_crlf_text_reaches_the_core_unchanged(self):
+        # [LAW:behavior-not-structure] compare the actual text crossing the I/O boundary.
+        self.fx.rewrite(self.fx.reader, f"intro\r\nsee {self.fx.old}\r\n".encode())
+        with mock.patch.object(core, "check_plans", wraps=core.check_plans) as checked:
+            result = self.main(*self.fx.check_plans_args())
+        self.assertEqual(result, (0, "[]\n", ""))
+        self.assertEqual(checked.call_args.kwargs["occurrences"][0]["text"], f"see {self.fx.old}\r")
 
     def test_every_readers_report_is_read(self):
         fx = self.fx
@@ -683,6 +713,32 @@ class Attacks(Base):
                 result = self.main(*argv)
             self.assert_refused(result, path, "a component is a link")
 
+    def test_late_parent_attacks_refuse_for_every_input(self):
+        # [LAW:behavior-not-structure] the same late attack must refuse at every input boundary.
+        for cmd, attrs in LEAVES.items():
+            for attr in attrs:
+                for kind in ("rebind", "link"):
+                    with self.subTest(cmd=cmd, attr=attr, kind=kind):
+                        fx = self.fresh()
+                        leaf = getattr(fx, attr)
+                        parent = os.path.dirname(leaf)
+                        if kind == "link":
+                            replacement = os.path.join(fx.other, "replacement")
+                            shutil.copytree(parent, replacement)
+                            attack = FK.swap_for_symlink("open", 1, parent, replacement,
+                                                         when="after", match=named(os.path.basename(leaf)))
+                        else:
+                            attack = FK.rename_and_rebind("open", 1, parent,
+                                                         when="after", match=named(os.path.basename(leaf)))
+                        with attack as fault:
+                            def restore():
+                                if kind == "rebind":
+                                    shutil.copytree(fault.parked, parent, dirs_exist_ok=True)
+                            with after_open_then(os.path.basename(leaf), restore):
+                                result = self.main(*ARGS[cmd](fx))
+                        self.assertEqual(fault.fired, 1)
+                        self.assert_refused(result, parent)
+
     def test_leaf_open_errors_name_the_path_and_errno(self):
         for fx, path, argv in self.cases(LEAVES):
             for err in (errno.EIO, errno.EBADF):
@@ -704,24 +760,49 @@ class Attacks(Base):
 
     def test_call_class_errors_name_the_path_and_errno(self):
         fx = self.fx
-        # The first object each subcommand reads: plan holds --root for the run, reads --requirements first and
-        # closes --root last (after the 3 directories the target observation opens); check-plans holds --root for the run, reads --plans first and closes --root last;
-        # check-routes reads --routes, then holds --source.
+        # [LAW:behavior-not-structure] parent-close faults select the opened fd, not close order.
         cases = [("plan", "fstat", 1, fx.req), ("plan", "read", 1, fx.req), ("plan", GETPATH, 1, fx.m),
-                 ("plan", "close", 1, fx.req), ("plan", "close", 2, fx.inp), ("plan", "close", 16, fx.m),
+                 ("plan", "close", 1, fx.req), ("plan", "close-of", 1, fx.inp), ("plan", "close", 16, fx.m),
                  ("check-plans", "fstat", 1, fx.plans), ("check-plans", "read", 1, fx.plans),
                  ("check-plans", GETPATH, 1, fx.m), ("check-plans", "close", 1, fx.plans),
-                 ("check-plans", "close", 2, fx.inp), ("check-plans", "close", 9, fx.m),
+                 ("check-plans", "close-of", 1, fx.inp), ("check-plans", "close", 9, fx.m),
                  ("check-routes", "fstat", 1, fx.routes), ("check-routes", "read", 1, fx.routes),
                  ("check-routes", GETPATH, 1, fx.inp), ("check-routes", "close", 1, fx.routes),
-                 ("check-routes", "close", 2, fx.inp), ("check-routes", "scandir", 1, fx.source),
-                 ("check-routes", GETPATH, 3, fx.source), ("check-routes", "close", 3, fx.source)]
+                 ("check-routes", "close-of", 1, fx.inp), ("check-routes", "scandir", 1, fx.source),
+                 ("check-routes", GETPATH, 3, fx.source), ("check-routes", "close-of", 1, fx.source)]
         for cmd, target, n, path in cases:
             for err in (errno.EIO, errno.EBADF):
                 with self.subTest(cmd=cmd, target=target, n=n, err=err):
-                    with FK.inject_oserror(target, n, err):
-                        result = self.main(*ARGS[cmd](fx))
+                    if target == "close-of":
+                        real, held = os.open, {}
+
+                        def opened(first, *args, **kwargs):
+                            fd = real(first, *args, **kwargs)
+                            held[fd] = first
+                            return fd
+                        with mock.patch.object(os, "open", opened), \
+                                FK.inject_oserror("close", 1, err, match=lambda fd: held.get(fd) == path):
+                            result = self.main(*ARGS[cmd](fx))
+                    else:
+                        with FK.inject_oserror(target, n, err):
+                            result = self.main(*ARGS[cmd](fx))
                     self.assert_refused(result, path, f"[{errno.errorcode[err]}]")
+
+    def test_a_failing_target_prefix_close_names_the_prefix(self):
+        # MAESTRO T209 RULING-2 ruling 6 (M56).
+        fx = self.fx
+        runs = os.path.dirname(fx.candidate)
+        real, fds = os.open, {}
+
+        def opened(first, *args, **kwargs):
+            fd = real(first, *args, **kwargs)
+            if first == "runs" and "dir_fd" in kwargs:
+                fds["runs"] = fd
+            return fd
+        with mock.patch.object(os, "open", opened):
+            with FK.inject_oserror("close", 1, errno.EIO, match=lambda fd: fd == fds.get("runs")):
+                result = self.main(*fx.plan_args())
+        self.assert_refused(result, runs, "[EIO]")
 
     def test_unexpected_exceptions_propagate(self):
         for cmd, target in (("plan", "read"), ("plan", "open"), ("check-plans", "read"),
@@ -769,7 +850,7 @@ class HeldRootAndTargets(Base):
     def test_k1_check_plans_root_replaced_before_a_reader_file_is_read_refuses(self):
         with root_replaced_at_open("readers.json", self.fx.m):
             result = self.main(*self.fx.check_plans_args())
-        self.assert_refused(result, self.fx.docs, f"is not below the held root {self.fx.m}")
+        self.assert_refused(result, self.fx.docs, f"is not below the held root {self.fx.m!r}")
 
     def test_k1b_check_plans_root_replaced_after_the_last_reader_file_read_refuses(self):
         fx = self.fx
@@ -810,23 +891,23 @@ class HeldRootAndTargets(Base):
         fx = self.fx
         link = os.path.join(fx.m, "experiments", "c10r")
         self.link_ancestor(fx, os.path.join(fx.base, "c10r_real"), link, "runs/u1")
-        self.assert_refused(self.main(*fx.plan_args()), fx.candidate, f"component {link} is a link")
+        self.assert_refused(self.main(*fx.plan_args()), fx.candidate, f"component {link!r} is a link")
         fx = self.fresh()
         self.unmatched(fx)
         os.makedirs(os.path.join(fx.base, "v_real", "p", "u1"))
         os.symlink(os.path.join(fx.base, "v_real"), os.path.join(fx.base, "v"))
-        self.assert_refused(self.main(*fx.plan_args()), fx.v_target, f"component {fx.base}/v is a link")
+        self.assert_refused(self.main(*fx.plan_args()), fx.v_target, f"component {fx.base + '/v'!r} is a link")
 
     def test_k4_a_link_ancestor_to_a_directory_without_the_target_refuses(self):
         fx = self.fx
         link = os.path.join(fx.m, "experiments", "c10r")
         self.link_ancestor(fx, os.path.join(fx.base, "c10r_real"), link)
-        self.assert_refused(self.main(*fx.plan_args()), fx.candidate, f"component {link} is a link")
+        self.assert_refused(self.main(*fx.plan_args()), fx.candidate, f"component {link!r} is a link")
         fx = self.fresh()
         self.unmatched(fx)
         os.makedirs(os.path.join(fx.base, "v_real"))
         os.symlink(os.path.join(fx.base, "v_real"), os.path.join(fx.base, "v"))
-        self.assert_refused(self.main(*fx.plan_args()), fx.v_target, f"component {fx.base}/v is a link")
+        self.assert_refused(self.main(*fx.plan_args()), fx.v_target, f"component {fx.base + '/v'!r} is a link")
 
 
 @contextlib.contextmanager
@@ -897,7 +978,7 @@ class HeldIdentity(Base):
         with mock.patch.object(os, "open", opened), mock.patch.object(os, "close", closed):
             result = self.main(*fx.check_plans_args())
         self.assertEqual(state, {"away", "back"})
-        self.assert_refused(result, fx.docs, f"is not below the held root {fx.m}")
+        self.assert_refused(result, fx.docs, f"is not below the held root {fx.m!r}")
 
     def test_identity_check_errors_name_the_path_and_errno(self):
         # fstat 1-6 are the before and after checks of plans.json, repairs.tsv and readers.json; 7 is the root's.
@@ -913,6 +994,105 @@ class HeldIdentity(Base):
         with mock.patch.object(os, "stat", hooked):
             result = self.main(*self.fx.check_plans_args())
         self.assert_refused(result, self.fx.docs, "[EIO]")
+
+
+@contextlib.contextmanager
+def after_open_then(name, action):
+    """Run action() at the first os.read after the first os.open of name: the file is open and its parent
+    has had its last use before the read."""
+    real_open, real_read, state = os.open, os.read, []
+
+    def opened(first, *args, **kwargs):
+        fd = real_open(first, *args, **kwargs)
+        if first == name and not state:
+            state.append("open")
+        return fd
+
+    def read(fd, n):
+        if state == ["open"]:
+            state.append("done")
+            action()
+        return real_read(fd, n)
+    with mock.patch.object(os, "open", opened), mock.patch.object(os, "read", read):
+        yield
+    if state != ["open", "done"]:
+        raise AssertionError(f"after_open_then: no read after the open of {name!r} ({state})")
+
+
+class HeldAfterUse(Base):
+    """MAESTRO T209 RULING-2 ruling 5: every directory the tool holds is after-checked once its last use is
+    past (still at its path, still below the held root by identity). K7-K10 are the reviewer's probes."""
+
+    def test_k7_a_target_prefix_rebound_after_its_open_refuses(self):
+        fx = self.fx
+        runs = os.path.dirname(fx.candidate)
+        real, done = os.stat, []
+
+        def stat_(first, *args, **kwargs):
+            if first == "u1" and "dir_fd" in kwargs and not done:
+                done.append(first)
+                os.mkdir(fx.candidate)  # the target now exists at its path, not in the parked directory
+            return real(first, *args, **kwargs)
+        with FK.rename_and_rebind("open", 1, runs, when="after", match=named("runs")):
+            with mock.patch.object(os, "stat", stat_):
+                result = self.main(*fx.plan_args())
+        self.assertEqual(done, ["u1"])
+        self.assert_refused(result, runs, "was moved while it was held")
+
+    def test_k8_a_target_prefix_swapped_for_a_link_after_its_open_refuses(self):
+        fx = self.fx
+        runs = os.path.dirname(fx.candidate)
+        outside = fx.mk("outside")
+        os.mkdir(os.path.join(outside, "u1"))
+        with FK.swap_for_symlink("open", 1, runs, outside, when="after", match=named("runs")):
+            result = self.main(*fx.plan_args())
+        self.assertTrue(os.path.isdir(fx.candidate))  # occupied through the link
+        self.assert_refused(result, runs, "was moved while it was held")
+
+    def test_k9_a_reader_parent_moved_outside_the_root_during_the_read_refuses(self):
+        fx = self.fx
+        with FK.rename_and_rebind("open", 1, fx.docs, when="after", match=named("a.md")) as fault:
+            with after_open_then("a.md", lambda: os.rename(fault.parked, os.path.join(fx.other, "docs"))):
+                result = self.main(*fx.check_plans_args())
+        self.assertEqual(fault.fired, 1)
+        self.assert_refused(result, fx.docs, "was moved while it was held", fx.other)
+
+    def test_k10_a_reader_parent_rebound_with_a_forged_reader_refuses(self):
+        fx = self.fx
+        forged = f"intro\n{fx.old} {fx.old}\n".encode()
+        with FK.rename_and_rebind("open", 1, fx.docs, when="after", match=named("a.md")):
+            with after_open_then("a.md", lambda: fx.write(fx.reader, forged)):
+                result = self.main(*fx.check_plans_args())
+        self.assert_refused(result, fx.docs, "was moved while it was held")
+        self.assertEqual(self.main(*fx.check_plans_args())[0], 1)  # the forged reader is a finding when read
+
+    def test_a_reader_parent_moved_into_a_new_root_refuses_by_identity(self):
+        # The parent is back at its path, but under a different directory than the held root.
+        fx = self.fx
+
+        def move():
+            os.rename(fx.m, fx.m + ".away")
+            os.mkdir(fx.m)
+            os.rename(os.path.join(fx.m + ".away", "docs"), fx.docs)
+        with after_open_then("a.md", move):
+            result = self.main(*fx.check_plans_args())
+        self.assert_refused(result, fx.docs, f"is not below the held root {fx.m!r}")
+
+    def test_a_v_target_prefix_rebound_after_its_open_refuses(self):
+        fx = self.fx
+        fx.rewrite(fx.units, json.dumps([fx.spec(candidate=None)]).encode())
+        v = os.path.join(fx.base, "v")
+        os.makedirs(os.path.join(v, "p"))
+        with FK.rename_and_rebind("open", 1, v, when="after", match=named("v")):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, v, "was moved while it was held")
+
+    def test_plan_root_replaced_with_no_target_below_it_refuses(self):
+        fx = self.fx
+        fx.rewrite(fx.units, json.dumps([fx.spec(candidate=None)]).encode())
+        with root_replaced_at_open("dup.json", fx.m):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, fx.m, "was moved while it was held")
 
 
 class ReadOnly(Base):
@@ -960,5 +1140,154 @@ class ReadOnly(Base):
         self.check(fx.check_routes_args(), {fx.inp, fx.source, "routes.tsv"}, 0)
 
 
+class HeldParentIdentity(Base):
+    """MAESTRO T209 RULING-5 rulings 13-15: an input parent's after-check refuses when its path now names another
+    directory although the held fd still reports that path (macOS F_GETPATH keeps a removed directory's path),
+    and an error in that identity check is a refusal naming the parent and the errno."""
+
+    def test_an_input_parent_removed_and_remade_at_its_path_refuses(self):
+        fx = self.fx
+        aside = os.path.join(fx.other, "u1.json")
+
+        def remake():
+            os.rename(fx.manifest, aside)
+            os.rmdir(fx.mdir)
+            os.mkdir(fx.mdir)
+            os.rename(aside, fx.manifest)
+        with after_open_then("u1.json", remake):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, fx.mdir, "was moved during the run")
+
+    def test_an_input_parent_covered_by_another_device_at_its_path_refuses(self):
+        # A volume mounted over the parent: the same inode number (volume roots are all 2), another st_dev.
+        fx, real = self.fx, os.stat
+
+        def stat_(first, *args, **kwargs):
+            st = real(first, *args, **kwargs)
+            if first != fx.mdir or "dir_fd" in kwargs:
+                return st
+            fields = list(st)
+            fields[2] = st.st_dev + 1  # stat_result index 2 is st_dev; st_ino (index 1) is kept
+            return os.stat_result(fields)
+        with mock.patch.object(os, "stat", stat_):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, fx.mdir, "was moved during the run")
+
+    def test_an_input_parent_identity_error_names_the_path_and_errno(self):
+        fx, real, calls = self.fx, os.stat, []
+
+        def stat_(first, *args, **kwargs):
+            if first == fx.mdir and "dir_fd" not in kwargs and not calls:
+                calls.append(first)
+                raise OSError(errno.EACCES, os.strerror(errno.EACCES))
+            return real(first, *args, **kwargs)
+        with mock.patch.object(os, "stat", stat_):
+            result = self.main(*fx.plan_args())
+        self.assertEqual(calls, [fx.mdir])
+        self.assert_refused(result, fx.mdir, "[EACCES]")
+
+
 if __name__ == "__main__":
     unittest.main()
+
+
+class RefusalPathRendering(Base):
+    """Filesystem names remain one stderr line at every reason interpolation."""
+
+    def moved_parent(self, suffix):
+        fx = self.fx
+        moved = fx.mdir + suffix
+        with after_open_then("u1.json", lambda: os.rename(fx.mdir, moved)):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, fx.mdir, f"was moved while it was held (now {moved!r})")
+
+    def test_live_parent_with_lf_is_one_line(self):
+        self.moved_parent("\nrenamed")
+
+    def test_live_parent_with_cr_is_one_line(self):
+        self.moved_parent("\rrenamed")
+
+    def test_candidate_with_lf_observation_error_is_one_line(self):
+        fx = self.fx
+        candidate = fx.candidate + "\nleaf"
+        fx.rewrite(fx.units, json.dumps([fx.spec(candidate=candidate)]).encode())
+        with stat_error(errno.EACCES, os.path.basename(candidate)):
+            result = self.main(*fx.plan_args())
+        self.assert_refused(result, candidate, f"(at {candidate!r})", "[EACCES]")
+
+    def test_candidate_with_lf_link_is_one_line(self):
+        fx = self.fx
+        candidate = fx.candidate + "\nleaf"
+        fx.rewrite(fx.units, json.dumps([fx.spec(candidate=candidate)]).encode())
+        os.symlink(fx.other, candidate)
+        self.assert_refused(self.main(*fx.plan_args()), candidate, f"component {candidate!r} is a link")
+
+    def test_relative_root_under_lf_cwd_containment_is_one_line(self):
+        fx = self.fx
+        root = fx.m + "\nroot"
+        os.rename(fx.m, root)
+        argv = fx.check_plans_args()
+        argv[argv.index("--root") + 1] = "."
+        # [LAW:behavior-not-structure] cwd contributes bytes absent from the validated CLI spelling.
+        with contextlib.chdir(root), root_replaced_at_open("readers.json", root):
+            result = self.main(*argv)
+        self.assert_refused(result, os.path.join(root, "docs"), f"is not below the held root {root!r}")
+
+
+class IsolatedInputParents(Base):
+    """Each input's own held parent must refuse independently of every other input."""
+
+    def moved_input(self, command, attr):
+        fx = self.fx
+        old = getattr(fx, attr)
+        parent = fx.mk("isolated-" + attr)
+        leaf = os.path.join(parent, os.path.basename(old))
+        os.rename(old, leaf)
+        setattr(fx, attr, leaf)
+        fx.rewrite(fx.units, json.dumps([fx.spec()]).encode())
+        argv = ARGS[command](fx)
+        self.assertEqual(self.main(*argv)[0], 0)
+        # [LAW:behavior-not-structure] replacement bytes stay valid; only this parent's identity changes.
+        with FK.rename_and_rebind("open", 1, parent, when="after", match=named(os.path.basename(leaf))) as fault:
+            with after_open_then(os.path.basename(leaf),
+                                 lambda: shutil.copytree(fault.parked, parent, dirs_exist_ok=True)):
+                result = self.main(*argv)
+        self.assertEqual(fault.fired, 1)
+        self.assert_refused(result, parent, "was moved while it was held")
+
+    def test_units_parent_moved_alone_refuses(self):
+        self.moved_input("plan", "units")
+
+    def test_registry_parent_moved_alone_refuses(self):
+        self.moved_input("plan", "match")
+
+    def test_readers_report_parent_moved_alone_refuses(self):
+        self.moved_input("plan", "readers")
+
+    def test_comparison_parent_moved_alone_refuses(self):
+        self.moved_input("plan", "dup")
+
+    def test_repairs_parent_moved_alone_refuses(self):
+        self.moved_input("check-plans", "repairs")
+
+
+class DecoderLimits(Base):
+    """Decoder limits obey the same CLI refusal contract for either JSON input."""
+
+    def refuse_limit(self, command, attr, data, reason):
+        # [LAW:behavior-not-structure] Real file bytes cross the CLI boundary without decoder mocks.
+        path = getattr(self.fx, attr)
+        self.fx.rewrite(path, data)
+        self.assert_refused(self.main(*ARGS[command](self.fx)), path, reason)
+
+    def test_plan_units_deep_nesting_refuses(self):
+        self.refuse_limit("plan", "units", b"[" * 200000, "nests too deeply")
+
+    def test_plan_units_large_integer_refuses(self):
+        self.refuse_limit("plan", "units", b"1" * 5000, "integer of 5000 digits")
+
+    def test_check_plans_deep_nesting_refuses(self):
+        self.refuse_limit("check-plans", "plans", b"[" * 200000, "nests too deeply")
+
+    def test_check_plans_large_integer_refuses(self):
+        self.refuse_limit("check-plans", "plans", b"1" * 5000, "integer of 5000 digits")

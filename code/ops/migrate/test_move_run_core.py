@@ -37,6 +37,8 @@ WORKTREE = {"top": M, "git_dir": "/m/.git", "common_dir": "/m/.git"}
 HEADER = "requirement_id\tsource\ttarget\taction\tobserved_bytes\tclass\tlane\tcheck_id\tadmission\tprd_ids"
 RECORD, BULK, PAYLOAD = "tracked-record", "attested-bulk", "governed-payload"
 ALLOWED = {"mkdir", "mv", "git-mv", "git-rm-cached", "git-add"}
+BIG = b"9" * 5000                          # over the interpreter integer digit limit (4300)
+DEEP = b"[" * 100000 + b"]" * 100000      # past the recursion limit of json.loads
 
 
 def sha(data: bytes) -> str:
@@ -164,6 +166,21 @@ def scenario(specs=(U1, U2), plan_edit=None, approval_over=None, manifest_edit=N
               run_units=[s.source for s in specs],
               custody_dir=CUSTODY)
     return kw, plan, manifests
+
+
+def rebind(kw: dict, edit) -> dict:
+    """kw for a one-unit scenario whose fresh manifest leaves edit() changed, with the plan and approval
+    resealed to bind the new manifest bytes (so the edit is observed evidence, not a changed pre-digest)."""
+    manifest = json.loads(kw["units"][0]["manifest"])
+    edit(manifest["leaves"])
+    data = canonical(manifest)
+    plan = json.loads(kw["plan"][1])
+    plan["units"][0]["manifest"]["sha256"] = sha(data)
+    plan_bytes = canonical(reseal(plan))
+    units = copy.deepcopy(kw["units"])
+    units[0]["manifest"] = data
+    return {**kw, "units": units, "plan": (PLAN_PATH, plan_bytes),
+            "approval": (APPROVAL_PATH, canonical(approval_doc(plan_bytes)))}
 
 
 def run(**over):
@@ -357,7 +374,7 @@ class Consumer(unittest.TestCase):
 
     def test_executor_is_wire_executor_evidence(self):
         self.check.validate_wire("ExecutorEvidence", json.loads(self.docs[f"{CUSTODY}/executor.json"]),
-                                 self.retained.SCHEMA, {})
+                                 self.retained.wire_schema(), {})
 
     def test_documents_parse_with_the_consumer_parsers(self):
         R = self.retained
@@ -479,6 +496,19 @@ class ApprovalRefuses(Refuses):
                 self.refuses({**kw, "approval": value}, "approval", "")
 
 
+    def test_an_oversized_integer_or_deep_nesting_in_the_approval(self):
+        kw = scenario()[0]
+        for data, reason in ((b'{"approval_id":' + BIG + b'}', "5000 digits"),
+                             (b'{"a":' + DEEP + b'}', "nests too deeply")):
+            with self.subTest(reason=reason):
+                self.refuses({**kw, "approval": (APPROVAL_PATH, data)}, APPROVAL_PATH, reason)
+
+    def test_a_negative_integer_at_the_digit_limit_parses(self):
+        kw = scenario()[0]
+        data = kw["approval"][1].replace(b'"approval-0123456789ab"', b"-" + b"9" * 4300)  # the sign is no digit
+        self.refuses({**kw, "approval": (APPROVAL_PATH, data)}, APPROVAL_PATH, "approval_id must be")
+
+
 class PlanRefuses(Refuses):
     def plan(self, edit, where, reason, reseal_it=True):
         if reseal_it:
@@ -569,6 +599,22 @@ class PlanRefuses(Refuses):
         self.plan(lambda d: d["units"][0].update(bytes=11), U1.source, "bytes")
 
 
+    def test_an_oversized_integer_or_deep_nesting_in_the_plan(self):
+        kw = scenario()[0]
+        for data, reason in ((BIG, "5000 digits"), (DEEP, "nests too deeply")):
+            with self.subTest(reason=reason):
+                self.refuses({**kw, "plan": (PLAN_PATH, data)}, PLAN_PATH, reason)
+
+    def test_no_interpreter_digit_limit_admits_any_integer(self):
+        old = sys.get_int_max_str_digits()
+        self.addCleanup(sys.set_int_max_str_digits, old)
+        sys.set_int_max_str_digits(0)
+        self.assertEqual(len(run()["actions"]), 5)
+        units = copy.deepcopy(scenario()[0]["units"])
+        units[0]["split"] = units[0]["split"].replace(b'"size": 2', b'"size": ' + BIG, 1)
+        self.refuses(self.over(units=units), "split", "disagrees")
+
+
 class UnitRefuses(Refuses):
     def test_corrupted_byte_names_both_digests(self):
         def corrupt(fresh):
@@ -612,6 +658,70 @@ class UnitRefuses(Refuses):
         self.refuses(scenario([spec])[0], "/v/p/u2/c\tlog", "control character")
         spec = U2._replace(leaves=(Leaf("c\nlog", b"x"),))
         self.refuses(scenario([spec])[0], "/v/p/u2/c\nlog", "control character")
+
+
+    def test_control_characters_in_plan_targets(self):
+        for target in ("/v/preserved/u\t2", "/v/preserved/u\n2"):
+            def edit(plan, target=target):
+                for unit in plan["units"]:
+                    if unit["source"] == U2.source:
+                        unit["target"] = target
+                plan["moves"] = [{"source": u["source"], "target": u["target"]} for u in plan["units"]]
+            kw = scenario(plan_edit=edit)[0]
+            kw["targets"] = [r if r["target"] != T2 else {**r, "target": target} for r in kw["targets"]]
+            with self.subTest(target=target):
+                self.refuses(kw, target + "/c.log", "holds a control character")
+
+
+class LinkBoundary(Refuses):
+    """SPEC.md:711: a link that crosses the unit boundary refuses the unit (icm21_moves.link_boundary_failures)."""
+
+    def links(self, *leaves):
+        return scenario([U1._replace(leaves=leaves, tracked=())])[0]
+
+    def test_a_symlink_leaving_or_looping_refuses_the_unit(self):
+        for text, reason in (("../outside", "link crosses the unit boundary: /m/old/u1/link"),
+                             ("/outside", "link crosses the unit boundary: /m/old/u1/link"),
+                             ("link", "ambiguous link (loop): /m/old/u1/link")):
+            with self.subTest(text=text):
+                err = self.refuses(self.links(Leaf("a.json", b"{}"), Leaf("link", None, text)), U1.source, reason)
+                self.assertEqual(err.path, U1.source)
+
+    def test_the_refusal_names_the_first_failure_in_check_order(self):
+        kw = self.links(Leaf("a", None, "/x"), Leaf("b", None, "b"))
+        err = self.refuses(kw, U1.source, "link crosses the unit boundary: /m/old/u1/a")
+        self.assertNotIn("/m/old/u1/b", str(err))
+
+    def test_a_hard_link_with_a_name_outside_the_unit_refuses(self):
+        def outside(leaves):
+            leaves[0]["nlink"] = 2
+
+        kw = rebind(scenario([U2])[0], outside)
+        err = self.refuses(kw, U2.source, "hard link crosses the unit boundary: /v/p/u2/c.log")
+        self.assertEqual(err.path, U2.source)
+
+    def test_links_that_stay_inside_the_unit_return_actions(self):
+        kw = self.links(Leaf("a.json", b"{}"), Leaf("d/link", None, "../a.json"))
+        self.assertIn(act("MV-101", "mv", "/m/old/u1", T1), core.run_unit(**kw)["actions"])
+
+        def pair(leaves):
+            for leaf in leaves:
+                leaf.update(inode=leaves[0]["inode"], nlink=2)
+
+        kw = rebind(scenario([U2._replace(leaves=(Leaf("c.log", b"x"), Leaf("d.log", b"x")))])[0], pair)
+        self.assertEqual(core.run_unit(**kw)["actions"],
+                         [act("MV-102", "mkdir", target="/v/preserved"), act("MV-102", "mv", "/v/p/u2", T2)])
+
+
+class ZeroSizes(unittest.TestCase):
+    """Zero is a legal size: a unit of zero-byte files and a unit with no leaves both move."""
+
+    def test_zero_byte_and_zero_leaf_units_return_actions(self):
+        for leaves in ((Leaf("zero", b""), Leaf("empty", b"")), ()):
+            with self.subTest(leaves=len(leaves)):
+                kw = scenario([U2._replace(leaves=leaves)])[0]
+                self.assertEqual(core.run_unit(**kw)["actions"],
+                                 [act("MV-102", "mkdir", target="/v/preserved"), act("MV-102", "mv", "/v/p/u2", T2)])
 
 
 class SplitRefuses(Refuses):
@@ -669,6 +779,22 @@ class SplitRefuses(Refuses):
         k.update(plan=(PLAN_PATH, data), approval=(APPROVAL_PATH, canonical(approval_doc(data))))
         k["units"][0]["manifest"] = canonical(doc)
         self.refuses(k, "split", "does not cover")
+
+
+    def test_non_string_class_or_kind(self):
+        for field, value in (("class", []), ("class", {}), ("kind", []), ("kind", {"a": 1})):
+            with self.subTest(field=field, value=value):
+                self.split(self.leaf(**{field: value}), "split", field)
+
+    def test_an_oversized_size(self):
+        units = copy.deepcopy(scenario()[0]["units"])
+        units[0]["split"] = units[0]["split"].replace(b'"size": 2', b'"size": ' + BIG, 1)
+        self.refuses(self.over(units=units), "split", "5000 digits")
+
+    def test_a_size_equal_in_value_but_not_an_integer(self):
+        self.split(self.leaf(size=2.0), "split", "disagrees")  # a.json holds 2 bytes
+        one = U1._replace(leaves=(Leaf("a.json", b"1"),) + U1.leaves[1:])
+        self.refuses(scenario([one, U2], split_edit=self.leaf(size=True))[0], "split", "disagrees")
 
 
 class ObservationRefuses(Refuses):
@@ -851,6 +977,131 @@ class AuditedPurity(unittest.TestCase):
                     with self.assertRaises(fdsafe.Refusal) as caught:
                         core.run_unit(**case)
                 self.assertIn(where, caught.exception.path)
+
+
+class ValidatorShapeRefuses(unittest.TestCase):
+    """Every untrusted object/list/path boundary refuses with its input path.
+
+    Manifest edits are rebound into the plan and approval: a stale digest must not
+    hide a missing delegated validation. Each row starts with an independent fixture.
+    """
+
+    def test_malformed_boundary_rows(self):
+        manifest = "units[0].manifest"
+        leaf = manifest + ".leaves[0]"
+        git = manifest + ".git_roots[0]"
+        split = U2.source + " split"
+        source = U2.source + "/c.log"
+        missing_git = manifest_doc(U2)
+        del missing_git["git_roots"]
+        # document, field path, malformed value, exact Refusal.path, reason
+        rows = [
+            ("kw", ("plan",), None, "plan", "list"),
+            ("kw", ("plan",), [], "plan", "pair"),
+            ("kw", ("plan",), ({}, b"{}"), "plan", "path"),
+            ("kw", ("approval",), None, "approval", "list"),
+            ("kw", ("approval",), [], "approval", "pair"),
+            ("kw", ("approval",), ({}, b"{}"), "approval", "path"),
+            ("plan", (), [], PLAN_PATH, "object"),
+            ("plan", ("id",), {}, PLAN_PATH, "ID"),
+            ("plan", ("units",), None, PLAN_PATH, "list"),
+            ("plan", ("units", 0), None, "units[0]", "object"),
+            ("plan", ("units", 0), [], "units[0]", "object"),
+            ("plan", ("units", 0, "requirement_id"), {}, "units[0]", "MV-NNN"),
+            ("plan", ("units", 0, "source"), {}, "units[0]", "path"),
+            ("plan", ("units", 0, "target"), [], "units[0]", "path"),
+            ("plan", ("units", 0, "manifest"), None, manifest, "object"),
+            ("plan", ("units", 0, "manifest"), [], manifest, "object"),
+            ("plan", ("units", 0, "manifest", "path"), {}, manifest, "path"),
+            ("plan", ("units", 0, "leaves"), None, "units[0]", "leaves"),
+            ("plan", ("units", 0, "bytes"), [], "units[0]", "bytes"),
+            ("approval", (), [], APPROVAL_PATH, "object"),
+            ("approval", ("approved_at",), None, APPROVAL_PATH, "UTC instant"),
+            ("kw", ("worktree",), None, "worktree", "object"),
+            ("kw", ("worktree", "top"), {}, "worktree", "path"),
+            ("kw", ("worktree", "git_dir"), [], "worktree", "path"),
+            ("kw", ("worktree", "common_dir"), None, "worktree", "path"),
+            ("kw", ("units",), None, "units", "list"),
+            ("kw", ("units", 0), None, "units[0]", "object"),
+            ("kw", ("units", 0), [], "units[0]", "object"),
+            ("kw", ("units", 0, "source"), {}, "units[0]", "path"),
+            ("split", (), [], split, "object"),
+            ("split", ("root",), {}, split, "root"),
+            ("split", ("leaves",), None, split, "list"),
+            ("split", ("leaves", 0), None, split + ".leaves[0]", "object"),
+            ("split", ("leaves", 0), [], split + ".leaves[0]", "object"),
+            ("split", ("leaves", 0, "path"), {}, split + ".leaves[0]", "relative path"),
+            ("kw", ("tracked",), None, "tracked", "list"),
+            ("kw", ("tracked",), [{}], "tracked", "path"),
+            ("kw", ("targets",), None, "targets", "list"),
+            ("kw", ("targets", 0), None, "targets[0]", "object"),
+            ("kw", ("targets", 0), [], "targets[0]", "object"),
+            ("kw", ("targets", 0, "target"), [], "targets[0]", "path"),
+            ("kw", ("targets", 0, "base"), {}, "targets[0]", "path"),
+            ("kw", ("run_units",), None, "run_units", "list"),
+            ("kw", ("run_units",), [{}], "run_units", "path"),
+            ("kw", ("root",), {}, "root", "path"),
+            ("kw", ("custody_dir",), [], "custody_dir", "path"),
+            ("manifest", (), missing_git, manifest, "has no git_roots; not a Step 201 manifest"),
+            ("manifest", (), [], manifest, "object"),
+            ("manifest", ("extra",), None, manifest, "unknown field"),
+            ("manifest", ("schema_version",), None, manifest, "schema_version"),
+            ("manifest", ("root",), {}, manifest, "path"),
+            ("manifest", ("leaves",), None, manifest + ".leaves", "list"),
+            ("manifest", ("leaves", 0), None, leaf, "object"),
+            ("manifest", ("leaves", 0), [], leaf, "object"),
+            ("manifest", ("leaves", 0, "extra"), None, source, "unknown field"),
+            ("manifest", ("leaves", 0, "source"), {}, leaf, "path"),
+            ("manifest", ("leaves", 0, "kind"), [], source, "kind"),
+            ("manifest", ("leaves", 0, "bytes"), None, source, "bytes"),
+            ("manifest", ("leaves", 0, "sha256"), {}, source, "sha256"),
+            ("manifest", ("leaves", 0, "link_text"), [], source, "link_text"),
+            ("manifest", ("leaves", 0, "device"), None, source, "device"),
+            ("manifest", ("leaves", 0, "inode"), [], source, "inode"),
+            ("manifest", ("leaves", 0, "nlink"), {}, source, "nlink"),
+            ("manifest", ("git_roots",), None, manifest + ".git_roots", "list"),
+            ("manifest", ("git_roots", 0), None, git, "object"),
+            ("manifest", ("git_roots", 0), [], git, "object"),
+            ("manifest", ("git_roots", 0, "extra"), None, git, "unknown field"),
+            ("manifest", ("git_roots", 0, "path"), {}, git, "path"),
+            ("manifest", ("git_roots", 0, "head"), [], git + ".head", "string or null"),
+            ("manifest", ("git_roots", 0, "branch"), {}, git + ".branch", "string or null"),
+            ("manifest", ("git_roots", 0, "dirty"), None, git + ".dirty", "list"),
+            ("manifest", ("git_roots", 0, "dirty"), [None], git + ".dirty", "status records"),
+        ]
+        for document, path, value, where, reason in rows:
+            with self.subTest(document=document, field=path, value=value):
+                kw, plan, _ = scenario([U2])
+                documents = {"kw": kw, "plan": plan, "approval": json.loads(kw["approval"][1]),
+                             "split": json.loads(kw["units"][0]["split"]),
+                             "manifest": json.loads(kw["units"][0]["manifest"])}
+                if document == "manifest" and path[:1] == ("git_roots",) and len(path) > 1:
+                    documents["manifest"]["git_roots"] = [
+                        {"path": U2.source, "head": None, "branch": None, "dirty": []}]
+                if path:
+                    parent = documents[document]
+                    for key in path[:-1]:
+                        parent = parent[key]
+                    parent[path[-1]] = copy.deepcopy(value)
+                else:
+                    documents[document] = copy.deepcopy(value)
+                if document == "manifest":
+                    data = canonical(documents["manifest"])
+                    kw["units"][0]["manifest"] = data
+                    plan["units"][0]["manifest"]["sha256"] = sha(data)
+                if document in ("plan", "manifest"):
+                    doc = documents["plan"]
+                    data = canonical(reseal(doc) if isinstance(doc, dict) else doc)
+                    kw["plan"] = (PLAN_PATH, data)
+                    kw["approval"] = (APPROVAL_PATH, canonical(approval_doc(data)))
+                if document == "approval":
+                    kw["approval"] = (APPROVAL_PATH, canonical(documents["approval"]))
+                if document == "split":
+                    kw["units"][0]["split"] = canonical(documents["split"])
+                with self.assertRaises(fdsafe.Refusal) as caught:
+                    core.run_unit(**kw)
+                self.assertEqual(caught.exception.path, where)
+                self.assertIn(reason, str(caught.exception))
 
 
 if __name__ == "__main__":

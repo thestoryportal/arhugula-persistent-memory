@@ -1,17 +1,17 @@
 """Pure pre-run validation of one ICM v2.1 Move (SPEC.md:206, plan Step 202).
 
-validate_move opens no file, writes none and decides no target: every fact it judges
-is an argument, and the wire schema is read once at import. An empty tuple admits the
-move. A fact the caller did not supply yields UNVERIFIED, never an empty PASS
+validate_move writes nothing and decides no target: every fact it judges is an
+argument. The wire schema is read once at first wire check. An empty tuple admits
+the move. A fact the caller did not supply yields UNVERIFIED, never an empty PASS
 (SPEC.md:230). Malformed input is refused with one FAIL, never repaired.
 """
+from functools import cache
 import hashlib
 from pathlib import PurePath, PurePosixPath
 
 import icm21_check
 
 
-SCHEMA = icm21_check.audit_schema()
 # SPEC.md:83-84 and WIRE-CONTRACTS.md:133: these rows emit no move operation.
 NO_ACTION = frozenset({'KEEP', 'RETAIN_CONTAINER', 'HOLD', 'FOLLOW_PARENT'})
 PATTERN_CHARS = frozenset('*?[]<>')  # SPEC.md:87
@@ -26,16 +26,25 @@ def finding(move_id, status, paths, reason):
             'reason': reason, 'previous_finding': None, 'resolution_receipt': None}
 
 
+# [LAW:effects-at-boundaries] importing a validator must not read its schema.
+@cache
+def wire_schema():
+    # [LAW:one-source-of-truth] reuse the canonical schema reader and its result.
+    return icm21_check.audit_schema()
+
+
 def wire_path(value):
+    schema = wire_schema()
     text = str(value) if isinstance(value, PurePath) else value
-    icm21_check.validate_schema(text, {'$ref': '#/$defs/path'}, SCHEMA['$defs'])
+    icm21_check.validate_schema(text, {'$ref': '#/$defs/path'}, schema['$defs'])
     return PurePosixPath(text)
 
 
 def wire_record(name, value):
     """Validate against the sealed definition itself: icm21_check.WIRE_TYPES, which
     gates validate_wire, does not list Move or LeafRecord."""
-    icm21_check.validate_schema(value, SCHEMA['$defs'][name], SCHEMA['$defs'])
+    schema = wire_schema()
+    icm21_check.validate_schema(value, schema['$defs'][name], schema['$defs'])
 
 
 def within(path, root):
@@ -71,6 +80,30 @@ def link_stays_inside(link, text, unit, links):
     return True
 
 
+def link_boundary_failures(records, unit):
+    """Why the unit's links cross its boundary, in check order; [] when none does.
+
+    records: one LeafRecord per leaf, each source a PurePosixPath inside unit.
+    """
+    # [LAW:single-enforcer] the one link-boundary rule; validate_move and move_run_core both call it.
+    failures = []
+    links = {r['source']: r['link_text'] for r in records if r['kind'] == 'symlink'}
+    for link, text in sorted(links.items()):
+        inside = link_stays_inside(link, text, unit, links)
+        if inside is None:
+            failures.append('ambiguous link (loop): ' + str(link))
+        elif not inside:
+            failures.append('link crosses the unit boundary: ' + str(link))
+    names = {}
+    for r in records:
+        if r['kind'] == 'file':
+            names.setdefault((r['device'], r['inode']), []).append(r)
+    for group in names.values():
+        if any(r['nlink'] > len(group) for r in group):
+            failures.append('hard link crosses the unit boundary: ' + str(group[0]['source']))
+    return failures
+
+
 def validate_move(move, admitted_roots, *, other_moves=None, existing_paths=None,
                   run_units=None, leaves=None):
     """Findings that block this move; () admits it.
@@ -78,6 +111,7 @@ def validate_move(move, admitted_roots, *, other_moves=None, existing_paths=None
     other_moves: the plan's other Moves. existing_paths: absolute paths observed present.
     run_units: absolute run-unit roots. leaves: the LeafRecords of this move's source.
     """
+    wire_schema()  # Schema failures are not malformed move values.
     move_id = move['id'] if type(move) is dict and type(move.get('id')) is str \
         and move['id'] else 'unidentified'
     try:
@@ -166,19 +200,7 @@ def validate_move(move, admitted_roots, *, other_moves=None, existing_paths=None
                      + unique[source]['kind'])
         elif move['kind'] not in CONTAINERS:
             fail('leaf manifest lacks the moved object', 'UNVERIFIED')
-        links = {r['source']: r['link_text'] for r in records if r['kind'] == 'symlink'}
-        for link, text in sorted(links.items()):
-            inside = link_stays_inside(link, text, source, links)
-            if inside is None:
-                fail('ambiguous link (loop): ' + str(link))
-            elif not inside:
-                fail('link crosses the unit boundary: ' + str(link))
-        names = {}
-        for r in records:
-            if r['kind'] == 'file':
-                names.setdefault((r['device'], r['inode']), []).append(r)
-        for group in names.values():
-            if any(r['nlink'] > len(group) for r in group):
-                fail('hard link crosses the unit boundary: ' + str(group[0]['source']))
+        for reason in link_boundary_failures(records, source):
+            fail(reason)
 
     return tuple({item['id']: item for item in found}.values())

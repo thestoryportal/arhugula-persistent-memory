@@ -118,36 +118,49 @@ def _utf8(where: str, data: bytes) -> str:
 
 # --- read: every filesystem call goes through fdsafe [LAW:effects-at-boundaries]
 
-@contextlib.contextmanager
-def _held_parent(path: str):
+class InputParents(contextlib.ExitStack):
+    """Own input parents until the run has finished reading all of its inputs."""
+
+    def __init__(self):
+        super().__init__()
+        # [LAW:no-ambient-temporal-coupling] the run owns both the holds and their final check.
+        self.parents: list[tuple[fdsafe.Dir, fdsafe.Dir]] = []
+
+    def check(self) -> None:
+        for root, held in self.parents:
+            _still_held(root, held)
+
+
+def _held_parent(path: str, inputs: InputParents, root: fdsafe.Dir | None = None):
     """(absolute path, held parent directory, entry name) of one file path."""
     with fdsafe.fs(path):
         given = os.path.abspath(path)
     parent, name = os.path.split(given)
-    with fdsafe.hold_root(parent) as held:
-        yield given, held, name
+    held = inputs.enter_context(fdsafe.hold_root(parent))
+    inputs.parents.append((held if root is None else root, held))
+    return given, held, name
 
 
-def _read(path: str) -> tuple[str, bytes]:
-    """(absolute path, bytes) of one regular file, read through its held parent directory."""
-    with _held_parent(path) as (given, held, name):
-        return given, fdsafe.read_named(held, name)
+def _read(path: str, inputs: InputParents) -> tuple[str, bytes]:
+    """Read through a parent held until every input has been read."""
+    given, held, name = _held_parent(path, inputs)
+    return given, fdsafe.read_named(held, name)
 
 
-def _read_below(root: fdsafe.Dir, path: str) -> tuple[str, bytes]:
-    """As _read, for a file whose held parent must be below the held root by identity before it is read."""
-    with _held_parent(path) as (given, held, name):
-        _below(root, held)
-        return given, fdsafe.read_named(held, name)
+def _read_below(root: fdsafe.Dir, path: str, inputs: InputParents) -> tuple[str, bytes]:
+    """Read through a held parent below root by identity; the run owns its after-check."""
+    given, held, name = _held_parent(path, inputs, root)
+    _below(root, held)
+    return given, fdsafe.read_named(held, name)
 
 
-def _text(path: str) -> tuple[str, str]:
-    given, data = _read(path)
+def _text(path: str, inputs: InputParents) -> tuple[str, str]:
+    given, data = _read(path, inputs)
     return given, _utf8(given, data)
 
 
-def _json(path: str):
-    given, text = _text(path)
+def _json(path: str, inputs: InputParents):
+    given, text = _text(path, inputs)
 
     def pairs(items: list) -> dict:
         out: dict = {}
@@ -160,20 +173,34 @@ def _json(path: str):
     def constant(name: str):
         raise Refusal(given, f"holds {name}, which is not JSON")
     try:
-        doc = json.loads(text, object_pairs_hook=pairs, parse_constant=constant)
+        # [LAW:single-enforcer] Share the core's interpreter digit-limit boundary.
+        doc = json.loads(text, object_pairs_hook=pairs, parse_constant=constant,
+                         parse_int=lambda token: core._int(token, given))
     except json.JSONDecodeError as exc:
         raise Refusal(given, f"is not JSON: {exc}") from exc
+    except RecursionError:
+        raise Refusal(given, "nests too deeply")
     # A JSON escape such as "\udcff" decodes to a lone surrogate, which no later step could encode.
     if LONE.search(json.dumps(doc, ensure_ascii=False)):
         raise Refusal(given, "holds a lone surrogate")
     return given, doc
 
 
-def _still_held(held: fdsafe.Dir) -> None:
-    """The held directory is still at the path it was held as; path-based reads below it saw that directory."""
+def _still_held(root: fdsafe.Dir, held: fdsafe.Dir) -> None:
+    """The after-check of a held directory, run once its last use is past: it is still at the path it was
+    opened for, and still the held root or below it by identity, so what was read through it is what that
+    path names. A directory swapped for a link after its open is caught here too: its live path differs.
+    [LAW:single-enforcer] the one after-check owner for every directory this tool holds."""
     live = held.live()
     if live != held.path:
-        raise Refusal(held.path, f"was moved while it was held (now {live})")
+        raise Refusal(held.path, f"was moved while it was held (now {live!r})")
+    # [LAW:single-enforcer] live-path and fresh no-follow identity share this after-check.
+    with fdsafe.fs(held.path):
+        opened = os.fstat(held.fd)
+        named = os.stat(held.path, follow_symlinks=False)
+    if (opened.st_dev, opened.st_ino) != (named.st_dev, named.st_ino):
+        raise Refusal(held.path, "was moved during the run")
+    _below(root, held)
 
 
 def _entry(parent_fd: int, name: str, path: str, prefix: str) -> bool:
@@ -183,29 +210,40 @@ def _entry(parent_fd: int, name: str, path: str, prefix: str) -> bool:
     except FileNotFoundError:
         return False
     except OSError as exc:
-        raise Refusal(path, f"{exc.strerror} (at {prefix})", exc.errno) from exc
+        raise Refusal(path, f"{exc.strerror} (at {prefix!r})", exc.errno) from exc
     if stat.S_ISLNK(st.st_mode):
-        raise Refusal(path, f"component {prefix} is a link; a target is observed without following links")
+        raise Refusal(path, f"component {prefix!r} is a link; a target is observed without following links")
     return True
 
 
 def _exists(root: fdsafe.Dir, path: str) -> bool:
     """Whether the absolute path exists, observed component by component from the held root fd (or a held /
     for a path outside it). Each directory is opened with O_NOFOLLOW through the one before it, so a component
-    swapped for a link after its own observation refuses at its open. [LAW:no-silent-failure]"""
+    swapped for a link after its own observation refuses at its open, and one moved or swapped after its open
+    refuses at its after-check. [LAW:no-silent-failure]"""
     below = path.startswith(root.path + "/")
     with contextlib.ExitStack() as stack:
         start = root if below else stack.enter_context(fdsafe.hold_root("/"))
+        # [LAW:single-enforcer] every directory the observation used is after-checked once, below, the start
+        # first: a moved --root is named as the root, not as its first component.
+        held = [start]
         *dirs, leaf = path[len(start.path):].strip("/").split("/")
-        fd, prefix = start.fd, start.path
+        parent, there = start, True
         for name in dirs:
-            prefix = os.path.join(prefix, name)
-            if not _entry(fd, name, path, prefix):
-                return False
+            prefix = os.path.join(parent.path, name)
+            there = _entry(parent.fd, name, path, prefix)
+            if not there:
+                break
             with fdsafe.fs(path):
-                fd = os.open(name, fdsafe.DIR_FLAGS, dir_fd=fd)
+                fd = os.open(name, fdsafe.DIR_FLAGS, dir_fd=parent.fd)
             stack.callback(fdsafe.close, fd, prefix)
-        return _entry(fd, leaf, path, os.path.join(prefix, leaf))
+            parent = fdsafe.Dir(fd, prefix)
+            held.append(parent)
+        else:
+            there = _entry(parent.fd, leaf, path, os.path.join(parent.path, leaf))
+        for opened in held:
+            _still_held(start, opened)
+        return there
 
 
 def _below(root: fdsafe.Dir, held: fdsafe.Dir) -> None:
@@ -222,7 +260,7 @@ def _below(root: fdsafe.Dir, held: fdsafe.Dir) -> None:
         if here == want:
             return
         if here == last:  # "/" is its own ".."
-            raise Refusal(held.path, f"is not below the held root {root.path}")
+            raise Refusal(held.path, f"is not below the held root {root.path!r}")
         up, last = os.path.join(up, ".."), here
 
 
@@ -231,7 +269,7 @@ def _observed_plan(build: Callable[[list], dict], held: fdsafe.Dir) -> dict:
 
     A target the plan names but the observation lacks is observed and the plan is rebuilt; the set of paths
     only grows and is bounded by the candidates and V targets, so this ends. Each observation ends with the
-    root's live check, so the plan returned is built after the last one."""
+    root's after-check, so the plan returned is built after the last one, even when no target is below it."""
     seen: dict[str, bool] = {}
     while True:
         plan = build(sorted(path for path, there in seen.items() if there))
@@ -239,36 +277,38 @@ def _observed_plan(build: Callable[[list], dict], held: fdsafe.Dir) -> dict:
         if not fresh:
             return plan
         seen.update((path, _exists(held, path)) for path in fresh)
-        _still_held(held)
+        _still_held(held, held)
 
 
-def _core_unit(files: UnitFiles) -> dict:
-    manifest_path, manifest_bytes = _read(files.manifest)
-    registry_path, registry = _json(files.registry)
+def _core_unit(files: UnitFiles, inputs: InputParents) -> dict:
+    manifest_path, manifest_bytes = _read(files.manifest, inputs)
+    registry_path, registry = _json(files.registry, inputs)
     if not isinstance(registry, dict) or registry.keys() != {"root", "matches"} \
             or not isinstance(registry["matches"], list) or len(registry["matches"]) != 1:
         raise Refusal(registry_path, "is not a registry_match result holding exactly one match")
     return {"requirement_id": files.requirement_id, "manifest_path": manifest_path,
             "manifest_bytes": manifest_bytes, "registry": registry["matches"][0], "candidate": files.candidate,
-            "readers": _json(files.readers)[1],
-            "comparison": None if files.comparison is None else _json(files.comparison)[1]}
+            "readers": _json(files.readers, inputs)[1],
+            "comparison": None if files.comparison is None else _json(files.comparison, inputs)[1]}
 
 
 def plan(args) -> tuple[int, object]:
     # [LAW:one-source-of-truth] one hold of --root for the whole run; every check below names that hold.
     with fdsafe.hold_root(args.root) as held:
-        tables = [_text(path) for path in args.requirements]
-        units_path, listed = _json(args.units)
-        if not isinstance(listed, list):
-            raise Refusal(units_path, f"expected a list of units, got {type(listed).__name__}")
-        units = [_core_unit(_unit_files(row, units_path)) for row in listed]
+        with InputParents() as inputs:
+            tables = [_text(path, inputs) for path in args.requirements]
+            units_path, listed = _json(args.units, inputs)
+            if not isinstance(listed, list):
+                raise Refusal(units_path, f"expected a list of units, got {type(listed).__name__}")
+            units = [_core_unit(_unit_files(row, units_path), inputs) for row in listed]
+            inputs.check()
         built = _observed_plan(lambda existing: core.build_plan(
             entry_id=args.entry, root=held.path, requirement_tables=tables, units=units,
             existing_targets=existing), held)
     return 0, built
 
 
-def _occurrences(root: fdsafe.Dir, report_path: str, report) -> list[dict]:
+def _occurrences(root: fdsafe.Dir, inputs: InputParents, report_path: str, report) -> list[dict]:
     report = _keys(report, frozenset(("stale", "unverified")), report_path)
     if not isinstance(report["stale"], list):
         raise Refusal(report_path, "stale is not a list")
@@ -279,12 +319,12 @@ def _occurrences(root: fdsafe.Dir, report_path: str, report) -> list[dict]:
         line = row["line"]
         if type(line) is not int or line < 1:
             raise Refusal(report_path, f"line {line!r} is not a line number")
-        out.append({**row, "text": _line(root, os.path.join(root.path, name), line)})
+        out.append({**row, "text": _line(root, os.path.join(root.path, name), line, inputs)})
     return out
 
 
-def _line(root: fdsafe.Dir, path: str, number: int) -> str:
-    given, data = _read_below(root, path)
+def _line(root: fdsafe.Dir, path: str, number: int, inputs: InputParents) -> str:
+    given, data = _read_below(root, path, inputs)
     lines = data.split(b"\n")
     where = f"{given}:{number}"
     if number > len(lines):
@@ -294,21 +334,26 @@ def _line(root: fdsafe.Dir, path: str, number: int) -> str:
 
 def check_plans(args) -> tuple[int, object]:
     with fdsafe.hold_root(args.root) as held:
-        plans_path, plans = _json(args.plans)
-        plans = _keys(plans, frozenset(("entries",)), plans_path)
-        repairs = _text(args.repairs)
-        occurrences = [o for path in args.readers for o in _occurrences(held, *_json(path))]
-        _still_held(held)
+        with InputParents() as inputs:
+            plans_path, plans = _json(args.plans, inputs)
+            plans = _keys(plans, frozenset(("entries",)), plans_path)
+            repairs = _text(args.repairs, inputs)
+            occurrences = [o for path in args.readers for o in _occurrences(held, inputs, *_json(path, inputs))]
+            inputs.check()
+        # [LAW:single-enforcer] root after-check follows the input parents' last use and close.
+        _still_held(held, held)
     found = core.check_plans(root=held.path, entries=plans["entries"], occurrences=occurrences, repairs=repairs)
     return int(bool(found)), found
 
 
 def check_routes(args) -> tuple[int, object]:
-    routes = _text(args.routes)
-    with fdsafe.hold_root(args.source) as held:
-        with fdsafe.fs(held.path), os.scandir(held.fd) as it:
-            children = sorted(entry.name for entry in it)
-        _still_held(held)
+    with InputParents() as inputs:
+        routes = _text(args.routes, inputs)
+        with fdsafe.hold_root(args.source) as held:
+            with fdsafe.fs(held.path), os.scandir(held.fd) as it:
+                children = sorted(entry.name for entry in it)
+            _still_held(held, held)
+            inputs.check()
     found = core.check_routes(routes=routes, source=held.path, children=children, hold_target=args.hold_target)
     return int(bool(found)), found
 

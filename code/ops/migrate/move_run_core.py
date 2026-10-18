@@ -39,11 +39,18 @@ import hashlib
 import json
 import posixpath
 import re
+import sys
+from pathlib import PurePosixPath
 from typing import NamedTuple
 
 from ops.migrate import fdsafe
 from ops.migrate import move_plan_core as plan_core
 from ops.migrate.unit_manifest import canonical
+
+# [LAW:no-shared-mutable-globals] exception: icm21_moves imports its code/state siblings by bare name, so that
+# folder joins the process import path once, here at import, before any run.
+sys.path.append(posixpath.join(posixpath.dirname(posixpath.dirname(posixpath.dirname(__file__))), "state"))
+import icm21_moves  # noqa: E402
 
 Refusal = fdsafe.Refusal
 _refuse, _seq, _map, _keys, _id, _path = (plan_core._refuse, plan_core._seq, plan_core._map, plan_core._keys,
@@ -109,7 +116,8 @@ def _pair(value, where: str) -> tuple:
 
 
 def _json(data, where: str):
-    """The one parse of a JSON document: bytes, strict UTF-8, no repeated key, no NaN, no lone surrogate."""
+    """The one parse of a JSON document: bytes, strict UTF-8, no repeated key, no NaN, no integer over the
+    interpreter digit limit, no nesting past the recursion limit, no lone surrogate."""
     if not isinstance(data, bytes):
         _refuse(where, f"expected the document bytes, got {type(data).__name__}")
     try:
@@ -128,14 +136,24 @@ def _json(data, where: str):
     def constant(token):
         _refuse(where, f"holds {token}")
 
+    def integer(token):
+        # [LAW:parse-dont-validate] refused inside the one parse, so no ValueError from int() escapes it.
+        # [LAW:one-source-of-truth] the bound is the interpreter's own limit (0 means none), not a copy of it.
+        digits, limit = len(token.lstrip("-")), sys.get_int_max_str_digits()
+        if 0 < limit < digits:
+            _refuse(where, f"holds an integer of {digits} digits, over the interpreter limit of {limit}")
+        return int(token)
+
+    # [LAW:single-enforcer] RecursionError is caught around these two calls only: the parse and its re-encode.
     try:
-        doc = json.loads(text, object_pairs_hook=pairs, parse_constant=constant)
+        doc = json.loads(text, object_pairs_hook=pairs, parse_constant=constant, parse_int=integer)
+        canonical(doc)
     except json.JSONDecodeError as exc:
         _refuse(where, f"is not JSON ({exc.msg})")
-    try:
-        canonical(doc)
     except UnicodeEncodeError:
         _refuse(where, "holds a lone surrogate")
+    except RecursionError:
+        _refuse(where, "nests too deeply")
     return doc
 
 
@@ -260,8 +278,11 @@ def _split(unit: Unit, data, leaves: list) -> dict:
             _refuse(rwhere, f"{rel!r} is not a manifest leaf")
         if leaf["source"] in classes:
             _refuse(rwhere, f"{rel!r} is split twice")
-        if row["class"] not in CLASSES:
+        # [LAW:parse-dont-validate] a non-string class or kind is refused before a set or dict lookup can raise.
+        if not isinstance(row["class"], str) or row["class"] not in CLASSES:
             _refuse(rwhere, f"class {row['class']!r} is not one of {sorted(CLASSES)}")
+        if not isinstance(row["kind"], str):
+            _refuse(rwhere, f"kind {row['kind']!r} is not a string")
         split = (SPLIT_KINDS.get(row["kind"]), row["size"], row["sha256"], row["link"])
         file = leaf["kind"] == "file"
         fresh = (leaf["kind"], leaf["bytes"] if file else None, leaf["sha256"] if file else None, leaf["link_text"])
@@ -376,6 +397,12 @@ def run_unit(*, root, plan, approval, now, units, tracked, worktree, targets, ru
                 _refuse(unit.source, f"the move splits run unit {run} (SPEC.md:711)")
         if plan_core._overlap(custody, unit.source) or plan_core._overlap(custody, unit.target):
             _refuse("custody_dir", f"{custody!r} overlaps {unit.source!r} or its target {unit.target!r}")
+    for o in observed:
+        # [LAW:single-enforcer] the link-boundary rule is icm21_moves'; this core refuses on its first finding.
+        failures = icm21_moves.link_boundary_failures(
+            [dict(leaf, source=PurePosixPath(leaf["source"])) for leaf in o.leaves], PurePosixPath(o.unit.source))
+        if failures:
+            _refuse(o.unit.source, failures[0])
 
     # [LAW:effects-at-boundaries] the actions are descriptions; Step 210 performs them.
     actions, made, routes = [], set(), []
