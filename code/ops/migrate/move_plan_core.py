@@ -53,6 +53,7 @@ GIT_ROOT_KEYS = frozenset(("path", "head", "branch", "dirty"))
 STALE_KEYS = frozenset(("file", "line", "old_text", "old"))
 UNVERIFIED_REQUIRED, UNVERIFIED_OPTIONAL = frozenset(("file", "reason")), frozenset(("line", "text"))
 COMPARISON_KEYS = frozenset(("source", "relpath", "class", "equal_to", "differing_from", "same_inode", "hint"))
+HINT_KEYS = frozenset(("sha256", "agrees"))
 MOVE_KEYS = frozenset(("source", "target"))
 OCCURRENCE_KEYS = frozenset(("file", "line", "old_text", "old", "text"))
 ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*")
@@ -132,6 +133,11 @@ def _under(path: str, base: str) -> bool:
 
 def _overlap(a: str, b: str) -> bool:
     return _under(a, b) or _under(b, a)
+
+
+def _strings(value) -> bool:
+    """A list of strings: the shape of Step 216's path lists and Step 201's dirty records."""
+    return isinstance(value, list) and all(isinstance(item, str) for item in value)
 
 
 def _absolute(root: str, text: str) -> str:
@@ -218,6 +224,11 @@ def _manifest(data, where: str) -> tuple[str, list, list[str], str]:
         _keys(g, GIT_ROOT_KEYS, gwhere)
         if not _under(_path(g["path"], gwhere), root):
             _refuse(gwhere, f"git root {g['path']!r} is not inside {root!r}")
+        for field in ("head", "branch"):
+            if not isinstance(g[field], (str, type(None))):
+                _refuse(f"{gwhere}.{field}", f"expected a string or null, got {type(g[field]).__name__}")
+        if not _strings(g["dirty"]):
+            _refuse(f"{gwhere}.dirty", f"expected a list of status records, got {g['dirty']!r}")
         git.append(g["path"])
     return root, leaves, git, hashlib.sha256(data).hexdigest()
 
@@ -279,10 +290,22 @@ def _comparison(value, where: str, leaves: list) -> dict[str, list[str]] | None:
         row = _map(row, rwhere)
         _keys(row, COMPARISON_KEYS, rwhere)
         source = row["source"]
+        if not isinstance(source, str):
+            _refuse(f"{rwhere}.source", f"expected a path string, got {type(source).__name__}")
         if source not in sources or source in seen:
             _refuse(rwhere, f"{source!r} is not a manifest leaf, or is compared twice")
         if row["class"] not in ("equal", "differing", "unique"):
             _refuse(rwhere, f"unknown class {row['class']!r}")
+        if not isinstance(row["relpath"], str):
+            _refuse(f"{rwhere}.relpath", f"expected a string, got {type(row['relpath']).__name__}")
+        for field in ("equal_to", "differing_from", "same_inode"):
+            if not _strings(row[field]):
+                _refuse(f"{rwhere}.{field}", f"expected a list of path strings, got {row[field]!r}")
+        if row["hint"] is not None:
+            hint = _map(row["hint"], f"{rwhere}.hint")
+            _keys(hint, HINT_KEYS, f"{rwhere}.hint")
+            if not isinstance(hint["sha256"], str) or type(hint["agrees"]) is not bool:
+                _refuse(f"{rwhere}.hint", f"expected null or {{sha256: string, agrees: bool}}, got {hint!r}")
         seen[source] = row["class"]
     if len(seen) != len(sources):
         _refuse(where, "does not cover every manifest leaf")
@@ -492,6 +515,8 @@ def check_routes(*, routes, source, children, hold_target) -> tuple:
     hold_target = _path(hold_target, "hold_target")
     if not _exact(hold_target):
         _refuse("hold_target", f"{hold_target!r} is not exact")
+    if _overlap(hold_target, source):
+        _refuse("hold_target", f"{hold_target!r} overlaps the source {source!r}")
     kids = _seq(children, "children")
     if not kids:
         _refuse("children", "the source has no children (never an empty PASS)")

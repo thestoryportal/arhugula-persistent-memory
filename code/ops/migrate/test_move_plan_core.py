@@ -17,6 +17,8 @@ import json
 import os
 import shutil
 import subprocess
+import sys
+import tempfile
 import unittest
 from unittest import mock
 
@@ -727,6 +729,197 @@ class Purity(unittest.TestCase):
                 with self.assertRaises(exc) as caught:
                     plan()
                 self.assertNotIsInstance(caught.exception, fdsafe.Refusal)
+
+
+class HoldTargetRefuses(unittest.TestCase):
+    """A hold_target in, equal to or over the source is refused (so is a non-exact one, test_source_and_hold_target)."""
+
+    def refuses(self, hold, target):
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            core.check_routes(routes=routes(("a", "", "hold", target)), source=SRC, children=["a"], hold_target=hold)
+        self.assertEqual(caught.exception.path, "hold_target")
+
+    def test_hold_target_equal_to_or_inside_the_source(self):
+        self.refuses("/m/results", "/m/results/a")
+        self.refuses("/m/results/keep", "/m/results/keep/a")
+
+    def test_hold_target_over_the_source(self):
+        self.refuses("/", "//a")
+        self.refuses("/m", "/m/a")
+
+    def test_hold_target_beside_the_source_is_accepted(self):
+        found = core.check_routes(routes=routes(("a", "", "hold", "/m/resultsx/a")), source=SRC, children=["a"],
+                                  hold_target="/m/resultsx")
+        self.assertEqual(found, ())
+
+
+class ProducerFieldTypesRefuse(unittest.TestCase):
+    """Each Step 216 comparison field and Step 201 git_roots field has the type its producer emits."""
+
+    def refuses_comparison(self, field, value):
+        u = unit()
+        u["comparison"][0][field] = value
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            plan([u])
+        self.assertEqual(caught.exception.path, f"units[0].comparison[0].{field}")
+
+    def refuses_git(self, field, value):
+        g = {"path": "/p/u1/sub", "head": None, "branch": None, "dirty": []}
+        g[field] = value
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            plan([unit(git_roots=[g])])
+        self.assertEqual(caught.exception.path, f"units[0].manifest_bytes.git_roots[0].{field}")
+
+    def test_comparison_source(self):
+        for bad in ([], {}, 5, None):
+            with self.subTest(bad=bad):
+                self.refuses_comparison("source", bad)
+
+    def test_comparison_relpath(self):
+        for bad in (None, 5, []):
+            with self.subTest(bad=bad):
+                self.refuses_comparison("relpath", bad)
+
+    def test_comparison_path_lists(self):
+        for field in ("equal_to", "differing_from", "same_inode"):
+            for bad in ("not a list", False, 3, None, {}, [1], ["/r/a.json", None]):
+                with self.subTest(field=field, bad=bad):
+                    self.refuses_comparison(field, bad)
+
+    def test_comparison_hint(self):
+        good = {"sha256": "a" * 64, "agrees": True}
+        for bad in ([], "x", 5, {}, {"sha256": "a" * 64}, {**good, "x": 1}, {**good, "sha256": 5},
+                    {**good, "agrees": 1}, {**good, "agrees": None}):
+            with self.subTest(bad=bad):
+                self.refuses_comparison("hint", bad)
+
+    def test_comparison_fields_of_the_producer_types_are_accepted(self):
+        u = unit()
+        u["comparison"][0].update({"class": "equal", "equal_to": ["/r/a.json"], "differing_from": ["/r2/a.json"],
+                                   "same_inode": ["/r/a.json"]})
+        for hint in ({"sha256": "a" * 64, "agrees": True}, {"sha256": "b" * 64, "agrees": False}):
+            u["comparison"][0]["hint"] = hint
+            with self.subTest(hint=hint):
+                self.assertEqual(risks(plan([u]), "equal")[0]["items"], ["/p/u1/a.json"])
+
+    def test_git_root_head_and_branch(self):
+        for field in ("head", "branch"):
+            for bad in ([], 42, {}, True):
+                with self.subTest(field=field, bad=bad):
+                    self.refuses_git(field, bad)
+
+    def test_git_root_dirty(self):
+        for bad in ("not a list", None, {}, [1], [" M x", 2]):
+            with self.subTest(bad=bad):
+                self.refuses_git("dirty", bad)
+
+
+class SurvivingGuards(unittest.TestCase):
+    """One test per pre-review survivor (reviews/T217/work/mutant-table.md); each asserts the original result."""
+
+    def refuses(self, call, names):
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            call()
+        self.assertEqual(caught.exception.path, names)
+
+    def test_m008_a_non_string_text_field_is_refused(self):
+        readers = {"stale": [{"file": ["x"], "line": 1, "old_text": "/p/u1", "old": "/p/u1"}], "unverified": []}
+        self.refuses(lambda: plan([unit(readers=readers)]), "units[0].readers.stale[0]")
+
+    def test_m010_a_nul_in_a_text_field_is_refused(self):
+        self.refuses(lambda: check_plans([occ(old_text="a\0", text="a\0")], repairs()), "occurrences[0]")
+
+    def test_m023_a_path_that_is_not_utf8_is_refused(self):
+        self.refuses(lambda: core.check_routes(routes=routes(("a", "p", "run", "/v/a")), source="/m\udcff",
+                                               children=["a"], hold_target="/v/m"), "source")
+
+    def test_m026_a_target_with_only_one_angle_bracket_is_inexact(self):
+        for bad in ("/v/a<", "/v/a>"):
+            with self.subTest(bad=bad):
+                self.assertEqual(kinds(check_routes([("a", "p", "run", bad)], children=["a"])), ["inexact-target"])
+
+    def test_m035_m036_a_table_name_that_is_not_a_non_empty_string_is_refused(self):
+        for name in (1, ""):
+            with self.subTest(name=name):
+                self.refuses(lambda: plan(tables=[table(req_row("MV-101", "/p/u1", "/v/p/u1"), name=name)]),
+                             "requirement_tables[0]")
+
+    def test_m065_a_reader_old_path_that_is_not_normalized_is_refused(self):
+        readers = {"stale": [{"file": "x", "line": 1, "old_text": "/p/u1/a/../b", "old": "/p/u1/a/../b"}],
+                   "unverified": []}
+        self.refuses(lambda: plan([unit(readers=readers)]), "units[0].readers.stale[0]")
+
+    def test_m074_an_unhashable_requirement_id_is_refused(self):
+        self.refuses(lambda: plan([unit(rid=[])]), "units[0].requirement_id")
+
+    def test_m079_a_candidate_is_checked_even_when_the_registry_is_not_exact(self):
+        self.refuses(lambda: plan([unit(registry=match("u1"), candidate=5)]), "units[0].candidate")
+
+    def test_m100_a_source_inside_an_earlier_units_target_is_refused(self):
+        src = "/m/experiments/c10r/runs/u1/inner"
+        inner = unit("inner", "MV-102", registry=match("inner"), comparison=None)
+        inner["manifest_bytes"] = manifest_bytes(src, leaf(src, "a.json"))
+        tables = [table(req_row("MV-101", "/p/u1", "/v/p/u1"), req_row("MV-102", src, "/v/inner"))]
+        self.refuses(lambda: plan([unit(), inner], tables=tables), "MV-102")
+
+    def test_m103_an_entry_with_no_id_is_refused(self):
+        self.refuses(lambda: check_plans([], repairs(), entries=[{"moves": ENTRY["moves"]}]), "entries[0]")
+
+
+_AUDIT = {"installed": False, "on": False, "events": []}
+
+
+def _audit(event, args):
+    if _AUDIT["on"] and (event == "open" or event.startswith(("os.", "subprocess.", "shutil."))):
+        _AUDIT["events"].append((event, args))
+
+
+class AuditedPurity(unittest.TestCase):
+    """PEP 578 audit events while the core runs: no open and no os, subprocess or shutil call."""
+
+    def setUp(self):
+        if not _AUDIT["installed"]:
+            sys.addaudithook(_audit)  # a hook cannot be removed, so it records only inside window()
+            _AUDIT["installed"] = True
+        scratch = tempfile.TemporaryDirectory()
+        self.addCleanup(scratch.cleanup)
+        self.scratch = scratch.name
+
+    @contextlib.contextmanager
+    def window(self):
+        _AUDIT["events"] = []
+        _AUDIT["on"] = True
+        try:
+            os.listdir(self.scratch)  # positive control: the hook is live inside the window
+            yield
+        finally:
+            _AUDIT["on"] = False
+        self.assertEqual(_AUDIT["events"], [("os.listdir", (self.scratch,))])
+
+    def test_valid_calls_make_no_filesystem_or_process_call(self):
+        units = [unit(), unit("u2", "MV-102", registry=match("u2"))]
+        occurrences, rep = [occ()], repairs()
+        calls = [lambda: plan(units, existing=["/m/experiments/x"]), lambda: check_plans(occurrences, rep),
+                 lambda: check_routes(GOOD_ROUTES)]
+        warm = [call() for call in calls]  # warm-up outside the window: lazy imports may open files
+        with self.window():
+            seen = [call() for call in calls]
+        self.assertEqual(seen, warm)
+        self.assertEqual(len(seen[0]["moves"]), 2)
+
+    def test_a_manifest_path_in_place_of_its_bytes_is_refused_unopened(self):
+        u = unit()
+        path = os.path.join(self.scratch, "u1.json")
+        with open(path, "wb") as f:
+            f.write(u["manifest_bytes"])
+        u["manifest_bytes"] = path
+        self.assertTrue(os.path.isabs(path))
+        with self.assertRaises(fdsafe.Refusal):  # warm-up outside the window
+            plan([u])
+        with self.window():
+            with self.assertRaises(fdsafe.Refusal) as caught:
+                plan([u])
+        self.assertEqual(caught.exception.path, "units[0].manifest_bytes")
 
 
 if __name__ == "__main__":
