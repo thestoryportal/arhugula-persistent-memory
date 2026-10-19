@@ -15,7 +15,7 @@ is not observed as existing; otherwise it is the row's exact V target, unchanged
 DESIGN.md:254). An existing V target is a collision stop (DESIGN.md:292). The plan never carries an
 overwrite, delete or commit action.
 
-check_plans (Step 215): findings for a reader occurrence with no repairs row, a row whose old_text does not
+check_plans (Step 215): findings for a reader occurrence with no repair or historical row, a repair whose old_text does not
 occur exactly once on its line (overlapping occurrences count), a row whose new_text is not under the
 target of the entry move that holds the occurrence's old path, a row with no occurrence, a repeated row,
 and a row whose old path no entry moves.
@@ -42,6 +42,7 @@ Refusal = fdsafe.Refusal
 REQUIREMENT_HEADER = ("requirement_id", "source", "target", "action", "observed_bytes", "class", "lane",
                       "check_id", "admission", "prd_ids")
 REPAIR_HEADER = ("file", "line", "old_text", "new_text", "step")
+HISTORICAL_HEADER = ("file", "line", "old_text")
 ROUTE_HEADER = ("child", "producer", "owner", "target")
 PLAN_FINDING_COLUMNS = ("kind", "file", "line", "old_text", "detail")
 ROUTE_FINDING_COLUMNS = ("kind", "child", "detail")
@@ -481,8 +482,8 @@ def _target_of(old: str, moves: dict[str, str]) -> str | None:
     return moves[max(holders, key=len)] if holders else None
 
 
-def check_plans(*, root, entries, occurrences, repairs) -> tuple:
-    """Findings (PLAN_FINDING_COLUMNS tuples, sorted) for the repairs rows against the reader occurrences."""
+def check_plans(*, root, entries, occurrences, repairs, historical) -> tuple:
+    """Sorted findings for repair and historical coverage of reader occurrences."""
     root = _path(root, "root")
     moves = _entry_moves(entries, root)
     found = []
@@ -502,38 +503,51 @@ def check_plans(*, root, entries, occurrences, repairs) -> tuple:
         if not _normal(old):
             _refuse(where, f"old path {o['old']!r} is not a normalized path")
         by_key.setdefault((file, line, old_text), []).append(old)
-    rows: dict[tuple, str] = {}
-    name, parsed = _tsv(repairs, REPAIR_HEADER, "repairs")
-    for at, row in parsed:
-        file, old_text, new_text = (_text(row[k], f"{at}.{k}") for k in ("file", "old_text", "new_text"))
-        if not DIGITS.fullmatch(row["line"]) or not DIGITS.fullmatch(row["step"]):
-            _refuse(at, "line and step are decimal numbers")
-        line, step = _line(_int(row["line"], at), at), _int(row["step"], at)
-        if step not in REPAIR_STEPS:
-            _refuse(at, f"repair step {step} is not one of 261-269")
-        key = (file, line, old_text)
-        if key in rows:
-            found.append(("duplicate-row", *key, f"repeats a row of {name}"))
-            continue
-        rows[key] = new_text
+    # [LAW:types-are-the-program] None means a historical row has no replacement text.
+    rows: dict[tuple, tuple[str, str | None]] = {}
+    for table, header, label in ((repairs, REPAIR_HEADER, "repairs"),
+                                 (historical, HISTORICAL_HEADER, "historical")):
+        name, parsed = _tsv(table, header, label)
+        for at, row in parsed:
+            file, old_text = (_text(row[k], f"{at}.{k}") for k in ("file", "old_text"))
+            if not DIGITS.fullmatch(row["line"]):
+                _refuse(at, "line and step are decimal numbers")
+            line = _line(_int(row["line"], at), at)
+            new_text = None
+            if label == "repairs":
+                new_text = _text(row["new_text"], f"{at}.new_text")
+                if not DIGITS.fullmatch(row["step"]):
+                    _refuse(at, "line and step are decimal numbers")
+                step = _int(row["step"], at)
+                if step not in REPAIR_STEPS:
+                    _refuse(at, f"repair step {step} is not one of 261-269")
+            key = (file, line, old_text)
+            # [LAW:one-source-of-truth] One index detects repeats within and across tables.
+            if key in rows:
+                found.append(("duplicate-row", *key, f"repeats a row of {name}"))
+                continue
+            rows[key] = (name, new_text)
+    # [LAW:no-silent-failure] Neither table covering a reader must remain a finding.
     for key, olds in by_key.items():
         if key not in rows:
             found.append(("no-row", *key, f"no repairs row for {olds[0]}"))
-    for key, new_text in rows.items():
+    for key, (name, new_text) in rows.items():
         if key not in by_key:
             found.append(("no-occurrence", *key, "no reader occurrence matches this row"))
             continue
-        n = _count(texts[key[:2]], key[2])
-        if n != 1:
-            found.append(("not-once", *key, f"old_text occurs {n} times on its line"))
+        if new_text is not None:
+            n = _count(texts[key[:2]], key[2])
+            if n != 1:
+                found.append(("not-once", *key, f"old_text occurs {n} times on its line"))
         for old in sorted(set(by_key[key])):
             target = _target_of(old, moves)
             if target is None:
                 found.append(("no-entry", *key, f"no entry moves {old}"))
                 continue
-            new = _absolute(root, new_text)
-            if not _normal(new) or not _under(new, target):
-                found.append(("not-under-target", *key, f"new_text {new_text} is not under {target}"))
+            if new_text is not None:
+                new = _absolute(root, new_text)
+                if not _normal(new) or not _under(new, target):
+                    found.append(("not-under-target", *key, f"new_text {new_text} is not under {target}"))
     return tuple(sorted(found))
 
 
