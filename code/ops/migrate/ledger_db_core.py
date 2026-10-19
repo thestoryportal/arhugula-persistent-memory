@@ -212,6 +212,11 @@ def _entries(value, annex: dict) -> list:
                 _refuse(f"{lwhere}.source", "leaf listed by two manifests")
             sources.add(source)
             leaves.append(Leaf(eid, source, kind, size, sha))
+        # [LAW:parse-dont-validate] An Entry proves there is something to place.
+        # [LAW:single-enforcer] The core owns this rule for all manifest consumers.
+        if not leaves:
+            # [LAW:no-silent-failure] No checked leaves must never look like an empty PASS.
+            _refuse(f"{where}.leaves", "an entry must have at least one leaf (never an empty PASS)")
         entries.append(Entry(eid, tuple(moves), tuple(leaves)))
     return entries
 
