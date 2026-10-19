@@ -157,6 +157,21 @@ class Historical(unittest.TestCase):
             ("not-once", "t.py", 3, ot, "old_text occurs 2 times on its line"),
             ("not-under-target", "g.py", 3, ot, "new_text /elsewhere is not under /m/experiments/c10r/runs/u1")))
 
+    def test_every_text_cell_refuses_an_empty_or_non_utf8_value(self):
+        # Each text cell of each input keeps its own _text guard (RULING-6).
+        rep, hist = repairs()[0], historical()[0]
+        for bad in ("", "x\ud800"):
+            cases = [(f"{rep}:2.new_text", {"rep": [(*KEY, bad, 261)]})]
+            for col, i in (("file", 0), ("old_text", 2)):
+                cases.append((f"{hist}:2.{col}", {"hist": [tuple(bad if j == i else v for j, v in enumerate(KEY))]}))
+                cases.append((f"{rep}:2.{col}", {"rep": [tuple(bad if j == i else v for j, v in enumerate(REPAIR))]}))
+            cases += [("occurrences[0]", {"occurrences": [{**occ(), k: bad}]}) for k in ("file", "old_text", "old")]
+            for where, kw in cases:
+                with self.subTest(where=where, bad=bad), self.assertRaises(fdsafe.Refusal) as caught:
+                    check(**kw)
+                self.assertEqual(caught.exception.path, where)
+                self.assertIn("expected a non-empty UTF-8 string", str(caught.exception))
+
     def test_arguments_are_keyword_only(self):
         with self.assertRaises(TypeError):
             core.check_plans(M, [ENTRY], [], repairs(), historical())
