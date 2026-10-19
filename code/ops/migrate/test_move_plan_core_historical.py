@@ -37,6 +37,10 @@ class Historical(unittest.TestCase):
         self.assertEqual(check([occ(), occ(old="/p/u9")], rep=[REPAIR]),
                          (("no-entry", *KEY, "no entry moves /p/u9"),))
 
+    def test_historical_checks_every_old_path_for_key(self):
+        self.assertEqual(check([occ(), occ(old="/p/u9")], hist=[KEY]),
+                         (("no-entry", *KEY, "no entry moves /p/u9"),))
+
     def test_both_tables_report_rows_without_occurrences(self):
         other = ("code/y.py", KEY[1], KEY[2])
         self.assertEqual(check([], rep=[REPAIR], hist=[other]), (
