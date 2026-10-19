@@ -11,6 +11,9 @@ then opened again (L/part2/extra-fd-binding.md; T212 rulings 2 and 5-10, T201 ru
 - A leaf is opened with O_RDONLY | O_NOFOLLOW through its parent fd. Its fstat must equal
   the scan's lstat (st_dev, st_ino, st_size, st_mtime_ns) before and after the read, and
   the read must return exactly st_size bytes, so the bytes come from the object scanned.
+- A symlink whose own text is read (read_link) is opened with O_RDONLY | O_SYMLINK | O_NONBLOCK
+  through its parent fd, so the link itself is held, never its target; its fstat must equal
+  the scan's lstat, and its text is read through that fd (libc freadlink).
 - An output is created with O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW under a held parent.
   The parent's live path must lie outside the live path of every held root before the
   write; after the write, with the file fd still open, the file's live path must lie
@@ -18,7 +21,7 @@ then opened again (L/part2/extra-fd-binding.md; T212 rulings 2 and 5-10, T201 ru
 
 A leaf open also carries O_NONBLOCK, so a FIFO put in place of a leaf refuses instead of
 blocking; O_DIRECTORY already refuses a FIFO in place of a directory (ENOTDIR). Every OSError from a call on a named path (open, scandir, read, write, fstat,
-F_GETPATH, close) becomes a Refusal naming the path and the errno name; any other
+F_GETPATH, close, freadlink) becomes a Refusal naming the path and the errno name; any other
 exception propagates. Nothing here overwrites or unlinks: an output refused after it
 exists is named and left in place.
 """
@@ -215,6 +218,48 @@ def read_bytes(entry: Entry) -> bytes:
     return b"".join(parts)
 
 
+def read_link(entry: Entry) -> bytes:
+    """Return one scanned symlink's own text, read through an fd held on the link itself (macOS O_SYMLINK).
+
+    The fd pins the scanned inode and a link's text cannot change in place, so the text is the scanned
+    link's: a swap before the open refuses, and a swap after it cannot reach the read."""
+    scanned = _identity(entry.st)
+    with fs(entry.path):
+        fd = os.open(entry.name, os.O_RDONLY | os.O_SYMLINK | os.O_NONBLOCK, dir_fd=entry.dir_fd)
+    try:
+        if _identity(_fstat(fd, entry.path)) != scanned:
+            raise Refusal(entry.path, "changed between scan and open")
+        with fs(entry.path):
+            return _freadlink(fd, entry.st.st_size)
+    finally:
+        close(fd, entry.path)
+
+
+def _resolve_freadlink() -> Callable[..., int] | None:
+    """libc's freadlink (macOS 13+): a link's text through an fd open on the link; None when libc has none."""
+    func = getattr(ctypes.CDLL(None, use_errno=True), "freadlink", None)
+    if func is None:
+        return None
+    func.argtypes = (ctypes.c_int, ctypes.c_char_p, ctypes.c_size_t)
+    func.restype = ctypes.c_ssize_t
+    return func
+
+
+_FREADLINK = _resolve_freadlink()
+
+
+def _freadlink(fd: int, size: int) -> bytes:
+    """The text of the link fd is open on. There is no fallback: a libc without freadlink is ENOTSUP."""
+    if _FREADLINK is None:
+        raise OSError(errno.ENOTSUP, "libc has no freadlink")
+    buf = ctypes.create_string_buffer(size + 1)
+    count = _FREADLINK(fd, buf, size + 1)
+    if count < 0:
+        err = ctypes.get_errno()
+        raise OSError(err, os.strerror(err))
+    return buf.raw[:count]
+
+
 @dataclass(frozen=True)
 class Held:
     """[LAW:types-are-the-program] A created file whose descriptor the caller owns."""
@@ -335,18 +380,8 @@ def read_named_or_link(parent: Dir, name: str) -> bytes:
     # [LAW:single-enforcer] Held-fd readers share this regular-or-link boundary.
     entry = _scan(parent, name)
     _settled(parent)
-    if stat.S_ISLNK(entry.st.st_mode):
-        # [LAW:no-silent-failure] Readlink errors retain their path and errno.
-        with fs(entry.path):
-            text = os.readlink(os.fsencode(name), dir_fd=parent.fd)
-            after = os.lstat(name, dir_fd=parent.fd)
-        if _identity(after) != _identity(entry.st):
-            raise Refusal(entry.path, "changed while it was read")
-        if len(text) != entry.st.st_size:
-            raise Refusal(entry.path, f"read {len(text)} bytes, scanned {entry.st.st_size}")
-        return text
-    # [LAW:one-source-of-truth] Reuse read_named's scanned regular-file checks and read.
-    return read_bytes(entry)
+    # [LAW:dataflow-not-control-flow] The scanned kind picks the reader; both read through a held fd.
+    return (read_link if stat.S_ISLNK(entry.st.st_mode) else read_bytes)(entry)
 
 
 def mkdir(parent: Dir, name: str) -> Dir:

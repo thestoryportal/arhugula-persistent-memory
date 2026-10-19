@@ -1,5 +1,6 @@
 """T349: reader occurrences use link text without opening the target."""
 import contextlib
+import ctypes
 import errno
 import json
 import os
@@ -11,6 +12,25 @@ import fault_kit as FK
 from ops.migrate import fdsafe
 import test_move_unit_plan as plan
 import test_move_unit_run as run
+
+
+@contextlib.contextmanager
+def aba_link(parent, path, impostor):
+    """Park at the live check; restore after acquiring the replacement object or text."""
+    with FK.swap_for_symlink(FK.GETPATH, 1, path, impostor,
+                             match=lambda fd, *args, **kwargs: fd == parent.fd) as fault:
+        def restore_after(real):
+            def restored(*args, **kwargs):
+                result = real(*args, **kwargs)
+                os.unlink(path)
+                os.rename(fault.parked, path)
+                return result
+            return restored
+
+        # [LAW:verifiable-goals] The legacy readlink hook makes the same ABA attack test K1 too.
+        with mock.patch.object(fdsafe.os, "open", restore_after(os.open)), \
+                mock.patch.object(fdsafe.os, "readlink", restore_after(os.readlink)):
+            yield fault
 
 
 class NamedOrLink(unittest.TestCase):
@@ -58,22 +78,19 @@ class NamedOrLink(unittest.TestCase):
 
     def test_link_replaced_by_regular_file_refuses(self):
         os.symlink("missing", self.path)
-        real = os.readlink
-        calls = []
+        real = os.open
 
         def replace(name, *args, **kwargs):
-            calls.append(name)
             os.rename(self.path, self.path + ".parked")
             with open(self.path, "wb") as stream:
                 stream.write(b"replacement must not be read")
             return real(name, *args, **kwargs)
 
-        with fdsafe.hold_root(self.root) as held, mock.patch.object(os, "readlink", replace):
-            with self.assertRaises(fdsafe.Refusal) as caught:
-                fdsafe.read_named_or_link(held, "reader")
-        self.assertEqual(len(calls), 1)
-        self.assertEqual(caught.exception.path, self.path)
-        self.assertIn("[EINVAL]", str(caught.exception))
+        with fdsafe.hold_root(self.root) as held:
+            with mock.patch.object(fdsafe.os, "open", side_effect=replace) as hook:
+                with self.refusal("changed between scan and open"):
+                    fdsafe.read_named_or_link(held, "reader")
+        self.assertEqual(hook.call_count, 1)
 
     def test_parent_moved_after_lstat_refuses(self):
         os.symlink("missing", self.path)
@@ -131,13 +148,13 @@ class NamedOrLink(unittest.TestCase):
                         "names no single entry", os.path.join(self.root, name)):
                     fdsafe.read_named_or_link(held, name)
 
-    def test_readlink_uses_held_parent_after_rebind(self):
+    def test_link_read_uses_held_parent_after_rebind(self):
         os.symlink("held-text", self.path)
-        real, calls = os.readlink, []
+        real, calls = os.open, []
         parked = self.root + ".parked"
 
-        def readlink(name, *args, **kwargs):
-            calls.append(name)
+        def opened(name, *args, **kwargs):
+            calls.append((name, kwargs.get("dir_fd")))
             os.rename(self.root, parked)
             try:
                 os.mkdir(self.root)
@@ -150,9 +167,9 @@ class NamedOrLink(unittest.TestCase):
                     os.rmdir(self.root)
                 os.rename(parked, self.root)
 
-        with fdsafe.hold_root(self.root) as held, mock.patch.object(os, "readlink", readlink):
+        with fdsafe.hold_root(self.root) as held, mock.patch.object(fdsafe.os, "open", opened):
             self.assertEqual(fdsafe.read_named_or_link(held, "reader"), b"held-text")
-        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls, [("reader", held.fd)])
 
     def test_fifo_swapped_between_scan_and_open(self):
         self.regular_reader()
@@ -165,6 +182,18 @@ class NamedOrLink(unittest.TestCase):
                 self.assertEqual(fault.fired, 1)
         except FK.AttackTimeout as exc:
             self.fail("reader open blocked on swapped FIFO: " + str(exc))
+
+    def test_fifo_swapped_for_link_between_scan_and_open(self):
+        os.symlink("original", self.path)
+        try:
+            with fdsafe.hold_root(self.root) as held:
+                with FK.fifo_in_place(self.path, name="open", n=1,
+                                      match=plan.named("reader"), timeout=0.5) as fault:
+                    with self.refusal("changed between scan and open"):
+                        fdsafe.read_named_or_link(held, "reader")
+                self.assertEqual(fault.fired, 1)
+        except FK.AttackTimeout as exc:
+            self.fail("link open blocked on swapped FIFO: " + str(exc))
 
     def test_regular_replaced_between_scan_and_open(self):
         self.regular_reader()
@@ -233,69 +262,98 @@ class NamedOrLink(unittest.TestCase):
                     with self.refusal("[EIO]"):
                         fdsafe.read_named_or_link(held, "reader")
 
-    def test_link_swapped_between_scan_and_readlink_refuses(self):
+    def test_link_swapped_between_scan_and_link_read_refuses(self):
         os.symlink("original", self.path)
-        real = os.readlink
+        # [LAW:behavior-not-structure] Equal lengths isolate identity from text size.
+        with fdsafe.hold_root(self.root) as held:
+            with FK.swap_for_symlink("open", 1, self.path, "replaced",
+                                     match=plan.named("reader")) as fault:
+                with self.refusal("changed between scan and open"):
+                    fdsafe.read_named_or_link(held, "reader")
+        self.assertEqual(fault.fired, 1)
 
-        def swapped(name, *args, **kwargs):
+    def test_aba_same_length_before_link_read_refuses(self):
+        os.symlink("original", self.path)
+        with fdsafe.hold_root(self.root) as held:
+            with aba_link(held, self.path, "replaced") as fault:
+                with self.refusal("changed between scan and open"):
+                    fdsafe.read_named_or_link(held, "reader")
+        self.assertEqual(fault.fired, 1)
+        self.assertEqual(os.readlink(self.path), "original")
+
+    def test_swap_after_open_link_read_returns_scanned_text(self):
+        os.symlink("original", self.path)
+        real = fdsafe._freadlink
+
+        def swapped(fd, size):
             os.rename(self.path, self.path + ".parked")
             os.symlink("replaced", self.path)
-            return real(name, *args, **kwargs)
+            return real(fd, size)
 
-        # [LAW:behavior-not-structure] Equal text lengths isolate the link identity check.
+        # [LAW:behavior-not-structure] A post-open swap cannot change the held inode's text.
         with fdsafe.hold_root(self.root) as held:
-            with mock.patch.object(fdsafe.os, "readlink", side_effect=swapped) as hook:
-                with self.assertRaises(fdsafe.Refusal) as caught:
-                    fdsafe.read_named_or_link(held, "reader")
+            with mock.patch.object(fdsafe, "_freadlink", side_effect=swapped) as hook:
+                self.assertEqual(fdsafe.read_named_or_link(held, "reader"), b"original")
         self.assertEqual(hook.call_count, 1)
-        self.assertEqual(caught.exception.path, self.path)
-        self.assertTrue(str(caught.exception).endswith("changed while it was read"))
+        self.assertEqual(os.readlink(self.path), "replaced")
 
-    def test_link_swapped_and_restored_during_readlink_refuses_count(self):
+    def test_link_read_errors_name_reader_and_close_fd(self):
         os.symlink("original", self.path)
-        real = os.readlink
+        real_open, real_fstat, real_close = os.open, os.fstat, os.close
 
-        def swapped(name, *args, **kwargs):
-            os.rename(self.path, self.path + ".parked")
-            try:
-                os.symlink("other", self.path)
-                return real(name, *args, **kwargs)
-            finally:
-                os.unlink(self.path)
-                os.rename(self.path + ".parked", self.path)
+        def failed_freadlink(*args):
+            ctypes.set_errno(errno.EIO)
+            return -1
 
-        with fdsafe.hold_root(self.root) as held:
-            with mock.patch.object(fdsafe.os, "readlink", side_effect=swapped) as hook:
-                with self.assertRaises(fdsafe.Refusal) as caught:
-                    fdsafe.read_named_or_link(held, "reader")
-        self.assertEqual(hook.call_count, 1)
-        self.assertEqual(caught.exception.path, self.path)
-        self.assertTrue(str(caught.exception).endswith("read 5 bytes, scanned 8"))
+        for target in ("open", "fstat", "close", "freadlink", "unsupported"):
+            with self.subTest(target=target), fdsafe.hold_root(self.root) as held:
+                opened = []
 
-    def test_after_readlink_lstat_eio_names_reader(self):
-        os.symlink("original", self.path)
-        real, calls = os.lstat, []
+                def tracked_open(*args, **kwargs):
+                    fd = real_open(*args, **kwargs)
+                    opened.append(fd)
+                    return fd
 
-        def lstat(name, *args, **kwargs):
-            calls.append(name)
-            if len(calls) == 2:
-                raise OSError(errno.EIO, os.strerror(errno.EIO))
-            return real(name, *args, **kwargs)
-
-        with fdsafe.hold_root(self.root) as held:
-            with mock.patch.object(fdsafe.os, "lstat", side_effect=lstat):
+                # [LAW:no-silent-failure] Both refusal diagnostics and fd release are observable.
                 try:
-                    with self.assertRaises(fdsafe.Refusal) as caught:
-                        fdsafe.read_named_or_link(held, "reader")
-                except OSError as exc:
-                    self.fail("after-readlink lstat escaped without a Refusal: " + str(exc))
-        self.assertEqual(calls, ["reader", "reader"])
-        self.assertEqual(caught.exception.path, self.path)
-        self.assertTrue(str(caught.exception).endswith("[EIO]"))
+                    with contextlib.ExitStack() as patches:
+                        patches.enter_context(mock.patch.object(fdsafe.os, "open", tracked_open))
+                        if target in ("open", "fstat", "close"):
+                            match = plan.named("reader") if target == "open" else lambda fd: fd in opened
+                            fault = patches.enter_context(FK.inject_oserror(
+                                target, 1, errno.EIO, match=match))
+                        else:
+                            hook = patches.enter_context(mock.patch.object(
+                                fdsafe, "_FREADLINK",
+                                None if target == "unsupported" else mock.Mock(side_effect=failed_freadlink)))
+                        try:
+                            with self.refusal("[ENOTSUP]" if target == "unsupported" else "[EIO]"):
+                                fdsafe.read_named_or_link(held, "reader")
+                        except OSError as exc:
+                            self.fail("link error escaped without a Refusal: " + str(exc))
+                    if target in ("open", "fstat", "close"):
+                        self.assertEqual(fault.fired, 1)
+                    elif target == "freadlink":
+                        self.assertEqual(hook.call_count, 1)
+                    self.assertEqual(len(opened), 0 if target == "open" else 1)
+                    for fd in opened:
+                        with self.assertRaises(OSError) as caught:
+                            real_fstat(fd)
+                        self.assertEqual(caught.exception.errno, errno.EBADF)
+                finally:
+                    # Clean up a mutant's leak without hiding its failed assertion.
+                    for fd in opened:
+                        try:
+                            real_fstat(fd)
+                        except OSError as exc:
+                            if exc.errno != errno.EBADF:
+                                raise
+                        else:
+                            real_close(fd)
 
     def test_named_or_link_call_order(self):
-        for kind, expected in (("link", ["lstat", "live_path", "readlink", "lstat"]),
-                               ("regular", ["lstat", "live_path", "open"])):
+        for kind, expected in (("link", ["lstat", "fcntl", "open", "fstat", "freadlink", "close"]),
+                               ("regular", ["lstat", "fcntl", "open", "fstat", "read", "read", "fstat", "close"])):
             with self.subTest(kind=kind):
                 path = os.path.join(self.root, kind)
                 if kind == "link":
@@ -311,13 +369,18 @@ class NamedOrLink(unittest.TestCase):
                         return real(*args, **kwargs)
                     return recorded
 
-                # [LAW:verifiable-goals] RULING-2 pins the filesystem call order at this boundary.
+                class RecordingOS:
+                    def __getattr__(self, name):
+                        value = getattr(os, name)
+                        if callable(value) and name not in ("fsencode", "fsdecode", "fspath", "strerror"):
+                            return recorder(name, value)
+                        return value
+
+                # [LAW:verifiable-goals] Every filesystem call participates in the ruled order.
                 with fdsafe.hold_root(self.root) as held:
-                    with contextlib.ExitStack() as patches:
-                        for owner, name in ((fdsafe.os, "lstat"), (fdsafe, "live_path"),
-                                            (fdsafe.os, "readlink"), (fdsafe.os, "open")):
-                            patches.enter_context(mock.patch.object(
-                                owner, name, side_effect=recorder(name, getattr(owner, name))))
+                    with mock.patch.object(fdsafe, "os", RecordingOS()), \
+                            mock.patch.object(fdsafe.fcntl, "fcntl", recorder("fcntl", fdsafe.fcntl.fcntl)), \
+                            mock.patch.object(fdsafe, "_FREADLINK", recorder("freadlink", fdsafe._FREADLINK)):
                         self.assertEqual(fdsafe.read_named_or_link(held, kind), b"original")
                 self.assertEqual(calls, expected)
 
@@ -358,6 +421,39 @@ class ReaderLink(plan.Base):
         fx.stale["line"] = 1
         fx.rewrite(fx.readers, json.dumps(fx.readers_doc).encode())
         fx.rewrite(fx.repairs, (plan.REPAIR_HEADER + "\n").encode())
+
+    def test_aba_same_length_link_exits_two(self):
+        fx = self.fx
+        original = fx.old + " " + fx.old
+        impostor = fx.old + " " + "x" * len(fx.old)
+        os.unlink(fx.reader)
+        os.symlink(original, fx.reader)
+        fx.rewrite(fx.repairs, (plan.REPAIR_HEADER + "\ndocs/a.md\t1\t" + fx.old +
+                               "\t" + fx.candidate + "/a.json\t261\n").encode())
+        baseline = self.main(*fx.check_plans_args())
+        self.assertEqual(baseline[0], 1)
+        self.assertEqual(json.loads(baseline[1])[0][0], "not-once")
+        real, fired = fdsafe.read_named_or_link, []
+
+        def attacked(parent, name):
+            if name != "a.md":
+                return real(parent, name)
+            with aba_link(parent, fx.reader, impostor) as fault:
+                try:
+                    return real(parent, name)
+                finally:
+                    fired.append(fault.fired)
+
+        # [LAW:behavior-not-structure] Exercise check-plans' exit and output contract under ABA.
+        with mock.patch.object(fdsafe, "read_named_or_link", attacked):
+            result = self.main(*fx.check_plans_args())
+        self.assertEqual(fired, [1])
+        self.assertEqual(os.readlink(fx.reader), original)
+        self.assertEqual(result[0], 2)
+        self.assertEqual(result[1], "")
+        self.assertIn(fx.reader, result[2])
+        self.assertIn("changed between scan and open", result[2])
+        self.assertNotIn("Traceback", result[2])
 
     def test_historical_link_exits_zero_without_findings(self):
         fx = self.fx
