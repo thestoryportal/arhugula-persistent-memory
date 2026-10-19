@@ -54,8 +54,19 @@ class AnnexEndings(unittest.TestCase):
             row.append(row.pop(action))
         rows[1][-1] += b"\r"
         data = b"\r\n".join(b"\t".join(row) for row in rows) + b"\r\n"
-        self.refused(data, fx.req + " row 2 action",
-                     "row 2 action: value 'HOLD\\r' holds a tab or line break; TSV cannot carry it")
+        self.refused(data, fx.req + ":2", "holds a CR that is not part of a line end")
+
+    def test_unread_columns_refuse_embedded_cr(self):
+        fx = self.fx
+        original = readb(fx.req)
+        for ending in (b"\n", b"\r\n"):
+            for column in ("target", "observed_bytes", "class", "lane", "check_id", "admission", "prd_ids"):
+                with self.subTest(ending=ending, column=column):
+                    rows = [line.split(b"\t") for line in original[:-1].split(b"\n")]
+                    index = rows[0].index(column.encode())
+                    rows[1][index] += b"\rx"
+                    data = ending.join(b"\t".join(row) for row in rows) + ending
+                    self.refused(data, fx.req + ":2", "holds a CR that is not part of a line end")
 
 
 class TsvLines(unittest.TestCase):
@@ -66,11 +77,27 @@ class TsvLines(unittest.TestCase):
         self.assertEqual(core.tsv_lines("a\tb\r\nc\td\r\n", "annex"), ["a\tb", "c\td"])
 
     def test_crlf_removes_exactly_one_line_end_cr(self):
-        # [LAW:behavior-not-structure] Field bytes survive line-ending normalization.
-        self.assertEqual(core.tsv_lines("\ra\rb\r\r\n c\t\r\n", "annex"), ["\ra\rb\r", " c\t"])
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            core.tsv_lines("\ra\rb\r\r\n c\t\r\n", "annex")
+        self.assertEqual(caught.exception.path, "annex:1")
+        self.assertEqual(str(caught.exception), "'annex:1': holds a CR that is not part of a line end")
 
     def test_field_cr_is_left_for_the_field_parser(self):
-        self.assertEqual(core.tsv_lines("a\rb\n", "annex"), ["a\rb"])
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            core.tsv_lines("a\rb\n", "annex")
+        self.assertEqual(caught.exception.path, "annex:1")
+        self.assertEqual(str(caught.exception), "'annex:1': holds a CR that is not part of a line end")
+
+    def test_embedded_cr_refusals(self):
+        cases = (("\ra\r\n", "annex:1"), ("a\rb\r\n", "annex:1"),
+                 ("a\r\r\n", "annex:1"), ("\ra\n", "annex:1"), ("a\rb\n", "annex:1"),
+                 ("a\r\nb\rc\r\n", "annex:2"), ("a\nb\rc\n", "annex:2"))
+        for text, path in cases:
+            with self.subTest(text=text):
+                with self.assertRaises(fdsafe.Refusal) as caught:
+                    core.tsv_lines(text, "annex")
+                self.assertEqual(caught.exception.path, path)
+                self.assertEqual(str(caught.exception), f"{path!r}: holds a CR that is not part of a line end")
 
     def test_empty_line(self):
         self.assertEqual(core.tsv_lines("\n", "annex"), [""])

@@ -173,8 +173,12 @@ def tsv_lines(text: str, name: str) -> list[str]:
     for number, line in enumerate(lines, 1):
         if line.endswith("\r") != crlf:
             _refuse(f"{name}:{number}", "mixes LF and CRLF line endings")
-    # [LAW:parse-dont-validate] Return parsed lines; field parsers own embedded controls.
-    return [line[:-1] for line in lines] if crlf else lines
+    # [LAW:parse-dont-validate] Return CR-free lines; field parsers own other embedded controls.
+    lines = [line[:-1] for line in lines] if crlf else lines
+    for number, line in enumerate(lines, 1):
+        if "\r" in line:
+            _refuse(f"{name}:{number}", "holds a CR that is not part of a line end")
+    return lines
 
 
 def _tsv(table, header: tuple, where: str) -> tuple[str, list[tuple[str, dict]]]:

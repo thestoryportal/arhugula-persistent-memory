@@ -1410,7 +1410,7 @@ class Round2Parse(Base):
     def test_annex_fields_refuse_at_their_parse_or_their_format(self):
         attacks = self.TEXT + (("dot-dot", None, self.NOT_NORMAL), ("trailing slash", None, self.NOT_NORMAL),
                                ("relative", None, self.NOT_NORMAL))
-        by_format = {"tab": "fields, the header", "LF": "fields, the header",
+        by_format = {"tab": "fields, the header", "LF": "fields, the header", "CR": "holds a CR that is not part of a line end",
                      "lone surrogate": "is not UTF-8"}
         paths = {"dot-dot": lambda p: f"{p}/../u1", "trailing slash": lambda p: p + "/", "relative": lambda p: p.lstrip("/")}
         for column, index in (("requirement_id", 0), ("source", 1), ("action", 2)):
