@@ -132,6 +132,35 @@ class Historical(unittest.TestCase):
         self.assertEqual(check([occ(), occ(file=other[0], line=other[1])],
                                rep=[REPAIR], hist=[other]), ())
 
+    def test_a_covered_occurrence_does_not_hide_an_uncovered_one(self):
+        uncovered = ("no-row", "u.md", *KEY[1:], "no repairs row for /p/u1")
+        for rep, hist in (([REPAIR], []), ([], [KEY])):
+            with self.subTest(rep=rep, hist=hist):
+                self.assertEqual(check([occ(), occ(file="u.md")], rep=rep, hist=hist), (uncovered,))
+
+    def test_every_finding_kind_is_kept_beside_covered_occurrences(self):
+        # Each finding is per item: other items, covered or not, never hide it (RULING-5).
+        good, ot = REPAIR[3], KEY[2]
+        occurrences = [occ(file=f) for f in ("c1.py", "c2.py", "n.py", "d.py", "g.py")]
+        occurrences += [occ(file="t.py", text=f"{ot} {ot}"), occ(file="e1.py", old="/p/u9"),
+                        occ(file="e2.py", old="/p/u9")]
+        rep = [(f, 3, ot, new, 261) for f, new in (("c1.py", good), ("t.py", good), ("e1.py", good),
+                                                    ("g.py", "/elsewhere"), ("o1.py", good))]
+        hist = [(f, 3, ot) for f in ("c2.py", "d.py", "d.py", "e2.py", "o2.py")]
+        self.assertEqual(check(occurrences, rep=rep, hist=hist), (
+            ("duplicate-row", "d.py", 3, ot, "repeats a row of /m/program/historical.tsv"),
+            ("no-entry", "e1.py", 3, ot, "no entry moves /p/u9"),
+            ("no-entry", "e2.py", 3, ot, "no entry moves /p/u9"),
+            ("no-occurrence", "o1.py", 3, ot, "no reader occurrence matches this row"),
+            ("no-occurrence", "o2.py", 3, ot, "no reader occurrence matches this row"),
+            ("no-row", "n.py", 3, ot, "no repairs row for /p/u1"),
+            ("not-once", "t.py", 3, ot, "old_text occurs 2 times on its line"),
+            ("not-under-target", "g.py", 3, ot, "new_text /elsewhere is not under /m/experiments/c10r/runs/u1")))
+
+    def test_arguments_are_keyword_only(self):
+        with self.assertRaises(TypeError):
+            core.check_plans(M, [ENTRY], [], repairs(), historical())
+
     def test_historical_is_required(self):
         with self.assertRaises(TypeError):
             core.check_plans(root=M, entries=[ENTRY], occurrences=[], repairs=repairs())
