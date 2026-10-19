@@ -1,7 +1,9 @@
 """T347: historical reader coverage and the shared fd-safe input boundary."""
+import contextlib
 import json
 import os
 import unittest
+from unittest import mock
 
 import test_move_unit_plan as plan
 
@@ -75,6 +77,67 @@ class Historical(plan.Base):
     def test_historical_moved_parent_refuses(self):
         plan.IsolatedInputParents.moved_input(self, "check-plans", "historical")
 
+    @contextlib.contextmanager
+    def history_fd(self):
+        real, fds = os.open, set()
+        def opened(first, *args, **kwargs):
+            fd = real(first, *args, **kwargs)
+            if first == 'historical.tsv':
+                fds.add(fd)
+            else:
+                fds.discard(fd)
+            return fd
+        with mock.patch.object(os, 'open', opened):
+            yield lambda fd, *a, **kw: fd in fds
+
+    def test_historical_parent_rebound_at_later_reader_open(self):
+        fx = self.fx
+        parent = fx.mk('isolated-history')
+        target = os.path.join(parent, 'historical.tsv')
+        os.rename(fx.historical, target)
+        fx.historical = target
+        with plan.FK.rename_and_rebind('open', 1, parent, match=plan.named('readers.json')):
+            observed = self.main(*fx.check_plans_args())
+            self.assert_refused(observed, parent)
+
+    def test_historical_regular_file_changes_between_scan_and_open(self):
+        fx = self.fx
+        real = os.open
+        def opened(first, *args, **kwargs):
+            if first == 'historical.tsv':
+                fx.rewrite(fx.historical, b'file\tline\told_text\n\n')
+            return real(first, *args, **kwargs)
+        with mock.patch.object(os, 'open', opened):
+            self.assert_refused(self.main(*fx.check_plans_args()), fx.historical, 'changed between scan and open')
+
+    def test_historical_changes_after_read(self):
+        fx = self.fx
+        real, done = os.read, []
+        with self.history_fd() as match:
+            def read(fd, count):
+                data = real(fd, count)
+                if match(fd) and data and not done:
+                    done.append(True)
+                    before = os.stat(fx.historical)
+                    os.utime(fx.historical, ns=(before.st_atime_ns, before.st_mtime_ns + 1_000_000_000))
+                return data
+            with mock.patch.object(os, 'read', read):
+                observed = self.main(*fx.check_plans_args())
+                self.assert_refused(observed, fx.historical, 'changed while it was read')
+
+    def test_historical_short_read_refuses(self):
+        fx = self.fx
+        fx.rewrite(fx.historical, f'file\tline\told_text\ndocs/a.md\t2\t{fx.old}\n'.encode())
+        fx.rewrite(fx.repairs, (plan.REPAIR_HEADER + '\n').encode())
+        real = os.read
+        with self.history_fd() as match:
+            def read(fd, count):
+                data = real(fd, count)
+                return b'file\tline\told_text\n' if match(fd) and data else data
+            with mock.patch.object(os, 'read', read):
+                observed = self.main(*fx.check_plans_args())
+                self.assert_refused(observed, fx.historical, 'read 19 bytes, scanned')
+
     # [LAW:composability] The existing attack methods own fault injection and refusal assertions.
     def cases(self, table):
         return plan.Attacks.cases(self, {"check-plans": ("historical",)})
@@ -86,6 +149,11 @@ class Historical(plan.Base):
     test_leaf_open_errors_name_the_path_and_errno = plan.Attacks.test_leaf_open_errors_name_the_path_and_errno
     test_leaf_lstat_errors_name_the_path_and_errno = plan.Attacks.test_leaf_lstat_errors_name_the_path_and_errno
     test_late_parent_attacks_refuse_for_every_input = plan.Attacks.test_late_parent_attacks_refuse_for_every_input
+
+
+    test_clean_repairs_exit_0_with_no_findings = plan.CheckPlans.test_clean_repairs_exit_0_with_no_findings
+    test_an_occurrence_with_no_row_exits_1_with_the_core_findings = (
+        plan.CheckPlans.test_an_occurrence_with_no_row_exits_1_with_the_core_findings)
 
 
 if __name__ == "__main__":
