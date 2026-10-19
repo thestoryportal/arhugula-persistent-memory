@@ -272,6 +272,21 @@ class NamedOrLink(unittest.TestCase):
                     fdsafe.read_named_or_link(held, "reader")
         self.assertEqual(fault.fired, 1)
 
+    def test_link_mtime_changed_between_scan_and_open_refuses(self):
+        os.symlink("original", self.path)
+        real = os.open
+
+        def touched(name, *args, **kwargs):
+            os.utime(self.path, ns=(1, 1), follow_symlinks=False)
+            return real(name, *args, **kwargs)
+
+        # [LAW:behavior-not-structure] Only the link's mtime moves: same inode, size and text.
+        with fdsafe.hold_root(self.root) as held:
+            with mock.patch.object(fdsafe.os, "open", side_effect=touched) as hook:
+                with self.refusal("changed between scan and open"):
+                    fdsafe.read_named_or_link(held, "reader")
+        self.assertEqual(hook.call_count, 1)
+
     def test_aba_same_length_before_link_read_refuses(self):
         os.symlink("original", self.path)
         with fdsafe.hold_root(self.root) as held:
