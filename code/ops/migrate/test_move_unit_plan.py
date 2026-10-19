@@ -161,6 +161,8 @@ class Fixture:
         self.plans = self.json("plans.json", self.plans_doc)
         self.repairs_text = f"{REPAIR_HEADER}\ndocs/a.md\t2\t{self.old}\t{self.candidate}/a.json\t261\n"
         self.repairs = self.write(os.path.join(self.inp, "repairs.tsv"), self.repairs_text.encode())
+        self.historical_text = "file\tline\told_text\n"
+        self.historical = self.write(os.path.join(self.inp, "historical.tsv"), self.historical_text.encode())
         self.source = self.mk("results")
         self.mk("results/r1")
         self.write(os.path.join(self.source, "r2.json"), b"{}\n")
@@ -206,13 +208,14 @@ class Fixture:
 
     def check_plans_args(self, *extra) -> list:
         return ["check-plans", "--root", self.m, "--plans", self.plans, "--repairs", self.repairs,
-                "--readers", self.readers, *extra]
+                "--historical", self.historical, "--readers", self.readers, *extra]
 
     def expected_findings(self, occurrences=None) -> tuple:
         line = f"see {self.old} here"
         return core.check_plans(root=self.m, entries=self.plans_doc["entries"],
                                 occurrences=occurrences or [{**self.stale, "text": line}],
-                                repairs=(self.repairs, self.repairs_text))
+                                repairs=(self.repairs, self.repairs_text),
+                                historical=(self.historical, self.historical_text))
 
     def check_routes_args(self, *extra) -> list:
         return ["check-routes", "--routes", self.routes, "--source", self.source, "--hold-target", self.hold, *extra]
@@ -601,7 +604,8 @@ class CheckPlans(Base):
         self.fx.rewrite(self.fx.repairs, f"{REPAIR_HEADER}\n".encode())
         self.fx.repairs_text = f"{REPAIR_HEADER}\n"
         code, out, err = self.main("check-plans", "--root", "m", "--plans", "in/plans.json",
-                                   "--repairs", "in/repairs.tsv", "--readers", "in/readers.json")
+                                   "--repairs", "in/repairs.tsv", "--historical", "in/historical.tsv",
+                                   "--readers", "in/readers.json")
         self.assertEqual((code, err), (1, ""))
         self.assertEqual(out, canonical_line(self.fx.expected_findings()))
 
@@ -668,7 +672,7 @@ class CheckRoutes(Base):
 
 # Bound objects per subcommand: (fixture attribute, kind). Leaves are opened by name through a held parent.
 LEAVES = {"plan": ("req", "units", "manifest", "match", "readers", "dup"),
-          "check-plans": ("plans", "repairs", "readers", "reader"),
+          "check-plans": ("plans", "repairs", "historical", "readers", "reader"),
           "check-routes": ("routes",)}
 DIRS = {"plan": ("m", "inp", "mdir"), "check-plans": ("m", "inp", "docs"), "check-routes": ("inp", "source")}
 ARGS = {"plan": Fixture.plan_args, "check-plans": Fixture.check_plans_args, "check-routes": Fixture.check_routes_args}
@@ -765,7 +769,7 @@ class Attacks(Base):
                  ("plan", "close", 1, fx.req), ("plan", "close-of", 1, fx.inp), ("plan", "close", 16, fx.m),
                  ("check-plans", "fstat", 1, fx.plans), ("check-plans", "read", 1, fx.plans),
                  ("check-plans", GETPATH, 1, fx.m), ("check-plans", "close", 1, fx.plans),
-                 ("check-plans", "close-of", 1, fx.inp), ("check-plans", "close", 9, fx.m),
+                 ("check-plans", "close-of", 1, fx.inp), ("check-plans", "close", 11, fx.m),
                  ("check-routes", "fstat", 1, fx.routes), ("check-routes", "read", 1, fx.routes),
                  ("check-routes", GETPATH, 1, fx.inp), ("check-routes", "close", 1, fx.routes),
                  ("check-routes", "close-of", 1, fx.inp), ("check-routes", "scandir", 1, fx.source),
@@ -981,8 +985,8 @@ class HeldIdentity(Base):
         self.assert_refused(result, fx.docs, f"is not below the held root {fx.m!r}")
 
     def test_identity_check_errors_name_the_path_and_errno(self):
-        # fstat 1-6 are the before and after checks of plans.json, repairs.tsv and readers.json; 7 is the root's.
-        with FK.inject_oserror("fstat", 7, errno.EIO):
+        # fstat 1-8 check plans.json, repairs.tsv, historical.tsv and readers.json; 9 is the root's.
+        with FK.inject_oserror("fstat", 9, errno.EIO):
             result = self.main(*self.fx.check_plans_args())
         self.assert_refused(result, self.fx.m, "[EIO]")
         real = os.stat
@@ -1133,7 +1137,7 @@ class ReadOnly(Base):
     def test_check_plans_opens_only_its_inputs_to_read_and_changes_nothing(self):
         fx = self.fx
         self.check(fx.check_plans_args(), {fx.m, fx.inp, fx.docs, "plans.json", "repairs.tsv", "readers.json",
-                                           "a.md"}, 0)
+                                           "historical.tsv", "a.md"}, 0)
 
     def test_check_routes_opens_only_its_inputs_to_read_and_changes_nothing(self):
         fx = self.fx

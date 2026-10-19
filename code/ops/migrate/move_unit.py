@@ -14,7 +14,7 @@ is followed and the bytes come from the object scanned; each directory it holds 
       "comparison" (Step 205 dup_find output, or null when no comparison was made), "candidate" (a path
       below experiments/<id>/, or null)}. The target paths the core may choose are observed with a no-follow
       lstat until every target of the plan has been observed; the plan is built from that observation.
-  check-plans --root DIR --plans FILE --repairs FILE --readers FILE...
+  check-plans --root DIR --plans FILE --repairs FILE --historical FILE --readers FILE...
       --plans is {"entries": [...]}. Each stale row of each reader_find report becomes an occurrence with
       the text of its line, read from the reader file below --root. Prints move_plan_core.check_plans's
       findings.
@@ -365,11 +365,14 @@ def check_plans(args) -> tuple[int, object]:
             plans_path, plans = _json(args.plans, inputs)
             plans = _keys(plans, frozenset(("entries",)), plans_path)
             repairs = _text(args.repairs, inputs)
+            # [LAW:single-enforcer] Historical input shares repairs' held-parent reader and checks.
+            historical = _text(args.historical, inputs)
             occurrences = [o for path in args.readers for o in _occurrences(held, inputs, *_json(path, inputs))]
             inputs.check()
         # [LAW:single-enforcer] root after-check follows the input parents' last use and close.
         _still_held(held, held)
-    found = core.check_plans(root=held.path, entries=plans["entries"], occurrences=occurrences, repairs=repairs)
+    found = core.check_plans(root=held.path, entries=plans["entries"], occurrences=occurrences,
+                            repairs=repairs, historical=historical)
     return int(bool(found)), found
 
 
@@ -864,6 +867,7 @@ def _parser() -> argparse.ArgumentParser:
     c.add_argument("--root", required=True)
     c.add_argument("--plans", required=True)
     c.add_argument("--repairs", required=True)
+    c.add_argument("--historical", required=True)
     c.add_argument("--readers", required=True, action="append")
     c.set_defaults(run=check_plans)
     r = sub.add_parser("check-routes", help="check one producer route table")
@@ -887,7 +891,7 @@ def _paths(values: list) -> list[str]:
 
 
 FIELDS = {"entry": _string, "hold_target": _string, "root": _path, "units": _path, "plans": _path,
-          "repairs": _path, "routes": _path, "source": _path, "requirements": _paths, "readers": _paths,
+          "repairs": _path, "historical": _path, "routes": _path, "source": _path, "requirements": _paths, "readers": _paths,
           "run_root": _absolute, "plan": _path, "approval": _path, "split": _splits, "run_units": _path,
           "custody_dir": _absolute}
 
