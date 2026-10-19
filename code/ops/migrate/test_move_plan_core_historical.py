@@ -3,6 +3,10 @@ import unittest
 
 from ops.migrate import fdsafe, move_plan_core as core
 from test_move_plan_core import ENTRY, M, check_plans, historical, occ, repairs
+# The ticket test must run every existing direct call of check_plans,
+# and the guard tests that alone kill its _text/_int bypass mutants.
+from test_move_plan_core import CheckPlans, CheckPlansRefuses, SurvivingGuards  # noqa: F401
+from test_move_plan_core_limits import CellDigits  # noqa: F401
 
 KEY = ("code/x.py", 3, "/p/u1/a.json")
 REPAIR = (*KEY, "/m/experiments/c10r/runs/u1/a.json", 261)
@@ -15,6 +19,30 @@ def check(occurrences=(), rep=(), hist=(), entries=None):
 
 
 class Historical(unittest.TestCase):
+    def test_duplicate_historical_preserves_repair_target_finding(self):
+        self.assertEqual(check([occ()], rep=[(*KEY, "/v/elsewhere/a.json", 261)], hist=[KEY]), (
+            ("duplicate-row", *KEY, "repeats a row of /m/program/historical.tsv"),
+            ("not-under-target", *KEY,
+             "new_text /v/elsewhere/a.json is not under /m/experiments/c10r/runs/u1")))
+
+    def test_historical_oversized_line_refused(self):
+        row = (KEY[0], "1" + "0" * 4300, KEY[2])
+        table = historical(row)
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            check(hist=[row])
+        self.assertEqual(caught.exception.path, table[0] + ":2")
+        self.assertIn("holds an integer of 4301 digits", str(caught.exception))
+
+    def test_repair_checks_every_old_path_for_key(self):
+        self.assertEqual(check([occ(), occ(old="/p/u9")], rep=[REPAIR]),
+                         (("no-entry", *KEY, "no entry moves /p/u9"),))
+
+    def test_both_tables_report_rows_without_occurrences(self):
+        other = ("code/y.py", KEY[1], KEY[2])
+        self.assertEqual(check([], rep=[REPAIR], hist=[other]), (
+            ("no-occurrence", *KEY, "no reader occurrence matches this row"),
+            ("no-occurrence", *other, "no reader occurrence matches this row")))
+
     def test_historical_file_must_match(self):
         row = ("code/y.py", KEY[1], KEY[2])
         self.assertEqual(check([occ()], hist=[row]), (
