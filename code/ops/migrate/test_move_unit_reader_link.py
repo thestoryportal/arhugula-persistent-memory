@@ -351,6 +351,36 @@ class NamedOrLink(unittest.TestCase):
                         else:
                             real_close(fd)
 
+    def test_native_freadlink_errno_reaches_refusal(self):
+        os.symlink("original", self.path)
+        other = os.path.join(self.root, "other")
+        with open(other, "wb") as stream:
+            stream.write(b"not a link")
+        regular = os.open(other, os.O_RDONLY)
+        self.addCleanup(os.close, regular)
+        real = fdsafe._freadlink
+        ctypes.set_errno(0)
+
+        # [LAW:no-silent-failure] libc's own errno (EINVAL: the fd is not on a link) names the refusal.
+        with fdsafe.hold_root(self.root) as held:
+            with mock.patch.object(fdsafe, "_freadlink", side_effect=lambda fd, size: real(regular, size)):
+                with self.refusal("[EINVAL]"):
+                    fdsafe.read_named_or_link(held, "reader")
+
+    def test_libc_without_freadlink_refuses_links_only(self):
+        os.symlink("original", self.path)
+        with open(os.path.join(self.root, "regular"), "wb") as stream:
+            stream.write(b"original")
+        with mock.patch.object(fdsafe.ctypes, "CDLL", return_value=object()):
+            resolved = fdsafe._resolve_freadlink()
+        self.assertIsNone(resolved)
+
+        # [LAW:no-silent-failure] Without freadlink a link read refuses; a regular read still works.
+        with fdsafe.hold_root(self.root) as held, mock.patch.object(fdsafe, "_FREADLINK", resolved):
+            with self.refusal("[ENOTSUP]"):
+                fdsafe.read_named_or_link(held, "reader")
+            self.assertEqual(fdsafe.read_named_or_link(held, "regular"), b"original")
+
     def test_named_or_link_call_order(self):
         for kind, expected in (("link", ["lstat", "fcntl", "open", "fstat", "freadlink", "close"]),
                                ("regular", ["lstat", "fcntl", "open", "fstat", "read", "read", "fstat", "close"])):
