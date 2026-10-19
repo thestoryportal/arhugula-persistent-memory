@@ -82,7 +82,7 @@ class TsvLines(unittest.TestCase):
         self.assertEqual(caught.exception.path, "annex:1")
         self.assertEqual(str(caught.exception), "'annex:1': holds a CR that is not part of a line end")
 
-    def test_field_cr_is_left_for_the_field_parser(self):
+    def test_field_cr_is_refused_by_the_line_rule(self):
         with self.assertRaises(fdsafe.Refusal) as caught:
             core.tsv_lines("a\rb\n", "annex")
         self.assertEqual(caught.exception.path, "annex:1")
@@ -113,6 +113,26 @@ class TsvLines(unittest.TestCase):
                 core.tsv_lines(text, "annex")
             self.assertEqual(caught.exception.path, path)
             self.assertEqual(str(caught.exception), f"{path!r}: {reason}")
+
+
+class PlanTsvEndings(unittest.TestCase):
+    def test_lf_first_mixed_table_refused(self):
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            core._tsv(("plan.tsv", "a\tb\nc\td\r\n"), ("a", "b"), "table")
+        self.assertEqual(caught.exception.path, "plan.tsv:2")
+        self.assertEqual(str(caught.exception), "'plan.tsv:2': mixes LF and CRLF line endings")
+
+    def test_lf_table_with_cell_cr_refused(self):
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            core._tsv(("plan.tsv", "a\tb\nc\tr\rd\n"), ("a", "b"), "table")
+        self.assertEqual(caught.exception.path, "plan.tsv:2")
+        self.assertEqual(str(caught.exception), "'plan.tsv:2': holds a CR that is not part of a line end")
+
+    def test_crlf_table_with_cell_cr_refused(self):
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            core._tsv(("plan.tsv", "a\tb\r\nc\tr\rd\r\n"), ("a", "b"), "table")
+        self.assertEqual(caught.exception.path, "plan.tsv:2")
+        self.assertEqual(str(caught.exception), "'plan.tsv:2': holds a CR that is not part of a line end")
 
 
 if __name__ == "__main__":
