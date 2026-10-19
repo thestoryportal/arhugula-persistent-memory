@@ -27,7 +27,7 @@ class PlanMoves(unittest.TestCase):
         return fx.plan(self.units, tables=[fx.table(*('\t'.join(row) for row in self.rows))])
 
     def check(self, plan):
-        return core.check_plans(root='/m', entries=[plan], occurrences=[fx.occ()],
+        return core.check_plans(root='/m', entries=[plan], occurrences=[fx.occ()], historical=fx.historical(),
             repairs=fx.repairs(('code/x.py', 3, '/p/u1/a.json',
                                '/m/experiments/c10r/runs/u1/a.json', 261)))
 

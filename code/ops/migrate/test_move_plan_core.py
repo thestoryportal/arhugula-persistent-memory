@@ -468,6 +468,10 @@ def repairs(*rows, name="/m/program/repairs.tsv"):
     return (name, "\n".join([REPAIR_HEADER, *("\t".join(map(str, r)) for r in rows)]) + "\n")
 
 
+def historical(*rows, name="/m/program/historical.tsv"):
+    return (name, "\n".join(["file\tline\told_text", *("\t".join(map(str, r)) for r in rows)]) + "\n")
+
+
 ENTRY = {"id": "S220", "moves": [{"source": "/p/u1", "target": "/m/experiments/c10r/runs/u1",
     "id": "MV-101", "prd_ids": ["ICM-R4"], "action": "MOVE", "kind": "directory",
     "bytes": 3, "before_sha256": "a" * 64,
@@ -477,7 +481,7 @@ ENTRY = {"id": "S220", "moves": [{"source": "/p/u1", "target": "/m/experiments/c
 
 def check_plans(occurrences, rep, entries=None):
     return core.check_plans(root=M, entries=[ENTRY] if entries is None else entries,
-                            occurrences=occurrences, repairs=rep)
+                            occurrences=occurrences, repairs=rep, historical=historical())
 
 
 class CheckPlans(unittest.TestCase):
@@ -562,7 +566,7 @@ class CheckPlansRefuses(unittest.TestCase):
     def refuses(self, occurrences=(), rep=DEFAULT, entries=DEFAULT, root=M, names=None):
         with self.assertRaises(fdsafe.Refusal) as caught:
             core.check_plans(root=root, entries=[ENTRY] if entries is DEFAULT else entries,
-                             occurrences=list(occurrences), repairs=repairs() if rep is DEFAULT else rep)
+                             occurrences=list(occurrences), repairs=repairs() if rep is DEFAULT else rep, historical=historical())
         if names is not None:
             self.assertEqual(caught.exception.path, names)
         return caught.exception
@@ -587,7 +591,7 @@ class CheckPlansRefuses(unittest.TestCase):
             with self.subTest(bad=bad):
                 self.refuses(bad)
         with self.assertRaises(fdsafe.Refusal):
-            core.check_plans(root=M, entries=[ENTRY], occurrences="x", repairs=repairs())
+            core.check_plans(root=M, entries=[ENTRY], occurrences="x", repairs=repairs(), historical=historical())
 
     def test_repairs_rows(self):
         good = ["code/x.py", 3, "/p/u1/a.json", "/m/experiments/c10r/runs/u1", 261]
