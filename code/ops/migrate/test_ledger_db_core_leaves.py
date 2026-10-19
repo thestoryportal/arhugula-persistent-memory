@@ -16,9 +16,10 @@ def leaf():
 def compute(entries):
     return core.compute(entries=entries,
                         annex_rows=[{"requirement_id": "MV-1", "source": "/src", "action": "HOLD"}],
-                        toolkit_rows=[], existing_targets=["/dst/unit/a"],
+                        toolkit_rows=[], existing_targets=["/dst/unit/a", "/dst/unit/b"],
                         free_bytes={"/dst": 5}, floor_bytes=0,
-                        same_filesystem={("/src/a", "/dst"): False})
+                        same_filesystem={("/src/a", "/dst"): False,
+                                         ("/src/b", "/dst"): False})
 
 
 class EntryLeaves(unittest.TestCase):
@@ -36,3 +37,17 @@ class EntryLeaves(unittest.TestCase):
     def test_second_entry_empty_leaves_refuse_with_its_index(self):
         with self.assertRaisesRegex(fdsafe.Refusal, r"entries\[1\]\.leaves"):
             compute([entry("E1", [leaf()]), entry("E2", [])])
+
+    def test_first_entry_empty_leaves_refuse_with_its_index(self):
+        with self.assertRaisesRegex(fdsafe.Refusal, r"entries\[0\]\.leaves"):
+            compute([entry("E1", []), entry("E2", [leaf()])])
+
+    def test_two_leaves_keep_all_rows(self):
+        second = {"source": "/src/b", "kind": "file", "bytes": 11, "sha256": "b" * 64}
+        self.assertEqual(compute([entry("E1", [leaf(), second])]), core.Reports(
+            drift=(("toolkit-missing", "E1", "/src/a", "a" * 64, ""),
+                   ("toolkit-missing", "E1", "/src/b", "b" * 64, "")),
+            cross_unit_dups=(),
+            targets=(("target-exists", "E1", "/src/a", "/dst/unit/a"),
+                     ("target-exists", "E1", "/src/b", "/dst/unit/b")),
+            capacity=(("/dst", 18, 5, 0, 5),)))
