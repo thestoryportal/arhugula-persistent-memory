@@ -46,6 +46,17 @@ class AnnexEndings(unittest.TestCase):
         fx = self.fx
         self.refused(readb(fx.req)[:-1], fx.req, "is empty or does not end with a newline")
 
+    def test_crlf_preserves_last_action_field_cr_for_refusal(self):
+        fx = self.fx
+        rows = [line.split(b"\t") for line in readb(fx.req)[:-1].split(b"\n")]
+        action = rows[0].index(b"action")
+        for row in rows:
+            row.append(row.pop(action))
+        rows[1][-1] += b"\r"
+        data = b"\r\n".join(b"\t".join(row) for row in rows) + b"\r\n"
+        self.refused(data, fx.req + " row 2 action",
+                     "row 2 action: value 'HOLD\\r' holds a tab or line break; TSV cannot carry it")
+
 
 class TsvLines(unittest.TestCase):
     def test_lf(self):
@@ -53,6 +64,10 @@ class TsvLines(unittest.TestCase):
 
     def test_crlf(self):
         self.assertEqual(core.tsv_lines("a\tb\r\nc\td\r\n", "annex"), ["a\tb", "c\td"])
+
+    def test_crlf_removes_exactly_one_line_end_cr(self):
+        # [LAW:behavior-not-structure] Field bytes survive line-ending normalization.
+        self.assertEqual(core.tsv_lines("\ra\rb\r\r\n c\t\r\n", "annex"), ["\ra\rb\r", " c\t"])
 
     def test_field_cr_is_left_for_the_field_parser(self):
         self.assertEqual(core.tsv_lines("a\rb\n", "annex"), ["a\rb"])
