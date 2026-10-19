@@ -4,8 +4,9 @@ or run one approved unit plan in M (Step 210).
 
 I/O shell of move_plan_core (Step 217) and move_run_core (Step 218), which hold all the plan, check and run
 logic. plan, check-plans and check-routes are dry runs: they move nothing, create no file and run no Git or
-other process. Every input file is read with fdsafe.read_named through its held parent directory, so no link
-is followed and the bytes come from the object scanned; each directory it holds must be its own real path.
+other process. Input files use fdsafe.read_named through their held parent directories; reader occurrences
+also accept a link's own text through fdsafe.read_named_or_link. No link is followed; each directory held
+must be its own real path.
 
   plan --entry ID --root DIR --requirements FILE... --units FILE
       Prints move_plan_core.build_plan's plan unchanged, as one canonical JSON line. --units is a JSON list
@@ -171,13 +172,6 @@ def _held_parent(path: str, inputs: InputParents, root: fdsafe.Dir | None = None
 def _read(path: str, inputs: InputParents) -> tuple[str, bytes]:
     """Read through a parent held until every input has been read."""
     given, held, name = _held_parent(path, inputs)
-    return given, fdsafe.read_named(held, name)
-
-
-def _read_below(root: fdsafe.Dir, path: str, inputs: InputParents) -> tuple[str, bytes]:
-    """Read through a held parent below root by identity; the run owns its after-check."""
-    given, held, name = _held_parent(path, inputs, root)
-    _below(root, held)
     return given, fdsafe.read_named(held, name)
 
 
@@ -351,7 +345,10 @@ def _occurrences(root: fdsafe.Dir, inputs: InputParents, report_path: str, repor
 
 
 def _line(root: fdsafe.Dir, path: str, number: int, inputs: InputParents) -> str:
-    given, data = _read_below(root, path, inputs)
+    given, held, name = _held_parent(path, inputs, root)
+    _below(root, held)
+    # [LAW:single-enforcer] Only reader occurrences use fdsafe's regular-or-link rule.
+    data = fdsafe.read_named_or_link(held, name)
     lines = data.split(b"\n")
     where = f"{given}:{number}"
     if number > len(lines):
