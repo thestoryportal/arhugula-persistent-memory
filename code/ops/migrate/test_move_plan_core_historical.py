@@ -2,7 +2,7 @@
 import unittest
 
 from ops.migrate import fdsafe, move_plan_core as core
-from test_move_plan_core import ENTRY, M, historical, occ, repairs
+from test_move_plan_core import ENTRY, M, check_plans, historical, occ, repairs
 
 KEY = ("code/x.py", 3, "/p/u1/a.json")
 REPAIR = (*KEY, "/m/experiments/c10r/runs/u1/a.json", 261)
@@ -15,6 +15,45 @@ def check(occurrences=(), rep=(), hist=(), entries=None):
 
 
 class Historical(unittest.TestCase):
+    def test_historical_file_must_match(self):
+        row = ("code/y.py", KEY[1], KEY[2])
+        self.assertEqual(check([occ()], hist=[row]), (
+            ("no-occurrence", *row, "no reader occurrence matches this row"),
+            ("no-row", *KEY, "no repairs row for /p/u1")))
+
+    def test_historical_line_must_match(self):
+        row = (KEY[0], 4, KEY[2])
+        self.assertEqual(check([occ()], hist=[row]), (
+            ("no-occurrence", *row, "no reader occurrence matches this row"),
+            ("no-row", *KEY, "no repairs row for /p/u1")))
+
+    def test_historical_old_text_must_match(self):
+        row = (KEY[0], KEY[1], "/p/u1/b.json")
+        self.assertEqual(check([occ()], hist=[row]), (
+            ("no-occurrence", *row, "no reader occurrence matches this row"),
+            ("no-row", *KEY, "no repairs row for /p/u1")))
+
+    def test_historical_mixed_line_endings_refused(self):
+        name, text = historical(KEY)
+        table = (name, text.replace("\n", "\r\n", 1))
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            core.check_plans(root=M, entries=[ENTRY], occurrences=[occ()],
+                             repairs=repairs(), historical=table)
+        self.assertEqual(caught.exception.path, name + ":2")
+        self.assertEqual(str(caught.exception), f"{name + ':2'!r}: mixes LF and CRLF line endings")
+
+    def test_historical_control_cell_refused(self):
+        # [LAW:behavior-not-structure] DEL isolates the TSV refusal from row validation.
+        table = historical((KEY[0] + "\x7f", KEY[1], KEY[2]))
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            core.check_plans(root=M, entries=[ENTRY], occurrences=[occ()],
+                             repairs=repairs(), historical=table)
+        self.assertEqual(caught.exception.path, table[0] + ":2")
+        self.assertEqual(str(caught.exception), f"{table[0] + ':2'!r}: a cell holds a control character")
+
+    def test_shared_helper_passes_historical(self):
+        self.assertEqual(check_plans([], repairs()), ())
+
     def test_historical_only_covers_occurrence(self):
         self.assertEqual(check([occ()], hist=[KEY]), ())
 
