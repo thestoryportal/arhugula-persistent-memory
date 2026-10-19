@@ -1,0 +1,91 @@
+"""T346: every reader is covered by a repair or an immutable historical row."""
+import unittest
+
+from ops.migrate import fdsafe, move_plan_core as core
+from test_move_plan_core import ENTRY, M, historical, occ, repairs
+
+KEY = ("code/x.py", 3, "/p/u1/a.json")
+REPAIR = (*KEY, "/m/experiments/c10r/runs/u1/a.json", 261)
+
+
+def check(occurrences=(), rep=(), hist=(), entries=None):
+    return core.check_plans(root=M, entries=[ENTRY] if entries is None else entries,
+                            occurrences=list(occurrences), repairs=repairs(*rep),
+                            historical=historical(*hist))
+
+
+class Historical(unittest.TestCase):
+    def test_historical_only_covers_occurrence(self):
+        self.assertEqual(check([occ()], hist=[KEY]), ())
+
+    def test_empty_tables_do_not_drop_occurrence(self):
+        self.assertEqual(check([occ()]), (("no-row", *KEY, "no repairs row for /p/u1"),))
+
+    def test_empty_tables_without_occurrences(self):
+        self.assertEqual(check(), ())
+
+    def test_duplicate_in_repairs(self):
+        self.assertEqual(check([occ()], rep=[REPAIR, REPAIR]),
+                         (("duplicate-row", *KEY, "repeats a row of /m/program/repairs.tsv"),))
+
+    def test_duplicate_in_historical(self):
+        self.assertEqual(check([occ()], hist=[KEY, KEY]),
+                         (("duplicate-row", *KEY, "repeats a row of /m/program/historical.tsv"),))
+
+    def test_duplicate_across_tables(self):
+        self.assertEqual(check([occ()], rep=[REPAIR], hist=[KEY]),
+                         (("duplicate-row", *KEY, "repeats a row of /m/program/historical.tsv"),))
+
+    def test_historical_without_occurrence(self):
+        self.assertEqual(check(hist=[KEY]),
+                         (("no-occurrence", *KEY, "no reader occurrence matches this row"),))
+
+    def test_historical_without_entry(self):
+        self.assertEqual(check([occ(old="/p/u9")], hist=[KEY]),
+                         (("no-entry", *KEY, "no entry moves /p/u9"),))
+
+    def test_historical_repeated_text_is_not_rewritten(self):
+        self.assertEqual(check([occ(text="/p/u1/a.json /p/u1/a.json")], hist=[KEY]), ())
+
+    def test_repairs_still_require_once(self):
+        self.assertEqual(check([occ(text="/p/u1/a.json /p/u1/a.json")], rep=[REPAIR]),
+                         (("not-once", *KEY, "old_text occurs 2 times on its line"),))
+
+    def test_repairs_still_require_target(self):
+        self.assertEqual(check([occ()], rep=[(*KEY, "/elsewhere", 261)]),
+                         (("not-under-target", *KEY,
+                           "new_text /elsewhere is not under /m/experiments/c10r/runs/u1"),))
+
+    def test_mixed_tables_cover_distinct_occurrences(self):
+        other = ("archive.md", 4, "/p/u1/a.json")
+        self.assertEqual(check([occ(), occ(file=other[0], line=other[1])],
+                               rep=[REPAIR], hist=[other]), ())
+
+    def test_historical_is_required(self):
+        with self.assertRaises(TypeError):
+            core.check_plans(root=M, entries=[ENTRY], occurrences=[], repairs=repairs())
+
+    def test_malformed_historical_tables(self):
+        good = historical(KEY)
+        malformed = [None, (), ("historical",), (1, "x\n"), ("historical", 3),
+                     ("historical", ""), (good[0], good[1].rstrip("\n")),
+                     (good[0], "line\tfile\told_text\n"),
+                     (good[0], "file\tline\told_text\nmissing\t1\n")]
+        for line in ("0", "03", "-1", "x", "", "1.0"):
+            malformed.append(historical((KEY[0], line, KEY[2])))
+        malformed.extend([historical(("", 3, KEY[2])), historical((KEY[0], 3, "")),
+                          historical(("bad\0file", 3, KEY[2]))])
+        for table in malformed:
+            with self.subTest(table=table), self.assertRaises(fdsafe.Refusal) as caught:
+                core.check_plans(root=M, entries=[ENTRY], occurrences=[occ()],
+                                 repairs=repairs(), historical=table)
+            self.assertIn("historical", caught.exception.path)
+
+    def test_historical_crlf_and_line_one(self):
+        table = historical((KEY[0], 1, KEY[2]))
+        self.assertEqual(core.check_plans(root=M, entries=[ENTRY], occurrences=[occ(line=1)],
+                         repairs=repairs(), historical=(table[0], table[1].replace("\n", "\r\n"))), ())
+
+
+if __name__ == "__main__":
+    unittest.main()
