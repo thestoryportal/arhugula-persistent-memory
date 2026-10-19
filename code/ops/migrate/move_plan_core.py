@@ -163,23 +163,29 @@ def _count(text: str, sub: str) -> int:
     return sum(1 for i in range(len(text)) if text.startswith(sub, i))
 
 
+def tsv_lines(text: str, name: str) -> list[str]:
+    """Parse LF or CRLF text into lines, with one ending per file."""
+    # [LAW:single-enforcer] Annex and plan readers share this line-ending boundary.
+    if not text.endswith("\n"):
+        _refuse(name, "is empty or does not end with a newline")
+    lines = text[:-1].split("\n")
+    crlf = lines[0].endswith("\r")
+    for number, line in enumerate(lines, 1):
+        if line.endswith("\r") != crlf:
+            _refuse(f"{name}:{number}", "mixes LF and CRLF line endings")
+    # [LAW:parse-dont-validate] Return parsed lines; field parsers own embedded controls.
+    return [line[:-1] for line in lines] if crlf else lines
+
+
 def _tsv(table, header: tuple, where: str) -> tuple[str, list[tuple[str, dict]]]:
     """(name, text) of one TSV file -> (name, [(name:line, row)]). LF or CRLF, one ending per file."""
     pair = _seq(table, where)
     if len(pair) != 2 or not isinstance(pair[0], str) or not pair[0] or not isinstance(pair[1], str):
         _refuse(where, "expected a (name, text) pair")
     name, text = pair
-    if not text.endswith("\n"):
-        _refuse(name, "is empty or does not end with a newline")
-    lines = text[:-1].split("\n")
-    crlf = lines[0].endswith("\r")
     rows = []
-    for number, line in enumerate(lines, 1):
+    for number, line in enumerate(tsv_lines(text, name), 1):
         at = f"{name}:{number}"
-        if crlf:
-            if not line.endswith("\r"):
-                _refuse(at, "mixes LF and CRLF line endings")
-            line = line[:-1]
         cells = line.split("\t")
         if any(CONTROL.search(cell) for cell in cells):
             _refuse(at, "a cell holds a control character")

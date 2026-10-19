@@ -62,7 +62,7 @@ from typing import NamedTuple, NewType
 
 import duckdb
 
-from ops.migrate import fdsafe, ledger_db_core
+from ops.migrate import fdsafe, ledger_db_core, move_plan_core
 
 Refusal = fdsafe.Refusal
 
@@ -232,9 +232,8 @@ def _json(data: bytes, path: str):
 
 def _annex(path: AbsPath) -> list:
     text = _text(_read(path), path)
-    if "\r" in text or not text.endswith("\n"):
-        raise Refusal(path, "needs LF line ends and a final newline")
-    header, *lines = text[:-1].split("\n")
+    # [LAW:one-source-of-truth] Use the plan reader's line-ending rule for the same annex.
+    header, *lines = move_plan_core.tsv_lines(text, path)
     columns = header.split("\t")
     if len(set(columns)) != len(columns) or not set(ANNEX_COLUMNS) <= set(columns):
         raise Refusal(path, f"header needs distinct columns including {', '.join(ANNEX_COLUMNS)}")
