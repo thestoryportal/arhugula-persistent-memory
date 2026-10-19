@@ -313,15 +313,33 @@ def _within(parent_live: str, parent: Dir, root_lives: Sequence[tuple[Dir, str]]
                       f"({', '.join(root.path for root, _ in root_lives)})")
 
 
+def _scan(parent: Dir, name: str) -> Entry:
+    # [LAW:one-source-of-truth] Both named readers share one held-parent scan.
+    path = _child(parent, name)
+    with fs(path):
+        st = os.lstat(name, dir_fd=parent.fd)
+    return Entry(parent.fd, name, path, name, st)
+
+
 def read_named(parent: Dir, name: str) -> bytes:
     """Return the bytes of the regular file parent/name, read through the held parent with read_leaf's checks.
 
     The parent's live path check is the last filesystem call before the leaf is opened."""
-    path = _child(parent, name)
-    with fs(path):
-        st = os.lstat(name, dir_fd=parent.fd)
-    entry = Entry(parent.fd, name, path, name, st)
+    entry = _scan(parent, name)
     _settled(parent)
+    return read_bytes(entry)
+
+
+def read_named_or_link(parent: Dir, name: str) -> bytes:
+    """Read a regular file's bytes or a link's own text through its held parent."""
+    # [LAW:single-enforcer] Held-fd readers share this regular-or-link boundary.
+    entry = _scan(parent, name)
+    _settled(parent)
+    if stat.S_ISLNK(entry.st.st_mode):
+        # [LAW:no-silent-failure] Readlink errors retain their path and errno.
+        with fs(entry.path):
+            return os.readlink(os.fsencode(name), dir_fd=parent.fd)
+    # [LAW:one-source-of-truth] Reuse read_named's scanned regular-file checks and read.
     return read_bytes(entry)
 
 
