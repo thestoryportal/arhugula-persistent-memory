@@ -338,7 +338,13 @@ def read_named_or_link(parent: Dir, name: str) -> bytes:
     if stat.S_ISLNK(entry.st.st_mode):
         # [LAW:no-silent-failure] Readlink errors retain their path and errno.
         with fs(entry.path):
-            return os.readlink(os.fsencode(name), dir_fd=parent.fd)
+            text = os.readlink(os.fsencode(name), dir_fd=parent.fd)
+            after = os.lstat(name, dir_fd=parent.fd)
+        if _identity(after) != _identity(entry.st):
+            raise Refusal(entry.path, "changed while it was read")
+        if len(text) != entry.st.st_size:
+            raise Refusal(entry.path, f"read {len(text)} bytes, scanned {entry.st.st_size}")
+        return text
     # [LAW:one-source-of-truth] Reuse read_named's scanned regular-file checks and read.
     return read_bytes(entry)
 

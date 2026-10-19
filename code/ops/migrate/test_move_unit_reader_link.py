@@ -10,6 +10,7 @@ from unittest import mock
 import fault_kit as FK
 from ops.migrate import fdsafe
 import test_move_unit_plan as plan
+import test_move_unit_run as run
 
 
 class NamedOrLink(unittest.TestCase):
@@ -231,6 +232,122 @@ class NamedOrLink(unittest.TestCase):
                 with FK.inject_oserror("fstat", n, errno.EIO, match=match):
                     with self.refusal("[EIO]"):
                         fdsafe.read_named_or_link(held, "reader")
+
+    def test_link_swapped_between_scan_and_readlink_refuses(self):
+        os.symlink("original", self.path)
+        real = os.readlink
+
+        def swapped(name, *args, **kwargs):
+            os.rename(self.path, self.path + ".parked")
+            os.symlink("replaced", self.path)
+            return real(name, *args, **kwargs)
+
+        # [LAW:behavior-not-structure] Equal text lengths isolate the link identity check.
+        with fdsafe.hold_root(self.root) as held:
+            with mock.patch.object(fdsafe.os, "readlink", side_effect=swapped) as hook:
+                with self.assertRaises(fdsafe.Refusal) as caught:
+                    fdsafe.read_named_or_link(held, "reader")
+        self.assertEqual(hook.call_count, 1)
+        self.assertEqual(caught.exception.path, self.path)
+        self.assertTrue(str(caught.exception).endswith("changed while it was read"))
+
+    def test_link_swapped_and_restored_during_readlink_refuses_count(self):
+        os.symlink("original", self.path)
+        real = os.readlink
+
+        def swapped(name, *args, **kwargs):
+            os.rename(self.path, self.path + ".parked")
+            try:
+                os.symlink("other", self.path)
+                return real(name, *args, **kwargs)
+            finally:
+                os.unlink(self.path)
+                os.rename(self.path + ".parked", self.path)
+
+        with fdsafe.hold_root(self.root) as held:
+            with mock.patch.object(fdsafe.os, "readlink", side_effect=swapped) as hook:
+                with self.assertRaises(fdsafe.Refusal) as caught:
+                    fdsafe.read_named_or_link(held, "reader")
+        self.assertEqual(hook.call_count, 1)
+        self.assertEqual(caught.exception.path, self.path)
+        self.assertTrue(str(caught.exception).endswith("read 5 bytes, scanned 8"))
+
+    def test_after_readlink_lstat_eio_names_reader(self):
+        os.symlink("original", self.path)
+        real, calls = os.lstat, []
+
+        def lstat(name, *args, **kwargs):
+            calls.append(name)
+            if len(calls) == 2:
+                raise OSError(errno.EIO, os.strerror(errno.EIO))
+            return real(name, *args, **kwargs)
+
+        with fdsafe.hold_root(self.root) as held:
+            with mock.patch.object(fdsafe.os, "lstat", side_effect=lstat):
+                try:
+                    with self.assertRaises(fdsafe.Refusal) as caught:
+                        fdsafe.read_named_or_link(held, "reader")
+                except OSError as exc:
+                    self.fail("after-readlink lstat escaped without a Refusal: " + str(exc))
+        self.assertEqual(calls, ["reader", "reader"])
+        self.assertEqual(caught.exception.path, self.path)
+        self.assertTrue(str(caught.exception).endswith("[EIO]"))
+
+    def test_named_or_link_call_order(self):
+        for kind, expected in (("link", ["lstat", "live_path", "readlink", "lstat"]),
+                               ("regular", ["lstat", "live_path", "open"])):
+            with self.subTest(kind=kind):
+                path = os.path.join(self.root, kind)
+                if kind == "link":
+                    os.symlink("original", path)
+                else:
+                    with open(path, "wb") as stream:
+                        stream.write(b"original")
+                calls = []
+
+                def recorder(label, real):
+                    def recorded(*args, **kwargs):
+                        calls.append(label)
+                        return real(*args, **kwargs)
+                    return recorded
+
+                # [LAW:verifiable-goals] RULING-2 pins the filesystem call order at this boundary.
+                with fdsafe.hold_root(self.root) as held:
+                    with contextlib.ExitStack() as patches:
+                        for owner, name in ((fdsafe.os, "lstat"), (fdsafe, "live_path"),
+                                            (fdsafe.os, "readlink"), (fdsafe.os, "open")):
+                            patches.enter_context(mock.patch.object(
+                                owner, name, side_effect=recorder(name, getattr(owner, name))))
+                        self.assertEqual(fdsafe.read_named_or_link(held, kind), b"original")
+                self.assertEqual(calls, expected)
+
+
+class LeafLinks(plan.Base):
+    def test_nonreader_plan_inputs_stay_regular_file_only(self):
+        # [LAW:one-source-of-truth] Borrow the catalogue, fixtures and argv from the plan suite.
+        leaves = {cmd: tuple(attr for attr in attrs if (cmd, attr) != ("check-plans", "reader"))
+                  for cmd, attrs in plan.LEAVES.items()}
+        for fx, path, argv in plan.Attacks.cases(self, leaves):
+            with self.subTest(path=path):
+                os.rename(path, path + ".parked")
+                os.symlink(fx.decoy, path)
+                self.assert_refused(self.main(*argv), path, "is not a regular file")
+
+
+class RunLeafLinks(run.Base):
+    inputs = run.Attacks.inputs
+
+    def test_run_inputs_stay_regular_file_only(self):
+        for label in self.inputs():
+            with self.subTest(label=label):
+                self.setUp()
+                path = self.inputs()[label]
+                os.rename(path, path + ".parked")
+                os.symlink(os.path.join(self.fx.decoy, "a.json"), path)
+                self.assert_refused(self.main(*self.fx.args()), path, "is not a regular file")
+                for unit in self.fx.units:
+                    self.assertFalse(os.path.lexists(self.fx.target(unit)))
+
 
 class ReaderLink(plan.Base):
     def setUp(self):
