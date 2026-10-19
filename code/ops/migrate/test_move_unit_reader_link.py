@@ -287,6 +287,47 @@ class NamedOrLink(unittest.TestCase):
                     fdsafe.read_named_or_link(held, "reader")
         self.assertEqual(hook.call_count, 1)
 
+    def test_link_replaced_with_same_dev_size_mtime_refuses(self):
+        os.symlink("original", self.path)
+        scanned = os.lstat(self.path)
+        real = os.open
+
+        def replaced(name, *args, **kwargs):
+            os.rename(self.path, self.path + ".parked")
+            os.symlink("impostor", self.path)
+            os.utime(self.path, ns=(scanned.st_atime_ns, scanned.st_mtime_ns), follow_symlinks=False)
+            return real(name, *args, **kwargs)
+
+        # [LAW:behavior-not-structure] Only the inode differs: same device, length and mtime.
+        with fdsafe.hold_root(self.root) as held:
+            with mock.patch.object(fdsafe.os, "open", side_effect=replaced) as hook:
+                with self.refusal("changed between scan and open"):
+                    fdsafe.read_named_or_link(held, "reader")
+        self.assertEqual(hook.call_count, 1)
+        now = os.lstat(self.path)
+        self.assertEqual((now.st_dev, now.st_size, now.st_mtime_ns),
+                         (scanned.st_dev, scanned.st_size, scanned.st_mtime_ns))
+        self.assertNotEqual(now.st_ino, scanned.st_ino)
+
+    def test_link_identity_compares_every_field(self):
+        os.symlink("original", self.path)
+        real = fdsafe._fstat
+
+        class Moved:
+            def __init__(self, st, field):
+                self._st, self._field = st, field
+
+            def __getattr__(self, name):
+                value = getattr(self._st, name)
+                return value + 1 if name == self._field else value
+
+        # [LAW:behavior-not-structure] The open's fstat must equal the scan's lstat in each identity field alone.
+        for field in ("st_dev", "st_ino", "st_size", "st_mtime_ns"):
+            with self.subTest(field=field), fdsafe.hold_root(self.root) as held:
+                with mock.patch.object(fdsafe, "_fstat", lambda fd, path: Moved(real(fd, path), field)):
+                    with self.refusal("changed between scan and open"):
+                        fdsafe.read_named_or_link(held, "reader")
+
     def test_aba_same_length_before_link_read_refuses(self):
         os.symlink("original", self.path)
         with fdsafe.hold_root(self.root) as held:
