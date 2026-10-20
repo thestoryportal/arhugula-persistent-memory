@@ -14,6 +14,11 @@ A/DESIGN.md:60-62). In order, for a regular file:
 - Any other file whose bytes are NUL-free strict UTF-8 is a tracked record.
 - Any other file is a governed payload: ignored bytes kept with exact custody (sha256
   and size), never anonymous bulk (OPEN-QUESTIONS.md Q8 default).
+Every regular file below a nested `.git` folder is a governed payload whatever its name or bytes,
+and an attestation naming one is refused: Git's own store is never git-added (ruling R6, "Never
+git add a nested repo"). These are the leaves unit_manifest records below that `.git`; a `.git`
+that is not a directory (a gitlink file or a link) and a link or special file inside a `.git` are
+refused, as unit_manifest refuses them.
 A symlink is never followed. One whose text stays inside the unit is a tracked record
 of that text. A --root that is one regular file is a file unit: its one leaf has the path "."
 and is named by the root.
@@ -29,7 +34,8 @@ the write and again after it.
 
 Every expected invalid input (missing, linked or special root, missing or invalid --out
 parent, an unreadable or malformed attestation, an attested record, a changed file, a
-link that escapes the unit, a special file, a nested Git root) and every OSError from a
+link that escapes the unit, a special file, a `.git` that is not a directory, a link or special
+file inside a `.git`) and every OSError from a
 filesystem call on the unit, a leaf or the output exits 2 with one refusal line naming
 the path and errno. It never overwrites and never deletes: an output that lands inside the unit after
 a race is refused by name and left in place.
@@ -88,7 +94,15 @@ class LinkLeaf:
     link: str
 
 
-Leaf = FileLeaf | LinkLeaf
+@dataclass(frozen=True)
+class GitLeaf:
+    """A regular file below a nested .git folder: part of Git's store, never a record."""
+    path: str
+    size: int
+    sha256: str
+
+
+Leaf = FileLeaf | LinkLeaf | GitLeaf
 
 
 @dataclass(frozen=True)
@@ -161,6 +175,13 @@ def classify(leaves: list[Leaf], attested: list[Attested], root: str) -> tuple[R
             if a is not None:
                 raise Refusal(f"{a.source}: attested {leaf.path!r} is not a regular file")
             rows.append(Row(leaf.path, TRACKED, "link", None, None, leaf.link))
+            continue
+        if isinstance(leaf, GitLeaf):
+            # [LAW:types-are-the-program] A nested repo's store is payload by its leaf type; no name or
+            # attestation reaches it (ruling R6: never git add a nested repo).
+            if a is not None:
+                raise Refusal(f"{a.source}: attested {leaf.path!r} is inside a nested .git; it stays governed payload")
+            rows.append(Row(leaf.path, PAYLOAD, "file", leaf.size, leaf.sha256, None))
             continue
         # [LAW:one-source-of-truth] The root supplies the name of a file unit's dot leaf.
         if record_kind(posixpath.normpath(posixpath.join(root, leaf.path))):
@@ -287,15 +308,23 @@ def open_root(root: Path) -> Root:
 def scan(held: Root, root: str) -> list[Leaf]:
     leaves: list[Leaf] = []
 
-    def regular(dir_fd: int, name: str, path: str, rel: str, est: os.stat_result) -> None:
+    def hashed(dir_fd: int, name: str, path: str, rel: str, est: os.stat_result) -> tuple[str, bool]:
         sha256, is_text = _digest(_At(dir_fd, name, path, est))
         with _fs(path):
             now = os.stat(name, dir_fd=dir_fd, follow_symlinks=False)
         if _identity(now) != _identity(est):
             raise Refusal(f"{rel!r} changed while it was hashed")
+        return sha256, is_text
+
+    def regular(dir_fd: int, name: str, path: str, rel: str, est: os.stat_result) -> None:
+        sha256, is_text = hashed(dir_fd, name, path, rel, est)
         leaves.append(FileLeaf(rel, est.st_size, sha256, is_text))
 
-    def walk(dir_fd: int, dirpath: str, prefix: str) -> None:
+    def git_regular(dir_fd: int, name: str, path: str, rel: str, est: os.stat_result) -> None:
+        leaves.append(GitLeaf(rel, est.st_size, hashed(dir_fd, name, path, rel, est)[0]))
+
+    def walk(dir_fd: int, dirpath: str, prefix: str, in_git: bool) -> None:
+        """in_git: this directory is a nested .git or lies below one."""
         with _fs(dirpath), os.scandir(dir_fd) as it:
             entries = sorted(it, key=lambda e: path_key(e.name))
         for entry in entries:
@@ -303,8 +332,12 @@ def scan(held: Root, root: str) -> list[Leaf]:
             path = os.path.join(dirpath, entry.name)
             with _fs(path):
                 est = entry.stat(follow_symlinks=False)
-            if entry.name == ".git":
-                raise Refusal(f"nested Git root at {rel!r}")
+            # [LAW:one-source-of-truth] exception: this repeats unit_manifest._walk's .git admission so both
+            # tools cover one leaf set; each keeps its own fd-bound walk and refusal type.
+            if entry.name == ".git" and not stat.S_ISDIR(est.st_mode):
+                raise Refusal(f"nested .git at {rel!r} is not a directory (a gitlink or a link to another Git dir)")
+            if in_git and not (stat.S_ISDIR(est.st_mode) or stat.S_ISREG(est.st_mode)):
+                raise Refusal(f"{rel!r} inside a nested .git is a link or special file; Git would follow it")
             if stat.S_ISLNK(est.st_mode):
                 with _fs(path):
                     # [LAW:single-enforcer] The shared reader binds the text to the scan's inode.
@@ -320,11 +353,11 @@ def scan(held: Root, root: str) -> list[Leaf]:
                         opened = os.fstat(fd)
                     if (opened.st_dev, opened.st_ino) != (est.st_dev, est.st_ino):
                         raise Refusal(f"directory {rel!r} changed during the walk")
-                    walk(fd, path, rel + "/")
+                    walk(fd, path, rel + "/", in_git or entry.name == ".git")
                 finally:
                     _close(fd, path)
             elif stat.S_ISREG(est.st_mode):
-                regular(dir_fd, entry.name, path, rel, est)
+                (git_regular if in_git else regular)(dir_fd, entry.name, path, rel, est)
             else:
                 raise Refusal(f"{rel!r} is a special file")
 
@@ -343,7 +376,7 @@ def scan(held: Root, root: str) -> list[Leaf]:
             _close(parent_fd, parent)
 
     # [LAW:dataflow-not-control-flow] the held root's kind picks its scan.
-    {"directory": lambda: walk(held.fd, root, ""), "file": file_root}[held.kind]()
+    {"directory": lambda: walk(held.fd, root, "", False), "file": file_root}[held.kind]()
     return leaves
 
 
