@@ -66,6 +66,25 @@ class FileUnitPlan(unittest.TestCase):
         u["manifest_bytes"] = manifest_bytes("/p/u1")
         self.assertEqual(plan([u])["moves"][0]["kind"], "directory")
 
+    def test_symlink_root_leaf_move_kind_is_symlink(self):
+        u = file_unit()
+        lf = dict(leaf(SOURCE, "x"), source=SOURCE, kind="symlink", link_text="elsewhere")
+        u["manifest_bytes"] = manifest_bytes(SOURCE, lf)
+        move = plan([u], tables=self.tables)["moves"][0]
+        self.assertEqual(move["action"], "MOVE")
+        self.assertEqual(move["source"], SOURCE)
+        self.assertEqual(move["kind"], "symlink")
+
+    def test_file_root_leaf_kind_takes_precedence_over_git_metadata(self):
+        u = file_unit()
+        lf = dict(leaf(SOURCE, "x"), source=SOURCE)
+        git = [{"path": SOURCE, "head": None, "branch": None, "dirty": []}]
+        u["manifest_bytes"] = manifest_bytes(SOURCE, lf, git_roots=git)
+        move = plan([u], tables=self.tables)["moves"][0]
+        self.assertEqual(move["action"], "MOVE")
+        self.assertEqual(move["source"], SOURCE)
+        self.assertEqual(move["kind"], "file")
+
 
 if __name__ == "__main__":
     unittest.main()
