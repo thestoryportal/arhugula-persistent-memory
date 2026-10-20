@@ -817,7 +817,7 @@ def check_moves(args):
     stay in this branch, so the other subcommands keep their import closure (ruling F1)."""
     import contextlib
     import errno
-    from ops.migrate import fdsafe
+    from ops.migrate import fdsafe, move_plan_core
     import icm21_moves
     import icm21_retained as R
 
@@ -849,10 +849,9 @@ def check_moves(args):
 
     def table(path, name):
         path, data = read(path)
-        header, lines = MOVES_TABLES[name], decode(path, data).split('\n')
-        if lines[-1] == '':
-            lines.pop()
-        if not lines or lines[0].split('\t') != header:
+        # [LAW:single-enforcer] Annex readers share the strict line-ending rule (R4).
+        header, lines = MOVES_TABLES[name], move_plan_core.tsv_lines(decode(path, data), path)
+        if lines[0].split('\t') != header:
             raise fdsafe.Refusal(path, 'does not start with the ' + name + ' header')
         rows = [line.split('\t') for line in lines[1:]]
         if any(len(row) != len(header) for row in rows):
