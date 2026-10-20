@@ -15,9 +15,11 @@ A/DESIGN.md:60-62). In order, for a regular file:
 - Any other file is a governed payload: ignored bytes kept with exact custody (sha256
   and size), never anonymous bulk (OPEN-QUESTIONS.md Q8 default).
 A symlink is never followed. One whose text stays inside the unit is a tracked record
-of that text.
+of that text. A --root that is one regular file is a file unit: its one leaf has the path "."
+and is named by the root.
 
-The walk is bound to fds: --root is opened once without following a link and held;
+The walk is bound to fds: --root is opened once without following a link and held (a file
+root is then read through its parent's fd as that same entry, like any leaf);
 each directory is entered only through its parent's fd and must be the (st_dev, st_ino)
 the scan saw; each file is read through one fd opened without following links, whose
 fstat must match the scan's lstat before and after the read, so size and hash come from
@@ -25,7 +27,7 @@ one object. The --out file is created through an fd of its parent directory, who
 path (F_GETPATH) must lie outside the held root's real path, read at check time, before
 the write and again after it.
 
-Every expected invalid input (missing or non-directory root, missing or invalid --out
+Every expected invalid input (missing, linked or special root, missing or invalid --out
 parent, an unreadable or malformed attestation, an attested record, a changed file, a
 link that escapes the unit, a special file, a nested Git root) and every OSError from a
 filesystem call on the unit, a leaf or the output exits 2 with one refusal line naming
@@ -63,6 +65,7 @@ PAYLOAD = "governed-payload"
 ATTESTERS = frozenset({"operator", "MAESTRO"})
 CHUNK = 1 << 20
 DIR_FLAGS = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+FILE_FLAGS = os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK
 SHA256 = re.compile(r"[0-9a-f]{64}")
 RECORD_SUFFIXES = (".json", ".jsonl", ".ipynb", ".log")
 
@@ -139,7 +142,9 @@ def record_kind(path: str) -> bool:
     return name.endswith(RECORD_SUFFIXES) or "manifest" in name
 
 
-def classify(leaves: list[Leaf], attested: list[Attested]) -> tuple[Row, ...]:
+def classify(leaves: list[Leaf], attested: list[Attested], root: str) -> tuple[Row, ...]:
+    """Each leaf's row. A leaf's name is the last component of root joined with its path, so a file
+    unit's one leaf (path ".") is named by its root."""
     by_path: dict[str, Attested] = {}
     for a in attested:
         if a.path in by_path:
@@ -157,7 +162,8 @@ def classify(leaves: list[Leaf], attested: list[Attested]) -> tuple[Row, ...]:
                 raise Refusal(f"{a.source}: attested {leaf.path!r} is not a regular file")
             rows.append(Row(leaf.path, TRACKED, "link", None, None, leaf.link))
             continue
-        if record_kind(leaf.path):
+        # [LAW:one-source-of-truth] The root supplies the name of a file unit's dot leaf.
+        if record_kind(posixpath.normpath(posixpath.join(root, leaf.path))):
             if a is not None:
                 raise Refusal(f"{a.source}: {leaf.path!r} is a scientific record; "
                               "an attestation cannot make it bulk")
@@ -215,7 +221,7 @@ def _digest(at: _At) -> tuple[str, bool]:
     scan's lstat before and after the read."""
     scanned = _identity(at.st)
     try:
-        fd = os.open(at.name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=at.dir_fd)
+        fd = os.open(at.name, FILE_FLAGS, dir_fd=at.dir_fd)
     except OSError as exc:
         code = errno.errorcode.get(exc.errno, str(exc.errno))
         if exc.errno == errno.ELOOP:
@@ -252,16 +258,42 @@ def _identity(st: os.stat_result) -> tuple:
     return (st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns)
 
 
-def open_root(root: Path) -> int:
+@dataclass(frozen=True)
+class Root:
+    """The held unit root: a directory walked through its fd, or one regular file (a file unit)."""
+    fd: int
+    kind: Literal["directory", "file"]
+
+
+ROOT_KINDS: dict[int, tuple[Literal["directory", "file"], int]] = {
+    stat.S_IFDIR: ("directory", DIR_FLAGS), stat.S_IFREG: ("file", FILE_FLAGS),
+}
+
+
+def open_root(root: Path) -> Root:
+    # [LAW:types-are-the-program] the root's kind is observed once and carried; its open flags (and, for a
+    # file, the identity check in scan) bind the held fd to that kind.
     try:
-        return os.open(root, DIR_FLAGS)
+        mode = stat.S_IFMT(os.lstat(root).st_mode)
+        if mode not in ROOT_KINDS:
+            raise Refusal(f"unit root {root} is neither a real directory nor a regular file")
+        kind, flags = ROOT_KINDS[mode]
+        return Root(os.open(root, flags), kind)
     except OSError as exc:
         code = errno.errorcode.get(exc.errno, str(exc.errno))
-        raise Refusal(f"unit root {root} is not a real directory: {code} {exc.strerror}") from exc
+        raise Refusal(f"unit root {root} is not a real directory or regular file: {code} {exc.strerror}") from exc
 
 
-def scan(root_fd: int, root: str) -> list[Leaf]:
+def scan(held: Root, root: str) -> list[Leaf]:
     leaves: list[Leaf] = []
+
+    def regular(dir_fd: int, name: str, path: str, rel: str, est: os.stat_result) -> None:
+        sha256, is_text = _digest(_At(dir_fd, name, path, est))
+        with _fs(path):
+            now = os.stat(name, dir_fd=dir_fd, follow_symlinks=False)
+        if _identity(now) != _identity(est):
+            raise Refusal(f"{rel!r} changed while it was hashed")
+        leaves.append(FileLeaf(rel, est.st_size, sha256, is_text))
 
     def walk(dir_fd: int, dirpath: str, prefix: str) -> None:
         with _fs(dirpath), os.scandir(dir_fd) as it:
@@ -292,16 +324,26 @@ def scan(root_fd: int, root: str) -> list[Leaf]:
                 finally:
                     _close(fd, path)
             elif stat.S_ISREG(est.st_mode):
-                sha256, is_text = _digest(_At(dir_fd, entry.name, path, est))
-                with _fs(path):
-                    now = os.stat(entry.name, dir_fd=dir_fd, follow_symlinks=False)
-                if _identity(now) != _identity(est):
-                    raise Refusal(f"{rel!r} changed while it was hashed")
-                leaves.append(FileLeaf(rel, est.st_size, sha256, is_text))
+                regular(dir_fd, entry.name, path, rel, est)
             else:
                 raise Refusal(f"{rel!r} is a special file")
 
-    walk(root_fd, root, "")
+    def file_root() -> None:
+        parent, name = os.path.split(os.path.abspath(root))
+        with _fs(parent):
+            parent_fd = os.open(parent, DIR_FLAGS)
+        try:
+            with _fs(root):
+                opened = os.fstat(held.fd)
+                est = os.stat(name, dir_fd=parent_fd, follow_symlinks=False)
+            if not stat.S_ISREG(opened.st_mode) or (est.st_dev, est.st_ino) != (opened.st_dev, opened.st_ino):
+                raise Refusal(f"unit root {root} changed after it was opened")
+            regular(parent_fd, name, root, ".", est)
+        finally:
+            _close(parent_fd, parent)
+
+    # [LAW:dataflow-not-control-flow] the held root's kind picks its scan.
+    {"directory": lambda: walk(held.fd, root, ""), "file": file_root}[held.kind]()
     return leaves
 
 
@@ -313,21 +355,21 @@ def load_attestation(path: Path) -> tuple[Attested, ...]:
     return parse_attestation(doc, str(path))
 
 
-def split_unit(root: Path, attestations: list[Path], root_fd: int | None = None) -> tuple[Row, ...]:
-    """Classify the unit; root_fd, when given, is the caller's held fd of root."""
+def split_unit(root: Path, attestations: list[Path], held: Root | None = None) -> tuple[Row, ...]:
+    """Classify the unit; held, when given, is the caller's held root."""
     attested = [a for p in attestations for a in load_attestation(p)]
-    held = contextlib.nullcontext(root_fd) if root_fd is not None else _held_root(root)
-    with held as fd:
-        return classify(scan(fd, str(root)), attested)
+    holding = contextlib.nullcontext(held) if held is not None else _held_root(root)
+    with holding as unit:
+        return classify(scan(unit, str(root)), attested, str(root))
 
 
 @contextlib.contextmanager
 def _held_root(root: Path):
-    fd = open_root(root)
+    held = open_root(root)
     try:
-        yield fd
+        yield held
     finally:
-        _close(fd, f"unit root {root}")
+        _close(held.fd, f"unit root {root}")
 
 
 def _close(fd: int, path: str) -> None:
@@ -363,20 +405,21 @@ def _open_out_parent(out: Path) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--root", required=True, type=Path, help="the unit directory (read only)")
+    ap.add_argument("--root", required=True, type=Path, help="the unit directory or unit file (read only)")
     ap.add_argument("--attestation", action="append", default=[], type=Path)
     ap.add_argument("--out", required=True, type=Path, help="new JSON file outside the unit")
     args = ap.parse_args(argv)
     kept = ""  # once the output exists, every later refusal names it as left in place
     try:
-        root_fd = open_root(args.root)
+        held = open_root(args.root)
+        root_fd = held.fd
         try:
             parent_fd = _open_out_parent(args.out)
             try:
                 root_real = _dir_realpath(root_fd, f"unit root {args.root}")
                 if _inside(root_real, _dir_realpath(parent_fd, f"--out parent {args.out.parent}")):
                     raise Refusal(f"--out {args.out} is inside the unit")
-                rows = split_unit(args.root, args.attestation, root_fd)
+                rows = split_unit(args.root, args.attestation, held)
                 body = render(args.root, rows).encode("utf-8")
                 with _fs(str(args.out)):
                     out_fd = os.open(args.out.name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
