@@ -1,0 +1,21 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "llama-7b.yaml",
+   "sha256": "f7b27babb80d3c78aa8505ee1649d41f00a0cab4a101076fded562ce45825d6a",
+   "size": 641
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "llama3.2-3b.yaml",
+   "sha256": "3a3ee296191f1243cd4c33b290a0efff2a63ea49fe62f93feb1616a96e7d6e68",
+   "size": 653
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/easyedit_ref"
+}

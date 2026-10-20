@@ -1,0 +1,765 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".DS_Store",
+   "sha256": "248e7feee5b17980241fc8e76caa425ccf1241594c8feba8812225c06c94f7e6",
+   "size": 6148
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/HEAD",
+   "sha256": "8a55fe9835eb851eeb04b02ab29ba71ab60aef1aca9d93f9f650867d873676a5",
+   "size": 41
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/config",
+   "sha256": "b6a24d44e4dcf4db7f0e954b2b857dd8fa6ddd7f1a5c9e57c1eebce475e6ae0e",
+   "size": 261
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/description",
+   "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+   "size": 73
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/applypatch-msg.sample",
+   "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+   "size": 478
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/commit-msg.sample",
+   "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+   "size": 896
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/fsmonitor-watchman.sample",
+   "sha256": "f3c0228d8e827f1c5260ac59fdd92c3d425c46e54711ef713c5a54ae0a4db2b4",
+   "size": 4655
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/post-update.sample",
+   "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+   "size": 189
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-applypatch.sample",
+   "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+   "size": 424
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-commit.sample",
+   "sha256": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+   "size": 1643
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-merge-commit.sample",
+   "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+   "size": 416
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-push.sample",
+   "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+   "size": 1374
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-rebase.sample",
+   "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+   "size": 4898
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-receive.sample",
+   "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+   "size": 544
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/prepare-commit-msg.sample",
+   "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+   "size": 1492
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/push-to-checkout.sample",
+   "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+   "size": 2783
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/update.sample",
+   "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+   "size": 3650
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/index",
+   "sha256": "df03da8e5dfad5f147e8045dd0e7d16b3be8ef406f4ccff8617f2ecfceedd2d2",
+   "size": 3539
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/info/exclude",
+   "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+   "size": 240
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/logs/HEAD",
+   "sha256": "d34e1ef1da9190bb054819dfeb1269e4a90fbb3f5b26656715c3fc8e875e4e66",
+   "size": 386
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/logs/refs/heads/main",
+   "sha256": "93bec96bb2ab555e05f4ae630dace69ee24c78c8c2519fb8d83253b1efecb148",
+   "size": 184
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/logs/refs/remotes/origin/HEAD",
+   "sha256": "93bec96bb2ab555e05f4ae630dace69ee24c78c8c2519fb8d83253b1efecb148",
+   "size": 184
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/pack/pack-d1db2e7886fa87f3505e0ede8745fdb03e32d9de.idx",
+   "sha256": "5771fccc4b23effd0ba809b0fe1cc97e68e9190f5f6da109d0f9e0fada1cb76b",
+   "size": 4572
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/pack/pack-d1db2e7886fa87f3505e0ede8745fdb03e32d9de.pack",
+   "sha256": "2b7d59f955da2bef10ebffecb184704410e4147dca1ac6c6dbce14e17c964fcb",
+   "size": 46351
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/packed-refs",
+   "sha256": "31af6b171116c6740b834c10ea1710e308dee2d938212b30304a5b3d46dfdc47",
+   "size": 112
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/refs/heads/main",
+   "sha256": "8a55fe9835eb851eeb04b02ab29ba71ab60aef1aca9d93f9f650867d873676a5",
+   "size": 41
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/refs/remotes/origin/HEAD",
+   "sha256": "2bb6a24aa0fc6c484100f5d51a29bbad841cd2c755f5d93faa204e5dbb4eb2b4",
+   "size": 30
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".gitignore",
+   "sha256": "c0d7f44cda4ca6a288a3da0ecf4569ae1e7029cb34a2c6659cf438d68689e439",
+   "size": 493
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".ignore",
+   "sha256": "5b345696ac9daf0b07ce5b9c56d5ec914815e395286f4c9f9ac3ec8ec83bf507",
+   "size": 180
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "README.md",
+   "sha256": "facec93b48dd52ba79917a97dd5513d17d70cb0fcc1ab1f5c9436f21efd7e6f9",
+   "size": 3873
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "environment.yml",
+   "sha256": "5783fc7506adbe70f65baff8c41af43aac505d0695619ef631db83d9bf981dd7",
+   "size": 421
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "size": 0
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace/__pycache__/__init__.cpython-311.pyc",
+   "sha256": "2d894f496db2d98e2731afb5003a969a48bc04eb420b361dcacf08e4fb94cc24",
+   "size": 151
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace/__pycache__/utils.cpython-311.pyc",
+   "sha256": "bb992b50ff103e5b7848e44d5ea8d0b6df9b13816178c94e2190635130b06dd0",
+   "size": 7808
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/config.yaml",
+   "sha256": "a775ff52828a3ea24503ef26a5325f588167ac32ac2fd66d8ad98196304c2877",
+   "size": 1192
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/editor/defer.yaml",
+   "sha256": "141093a16d01d51fb28dafca67f4429bce17ac3db728f250d9b20a947b7f25f8",
+   "size": 54
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/editor/ft.yaml",
+   "sha256": "14b2e0570f1c1198557fd7ea7d58ef64aa30ffb0f0f274ce97e2e33a2efed4c7",
+   "size": 24
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/editor/ft_ewc.yaml",
+   "sha256": "6c19856d8941cec3ef30510eb2e0b2124710bd40bd9a258de968adfc4a612c77",
+   "size": 124
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/editor/ft_retrain.yaml",
+   "sha256": "73043a1c497c03a1019f205ae7a73ea7522e91985de864259ec2d3265edea405",
+   "size": 72
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/editor/grace.yaml",
+   "sha256": "879b800cef7917f1027d92fbd5798c67b3a4517fa0bfcbdb61439fa90e07c5a2",
+   "size": 357
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/editor/memory.yaml",
+   "sha256": "5c02f48aaa32775815c16fae8abd250e042cb95bd70eba3dc6868a3e32ad2ba5",
+   "size": 51
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/experiment/hallucination.yaml",
+   "sha256": "742922cd5da221a301707d202ca1b2fc1adf104a1d4803c04db6b639b217477e",
+   "size": 19
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/experiment/qa.yaml",
+   "sha256": "ecb8c41aa877dbdb4bfd1981ec2319d53cf2496e7d1e9de3ade4cb48dba42ace",
+   "size": 34
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/experiment/scotus.yaml",
+   "sha256": "0b42b1360c60846ab4e9b082b357642ce1d7da3b73b86fd36ca8ffeea810d6dc",
+   "size": 12
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/model/gpt2xl.yaml",
+   "sha256": "ab9c84198e0c188ae9b545e09ed36a714fd3ecb38d07a948a47285884bcacdcf",
+   "size": 291
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/model/scotus-bert.yaml",
+   "sha256": "fd761220aeac6487d64abeb0fb7df2d4003f7f5c81c862c8fb1f40493352c499",
+   "size": 201
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/config/model/t5small.yaml",
+   "sha256": "48e19966c3e81cc365067c1f37f08e47de9633e4b58eb5e6a1e3692be30a4830",
+   "size": 210
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/dataset.py",
+   "sha256": "3d6ca0f9f4f593aaf9050362c0662805da363b3ce8a2ab240f9cf76ca2a85758",
+   "size": 7329
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/__init__.py",
+   "sha256": "3d0ccdcc26089d5bb745d5e8ca32df3286fe6173011e56bc809204d2126f6264",
+   "size": 227
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/__pycache__/__init__.cpython-311.pyc",
+   "sha256": "ec74b2d171efcefd49745fe7fa9b23525ad4a7a40c7840e268624ccc07736ab8",
+   "size": 567
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/__pycache__/defer.cpython-311.pyc",
+   "sha256": "6fd1f2e12a23182888d14945e888a179b0d7db7f8c35f976ed8d0ce87637fe91",
+   "size": 8377
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/__pycache__/ft.cpython-311.pyc",
+   "sha256": "c036e95c7a7249c1793bd70e57c310f7bd19f30ca5c856757c2c1681c07b85a9",
+   "size": 3507
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/__pycache__/ft_ewc.cpython-311.pyc",
+   "sha256": "18ef5bf67b272d0ac97fac3fd0e3baf1ee4ba3a20c0190531eb01f65b0779b58",
+   "size": 5523
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/__pycache__/ft_retrain.cpython-311.pyc",
+   "sha256": "0b22bbc0829f0767ca7af8b6bd18f5a79f1f351bf394e27602997b92e5015a8b",
+   "size": 4405
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/__pycache__/grace.cpython-311.pyc",
+   "sha256": "662b4afa87b1a9997562a91b0bed200dc0fde8628edd9a06d3c20a097a4d06c3",
+   "size": 14132
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/__pycache__/grace_barebones.cpython-311.pyc",
+   "sha256": "7a4384bcfb60910e6b913e9ab42ba0689be24fdb31d6995f93b85f432db71414",
+   "size": 13634
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/__pycache__/memory.cpython-311.pyc",
+   "sha256": "84e432baca2d5ff418e17fe4ad979d2c1c4f97b656d1e2ce09ba88130f794aae",
+   "size": 6702
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/defer.py",
+   "sha256": "fac879b0ae3ddc5f61be601cbe39a7646e0afe4585f49e4759146ee029469f10",
+   "size": 4628
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/ft.py",
+   "sha256": "5eabf0ca0a43124a3a9443b7548c7d9b639527047ee1b31ffe6d6db0aa0d0d81",
+   "size": 1662
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/ft_ewc.py",
+   "sha256": "606f53b9b4cb5ba90dd34a3a378e959211f609d411fab597c19e32d457551fa1",
+   "size": 3066
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/ft_retrain.py",
+   "sha256": "9a2b362221a941570eb28f7f2f4a54e00e70465a2c622c55d3dfa22961f93dc2",
+   "size": 2220
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/grace.py",
+   "sha256": "fadc3a86e8b7d2eb4bb1263b6e72700b134a5967f46f35bc518fa63db1f5d4f9",
+   "size": 10503
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/grace_barebones.py",
+   "sha256": "d37d49d0cff432afa619e63e8e49542c0f6bd9238b87048ac639f3c7d0d50bf4",
+   "size": 9250
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/grace_barebones.py.upstream_pristine",
+   "sha256": "d60be5ee2901fdd25ea0254ec8715be0d6ce9650eb3ef0639971e272c18d102f",
+   "size": 8616
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/editors/memory.py",
+   "sha256": "d04c38a5e5c0aeaa94b0bf99e9175124aa72fc65188a9c9149cfe60b76884d9e",
+   "size": 3570
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/main.py",
+   "sha256": "920a7f21d986971cd65543dc8ba73d323e831e30cfb7ac730c45a32a123dc7b5",
+   "size": 10245
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/metrics.py",
+   "sha256": "1443d40b814b611c61e273450c73bf6433a2d86aa5f57e585519f3a0712f167f",
+   "size": 2157
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/models.py",
+   "sha256": "4577a130fdfcc176fe0ef26609b0955ba5191f1f136ea90abf0a4c4139b0776c",
+   "size": 3697
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/utils.py",
+   "sha256": "25f938d78c81dc9dce9bcd1aa03e952538c9d96b828b60b7a88f6de109f7af8b",
+   "size": 4236
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace/wiki_bio_concepts.txt",
+   "sha256": "30582e90b1e8207767aad5f6692e20bf98f0d3488e6a0a6b9d897c6865462830",
+   "size": 4158
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/.cache/ask-index.json",
+   "sha256": "ffb93a79889539ff7d6419cd3c78eb3bf9eb1a601a0be80306b25d7472812cd3",
+   "size": 78420
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/.cache/extract.c3679fb5d24a63a0.json",
+   "sha256": "fe2932e563579382b3856124437bc195403a33405e333b8aece67ba0eeaf172c",
+   "size": 253576
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/.cache/fingerprint.c3679fb5d24a63a0.json",
+   "sha256": "c824d029b5d6c24755f89fece3f29fbc00759549e121f04ab7be63e6be35e885",
+   "size": 1708
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/.graph/wiring.json",
+   "sha256": "b52d4398d7833ced0fc071e620625e505d04f21194d063974ddbb6587ce307ad",
+   "size": 100955
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/INDEX.md",
+   "sha256": "34b1f1fc403e2a4efd666073f33f22a6180c067bdae82b828cc1a62e9e636267",
+   "size": 808
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/__init__.md",
+   "sha256": "8caf14bf6948eb614b1e1292b58da3fc4ccd8619ff49f2f657c9518745d0177c",
+   "size": 58
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/dataset.md",
+   "sha256": "a1b8cdd0989ee228bdb237c6dff77178405fdf82212e0e5717b61560b73ad101",
+   "size": 1614
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/editors/__init__.md",
+   "sha256": "bb79d726465710bc061ccbd4f42025c57a8d93eef76bd5f65698ecdadb0c18e0",
+   "size": 66
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/editors/defer.md",
+   "sha256": "63aba54485d6f7e79eef8c765e156497aa28fbb0a9b14ca6b9f1410f8349ce3b",
+   "size": 702
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/editors/ft.md",
+   "sha256": "e424ae6d02aeeaa1997e1aef14a190b5419b0cece84d6bb255209b8f18d7f1a0",
+   "size": 380
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/editors/ft_ewc.md",
+   "sha256": "7fb24faa196b005b0c94b18190b81a7009b8d1656c5f56ff98654fb791951a54",
+   "size": 416
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/editors/ft_retrain.md",
+   "sha256": "76124714bce445ed9e7c2ca376f16d82a5f54e85ad1c77d0d4e2bebb9dd332d3",
+   "size": 412
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/editors/grace.md",
+   "sha256": "550aa85346a9b89c64ea0410f3e31f929edb253d51ba847125b37cf4dc95beb0",
+   "size": 1284
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/editors/grace_barebones.md",
+   "sha256": "09ae6daf0f26fc6673debd97d03fe9b60324790c29e7b4a5bbed812cb3417846",
+   "size": 1269
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/editors/memory.md",
+   "sha256": "2605a8ac1091f18ec46c48b4aa263e7a03208250358eaaa63669f03821b8f7dc",
+   "size": 595
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/main.md",
+   "sha256": "4915f0413c9a3300ee93bfe812a220779fcf6ef1343b9c16b660eaa0e57d5154",
+   "size": 79
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/metrics.md",
+   "sha256": "929c866e745e5e2512c9a98e493265c033651c83280338bbf266299f0c16d3f6",
+   "size": 417
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/models.md",
+   "sha256": "619a248567e10fe4b61c87adc2da1b4016af18a1997954ed3b1cd1f1dfe9c37d",
+   "size": 965
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/grace/utils.md",
+   "sha256": "1b1334e48fc64d9cc899c45bff54ff04a36254a782fc25cfacac0665ad32d30d",
+   "size": 1014
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/setup.md",
+   "sha256": "0c453e7732f3aff05d7fa919ee3aae7db490bfa12517ec3f3eccd23eeeffa23d",
+   "size": 49
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "notebooks/examples.ipynb",
+   "sha256": "b4724355d43151d69aa5ca41a490bf271bfe5d99db349b1d7a9a128591cdb192",
+   "size": 5943
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "scripts/cancel.sh",
+   "sha256": "cee625b0aa80ccdc6085810b5b267ec277912d1700bd6d58ca198fa137db2e95",
+   "size": 54
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "scripts/main.sh",
+   "sha256": "f7e01fa53f734bb70f33e7c4af5825d0a9f9fa1c3480970b704339ca211209fb",
+   "size": 377
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "scripts/slurm_queue.sh",
+   "sha256": "2f31a07209b358e0a47423f756927f2db2a3f9f920d715c0a28b313236290373",
+   "size": 290
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "setup.py",
+   "sha256": "72952899de817c62791ecc594b9dd6c3c56f7ac67168d1ae67320bb8dd91bf81",
+   "size": 100
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/grace_dry_run"
+}
