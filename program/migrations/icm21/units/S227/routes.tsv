@@ -1,0 +1,5 @@
+requirement_id	source	target	kind	observed_bytes	action	lane	scientific_role
+MV-110	/Volumes/memit/llm-database-poc-mirror/t2_rome_sect/block_b_cross_layer_summary.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t2_rome_sect/block_b_cross_layer_summary.json	file	2353	MOVE	legacy-preservation	tracked-record
+MV-110	/Volumes/memit/llm-database-poc-mirror/t2_rome_sect/block_b_layer_a_verdict.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t2_rome_sect/block_b_layer_a_verdict.json	file	36690	MOVE	legacy-preservation	tracked-record
+MV-110	/Volumes/memit/llm-database-poc-mirror/t2_rome_sect/block_b_layer_b_verdict.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t2_rome_sect/block_b_layer_b_verdict.json	file	36689	MOVE	legacy-preservation	tracked-record
+MV-110	/Volumes/memit/llm-database-poc-mirror/t2_rome_sect/block_b_verdict.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t2_rome_sect/block_b_verdict.json	file	3436	MOVE	legacy-preservation	tracked-record
