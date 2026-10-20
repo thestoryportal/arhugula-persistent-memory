@@ -9,6 +9,7 @@ Both tools run as their module entry in a child process, on a unit holding a rea
 """
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 import os
@@ -24,6 +25,7 @@ from ops.migrate import move_plan_core as plan_core
 from ops.migrate import move_run_core as core
 from ops.migrate import record_split as R
 from ops.migrate import test_move_run_core as RC
+from test_record_split import before_open, fstat_reports
 
 # [LAW:one-source-of-truth] The child imports the very code tree this process imported.
 CODE = Path(R.__file__).resolve().parents[2]
@@ -149,13 +151,15 @@ class OtherLeavesKeepTheirClass(NestedGitUnit):
 class GitlinkStillRefuses(NestedGitUnit):
     def test_a_git_file_or_link_refuses_in_both_tools(self):
         cases = {"gitlink file": lambda p: p.write_bytes(b"gitdir: ../../elsewhere/.git\n"),
-                 "link to a git dir": lambda p: os.symlink(self.unit / "inner/.git", p)}
+                 "link to a git dir": lambda p: os.symlink(self.unit / "inner/.git", p),
+                 "relative in-unit link": lambda p: os.symlink("../inner/.git", p)}
         (self.unit / "wt").mkdir()
         for name, make in cases.items():
             with self.subTest(case=name):
                 make(self.unit / "wt/.git")
                 try:
-                    self.assertRefusedNaming(self.split_cli(), "wt/.git")
+                    # [LAW:behavior-not-structure] A generic link refusal cannot prove .git admission.
+                    self.assertRefusedNaming(self.split_cli(), "nested .git at 'wt/.git' is not a directory")
                     proc = child("ops.migrate.unit_manifest", "--root", self.unit, "--out", self.base / "m.json")
                     report = json.loads(proc.stdout)
                     self.assertEqual((proc.returncode, report["status"]), (1, "FAIL"), proc.stderr)
@@ -165,7 +169,8 @@ class GitlinkStillRefuses(NestedGitUnit):
 
     def test_a_link_inside_nested_git_refuses(self):
         os.symlink("HEAD", self.unit / "inner/.git/HEAD.alias")
-        self.assertRefusedNaming(self.split_cli(), "inner/.git/HEAD.alias")
+        self.assertRefusedNaming(
+            self.split_cli(), "'inner/.git/HEAD.alias' inside a nested .git is a link or special file")
 
 
 
@@ -175,7 +180,51 @@ class GitStoreSafety(NestedGitUnit):
 
     def test_special_file_inside_git_refuses(self):
         os.mkfifo(self.unit / "inner/.git/pipe")
-        self.assertRefusedNaming(self.split_cli(), "inner/.git/pipe")
+        self.assertRefusedNaming(
+            self.split_cli(), "'inner/.git/pipe' inside a nested .git is a link or special file")
+
+    def test_git_leaf_changed_after_digest_refuses(self):
+        leaf = self.unit / "inner/.git/HEAD"
+        real_digest = R._digest
+
+        def append_after_read(at):
+            result = real_digest(at)
+            if at.path == str(leaf):
+                with leaf.open("ab") as fh:
+                    fh.write(b"more\n")
+            return result
+
+        with mock.patch.object(R, "_digest", append_after_read):
+            with self.assertRaisesRegex(R.Refusal, r"inner/\.git/HEAD' changed while it was hashed"):
+                R.split_unit(self.unit, [])
+
+    def test_git_leaf_fd_changed_during_read_refuses(self):
+        # [LAW:no-ambient-temporal-coupling] Count leaf fstats after HEAD opens, excluding directory fstats.
+        with contextlib.ExitStack() as stack, before_open(
+                lambda path, kwargs: path == "HEAD" and kwargs.get("dir_fd") is not None,
+                lambda: stack.enter_context(fstat_reports(2, st_size=1))):
+            with self.assertRaisesRegex(R.Refusal, r"inner/\.git/HEAD' changed while it was hashed"):
+                R.split_unit(self.unit, [])
+
+    def test_git_leaf_fd_on_another_device_refuses_before_hashing(self):
+        hashers = mock.Mock(wraps=hashlib.sha256)
+        with contextlib.ExitStack() as stack:
+            def inject():
+                stack.enter_context(fstat_reports(1, st_dev=1))
+                stack.enter_context(mock.patch.object(hashlib, "sha256", hashers))
+
+            with before_open(
+                    lambda path, kwargs: path == "HEAD" and kwargs.get("dir_fd") is not None, inject):
+                with self.assertRaisesRegex(R.Refusal, r"inner/\.git/HEAD' changed before it was hashed"):
+                    R.split_unit(self.unit, [])
+            self.assertEqual(hashers.call_count, 0, "inner/.git/HEAD changed before it was hashed")
+
+    def test_git_leaf_removed_before_open_refuses(self):
+        leaf = self.unit / "inner/.git/HEAD"
+        with before_open(
+                lambda path, kwargs: path == "HEAD" and kwargs.get("dir_fd") is not None, leaf.unlink):
+            with self.assertRaisesRegex(R.Refusal, r"inner/\.git/HEAD' changed \(gone\) before it was hashed"):
+                R.split_unit(self.unit, [])
 
     def test_git_leaf_swap_before_open_refuses_without_following_link(self):
         leaf = self.unit / "inner/.git/HEAD"
