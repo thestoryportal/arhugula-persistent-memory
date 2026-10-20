@@ -39,7 +39,8 @@ must be its own real path.
       Before any Git call it holds M/.git and its config without following links and refuses (T201
       rulings 2, 7 and 8) a link or special file under .git, a config.worktree, an include, includeIf,
       extensions or filter key, a core key outside the plain set, or a remote promisor or partial-clone
-      key; after each Git call the held .git and config must still be what their paths name (ruling 9).
+      key; only core.hookspath=code/ops/git/hooks and extensions.worktreeconfig=true, by exact value, pass
+      (Step 367). After each Git call the held .git and config must still be what their paths name (ruling 9).
       It never overwrites, deletes or commits; a refusal after a file or folder exists names it and
       leaves it in place. Stdout: {"actions", "custody"}.
 
@@ -394,6 +395,9 @@ GIT_CORE = frozenset(f"core.{k}" for k in ("repositoryformatversion", "filemode"
 # a program that `git add` runs.
 GIT_SECTIONS = frozenset(("include", "includeif", "extensions", "filter"))
 GIT_PROMISOR = frozenset(("promisor", "partialclonefilter"))
+# [LAW:single-enforcer] R1 exceptions belong at the config boundary as exact raw records.
+# _git overrides the hook path on every call; the .git walk still refuses config.worktree.
+GIT_EXACT = frozenset((b"core.hookspath\ncode/ops/git/hooks", b"extensions.worktreeconfig\ntrue"))
 ADMITTED = "admitted.tsv"
 
 
@@ -470,7 +474,8 @@ def _git(repo: Repo, *args: str, stdin=subprocess.DEVNULL) -> bytes:
     _check_repo(repo, "changed while Git ran; Git may have read another file")
     if proc.returncode != 0:
         detail = "; ".join(proc.stderr.decode("utf-8", "replace").split("\n")).strip("; ")
-        raise Refusal(command, f"exited {proc.returncode}: {detail}")
+        # [LAW:no-silent-failure] Git can reject a config value before listing its raw record.
+        raise Refusal(repo.config if args[0] == "config" else command, f"exited {proc.returncode}: {detail}")
     return proc.stdout
 
 
@@ -513,8 +518,8 @@ def _open_repo(stack: contextlib.ExitStack, root: str) -> Repo:
     for record in listed.split(b"\0")[:-1]:
         key = _utf8(config, record.split(b"\n", 1)[0])
         section = key.split(".", 1)[0]
-        if section in GIT_SECTIONS or (section == "core" and key not in GIT_CORE) \
-                or (section == "remote" and key.rsplit(".", 1)[-1] in GIT_PROMISOR):
+        if record not in GIT_EXACT and (section in GIT_SECTIONS or (section == "core" and key not in GIT_CORE)
+                                       or (section == "remote" and key.rsplit(".", 1)[-1] in GIT_PROMISOR)):
             raise Refusal(config, f"sets {key}; Git could read, run or fetch outside M")
     return repo
 

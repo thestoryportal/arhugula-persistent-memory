@@ -725,7 +725,7 @@ class GitConfig(Base):
         config = f"{self.fx.m}/.git/config"
         for key, value in (("include.path", "/elsewhere"), ("includeIf.gitdir:/x/.path", "/elsewhere"),
                            ("core.hooksPath", "/elsewhere"), ("core.fsmonitor", "/bin/true"),
-                           ("extensions.worktreeConfig", "true"), ("remote.origin.promisor", "true"),
+                           ("remote.origin.promisor", "true"),
                            ("remote.origin.partialclonefilter", "blob:none"), ("filter.x.clean", "cat")):
             with self.subTest(key=key):
                 fx = Fixture(self.tmp)
