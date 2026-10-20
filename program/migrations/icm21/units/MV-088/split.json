@@ -1,0 +1,173 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".DS_Store",
+   "sha256": "6b7dfec20ae23198ca5319ea0938cb5f385f23d43678206e640ccbd98571f0c4",
+   "size": 6148
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "globals.yml",
+   "sha256": "6c540955dd62d50a0d543bc19073650db217dfe03e05b382992b7befc33dbdf7",
+   "size": 1118
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "globals.yml.upstream_pristine",
+   "sha256": "5447f92b74ac0759da3959f3046656ee103aac408869b25b362cf6a2079f4c2b",
+   "size": 216
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome/__init__.py",
+   "sha256": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a",
+   "size": 74
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome/compute_u.py",
+   "sha256": "79c4c5201b5fb6cbd6b7e59c929e8beebbb616042c52e330d355b87c5ab1d227",
+   "size": 3865
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome/compute_u.py.upstream_pristine",
+   "sha256": "06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d",
+   "size": 3520
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome/compute_v.py",
+   "sha256": "07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb",
+   "size": 8967
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome/layer_stats.py",
+   "sha256": "be92a521d3411734374058a5c4a371a8171f7964954a2a42a9bd411a00914029",
+   "size": 5947
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome/repr_tools.py",
+   "sha256": "8b07d6880052251f79cb38acd9e325b23c7a5f7acd0037f18fc4c75009efc50b",
+   "size": 4937
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome/rome_hparams.py",
+   "sha256": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+   "size": 674
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome/rome_main.py",
+   "sha256": "bb138849203d0236ff28fc9d6290bbde1184cd63c29be942878f20c79f687581",
+   "size": 5999
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome/rome_main.py.upstream_pristine",
+   "sha256": "dfad8eaa83940bfd00fd3629eca23650726ede62d5a8160905f2c8a516188768",
+   "size": 5695
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome/tok_dataset.py",
+   "sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4",
+   "size": 3103
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "util/__init__.py",
+   "sha256": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d",
+   "size": 34
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "util/generate.py",
+   "sha256": "3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514",
+   "size": 5446
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "util/globals.py",
+   "sha256": "f44ba938c6bfe550a8e709ceab2eb7313d5262af14ad74cf90eeec678ab61b79",
+   "size": 357
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "util/hparams.py",
+   "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+   "size": 319
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "util/logit_lens.py",
+   "sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4",
+   "size": 2893
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "util/nethook.py",
+   "sha256": "20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c",
+   "size": 15708
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "util/perplexity.py",
+   "sha256": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+   "size": 758
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "util/runningstats.py",
+   "sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+   "size": 65305
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/rome_dry_run_patched"
+}
