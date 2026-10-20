@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "qwen25_3b_2layer_structure.onnx",
+   "sha256": "a061ab71d03dcf6d4eb751e451512a45a1f13fee8e6092dfbaca30d5f64b22cf",
+   "size": 1552999065
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/visualization"
+}
