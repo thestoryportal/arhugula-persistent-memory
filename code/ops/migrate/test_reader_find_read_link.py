@@ -75,6 +75,26 @@ class ReadLink(unittest.TestCase):
     def test_stable_missing_link_returns_text_bytes(self):
         self.assertEqual(reader_find.contents(self.path), b'original')
 
+    def test_post_open_swap_returns_scanned_text(self):
+        # [LAW:behavior-not-structure] A held link keeps its bytes after its name is rebound.
+        with FK.swap_for_symlink(
+                'open', 1, self.path, 'impostor', when='after',
+                match=lambda name, *a, **kw:
+                name == self.path.name and kw.get('dir_fd') is not None) as fault:
+            output = reader_find.contents(self.path)
+        self.assertEqual(fault.fired, 1)
+        self.assertEqual(output, b'original')
+        self.assertNotIn(b'impostor', output)
+
+    def test_stable_and_refused_reads_close_fds(self):
+        # [LAW:verifiable-goals] Both successful and refused reads release their descriptors.
+        before = len(os.listdir('/dev/fd'))
+        self.assertEqual(reader_find.contents(self.path), b'original')
+        with self.aba():
+            with self.assertRaisesRegex(fdsafe.Refusal, 'changed between scan and open'):
+                reader_find.contents(self.path)
+        self.assertEqual(len(os.listdir('/dev/fd')), before)
+
     def test_existing_target_is_not_read(self):
         (self.root / 'original').write_bytes(b'target contents must not be read')
         self.assertEqual(reader_find.contents(self.path), b'original')
