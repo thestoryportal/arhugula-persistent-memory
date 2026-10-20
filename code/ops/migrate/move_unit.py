@@ -781,7 +781,8 @@ def _do_git_add(held: Held, action: dict) -> None:
             data = fdsafe.read_bytes(fdsafe.Entry(parent.fd, name, target, name, st))
             mode = "100755" if st.st_mode & stat.S_IXUSR else "100644"
         elif stat.S_ISLNK(st.st_mode):
-            data = os.fsencode(os.readlink(name, dir_fd=parent.fd))
+            # [LAW:single-enforcer] The shared reader binds link text to this scan.
+            data = fdsafe.read_link(fdsafe.Entry(parent.fd, name, target, name, st))
             mode = "120000"
         else:
             raise Refusal(target, "is not a regular file or a symlink")
