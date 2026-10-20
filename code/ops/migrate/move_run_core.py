@@ -43,7 +43,7 @@ import sys
 from pathlib import PurePosixPath
 from typing import NamedTuple
 
-from ops.migrate import fdsafe
+from ops.migrate import dup_find_core, fdsafe
 from ops.migrate import move_plan_core as plan_core
 from ops.migrate.unit_manifest import canonical
 
@@ -277,7 +277,8 @@ def _split(unit: Unit, data, leaves: list) -> dict:
     _keys(doc, SPLIT_KEYS, where)
     if doc["root"] != unit.source:
         _refuse(where, f"root {doc['root']!r} is not the unit source")
-    by_rel = {leaf["source"][len(unit.source) + 1:]: leaf for leaf in leaves}
+    # [LAW:one-source-of-truth] Share the manifest parser's relpath rule for file and directory units.
+    by_rel = {dup_find_core.leaf_relpath(leaf["source"], unit.source): leaf for leaf in leaves}
     classes = {}
     for j, row in enumerate(_seq(doc["leaves"], where)):
         rwhere = f"{where}.leaves[{j}]"
