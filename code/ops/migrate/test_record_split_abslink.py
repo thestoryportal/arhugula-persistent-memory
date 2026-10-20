@@ -98,5 +98,41 @@ class AbsoluteLinks(unittest.TestCase):
                          "(a gitlink or a link to another Git dir)")
 
 
+class LaterAbsoluteLinks(unittest.TestCase):
+    def setUp(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        self.base = Path(tmp.name)
+        self.unit = self.base / "unit"
+        self.unit.mkdir()
+        # [LAW:behavior-not-structure] Two kept absolute links expose checks limited by link count.
+        self.prior = (("a", str(self.base / "outside-a")),
+                      ("b", str(self.base / "outside-b")))
+        for name, text in self.prior:
+            (self.unit / name).symlink_to(text)
+
+    def test_inside_after_two_outside_absolute_links_refuses(self):
+        text = str(self.unit / "inside")
+        (self.unit / "z").symlink_to(text)
+        with self.assertRaises(R.Refusal) as caught:
+            R.split_unit(self.unit, [])
+        self.assertEqual(str(caught.exception), f"link 'z' -> {text!r} escapes the unit")
+
+    def test_outside_rows_then_inside_retarget_after_two_absolute_links(self):
+        text = str(self.base / "outside-z")
+        link = self.unit / "z"
+        link.symlink_to(text)
+        expected = tuple(R.Row(name, R.TRACKED, "link", None, None, target)
+                         for name, target in (*self.prior, ("z", text)))
+        self.assertEqual(R.split_unit(self.unit, []), expected)
+        # [LAW:behavior-not-structure] The third link's own text must decide both outcomes.
+        link.unlink()
+        text = str(self.unit / "inside")
+        link.symlink_to(text)
+        with self.assertRaises(R.Refusal) as caught:
+            R.split_unit(self.unit, [])
+        self.assertEqual(str(caught.exception), f"link 'z' -> {text!r} escapes the unit")
+
+
 if __name__ == "__main__":
     unittest.main()
