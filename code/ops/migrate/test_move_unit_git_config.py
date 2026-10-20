@@ -58,7 +58,10 @@ class MainCheckoutKeys(Base):
                            ("core.hooksPath", ""), ("extensions.worktreeConfig", "True"),
                            ("extensions.worktreeConfig", "yes"), ("extensions.worktreeConfig", "1"),
                            ("extensions.worktreeConfig", "false"), ("extensions.worktreeConfig", ""),
-                           ("extensions.worktreeConfig", "true\n"), ("core.hooksPath", " code/ops/git/hooks")):
+                           ("extensions.worktreeConfig", "true\n"), ("core.hooksPath", " code/ops/git/hooks"),
+                           ("extensions.worktreeConfig", "TRUE"), ("extensions.worktreeConfig", "true "),
+                           ("extensions.worktreeConfig", "on"), ("core.hooksPath", "CODE/ops/git/hooks"),
+                           ("core.hooksPath", "/code/ops/git/hooks")):
             with self.subTest(key=key, value=value):
                 fx = Fixture(self.tmp)
                 allow(fx)
@@ -66,11 +69,30 @@ class MainCheckoutKeys(Base):
                 self.refuses(fx, f"{fx.m}/.git/config", key.lower())
 
     def test_a_second_record_of_an_allowed_key_with_another_value_refuses(self):
-        for key, value in (("core.hooksPath", "/elsewhere"), ("extensions.worktreeConfig", "false")):
-            with self.subTest(key=key):
+        # [LAW:behavior-not-structure] Every record must refuse regardless of Git's last-value precedence.
+        for key, allowed, refused in (("core.hooksPath", "code/ops/git/hooks", "/elsewhere"),
+                                      ("extensions.worktreeConfig", "true", "false")):
+            for values in ((refused, allowed), (allowed, refused)):
+                with self.subTest(key=key, values=values):
+                    fx = Fixture(self.tmp)
+                    allow(fx)
+                    git(fx.m, "config", key, values[0])
+                    git(fx.m, "config", "--add", key, values[1])
+                    self.refuses(fx, f"{fx.m}/.git/config", key.lower())
+
+    def test_allowed_values_under_other_keys_refuse(self):
+        # [LAW:verifiable-goals] An allowed value grants no permission to another key in its section.
+        for key, value in (("core.fsmonitor", "code/ops/git/hooks"),
+                           ("core.sshCommand", "code/ops/git/hooks"),
+                           ("core.editor", "code/ops/git/hooks"),
+                           ("core.pager", "code/ops/git/hooks"),
+                           ("extensions.partialClone", "true"),
+                           ("extensions.objectFormat", "true"),
+                           ("extensions.worktreeconfigx", "true")):
+            with self.subTest(key=key, value=value):
                 fx = Fixture(self.tmp)
                 allow(fx)
-                git(fx.m, "config", "--add", key, value)
+                git(fx.m, "config", key, value)
                 self.refuses(fx, f"{fx.m}/.git/config", key.lower())
 
     def test_a_valueless_or_multiline_value_refuses(self):
@@ -87,6 +109,7 @@ class MainCheckoutKeys(Base):
     def test_every_key_refused_before_still_refuses_beside_the_allowed_keys(self):
         for key, value in (("include.path", "/elsewhere"), ("includeIf.gitdir:/x/.path", "/elsewhere"),
                            ("core.fsmonitor", "/bin/true"), ("core.sshCommand", "/bin/true"),
+                           ("core.editor", "/bin/true"), ("core.pager", "/bin/true"),
                            ("extensions.partialClone", "origin"), ("remote.origin.promisor", "true"),
                            ("remote.origin.partialclonefilter", "blob:none"), ("filter.x.clean", "cat")):
             with self.subTest(key=key):
