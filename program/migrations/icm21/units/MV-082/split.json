@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".DS_Store",
+   "sha256": "d2b690cc10bc89d4c9cca9d48e5ff433a5ab440672dd4fdcf5908cebd529da13",
+   "size": 6148
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/memit"
+}
