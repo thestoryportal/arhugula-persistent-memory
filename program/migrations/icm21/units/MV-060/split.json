@@ -1,0 +1,373 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".sandbox_settings.json",
+   "sha256": "19af940826d0c7323d8a2ba1b349297bedd86015ce3c19e0dcacc35104788a8b",
+   "size": 5685
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "audit_transcript.py",
+   "sha256": "7db1e70a577e091dfa3ffa857f3179541abd55f0fef928d572c68ab583522222",
+   "size": 7099
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "dispatch.py",
+   "sha256": "5cfcb9d9e2204d9c848cc6f91e98bd52975e26cf5212e6ed4d69bf3f78750db1",
+   "size": 9792
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "editor.sb",
+   "sha256": "3e715b29b9a1452e4c74bf8f8d2b316c7324cbe5312c919babfa4de3084d7145",
+   "size": 3253
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "editor_bootstrap.py",
+   "sha256": "616c3e69021413b3e95549e8934aed84639f7eac7c91641f910b04a129bbcbfe",
+   "size": 834
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "editor_runtime.py",
+   "sha256": "b0da10da1272b75072fc9990d8fe44a49f103be111d0f56308f6feacc3d10a5d",
+   "size": 4048
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "empty_mcp.json",
+   "sha256": "1e0fe4707a42d1cce5d4e89af209cc6317e979348f1a1a3e1eda481a1467821e",
+   "size": 22
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "fixture_editor_bootstrap.py",
+   "sha256": "aaf618a31f3a59b8de49b82ef23d19bac1493ec51cf8ffe2ee34d5013d882a36",
+   "size": 524
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "fixture_editor_runtime.py",
+   "sha256": "5b0a7b20e64f8ef93b7656b6739599fea126f215938b85ef4f81aeb74db64b11",
+   "size": 825
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "fixture_scorer.py",
+   "sha256": "c0bab5b7c4ee431b79c3a0dbd3806ceb75663786ed89f61b918a65c9d93f37f9",
+   "size": 970
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "kill_run.sh",
+   "sha256": "9dc6ff57a592c687895cdc5383b20ebbc92f0bdd005d42f8cdb564b0e0a08162",
+   "size": 945
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "run.sh",
+   "sha256": "def4d078adcb4d3ec2fec9f583bf8d855e2b3f34935a844ba79b9b779443cce7",
+   "size": 945
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sandbox_settings.py",
+   "sha256": "39976923d92764aa4a30e228cb8a57062c0c3644410775958808776a1edc74d6",
+   "size": 6994
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "scorer.py",
+   "sha256": "4842bb69e381dc2f89e48428255a99c3c9fa85659778505c1402fc92ec45293b",
+   "size": 8546
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "scorer.sb",
+   "sha256": "907792cbc3a621a6861dbf25d75ff99a0d01d8bee2f5325c0ca586f351a2bbf2",
+   "size": 5749
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "scorer_results/20261006-225035_nocommit_7545fa52fac74c52876039a02ae5e52b/failure.json",
+   "sha256": "ca3118f6b6f25d6cec4e6c479b10420e20306566e4f11167ba77aacad913c7f5",
+   "size": 60
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "scorer_results/20261006-225037_nocommit_099894d40a874a62a111d475db695c8e/failure.json",
+   "sha256": "ca3118f6b6f25d6cec4e6c479b10420e20306566e4f11167ba77aacad913c7f5",
+   "size": 60
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "scorer_results/probe_sentinel",
+   "sha256": "e5c25d3f48bfb20f81af7329781212a4e270bdfd8a70574a5b8fcb69816059cf",
+   "size": 22
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/archive/20261006-225035_nocommit_7545fa52fac74c52876039a02ae5e52b/edit.py",
+   "sha256": "959369005bc972a5275f3737689cca03df172d9ad368482d4413ca1930dc2568",
+   "size": 3279
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/archive/20261006-225035_nocommit_7545fa52fac74c52876039a02ae5e52b/identity.json",
+   "sha256": "864626cd0848406e1236d31e6bf59df362176b26482cbaca17fa3ed10f4d8d59",
+   "size": 209
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/archive/20261006-225037_nocommit_099894d40a874a62a111d475db695c8e/edit.py",
+   "sha256": "b4cddcc0346cabe4c92251faa507b6d33a2514f24bee24d9ae8f0208f82bd870",
+   "size": 110
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/archive/20261006-225037_nocommit_099894d40a874a62a111d475db695c8e/identity.json",
+   "sha256": "d076c898570cb0a5755f17dc6f60adb313c9ef21ee4443d34c70585f4f50d446",
+   "size": 209
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/baseline_edit.py",
+   "sha256": "0d03bf68549cc8a9fb3f725850222a31ad8fc822e7df5e69e9d50cc3c4cfb0f7",
+   "size": 5131
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/binding.json",
+   "sha256": "0f637de19cc193c86032c871d127d4c5b9e5712e2cad064ccd0ce0d5b74619c2",
+   "size": 1130
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/config.json",
+   "sha256": "9f2fac15a23a3cdbe0b71d68405da7f79111f5a7aed19bad5f7d7820ba3d9928",
+   "size": 2672
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/directory_denied/dummy_module.py",
+   "sha256": "3e29430f1f5190ce5b49d92306ff0a807804a34c425ce0eca201f29817ad5015",
+   "size": 11
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/fallback_edit.py",
+   "sha256": "dacd2d6aa4341d71a512d765b214f0d3a0a6b33e53ce89fd2db1a5daf7c22954",
+   "size": 6702
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/fixture_transcript.jsonl",
+   "sha256": "397ae96efdc9632a5b326578126322707725d9571e54ca559b2a301d03cba7f4",
+   "size": 82
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/heartbeat.json",
+   "sha256": "5568656b61e042898b952877c9102b2627ac62cc5eec158a6c31fa676b94f075",
+   "size": 119
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/manifest.json",
+   "sha256": "3cd81da018bbb195191417d4adc42c77956f68e88c45d35619d9d3050883323b",
+   "size": 2996487
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/probe_agent.jsonl",
+   "sha256": "b2c1a3ca3804a7f8ef09e655e39ed8430b9b513beae0087f9dcbdf3d5bef7ff3",
+   "size": 43612
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/probe_agent_supp.jsonl",
+   "sha256": "92e1649d14f75187b6aa2deafed4045723685c1b7582e10b981653d7e673603e",
+   "size": 71678
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/probe_record.json",
+   "sha256": "e6ec857e2b8131fa29ea2185f545b31229f03146dd6503003c663a65a997421a",
+   "size": 35340
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/probe_sentinel",
+   "sha256": "ea6b600d5c968ace146a4406a49703edf8778b08bb1b40754da71264771c9a47",
+   "size": 15
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/reference_controls.json",
+   "sha256": "bcb7aca8522be0ffb6bd130e90d0553a5fc0779e800f361ac0c3a8f689332f22",
+   "size": 159
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/root_inventory.json",
+   "sha256": "a107f6cc01d495e34aa54b86d0e9571a9a7143e8b6ec909de5469cfd8ffc8571",
+   "size": 5020
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/seed_edit.py",
+   "sha256": "cde0b4d10fcfdb8b04e156b782ac6a5555a46d2f920174f65724ca17022dfc56",
+   "size": 8078
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/seed_note.json",
+   "sha256": "b46d16f9a10c575a661b6e5421a0711d52b68f01e117e7a92ee8129c1e157d9e",
+   "size": 1074
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sealed/watcher.log",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "size": 0
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "setup.sh",
+   "sha256": "def4d078adcb4d3ec2fec9f583bf8d855e2b3f34935a844ba79b9b779443cce7",
+   "size": 945
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "train_facts.json",
+   "sha256": "aeb5677e7c2b1c3556ccc34dbeecab1eb78824c24a0542225d314f69dfc70b04",
+   "size": 3408
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "v13_common.py",
+   "sha256": "7ddf92830bd3402a8e2a889a4ac51049869452cffc5a714a5d939d538b71494d",
+   "size": 9391
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "v13_graft.py",
+   "sha256": "67260e4e5481a08e92c040bf613d52833b4992888658838ca54307797766ec04",
+   "size": 5890
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "v13_kill.py",
+   "sha256": "d99a15dec7ee40b7088b5e5e283159597a5eabee2f48a9ec17fcfe199816bf75",
+   "size": 726
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "v13_launcher.py",
+   "sha256": "d03c9d72bab4a7ec156924e778a922b25ad7d0e3d91df6a97472599ec7dbd6f3",
+   "size": 7191
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "v13_verify_gpu.py",
+   "sha256": "f3d70434656f3dbc712a2caae5ea291d0d79391d57f8eb20a1f109efa2ef9f32",
+   "size": 3993
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_fixture_c10"
+}

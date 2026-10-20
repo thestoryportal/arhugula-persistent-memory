@@ -1,0 +1,53 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".sandbox.sb",
+   "sha256": "29e13206578085f06b8ce9e212d8a9d7013c68e8969e2d5d3d915c32854c3447",
+   "size": 34034
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".sandbox_settings.json",
+   "sha256": "063b1298a9b22f5e3782b7ac6eb77bf492b70988dd0433458d01732d937ede82",
+   "size": 55107
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "kill_run.sh",
+   "sha256": "3202ee3faa8e989f4052ed2e4d38792a76489f6bfe3243915ffbe1565f1ace1b",
+   "size": 1895
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "reference_controls.json",
+   "sha256": "52d04f59a71d0e49aa73692697720b1fc9527b0c679c7db60e215ed21f9d254b",
+   "size": 261
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "run.sh",
+   "sha256": "dfc9acd83614cfbf12d5b91e4dfbc115aec42c2ab7668a650b3509b319068ebd",
+   "size": 1684
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "setup.sh",
+   "sha256": "80b552a8070bd12137ad6551af591b6b5b0d4cb8df7b3ec789caf38c4e0626e2",
+   "size": 1171
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_c10"
+}
