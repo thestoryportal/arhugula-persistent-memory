@@ -40,6 +40,8 @@ import stat
 import subprocess
 import sys
 
+from ops.migrate import fdsafe
+
 CHUNK = 1 << 20
 DIR_FLAGS = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
 # core.* keys a plain repo carries; any other core key (excludesfile, attributesfile, hookspath, worktree,
@@ -97,9 +99,8 @@ def _leaf(dir_fd: int, name: str, path: str, st: os.stat_result) -> dict:
     if stat.S_ISREG(mode):
         kind, digest = "file", _hash_regular(dir_fd, name, path, st)
     elif stat.S_ISLNK(mode):
-        link_text = os.readlink(name, dir_fd=dir_fd)
-        if os.readlink(path) != link_text or _sig(_lstat_at(dir_fd, name)) != _sig(st):
-            raise Refusal(f"changed during hash: {path}")
+        # [LAW:single-enforcer] The fd pins the scanned link; its text cannot change in place.
+        link_text = os.fsdecode(fdsafe.read_link(fdsafe.Entry(dir_fd, name, path, name, st)))
         kind, digest = "symlink", hashlib.sha256(os.fsencode(link_text)).hexdigest()
     elif stat.S_ISSOCK(mode):
         kind, digest = "socket", EMPTY_SHA
@@ -317,7 +318,7 @@ def _write(root: str, out: str, parent_fd: int, root_fd: int) -> int:
         body = canonical(manifest)
         if _inside(_real_path(parent_fd), root):
             raise Refusal(f"output directory moved inside the unit; nothing written: {out}")
-    except (Refusal, OSError, UnicodeError) as exc:
+    except (Refusal, fdsafe.Refusal, OSError, UnicodeError) as exc:
         return _fail(f"{type(exc).__name__}: {exc}")
 
     try:

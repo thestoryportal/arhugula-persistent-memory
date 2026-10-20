@@ -318,14 +318,14 @@ class ChangedDuringHash(Base):
     def test_symlink_retargeted_during_readlink_is_refused(self):
         os.symlink("other", self.unit / "ln")
 
-        def hook(path, _result):
-            if os.fspath(path) == str(self.unit / "ln"):
+        def hook(path, *rest):
+            if os.fspath(path) == "ln":
                 tmp_link = self.tmp / "ln2"
                 os.symlink("data.bin-much-longer-text", tmp_link)
                 os.replace(tmp_link, self.unit / "ln")
-        code, out, err = self.patched_inproc("readlink", hook)
+        code, out, err = self.patched_before("open", hook)
         self.assertEqual(code, 1, out + err)
-        self.assertIn("changed during hash", json.loads(out)["reason"])
+        self.assertIn("changed between scan and open", json.loads(out)["reason"])
         self.assertFalse(os.path.lexists(self.out))
 
     def test_output_created_during_walk_is_never_overwritten(self):
