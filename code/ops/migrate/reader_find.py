@@ -17,7 +17,6 @@ import argparse
 import csv
 import io
 import json
-import mmap
 import os
 from pathlib import Path
 import re
@@ -96,40 +95,37 @@ def under(base: str, path: str) -> bool:
     return path == base or path.startswith(base.rstrip(os.sep) + os.sep)
 
 
-def resolve(root: Path, name: str) -> Path:
+def resolve(root: Path, name: str) -> tuple[Path, str]:
     """A path inside root may not leave it, lexically or through a parent symlink.
-    An absolute path outside root (a LaunchAgents plist) is taken as given."""
+    Return its required real folder too; an outside absolute path uses /."""
     lexical, real = os.path.normpath(root), os.path.realpath(root)
     path = os.path.normpath(name if os.path.isabs(name) else os.path.join(lexical, name))
     if not os.path.isabs(name) and not under(lexical, path):
         raise Refused(f'{name}: escapes {root}')
-    if (under(lexical, path) or under(real, path)) and not under(real, os.path.realpath(os.path.dirname(path))):
+    # [LAW:dataflow-not-control-flow] Outside absolute readers carry / as their containment root.
+    inside = real if under(lexical, path) or under(real, path) else '/'
+    if not under(inside, os.path.realpath(os.path.dirname(path))):
         raise Refused(f'{name}: a parent symlink leaves {root}')
     if not os.path.lexists(path):
         raise Refused(f'{name}: absent')
-    return Path(path)
+    return Path(path), inside
 
 
-def contents(path: Path):
-    """Bytes of a regular file, or a symlink's own text. A link target is never opened."""
-    parent = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
-    try:
-        st = os.lstat(path.name, dir_fd=parent)
-        if stat.S_ISLNK(st.st_mode):
-            # [LAW:single-enforcer] The shared reader binds the bytes to this scan's inode.
-            return fdsafe.read_link(fdsafe.Entry(parent, path.name, str(path), path.name, st))
-    finally:
-        os.close(parent)
-    mode = st.st_mode
-    if not stat.S_ISREG(mode):
-        return None
-    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
-    try:
-        if os.fstat(fd).st_size == 0:
-            return b''
-        return mmap.mmap(fd, 0, access=mmap.ACCESS_READ)
-    finally:
-        os.close(fd)
+def contents(path: Path, inside: str) -> bytes | None:
+    """Read a file or a link's own text through a parent held inside the required folder."""
+    parent = fdsafe.Dir(os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY), str(path.parent))
+    with parent:
+        # [LAW:single-enforcer] Read-time containment belongs to the held folder, not its rebound name.
+        if not fdsafe.inside(inside, parent.live()):
+            raise Refused(f'{path}: a parent symlink leaves {inside}')
+        # [LAW:single-enforcer] Both shared readers bind their bytes to this one scan's inode.
+        entry = fdsafe.Entry(parent.fd, path.name, str(path), path.name,
+                             os.lstat(path.name, dir_fd=parent.fd))
+        if stat.S_ISLNK(entry.st.st_mode):
+            return fdsafe.read_link(entry)
+        if not stat.S_ISREG(entry.st.st_mode):
+            return None
+        return fdsafe.read_bytes(entry)
 
 
 def line_of(data, offset: int) -> int:
@@ -146,10 +142,10 @@ def scan_files(root: Path, files: list[str], olds: list[str], skip=(), listed=()
         if name in listed and not os.path.lexists(os.path.join(root, name)):
             unverified.append({'file': name, 'reason': 'absent'})
             continue
-        path = resolve(root, name)
+        path, inside = resolve(root, name)
         if os.path.realpath(path) in skip and not os.path.islink(path):
             continue
-        data = contents(path)
+        data = contents(path, inside)
         if data is None:
             unverified.append({'file': name, 'reason': 'not a regular file'})
             continue
@@ -167,8 +163,6 @@ def scan_files(root: Path, files: list[str], olds: list[str], skip=(), listed=()
             if tail not in siblings and any(n.startswith(tail) for n in siblings):
                 unverified.append({'file': name, 'line': line_of(data, m.start()),
                                    'reason': 'dynamic', 'text': m.group(0).decode().rstrip('.')})
-        if isinstance(data, mmap.mmap):
-            data.close()
     order = lambda r: (r['file'], r.get('line', 0), r.get('reason', ''), r.get('old_text', r.get('text', '')))
     return {'stale': sorted(stale, key=order), 'unverified': sorted(unverified, key=order)}
 

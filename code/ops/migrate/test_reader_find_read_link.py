@@ -73,7 +73,7 @@ class ReadLink(unittest.TestCase):
         self.assertEqual(real_readlink(self.path), 'original')
 
     def test_stable_missing_link_returns_text_bytes(self):
-        self.assertEqual(reader_find.contents(self.path), b'original')
+        self.assertEqual(reader_find.contents(self.path, str(self.root)), b'original')
 
     def test_post_open_swap_returns_scanned_text(self):
         # [LAW:behavior-not-structure] A held link keeps its bytes after its name is rebound.
@@ -81,7 +81,7 @@ class ReadLink(unittest.TestCase):
                 'open', 1, self.path, 'impostor', when='after',
                 match=lambda name, *a, **kw:
                 name == self.path.name and kw.get('dir_fd') is not None) as fault:
-            output = reader_find.contents(self.path)
+            output = reader_find.contents(self.path, str(self.root))
         self.assertEqual(fault.fired, 1)
         self.assertEqual(output, b'original')
         self.assertNotIn(b'impostor', output)
@@ -89,15 +89,15 @@ class ReadLink(unittest.TestCase):
     def test_stable_and_refused_reads_close_fds(self):
         # [LAW:verifiable-goals] Both successful and refused reads release their descriptors.
         before = len(os.listdir('/dev/fd'))
-        self.assertEqual(reader_find.contents(self.path), b'original')
+        self.assertEqual(reader_find.contents(self.path, str(self.root)), b'original')
         with self.aba():
             with self.assertRaisesRegex(fdsafe.Refusal, 'changed between scan and open'):
-                reader_find.contents(self.path)
+                reader_find.contents(self.path, str(self.root))
         self.assertEqual(len(os.listdir('/dev/fd')), before)
 
     def test_existing_target_is_not_read(self):
         (self.root / 'original').write_bytes(b'target contents must not be read')
-        self.assertEqual(reader_find.contents(self.path), b'original')
+        self.assertEqual(reader_find.contents(self.path, str(self.root)), b'original')
 
     def test_cli_stable_link_through_in_root_parent_symlink(self):
         (self.root / 'inside').symlink_to(self.root, target_is_directory=True)
@@ -116,7 +116,7 @@ class ReadLink(unittest.TestCase):
     def test_aba_after_lstat_refuses(self):
         with self.aba():
             with self.assertRaises(fdsafe.Refusal) as caught:
-                reader_find.contents(self.path)
+                reader_find.contents(self.path, str(self.root))
         self.assertEqual(caught.exception.path, str(self.path))
         self.assertIn('changed between scan and open', str(caught.exception))
 
@@ -136,7 +136,7 @@ class ReadLink(unittest.TestCase):
                     self.path, name='open', n=1, timeout=0.5,
                     match=lambda name, *a, **kw: name == self.path.name) as fault:
                 with self.assertRaises(fdsafe.Refusal) as caught:
-                    reader_find.contents(self.path)
+                    reader_find.contents(self.path, str(self.root))
             self.assertEqual(fault.fired, 1)
             self.assertEqual(caught.exception.path, str(self.path))
             self.assertIn('changed between scan and open', str(caught.exception))
@@ -175,7 +175,7 @@ class ReadLink(unittest.TestCase):
                     parent, name='open', timeout=0.5,
                     match=lambda name, *a, **kw: name == parent) as fault:
                 with self.assertRaises(OSError) as caught:
-                    reader_find.contents(path)
+                    reader_find.contents(path, str(self.root))
             self.assertEqual(fault.fired, 1)
             self.assertEqual(caught.exception.errno, errno.ENOTDIR)
         except FK.AttackTimeout as exc:
