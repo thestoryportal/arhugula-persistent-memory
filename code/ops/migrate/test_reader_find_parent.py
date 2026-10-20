@@ -92,6 +92,50 @@ class Parent(unittest.TestCase):
             result = self.cli()
         self.refused(result)
 
+    def test_prefix_sibling_parent_swap_refuses(self):
+        sibling = self.base / 'unit-evil'
+        sibling.mkdir()
+        # [LAW:behavior-not-structure] Sharing the root's prefix does not make a folder contained.
+        with mock.patch.object(self, 'outside', sibling):
+            self.readers('file')
+            with self.swap('before'):
+                result = self.cli()
+        self.refused(result)
+
+    def test_static_prefix_sibling_name_escapes(self):
+        parent = self.base / 'unit-evil/parent'
+        parent.mkdir(parents=True)
+        (parent / 'reader').write_text('impostor\n')
+        rc, out, err = self.cli('../unit-evil/parent/reader')
+        self.assertEqual(rc, 2, (out, err))
+        self.assertEqual(out, '')
+        self.assertIn('escapes', err)
+        self.assertNotIn('impostor', out + err)
+
+    def test_symlink_root_parent_swap_refuses(self):
+        (self.outside / 'reader').write_text('impostor\n')
+        for spelling in ('relative', 'absolute-real'):
+            with self.subTest(spelling=spelling):
+                root = self.base / spelling / 'unit'
+                parent = root / 'parent'
+                parent.mkdir(parents=True)
+                (parent / 'reader').write_text('original\n')
+                link = root.parent / 'root-link'
+                link.symlink_to(root, target_is_directory=True)
+                name = 'parent/reader' if spelling == 'relative' else str(parent / 'reader')
+                opened_parent = link / 'parent' if spelling == 'relative' else parent
+                # [LAW:behavior-not-structure] Both spellings must retain containment after resolve.
+                with mock.patch.object(self, 'root', link), \
+                        mock.patch.object(self, 'parent', opened_parent), self.swap('before'):
+                    result = self.cli(name)
+                self.refused(result)
+
+    def test_absent_reader_has_resolve_diagnostic(self):
+        rc, out, err = self.cli('parent/missing')
+        self.assertEqual(rc, 2, (out, err))
+        self.assertEqual(out, '')
+        self.assertIn('parent/missing: absent', err)
+
     def test_file_parent_swapped_after_open_reads_original(self):
         self.readers('file')
         with self.swap('after'):
