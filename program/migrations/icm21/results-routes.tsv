@@ -1,0 +1,78 @@
+child	producer	owner	target
+.DS_Store		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/.DS_Store
+autoresearch_c10_equivalence.log		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/autoresearch_c10_equivalence.log
+autoresearch_c10_equivalence_rerun.log		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/autoresearch_c10_equivalence_rerun.log
+autoresearch_c10_setup_check.log		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/autoresearch_c10_setup_check.log
+autoresearch_reaim		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/autoresearch_reaim
+backup_gdrive_drive_20261010T071708Z		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/backup_gdrive_drive_20261010T071708Z
+backup_gdrive_host_20261010		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/backup_gdrive_host_20261010
+backup_gdrive_host_20261011		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/backup_gdrive_host_20261011
+backup_gdrive_mb14_20261010T095752Z		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/backup_gdrive_mb14_20261010T095752Z
+backups_audit_20261011T084030Z		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/backups_audit_20261011T084030Z
+c10l_covgeom	c10l	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10l/runs/c10l_covgeom/results/c10l_covgeom
+c10l_mint	c10l	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10l/runs/c10l_mint/results/c10l_mint
+c10m_diag	c10m	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10m/runs/c10m_diag/results/c10m_diag
+c10n_ztransport	c10n	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10n/runs/c10n_ztransport/results/c10n_ztransport
+c10o_magnitude	c10o	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10o/runs/c10o_magnitude/results/c10o_magnitude
+c10p_twopass	c10p	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10p/runs/c10p_twopass/results/c10p_twopass
+c10u_mint2_logs	c10u	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10u/runs/c10u_mint2/results/c10u_mint2_logs
+c10u_mint2_review_tokenizer_check_20261006-133250.json		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/c10u_mint2_review_tokenizer_check_20261006-133250.json
+c10v_layerpick_logs	c10v	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10v/runs/c10v_layerpick/results/c10v_layerpick_logs
+c10w_oracle		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/c10w_oracle
+c10w_oracle_logs	c10w	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10w/runs/c10w_oracle/results/c10w_oracle_logs
+c10x_enginepath	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_enginepath/results/c10x_enginepath
+c10x_enginepath_logs	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_enginepath/results/c10x_enginepath_logs
+c10x_enginepath_p1_launch.log	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_enginepath/results/c10x_enginepath_p1_launch.log
+c10x_enginepath_rerun1	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_enginepath_rerun1/results/c10x_enginepath_rerun1
+c10x_enginepath_rerun1_launch.log	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_enginepath_rerun1/results/c10x_enginepath_rerun1_launch.log
+c10x_enginepath_rerun1_logs	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_enginepath_rerun1/results/c10x_enginepath_rerun1_logs
+c10x_enginepath_rerun2_launch.log	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_enginepath_rerun2/results/c10x_enginepath_rerun2_launch.log
+c10x_enginepath_rerun2_logs	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_enginepath_rerun2/results/c10x_enginepath_rerun2_logs
+c10x_enginepath_rerun3	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_enginepath_rerun3/results/c10x_enginepath_rerun3
+c10x_enginepath_rerun3_launch.log	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_enginepath_rerun3/results/c10x_enginepath_rerun3_launch.log
+c10x_enginepath_rerun3_logs	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_enginepath_rerun3/results/c10x_enginepath_rerun3_logs
+c10x_x2_probe	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_x2_probe/results/c10x_x2_probe
+c10x_x2_probe_run.log	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_x2_probe/results/c10x_x2_probe_run.log
+c10x_x2_probe_run2.log	c10x	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10x/runs/c10x_x2_probe/results/c10x_x2_probe_run2.log
+c10y_directdw_calib1	c10y	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10y/runs/c10y_directdw_calib1/results/c10y_directdw_calib1
+c10y_directdw_calib1_launch.log	c10y	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10y/runs/c10y_directdw_calib1/results/c10y_directdw_calib1_launch.log
+c10y_directdw_calib2	c10y	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10y/runs/c10y_directdw_calib2/results/c10y_directdw_calib2
+c10y_directdw_calib2_launch.log	c10y	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10y/runs/c10y_directdw_calib2/results/c10y_directdw_calib2_launch.log
+c10y_directdw_calib3	c10y	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10y/runs/c10y_directdw_calib3/results/c10y_directdw_calib3
+c10y_directdw_calib3_launch.log	c10y	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10y/runs/c10y_directdw_calib3/results/c10y_directdw_calib3_launch.log
+c10y_directdw_calib4	c10y	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10y/runs/c10y_directdw_calib4/results/c10y_directdw_calib4
+c10y_directdw_calib4_launch.log	c10y	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10y/runs/c10y_directdw_calib4/results/c10y_directdw_calib4_launch.log
+c10y_precast_diag	c10y	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10y/runs/c10y_precast_diag/results/c10y_precast_diag
+c10z_astra	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra/results/c10z_astra
+c10z_astra_attempt2	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_attempt2/results/c10z_astra_attempt2
+c10z_astra_attempt2_chain.log	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_attempt2/results/c10z_astra_attempt2_chain.log
+c10z_astra_attempt3	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_attempt3/results/c10z_astra_attempt3
+c10z_astra_attempt3_chain.log	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_attempt3/results/c10z_astra_attempt3_chain.log
+c10z_astra_attempt4	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_attempt4/results/c10z_astra_attempt4
+c10z_astra_attempt4_infrafail_20261009T234321Z	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_attempt4_infrafail_20261009T234321Z/results/c10z_astra_attempt4_infrafail_20261009T234321Z
+c10z_astra_attempt4_infrafail_20261009T234321Z_chain.log	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_attempt4_infrafail_20261009T234321Z/results/c10z_astra_attempt4_infrafail_20261009T234321Z_chain.log
+c10z_astra_benchmark	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_benchmark/results/c10z_astra_benchmark
+c10z_astra_benchmark_20261008T104535Z.log	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_benchmark/results/c10z_astra_benchmark_20261008T104535Z.log
+c10z_astra_benchmark_20261008T121345Z.log	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_benchmark/results/c10z_astra_benchmark_20261008T121345Z.log
+c10z_astra_benchmark_20261009T012936Z.log	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_benchmark/results/c10z_astra_benchmark_20261009T012936Z.log
+c10z_astra_chain.launchfail126.log	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra/results/c10z_astra_chain.launchfail126.log
+c10z_astra_chain.log	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra/results/c10z_astra_chain.log
+c10z_astra_z0_probe_run.log	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_z0_probe/results/c10z_astra_z0_probe_run.log
+c10z_astra_z0_probe_run_mask.log	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_astra_z0_probe/results/c10z_astra_z0_probe_run_mask.log
+c10z_v7_diagnostic	c10z	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10z/runs/c10z_v7_diagnostic/results/c10z_v7_diagnostic
+compute_storage_brainstorm_20261011T054507Z		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/compute_storage_brainstorm_20261011T054507Z
+context_audit_20261012		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/context_audit_20261012
+dashboard_audit_20261010		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/dashboard_audit_20261010
+dashboard_queue_build_20261011T014430Z		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/dashboard_queue_build_20261011T014430Z
+git_automation_build_20261010T064202.457112Z		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/git_automation_build_20261010T064202.457112Z
+git_automation_fix2_mb7_20261010T084957.416181Z		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/git_automation_fix2_mb7_20261010T084957.416181Z
+git_automation_fix3_mb13_20261010T092614.133488Z		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/git_automation_fix3_mb13_20261010T092614.133488Z
+git_automation_fix_mb7_20261010T082038.786164Z		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/git_automation_fix_mb7_20261010T082038.786164Z
+infranodus_research_arc_2026-10-05		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/infranodus_research_arc_2026-10-05
+intel_memit_copy_20261012		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/intel_memit_copy_20261012
+labviz		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/labviz
+mathlab		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/mathlab
+mathlab_staging		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/mathlab_staging
+openresearch_archive		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/openresearch_archive
+research_engine_brainstorm_20261011T032049Z		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/research_engine_brainstorm_20261011T032049Z
+research_engine_phase1_20261011		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/results/research_engine_phase1_20261011
