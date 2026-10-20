@@ -114,6 +114,39 @@ class Parent(unittest.TestCase):
         (self.root / 'alias').symlink_to(self.parent, target_is_directory=True)
         self.original(self.cli('alias/reader'))
 
+    def test_stable_non_regular_reader_is_unverified(self):
+        for kind in ('directory', 'fifo'):
+            with self.subTest(kind=kind):
+                tmp = tempfile.TemporaryDirectory(prefix='reader-find-kind-')
+                self.addCleanup(tmp.cleanup)
+                root = Path(tmp.name).resolve()
+                (root / 'parent').mkdir()
+                path = root / 'parent/reader'
+                if kind == 'directory':
+                    path.mkdir()
+                else:
+                    os.mkfifo(path)
+                # [LAW:behavior-not-structure] The stable kind is reported without opening a FIFO.
+                try:
+                    with mock.patch.object(self, 'root', root), \
+                            FK._deadline(0.5) as clock, clock.body():
+                        rc, out, err = self.cli()
+                except FK.AttackTimeout as exc:
+                    self.fail('stable reader scan blocked: ' + str(exc))
+                self.assertEqual(rc, 0, (out, err))
+                self.assertEqual(err, '')
+                self.assertEqual(json.loads(out), {
+                    'stale': [], 'unverified': [
+                        {'file': 'parent/reader', 'reason': 'not a regular file'}]})
+
+    def test_symlink_root_reads_original(self):
+        self.readers('file')
+        link = self.base / 'root-link'
+        link.symlink_to(self.root, target_is_directory=True)
+        # [LAW:behavior-not-structure] The lexical root may differ from the held folder's live path.
+        with mock.patch.object(self, 'root', link):
+            self.original(self.cli())
+
     def test_stable_and_refused_reads_close_parent(self):
         self.readers('file')
         # [LAW:verifiable-goals] Check closure on both exits through the public CLI.
