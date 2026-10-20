@@ -1,0 +1,10 @@
+[
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-097/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-097/readers.json",
+  "registry": "program/migrations/icm21/units/MV-097/registry.json",
+  "requirement_id": "MV-097"
+ }
+]

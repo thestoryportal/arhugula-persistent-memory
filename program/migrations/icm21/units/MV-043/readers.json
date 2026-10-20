@@ -1,0 +1,3644 @@
+{
+ "stale": [
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/match_details.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/match_details.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/name_index.json",
+   "line": 1,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_anchor_evidence.jsonl",
+   "line": 9,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_anchor_evidence.jsonl",
+   "line": 12,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_anchor_evidence.jsonl",
+   "line": 73,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_anchor_evidence.jsonl",
+   "line": 95,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 96,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 97,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 98,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 99,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 100,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 101,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 102,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 103,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 104,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 105,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 106,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 107,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 108,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 109,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 110,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 111,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 112,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 113,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 114,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 115,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 116,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 117,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 118,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 119,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 120,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 121,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 122,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 123,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 124,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 125,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_byte_copies.jsonl",
+   "line": 129,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 2,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 3,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 14,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 64,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 69,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 77,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 78,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 90,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 100,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 103,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 113,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 113,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 116,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 117,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 121,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 161,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 173,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 174,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 175,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 176,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 177,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 178,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 179,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_content_evidence.jsonl",
+   "line": 182,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 2,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 5,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 6,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 7,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 8,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 9,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 10,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 11,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 35,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 40,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 41,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 42,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 48,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 122,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 123,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 189,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 192,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 193,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 194,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 196,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 204,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 211,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 212,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 213,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 260,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 265,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 274,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 279,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 280,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 281,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_final_dispositions.jsonl",
+   "line": 282,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/program_search_queue.tsv",
+   "line": 117,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  },
+  {
+   "file": "plans/icm21/specs/MOVE-REQUIREMENTS.tsv",
+   "line": 44,
+   "old": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs",
+   "old_text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs"
+  }
+ ],
+ "unverified": [
+  {
+   "file": "_archive/historical_backups/20261011/llm-as-database/framework-council-skills/aiSecOps-specialist.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/historical_backups/20261011/llm-as-database/framework-council-skills/framework-council.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/historical_backups/20261011/llm-as-database/framework-council-skills/graph-data-architect.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/historical_backups/20261011/llm-as-database/framework-council-skills/memit-specialist.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/historical_backups/20261011/llm-as-database/framework-council-skills/orchestration-comparativist.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/historical_backups/20261011/llm-as-database/framework-council-skills/state-consistency-theorist.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/historical_backups/20261011/llm-as-database/framework-council-skills/validation-contract-architect.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/historical_backups/20261011/llm-as-database/framework-spec-writer.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/historical_backups/20261011/llm-as-database/graph-data-architect.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/historical_backups/20261011/llm-as-database/validation-contract-architect (1).skill",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/historical_backups/20261011/llm-as-database/validation-contract-architect.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_drive_20261010T071708Z/commands.json.gz",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_drive_20261010T071708Z/dry_run_changes.txt.gz",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_host_20261011/r12_package_20261011T024815Z/real_status_before.bin",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_host_20261011/r13_package_20261011T032105Z/real_status_before.bin",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_crash-after-allocation_20261010T102821.705146Z/fixture/Native_1.app/Contents/MacOS/applet",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_crash-after-allocation_20261010T102821.705146Z/fixture/Native_1.app/Contents/Resources/Assets.car",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_crash-after-allocation_20261010T102821.705146Z/fixture/Native_1.app/Contents/Resources/Scripts/main.scpt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_crash-after-allocation_20261010T102821.705146Z/fixture/Native_1.app/Contents/Resources/applet.icns",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_crash-after-allocation_20261010T102821.705146Z/fixture/Native_1.app/Contents/Resources/applet.rsrc",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_manual-interleave_20261010T102801.532670Z/fixture/Native_1.app/Contents/MacOS/applet",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_manual-interleave_20261010T102801.532670Z/fixture/Native_1.app/Contents/Resources/Assets.car",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_manual-interleave_20261010T102801.532670Z/fixture/Native_1.app/Contents/Resources/Scripts/main.scpt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_manual-interleave_20261010T102801.532670Z/fixture/Native_1.app/Contents/Resources/applet.icns",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_manual-interleave_20261010T102801.532670Z/fixture/Native_1.app/Contents/Resources/applet.rsrc",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_recovery_20261010T102841.899563Z/fixture/Native_1.app/Contents/MacOS/applet",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_recovery_20261010T102841.899563Z/fixture/Native_1.app/Contents/Resources/Assets.car",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_recovery_20261010T102841.899563Z/fixture/Native_1.app/Contents/Resources/Scripts/main.scpt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_recovery_20261010T102841.899563Z/fixture/Native_1.app/Contents/Resources/applet.icns",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb14_20261010T095752Z/native_recovery_20261010T102841.899563Z/fixture/Native_1.app/Contents/Resources/applet.rsrc",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/backup-gdrive/backup_gdrive_mb6_20261010T072852Z/basic.scpt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/git-automation/git_automation_fix2_mb7_20261010T084957.416181Z/fixtures/xcrun_db",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/git-automation/git_automation_fix3_mb13_20261010T092614.133488Z/fixtures/xcrun_db",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/git-automation/git_automation_fix_mb7_20261010T082038.786164Z/fixtures/xcrun_db",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/dml3_impl_20261009T195833.138642Z/norm_discrepancy_fixture.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A1_single_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A1_single_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A1_single_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A1_single_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A1_single_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A2_coherent2_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A2_coherent2_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A2_coherent2_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A2_coherent2_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A2_coherent2_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A7_coined_coined_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A7_coined_coined_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A7_coined_coined_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A7_coined_coined_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_A7_coined_coined_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s0_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s0_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s0_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s0_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s0_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s1_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s1_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s1_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s1_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s1_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s2_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s2_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s2_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s2_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T030312.489038Z/replayed_mint1_s2_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A1_single_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A1_single_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A1_single_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A1_single_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A1_single_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A2_coherent2_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A2_coherent2_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A2_coherent2_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A2_coherent2_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A2_coherent2_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A7_coined_coined_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A7_coined_coined_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A7_coined_coined_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A7_coined_coined_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_A7_coined_coined_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s0_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s0_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s0_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s0_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s0_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s1_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s1_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s1_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s1_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s1_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s2_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s2_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s2_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s2_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/direct_outputs/m2_20261009T032808.552204Z/replayed_mint1_s2_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/clean.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/inloop_A1_single.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/inloop_A2_coherent2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/inloop_A7_coined_coined.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/inloop_mint1_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/inloop_mint1_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/inloop_mint1_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/postedit_A1_single.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/postedit_A2_coherent2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/postedit_A7_coined_coined.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/postedit_mint1_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/postedit_mint1_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/postedit_mint1_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/weights_A7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A1_single_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A1_single_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A1_single_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A1_single_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A1_single_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A2_coherent2_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A2_coherent2_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A2_coherent2_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A2_coherent2_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A2_coherent2_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A7_coined_coined_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A7_coined_coined_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A7_coined_coined_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A7_coined_coined_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_A7_coined_coined_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s0_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s0_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s0_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s0_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s0_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s1_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s1_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s1_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s1_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s1_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s2_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s2_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s2_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s2_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z/replayed_mint1_s2_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_fixture.duckdb",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A1_single_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A1_single_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A1_single_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A1_single_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A1_single_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A2_coherent2_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A2_coherent2_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A2_coherent2_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A2_coherent2_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A2_coherent2_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A7_coined_coined_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A7_coined_coined_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A7_coined_coined_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A7_coined_coined_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A7_coined_coined_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s0_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s0_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s0_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s0_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s0_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s1_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s1_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s1_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s1_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s1_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s2_l4.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s2_l5.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s2_l6.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s2_l7.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s2_l8.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/harvest_persistence_20261009T183202.046125Z/fixture_evidence/coverage_count4/run/diagnostic_captures/partial_write_20261009T184217.279829Z.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/harvest_persistence_20261009T183202.046125Z/fixture_evidence/coverage_duplicate/run/diagnostic_captures/partial_write_20261009T184217.299937Z.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/harvest_persistence_20261009T183202.046125Z/fixture_evidence/coverage_order/run/diagnostic_captures/partial_write_20261009T184217.290117Z.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/mathlab/mathlab_staging/harvest_persistence_20261009T183202.046125Z/fixture_evidence/mid_edit/run/diagnostic_captures/partial_write_20261009T184217.324592Z.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "_archive/projects/new1-builds/new1_recorder_hostfix_20261010T232724Z/engine_tracked_paths.zlist",
+   "reason": "binary"
+  },
+  {
+   "file": "code/agents/skills/aisecops-specialist/aisecops-specialist.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "code/agents/skills/framework-council/framework-council.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "code/agents/skills/graph-data-architect/graph-data-architect.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "code/agents/skills/memit-specialist/memit-specialist.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "code/agents/skills/orchestration-comparativist/orchestration-comparativist.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "code/agents/skills/state-consistency-theorist/state-consistency-theorist.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "code/agents/skills/validation-contract-architect/validation-contract-architect.skill",
+   "reason": "binary"
+  },
+  {
+   "file": "code/lab/runners/c10w_p2_gate.py",
+   "line": 40,
+   "reason": "dynamic",
+   "text": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/"
+  },
+  {
+   "file": "experiments/c10l/runs/c10l_mint/inits/G.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10l/runs/c10l_mint/inits/M.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10l/runs/c10l_mint/inits/N.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10l/runs/c10l_mint/inits/N_seed1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10l/runs/c10l_mint/inits/N_seed2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10l/runs/c10l_mint/inits/Z.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/inits/F_r0_mint1_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/inits/F_r0_mint1_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/inits/F_r0_mint1_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r2/inits/F_r0_mint1_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r2/inits/F_r0_mint1_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r2/inits/F_r0_mint1_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r2/inits/F_r0_modifier_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r2/zs/F_r0_mint1_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r2/zs/F_r0_mint1_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r2/zs/F_r0_mint1_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r2/zs/F_r0_modifier_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/F_r0_mint1_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/F_r0_mint1_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/F_r0_mint1_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/F_r0_modifier_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/F_r0_modifier_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/F_r0_modifier_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/V2_r0_mint1_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/V2_r0_mint1_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/V2_r0_mint1_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/V2_r0_mint2_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/V2_r0_mint2_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/inits/V2_r0_mint2_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/F_r0_mint1_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/F_r0_mint1_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/F_r0_mint1_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/F_r0_modifier_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/F_r0_modifier_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/F_r0_modifier_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/V2_r0_mint1_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/V2_r0_mint1_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/V2_r0_mint1_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/V2_r0_mint2_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/V2_r0_mint2_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/r3/zs/V2_r0_mint2_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/zs/F_r0_mint1_s0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/zs/F_r0_mint1_s1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10u/runs/c10u_mint2/zs/F_r0_mint1_s2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_directdw_calib4/targets_calib.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L4_A_0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L4_A_1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L4_A_2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L4_Y_0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L4_Y_1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L4_Y_2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L5_A_0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L5_A_1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L5_A_2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L5_Y_0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L5_Y_1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L5_Y_2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L6_A_0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L6_A_1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L6_A_2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L6_Y_0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L6_Y_1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L6_Y_2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L7_A_0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L7_A_1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L7_A_2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L7_Y_0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L7_Y_1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L7_Y_2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L8_A_0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L8_A_1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L8_A_2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L8_Y_0.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L8_Y_1.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/batch_A7_coined_coined_L8_Y_2.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_assembled32_factor_solution64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_common_coverage.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_common_factors.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_common_inputs.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_common_observer_off.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_common_observer_on.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_common_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_assembled32_direct64__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_assembled32_direct64__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_assembled32_direct64__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_assembled32_direct64__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_assembled32_factored64__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_assembled32_factored64__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_assembled32_factored64__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_common_device__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_common_device__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_common_device__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_common_device__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_common_device__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_common_device__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_common_device__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_common_device__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_common_device__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_common_device__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_cpu32_product__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_cpu32_product__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_cpu32_product__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_cpu32_product__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_cpu32_product__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_cpu32_product__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_cpu32_product__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_cpu32_product__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_device_repeat__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_device_repeat__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_device_repeat__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_device_repeat__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_device_repeat__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_device_repeat__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_device_repeat__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_device_repeat__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_device_repeat__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_direct32_repeat__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_direct32_repeat__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_factor32_repeat_product__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product_repeat__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product_repeat__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product_repeat__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product_repeat__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product_repeat__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product_repeat__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product_repeat__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product_repeat__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product_repeat__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product_repeat__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_cpu32_product_repeat__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_device__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__native_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_native_direct__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_promoted32_product__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_promoted32_product__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_promoted32_product__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_promoted32_product__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_promoted32_product__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_promoted32_product__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_promoted32_product__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__native_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__native_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_recipe_A__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_solve64_direct__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_solve64_direct__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_solve64_direct__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_solve64_direct__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_solve64_direct__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_solve64_direct__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_solve64_factored__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_solve64_factored__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_solve64_factored__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_solve64_factored__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_compare_solve64_factored__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_direct_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_factor_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_factor_solution64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_native_coverage.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_native_inputs.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_native_observer_off.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_native_observer_on.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_native_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_numeric.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_repeat_coverage.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_repeat_inputs.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_repeat_observer_off.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_repeat_observer_on.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_native_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_native_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_recipe_A.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L4_weight_compare_solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_assembled32_factor_solution64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_common_coverage.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_common_factors.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_common_inputs.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_common_observer_off.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_common_observer_on.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_common_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_assembled32_direct64__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_assembled32_direct64__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_assembled32_direct64__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_assembled32_direct64__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_assembled32_factored64__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_assembled32_factored64__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_assembled32_factored64__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_common_device__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_common_device__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_common_device__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_common_device__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_common_device__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_common_device__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_common_device__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_common_device__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_common_device__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_common_device__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_cpu32_product__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_cpu32_product__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_cpu32_product__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_cpu32_product__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_cpu32_product__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_cpu32_product__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_cpu32_product__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_cpu32_product__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_device_repeat__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_device_repeat__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_device_repeat__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_device_repeat__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_device_repeat__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_device_repeat__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_device_repeat__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_device_repeat__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_device_repeat__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_direct32_repeat__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_direct32_repeat__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_factor32_repeat_product__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product_repeat__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product_repeat__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product_repeat__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product_repeat__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product_repeat__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product_repeat__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product_repeat__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product_repeat__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product_repeat__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product_repeat__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_cpu32_product_repeat__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_device__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__native_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_native_direct__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_promoted32_product__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_promoted32_product__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_promoted32_product__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_promoted32_product__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_promoted32_product__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_promoted32_product__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_promoted32_product__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__native_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__native_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_recipe_A__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_solve64_direct__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_solve64_direct__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_solve64_direct__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_solve64_direct__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_solve64_direct__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_solve64_direct__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_solve64_factored__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_solve64_factored__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_solve64_factored__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_solve64_factored__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_compare_solve64_factored__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_direct_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_factor_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_factor_solution64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_native_coverage.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_native_inputs.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_native_observer_off.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_native_observer_on.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_native_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_numeric.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_repeat_coverage.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_repeat_inputs.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_repeat_observer_off.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_repeat_observer_on.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_native_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_native_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_recipe_A.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L5_weight_compare_solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_assembled32_factor_solution64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_common_coverage.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_common_factors.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_common_inputs.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_common_observer_off.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_common_observer_on.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_common_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product_repeat__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product_repeat__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product_repeat__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product_repeat__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product_repeat__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_cpu32_product_repeat__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_device__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__native_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_native_direct__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__assembled32_direct64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__assembled32_factored64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__common_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__device_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__native_device.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__native_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__promoted32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__solve64_direct.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_compare_recipe_A__solve64_factored.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_direct32_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_direct_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_factor32_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_factor_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_factor_solution64.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_native_coverage.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_native_cpu32_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_native_cpu32_product_repeat.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_native_inputs.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_native_observer_off.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_native_observer_on.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_native_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_repeat_coverage.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_repeat_inputs.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_repeat_observer_off.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_repeat_observer_on.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/controls_A7_coined_coined_L6_repeat_product.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_00.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_01.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_02.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_03.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_04.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_05.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_06.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_07.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_08.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_09.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_10.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_11.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_12.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_13.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_14.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_15.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_16.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_17.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_18.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_19.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_20.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_21.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_22.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A1_single_23.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_00.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_01.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_02.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_03.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_04.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_05.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_06.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_07.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_08.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_09.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_10.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_11.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_12.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_13.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_14.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_15.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_16.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_17.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_18.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_19.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_20.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_21.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_22.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/target_A7_coined_coined_23.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10y/runs/c10y_precast_diag/20261009T225619Z/targets.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10z/runs/c10z_v7_diagnostic/20261009T182427Z/m_F1000.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/c10z/runs/c10z_v7_diagnostic/20261009T182427Z/m_R1000.pt",
+   "reason": "binary"
+  },
+  {
+   "file": "experiments/ml/runs/calibration/calibration.duckdb",
+   "reason": "binary"
+  },
+  {
+   "file": "knowledge/analyses/backups-audit/backups_audit_20261011T084030Z/classification_refined.tsv.gz",
+   "reason": "binary"
+  }
+ ]
+}
