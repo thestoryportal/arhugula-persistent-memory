@@ -34,6 +34,9 @@ class ManifestReadLink(Base):
         self.assertEqual(leaf["sha256"], hashlib.sha256(b"original").hexdigest())
 
     def test_aba_after_scan_refuses_same_length_impostor(self):
+        self.assert_aba_refused()
+
+    def assert_aba_refused(self):
         real_lstat, real_open, real_readlink = os.lstat, os.open, os.readlink
         parked = self.tmp / "parked"
         fired, restored, reads = [], [], []
@@ -81,6 +84,28 @@ class ManifestReadLink(Base):
         self.assertEqual(fired, [True])
         self.assertEqual(real_readlink(self.link), "original")
         self.assert_refused(result, "changed between scan and open")
+
+    def test_post_open_swap_keeps_original_text_and_hash(self):
+        with FK.swap_for_symlink("open", 1, self.link, "replaced", when="after",
+                                 match=lambda path, *a, **kw: path == "ln" and "dir_fd" in kw) as fault:
+            code, out, err = self.run_inproc()
+        self.assertEqual(fault.fired, 1)
+        self.assertEqual(code, 0, out + err)
+        raw = self.out.read_bytes()
+        leaf, = json.loads(raw)["leaves"]
+        # [LAW:behavior-not-structure] Both manifest values must come from the held link, despite the new path.
+        self.assertEqual(leaf["link_text"], "original")
+        self.assertEqual(leaf["sha256"], hashlib.sha256(b"original").hexdigest())
+        self.assertNotIn("replaced", out + err + raw.decode())
+
+    def test_link_fds_close_after_success_and_refusal(self):
+        before = len(os.listdir("/dev/fd"))
+        code, out, err = self.run_inproc()
+        self.assertEqual(code, 0, out + err)
+        self.out = self.tmp / "refused.json"
+        self.assert_aba_refused()
+        # [LAW:verifiable-goals] Success and refusal must both release their link descriptors.
+        self.assertEqual(len(os.listdir("/dev/fd")), before)
 
     def test_fifo_swapped_before_open_refuses_without_blocking(self):
         try:
