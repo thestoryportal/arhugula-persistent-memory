@@ -34,8 +34,8 @@ must be its own real path.
       by `git update-index`. For git-add, Git computes the blob id with `hash-object --no-filters --stdin`;
       the run writes the compressed loose object through held fds with fdsafe.create_file, then stages it
       with `git update-index`. Its roots are each unit folder (held by fd, so it stays a root wherever it
-      moves), the folders that hold each unit source, each existing target parent, and every folder the run
-      creates, never M, so custody files are created outside every root.
+      moves; a file unit has none), the folders that hold each unit source, each existing target parent, and
+      every folder the run creates, never M, so custody files are created outside every root.
       Before any Git call it holds M/.git and its config without following links and refuses (T201
       rulings 2, 7 and 8) a link or special file under .git, a config.worktree, an include, includeIf,
       extensions or filter key, a core key outside the plain set, or a remote promisor or partial-clone
@@ -545,21 +545,34 @@ def _tracked(repo: Repo, sources: list) -> tuple[list[str], set[tuple[str, str, 
     return tracked, set(entries)
 
 
-def _inventory(source: str) -> tuple[bytes, tuple, fdsafe.Dir]:
-    """Fresh Step 201 manifest bytes, (st_dev, st_ino), and the walked Dir, owned by the caller.
+def _inventory(source: str) -> tuple[bytes, tuple, tuple[fdsafe.Dir, ...]]:
+    """Fresh Step 201 manifest bytes, (st_dev, st_ino), and the source's held folders, owned by the caller:
+    the walked Dir of a directory unit, none for a file unit (its fd is closed here; nothing is created inside
+    a file).
 
     [LAW:one-source-of-truth] the bytes come from unit_manifest's own fd-bound walk over the held source, so
-    they equal the plan's manifest exactly when nothing changed; no second inventory is written here."""
-    with contextlib.ExitStack() as stack:
-        held = stack.enter_context(fdsafe.hold_root(source))
+    they equal the plan's manifest exactly when nothing changed; no second inventory is written here. The
+    lstat only picks how to hold the source; build_manifest re-checks the held fd's real path and kind."""
+    # [LAW:no-ambient-temporal-coupling] Transfer folder holds; own file reads through their checked close.
+    with contextlib.ExitStack() as kept, contextlib.ExitStack() as reading:
+        with fdsafe.fs(source):
+            directory = stat.S_ISDIR(os.lstat(source).st_mode)
+        if directory:
+            folders = (kept.enter_context(fdsafe.hold_root(source)),)
+            fd = folders[0].fd
+        else:
+            folders = ()
+            with fdsafe.fs(source):
+                fd = os.open(source, fdsafe.LEAF_FLAGS)
+            reading.callback(fdsafe.close, fd, source)
         with fdsafe.fs(source):
             try:
-                doc = unit_manifest.build_manifest(source, held.fd)
+                doc = unit_manifest.build_manifest(source, fd)
             except unit_manifest.Refusal as exc:
                 raise Refusal(source, str(exc)) from exc
-            st = os.fstat(held.fd)
-        result = canonical(doc), (st.st_dev, st.st_ino), held
-        stack.pop_all()
+            st = os.fstat(fd)
+        result = canonical(doc), (st.st_dev, st.st_ino), folders
+        kept.pop_all()
         return result
 
 
@@ -650,8 +663,9 @@ def _do_mkdir(held: Held, action: dict) -> None:
 
 def _same_manifest(held: Held, path: str, source: str, reason: str) -> None:
     # [LAW:one-source-of-truth] compare unit_manifest's own document, rebasing only moved paths.
-    manifest, _, walked = _inventory(path)
-    walked.close()
+    manifest, _, folders = _inventory(path)
+    for folder in folders:
+        folder.close()
 
     def rebase(value):
         if isinstance(value, str):
@@ -825,11 +839,12 @@ def run(args) -> tuple[int, object]:
         repo = _open_repo(stack, root)
         worktree = _worktree(repo)
         tracked, index = _tracked(repo, [unit.source for unit in units])
-        observed, sources, manifests, leaves = [], {}, {}, {}
+        observed, sources, manifests, leaves, unit_folders = [], {}, {}, {}, []
         for unit in units:
             hold(os.path.dirname(unit.source))
-            manifest, sources[unit.source], walked = _inventory(unit.source)
-            folders[unit.source] = stack.enter_context(walked)
+            manifest, sources[unit.source], held_folders = _inventory(unit.source)
+            # [LAW:dataflow-not-control-flow] An empty tuple adds no file-unit folder to the write exclusions.
+            unit_folders += [stack.enter_context(folder) for folder in held_folders]
             manifests[unit.source] = manifest
             # [LAW:one-source-of-truth] both path names derive from the same admitted manifest bytes.
             for leaf in json.loads(manifest)["leaves"]:
@@ -841,7 +856,7 @@ def run(args) -> tuple[int, object]:
                                    tracked=tracked, worktree=worktree, targets=targets, run_units=run_units,
                                    custody_dir=args.custody_dir)
         # [LAW:effects-at-boundaries] the roots are the unit's own folders only, never M.
-        roots = [folders[unit.source] for unit in units] + \
+        roots = unit_folders + \
             [folders[os.path.dirname(unit.source)] for unit in units] + \
             [folders[t["base"]] for t in targets if t["base"] == os.path.dirname(t["target"])]
         files = [(os.path.basename(doc["path"]), doc["bytes"]) for doc in result["documents"]] + \
