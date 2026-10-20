@@ -54,6 +54,19 @@ class FileUnitManifest(unittest.TestCase):
                           [manifest(F, root_leaf(F), leaf(F, "child"))])
         self.assertEqual(caught.exception.path, F)
 
+    def test_root_leaf_beside_two_descendants_refuses(self):
+        # [LAW:behavior-not-structure] Exclusivity also forbids more than two leaves.
+        with self.assertRaisesRegex(fdsafe.Refusal, "only leaf") as caught:
+            core.classify(manifest(F, root_leaf(F), leaf(F, "child1"), leaf(F, "child2")),
+                          [manifest(R1)])
+        self.assertEqual(caught.exception.path, F)
+
+    def test_reference_root_leaf_beside_two_descendants_refuses(self):
+        with self.assertRaisesRegex(fdsafe.Refusal, "only leaf") as caught:
+            core.classify(manifest(R1, leaf(R1, "x")),
+                          [manifest(F, root_leaf(F), leaf(F, "child1"), leaf(F, "child2"))])
+        self.assertEqual(caught.exception.path, F)
+
     def test_outside_leaf_keeps_existing_refusal(self):
         with self.assertRaisesRegex(fdsafe.Refusal, "source is not inside the manifest root"):
             core.classify(manifest(F, root_leaf(F + "2")), [manifest(R1)])
