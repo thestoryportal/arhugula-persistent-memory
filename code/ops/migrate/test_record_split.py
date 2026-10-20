@@ -287,8 +287,8 @@ class Refusals(Fixture):
         with self.assertRaisesRegex(R.Refusal, "special"):
             self.split()
 
-    def test_nested_git_root_refuses(self):
-        self.put("inner/.git/HEAD", b"ref: refs/heads/main\n")
+    def test_gitlink_refuses(self):
+        self.put("inner/.git", b"gitdir: ../../elsewhere/.git\n")
         with self.assertRaisesRegex(R.Refusal, "nested"):
             self.split()
 
