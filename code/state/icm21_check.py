@@ -847,6 +847,35 @@ def check_moves(args):
         path, data = read(path)
         return path, parse(path, data)
 
+    def unit_manifest(path):
+        """Read one observed document; the retained parser owns the remaining leaf fields."""
+        path, document = load(path)
+        # [LAW:parse-dont-validate] Establish the leaf sources before forming their union.
+        if type(document) is not dict or not {'schema_version', 'leaves'} <= document.keys() \
+                or type(document['leaves']) is not list \
+                or any(type(leaf) is not dict or type(leaf.get('source')) is not str
+                       for leaf in document['leaves']):
+            raise fdsafe.Refusal(path, 'is not a unit manifest document')
+        return path, document
+
+    def union(observed):
+        """Project the observed documents into one LeafManifest without losing ownership."""
+        (first_path, first), owners = observed[0], {}
+        for index, (path, document) in enumerate(observed):
+            if json.dumps(document['schema_version']) != json.dumps(first['schema_version']):
+                raise fdsafe.Refusal(path, 'has a schema_version other than that of '
+                                     + first_path)
+            for leaf in document['leaves']:
+                # [LAW:single-enforcer] Within-document duplicates remain retained findings;
+                # the union owns only the cross-document duplicate rule.
+                owner, named_in = owners.setdefault(leaf['source'], (index, path))
+                if owner != index:
+                    raise fdsafe.Refusal(path, 'names the leaf %s that %s also names'
+                                         % (leaf['source'], named_in))
+        # The strict LeafManifest refuses unit_manifest's root and git_roots.
+        return {'schema_version': first['schema_version'],
+                'leaves': [leaf for _, document in observed for leaf in document['leaves']]}
+
     def table(path, name):
         path, data = read(path)
         # [LAW:single-enforcer] Annex readers share the strict line-ending rule (R4).
@@ -1023,13 +1052,7 @@ def check_moves(args):
                         existing_paths=existing, run_units=run_units,
                         leaves=inside)
             else:
-                observed_path, observed = load(str(args.observed))
-                if type(observed) is not dict \
-                        or not {'schema_version', 'leaves'} <= observed.keys():
-                    raise fdsafe.Refusal(observed_path, 'is not a unit manifest document')
-                # The strict LeafManifest refuses unit_manifest's root and git_roots.
-                projection = {'schema_version': observed['schema_version'],
-                              'leaves': observed['leaves']}
+                projection = union([unit_manifest(str(path)) for path in args.observed])
                 found += R.check_retained(root.path, retention, documents, projection)
             if root.live() != root.path:
                 raise fdsafe.Refusal(root.path, 'moved while the check ran')
@@ -1072,7 +1095,7 @@ def main():
     command.add_argument('--entry', required=True)
     command.add_argument('--manifest', type=Path, required=True)
     command.add_argument('--retention', type=Path, required=True)
-    command.add_argument('--observed', type=Path)
+    command.add_argument('--observed', type=Path, action='append')
     command.add_argument('--admitted-root', action='append')
     command.add_argument('--run-units', type=Path)
     command.add_argument('--stage', choices=('pre', 'post'), required=True)
