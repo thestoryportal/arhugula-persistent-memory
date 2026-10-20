@@ -25,6 +25,8 @@ import stat
 import subprocess
 import sys
 
+from ops.migrate import fdsafe
+
 HEADER = ['old', 'new', 'disposition', 'unit']
 UNIT_ROWS = 'path-map-rows.tsv'
 NAME = rb'[A-Za-z0-9_.-]'
@@ -110,9 +112,15 @@ def resolve(root: Path, name: str) -> Path:
 
 def contents(path: Path):
     """Bytes of a regular file, or a symlink's own text. A link target is never opened."""
-    mode = os.lstat(path).st_mode
-    if stat.S_ISLNK(mode):
-        return os.readlink(path).encode()
+    parent = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        st = os.lstat(path.name, dir_fd=parent)
+        if stat.S_ISLNK(st.st_mode):
+            # [LAW:single-enforcer] The shared reader binds the bytes to this scan's inode.
+            return fdsafe.read_link(fdsafe.Entry(parent, path.name, str(path), path.name, st))
+    finally:
+        os.close(parent)
+    mode = st.st_mode
     if not stat.S_ISREG(mode):
         return None
     fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
@@ -247,7 +255,7 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     try:
         return run(args)
-    except (Refused, OSError, UnicodeDecodeError, csv.Error) as exc:
+    except (Refused, fdsafe.Refusal, OSError, UnicodeDecodeError, csv.Error) as exc:
         print(f'reader_find: refused: {exc}', file=sys.stderr)
         return 2
 

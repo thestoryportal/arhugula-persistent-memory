@@ -63,6 +63,7 @@ class Fixture(unittest.TestCase):
         env = {k: v for k, v in os.environ.items() if k != 'LLMDB_ROOT'}
         if env_root:
             env['LLMDB_ROOT'] = str(self.root)
+        env['PYTHONPATH'] = str(TOOL.parents[2])
         return subprocess.run([sys.executable, '-B', str(TOOL), *map(str, args)],
                               cwd=self.root, env=env, capture_output=True, text=True, timeout=60)
 
