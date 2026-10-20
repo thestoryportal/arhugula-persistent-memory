@@ -1133,10 +1133,6 @@ class Attacks(Base):
         self.assert_refused(result, written[0], "inside root")
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class LateInputParents(Base):
     def test_late_parent_attacks_refuse_for_every_input(self):
         from test_move_unit_plan import after_open_then
@@ -1964,3 +1960,7 @@ class GitCoverage(Base):
         git(self.fx.m, "config", "user.promisor", "true")
         result = self.main(*self.fx.args())
         self.assertEqual(result[0], 0, result[2])
+
+
+if __name__ == "__main__":
+    unittest.main()

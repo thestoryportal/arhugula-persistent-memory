@@ -172,10 +172,6 @@ class FileUnitRun(Base):
         self.assert_unmoved()
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class DirectoryInventoryRace(Base):
     def test_directory_raced_into_file_open_refuses_before_custody_write(self):
         source = self.u.source
@@ -210,3 +206,7 @@ class DirectoryInventoryRace(Base):
         self.assertEqual(sorted(os.listdir(relocated if written else source)), listing)
         self.assertEqual(result, (
             2, "", f"{source!r}: is a directory when opened; it changed during the inventory\n"))
+
+
+if __name__ == "__main__":
+    unittest.main()

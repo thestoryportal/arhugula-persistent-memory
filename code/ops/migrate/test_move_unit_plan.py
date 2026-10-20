@@ -1191,10 +1191,6 @@ class HeldParentIdentity(Base):
         self.assert_refused(result, fx.mdir, "[EACCES]")
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class RefusalPathRendering(Base):
     """Filesystem names remain one stderr line at every reason interpolation."""
 
@@ -1366,3 +1362,7 @@ class RuledBoundaryCases(Base):
         fx = self.fx
         fx.rewrite(fx.reader, f"intro\nsee {fx.old} here".encode())
         self.assertEqual(self.main(*fx.check_plans_args()), (0, "[]\n", ""))
+
+
+if __name__ == "__main__":
+    unittest.main()
