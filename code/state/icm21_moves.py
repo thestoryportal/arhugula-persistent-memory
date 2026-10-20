@@ -7,6 +7,7 @@ the move. A fact the caller did not supply yields UNVERIFIED, never an empty PAS
 """
 from functools import cache
 import hashlib
+import posixpath
 from pathlib import PurePath, PurePosixPath
 
 import icm21_check
@@ -51,11 +52,21 @@ def within(path, root):
     return path == root or root in path.parents
 
 
+def absolute_text_inside(text: str, unit: PurePosixPath) -> bool:
+    """Whether absolute text still names the unit's old location after a move."""
+    # [LAW:single-enforcer] direct links and chains share R8's lexical rule.
+    # R2 treats a leading // as one root, even where normpath preserves it.
+    return within(PurePosixPath('/' + posixpath.normpath(text).lstrip('/')), unit)
+
+
 def link_stays_inside(link, text, unit, links):
     """Walk the link's text from inside the unit, following the unit's own links.
-    True when every step stays inside the unit, False when one leaves it, None on a loop."""
-    if link == unit or text.startswith('/'):
-        return False  # an absolute text keeps naming the old location after the move
+    True for relative paths staying inside or absolute text outside the unit;
+    False for a boundary failure, None on a loop."""
+    if link == unit:
+        return False
+    if text.startswith('/'):
+        return not absolute_text_inside(text, unit)
     parts = list(link.parent.relative_to(unit).parts) + text.split('/')
     done, hops = unit, 0
     while parts:
@@ -70,7 +81,7 @@ def link_stays_inside(link, text, unit, links):
                 return None
             target = links[done / part]
             if target.startswith('/'):
-                return False
+                return not absolute_text_inside('/'.join([target] + parts), unit)
             parts = target.split('/') + parts
             continue
         else:
