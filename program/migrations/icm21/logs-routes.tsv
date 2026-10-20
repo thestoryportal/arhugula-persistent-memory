@@ -1,0 +1,43 @@
+child	producer	owner	target
+c10k_keying_ablation_N1_last_0.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_0.log
+c10k_keying_ablation_N1_last_1.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_1.log
+c10k_keying_ablation_N1_last_2.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_2.log
+c10k_keying_ablation_N1_last_3.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_3.log
+c10k_keying_ablation_N1_last_4.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_4.log
+c10k_keying_ablation_N1_last_5.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_5.log
+c10k_keying_ablation_N1_subject_0.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_0.log
+c10k_keying_ablation_N1_subject_1.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_1.log
+c10k_keying_ablation_N1_subject_2.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_2.log
+c10k_keying_ablation_N1_subject_3.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_3.log
+c10k_keying_ablation_N1_subject_4.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_4.log
+c10k_keying_ablation_N1_subject_5.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_5.log
+c10k_keying_ablation_framebleed.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_framebleed.log
+c10k_keying_ablation_framebleed_b.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_framebleed_b.log
+c10k_keying_ablation_n1_chain.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_n1_chain.log
+c10k_route_a_P_0.02.pt	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/c10k_route_a_P_0.02.pt
+c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt
+c10k_route_a_P_perlayer_0.02-0.02-0.02-0.02-0.03.pt	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/c10k_route_a_P_perlayer_0.02-0.02-0.02-0.02-0.03.pt
+c10k_route_a_R0_baseline.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_R0_baseline.log
+c10k_route_a_R1_A7_DIAGNOSTIC_ONLY.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_R1_A7_DIAGNOSTIC_ONLY.log
+c10k_route_a_R1_controls.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_R1_controls.log
+c10k_route_a_R3_A1_DIAGNOSTIC_ONLY.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_R3_A1_DIAGNOSTIC_ONLY.log
+c10k_route_a_anchor.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_anchor.log
+c10k_route_a_diag_arms.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_diag_arms.log
+c10k_route_a_fp64_resolve_control.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_fp64_resolve_control.log
+c10k_route_a_gate_v2_controls.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_gate_v2_controls.log
+c10k_route_a_gate_v2_controls_fp32.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_gate_v2_controls_fp32.log
+c10k_route_a_gate_v2_fp32.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_gate_v2_fp32.log
+c10k_route_a_gate_v2_run2.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_gate_v2_run2.log
+c10k_route_a_memit_ridge_diag.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_memit_ridge_diag.log
+c10k_route_a_solve_backtest.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_solve_backtest.log
+c10k_route_a_solve_gain_diag.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_solve_gain_diag.log
+claude_c10k_keying_ablation_result_review_v2.err		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/logs/claude_c10k_keying_ablation_result_review_v2.err
+claude_c10k_keying_ablation_result_review_v2.md		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/logs/claude_c10k_keying_ablation_result_review_v2.md
+codex_c10k_keying_ablation_result_review.err		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/logs/codex_c10k_keying_ablation_result_review.err
+codex_c10k_keying_ablation_result_review_v2.err		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/logs/codex_c10k_keying_ablation_result_review_v2.err
+codex_c10k_keying_ablation_result_review_v2.md		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/logs/codex_c10k_keying_ablation_result_review_v2.md
+codex_c10k_route_a_result_review.err		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/logs/codex_c10k_route_a_result_review.err
+cov_L9-10-11-12_DONE.flag		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/logs/cov_L9-10-11-12_DONE.flag
+pending_findings		hold	/Volumes/memit/llmdb-preserved/icm21-20261013/M/logs/pending_findings
+route_a_chain.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/route_a_chain.log
+route_a_chain_rerun_L2-0.01.log	c10k	run	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/experiments/c10k/runs/c10k_route_a/logs/route_a_chain_rerun_L2-0.01.log
