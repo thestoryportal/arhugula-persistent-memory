@@ -648,12 +648,14 @@ class NegativeControls(Base):
             self.assertEqual(fh.read(), b"kept\n")
         self.assertEqual(self.fx.custody_files(), sorted(CUSTODY[:5] + ("retention.json",)))
 
-    def test_custody_inside_the_source_folder_refuses(self):
-        inside = self.fx.mk("m/old/custody")
-        argv = self.fx.args()
-        argv[argv.index("--custody-dir") + 1] = inside
-        self.refuses_unmoved(os.path.join(inside, "leaves.json"), "inside root", argv=argv)
-        self.assertEqual(os.listdir(inside), [])
+    def test_custody_inside_the_source_parent_is_written_and_the_unit_moves(self):
+        self.fx.custody = self.fx.mk("m/old/custody")
+        self.run_ok()
+        self.assertEqual(self.fx.custody_files(), sorted(CUSTODY))
+        self.assertFalse(os.path.lexists(self.u.source))
+        for rel, data in self.u.files.items():
+            with open(os.path.join(self.fx.target(self.u), rel), "rb") as fh:
+                self.assertEqual(fh.read(), data)
 
     def test_custody_inside_the_target_folder_refuses(self):
         inside = self.fx.mk("m/experiments/c10r/runs/custody")
