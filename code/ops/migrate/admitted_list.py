@@ -32,6 +32,8 @@ import subprocess
 import sys
 from collections import defaultdict
 
+from ops.migrate import fdsafe
+
 PLAN_KEYS = frozenset({"move", "remove", "add", "modify"})
 READ_ONLY_GIT = frozenset({"rev-parse", "ls-tree", "ls-files", "hash-object"})
 CONTROL = frozenset(map(chr, [*range(0x20), 0x7F]))
@@ -166,7 +168,9 @@ def read_link_or_file(path: str, dir_fd: int | None = None) -> tuple:
     except OSError as exc:
         if exc.errno != errno.ELOOP:
             raise
-        return os.readlink(os.fsencode(path), dir_fd=dir_fd), True  # Git stores a symlink as its link text.
+        st = os.lstat(path, dir_fd=dir_fd)
+        # [LAW:single-enforcer] fdsafe binds Git's link text to this scanned inode.
+        return fdsafe.read_link(fdsafe.Entry(dir_fd, path, path, path, st)), True
     with os.fdopen(fd, "rb") as f:
         if not stat.S_ISREG(os.fstat(f.fileno()).st_mode):
             raise PlanError(f"{path!r} is not a regular file or symlink")
