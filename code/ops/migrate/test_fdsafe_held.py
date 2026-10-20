@@ -54,10 +54,6 @@ class HeldCreate(Base):
         self.assertEqual(open_fds(), before)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class OneLineRefusal(unittest.TestCase):
     def test_breaks_escaped_and_other_text_unchanged(self):
         escapes = (("\n", r"\n"), ("\r", r"\r"), ("\v", r"\x0b"), ("\f", r"\x0c"),
@@ -115,3 +111,7 @@ class HeldOpenWrite(Base):
         fdsafe.write_held(held, b"retry")
         with open(target, "rb") as stream:
             self.assertEqual(stream.read(), b"retry")
+
+
+if __name__ == "__main__":
+    unittest.main()

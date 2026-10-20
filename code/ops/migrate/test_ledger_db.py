@@ -1889,9 +1889,6 @@ class Round7MutantKills(Base):
         self.assertIn("its removal failed, left in place", result[2])
         self.assertEqual(os.listdir(moved), ["drift.tsv"])
 
-if __name__ == "__main__":
-    unittest.main()
-
 
 class Round6SettledReports(Base):
     def test_report_moved_during_write_to_non_fence_is_refused_and_kept(self):
@@ -2051,3 +2048,7 @@ class Round10ExistingAttemptRemoval(Base):
         self.assertRefused(result, os.path.join(moved, "drift.tsv"), "EIO")
         self.assertIn("its removal failed, left in place", result[2])
         self.assertEqual(os.listdir(moved), ["drift.tsv"])
+
+
+if __name__ == "__main__":
+    unittest.main()
