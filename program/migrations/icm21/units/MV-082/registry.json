@@ -1,0 +1,20 @@
+{
+ "matches": [
+  {
+   "candidates": [],
+   "evidence": [
+    {
+     "experiment_ids": [],
+     "line": 98,
+     "source": "program/registers/EXPERIMENT_REGISTRY.md",
+     "text": "| D-HW-2 (2026-10-11) | Compute/storage architecture approved by the operator (07:03:36Z, choice 15, 'I approve this session's design.'): the 2019 Intel MacBook Pro becomes a support host (second memit copy, Codex builders, research engine, Drive transfers, phone + local dashboard; no local LLM, choice 8); a friend's Apple Silicon Mac gets a conditional one-week trial (baseline reproduction first; no-loan fallback, choice 14). Supersedes D-RE-1's phase-1 'Neo4j on this Mac' choice (phase-1 spec revision + fresh Astra round needed); the paused science-reservation contract (Astra r3-r5 NO-GO) loses its same-host premise and its failure classes carry into Astra R2. One cross-cutting integration plan required before any affected build is dispatched. Astra r1 GO-WITH-CONDITIONS (R1, F6 fixed; R2-R5 gate affected dispatch). Nothing built, installed or connected. Infrastructure, no science claim; F1 unchanged. | [knowledge/analyses/compute-storage/compute_storage_brainstorm_20261011T054507Z/](../../knowledge/analyses/compute-storage/compute_storage_brainstorm_20261011T054507Z/) |"
+    }
+   ],
+   "experiment_id": null,
+   "result": "none",
+   "unit": "memit",
+   "unknown": []
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory"
+}

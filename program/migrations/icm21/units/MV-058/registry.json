@@ -1,0 +1,13 @@
+{
+ "matches": [
+  {
+   "candidates": [],
+   "evidence": [],
+   "experiment_id": null,
+   "result": "none",
+   "unit": "autoresearch_fence_probe",
+   "unknown": []
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory"
+}

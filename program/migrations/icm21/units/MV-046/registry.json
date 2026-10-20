@@ -1,0 +1,24 @@
+{
+ "matches": [
+  {
+   "candidates": [
+    "c5"
+   ],
+   "evidence": [
+    {
+     "experiment_ids": [
+      "c5"
+     ],
+     "line": 35,
+     "source": "program/registers/EXPERIMENT_REGISTRY.md",
+     "text": "| **C5-audit** (compaction-verify) | governance/analysis | does compaction output re-pass Gate/verify before going live? + is the mandated verify sound/powered? | `(analysis \u2014 spec-read + tools hypergeometric)` | `experiments/c5/runs/c5_compaction_probe_power/c5_compaction_probe_power.json` \u00b7 `experiments/c5/reviews/C5_COMPACTION_VERIFY_AUDIT.md` | \u2014 | RESOLVED-BY-SPEC-READ + CORRECTION: spec MANDATES verify (C-OC3); open=non-CORE read-surface gap + sampling-power deficit; livelock\u2192C1. Corrects a pushed over-claim. Not promoted | D-C5-1 |"
+    }
+   ],
+   "experiment_id": "c5",
+   "result": "exact",
+   "unit": "tools",
+   "unknown": []
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory"
+}
