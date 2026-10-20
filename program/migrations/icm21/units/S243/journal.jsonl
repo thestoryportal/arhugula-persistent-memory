@@ -1,0 +1,5 @@
+{"action":"mkdir","operation_id":"MV-018","source":null,"target":"/Volumes/memit/llmdb-preserved/icm21-20261013/M"}
+{"action":"mv","operation_id":"MV-018","source":"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/architecture_profile","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/M/architecture_profile"}
+{"action":"mv","operation_id":"MV-028","source":"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/docs","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/M/docs"}
+{"action":"mv","operation_id":"MV-043","source":"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/research_and_specs","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/M/research_and_specs"}
+{"action":"mv","operation_id":"MV-046","source":"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/M/tools"}

@@ -1,0 +1,29 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".DS_Store",
+   "sha256": "750bdfc52783999435f6fd6f67b47e6b1e98d2abc804b7290540c0382c1a99ae",
+   "size": 8196
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "__pycache__/closeout_check.cpython-314.pyc",
+   "sha256": "a577e1f9aa51cea16bcc4c2a95630a1409d6aa575d1e205300c175654994f00b",
+   "size": 19850
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "__pycache__/dashboard_queue.cpython-314.pyc",
+   "sha256": "d134551f9876cabc11bbfb01b6e4e253d40c7081d6d57098db46377d26aa67f4",
+   "size": 48247
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools"
+}

@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".DS_Store",
+   "sha256": "db3a738af7d11d837edef30aa7a7eb7bd3356fa0f1b1e024cc21639a966dd38a",
+   "size": 8196
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/architecture_profile"
+}
