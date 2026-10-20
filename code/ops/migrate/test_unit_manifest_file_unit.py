@@ -202,3 +202,38 @@ class FileUnit(Base):
             result = self.run_file()
         self.assertTrue(fired)
         self.assert_refused(result, "root changed between lstat and open")
+
+    def test_file_parent_rebound_during_read_refuses(self):
+        with FK.rename_and_rebind("read", 1, self.file.parent) as fault:
+            attacked = os.read
+
+            def read(fd, size):
+                data = attacked(fd, size)
+                if not self.file.exists():
+                    self.file.write_bytes(b"replacement")
+                return data
+
+            with mock.patch.object(os, "read", read):
+                result = self.run_file()
+        self.assertEqual(fault.fired, 1)
+        # [LAW:behavior-not-structure] A later refusal must not mask the owning root check.
+        self.assert_refused(result, "root moved during the inventory")
+
+    def test_directory_parent_rebound_during_read_refuses(self):
+        self.unit = self.unit / "directory"
+        self.unit.mkdir()
+        (self.unit / "leaf").write_bytes(self.data)
+        with FK.rename_and_rebind("read", 1, self.unit.parent) as fault:
+            attacked = os.read
+
+            def read(fd, size):
+                data = attacked(fd, size)
+                if not self.unit.exists():
+                    self.unit.mkdir()
+                    (self.unit / "leaf").write_bytes(b"replacement")
+                return data
+
+            with mock.patch.object(os, "read", read):
+                result = self.run_inproc()
+        self.assertEqual(fault.fired, 1)
+        self.assert_refused(result, "root moved during the inventory")

@@ -283,6 +283,10 @@ def build_manifest(root: str, root_fd: int) -> dict:
     if scan is None:
         raise Refusal(f"root is neither a directory nor a regular file ({stat.filemode(mode)}): {root}")
     git_dirs = scan(root, root_fd, leaves)
+    # [LAW:no-ambient-temporal-coupling] The scan can move an admitted root's parent.
+    after = _real_path(root_fd)
+    if after != root:
+        raise Refusal(f"root moved during the inventory (real path now {after}): {root}")
 
     def order(path: str) -> bytes:
         return os.path.relpath(path, root).encode("utf-8")
