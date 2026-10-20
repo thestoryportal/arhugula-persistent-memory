@@ -76,6 +76,12 @@ class ObservedMany(MovesCase):
         self.assertEqual(reason, '%r: names the leaf %s that %s also names'
                          % (path, self.fx.observed_leaves[0]['source'], path))
 
+    def test_a_leaf_in_two_later_files_refuses_naming_both(self):
+        paths = self.observed([[0], [1, 2], [2, 3]])
+        self.assertEqual(self.assertRefusedMany(paths),
+                         '%r: names the leaf %s that %s also names'
+                         % (paths[2], self.fx.observed_leaves[2]['source'], paths[1]))
+
     def test_a_leaf_repeated_inside_one_file_stays_a_check_retained_finding(self):
         paths = self.observed([[0, 1, 1, 2, 3]])
         code, result = self.run_many(paths)
@@ -88,16 +94,23 @@ class ObservedMany(MovesCase):
                          'leaves': {}}, {'schema_version': 1, 'leaves': [[]]},
                          {'schema_version': 1, 'leaves': [{'kind': 'file'}]},
                          {'schema_version': 1, 'leaves': [{'source': 7}]}):
-            with self.subTest(document=document):
-                paths = self.observed([[0, 1], [2, 3]], documents={2: document})
-                self.assertEqual(self.assertRefusedMany(paths),
-                                 '%r: is not a unit manifest document' % paths[1])
+            for groups in ([[0, 1], [2, 3]], [[0], [1], [2, 3]]):
+                with self.subTest(document=document, files=len(groups)):
+                    paths = self.observed(groups, documents={len(groups): document})
+                    self.assertEqual(self.assertRefusedMany(paths),
+                                     '%r: is not a unit manifest document' % paths[-1])
 
     def test_files_with_two_schema_versions_refuse(self):
         paths = self.observed([[0, 1], [2, 3]], documents={2: {
             'schema_version': True, 'leaves': [self.fx.observed_leaves[2]]}})
         self.assertEqual(self.assertRefusedMany(paths),
                          '%r: has a schema_version other than that of %s' % (paths[1], paths[0]))
+
+    def test_third_file_with_another_schema_version_refuses(self):
+        paths = self.observed([[0], [1], [2, 3]], documents={3: {
+            'schema_version': True, 'leaves': self.fx.observed_leaves[2:4]}})
+        self.assertEqual(self.assertRefusedMany(paths),
+                         '%r: has a schema_version other than that of %s' % (paths[2], paths[0]))
 
     def test_one_observed_file_works_as_before(self):
         self.assertEqual(self.run_stage('post'),
