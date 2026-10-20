@@ -648,12 +648,14 @@ class NegativeControls(Base):
             self.assertEqual(fh.read(), b"kept\n")
         self.assertEqual(self.fx.custody_files(), sorted(CUSTODY[:5] + ("retention.json",)))
 
-    def test_custody_inside_the_source_folder_refuses(self):
-        inside = self.fx.mk("m/old/custody")
-        argv = self.fx.args()
-        argv[argv.index("--custody-dir") + 1] = inside
-        self.refuses_unmoved(os.path.join(inside, "leaves.json"), "inside root", argv=argv)
-        self.assertEqual(os.listdir(inside), [])
+    def test_custody_inside_the_source_parent_is_written_and_the_unit_moves(self):
+        self.fx.custody = self.fx.mk("m/old/custody")
+        self.run_ok()
+        self.assertEqual(self.fx.custody_files(), sorted(CUSTODY))
+        self.assertFalse(os.path.lexists(self.u.source))
+        for rel, data in self.u.files.items():
+            with open(os.path.join(self.fx.target(self.u), rel), "rb") as fh:
+                self.assertEqual(fh.read(), data)
 
     def test_custody_inside_the_target_folder_refuses(self):
         inside = self.fx.mk("m/experiments/c10r/runs/custody")
@@ -1735,6 +1737,26 @@ class LateWindows(Base):
             result = self.main(*self.fx.args())
         self.assertEqual(fired, [True])
         self.assert_refused(result, self.fx.target(self.u) + "/notes.txt", "index under it changed")
+
+    def test_rebound_fanout_into_an_existing_target_parent_refuses(self):
+        target = self.fx.target(self.u)
+        os.makedirs(os.path.dirname(target))
+        self.fx.seal()
+        destination = os.path.dirname(target) + "/loose-object"
+        real = fdsafe.create_file
+        rebound = []
+
+        def create(parent, name, data, roots):
+            if "/.git/objects/" in parent.path:
+                os.rename(parent.path, destination)
+                os.mkdir(parent.path)
+                rebound.append(parent.path + "/" + name)
+            return real(parent, name, data, roots)
+        with mock.patch.object(fdsafe, "create_file", create):
+            result = self.main(*self.fx.args())
+        self.assertEqual(len(rebound), 1)
+        self.assertEqual(os.listdir(destination), [])
+        self.assert_refused(result, rebound[0], "inside root")
 
     def test_rebound_fanout_into_a_created_parent_refuses(self):
         target = self.fx.target(self.u)

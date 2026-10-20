@@ -34,8 +34,9 @@ must be its own real path.
       by `git update-index`. For git-add, Git computes the blob id with `hash-object --no-filters --stdin`;
       the run writes the compressed loose object through held fds with fdsafe.create_file, then stages it
       with `git update-index`. Its roots are each unit folder (held by fd, so it stays a root wherever it
-      moves; a file unit has none), the folders that hold each unit source, each existing target parent, and
-      every folder the run creates, never M, so custody files are created outside every root.
+      moves; a file unit has none), each existing target parent, and every folder the run creates, never M,
+      so custody files and loose objects are created outside every root; custody also excludes M/.git.
+      A source parent is held for the unit's rename, but does not exclude writes below it (Step 368).
       Before any Git call it holds M/.git and its config without following links and refuses (T201
       rulings 2, 7 and 8) a link or special file under .git, a config.worktree, an include, includeIf,
       extensions or filter key, a core key outside the plain set, or a remote promisor or partial-clone
@@ -862,13 +863,15 @@ def run(args) -> tuple[int, object]:
         result = run_core.run_unit(root=root, plan=plan, approval=approval, now=_now(), units=observed,
                                    tracked=tracked, worktree=worktree, targets=targets, run_units=run_units,
                                    custody_dir=args.custody_dir)
-        # [LAW:effects-at-boundaries] the roots are the unit's own folders only, never M.
+        # [LAW:one-source-of-truth] custody and loose objects share the unit/target exclusions.
+        # Source parents remain held in folders for renames, not as write exclusions (R2).
         roots = unit_folders + \
-            [folders[os.path.dirname(unit.source)] for unit in units] + \
             [folders[t["base"]] for t in targets if t["base"] == os.path.dirname(t["target"])]
         files = [(os.path.basename(doc["path"]), doc["bytes"]) for doc in result["documents"]] + \
             [(ADMITTED, _admitted(root, result["actions"], tracked))]
-        custody = _write_custody(args.custody_dir, files, roots)
+        # [LAW:types-are-the-program] custody also excludes Git's state; this supplies a held root
+        # even for file units whose target parents have yet to be created.
+        custody = _write_custody(args.custody_dir, files, [repo.git, *roots])
         held = Held(repo, folders, sources, manifests, leaves, tracked, index, roots, stack)
         for action in result["actions"]:
             ACTIONS[action["action"]](held, action)
