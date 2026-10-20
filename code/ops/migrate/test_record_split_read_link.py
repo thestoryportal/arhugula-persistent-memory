@@ -18,10 +18,10 @@ class ReadLink(Fixture):
             "alias": R.Row("alias", R.TRACKED, "link", None, None, text),
         })
 
-    def test_aba_after_scan_refuses_impostor_text(self):
+    @contextlib.contextmanager
+    def aba_after_scan(self):
         path = self.unit / "alias"
         parked = self.base / "parked"
-        os.symlink("original", path)
         real_scandir, real_open, real_readlink = os.scandir, os.open, os.readlink
         scanned = []
         restored = []
@@ -64,21 +64,61 @@ class ReadLink(Fixture):
                 return result
             return hook
 
-        rows = []
         try:
             with mock.patch.object(os, "scandir", listing), \
                     mock.patch.object(os, "open", acquired(real_open)), \
                     mock.patch.object(os, "readlink", acquired(real_readlink)):
-                with self.assertRaisesRegex(R.Refusal, "changed between scan and open") as caught:
-                    rows.extend(R.split_unit(self.unit, []))
-            self.assertIn(str(path), str(caught.exception))
+                yield
         finally:
             if scanned and not restored:
                 restore()
         self.assertEqual(len(scanned), 1)
         self.assertEqual(restored, [True])
-        self.assertEqual(rows, [])
         self.assertEqual(real_readlink(path), "original")
+
+    def test_aba_after_scan_refuses_impostor_text(self):
+        path = self.unit / "alias"
+        os.symlink("original", path)
+        rows = []
+        with self.aba_after_scan():
+            with self.assertRaisesRegex(R.Refusal, "changed between scan and open") as caught:
+                rows.extend(R.split_unit(self.unit, []))
+        self.assertIn(str(path), str(caught.exception))
+        self.assertEqual(rows, [])
+
+    def test_post_open_swap_keeps_original_text(self):
+        path = self.unit / "alias"
+        os.symlink("original", path)
+        # [LAW:behavior-not-structure] The public row must use the held link, not reread its name.
+        with FK.swap_for_symlink("open", 1, path, "impostor", when="after",
+                                 match=lambda name, *a, **kw:
+                                 name == "alias" and kw.get("dir_fd") is not None) as fault:
+            rows = self.split()
+        self.assertEqual(fault.fired, 1)
+        self.assertEqual(rows, {
+            "alias": R.Row("alias", R.TRACKED, "link", None, None, "original"),
+        })
+        self.assertNotIn("impostor", R.render(self.unit, tuple(rows.values())))
+
+    def test_link_fds_close_on_success_and_refusal(self):
+        path = self.unit / "alias"
+        os.symlink("original", path)
+        before = len(os.listdir("/dev/fd"))
+        self.assertEqual(self.split(), {
+            "alias": R.Row("alias", R.TRACKED, "link", None, None, "original"),
+        })
+        with self.aba_after_scan():
+            with self.assertRaisesRegex(R.Refusal, "changed between scan and open"):
+                self.split()
+        # [LAW:verifiable-goals] Both successful and refused reads release their descriptors.
+        self.assertEqual(len(os.listdir("/dev/fd")), before)
+
+    def test_nested_link_uses_its_parent(self):
+        (self.unit / "sub").mkdir()
+        os.symlink("original", self.unit / "sub" / "alias")
+        self.assertEqual(self.split(), {
+            "sub/alias": R.Row("sub/alias", R.TRACKED, "link", None, None, "original"),
+        })
 
     def test_fifo_swapped_for_link_refuses_without_blocking(self):
         path = self.unit / "alias"
