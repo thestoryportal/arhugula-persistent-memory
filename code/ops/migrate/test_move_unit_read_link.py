@@ -5,7 +5,7 @@ import unittest
 from unittest import mock
 
 import fault_kit as FK
-from ops.migrate import fdsafe
+from ops.migrate import fdsafe, move_unit
 import test_move_unit_run as run
 
 
@@ -16,9 +16,22 @@ class LateAddLink(run.Base):
         self.u.files["link.txt"] = b"notes.txt"
         self.fx.seal()
         self.target = self.fx.target(self.u) + "/link.txt"
+        self.adding = False
+        real_add = move_unit.ACTIONS["git-add"]
+
+        def add(held, action):
+            self.adding = True
+            try:
+                return real_add(held, action)
+            finally:
+                self.adding = False
+        patcher = mock.patch.dict(move_unit.ACTIONS, {"git-add": add})
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def late_link(self, name, *args, **kwargs):
-        return (name == "link.txt" and kwargs.get("dir_fd") is not None
+        # [LAW:behavior-not-structure] Faults target the late git-add; the manifest walk reads the same link first.
+        return (self.adding and name == "link.txt" and kwargs.get("dir_fd") is not None
                 and fdsafe.live_path(kwargs["dir_fd"], self.target)
                 == os.path.dirname(self.target))
 
@@ -33,6 +46,32 @@ class LateAddLink(run.Base):
         row = run.git(self.fx.m, "ls-files", "-s", "--", self.target).split()
         self.assertEqual(row[0], b"120000")
         self.assertEqual(run.git(self.fx.m, "cat-file", "blob", row[1].decode()), b"notes.txt")
+
+    def test_post_open_swap_stages_original_link_text(self):
+        # [LAW:behavior-not-structure] The index must retain the held inode's text after replacement.
+        with FK.swap_for_symlink(
+                "open", 1, self.target, "other.txt", when="after",
+                match=lambda name, flags, *args, **kwargs:
+                self.late_link(name, *args, **kwargs) and flags & os.O_SYMLINK) as fault:
+            result = self.main(*self.fx.args())
+        self.assertEqual(fault.fired, 1)
+        self.assertEqual((result[0], result[2]), (0, ""))
+        row = run.git(self.fx.m, "ls-files", "-s", "--", self.target).split()
+        self.assertEqual(row[0], b"120000")
+        blob = run.git(self.fx.m, "cat-file", "blob", row[1].decode())
+        self.assertEqual(blob, b"notes.txt")
+        self.assertNotIn("other.txt", "".join(result[1:]))
+        self.assertNotIn(b"other.txt", b" ".join(row) + blob)
+
+    def test_link_fd_closed_after_success_and_refusal(self):
+        refused = LateAddLink("test_aba_after_lstat_with_only_inode_changed_refuses")
+        self.addCleanup(refused.doCleanups)
+        refused.setUp()
+        # [LAW:behavior-not-structure] Count real descriptors across both late-add outcomes.
+        before = len(os.listdir("/dev/fd"))
+        self.test_stable_link_stages_own_text_and_mode()
+        refused.test_aba_after_lstat_with_only_inode_changed_refuses()
+        self.assertEqual(len(os.listdir("/dev/fd")), before)
 
     def test_aba_after_lstat_with_only_inode_changed_refuses(self):
         real_lstat, real_open, real_readlink = os.lstat, os.open, os.readlink
@@ -90,14 +129,19 @@ class LateAddLink(run.Base):
         self.addCleanup(os.close, regular)
         real = fdsafe._freadlink
 
+        injected = []
+
         def invalid(fd, size):
+            if not self.adding:
+                return real(fd, size)
+            injected.append(fd)
             ctypes.set_errno(0)
             return real(regular, size)
 
         # [LAW:no-silent-failure] The native errno must reach the command refusal.
-        with mock.patch.object(fdsafe, "_freadlink", side_effect=invalid) as hook:
+        with mock.patch.object(fdsafe, "_freadlink", side_effect=invalid):
             result = self.main(*self.fx.args())
-        self.assertEqual(hook.call_count, 1)
+        self.assertEqual(len(injected), 1)
         self.refused_unstaged(result, "[EINVAL]")
 
 
