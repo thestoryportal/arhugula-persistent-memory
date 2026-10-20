@@ -4,10 +4,12 @@
 Read only. It walks the unit without following any link, hashes regular files, records
 symlinks and sockets without opening them, and records each nested `.git` root with its
 HEAD, branch and dirty entries. It writes exactly one new file, the --out path, and never
-overwrites or deletes it.
+overwrites or deletes it. A regular-file root is a file unit: its only leaf has source = root,
+and its git_roots is empty.
 
 Every check binds the object it checks: the root and each directory are opened with
-O_NOFOLLOW and descended through their fds; each leaf is opened or read through its
+O_NOFOLLOW; the held root's fstat selects a directory walk or a file read through its
+parent's fd. Directories are descended through their fds; each leaf is opened or read through its
 directory fd and its fstat must equal the scan lstat before and after the read; the output
 is created through the opened --out directory fd, whose real path (F_GETPATH) must lie
 outside the unit before and after the write. A nested repo whose .git holds anything but
@@ -27,7 +29,8 @@ Exit 1: a refusal (changed during hash, unsupported object, link out of the unit
         ancestor, unsafe nested repo, unreadable path); stdout is {"status": "FAIL", "reason"};
         nothing written. A failed or raced write is also exit 1: the reason names the output,
         which is left in place (never deleted).
-Exit 2: malformed invocation (root not a real directory, output exists or lies inside the root).
+Exit 2: malformed invocation (root neither a real directory nor a regular file,
+        output exists or lies inside the root).
 """
 from __future__ import annotations
 
@@ -39,11 +42,14 @@ import os
 import stat
 import subprocess
 import sys
+from types import MappingProxyType
 
 from ops.migrate import fdsafe
 
 CHUNK = 1 << 20
 DIR_FLAGS = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+# [LAW:no-ambient-temporal-coupling] A FIFO raced into the root must not block its type check.
+ROOT_FLAGS = os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK
 # core.* keys a plain repo carries; any other core key (excludesfile, attributesfile, hookspath, worktree,
 # fsmonitor, sshcommand, unknown) can make Git read or run something outside the unit.
 CORE_ALLOWED = frozenset(f"core.{k}" for k in ("repositoryformatversion", "filemode", "bare", "logallrefupdates",
@@ -241,13 +247,42 @@ def _git_pass(worktree: str, git_dir: str, git_fd: int, config_fd: int) -> dict:
     return {"path": worktree, "head": head, "branch": branch, "dirty": dirty}
 
 
+def _file_root(root: str, root_fd: int, leaves: list) -> list:
+    """Read the named leaf only while it still denotes the held root."""
+    parent_fd = os.open(os.path.dirname(root), DIR_FLAGS)
+    try:
+        name = os.path.basename(root)
+        held = os.fstat(root_fd)
+        st = _lstat_at(parent_fd, name)
+        # [LAW:single-enforcer] Reuse the leaf reader after binding the parent entry to the held root.
+        if (st.st_dev, st.st_ino) != (held.st_dev, held.st_ino):
+            raise Refusal(f"root changed after it was opened: {root}")
+        leaves.append(_leaf(parent_fd, name, root, st))
+    finally:
+        os.close(parent_fd)
+    return []
+
+
+def _directory_root(root: str, root_fd: int, leaves: list) -> list:
+    git_dirs: list = []
+    _walk(root_fd, root, leaves, git_dirs, False)
+    return git_dirs
+
+
+# [LAW:dataflow-not-control-flow] One immutable table owns both admission and scan selection.
+ROOT_SCANS = MappingProxyType({stat.S_IFDIR: _directory_root, stat.S_IFREG: _file_root})
+
+
 def build_manifest(root: str, root_fd: int) -> dict:
     leaves: list = []
-    git_dirs: list = []
     real = _real_path(root_fd)
     if real != root:
         raise Refusal(f"root path has a symlink component (real path {real}): {root}")
-    _walk(root_fd, root, leaves, git_dirs, False)
+    mode = os.fstat(root_fd).st_mode
+    scan = ROOT_SCANS.get(stat.S_IFMT(mode))
+    if scan is None:
+        raise Refusal(f"root is neither a directory nor a regular file ({stat.filemode(mode)}): {root}")
+    git_dirs = scan(root, root_fd, leaves)
 
     def order(path: str) -> bytes:
         return os.path.relpath(path, root).encode("utf-8")
@@ -263,7 +298,7 @@ def _inside(path: str, root: str) -> bool:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--root", required=True, help="unit directory to inventory (not a link)")
+    parser.add_argument("--root", required=True, help="unit directory or regular file to inventory (not a link)")
     parser.add_argument("--out", required=True, help="new manifest file; must not exist")
     args = parser.parse_args(argv)
     root = os.path.abspath(args.root)
@@ -274,8 +309,8 @@ def main(argv: list[str] | None = None) -> int:
     except OSError as exc:
         print(f"unit_manifest: cannot stat root: {exc}", file=sys.stderr)
         return 2
-    if not stat.S_ISDIR(root_st.st_mode):
-        print(f"unit_manifest: root is not a real directory: {root}", file=sys.stderr)
+    if stat.S_IFMT(root_st.st_mode) not in ROOT_SCANS:
+        print(f"unit_manifest: root is neither a real directory nor a regular file: {root}", file=sys.stderr)
         return 2
     if os.path.lexists(out):
         print(f"unit_manifest: output exists, never overwritten: {out}", file=sys.stderr)
@@ -286,7 +321,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"unit_manifest: cannot open output directory (not followed through a link): {exc}", file=sys.stderr)
         return 2
     try:
-        return _inventory(root, out, parent_fd)
+        return _inventory(root, out, parent_fd, root_st)
     finally:
         os.close(parent_fd)
 
@@ -296,24 +331,28 @@ def _fail(reason: str) -> int:
     return 1
 
 
-def _inventory(root: str, out: str, parent_fd: int) -> int:
+def _inventory(root: str, out: str, parent_fd: int, root_st: os.stat_result) -> int:
     if _inside(_real_path(parent_fd), root):
         print(f"unit_manifest: output lies inside the unit: {out}", file=sys.stderr)
         return 2
 
     try:
-        root_fd = os.open(root, DIR_FLAGS)
+        root_fd = os.open(root, ROOT_FLAGS)
     except OSError as exc:
         return _fail(f"{type(exc).__name__}: {exc}")
     try:
-        return _write(root, out, parent_fd, root_fd)
+        return _write(root, out, parent_fd, root_fd, root_st)
     finally:
         os.close(root_fd)
 
 
-def _write(root: str, out: str, parent_fd: int, root_fd: int) -> int:
+def _write(root: str, out: str, parent_fd: int, root_fd: int, root_st: os.stat_result) -> int:
     name = os.path.basename(out)
     try:
+        # [LAW:no-ambient-temporal-coupling] CLI admission must still describe the object opened.
+        held = os.fstat(root_fd)
+        if (held.st_dev, held.st_ino) != (root_st.st_dev, root_st.st_ino):
+            raise Refusal(f"root changed between lstat and open: {root}")
         manifest = build_manifest(root, root_fd)
         body = canonical(manifest)
         if _inside(_real_path(parent_fd), root):
