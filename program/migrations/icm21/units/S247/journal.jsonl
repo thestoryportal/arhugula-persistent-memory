@@ -1,0 +1,3 @@
+{"action":"mkdir","operation_id":"MV-031","source":null,"target":"/Volumes/memit/llmdb-tools"}
+{"action":"mv","operation_id":"MV-031","source":"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/external_prior_art","target":"/Volumes/memit/llmdb-tools/external_prior_art"}
+{"action":"mv","operation_id":"MV-035","source":"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/llama_cpp_src","target":"/Volumes/memit/llmdb-tools/llama_cpp_src"}
