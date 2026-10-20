@@ -236,7 +236,7 @@ class PassCases(MovesCase):
         self.fx.publish()
         path = self.fx.path('req-b.tsv')
         path.write_bytes(path.read_bytes().rstrip(b'\n'))
-        self.assertEqual(self.run_stage('post', publish=False)[0], 0)
+        self.assertRefused('post', 'is empty or does not end with a newline', publish=False)
 
     def test_relative_input_paths_resolve_against_the_working_directory(self):
         self.fx.publish()
@@ -470,7 +470,7 @@ class InputCases(MovesCase):
 
     def test_requirements_rows_are_checked(self):
         header = '\t'.join(icm21_check.MOVES_TABLES['requirements']).encode()
-        for data, text in ((b'', 'header'), (b'id\tsource\n', 'header'),
+        for data, text in ((b'', 'is empty or does not end with a newline'), (b'id\tsource\n', 'header'),
                            (header + b'\nMV-1\tx\n', 'has a row without 10 fields'),
                            (header + b'\n\n', 'has a row without 10 fields'),
                            (header + b'\n\xff\n', 'is not UTF-8')):
