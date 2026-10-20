@@ -174,3 +174,39 @@ class FileUnitRun(Base):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DirectoryInventoryRace(Base):
+    def test_directory_raced_into_file_open_refuses_before_custody_write(self):
+        source = self.u.source
+        relocated = self.fx.base + "/relocated-source"
+        real_lstat, real_create = os.lstat, fdsafe.create_file
+        regular = real_lstat(self.fx.m + "/README.md")
+        observed, written = [], []
+        listing = sorted(os.listdir(source))
+        before = sorted(os.listdir("/dev/fd"))
+
+        def lstat(path, *args, **kwargs):
+            if path == source and not observed:
+                observed.append(True)
+                return regular
+            return real_lstat(path, *args, **kwargs)
+
+        def create(parent, name, data, roots):
+            if not written:
+                os.rename(source, relocated)
+                os.rename(parent.path, relocated + "/custody")
+                os.mkdir(parent.path)
+                written.append(True)
+            return real_create(parent, name, data, roots)
+
+        # [LAW:behavior-not-structure] Race the lstat observation; keep open and custody writes real.
+        with mock.patch.object(os, "lstat", lstat), mock.patch.object(fdsafe, "create_file", create):
+            result = self.main(*self.fx.args())
+        self.assertEqual(observed, [True])
+        self.assertEqual(sorted(os.listdir("/dev/fd")), before)
+        self.assertFalse(os.path.exists(relocated + "/custody/leaves.json"),
+                         "leaves.json was written inside the unit")
+        self.assertEqual(sorted(os.listdir(relocated if written else source)), listing)
+        self.assertEqual(result, (
+            2, "", f"{source!r}: is a directory when opened; it changed during the inventory\n"))

@@ -564,7 +564,9 @@ def _inventory(source: str) -> tuple[bytes, tuple, tuple[fdsafe.Dir, ...]]:
             folders = ()
             with fdsafe.fs(source):
                 fd = os.open(source, fdsafe.LEAF_FLAGS)
-            reading.callback(fdsafe.close, fd, source)
+                reading.callback(fdsafe.close, fd, source)
+                if stat.S_ISDIR(os.fstat(fd).st_mode):
+                    raise Refusal(source, "is a directory when opened; it changed during the inventory")
         with fdsafe.fs(source):
             try:
                 doc = unit_manifest.build_manifest(source, fd)
