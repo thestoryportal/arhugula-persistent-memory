@@ -1616,14 +1616,14 @@ class LateWindows(Base):
         fired = []
 
         def add(held, action):
-            readlink = os.readlink
+            readlink = fdsafe._freadlink
 
-            def fail(path, *args, **kwargs):
-                if path == "link.txt" and not fired:
+            def fail(fd, *args, **kwargs):
+                if not fired:
                     fired.append(True)
                     raise OSError(errno.EIO, os.strerror(errno.EIO))
-                return readlink(path, *args, **kwargs)
-            with mock.patch.object(os, "readlink", fail):
+                return readlink(fd, *args, **kwargs)
+            with mock.patch.object(fdsafe, "_freadlink", fail):
                 real(held, action)
         with mock.patch.dict(move_unit.ACTIONS, {"git-add": add}):
             result = self.main(*self.fx.args())
