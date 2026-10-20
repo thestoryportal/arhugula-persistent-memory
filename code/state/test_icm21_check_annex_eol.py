@@ -4,6 +4,7 @@ MovesCase owns fixture cleanup and the macOS filesystem boundary; Linux discover
 skips these integration cases without calling F_GETPATH.
 """
 import unittest
+from unittest import mock
 
 from ops.migrate import fdsafe, move_plan_core
 from test_icm21_moves_cli import IDS, MovesCase
@@ -47,6 +48,30 @@ class AnnexLineEnds(MovesCase):
         self.assertEqual(code, 2, result)
         self.assertEqual(sorted({item['status'] for item in result['findings']}),
                          ['FAIL', 'UNVERIFIED'], result)
+
+    def test_every_table_uses_the_shared_line_rule(self):
+        lf = self.lf_bytes()
+        # [LAW:single-enforcer] R4 requires delegation, not an equivalent local copy.
+        for tables in (lf, {name: crlf(data) for name, data in lf.items()}):
+            for stage in ('pre', 'post'):
+                with self.subTest(stage=stage, crlf=tables != lf):
+                    with mock.patch.object(move_plan_core, 'tsv_lines',
+                                           wraps=move_plan_core.tsv_lines) as rule:
+                        code, result = self.run_with(stage, tables)
+                    self.assertEqual((code, result['findings']), (0, []), result)
+                    self.assertEqual(rule.call_args_list, [
+                        mock.call(tables[name].decode('utf-8'), str(self.fx.path(name)))
+                        for name in TABLES])
+
+    def test_shared_line_rule_refusal_is_returned_unchanged(self):
+        lf = self.lf_bytes()
+        refusal = fdsafe.Refusal('shared line rule', 'T366 sentinel refusal')
+        for stage in ('pre', 'post'):
+            with self.subTest(stage=stage):
+                with mock.patch.object(move_plan_core, 'tsv_lines', side_effect=refusal):
+                    code, result = self.run_with(stage, lf)
+                self.assertEqual((code, result),
+                                 (2, {'status': 'UNVERIFIED', 'reason': str(refusal)}))
 
     def assertLineRefusal(self, stage, lf, name, data):
         path = str(self.fx.path(name))
