@@ -1,0 +1,9 @@
+requirement_id	source	target	kind	observed_bytes	action	lane	scientific_role
+MV-100	/Volumes/memit/llm-database-poc-mirror/stage_1_sect_d3/.DS_Store	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect_d3/.DS_Store	file	6148	MOVE	legacy-preservation	governed-payload
+MV-100	/Volumes/memit/llm-database-poc-mirror/stage_1_sect_d3/cache_state.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect_d3/cache_state.json	file	1529	MOVE	legacy-preservation	tracked-record
+MV-100	/Volumes/memit/llm-database-poc-mirror/stage_1_sect_d3/d3_verdict.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect_d3/d3_verdict.json	file	4458	MOVE	legacy-preservation	tracked-record
+MV-100	/Volumes/memit/llm-database-poc-mirror/stage_1_sect_d3/environment_fingerprint.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect_d3/environment_fingerprint.json	file	1331	MOVE	legacy-preservation	tracked-record
+MV-100	/Volumes/memit/llm-database-poc-mirror/stage_1_sect_d3/overlays/batched_trial_0/original.pt	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect_d3/overlays/batched_trial_0/original.pt	file	587205013	MOVE	legacy-preservation	governed-payload
+MV-100	/Volumes/memit/llm-database-poc-mirror/stage_1_sect_d3/patch_state.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect_d3/patch_state.json	file	4583	MOVE	legacy-preservation	tracked-record
+MV-100	/Volumes/memit/llm-database-poc-mirror/stage_1_sect_d3/trial_matrix.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect_d3/trial_matrix.json	file	13763	MOVE	legacy-preservation	tracked-record
+MV-100	/Volumes/memit/llm-database-poc-mirror/stage_1_sect_d3/trials/d3_batched_trial_0.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect_d3/trials/d3_batched_trial_0.json	file	13326	MOVE	legacy-preservation	tracked-record
