@@ -589,7 +589,8 @@ def _admitted(root: str, actions: list, tracked: list) -> bytes:
         return path[len(root) + 1:]
 
     def under(action: dict) -> list:
-        return [path for path in tracked if path.startswith(action["source"] + "/")]
+        # [LAW:dataflow-not-control-flow] File and directory units share _tracked's at-or-below rule.
+        return [path for path in tracked if path == action["source"] or path.startswith(action["source"] + "/")]
 
     rows = {"mkdir": lambda a: [], "mv": lambda a: [],
             "git-mv": lambda a: [("R100", rel(p), rel(a["target"] + p[len(a["source"]):])) for p in under(a)],
