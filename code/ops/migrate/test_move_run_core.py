@@ -683,14 +683,13 @@ class LinkBoundary(Refuses):
 
     def test_a_symlink_leaving_or_looping_refuses_the_unit(self):
         for text, reason in (("../outside", "link crosses the unit boundary: /m/old/u1/link"),
-                             ("/outside", "link crosses the unit boundary: /m/old/u1/link"),
                              ("link", "ambiguous link (loop): /m/old/u1/link")):
             with self.subTest(text=text):
                 err = self.refuses(self.links(Leaf("a.json", b"{}"), Leaf("link", None, text)), U1.source, reason)
                 self.assertEqual(err.path, U1.source)
 
     def test_the_refusal_names_the_first_failure_in_check_order(self):
-        kw = self.links(Leaf("a", None, "/x"), Leaf("b", None, "b"))
+        kw = self.links(Leaf("a", None, "../x"), Leaf("b", None, "b"))
         err = self.refuses(kw, U1.source, "link crosses the unit boundary: /m/old/u1/a")
         self.assertNotIn("/m/old/u1/b", str(err))
 

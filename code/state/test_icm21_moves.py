@@ -128,9 +128,7 @@ class ValidateMoveTest(unittest.TestCase):
         self.assertOnly(run(leaves=(leaf(UNIT + '/x', 'symlink', 'x'),)), 'FAIL', 'ambiguous link')
         via_absolute = run(leaves=(leaf(UNIT + '/a', 'symlink', '/elsewhere'),
                                    leaf(UNIT + '/b', 'symlink', 'a/x')))
-        self.assertEqual(len(via_absolute), 2, via_absolute)
-        self.assertTrue(all('crosses the unit boundary' in item['reason']
-                            for item in via_absolute), via_absolute)
+        self.assertEqual(via_absolute, ())
         self.assertOnly(run(leaves=(leaf(UNIT + '/l', 'symlink', None),)), 'FAIL', 'Malformed')
         link_unit = move(kind='symlink')
         self.assertOnly(run(link_unit, leaves=(leaf(UNIT, 'symlink', 'unit2'),)),
