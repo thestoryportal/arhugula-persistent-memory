@@ -392,6 +392,7 @@ class ExitContract(Fixture):
     def test_invalid_inputs_exit_2_with_one_refusal_and_no_traceback(self):
         self.put("x.pt", b"\x00")
         (self.base / "afile").write_bytes(b"")
+        os.mkfifo(self.base / "afifo")
         good = {"attested_by": "operator", "regenerate": "python run.py",
                 "leaves": [{"path": "x.pt", "sha256": sha(b"\x00")}]}
 
@@ -402,7 +403,7 @@ class ExitContract(Fixture):
 
         cases = {
             "missing root": ["--root", self.base / "absent"],
-            "root is a file": ["--root", self.base / "afile"],
+            "root is a fifo": ["--root", self.base / "afifo"],
             "missing out parent": ["--out", self.base / "missing" / "split.json"],
             "out parent is a file": ["--out", self.base / "afile" / "split.json"],
             "out names no file": ["--out", self.base / ".."],
@@ -633,9 +634,9 @@ class Errno(Fixture):
                         "--out", self.base / "out.json")
         self.assertRefusedCleanly(proc)
 
-    def test_root_that_is_a_file_is_refused_as_the_root(self):
-        f = self.base / "afile"
-        f.write_bytes(b"")
+    def test_root_that_is_a_fifo_is_refused_as_the_root(self):
+        f = self.base / "afifo"
+        os.mkfifo(f)
         with self.assertRaisesRegex(R.Refusal, "unit root"):
             R.split_unit(f, [])
 
