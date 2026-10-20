@@ -409,9 +409,10 @@ def _unit(value, where: str, root: str, table: dict, existing: frozenset) -> tup
                "experiment_id": eid if basis == "registry" else None,
                "manifest": {"path": manifest_path, "sha256": digest},
                "leaves": len(leaves), "bytes": total, "observed_bytes": req["observed_bytes"]}
-    # [LAW:one-source-of-truth] Bind the wire action to the same parsed manifest as the unit.
+    # [LAW:one-source-of-truth] A root leaf supplies its kind; folders retain their manifest-derived default.
+    kinds = {leaf[0]: leaf[2][0] for leaf in leaves}
     move = {"id": rid, "prd_ids": req["prd_ids"], "action": "MOVE",
-            "source": source, "target": target, "kind": "git-root" if source in git else "directory",
+            "source": source, "target": target, "kind": kinds.get(source, "git-root" if source in git else "directory"),
             "bytes": total, "before_sha256": digest, "source_manifest": planned["manifest"],
             "lane": req["lane"], "reader_check_ids": []}
     return planned, [{"requirement_id": rid, "kind": k, "items": sorted(v)}
