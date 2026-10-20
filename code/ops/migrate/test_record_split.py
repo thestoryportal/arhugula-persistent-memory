@@ -266,11 +266,11 @@ class Refusals(Fixture):
         with self.assertRaisesRegex(R.Refusal, "escapes"):
             self.split()
 
-    def test_absolute_link_refuses(self):
+    def test_absolute_link_outside_is_kept(self):
         (self.base / "outside.pt").write_bytes(b"\x00")
         os.symlink(str(self.base / "outside.pt"), self.unit / "abs.pt")
-        with self.assertRaisesRegex(R.Refusal, "escapes"):
-            self.split()
+        self.assertEqual(self.split(), {
+            "abs.pt": R.Row("abs.pt", R.TRACKED, "link", None, None, str(self.base / "outside.pt"))})
 
     def test_link_to_directory_is_not_walked(self):
         outside = self.base / "outside"

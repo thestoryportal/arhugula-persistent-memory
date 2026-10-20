@@ -19,8 +19,10 @@ and an attestation naming one is refused: Git's own store is never git-added (ru
 git add a nested repo"). These are the leaves unit_manifest records below that `.git`; a `.git`
 that is not a directory (a gitlink file or a link) and a link or special file inside a `.git` are
 refused, as unit_manifest refuses them.
-A symlink is never followed. One whose text stays inside the unit is a tracked record
-of that text. A --root that is one regular file is a file unit: its one leaf has the path "."
+A symlink is never followed. Relative text staying inside the unit, or absolute text
+normalized to neither the unit root nor below it, is a tracked record of that text;
+absolute text naming the unit root or below it is refused.
+A --root that is one regular file is a file unit: its one leaf has the path "."
 and is named by the root.
 
 The walk is bound to fds: --root is opened once without following a link and held (a file
@@ -60,8 +62,12 @@ import re
 import stat
 import sys
 from dataclasses import dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Literal
+
+# [LAW:no-shared-mutable-globals] exception: icm21_moves uses bare imports of its state siblings.
+sys.path.append(posixpath.join(posixpath.dirname(posixpath.dirname(posixpath.dirname(__file__))), "state"))
+import icm21_moves  # noqa: E402
 
 from ops.migrate import fdsafe
 
@@ -201,9 +207,10 @@ def classify(leaves: list[Leaf], attested: list[Attested], root: str) -> tuple[R
     return tuple(rows)
 
 
-def link_escapes(rel: str, text: str) -> bool:
+def link_escapes(rel: str, text: str, root: str) -> bool:
     if posixpath.isabs(text):
-        return True
+        # [LAW:single-enforcer] R8's lexical absolute-text rule belongs to the move checker.
+        return icm21_moves.absolute_text_inside(text, PurePosixPath(os.path.abspath(root)))
     target = posixpath.normpath(posixpath.join(posixpath.dirname(rel), text))
     return target == ".." or target.startswith("../")
 
@@ -342,7 +349,7 @@ def scan(held: Root, root: str) -> list[Leaf]:
                 with _fs(path):
                     # [LAW:single-enforcer] The shared reader binds the text to the scan's inode.
                     text = os.fsdecode(fdsafe.read_link(fdsafe.Entry(dir_fd, entry.name, path, rel, est)))
-                if link_escapes(rel, text):
+                if link_escapes(rel, text, root):
                     raise Refusal(f"link {rel!r} -> {text!r} escapes the unit")
                 leaves.append(LinkLeaf(rel, text))
             elif stat.S_ISDIR(est.st_mode):
