@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "codex-watch-anchor-tokens-read-context-from-rollout.md",
+   "sha256": "3a2703258b287f1a558c3c400cf2ad79c39d45e84f015fe076085b3ca3f6aa37",
+   "size": 1845
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/memory_mirror"
+}

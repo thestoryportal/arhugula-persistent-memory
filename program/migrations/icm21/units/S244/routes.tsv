@@ -1,0 +1,2 @@
+requirement_id	source	target	kind	observed_bytes	action	lane	scientific_role
+MV-039	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/memory_mirror/codex-watch-anchor-tokens-read-context-from-rollout.md	/Volumes/memit/llmdb-preserved/icm21-20261013/M/memory_mirror/codex-watch-anchor-tokens-read-context-from-rollout.md	file	1845	MOVE	legacy-preservation	tracked-record
