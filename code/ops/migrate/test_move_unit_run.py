@@ -1738,6 +1738,26 @@ class LateWindows(Base):
         self.assertEqual(fired, [True])
         self.assert_refused(result, self.fx.target(self.u) + "/notes.txt", "index under it changed")
 
+    def test_rebound_fanout_into_an_existing_target_parent_refuses(self):
+        target = self.fx.target(self.u)
+        os.makedirs(os.path.dirname(target))
+        self.fx.seal()
+        destination = os.path.dirname(target) + "/loose-object"
+        real = fdsafe.create_file
+        rebound = []
+
+        def create(parent, name, data, roots):
+            if "/.git/objects/" in parent.path:
+                os.rename(parent.path, destination)
+                os.mkdir(parent.path)
+                rebound.append(parent.path + "/" + name)
+            return real(parent, name, data, roots)
+        with mock.patch.object(fdsafe, "create_file", create):
+            result = self.main(*self.fx.args())
+        self.assertEqual(len(rebound), 1)
+        self.assertEqual(os.listdir(destination), [])
+        self.assert_refused(result, rebound[0], "inside root")
+
     def test_rebound_fanout_into_a_created_parent_refuses(self):
         target = self.fx.target(self.u)
         self.assertFalse(os.path.exists(os.path.dirname(target)))
