@@ -21,6 +21,7 @@ Comparison only (DESIGN.md:301: an equal file is a comparison result, not deleti
 no row carries an action. Toolkit sha256 values are hints; only the re-hashed manifest rows decide
 the class (decision 9). Any malformed or ambiguous input is a fdsafe.Refusal; nothing is guessed.
 Roots that overlap are refused, since a file would then be compared with itself.
+A file unit's root is its only leaf, with relative path ".".
 """
 from __future__ import annotations
 
@@ -92,8 +93,12 @@ def _under(path: str, root: str) -> bool:
     return path.startswith(root.rstrip("/") + "/")
 
 
-def _relpath(source: str, root: str) -> str:
-    return source[len(root.rstrip("/")) + 1:]
+def leaf_relpath(source: str, root: str) -> str | None:
+    """For normalized paths, return ".", the descendant path, or None outside root."""
+    # [LAW:one-source-of-truth] File and directory leaves share one relative-path rule.
+    if source == root:
+        return "."
+    return source[len(root.rstrip("/")) + 1:] if _under(source, root) else None
 
 
 def _leaf(row, root: str, where: str) -> tuple[str, str, tuple, tuple]:
@@ -103,7 +108,8 @@ def _leaf(row, root: str, where: str) -> tuple[str, str, tuple, tuple]:
         where = row["source"]
     _keys(row, LEAF_KEYS, frozenset(), where)
     source = _path(row["source"], where, "source")
-    if not _under(source, root):
+    relpath = leaf_relpath(source, root)
+    if relpath is None:
         _refuse(source, f"source is not inside the manifest root {root!r}")
     kind = row["kind"]
     if not isinstance(kind, str) or kind not in KINDS:
@@ -117,7 +123,7 @@ def _leaf(row, root: str, where: str) -> tuple[str, str, tuple, tuple]:
     device = _int(row["device"], source, "device", 0)
     inode = _int(row["inode"], source, "inode", 0)
     _int(row["nlink"], source, "nlink", 1)
-    return source, _relpath(source, root), (kind, size, digest), (device, inode)
+    return source, relpath, (kind, size, digest), (device, inode)
 
 
 def _manifest(value, where: str) -> tuple[str, list[tuple[str, str, tuple, tuple]]]:
@@ -135,6 +141,9 @@ def _manifest(value, where: str) -> tuple[str, list[tuple[str, str, tuple, tuple
         if source in seen:
             _refuse(source, "source appears twice in one manifest")
         seen.add(source)
+    # [LAW:parse-dont-validate] Parsed manifests cannot mix a file root with descendants.
+    if root in seen and len(leaves) != 1:
+        _refuse(root, "a root that is a leaf (a file unit) must be the manifest's only leaf")
     return root, leaves
 
 

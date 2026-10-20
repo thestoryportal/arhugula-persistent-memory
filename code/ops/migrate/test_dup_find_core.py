@@ -374,7 +374,7 @@ class Malformed(unittest.TestCase):
         self.refuses(refs=[manifest(R1, dict(leaf(R1, "x"), extra=None))], names=f"{R1}/x")
 
     def test_source(self):
-        for bad in (None, 1, b"/v/unit/x", "", "x", "/v/unit", "/v/unit/", "/v/unit//x", "/v/unit/./x",
+        for bad in (None, 1, b"/v/unit/x", "", "x", "/v/unit/", "/v/unit//x", "/v/unit/./x",
                     "/v/unit/a/../x", "/v/unit/..", "/v/unit2/x", "/v/other/x", "/v/unit/\udcff", "/v/unit/a\0b"):
             with self.subTest(bad=bad):
                 self.refuses(unit=self.unit_with(source=bad))
