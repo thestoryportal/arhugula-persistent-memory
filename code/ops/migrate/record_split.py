@@ -55,6 +55,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 
+from ops.migrate import fdsafe
+
 TRACKED = "tracked-record"
 BULK = "attested-bulk"
 PAYLOAD = "governed-payload"
@@ -189,6 +191,9 @@ def _fs(path: str):
     except OSError as exc:
         code = errno.errorcode.get(exc.errno, str(exc.errno))
         raise Refusal(f"{path}: {code} {exc.strerror}") from exc
+    except fdsafe.Refusal as exc:
+        # [LAW:no-silent-failure] Preserve the fd reader's diagnostic at this tool's boundary.
+        raise Refusal(str(exc)) from exc
 
 
 @dataclass(frozen=True)
@@ -270,7 +275,8 @@ def scan(root_fd: int, root: str) -> list[Leaf]:
                 raise Refusal(f"nested Git root at {rel!r}")
             if stat.S_ISLNK(est.st_mode):
                 with _fs(path):
-                    text = os.readlink(entry.name, dir_fd=dir_fd)
+                    # [LAW:single-enforcer] The shared reader binds the text to the scan's inode.
+                    text = os.fsdecode(fdsafe.read_link(fdsafe.Entry(dir_fd, entry.name, path, rel, est)))
                 if link_escapes(rel, text):
                     raise Refusal(f"link {rel!r} -> {text!r} escapes the unit")
                 leaves.append(LinkLeaf(rel, text))

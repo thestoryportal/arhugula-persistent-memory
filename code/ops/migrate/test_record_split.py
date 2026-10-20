@@ -681,15 +681,12 @@ class Errno(Fixture):
     def test_link_that_stops_being_a_link_before_readlink_refuses(self):
         os.symlink("a.log", self.unit / "alias")
         self.put("a.log", b"x\n")
-        real = os.readlink
-
-        def swap_then_read(name, *args, **kwargs):
+        def swap():
             (self.unit / "alias").unlink()
             (self.unit / "alias").write_bytes(b"now a file")
-            return real(name, *args, **kwargs)
 
-        with mock.patch.object(os, "readlink", swap_then_read):
-            with self.assertRaisesRegex(R.Refusal, "EINVAL"):
+        with before_open(lambda p, kw: p == "alias" and "dir_fd" in kw, swap):
+            with self.assertRaisesRegex(R.Refusal, "changed between scan and open"):
                 self.split()
 
     def test_read_error_on_an_open_leaf_refuses(self):
