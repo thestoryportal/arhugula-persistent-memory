@@ -205,5 +205,80 @@ class FileRootFaults(Fixture):
                 R.split_unit(root, [])
 
 
+# [LAW:behavior-not-structure] Pin the owning refusal so later checks cannot mask it.
+class RootAndLeafRefusals(Fixture):
+    def test_file_root_fifo_at_digest_open_refuses(self):
+        root = self.base / "model.json"
+        root.write_bytes(b"record")
+        with FK.fifo_in_place(
+                root, name="open",
+                match=lambda p, *a, **kw: p == root.name and "dir_fd" in kw,
+                timeout=5.0) as fault:
+            with self.assertRaisesRegex(R.Refusal, "changed before it was hashed"):
+                R.split_unit(root, [])
+        self.assertEqual(fault.fired, 1)
+
+    def test_directory_leaf_fifo_at_digest_open_refuses(self):
+        leaf = self.unit / "model.json"
+        leaf.write_bytes(b"record")
+        with FK.fifo_in_place(
+                leaf, name="open",
+                match=lambda p, *a, **kw: p == leaf.name and "dir_fd" in kw,
+                timeout=5.0) as fault:
+            with self.assertRaisesRegex(R.Refusal, "changed before it was hashed"):
+                R.split_unit(self.unit, [])
+        self.assertEqual(fault.fired, 1)
+
+    def test_open_root_fifo_refuses_at_kind_check(self):
+        root = self.base / "fifo"
+        os.mkfifo(root)
+        with self.assertRaisesRegex(R.Refusal, "neither a real directory nor a regular file"):
+            held = R.open_root(root)
+            os.close(held.fd)
+
+    def test_open_root_symlink_to_file_refuses_at_kind_check(self):
+        target = self.base / "model.json"
+        target.write_bytes(b"record")
+        root = self.base / "link"
+        root.symlink_to(target)
+        with self.assertRaisesRegex(R.Refusal, "neither a real directory nor a regular file"):
+            held = R.open_root(root)
+            os.close(held.fd)
+
+    def test_open_root_symlink_to_directory_refuses_at_kind_check(self):
+        root = self.base / "link"
+        root.symlink_to(self.unit, target_is_directory=True)
+        with self.assertRaisesRegex(R.Refusal, "neither a real directory nor a regular file"):
+            held = R.open_root(root)
+            os.close(held.fd)
+
+    def test_scan_file_root_rebound_to_symlink_refuses_before_hash(self):
+        root = self.base / "model.json"
+        root.write_bytes(b"record")
+        held = R.open_root(root)
+        try:
+            sibling = self.base / "moved.json"
+            root.rename(sibling)
+            root.symlink_to(sibling)
+            with self.assertRaisesRegex(R.Refusal, "changed after it was opened"):
+                R.scan(held, str(root))
+        finally:
+            os.close(held.fd)
+
+    def test_open_root_directory_replaced_by_file_refuses_enotdir(self):
+        root = self.unit
+
+        def replace():
+            root.rename(self.base / "parked")
+            root.write_bytes(b"not a directory")
+
+        match = lambda p, kw: os.fspath(p) == str(root) and "dir_fd" not in kw
+        with before_open(match, replace) as fired:
+            with self.assertRaisesRegex(R.Refusal, "ENOTDIR"):
+                held = R.open_root(root)
+                os.close(held.fd)
+        self.assertTrue(fired)
+
+
 if __name__ == "__main__":
     unittest.main()

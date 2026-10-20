@@ -221,7 +221,7 @@ def _digest(at: _At) -> tuple[str, bool]:
     scan's lstat before and after the read."""
     scanned = _identity(at.st)
     try:
-        fd = os.open(at.name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=at.dir_fd)
+        fd = os.open(at.name, FILE_FLAGS, dir_fd=at.dir_fd)
     except OSError as exc:
         code = errno.errorcode.get(exc.errno, str(exc.errno))
         if exc.errno == errno.ELOOP:
