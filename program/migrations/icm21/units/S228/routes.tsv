@@ -1,0 +1,8 @@
+requirement_id	source	target	kind	observed_bytes	action	lane	scientific_role
+MV-068	/Volumes/memit/llm-database-poc-mirror/causal_trace/baseline_clean_pass.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/causal_trace/baseline_clean_pass.json	file	5128	MOVE	legacy-preservation	tracked-record
+MV-068	/Volumes/memit/llm-database-poc-mirror/causal_trace/causal_trace_session_log.txt	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/causal_trace/causal_trace_session_log.txt	file	2190	MOVE	legacy-preservation	tracked-record
+MV-068	/Volumes/memit/llm-database-poc-mirror/causal_trace/corrupted_pass.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/causal_trace/corrupted_pass.json	file	2909	MOVE	legacy-preservation	tracked-record
+MV-068	/Volumes/memit/llm-database-poc-mirror/causal_trace/mediation_map_mlp.npz	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/causal_trace/mediation_map_mlp.npz	file	6482	MOVE	legacy-preservation	governed-payload
+MV-068	/Volumes/memit/llm-database-poc-mirror/causal_trace/mediation_map_residual.npz	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/causal_trace/mediation_map_residual.npz	file	6456	MOVE	legacy-preservation	governed-payload
+MV-068	/Volumes/memit/llm-database-poc-mirror/causal_trace/mediation_verdict.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/causal_trace/mediation_verdict.json	file	3954	MOVE	legacy-preservation	tracked-record
+MV-068	/Volumes/memit/llm-database-poc-mirror/causal_trace/trace_prompt_set.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/causal_trace/trace_prompt_set.json	file	5299	MOVE	legacy-preservation	tracked-record

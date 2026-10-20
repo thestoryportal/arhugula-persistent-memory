@@ -1,0 +1,61 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "baseline_clean_pass.json",
+   "sha256": "2011ee11756758d9a1d538005692bdaf120f4f5693b2f89d234bc1dcabffabf0",
+   "size": 5128
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "causal_trace_session_log.txt",
+   "sha256": "a762d03f85db6042046e354491872020364ee70fa33c4480060a061d70bc0b91",
+   "size": 2190
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "corrupted_pass.json",
+   "sha256": "fbf417533ecdeb3536922856892ae0462d9b0fd0a04bc1b58cb15ec65b5e6e8d",
+   "size": 2909
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "mediation_map_mlp.npz",
+   "sha256": "4b6a7f731adce36c49d8d2941d8c44f2974a79f853904c9c563d55b164ceb877",
+   "size": 6482
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "mediation_map_residual.npz",
+   "sha256": "314f199045182fa833cf9aa81ea4464a503e5f7ad1d00441f2a6364d5677bed7",
+   "size": 6456
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "mediation_verdict.json",
+   "sha256": "e038441583f3029f2becaf84b0b685e50810570a54c981d15aead66565cb8ca9",
+   "size": 3954
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "trace_prompt_set.json",
+   "sha256": "9b103085578750792604f93736eb7e24d9e88839aefc30a97668b3175ad94781",
+   "size": 5299
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/causal_trace"
+}
