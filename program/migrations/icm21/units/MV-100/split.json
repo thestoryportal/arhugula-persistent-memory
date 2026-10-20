@@ -1,0 +1,69 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".DS_Store",
+   "sha256": "8030ca2dc6d4c581e8a1415dbbbb67aeaee8959d3ef55f138c2f137436de73c9",
+   "size": 6148
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "cache_state.json",
+   "sha256": "6d80a247d09c7165866b99bbaf787ee4350fc697da27eda855f68ec9e8765b76",
+   "size": 1529
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "d3_verdict.json",
+   "sha256": "b8fc10237c7dee376e202289f4c204ecbf38fb8c21b09dce558c45415a28720d",
+   "size": 4458
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "environment_fingerprint.json",
+   "sha256": "87e3fd481c910e9338088c1e53541e7d470f4291e0757132a9ede254c76a7b1a",
+   "size": 1331
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "overlays/batched_trial_0/original.pt",
+   "sha256": "3ac2bea406d94d7ab569635f252d3cee867e97ee224fcefd5b190832060cb67c",
+   "size": 587205013
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "patch_state.json",
+   "sha256": "63bfc14387b68a0e20d7951da5c5d4c41287c14ab58b51a46cf4fa703e2f70f8",
+   "size": 4583
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "trial_matrix.json",
+   "sha256": "29c6b6a6231f7391b8efd12f16d67c5e3dcc02a46c37f5b8d7f2baeb0c06f8ef",
+   "size": 13763
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "trials/d3_batched_trial_0.json",
+   "sha256": "7894ffaac299e321662f5a0093a742e423028551d5aaa128f911d6ff45eb23ff",
+   "size": 13326
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/stage_1_sect_d3"
+}
