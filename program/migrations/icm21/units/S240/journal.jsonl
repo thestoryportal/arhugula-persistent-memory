@@ -1,0 +1,4 @@
+{"action":"mv","operation_id":"MV-055","source":"/Volumes/memit/llm-database-poc-mirror/architecture_profile","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/architecture_profile"}
+{"action":"mv","operation_id":"MV-070","source":"/Volumes/memit/llm-database-poc-mirror/claude-ai-artifacts","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/claude-ai-artifacts"}
+{"action":"mv","operation_id":"MV-082","source":"/Volumes/memit/llm-database-poc-mirror/memit","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/memit"}
+{"action":"mv","operation_id":"MV-099","source":"/Volumes/memit/llm-database-poc-mirror/stage_1_sect_S215D2","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect_S215D2"}

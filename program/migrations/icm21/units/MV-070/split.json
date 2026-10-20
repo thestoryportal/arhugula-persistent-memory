@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".DS_Store",
+   "sha256": "3ec2aabe2914a244a3b2a29fe6ae70fcf52832d3c74b6f01c17430c4a1f67550",
+   "size": 6148
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/claude-ai-artifacts"
+}

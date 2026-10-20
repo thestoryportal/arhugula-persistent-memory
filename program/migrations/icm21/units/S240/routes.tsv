@@ -1,0 +1,10 @@
+requirement_id	source	target	kind	observed_bytes	action	lane	scientific_role
+MV-055	/Volumes/memit/llm-database-poc-mirror/architecture_profile/.DS_Store	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/architecture_profile/.DS_Store	file	8196	MOVE	legacy-preservation	governed-payload
+MV-055	/Volumes/memit/llm-database-poc-mirror/architecture_profile/capture_token_ids.py	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/architecture_profile/capture_token_ids.py	file	20823	MOVE	legacy-preservation	tracked-record
+MV-055	/Volumes/memit/llm-database-poc-mirror/architecture_profile/reproducibility_manifest.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/architecture_profile/reproducibility_manifest.json	file	17414	MOVE	legacy-preservation	tracked-record
+MV-055	/Volumes/memit/llm-database-poc-mirror/architecture_profile/runbooks/.DS_Store	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/architecture_profile/runbooks/.DS_Store	file	6148	MOVE	legacy-preservation	governed-payload
+MV-055	/Volumes/memit/llm-database-poc-mirror/architecture_profile/runbooks/Archive/.DS_Store	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/architecture_profile/runbooks/Archive/.DS_Store	file	6148	MOVE	legacy-preservation	governed-payload
+MV-055	/Volumes/memit/llm-database-poc-mirror/architecture_profile/stage_1_token_verification.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/architecture_profile/stage_1_token_verification.json	file	5229	MOVE	legacy-preservation	tracked-record
+MV-070	/Volumes/memit/llm-database-poc-mirror/claude-ai-artifacts/.DS_Store	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/claude-ai-artifacts/.DS_Store	file	6148	MOVE	legacy-preservation	governed-payload
+MV-082	/Volumes/memit/llm-database-poc-mirror/memit/.DS_Store	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/memit/.DS_Store	file	6148	MOVE	legacy-preservation	governed-payload
+MV-099	/Volumes/memit/llm-database-poc-mirror/stage_1_sect_S215D2/.DS_Store	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect_S215D2/.DS_Store	file	6148	MOVE	legacy-preservation	governed-payload
