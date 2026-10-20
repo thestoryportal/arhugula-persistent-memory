@@ -59,6 +59,43 @@ class ReadLink(base.Fixture):
         self.addCleanup(os.close, parent)
         self.assertEqual(AL.read_link_or_file("reader", dir_fd=parent), (b"original", True))
 
+    def test_link_fd_closed_after_success_and_refusal(self):
+        parent = os.open(self.repo, os.O_RDONLY | os.O_DIRECTORY)
+        self.addCleanup(os.close, parent)
+        # [LAW:behavior-not-structure] Both outcomes must leave no link descriptor open.
+        before = len(os.listdir("/dev/fd"))
+        self.assertEqual(AL.read_link_or_file("reader", dir_fd=parent), (b"original", True))
+        with self.swapped_after_scan():
+            with self.assertRaisesRegex(fdsafe.Refusal, "reader.*changed between scan and open"):
+                AL.read_link_or_file("reader", dir_fd=parent)
+        self.assertEqual(len(os.listdir("/dev/fd")), before)
+
+    def test_post_open_swap_returns_original_link_bytes(self):
+        parent = os.open(self.repo, os.O_RDONLY | os.O_DIRECTORY)
+        self.addCleanup(os.close, parent)
+        # [LAW:behavior-not-structure] The held link survives a later path replacement.
+        with FK.swap_for_symlink(
+                "open", 1, self.path, "impostor", when="after",
+                match=lambda path, flags, *args, **kw: path == "reader"
+                and kw.get("dir_fd") == parent and flags & os.O_SYMLINK) as fault:
+            result = AL.read_link_or_file("reader", dir_fd=parent)
+        self.assertEqual(fault.fired, 1)
+        self.assertEqual(result, (b"original", True))
+        self.assertNotIn(b"impostor", result[0])
+
+    def test_post_open_swap_main_keeps_original_pairing_refusal(self):
+        self.seed({"victim": b"original"})
+        with FK.swap_for_symlink(
+                "open", 1, self.path, "impostor", when="after",
+                match=lambda path, flags, *args, **kw: path == "reader"
+                and kw.get("dir_fd") is not None and flags & os.O_SYMLINK) as fault:
+            code, text, err = self.run_cli({"remove": ["victim"], "add": [{"dst": "reader"}]})
+        self.assertEqual(fault.fired, 1)
+        self.assertEqual(code, 1, err)
+        self.assertIsNone(text)
+        self.assertIn("equal bytes on both sides", err)
+        self.assertNotIn("impostor", err)
+
     def test_stable_link_preserves_non_utf8_bytes(self):
         path = os.path.join(self.outside, "raw")
         os.symlink(b"absent-\xff", os.fsencode(path))
