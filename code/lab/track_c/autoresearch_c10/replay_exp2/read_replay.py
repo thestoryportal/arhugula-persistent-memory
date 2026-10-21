@@ -14,7 +14,7 @@ import sys
 
 BASE_COMMIT = "92acd0378d23f4935df9a8bccc0137b36695a40f"
 PROGRAM_ROOT = Path("/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a")
-SOURCE = Path("/Volumes/memit/llm-database-poc-mirror/autoresearch_sandbox_c10")
+SOURCE = Path("/Volumes/memit/llmdb-preserved/icm21-20261013/parent/autoresearch_sandbox_c10")
 MODEL_REV = "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 CONTEXT_SHA = "e8605172dce01aaafbf3f23a4d68d05dde756a9b65ec9060962fedc1369fb330"
 ARMS = ("A1_single", "A2_coherent2", "A7_coined_coined")

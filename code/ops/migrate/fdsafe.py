@@ -158,10 +158,12 @@ class Entry:
     st: os.stat_result
 
 
-def walk(root: Dir, visit: Callable[[Entry], None]) -> None:
-    """Call visit on every entry under root, depth first, names sorted by their bytes.
+def walk(root: Dir, visit: Callable[[Entry], None],
+         descend: Callable[[Entry], bool] = lambda entry: True) -> None:
+    """Call visit on every scanned entry, depth first, names sorted by their bytes.
 
-    A directory is visited, then entered through its parent's fd; the opened directory
+    After visit, descend is called once per directory to decide whether to enter it
+    through its parent's fd; by default every directory is entered. The opened directory
     must be the one the scan saw. Every fd the walk opens is closed before it returns."""
 
     def scan(dir_fd: int, dirpath: str, prefix: str) -> None:
@@ -173,7 +175,7 @@ def walk(root: Dir, visit: Callable[[Entry], None]) -> None:
                 st = de.stat(follow_symlinks=False)
             entry = Entry(dir_fd, de.name, path, prefix + de.name, st)
             visit(entry)
-            if stat.S_ISDIR(st.st_mode):
+            if stat.S_ISDIR(st.st_mode) and descend(entry):
                 with fs(path):
                     fd = os.open(de.name, DIR_FLAGS, dir_fd=dir_fd)
                 try:
