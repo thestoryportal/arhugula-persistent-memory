@@ -1,0 +1,8 @@
+requirement_id	source	target	kind	observed_bytes	action	lane	scientific_role
+MV-102	/Volumes/memit/llm-database-poc-mirror/t1_alpha_cov.log	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_alpha_cov.log	file	312134	MOVE	legacy-preservation	tracked-record
+MV-103	/Volumes/memit/llm-database-poc-mirror/t1_alpha_cov_compute.py	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_alpha_cov_compute.py	file	1933	MOVE	legacy-preservation	tracked-record
+MV-104	/Volumes/memit/llm-database-poc-mirror/t1_alpha_cov_progress.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_alpha_cov_progress.json	file	424	MOVE	legacy-preservation	tracked-record
+MV-106	/Volumes/memit/llm-database-poc-mirror/t1_alt_model_3b_memit_akd_out/akd_readout.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_alt_model_3b_memit_akd_out/akd_readout.json	file	10930	MOVE	legacy-preservation	tracked-record
+MV-107	/Volumes/memit/llm-database-poc-mirror/t1_beta_cov_compute_l78.py	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_beta_cov_compute_l78.py	file	1927	MOVE	legacy-preservation	tracked-record
+MV-108	/Volumes/memit/llm-database-poc-mirror/t1_beta_cov_l78.log	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_beta_cov_l78.log	file	125150	MOVE	legacy-preservation	tracked-record
+MV-109	/Volumes/memit/llm-database-poc-mirror/t1_beta_cov_progress_l78.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_beta_cov_progress_l78.json	file	172	MOVE	legacy-preservation	tracked-record

@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".",
+   "sha256": "27ea00dec2e8fb6d22c284ca18ea25c1b64dd72cb602bbafafec981baa5bd583",
+   "size": 1927
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/t1_beta_cov_compute_l78.py"
+}

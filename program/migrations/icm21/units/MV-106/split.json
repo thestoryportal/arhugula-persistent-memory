@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "akd_readout.json",
+   "sha256": "b65f4f1a268cb28ed23d2f37904c5bde9a5fb9b1968c8c1ae13a2d4bc8af0ba3",
+   "size": 10930
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/t1_alt_model_3b_memit_akd_out"
+}
