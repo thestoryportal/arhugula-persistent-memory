@@ -74,7 +74,7 @@ def unit_rows(units: Path) -> tuple[dict[str, str], list[Path]]:
                 err = errno.ELOOP if stat.S_ISLNK(mode) else errno.ENOTDIR
                 raise fdsafe.Refusal(entry.path, 'is not a directory', err)
         if depth == 1 and entry.name == UNIT_ROWS:
-            path = Path(entry.path)
+            path = units / entry.rel
             for old, new in parse_rows(path, fdsafe.read_bytes(entry)).items():
                 if old in mapping:
                     raise Refused(f'{path}: old path {old} is in two units')

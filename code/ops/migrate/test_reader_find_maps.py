@@ -120,6 +120,51 @@ class Maps(unittest.TestCase):
                          (rc, out.replace('{ROOT}', str(self.root)),
                           err.replace('{ROOT}', str(self.root))))
 
+    def relative_cli(self, *args):
+        previous = Path.cwd()
+        self.addCleanup(os.chdir, previous)
+        os.chdir(self.root)
+        out, err = io.StringIO(), io.StringIO()
+        with mock.patch.dict(os.environ, LLMDB_ROOT=str(self.root)), \
+                contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            rc = reader_find.main(['--paths', 'reader', *args])
+        return rc, out.getvalue(), err.getvalue()
+
+    # Pins recorded now from 8bbac3f3's reader_find.py exported to TMPDIR;
+    # tests use these literals and never invoke git or the master script.
+    def test_relative_units_malformed_row_equal_master(self):
+        self.unit_map.write_bytes(
+            b'old\tnew\tdisposition\tunit\nold/place\tx\tmove\n')
+        self.assertEqual(self.relative_cli('--check', '--units', 'units'),
+                         (2, '', 'reader_find: refused: units/one/path-map-rows.tsv:2: malformed row\n'))
+
+    def test_relative_units_duplicate_equal_master(self):
+        second = self.units / 'two'
+        second.mkdir()
+        (second / reader_find.UNIT_ROWS).write_bytes(self.data)
+        self.assertEqual(self.relative_cli('--check', '--units', 'units'),
+                         (2, '', 'reader_find: refused: units/two/path-map-rows.tsv: old path old/place is in two units\n'))
+
+    def test_relative_relocations_malformed_row_equal_master(self):
+        self.relocations.write_bytes(
+            b'old\tnew\tdisposition\tunit\nold/place\tx\tmove\n')
+        self.assertEqual(self.relative_cli('--check', '--relocations', 'maps/relocations.tsv'),
+                         (2, '', 'reader_find: refused: maps/relocations.tsv:2: malformed row\n'))
+
+    def test_relative_report_exists_equal_master(self):
+        self.assertEqual(self.relative_cli('--old', 'old/place', '--report', 'reports/report.json'),
+                         (2, '', f'reader_find: refused: {self.root}/reports/report.json: exists; never overwritten\n'))
+
+    def test_five_column_row_equal_master(self):
+        self.unit_map.write_bytes(self.data.rstrip(b'\n') + b'\textra\n')
+        self.assertEqual(self.relative_cli('--check', '--units', 'units'),
+                         (2, '', 'reader_find: refused: units/one/path-map-rows.tsv:2: malformed row\n'))
+
+    def test_wrong_header_valid_row_equal_master(self):
+        self.unit_map.write_bytes(self.data.replace(b'old\tnew', b'wrong\tnew', 1))
+        self.assertEqual(self.relative_cli('--check', '--units', 'units'),
+                         (2, '', 'reader_find: refused: units/one/path-map-rows.tsv: expected header old<TAB>new<TAB>disposition<TAB>unit\n'))
+
     def test_unit_symlink_errno(self):
         self.unit.rename(self.root / 'parked-unit')
         self.unit.symlink_to(self.root / 'parked-unit', target_is_directory=True)
