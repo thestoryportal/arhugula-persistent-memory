@@ -93,22 +93,23 @@ class Descend(unittest.TestCase):
         ])
 
     def test_descend_exception_propagates_unchanged_and_closes_fds(self):
-        root = self.held()
-        boom = ValueError("boom")
-        seen = []
+        for boom in (ValueError("boom"), OSError(errno.EIO, "predicate")):
+            with self.subTest(exception=type(boom).__name__):
+                root = self.held()
+                seen = []
 
-        def descend(entry):
-            if entry.rel == "a/b":
-                raise boom
-            return True
+                def descend(entry):
+                    if entry.rel == "a/b":
+                        raise boom
+                    return True
 
-        before = len(os.listdir("/dev/fd"))
-        with self.assertRaises(ValueError) as cm:
-            fdsafe.walk(root, lambda e: seen.append(e.rel), descend=descend)
-        self.assertIs(cm.exception, boom)
-        self.assertNotIsInstance(cm.exception, fdsafe.Refusal)
-        self.assertEqual(seen, ["a", "a/b"])
-        self.assertEqual(len(os.listdir("/dev/fd")), before)
+                before = len(os.listdir("/dev/fd"))
+                with self.assertRaises(type(boom)) as cm:
+                    fdsafe.walk(root, lambda e: seen.append(e.rel), descend=descend)
+                self.assertIs(cm.exception, boom)
+                self.assertNotIsInstance(cm.exception, fdsafe.Refusal)
+                self.assertEqual(seen, ["a", "a/b"])
+                self.assertEqual(len(os.listdir("/dev/fd")), before)
 
 
 if __name__ == "__main__":
