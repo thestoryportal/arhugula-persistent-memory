@@ -224,6 +224,44 @@ class Maps(unittest.TestCase):
         self.assertEqual(self.cli('unit_map'),
                          MASTER_RESULTS['unreadable_irrelevant_directory'])
 
+    # R378d: head pins for locked units, an explicit master-compatibility exception.
+    def test_units_refuse_locked_unit_000_before(self):
+        locked = self.units / 'aa-locked'
+        locked.mkdir()
+        self.addCleanup(locked.chmod, 0o755)
+        locked.chmod(0)
+        self.assertEqual(self.cli('unit_map'),
+                         (2, '', f"reader_find: refused: '{locked}': Permission denied [EACCES]\n"))
+
+    def test_units_refuse_locked_unit_000_after(self):
+        locked = self.units / 'zz-locked'
+        locked.mkdir()
+        self.addCleanup(locked.chmod, 0o755)
+        locked.chmod(0)
+        self.assertEqual(self.cli('unit_map'),
+                         (2, '', f"reader_find: refused: '{locked}': Permission denied [EACCES]\n"))
+
+    def test_units_refuse_locked_unit_0100(self):
+        locked = self.units / 'locked'
+        locked.mkdir()
+        (locked / reader_find.UNIT_ROWS).write_bytes(
+            b'old\tnew\tdisposition\tunit\nold/locked\tnew/locked\tmove\tlocked\n')
+        self.addCleanup(locked.chmod, 0o755)
+        locked.chmod(0o100)
+        self.assertEqual(self.cli('unit_map'),
+                         (2, '', f"reader_find: refused: '{locked}': Permission denied [EACCES]\n"))
+
+    def test_units_refuse_locked_unit_0400(self):
+        locked = self.units / 'locked'
+        locked.mkdir()
+        locked_map = locked / reader_find.UNIT_ROWS
+        locked_map.write_bytes(
+            b'old\tnew\tdisposition\tunit\nold/locked\tnew/locked\tmove\tlocked\n')
+        self.addCleanup(locked.chmod, 0o755)
+        locked.chmod(0o400)
+        self.assertEqual(self.cli('unit_map'),
+                         (2, '', f"reader_find: refused: '{locked_map}': Permission denied [EACCES]\n"))
+
     def attack(self, route, kind):
         self.control(route)
         path = getattr(self, route)
