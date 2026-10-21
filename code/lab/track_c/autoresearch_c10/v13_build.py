@@ -14,7 +14,7 @@ import uuid
 SRC = Path(__file__).resolve().parent
 PROGRAM = SRC.parents[3]
 REPO = PROGRAM.parents[2]
-OLD = Path('/Volumes/memit/llm-database-poc-mirror/autoresearch_sandbox_c10')
+OLD = Path('/Volumes/memit/llmdb-preserved/icm21-20261013/parent/autoresearch_sandbox_c10')
 sys.path.insert(0, str(SRC))
 from v13_common import ARMS, digest, write_json
 from sandbox_settings import seatbelt, settings
@@ -214,8 +214,8 @@ def build(sandbox, fence, fixture=False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--sandbox', default='/Volumes/memit/llm-database-poc-mirror/autoresearch_v13_c10')
-    parser.add_argument('--fence', default='/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10')
+    parser.add_argument('--sandbox', default='/Volumes/memit/llmdb-preserved/icm21-20261013/parent/autoresearch_v13_c10')
+    parser.add_argument('--fence', default='/Volumes/memit/llmdb-preserved/icm21-20261013/parent/autoresearch_fence_v13_c10')
     parser.add_argument('--fixture', action='store_true', help='private program-controlled no-model fence; never a loop')
     args = parser.parse_args()
     build(args.sandbox, args.fence, args.fixture)
