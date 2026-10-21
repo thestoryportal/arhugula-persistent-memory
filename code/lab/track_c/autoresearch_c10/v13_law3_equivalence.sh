@@ -6,7 +6,7 @@
 # A7 c30664a92b06be43485a2043b4512d08d977df2708289f558d5ba03a5a7da965
 set -euo pipefail
 PROGRAM="/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
-FENCE="/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_v13_c10"
+FENCE="/Volumes/memit/llmdb-preserved/icm21-20261013/parent/autoresearch_fence_v13_c10"
 ANCHOR="$(/usr/bin/shasum -a 256 "$FENCE/sealed/manifest.json")"
 exec /usr/bin/env -i HOME="$HOME" USER="$USER" PATH=/usr/bin:/bin:/usr/sbin:/sbin \
   PYTHONDONTWRITEBYTECODE=1 "$PROGRAM/.venv/bin/python" -I -B \
