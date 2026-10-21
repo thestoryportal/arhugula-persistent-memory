@@ -1,0 +1,58 @@
+[
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-102/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-102/readers.json",
+  "registry": "program/migrations/icm21/units/MV-102/registry.json",
+  "requirement_id": "MV-102"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-103/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-103/readers.json",
+  "registry": "program/migrations/icm21/units/MV-103/registry.json",
+  "requirement_id": "MV-103"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-104/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-104/readers.json",
+  "registry": "program/migrations/icm21/units/MV-104/registry.json",
+  "requirement_id": "MV-104"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-106/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-106/readers.json",
+  "registry": "program/migrations/icm21/units/MV-106/registry.json",
+  "requirement_id": "MV-106"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-107/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-107/readers.json",
+  "registry": "program/migrations/icm21/units/MV-107/registry.json",
+  "requirement_id": "MV-107"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-108/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-108/readers.json",
+  "registry": "program/migrations/icm21/units/MV-108/registry.json",
+  "requirement_id": "MV-108"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-109/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-109/readers.json",
+  "registry": "program/migrations/icm21/units/MV-109/registry.json",
+  "requirement_id": "MV-109"
+ }
+]

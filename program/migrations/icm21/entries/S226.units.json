@@ -1,0 +1,42 @@
+[
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-091/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-091/readers.json",
+  "registry": "program/migrations/icm21/units/MV-091/registry.json",
+  "requirement_id": "MV-091"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-092/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-092/readers.json",
+  "registry": "program/migrations/icm21/units/MV-092/registry.json",
+  "requirement_id": "MV-092"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-093/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-093/readers.json",
+  "registry": "program/migrations/icm21/units/MV-093/registry.json",
+  "requirement_id": "MV-093"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-094/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-094/readers.json",
+  "registry": "program/migrations/icm21/units/MV-094/registry.json",
+  "requirement_id": "MV-094"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-095/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-095/readers.json",
+  "registry": "program/migrations/icm21/units/MV-095/registry.json",
+  "requirement_id": "MV-095"
+ }
+]
