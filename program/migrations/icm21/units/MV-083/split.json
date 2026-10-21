@@ -1,0 +1,1613 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".DS_Store",
+   "sha256": "873bed32e556cda809108917bc698e70df6ca43274ae361d7f6c629d709335b2",
+   "size": 6148
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".ipynb_checkpoints/Untitled-checkpoint.ipynb",
+   "sha256": "4a62b68a633d79c53a6fd8893e8ea42dcf2b9a8a3e907b1b9861661f04f21517",
+   "size": 72
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/HEAD",
+   "sha256": "28d25bf82af4c0e2b72f50959b2beb859e3e60b9630a5e8c603dad4ddb2b6e80",
+   "size": 21
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/config",
+   "sha256": "c2e5ce34d524a54afa775829adcd13311bc481c2e534a469aad4df7b28eb2be2",
+   "size": 290
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/description",
+   "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+   "size": 73
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/applypatch-msg.sample",
+   "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+   "size": 478
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/commit-msg.sample",
+   "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+   "size": 896
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/fsmonitor-watchman.sample",
+   "sha256": "f3c0228d8e827f1c5260ac59fdd92c3d425c46e54711ef713c5a54ae0a4db2b4",
+   "size": 4655
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/post-update.sample",
+   "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+   "size": 189
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/pre-applypatch.sample",
+   "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+   "size": 424
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/pre-commit.sample",
+   "sha256": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+   "size": 1643
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/pre-merge-commit.sample",
+   "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+   "size": 416
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/pre-push.sample",
+   "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+   "size": 1374
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/pre-rebase.sample",
+   "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+   "size": 4898
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/pre-receive.sample",
+   "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+   "size": 544
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/prepare-commit-msg.sample",
+   "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+   "size": 1492
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/push-to-checkout.sample",
+   "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+   "size": 2783
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/hooks/update.sample",
+   "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+   "size": 3650
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/index",
+   "sha256": "5fa0d8aaa78418a1d1e6647a0b27581cf351598f0c5d5358b57196b37977ac9e",
+   "size": 13618
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/info/exclude",
+   "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+   "size": 240
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/logs/HEAD",
+   "sha256": "75a1843cfceff8f7ccf305549b9782b534bdd423aa46742c29bf2d5ad60d8098",
+   "size": 180
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/logs/refs/heads/main",
+   "sha256": "75a1843cfceff8f7ccf305549b9782b534bdd423aa46742c29bf2d5ad60d8098",
+   "size": 180
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/logs/refs/remotes/origin/HEAD",
+   "sha256": "75a1843cfceff8f7ccf305549b9782b534bdd423aa46742c29bf2d5ad60d8098",
+   "size": 180
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/objects/pack/pack-89a2505838d77656b4ba0457b034514a23237809.idx",
+   "sha256": "5b7b35286a8fac3a080ddba38031ecd58e2b279d577b92ce21a52fccaca9ad88",
+   "size": 6560
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/objects/pack/pack-89a2505838d77656b4ba0457b034514a23237809.pack",
+   "sha256": "ae323a363a142c39f0c1f1b48a89f8eedd2d81ad606fd0768340bf7b42487c3a",
+   "size": 138132
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/packed-refs",
+   "sha256": "446f60e75a6360280dcb781944206e3974293a482ef71bbee0ced7693220e030",
+   "size": 180
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/refs/heads/main",
+   "sha256": "2e6ad5751ed532298567ddeb8aaeffaf6eb52b86afb5c734a4617e9236b2aba9",
+   "size": 41
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.git/refs/remotes/origin/HEAD",
+   "sha256": "2bb6a24aa0fc6c484100f5d51a29bbad841cd2c755f5d93faa204e5dbb4eb2b4",
+   "size": 30
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.gitattributes",
+   "sha256": "0d8fc1b86a58cb959c95bc6d62652b6a06ec8a1161d0fab6af1bcabbde43b630",
+   "size": 27
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/.gitignore",
+   "sha256": "8d0aba79068af0ed4093807588d236cfe576a1e7c08993549f65ec2e1cbc931b",
+   "size": 2304
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/CITATION.cff",
+   "sha256": "974adb58a9fd1e6a2375244d22c8601a3a614257b006c534863ade12056a9514",
+   "size": 497
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/LICENSE",
+   "sha256": "46c273d5a0a7f8bc3889863398e1bb20493e256f38033dfd637ec46bf654c531",
+   "size": 1067
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/README.md",
+   "sha256": "e14b1c0aff11f1ebb5b427115cdd660892e0305bb868102c1330299017b69b13",
+   "size": 2632
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/README.md",
+   "sha256": "e44248aeb435f44301544b39c92195baa1367552978f9f20060a186c1c223e95",
+   "size": 816
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/ft/__init__.py",
+   "sha256": "19646aa4d3c5b6fd8dc0032aab1cee6afc7ab24e7404c5c657cadbdd077ea0fd",
+   "size": 66
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/ft/ft_hparams.py",
+   "sha256": "fdd83bbc0cb87ebc1b6aae238a38798aab6e2b8b1723e666e797c1c5df851ab1",
+   "size": 568
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/ft/ft_main.py",
+   "sha256": "ce8bffb4716a6ec97c5690a10b7be585da6d009028f6d77c9ac7907caaea378a",
+   "size": 5815
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/README.md",
+   "sha256": "43f8919beb3498934f0282763523db4f1b0825d98c103bbd4230fce52e756076",
+   "size": 2438
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/__init__.py",
+   "sha256": "ce6f24b656aa412ba07c893dd6fa37001d0a148312c9fd5b823ac27c83e145b0",
+   "size": 85
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/algs/enn.py",
+   "sha256": "fcde13387249220bf8ccde0c8bf174f6444a956806f86aee0c4c1a0c062e3a90",
+   "size": 4017
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/algs/ft.py",
+   "sha256": "c60355576cac69dbca0816a4747cbb7bbba7a2352d0e7edb2191d870450eeff7",
+   "size": 5450
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/algs/mend.py",
+   "sha256": "3d94e338ff9efe07815d9d4d339485e9abaa17af555f88d0adacb0a3ad19eca5",
+   "size": 16759
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/alg/efk.yaml",
+   "sha256": "6d8a009b23a6d15971f0fd3f41f446e55f9f439ddd4f37f37e003a9ba39c3d4b",
+   "size": 57
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/alg/enn.yaml",
+   "sha256": "5d57b48f592317500c828b93650db753917781cacae4b72afbaf6af7bcdfff96",
+   "size": 91
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/alg/ft.yaml",
+   "sha256": "f2ed848825e236de2073930e6bea4faf2ca1f6c828a7f84d79fad54a0b7e607d",
+   "size": 250
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/alg/mend.yaml",
+   "sha256": "bce5e203d627552b2caf8d1a3b185ccaf28773b285a17a9f27538a86fe9eea87",
+   "size": 277
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/config.yaml",
+   "sha256": "d46810afd50bf9dc19b443df22f7c77ee88ae03f7540bb7939b6eeaba4079d96",
+   "size": 944
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/experiment/fc.yaml",
+   "sha256": "678a899a35e0840de77f5fea74236c9f0d8b9ea4f0b8e1a05b981cfac131a043",
+   "size": 56
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/experiment/gen.yaml",
+   "sha256": "c208288115ae91d8cd47dfcc6c157e94d41657eebef327700363ed288f9dbee3",
+   "size": 131
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/experiment/qa.yaml",
+   "sha256": "038666cff47e927cc70891afcc2efd0f62898274d0287f1ab0719c3771394027",
+   "size": 55
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/bart-base.yaml",
+   "sha256": "25eac9c87259e197ecf587413f4660098b779c6b21fa1cc6584e7d64b1479475",
+   "size": 487
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/bert-base.yaml",
+   "sha256": "49ff1dc40a3306dd7649f697c134e6ed0f83e5382038f18962793f3eca410e01",
+   "size": 470
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/distilgpt2.yaml",
+   "sha256": "ba77ac0a70e92efac417a8f9b2aa25872f4c0152ae7e6bcb7a1a1c394e88a0d7",
+   "size": 360
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/gpt2.yaml",
+   "sha256": "6c9ac030faea26cfa57a21d10713298b5b05e2acfcda057db9ef8b7797e0182d",
+   "size": 322
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/gpt2large.yaml",
+   "sha256": "feeab1704c76f5917876da5c631940dfde806dfdf0bf37f704ae29e8081c016c",
+   "size": 337
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/gpt2medium.yaml",
+   "sha256": "a943050f9ad67b30e16e312d0a63b8dff6518a582e5c49d4f36475931dee5dc6",
+   "size": 338
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/gpt2xl.yaml",
+   "sha256": "5eb704b1c06b3636eb62db43614f87650412d08c2c6f374555187c194f031429",
+   "size": 331
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/gptj.yaml",
+   "sha256": "0f3fe0caa24560fc62ffe7c2752cc23b5216bf99291d0fe969a55026982e4868",
+   "size": 354
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/gptneo27.yaml",
+   "sha256": "809ce5da7d801f0b9c7ffc1b4b53632b23c7c8544f5dd1a401b8be4d3f17a46a",
+   "size": 365
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/t5large.yaml",
+   "sha256": "109cf49c1cb32333e492e79d9974fa3e75f8c9a0459d40c872571e4eb13c85d5",
+   "size": 572
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/t5small.yaml",
+   "sha256": "cee5cfbb9295137f1ecf154949c55f0f76254941d9cb48ecdd66bc6decd1a929",
+   "size": 572
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/t5xl.yaml",
+   "sha256": "e9611b81bd40bb80c21f462b195095deabab3d3d6ac344165ba16a3ec45bc5a6",
+   "size": 574
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/config/model/t5xxl.yaml",
+   "sha256": "690ee1486411befec7312a0e37ed4ef615a57e1c74e4f7bea39ed6f87530d427",
+   "size": 576
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/data_classes/fever.py",
+   "sha256": "098397ce1214eb8cce6b90c8ba6ebd67024afcbc2f58ccaf887b5a365732308a",
+   "size": 4399
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/data_classes/nq.py",
+   "sha256": "f8d8dfaadf866e82c50e4c5bfef14a9b54aa5799aca3cea8f403f0461ba61f69",
+   "size": 2098
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/data_classes/wiki.py",
+   "sha256": "60ea3f99dcb4386f38454fdda9b7a65963df76240ce516d093e396a969576627",
+   "size": 4533
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/data_classes/zsre.py",
+   "sha256": "2acb707212802d65a55f46ada4381af330ff1cc9842ed9c56326de14b0711581",
+   "size": 7502
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/editable_model.py",
+   "sha256": "34330a12b9864001ea46ecae794df1ea85cedb38082df783b31d67cc8939e245",
+   "size": 876
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/hooks.py",
+   "sha256": "b6037d8f9778f2d74952dafe3acc76f761df6884d85e9b5b57559cd08f7d2d6f",
+   "size": 854
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/losses.py",
+   "sha256": "271a10d9e995ffd92c2de239f652928d651013f8a0889bd4205ffca1469127e8",
+   "size": 2859
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/mend_hparams.py",
+   "sha256": "071bc2c833cd1362906eee12b081c272650f909e9c93389bb05be86ae8626eb3",
+   "size": 229
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/mend_main.py",
+   "sha256": "7e72af6f626798696f50c81ad72276f4807422bd365d5d6f130ca7e2852f53b5",
+   "size": 6157
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/models.py",
+   "sha256": "2e94d797f3813d57a532c676ba6609a91e89eb36bdfb8479bc092dccc5ce4420",
+   "size": 6628
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/nn.py",
+   "sha256": "ffca4fb48675c4c6cf56bb9cbbff8ce50f2c46eb8fdbfc6a7e1b6308acddab92",
+   "size": 6879
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/oracle.py",
+   "sha256": "d3657df3b292a4c78564c59b9a07ccdb8e6ff74b111cd489e38c5e5112ad4b1b",
+   "size": 3983
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/requirements.txt",
+   "sha256": "17082daf26c99220b8bfff81f282ca445e19b6ee69835f31009a4ce0d0ed20cd",
+   "size": 290
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/run.py",
+   "sha256": "2e57976fb507bc5bc27f88ea8a7bacd7b2a75d6b45170ed4870643ae5ce74765",
+   "size": 3244
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/trainer.py",
+   "sha256": "91c9d6378c0cbe6340cf4591618a68aa70f805059a01881f43c71859e001dcb1",
+   "size": 15105
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/baselines/mend/utils.py",
+   "sha256": "bb981c845c07709efa4e81610ec575be7e3f3b909a42b79610a47044c04c0554",
+   "size": 8198
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/data/stats/EleutherAI_gpt-j-6B/wikipedia_stats/transformer.h.3.mlp.fc_out_float32_mom2_100000.npz",
+   "sha256": "29b19768294b8ff3af95aa3a8d73fde624963f58a093936c2214df93e6064663",
+   "size": 1073743010
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/data/stats/EleutherAI_gpt-j-6B/wikipedia_stats/transformer.h.4.mlp.fc_out_float32_mom2_100000.npz",
+   "sha256": "69cdb8da6897416fe8352938a5658cf4153a4bd5d190a02d3d1bb307bdcf49e7",
+   "size": 1073743010
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/data/stats/EleutherAI_gpt-j-6B/wikipedia_stats/transformer.h.5.mlp.fc_out_float32_mom2_100000.npz",
+   "sha256": "956bc6dbf6b5e9f309d7fc6815f4f2a08e262ee4eb57918d86f0e1f27110dd9f",
+   "size": 1073743010
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/data/stats/EleutherAI_gpt-j-6B/wikipedia_stats/transformer.h.6.mlp.fc_out_float32_mom2_100000.npz",
+   "sha256": "5eec50828e461e62bed1bd9bb57a5b09762730d9d8b0c97b3ea149a3474e3a5d",
+   "size": 1073743010
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/data/stats/EleutherAI_gpt-j-6B/wikipedia_stats/transformer.h.7.mlp.fc_out_float32_mom2_100000.npz",
+   "sha256": "b7c7234af3cdc32820ffc25aa6e5d12577dc850e2a0dc18ecea166aebbe41414",
+   "size": 1073743010
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/data/stats/EleutherAI_gpt-j-6B/wikipedia_stats/transformer.h.8.mlp.fc_out_float32_mom2_100000.npz",
+   "sha256": "9d660eac5d1edd3e11ec9dfe00c93f98b761cf850caf8fe2bc6b2f1ecdfd616c",
+   "size": 1073743010
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B",
+   "path": "memit/data/stats/meta-llama_Llama-3.1-8B",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/dsets/__init__.py",
+   "sha256": "a2e1c9d7a56af0b091a48cb313a356cdb1a923e1bb046d73bd0d1e10c7b0d907",
+   "size": 226
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/dsets/attr_snippets.py",
+   "sha256": "bf78972d9914919e0a0b7d7d93623b3f51b8684f691e909793b5cd5471d6f01a",
+   "size": 1327
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/dsets/counterfact.py",
+   "sha256": "7848e935a578c40e187167a2894601b0dbf42d2334b5289a012276ea1eb672b5",
+   "size": 1400
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/dsets/knowns.py",
+   "sha256": "e2428c36d17b0dec1f390888a98334bd0fd1f64168bffae7566ef8a8606f361e",
+   "size": 857
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/dsets/tfidf_stats.py",
+   "sha256": "34f03d97b0b1aaad33e75a211a3d6b502cfb9eace1c172320df6ceb713d600c9",
+   "size": 2201
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/dsets/zsre.py",
+   "sha256": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e",
+   "size": 2237
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/experiments/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "size": 0
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/experiments/causal_trace.py",
+   "sha256": "9436fd596a39e240a01121da601359bea5d0b3a350c0faa34aa8b0ccac05560b",
+   "size": 24971
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/experiments/evaluate.py",
+   "sha256": "4ef8e138bb8003c8486935ad0eae86d9ccd84bb61cfa1f88b63f0ed06c2d1760",
+   "size": 10319
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/experiments/py/demo.py",
+   "sha256": "268c16a1c2c4e8642b7641739c2cd0808c08be80f36f280d1e5bef4944733772",
+   "size": 4890
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/experiments/py/eval_utils_counterfact.py",
+   "sha256": "b00d9810305580dddfeb5e65129db4d56bcbfee1edf020605e21bf4f5033aeb7",
+   "size": 7683
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/experiments/py/eval_utils_zsre.py",
+   "sha256": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8",
+   "size": 3845
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/experiments/summarize.py",
+   "sha256": "7de8f5eec86243807825cf9f62923535f853cce07d2d3248534f86320f229372",
+   "size": 6904
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/experiments/sweep.py",
+   "sha256": "bfc7a91e9abb526814f7d975a81ff0333e930b452e2da58b31dc2ae8a10cce74",
+   "size": 4803
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/globals.yml",
+   "sha256": "a91e48ed0757f2cab58dc45079dc7e68feeb7e77e2fc923f7035e48c40674729",
+   "size": 216
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/globals.yml.upstream_default.20260430T035736Z",
+   "sha256": "f05226b5d0b64a25106fbfa2da3b4de3b69d8e6797c7757f8a6679756820845c",
+   "size": 269
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/FT/EleutherAI_gpt-j-6B_constr.json",
+   "sha256": "018e27089431ed3632aa0b8f2f1b4aa51daa81ba39f24952a400a92df84fa28b",
+   "size": 411
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/FT/EleutherAI_gpt-j-6B_unconstr.json",
+   "sha256": "1d605b748ed9709efb19d3f04c82de2d1ff12c81144c1d6621e72408f838d098",
+   "size": 413
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/FT/EleutherAI_gpt-j-6B_wd.json",
+   "sha256": "5161e47c66580d13524abc1bbbb42b146163ff2f51121a4c74f23679bbad8254",
+   "size": 454
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/FT/gpt2-large_constr.json",
+   "sha256": "48298eec3688c393dcf610e114b30a521fa3d8b5fc7fb5d5e938f61996f93d19",
+   "size": 419
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/FT/gpt2-medium_constr.json",
+   "sha256": "fd1b7a80dff0e6d1c8e32c38b0ab620505ed1668d366d292a5776a49d2d7e23d",
+   "size": 419
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/FT/gpt2-xl_attn.json",
+   "sha256": "28348947fe372113c6fc9d0a1b851121dbf8e198311ae7d573b4b6f8173a477b",
+   "size": 421
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/FT/gpt2-xl_constr.json",
+   "sha256": "6f1a26e915b2fc5a203443322aa224f4dd47150117f1cc5d1ee7f8026108047f",
+   "size": 419
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/FT/gpt2-xl_unconstr.json",
+   "sha256": "484393773f7a18844dd7c7f212673e4a8113515f0dfcc29c9d02c494f13bb137",
+   "size": 420
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/MEMIT/EleutherAI_gpt-j-6B.json",
+   "sha256": "ac1c641470c003032f15cf3f3db088e215f289535b7ea8c171ccb1235cd7bf43",
+   "size": 689
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/MEMIT/Llama-3.1-8B.json",
+   "sha256": "bea608d313845440ebe5a3887034b271bca431dff10a6d09a8237c3256f894f2",
+   "size": 652
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/MEMIT/gpt2-xl.json",
+   "sha256": "2c2ff7e8f3ff8b33cca2966a628f92f8b56bba72af51ca9af57d6c30a1c342d4",
+   "size": 684
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/MEMIT/meta-llama_Llama-3.1-8B.json",
+   "sha256": "61007b61dd2119cbd281ba10d89fb3d34bdcfe03cfce4da542a0729e261caf12",
+   "size": 629
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/MEND/EleutherAI_gpt-j-6B.json",
+   "sha256": "d1e7bbd8a8486cda08af026c7cfdcc12b3a4fac3fab738a528e11adb8e52d97b",
+   "size": 146
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/MEND/EleutherAI_gpt-j-6B_CF.json",
+   "sha256": "b30a5f403fa4972201d1ca994c70b3c6dbd396d7163bd502bc1cbe571e87d44c",
+   "size": 145
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/MEND/gpt2-xl.json",
+   "sha256": "fe1a786ca540a3dee435621a56659d070b52b0354f85d08f9c0874f2e3d8fb79",
+   "size": 134
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/MEND/gpt2-xl_CF.json",
+   "sha256": "5691b370fc2b8540d2c28d608d53e2328005ce5b933ab9e04726bde7cf93f44e",
+   "size": 132
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/MEND/gpt2-xl_zsRE.json",
+   "sha256": "f6b0cc610281f474f702075064fe5eef83e0e7925d7f7d51036ee1fbc03a999a",
+   "size": 132
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/ROME/EleutherAI_gpt-j-6B.json",
+   "sha256": "85e44438c5a6bcd7769d73efadd10507f2b7ec7eeaa0330a310e351d2676fdff",
+   "size": 666
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/ROME/EleutherAI_gpt-neox-20b.json",
+   "sha256": "fadf233859d46cf02ef219f74bced47652d277cd392de51c7c1ce6585d1d60b9",
+   "size": 698
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/ROME/gpt2-large.json",
+   "sha256": "2c5cb903948c6e261d2bb9aa2e9dfbd20ac30d38a2669054a25defcaed4a13ed",
+   "size": 671
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/ROME/gpt2-medium.json",
+   "sha256": "3a6b72ddf9e0b859e6909a1e144c5bb6958852a0e4fef36db0e4424c424c1913",
+   "size": 670
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/hparams/ROME/gpt2-xl.json",
+   "sha256": "81a98b788b8fbb89718288a8831441200e7d824fd057f62cb7d913ae4da5cf42",
+   "size": 675
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/memit/__init__.py",
+   "sha256": "911cc037562a368ca7017ea66f4821c5a848f286a55b7d624c242209afcd01df",
+   "size": 62
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/memit/__pycache__/__init__.cpython-311.pyc",
+   "sha256": "1a5a625d968c90a262cc87f163f4557d46b47587213d49159b77ede1ef28463f",
+   "size": 259
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/memit/__pycache__/compute_ks.cpython-311.pyc",
+   "sha256": "346b673a7c1782102451de2b86a9ebb449fd12623be540c42b014602a213e93f",
+   "size": 3118
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/memit/__pycache__/compute_z.cpython-311.pyc",
+   "sha256": "e89efc849ec833418776b17a02180adfb6961217b2722eba72ae8e4c7ac4c114",
+   "size": 13768
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/memit/__pycache__/memit_hparams.cpython-311.pyc",
+   "sha256": "81b45043b4157aabca6e53236f9ea180b0e00abfddcc0019997ca467b2965295",
+   "size": 1557
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/memit/__pycache__/memit_main.cpython-311.pyc",
+   "sha256": "076aad8056632e52c75930a4d9a04dbc4f8d937d561ae980e3d50e277af270d6",
+   "size": 14806
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/memit/compute_ks.py",
+   "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+   "size": 1540
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/memit/compute_z.py",
+   "sha256": "30d3a7c42dd47c857884b030566cbc88e025ebbaf7e0e120b6a4e5801c12cbf3",
+   "size": 8911
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/memit/memit_hparams.py",
+   "sha256": "1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2",
+   "size": 795
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/memit/memit_main.py",
+   "sha256": "186e961633211046379cd594016b9f879741121bee3bb8cf163173c832f75b69",
+   "size": 10768
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/memit/memit_main.py.pre_p7_backup",
+   "sha256": "4b5c6478da463bb174036a3a0495d7786f8e4d207ee7021a7e9afb6aef977168",
+   "size": 10072
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/notebooks/average_causal_effects.ipynb",
+   "sha256": "35598748d8ce10af976c8f2be331fdf5eb6081dcd1d564f4ec753258c0c2cafb",
+   "size": 10947
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../baselines/",
+   "path": "memit/notebooks/baselines",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/notebooks/causal_trace.ipynb",
+   "sha256": "755a31d3d4a34b56e253e21b4171f944e31a4e57fa8a9c38440f6e6731ab2711",
+   "size": 16910
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/notebooks/causal_trace_frozen_mlp_attn.ipynb",
+   "sha256": "0b3837b24d70939e44b2fbba5757f4f19e888bf858445714c0bcb574170d4fe0",
+   "size": 25740
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../data",
+   "path": "memit/notebooks/data",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../dsets/",
+   "path": "memit/notebooks/dsets",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../experiments/",
+   "path": "memit/notebooks/experiments",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../globals.yml",
+   "path": "memit/notebooks/globals.yml",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../hparams/",
+   "path": "memit/notebooks/hparams",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../memit",
+   "path": "memit/notebooks/memit",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/notebooks/memit.ipynb",
+   "sha256": "dc79c89862a9ef57dd6cdf46715c716ef60103f97314b1f9fb5fff3be88f7235",
+   "size": 10171
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../rome/",
+   "path": "memit/notebooks/rome",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../util",
+   "path": "memit/notebooks/util",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../experiments",
+   "path": "memit/notebooks/vis/experiments",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../globals.yml",
+   "path": "memit/notebooks/vis/globals.yml",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/notebooks/vis/table_population.ipynb",
+   "sha256": "a5b6eb40955acbf7b37068ea782b04cfcb56794c6738b4eefbc3f38daff03ced",
+   "size": 7059
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/notebooks/vis/table_population_zsre.ipynb",
+   "sha256": "c34799ceafdcad5220b5d871989cda93de581419741c861c38bd62f63d0cac85",
+   "size": 7672
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../util",
+   "path": "memit/notebooks/vis/util",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/notebooks/vis/visualize_multi_results.ipynb",
+   "sha256": "05d42e5d00021f4a435c23ffc88dcc919597c744136be2607f86e1a94d71304e",
+   "size": 5351
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/notebooks/vis/visualize_sweep_results.ipynb",
+   "sha256": "58ae1129dd40e1f6620e77ae24f1f74417ed3e1c2487ebcec552025c6313f008",
+   "size": 3971
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/README.md",
+   "sha256": "4711e2605517fe1308cccd59748761e19342b4c0b0b26d2a9a32bbf3a93f94a6",
+   "size": 861
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/__init__.py",
+   "sha256": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a",
+   "size": 74
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/__pycache__/__init__.cpython-311.pyc",
+   "sha256": "6308217bc78498c185db879e8f7240b171bb3368684500cbbbaa1a00a2d3eadd",
+   "size": 284
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/__pycache__/compute_u.cpython-311.pyc",
+   "sha256": "1a2f97b094bbb4f4255c859d1c527edf883c23ddfe0bc339e249a7ac7eade23a",
+   "size": 5452
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/__pycache__/compute_v.cpython-311.pyc",
+   "sha256": "ec9d0c26ab59e0cfd67cb417011b95eb06da6d282d45119471acb6e28ad54a18",
+   "size": 13601
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/__pycache__/layer_stats.cpython-311.pyc",
+   "sha256": "0c11d534a6a7fedc8c80144ce6b2ddf860526471f2e6b71930da0404b082490d",
+   "size": 9387
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/__pycache__/repr_tools.cpython-311.pyc",
+   "sha256": "258fc846c321aa5c0b81ee44439967c23ff4b22af6daaf2808a141f1269436f2",
+   "size": 9912
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/__pycache__/rome_hparams.cpython-311.pyc",
+   "sha256": "4ec58cf933479cf770f9c9e7bf7fe3cea921e656d47482d0895e80d9a9f196a3",
+   "size": 1404
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/__pycache__/rome_main.cpython-311.pyc",
+   "sha256": "bc446c77cd56dabf096f2ce7295c82a94dfb1dcb3a6d78ad324d17a364dc46f4",
+   "size": 10448
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/__pycache__/tok_dataset.cpython-311.pyc",
+   "sha256": "78487c0943dd740abb6dc21d8233901cd41535268e3cd5bac8995b5f07f07e8a",
+   "size": 6273
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/compute_u.py",
+   "sha256": "06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d",
+   "size": 3520
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/compute_v.py",
+   "sha256": "07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb",
+   "size": 8967
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/layer_stats.py",
+   "sha256": "be92a521d3411734374058a5c4a371a8171f7964954a2a42a9bd411a00914029",
+   "size": 5947
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/repr_tools.py",
+   "sha256": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+   "size": 4937
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/rome_hparams.py",
+   "sha256": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+   "size": 674
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/rome_main.py",
+   "sha256": "44ff978bd0d68839ff2f94f475a71fdac19a53a4ef263c1d74693ebfd5b40ba5",
+   "size": 7934
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/rome/tok_dataset.py",
+   "sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4",
+   "size": 3103
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/scaling_curves.sh",
+   "sha256": "4c89f3d257f67b3e9a1ae40fe81192bfc48c0a2f40b7f2dba9adc4f2bd97efa4",
+   "size": 1079
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/scripts/causal_trace.sh",
+   "sha256": "87bdd627bb58c82bf0f67841705bb95317d49f59eb1beab9d405126fd4d54600",
+   "size": 421
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/scripts/colab_reqs/additional.txt",
+   "sha256": "3d49f4e0bb2b079bb2fec81b178bb0a27ebc4f8085c496727e299f16aa852fb2",
+   "size": 61
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/scripts/colab_reqs/rome.txt",
+   "sha256": "de3f292db754a685905c34d079d097b95e3e7de102af06aedbfba42940d29564",
+   "size": 105
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/scripts/collect_layer_stats.sh",
+   "sha256": "ca9be52a8845851b9b17d8b92b0ac3d7333b3ea7bac339db4c1daa0deda7c60a",
+   "size": 512
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/scripts/ipynb_drop_output.py",
+   "sha256": "62a17e64c2de0448962fda6e0914a80e354361fea73b4363fc5287b92e4ca635",
+   "size": 2924
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/scripts/memit.yml",
+   "sha256": "28d8b635eed02cdb8d1fb36d8990a5347c1b88dfffcea71105febc8a91d98f83",
+   "size": 381
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/scripts/setup_clean_ipynb.sh",
+   "sha256": "55533d28e032731eb1f0c91154ecf14092c23cf4d1f11be90a8304aa58e3338d",
+   "size": 308
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/scripts/setup_conda.sh",
+   "sha256": "3d78078734cb1a45b0b448dafd5cc09b92496b89bcc8aabae057ee1fdb17e2f3",
+   "size": 1302
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/__init__.py",
+   "sha256": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d",
+   "size": 34
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/__pycache__/__init__.cpython-311.pyc",
+   "sha256": "233885c20e38808dc4134d78f02abfe7053bda2d09de9a19adcbee1da29c9c10",
+   "size": 214
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/__pycache__/generate.cpython-311.pyc",
+   "sha256": "c254ec98e5d292d474f91e6815441af58fae566c9136ae0c2e19df26ea7b7d8c",
+   "size": 7597
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/__pycache__/globals.cpython-311.pyc",
+   "sha256": "2b385939e73efd149b87c92703f01c4e342966f0b7f1c26190d3ad56eaa0121a",
+   "size": 1024
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/__pycache__/hparams.cpython-311.pyc",
+   "sha256": "b72087afac704da5cdeb464faa015f98377d87324d538469fd2ec2191414cd23",
+   "size": 1099
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/__pycache__/logit_lens.cpython-311.pyc",
+   "sha256": "d062925783ebe3f42c544a9fd78a33c786d93ee505034189cf7b6ab0e3dd116c",
+   "size": 5885
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/__pycache__/nethook.cpython-311.pyc",
+   "sha256": "64b542a6697cfa92ca8d732615fc9daaf2427b184c01aeec84eb3afc0f637493",
+   "size": 20093
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/__pycache__/runningstats.cpython-311.pyc",
+   "sha256": "656094ddb7d6f0944fa8c8f34434faaae202968f16247f0d497edf69fe7809df",
+   "size": 120746
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/generate.py",
+   "sha256": "3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514",
+   "size": 5446
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/globals.py",
+   "sha256": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2",
+   "size": 388
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/hparams.py",
+   "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+   "size": 319
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/logit_lens.py",
+   "sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4",
+   "size": 2893
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/nethook.py",
+   "sha256": "20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c",
+   "size": 15708
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/perplexity.py",
+   "sha256": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+   "size": 758
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/util/runningstats.py",
+   "sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+   "size": 65305
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "memit/zsre_evals.sh",
+   "sha256": "a5f8ca93642cab1e18bdfc917255ea64323b2c3261d0cb4634e235bbbbf00d2f",
+   "size": 628
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runpod_dry_run.ipynb",
+   "sha256": "8c5750df07721bf2b8e14cd6d4b94cf9d5c413a0127020baaac93e31221c8355",
+   "size": 47027
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runpod_dry_run_verdict.json",
+   "sha256": "df9ccfc792655f1990958f4ed863f0327e755392941b61a508ce3439298b3132",
+   "size": 2655
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "smoke_test_overlay/edited.pt",
+   "sha256": "d0e408416f0e7b4945798626a78e840a6d2c8cb0e86b3786d6115ffa594aceb4",
+   "size": 805308606
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "smoke_test_overlay/original.pt",
+   "sha256": "615bc7f64e8d008d9833149b553ec7e78010c8ce231c6704d678360faea07b07",
+   "size": 805309074
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/memit_dry_run"
+}
