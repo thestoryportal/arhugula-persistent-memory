@@ -1,0 +1,6045 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".DS_Store",
+   "sha256": "6ca9de4dd5ec0b83b9d632899f4f168ef6aa033b59befe4a5d6d74ab44639a99",
+   "size": 12292
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/1/1/5/8/01158bdb18ca0b090a9a48051673b93f91cb9b0f0a01b79149a057f0",
+   "sha256": "d277ff570d22b45e5d8236ca988c08c71fa36e793fc2cfe1a597f1e5fad70ef4",
+   "size": 1207
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/1/1/5/8/01158bdb18ca0b090a9a48051673b93f91cb9b0f0a01b79149a057f0.body",
+   "sha256": "fef8c87f8abfb884dac04e97824b61299880c43f4ce675dd2cbeadd3c9b466d2",
+   "size": 41165244
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/4/1/8/c/0418c83b80f7f7bfaec2738bfbbee53d2c1562196c0781702f6eddc8",
+   "sha256": "94f3b60966b08a3b210ec3af4c3176ac0e1342dc27df1b74980f15f84503c90f",
+   "size": 1821
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/4/1/8/c/0418c83b80f7f7bfaec2738bfbbee53d2c1562196c0781702f6eddc8.body",
+   "sha256": "53da6f74d244a5815addfe4f8c1b845fbfe096b681fbb30c760b8cba9a049a72",
+   "size": 179393
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/4/4/9/6/04496194beac1a06bac74aef0dacdf4994e471a031b8109547d1c87b",
+   "sha256": "c47e5329825025f5b35b3ddf682453930ca118554381990e8244a43f1e22b810",
+   "size": 1211
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/4/4/9/6/04496194beac1a06bac74aef0dacdf4994e471a031b8109547d1c87b.body",
+   "sha256": "453c7769d22231960ee0e883d1005c93c68015025a5e4ae56275406d94a3c907",
+   "size": 2994005
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/4/6/5/1/04651185225d2f4f97326e1133d8157925fc8a7b89e811a1210f6558",
+   "sha256": "e3276e39d023538b2f0465ea0d6e6ee1c43c900e654147401e913ebb57194a61",
+   "size": 1229
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/4/6/5/1/04651185225d2f4f97326e1133d8157925fc8a7b89e811a1210f6558.body",
+   "sha256": "5fc3c5039fc5ca8c0276333a188bbd59d6b7ab37fe6632daa76bc7f9ec18e713",
+   "size": 309071
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/4/9/1/3/04913e6ed91046ac58c7318fa4680857b7e130fee9f1428aea5245fb",
+   "sha256": "707fa4b9aad4246cb31975f1627399edb6a23489f327acd40befdc6ee79a98d2",
+   "size": 1161
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/4/9/1/3/04913e6ed91046ac58c7318fa4680857b7e130fee9f1428aea5245fb.body",
+   "sha256": "35ab7fd3bcd95e6b7fd704e4a1539513edad446c097797f2985e0e4b960772f2",
+   "size": 1248506
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/7/a/c/6/07ac632f30e9e0660dd79c69a2e5bfd440d691911a13317d67ee19b6",
+   "sha256": "ab2ca995ce2da8ef726a9c9206a5b25fbeb4119d32480d07d03f34805a7dcafe",
+   "size": 1210
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/7/a/c/6/07ac632f30e9e0660dd79c69a2e5bfd440d691911a13317d67ee19b6.body",
+   "sha256": "a6c19feda32b931cae0acd42748a670bdf56bee6476a046af20181ad3fee4090",
+   "size": 435013
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/9/e/8/d/09e8d49d90cf63602446195abdd4acc84858ac09aa349cdf244340a8",
+   "sha256": "d71c695dfac0f632577940cc306842322ba7f52e56827c10e7c7725dc9d631e4",
+   "size": 1227
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/9/e/8/d/09e8d49d90cf63602446195abdd4acc84858ac09aa349cdf244340a8.body",
+   "sha256": "a2bf429bb3033c89fa4936ffb35d5cb471e3719e1f3c8a7c3fff0b8314305613",
+   "size": 110502
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/c/f/6/e/0cf6e817e2c5554000c735ecab0f3cf492f7d33b50d5a474a801ba24",
+   "sha256": "8ff4f17066e38b8bd3f1d8dab42295e5e65210583769988fb20c9fc5fef03272",
+   "size": 1870
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/c/f/6/e/0cf6e817e2c5554000c735ecab0f3cf492f7d33b50d5a474a801ba24.body",
+   "sha256": "3076223372d6250c909332668aec94db4884ebb06eca5b1549c29b515e4501c2",
+   "size": 9329
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/f/2/1/f/0f21f016babdab01c38900a72770f9a57324720834c6581b12f6be31",
+   "sha256": "714c4365fd1a0d396635c21035009ee0d67a4c492e1e806d4615c70bd5c7d5f2",
+   "size": 1291
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/0/f/2/1/f/0f21f016babdab01c38900a72770f9a57324720834c6581b12f6be31.body",
+   "sha256": "fec8e14fbfd9298932b1ea9b589b5003c780715d8278325d70dad7ffdda94826",
+   "size": 2621
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/0/9/d/5/109d5b2dca31f1c5d503eacb6150a7023dae79f0a0ffa8626cd6aebc",
+   "sha256": "501f42a440b612e00111b39c56b00a69be3491d47cce94f296fe19fdff75d739",
+   "size": 1282
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/0/9/d/5/109d5b2dca31f1c5d503eacb6150a7023dae79f0a0ffa8626cd6aebc.body",
+   "sha256": "f62dbd3711dac51c809a17bf2b9021aa4bd52999db2132df2e38b6d09883fcfc",
+   "size": 22380
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/0/e/d/c/10edc2fedb88f9a82f91dc7f8666c74a4e7067dbd945b9923a040482",
+   "sha256": "c2251cc537631ad9eae0bf0c7db0361ae990ced2db3fd04890c051db75c401fd",
+   "size": 1873
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/0/e/d/c/10edc2fedb88f9a82f91dc7f8666c74a4e7067dbd945b9923a040482.body",
+   "sha256": "b800cf1149a0522baf3864075bc13825baa22487c0ebab18332a7e7fbadcad39",
+   "size": 168615
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/3/d/6/c/13d6c9b226a47b42b3e13d13ced85b25bb3ea4e70b2e24144ee06cc7",
+   "sha256": "855540f3d6e13c5f9359ff8fcb68d4aaf617db8807b862e55a6aadab4fd16042",
+   "size": 1293
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/3/d/6/c/13d6c9b226a47b42b3e13d13ced85b25bb3ea4e70b2e24144ee06cc7.body",
+   "sha256": "cee9c60896ae4e7a965a840fbde50d111d2f8018f61201d1ed2e9fc3dd4883e6",
+   "size": 5542
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/4/7/a/c/147ac0e4c92059e88ba35abffb5d6447112b8001baf4fdf64b792749",
+   "sha256": "68e6360da61f21d4dd80c5c46d4fde937f55b9ddee394d40c862e910736b813e",
+   "size": 1270
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/4/7/a/c/147ac0e4c92059e88ba35abffb5d6447112b8001baf4fdf64b792749.body",
+   "sha256": "2517e24d7315eb51c10664cdb865195df38ab74456c677df67bb47f12d088a27",
+   "size": 1438209
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/a/9/9/5/1a995e0685d0b5c5a3f3321cda9ebcbc376a9137828d1c100a493532",
+   "sha256": "252a443545026a4af484f7826239f3ebfe5d6146894cec6e27605c4a62d50928",
+   "size": 1856
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/a/9/9/5/1a995e0685d0b5c5a3f3321cda9ebcbc376a9137828d1c100a493532.body",
+   "sha256": "beafc0abe18e90b2efe6e782b05d2f48499bc36e32728021f56ad7582bcbf8c1",
+   "size": 12040
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/a/f/7/4/1af74ba328c36d44e4d3fc91645840a6d0e525e08f16c9a810107dd1",
+   "sha256": "8dbf560649bf1686a80daabf2b0057a1da0359c00ccf7a7c350324b9411ca396",
+   "size": 1281
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/a/f/7/4/1af74ba328c36d44e4d3fc91645840a6d0e525e08f16c9a810107dd1.body",
+   "sha256": "e51abf4c4c495c24eadf8226af2a336e917a8e2d07dfd833b412e03b5b418a1b",
+   "size": 3842
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/d/5/8/0/1d580297aa71908bf0d94823d03615447cfaaf5e778d47640756ae80",
+   "sha256": "8d3653c6b163898854790ed9915e5e882d06beb2f071e7a2c199d345eaadcba9",
+   "size": 1871
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/d/5/8/0/1d580297aa71908bf0d94823d03615447cfaaf5e778d47640756ae80.body",
+   "sha256": "9c3641078a91fc525fd2bf892c92cf830645d54e94fa3494233afb8d170d8526",
+   "size": 31365
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/e/2/b/1/1e2b1734fc3c57a4733131da81a6167573fc77057172172ceee83a22",
+   "sha256": "8417b2c33bd3debc89e32a6f5fa8c5c979b18ce602d7c05ab43897db834b865a",
+   "size": 1854
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/e/2/b/1/1e2b1734fc3c57a4733131da81a6167573fc77057172172ceee83a22.body",
+   "sha256": "9dd7c5dff343e29edc694efed2de46e04a5a6ddd7704928a1e458a707adf0fc6",
+   "size": 6435
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/e/7/0/5/1e705f80aeff7402c2f592879a76b7b250000ddda9724b97e4f4b54c",
+   "sha256": "d9eba1d7e55cc0f3190632dac058b844182e5a0532cb5d9a5d0ea8578d9b181d",
+   "size": 1277
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/1/e/7/0/5/1e705f80aeff7402c2f592879a76b7b250000ddda9724b97e4f4b54c.body",
+   "sha256": "fd5c9109f976fa86bcadba8f91e47f5e9293bd034474752e92a520f81c93dda5",
+   "size": 1510663
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/0/a/0/f/20a0f490b580c972a10e6e98559b541d1afe7f0ba4597812178b80f7",
+   "sha256": "b6166d23f7ffac0dc16571c153364c20e3ba271af7e516b62e227748453868c5",
+   "size": 1226
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/0/a/0/f/20a0f490b580c972a10e6e98559b541d1afe7f0ba4597812178b80f7.body",
+   "sha256": "1e1ce33e978ae97fcfcff5638477032b801c46c7c65cf717f95fbc2248f79a9d",
+   "size": 120019
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/2/d/1/5/22d15b0736f40a514423b05740ce9f07a3c392e004717b39c667e0ad",
+   "sha256": "f96feaa6033280d36e45b8ef455258fb19c0a1992420fa43d94627ca65849cb1",
+   "size": 1204
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/2/d/1/5/22d15b0736f40a514423b05740ce9f07a3c392e004717b39c667e0ad.body",
+   "sha256": "2e4e592f1befbe2a255415601f722a568b7d37c94aa98aca212fc0dd68c2d81a",
+   "size": 6855
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/6/a/f/1/26af17c3462362ed8ef4c34f25d9092b5dbe266e9327544028b6e88e",
+   "sha256": "e383018f6eaa34190e0b14f1b2fed4babe1076d1fa43c8c57fb3eb87da5479d4",
+   "size": 1872
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/6/a/f/1/26af17c3462362ed8ef4c34f25d9092b5dbe266e9327544028b6e88e.body",
+   "sha256": "0bdf580e17d51abd5514c626dd63ae2e996b8a69b263f6de3095e7b7363a72a5",
+   "size": 14228
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/8/2/b/6/282b61caeddd82f0265c4542c9823722d61f67fa70926dd3770aa873",
+   "sha256": "01fb01086b19c26a9198635fa010d88e6d245c9419429730035d99513210efec",
+   "size": 1250
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/8/2/b/6/282b61caeddd82f0265c4542c9823722d61f67fa70926dd3770aa873.body",
+   "sha256": "cdb40c8b38cf38e3f80e1122117db85d78cdad8b88c45f54194a4dd2e14307a6",
+   "size": 13235
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/9/b/e/b/29bebd000c460d8dc1532c1153dfa15f464a41ddf212c27343cb0749",
+   "sha256": "2f01986087ee015a09c2cec04ed6bfac87afcaa878e83b575fc59782e314567e",
+   "size": 1210
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/9/b/e/b/29bebd000c460d8dc1532c1153dfa15f464a41ddf212c27343cb0749.body",
+   "sha256": "8912ef7c2362f7193b5819d17dae8629b34a95c58603d781329712ada83f9447",
+   "size": 8314361
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/c/1/a/3/2c1a32cb2c96121cfd81deb57fd5ac3cdf2561a70b69dd66b80a663b",
+   "sha256": "cae3b91102cbf79857b225b04698edf190a1ddbfd794d7f1f28628332a80121f",
+   "size": 1255
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/c/1/a/3/2c1a32cb2c96121cfd81deb57fd5ac3cdf2561a70b69dd66b80a663b.body",
+   "sha256": "0cc4d9a3728a35e4f0b9b4ce965949d1433c323d07e4f239cd7324277ef6fe70",
+   "size": 44374
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/c/1/e/9/2c1e9b83d930679d8579434d439d11f6e1146f26c2ae22299ee2bc74",
+   "sha256": "2dec17b09fbe077eb95fd9c680816735bd0e020fed29225d6cdb2e6616e6db78",
+   "size": 1196
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/2/c/1/e/9/2c1e9b83d930679d8579434d439d11f6e1146f26c2ae22299ee2bc74.body",
+   "sha256": "3e1cc2c50c4886c9d9f3bd5c3d47b71dec3d3e186981f94b6dfa94dd68b366a3",
+   "size": 3624
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/2/5/f/4/325f4d86b59377a03a30f6793c6ffd276b2cfa4265376d33572894f3",
+   "sha256": "fc2b2634905ee959f986078d4d458b3ad34f7d7c366f09b387488c72d4c1234b",
+   "size": 1277
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/2/5/f/4/325f4d86b59377a03a30f6793c6ffd276b2cfa4265376d33572894f3.body",
+   "sha256": "031edf0fce95ede724b72a1edcf8c26f4b8bf6030516581d13dc11baa54b7a92",
+   "size": 60767
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/2/d/1/5/32d15b3fc2018746f8b5dfcb6aa55f4819e634d193d6a41c2e175e0f",
+   "sha256": "23a50072d92bc983b4e525c403b35e03f7d577adb249da02c7096735de827bec",
+   "size": 1201
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/2/d/1/5/32d15b3fc2018746f8b5dfcb6aa55f4819e634d193d6a41c2e175e0f.body",
+   "sha256": "3a3c69baae37bab03a835fa8b8a3128f08d69fb513345812beab7c6e5afee041",
+   "size": 2313
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/4/8/a/5/348a5e17d80980bb45b4c6ca39cf11a92f5c8de913f46e9cc35357e0",
+   "sha256": "6ec7e91332ffa50dc705830fd3e464893d51b3673e8b459a9a56736f283c38e7",
+   "size": 1248
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/4/8/a/5/348a5e17d80980bb45b4c6ca39cf11a92f5c8de913f46e9cc35357e0.body",
+   "sha256": "c951ddd170c8bae6abe5c8138791192369835c2444794096099f9503a816bd44",
+   "size": 8145
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/7/c/5/1/37c518ffee828550acec5a0fd158a5f1d852928eea13df9d077b428b",
+   "sha256": "0ace99b57432b1e8c849b7d48bee39f19fa2d82555006d079f95db299ad3303b",
+   "size": 1226
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/7/c/5/1/37c518ffee828550acec5a0fd158a5f1d852928eea13df9d077b428b.body",
+   "sha256": "ee1e4c0e59148062281c49d80b25b67771a127c85fc9676d3be5f243206826bf",
+   "size": 78374
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/8/6/0/e/3860e4de9ae53c79d2fd61419e9049df314ccc8b640782c02c6e2e2d",
+   "sha256": "a2751c9f2fb6d0fb082d35e18412a98d213e06edd315e35b5141b6c0b64abddf",
+   "size": 1855
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/8/6/0/e/3860e4de9ae53c79d2fd61419e9049df314ccc8b640782c02c6e2e2d.body",
+   "sha256": "f94d0002dad6f0836fad2e05b1ad3df197e0009d5b05f99b52b8d8fa4f852854",
+   "size": 42138
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/c/9/4/3/3c9439283d47ed93f8ed49dd9372a475d1ed9010c6096d12d8eb58bc",
+   "sha256": "163bde67055b70690e11eb418ad6bbbd1f5c74e5f3938272e8a935a5532104b9",
+   "size": 1277
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/c/9/4/3/3c9439283d47ed93f8ed49dd9372a475d1ed9010c6096d12d8eb58bc.body",
+   "sha256": "f05423139806d0d75d527aba42689260084dc7a2dad1f4f32b16770f97d1f70f",
+   "size": 89901
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/c/e/f/c/3cefc0bb43ef13242d11a79279d21fcb6ffb8175e04c0baac32728fb",
+   "sha256": "030c6ad332f5e2fb57b74209af8c7c79fa1b408fe5480d5643775648a40ad33a",
+   "size": 1299
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/c/e/f/c/3cefc0bb43ef13242d11a79279d21fcb6ffb8175e04c0baac32728fb.body",
+   "sha256": "4913fdaae936a309c29b89b98c2dbebd237203fb27ab9e68ae5e4ec17ba3024f",
+   "size": 5321
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/e/0/5/f/3e05fba50929699db963cf41baeba26b941e8d530514fbbe25960403",
+   "sha256": "2c365fc141a11c6d42917cb39a095ec2827009b81811c59ddaddc57fe3341efa",
+   "size": 1244
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/3/e/0/5/f/3e05fba50929699db963cf41baeba26b941e8d530514fbbe25960403.body",
+   "sha256": "e1c271a687f631f3eac8a0cdd2c3b3314eb9e3a42157aebac1da42152cbc9bc0",
+   "size": 7354
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/4/4/a/d/5/44ad51ab4fe732177892254938ca19df59a19add805fe17b3b22c658",
+   "sha256": "e52ab1647e93ec5ba48acff19fe73102bdbc0624a36671997645fe9d3744c878",
+   "size": 1272
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/4/4/a/d/5/44ad51ab4fe732177892254938ca19df59a19add805fe17b3b22c658.body",
+   "sha256": "7c0e9a662c19095f339a4b761201eb06cff9c61fb9581535b2f96f44e718ed29",
+   "size": 57679
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/4/c/e/a/a/4ceaad8aebd03c0f071e5c147060d46451f118d3dcfcca64d07da1f5",
+   "sha256": "837f0cc1b418382e2d2ee51d99e17a7fe9c3c3a33155d8c9aa7dfbac33bd00ad",
+   "size": 1271
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/4/c/e/a/a/4ceaad8aebd03c0f071e5c147060d46451f118d3dcfcca64d07da1f5.body",
+   "sha256": "2725bd0a9925919b9b51739eea5f9e2bae91e83288108a9ad338b2e3a4435ee5",
+   "size": 16725
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/4/d/2/7/2/4d272e6453941ce8b0a37a02cdb1685fc612c33441fa74691fb40656",
+   "sha256": "0b51b63d98ee9de0300eb11b5548dda6a8e15f37e5d9e1a2cc1058e2489dd7b0",
+   "size": 1820
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/4/d/2/7/2/4d272e6453941ce8b0a37a02cdb1685fc612c33441fa74691fb40656.body",
+   "sha256": "faef00c8b8a3d32bfa8766553975e30d354b23d39f0651cc8699c05505639893",
+   "size": 18782
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/3/0/b/3/530b3b77b385815386070f5b19a0f475cbe5ad881a0d637686524645",
+   "sha256": "7c252a0d2d9fc73edb009ed6f161b28f60f1c50a2ad898f6562d3f337dc5a06f",
+   "size": 1254
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/3/0/b/3/530b3b77b385815386070f5b19a0f475cbe5ad881a0d637686524645.body",
+   "sha256": "d6e2927bc0a81c0a318e2e14d9a8f54dffb5fc5aba0055982784c231eb3f6d28",
+   "size": 6719
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/8/c/1/9/58c1969fe7e173d6aa45a373c81e2df5e09829cdfbb238e2f6c6019e",
+   "sha256": "f298175f94e5e86b9dac1ca4dc0ed04a2a65d34e69bf219223df30c0b6ced89d",
+   "size": 1278
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/8/c/1/9/58c1969fe7e173d6aa45a373c81e2df5e09829cdfbb238e2f6c6019e.body",
+   "sha256": "6dfdbb997186f1775ccb59821d58097e10d8d89b9385980277bf8bb14019b75e",
+   "size": 19909
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/9/5/1/1/595119384424f750543e201763b875c3f3e0ff028ba41e4b528b7dca",
+   "sha256": "9d33562304463cec86178224ce63b2b12e313c97c33a33886c078b3605d72959",
+   "size": 1202
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/9/5/1/1/595119384424f750543e201763b875c3f3e0ff028ba41e4b528b7dca.body",
+   "sha256": "f174b5ff827504fd3cd97cc3f8649f3693f51538c7e4bdf3ef002c8429d42f9f",
+   "size": 5294
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/a/2/c/e/5a2ce1b83b12abd9364feb90b39f506e40237df8acbf52a76632d927",
+   "sha256": "bee250f6e6eb1b79f27e460bae3a254fbce75b679bb2bf2e138a4b2666b770a8",
+   "size": 1206
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/a/2/c/e/5a2ce1b83b12abd9364feb90b39f506e40237df8acbf52a76632d927.body",
+   "sha256": "61c2fd96d72b983a9891b2598f286befd4ad262161a609c92dc1652544b46b76",
+   "size": 11258787
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/c/7/3/2/5c7324e1f6f306065fa6d1263cbce82c8310fb4475bb74e6f90422e3",
+   "sha256": "093c0b06c9a0f68d56facaec81496ad5e02ab1516a0b2ec3a88bfc34372bf1e9",
+   "size": 1859
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/c/7/3/2/5c7324e1f6f306065fa6d1263cbce82c8310fb4475bb74e6f90422e3.body",
+   "sha256": "cfb97819593fa1b4f5989ef381efcbd45e0e9f9e7549e98f3ae9e5777772ede9",
+   "size": 99598
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/e/c/1/b/5ec1b555490ffe44cb1ddf8d05a28f0876b3f8ee0d3a8328184f2a17",
+   "sha256": "621129b5f6407261b4d87e290eb1b4286c9392982a7d5cfe7276804eb8b23703",
+   "size": 1249
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/e/c/1/b/5ec1b555490ffe44cb1ddf8d05a28f0876b3f8ee0d3a8328184f2a17.body",
+   "sha256": "46362865c3013446ed2bc93d803708e66cbfd42ef599fa73a45af80ce36683d1",
+   "size": 40417
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/f/4/d/1/5f4d1fd151c05c40bb008ed6ca0367becb93d15293f8e51811082946",
+   "sha256": "5f643d3d2640cc93eb17149a1a0c1b3c67f2e9f2ad9fbbdf2f076094c9f639ab",
+   "size": 1174
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/5/f/4/d/1/5f4d1fd151c05c40bb008ed6ca0367becb93d15293f8e51811082946.body",
+   "sha256": "952c55cf89ff4db06017f89650be1c91c93631b9289835a0f4c3e289e7acd267",
+   "size": 2589
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/1/4/f/4/614f46c6d1c16fa5b0800dfd0497e41c5b320e16ee8c9d943d4dd341",
+   "sha256": "92a70822137a44683d3128f83d690958446c0b6e34fbf3fcd819c78dade93292",
+   "size": 1819
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/1/4/f/4/614f46c6d1c16fa5b0800dfd0497e41c5b320e16ee8c9d943d4dd341.body",
+   "sha256": "da8d4a9a8f265db8b97b863f5d8843483aa3bda8c977bdf5b97c01f167294f23",
+   "size": 42398
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/1/6/7/8/61678d682a1ea716fb4acccebc1350da197d2251a96e4b9220061051",
+   "sha256": "52bd7d4a47e3d82f1486d0737b35b26909de34949158eba7719fef4c0cf31f2b",
+   "size": 1860
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/1/6/7/8/61678d682a1ea716fb4acccebc1350da197d2251a96e4b9220061051.body",
+   "sha256": "c3eb3691cd25f5af47216d8539647080bc559453fa7a78fd124c9921163f93d5",
+   "size": 127274
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/4/c/f/c/64cfc03e83f9fad4049b1d2a1d785c9273270a4ab9788b538f5054e3",
+   "sha256": "b15eac3a51563f4a3de53dcdd1ec58046f532538c6f198393d534ea37e7bf561",
+   "size": 1871
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/4/c/f/c/64cfc03e83f9fad4049b1d2a1d785c9273270a4ab9788b538f5054e3.body",
+   "sha256": "f13f045342e3b2a8cb1b50c012be15b9614a59a9dfca14779c68185aa36db5f7",
+   "size": 305984
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/5/1/e/5/651e58859e8db8c99b9e7068d03984cfd4577518ff0e021c717afbf4",
+   "sha256": "4dbb1a569c030770b103921dcf692f23c14122804616efb32922250261cec793",
+   "size": 1275
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/5/1/e/5/651e58859e8db8c99b9e7068d03984cfd4577518ff0e021c717afbf4.body",
+   "sha256": "23289e19b76f1e01394227696e6af2b6cd1ce79e89731209bf9195148b18ed36",
+   "size": 3779
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/6/e/c/7/66ec76a7b6ed4081044f5c7821af293b63c17bc2ac523ff93d5ca7d5",
+   "sha256": "eef26c69ce63e26380d38ef28c734a24229471bb53974f64e56669057e31afc3",
+   "size": 1799
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/6/e/c/7/66ec76a7b6ed4081044f5c7821af293b63c17bc2ac523ff93d5ca7d5.body",
+   "sha256": "4510b1766401ac528f75fbd976cb250c3685396c095d9e2a1e3d1f3fb7814402",
+   "size": 252155
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/7/d/3/8/67d384569cb2a8bbf30f689ae5e19c3b2e1757fa4d15be8248366f96",
+   "sha256": "e0b95633968291713b4ec315f639a1f7c17481699f47a869c76d0e3df391f9b5",
+   "size": 1286
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/7/d/3/8/67d384569cb2a8bbf30f689ae5e19c3b2e1757fa4d15be8248366f96.body",
+   "sha256": "c6178306413214c12922e4020895bc93e78089b9c7b1b2ec16d66e3150e23424",
+   "size": 13054
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/8/1/f/4/681f47f5e78d74219fba37d0f09e9d0800b8f0b35851037d7081c26a",
+   "sha256": "6abfd2092ccde1129fd29189c383d0a6115ccdc456747c38c9308c8f2dfe3a9e",
+   "size": 1157
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/8/1/f/4/681f47f5e78d74219fba37d0f09e9d0800b8f0b35851037d7081c26a.body",
+   "sha256": "2376a90c98cc337d18623527a97c31797bd02bad0033d41547043a1cbfbe448f",
+   "size": 67059
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/8/9/d/7/689d7c88220426d8008b772693e9aefb666f382c823c3a35b4f6d05f",
+   "sha256": "b73038a136f5c74adbb65eeeb4c535ffeb1bfef5f7c87552dff35500b9d7f611",
+   "size": 1282
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/8/9/d/7/689d7c88220426d8008b772693e9aefb666f382c823c3a35b4f6d05f.body",
+   "sha256": "636dc6787515f22d7670363462af0da2516e3aae7d7eceed6df459a958ddc28c",
+   "size": 117473
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/9/4/8/b/6948b2b76d80ca97304f028136b7393a9fc0cd877d68ea39f7745f92",
+   "sha256": "c300d66cc58b786203ebcef4af526e77c381d27a512d73467af0fc2c1760b637",
+   "size": 1308
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/9/4/8/b/6948b2b76d80ca97304f028136b7393a9fc0cd877d68ea39f7745f92.body",
+   "sha256": "455c6d9fca848660525501efe855e8e8e9c9e5bc86603f575c7fc2e7bb015c89",
+   "size": 79468
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/9/8/7/5/69875ecd121c8e38b90bacbca4877640476e7a71cd07b2cb3729ce79",
+   "sha256": "a8a9af90c930d56872ed421a85654a10c3834c598476804ac0806b897506504e",
+   "size": 1250
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/9/8/7/5/69875ecd121c8e38b90bacbca4877640476e7a71cd07b2cb3729ce79.body",
+   "sha256": "399046cbf9ae7ebab8dfd009e2b4f748212c710a0e75ca501a72bbb2d456e2e7",
+   "size": 5480
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/b/6/8/5/6b685879e0c8ad7170ebed8a2caec9224690f0b2f8f6811767369b64",
+   "sha256": "bc1f0ca33eeb799ff7ec14e9a5de7cadc4c7c939446aa2b4a204f1753b465bf7",
+   "size": 1276
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/b/6/8/5/6b685879e0c8ad7170ebed8a2caec9224690f0b2f8f6811767369b64.body",
+   "sha256": "a97d7dd988f3db3ccaf8a00f16a3e00ce32373896aaddc8684035f9c29071b1d",
+   "size": 13305
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/c/6/3/1/6c631445538b59a733c9e4e3b9feabc91dda0831eea664d589f476a0",
+   "sha256": "7d68f1e0dba3b9889e401b1c1d29e5b70b8489d32acf5ec9113220afcdae86ea",
+   "size": 1872
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/c/6/3/1/6c631445538b59a733c9e4e3b9feabc91dda0831eea664d589f476a0.body",
+   "sha256": "8692d2d32983cbb11d757d1716900be5893059b59e01dc06a386dcf77b2f7fcb",
+   "size": 302773
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/c/6/e/e/6c6eeaf6757edbde690577822daacaba826c2b12ce67b57b33e8021d",
+   "sha256": "04854b59fa63b5c0d35c6d800d095490ae06877368be2b6201fb121aaafa7fda",
+   "size": 1230
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/6/c/6/e/e/6c6eeaf6757edbde690577822daacaba826c2b12ce67b57b33e8021d.body",
+   "sha256": "85cef7cff222d8644161529808465972e51340599459b8ac3ccbac5a854e0d30",
+   "size": 8321
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/2/8/a/2/728a2f33f382f4dacf08f6df77aad6f3d889f819ba4fa3efad5ec7e4",
+   "sha256": "384b39c3da353bd26a70e554c840916662dbc7e88255f197ac4109b895b3663a",
+   "size": 1876
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/2/8/a/2/728a2f33f382f4dacf08f6df77aad6f3d889f819ba4fa3efad5ec7e4.body",
+   "sha256": "21bfc725dcff4210b13e9a40ea06569046b8e10a6591a7dbeff59ed183b95b50",
+   "size": 123058
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/4/b/d/9/74bd9a543c223fc5bb7055591b58a4d50117b1420cdb687c948c7009",
+   "sha256": "44eda1ecbbfcd6fe8b3ba35cf34fb3b9c28461f67b223c81e01b547bd3f19795",
+   "size": 1239
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/4/b/d/9/74bd9a543c223fc5bb7055591b58a4d50117b1420cdb687c948c7009.body",
+   "sha256": "f2fd16142fda348286a75e1a524be810bb05d444e5a081f37f7affc635035f7a",
+   "size": 510489
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/7/a/8/3/77a837dcab21cf92fce7aff99d6162ad74b31aa0ed9ea0eaf02f459f",
+   "sha256": "bbbd9e3f8b902b37a2e7792383bf7994eff907f4682c4d711b4b13114a1cdae8",
+   "size": 1871
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/7/a/8/3/77a837dcab21cf92fce7aff99d6162ad74b31aa0ed9ea0eaf02f459f.body",
+   "sha256": "33b75afbe6eef0d40dadb861adc967e135eebc42b01ed0735ac5b2dec93b243a",
+   "size": 39938
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/8/5/6/b/7856b7a3b52448942c4da9f73e0439adef11b40376035580e871f894",
+   "sha256": "39bae4423938ad68eb152f5f6cf8fb22daa6e23dcf88945c81770d9f8d297978",
+   "size": 1234
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/8/5/6/b/7856b7a3b52448942c4da9f73e0439adef11b40376035580e871f894.body",
+   "sha256": "bbe9af844f658da81a5f95019480da3a89415801f6cc966806612cc7169bffe7",
+   "size": 349321
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/9/2/1/a/7921ac3318a5cdb592026cc26a94f7a2c1e1f7d3a1dc1e3857fd49f1",
+   "sha256": "952c0ce66546eb2a5899d20714de4fbd032efae994c1806ee7ebb0266a86f0a9",
+   "size": 1855
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/9/2/1/a/7921ac3318a5cdb592026cc26a94f7a2c1e1f7d3a1dc1e3857fd49f1.body",
+   "sha256": "7eeb8091172515f9d57565fa2eb31b0f91af4806eac25104f4b123e7ff3d9286",
+   "size": 1958
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/a/c/e/0/7ace04a02115042694251acd714fbf2e50c4d24f9a521043845b18d0",
+   "sha256": "73af76bf1675dc986a129c645229191e8e2543fb7af9eb77f863ff598636eded",
+   "size": 1246
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/a/c/e/0/7ace04a02115042694251acd714fbf2e50c4d24f9a521043845b18d0.body",
+   "sha256": "0941dcefbab210f586987e8388eebadb6488b115367c610d17f2c2294cc610e2",
+   "size": 2847
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/c/4/b/8/7c4b8a19f4f69494c22868b76649cd91120de17447e4ff71fb7a7f10",
+   "sha256": "e967c1c374afacd4d8d62ef3c40349abeb859c7ce4349da3881b7a4fb48b8080",
+   "size": 1819
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/c/4/b/8/7c4b8a19f4f69494c22868b76649cd91120de17447e4ff71fb7a7f10.body",
+   "sha256": "c654d90ac26a866f12aedda29aabd5ca4daffc16b8c61cbfa0680fab68f17de5",
+   "size": 1748
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/c/c/b/9/7ccb994e5cb08d1aee93acb83ae5881083c4a349402f61c9f7d304f8",
+   "sha256": "79a38e9894b67a84431ba759796ea76be201e134965584e729fa1d8afc4a8d0e",
+   "size": 1854
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/c/c/b/9/7ccb994e5cb08d1aee93acb83ae5881083c4a349402f61c9f7d304f8.body",
+   "sha256": "34a810ab6fbb33189d4957c73ebf948fbd5436eb804738dc86a6497e5224a15d",
+   "size": 4943
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/f/3/d/d/7f3dd5c23eedbec48fdb948df5c25189cbb9bbcb08e04c44bb7b22c2",
+   "sha256": "67ca296ca5390d36a758061959b59785b02b2bf8128b832afb670e593ab92b04",
+   "size": 1277
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/7/f/3/d/d/7f3dd5c23eedbec48fdb948df5c25189cbb9bbcb08e04c44bb7b22c2.body",
+   "sha256": "c43cef86baef09cff9c77975e578fa8cca0c9454df40dc176938b499a63de54a",
+   "size": 5461
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/1/3/c/c/813cc7096c25ba43edba14a4ab40832db33af638c43e975795995aec",
+   "sha256": "56ccef0897510d14873cf997b65d78f6e38eef924b530b3ac0426057d02a38b5",
+   "size": 1871
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/1/3/c/c/813cc7096c25ba43edba14a4ab40832db33af638c43e975795995aec.body",
+   "sha256": "7dc9633d5ba7d6c3a0f8577e98add8263d3de5cd258610e102eb75073796435b",
+   "size": 792999
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/3/4/2/3/83423209879f80b4072888bd494cf19b02054f756843aecd1197c438",
+   "sha256": "72e7d90472022eb713a19be4c81e29baf38b3ca223456e9b354b6031e4a968c8",
+   "size": 1213
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/3/4/2/3/83423209879f80b4072888bd494cf19b02054f756843aecd1197c438.body",
+   "sha256": "928851ae7973aea4ce0eaf330bbdafb2e01398a91518d5c8818802845564f45c",
+   "size": 144457
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/5/8/8/b/8588b15d84370699d87dd14a7ccdf06e0d48862ef99525acd19d9b73",
+   "sha256": "59dc41126332f400ef93090f7e14d9dec7de15648921a1959119f643642fa8ea",
+   "size": 1209
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/5/8/8/b/8588b15d84370699d87dd14a7ccdf06e0d48862ef99525acd19d9b73.body",
+   "sha256": "1c5c25671ce8805e0d080e2ffdeca7f1e86778c5cbfbeae86d7f866d8830517b",
+   "size": 5071078
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/5/9/2/a/8592a2cec28a81b6f75c797bfce925002905fb4075294d4e174f92e0",
+   "sha256": "79ae09d3bc6f59123609f60095804f76d977c57c2267a1651ee04918e6de1a19",
+   "size": 1202
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/5/9/2/a/8592a2cec28a81b6f75c797bfce925002905fb4075294d4e174f92e0.body",
+   "sha256": "99c8a9ed30f4164bc4c14b37a90208836cbf50d4ce2a57c71d0f52c7fb4f7598",
+   "size": 102678
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/6/c/4/4/86c447d4663f128b644cc3eec47d2eca0ea7a4bd84c5060d991cbc0e",
+   "sha256": "dbfb4fa91de9baab8c12d444484d0a711961d16cfdfd13542e4e6849ec368d8e",
+   "size": 1206
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/6/c/4/4/86c447d4663f128b644cc3eec47d2eca0ea7a4bd84c5060d991cbc0e.body",
+   "sha256": "c124333816c3a9b03fbeef3a9f230ba9a737e9e5bb4060aa2107a86cc0a497fc",
+   "size": 13058505
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/7/2/1/7/8721781ee7af906d0b88ab4fa1066375df5e54f8ab23b0dee1384ac8",
+   "sha256": "601cc3a86388b700250c992dfac23855f69e4a99985d82fe148331cad2d23edf",
+   "size": 1310
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/7/2/1/7/8721781ee7af906d0b88ab4fa1066375df5e54f8ab23b0dee1384ac8.body",
+   "sha256": "bb843307a98b7bd2a7055f831cbfa2fe7c864716dea9d04c7a5c03e51f648b79",
+   "size": 5101
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/9/1/a/1/891a16b45a230e70dc655234e71bc6fb5bf4b6aa63a8f19ae8dc77b1",
+   "sha256": "cd0d6dd6611ef2b63d5b5bb0d351d19b8844a450976ed9583db5fa815814156f",
+   "size": 1267
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/9/1/a/1/891a16b45a230e70dc655234e71bc6fb5bf4b6aa63a8f19ae8dc77b1.body",
+   "sha256": "2552f44204b744fba866e573be4c1f9048d6a324dfe14475103fd51613eb1d1f",
+   "size": 231067
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/9/3/a/9/893a9178010858cecf72b523725b46ddedbe6c23406a020810080ab3",
+   "sha256": "a7764417b6b59f5ff7dfefebc603b51d42b68538f6145fca56f30055c9e9aa03",
+   "size": 1871
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/9/3/a/9/893a9178010858cecf72b523725b46ddedbe6c23406a020810080ab3.body",
+   "sha256": "2fa2cf29717b20dd9e582129390443356a1724bb2385c8f923749eddfc8645d1",
+   "size": 80386
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/9/8/0/7/8980772ed68d7fbcfe2ef2b3f1911b9bd45462ad1becf93269532743",
+   "sha256": "c3a1a3bf56d4bc7dbede18c577d318c4a25560fe70897204abd6495e3274f985",
+   "size": 1115
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/9/8/0/7/8980772ed68d7fbcfe2ef2b3f1911b9bd45462ad1becf93269532743.body",
+   "sha256": "171039245a5b1a8f8233165091210632c21250ce2a652daed38fe8f94389984f",
+   "size": 529831
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/a/c/4/d/8ac4d14dc45e27d21da49fb515570b6f875b78707de9b08ce1088d1b",
+   "sha256": "e6429fb14207c2e5a8ec2d821fc13c07adb07c81b30ec11a8619c3673ab129e4",
+   "size": 1871
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/a/c/4/d/8ac4d14dc45e27d21da49fb515570b6f875b78707de9b08ce1088d1b.body",
+   "sha256": "e09e0baef924a83cccb48eaa17a42f5ccd6f9374608f5ad2f52759e67821636e",
+   "size": 16472
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/a/f/c/a/8afca02c81dc7c7862226bf9951d79486c3798bb17dfd856cb59716a",
+   "sha256": "00baecbcdd711197dfec518ea04983e7c85a7c666832878d7ddd2ba571279e58",
+   "size": 1248
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/a/f/c/a/8afca02c81dc7c7862226bf9951d79486c3798bb17dfd856cb59716a.body",
+   "sha256": "8a21ae539fb67d2c1f6c2e2af119b46c4bda03558ddeab2514c409c673d448a8",
+   "size": 13078
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/b/8/5/1/8b85176ea2f886fc382ce35cfaf4312d3ff0cc04eb493c118608eba5",
+   "sha256": "3d2d8fac957411f25905b06d4ef748c82a1ab43a99ea74ef3b6e0e21a5793660",
+   "size": 1206
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/b/8/5/1/8b85176ea2f886fc382ce35cfaf4312d3ff0cc04eb493c118608eba5.body",
+   "sha256": "8242543c522d84d033fe79be04cb559b80d7eb98ad81b137ff7e0a9020f00ace",
+   "size": 1077166
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/c/d/4/6/8cd46de09fab9942ca46d5db7df4d49166a3ba9ae11a8ad0ad906daa",
+   "sha256": "5d08fe2232aca8ea8339895140e2ce3c7c79c6abf10c47af741fd729f597c059",
+   "size": 1231
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/c/d/4/6/8cd46de09fab9942ca46d5db7df4d49166a3ba9ae11a8ad0ad906daa.body",
+   "sha256": "053243f8b92b990551949e63930a839ff0cf0b0ebbe0597b0f3fb19e1a0fe82e",
+   "size": 7490
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/f/0/1/4/8f0141915fe0b79e18317c9c8d5fe78ebfbff35923832100db4c51da",
+   "sha256": "1f8ea428a955ae815eea8c4853a84a07dc49e6a443eb06e7e9a70ed275612c0f",
+   "size": 1155
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/8/f/0/1/4/8f0141915fe0b79e18317c9c8d5fe78ebfbff35923832100db4c51da.body",
+   "sha256": "2cd581cf58ab7fcfca4ce8efa6dcacd0de5bf8d0a3eb9ec927e07405f4d9e2a2",
+   "size": 1815170
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/0/6/7/9/906797ab7b3f56fdd856b186be66ce1ad5fb99862a404c1091a707b6",
+   "sha256": "1a129b55aa45c19919e93acf0938a96244e41d82e69056a9f4ed3b4ad3f24ba8",
+   "size": 1871
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/0/6/7/9/906797ab7b3f56fdd856b186be66ce1ad5fb99862a404c1091a707b6.body",
+   "sha256": "8ff876f9679055aa75ebc1900ccd6615bf22ed9fb0358dff6a8fb0ea42354e28",
+   "size": 71060
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/0/7/1/a/9071a525774ccfca69ea5a6a8866364295786d9846ee7e623479836e",
+   "sha256": "246eac6217907e2ad831bf2a71cfae0f7bd5ea3fcedee8bf40adcdb833bb11db",
+   "size": 1252
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/0/7/1/a/9071a525774ccfca69ea5a6a8866364295786d9846ee7e623479836e.body",
+   "sha256": "7af6b13a9eda93a795a14f5cedca74bf761bbf2d4f16f6119f7859edf92a5618",
+   "size": 19258
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/2/1/f/0/921f0f080fda003da296decb17ac4da1799e5f0a930a7b5719aeca80",
+   "sha256": "3fb4bd81f5b968656ab8392739c67d6da405642dd0ef25b81ab0bf7aff334bce",
+   "size": 1236
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/2/1/f/0/921f0f080fda003da296decb17ac4da1799e5f0a930a7b5719aeca80.body",
+   "sha256": "fd6f30fdcf9ae2a70abd34da54f18da086160e4d7d9251f81f3da0ff84fc5a48",
+   "size": 210030
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/b/5/1/6/9b51619e20a708f99372afefd7dbe20a1b5e42ae213f02bf27267976",
+   "sha256": "8bd1339b3d6fc1bf1395febfc8f6c76846e18a065396728b9f540cab6e087f5f",
+   "size": 1871
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/b/5/1/6/9b51619e20a708f99372afefd7dbe20a1b5e42ae213f02bf27267976.body",
+   "sha256": "dbb7d5543e591a8ba7d4cacf5b66c0729adfe7cce20c8bd52923ede47fdbf4d7",
+   "size": 284745
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/c/3/b/9/9c3b9b43f8e3e77ffd5164ef2313ae28907787dc8bb75eba98d4622f",
+   "sha256": "9b6f9e8bda24e92c4bd8822b10ce871a11a56d6acdc9199bcd082a78ef6f3b10",
+   "size": 1203
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/c/3/b/9/9c3b9b43f8e3e77ffd5164ef2313ae28907787dc8bb75eba98d4622f.body",
+   "sha256": "d7d9110d0c3fb02679972837a033251fd186c529aa62f19c132fc909c74052b8",
+   "size": 193937
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/d/4/6/9/9d4696ecb02e8047e3f010530d87eab44f0648b69b08ffc0bf880674",
+   "sha256": "5acb51fcacefba009a47418e5a19c8aaa350f19512745b601bb2b170e8c38a95",
+   "size": 1178
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/d/4/6/9/9d4696ecb02e8047e3f010530d87eab44f0648b69b08ffc0bf880674.body",
+   "sha256": "2e4de357bda363383d8c22585faa8bf7d66b1ea142848e32b405ecdf31c3890d",
+   "size": 8544
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/d/f/1/e/9df1ee6c2e327fe1c6b83e310229ce0dc078eddefce5100826a82a16",
+   "sha256": "75c372243bd08cb9bd1f081019f4d2a28f16c511244f4f7a5d648bb2c35288ba",
+   "size": 1873
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/9/d/f/1/e/9df1ee6c2e327fe1c6b83e310229ce0dc078eddefce5100826a82a16.body",
+   "sha256": "c0a6d3a28744364bf9f0fb8d63cb91edfb8aab23f0ef07a234a2bc1fad7c8ca7",
+   "size": 169594
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/0/5/9/2/a0592b8fadfa8657fb80a66fb7c39e404e66282000d7065995e4dd12",
+   "sha256": "cd425b99878071240ca9845d7f20e1a95f7a4709cbb83051107faa12a00fd716",
+   "size": 1276
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/0/5/9/2/a0592b8fadfa8657fb80a66fb7c39e404e66282000d7065995e4dd12.body",
+   "sha256": "7b4df175cdb08ba400f45cae3bdcae7ba8365db4d165fc65fd04b050ab63b46b",
+   "size": 79500
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/1/9/5/3/a19537d3cf37c122db841d6fe4cd322bc10d1a558bb00d146b85cb9a",
+   "sha256": "64cb08f1cd1044fd6059d71b5bdfeb258cd73c36fdaf97ed70f7661a7449fc01",
+   "size": 1872
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/1/9/5/3/a19537d3cf37c122db841d6fe4cd322bc10d1a558bb00d146b85cb9a.body",
+   "sha256": "51c05814f9e1760f8f58a6c567d49a68517487e476e6ab1e0de3fbe52a7ce5e4",
+   "size": 37256
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/5/7/5/c/a575c12e8267d7f86d6cd3abb805f97876e63148428e5711e8668b4b",
+   "sha256": "fc7039df55fb245702ca96a3d8c56b5b4ccffb53181e79fbbb63c9f927f31e30",
+   "size": 1858
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/5/7/5/c/a575c12e8267d7f86d6cd3abb805f97876e63148428e5711e8668b4b.body",
+   "sha256": "89a1b84590a2458fb2e2b233da9d20180263cefad4386f72fdf417adf09c38e2",
+   "size": 4292
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/7/0/7/b/a707b94dd08e4f8604ed8586afd91c9700d0d8bea9ec2bd2b3bd9722",
+   "sha256": "50d899f8b9e4fa2756eda4ace67d72757ccac7e4ca7b942a2560be0e56525c26",
+   "size": 1283
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/7/0/7/b/a707b94dd08e4f8604ed8586afd91c9700d0d8bea9ec2bd2b3bd9722.body",
+   "sha256": "3525e5849c007e2dfcd1e123028ec14383ff4d56a5f718b4aa4c995a26ccb153",
+   "size": 5915
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/7/f/a/f/a7fafbe2218b75a814cbe34794d982aad66dbac56a2da08f2be164eb",
+   "sha256": "2ac6af2889b10e70bb1698e4e532dd0ca1df83809691130ea6dd2547a35c5910",
+   "size": 1283
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/7/f/a/f/a7fafbe2218b75a814cbe34794d982aad66dbac56a2da08f2be164eb.body",
+   "sha256": "f224469b4168294902bb1efa80a8bf7855f24c99aef99cbefc1bcd3cce77881b",
+   "size": 117034
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/e/0/b/3/ae0b3ccaac57b38f9a477e740b17e03e71e3cf97a686aa961c40c3a1",
+   "sha256": "17eebbc1613687a2e02af97f5cc390dbaf5157e65baf914c12f16ff595f7e190",
+   "size": 1212
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/e/0/b/3/ae0b3ccaac57b38f9a477e740b17e03e71e3cf97a686aa961c40c3a1.body",
+   "sha256": "c551b33660cfc815bae1f9f097ecfd1e65be623f13c6ee0dda372bd881460210",
+   "size": 9881312
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/e/6/c/3/ae6c3afab900879d19bfc5b6a989da8d166ea69c75db496770a73d76",
+   "sha256": "9e0661eb9e48609f40b97c1a2e83df50f639b0c726f298657666d5de772e821d",
+   "size": 1204
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/e/6/c/3/ae6c3afab900879d19bfc5b6a989da8d166ea69c75db496770a73d76.body",
+   "sha256": "21e5eb86179b4c67b5759d452ea7c48eb135cd93308e7a260aa489ed2eb423a4",
+   "size": 799810
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/f/6/5/a/af65a018d86932d9447fecafb43541b722197bb8f8719cbb756a193a",
+   "sha256": "0eb9489ccdf7d0177f55325afe9d51f26012554e9cd6f1e8e07f195ca77d103f",
+   "size": 1236
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/a/f/6/5/a/af65a018d86932d9447fecafb43541b722197bb8f8719cbb756a193a.body",
+   "sha256": "14e31a3c9e35f1ab6356c6378f6f72830e6d2d5f1791df3774a7b097d18a6a1e",
+   "size": 48837449
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/0/6/7/2/b0672c494efcbee58b2034d0bd2a83064476eeb71b535386f3568c80",
+   "sha256": "7b2c3dc1d4dd7939ba010dd72d0ab4337f2e071404a6646020dc3e2e97af3b59",
+   "size": 1133
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/0/6/7/2/b0672c494efcbee58b2034d0bd2a83064476eeb71b535386f3568c80.body",
+   "sha256": "8c0fd6e36e320a18657ff44ed96c3a400f17a903a3744fc322303a515778f2ba",
+   "size": 9991768
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/1/f/5/d/b1f5dc01896eee598e8915be35e61304ad2b16363d00711f8576642c",
+   "sha256": "6efc2e0b007ce59497625f2ccc9928bc74a8224f7ac91f464041278bd3a2f8f4",
+   "size": 1857
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/1/f/5/d/b1f5dc01896eee598e8915be35e61304ad2b16363d00711f8576642c.body",
+   "sha256": "0781dfe346b07fc7db59fae5b070e26fa4e6700f0da2b3efa9c5a7de46710935",
+   "size": 119498
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/7/3/7/d/b737d55a936fdd098e3b2b0a3c4eba350296f2d267d4e8c24c50cdef",
+   "sha256": "0702522775d6e1e1c7f2613e855811ea047df67f96dc2cc20e57bb66c22afd57",
+   "size": 1175
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/7/3/7/d/b737d55a936fdd098e3b2b0a3c4eba350296f2d267d4e8c24c50cdef.body",
+   "sha256": "69dcfaafebf7290a8a3f9f7efdb6b681fcc2f077ed4b3ac5f657f6f640687d03",
+   "size": 3626
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/8/3/6/e/b836eae9b6195215ffe2945f86e216c0bc4a42b20c4c0adc518e322e",
+   "sha256": "3194b26ff225fac04fa1b7f0a86ca780e8d16f9156d5fdd5c4ef0e417d58582d",
+   "size": 1279
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/8/3/6/e/b836eae9b6195215ffe2945f86e216c0bc4a42b20c4c0adc518e322e.body",
+   "sha256": "946c22dc9f7e2c76f2d698f00a4306dbe49a820e2b3f1a0e22fe5286cbec35f1",
+   "size": 20333
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/8/b/f/4/b8bf4a44dbb1c5e59b2500975b68a4301d11f85878b612151a649c3d",
+   "sha256": "349d56333a99e0b00a0c815a8fa5d2318e1bcef3bad17b506211eda6a438e95a",
+   "size": 1820
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/8/b/f/4/b8bf4a44dbb1c5e59b2500975b68a4301d11f85878b612151a649c3d.body",
+   "sha256": "c367f40eeef32768e3f1e557e605be6b652ac7d85b4e982d454bbb5dc89fc080",
+   "size": 25946
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/8/e/7/3/b8e734e22bf0a81313e1d65c01c9082a1e77b9a0a12c6b41d865d006",
+   "sha256": "14f11929b9b7f9fae16b1dab973843856ab5bad1f0c8568cf6da13898fd99888",
+   "size": 1276
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/8/e/7/3/b8e734e22bf0a81313e1d65c01c9082a1e77b9a0a12c6b41d865d006.body",
+   "sha256": "09247ef1da8bc696728d47130e702e4307f6f7d101d6c485bff9f3a71ce7008d",
+   "size": 3662
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/9/8/3/6/b983661e4bca93712656e77ec88fe4ec471e361f9482f6181dd4e300",
+   "sha256": "80caaf13d72ab951cbae181bdfb7a48ce4d801d8af0d92f58a8d7459edbb5d76",
+   "size": 1272
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/9/8/3/6/b983661e4bca93712656e77ec88fe4ec471e361f9482f6181dd4e300.body",
+   "sha256": "040d6c84eddf29c8c14dc2aef214962a919803f557243824dd4f8aa3b49e3868",
+   "size": 10171
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/f/b/b/b/bfbbb64251bb29d7400e962e6937ccfc7d6cf8628b719dcd859d1c80",
+   "sha256": "710f33109e24fcc5753a2f90e963675a9ad5e7407437de4efa89563db0505d09",
+   "size": 1870
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/f/b/b/b/bfbbb64251bb29d7400e962e6937ccfc7d6cf8628b719dcd859d1c80.body",
+   "sha256": "09adb70ac84184a2db3ce5d1ad89bec7a956ed8130ce600ad1c481d8b5d11a58",
+   "size": 14789
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/f/c/a/5/bfca522eaf7404612287f82a4ec69fbc52a846f5a5757f91528163da",
+   "sha256": "4cdeeb7c4eef5d854f98ef8f4b81ac9ecf2c17f1805643dade9a9ad018a4b260",
+   "size": 1172
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/f/c/a/5/bfca522eaf7404612287f82a4ec69fbc52a846f5a5757f91528163da.body",
+   "sha256": "e7c678bde04176ac9cbba9c309d6b1c12ba956e4c88dd39a35441829b008e8aa",
+   "size": 2522
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/f/d/6/3/bfd6322b8f4c82d6b7ed54608512187e126478b3b0851b74973f4adc",
+   "sha256": "baa692f37dee511bf3b286a0b3b18f748df54041d65844f648d364cb69c18708",
+   "size": 1855
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/b/f/d/6/3/bfd6322b8f4c82d6b7ed54608512187e126478b3b0851b74973f4adc.body",
+   "sha256": "220aca07d7cb546dccd31b70a76a615adf8fdaed6445e337fb7d301fbb8f6120",
+   "size": 508825
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/4/2/0/3/c4203c5060d0f778eafd521050eab23e6aaa0f9eefa17eb1e671212c",
+   "sha256": "8485a789fffe1074268cdd4ed66c54b6f8da150d0190cc0563649143aa7c616f",
+   "size": 1872
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/4/2/0/3/c4203c5060d0f778eafd521050eab23e6aaa0f9eefa17eb1e671212c.body",
+   "sha256": "2bd5e8de5fbb2abf4ded468752dbe489b4d2314475320af412f9558ac883f970",
+   "size": 541552
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/5/4/0/3/c5403a101bbaf526810b4c472004bc3b03b96b7c8118e06c7a081e63",
+   "sha256": "631a462eb19595d66d06f87c47d720a112443f87afa5904c83511c767ae61201",
+   "size": 1821
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/5/4/0/3/c5403a101bbaf526810b4c472004bc3b03b96b7c8118e06c7a081e63.body",
+   "sha256": "458043c23a61785738b0ca7adebbaac0c9946fef3e59649961f0f95760aea8d3",
+   "size": 416472
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/9/6/b/6/c96b65f264e03b8d8e59e8a51b8e4f0a247993569e647dc2cdf50583",
+   "sha256": "0f0d98be1ee358278370e6de466a85f24f5b6210f7e7a9cdf899d686dc9ff9f6",
+   "size": 1874
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/9/6/b/6/c96b65f264e03b8d8e59e8a51b8e4f0a247993569e647dc2cdf50583.body",
+   "sha256": "b2f841e7a04adf1ac96bd3c749ae51e8023c7f198aad73ef85d408f7f1a57240",
+   "size": 59999
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/b/5/e/0/cb5e06e79af016388bc8d5679999668271dc9ca7e266a3a8156ba1be",
+   "sha256": "207fcb3115b32683880f4106b60701785c2bbdbb80d9c69cd4a88670cc64c8ed",
+   "size": 1857
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/b/5/e/0/cb5e06e79af016388bc8d5679999668271dc9ca7e266a3a8156ba1be.body",
+   "sha256": "74b1255c5344b7dd8a1c0db44ac9aca12332143f05316294d4781d702461430a",
+   "size": 3174
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/d/5/b/0/cd5b004b12379ed4169e3ab026d2ff308c3202ed1b98b912457f21e7",
+   "sha256": "033231b8a1df44fe54e6836193e1701335710cc959187f655f3d2302d687e700",
+   "size": 1312
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/d/5/b/0/cd5b004b12379ed4169e3ab026d2ff308c3202ed1b98b912457f21e7.body",
+   "sha256": "fc23f3c52b336d5335cd053f47d91ff6316949e65ad1f1e3dfccd5284f4d6ece",
+   "size": 13745
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/d/5/d/e/cd5de44b899cbe1869765c21b55cffc53c0c0ffa9d3c6f1fd40a42a2",
+   "sha256": "042d91ed8e6143f4911784d9de4cc3fd562b86e589f25b9d448304bd60d97861",
+   "size": 1872
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/d/5/d/e/cd5de44b899cbe1869765c21b55cffc53c0c0ffa9d3c6f1fd40a42a2.body",
+   "sha256": "ce8110a1fab9fa20de934002c6cdd93e02af0250708d7d82cd7aeb4afbfb998a",
+   "size": 263976
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/f/e/6/2/cfe62c7c08ac78ed6639714fffbbcb5715188d7823ceff38a48aed1c",
+   "sha256": "c4adb63ff2d8466e35d894d80f787cc9ca87fdd1c15ad718a089cdd6472cb59a",
+   "size": 1214
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/c/f/e/6/2/cfe62c7c08ac78ed6639714fffbbcb5715188d7823ceff38a48aed1c.body",
+   "sha256": "1897caf88ce7f97fe0110603d8f66ac264e3ba6accdf30cd66cc0fed5282ad25",
+   "size": 436575
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/3/2/9/d/d329d269473dcb26bc2fcf82e354619e8463ba8855d5a3b77637c124",
+   "sha256": "63de1fe78a4eb672d6d56349d132c7df53491b9bac2d7bde94d3e15f449c2af4",
+   "size": 1872
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/3/2/9/d/d329d269473dcb26bc2fcf82e354619e8463ba8855d5a3b77637c124.body",
+   "sha256": "40c1f3497914e1b8fccb7a9bf85989438bb24a49ac525251186b0f236bf151e3",
+   "size": 233403
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/6/d/3/b/d6d3bac35e834bfc5e17ee1004ced880326c05861c21c39fd8bf43b6",
+   "sha256": "5cb3ff2353a2ab3a0ae5065bcae2f25debcf3dab3ed81eda1e8149e653762248",
+   "size": 1208
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/6/d/3/b/d6d3bac35e834bfc5e17ee1004ced880326c05861c21c39fd8bf43b6.body",
+   "sha256": "214668aaea208195f4c13d28eb272ba79f945fc0cf3f11c7092c20b2ca1980e7",
+   "size": 133492
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/7/e/a/3/d7ea3bcb26d5a047d6e5c8cbbc153508c87cb4011c5a0d075e406bdd",
+   "sha256": "9b42cac786baf00f85bbbdde2dcdf1ded477bef49538f01d821aea35d477f388",
+   "size": 1172
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/7/e/a/3/d7ea3bcb26d5a047d6e5c8cbbc153508c87cb4011c5a0d075e406bdd.body",
+   "sha256": "05538e0909bade7099cbb8ee82ffcf07fa38474a196ef3ea848c7528fc54e529",
+   "size": 4845
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/b/8/2/4/db824c526d765b86c60e3a8f549e4d9f6b2c1e8876b000670174e0bc",
+   "sha256": "562209d89cd2db1949e70ac7b8663259b92fb709a22fb5bbd15891612077274c",
+   "size": 1856
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/b/8/2/4/db824c526d765b86c60e3a8f549e4d9f6b2c1e8876b000670174e0bc.body",
+   "sha256": "7e3661ace64a53a5fb65510f7185e087b3d63b293d08f8094d69c177b664482b",
+   "size": 3047
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/b/c/5/8/dbc584288057a6925360fdf1ba96a20d2d2cd104281e24a474cc6fb3",
+   "sha256": "4135405cb9de9ef2f5ca4253ee391b1371afac69fabf30096db23fd4f4bf0e61",
+   "size": 1198
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/b/c/5/8/dbc584288057a6925360fdf1ba96a20d2d2cd104281e24a474cc6fb3.body",
+   "sha256": "c82d39a6b09ed7778012515c2fa4ab4dc36d7789300cd0b16b87d3a3e4a09955",
+   "size": 18243
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/e/4/3/7/de437938ef85929246af957191da12fbc37876e8e6bf1a090f59e1d8",
+   "sha256": "6c2b226d608b5fe8ff37d7307f8cc669d3ee1af18ef5332c65dedf44cec884ad",
+   "size": 1873
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/e/4/3/7/de437938ef85929246af957191da12fbc37876e8e6bf1a090f59e1d8.body",
+   "sha256": "5274dea5e54e79cabf5838a52cbe7e8de851c0a2498ef4150ddff44f603c1a37",
+   "size": 1090447
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/f/b/c/9/dfbc9b84b95caa68fc6df4e9a8ae018206f5d0c5466195cd7badfafc",
+   "sha256": "4ce06ab6136a4a830f823eae2c747f66c3d736e67402d06ec4e6e2be1af8d68d",
+   "size": 1247
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/f/b/c/9/dfbc9b84b95caa68fc6df4e9a8ae018206f5d0c5466195cd7badfafc.body",
+   "sha256": "da3fb5321e2de5b2766214002d5003112ecb18bd4d85f415b413efdd10ef80a3",
+   "size": 79589
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/f/f/d/1/dffd18007efdba581459f73483b4b35094c7f46f74749e20a8b1f84e",
+   "sha256": "456a8bfb1fc172b3b3fc1c4945e265104bcc0dde8b6b623b800436f2afe3c1b0",
+   "size": 1232
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/d/f/f/d/1/dffd18007efdba581459f73483b4b35094c7f46f74749e20a8b1f84e.body",
+   "sha256": "a66cb506097bfce8461b076fb9e86ea216e00fd622387ba19909d9c1689ff8f9",
+   "size": 526834
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/0/5/f/0/e05f0d91f8df88c9349b141f38a86eaea4bf18c9e6190a296b1ada3b",
+   "sha256": "582e7b4f164250ff45be38f511cf0c74c29974077366bcb23b1538ddf5c71dc9",
+   "size": 1819
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/0/5/f/0/e05f0d91f8df88c9349b141f38a86eaea4bf18c9e6190a296b1ada3b.body",
+   "sha256": "7b1b1b94939445f9c9d19ba62748424f6d573509afa8ec6691ca1b604e439d0b",
+   "size": 12486
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/4/e/a/0/e4ea0c664bca0bad6f2e2e63aeccad8b363f213e3ddb0055937e5ee3",
+   "sha256": "391a332b09ee13ba16ba49ba6d4603ee03fcad80de7fc087618b2caba4c6a7ef",
+   "size": 1277
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/4/e/a/0/e4ea0c664bca0bad6f2e2e63aeccad8b363f213e3ddb0055937e5ee3.body",
+   "sha256": "1f197d996db42bf40a79d3578084963f6204506dfee9809af81586dbb9607061",
+   "size": 1357
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/6/f/3/8/e6f3883bc0cc63354f37401fed36726a8567c06c308db2931093a9de",
+   "sha256": "4c4ee3887beba0e916aa09e38c65005afdc4b388f58e3b223528a3fcaca82406",
+   "size": 1208
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/6/f/3/8/e6f3883bc0cc63354f37401fed36726a8567c06c308db2931093a9de.body",
+   "sha256": "d69159e2c4e4a473d14443b27d2d732929254e826b3ab4813b3785b5ac616c7c",
+   "size": 324366
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/7/7/d/b/e77dbdc304516ee8cd6c45271ac78a9af3024d3ed169af2392e9f725",
+   "sha256": "d71e99851af53be0e3d829347408e4f6ec686406c568b202dc8848fb18deb2f1",
+   "size": 1284
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/7/7/d/b/e77dbdc304516ee8cd6c45271ac78a9af3024d3ed169af2392e9f725.body",
+   "sha256": "24146d46d724ce041d187426babb43dc5a6a4cd5d1acad0d7fc0d12693376fa5",
+   "size": 7511
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/9/9/6/5/e996520f017cefc93c3078a435ee4e2c5ba444746ba2d9203a5dd051",
+   "sha256": "5fdcbb8b4100aa83cb6a940bc6bc256b668cbb532c96f1a62fe0b62129831fb4",
+   "size": 1205
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/9/9/6/5/e996520f017cefc93c3078a435ee4e2c5ba444746ba2d9203a5dd051.body",
+   "sha256": "439cbebd499f92e9aa6793016a8acaa161dfa749ae86d20960189f5398a19144",
+   "size": 246293
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/a/5/c/5/ea5c56676b3de04f752730bc2b3f41d07b78eec54d525aea73fb2829",
+   "sha256": "6ed476776f1d01e6f65508c8d2bc934e0396bddffc982309d6b631e658746f65",
+   "size": 1239
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/a/5/c/5/ea5c56676b3de04f752730bc2b3f41d07b78eec54d525aea73fb2829.body",
+   "sha256": "f349ba8f4b75cb25c99c5c2d84e997e485204d2902a9597802b0371f09331fb8",
+   "size": 15265
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/c/1/3/a/ec13a7dc0dd7034e51a1414abb4b77e308f86ddc254fd8d24e8e64a8",
+   "sha256": "a424d310d90b128c9e06dfa1d7270c9a17a656fa91b8418628bc2a476b6dfe0c",
+   "size": 1206
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/c/1/3/a/ec13a7dc0dd7034e51a1414abb4b77e308f86ddc254fd8d24e8e64a8.body",
+   "sha256": "3a807cabd5115fb55af198b98178997a5e0e57dead43eb74a93d9c07d6d4a7dc",
+   "size": 1759969
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/c/d/c/e/ecdcece68d743fdeec7fcc84302140f8c90f92f9e910ad1c93810a56",
+   "sha256": "6e3dfa9fc189f1c864c4190c34fe9478077d8feaf586b27549ea271dc6a28acf",
+   "size": 1281
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/c/d/c/e/ecdcece68d743fdeec7fcc84302140f8c90f92f9e910ad1c93810a56.body",
+   "sha256": "fa0238a9e31df3373b35b0bfb672c34cc92718d21f81311d8996a16de1141d8b",
+   "size": 154547
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/d/a/e/3/edae380722734b47518ed6d01df2660533905fce01215fa876d151dd",
+   "sha256": "9a3f9cbb0c09e278cae9e327b00e9e0b2481b99fcaf03530f966bb7100b35978",
+   "size": 1297
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/e/d/a/e/3/edae380722734b47518ed6d01df2660533905fce01215fa876d151dd.body",
+   "sha256": "c006cc50875d58fc9454198ea054ee79a834b6d3b7067161bc5306b337d4647f",
+   "size": 3031
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/0/e/e/8/f0ee8f9a2f856d3731040965c1c2fd8b8d08418ab9aa3170a2cb5e51",
+   "sha256": "ced4da88450d484454f69c29df7610490c38a8f55ec3040543a91a97794ca8c7",
+   "size": 1253
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/0/e/e/8/f0ee8f9a2f856d3731040965c1c2fd8b8d08418ab9aa3170a2cb5e51.body",
+   "sha256": "249eeb451c3fe8b1487bf4a44e76ec2b356c686e6b46107e220a71761fed5a5f",
+   "size": 11257
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/3/3/b/f/f33bf5da969a959582934e0a4aef1a1e05c078e709aae17017b453bf",
+   "sha256": "a28006cde258ef0b4d3f95a7c40d86ab31d94fc46f694a13fe77f6e53afcce37",
+   "size": 1871
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/3/3/b/f/f33bf5da969a959582934e0a4aef1a1e05c078e709aae17017b453bf.body",
+   "sha256": "25f884091424dace87135f9f42d7b5a23d03f760c9e659deb4142768b8bd9938",
+   "size": 21634
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/3/c/4/d/f3c4dedd1435641845fe96a7938402191795947fd69de9d823bd65e1",
+   "sha256": "1a6d65860fd7d7884a7035a6f67b905fa341e1c8d5deb15c78bd621d68a4ecc9",
+   "size": 1855
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/3/c/4/d/f3c4dedd1435641845fe96a7938402191795947fd69de9d823bd65e1.body",
+   "sha256": "ff76b09a07e87947a4e145dca62ba3aa14bb9a73aef4da123829d149e5f75c2b",
+   "size": 23457
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/4/2/d/7/f42d73d14a90d13ee18456ff2b44fd694818794a2e3ae495abc32359",
+   "sha256": "15e56c459377fe9546e12c822800bd737987da5b6a8fe20b517a01c6b36b780d",
+   "size": 1871
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/4/2/d/7/f42d73d14a90d13ee18456ff2b44fd694818794a2e3ae495abc32359.body",
+   "sha256": "1a2b1eacb8e233ddf59e3ae62bae3adc98839bd798b4f475f45c1be31db3fe5d",
+   "size": 13168
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/7/4/8/a/f748afc33325b676a0c9b7aa3572935f1d86e264e124386e2e05e9cd",
+   "sha256": "739480c8fc80f6068995b6643b7daada795160541b4c75ba38877382c3a4bf38",
+   "size": 1190
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/7/4/8/a/f748afc33325b676a0c9b7aa3572935f1d86e264e124386e2e05e9cd.body",
+   "sha256": "0f3096f26b914f465f6ff3c66f5478f9a5e380bb367ffc6493a68143fbbf1fd1",
+   "size": 44599
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/a/2/b/9/fa2b955fc0c6e310c581cccd045ed10abd73cf9634c42b587901ee26",
+   "sha256": "d76981422152bacfd30a1fafed3ebfa41c8d899710010d8d6d2ab7c0307fdb80",
+   "size": 1251
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/a/2/b/9/fa2b955fc0c6e310c581cccd045ed10abd73cf9634c42b587901ee26.body",
+   "sha256": "ab2dcbf0e3e70cc75dca1d894f8953e7de8b651dc2dc28f08f350bfa5787badb",
+   "size": 3865
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/d/a/0/6/fda06dc153e653bb86e3ba15219e38e482263f65062e8a15d4e5447b",
+   "sha256": "c555d3d9905df6dd7e6a917150db4cac228d44fc3049cdf3080f3611958e61f4",
+   "size": 1208
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/d/a/0/6/fda06dc153e653bb86e3ba15219e38e482263f65062e8a15d4e5447b.body",
+   "sha256": "51e79c1f7470158e838808d4a996fa9bac72c498e93d8ebe5119bc1e6becb0db",
+   "size": 355238
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/f/5/7/0/ff57044fbdd8366a0aafc1423058140ac7d29cfda72f3b6a82557928",
+   "sha256": "ec21ab3b6cab98ae3c8608e3686a177488786120ddb01c9de1b2164a4ec10fac",
+   "size": 1859
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/http-v2/f/f/5/7/0/ff57044fbdd8366a0aafc1423058140ac7d29cfda72f3b6a82557928.body",
+   "sha256": "a365c819224cdf8e4af288e6786d5caaca11f1727ccc29472144f23a224b91c4",
+   "size": 25960
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/selfcheck/241e69162522ccf5846a2f42ebc24b17464915a155679666b89a9f31",
+   "sha256": "cbad8c81ee74e20dd918b11289e6ff91e50cf65bdcfaa8fbee528ffd1faff1a7",
+   "size": 84
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/wheels/1a/97/32/461f837398029ad76911109f07047fde1d7b661a147c7c56d1/antlr4_python3_runtime-4.9.3-py3-none-any.whl",
+   "sha256": "281b20854a999ed393f4002451ecf5fc8ca178dc4a007fcf836480e5fdc49ac4",
+   "size": 144555
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".cache/pip/wheels/1a/97/32/461f837398029ad76911109f07047fde1d7b661a147c7c56d1/origin.json",
+   "sha256": "21b1ca13e0884e0c9dc3194c15b95afc28871f67362d415454f569734f2f0a68",
+   "size": 344
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".hf_token",
+   "sha256": "7022964b3e2ba9d9a1d1cf2051f87ac954cea7f534eeebf9f0105a1c71e86f65",
+   "size": 37
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".ipynb_checkpoints/llm-as-database-agent-context-smoke-test-checkpoint.ipynb",
+   "sha256": "8c5750df07721bf2b8e14cd6d4b94cf9d5c413a0127020baaac93e31221c8355",
+   "size": 47027
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".ipynb_checkpoints/pre_s2_6_fork_work-checkpoint.ipynb",
+   "sha256": "eccfc15961309ca4a83dbfd7050f995224a49b148242e4cb41480bb07b778511",
+   "size": 54300
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".ipynb_checkpoints/s226_t1_alpha_memit_akd-checkpoint.ipynb",
+   "sha256": "4a62b68a633d79c53a6fd8893e8ea42dcf2b9a8a3e907b1b9861661f04f21517",
+   "size": 72
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".ipynb_checkpoints/s227_t1_beta_band-checkpoint.ipynb",
+   "sha256": "4a62b68a633d79c53a6fd8893e8ea42dcf2b9a8a3e907b1b9861661f04f21517",
+   "size": 72
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".ipynb_checkpoints/t1_alpha_memit_s224-checkpoint.ipynb",
+   "sha256": "9f5270c18c36127630e4cb51681e48461f4aab85d44c99d36cd2bb2e54064de8",
+   "size": 87887
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "architecture_profile/capture_token_ids.py",
+   "sha256": "d161e65859b79d73a95120746e62a1ec365b9333a77410d61cd047e4f38eb379",
+   "size": 20823
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "architecture_profile/reproducibility_manifest.json",
+   "sha256": "d6275fe61244afd690d1f451259eddde90ee155d1bf080edaaf251471ef614df",
+   "size": 17414
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "architecture_profile/stage_1_token_verification.json",
+   "sha256": "db1142f0580bd18b885b0e2af3607c60bd71187a4a011f8191c90f06d9220230",
+   "size": 5229
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "causal_trace/baseline_clean_pass.json",
+   "sha256": "2011ee11756758d9a1d538005692bdaf120f4f5693b2f89d234bc1dcabffabf0",
+   "size": 5128
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "causal_trace/causal_trace_session_log.txt",
+   "sha256": "a762d03f85db6042046e354491872020364ee70fa33c4480060a061d70bc0b91",
+   "size": 2190
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "causal_trace/corrupted_pass.json",
+   "sha256": "fbf417533ecdeb3536922856892ae0462d9b0fd0a04bc1b58cb15ec65b5e6e8d",
+   "size": 2909
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "causal_trace/mediation_map_mlp.npz",
+   "sha256": "4b6a7f731adce36c49d8d2941d8c44f2974a79f853904c9c563d55b164ceb877",
+   "size": 6482
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "causal_trace/mediation_map_residual.npz",
+   "sha256": "314f199045182fa833cf9aa81ea4464a503e5f7ad1d00441f2a6364d5677bed7",
+   "size": 6456
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "causal_trace/mediation_verdict.json",
+   "sha256": "e038441583f3029f2becaf84b0b685e50810570a54c981d15aead66565cb8ca9",
+   "size": 3954
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "causal_trace/trace_prompt_set.json",
+   "sha256": "9b103085578750792604f93736eb7e24d9e88839aefc30a97668b3175ad94781",
+   "size": 5299
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "/workspace/memit_dry_run/memit/data/stats/EleutherAI_gpt-j-6B",
+   "path": "covariance_caches/EleutherAI_gpt-j-6B",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "easyedit_ref/llama-7b.yaml",
+   "sha256": "f7b27babb80d3c78aa8505ee1649d41f00a0cab4a101076fded562ce45825d6a",
+   "size": 641
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "easyedit_ref/llama3.2-3b.yaml",
+   "sha256": "3a3ee296191f1243cd4c33b290a0efff2a63ea49fe62f93feb1616a96e7d6e68",
+   "size": 653
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/HEAD",
+   "sha256": "8a55fe9835eb851eeb04b02ab29ba71ab60aef1aca9d93f9f650867d873676a5",
+   "size": 41
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/config",
+   "sha256": "b6a24d44e4dcf4db7f0e954b2b857dd8fa6ddd7f1a5c9e57c1eebce475e6ae0e",
+   "size": 261
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/description",
+   "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+   "size": 73
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/applypatch-msg.sample",
+   "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+   "size": 478
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/commit-msg.sample",
+   "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+   "size": 896
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/fsmonitor-watchman.sample",
+   "sha256": "f3c0228d8e827f1c5260ac59fdd92c3d425c46e54711ef713c5a54ae0a4db2b4",
+   "size": 4655
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/post-update.sample",
+   "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+   "size": 189
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/pre-applypatch.sample",
+   "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+   "size": 424
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/pre-commit.sample",
+   "sha256": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+   "size": 1643
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/pre-merge-commit.sample",
+   "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+   "size": 416
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/pre-push.sample",
+   "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+   "size": 1374
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/pre-rebase.sample",
+   "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+   "size": 4898
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/pre-receive.sample",
+   "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+   "size": 544
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/prepare-commit-msg.sample",
+   "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+   "size": 1492
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/push-to-checkout.sample",
+   "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+   "size": 2783
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/hooks/update.sample",
+   "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+   "size": 3650
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/index",
+   "sha256": "98a4873030dedacfc196808593db1613c02ab8f51b20a65e5ffb0c0f474b03a9",
+   "size": 3539
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/info/exclude",
+   "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+   "size": 240
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/logs/HEAD",
+   "sha256": "d34e1ef1da9190bb054819dfeb1269e4a90fbb3f5b26656715c3fc8e875e4e66",
+   "size": 386
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/logs/refs/heads/main",
+   "sha256": "93bec96bb2ab555e05f4ae630dace69ee24c78c8c2519fb8d83253b1efecb148",
+   "size": 184
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/logs/refs/remotes/origin/HEAD",
+   "sha256": "93bec96bb2ab555e05f4ae630dace69ee24c78c8c2519fb8d83253b1efecb148",
+   "size": 184
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/objects/pack/pack-d1db2e7886fa87f3505e0ede8745fdb03e32d9de.idx",
+   "sha256": "5771fccc4b23effd0ba809b0fe1cc97e68e9190f5f6da109d0f9e0fada1cb76b",
+   "size": 4572
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/objects/pack/pack-d1db2e7886fa87f3505e0ede8745fdb03e32d9de.pack",
+   "sha256": "2b7d59f955da2bef10ebffecb184704410e4147dca1ac6c6dbce14e17c964fcb",
+   "size": 46351
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/packed-refs",
+   "sha256": "31af6b171116c6740b834c10ea1710e308dee2d938212b30304a5b3d46dfdc47",
+   "size": 112
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/refs/heads/main",
+   "sha256": "8a55fe9835eb851eeb04b02ab29ba71ab60aef1aca9d93f9f650867d873676a5",
+   "size": 41
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.git/refs/remotes/origin/HEAD",
+   "sha256": "2bb6a24aa0fc6c484100f5d51a29bbad841cd2c755f5d93faa204e5dbb4eb2b4",
+   "size": 30
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/.gitignore",
+   "sha256": "aad6a45d1b46e50259d78216c8c09d47cb89dad88784f0efd8ecf22bd7570f73",
+   "size": 404
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/README.md",
+   "sha256": "facec93b48dd52ba79917a97dd5513d17d70cb0fcc1ab1f5c9436f21efd7e6f9",
+   "size": 3873
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/environment.yml",
+   "sha256": "5783fc7506adbe70f65baff8c41af43aac505d0695619ef631db83d9bf981dd7",
+   "size": 421
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "size": 0
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/__pycache__/__init__.cpython-311.pyc",
+   "sha256": "2d894f496db2d98e2731afb5003a969a48bc04eb420b361dcacf08e4fb94cc24",
+   "size": 151
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/__pycache__/utils.cpython-311.pyc",
+   "sha256": "bb992b50ff103e5b7848e44d5ea8d0b6df9b13816178c94e2190635130b06dd0",
+   "size": 7808
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/config.yaml",
+   "sha256": "a775ff52828a3ea24503ef26a5325f588167ac32ac2fd66d8ad98196304c2877",
+   "size": 1192
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/editor/defer.yaml",
+   "sha256": "141093a16d01d51fb28dafca67f4429bce17ac3db728f250d9b20a947b7f25f8",
+   "size": 54
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/editor/ft.yaml",
+   "sha256": "14b2e0570f1c1198557fd7ea7d58ef64aa30ffb0f0f274ce97e2e33a2efed4c7",
+   "size": 24
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/editor/ft_ewc.yaml",
+   "sha256": "6c19856d8941cec3ef30510eb2e0b2124710bd40bd9a258de968adfc4a612c77",
+   "size": 124
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/editor/ft_retrain.yaml",
+   "sha256": "73043a1c497c03a1019f205ae7a73ea7522e91985de864259ec2d3265edea405",
+   "size": 72
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/editor/grace.yaml",
+   "sha256": "879b800cef7917f1027d92fbd5798c67b3a4517fa0bfcbdb61439fa90e07c5a2",
+   "size": 357
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/editor/memory.yaml",
+   "sha256": "5c02f48aaa32775815c16fae8abd250e042cb95bd70eba3dc6868a3e32ad2ba5",
+   "size": 51
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/experiment/hallucination.yaml",
+   "sha256": "742922cd5da221a301707d202ca1b2fc1adf104a1d4803c04db6b639b217477e",
+   "size": 19
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/experiment/qa.yaml",
+   "sha256": "ecb8c41aa877dbdb4bfd1981ec2319d53cf2496e7d1e9de3ade4cb48dba42ace",
+   "size": 34
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/experiment/scotus.yaml",
+   "sha256": "0b42b1360c60846ab4e9b082b357642ce1d7da3b73b86fd36ca8ffeea810d6dc",
+   "size": 12
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/model/gpt2xl.yaml",
+   "sha256": "ab9c84198e0c188ae9b545e09ed36a714fd3ecb38d07a948a47285884bcacdcf",
+   "size": 291
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/model/scotus-bert.yaml",
+   "sha256": "fd761220aeac6487d64abeb0fb7df2d4003f7f5c81c862c8fb1f40493352c499",
+   "size": 201
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/config/model/t5small.yaml",
+   "sha256": "48e19966c3e81cc365067c1f37f08e47de9633e4b58eb5e6a1e3692be30a4830",
+   "size": 210
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/dataset.py",
+   "sha256": "3d6ca0f9f4f593aaf9050362c0662805da363b3ce8a2ab240f9cf76ca2a85758",
+   "size": 7329
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/__init__.py",
+   "sha256": "3d0ccdcc26089d5bb745d5e8ca32df3286fe6173011e56bc809204d2126f6264",
+   "size": 227
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/__pycache__/__init__.cpython-311.pyc",
+   "sha256": "ec74b2d171efcefd49745fe7fa9b23525ad4a7a40c7840e268624ccc07736ab8",
+   "size": 567
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/__pycache__/defer.cpython-311.pyc",
+   "sha256": "6fd1f2e12a23182888d14945e888a179b0d7db7f8c35f976ed8d0ce87637fe91",
+   "size": 8377
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/__pycache__/ft.cpython-311.pyc",
+   "sha256": "c036e95c7a7249c1793bd70e57c310f7bd19f30ca5c856757c2c1681c07b85a9",
+   "size": 3507
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/__pycache__/ft_ewc.cpython-311.pyc",
+   "sha256": "18ef5bf67b272d0ac97fac3fd0e3baf1ee4ba3a20c0190531eb01f65b0779b58",
+   "size": 5523
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/__pycache__/ft_retrain.cpython-311.pyc",
+   "sha256": "0b22bbc0829f0767ca7af8b6bd18f5a79f1f351bf394e27602997b92e5015a8b",
+   "size": 4405
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/__pycache__/grace.cpython-311.pyc",
+   "sha256": "662b4afa87b1a9997562a91b0bed200dc0fde8628edd9a06d3c20a097a4d06c3",
+   "size": 14132
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/__pycache__/grace_barebones.cpython-311.pyc",
+   "sha256": "7a4384bcfb60910e6b913e9ab42ba0689be24fdb31d6995f93b85f432db71414",
+   "size": 13634
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/__pycache__/memory.cpython-311.pyc",
+   "sha256": "84e432baca2d5ff418e17fe4ad979d2c1c4f97b656d1e2ce09ba88130f794aae",
+   "size": 6702
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/defer.py",
+   "sha256": "fac879b0ae3ddc5f61be601cbe39a7646e0afe4585f49e4759146ee029469f10",
+   "size": 4628
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/ft.py",
+   "sha256": "5eabf0ca0a43124a3a9443b7548c7d9b639527047ee1b31ffe6d6db0aa0d0d81",
+   "size": 1662
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/ft_ewc.py",
+   "sha256": "606f53b9b4cb5ba90dd34a3a378e959211f609d411fab597c19e32d457551fa1",
+   "size": 3066
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/ft_retrain.py",
+   "sha256": "9a2b362221a941570eb28f7f2f4a54e00e70465a2c622c55d3dfa22961f93dc2",
+   "size": 2220
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/grace.py",
+   "sha256": "fadc3a86e8b7d2eb4bb1263b6e72700b134a5967f46f35bc518fa63db1f5d4f9",
+   "size": 10503
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/grace_barebones.py",
+   "sha256": "d37d49d0cff432afa619e63e8e49542c0f6bd9238b87048ac639f3c7d0d50bf4",
+   "size": 9250
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/grace_barebones.py.upstream_pristine",
+   "sha256": "d60be5ee2901fdd25ea0254ec8715be0d6ce9650eb3ef0639971e272c18d102f",
+   "size": 8616
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/editors/memory.py",
+   "sha256": "d04c38a5e5c0aeaa94b0bf99e9175124aa72fc65188a9c9149cfe60b76884d9e",
+   "size": 3570
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/main.py",
+   "sha256": "920a7f21d986971cd65543dc8ba73d323e831e30cfb7ac730c45a32a123dc7b5",
+   "size": 10245
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/metrics.py",
+   "sha256": "1443d40b814b611c61e273450c73bf6433a2d86aa5f57e585519f3a0712f167f",
+   "size": 2157
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/models.py",
+   "sha256": "4577a130fdfcc176fe0ef26609b0955ba5191f1f136ea90abf0a4c4139b0776c",
+   "size": 3697
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/utils.py",
+   "sha256": "25f938d78c81dc9dce9bcd1aa03e952538c9d96b828b60b7a88f6de109f7af8b",
+   "size": 4236
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/grace/wiki_bio_concepts.txt",
+   "sha256": "30582e90b1e8207767aad5f6692e20bf98f0d3488e6a0a6b9d897c6865462830",
+   "size": 4158
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/notebooks/examples.ipynb",
+   "sha256": "b4724355d43151d69aa5ca41a490bf271bfe5d99db349b1d7a9a128591cdb192",
+   "size": 5943
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/scripts/cancel.sh",
+   "sha256": "cee625b0aa80ccdc6085810b5b267ec277912d1700bd6d58ca198fa137db2e95",
+   "size": 54
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/scripts/main.sh",
+   "sha256": "f7e01fa53f734bb70f33e7c4af5825d0a9f9fa1c3480970b704339ca211209fb",
+   "size": 377
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/scripts/slurm_queue.sh",
+   "sha256": "2f31a07209b358e0a47423f756927f2db2a3f9f920d715c0a28b313236290373",
+   "size": 290
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "grace_dry_run/setup.py",
+   "sha256": "72952899de817c62791ecc594b9dd6c3c56f7ac67168d1ae67320bb8dd91bf81",
+   "size": 100
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "llm-as-database-agent-context-smoke-test.ipynb",
+   "sha256": "8c5750df07721bf2b8e14cd6d4b94cf9d5c413a0127020baaac93e31221c8355",
+   "size": 47027
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/HEAD",
+   "sha256": "28d25bf82af4c0e2b72f50959b2beb859e3e60b9630a5e8c603dad4ddb2b6e80",
+   "size": 21
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/config",
+   "sha256": "2e25ac95362fee3306767d223c33799af0665c71af3c0d784199ed43777f4053",
+   "size": 257
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/description",
+   "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+   "size": 73
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/applypatch-msg.sample",
+   "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+   "size": 478
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/commit-msg.sample",
+   "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+   "size": 896
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/fsmonitor-watchman.sample",
+   "sha256": "f3c0228d8e827f1c5260ac59fdd92c3d425c46e54711ef713c5a54ae0a4db2b4",
+   "size": 4655
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/post-update.sample",
+   "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+   "size": 189
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/pre-applypatch.sample",
+   "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+   "size": 424
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/pre-commit.sample",
+   "sha256": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+   "size": 1643
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/pre-merge-commit.sample",
+   "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+   "size": 416
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/pre-push.sample",
+   "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+   "size": 1374
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/pre-rebase.sample",
+   "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+   "size": 4898
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/pre-receive.sample",
+   "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+   "size": 544
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/prepare-commit-msg.sample",
+   "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+   "size": 1492
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/push-to-checkout.sample",
+   "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+   "size": 2783
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/hooks/update.sample",
+   "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+   "size": 3650
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/index",
+   "sha256": "6ac876e52a5c42ab4082edde720ac443395590dc31cfeac67b613fb160e4600f",
+   "size": 13618
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/info/exclude",
+   "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+   "size": 240
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/logs/HEAD",
+   "sha256": "75a1843cfceff8f7ccf305549b9782b534bdd423aa46742c29bf2d5ad60d8098",
+   "size": 180
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/logs/refs/heads/main",
+   "sha256": "75a1843cfceff8f7ccf305549b9782b534bdd423aa46742c29bf2d5ad60d8098",
+   "size": 180
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/logs/refs/remotes/origin/HEAD",
+   "sha256": "75a1843cfceff8f7ccf305549b9782b534bdd423aa46742c29bf2d5ad60d8098",
+   "size": 180
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/objects/pack/pack-89a2505838d77656b4ba0457b034514a23237809.idx",
+   "sha256": "5b7b35286a8fac3a080ddba38031ecd58e2b279d577b92ce21a52fccaca9ad88",
+   "size": 6560
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/objects/pack/pack-89a2505838d77656b4ba0457b034514a23237809.pack",
+   "sha256": "ae323a363a142c39f0c1f1b48a89f8eedd2d81ad606fd0768340bf7b42487c3a",
+   "size": 138132
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/packed-refs",
+   "sha256": "446f60e75a6360280dcb781944206e3974293a482ef71bbee0ced7693220e030",
+   "size": 180
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/refs/heads/main",
+   "sha256": "2e6ad5751ed532298567ddeb8aaeffaf6eb52b86afb5c734a4617e9236b2aba9",
+   "size": 41
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "memit_dry_run/memit/.git/refs/remotes/origin/HEAD",
+   "sha256": "2bb6a24aa0fc6c484100f5d51a29bbad841cd2c755f5d93faa204e5dbb4eb2b4",
+   "size": 30
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B",
+   "path": "memit_dry_run/memit/data/stats/meta-llama_Llama-3.1-8B",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../baselines/",
+   "path": "memit_dry_run/memit/notebooks/baselines",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../data",
+   "path": "memit_dry_run/memit/notebooks/data",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../dsets/",
+   "path": "memit_dry_run/memit/notebooks/dsets",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../experiments/",
+   "path": "memit_dry_run/memit/notebooks/experiments",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../globals.yml",
+   "path": "memit_dry_run/memit/notebooks/globals.yml",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../hparams/",
+   "path": "memit_dry_run/memit/notebooks/hparams",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../memit",
+   "path": "memit_dry_run/memit/notebooks/memit",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../rome/",
+   "path": "memit_dry_run/memit/notebooks/rome",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../util",
+   "path": "memit_dry_run/memit/notebooks/util",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../experiments",
+   "path": "memit_dry_run/memit/notebooks/vis/experiments",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../globals.yml",
+   "path": "memit_dry_run/memit/notebooks/vis/globals.yml",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../util",
+   "path": "memit_dry_run/memit/notebooks/vis/util",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "pre_s2_6_fork_work.ipynb",
+   "sha256": "eccfc15961309ca4a83dbfd7050f995224a49b148242e4cb41480bb07b778511",
+   "size": 54300
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "reproducibility_manifest.json",
+   "sha256": "82890d98bf83d46028f65770480b97dd1a95257669bfe8dbf7aa2a1745746646",
+   "size": 59330
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/HEAD",
+   "sha256": "28d25bf82af4c0e2b72f50959b2beb859e3e60b9630a5e8c603dad4ddb2b6e80",
+   "size": 21
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/config",
+   "sha256": "d521e06a0b39436c8c8396b8e48fc2997086f08eeecd1d0e9dec548065856831",
+   "size": 252
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/description",
+   "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+   "size": 73
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/applypatch-msg.sample",
+   "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+   "size": 478
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/commit-msg.sample",
+   "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+   "size": 896
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/fsmonitor-watchman.sample",
+   "sha256": "f3c0228d8e827f1c5260ac59fdd92c3d425c46e54711ef713c5a54ae0a4db2b4",
+   "size": 4655
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/post-update.sample",
+   "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+   "size": 189
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/pre-applypatch.sample",
+   "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+   "size": 424
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/pre-commit.sample",
+   "sha256": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+   "size": 1643
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/pre-merge-commit.sample",
+   "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+   "size": 416
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/pre-push.sample",
+   "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+   "size": 1374
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/pre-rebase.sample",
+   "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+   "size": 4898
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/pre-receive.sample",
+   "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+   "size": 544
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/prepare-commit-msg.sample",
+   "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+   "size": 1492
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/push-to-checkout.sample",
+   "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+   "size": 2783
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/hooks/update.sample",
+   "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+   "size": 3650
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/index",
+   "sha256": "a46686d463db05a890246bd5bea8ef4e7bbb4beb99f5f5cb4ac0064fcd4f693a",
+   "size": 14799
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/info/exclude",
+   "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+   "size": 240
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/logs/HEAD",
+   "sha256": "33a3f700ec141f34fc7fa0542768070577a6b608962eade3bea5b1a65401ec3a",
+   "size": 175
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/logs/refs/heads/main",
+   "sha256": "33a3f700ec141f34fc7fa0542768070577a6b608962eade3bea5b1a65401ec3a",
+   "size": 175
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/logs/refs/remotes/origin/HEAD",
+   "sha256": "33a3f700ec141f34fc7fa0542768070577a6b608962eade3bea5b1a65401ec3a",
+   "size": 175
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/objects/pack/pack-738415d3e9c5c1406d1b48c9a4ecd272c4e438aa.idx",
+   "sha256": "f8771259d221ed4dd632ca3c27ea2c32a57c13a2b844e1150690980ba45c7676",
+   "size": 22576
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/objects/pack/pack-738415d3e9c5c1406d1b48c9a4ecd272c4e438aa.pack",
+   "sha256": "1dee76dc6ae1b4032e15791d3378ae0d62433906e45dbfc3780873aac5d08e1d",
+   "size": 23797185
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/packed-refs",
+   "sha256": "1de75ff5a69afd975114bd08969073fef2932604852251ff833420e33ea67d98",
+   "size": 326
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/refs/heads/main",
+   "sha256": "46a6995127c1959e3e9f4fc1122f0496ecb6ddfd7dc49498d0d8b2b8b9a5f1ce",
+   "size": 41
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.git/refs/remotes/origin/HEAD",
+   "sha256": "2bb6a24aa0fc6c484100f5d51a29bbad841cd2c755f5d93faa204e5dbb4eb2b4",
+   "size": 30
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.gitattributes",
+   "sha256": "0d8fc1b86a58cb959c95bc6d62652b6a06ec8a1161d0fab6af1bcabbde43b630",
+   "size": 27
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/.gitignore",
+   "sha256": "ff9a019d4e1e6e113bed6a49570a381ce91e9f1a5d3730172502e99182115b10",
+   "size": 2288
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/CITATION.cff",
+   "sha256": "af93f6e0f877229b913493ac59ddf46cef6bbb5611e1c8442be091dc9e13ac94",
+   "size": 453
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/LICENSE",
+   "sha256": "46c273d5a0a7f8bc3889863398e1bb20493e256f38033dfd637ec46bf654c531",
+   "size": 1067
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/README.md",
+   "sha256": "79853be062733fbf66680062c370b11fbf3d71b2d559d42dbf422ff50b3ce4a3",
+   "size": 6729
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/README.md",
+   "sha256": "e44248aeb435f44301544b39c92195baa1367552978f9f20060a186c1c223e95",
+   "size": 816
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/efk/__init__.py",
+   "sha256": "e11c6b1008972e1d99b8218b92879ee84ddf8b57f24d204323facdc5ea8194fd",
+   "size": 93
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/ft/__init__.py",
+   "sha256": "19646aa4d3c5b6fd8dc0032aab1cee6afc7ab24e7404c5c657cadbdd077ea0fd",
+   "size": 66
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/ft/ft_hparams.py",
+   "sha256": "ccc95cab4d952530ab20a472d272993659c2b89823835f8eca43a9d68a472b68",
+   "size": 497
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/ft/ft_main.py",
+   "sha256": "9491c1f24160e707cc03783550e54a1460c4f07115d3850f7c2a7e8273cc37b6",
+   "size": 5549
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/__init__.py",
+   "sha256": "45dcb6838ff6073c5b2dd457dd13a532ee72c0d5245058a0f8db88f792929ea1",
+   "size": 54
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/kn_hparams.py",
+   "sha256": "3fd6341f582baf6e5e48addf74e548b8c92996483ae2975a9e3f5b00fd7a97b9",
+   "size": 270
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/kn_main.py",
+   "sha256": "542bf5dcac78d236f23551d6e4a56c4f6d89f805e8b3daa314ce7b4b8b0cbd36",
+   "size": 1439
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/knowledge_neurons/LICENSE",
+   "sha256": "27d22d85132168b14b5bc061ea5d8741100e79536bb752aef9dc3cf4b6a9f775",
+   "size": 1061
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/knowledge_neurons/README.md",
+   "sha256": "c77aa500a9be20c7917fc52954b300f363c8d795ecf6afc081a7c8c1a199bb26",
+   "size": 8165
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/knowledge_neurons/knowledge_neurons/__init__.py",
+   "sha256": "bbe8be1d864c92a52662dc1e940fcb7f6c5885b131e829e90b087ca44fad7d10",
+   "size": 1458
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/knowledge_neurons/knowledge_neurons/data.py",
+   "sha256": "a05f290eaf56f95db502121f3053b1bf18f0cc99838eb26e09f5a7237a13670f",
+   "size": 3194
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/knowledge_neurons/knowledge_neurons/knowledge_neurons.py",
+   "sha256": "3861e02056bc4ce9414380de6db521784d37089b6fa336b64d2d6260a674bc85",
+   "size": 32835
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/knowledge_neurons/knowledge_neurons/patch.py",
+   "sha256": "a01426c15b908373125f3aedda59426d4468b1371f956775b8fe6d03b72450f5",
+   "size": 8947
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/knowledge_neurons/pararel_evaluate.py",
+   "sha256": "f7f195e4c00a3f77254c4494490fc6853100a1abb39caebbd2042d4175d19371",
+   "size": 10119
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/knowledge_neurons/plot_pararel_results.py",
+   "sha256": "43376035267f177b3be79c6b8e961342badbcf0768173429f2e99161890c0b82",
+   "size": 4245
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/knowledge_neurons/requirements.txt",
+   "sha256": "4ad0de93cfd9c087715b5356f824ccd7509118f330a88d3eb05e41dbb2001bf0",
+   "size": 39
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/knowledge_neurons/setup.py",
+   "sha256": "75f8070a0de6957b6928eb8961557521cee982decb9a3c27488b788af1e60db5",
+   "size": 925
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/kn/knowledge_neurons/tests/tests.py",
+   "sha256": "ddcfcab2afc48ed3a6a5a7cd339a86d6e89ce8df9bd94ea31cacd69f7d36fa11",
+   "size": 9085
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/README.md",
+   "sha256": "43f8919beb3498934f0282763523db4f1b0825d98c103bbd4230fce52e756076",
+   "size": 2438
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/__init__.py",
+   "sha256": "ce6f24b656aa412ba07c893dd6fa37001d0a148312c9fd5b823ac27c83e145b0",
+   "size": 85
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/algs/efk.py",
+   "sha256": "9269fcd946411c7047889463874b3cc00d9abea8eb480d4a972923d3b6c993a4",
+   "size": 11521
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/algs/enn.py",
+   "sha256": "fcde13387249220bf8ccde0c8bf174f6444a956806f86aee0c4c1a0c062e3a90",
+   "size": 4017
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/algs/ft.py",
+   "sha256": "c60355576cac69dbca0816a4747cbb7bbba7a2352d0e7edb2191d870450eeff7",
+   "size": 5450
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/algs/mend.py",
+   "sha256": "dc06939f9f619e461595ddca66c754eacac7342123d2aefbbc7ebf7fe6bd177f",
+   "size": 16484
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/alg/efk.yaml",
+   "sha256": "6d8a009b23a6d15971f0fd3f41f446e55f9f439ddd4f37f37e003a9ba39c3d4b",
+   "size": 57
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/alg/enn.yaml",
+   "sha256": "5d57b48f592317500c828b93650db753917781cacae4b72afbaf6af7bcdfff96",
+   "size": 91
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/alg/ft.yaml",
+   "sha256": "f2ed848825e236de2073930e6bea4faf2ca1f6c828a7f84d79fad54a0b7e607d",
+   "size": 250
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/alg/mend.yaml",
+   "sha256": "bce5e203d627552b2caf8d1a3b185ccaf28773b285a17a9f27538a86fe9eea87",
+   "size": 277
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/config.yaml",
+   "sha256": "d46810afd50bf9dc19b443df22f7c77ee88ae03f7540bb7939b6eeaba4079d96",
+   "size": 944
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/experiment/fc.yaml",
+   "sha256": "678a899a35e0840de77f5fea74236c9f0d8b9ea4f0b8e1a05b981cfac131a043",
+   "size": 56
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/experiment/gen.yaml",
+   "sha256": "c208288115ae91d8cd47dfcc6c157e94d41657eebef327700363ed288f9dbee3",
+   "size": 131
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/experiment/qa.yaml",
+   "sha256": "038666cff47e927cc70891afcc2efd0f62898274d0287f1ab0719c3771394027",
+   "size": 55
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/bart-base.yaml",
+   "sha256": "25eac9c87259e197ecf587413f4660098b779c6b21fa1cc6584e7d64b1479475",
+   "size": 487
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/bert-base.yaml",
+   "sha256": "49ff1dc40a3306dd7649f697c134e6ed0f83e5382038f18962793f3eca410e01",
+   "size": 470
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/distilgpt2.yaml",
+   "sha256": "ba77ac0a70e92efac417a8f9b2aa25872f4c0152ae7e6bcb7a1a1c394e88a0d7",
+   "size": 360
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/gpt2.yaml",
+   "sha256": "6c9ac030faea26cfa57a21d10713298b5b05e2acfcda057db9ef8b7797e0182d",
+   "size": 322
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/gpt2large.yaml",
+   "sha256": "feeab1704c76f5917876da5c631940dfde806dfdf0bf37f704ae29e8081c016c",
+   "size": 337
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/gpt2medium.yaml",
+   "sha256": "a943050f9ad67b30e16e312d0a63b8dff6518a582e5c49d4f36475931dee5dc6",
+   "size": 338
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/gpt2xl.yaml",
+   "sha256": "5eb704b1c06b3636eb62db43614f87650412d08c2c6f374555187c194f031429",
+   "size": 331
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/gptj.yaml",
+   "sha256": "0f3fe0caa24560fc62ffe7c2752cc23b5216bf99291d0fe969a55026982e4868",
+   "size": 354
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/gptneo27.yaml",
+   "sha256": "809ce5da7d801f0b9c7ffc1b4b53632b23c7c8544f5dd1a401b8be4d3f17a46a",
+   "size": 365
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/t5large.yaml",
+   "sha256": "109cf49c1cb32333e492e79d9974fa3e75f8c9a0459d40c872571e4eb13c85d5",
+   "size": 572
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/t5small.yaml",
+   "sha256": "cee5cfbb9295137f1ecf154949c55f0f76254941d9cb48ecdd66bc6decd1a929",
+   "size": 572
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/t5xl.yaml",
+   "sha256": "e9611b81bd40bb80c21f462b195095deabab3d3d6ac344165ba16a3ec45bc5a6",
+   "size": 574
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/config/model/t5xxl.yaml",
+   "sha256": "690ee1486411befec7312a0e37ed4ef615a57e1c74e4f7bea39ed6f87530d427",
+   "size": 576
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/data_classes/fever.py",
+   "sha256": "098397ce1214eb8cce6b90c8ba6ebd67024afcbc2f58ccaf887b5a365732308a",
+   "size": 4399
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/data_classes/nq.py",
+   "sha256": "f8d8dfaadf866e82c50e4c5bfef14a9b54aa5799aca3cea8f403f0461ba61f69",
+   "size": 2098
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/data_classes/wiki.py",
+   "sha256": "60ea3f99dcb4386f38454fdda9b7a65963df76240ce516d093e396a969576627",
+   "size": 4533
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/data_classes/zsre.py",
+   "sha256": "2acb707212802d65a55f46ada4381af330ff1cc9842ed9c56326de14b0711581",
+   "size": 7502
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/editable_model.py",
+   "sha256": "34330a12b9864001ea46ecae794df1ea85cedb38082df783b31d67cc8939e245",
+   "size": 876
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/efk_hparams.py",
+   "sha256": "39050750f0aafe98fa9a51984908e2444077b74cff240e71f2ca7a49d653ce0f",
+   "size": 213
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/efk_main.py",
+   "sha256": "d55de9a4e1a9f9a52a952733a13516c13bda7885c645c9eeb42e624e9191332c",
+   "size": 4359
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/hooks.py",
+   "sha256": "b6037d8f9778f2d74952dafe3acc76f761df6884d85e9b5b57559cd08f7d2d6f",
+   "size": 854
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/losses.py",
+   "sha256": "271a10d9e995ffd92c2de239f652928d651013f8a0889bd4205ffca1469127e8",
+   "size": 2859
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/mend_hparams.py",
+   "sha256": "071bc2c833cd1362906eee12b081c272650f909e9c93389bb05be86ae8626eb3",
+   "size": 229
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/mend_main.py",
+   "sha256": "7e72af6f626798696f50c81ad72276f4807422bd365d5d6f130ca7e2852f53b5",
+   "size": 6157
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/models.py",
+   "sha256": "2e94d797f3813d57a532c676ba6609a91e89eb36bdfb8479bc092dccc5ce4420",
+   "size": 6628
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/nn.py",
+   "sha256": "ffca4fb48675c4c6cf56bb9cbbff8ce50f2c46eb8fdbfc6a7e1b6308acddab92",
+   "size": 6879
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/oracle.py",
+   "sha256": "d3657df3b292a4c78564c59b9a07ccdb8e6ff74b111cd489e38c5e5112ad4b1b",
+   "size": 3983
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/requirements.txt",
+   "sha256": "17082daf26c99220b8bfff81f282ca445e19b6ee69835f31009a4ce0d0ed20cd",
+   "size": 290
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/run.py",
+   "sha256": "2e57976fb507bc5bc27f88ea8a7bacd7b2a75d6b45170ed4870643ae5ce74765",
+   "size": 3244
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/trainer.py",
+   "sha256": "91c9d6378c0cbe6340cf4591618a68aa70f805059a01881f43c71859e001dcb1",
+   "size": 15105
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/baselines/mend/utils.py",
+   "sha256": "bb981c845c07709efa4e81610ec575be7e3f3b909a42b79610a47044c04c0554",
+   "size": 8198
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/dsets/__init__.py",
+   "sha256": "13ea654abb3e4d9adcbdaf7eb66d192e30a3914b74f7bdce5d862e2c9205001a",
+   "size": 201
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/dsets/attr_snippets.py",
+   "sha256": "bf78972d9914919e0a0b7d7d93623b3f51b8684f691e909793b5cd5471d6f01a",
+   "size": 1327
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/dsets/counterfact.py",
+   "sha256": "7aa2705295f52ef73bf09192250298c350339ada5fa814113c14bb06ab399e29",
+   "size": 968
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/dsets/knowns.py",
+   "sha256": "e2428c36d17b0dec1f390888a98334bd0fd1f64168bffae7566ef8a8606f361e",
+   "size": 857
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/dsets/tfidf_stats.py",
+   "sha256": "34f03d97b0b1aaad33e75a211a3d6b502cfb9eace1c172320df6ceb713d600c9",
+   "size": 2201
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/dsets/zsre.py",
+   "sha256": "6ff2ab75204dfb398147943e16a46243c1139f2f6344c30490c0b63fd65f24ed",
+   "size": 2219
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/experiments/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "size": 0
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/experiments/causal_trace.py",
+   "sha256": "78af1c55d0353351bcdfff04dae747e5d2c09ce05ba0733ea8ec4c34cf74a155",
+   "size": 24920
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/experiments/evaluate.py",
+   "sha256": "85fe035d23a4b9f4f541362f37d068607dccec4cf5da055ae582b9461bea0b0a",
+   "size": 7419
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/experiments/py/demo.py",
+   "sha256": "0f5c23b11cea77e1a8b7076ba3d7e4e22ddebc5064848ec2da8720a3ce2bf532",
+   "size": 5183
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/experiments/py/eval_utils_counterfact.py",
+   "sha256": "9517b4f538f72178a1fdcd869950c5846406a092d99e5c513c4ab9ae3fadd747",
+   "size": 6501
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/experiments/py/eval_utils_zsre.py",
+   "sha256": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8",
+   "size": 3845
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/experiments/summarize.py",
+   "sha256": "c47151eb6b15cbede335ca449c881f7f98d24ba651c69082e9b11ba0e05fc0b7",
+   "size": 6634
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/experiments/sweep.py",
+   "sha256": "46ea382ea8dc1926998773f41c5abb1f9607e48a76ae97ac679e9343bd0f9636",
+   "size": 2829
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/globals.yml",
+   "sha256": "6c540955dd62d50a0d543bc19073650db217dfe03e05b382992b7befc33dbdf7",
+   "size": 1118
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/globals.yml.upstream_pristine",
+   "sha256": "5447f92b74ac0759da3959f3046656ee103aac408869b25b362cf6a2079f4c2b",
+   "size": 216
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/FT/EleutherAI_gpt-j-6B_constr.json",
+   "sha256": "018e27089431ed3632aa0b8f2f1b4aa51daa81ba39f24952a400a92df84fa28b",
+   "size": 411
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/FT/EleutherAI_gpt-j-6B_unconstr.json",
+   "sha256": "1d605b748ed9709efb19d3f04c82de2d1ff12c81144c1d6621e72408f838d098",
+   "size": 413
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/FT/gpt2-large_constr.json",
+   "sha256": "48298eec3688c393dcf610e114b30a521fa3d8b5fc7fb5d5e938f61996f93d19",
+   "size": 419
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/FT/gpt2-medium_constr.json",
+   "sha256": "fd1b7a80dff0e6d1c8e32c38b0ab620505ed1668d366d292a5776a49d2d7e23d",
+   "size": 419
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/FT/gpt2-xl_attn.json",
+   "sha256": "28348947fe372113c6fc9d0a1b851121dbf8e198311ae7d573b4b6f8173a477b",
+   "size": 421
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/FT/gpt2-xl_constr.json",
+   "sha256": "6f1a26e915b2fc5a203443322aa224f4dd47150117f1cc5d1ee7f8026108047f",
+   "size": 419
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/FT/gpt2-xl_unconstr.json",
+   "sha256": "484393773f7a18844dd7c7f212673e4a8113515f0dfcc29c9d02c494f13bb137",
+   "size": 420
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/KE/gpt2-xl.json",
+   "sha256": "cbe0af64f36602f856c93d2dc017ab8b2d3eda600fe77edbc5585cb0c270c93a",
+   "size": 114
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/KE/gpt2-xl_CF.json",
+   "sha256": "089e778a5312edce970c9ba93d639d3c255368fea963f2030501ea52480a6dfa",
+   "size": 113
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/KE/gpt2-xl_zsRE.json",
+   "sha256": "77ec33defd2617b62b7ead872383d0e138d39938f66e34e4da54f4cdc56437be",
+   "size": 113
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/KN/gpt2-xl.json",
+   "sha256": "60e22fca2d8cbd613dc06a5156de0aae8820b69ea86376f848de0724ddc628ee",
+   "size": 175
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/MEND/EleutherAI_gpt-j-6B.json",
+   "sha256": "d1e7bbd8a8486cda08af026c7cfdcc12b3a4fac3fab738a528e11adb8e52d97b",
+   "size": 146
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/MEND/EleutherAI_gpt-j-6B_CF.json",
+   "sha256": "b30a5f403fa4972201d1ca994c70b3c6dbd396d7163bd502bc1cbe571e87d44c",
+   "size": 145
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/MEND/gpt2-xl.json",
+   "sha256": "fe1a786ca540a3dee435621a56659d070b52b0354f85d08f9c0874f2e3d8fb79",
+   "size": 134
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/MEND/gpt2-xl_CF.json",
+   "sha256": "5691b370fc2b8540d2c28d608d53e2328005ce5b933ab9e04726bde7cf93f44e",
+   "size": 132
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/MEND/gpt2-xl_zsRE.json",
+   "sha256": "f6b0cc610281f474f702075064fe5eef83e0e7925d7f7d51036ee1fbc03a999a",
+   "size": 132
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/ROME/EleutherAI_gpt-j-6B.json",
+   "sha256": "85e44438c5a6bcd7769d73efadd10507f2b7ec7eeaa0330a310e351d2676fdff",
+   "size": 666
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/ROME/gpt2-large.json",
+   "sha256": "2c5cb903948c6e261d2bb9aa2e9dfbd20ac30d38a2669054a25defcaed4a13ed",
+   "size": 671
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/ROME/gpt2-medium.json",
+   "sha256": "3a6b72ddf9e0b859e6909a1e144c5bb6958852a0e4fef36db0e4424c424c1913",
+   "size": 670
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/hparams/ROME/gpt2-xl.json",
+   "sha256": "81a98b788b8fbb89718288a8831441200e7d824fd057f62cb7d913ae4da5cf42",
+   "size": 675
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/notebooks/average_causal_effects.ipynb",
+   "sha256": "35598748d8ce10af976c8f2be331fdf5eb6081dcd1d564f4ec753258c0c2cafb",
+   "size": 10947
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../baselines/",
+   "path": "rome_dry_run/rome/notebooks/baselines",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/notebooks/causal_trace.ipynb",
+   "sha256": "51586af30388ec9b613eaba0d42ca1d423c729fe85ba7aac757e817bf33fd8b6",
+   "size": 16905
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/notebooks/causal_trace_frozen_mlp_attn.ipynb",
+   "sha256": "c2e0fea86141f225c7eff32d2236bc99e5e74d0bc1911118cbc70495170ee8ff",
+   "size": 22610
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../dsets/",
+   "path": "rome_dry_run/rome/notebooks/dsets",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../experiments/",
+   "path": "rome_dry_run/rome/notebooks/experiments",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../globals.yml",
+   "path": "rome_dry_run/rome/notebooks/globals.yml",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../hparams/",
+   "path": "rome_dry_run/rome/notebooks/hparams",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../rome/",
+   "path": "rome_dry_run/rome/notebooks/rome",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/notebooks/rome.ipynb",
+   "sha256": "be8dcc92ef23d1fa37fbee192453031682eedafdeb0093320d844763f5b1f2e4",
+   "size": 9772
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../util",
+   "path": "rome_dry_run/rome/notebooks/util",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../experiments",
+   "path": "rome_dry_run/rome/notebooks/vis/experiments",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../globals.yml",
+   "path": "rome_dry_run/rome/notebooks/vis/globals.yml",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/notebooks/vis/table_population.ipynb",
+   "sha256": "a5b6eb40955acbf7b37068ea782b04cfcb56794c6738b4eefbc3f38daff03ced",
+   "size": 7059
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/notebooks/vis/table_population_zsre.ipynb",
+   "sha256": "0f32f8dc0c0cbe96b6e490328d6100b07d6fba1e3b6ebb86876b96006d8fce9e",
+   "size": 5539
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "../util",
+   "path": "rome_dry_run/rome/notebooks/vis/util",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/notebooks/vis/visualize_sweeps.ipynb",
+   "sha256": "334d2da38d2c184f31670233450066e0a56c147d3d1fd45e6eeafa7ec1118812",
+   "size": 13168
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/README.md",
+   "sha256": "4711e2605517fe1308cccd59748761e19342b4c0b0b26d2a9a32bbf3a93f94a6",
+   "size": 861
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/__init__.py",
+   "sha256": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a",
+   "size": 74
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/__pycache__/__init__.cpython-311.pyc",
+   "sha256": "4fa3111dd8e3a9431a7597812709d22e2d3a0987948f9e17127d85ad3a5e0e78",
+   "size": 282
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/__pycache__/compute_u.cpython-311.pyc",
+   "sha256": "82ddb7fca9e0a564ce7a04dcfc188420892285a125f59350ea605d9ab1f2de43",
+   "size": 5673
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/__pycache__/compute_v.cpython-311.pyc",
+   "sha256": "e8acb392cfa90cef9a0853a2203f108d9225bd83c346aec6cf60d009a60512dc",
+   "size": 13599
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/__pycache__/layer_stats.cpython-311.pyc",
+   "sha256": "4e6d913b088bbbd7904e06021a98e5a8787b8dfeb37733cd483ba189a8e9f0a7",
+   "size": 9385
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/__pycache__/repr_tools.cpython-311.pyc",
+   "sha256": "ee300332ee2098ac4f0048b713f1d100c1f9da3f2b44c9059456d62f8b89eaa9",
+   "size": 9910
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/__pycache__/rome_hparams.cpython-311.pyc",
+   "sha256": "8d171a21b352f62f307952075efa44f67c8f7752e3123d1b02cbc4bff1df99bd",
+   "size": 1402
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/__pycache__/rome_main.cpython-311.pyc",
+   "sha256": "9e256e2a117ad178ed2e5022130f17b349492ce0236aafa7ed10fac130a37485",
+   "size": 8718
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/__pycache__/tok_dataset.cpython-311.pyc",
+   "sha256": "6f312fd9b6e9e4aba60ddd76c0760ae9db266df5c1638f6502b8e3735aea525f",
+   "size": 6271
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/compute_u.py",
+   "sha256": "79c4c5201b5fb6cbd6b7e59c929e8beebbb616042c52e330d355b87c5ab1d227",
+   "size": 3865
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/compute_u.py.upstream_pristine",
+   "sha256": "06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d",
+   "size": 3520
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/compute_v.py",
+   "sha256": "07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb",
+   "size": 8967
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/layer_stats.py",
+   "sha256": "be92a521d3411734374058a5c4a371a8171f7964954a2a42a9bd411a00914029",
+   "size": 5947
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/repr_tools.py",
+   "sha256": "8b07d6880052251f79cb38acd9e325b23c7a5f7acd0037f18fc4c75009efc50b",
+   "size": 4937
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/rome_hparams.py",
+   "sha256": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+   "size": 674
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/rome_main.py",
+   "sha256": "bb138849203d0236ff28fc9d6290bbde1184cd63c29be942878f20c79f687581",
+   "size": 5999
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/rome_main.py.upstream_pristine",
+   "sha256": "dfad8eaa83940bfd00fd3629eca23650726ede62d5a8160905f2c8a516188768",
+   "size": 5695
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/rome/tok_dataset.py",
+   "sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4",
+   "size": 3103
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/scripts/causal_trace.sh",
+   "sha256": "87bdd627bb58c82bf0f67841705bb95317d49f59eb1beab9d405126fd4d54600",
+   "size": 421
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/scripts/colab_reqs/additional.txt",
+   "sha256": "3d49f4e0bb2b079bb2fec81b178bb0a27ebc4f8085c496727e299f16aa852fb2",
+   "size": 61
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/scripts/colab_reqs/rome.txt",
+   "sha256": "de3f292db754a685905c34d079d097b95e3e7de102af06aedbfba42940d29564",
+   "size": 105
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/scripts/collect_layer_stats.sh",
+   "sha256": "ca9be52a8845851b9b17d8b92b0ac3d7333b3ea7bac339db4c1daa0deda7c60a",
+   "size": 512
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/scripts/ipynb_drop_output.py",
+   "sha256": "62a17e64c2de0448962fda6e0914a80e354361fea73b4363fc5287b92e4ca635",
+   "size": 2924
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/scripts/rome.yml",
+   "sha256": "dda71479f9b3d79743f1c5cb3b2767ab23a19f63ee24959bd7d681cfb359c51b",
+   "size": 4650
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/scripts/setup_clean_ipynb.sh",
+   "sha256": "55533d28e032731eb1f0c91154ecf14092c23cf4d1f11be90a8304aa58e3338d",
+   "size": 308
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/scripts/setup_conda.sh",
+   "sha256": "8de4dfdadaa42194ecf65770be34a788e4ff714e2c7deadf448c00affb380069",
+   "size": 1894
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/__init__.py",
+   "sha256": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d",
+   "size": 34
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/__pycache__/__init__.cpython-311.pyc",
+   "sha256": "26b78dc81d65a26204081df9e11640c25fe6e39a74275102722cf92331cf3d88",
+   "size": 212
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/__pycache__/generate.cpython-311.pyc",
+   "sha256": "0bc7de36ba07dc9d9ed814834f07c98292ac7aee4062f0192fe1e62f9a34ae5c",
+   "size": 7595
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/__pycache__/globals.cpython-311.pyc",
+   "sha256": "69b356101ae5706fe03301f93d322f4b5cad5ec2e6d25546d2f10806b46e34cd",
+   "size": 984
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/__pycache__/hparams.cpython-311.pyc",
+   "sha256": "87cde13c1ca4eb650c0a74ad1aeb61ee5047cdafa82f6ddad263feea6ad4f3df",
+   "size": 1097
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/__pycache__/logit_lens.cpython-311.pyc",
+   "sha256": "e273fa3e1dc4385d0ef9c57fd39d0c3fbc1edef7d765fee5ea5a40352ea83874",
+   "size": 5883
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/__pycache__/nethook.cpython-311.pyc",
+   "sha256": "898fd8ffbbd24693710a3757729b6dd685ad3937268d1a23dd15cca5e0afea18",
+   "size": 20091
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/__pycache__/runningstats.cpython-311.pyc",
+   "sha256": "be852e126487271c00bfb96619f3c88b19d6c41f21cd7c225023180b96ec3a05",
+   "size": 120744
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/generate.py",
+   "sha256": "3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514",
+   "size": 5446
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/globals.py",
+   "sha256": "f44ba938c6bfe550a8e709ceab2eb7313d5262af14ad74cf90eeec678ab61b79",
+   "size": 357
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/hparams.py",
+   "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+   "size": 319
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/logit_lens.py",
+   "sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4",
+   "size": 2893
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/nethook.py",
+   "sha256": "20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c",
+   "size": 15708
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/perplexity.py",
+   "sha256": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+   "size": 758
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "rome_dry_run/rome/util/runningstats.py",
+   "sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+   "size": 65305
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "s226_t1_alpha_memit_akd.ipynb",
+   "sha256": "a8d1c8b0c526ad9599ad6a26142ce6b2751b8af77d448a3c07142ab31f35d4d0",
+   "size": 28199
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "s227_t1_beta_band.ipynb",
+   "sha256": "c5b1c2d4321fda01507e1aaf0c1978a254e4e9e85b05bcf0ad5049ca1fcee96c",
+   "size": 50600
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "s28_v2_4_1_amendment_section_3_8_9.md",
+   "sha256": "c6887448dc09e431cf0e7f24b78566d4318a305cad1933136bf5c97453f9bf96",
+   "size": 9539
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/.ipynb_checkpoints/S2.21_phase_1_inheritance-checkpoint.ipynb",
+   "sha256": "4a62b68a633d79c53a6fd8893e8ea42dcf2b9a8a3e907b1b9861661f04f21517",
+   "size": 72
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/.ipynb_checkpoints/pre_s2_6_fork_work_execution_v2-checkpoint.ipynb",
+   "sha256": "d40d239019e40d6b0076834349a9d0027e087de135595dc277e4751885e2d614",
+   "size": 14282
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/.ipynb_checkpoints/pre_s2_6_fork_work_execution_v3-checkpoint.ipynb",
+   "sha256": "1c8b42f81813e88f24ee2002823e5b4d84b36469d8b646c066456d8ca8c44e7a",
+   "size": 86227
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/.ipynb_checkpoints/session_2_5b_4_3_operator_runbook_execution-checkpoint.ipynb",
+   "sha256": "af394e6e4be76028746758d28271dea44ffba9a4f9e20fefaf95e9a5101b6216",
+   "size": 15800
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/.ipynb_checkpoints/stage_1_sect_runbook-checkpoint.ipynb",
+   "sha256": "26d8f4e8437f488862f0f8b32c864f9bf353d477f5f2f3ef7843e8a40331c55a",
+   "size": 165252
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/S2.21_phase_1_inheritance.ipynb",
+   "sha256": "0e0b9fb9b0939442a37177acf3c2cd3f5e67a8af20b9e14d4fbb90ce3e073375",
+   "size": 185473
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/.ipynb_checkpoints/2.20_grace-checkpoint.ipynb",
+   "sha256": "fc1aa8665b0d7e3971e27605dc32508407db304149df00eb1f8d51c547a66040",
+   "size": 323854
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/.ipynb_checkpoints/S2_15-D2-checkpoint.ipynb",
+   "sha256": "ef69e965b6bf7a0c74bba178fec3b61b9a4c2c6cd1af065631ab923bd7ac4a74",
+   "size": 344415
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/.ipynb_checkpoints/S2_18_rome-checkpoint.ipynb",
+   "sha256": "7a872146d284eed13399e205fba8158be97524e04f53ff1831a0c8c1cea8c0bb",
+   "size": 335398
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/.ipynb_checkpoints/s2_14-checkpoint.ipynb",
+   "sha256": "10748b8e158a8e8fa9e98a2cd987f54ae6d3a8477cf2d67f496c744ad2ac1396",
+   "size": 215456
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/2.20_grace.ipynb",
+   "sha256": "dc6232e9d539134bb161ef588040bda4b5fc1d9c1128b4b613f9e603a154ad51",
+   "size": 380672
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/S2_15-D2.ipynb",
+   "sha256": "ef69e965b6bf7a0c74bba178fec3b61b9a4c2c6cd1af065631ab923bd7ac4a74",
+   "size": 344415
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/S2_18_rome.ipynb",
+   "sha256": "7a872146d284eed13399e205fba8158be97524e04f53ff1831a0c8c1cea8c0bb",
+   "size": 335398
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_cache_verdict.json",
+   "sha256": "8adad4d92d15210a34c0e23b105c8ccb81e953f2b16d356e3a33096a04e9cd11",
+   "size": 3505
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_environment_fingerprint.json",
+   "sha256": "e9690e572ac89fef32d4fb29fe4c291883e415f7eb0fde057007096fb141f54d",
+   "size": 1143
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_fork_work_execution_v2.ipynb",
+   "sha256": "d40d239019e40d6b0076834349a9d0027e087de135595dc277e4751885e2d614",
+   "size": 14282
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_fork_work_execution_v3.ipynb",
+   "sha256": "1c8b42f81813e88f24ee2002823e5b4d84b36469d8b646c066456d8ca8c44e7a",
+   "size": 86227
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_fork_work_scratch.ipynb",
+   "sha256": "8dbbe8df2c4cdc8e0dece56f8cab18418519e07f0e9fc16cf8665e01b897af0a",
+   "size": 71844
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_globals_fingerprint.json",
+   "sha256": "043a507d50567c9bc92afca23fe820dccfc8311e56d932930881fe9cc3b797c1",
+   "size": 563
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_layer_stats_log.json",
+   "sha256": "e362192decd1b148953eab5660b52af8aac2fde613b970a26b84685db255624e",
+   "size": 2138
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_patch_state.json",
+   "sha256": "94c916c937947e91896e40cb4930e43a727da4f34daf41c764156185a0cc03c5",
+   "size": 605
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_revision_record.json",
+   "sha256": "4de8e7369b156d362d43939694aac97174c90d9ca8eda0de1313f8a99854a721",
+   "size": 565
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_smoke_log.json",
+   "sha256": "c1216e777d0cc57782e2f2aa892dddb1283088f673e61ac78979dbc3faed3fdb",
+   "size": 658
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s23/session_2_3_block_2_verdict.json",
+   "sha256": "df9ccfc792655f1990958f4ed863f0327e755392941b61a508ce3439298b3132",
+   "size": 2655
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s23/session_2_3_summary_block.md",
+   "sha256": "3b253b0aa5c2861de7207bc89dfe2291c060501148dac7880d54e99ae5345ce0",
+   "size": 12150
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s24/session_2_4_summary_block.md",
+   "sha256": "bb286e02bff02a549c9afbd3afd1d0356fd3b5b59d01151a87dc54a74812d042",
+   "size": 17530
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s24/token-id-capture-results-delta.json",
+   "sha256": "bbdf39814440ff6bf264eac1888f8dfd8867573d28589edabb8bf3c44ba4d427",
+   "size": 13686
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s24/token-id-capture-results.json",
+   "sha256": "81e2eee52cd7fe622d1ee5f9802cce4d4c9ff0245f6eae63be3f1e59151efb98",
+   "size": 20640
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25/session_2_5_summary_block.md",
+   "sha256": "aaee68bbe5eb6ee0e5a3b114f197e1971b78ed2e1ad9006258464ea35eeca16e",
+   "size": 26907
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25a/llama_smoke_test_verdict.json",
+   "sha256": "1665c104c8d6b37d8f3de75dc769608cd71ecc368515e1d84827968165c727d6",
+   "size": 2668
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25a/stage_1_compat_assessment.md",
+   "sha256": "f580aa3baf1879796ee1f3b8edc983181223cf73b040860dd5a11aeb98490651",
+   "size": 24271
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/session_2_5b_4_3_operator_runbook_execution.ipynb",
+   "sha256": "af394e6e4be76028746758d28271dea44ffba9a4f9e20fefaf95e9a5101b6216",
+   "size": 15800
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/session_2_5b_starter_package.md",
+   "sha256": "67d619b7c9cdb6bc8ae2f07c68d26fca439f6eda0f527f0a36750c038d33bd26",
+   "size": 23929
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_0_summary.md",
+   "sha256": "f0911e2965b6f131093920646416aaa5b4b3f7ecb8e97e7b7ee240676630a93c",
+   "size": 30908
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_1_summary.md",
+   "sha256": "20277367a15b3e85d5c0497c446e895343a6774715805d818d25c11c13bfb266",
+   "size": 7594
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_2_summary.md",
+   "sha256": "cf35380aa08bea790eba6b4f2a3b5b9d508dc8bb2308410568af040bf5b01a0b",
+   "size": 8036
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_3_summary.md",
+   "sha256": "ae6b8f7ccceb730bf7109051c15ba12626a05e3641420554e1e39bf5611af55d",
+   "size": 8081
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_5_summary.md",
+   "sha256": "6b323a657a8e892863cc0d9c4be9d5ead963560ef40c4d084717ac71793547e7",
+   "size": 16869
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_6_summary.md",
+   "sha256": "a80036ac7be09a654647c6ffbdc5c95d365acc6b68fe53e2179bc62a28034415",
+   "size": 13272
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_7_summary.md",
+   "sha256": "38fba332c1ef5ac40d88292914bfbfde9837d12d7baebd8a84d3e87309bf2ffa",
+   "size": 20840
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_8_summary.md",
+   "sha256": "ee04fa902bc5fc32d016c24435b043a92fd0e81c81d5bf6077ab862c11cd8a05",
+   "size": 23077
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_cache_state.json",
+   "sha256": "5e8b836a98b1edc7bb09c2c9b9cbe2016978178bab438976216e8da4e9b4cd8a",
+   "size": 2941
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_environment_fingerprint.json",
+   "sha256": "6134c17620652c0609be0c2976f3963ebb32f3c921268dc1f2b2ac4693ccad01",
+   "size": 840
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_llama_baselines.json",
+   "sha256": "1617bea38246f1ff745236618366a04d5ec2f94d8eca2c2c59e39e1b4d925354",
+   "size": 21749
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_patch_state.json",
+   "sha256": "a53fc20eb7a92426fa1dda758e76c96ac6917b8932b8b94372d6252ade0169f7",
+   "size": 880
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_sect_runbook.ipynb",
+   "sha256": "26d8f4e8437f488862f0f8b32c864f9bf353d477f5f2f3ef7843e8a40331c55a",
+   "size": 165252
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_token_verification.json",
+   "sha256": "94cfb21dddcd5ca1cfad04889350971d7e2ae84f3589726342a451e0ae15ad6e",
+   "size": 1927
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/trial_matrix.json",
+   "sha256": "fcb0987528d80a2372d511b97c745c4323534393cb156f97e23bd2a34e60f664",
+   "size": 7637
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s27/session_2_7_summary_block.md",
+   "sha256": "a22ff09cd71ad322ee6e607d6fc0cef724ed82000d9e3edf9652320c2e119f37",
+   "size": 15636
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s28/.ipynb_checkpoints/session_2_8-checkpoint.ipynb",
+   "sha256": "19a43bae93e45b3b4019ce685cbb9901b824405a1523079140f53ebf93623326",
+   "size": 195724
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s28/session_2_8.ipynb",
+   "sha256": "46ed3a2d21285a2d5f0b8f252c1b7b1a84bec6f0ec0b6d4336bb2c05db955e3c",
+   "size": 195561
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s29/.ipynb_checkpoints/session_2_9-checkpoint.ipynb",
+   "sha256": "ac5e4b50ded7afba66e3ed84655d4683f0e48124139da8268dd422fd00913a13",
+   "size": 705554
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s29/session_2_9.ipynb",
+   "sha256": "ac5e4b50ded7afba66e3ed84655d4683f0e48124139da8268dd422fd00913a13",
+   "size": 705554
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_11/session_2_11_summary_block.md",
+   "sha256": "7d61050236229d302f88870d28dc03f9393c663ab2fc11f7321a98984921ff76",
+   "size": 18542
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_12/.ipynb_checkpoints/s2_12_a_stage_1_sect_v2-checkpoint.ipynb",
+   "sha256": "45053e48f89b839a49c0bac91a451cac40b6d5a296c0683f16cff56bb0c661f9",
+   "size": 253345
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_12/.ipynb_checkpoints/s2_13_a_stage_1_sect-checkpoint.ipynb",
+   "sha256": "07ca335a003900d9e31bb9809b80402a00abcb07fcdf6ac7dd465efb452ac073",
+   "size": 1759
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_12/cfb-v2-revision-rationale.md",
+   "sha256": "51b3bd4df48c0fd2f15bc1f69e93d2dc72f8aa29b7a8884d76c657e543e8a6df",
+   "size": 15286
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_12/cfb-v2.yaml",
+   "sha256": "0c2bb99b637920d71f38712e0155cf52f113f08dc52151fdd7df9b12d8743f00",
+   "size": 35197
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_12/probe-set-v2.yaml",
+   "sha256": "358737450f610fe5a2bdfa9092e4d27cdc8f63b93a2ff7ce63946c9f8a8eeaa6",
+   "size": 28013
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_12/s212a-authoring-to-execution-handoff-guide.md",
+   "sha256": "dad72d40ca97a99f22552d9f95e5d15d91ad2f118e4ff05c04f53c2c4550de77",
+   "size": 23804
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_12/s2_12_a_stage_1_sect_v2.ipynb",
+   "sha256": "45053e48f89b839a49c0bac91a451cac40b6d5a296c0683f16cff56bb0c661f9",
+   "size": 253345
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_12/s2_13_a_stage_1_sect.ipynb",
+   "sha256": "8e0d70f8be13c901dffb81ab69f3083679483dd6ce20fcb6c099b9f6a0500390",
+   "size": 1712
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_13/.ipynb_checkpoints/s2_13_a_stage_1_sect_v2.ipynb-checkpoint.ipynb",
+   "sha256": "46f0e6a9ef99416f650370a3cd29c65f31995656581aaf66226e71219f569cf8",
+   "size": 259578
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_13/cfb-v3-revision-rationale.md",
+   "sha256": "9b253dcf582e9d067096e9da5b94e6a01b92c74049de4556a3777a6697b75002",
+   "size": 17821
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_13/cfb-v3.yaml",
+   "sha256": "2cfdcfb2d8c29dc477b24c3617878936454b84660bc7ffd57f7f7bd406e4968e",
+   "size": 38505
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_13/probe-set-v3.yaml",
+   "sha256": "8527642fa06ca41781e398da40ef955c3c5b25cbace63e838779386dcbb98076",
+   "size": 29134
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_13/s2_13_a_stage_1_sect_v2.ipynb.ipynb",
+   "sha256": "46f0e6a9ef99416f650370a3cd29c65f31995656581aaf66226e71219f569cf8",
+   "size": 259578
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s2_14.ipynb",
+   "sha256": "10748b8e158a8e8fa9e98a2cd987f54ae6d3a8477cf2d67f496c744ad2ac1396",
+   "size": 215456
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L01/aggregate_verdict.json",
+   "sha256": "4cde62d75257acb5cf0643bedd1ec582e20a60c12da099ce91d6a619373759a7",
+   "size": 861
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L01/hparams.json",
+   "sha256": "592eefb2e6aa0f83fa9d42a6bdf8dfa38bb2159617e689ed86d9294e380e1614",
+   "size": 74
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L01/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "f4217f633546957aa00d7781e3e0a3fa821f3dc1503d72d7e70075ca849a55b1",
+   "size": 12435
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L01/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "9e9c2f61c7fd52da173340590f9bbfe358a424ef509f823bad027b757ce35ae1",
+   "size": 12444
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L01/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "d52bd58049120942d6c0989d05d5f8012bd58969cefb329464e25c34baeb6e01",
+   "size": 12415
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L01_anchor_verification.json",
+   "sha256": "42bb21ca8ab0e3d1dd66424c5c90a0d734e0791123b61ce5bbfd5e8a18cf4860",
+   "size": 301
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L02/aggregate_verdict.json",
+   "sha256": "aec455de569380ad05134ad082ee5ba96044f627bc0329a8d3501cdd5c4e5db8",
+   "size": 861
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L02/hparams.json",
+   "sha256": "35d0636252911faf413a9fed7903ce5b1d58b1af50715919c4e204d02e6224b1",
+   "size": 74
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L02/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "e71c439aec81e4479f64dd88eb78e5eed4f098207837c0a974d500a750c543f3",
+   "size": 12435
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L02/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "ba6a5cdaa09d89a4b45e25fd88ac8eed6c8ba9b59c7e85196718fe9576232c0a",
+   "size": 12442
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L02/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "37d11247fcd31193716fc6ee877206d14e5bba7f86d735e6bd37fc4dca561dc1",
+   "size": 12416
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L03/aggregate_verdict.json",
+   "sha256": "d87bab854b42ff05dd9bcf38790890de78a60daccb06f76a459a71fa04594297",
+   "size": 862
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L03/hparams.json",
+   "sha256": "f9bded23de46bcd4ad5457e8a334e4320b9921c56dc1407a211355f3ae59f1e0",
+   "size": 75
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L03/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "86420b0a460ca3d94d34b83f936324d53dc070a93e8d0633ed3fc78f0bbaf39b",
+   "size": 12439
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L03/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "84be039efa665c4d8c14d129c981c560bd4c84462d7612f102248745b2800562",
+   "size": 12464
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L03/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "472a4fe514eae66dc4e0385cf19285220847869015ccda9b323e16197c5814a2",
+   "size": 12407
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L04/aggregate_verdict.json",
+   "sha256": "5388a4d5c13121a7054d0673bdb87958b0411581208bad521efe0d92c2e71499",
+   "size": 862
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L04/hparams.json",
+   "sha256": "4c9bffdaeffb9fac996958ead2062ecb030577992fd4aece61a4ac31131df49d",
+   "size": 75
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L04/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "8cc2a16e4da40d66df4703f27c5c1bba07d48111110bf41ba154da3b956efdae",
+   "size": 12427
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L04/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "70c9dfd38bc57f0504df39852e0872a37c9bc820032268c27a1a74c712f1d1e7",
+   "size": 12444
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L04/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "b86e4f420955fa965fdff19431f02faae3da55b7c81a499fc52da77e9e163ca2",
+   "size": 12401
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L05/aggregate_verdict.json",
+   "sha256": "ce8121e88ce5867a65bf6700593c695d1d06ae475e8bbe87dc634d4dc8da2eb4",
+   "size": 861
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L05/hparams.json",
+   "sha256": "57c75154dddf4bf195d1f88cce696de3c5e014e8256c4d15fdda56eba60a3ef6",
+   "size": 74
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L05/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "dc90407bc3041f9e41bc257b40426efa510ea18f7defd47684ad8344f88679e8",
+   "size": 12430
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L05/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "1a727db85103f264d456373b5c16db909f46a40e93e3fc175b69090211cf285b",
+   "size": 12439
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L05/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "85f8d1c0dc67c688e3af81a3ca90ed5a749ce2f6b7b4a999ec31cb0a88e44782",
+   "size": 12419
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L06/aggregate_verdict.json",
+   "sha256": "057ea9c8f42c2ad7698ee906a226dd888acce9df6fe6454e27a0c9e5dcfeaf2f",
+   "size": 861
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L06/hparams.json",
+   "sha256": "cfbbb2032c3abe4f524c58cdd5856c6b0952c5663bd9227ff6072fadefa74a53",
+   "size": 74
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L06/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "b0a8454f894be2d29900c2090e31828ada5890c805d957e12be157983f1ab1e4",
+   "size": 12425
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L06/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "46902da270cda064900efe86f7acdc872510f19d62d83d115c6eeadc151c0055",
+   "size": 12427
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L06/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "18077f046c6fb0e3e3ae53e1b230d21415b70ceb6556130ffe46734b6eee128a",
+   "size": 12424
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L07/aggregate_verdict.json",
+   "sha256": "e4f7dfe51b197a08c459c91da0619e54c2d031eae2a5b37d06a0e7823818e814",
+   "size": 862
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L07/hparams.json",
+   "sha256": "15db1f86caf7eac28489997538c5038caabe787d040ea3d26d5eee02b419d16e",
+   "size": 75
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L07/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "affa95d815b17a5421fe729dc70585eb82063302ac9e616011c5811195084258",
+   "size": 12408
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L07/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "c520850b5325f20b832e5b780eb4d008e2b797b4c533920723d2e47b90603fd0",
+   "size": 12450
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L07/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "08cdf483a14d9d4bcc05960b8dd265537f139076203c31118f8c10aca59dad29",
+   "size": 12408
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L08/aggregate_verdict.json",
+   "sha256": "a4e3163c4651b2950edbeb8db466221b8febc631d55acdb2696dfb8d4ff1a9b3",
+   "size": 862
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L08/hparams.json",
+   "sha256": "4ebb83f8e5cbaa8bd16a9c1e757bec5797f05bd30a4bd4e97e22d1608ebcc296",
+   "size": 75
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L08/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "f6bb5404d81d5fa9fce07e9e86bc018e557573433eecf5d75a6a3c51d5e554a7",
+   "size": 12425
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L08/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "4aed40e7b60e38ef005daec9b2b51d7393489c9e7ac247e1fd5d0321a1a39afc",
+   "size": 12440
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L08/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "dae7fe24454918f214b9b0453f5e2eaa7dbba12971d38a747948c75c3206204d",
+   "size": 12406
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L09/aggregate_verdict.json",
+   "sha256": "2411085ff1fd5b6e36482f453708a6c56f866063bc436230e6c9f11cad81e324",
+   "size": 861
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L09/hparams.json",
+   "sha256": "e958f0fe54663fc7ff8d70800856774a17952ffc3944e4e25b6a7b3bb54b0a75",
+   "size": 74
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L09/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "d7dc1abb4d18f76f06c5fcae3cff9d790bdc32ad4a9e5058bb3a274a918faa62",
+   "size": 12432
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L09/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "b294b57ed68c6c9165dea59b916d21b205302c14dbb4cea22903a4e8185b0505",
+   "size": 12446
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L09/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "dba82de4854b051fe14c6119ec8983f023140dd46ce75f0df2619dc335d75f11",
+   "size": 12415
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L10/aggregate_verdict.json",
+   "sha256": "12062643bb9c5ca2dfdb044de6a05552760157e624e747a1892271224ef7ccd1",
+   "size": 861
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L10/hparams.json",
+   "sha256": "1729f38c423aaf5953ffb58b47ea94a0bdc041a4ba694056ee7a516e0a56d846",
+   "size": 74
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L10/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "e77e48659f6cb18687ead0993f8dbc0ddd6936ba2475fcf752572e10e0050e95",
+   "size": 12434
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L10/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "a74d3073dc571277c33d31ec3bd100b2451fd4b88a6399f2a9acda731a52fc6f",
+   "size": 12435
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L10/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "b81c3fd8610d5f8fd96630e6fb7ef69d23b8e8fb2ceb42723caf24d28135aa63",
+   "size": 12405
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L11/aggregate_verdict.json",
+   "sha256": "f5db2514223e2cf6b1b419199616b9a70a3ecafa014543003247d6e80e733c01",
+   "size": 862
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L11/hparams.json",
+   "sha256": "586b470f82df325bdf025eaa8ee6ba410c836bf716cd78aaab124498d244375b",
+   "size": 75
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L11/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "af5c02a1c1ea597d355a8e1c6bf9c9a42ea642edf7a2525906a90a207e02f6d9",
+   "size": 12444
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L11/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "cdb475b5c50c838b867d6958eeb54d32bfd8952b5805988e89e6cb1632d5c83e",
+   "size": 12447
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L11/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "c7a26773222b11e53aec07f511ab34bac149cb496bd0cce0c20b21e8cd5abc6b",
+   "size": 12413
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L12/aggregate_verdict.json",
+   "sha256": "1899758f87779ab5318d7a62d30a3c8e28c9c723228757cec8dbc6003c47dcbb",
+   "size": 862
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L12/hparams.json",
+   "sha256": "ca918a7703be67a4a35e5540a681538950f79f17c70a9cdcce0dbe404e377670",
+   "size": 75
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L12/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "39451f797e048c27f1c3e32808d72aac63f8a9d73f2c51cba9bb26624a0c369a",
+   "size": 12430
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L12/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "2f837e05af9b4596a7a80e6e2dfb1dc026be049511ac9ade11415089fcce5143",
+   "size": 12445
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L12/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "e436c69107e3a0f49906a48a8fc663ed821989529a61f31f045b70221631fdae",
+   "size": 12403
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L13/aggregate_verdict.json",
+   "sha256": "75cfc35dc73f300ac35acc58ff521ea3139ca2999d04369a4d128e2a1053f3b4",
+   "size": 861
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L13/hparams.json",
+   "sha256": "1ac1e4369afd7fcde53a8b5e7f0c4fcda26158bf5cd401ce653cb33cb8980ece",
+   "size": 74
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L13/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "13b6a2b2dcbdb18dabdd11d072afa77272f8397fff4dfcc8347fa0d507f0bc4f",
+   "size": 12432
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L13/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "d9fecc9bdd1fc32b27791e1cc7e60e2283f1e1472f35db647fa310925c3bbea9",
+   "size": 12429
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L13/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "9332aab8e039c59dd39bff3eddb1039e301789ada17f5fa9ce9e4ac755dded68",
+   "size": 12430
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L14/aggregate_verdict.json",
+   "sha256": "4d5574769a0fffe4fe3c01b539cac474a2212223fe1e191d5aedca6a691538e9",
+   "size": 861
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L14/hparams.json",
+   "sha256": "15029d60ed08a7915a6c65510035ca5dccdba2ae231c713628142860bbd68ebf",
+   "size": 74
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L14/trials/stage_1_trial_cfb-001_r1.json",
+   "sha256": "a7597298944f55aa2d545d62875b3530ab0db75bb02e1bf52bf8ebb308575754",
+   "size": 12434
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L14/trials/stage_1_trial_cfb-002_r1.json",
+   "sha256": "a3219d7408ce0895de57fb01f6ec5eaf2cf635098645ce219f10bff184954c79",
+   "size": 12444
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/L14/trials/stage_1_trial_cfb-003_r1.json",
+   "sha256": "4a391df2fb5462ca74bb6e9036e5e8ebdd1eb58deead69247d0f67109a3da735",
+   "size": 12413
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "stage_2_sweep/stage_2_sweep_verdict.json",
+   "sha256": "6a1324aa69f5973e3db54ece48e97900b63fb14cad53b4f0d557367d749bd243",
+   "size": 19561
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t1_alpha_cov.log",
+   "sha256": "9d0e765d0674fbbb3bafa0c6b343cb9936a2cb236ebbcec3f8af2eee1f64b179",
+   "size": 312134
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t1_alpha_cov_compute.py",
+   "sha256": "5a429cb4499ea384a5340e04478ba104309d981f728217c971cc4b7478f12d8b",
+   "size": 1933
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t1_alpha_cov_progress.json",
+   "sha256": "72c568e2b994a1e7b5b5e10d2de5896ac9890bb8054509b48d6afab9fc80468e",
+   "size": 424
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t1_alpha_memit_s224.ipynb",
+   "sha256": "9f5270c18c36127630e4cb51681e48461f4aab85d44c99d36cd2bb2e54064de8",
+   "size": 87887
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t1_alt_model_3b_memit_akd_out/akd_readout.json",
+   "sha256": "b65f4f1a268cb28ed23d2f37904c5bde9a5fb9b1968c8c1ae13a2d4bc8af0ba3",
+   "size": 10930
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t1_beta_cov_compute_l78.py",
+   "sha256": "27ea00dec2e8fb6d22c284ca18ea25c1b64dd72cb602bbafafec981baa5bd583",
+   "size": 1927
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t1_beta_cov_l78.log",
+   "sha256": "62e2c825b64c7f37f9f58047aef1ac0f0978e77b755bf288d0a2ba25e6a6ab7c",
+   "size": 125150
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t1_beta_cov_progress_l78.json",
+   "sha256": "59bce8b64b934cc129aa746b55b0a9db01aaf72d61e18173eadf9716f106039b",
+   "size": 172
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t2_rome_sect/block_b_cross_layer_summary.json",
+   "sha256": "9718263e9ce24b0f961f8913c391ef3b8574baab5f7659c56a7316a59977c8c6",
+   "size": 2353
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t2_rome_sect/block_b_layer_a_verdict.json",
+   "sha256": "af28cd06d97d69f6a351c5774a2be09668aa155fd025080a0b0e5e54b9efb458",
+   "size": 36690
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t2_rome_sect/block_b_layer_b_verdict.json",
+   "sha256": "5e84e7931fb41e07376da71537ef2d70efa8f868ea1a94dce6e17e33aacacb34",
+   "size": 36689
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "t2_rome_sect/block_b_verdict.json",
+   "sha256": "55a580b806407357df0a8dd4f7964b25156472ba21a4ff453adfbac2433adc45",
+   "size": 3436
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/workspace"
+}
