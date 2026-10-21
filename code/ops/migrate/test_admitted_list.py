@@ -20,7 +20,7 @@ from unittest import mock
 import admitted_list as AL
 from ops.git import stage_check as S
 
-SEED_COMMIT = ["-c", "core.hooksPath=/dev/null", "-c", "commit.gpgsign=false",
+SEED_COMMIT = ["-c", "core.hooksPath=/dev/null", "-c", "commit.gpgsign=false", "-c", "maintenance.auto=false",
                "-c", "user.name=fixture", "-c", "user.email=fixture@invalid", "commit"]
 
 
