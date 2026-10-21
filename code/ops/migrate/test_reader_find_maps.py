@@ -16,6 +16,16 @@ import reader_find
 
 # Recorded from master 8bbac3f3 for every pre-attack control state.
 MASTER_RESULTS = {
+    'named_map_unit':
+        (0, '{\n "stale": [],\n "unverified": []\n}\n', ''),
+    'no_unit_maps':
+        (2, '', 'reader_find: refused: {ROOT}/units: no */path-map-rows.tsv\n'),
+    'empty_map':
+        (2, '', 'reader_find: refused: {ROOT}/maps/relocations.tsv: expected header old<TAB>new<TAB>disposition<TAB>unit\n'),
+    'empty_old':
+        (2, '', 'reader_find: refused: {ROOT}/maps/relocations.tsv:2: malformed row\n'),
+    'empty_new':
+        (2, '', 'reader_find: refused: {ROOT}/maps/relocations.tsv:2: malformed row\n'),
     'unreadable_irrelevant_directory':
         (0, '{\n "stale": [],\n "unverified": []\n}\n', ''),
     ('clean\n', True, ('one',), 'relocations'):
@@ -103,6 +113,53 @@ class Maps(unittest.TestCase):
         result = self.control('report')
         self.assertEqual(result[0], 1)
         self.assertIn('differs', result[2])
+
+    def assert_master_state(self, state, route):
+        rc, out, err = MASTER_RESULTS[state]
+        self.assertEqual(self.cli(route),
+                         (rc, out.replace('{ROOT}', str(self.root)),
+                          err.replace('{ROOT}', str(self.root))))
+
+    def test_unit_symlink_errno(self):
+        self.unit.rename(self.root / 'parked-unit')
+        self.unit.symlink_to(self.root / 'parked-unit', target_is_directory=True)
+        result = self.cli('unit_map')
+        self.refused(result, self.unit, 'ELOOP')
+        self.assertTrue(result[2].endswith('[ELOOP]\n'), result)
+
+    def test_unit_fifo_errno(self):
+        with FK.fifo_in_place(self.unit, timeout=0.5):
+            result = self.cli('unit_map')
+        self.refused(result, self.unit, 'ENOTDIR')
+        self.assertTrue(result[2].endswith('[ENOTDIR]\n'), result)
+
+    def test_unit_named_map_equal_master(self):
+        self.unit.rename(self.units / 'path-map-rows.tsv')
+        self.assert_master_state('named_map_unit', 'unit_map')
+
+    def test_no_unit_maps_equal_master(self):
+        self.unit_map.unlink()
+        self.assert_master_state('no_unit_maps', 'unit_map')
+
+    def test_empty_map_equal_master(self):
+        self.relocations.write_bytes(b'')
+        self.assert_master_state('empty_map', 'relocations')
+
+    def test_empty_old_equal_master(self):
+        self.relocations.write_bytes(
+            b'old\tnew\tdisposition\tunit\n\tnew/place\tmove\tone\n')
+        self.assert_master_state('empty_old', 'relocations')
+
+    def test_empty_new_equal_master(self):
+        self.relocations.write_bytes(
+            b'old\tnew\tdisposition\tunit\nold/place\t\tmove\tone\n')
+        self.assert_master_state('empty_new', 'relocations')
+
+    def test_mapping_values_and_input_files(self):
+        self.assertEqual(reader_find.read_rows(self.relocations),
+                         {'old/place': 'new/place'})
+        self.assertEqual(reader_find.unit_rows(self.units),
+                         ({'old/place': 'new/place'}, [self.unit_map]))
 
     def test_stale_and_different_report_equal_master(self):
         (self.root / 'reader').write_bytes(b'old/place\n')
