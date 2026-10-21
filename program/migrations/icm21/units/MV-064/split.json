@@ -1,0 +1,1461 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".DS_Store",
+   "sha256": "f47820e842fee1795dfda7418ee98d80f71ec6e364a654288c78039862b8c32f",
+   "size": 6148
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/COMMIT_EDITMSG",
+   "sha256": "b022ff107679763252b8f24b92c6eca6f0079b5680c650ede7e2aca067c42038",
+   "size": 226
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/HEAD",
+   "sha256": "0920f6e4d7de527179b933e0fd2705ca342e73493d01e595ee274093be053e42",
+   "size": 34
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/ORIG_HEAD",
+   "sha256": "40d3f94fddfaa7f09014ac3a4ffb4a0c24fbc478c14ed5b0bdda3676108f9343",
+   "size": 41
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/config",
+   "sha256": "cae33efdb02cf774435c1ff9cb16bcc1014606908530c6e1dc727615fe3e8cda",
+   "size": 137
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/description",
+   "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+   "size": 73
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/applypatch-msg.sample",
+   "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+   "size": 478
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/commit-msg.sample",
+   "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+   "size": 896
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/fsmonitor-watchman.sample",
+   "sha256": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0",
+   "size": 4726
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/post-update.sample",
+   "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+   "size": 189
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-applypatch.sample",
+   "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+   "size": 424
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-commit.sample",
+   "sha256": "57185b7b9f05239d7ab52db045f5b89eb31348d7b2177eab214f5eb872e1971b",
+   "size": 1649
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-merge-commit.sample",
+   "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+   "size": 416
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-push.sample",
+   "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+   "size": 1374
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-rebase.sample",
+   "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+   "size": 4898
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-receive.sample",
+   "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+   "size": 544
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/prepare-commit-msg.sample",
+   "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+   "size": 1492
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/push-to-checkout.sample",
+   "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+   "size": 2783
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/sendemail-validate.sample",
+   "sha256": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92",
+   "size": 2308
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/update.sample",
+   "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+   "size": 3650
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/index",
+   "sha256": "a9896d65435c772f65c678d3d1af1bc6f5121963df44ef884ba774314751b495",
+   "size": 1510
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/info/exclude",
+   "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+   "size": 240
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/logs/HEAD",
+   "sha256": "b8bf78ddf06b6399760725814acbbab05dd86c4003d447cb6557e5defa5d77be",
+   "size": 5836
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/logs/refs/heads/autoresearch/master",
+   "sha256": "1511ecda6b9f3b7f2449d92f6bbc15bf02786af12f3875c314668e9108a4ad00",
+   "size": 846
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/logs/refs/heads/autoresearch/oct6",
+   "sha256": "9f706b8e198665f016aeee27017daf4ac6c5e729862adb47090593fa4fdddbb6",
+   "size": 3345
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/05/ffe6bb68af8167a9468b79b789ee4c3ec88124",
+   "sha256": "0b5101af4d03d159540940e8eb6e976b87ae03d600f431081ba0c7d3551426fa",
+   "size": 455
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/06/f0e636e2ce6aa8486e4552ba371aae6b40f04d",
+   "sha256": "40d0d667c55795bbe111230a10f2d887740d30fcc19a4345b022df4ed8d74f5f",
+   "size": 314
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/09/3bc22fb453ccadc425d2c5e53f7cb5bd2a4bcb",
+   "sha256": "e460d9eb833c0e1b4c785dbee1ea05b4dffb4d6b09a4ce6ddb6b1f7f6f7f11cf",
+   "size": 2452
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/0a/2f36f0d13a2b279c58f7aa3cc6fc44ab3eca81",
+   "sha256": "3515c54064582c01aa980f20eb1c6f746f878ce537959a151a080133e13d9976",
+   "size": 56
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/10/baf80b16fb4ae92e66a6aed84d784c3beff1c3",
+   "sha256": "15a7334bd60446dc094abfc87a58d51470c7013b8a39d4efcd39f7c725e131f3",
+   "size": 16734
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/10/d57f46b7b6e9a2c41edaba61da8f4f0f54c414",
+   "sha256": "3001254f6aed76bf604d668a9f7f852af60f9d3f1cd66ddbdfbf9c80716dff91",
+   "size": 144
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/12/06a7ceda6b1059a4425c9daea52d38f80436a6",
+   "sha256": "e15aac3cd5c28cf8f8a32423c2b0466e377184e0239206d19673076ca8ac5287",
+   "size": 272
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/12/1f600733e7b7e05753f5b9526287efaafc4332",
+   "sha256": "6634c88c15d27cc58f40053a34c8d8c7fbf577a3c49f3a24482a46f0aa0f12bd",
+   "size": 489
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/12/35586788413b26aa10d51e3f4455554ce670f8",
+   "sha256": "7b35136941d60443ca94fc4f4a5192c3063f5903098a239eeba4265b122c9caa",
+   "size": 144
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/15/c075904e5fc117b96d5961e551632bdf4c4135",
+   "sha256": "00bf9362b47f8d69b9cd7fd5f40eef82e4eb4ca9f2f44891238b03d6086a75c7",
+   "size": 314
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/16/cdbcaa470f363220c3edbd61267f996252f127",
+   "sha256": "7bfb42e00402ac4eb5f9bdcbcc03b05ae324d04d4fff2b5eed3e505d0606e7c9",
+   "size": 214
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/17/1c417daa6c5c98b34626a4443ee5c5c1a9d6c6",
+   "sha256": "5ce09c600d5bfbe15b171b37e7ec312b3d874091c8c0fd84691d78b1f6799530",
+   "size": 265
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/1b/a6dc080b079c93fcba3f39d7031447442d751c",
+   "sha256": "e045323d34459ac9d8f5679ad94ac2a453b4483b3024d650a6923c640bf57be8",
+   "size": 215
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/1e/c805ad41c75d65d2e6476b1dd5059326e500d7",
+   "sha256": "c611228f39bb08a11f890f1adb383dd24c43f165cfdb3c37d2836da1b577e45e",
+   "size": 144
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/26/02c111baaa1c70f503a552ec0c3ada8431b689",
+   "sha256": "7b72dd7d7ce7901352cf0ae58f3dd9f1da02a01c19a8d2ac53e8baae43dac185",
+   "size": 29538
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/28/1b0a35715e2912f63c16d45cee8c5c9a900733",
+   "sha256": "590e815907276be5ee8ecb449d1cc25d584a01e98f15863272274078fa887b08",
+   "size": 315
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/29/28be8af789144e36a04969089a9cfbc22bc654",
+   "sha256": "c6e88795f97381d68285db13e9581332670d1b5735a547481e7c6354e96f4346",
+   "size": 17557
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/2a/63c7ad532caf7fd9a612044c96744dea87532d",
+   "sha256": "d96bc091360631e4d2401528d03ab92e9931bb20a412f67609eee37e20f395eb",
+   "size": 145
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/2a/9691001f2c9866369944a7fb3888b0b8643dde",
+   "sha256": "853f431c5dcbc807dc9a42ef3c0cc53d34b7ecddb62eabeb6cc35b9b5c5d447c",
+   "size": 313
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/2d/10c6ba0281397e77810e59eca1d2c963d2d05f",
+   "sha256": "2e95c8413021ae810c864728ce2290fb589db7385599e0c39aa28feffc54ad8c",
+   "size": 2228
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/2d/c158874341493daf7ee3dd2cf32d98d0202f00",
+   "sha256": "837b03eff625e16ca3aff5bbe3ab2361036c3368db70031c0981d957e2edaab1",
+   "size": 215
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/2f/19dfe015233e8e4079bc7c102a56e487ceb0fe",
+   "sha256": "9c3edba34b692ba86565d655a6d4cf74102ad7ee2e18c4b64faab84ec229504b",
+   "size": 5355
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/32/28a24266159d843c8e00b1f3acbfe2a2d8c2cb",
+   "sha256": "ef35b3cff6cb8855bccd928fcb099d6327e344e00cddc3f4542d02b90d4b06cf",
+   "size": 167
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/38/83078e2ef38ad02b3ababadf6cf42e9e96b7a1",
+   "sha256": "a1efa4aea1bcc37af821101f4827f5bd31df2f569c27ed7a7feb2549e34069f3",
+   "size": 29565
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/39/ab0564b259f75d38b1fa9c0a4972954a514ed5",
+   "sha256": "a48f87e7cbdc7f3367a53b0ed87da21941753ab83d813618b9ae1c6880c1ce73",
+   "size": 6043
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/3d/e3fc569880182f67bec7db455713aa5dec1d07",
+   "sha256": "4ff1cc68355ac6a834b4bad12f31636176ef5cbd6ca35a671e08d01e34a49423",
+   "size": 30614
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/3e/3882ee3f043abe21dba8b53cf7a634b208720f",
+   "sha256": "43d7920c2ad818c5172db96e5220a05a61119e0dee93448114d364149a0e8eeb",
+   "size": 239
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/3e/a069b9079e993007dd889a06a9482f29b77fb1",
+   "sha256": "821d7ef7347f978ca9d3b58065e747b87dcbcd57a9246c255ada9f298637bb53",
+   "size": 6452
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/48/0f013659f06cf2a5f299b9f019020a0d434b8f",
+   "sha256": "b1e37f025da554f4469d1d5f09d196ea8c3d33848e0a3fd3ae006b0f14ead189",
+   "size": 216
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/51/314dd6d77a4b0337bfae9af64f486cdc53f522",
+   "sha256": "92be0fbc1f53bbc132be0f298bb81db73991c28ff6ff0c3cab244da0f696b7de",
+   "size": 215
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/51/a57a1519ab0d9da1fc44a3a0a481fd74ba235c",
+   "sha256": "dc425622a5710611d89a4cacbba6849268c931d13e131c0c5c4b2f6f2e79104e",
+   "size": 29533
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/52/6293756b085bc4fc30a6d66003cd89637d3117",
+   "sha256": "3684ed4eaebc6fcb43aa350e93391443bede7b5298204800d3a6bad6b8b539c4",
+   "size": 314
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/53/7bff63c2c48796211aa5b9746beec7328c47ff",
+   "sha256": "cadde5a9604c0c73db6cfa9ac1a2cd72119f84454d2fb6f888ba36fd894ed3ec",
+   "size": 56
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/54/adcf9faaec45b10f759eab6f2176092ebe4387",
+   "sha256": "a8ca8274925892dd900fa902de85cc4ce4287743a63996cead30deaff6726b47",
+   "size": 6053
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/55/1427e7190767c5c756aac8f859e0285e804b64",
+   "sha256": "df90345813d9507602811309921472db7c0a7020ad80c1699d923641fd569c7d",
+   "size": 3254
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/58/7ea92832198f65d1d4407eb94938478a8a4211",
+   "sha256": "e9a2de068bbd593b2c13e2a8289bf0927cc8199f682e258d661bb8c5a0de8ec2",
+   "size": 198
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/59/3ea73bb31d60cf44cbbc8e4e9ba34246121c7e",
+   "sha256": "f74ea5a61d48769bd8c8a7daef5e9e1108f746192b4ef0a1469e838a0b90e804",
+   "size": 314
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/5b/d6d68353023a44e80bc025a8002f4cb9aa8c79",
+   "sha256": "d699dab7932ad246f96139826126850ee6ac6c5131ea767a20c47506033cc7c9",
+   "size": 5775
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/5c/cd1048f5f718508c469daa3276780e6178a097",
+   "sha256": "7926c76b3db01781fee7971259fd2a5ba4e8e692dda2e2603463cbca72cdcdec",
+   "size": 314
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/5e/e674e2fff292ca36575047d2f8df8c6f2cbce6",
+   "sha256": "3f89504b65264fcdc71228aca4066d0fa7988b827b2c0499f65a46c5ebf6bb06",
+   "size": 29561
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/60/f49ff85ed735b7b7e10d44578f3de8131deade",
+   "sha256": "dca1ba12060726fcc1f3aeda9c6897e2233c98ed9c4b2dd901b45a2489eb75ce",
+   "size": 2888
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/61/5e581e9799f0b9c7d8047439211fc5f19d3329",
+   "sha256": "958e4bc850564edc46d154b17e903367332804b3e4e9ad9a3e3203bc94deafd3",
+   "size": 141
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/64/4318d86b4515444ce3e30f74946cd18d5b2db9",
+   "sha256": "7612da231d7cb771ace675b73b9ea5d200472d7d2d95b31bbdd0d6f3a0743b07",
+   "size": 314
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/67/62ac8b4c01438336f68a45af51e30d2e08d7a3",
+   "sha256": "365491c1930b753c65ef6aecae100dc6d6d6788defc01d0beaafb0c9e1133349",
+   "size": 265
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/6a/db3daf3a41a5b383811d0ad999c09929f1d30b",
+   "sha256": "472dcf404ed925f5b4effc7d78fed8451396ac4d501873fa9fd98859ca65e227",
+   "size": 235
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/6c/0cd8e58ad5942b5a42b086f2c78eecabddde28",
+   "sha256": "354a75c84dd292433482fd5e69e192369c13480cc124af5fd604a637763004ee",
+   "size": 314
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/73/f78ce4029fabe03d1204f86847724cf602f4a9",
+   "sha256": "9fb8932e88a15a92dfa1a04ccd07dc6a98c5c0c5f9b50ddcbe0d6c555e433c3f",
+   "size": 299
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/77/df0b537734d2e68689895a25533d2421ee36ef",
+   "sha256": "ab5dfcfcb53f51d8e6077898ff70a1f033dbe84add0ce68989270081efb339de",
+   "size": 258
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/77/f5fc2cdf3b54e49d47d0a7ee51785d768cb937",
+   "sha256": "5115cab5ed3ec4ef001d543a914a50d6ad49a17287bb169d78821ced2c94375b",
+   "size": 56
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/78/02907226f0015485220a862d73f83a02b429a9",
+   "sha256": "4c5f43d9859624037c2d7a170d1590c5cc74d400e0fa3c767e20832e8bf1b0a6",
+   "size": 266
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/79/e7092dec7e8aa02a3997544bd65274277be2d4",
+   "sha256": "95f8e557898a0209a4a0ce551a5fe2680b3ee4c1512ea2c3db8bb94b9b321b71",
+   "size": 215
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/7d/cfd2587f5aca42e28b20ecb604b987e7d6049b",
+   "sha256": "f4529175b8978e2c6a180203a26251d2b04d0907c374d520a01bdca0d823720e",
+   "size": 268
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/80/46dd081afdc8ef1771e7b6d5c57ad6614a676f",
+   "sha256": "c3ab8adb11353029acfa29e98e7523f74d4249715c5d05330874eb6476cbd7af",
+   "size": 144
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/80/65bf11ce2322be59fb25ec2c4c106701c45ed7",
+   "sha256": "a7847f2cbb98ed82fdac2036b02b3857d622ac0d8e761d703e4b8773d5b6367b",
+   "size": 11941
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/85/9bc184df480a845cf7e0c6cb8397ea1bbcf928",
+   "sha256": "b3018ee168098fabe58b91225a5d8f1113c458ac7d4dae3ac080c82556bdc1bd",
+   "size": 313
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/88/b1cb78e1bfe1918d3ce954f81c5ca41efddf70",
+   "sha256": "1b6b9f149116bb26f46a1ae7f01a46f470f7c9d041b7add1b93683caf5fccd33",
+   "size": 306
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/8b/5c5d40748b40b6e87831f853efa8d24c507869",
+   "sha256": "f0f49cc61b673f4b2105e8b24084d1904b2f7a841b687e5e62826d977d80fa50",
+   "size": 215
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/8e/1bc4e80824ddb81d55e6bfee10b41a36f9c3da",
+   "sha256": "a1179257442cdfde90c7db65217eda393681e3b341866252051dc093523c4b31",
+   "size": 473
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/90/72b82ca5c2eb1cd7c24246493c25536f6575d8",
+   "sha256": "e7098e937b1eff65a64eba5bcbcb3e6e469fcee0b1d6aeb7ac980f3cc51a56a7",
+   "size": 144
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/91/2c02cd7fd6a8206f8614fa7d982e4b33f2d2e7",
+   "sha256": "90f22053a9fb9b579d443ad783e5dff15cec5b745ed928e002f6d80f4bb58bcf",
+   "size": 198
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/91/799f6fb06aa54e71b8e6c25a734c72e590fad7",
+   "sha256": "8cb95d15ab365fd4d28c36aeaa12f2d32dccbd423c69d0ceafa08daee60f795c",
+   "size": 4945
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/91/e942f2cec55ec98dc538a715284da0af6fc906",
+   "sha256": "0b6d49dc2f61d64eb708edd84cbf598b6d0d23296efb8b1ea9d88a493df56c89",
+   "size": 314
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/92/acd0378d23f4935df9a8bccc0137b36695a40f",
+   "sha256": "02f81b7d36894599529c4f8cb239777062b693774ac11552099b1e77125d5049",
+   "size": 331
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/92/e00bf7d1fea066195b8b0face60d19f6132cfe",
+   "sha256": "406a42e4b5d5464e130fbf8d1bd7ac3afbc5ec0b2dd294b055198b5c0b88a0c3",
+   "size": 266
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/93/4dc235e38315421097da9d7b8812e0b1e510e0",
+   "sha256": "35c2f0a6cf59472d8f1f6ab1fa8b859a2fa88f7319ed2dc23cb42210f10525f3",
+   "size": 145
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/96/e3ef8e5c4d4566835fedc48266dbbc4137531a",
+   "sha256": "3d508f2745f04706690111b2860bac2c6171e6e3836e03e4293ff9fb090ea0f9",
+   "size": 216
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/97/4148d1d10a8f42596fe08c5e4f76f9d8501fcf",
+   "sha256": "a60ade5bb09f91905379605d7bece91697be1c0375f77745771ba33ac208904b",
+   "size": 214
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/97/8fed98a1d2f104c3c98714527d569f3ee7df2b",
+   "sha256": "817491363cc1895d435aeee2cd3f118976f622b4e2901b2047eb0e7c9819b4b8",
+   "size": 319
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/97/a39fc60b481a29f65c963f8d2a7e8127e8cb5a",
+   "sha256": "77d41e61653c7c4f44adbcba5e06798110811574380ac880b0395b74e6d60aa0",
+   "size": 214
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/99/40c0a17b584a8fce549982329b9ab72a78ca99",
+   "sha256": "0dfedff5325ed7673da94910aed69b2e9c3229a75a7f8c7676aa9c41b1380c54",
+   "size": 320
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/9e/8554d9e3e403bed2c37f639f0926fc245d16e8",
+   "sha256": "2b54c1045a495a8dad68412f0669a6fa7a45f52015ec318d62c8a9961c8fd0c2",
+   "size": 31023
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/9f/7eea8cc09d2912e25a6836e32bbebc4ebe9857",
+   "sha256": "79f9070d08cc93bf50abb07f733e1ab7207db2ff18f3194a1b321d970d934f3e",
+   "size": 216
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/a1/d153b6a97d4d6709dadb04d9ba15399725c1b9",
+   "sha256": "5abe09dd6625e5b054ac6631806137a27570095dfc243b0c5a36b47a1d8405b2",
+   "size": 3269
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/a2/6863d57123e4114f8eb8db5758b26a127a8819",
+   "sha256": "2107b4840ab3b38f3e60172164602e1c0ef2ecb1d7ba70185e1018a23a8be6f8",
+   "size": 336
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/a6/deaad9719e592d45526407be9532fda7832ca7",
+   "sha256": "2cd976f1718b1d1cc0bb0256b0488a5712cc07b84db66cf72c0943c59c857710",
+   "size": 313
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/a8/dee38a578bedd5a09ea5ef1178bed5a6fc71e7",
+   "sha256": "bd4ab835ec7d7d0a090f7642760a297cece997211bbba3006ca60ac2e8736a64",
+   "size": 18018
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/a9/3e7226c8298f9bf9177446410645fa2b388ab9",
+   "sha256": "2fa6743b7937f0a843f475416b4d153bd56f4890da41aa7e4a4385bc6768a97a",
+   "size": 145
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/aa/c8bd46ae8c6edbfd9cc9bbf095e522fa224be7",
+   "sha256": "f5c62266d1b10b7628209de82d8d567579d9ee27e3e4bd6fa37c54aacc90e773",
+   "size": 56
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/ae/668230ac9480bb8b79155374edba0ba2f6c39c",
+   "sha256": "d5b9bce610da67f661b0dedaaadc82df7c435feae8d125743c39325a6a2d39b5",
+   "size": 308
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/af/59c6a2d3cb3b7d08ef06a378ea5cd8616d3362",
+   "sha256": "3cdaec5699e9325159db0ed624b46cf09aa052ded70ac11bbd840a9af1b0f436",
+   "size": 266
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/af/cb2cb9553b202bcd9546156a0b5c22b6158471",
+   "sha256": "9099948160411191921ad27ccd4a94a0447ce07637e1a231c42ac1b8f89cefe7",
+   "size": 326
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/b0/a22dcd662fbd9a368b38ae219f9184ad6f5f26",
+   "sha256": "83468131378844af9a0236770ed5185f1f32626512e85444e91cb2ffb9dc99ae",
+   "size": 5779
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/b0/de248b7933502879f3aa385c57c0e6cab6870e",
+   "sha256": "9bd65976afa3db5c13cb2f27e93d2335c1689eba826adf1d0b9e04c9f4f9c695",
+   "size": 3253
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/b2/cc02fd5541c2852ff959ebc502a3c5e7657ac0",
+   "sha256": "017b0325de84eef01403ba127bffef62311e9ac7bba5aa62115d7d602d9cbc8f",
+   "size": 3255
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/b3/1dddc80aba76a38754120a90951417d4fb7afe",
+   "sha256": "1c75ab32ccaa1f392cc6252484719c7ce515fd86b5e2adbe1d4a6ad2e6ef4e78",
+   "size": 296
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/b5/1115f0b78e29301c4223b4ab7e15b0d2066e2c",
+   "sha256": "3957273ec7f89e9b657ad0a46469315c1b2083ac8d2801d6abe2dbe972f724c0",
+   "size": 265
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/ba/a6276ae273ab5921745e17f6414253cdfd8d2d",
+   "sha256": "b854164d4c6d45293fbb927f2a8ba4b0ebca60b9ddaf9207ad75a7ce979dc8df",
+   "size": 4704
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/bb/c101bbf2ca4d2dd3220e2dd9fb3aae4aaf48cc",
+   "sha256": "949c1f9af6f0f98e34546490b0471b705b9a4ceec780bcce976a57deb265355b",
+   "size": 29539
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/bb/d0dc9be11809a8f4d219c0dd449b8228df8b73",
+   "sha256": "e0431d72f480475be79e3b4af40a786d355621fbf49403bb11e8f366040581a6",
+   "size": 6034
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/bc/c16e06734432b190a81f9e41c7bc7caeab5624",
+   "sha256": "4b23659073a8705096d056178d8c747955ffd9bd27c2b3455a7720f9daf33336",
+   "size": 3518
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/bd/63ad7c55fbb5a412740e314987a8dc6f06082d",
+   "sha256": "53ef07e01e3c0877e0dcfa4150ea132e1107e311ddd16281b505d37b4b9e0431",
+   "size": 56
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/c0/593ede3eea718f27e4da7251a50fee9a2a7c07",
+   "sha256": "18fc269856d2271b13f1b89c9e4658497bb688f14cc21fbe5f05372b269730c7",
+   "size": 314
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/c3/12dae6148c672996ba7b431b279c34d50f47cd",
+   "sha256": "3e03874e26175c7b99c708e3e5476bdcaaabaf0e51d1062fba91fa114580f96b",
+   "size": 16818
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/c5/8ce6bd5aa8473ec71c8fc0b2760fe5c990719d",
+   "sha256": "5eeb066467c107f947fcd5a10420f9e0dd07f7f74aa933e80577a86041a814d7",
+   "size": 3196
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/cb/f3132aeee89fc76d51ceae50f64ebdeb1637ab",
+   "sha256": "822313540d620694d20f10743c74cc1cd533d22d0bd44dd50105589a55cce21b",
+   "size": 740
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/cc/399b2fba3ce03da3c03de2ce6a532ea8e60695",
+   "sha256": "0a8eaedfd9541046d6fb00f7ff73d60a3a294b1ef05d748862d81e04a229a8a9",
+   "size": 3400
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/cf/72513ca71ebd43d2181ed39c78ce92e862e6ff",
+   "sha256": "b7e58dfa73dfdd61506237f314840ccbeb3f2e95d54b1aa67e56e786c80999ec",
+   "size": 263
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/da/b859707231a0f6635be31a97d23a105db81ccc",
+   "sha256": "6761f1bce7dffc51cecac4651f2d7f36d6aed44842e6900ffba790811edbaf33",
+   "size": 6038
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/de/19770faa6306552d30145268b575e2c5443b2f",
+   "sha256": "5612560695e2b67bb9eaf11051af7b09a6b6a4ff789502d6b94eb472cc3f1623",
+   "size": 107
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/de/40e7fd576b0e8a7fc81cab52542b1444ee0da4",
+   "sha256": "307bc22cd05f8340688e7112b96889bb52e980ced81332ffa901dc39fd360901",
+   "size": 6409
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/e0/473a83e21f97e1a480c60d49d044617f5cac75",
+   "sha256": "d65583f4f94d777f4e070fb4826b5a48f61344011f812f45e2c36f1e6d0e3db1",
+   "size": 31362
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/e1/b4d5e1bcb9d46033619f18b6dea2811b0d37eb",
+   "sha256": "056f78f306f6d8fd2c5c837521da3aecfdfd975c8760c593aed22232a189e103",
+   "size": 3577
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/e4/75185552b38beeeaefbb6ae746791f86da1f38",
+   "sha256": "371d1403edfcb495dfd2ebc3df09ea71a38031a54a1f03d2aae8d5109fd7d127",
+   "size": 301
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/e6/d67d873b8efef2c8773c06882df39b07e06245",
+   "sha256": "2247cf03ffa5ec4a0c3d886a15c8c5eebe861ae6a29ff7995a709d898d12ccae",
+   "size": 145
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/e9/f4034a57add0a53b0d4036ab3986906c248a54",
+   "sha256": "9a3496f281d5afc1ec9272445ff7c4be4f4e313a95f03a2140d6d6fad353aebe",
+   "size": 17766
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/eb/1ff4219e34d7fe0410eea06e2f2687a35e9dd2",
+   "sha256": "1928bcdb3356add01ac45fd966ba240ecff37a29d24bb6adef42c1f6fd00764b",
+   "size": 214
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/eb/4ac3d712ea811479095abe3eb25e4e6a8ec066",
+   "sha256": "3f979704598480d55219a983a7a4ad7b551aad12ba63134a58a140d71c7ac796",
+   "size": 265
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/ec/79f12f104dcabb1ab8d735db4ec8e9d7dfc3a7",
+   "sha256": "93c384293c5533e4f7acf5fdf44e2fae8045809ea7469ae74bf32384f2761f1e",
+   "size": 56
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/f4/dc0bed0ed9d8b826d9a13de4bcbc02843be9b8",
+   "sha256": "96eb8e4a68b00e3048da9f94a8cb558f53900e7e59927186fc3b8c5040a05a7a",
+   "size": 31026
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/objects/fd/1659252607e99d3124974c8bb23ee2c01b5b49",
+   "sha256": "e6f4b7d78f9a56d6fd3ab96bbd654da7876cb68818d17d27db3dc4f542fbcdfa",
+   "size": 201
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/refs/heads/autoresearch/master",
+   "sha256": "f6711607671cda6f0218d019a4e5367832d27d0a016e86533e852fb07fe7e67e",
+   "size": 41
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/refs/heads/autoresearch/oct6",
+   "sha256": "dcf8627f43a4cdf4b6268cc4e8464ab26756eae4c827bf92148ab792b98efe46",
+   "size": 41
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".gitignore",
+   "sha256": "f6e76b19824ef83970203f8d6fac08c5bf53d0b0c24bb6658b57cb375364f40d",
+   "size": 399
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".ignore",
+   "sha256": "5b345696ac9daf0b07ce5b9c56d5ec914815e395286f4c9f9ac3ec8ec83bf507",
+   "size": 180
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".sandbox_settings.json",
+   "sha256": "e8597375eeb35e8613cc5b478a73d0d030781aa50f25955f756991c4a800e8d1",
+   "size": 5037
+  },
+  {
+   "class": "tracked-record",
+   "kind": "link",
+   "link": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv",
+   "path": ".venv",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "README.md",
+   "sha256": "39bb81352fff1290a8b31c548a7ab8bde2361689ac3daca6b4e068ef63b741bd",
+   "size": 6408
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "__pycache__/c10e_bandknob.cpython-311.pyc",
+   "sha256": "dc25636c6a475bb6aeb2871fcaafa52ce280320cf0d31a6028b0d9725977ebbd",
+   "size": 63046
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "c10e_bandknob.py",
+   "sha256": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+   "size": 30143
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "edit.py",
+   "sha256": "161becd2dce79c6a410f34b810e1dcb9c17e40819efbaff1c9beee9ccf5d514a",
+   "size": 11268
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/.cache/ask-index.json",
+   "sha256": "a04877105f8f8a8688f7096cf97a92b1c111e50e44c025247ff1da3e8c75a2ed",
+   "size": 61426
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/.cache/extract.c3679fb5d24a63a0.json",
+   "sha256": "b658b183280d308d0ea654c4efc6a674a73a0eaa585499f9d8acc26f6f1480cb",
+   "size": 161490
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/.cache/fingerprint.c3679fb5d24a63a0.json",
+   "sha256": "df5c9b21062bd8ad7c2f8f3043cc420e5e72fc118db8d1af9306327b677a2d00",
+   "size": 377
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/.cache/session/01a11323-6165-7b90-b989-7d11314af4fe.json",
+   "sha256": "9e18585e2d5aebcb46a7aee936a0848e7200516aea602af3312b128248c55d39",
+   "size": 4468
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/.cache/telemetry-repo-id.json",
+   "sha256": "a18ea4ed1cfdde6467a36caea24a8f470e1a42d0280094513bdd6288badde771",
+   "size": 54
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/.graph/wiring.json",
+   "sha256": "8adcae91bf8a8fa73f6d172cc52990f616b81a3f8e5288aaa56ba9c24da42b1e",
+   "size": 47055
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/INDEX.md",
+   "sha256": "637a25c52296ddd0a981552f95244bdf64308169b3d97ad60b2f5e14d42897eb",
+   "size": 806
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/c10e_bandknob.md",
+   "sha256": "50b89615ac23ca8330fd3ba35566dc3767ac9cefd3e841eaa1c46239ec8f4b35",
+   "size": 1969
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/edit.md",
+   "sha256": "6a06356c9e5ced3963676eb8fc7ade25dba66f885fccd900430bc900ac62e605",
+   "size": 465
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "graft/prepare.md",
+   "sha256": "7a9403eee89051017eecc9adcaa543e5ea334f7ec6c81326d2c1af6475d4fb22",
+   "size": 1039
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "preflight.log",
+   "sha256": "5ca797740e932dd836206d2b4bea825c83bc47e25e45006d0a2b62fe71be40b6",
+   "size": 4
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "prepare.log",
+   "sha256": "50668d2b5d76c5ce096bd7f437dce9fdf958e3f12d6206a508f7af86b02cd265",
+   "size": 5544
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "prepare.py",
+   "sha256": "8e577d546080f06bbd25a685e9af03016117d1e133ff9ff97aa92e5ac22f21f1",
+   "size": 15643
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "program.md",
+   "sha256": "45f98f423c9b196d5bbb98eb48e87d9bba0ad6c778d281331ff720a72b9854a6",
+   "size": 11394
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "pyproject.toml",
+   "sha256": "fd379ed6b9901f44da5b6179a6f3306ee62bcc3e1b5baa55fd74c1eebbc18cf4",
+   "size": 765
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "results.tsv",
+   "sha256": "2a5b2f4ce37f5002616cc9a80968e756fb4176ba59546e9c6afe976c19fd6806",
+   "size": 1528
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "run.log",
+   "sha256": "113b6668ab35fdbc6e13aa467556f68bf645fc8457a4fae4259971ca6a748e5c",
+   "size": 3047
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-131156_nocommit/edits.json",
+   "sha256": "68acf484f67d53b1392b0d59c911b2b24aa24fa736ab4f62f35e65d4fd9d7259",
+   "size": 868
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-131156_nocommit/score.json",
+   "sha256": "13f0881dd7be70b0de282fe08f658016b3909474e0821b19cd1ff91848f90aa0",
+   "size": 32670
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-134836_nocommit/edits.json",
+   "sha256": "26ec62ecbffe092d9b9cfd6ddcc783eb054007b7172cc1b867061950bbef0006",
+   "size": 868
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-134836_nocommit/score.json",
+   "sha256": "cb9eaed53b2acbcc5b450182199ad19914af2d7117aa3496f8ce8e0290152a39",
+   "size": 32669
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-142644_nocommit/edits.json",
+   "sha256": "7219a2e9f0558a9aab88e5aef3665448745b63cfb865c66fc08df6c434611a29",
+   "size": 868
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-142644_nocommit/score.json",
+   "sha256": "b37e0375886b1cb4fba5e39d7b671d18a535b0cd202087455f8a0c804ae06e46",
+   "size": 32648
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-151845_nocommit/edits.json",
+   "sha256": "86908b0c2a76155b8388bdbfa0180063b1269a0233167c2eac60d3a5b849fe1e",
+   "size": 868
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-151845_nocommit/score.json",
+   "sha256": "d6ff73a777f079f3453797491c7fb4eb8c875cae7f71716aa0180b1f36be040b",
+   "size": 32639
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-160157_nocommit/edits.json",
+   "sha256": "b69663c5424a3f751ef3a839ec8c4e89e206a2fcc9cafe83d45ffca14c53904b",
+   "size": 868
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-160157_nocommit/score.json",
+   "sha256": "78601b631cdebbebb6537674dea36f294ef5e4b374d2f7a45f8c45685d67c10a",
+   "size": 32611
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-164907_nocommit/edits.json",
+   "sha256": "352c1c79fcd054d70baf2e961aa0c00cec69b9ca05cc436c3f71ce0a2dbf8ec6",
+   "size": 868
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-164907_nocommit/score.json",
+   "sha256": "70e5f91b6649a71fed10019257f66d8e74f13cd554044ec28ba3e7ea7186ca06",
+   "size": 32607
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-174032_nocommit/edits.json",
+   "sha256": "e1f3d61380fab0831562419c365391948b3a567b5d000e03fda0347433b22e75",
+   "size": 877
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-174032_nocommit/score.json",
+   "sha256": "d4c7e2882211d02da61221ca8c2d2b783851710d61497f6011f58d4433c2a776",
+   "size": 32699
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-181532_nocommit/edits.json",
+   "sha256": "827b663470d521b9f5174a5741591096a8b58d88e03272846a263d57bd6e532a",
+   "size": 868
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-181532_nocommit/score.json",
+   "sha256": "00221242df4c3227a825390c7d668b1d4ba52b9c74e23f74b4965f244a316afa",
+   "size": 32607
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-190158_nocommit/edits.json",
+   "sha256": "0598c4e4d9889f71f6edc0cf1c98b946536ada021d88948055d55c61f7698604",
+   "size": 868
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-190158_nocommit/score.json",
+   "sha256": "dce737a381bccd05ef708412bc7d390c71cd1ab20c0ff4813e78465425d82dee",
+   "size": 32608
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-193809_nocommit/edits.json",
+   "sha256": "56c4726fc271eb65927429ffb061b98454518027015d98a03963e7e32815a954",
+   "size": 868
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-193809_nocommit/score.json",
+   "sha256": "8632f02a9e63ff45a2ee0aec28fccd2ebd7780205f4e3662eb5e6d90f2ac608f",
+   "size": 32603
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/autoresearch_sandbox_c10"
+}

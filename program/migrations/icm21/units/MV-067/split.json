@@ -1,0 +1,837 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/0655ecda",
+   "sha256": "cc2b6e35cd9d0a2e6886f49cda28e55f07846ce4f17b37197913de4601948c69",
+   "size": 1140
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/077122c4",
+   "sha256": "864454c7c0d09acb9d3a1e9a1c2007e5820244315dd39f3f05c25803f6f7ef04",
+   "size": 1436
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/0dfc1d4d",
+   "sha256": "aef641b1857b2be0a37afbde12363c5ab0b22b5da9f0b9e1956cb15f3003cca6",
+   "size": 2292
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/0f88073a",
+   "sha256": "a609cd7523e4a2001228e609cc30b9c410feb45c591184acdb596f2c1722187a",
+   "size": 2284
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/150f4755",
+   "sha256": "ca73e8eb3056b7602f654658e5568fde2b4a3a500426d7938c9be7c764c24d88",
+   "size": 1828
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/1640165a",
+   "sha256": "6c8872ef4d19e1aee35041870a1e1b40939b0cbb1bd65c9a92d04374afebdace",
+   "size": 1060
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/19f11bee",
+   "sha256": "081e8e8c3cd863a696e21305a1e059e1e34a9a1687f6290c8438d0fa1c93764a",
+   "size": 3500
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/1b6c267b",
+   "sha256": "67bbfc3d5cbf2431c689bbad006198382e978410beea9abdd2f6416ff8663e50",
+   "size": 2204
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/1b6cfceb",
+   "sha256": "554b461ead21b5108783d9813e163546f2247817030fae5621f25afbd04478f8",
+   "size": 1420
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/1c192005",
+   "sha256": "245d90145ccf678c78c8fc5f12d2c34637cb2fa9346fe93d86968e25de937f9f",
+   "size": 924
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/223fc457",
+   "sha256": "7cb4a113fd80421b5204b59a77176151a59ca92267191e6b5a9005691e44272b",
+   "size": 7180
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/2411af24",
+   "sha256": "61c63d482a204a92df2065a2fb59064772f5420ac0b2478bdc7faf914c81b9be",
+   "size": 924
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/246a8652",
+   "sha256": "f6343fa4dd6ee4ce7ca88a6e360a690d2fe932b803b14b4d75b0205dc504a2dd",
+   "size": 3652
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/248ff18b",
+   "sha256": "0526b6034a06bfe55844a66cafd897422161f368cc126ab8468004a57a910ae8",
+   "size": 3788
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/26d7b246",
+   "sha256": "9e2655384e612fadd2ccbb138ccdb96ce7d141b4db99fdc675054eca84793c98",
+   "size": 924
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/29598173",
+   "sha256": "702569cc50d8f04924946b4e7301fb3912ec8ad1729949878709733cb84c0062",
+   "size": 876
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/306554cb",
+   "sha256": "575a0b55f353cd14382f24b49801246bdb434a34aab059f8f02694b4d995eb23",
+   "size": 1124
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/31bc4b51",
+   "sha256": "4fecdfc52740e0ca945c663dd503ff2cb6701d0aaaa816bc020c216f82dbfcba",
+   "size": 924
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/398eb1ef",
+   "sha256": "d955dd8fb0f622905e2d1b58858f98994bb0bcb836b4617a8676f6a797b81b06",
+   "size": 1220
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/3998ea18",
+   "sha256": "a5e91302a1b1cf69ca1b1fb06747b101650ca5f626fc0a433cebe7997a0ca349",
+   "size": 10428
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/454c08be",
+   "sha256": "ea488563122cf5bae29f5d0bc871ce8c092e3ae58a6b38e40ed56dbcee6eb25b",
+   "size": 13028
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/47041e08",
+   "sha256": "0d7b10ebf520d6341e05063a03e342b7b81ffb3076aa3d2508c4988f5d50ce76",
+   "size": 4444
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/48b9a2e3",
+   "sha256": "4c2caba2eff289c76ebb5d5c35e4f8e52c62b252e7373cc329f7ef7851d49f8a",
+   "size": 2612
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/49a62087",
+   "sha256": "5b8161e250f23f58ef0b38ec2a76ff48cfe4645e8e8c17c66a0eadafd7234602",
+   "size": 2460
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/4dbcb496",
+   "sha256": "c352c6f8e2603431b0a107fc459645aa6e718775a0c170b7f827d48ca5b87455",
+   "size": 1100
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/4de8c1bf",
+   "sha256": "4a8d6c26d66faff4d2f56600eecdd16bf2b32d1cea235d909f63f669ee8beca8",
+   "size": 956
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/4ed65fe7",
+   "sha256": "5473deb7a30b94ab8ef6b24c4e4f752e574df5622da8c1a907c11a8fc3e2574e",
+   "size": 924
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/51078357",
+   "sha256": "2b20f15c4e522529fda1aa35a4709686d122b8bacb76fa772efc1048a87a0de5",
+   "size": 924
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/5c9623a4",
+   "sha256": "41ab857f9671b9392a6631e00e584e702168eef9cc6c7a40f356ac099414c2ea",
+   "size": 2308
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/5ce3c97b",
+   "sha256": "800a7e1d5f59b41aa8e23926c66c53320fcb29657ea045e3024342adcf1701d5",
+   "size": 948
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/5db4d748",
+   "sha256": "03aa7be91adf94f47bcd760cb0ce522adbccb893602c15e26b15943babe4027e",
+   "size": 1396
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/6ce020bb",
+   "sha256": "1f88dbd9a4e3954d16304702cc7800bd3d28daf06163338bf176c0afa8b7f5cc",
+   "size": 2332
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/718e1354",
+   "sha256": "5a7db405f03150f9207a32e7382f14537eb7433ddb7248984928e2330a04f7c1",
+   "size": 8884
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/7492db49",
+   "sha256": "c377d76632c41e28c7d62381016054c24651d6eb7a4a6789a7426dfa81b32fbe",
+   "size": 2612
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/75407596",
+   "sha256": "8e7e1ffb00498fcfe289513334692b84c7c31a743595dfcee66e9b48e5ccfb11",
+   "size": 3436
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/7f6cca1d",
+   "sha256": "67771cac0fa8c51abce9a275c21470a63050f588292ffa4f0afed15a9e977f64",
+   "size": 3676
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/847afa15",
+   "sha256": "161e958ac393f6acd90278e18a30baed7d2df1956b0ba4e882fdbca26acb32c8",
+   "size": 2524
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/84d4083b",
+   "sha256": "719abf6ec880e7b66222b328024e2da79f3411266252b9db624c68652278797e",
+   "size": 2396
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/8b37215e",
+   "sha256": "8164ffa953501ac7dce0fe7160ea07c083eca48a7a2626434d07249dbb889faa",
+   "size": 996
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/8e31f510",
+   "sha256": "93d2efb51289bcdd18d687e7a3aa52558d87ad49b29f9759bc8c82b7b3169380",
+   "size": 1228
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/8fe23731",
+   "sha256": "1135d79c12c062fd5bbe37aed346569974d8a46f3914b7ec199d98722ece2ce1",
+   "size": 1020
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/949b5c94",
+   "sha256": "7a6316bd86d41111c27eae907f3c17e86549dd6a041adf28fe044f5347693356",
+   "size": 8692
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/959a3c83",
+   "sha256": "c9d1fe16c38f0874b5c412cb8a6c86cea4a04db8fdecbeddda72c1a2a78153b7",
+   "size": 4788
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/980f2fcd",
+   "sha256": "7c385e70c61fbb4c2dff9af12a4d78f7bbd8e8727e8af4fd6a6d94d2b0f63870",
+   "size": 956
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/9dbc92c2",
+   "sha256": "3e006aefece683279d4b9034ab80de1f1b0ce8cb21dc9dc2bf4abdabd353b3fa",
+   "size": 1396
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/9edc30e0",
+   "sha256": "e3d9d988938750a6fe0d32a4f1e10678fc4a2f3ed473bc6f8c2ffa49469346e5",
+   "size": 3540
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/a1fd7dcb",
+   "sha256": "4f10f196a8c3fedbeace181940639972b6081afdbe93d990af8d14b71768713b",
+   "size": 900
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/aae01ffb",
+   "sha256": "eeb01149d081f8c84e3fe178349df6a251466fd401cc02a8655b58482181e914",
+   "size": 1964
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/ab6c4841",
+   "sha256": "d469ca75756f94f9433f93794b1474d29858f1bc257e619f4a5069620c7feafa",
+   "size": 2988
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/afc3f028",
+   "sha256": "4c219929a5cf14f6ac99a96457c5e37580a96e882dc67a14de9e339c22538cf0",
+   "size": 1084
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/b49b5c7f",
+   "sha256": "f8fa5cc30bfb8ed118ebaf32373c8b528ac5a150406eb5f44b8d09d82e562e0d",
+   "size": 1996
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/b624a7b7",
+   "sha256": "85518a6d19d3b008f6d4006688a47d140d51caba039df49ffef3be1c66151d5e",
+   "size": 4580
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/b6d0e37a",
+   "sha256": "956e5d1661c31d44f589c987f607fb51e110182f4c500337587daa72e264c822",
+   "size": 7452
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/c3891229",
+   "sha256": "10c754790f34928981f30c9c476eb6ecc7ff02cca6401c6cd9c11323955636b3",
+   "size": 884
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/c889005c",
+   "sha256": "98c5b087b589346b1fe536fe66701d0404a5477baf446f6cee9a091b474c538c",
+   "size": 1516
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/ceefbcb8",
+   "sha256": "c1c04bd272737943f9f7e4c2ae30c6747dff8895e14ac0c2c29f95fc7cb2490a",
+   "size": 1092
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/d1367827",
+   "sha256": "0af7ce744c38f0f109b9dbacc3d51ae2ed2dba88770c0610a005ffd3ab4587b3",
+   "size": 4676
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/d381c602",
+   "sha256": "2a8930ca7a343596fa9e59f568682ad189ce0a42b9f45d1c4864c7c172a50354",
+   "size": 3092
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/d68d97f0",
+   "sha256": "79c841ae0aa5be68c0f9bea0a75bff371a4f3f2f915b726bcfa0fb9b11eb8b5c",
+   "size": 1076
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/d7988491",
+   "sha256": "2f2ecc4f7da69b288a36e818c09ddf6a1623b47bf328199ad72c1095389c6e7a",
+   "size": 996
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/dea5df01",
+   "sha256": "235e4d38a8f5cd4a19b32d344b2f6d0bd37c8764d6c4122ba1642a4aa9f6d626",
+   "size": 1036
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/df704faf",
+   "sha256": "b8f33eacaa7c4f77236963e75afd7a93932ba8b65545a8520b941fa97373c684",
+   "size": 1276
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/e21e283a",
+   "sha256": "69ce4509aa2574ec052ff02f00327e5d5076dfa150dd7b94d6eaa13b50a4f933",
+   "size": 1556
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/e71300ea",
+   "sha256": "a1b2761c7fc67e8bf647be02c6bf644e4b438394a95b1c23ec5b9bccdd465885",
+   "size": 1724
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/eb2270d5",
+   "sha256": "af74cca632845835dab68683c79e84c4651c6ef6e3d66934ea73c45295aba1ad",
+   "size": 924
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/eea756eb",
+   "sha256": "8448694330ca3c256463898ba9b4a57e78f3e04fa621cc36ae210a6a01d039f2",
+   "size": 956
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/eec35fdd",
+   "sha256": "d78d1fad3da31607e79a19355a3e16f98c21666f03ca7b685f01efa4c2b8fe1a",
+   "size": 1148
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/ef52fad0",
+   "sha256": "4eadad68da2313de2482afdc9f71281823ae6870efc12f45a48845dab9b57c7d",
+   "size": 1644
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/f015c2c7",
+   "sha256": "64ee1d2b742649560a247682e1d57bb6f9636de82eae9e205d636d6d7ca1e53a",
+   "size": 1540
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/f207c936",
+   "sha256": "3a338854c772665acdaa90cc05e381bdef0f79e3d235ad129fb24f151bbf231a",
+   "size": 5748
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/f3e92294",
+   "sha256": "6bcc78a453549b8ce2c168ca837c66a821f601a111815315eac84790c73bec17",
+   "size": 940
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/f7b19e10",
+   "sha256": "16e9ce673546def7e3f3a3dfbfe364af951a9c65be787a45f9d88484f806def9",
+   "size": 90372
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".agent_capture/node-compile-cache/v26.8.2-arm64-8d7ad2ee-501/fa64bb03",
+   "sha256": "44d1dc99ba5c0d576c49c5e7abdfc70505361af147074af134e3a94870d43256",
+   "size": 1308
+  },
+  {
+   "class": "governed-payload",
+   "kind": "socket",
+   "link": null,
+   "path": ".agent_capture/srt-mux-13427-0.sock",
+   "sha256": null,
+   "size": null
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/HEAD",
+   "sha256": "067d446ad54f05352f6304476ce770ac3bc2c876ec834213f948c9a07ebcd5b3",
+   "size": 33
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/config",
+   "sha256": "cae33efdb02cf774435c1ff9cb16bcc1014606908530c6e1dc727615fe3e8cda",
+   "size": 137
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/description",
+   "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+   "size": 73
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/applypatch-msg.sample",
+   "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+   "size": 478
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/commit-msg.sample",
+   "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+   "size": 896
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/fsmonitor-watchman.sample",
+   "sha256": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0",
+   "size": 4726
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/post-update.sample",
+   "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+   "size": 189
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-applypatch.sample",
+   "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+   "size": 424
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-commit.sample",
+   "sha256": "57185b7b9f05239d7ab52db045f5b89eb31348d7b2177eab214f5eb872e1971b",
+   "size": 1649
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-merge-commit.sample",
+   "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+   "size": 416
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-push.sample",
+   "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+   "size": 1374
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-rebase.sample",
+   "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+   "size": 4898
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/pre-receive.sample",
+   "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+   "size": 544
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/prepare-commit-msg.sample",
+   "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+   "size": 1492
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/push-to-checkout.sample",
+   "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+   "size": 2783
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/sendemail-validate.sample",
+   "sha256": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92",
+   "size": 2308
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/hooks/update.sample",
+   "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+   "size": 3650
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".git/info/exclude",
+   "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+   "size": 240
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".gitignore",
+   "sha256": "8b9a1a6ec89d7155b1d52fcd52cf2172be29d6f21c6414bc504ad7fbb63973f5",
+   "size": 335
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".ignore",
+   "sha256": "d468201b6eafa109f7649e0edf84f7a7d4f0a6e786b5815c064c2222e39529b3",
+   "size": 8
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "README.md",
+   "sha256": "05db379dea3770f62ed23240c2b62f7083bf51b1494fee1e3d143876b3c8b0e8",
+   "size": 96
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "edit.py",
+   "sha256": "cde0b4d10fcfdb8b04e156b782ac6a5555a46d2f920174f65724ca17022dfc56",
+   "size": 8078
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "program.md",
+   "sha256": "4d026113f0c90a245740d248ee3916854d6fa6c09532feea9238a617d68bbffc",
+   "size": 1726
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "results.tsv",
+   "sha256": "a06e5e9eb8597b8f773b2f17d8b51fb8d1333092e83285942198d5b23dd61a97",
+   "size": 731
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-225035_nocommit_7545fa52fac74c52876039a02ae5e52b/edit.py",
+   "sha256": "959369005bc972a5275f3737689cca03df172d9ad368482d4413ca1930dc2568",
+   "size": 3279
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-225035_nocommit_7545fa52fac74c52876039a02ae5e52b/editor.log",
+   "sha256": "e9bb639af794b5c81f7b0d4f8b6df2263ec5925e6c160110f9524fac6a036567",
+   "size": 174
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-225035_nocommit_7545fa52fac74c52876039a02ae5e52b/summary.json",
+   "sha256": "42b2f56331c884ea49c0f9037f4a09cdff96cbfb3adca680b1686a1e98db2ed8",
+   "size": 25
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-225037_nocommit_099894d40a874a62a111d475db695c8e/edit.py",
+   "sha256": "b4cddcc0346cabe4c92251faa507b6d33a2514f24bee24d9ae8f0208f82bd870",
+   "size": 110
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-225037_nocommit_099894d40a874a62a111d475db695c8e/editor.log",
+   "sha256": "e9bb639af794b5c81f7b0d4f8b6df2263ec5925e6c160110f9524fac6a036567",
+   "size": 174
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "runs/20261006-225037_nocommit_099894d40a874a62a111d475db695c8e/summary.json",
+   "sha256": "42b2f56331c884ea49c0f9037f4a09cdff96cbfb3adca680b1686a1e98db2ed8",
+   "size": 25
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/autoresearch_v13_fixture_c10"
+}
