@@ -4,9 +4,9 @@
 set -euo pipefail
 W=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/phase3-mps-port
 T=/Users/robertrhu/.claude/jobs/4d71207f/tmp/replay; /bin/rm -rf "$T"; /bin/mkdir -p "$T/memit_dry_run"
-/usr/bin/rsync -a --exclude='.g''it/' --exclude='data/' --exclude='__pycache__/' /Volumes/memit/llm-database-poc-mirror/memit_dry_run/memit/ "$T/code/memit/vendor/"
+/usr/bin/rsync -a --exclude='.g''it/' --exclude='data/' --exclude='__pycache__/' /Volumes/memit/llmdb-preserved/icm21-20261013/parent/memit_dry_run/memit/ "$T/code/memit/vendor/"
 cd "$T"
-/usr/bin/patch -s code/memit/vendor/memit/memit_main.py /Volumes/memit/llm-database-poc-mirror/stage_1_sect/s231_evidence/cpu_solve_patch.diff
+/usr/bin/patch -s code/memit/vendor/memit/memit_main.py /Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect/s231_evidence/cpu_solve_patch.diff
 /bin/cp "$W/code/memit/vendor/util/device.py" code/memit/vendor/util/device.py   # new file shipped with P-8
 /bin/mkdir -p tools && /bin/cp "$W"/tools/precompute_cov_l9_12.py tools/            # p8c also guards this tool; copy pre-state not needed for engine compare
 /usr/bin/python3 "$W/code/memit/patches/p8_device_neutrality.py"
