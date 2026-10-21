@@ -1,0 +1,7 @@
+{"action":"mv","operation_id":"MV-102","source":"/Volumes/memit/llm-database-poc-mirror/t1_alpha_cov.log","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_alpha_cov.log"}
+{"action":"mv","operation_id":"MV-103","source":"/Volumes/memit/llm-database-poc-mirror/t1_alpha_cov_compute.py","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_alpha_cov_compute.py"}
+{"action":"mv","operation_id":"MV-104","source":"/Volumes/memit/llm-database-poc-mirror/t1_alpha_cov_progress.json","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_alpha_cov_progress.json"}
+{"action":"mv","operation_id":"MV-106","source":"/Volumes/memit/llm-database-poc-mirror/t1_alt_model_3b_memit_akd_out","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_alt_model_3b_memit_akd_out"}
+{"action":"mv","operation_id":"MV-107","source":"/Volumes/memit/llm-database-poc-mirror/t1_beta_cov_compute_l78.py","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_beta_cov_compute_l78.py"}
+{"action":"mv","operation_id":"MV-108","source":"/Volumes/memit/llm-database-poc-mirror/t1_beta_cov_l78.log","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_beta_cov_l78.log"}
+{"action":"mv","operation_id":"MV-109","source":"/Volumes/memit/llm-database-poc-mirror/t1_beta_cov_progress_l78.json","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_beta_cov_progress_l78.json"}

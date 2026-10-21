@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".",
+   "sha256": "72c568e2b994a1e7b5b5e10d2de5896ac9890bb8054509b48d6afab9fc80468e",
+   "size": 424
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/t1_alpha_cov_progress.json"
+}
