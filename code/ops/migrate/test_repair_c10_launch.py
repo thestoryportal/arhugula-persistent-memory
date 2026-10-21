@@ -101,18 +101,22 @@ class RepairC10LaunchTests(unittest.TestCase):
 
 class SafeReadTests(unittest.TestCase):
     def test_symlink_leaf_refused(self):
-        root = Path(tempfile.mkdtemp())
+        root = Path(os.path.realpath(tempfile.mkdtemp()))
         self.addCleanup(shutil.rmtree, root)
         target = root / "target"
         target.write_bytes(b"regular file")
+        self.assertEqual(read_file(target), b"regular file")
         leaf = root / "leaf"
         leaf.symlink_to(target)
         with self.assertRaises(fdsafe.Refusal):
             read_file(leaf)
 
     def test_fifo_leaf_refused(self):
-        root = Path(tempfile.mkdtemp())
+        root = Path(os.path.realpath(tempfile.mkdtemp()))
         self.addCleanup(shutil.rmtree, root)
+        target = root / "target"
+        target.write_bytes(b"regular file")
+        self.assertEqual(read_file(target), b"regular file")
         leaf = root / "leaf"
         os.mkfifo(leaf)
         with self.assertRaises(fdsafe.Refusal):
