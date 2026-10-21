@@ -14,3 +14,5 @@ code/lab/track_c/autoresearch_c10/v13_law3_equivalence.sh	9	/Volumes/memit/llm-d
 code/lab/track_c/autoresearch_c10/watch_pane.sh	5	/Volumes/memit/llm-database-poc-mirror/autoresearch_sandbox_c10	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/autoresearch_sandbox_c10	268
 code/memit/patches/replay_provenance.sh	7	/Volumes/memit/llm-database-poc-mirror/memit_dry_run	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/memit_dry_run	263
 code/memit/patches/replay_provenance.sh	9	/Volumes/memit/llm-database-poc-mirror/stage_1_sect	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect	263
+code/research/connected_papers_fetch.py	10	/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/connected-papers-knowledge-graphs	264
+code/research/connected_papers_fetch.py	27	/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/connected-papers-knowledge-graphs	264

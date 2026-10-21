@@ -1,0 +1,26 @@
+[
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-084/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-084/readers.json",
+  "registry": "program/migrations/icm21/units/MV-084/registry.json",
+  "requirement_id": "MV-084"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-086/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-086/readers.json",
+  "registry": "program/migrations/icm21/units/MV-086/registry.json",
+  "requirement_id": "MV-086"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-096/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-096/readers.json",
+  "registry": "program/migrations/icm21/units/MV-096/registry.json",
+  "requirement_id": "MV-096"
+ }
+]

@@ -1,0 +1,18 @@
+[
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-072/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-072/readers.json",
+  "registry": "program/migrations/icm21/units/MV-072/registry.json",
+  "requirement_id": "MV-072"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-054/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-054/readers.json",
+  "registry": "program/migrations/icm21/units/MV-054/registry.json",
+  "requirement_id": "MV-054"
+ }
+]
