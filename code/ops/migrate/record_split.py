@@ -19,6 +19,7 @@ and an attestation naming one is refused: Git's own store is never git-added (ru
 git add a nested repo"). These are the leaves unit_manifest records below that `.git`; a `.git`
 that is not a directory (a gitlink file or a link) and a link or special file inside a `.git` are
 refused, as unit_manifest refuses them.
+A socket is governed payload, recorded from lstat without opening it; an attested socket refuses.
 A symlink is never followed. Relative text staying inside the unit, or absolute text
 normalized to neither the unit root nor below it, is a tracked record of that text;
 absolute text naming the unit root or below it is refused.
@@ -36,7 +37,7 @@ the write and again after it.
 
 Every expected invalid input (missing, linked or special root, missing or invalid --out
 parent, an unreadable or malformed attestation, an attested record, a changed file, a
-link that escapes the unit, a special file, a `.git` that is not a directory, a link or special
+link that escapes the unit, a non-socket special file, a `.git` that is not a directory, a link or special
 file inside a `.git`) and every OSError from a
 filesystem call on the unit, a leaf or the output exits 2 with one refusal line naming
 the path and errno. It never overwrites and never deletes: an output that lands inside the unit after
@@ -108,7 +109,13 @@ class GitLeaf:
     sha256: str
 
 
-Leaf = FileLeaf | LinkLeaf | GitLeaf
+@dataclass(frozen=True)
+class SocketLeaf:
+    # [LAW:types-are-the-program] A socket has no readable content or link text.
+    path: str
+
+
+Leaf = FileLeaf | LinkLeaf | GitLeaf | SocketLeaf
 
 
 @dataclass(frozen=True)
@@ -122,7 +129,7 @@ class Attested:
 class Row:
     path: str
     cls: Literal["tracked-record", "attested-bulk", "governed-payload"]
-    kind: Literal["file", "link"]
+    kind: Literal["file", "link", "socket"]
     size: int | None
     sha256: str | None
     link: str | None
@@ -181,6 +188,11 @@ def classify(leaves: list[Leaf], attested: list[Attested], root: str) -> tuple[R
             if a is not None:
                 raise Refusal(f"{a.source}: attested {leaf.path!r} is not a regular file")
             rows.append(Row(leaf.path, TRACKED, "link", None, None, leaf.link))
+            continue
+        if isinstance(leaf, SocketLeaf):
+            if a is not None:
+                raise Refusal(f"{a.source}: attested {leaf.path!r} is not a regular file")
+            rows.append(Row(leaf.path, PAYLOAD, "socket", None, None, None))
             continue
         if isinstance(leaf, GitLeaf):
             # [LAW:types-are-the-program] A nested repo's store is payload by its leaf type; no name or
@@ -365,6 +377,9 @@ def scan(held: Root, root: str) -> list[Leaf]:
                     _close(fd, path)
             elif stat.S_ISREG(est.st_mode):
                 (git_regular if in_git else regular)(dir_fd, entry.name, path, rel, est)
+            elif stat.S_ISSOCK(est.st_mode):
+                # [LAW:effects-at-boundaries] Step 201 forbids opening sockets; use the walk's lstat only.
+                leaves.append(SocketLeaf(rel))
             else:
                 raise Refusal(f"{rel!r} is a special file")
 
