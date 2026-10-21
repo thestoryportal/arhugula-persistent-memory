@@ -1,6 +1,10 @@
 """Behavioral contract for the pure notebook comparison core (T382)."""
+import ast
 import builtins
 import contextlib
+import datetime
+import importlib
+import inspect
 import hashlib
 import io
 import json
@@ -10,6 +14,7 @@ import random
 import shutil
 import socket
 import subprocess
+import sys
 import time
 import unittest
 from collections.abc import Mapping
@@ -52,6 +57,26 @@ def forbid_external_access():
     def forbidden(*args, **kwargs):
         raise AssertionError("external access")
 
+    # CPython's datetime types are immutable; patch methods on temporary subclasses.
+    class GuardedDatetime(datetime.datetime):
+        pass
+
+    class GuardedDate(datetime.date):
+        pass
+
+    original_import = builtins.__import__
+    original_import_module = importlib.import_module
+
+    def loaded_import(name, *args, **kwargs):
+        if name not in sys.modules:
+            raise AssertionError(f"new import: {name}")
+        return original_import(name, *args, **kwargs)
+
+    def loaded_import_module(name, *args, **kwargs):
+        if name not in sys.modules:
+            raise AssertionError(f"new import: {name}")
+        return original_import_module(name, *args, **kwargs)
+
     targets = [(module, name)
                for module in (os, os.path, time, random, subprocess, shutil, socket, pathlib.Path)
                for name in dir(module)
@@ -62,10 +87,87 @@ def forbid_external_access():
         for target, name in targets:
             stack.enter_context(mock.patch.object(target, name, new=forbidden))
         stack.enter_context(mock.patch.object(os, "environ", UnreadableEnvironment()))
+        stack.enter_context(mock.patch.object(datetime, "datetime", GuardedDatetime))
+        stack.enter_context(mock.patch.object(datetime, "date", GuardedDate))
+        for cls in (datetime.datetime, datetime.date):
+            for name in ("now", "utcnow", "today", "fromtimestamp"):
+                stack.enter_context(mock.patch.object(cls, name, new=classmethod(forbidden), create=True))
+        stack.enter_context(mock.patch.object(importlib, "import_module", new=loaded_import_module))
+        stack.enter_context(mock.patch.object(builtins, "__import__", new=loaded_import))
         yield
 
 
 class Compare(unittest.TestCase):
+    def test_byte_equality_variants(self):
+        value = json.loads(notebook([cell(["α\n", "β"]), cell("", "raw")]))
+        checkpoint = json.dumps(value, indent=2).encode() + b"\n"
+        variants = {
+            "indentation": json.dumps(value, indent=4).encode() + b"\n",
+            "key_order": json.dumps(dict(reversed(list(value.items()))), indent=2).encode() + b"\n",
+            "trailing_lf_added": checkpoint + b"\n",
+            "trailing_lf_removed": checkpoint[:-1],
+            "leading_space": b" " + checkpoint,
+            "crlf": checkpoint.replace(b"\n", b"\r\n"),
+        }
+        expected_rows = []
+        for index, item in enumerate(value["cells"]):
+            source = "".join(item["source"])
+            expected_rows.append(dict(zip(CELL, (C, str(index), item["cell_type"],
+                                                 sha(canonical(item)), sha(source.encode()), "yes"))))
+        for name, live in {"identical": checkpoint, **variants}.items():
+            with self.subTest(variant=name):
+                self.assertEqual(json.loads(live), value)
+                pair, rows = core.compare(C, checkpoint, L, live)
+                self.assertEqual(pair, dict(zip(PAIR, (C, L,
+                    "exact" if name == "identical" else "differing",
+                    sha(checkpoint), sha(live), "2", "2", "0"))))
+                if name != "identical":
+                    self.assertNotEqual(pair["checkpoint_sha256"], pair["live_sha256"])
+                self.assertEqual(rows, expected_rows)
+
+    def test_runtime_purity_guards(self):
+        missing = "_t382_unloaded_purity_control"
+        self.assertNotIn(missing, sys.modules)
+        with forbid_external_access():
+            for cls in (datetime.datetime, datetime.date):
+                for name in ("now", "utcnow", "today", "fromtimestamp"):
+                    with self.subTest(cls=cls.__name__, method=name):
+                        with self.assertRaisesRegex(AssertionError, "external access"):
+                            getattr(cls, name)(0) if name == "fromtimestamp" else getattr(cls, name)()
+            for importer in (builtins.__import__, importlib.import_module):
+                with self.assertRaisesRegex(AssertionError, "new import"):
+                    importer(missing)
+                self.assertIs(importer("datetime"), datetime)
+
+    def test_static_purity_allowlist(self):
+        tree = ast.parse(inspect.getsource(core))
+        expected = ast.parse("""from __future__ import annotations
+import hashlib
+import json
+from collections.abc import Mapping, Sequence
+from ops.migrate import fdsafe
+from ops.migrate.unit_manifest import canonical
+""").body
+        imports = [node for node in ast.walk(tree) if isinstance(node, (ast.Import, ast.ImportFrom))]
+        self.assertEqual([ast.dump(node) for node in imports], [ast.dump(node) for node in expected])
+        self.assertTrue(all(node in tree.body for node in imports))
+        modules = {"hashlib", "json", "fdsafe"}
+        allowed = {"hashlib.sha256", "json.loads", "json.JSONDecodeError", "fdsafe.Refusal"}
+        forbidden = {"__import__", "open", "eval", "exec", "compile", "globals", "locals", "vars",
+                     "getattr", "setattr", "delattr", "input", "print", "breakpoint",
+                     "__builtins__", "__loader__", "__spec__"}
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Name):
+                self.assertNotIn(node.id, forbidden)
+            if isinstance(node, ast.Attribute):
+                parts = []
+                root = node
+                while isinstance(root, ast.Attribute):
+                    parts.append(root.attr)
+                    root = root.value
+                if isinstance(root, ast.Name) and root.id in modules:
+                    self.assertIn(".".join([root.id, *reversed(parts)]), allowed)
+
     def test_exact_and_row_shape(self):
         cells = [cell(["α\n", "β"]), cell("text", "markdown"), cell("", "raw")]
         data = notebook(cells)
@@ -290,6 +392,18 @@ class Render(unittest.TestCase):
 
     def test_tab_in_field_name(self):
         field = "bad\tfield"
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            core.render((field,), [])
+        self.assertEqual(caught.exception.path, field)
+
+    def test_cr_in_field_name(self):
+        field = "bad\rfield"
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            core.render((field,), [])
+        self.assertEqual(caught.exception.path, field)
+
+    def test_lf_in_field_name(self):
+        field = "bad\nfield"
         with self.assertRaises(fdsafe.Refusal) as caught:
             core.render((field,), [])
         self.assertEqual(caught.exception.path, field)
