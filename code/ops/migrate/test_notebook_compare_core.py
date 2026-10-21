@@ -1,8 +1,16 @@
 """Behavioral contract for the pure notebook comparison core (T382)."""
+import builtins
 import contextlib
 import hashlib
+import io
 import json
 import os
+import pathlib
+import random
+import shutil
+import socket
+import subprocess
+import time
 import unittest
 from collections.abc import Mapping
 from unittest import mock
@@ -27,6 +35,34 @@ def cell(source="x", kind="code", **extra):
 
 def notebook(cells, **metadata):
     return json.dumps(dict(cells=cells, metadata=metadata, nbformat=4, nbformat_minor=5)).encode()
+
+
+@contextlib.contextmanager
+def forbid_external_access():
+    class UnreadableEnvironment(Mapping):
+        def __getitem__(self, key):
+            raise AssertionError("os.environ access")
+
+        def __iter__(self):
+            raise AssertionError("os.environ iteration")
+
+        def __len__(self):
+            raise AssertionError("os.environ length")
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("external access")
+
+    targets = [(module, name)
+               for module in (os, os.path, time, random, subprocess, shutil, socket, pathlib.Path)
+               for name in dir(module)
+               if not name.startswith("_") and callable(getattr(module, name))
+               and not isinstance(getattr(module, name), type)]
+    targets.extend(((builtins, "open"), (io, "open")))
+    with contextlib.ExitStack() as stack:
+        for target, name in targets:
+            stack.enter_context(mock.patch.object(target, name, new=forbidden))
+        stack.enter_context(mock.patch.object(os, "environ", UnreadableEnvironment()))
+        yield
 
 
 class Compare(unittest.TestCase):
@@ -173,34 +209,85 @@ class Compare(unittest.TestCase):
             self.refuses_both(notebook([cell(), bad]), 1)
 
     def test_purity(self):
-        class UnreadableEnvironment(Mapping):
-            def __getitem__(self, key):
-                raise AssertionError("os.environ access")
-
-            def __iter__(self):
-                raise AssertionError("os.environ iteration")
-
-            def __len__(self):
-                raise AssertionError("os.environ length")
-
         data = notebook([cell()])
-        expected_pair, expected_rows = core.compare(C, data, L, data)
-        expected_result = core.render(PAIR, [expected_pair])
-        with contextlib.ExitStack() as stack:
-            for name in ("builtins.open", "os.open", "os.stat", "os.lstat", "os.scandir", "subprocess.run",
-                         "os.getenv", "time.time", "time.time_ns", "time.monotonic",
-                         "time.perf_counter", "random.random", "random.getrandbits"):
-                stack.enter_context(mock.patch(name, side_effect=AssertionError(name)))
-            stack.enter_context(mock.patch.object(os, "environ", UnreadableEnvironment()))
-            pair, rows = core.compare(C, data, L, data)
-            result = core.render(PAIR, [pair])
-            self.assertEqual((pair, rows), (expected_pair, expected_rows))
-            self.assertEqual(result, expected_result)
-            self.assertEqual(len(rows), 1)
-            self.assertTrue(result.startswith(b"checkpoint\tlive\t"))
+        cases = (data, notebook([cell("other")]), None)
+        expected = []
+        for live in cases:
+            pair, rows = core.compare(C, data, L, live)
+            expected.append((pair, rows, core.render(PAIR, [pair]), core.render(CELL, rows)))
+        with forbid_external_access():
+            for live, (expected_pair, expected_rows, expected_result, expected_cells) in zip(cases, expected):
+                pair, rows = core.compare(C, data, L, live)
+                result = core.render(PAIR, [pair])
+                self.assertEqual((pair, rows), (expected_pair, expected_rows))
+                self.assertEqual(result, expected_result)
+                self.assertEqual(core.render(CELL, rows), expected_cells)
+                self.assertEqual(len(rows), 1)
+                self.assertTrue(result.startswith(b"checkpoint\tlive\t"))
+
+    def test_duplicate_keys_at_every_level(self):
+        first = json.dumps(cell()).encode()
+        for fragment, index in (
+            (b'{"cells":[],"nbformat":4,"nbformat":4}', None),
+            (b'{"cells":[],"metadata":{},"metadata":{}}', None),
+            (b'{"cells":[],"metadata":{"x":1,"x":2}}', None),
+            (b'{"cell_type":"code","cell_type":"raw","source":"x"}', 1),
+            (b'{"cell_type":"code","source":"x","source":"y"}', 1),
+            (b'{"cell_type":"code","source":"x","metadata":{},"metadata":{}}', 1),
+            (b'{"cell_type":"code","source":"x","metadata":{"x":1,"x":2}}', 1),
+            (b'{"cell_type":"code","source":"x","outputs":[{"text":"a","text":"b"}]}', 1),
+        ):
+            data = fragment if index is None else b'{"cells":[' + first + b',' + fragment + b']}'
+            self.refuses_both(data, index)
+
+    def test_exact_source_text_hashes(self):
+        for source in ("x\n", " x", "x ", "\tx", "X", ["x", "\n"], ["", "x"], "e\u0301"):
+            with self.subTest(source=source):
+                item = cell(source)
+                text = source if isinstance(source, str) else "".join(source)
+                _, rows = core.compare(C, notebook([item]), L, None)
+                self.assertEqual(rows[0]["source_sha256"], hashlib.sha256(text.encode("utf-8")).hexdigest())
+                self.assertEqual(rows[0]["cell_sha256"], hashlib.sha256(canonical(item)).hexdigest())
+
+    def test_source_whitespace_and_case_membership(self):
+        for source in ("x\n", " x", "x ", "\tx", "X"):
+            for left, right in ((source, "x"), ("x", source)):
+                with self.subTest(left=left, right=right):
+                    _, rows = core.compare(C, notebook([cell(left), cell(right)]), L, notebook([cell(right)]))
+                    self.assertNotEqual(rows[0]["source_sha256"], rows[1]["source_sha256"])
+                    self.assertEqual([row["in_live"] for row in rows], ["no", "yes"])
+
+    def test_unexpected_exception_types_propagate(self):
+        data, empty = notebook([cell()]), notebook([])
+        for target, name in ((core.json, "loads"), (core, "canonical")):
+            for error_type in (ValueError, KeyError, TypeError, RuntimeError):
+                for checkpoint, live in ((data, empty), (empty, data)):
+                    with self.subTest(function=name, error=error_type.__name__, checkpoint=checkpoint):
+                        error = error_type("x")
+                        with mock.patch.object(target, name, side_effect=error):
+                            with self.assertRaises(error_type) as caught:
+                                core.compare(C, checkpoint, L, live)
+                        self.assertIs(type(caught.exception), error_type)
+                        self.assertIs(caught.exception, error)
+                        self.assertNotIsInstance(caught.exception, fdsafe.Refusal)
 
 
 class Render(unittest.TestCase):
+    def test_unexpected_encoding_exception_types_propagate(self):
+        for error_type in (ValueError, KeyError, TypeError, RuntimeError):
+            with self.subTest(error=error_type.__name__):
+                error = error_type("x")
+
+                class BrokenText(str):
+                    def encode(self, *args, **kwargs):
+                        raise error
+
+                with self.assertRaises(error_type) as caught:
+                    core.render(("path",), [{"path": BrokenText("x")}])
+                self.assertIs(type(caught.exception), error_type)
+                self.assertIs(caught.exception, error)
+                self.assertNotIsInstance(caught.exception, fdsafe.Refusal)
+
     def test_tab_in_field_name(self):
         field = "bad\tfield"
         with self.assertRaises(fdsafe.Refusal) as caught:
