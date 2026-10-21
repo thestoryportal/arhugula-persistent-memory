@@ -13,7 +13,7 @@ Raw scorer and probe text stays private. Any unverified control is FAIL; there i
 
 Default installation:
   .venv/bin/python -I -B code/lab/track_c/autoresearch_c10/v13_build.py
-creates /Volumes/memit/llm-database-poc-mirror/autoresearch_v13_c10 and autoresearch_fence_v13_c10.
+creates /Volumes/memit/llmdb-preserved/icm21-20261013/parent/autoresearch_v13_c10 and autoresearch_fence_v13_c10.
 Use --sandbox and --fence for a permitted staging root. Paths are embedded in profiles and manifests:
 regenerate at final installation, rather than moving a bundle.
 
