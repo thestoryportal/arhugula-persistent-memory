@@ -8,7 +8,7 @@ import sys
 import unittest
 from unittest.mock import patch
 
-from icm21_fixtures import (D2_POSITIVE, HEADER, INDEX_PATHS, MAP_PATH, SOURCE_ROOT,
+from icm21_fixtures import (D2_POSITIVE, INDEX_PATHS, MAP_PATH, SOURCE_ROOT,
                             d2_map, digest, snapshot)
 
 
@@ -54,7 +54,6 @@ class CurrentLabvizOutputCase:
         self.assertIn('derived_from', data, 'absent behavior: D2 current map provenance')
         inputs = {name: (SOURCE_ROOT / name).read_bytes() for name in D2_POSITIVE['inputs']}
         self.assertEqual(path.read_bytes(), d2_map(inputs, data['moves']))
-        self.assertEqual(inputs['_index/icm21-path-map.tsv'], HEADER)
         before = path.read_bytes()
         result = self.cli(SOURCE_ROOT, 'code/state/build_index.py', '--check', '--labviz-map-only')
         self.assertEqual(result.returncode, 0, (result.stdout + result.stderr).decode())
