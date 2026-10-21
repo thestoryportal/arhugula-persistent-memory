@@ -25,5 +25,5 @@ jobs:
           python-version: "3.11"
       - name: Migrate tool suites
         run: |
-          python3 -m pip install duckdb==1.5.6
+          python3 -m pip install duckdb==1.5.6 markdown-it-py==3.0.0
           PYTHONPATH=code/tests:code LLMDB_ROOT="$PWD" python3 -B -m unittest discover -s code/ops/migrate -p 'test_*.py'

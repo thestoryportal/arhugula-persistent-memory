@@ -23,7 +23,7 @@ WORKFLOW = ROOT / '.github/workflows/migrate-macos.yml'
 CI = '.github/workflows/ci.yml'
 MIGRATE = ROOT / 'code/ops/migrate'
 DISCOVER = "-m unittest discover -s code/ops/migrate -p 'test_*.py'"
-PIP = 'python3 -m pip install duckdb==1.5.6'  # Step 270's pin
+PIP = 'python3 -m pip install duckdb==1.5.6 markdown-it-py==3.0.0'  # duckdb: Step 270's pin; markdown-it-py: ci.yml's pin (state/resolve_path.py imports it)
 PATHS = ['code/ops/migrate/**', '.github/workflows/migrate-macos.yml']
 NAMED_SUITES = {
     201: 'test_unit_manifest.py', 205: 'test_dup_find.py', 206: 'test_registry_match.py',
@@ -68,7 +68,7 @@ def migrate_step(workflow, ci):
     require(len(found) == 1, f'expected one migrate step, found {len(found)}')
     job, step = found[0]
     require(list(workflow['jobs']) == ['migrate-macos'], f"jobs are {list(workflow['jobs'])!r}")
-    require(str(job['runs-on']).startswith('macos-'), f"runs-on is {job['runs-on']!r}")
+    require(job.get('runs-on') == 'macos-14', f"runs-on is {job.get('runs-on')!r}")
     require(job.get('timeout-minutes') == 8, f"timeout-minutes is {job.get('timeout-minutes')!r}")
     for where, mapping in (('job', job), ('step', step)):
         for key in ('if', 'continue-on-error'):
@@ -92,7 +92,7 @@ class MigrateStepTest(unittest.TestCase):
 
     def test_workflow_has_the_migrate_step(self):
         job, line = migrate_step(self.workflow, self.ci)
-        self.assertTrue(job['runs-on'].startswith('macos-'))
+        self.assertEqual(job['runs-on'], 'macos-14')
         self.assertIn(DISCOVER, line)
 
     def test_checker_refuses_each_broken_step(self):
@@ -109,6 +109,8 @@ class MigrateStepTest(unittest.TestCase):
             'step continue-on-error': lambda d, j, s: s.update({'continue-on-error': True}),
             'job continue-on-error': lambda d, j, s: j.update({'continue-on-error': True}),
             'linux runner': lambda d, j, s: j.update({'runs-on': 'ubuntu-24.04'}),
+            'other macos runner': lambda d, j, s: j.update({'runs-on': 'macos-15'}),
+            'no markdown-it pin': lambda d, j, s: s.update({'run': s['run'].replace(' markdown-it-py==3.0.0', '')}),
             'narrowed pattern': lambda d, j, s: s.update({'run': s['run'].replace("'test_*.py'", "'test_f*.py'")}),
             'no pip pin': lambda d, j, s: s.update({'run': s['run'].replace(PIP + '\n', '')}),
             'other pin': lambda d, j, s: s.update({'run': s['run'].replace('1.5.6', '1.5.5')}),
