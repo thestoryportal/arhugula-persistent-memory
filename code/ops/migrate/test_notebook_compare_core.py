@@ -374,6 +374,121 @@ from ops.migrate.unit_manifest import canonical
                         self.assertNotIsInstance(caught.exception, fdsafe.Refusal)
 
 
+class CellDigest(unittest.TestCase):
+    def populated_notebook(self):
+        return notebook([
+            cell(["print('é')", "\n"], id="code-1",
+                 metadata={"custom": {"label": "é", "enabled": True}, "tags": ["α", "β"]},
+                 execution_count=7,
+                 outputs=[{"output_type": "stream", "name": "stdout", "text": "é\n"},
+                          {"output_type": "execute_result", "execution_count": 7,
+                           "data": {"text/plain": "résultat"},
+                           "metadata": {"custom": {"width": 12}}}]),
+            cell("![image](attachment:figure.svg)", "markdown", id="markdown-1",
+                 metadata={"tags": ["notes"]},
+                 attachments={"figure.svg": {"image/svg+xml": "<svg>é</svg>"}}),
+            cell("raw é", "raw", id="raw-1", metadata={"format": "text/plain"}),
+        ])
+
+    def test_populated_cell_canonical_digests(self):
+        data = self.populated_notebook()
+        parsed = json.loads(data)
+        _, rows = core.compare(C, data, L, data)
+        self.assertEqual(len(rows), len(parsed["cells"]))
+        for item, row in zip(parsed["cells"], rows):
+            with self.subTest(kind=item["cell_type"]):
+                self.assertEqual(row["cell_sha256"], hashlib.sha256(canonical(item)).hexdigest())
+
+    def assert_cell_change(self, original, changed, index=0):
+        _, before = core.compare(C, original, L, original)
+        _, after = core.compare(C, changed, L, original)
+        parsed = json.loads(changed)["cells"]
+        self.assertNotEqual(after[index]["cell_sha256"], before[index]["cell_sha256"])
+        self.assertEqual(after[index]["source_sha256"], before[index]["source_sha256"])
+        self.assertEqual(after[index]["cell_sha256"], hashlib.sha256(canonical(parsed[index])).hexdigest())
+        self.assertEqual(after[:index] + after[index + 1:], before[:index] + before[index + 1:])
+
+    def test_every_cell_key_contributes(self):
+        original = self.populated_notebook()
+        populated = json.loads(original)["cells"][0]
+        for key, value in populated.items():
+            with self.subTest(key=key):
+                changed = json.loads(original)
+                item = changed["cells"][0]
+                if key == "source":
+                    item[key] = "".join(value)
+                elif key == "cell_type":
+                    item[key] = "raw"
+                elif isinstance(value, str):
+                    item[key] = value + "-changed"
+                elif isinstance(value, int):
+                    item[key] = value + 1
+                elif isinstance(value, dict):
+                    item[key] = {**value, "extra": "changed"}
+                elif isinstance(value, list):
+                    item[key] = value[:-1]
+                else:
+                    self.fail(f"No mutation for populated key {key}")
+                self.assertNotEqual(item[key], value)
+                self.assertEqual([k for k in populated if item[k] != populated[k]], [key])
+                self.assert_cell_change(original, json.dumps(changed).encode())
+
+    def test_nested_cell_values_contribute(self):
+        original = self.populated_notebook()
+        populated = json.loads(original)["cells"][0]
+        paths = [("metadata", key) for key in populated["metadata"]]
+        paths.extend(("metadata", "custom", key) for key in populated["metadata"]["custom"])
+        paths.extend([("outputs", 0, "text"), ("outputs", 1, "data", "text/plain")])
+        for path in paths:
+            with self.subTest(path=path):
+                changed = json.loads(original)
+                target = changed["cells"][0]
+                for key in path[:-1]:
+                    target = target[key]
+                old = target[path[-1]]
+                if isinstance(old, dict):
+                    target[path[-1]] = {**old, "extra": "é"}
+                elif isinstance(old, list):
+                    target[path[-1]] = old + ["é"]
+                elif isinstance(old, bool):
+                    target[path[-1]] = not old
+                else:
+                    target[path[-1]] = old + "-changed"
+                self.assertNotEqual(target[path[-1]], old)
+                self.assert_cell_change(original, json.dumps(changed).encode())
+
+    def test_unknown_cell_key_contributes(self):
+        original = self.populated_notebook()
+        for index in range(len(json.loads(original)["cells"])):
+            with self.subTest(index=index):
+                changed = json.loads(original)
+                changed["cells"][index]["unknown_extension"] = {"label": "é"}
+                self.assert_cell_change(original, json.dumps(changed).encode(), index)
+
+    def test_cell_digest_canonical_order_and_indentation(self):
+        original = self.populated_notebook()
+        parsed = json.loads(original)
+        _, expected = core.compare(C, original, L, original)
+        reordered = json.loads(original)
+        for index, item in enumerate(reordered["cells"]):
+            metadata = item["metadata"]
+            for key, value in metadata.items():
+                if isinstance(value, dict):
+                    metadata[key] = dict(reversed(list(value.items())))
+            item["metadata"] = dict(reversed(list(metadata.items())))
+            reordered["cells"][index] = dict(reversed(list(item.items())))
+        for name, data in (
+            ("key_order", json.dumps(reordered).encode()),
+            ("indentation", json.dumps(parsed, indent=4).encode()),
+            ("both", json.dumps(reordered, indent=2, ensure_ascii=False).encode()),
+        ):
+            with self.subTest(variant=name):
+                self.assertNotEqual(data, original)
+                self.assertEqual(json.loads(data), parsed)
+                _, rows = core.compare(C, data, L, original)
+                self.assertEqual(rows, expected)
+
+
 class Render(unittest.TestCase):
     def test_unexpected_encoding_exception_types_propagate(self):
         for error_type in (ValueError, KeyError, TypeError, RuntimeError):
