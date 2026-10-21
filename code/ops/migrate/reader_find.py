@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import errno
 import io
 import json
 import os
@@ -38,7 +39,12 @@ class Refused(Exception):
 
 
 def read_rows(path: Path) -> dict[str, str]:
-    data = path.read_bytes()
+    with fdsafe.hold_root(str(path.parent)) as parent:
+        data = fdsafe.read_named(parent, path.name)
+    return parse_rows(path, data)
+
+
+def parse_rows(path: Path, data: bytes) -> dict[str, str]:
     rows = list(csv.reader(io.StringIO(data.decode('utf-8')), delimiter='\t'))
     if not rows or rows[0] != HEADER:
         raise Refused(f'{path}: expected header old<TAB>new<TAB>disposition<TAB>unit')
@@ -55,15 +61,30 @@ def read_rows(path: Path) -> dict[str, str]:
 
 
 def unit_rows(units: Path) -> tuple[dict[str, str], list[Path]]:
-    files = sorted(units.glob('*/' + UNIT_ROWS)) if units.is_dir() else []
+    files = []
+    mapping = {}
+
+    def visit(entry):
+        depth = entry.rel.count('/')
+        if depth == 0:
+            mode = entry.st.st_mode
+            if stat.S_ISREG(mode):
+                return
+            if not stat.S_ISDIR(mode):
+                err = errno.ELOOP if stat.S_ISLNK(mode) else errno.ENOTDIR
+                raise fdsafe.Refusal(entry.path, 'is not a directory', err)
+        if depth == 1 and entry.name == UNIT_ROWS:
+            path = units / entry.rel
+            for old, new in parse_rows(path, fdsafe.read_bytes(entry)).items():
+                if old in mapping:
+                    raise Refused(f'{path}: old path {old} is in two units')
+                mapping[old] = new
+            files.append(path)
+
+    with fdsafe.hold_root(str(units)) as parent:
+        fdsafe.walk(parent, visit, descend=lambda entry: "/" not in entry.rel)
     if not files:
         raise Refused(f'{units}: no */{UNIT_ROWS}')
-    mapping = {}
-    for path in files:
-        for old, new in read_rows(path).items():
-            if old in mapping:
-                raise Refused(f'{path}: old path {old} is in two units')
-            mapping[old] = new
     return mapping, files
 
 
@@ -227,7 +248,13 @@ def run(args) -> int:
     code = 1 if report['stale'] else 0
     if report_path is not None:
         target = report_path if report_path.is_absolute() else root / report_path
-        recorded = target.read_bytes() if target.is_file() and not target.is_symlink() else None
+        try:
+            with fdsafe.hold_root(str(target.parent)) as parent:
+                recorded = fdsafe.read_named(parent, target.name)
+        except fdsafe.Refusal as exc:
+            if exc.errno != errno.ENOENT:
+                raise
+            recorded = None
         if recorded != text:
             print(f'reader_find: {target} differs from this scan', file=sys.stderr)
             code = 1
