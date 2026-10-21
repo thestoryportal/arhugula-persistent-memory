@@ -16,6 +16,8 @@ import reader_find
 
 # Recorded from master 8bbac3f3 for every pre-attack control state.
 MASTER_RESULTS = {
+    'unreadable_irrelevant_directory':
+        (0, '{\n "stale": [],\n "unverified": []\n}\n', ''),
     ('clean\n', True, ('one',), 'relocations'):
         (0, '{\n "stale": [],\n "unverified": []\n}\n', ''),
     ('clean\n', True, ('one',), 'unit_map'):
@@ -111,6 +113,14 @@ class Maps(unittest.TestCase):
         (self.units / 'notes').write_bytes(b'ignored')
         (self.units / 'empty').mkdir()
         self.control('unit_map')
+
+    def test_units_ignore_unreadable_irrelevant_directory(self):
+        irrelevant = self.unit / 'irrelevant'
+        irrelevant.mkdir()
+        self.addCleanup(irrelevant.chmod, 0o755)
+        irrelevant.chmod(0)
+        self.assertEqual(self.cli('unit_map'),
+                         MASTER_RESULTS['unreadable_irrelevant_directory'])
 
     def attack(self, route, kind):
         self.control(route)

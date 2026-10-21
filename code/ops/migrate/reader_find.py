@@ -82,7 +82,7 @@ def unit_rows(units: Path) -> tuple[dict[str, str], list[Path]]:
             files.append(path)
 
     with fdsafe.hold_root(str(units)) as parent:
-        fdsafe.walk(parent, visit)
+        fdsafe.walk(parent, visit, descend=lambda entry: "/" not in entry.rel)
     if not files:
         raise Refused(f'{units}: no */{UNIT_ROWS}')
     return mapping, files
