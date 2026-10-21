@@ -2,7 +2,9 @@
 import contextlib
 import hashlib
 import json
+import os
 import unittest
+from collections.abc import Mapping
 from unittest import mock
 
 from ops.migrate import fdsafe
@@ -64,6 +66,22 @@ class Compare(unittest.TestCase):
                                   L, notebook([cell("a", "raw")]))
         self.assertEqual([r["in_live"] for r in rows], ["yes", "no", "yes"])
         self.assertEqual(pair["unique_cells"], "1")
+
+    def test_empty_sources(self):
+        data = notebook([cell([]), cell("")])
+        for live_cells, membership in (([cell([])], "yes"), ([cell("")], "yes"),
+                                       ([cell("x")], "no"), ([], "no")):
+            with self.subTest(live_cells=live_cells):
+                pair, rows = core.compare(C, data, L, notebook(live_cells))
+                self.assertEqual(pair["live_cells"], str(len(live_cells)))
+                self.assertEqual([row["source_sha256"] for row in rows],
+                                 [hashlib.sha256(b"").hexdigest()] * 2)
+                self.assertEqual([row["in_live"] for row in rows], [membership] * 2)
+
+    def test_live_empty_source_list(self):
+        pair, rows = core.compare(C, notebook([cell("x")]), L, notebook([cell([])]))
+        self.assertEqual(pair["live_cells"], "1")
+        self.assertEqual([row["in_live"] for row in rows], ["no"])
 
     def test_source_representation_and_outputs(self):
         a = cell(["x", "\n"], outputs=[])
@@ -155,12 +173,29 @@ class Compare(unittest.TestCase):
             self.refuses_both(notebook([cell(), bad]), 1)
 
     def test_purity(self):
+        class UnreadableEnvironment(Mapping):
+            def __getitem__(self, key):
+                raise AssertionError("os.environ access")
+
+            def __iter__(self):
+                raise AssertionError("os.environ iteration")
+
+            def __len__(self):
+                raise AssertionError("os.environ length")
+
         data = notebook([cell()])
+        expected_pair, expected_rows = core.compare(C, data, L, data)
+        expected_result = core.render(PAIR, [expected_pair])
         with contextlib.ExitStack() as stack:
-            for name in ("builtins.open", "os.open", "os.stat", "os.lstat", "os.scandir", "subprocess.run"):
+            for name in ("builtins.open", "os.open", "os.stat", "os.lstat", "os.scandir", "subprocess.run",
+                         "os.getenv", "time.time", "time.time_ns", "time.monotonic",
+                         "time.perf_counter", "random.random", "random.getrandbits"):
                 stack.enter_context(mock.patch(name, side_effect=AssertionError(name)))
+            stack.enter_context(mock.patch.object(os, "environ", UnreadableEnvironment()))
             pair, rows = core.compare(C, data, L, data)
             result = core.render(PAIR, [pair])
+            self.assertEqual((pair, rows), (expected_pair, expected_rows))
+            self.assertEqual(result, expected_result)
             self.assertEqual(len(rows), 1)
             self.assertTrue(result.startswith(b"checkpoint\tlive\t"))
 
