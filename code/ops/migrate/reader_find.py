@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import errno
 import io
 import json
 import os
@@ -38,7 +39,8 @@ class Refused(Exception):
 
 
 def read_rows(path: Path) -> dict[str, str]:
-    data = path.read_bytes()
+    with fdsafe.hold_root(str(path.parent)) as parent:
+        data = fdsafe.read_named(parent, path.name)
     rows = list(csv.reader(io.StringIO(data.decode('utf-8')), delimiter='\t'))
     if not rows or rows[0] != HEADER:
         raise Refused(f'{path}: expected header old<TAB>new<TAB>disposition<TAB>unit')
@@ -55,7 +57,20 @@ def read_rows(path: Path) -> dict[str, str]:
 
 
 def unit_rows(units: Path) -> tuple[dict[str, str], list[Path]]:
-    files = sorted(units.glob('*/' + UNIT_ROWS)) if units.is_dir() else []
+    files = []
+    with fdsafe.hold_root(str(units)) as parent:
+        with fdsafe.fs(parent.path), os.scandir(parent.fd) as entries:
+            names = sorted(entry.name for entry in entries)
+        for name in names:
+            path = units / name
+            with fdsafe.fs(str(path)):
+                mode = os.stat(name, dir_fd=parent.fd, follow_symlinks=False).st_mode
+            if stat.S_ISREG(mode):
+                continue
+            with fdsafe.hold_root(str(path)) as unit:
+                with fdsafe.fs(unit.path), os.scandir(unit.fd) as entries:
+                    if any(entry.name == UNIT_ROWS for entry in entries):
+                        files.append(path / UNIT_ROWS)
     if not files:
         raise Refused(f'{units}: no */{UNIT_ROWS}')
     mapping = {}
@@ -227,7 +242,13 @@ def run(args) -> int:
     code = 1 if report['stale'] else 0
     if report_path is not None:
         target = report_path if report_path.is_absolute() else root / report_path
-        recorded = target.read_bytes() if target.is_file() and not target.is_symlink() else None
+        try:
+            with fdsafe.hold_root(str(target.parent)) as parent:
+                recorded = fdsafe.read_named(parent, target.name)
+        except fdsafe.Refusal as exc:
+            if exc.errno != errno.ENOENT:
+                raise
+            recorded = None
         if recorded != text:
             print(f'reader_find: {target} differs from this scan', file=sys.stderr)
             code = 1
