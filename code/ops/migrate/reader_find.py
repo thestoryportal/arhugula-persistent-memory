@@ -41,6 +41,10 @@ class Refused(Exception):
 def read_rows(path: Path) -> dict[str, str]:
     with fdsafe.hold_root(str(path.parent)) as parent:
         data = fdsafe.read_named(parent, path.name)
+    return parse_rows(path, data)
+
+
+def parse_rows(path: Path, data: bytes) -> dict[str, str]:
     rows = list(csv.reader(io.StringIO(data.decode('utf-8')), delimiter='\t'))
     if not rows or rows[0] != HEADER:
         raise Refused(f'{path}: expected header old<TAB>new<TAB>disposition<TAB>unit')
@@ -58,27 +62,29 @@ def read_rows(path: Path) -> dict[str, str]:
 
 def unit_rows(units: Path) -> tuple[dict[str, str], list[Path]]:
     files = []
-    with fdsafe.hold_root(str(units)) as parent:
-        with fdsafe.fs(parent.path), os.scandir(parent.fd) as entries:
-            names = sorted(entry.name for entry in entries)
-        for name in names:
-            path = units / name
-            with fdsafe.fs(str(path)):
-                mode = os.stat(name, dir_fd=parent.fd, follow_symlinks=False).st_mode
+    mapping = {}
+
+    def visit(entry):
+        depth = entry.rel.count('/')
+        if depth == 0:
+            mode = entry.st.st_mode
             if stat.S_ISREG(mode):
-                continue
-            with fdsafe.hold_root(str(path)) as unit:
-                with fdsafe.fs(unit.path), os.scandir(unit.fd) as entries:
-                    if any(entry.name == UNIT_ROWS for entry in entries):
-                        files.append(path / UNIT_ROWS)
+                return
+            if not stat.S_ISDIR(mode):
+                err = errno.ELOOP if stat.S_ISLNK(mode) else errno.ENOTDIR
+                raise fdsafe.Refusal(entry.path, 'is not a directory', err)
+        if depth == 1 and entry.name == UNIT_ROWS:
+            path = Path(entry.path)
+            for old, new in parse_rows(path, fdsafe.read_bytes(entry)).items():
+                if old in mapping:
+                    raise Refused(f'{path}: old path {old} is in two units')
+                mapping[old] = new
+            files.append(path)
+
+    with fdsafe.hold_root(str(units)) as parent:
+        fdsafe.walk(parent, visit)
     if not files:
         raise Refused(f'{units}: no */{UNIT_ROWS}')
-    mapping = {}
-    for path in files:
-        for old, new in read_rows(path).items():
-            if old in mapping:
-                raise Refused(f'{path}: old path {old} is in two units')
-            mapping[old] = new
     return mapping, files
 
 

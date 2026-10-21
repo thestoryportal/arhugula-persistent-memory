@@ -147,6 +147,8 @@ class Maps(unittest.TestCase):
         path = getattr(self, route)
         if parent:
             path = path.parent
+        if route == 'unit_map' and parent and call == FK.GETPATH:
+            path = self.units
         if call == 'open':
             match = lambda name, *a, **kw: os.fspath(name) in (str(path), path.name)
         else:
@@ -164,12 +166,19 @@ class Maps(unittest.TestCase):
 
     def test_unit_stat_eio(self):
         self.control('unit_map')
-        real_stat = os.stat
-        def fail(name, *args, **kwargs):
-            if name == self.unit.name and kwargs.get('dir_fd') is not None:
-                raise OSError(errno.EIO, os.strerror(errno.EIO))
-            return real_stat(name, *args, **kwargs)
-        with mock.patch.object(os, 'stat', side_effect=fail):
+        real_scandir = os.scandir
+        @contextlib.contextmanager
+        def entries(fd):
+            with real_scandir(fd) as scanned:
+                wrapped = []
+                for entry in scanned:
+                    proxy = mock.Mock(wraps=entry)
+                    proxy.name = entry.name
+                    if self.fd_match(self.units)(fd) and entry.name == self.unit.name:
+                        proxy.stat.side_effect = OSError(errno.EIO, os.strerror(errno.EIO))
+                    wrapped.append(proxy)
+                yield iter(wrapped)
+        with mock.patch.object(os, 'scandir', side_effect=entries):
             result = self.cli('unit_map')
         self.refused(result, self.unit, 'EIO')
 
@@ -192,6 +201,33 @@ class Maps(unittest.TestCase):
         except FK.AttackTimeout as exc:
             self.fail(str(exc))
         self.refused(result, path)
+
+    def rebind_after_listing(self, folder):
+        (self.root / 'reader').write_bytes(b'old/place\n')
+        control = self.control('unit_map')
+        path = getattr(self, folder)
+        with FK.rename_and_rebind('scandir', 1, path, when='after',
+                                  match=self.fd_match(path)) as fault:
+            attacked_scandir = os.scandir
+            def plant(*args, **kwargs):
+                entries = attacked_scandir(*args, **kwargs)
+                if fault.fired and not self.unit_map.exists():
+                    self.unit.mkdir(exist_ok=True)
+                    self.unit_map.write_bytes(self.data.replace(b'old/place', b'other/place'))
+                return entries
+            with mock.patch.object(os, 'scandir', side_effect=plant):
+                result = self.cli('unit_map')
+        self.assertEqual(fault.fired, 1)
+        if result[0] == 2:
+            self.refused(result, path)
+        else:
+            self.assertEqual(result, control)
+
+    def test_unit_rebound_after_listing(self):
+        self.rebind_after_listing('unit')
+
+    def test_units_rebound_after_listing(self):
+        self.rebind_after_listing('units')
 
     def test_map_parent_renamed_after_hold(self):
         self.control('relocations')
