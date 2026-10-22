@@ -60,6 +60,26 @@ class Registry(unittest.TestCase):
             with self.subTest(bad=bad), self.assertRaises(fdsafe.Refusal):
                 core.parse_registry(bad)
 
+    def test_count_conversion_is_bounded_and_names_line(self):
+        for digits in (19, 5000):
+            for path in ('p', ''):
+                with self.subTest(digits=digits, path=path):
+                    with self.assertRaisesRegex(fdsafe.Refusal, 'registry line 3'):
+                        core.parse_registry('# header\n\nREPLACE\t' + path +
+                                            '\to\tn\t' + '1' * digits)
+        self.assertEqual(core.parse_registry('REPLACE\tp\to\tn\t' + '9' * 18),
+                         (core.Replace('p', 'o', 'n', 999999999999999999),))
+
+    def test_non_string_text_refuses(self):
+        with self.assertRaisesRegex(fdsafe.Refusal, 'STOP.process_class'):
+            core.Stop(17)
+
+    def test_record_control_characters_refuse_with_line(self):
+        for char in ('\n', '\r', '\t'):
+            with self.subTest(char=char):
+                with self.assertRaisesRegex(fdsafe.Refusal, 'registry line 2'):
+                    core.parse_registry('# header\nRECORD\t"history' + char + 'x"')
+
     def test_multiple_edits_same_path(self):
         self.assertEqual(len(core.parse_registry('REPLACE\tp\ta\tb\t1\nREPLACE\tp\tc\td\t2')), 2)
 
@@ -108,6 +128,25 @@ class Registry(unittest.TestCase):
         with mock.patch('csv.reader', return_value=Reader()):
             with self.assertRaisesRegex(RuntimeError, 'dependency failure'):
                 core.parse_registry('input')
+
+    def test_constructor_value_error_propagates_unchanged(self):
+        error = ValueError('dependency failure')
+
+        class BrokenText(str):
+            def startswith(self, *args):
+                raise error
+
+        class Reader:
+            line_num = 1
+
+            def __iter__(self):
+                return iter([['RENAME', BrokenText('a'), 'b']])
+
+        with mock.patch('csv.reader', return_value=Reader()):
+            with self.assertRaises(ValueError) as ctx:
+                core.parse_registry('input')
+        # [LAW:behavior-not-structure] Refusal is also a ValueError; preserve identity.
+        self.assertIs(ctx.exception, error)
 
 
 class Classification(unittest.TestCase):
@@ -217,6 +256,19 @@ class Classification(unittest.TestCase):
             with self.subTest(field=field, value=value), self.assertRaises(fdsafe.Refusal):
                 self.run_scan(**{field: value})
 
+    def test_rows_mapping_refuses(self):
+        with self.assertRaisesRegex(fdsafe.Refusal, 'rows'):
+            self.run_scan(rows={}, hits={}, counts={})
+
+    def test_count_key_non_tuple_refuses(self):
+        with self.assertRaisesRegex(fdsafe.Refusal, 'counts'):
+            self.run_scan(rows=(), hits={}, counts={'po': 1})
+
+    def test_count_key_wrong_arity_refuses(self):
+        for key in ((), ('p',), ('p', 'o', 'ignored')):
+            with self.subTest(key=key), self.assertRaisesRegex(fdsafe.Refusal, 'counts'):
+                self.run_scan(rows=(), hits={}, counts={key: 1})
+
     def test_invalid_facts_are_not_hidden_by_missing_counts(self):
         for key in (('../p', 'o'), ('p', ''), ('p', None)):
             counts = {('config', '/M'): 2, key: 1}
@@ -235,23 +287,103 @@ class Classification(unittest.TestCase):
             self.run_scan(measured_counts={0: 2})
 
 
+    def test_empty_registry_never_allows_hits(self):
+        # [LAW:behavior-not-structure] Folder names confer no registry authority.
+        paths = ('/history/x', '/history', 'history/x', 'code/x', 'program/x',
+                 'knowledge/x', 'experiments/x', 'data/x', '_archive/x',
+                 '_system/x', '_index/x', '.claude/x', '.venv/x', '/Users/x/y',
+                 'bare', 'evidence/x', 'plans/x', 'audits/x', '_templates/x',
+                 'projects/x', 'map/x', '.codex/x', '.github/x')
+        for stage in ('pre', 'post'):
+            for path in paths:
+                with self.subTest(stage=stage, path=path):
+                    result = self.run_scan(stage, rows=(), counts={},
+                                           hits={path: 1}, old_root_exists=False)
+                    self.assertEqual(result.classifications, ((path, 'unregistered'),))
+                    self.assertEqual(result.findings, (f'{path}: unregistered',))
+                    self.assertEqual(result.exit_status, 1)
+
+    def test_mixed_registry_allows_only_covered_hits(self):
+        # [LAW:behavior-not-structure] Assert the complete partition at each stage.
+        rows = core.parse_registry('RECORD\t/history\nREPLACE\tconfig\t/M\t/R\t2')
+        uncovered = ('/history-old/x', '/history-old', 'history/x', 'code/x',
+                     'program/x', 'knowledge/x', 'experiments/x', 'data/x',
+                     '_archive/x', '_system/x', '_index/x', '.claude/x', '.venv/x',
+                     '/Users/x/y', 'bare', 'config-old', 'config/x', 'evidence/x',
+                     'plans/x', 'audits/x', '_templates/x', 'projects/x', 'map/x',
+                     '.codex/x', '.github/x')
+        hits = {'/history': 1, '/history/x': 1, 'config': 2,
+                **dict.fromkeys(uncovered, 1)}
+        for stage, old_count, new_count, replace_kind in (
+                ('pre', 2, 0, 'LIVE'), ('post', 0, 2, 'unregistered')):
+            with self.subTest(stage=stage):
+                result = self.run_scan(
+                    stage, rows=rows, hits=hits, old_root_exists=False,
+                    counts={('config', '/M'): old_count, ('config', '/R'): new_count})
+                expected = (('/history', 'RECORD'), ('/history/x', 'RECORD'),
+                            ('config', replace_kind)) + tuple(
+                                (path, 'unregistered') for path in uncovered)
+                self.assertEqual(result.classifications, expected)
+                self.assertEqual(result.findings, tuple(
+                    f'{path}: unregistered' for path, kind in expected
+                    if kind == 'unregistered'))
+                self.assertEqual(result.exit_status, 1)
+
+
 class Purity(unittest.TestCase):
-    def test_imports_and_calls_allowlist(self):
-        tree = ast.parse(inspect.getsource(core))
-        imports = set()
+    def assert_pure(self, source):
+        tree = ast.parse(source)
+        allowed_imports = {
+            '__future__': {'annotations'}, 'collections.abc': {'Mapping'},
+            'dataclasses': {'dataclass', 'field'}, 'typing': {'Literal'},
+            'ops.migrate': {'fdsafe'},
+        }
+        module_attributes = {'csv': {'reader', 'Error'}, 'io': {'StringIO'},
+                             'fdsafe': {'Refusal'}}
+        calls = {'_refuse', '_text', '_path', '_count', '_mapping', 'isinstance',
+                 'type', 'any', 'len', 'int', 'str', 'tuple', 'bool', 'enumerate',
+                 'dataclass', 'field', 'constructor', 'ScanResult'}
+        methods = {'startswith', 'removeprefix', 'split', 'rstrip', 'items', 'append'}
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
-                imports.update(a.name for a in node.names)
+                for alias in node.names:
+                    self.assertIn(alias.name, {'csv', 'io'})
+                    self.assertIsNone(alias.asname)
             elif isinstance(node, ast.ImportFrom):
-                imports.add(node.module)
-        self.assertLessEqual(imports, {'__future__', 'collections.abc', 'dataclasses',
-                                     'typing', 'csv', 'io', 'ops.migrate'})
-        self.assertIn('ops.migrate', imports)
-        for node in ast.walk(tree):
-            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
-                self.assertNotIn(node.func.id, {'open', 'eval', 'exec', '__import__', 'compile'})
-            if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
-                self.assertNotIn(node.func.attr, {'open', 'read', 'write', 'stat', 'getenv', 'system'})
+                self.assertEqual(node.level, 0)
+                self.assertIn(node.module, allowed_imports)
+                for alias in node.names:
+                    self.assertIn(alias.name, allowed_imports[node.module])
+                    self.assertIsNone(alias.asname)
+            elif isinstance(node, ast.Attribute):
+                root = node.value
+                while isinstance(root, ast.Attribute):
+                    root = root.value
+                if isinstance(root, ast.Name) and root.id in module_attributes:
+                    self.assertIsInstance(node.value, ast.Name)
+                    self.assertIn(node.attr, module_attributes[root.id])
+            elif isinstance(node, ast.Call):
+                if isinstance(node.func, ast.Name):
+                    self.assertIn(node.func.id, calls)
+                else:
+                    self.assertIsInstance(node.func, ast.Attribute)
+                    if (isinstance(node.func.value, ast.Name) and
+                            node.func.value.id in module_attributes):
+                        self.assertIn(node.func.attr, module_attributes[node.func.value.id])
+                    else:
+                        self.assertIn(node.func.attr, methods)
+
+    def test_imports_and_calls_allowlist(self):
+        # [LAW:effects-at-boundaries] Imported modules must not expose an I/O escape.
+        self.assert_pure(inspect.getsource(core))
+
+    def test_purity_rejects_imported_effects_and_unlisted_calls(self):
+        source = inspect.getsource(core)
+        for statement in ('fdsafe.os.access(__file__, 0)', 'fdsafe.os.listdir(".")',
+                          'effect = fdsafe.os', 'print("effect")',
+                          'getattr(fdsafe, "os")', 'import os'):
+            with self.subTest(statement=statement), self.assertRaises(AssertionError):
+                self.assert_pure(source + '\n' + statement + '\n')
 
 
 if __name__ == '__main__':

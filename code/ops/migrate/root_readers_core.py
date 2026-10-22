@@ -142,7 +142,8 @@ def parse_registry(text: str) -> tuple[Row, ...]:
                 _refuse(where, 'wrong number of fields')
             args = cells[1:]
             if constructor is Replace and args[3] != 'measured':
-                if not args[3] or any(c not in '0123456789' for c in args[3]):
+                # [LAW:parse-dont-validate] Bound decimal text before Python's int limit.
+                if not args[3] or len(args[3]) > 18 or any(c not in '0123456789' for c in args[3]):
                     _refuse(where, 'count must be an exact integer or measured')
                 args[3] = int(args[3])
             try:
