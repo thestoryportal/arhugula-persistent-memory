@@ -47,7 +47,7 @@ ROUTE_HEADER = ("child", "producer", "owner", "target")
 PLAN_FINDING_COLUMNS = ("kind", "file", "line", "old_text", "detail")
 ROUTE_FINDING_COLUMNS = ("kind", "child", "detail")
 OWNERS = frozenset(("run", "audit", "build-receipt"))
-REPAIR_STEPS = range(261, 270)
+REPAIR_STEPS = frozenset({*range(261, 270), 387})
 UNIT_KEYS = frozenset(("requirement_id", "manifest_path", "manifest_bytes", "registry", "candidate",
                        "readers", "comparison"))
 MATCH_KEYS = frozenset(("unit", "result", "experiment_id", "candidates", "unknown", "evidence"))
@@ -531,7 +531,15 @@ def check_plans(*, root, entries, occurrences, repairs, historical) -> tuple:
                     _refuse(at, "line and step are decimal numbers")
                 step = _int(row["step"], at)
                 if step not in REPAIR_STEPS:
-                    _refuse(at, f"repair step {step} is not one of 261-269")
+                    # [LAW:one-source-of-truth] Refusals describe the same set that admits rows.
+                    runs = []
+                    for allowed in sorted(REPAIR_STEPS):
+                        if runs and allowed == runs[-1][1] + 1:
+                            runs[-1][1] = allowed
+                        else:
+                            runs.append([allowed, allowed])
+                    parts = [str(a) if a == b else f"{a}-{b}" for a, b in runs]
+                    _refuse(at, f"repair step {step} is not one of {', '.join(parts)}")
             key = (file, line, old_text)
             # [LAW:one-source-of-truth] One index detects repeats within and across tables.
             if key in rows:
