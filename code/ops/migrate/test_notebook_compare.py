@@ -516,6 +516,80 @@ class NotebookCompare(unittest.TestCase):
         with mock.patch.object(fdsafe.Dir, "close", attacked):
             self.refused(self.out, errno.EIO, created=True)
 
+    def call_without_fd_leak(self):
+        before = len(self.names("/dev/fd"))
+        try:
+            return self.call()
+        finally:
+            self.assertEqual(len(self.names("/dev/fd")), before)
+
+    def test_no_fd_leak_success(self):
+        self.assertEqual(self.call_without_fd_leak(), (
+            0, "1 pairs: 1 exact, 0 differing, 0 unmatched; 0 unique cells\n", ""))
+
+    def assert_no_fd_leak_refusal(self, path):
+        rc, out, message = self.call_without_fd_leak()
+        self.assertEqual((rc, out), (1, ""))
+        self.assertEqual(len(message.splitlines()), 1)
+        self.assertIn(path, message)
+        self.assertNotIn("Traceback", message)
+
+    def test_no_fd_leak_pairs_refusal(self):
+        self.write_pairs(b"checkpoint\tlive\n")
+        self.assert_no_fd_leak_refusal(self.pairs)
+
+    def test_no_fd_leak_checkpoint_refusal(self):
+        with fdsafe.fs(self.cp):
+            os.unlink(self.cp)
+        self.assert_no_fd_leak_refusal(self.cp)
+
+    def test_no_fd_leak_unmatched(self):
+        with fdsafe.fs(self.live):
+            os.unlink(self.live)
+        self.assertEqual(self.call_without_fd_leak(), (
+            0, "1 pairs: 0 exact, 0 differing, 1 unmatched; 1 unique cells\n", ""))
+
+    def test_no_fd_leak_out_exists_refusal(self):
+        self.put(self.out, b"keep")
+        self.assert_no_fd_leak_refusal(self.out)
+        self.assertEqual(self.read(self.out), b"keep")
+
+    def held_close_refuses(self, path):
+        real = fdsafe.Dir.close
+        attacked_fds = []
+
+        def attacked(held):
+            if held.path == path:
+                attacked_fds.append(held.fd)
+                with FK.inject_oserror("close", 1, errno.EIO,
+                                       match=named(held.fd)):
+                    return real(held)
+            return real(held)
+
+        with mock.patch.object(fdsafe.Dir, "close", attacked):
+            rc, out, message = self.call_without_fd_leak()
+        self.assertEqual(len(attacked_fds), 1)
+        self.assertEqual((rc, out), (1, ""))
+        self.assertEqual(len(message.splitlines()), 1)
+        self.assertIn(path, message)
+        self.assertIn("EIO", message)
+        self.assertNotIn("Traceback", message)
+
+    def test_pairs_parent_close_eio(self):
+        self.held_close_refuses(os.path.dirname(self.pairs))
+
+    def test_checkpoint_parent_close_eio(self):
+        self.held_close_refuses(os.path.dirname(self.cp))
+
+    def test_live_parent_close_eio(self):
+        self.held_close_refuses(os.path.dirname(self.live))
+
+    def test_output_parent_close_eio(self):
+        self.held_close_refuses(os.path.dirname(self.out))
+
+    def test_output_dir_close_eio(self):
+        self.held_close_refuses(self.out)
+
     def test_usage(self):
         for argv in ([], ["--pairs", self.pairs], ["--out", self.out]):
             with self.subTest(argv=argv), self.assertRaises(SystemExit) as caught:
