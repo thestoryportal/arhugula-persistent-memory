@@ -11,6 +11,35 @@ from ops.migrate import root_readers_core as core
 
 
 class Registry(unittest.TestCase):
+    def test_row_constructors_reject_kind_keyword(self):
+        # [LAW:behavior-not-structure] The discriminator is not caller input.
+        cases = ((core.Replace, ('p', 'old', 'new', 1), 'REPLACE'),
+                 (core.Rename, ('a', 'b'), 'RENAME'),
+                 (core.Install, ('a', '/b'), 'INSTALL'),
+                 (core.Check, ('reader', 'check-id'), 'CHECK'),
+                 (core.Stop, ('worker',), 'STOP'),
+                 (core.Record, ('history',), 'RECORD'))
+        for constructor, args, own_kind in cases:
+            for kind in (own_kind, 'BROKEN'):
+                with self.subTest(row=constructor.__name__, kind=kind):
+                    with self.assertRaises(TypeError):
+                        constructor(*args, kind=kind)
+
+    def test_row_fields_are_frozen_and_unchanged(self):
+        # [LAW:behavior-not-structure] Failed writes must preserve the value.
+        cases = ((core.Replace('p', 'old', 'new', 1), 'path', 'q'),
+                 (core.Rename('a', 'b'), 'src', 'c'),
+                 (core.Install('a', '/b'), 'dst', '/c'),
+                 (core.Check('reader', 'check-id'), 'check_id', 'other-id'),
+                 (core.Stop('worker'), 'process_class', 'other-worker'),
+                 (core.Record('history'), 'prefix', 'other-history'))
+        for row, field, replacement in cases:
+            with self.subTest(row=type(row).__name__, field=field):
+                before = copy.deepcopy(row)
+                with self.assertRaises(FrozenInstanceError):
+                    setattr(row, field, replacement)
+                self.assertEqual(row, before)
+
     def test_all_kinds_and_fields(self):
         rows = core.parse_registry(
             '# registry\n\nREPLACE\tconfig\t/M\t/R\t2\n'
@@ -150,6 +179,19 @@ class Registry(unittest.TestCase):
 
 
 class Classification(unittest.TestCase):
+    def test_scan_result_fields_are_frozen_and_unchanged(self):
+        # [LAW:behavior-not-structure] Exercise the value returned to callers.
+        result = self.run_scan()
+        for field, replacement in (
+                ('classifications', (('other', 'unregistered'),)),
+                ('findings', ('other: unregistered',)),
+                ('measured_counts', ((0, 99),))):
+            with self.subTest(field=field):
+                before = copy.deepcopy(result)
+                with self.assertRaises(FrozenInstanceError):
+                    setattr(result, field, replacement)
+                self.assertEqual(result, before)
+
     def setUp(self):
         self.rows = core.parse_registry('REPLACE\tconfig\t/M\t/R\t2\nRECORD\t/history')
 
