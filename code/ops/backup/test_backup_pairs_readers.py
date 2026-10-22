@@ -240,7 +240,7 @@ class Readers(unittest.TestCase):
         # [LAW:behavior-not-structure] Pin every native flag, including the schedule.
         self.assertEqual(self.recorded()[0], [
             'sync', str(self.sources[0]) + '/', str(self.dests[0]) + '/',
-            '--backup-dir', str(self.base / '.deleted' / stamp) + '/',
+            '--backup-dir', str(self.base / '.deleted' / (stamp + '-' + self.dests[0].name)) + '/',
             '--exclude-from', str(self.excludes), '--links',
             '--log-file', str(self.base / 'runs' / (stamp + '-pair0.jsonl')),
             '--log-level', 'INFO', '--use-json-log',
