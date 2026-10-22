@@ -190,6 +190,12 @@ class Readers(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory
         def confined_temp(*args, **kwargs):
             return temporary(*args, **dict(kwargs, dir=self.base))
+        unit = self.base / 'unit'
+        unit.mkdir()
+        unit_table = unit / 'pairs.tsv'
+        unit_table.write_bytes(self.table.read_bytes())
+        (unit / 'excludes').write_bytes(self.excludes.read_bytes())
+        self.env['BACKUP_PAIRS'] = str(unit_table)
         with mock.patch.object(drive_checks, 'ROOT', self.repo), \
                 mock.patch.object(drive_checks, 'run_process', side_effect=process), \
                 mock.patch.object(tempfile, 'TemporaryDirectory', side_effect=confined_temp), \
@@ -837,6 +843,161 @@ class DriveMode(unittest.TestCase):
     def test_drive_mode_excludes_after_read_move_refuses(self):
         self.late_drive_move('rules')
 
+    def test_output_setup_failure_closes_results(self):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as name:
+            root = Path(name)
+            (root / 'results').mkdir()
+            held = []
+            open_file = os.open
+            def remember(path, *args, **kwargs):
+                fd = open_file(path, *args, **kwargs)
+                held.append(fd)
+                return fd
+            with mock.patch.object(drive_checks, 'ROOT', root), \
+                    mock.patch.object(os, 'open', remember), \
+                    fault_kit.raise_unexpected('mkdir', 1, RuntimeError) as fault:
+                with self.assertRaises(RuntimeError):
+                    drive_checks.drive_selftest()
+            self.assertEqual(fault.fired, 1)
+            self.assertEqual(len(held), 1)
+            with self.assertRaises(OSError):
+                os.fstat(held[0])
+
+    def test_output_holds_close_after_run(self):
+        held = []
+        @contextlib.contextmanager
+        def prepare(table):
+            open_file = os.open
+            def remember(*args, **kwargs):
+                fd = open_file(*args, **kwargs)
+                held.append(fd)
+                return fd
+            with mock.patch.object(os, 'open', remember):
+                yield
+            for fd in held:
+                with self.assertRaises(OSError):
+                    os.fstat(fd)
+        status, summary, dry, table = self.run_drive_table(prepare)
+        self.assertEqual(status, 0, summary)
+        self.assertGreaterEqual(len(held), 3)
+
+    def test_output_results_symlink_refuses(self):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as name:
+            root = Path(name)
+            results, other = root / 'results', root / 'other'
+            results.mkdir()
+            other.mkdir()
+            with fault_kit.swap_for_symlink('open', 1, results, other,
+                    match=lambda path, *a, **k: path == str(results)) as fault, \
+                    mock.patch.object(drive_checks, 'ROOT', root), \
+                    mock.patch.object(drive_checks, 'run_process') as process:
+                with self.assertRaises(drive_checks.fdsafe.Refusal):
+                    drive_checks.drive_selftest()
+            self.assertEqual(fault.fired, 1)
+            process.assert_not_called()
+            self.assertEqual(list(other.iterdir()), [])
+
+    def test_output_directory_rebind_refuses(self):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as name:
+            root = Path(name)
+            (root / 'results').mkdir()
+            mkdir = os.mkdir
+            faults = []
+            with contextlib.ExitStack() as stack:
+                def create_dir(path, *args, **kwargs):
+                    value = mkdir(path, *args, **kwargs)
+                    if Path(path).name.startswith('backup_gdrive_drive_'):
+                        out = root / 'results' / Path(path).name
+                        faults.append(stack.enter_context(fault_kit.rename_and_rebind(
+                            'open', 1, out, match=lambda path, *a, **k: Path(path).name == out.name)))
+                    return value
+                stack.enter_context(mock.patch.object(os, 'mkdir', create_dir))
+                stack.enter_context(mock.patch.object(drive_checks, 'ROOT', root))
+                process = stack.enter_context(mock.patch.object(drive_checks, 'run_process'))
+                with self.assertRaisesRegex(drive_checks.fdsafe.Refusal, 'changed between create and open'):
+                    drive_checks.drive_selftest()
+            self.assertEqual([fault.fired for fault in faults], [1])
+            process.assert_not_called()
+
+    def output_create_case(self, leaf, kind):
+        # [LAW:behavior-not-structure] Observe refusal, input custody and dispatch.
+        observed = {}
+        calls = []
+        @contextlib.contextmanager
+        def prepare(table):
+            before = table.read_bytes()
+            mkdir = os.mkdir
+            with contextlib.ExitStack() as stack:
+                def create_dir(path, *args, **kwargs):
+                    value = mkdir(path, *args, **kwargs)
+                    if Path(path).name.startswith('backup_gdrive_drive_') and (
+                            Path(path).parent.name == 'results' or kwargs.get('dir_fd') is not None):
+                        out = table.parent.parent / 'results' / Path(path).name
+                        target = out / leaf
+                        fake = drive_checks.run_process
+                        def record(argv, **options):
+                            calls.append(argv)
+                            return fake(argv, **options)
+                        stack.enter_context(mock.patch.object(drive_checks, 'run_process', record))
+                        if kind == 'parent':
+                            observed['fault'] = stack.enter_context(fault_kit.swap_for_symlink(
+                                'open', 1, out, table.parent,
+                                match=lambda name, *a, **k: name == leaf))
+                        elif kind == 'link':
+                            target.write_bytes(b'keep existing output')
+                            observed['fault'] = stack.enter_context(fault_kit.swap_for_symlink(
+                                'open', 1, target, table,
+                                match=lambda name, *a, **k: name == leaf))
+                        elif kind == 'file':
+                            target.write_bytes(b'keep existing output')
+                        observed['target'] = target
+                    return value
+                stack.enter_context(mock.patch.object(os, 'mkdir', create_dir))
+                yield
+                self.assertEqual(table.read_bytes(), before)
+                self.assertEqual(list(table.parent.glob('excludes_*.txt')), [])
+                self.assertEqual(list(table.parent.glob('dry_run_changes*.txt')), [])
+                if kind == 'file':
+                    self.assertEqual(observed['target'].read_bytes(), b'keep existing output')
+                if kind == 'control':
+                    out = observed['target'].parent
+                    self.assertEqual([(out / f'excludes_{i}.txt').read_bytes() for i in range(2)],
+                                     [(table.parent / name).read_bytes() for name in ('one.rules', 'two.rules')])
+        status, summary, dry, table = self.run_drive_table(prepare)
+        if kind == 'control':
+            self.assertEqual(status, 0, summary)
+            self.assertEqual(summary['status'], 'PASS')
+            self.assertEqual(len(dry), 2)
+        else:
+            self.assertEqual(status, 1, summary)
+            self.assertEqual(summary['status'], 'FAILED')
+            self.assertIn('is held at' if kind == 'parent' else 'File exists', summary['error'])
+            if leaf == 'excludes_0.txt':
+                self.assertEqual(calls, [], summary)
+            if kind in ('parent', 'link'):
+                self.assertEqual(observed['fault'].fired, 1)
+
+    def test_output_excludes_parent_swap_refuses(self):
+        self.output_create_case('excludes_0.txt', 'parent')
+
+    def test_output_excludes_leaf_link_refuses(self):
+        self.output_create_case('excludes_0.txt', 'link')
+
+    def test_output_excludes_existing_file_refuses(self):
+        self.output_create_case('excludes_0.txt', 'file')
+
+    def test_output_changes_parent_swap_refuses(self):
+        self.output_create_case('dry_run_changes.txt', 'parent')
+
+    def test_output_changes_leaf_link_refuses(self):
+        self.output_create_case('dry_run_changes.txt', 'link')
+
+    def test_output_changes_existing_file_refuses(self):
+        self.output_create_case('dry_run_changes.txt', 'file')
+
+    def test_output_control_copies_exact_bytes(self):
+        self.output_create_case('excludes_0.txt', 'control')
+
     def check_drive_mode(self, hold):
         with tempfile.TemporaryDirectory(dir='/private/tmp') as name:
             root = Path(name)
@@ -844,12 +1005,14 @@ class DriveMode(unittest.TestCase):
             defaults = root / 'code/ops/backup'
             defaults.mkdir(parents=True)
             (defaults / 'backup_mirror.excludes').write_text('.cache/\n')
-            table = root / 'pairs.tsv'
+            unit = root / 'unit'
+            unit.mkdir()
+            table = unit / 'pairs.tsv'
             table.write_text('reader\tsource\tdestination\texcludes\n' +
                              f'gdrive\t{root}/one\tfixture:first\tone.rules\n' +
                              f'gdrive\t{root}/two\t' + ('HOLD' if hold else 'fixture:second') + '\ttwo.rules\n')
-            (root / 'one.rules').write_bytes(b'first rules\n')
-            (root / 'two.rules').write_bytes(b'second rules\n')
+            (unit / 'one.rules').write_bytes(b'first rules\n')
+            (unit / 'two.rules').write_bytes(b'second rules\n')
             calls, dry = [], []
             syncs = 0
 
@@ -923,7 +1086,7 @@ class DriveMode(unittest.TestCase):
                 self.assertTrue(all('--exclude-from' in call for call in dry))
                 copies = [Path(call[call.index('--exclude-from') + 1]) for call in dry]
                 self.assertEqual([p.read_bytes() for p in copies],
-                                 [(root / 'one.rules').read_bytes(), (root / 'two.rules').read_bytes()])
+                                 [(unit / 'one.rules').read_bytes(), (unit / 'two.rules').read_bytes()])
                 self.assertTrue(all(p.parent == Path(summary['evidence_dir']) for p in copies))
 
     def run_drive_table(self, prepare):
@@ -933,12 +1096,14 @@ class DriveMode(unittest.TestCase):
             defaults = root / 'code/ops/backup'
             defaults.mkdir(parents=True)
             (defaults / 'backup_mirror.excludes').write_text('.cache/\n')
-            table = root / 'pairs.tsv'
+            unit = root / 'unit'
+            unit.mkdir()
+            table = unit / 'pairs.tsv'
             table.write_text('reader\tsource\tdestination\texcludes\n' +
                              f'gdrive\t{root}/one\tfixture:first\tone.rules\n' +
                              f'gdrive\t{root}/two\t' + 'fixture:second' + '\ttwo.rules\n')
-            (root / 'one.rules').write_text('# fixture\n')
-            (root / 'two.rules').write_text('# fixture\n')
+            (unit / 'one.rules').write_text('# fixture\n')
+            (unit / 'two.rules').write_text('# fixture\n')
             attack = prepare(table)
             calls, dry = [], []
             syncs = 0
@@ -1011,7 +1176,7 @@ class DriveMode(unittest.TestCase):
             return contextlib.nullcontext()
         status, summary, dry, table = self.run_drive_table(prepare)
         self.assertEqual(status, 0, summary)
-        root = Path(table).parent
+        root = Path(table).parent.parent
         self.assertEqual([c[2:4] for c in dry],
                          [[str(root / 'one') + '/', 'fixture:first/'],
                           [str(root / 'two') + '/', 'fixture:second/']])
