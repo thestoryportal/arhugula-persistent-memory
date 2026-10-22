@@ -310,6 +310,11 @@ def run(args) -> int:
     return code
 
 
+def refusal_message(message: str) -> str:
+    return ''.join(repr(char)[1:-1] if ord(char) < 32 or ord(char) == 127 else char
+                   for char in message)
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument('--check', action='store_true')
@@ -325,7 +330,7 @@ def main(argv=None) -> int:
     try:
         return run(args)
     except (Refused, fdsafe.Refusal, OSError, UnicodeDecodeError, csv.Error) as exc:
-        print(f'reader_find: refused: {exc}', file=sys.stderr)
+        print(f'reader_find: refused: {refusal_message(str(exc))}', file=sys.stderr)
         return 2
 
 

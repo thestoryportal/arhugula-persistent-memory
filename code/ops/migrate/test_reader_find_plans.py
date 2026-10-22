@@ -156,8 +156,38 @@ class Plans(unittest.TestCase):
                          {'/first': '/target1', '/second': '/target2', '/third': '/target3'})
 
     def test_docstring_plans_line(self):
-        self.assertIn('  --check --untracked --units DIR --plans FILE --report FILE  Step 266',
-                      reader_find.__doc__.splitlines())
+        expected = '  --check --untracked --units DIR --plans FILE --report FILE  Step 266'
+        self.assertEqual(reader_find.__doc__.splitlines()[8], expected)
+        self.assertEqual(TOOL.read_text().splitlines()[9], expected)
+
+    def test_refusal_message_controls(self):
+        self.plans = self.base / 'plans\nforged diagnostic.json'
+        self.plans.write_bytes(b'{invalid')
+        result = self.scan()
+        escaped = str(self.plans).replace('\n', r'\n')
+        self.assertEqual((result.returncode, result.stdout, result.stderr),
+                         (2, '', f'reader_find: refused: {escaped}: expected UTF-8 JSON\n'))
+        self.assertEqual(len(result.stderr.splitlines()), 1)
+        for number in (*range(32), 127):
+            with self.subTest(number=number):
+                self.assertEqual(reader_find.refusal_message('before' + chr(number) + 'after'),
+                                 'before' + repr(chr(number))[1:-1] + 'after')
+        unchanged = 'ordinary "quotes" and \'apostrophes\', \\path: café\x85\u2028\u2029'
+        self.assertEqual(reader_find.refusal_message(unchanged), unchanged)
+
+    def test_without_plans(self):
+        old = str(self.base / 'old')
+        relocations = self.relocations(old)
+        for args in (('--old', old), ('--relocations', relocations)):
+            with self.subTest(args=args):
+                self.note.write_text(old + '/child\n')
+                stale = self.cli('--check', '--paths', 'note.txt', *args)
+                self.report(stale, [self.row(old)])
+                self.assertEqual(stale.stderr, f'reader_find: note.txt:1 names {old}\n')
+                self.note.write_text('clean\n')
+                clean = self.cli('--check', '--paths', 'note.txt', *args)
+                self.report(clean, [])
+                self.assertEqual(clean.stderr, '')
 
     def test_untracked_positive_and_units_negative_control(self):
         self.init_git()
