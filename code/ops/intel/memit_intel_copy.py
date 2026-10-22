@@ -176,7 +176,7 @@ def excluded(path, kind, patterns):
 
 
 class Controller:
-    def __init__(self, source, records, gen, remote=None, runner=None, destination='memit_copy', excludes=None):
+    def __init__(self, source, records, gen, remote=None, runner=None, destination='memit_copy', patterns=None):
         if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,99}', gen):
             raise ValueError('invalid generation')
         self.source = Path(source).absolute()
@@ -197,8 +197,9 @@ class Controller:
         self.receipt_path = self.directory / 'receipt.json'
         self.log_path = self.directory / 'run.jsonl'
         self.runner = runner if runner is not None else NativeRunner(log=self.log)
-        excludes = REPO / 'code/ops/backup/backup_mirror.excludes' if excludes is None else excludes
-        self.patterns = [p.strip() for p in Path(excludes).read_text().splitlines() if p.strip() and not p.startswith('#')]
+        # [LAW:effects-at-boundaries] Table rows carry admitted bytes, never a path to reopen.
+        self.patterns = (parse_patterns((REPO / 'code/ops/backup/backup_mirror.excludes').read_text())
+                         if patterns is None else patterns)
         self.manifest_info = None
 
     def record(self, path, value):
@@ -511,33 +512,36 @@ class Controller:
             raise
 
 
+def parse_patterns(text):
+    return tuple(p.strip() for p in text.splitlines() if p.strip() and not p.startswith('#'))
+
+
 def read_pairs(path):
-    # [LAW:effects-at-boundaries] The new table read uses the shared fd-bound reader.
+    # [LAW:effects-at-boundaries] Hold the table's root through every row's excludes read.
     path = Path(path).absolute()
-    with fdsafe.open_out_parent(str(path.parent)) as parent:
-        with fdsafe.fs(str(path)):
-            scanned = os.lstat(path.name, dir_fd=parent.fd)
-        raw = fdsafe.read_bytes(fdsafe.Entry(parent.fd, path.name, str(path), path.name, scanned))
-    lines = raw.decode('utf-8').splitlines()
-    if not lines or lines[0] != 'reader\tsource\tdestination\texcludes':
-        raise fdsafe.Refusal(str(path), 'invalid pairs header')
-    pairs = []
-    for number, line in enumerate(lines[1:], 2):
-        fields = line.split('\t')
-        if len(fields) != 4 or not all(fields):
-            raise fdsafe.Refusal(str(path), 'row %s: invalid pair' % number)
-        reader, source, destination, excludes = fields
-        if reader not in ('ssd', 'intel', 'gdrive'):
-            raise fdsafe.Refusal(str(path), 'row %s: unknown reader' % number)
-        if reader != 'intel':
-            continue
-        if destination == 'HOLD':
-            raise fdsafe.Refusal(str(path), 'row %s (%s): HOLD; Q6: operator must choose the Intel destination' % (number, source))
-        host, separator, folder = destination.partition(':')
-        if not host or not separator or not folder or '/' in excludes:
-            raise fdsafe.Refusal(str(path), 'row %s: invalid destination or excludes' % number)
-        pairs.append((source, host, folder, path.parent / excludes, number))
-    return pairs
+    with fdsafe.hold_root(str(path.parent)) as parent:
+        raw = fdsafe.read_named(parent, path.name)
+        lines = raw.decode('utf-8').splitlines()
+        if not lines or lines[0] != 'reader\tsource\tdestination\texcludes':
+            raise fdsafe.Refusal(str(path), 'invalid pairs header')
+        pairs = []
+        for number, line in enumerate(lines[1:], 2):
+            fields = line.split('\t')
+            if len(fields) != 4 or not all(fields):
+                raise fdsafe.Refusal(str(path), 'row %s: invalid pair' % number)
+            reader, source, destination, excludes = fields
+            if reader not in ('ssd', 'intel', 'gdrive'):
+                raise fdsafe.Refusal(str(path), 'row %s: unknown reader' % number)
+            if reader != 'intel':
+                continue
+            if destination == 'HOLD':
+                raise fdsafe.Refusal(str(path), 'row %s (%s): HOLD; Q6: operator must choose the Intel destination' % (number, source))
+            host, separator, folder = destination.partition(':')
+            if not host or not separator or not folder or '/' in excludes:
+                raise fdsafe.Refusal(str(path), 'row %s: invalid destination or excludes' % number)
+            patterns = () if excludes == '-' else parse_patterns(fdsafe.read_named(parent, excludes).decode('utf-8'))
+            pairs.append((source, host, folder, patterns, number))
+        return pairs
 
 
 def main(runner=None):

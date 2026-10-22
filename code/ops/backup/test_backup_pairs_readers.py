@@ -14,8 +14,11 @@ import unittest
 from unittest import mock
 
 from ops.intel import memit_intel_copy as intel
+from ops.backup import test_backup_gdrive as drive_checks
 
 ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / 'code/tests'))
+import fault_kit
 DRIVE = ROOT / 'code/ops/backup/backup_gdrive.sh'
 
 
@@ -158,6 +161,17 @@ class Readers(unittest.TestCase):
         self.assertIn('invalid pair', output)
         self.assertEqual(self.recorded(), [])
 
+    def test_drive_empty_fields_row_refusal(self):
+        for index in (1, 2, 3):
+            with self.subTest(field=index):
+                row = ['gdrive', str(self.sources[0]), str(self.dests[0]), 'excludes']
+                row[index] = ''
+                self.table.write_text('reader\tsource\tdestination\texcludes\n' + '\t'.join(row) + '\n')
+                status, output = self.drive()
+                self.assertNotEqual(status, 0)
+                self.assertIn('row 2: invalid pair', output)
+                self.assertEqual(self.recorded(), [])
+
     def test_drive_second_row_does_not_inherit_first_outcome(self):
         self.pairs('gdrive')
         wrapper = self.base / 'python-recorder'
@@ -233,6 +247,148 @@ class Readers(unittest.TestCase):
         self.assertEqual(status, 0, output)
         self.assertEqual(len([c for c in self.recorded() if c[0] == 'payload']), 2)
 
+    def test_intel_selected_hosts_and_folders(self):
+        self.pairs('intel')
+        self.table.write_text(self.table.read_text().replace('fixture:', 'first-host:', 1)
+                              .replace('fixture:', 'second-host:', 1))
+        status, output = self.copy(remote=False)
+        self.assertEqual(status, 0, output)
+        self.assertEqual([c[2].split('/incoming/')[0] for c in self.recorded() if c[0] == 'payload'],
+                         [host + ':' + str(dest) for host, dest in
+                          zip(('first-host', 'second-host'), self.dests)])
+
+    def test_intel_empty_source_is_admission_refusal(self):
+        self.assert_intel_bad_row('', 'host:folder', 'excludes', 'invalid pair')
+
+    def test_intel_empty_host_is_admission_refusal(self):
+        self.assert_intel_bad_row(str(self.sources[0]), ':folder', 'excludes', 'invalid destination')
+
+    def test_intel_empty_folder_is_admission_refusal(self):
+        self.assert_intel_bad_row(str(self.sources[0]), 'host:', 'excludes', 'invalid destination')
+
+    def test_intel_excludes_slash_is_row_refusal(self):
+        self.assert_intel_bad_row(str(self.sources[0]), 'host:folder', '../excludes', 'invalid destination')
+
+    def assert_intel_bad_row(self, source, destination, excludes, message):
+        self.pairs('intel')
+        self.assertEqual(len(intel.read_pairs(self.table)), 2)  # nearest valid control
+        self.table.write_text('reader\tsource\tdestination\texcludes\n' +
+                              f'intel\t{source}\t{destination}\t{excludes}\n')
+        with self.assertRaisesRegex(intel.fdsafe.Refusal, 'row 2: ' + message):
+            intel.read_pairs(self.table)
+        self.assertEqual(self.recorded(), [])
+
+    def test_intel_source_override_cannot_bypass_hold(self):
+        self.pairs('intel', hold=True)
+        status, output = self.copy(['--source', str(self.sources[0])])
+        self.assertEqual(status, 3, output)
+        self.assertRegex(output, r'row 3[^\n]*Q6')
+        self.assertEqual(self.recorded(), [])
+
+    def test_intel_legacy_destination(self):
+        with mock.patch.object(intel, 'REPO', self.repo):
+            controller = intel.Controller(self.sources[0], self.base / 'records', 'legacy',
+                                          ['fake', 'host'], mock.Mock())
+            controller.runner.run.return_value = b'{}'
+            controller.remote_script('inventory')
+        command = controller.runner.run.call_args.args[0][-1]
+        self.assertIn('"$HOME/"memit_copy', command)
+        self.assertNotIn('incompatible_copy', command)
+
+    def test_intel_ancestor_symlink_refuses_without_read(self):
+        self.pairs('intel')
+        self.assertEqual(len(intel.read_pairs(self.table)), 2)
+        link = self.base / 'alias'
+        nested = self.base / 'nested'
+        nested.mkdir()
+        shutil.copy2(self.table, nested / self.table.name)
+        shutil.copy2(self.excludes, nested / 'excludes')
+        link.symlink_to(self.base, target_is_directory=True)
+        with mock.patch.object(intel.fdsafe, '_read', wraps=intel.fdsafe._read) as read:
+            with self.assertRaises(intel.fdsafe.Refusal) as raised:
+                intel.read_pairs(link / 'nested' / self.table.name)
+        self.assertIn(str(link), str(raised.exception))
+        self.assertEqual(len(str(raised.exception).splitlines()), 1)
+        read.assert_not_called()
+
+    def test_intel_excludes_symlink_refuses_without_outside_read(self):
+        self.pairs('intel')
+        self.assertEqual(len(intel.read_pairs(self.table)), 2)
+        outside = self.base / 'outside'
+        outside.write_text('payload\n')
+        observed = []
+        read = intel.fdsafe._read
+        def observe(fd, path):
+            data = read(fd, path)
+            observed.append(data)
+            return data
+        with mock.patch.object(intel.fdsafe, '_read', side_effect=observe), \
+                fault_kit.swap_for_symlink('read', 1, self.excludes, outside) as fault:
+            with self.assertRaises(intel.fdsafe.Refusal) as raised:
+                intel.read_pairs(self.table)
+        self.assertEqual(fault.fired, 1)
+        self.assertIn(str(self.excludes), str(raised.exception))
+        self.assertEqual(len(str(raised.exception).splitlines()), 1)
+        self.assertNotIn(b'payload\n', observed)
+
+    def test_intel_parent_rebind_between_scan_and_read_refuses(self):
+        folder = self.base / 'table-folder'
+        folder.mkdir()
+        self.pairs('intel')
+        table = folder / 'pairs.tsv'
+        shutil.copy2(self.table, table)
+        shutil.copy2(self.excludes, folder / 'excludes')
+        self.assertEqual(len(intel.read_pairs(table)), 2)
+        header, body = table.read_text().split('\n', 1)
+        table.write_text(header + '\n' + body.replace('\texcludes\n', '\t-\n'))
+        scan = intel.fdsafe._scan
+        attacks = []
+        def rebind_after_scan(parent, name):
+            entry = scan(parent, name)
+            with fault_kit.rename_and_rebind('open', 1, folder) as fault:
+                fd = os.open(self.table, os.O_RDONLY)
+                os.close(fd)
+            attacks.append(fault.fired)
+            return entry
+        with mock.patch.object(intel.fdsafe, '_scan', side_effect=rebind_after_scan):
+            with self.assertRaises(intel.fdsafe.Refusal) as raised:
+                intel.read_pairs(table)
+        self.assertEqual(attacks, [1])
+        self.assertIn(str(folder), str(raised.exception))
+
+    def test_intel_excludes_bytes_are_not_reopened(self):
+        self.pairs('intel')
+        self.excludes.write_text('payload\n')
+        pairs = intel.read_pairs(self.table)
+        self.excludes.write_text('# no longer excludes payload\n')
+        with mock.patch.object(intel, 'read_pairs', return_value=pairs):
+            status, output = self.copy()
+        self.assertEqual(status, 0, output)
+        self.assertEqual([c for c in self.recorded() if c[0] == 'payload'], [])
+
+    def test_intel_no_excludes_marker(self):
+        self.pairs('intel')
+        header, body = self.table.read_text().split('\n', 1)
+        self.table.write_text(header + '\n' + body.replace('\texcludes\n', '\t-\n'))
+        self.assertEqual([row[3] for row in intel.read_pairs(self.table)], [(), ()])
+
+    def test_intel_patterns_preserve_filter_semantics(self):
+        self.pairs('intel')
+        self.excludes.write_text('# comment\n\n  \n payload \n/dir/\n')
+        self.assertEqual([row[3] for row in intel.read_pairs(self.table)],
+                         [('payload', '/dir/'), ('payload', '/dir/')])
+
+    def test_intel_each_row_has_its_patterns(self):
+        self.pairs('intel')
+        other = self.base / 'other'
+        other.write_text('payload\n')
+        text = self.table.read_text()
+        last = text.rfind('\texcludes\n')
+        self.table.write_text(text[:last] + '\tother\n')
+        status, output = self.copy()
+        self.assertEqual(status, 0, output)
+        self.assertEqual([c[1] for c in self.recorded() if c[0] == 'payload'], [str(self.sources[0]) + '/'])
+
     def test_intel_failure_stops_later_rows(self):
         self.pairs('intel')
         self.env['FIXTURE_FAIL_COPY'] = '1'
@@ -241,10 +397,14 @@ class Readers(unittest.TestCase):
         self.assertEqual(len([c for c in self.recorded() if c[0] == 'payload']), 1)
 
     def test_other_readers_do_not_dispatch_or_hold(self):
-        self.pairs('ssd', hold=True)
-        self.assertEqual(self.copy()[0], 0)
-        self.assertEqual(self.drive()[0], 0)
-        self.assertEqual(self.recorded(), [])
+        for reader in ('ssd', 'intel', 'gdrive'):
+            with self.subTest(reader=reader):
+                self.pairs(reader, hold=True)
+                if reader != 'intel':
+                    self.assertEqual(self.copy()[0], 0)
+                if reader != 'gdrive':
+                    self.assertEqual(self.drive()[0], 0)
+                self.assertEqual(self.recorded(), [])
 
     def test_invalid_tables_refuse_before_dispatch(self):
         for reader in ('intel', 'gdrive'):
@@ -293,6 +453,27 @@ class Readers(unittest.TestCase):
             self.copy()
         self.assertEqual(self.recorded(), [])
 
+    def test_intel_invalid_utf8_excludes_is_not_hidden(self):
+        self.table.write_text('reader\tsource\tdestination\texcludes\n' +
+                              f'intel\t{self.sources[0]}\tfixture:{self.dests[0]}\texcludes\n')
+        self.excludes.write_bytes(b'*.tmp\n\xff\n')
+        # [LAW:no-silent-failure] Bad excludes bytes must stop dispatch, not change patterns.
+        with self.assertRaises(UnicodeDecodeError):
+            self.copy()
+        self.assertEqual(self.recorded(), [])
+
+    def test_intel_valid_utf8_replacement_character_excludes_runs(self):
+        self.table.write_text('reader\tsource\tdestination\texcludes\n' +
+                              f'intel\t{self.sources[0]}\tfixture:{self.dests[0]}\texcludes\n')
+        self.excludes.write_bytes('*.tmp\n\ufffd\n'.encode('utf-8'))
+        with mock.patch.object(intel, 'Controller', wraps=intel.Controller) as controller:
+            status, output = self.copy()
+        self.assertEqual(status, 0, output)
+        self.assertEqual(controller.call_count, 1)
+        self.assertEqual(controller.call_args.args[6], ('*.tmp', '\ufffd'))
+        self.assertEqual([c[1] for c in self.recorded() if c[0] == 'payload'],
+                         [str(self.sources[0]) + '/'])
+
     def test_intel_direct_script_help_without_pythonpath(self):
         env = dict(self.env)
         env.pop('PYTHONPATH', None)
@@ -330,6 +511,97 @@ class Readers(unittest.TestCase):
 
     def test_intel_control_after_verify_reply(self):
         self.changed_source_receipt('verify-reply')
+
+
+class DriveMode(unittest.TestCase):
+    """Exercise the real --drive entry point with every external call intercepted."""
+
+    def check_drive_mode(self, hold):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as name:
+            root = Path(name)
+            (root / 'results').mkdir()
+            table = root / 'pairs.tsv'
+            table.write_text('reader\tsource\tdestination\texcludes\n' +
+                             f'gdrive\t{root}/one\tfixture:first\tone.rules\n' +
+                             f'gdrive\t{root}/two\t' + ('HOLD' if hold else 'fixture:second') + '\ttwo.rules\n')
+            calls, dry = [], []
+            syncs = 0
+
+            def process(args, *, env=None, timeout=None):
+                nonlocal syncs
+                calls.append(args)
+                output, error, status = '', '', 0
+                if args[0] == '/bin/bash':
+                    source = Path(env['BACKUP_SRC'])
+                    self.assertTrue(str(source).startswith('/private/tmp/'))
+                    if Path(env['BACKUP_LOCK_DIR']).exists():
+                        status, error = 1, 'lock'
+                    elif env['BACKUP_MOUNT_POINT'] != '/':
+                        status, error = 1, 'mounted'
+                    elif not list(source.iterdir()):
+                        status, error = 1, 'empty'
+                    else:
+                        syncs += 1
+                elif args[1] == 'cat':
+                    output = ('deleted version' if args[2].endswith('gone.txt') else
+                              'original' if '/.deleted/' in args[2] or syncs == 1 else 'modified contents')
+                elif args[1] == 'lsjson':
+                    target = args[2]
+                    if target.endswith('/mirror'):
+                        output = json.dumps([{'Path': p} for p in
+                                             (['keep.txt', 'gone.txt'] if syncs == 1 else ['keep.txt'])])
+                    elif target.endswith('/.deleted'):
+                        output = json.dumps([{'Path': 'stamp/' + p} for p in ('keep.txt', 'gone.txt')])
+                    elif target.endswith('/_selftest'):
+                        output = json.dumps([{'Path': 'upload_rate.bin', 'Size': 200_000_000}])
+                    else:
+                        output = json.dumps([{'Path': 'payload', 'Size': 7}])
+                elif args[1] == 'sync':
+                    self.assertIn('--dry-run', args)
+                    dry.append(args)
+                    Path(args[args.index('--combined') + 1]).write_text('+ payload\n')
+                else:
+                    self.assertIn(args[1], ('lsd', 'copyto', 'purge'))
+                return subprocess.CompletedProcess(args, status, output, error)
+
+            class Sink:
+                def __enter__(self):
+                    return self
+                def __exit__(self, *args):
+                    pass
+                def write(self, block):
+                    return len(block)
+
+            original_open = Path.open
+            def open_file(path, *args, **kwargs):
+                return Sink() if path.name == 'upload_rate.bin' else original_open(path, *args, **kwargs)
+
+            with mock.patch.object(drive_checks, 'ROOT', root), \
+                    mock.patch.object(drive_checks, 'run_process', side_effect=process), \
+                    mock.patch.dict(os.environ, BACKUP_PAIRS=str(table)), \
+                    mock.patch.object(Path, 'open', open_file), \
+                    mock.patch.object(os, 'urandom', side_effect=bytes), \
+                    contextlib.redirect_stdout(io.StringIO()):
+                status = drive_checks.drive_selftest()
+            summary = json.loads(next((root / 'results').glob('*/summary.json')).read_text())
+            self.assertTrue(calls, 'positive control: the real selftest reached its command boundary')
+            if hold:
+                self.assertEqual(status, 1, summary)
+                self.assertIn('HOLD; Q5', summary['error'])
+                self.assertEqual(dry, [])
+            else:
+                self.assertEqual(status, 0, summary)
+                self.assertEqual([call[2:4] for call in dry],
+                                 [[str(root / 'one') + '/', 'fixture:first/'],
+                                  [str(root / 'two') + '/', 'fixture:second/']])
+                self.assertEqual([call[call.index('--exclude-from') + 1] for call in dry],
+                                 [str(root / 'one.rules'), str(root / 'two.rules')])
+
+    def test_drive_mode_selected_rows(self):
+        self.check_drive_mode(False)
+
+    def test_drive_mode_hold_before_any_row(self):
+        self.check_drive_mode(True)
 
 
 NATIVE = r'''
