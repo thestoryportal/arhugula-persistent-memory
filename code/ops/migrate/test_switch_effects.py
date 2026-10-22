@@ -212,6 +212,15 @@ class EffectsTest(unittest.TestCase):
         self.assertFalse((Path(self.pairs[1].dst) / '.last_success').exists())
         self.assertTrue(result.stopped)
 
+    def test_resync_failed_second_pair_has_no_new_success(self):
+        self.config(fail_pair=1)
+        result = self.backup(ResyncP(self.pairs))
+        self.assertEqual(result.exit_code, 23)
+        self.assertEqual(result.last_success, ((self.pairs[0].dst, b'20261022T120000\n'),
+                                               (self.pairs[1].dst, None)))
+        self.assertFalse((Path(self.pairs[1].dst) / '.last_success').exists())
+        self.assertTrue(result.stopped)
+
     def test_wrong_table_refuses_before_command(self):
         self.table.write_text(self.table.read_text().replace('src1', 'src0'))
         with self.assertRaises(fdsafe.Refusal):
@@ -456,6 +465,176 @@ class EffectsTest(unittest.TestCase):
         result = self.compare(((str(dest), 'old', hashlib.sha256(b'old').hexdigest()),))
         self.assertEqual(result.exit_code, 1)
         self.assertIn('.deleted/<stamp>/old', ' '.join(result.stopped))
+
+
+    def test_launch_readback_requires_code_output_and_missing_diagnostic(self):
+        # [LAW:behavior-not-structure] Malformed readbacks must not attest agent state.
+        for code, out, err, state in ((5, 'untrustworthy stdout', '', 'loaded'),
+                                       (0, '', '', 'loaded'),
+                                       (113, '', 'some unrelated error', 'unloaded')):
+            with self.subTest(code=code, stdout=out, stderr=err):
+                responses = [subprocess.CompletedProcess((), 0, '', ''),
+                             subprocess.CompletedProcess((), code, out, err)]
+                with patch('subprocess.run', side_effect=responses):
+                    with self.assertRaisesRegex(fdsafe.Refusal, 'EIO: launchctl print'):
+                        self.launch(Launchd('loaded', state))
+
+    def test_quiesce_infinite_interval_refuses(self):
+        with patch('subprocess.run', return_value=subprocess.CompletedProcess((), 0, '', '')):
+            with self.assertRaisesRegex(fdsafe.Refusal, 'EINVAL: invalid wait budget'):
+                execute(Quiesce(), command=self.command('processes'), clock=lambda: 0,
+                        sleep=self.sleep, timeout=0, interval=float('inf'))
+
+    def test_quiesce_pid_only_and_zero_pid_refuse(self):
+        for line in ('123\n', '0 rsync\n'):
+            with self.subTest(line=line):
+                self.config(processes=line)
+                with self.assertRaisesRegex(fdsafe.Refusal, 'EINVAL: malformed process'):
+                    self.quiesce()
+
+    def test_quiesce_passes_bounded_subprocess_timeout(self):
+        # [LAW:effects-at-boundaries] Observe the actual subprocess time budget.
+        with patch('subprocess.run', return_value=subprocess.CompletedProcess((), 0, '', '')) as run:
+            result = self.quiesce()
+        self.assertEqual((result.identity, result.exit_code, result.stopped), (NoIdentity(), 0, ()))
+        self.assertEqual(run.call_args.args[0], (*self.command('processes'), '-axo', 'pid=,command='))
+        self.assertEqual(run.call_args.kwargs['timeout'], 10)
+
+    def test_empty_backup_action_and_table_refuse(self):
+        self.table.write_text('reader\tsource\tdestination\texcludes\n')
+        with patch('subprocess.run', return_value=subprocess.CompletedProcess((), 0, '', '')) as run:
+            with self.assertRaisesRegex(fdsafe.Refusal, 'EINVAL: table differs from journal pairs'):
+                execute(BackupRun(()), command=self.command('backup'), table=str(self.table), env={})
+        run.assert_not_called()
+
+    def test_non_ssd_row_guards_are_independent_of_journal_pairs(self):
+        valid = self.table.read_text()
+        good = 'gdrive\tsource\tdestination\t-\n'
+        for row in ('gdrive\tsource\tdestination\t-\textra\n',
+                    'gdrive\t\tdestination\t-\n', 'unknown\tsource\tdestination\t-\n'):
+            with self.subTest(row=row):
+                with patch('subprocess.run', return_value=subprocess.CompletedProcess((), 0, '', '')) as run:
+                    for pair in self.pairs:
+                        (Path(pair.dst) / '.last_success').write_bytes(b'stamp')
+                    self.table.write_text(valid + good)
+                    control = self.backup(BackupRun(self.pairs))
+                    self.assertEqual((control.exit_code, control.stopped), (0, ()))
+                    run.reset_mock()
+                    self.table.write_text(valid + row)
+                    with self.assertRaisesRegex(fdsafe.Refusal, 'EINVAL: malformed backup row'):
+                        self.backup(BackupRun(self.pairs))
+                    run.assert_not_called()
+
+    def test_dash_excludes_refuses_even_when_journal_matches(self):
+        self.table.write_text(self.table.read_text().replace('\trules\n', '\t-\n'))
+        pairs = tuple(dataclasses.replace(p, excludes=str(self.root / '-')) for p in self.pairs)
+        with patch('subprocess.run', return_value=subprocess.CompletedProcess((), 0, '', '')) as run:
+            with self.assertRaisesRegex(fdsafe.Refusal, 'EINVAL: expected named excludes beside table'):
+                execute(BackupRun(pairs), command=self.command('backup'), table=str(self.table), env={})
+        run.assert_not_called()
+
+    def test_backup_explicit_table_overrides_stale_environment(self):
+        env = {'BACKUP_PAIRS': 'WRONG'}
+        for pair in self.pairs:
+            (Path(pair.dst) / '.last_success').write_bytes(b'stamp')
+        with patch('subprocess.run', return_value=subprocess.CompletedProcess((), 0, '', '')) as run:
+            result = execute(BackupRun(self.pairs), command=self.command('backup'),
+                             table=str(self.table), env=env)
+        self.assertEqual((result.exit_code, result.stopped), (0, ()))
+        self.assertEqual(run.call_args.kwargs['env']['BACKUP_PAIRS'], str(self.table))
+        self.assertEqual(env, {'BACKUP_PAIRS': 'WRONG'})
+
+    def test_backup_exit_23_never_reports_returned_success(self):
+        self.config(fail_pair=0)
+        result = self.backup(BackupRun(self.pairs))
+        self.assertEqual(result.exit_code, 23)
+        self.assertEqual(result.last_success, tuple((p.dst, None) for p in self.pairs))
+        self.assertEqual(len(result.stopped), 1)
+        self.assertIn('backup exit 23', result.stopped[0])
+        self.assertNotIn('backup returned success', ' '.join(result.stopped))
+
+    def test_exclude_slash_component_and_directory_boundaries(self):
+        for rule, relative, code in (('foo/b?r', 'foo/bar', 0),
+                                     ('/foo/b?r', 'foo/wrong', 1), ('temp/', 'temp', 1)):
+            with self.subTest(rule=rule, relative=relative):
+                with tempfile.TemporaryDirectory(dir=self.root) as folder:
+                    src, dst = Path(folder) / 'src', Path(folder) / 'dst'
+                    src.mkdir(); dst.mkdir()
+                    rules = Path(folder) / 'rules'
+                    rules.write_text(rule + '\n')
+                    path = dst / relative
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_bytes(b'content')
+                    pair = BackupPair('ssd', str(src), str(dst), str(rules))
+                    result = execute(BackupCompare((pair,)), displaced=())
+                    self.assertEqual(result.exit_code, code)
+                    expected = () if code == 0 else (f'{path}: EIO: backup content differs',)
+                    self.assertEqual(result.stopped, expected)
+
+    def test_regular_deleted_file_is_not_archive_custody(self):
+        import hashlib
+        pair = self.pairs[0]
+        for root in (pair.src, pair.dst):
+            (Path(root) / '.deleted').write_bytes(b'file')
+        result = self.compare(((pair.dst, 'old', hashlib.sha256(b'old').hexdigest()),))
+        self.assertEqual(result.exit_code, 1)
+        self.assertEqual(result.stopped, (
+            f'{pair.dst}/.deleted/<stamp>/old: ENOENT: displaced file missing or changed',))
+
+    def test_archive_wrong_name_and_symlink_do_not_prove_custody(self):
+        import hashlib
+        for name, kind in (('wrong-name', 'file'), ('old', 'symlink')):
+            with self.subTest(name=name, kind=kind):
+                with tempfile.TemporaryDirectory(dir=self.root) as folder:
+                    src, dst = Path(folder) / 'src', Path(folder) / 'dst'
+                    src.mkdir(); dst.mkdir()
+                    archive = dst / '.deleted' / 'stamp'
+                    archive.mkdir(parents=True)
+                    path = archive / name
+                    if kind == 'file':
+                        path.write_bytes(b'old')
+                    else:
+                        path.symlink_to('old')
+                    pair = BackupPair('ssd', str(src), str(dst), str(self.rules))
+                    result = execute(BackupCompare((pair,)), displaced=(
+                        (str(dst), 'old', hashlib.sha256(b'old').hexdigest()),))
+                    self.assertEqual(result.exit_code, 1)
+                    self.assertEqual(result.stopped, (
+                        f'{dst}/.deleted/<stamp>/old: ENOENT: displaced file missing or changed',))
+
+    def test_compare_socket_and_empty_file_differ(self):
+        import socket
+        pair = self.pairs[0]
+        src, dst = Path(pair.src) / 'kind', Path(pair.dst) / 'kind'
+        src.write_bytes(b'')
+        src.chmod(0o755)
+        with socket.socket(socket.AF_UNIX) as sock:
+            sock.bind(str(dst))
+            dst.chmod(0o755)
+            result = self.compare()
+        self.assertEqual(result.exit_code, 1)
+        self.assertEqual(result.stopped, (f'{dst}: EIO: backup content differs',))
+
+    def test_compare_size_and_link_text_independent_of_digest(self):
+        # [LAW:behavior-not-structure] Equal digest evidence must not mask other
+        # manifest differences; these are boundary inputs, not claimed SHA collisions.
+        from ops.migrate import root_manifest
+        pair = self.pairs[0]
+        for kind, field, before, after in (('file', 'bytes', 3, 4),
+                                           ('symlink', 'link_text', 'old', 'new')):
+            with self.subTest(field=field):
+                leaf = dict(kind=kind, bytes=3, sha256='0' * 64,
+                            link_text=None if kind == 'file' else 'old', mode=0o755)
+                source = dict(leaf, source=pair.src + '/entry')
+                dest = dict(leaf, source=pair.dst + '/entry')
+                for value, code in ((before, 0), (after, 1)):
+                    observed = dict(dest, **{field: value})
+                    with patch.object(root_manifest, 'build_manifest', side_effect=[
+                            {'leaves': [source]}, {'leaves': [observed]}]):
+                        result = execute(BackupCompare((pair,)), displaced=())
+                    self.assertEqual(result.exit_code, code)
+                    expected = () if code == 0 else (f'{pair.dst}/entry: EIO: backup content differs',)
+                    self.assertEqual(result.stopped, expected)
 
 
 if __name__ == '__main__':
