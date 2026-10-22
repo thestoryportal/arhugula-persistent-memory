@@ -21,6 +21,7 @@ while IFS= read -r LINE || [ -n "$LINE" ]; do
   case "$READER" in gdrive) ;; ssd|intel) continue ;; *) pair_die "row $ROW: unknown reader: $READER" ;; esac
   [ "$DEST" != HOLD ] || pair_die "row $ROW ($SRC): HOLD; Q5: operator must choose the Drive destination"
   case "$EXCLUDES" in
+    -) ;;
     */*) pair_die "row $ROW: excludes must be next to table: $EXCLUDES" ;;
     *) EXCLUDES="$(/usr/bin/dirname "$PAIRS")/$EXCLUDES" ;;
   esac
@@ -132,7 +133,12 @@ else
   die "rclone version probe failed"
 fi
 
-[ -f "$EXCLUDES" ] || die "exclude list missing: $EXCLUDES"
+# [LAW:dataflow-not-control-flow] The table's no-file marker contributes no argv.
+EXCLUDE_ARGS=()
+if [ "$EXCLUDES" != - ]; then
+  [ -f "$EXCLUDES" ] || die "exclude list missing: $EXCLUDES"
+  EXCLUDE_ARGS=(--exclude-from "$EXCLUDES")
+fi
 MOUNTS=$("$MOUNT") || die "cannot inspect mounted volumes"
 case "$MOUNTS" in
   *" on $MOUNT_POINT ("*) ;;
@@ -158,7 +164,7 @@ log "start $SRC/ -> $DEST/; archive=$DELETED_DIR/; rclone-log=$RUN_LOG"
 SYNC_ACTIVE=1
 SYNC_STARTED=1
 "$RCLONE" sync "$SRC/" "$DEST/" --backup-dir "$DELETED_DIR/" \
-  --exclude-from "$EXCLUDES" --links --log-file "$RUN_LOG" --log-level INFO --use-json-log \
+  ${EXCLUDE_ARGS[@]+"${EXCLUDE_ARGS[@]}"} --links --log-file "$RUN_LOG" --log-level INFO --use-json-log \
   --exclude '**/.git/objects/**/tmp_obj_*' --exclude '**/.git/objects/tmp_obj_*' \
   --exclude '/.git/objects/**/tmp_obj_*' --exclude '/.git/objects/tmp_obj_*' \
   --retries 1 --low-level-retries 10 --dry-run=false --interactive=false \

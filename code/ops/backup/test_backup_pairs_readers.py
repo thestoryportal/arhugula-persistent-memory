@@ -104,6 +104,78 @@ class Readers(unittest.TestCase):
             result = intel.main(runner=runner)
         return result, output.getvalue()
 
+    def test_drive_dash_runs_both_without_exclude_file(self):
+        self.pairs('gdrive')
+        header, body = self.table.read_text().split('\n', 1)
+        self.table.write_text(header + '\n' + body.replace('\texcludes\n', '\t-\n'))
+        status, output = self.drive()
+        self.assertEqual(status, 0, output)
+        self.assertEqual([c[1:3] for c in self.recorded()],
+                         [[str(s) + '/', str(d) + '/'] for s, d in zip(self.sources, self.dests)])
+        self.assertTrue(all('--exclude-from' not in c for c in self.recorded()))
+
+    def test_drive_missing_excludes_is_not_dash(self):
+        self.pairs('gdrive')
+        header, body = self.table.read_text().split('\n', 1)
+        self.table.write_text(header + '\n' + body.replace('\texcludes\n', '\tmissing.rules\n'))
+        status, output = self.drive()
+        self.assertNotEqual(status, 0, output)
+        self.assertIn('exclude list missing: ' + str(self.base / 'missing.rules'), output)
+        self.assertEqual(self.recorded(), [])
+
+    def test_drive_full_sync_argv(self):
+        self.pairs('gdrive')
+        status, output = self.drive()
+        self.assertEqual(status, 0, output)
+        heartbeat = json.loads((self.base / 'heartbeat').read_text())
+        stamp = heartbeat['run_id']
+        # [LAW:behavior-not-structure] Pin every native flag, including the schedule.
+        self.assertEqual(self.recorded()[0], [
+            'sync', str(self.sources[0]) + '/', str(self.dests[0]) + '/',
+            '--backup-dir', str(self.base / '.deleted' / stamp) + '/',
+            '--exclude-from', str(self.excludes), '--links',
+            '--log-file', str(self.base / 'runs' / (stamp + '-pair0.jsonl')),
+            '--log-level', 'INFO', '--use-json-log',
+            '--exclude', '**/.git/objects/**/tmp_obj_*', '--exclude', '**/.git/objects/tmp_obj_*',
+            '--exclude', '/.git/objects/**/tmp_obj_*', '--exclude', '/.git/objects/tmp_obj_*',
+            '--retries', '1', '--low-level-retries', '10', '--dry-run=false', '--interactive=false',
+            '--ignore-errors=false', '--delete-excluded=false', '--delete-after',
+            '--bwlimit', '08:00,512k 23:00,off', '--stats', '1m', '--stats-log-level', 'NOTICE'])
+
+    def test_drive_hold_exact_line(self):
+        self.pairs('gdrive', hold=True)
+        status, output = self.drive()
+        self.assertNotEqual(status, 0)
+        self.assertEqual(output, f'backup_gdrive: row 3 ({self.sources[1]}): HOLD; Q5: operator must choose the Drive destination\n')
+        self.assertEqual(self.recorded(), [])
+
+    def test_intel_hold_exact_line(self):
+        self.pairs('intel', hold=True)
+        status, output = self.copy()
+        self.assertNotEqual(status, 0)
+        self.assertEqual(output, f"{str(self.table)!r}: row 3 ({self.sources[1]}): HOLD; Q6: operator must choose the Intel destination\n")
+        self.assertEqual(self.recorded(), [])
+
+    def test_intel_dash_runs_both(self):
+        self.pairs('intel')
+        header, body = self.table.read_text().split('\n', 1)
+        self.table.write_text(header + '\n' + body.replace('\texcludes\n', '\t-\n'))
+        with mock.patch.object(intel, 'Controller', wraps=intel.Controller) as controller:
+            status, output = self.copy()
+        self.assertEqual(status, 0, output)
+        self.assertEqual([c.args[6] for c in controller.call_args_list], [(), ()])
+        self.assertEqual([c[1] for c in self.recorded() if c[0] == 'payload'],
+                         [str(s) + '/' for s in self.sources])
+
+    def test_intel_missing_excludes_is_not_dash(self):
+        self.pairs('intel')
+        header, body = self.table.read_text().split('\n', 1)
+        self.table.write_text(header + '\n' + body.replace('\texcludes\n', '\tmissing.rules\n'))
+        status, output = self.copy()
+        self.assertNotEqual(status, 0, output)
+        self.assertIn(str(self.base / 'missing.rules'), output)
+        self.assertEqual(self.recorded(), [])
+
     def test_drive_both_sources(self):
         self.pairs('gdrive')
         self.env.update(SOURCES=str(self.sources[1]), DESTINATIONS=str(self.dests[1]),
@@ -597,6 +669,141 @@ class DriveMode(unittest.TestCase):
                 self.assertEqual([call[call.index('--exclude-from') + 1] for call in dry],
                                  [str(root / 'one.rules'), str(root / 'two.rules')])
 
+    def run_drive_table(self, prepare):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as name:
+            root = Path(name)
+            (root / 'results').mkdir()
+            table = root / 'pairs.tsv'
+            table.write_text('reader\tsource\tdestination\texcludes\n' +
+                             f'gdrive\t{root}/one\tfixture:first\tone.rules\n' +
+                             f'gdrive\t{root}/two\t' + 'fixture:second' + '\ttwo.rules\n')
+            (root / 'one.rules').write_text('# fixture\n')
+            (root / 'two.rules').write_text('# fixture\n')
+            attack = prepare(table)
+            calls, dry = [], []
+            syncs = 0
+
+            def process(args, *, env=None, timeout=None):
+                nonlocal syncs
+                calls.append(args)
+                output, error, status = '', '', 0
+                if args[0] == '/bin/bash':
+                    source = Path(env['BACKUP_SRC'])
+                    self.assertTrue(str(source).startswith('/private/tmp/'))
+                    if Path(env['BACKUP_LOCK_DIR']).exists():
+                        status, error = 1, 'lock'
+                    elif env['BACKUP_MOUNT_POINT'] != '/':
+                        status, error = 1, 'mounted'
+                    elif not list(source.iterdir()):
+                        status, error = 1, 'empty'
+                    else:
+                        syncs += 1
+                elif args[1] == 'cat':
+                    output = ('deleted version' if args[2].endswith('gone.txt') else
+                              'original' if '/.deleted/' in args[2] or syncs == 1 else 'modified contents')
+                elif args[1] == 'lsjson':
+                    target = args[2]
+                    if target.endswith('/mirror'):
+                        output = json.dumps([{'Path': p} for p in
+                                             (['keep.txt', 'gone.txt'] if syncs == 1 else ['keep.txt'])])
+                    elif target.endswith('/.deleted'):
+                        output = json.dumps([{'Path': 'stamp/' + p} for p in ('keep.txt', 'gone.txt')])
+                    elif target.endswith('/_selftest'):
+                        output = json.dumps([{'Path': 'upload_rate.bin', 'Size': 200_000_000}])
+                    else:
+                        output = json.dumps([{'Path': 'payload', 'Size': 7}])
+                elif args[1] == 'sync':
+                    self.assertIn('--dry-run', args)
+                    if '--exclude-from' in args and not Path(args[args.index('--exclude-from') + 1]).is_file():
+                        return subprocess.CompletedProcess(args, 1, '', 'exclude list missing')
+                    dry.append(args)
+                    Path(args[args.index('--combined') + 1]).write_text('+ payload\n')
+                else:
+                    self.assertIn(args[1], ('lsd', 'copyto', 'purge'))
+                return subprocess.CompletedProcess(args, status, output, error)
+
+            class Sink:
+                def __enter__(self):
+                    return self
+                def __exit__(self, *args):
+                    pass
+                def write(self, block):
+                    return len(block)
+
+            with attack:
+                original_open = Path.open
+                def open_file(path, *args, **kwargs):
+                    return Sink() if path.name == 'upload_rate.bin' else original_open(path, *args, **kwargs)
+
+                with mock.patch.object(drive_checks, 'ROOT', root), \
+                        mock.patch.object(drive_checks, 'run_process', side_effect=process), \
+                        mock.patch.dict(os.environ, BACKUP_PAIRS=str(table)), \
+                        mock.patch.object(Path, 'open', open_file), \
+                        mock.patch.object(os, 'urandom', side_effect=bytes), \
+                        contextlib.redirect_stdout(io.StringIO()):
+                    status = drive_checks.drive_selftest()
+            summary = json.loads(next((root / 'results').glob('*/summary.json')).read_text())
+            return status, summary, dry, str(table)
+
+    def test_drive_mode_dash_runs_both_without_exclude_file(self):
+        def prepare(table):
+            table.write_text(table.read_text().replace('one.rules', '-').replace('two.rules', '-'))
+            return contextlib.nullcontext()
+        status, summary, dry, table = self.run_drive_table(prepare)
+        self.assertEqual(status, 0, summary)
+        root = Path(table).parent
+        self.assertEqual([c[2:4] for c in dry],
+                         [[str(root / 'one') + '/', 'fixture:first/'],
+                          [str(root / 'two') + '/', 'fixture:second/']])
+        self.assertTrue(all('--exclude-from' not in c for c in dry))
+
+    def test_drive_mode_missing_excludes_is_not_dash(self):
+        def prepare(table):
+            table.write_text(table.read_text().replace('one.rules', 'missing.rules'))
+            return contextlib.nullcontext()
+        status, summary, dry, table = self.run_drive_table(prepare)
+        self.assertNotEqual(status, 0, summary)
+        self.assertIn('exclude list missing', summary['error'])
+        self.assertEqual(dry, [])
+
+    def test_drive_mode_hold_exact_line(self):
+        def prepare(table):
+            table.write_text(table.read_text().replace('fixture:second', 'HOLD'))
+            return contextlib.nullcontext()
+        status, summary, dry, table = self.run_drive_table(prepare)
+        self.assertNotEqual(status, 0)
+        self.assertEqual(summary['error'], 'gdrive row 1: HOLD; Q5: operator must choose the Drive destination')
+        self.assertEqual(dry, [])
+
+    def test_drive_mode_table_swap_refuses(self):
+        fired = []
+        @contextlib.contextmanager
+        def prepare(table):
+            target = table.parent / 'substitute.tsv'
+            target.write_text(table.read_text().replace(str(table.parent / 'one'), str(table.parent / 'two')))
+            original_open = Path.open
+            original_read = intel.fdsafe.read_named
+            def swap():
+                with fault_kit.swap_for_symlink('open', 1, table, target) as fault:
+                    fd = os.open(target, os.O_RDONLY)
+                    os.close(fd)
+                fired.append(fault.fired)
+            def opened(path, *args, **kwargs):
+                if path == table and not fired:
+                    swap()
+                return original_open(path, *args, **kwargs)
+            def read(parent, name):
+                if Path(parent.path) / name == table and not fired:
+                    swap()
+                return original_read(parent, name)
+            with mock.patch.object(Path, 'open', opened), mock.patch.object(intel.fdsafe, 'read_named', read):
+                yield
+        status, summary, dry, table = self.run_drive_table(prepare)
+        self.assertEqual(fired, [1])
+        self.assertNotEqual(status, 0, summary)
+        self.assertIn(table, summary['error'])
+        self.assertEqual(dry, [])
+
     def test_drive_mode_selected_rows(self):
         self.check_drive_mode(False)
 
@@ -622,7 +829,8 @@ elif args[0] == 'version':
     print('rclone fixture')
 elif args[0] == 'sync':
     source, dest = path(args[1]), path(args[2])
-    path(args[args.index('--exclude-from') + 1])
+    if '--exclude-from' in args:
+        path(args[args.index('--exclude-from') + 1])
     path(args[args.index('--backup-dir') + 1])
     log = path(args[args.index('--log-file') + 1])
     record(args)

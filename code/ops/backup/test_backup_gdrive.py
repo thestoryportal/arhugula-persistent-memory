@@ -12,6 +12,8 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / 'code'))
+from ops.migrate import fdsafe
 SCRIPT = ROOT / "code/ops/backup/backup_gdrive.sh"
 GIT_TMP_EXCLUDES = ("**/.git/objects/**/tmp_obj_*", "**/.git/objects/tmp_obj_*",
                     "/.git/objects/**/tmp_obj_*", "/.git/objects/tmp_obj_*")
@@ -288,15 +290,20 @@ def drive_selftest():
             changes = out / "dry_run_changes.txt"
             import csv
             pairs_path = Path(os.environ.get("BACKUP_PAIRS") or ROOT / "code/ops/backup/backup_pairs.tsv")
-            with pairs_path.open() as table:
-                pairs = [row for row in csv.DictReader(table, delimiter="\t") if row["reader"] == "gdrive"]
+            import io
+            # [LAW:effects-at-boundaries] Admit table bytes through the held parent.
+            pairs_path = pairs_path.absolute()
+            with fdsafe.hold_root(str(pairs_path.parent)) as parent:
+                table = fdsafe.read_named(parent, pairs_path.name).decode('utf-8')
+            pairs = [row for row in csv.DictReader(io.StringIO(table), delimiter="\t") if row["reader"] == "gdrive"]
             for number, row in enumerate(pairs):
                 if row["destination"] == "HOLD":
                     raise RuntimeError(f"gdrive row {number}: HOLD; Q5: operator must choose the Drive destination")
             local, combined = [], []
             for number, row in enumerate(pairs):
                 source, destination = row["source"].rstrip("/") + "/", row["destination"].rstrip("/")
-                filters = ["--exclude-from", str(pairs_path.parent / row["excludes"])]
+                # [LAW:dataflow-not-control-flow] No excludes is an empty argv contribution.
+                filters = [] if row["excludes"] == "-" else ["--exclude-from", str(pairs_path.parent / row["excludes"])]
                 for pattern in GIT_TMP_EXCLUDES:
                     filters.extend(["--exclude", pattern])
                 pair_changes = out / f"dry_run_changes_{number}.txt"
