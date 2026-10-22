@@ -281,7 +281,7 @@ class Readers(unittest.TestCase):
             return result
         with mock.patch.object(os, 'write', moved):
             self.refused(self.call('--report', str(out / 'report')), 'inside root')
-        self.assertTrue((self.root / 'moved' / 'report').exists())
+        self.assertFalse((self.root / 'moved' / 'report').exists())
 
     def test_output_close_error_names_kept_report(self):
         real = os.close
@@ -302,7 +302,7 @@ class Readers(unittest.TestCase):
 
     def test_cli_real_process(self):
         proc = subprocess.run([sys.executable, '-B', '-m', 'ops.migrate.root_readers', *self.args()],
-                              capture_output=True, text=True, check=False)
+                              capture_output=True, text=True, check=False, timeout=10)
         self.assertEqual((proc.returncode, proc.stdout, proc.stderr), (0, '', ''))
         self.assertEqual(self.doc()['findings'], [])
 
@@ -380,6 +380,265 @@ class Readers(unittest.TestCase):
                     with self.assertRaises(exc) as caught:
                         self.call()
                 self.assertNotIsInstance(caught.exception, fdsafe.Refusal)
+
+
+    def test_child_rebound_at_leaf_open_refuses_without_read(self):
+        child = self.root / 'child'
+        child.mkdir()
+        (child / 'protected').write_bytes(b'clean')
+        self.registry.write_text('REPLACE\tchild/protected\tclean\tnew\t1\n')
+        reads = []
+        real = os.read
+        def watched(fd, *args):
+            reads.append(fdsafe.live_path(fd, 'watch'))
+            return real(fd, *args)
+        with mock.patch.object(os, 'read', watched), FK.rename_and_rebind(
+                'open', 1, child, match=lambda name, *a, **kw: name == 'protected'):
+            self.refused(self.call(), str(child))
+        self.assertFalse(any(path.endswith('/protected') for path in reads), reads)
+        self.assertFalse(self.report.exists())
+
+    def test_child_escapes_at_leaf_open_refuses_without_read(self):
+        child = self.root / 'child'
+        child.mkdir()
+        (child / 'protected').write_bytes(b'clean')
+        reads = []
+        real = os.read
+        def watched(fd, *args):
+            reads.append(fdsafe.live_path(fd, 'watch'))
+            return real(fd, *args)
+        def move(fault, original, args, kwargs):
+            os.rename(child, self.base / 'escaped')
+            child.mkdir()
+            return original(*args, **kwargs)
+        with mock.patch.object(os, 'read', watched), FK._at_call(
+                'open', 1, move, lambda name, *a, **kw: name == 'protected'):
+            self.refused(self.call(), str(child))
+        self.assertFalse(any('/escaped/' in path for path in reads), reads)
+        self.assertFalse(self.report.exists())
+
+    def test_leaf_rebound_after_open_refuses_without_read(self):
+        reads = []
+        real = os.read
+        def watched(fd, *args):
+            reads.append(fdsafe.live_path(fd, 'watch'))
+            return real(fd, *args)
+        with mock.patch.object(os, 'read', watched), FK.swap_for_symlink(
+                'open', 1, self.leaf, self.root, when='after',
+                match=lambda name, *a, **kw: name == 'leaf'):
+            self.refused(self.call(), str(self.leaf))
+        self.assertFalse(any(path.endswith('/leaf') for path in reads), reads)
+        self.assertFalse(self.report.exists())
+
+    def test_leaf_rebound_during_read_never_counts_missing_path(self):
+        with FK.swap_for_symlink('read', 1, self.leaf, self.root, when='after',
+                                match=lambda fd, *a: fdsafe.live_path(fd, 'watch') == str(self.leaf)):
+            self.refused(self.call(), str(self.leaf))
+        self.assertFalse(self.report.exists())
+
+    def test_child_swap_at_directory_open_refuses(self):
+        child = self.root / 'child'
+        child.mkdir()
+        with FK.swap_for_symlink('open', 1, child, self.root,
+                                match=lambda name, *a, **kw: name == 'child'):
+            self.refused(self.call(), str(child))
+        self.assertFalse(self.report.exists())
+
+    def test_child_rebind_at_directory_open_refuses(self):
+        child = self.root / 'child'
+        child.mkdir()
+        with FK.rename_and_rebind('open', 1, child,
+                                 match=lambda name, *a, **kw: name == 'child'):
+            self.refused(self.call(), str(child))
+        self.assertFalse(self.report.exists())
+
+    def test_metadata_parent_rebind_at_open_refuses_without_read(self):
+        meta = self.base / 'meta'
+        meta.mkdir()
+        registry = meta / 'registry.tsv'
+        registry.write_text('')
+        with mock.patch.object(os, 'read', side_effect=AssertionError('metadata read')), \
+                FK.rename_and_rebind('open', 1, meta,
+                                    match=lambda name, *a, **kw: name == 'registry.tsv'):
+            self.refused(self.call('--registry', str(registry)), str(meta))
+
+    def test_old_root_parent_rebind_at_stat_refuses(self):
+        parent = self.base / 'old-parent'
+        parent.mkdir()
+        old = parent / 'old'
+        real = os.lstat
+        def moved(name, *args, **kwargs):
+            if name == 'old':
+                os.rename(parent, self.base / 'parked-parent')
+                parent.mkdir()
+            return real(name, *args, **kwargs)
+        with mock.patch.object(os, 'lstat', moved):
+            self.refused(self.call('--old-root', str(old)), str(parent))
+        self.assertFalse(self.report.exists())
+
+    def test_output_move_before_write_removes_report(self):
+        self.output_move('write', False)
+
+    def test_output_move_before_create_removes_report(self):
+        self.output_move('open', False)
+
+    def test_output_move_with_failed_write_removes_report(self):
+        self.output_move('write', True)
+
+    def output_move(self, seam, fail):
+        out = self.base / 'output'
+        out.mkdir()
+        def move(fault, original, args, kwargs):
+            os.rename(out, self.root / 'moved')
+            if fail:
+                raise OSError(errno.ENOSPC, os.strerror(errno.ENOSPC))
+            return original(*args, **kwargs)
+        match = (lambda name, *a, **kw: name == 'report') if seam == 'open' else None
+        with FK._at_call(seam, 1, move, match):
+            self.refused(self.call('--report', str(out / 'report')), 'inside root')
+        self.assertEqual(list((self.root / 'moved').iterdir()), [])
+
+    def test_output_prefix_sibling_is_allowed(self):
+        out = self.base / 'repo-sibling'
+        out.mkdir()
+        self.assertEqual(self.call('--report', str(out / 'report')), (0, '', ''))
+        self.assertEqual(json.loads((out / 'report').read_bytes())['findings'], [])
+
+    def test_output_symlink_to_root_itself_refuses(self):
+        out = self.base / 'output'
+        out.symlink_to(self.root)
+        self.refused(self.call('--report', str(out / 'report')), str(out))
+        self.assertFalse((self.root / 'report').exists())
+
+
+    def test_old_root_existing_parent_rebind_at_stat_refuses(self):
+        parent = self.base / 'old-parent'
+        parent.mkdir()
+        (parent / 'old').mkdir()
+        real = os.lstat
+        def moved(name, *args, **kwargs):
+            result = real(name, *args, **kwargs)
+            if name == 'old':
+                os.rename(parent, self.base / 'parked-parent')
+                parent.mkdir()
+            return result
+        with mock.patch.object(os, 'lstat', moved):
+            self.refused(self.call('--old-root', str(parent / 'old')), str(parent))
+        self.assertFalse(self.report.exists())
+
+    def test_short_read_refuses_instead_of_counting(self):
+        real = os.read
+        def short(fd, *args):
+            if fdsafe.live_path(fd, 'watch') == str(self.leaf):
+                return b''
+            return real(fd, *args)
+        with mock.patch.object(os, 'read', short):
+            self.refused(self.call(), 'read 0 bytes, scanned 5')
+        self.assertFalse(self.report.exists())
+
+    def test_regular_leaf_replaced_at_open_refuses_without_read(self):
+        replacement = self.base / 'replacement'
+        replacement.write_bytes(b'other')
+        def replace(fault, original, args, kwargs):
+            os.rename(self.leaf, self.base / 'parked-leaf')
+            os.rename(replacement, self.leaf)
+            return original(*args, **kwargs)
+        real = os.read
+        def watched(fd, *args):
+            self.assertNotEqual(fdsafe.live_path(fd, 'watch'), str(self.leaf))
+            return real(fd, *args)
+        with mock.patch.object(os, 'read', watched), FK._at_call(
+                'open', 1, replace, lambda name, *a, **kw: name == 'leaf'):
+            self.refused(self.call(), 'changed between scan and open')
+        self.assertFalse(self.report.exists())
+
+    def test_metadata_symlink_is_not_metadata(self):
+        linked = self.base / 'linked-registry'
+        linked.symlink_to(self.registry)
+        self.refused(self.call('--registry', str(linked)), 'regular file')
+        self.assertFalse(self.report.exists())
+
+    def test_unknown_leaf_kind_refuses_before_open(self):
+        import stat
+        def walk(root, visit):
+            st = os.stat_result((stat.S_IFCHR | 0o600, 0, 0, 1, 0, 0, 0, 0, 0, 0))
+            visit(fdsafe.Entry(root.fd, 'device', str(self.root / 'device'), 'device', st))
+        with mock.patch.object(fdsafe, 'walk', walk):
+            self.refused(self.call(), 'is not a regular file')
+        self.assertFalse(self.report.exists())
+
+
+    def test_symlink_replaced_by_fifo_refuses_without_blocking(self):
+        link = self.root / 'link'
+        link.symlink_to(self.leaf)
+        self.fifo_cli_refusal(link)
+
+    def test_regular_replaced_by_fifo_cli_refuses_without_blocking(self):
+        self.fifo_cli_refusal(self.leaf)
+
+    def fifo_cli_refusal(self, path):
+        # [LAW:behavior-not-structure] Assert termination of the real FIFO open.
+        script = """
+import os
+import sys
+from pathlib import Path
+import fault_kit as FK
+from ops.migrate import root_readers
+path = Path(sys.argv[1])
+def replace(fault, original, args, kwargs):
+    os.rename(path, path.with_name(path.name + '.parked'))
+    os.mkfifo(path)
+    return original(*args, **kwargs)
+with FK._at_call('open', 1, replace, lambda name, *a, **kw: name == path.name):
+    result = root_readers.main(sys.argv[2:])
+sys.exit(result)
+"""
+        try:
+            try:
+                proc = subprocess.run([sys.executable, '-B', '-c', script,
+                                       str(path), *self.args()],
+                                      capture_output=True, text=True, check=False,
+                                      timeout=10)
+            except subprocess.TimeoutExpired:
+                self.fail(f'CLI blocked opening FIFO at {path}')
+            self.refused((proc.returncode, proc.stdout, proc.stderr), str(path))
+            self.assertIn('changed between scan and open', proc.stderr)
+            self.assertFalse(self.report.exists())
+        finally:
+            # subprocess.run kills and waits for a timed-out child before cleanup.
+            path.unlink()
+
+    def test_link_read_oserror_names_link(self):
+        link = self.root / 'link'
+        link.symlink_to(self.leaf)
+        for err in (errno.EIO, errno.ENOSPC):
+            with self.subTest(errno=err):
+                with mock.patch.object(fdsafe, '_freadlink',
+                                       side_effect=OSError(err, os.strerror(err))) as read:
+                    result = self.call()
+                read.assert_called_once()
+                self.refused(result, str(link))
+                self.assertIn(errno.errorcode[err], result[2])
+                self.assertFalse(self.report.exists())
+
+    def test_report_unlink_oserror_names_moved_report(self):
+        for err in (errno.EIO, errno.ENOSPC):
+            with self.subTest(errno=err):
+                out = self.base / f'output-{err}'
+                out.mkdir()
+                moved = self.root / f'moved-{err}'
+                def move(fault, original, args, kwargs):
+                    os.rename(out, moved)
+                    raise OSError(errno.ENOSPC, os.strerror(errno.ENOSPC))
+                # [LAW:effects-at-boundaries] The unlink failure is the named refusal.
+                with FK._at_call('write', 1, move, None), mock.patch.object(
+                        os, 'unlink', side_effect=OSError(err, os.strerror(err))) as unlink:
+                    result = self.call('--report', str(out / 'report'))
+                unlink.assert_called_once()
+                self.refused(result, str(moved / 'report'))
+                self.assertIn(errno.errorcode[err], result[2])
+                self.assertEqual((moved / 'report').read_bytes(), b'')
+                (moved / 'report').unlink()
 
 
 if __name__ == '__main__':

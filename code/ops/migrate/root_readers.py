@@ -22,11 +22,64 @@ import sys
 from ops.migrate import fdsafe, root_readers_core as core
 
 
+def read_entry(entry):
+    """Read only the listed inode while it is still at the listed location."""
+    link = stat.S_ISLNK(entry.st.st_mode)
+    if not (link or stat.S_ISREG(entry.st.st_mode)):
+        raise fdsafe.Refusal(entry.path, 'is not a regular file')
+    flags = (os.O_RDONLY | os.O_SYMLINK | os.O_NONBLOCK) if link else fdsafe.LEAF_FLAGS
+    with fdsafe.fs(entry.path):
+        fd = os.open(entry.name, flags, dir_fd=entry.dir_fd)
+    try:
+        # [LAW:single-enforcer] Location and identity belong to the opened object.
+        def settled():
+            if fdsafe._identity(fdsafe._fstat(fd, entry.path)) != fdsafe._identity(entry.st):
+                raise fdsafe.Refusal(entry.path, 'changed between scan and open/read')
+            fdsafe._settled(fdsafe.Dir(fd, entry.path))
+        settled()
+        if link:
+            with fdsafe.fs(entry.path):
+                data = fdsafe._freadlink(fd, entry.st.st_size)
+        else:
+            parts = []
+            while chunk := fdsafe._read(fd, entry.path):
+                parts.append(chunk)
+            data = b''.join(parts)
+        settled()
+        if len(data) != entry.st.st_size:
+            raise fdsafe.Refusal(entry.path, f'read {len(data)} bytes, scanned {entry.st.st_size}')
+        return data
+    finally:
+        fdsafe.close(fd, entry.path)
+
+
+def write_report(parent, name, data, roots):
+    """Remove this newly created report if its held parent moves into a scan root."""
+    held = fdsafe.open_held(parent, name, roots)
+    try:
+        try:
+            fdsafe.write_held(held, data)
+        finally:
+            # [LAW:effects-at-boundaries] Roll back only our exclusive report creation.
+            where = os.path.join(parent.live(), name)
+            for root in roots:
+                if fdsafe.inside(root.live(), os.path.dirname(where)):
+                    with fdsafe.fs(where):
+                        os.unlink(name, dir_fd=parent.fd)
+                    raise fdsafe.Refusal(where, f'report removed from inside root {root.path}')
+        fdsafe.settle(held, roots)
+    finally:
+        fdsafe.close(held.fd, f'{os.path.join(parent.path, name)} (created, left in place)')
+
+
 def read_text(path):
     with fdsafe.fs(path):
         parent, name = os.path.split(os.path.abspath(path))
     with fdsafe.hold_root(parent) as held:
-        data = fdsafe.read_named(held, name)
+        entry = fdsafe._scan(held, name)
+        if not stat.S_ISREG(entry.st.st_mode):
+            raise fdsafe.Refusal(path, 'is not a regular file')
+        data = read_entry(entry)
     try:
         return data.decode('utf-8')
     except UnicodeDecodeError as exc:
@@ -65,6 +118,8 @@ def exists(path):
             if exc.errno != errno.ENOENT:
                 raise
             return False
+        finally:
+            fdsafe._settled(held)
     return True
 
 
@@ -103,8 +158,7 @@ def run(args):
                 skipped['socket'] += 1
                 return
             fdsafe._settled(fdsafe.Dir(entry.dir_fd, os.path.dirname(entry.path)))
-            # [LAW:single-enforcer] The held-fd readers own no-follow and identity checks.
-            data = (fdsafe.read_link if stat.S_ISLNK(mode) else fdsafe.read_bytes)(entry)
+            data = read_entry(entry)
             key = os.path.relpath(entry.path, repo) if fdsafe.inside(repo, entry.path) else entry.path
             hit_count = data.count(needle)
             if hit_count:
@@ -125,7 +179,7 @@ def run(args):
         with fdsafe.fs(args.report):
             parent, name = os.path.split(os.path.abspath(args.report))
         with fdsafe.hold_root(parent) as held:
-            fdsafe.create_file(held, name, data, roots)
+            write_report(held, name, data, roots)
     return result.exit_status
 
 
