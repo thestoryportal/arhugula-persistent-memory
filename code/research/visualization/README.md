@@ -13,7 +13,7 @@ The sizes are the real ones (the width of the data flowing through, the size of 
 ## How to open it
 
 1. Download the desktop app from https://netron.app (the Mac download is the easiest).
-2. Open the app and choose File > Open, then pick `qwen25_3b_2layer_structure.onnx` (in this folder).
+2. Open the app and choose File > Open, then pick `/Volumes/memit/llmdb-preserved/icm21-20261013/M/visualization/qwen25_3b_2layer_structure.onnx`.
 3. The file is about 1.5 GB, so give it a few seconds to load. Use the mouse wheel to zoom and drag to move around. Click any box to see its details on the right.
 
 ## What to look for
