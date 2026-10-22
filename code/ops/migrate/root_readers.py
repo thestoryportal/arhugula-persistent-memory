@@ -53,25 +53,6 @@ def read_entry(entry):
         fdsafe.close(fd, entry.path)
 
 
-def write_report(parent, name, data, roots):
-    """Remove this newly created report if its held parent moves into a scan root."""
-    held = fdsafe.open_held(parent, name, roots)
-    try:
-        try:
-            fdsafe.write_held(held, data)
-        finally:
-            # [LAW:effects-at-boundaries] Roll back only our exclusive report creation.
-            where = os.path.join(parent.live(), name)
-            for root in roots:
-                if fdsafe.inside(root.live(), os.path.dirname(where)):
-                    with fdsafe.fs(where):
-                        os.unlink(name, dir_fd=parent.fd)
-                    raise fdsafe.Refusal(where, f'report removed from inside root {root.path}')
-        fdsafe.settle(held, roots)
-    finally:
-        fdsafe.close(held.fd, f'{os.path.join(parent.path, name)} (created, left in place)')
-
-
 def read_text(path):
     with fdsafe.fs(path):
         parent, name = os.path.split(os.path.abspath(path))
@@ -179,7 +160,8 @@ def run(args):
         with fdsafe.fs(args.report):
             parent, name = os.path.split(os.path.abspath(args.report))
         with fdsafe.hold_root(parent) as held:
-            write_report(held, name, data, roots)
+            # [LAW:single-enforcer] The inherited create owns output settlement.
+            fdsafe.create_file(held, name, data, roots)
     return result.exit_status
 
 

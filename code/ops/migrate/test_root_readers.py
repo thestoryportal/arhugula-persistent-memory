@@ -280,8 +280,10 @@ class Readers(unittest.TestCase):
             os.rename(out, self.root / 'moved')
             return result
         with mock.patch.object(os, 'write', moved):
-            self.refused(self.call('--report', str(out / 'report')), 'inside root')
-        self.assertFalse((self.root / 'moved' / 'report').exists())
+            result = self.call('--report', str(out / 'report'))
+        self.refused(result, 'was written inside root')
+        self.assertIn('left in place', result[2])
+        self.assertTrue((self.root / 'moved' / 'report').exists())
 
     def test_output_close_error_names_kept_report(self):
         real = os.close
@@ -476,13 +478,13 @@ class Readers(unittest.TestCase):
             self.refused(self.call('--old-root', str(old)), str(parent))
         self.assertFalse(self.report.exists())
 
-    def test_output_move_before_write_removes_report(self):
+    def test_output_move_before_write_keeps_report(self):
         self.output_move('write', False)
 
-    def test_output_move_before_create_removes_report(self):
+    def test_output_move_before_create_keeps_report(self):
         self.output_move('open', False)
 
-    def test_output_move_with_failed_write_removes_report(self):
+    def test_output_move_with_failed_write_keeps_report(self):
         self.output_move('write', True)
 
     def output_move(self, seam, fail):
@@ -495,8 +497,10 @@ class Readers(unittest.TestCase):
             return original(*args, **kwargs)
         match = (lambda name, *a, **kw: name == 'report') if seam == 'open' else None
         with FK._at_call(seam, 1, move, match):
-            self.refused(self.call('--report', str(out / 'report')), 'inside root')
-        self.assertEqual(list((self.root / 'moved').iterdir()), [])
+            result = self.call('--report', str(out / 'report'))
+        self.refused(result, 'left in place')
+        self.assertIn('ENOSPC' if fail else 'inside root', result[2])
+        self.assertEqual([p.name for p in (self.root / 'moved').iterdir()], ['report'])
 
     def test_output_prefix_sibling_is_allowed(self):
         out = self.base / 'repo-sibling'
@@ -636,24 +640,39 @@ sys.exit(result)
         self.assertFalse(self.report.exists())
         self.assertTrue(moved.exists())
 
-    def test_report_unlink_oserror_names_moved_report(self):
-        for err in (errno.EIO, errno.ENOSPC):
-            with self.subTest(errno=err):
-                out = self.base / f'output-{err}'
-                out.mkdir()
-                moved = self.root / f'moved-{err}'
-                def move(fault, original, args, kwargs):
-                    os.rename(out, moved)
-                    raise OSError(errno.ENOSPC, os.strerror(errno.ENOSPC))
-                # [LAW:effects-at-boundaries] The unlink failure is the named refusal.
-                with FK._at_call('write', 1, move, None), mock.patch.object(
-                        os, 'unlink', side_effect=OSError(err, os.strerror(err))) as unlink:
-                    result = self.call('--report', str(out / 'report'))
-                unlink.assert_called_once()
-                self.refused(result, str(moved / 'report'))
-                self.assertIn(errno.errorcode[err], result[2])
-                self.assertEqual((moved / 'report').read_bytes(), b'')
-                (moved / 'report').unlink()
+    def test_report_name_rebound_to_input_is_not_deleted(self):
+        out = self.base / 'output'
+        out.mkdir()
+        report = out / 'report'
+        moved = self.root / 'moved-output'
+        data = b'irreplaceable input bytes'
+        self.leaf.write_bytes(data)
+        inode = self.leaf.stat().st_ino
+        def rebind(fault, original, args, kwargs):
+            written = original(*args, **kwargs)
+            os.rename(report, out / 'original-report')
+            os.rename(self.leaf, report)
+            os.rename(out, moved)
+            return written
+        # [LAW:behavior-not-structure] A rebound name never grants custody of input.
+        with FK._at_call('write', 1, rebind, None):
+            result = self.call('--report', str(report))
+        self.refused(result, 'left in place')
+        self.assertTrue((moved / 'report').exists())
+        self.assertEqual((moved / 'report').read_bytes(), data)
+        self.assertEqual((moved / 'report').stat().st_ino, inode)
+
+    def test_post_stage_with_valid_measured_pairs_refuses(self):
+        pre = self.base / 'pre'
+        pre.write_text('{"stage":"post","measured_counts":[]}')
+        self.refused(self.call('--pre-report', str(pre)), 'expected pre-stage report')
+        self.assertFalse(self.report.exists())
+
+    def test_unhashable_measured_index_refuses(self):
+        pre = self.base / 'pre'
+        pre.write_text('{"stage":"pre","measured_counts":[[[],1]]}')
+        self.refused(self.call('--pre-report', str(pre)), 'expected integer-indexed count pair')
+        self.assertFalse(self.report.exists())
 
 
 if __name__ == '__main__':
