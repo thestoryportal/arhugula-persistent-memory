@@ -627,6 +627,7 @@ class FixOne(unittest.TestCase):
                 '[',
                 ' \t',
                 '["\\u123',
+                '["\\u1234"',  # M90: completed Unicode escape before a closing quote
                 '["\\"',
                 '[false, null, -1.2e-',
                 '{"a',
@@ -671,24 +672,10 @@ class FixOne(unittest.TestCase):
 
 
     def test_prefix_recognizer_matches_json_oracle(self):
-        states = (
-            ('value', '['), ('nested-array-start', '[['),
-            ('nested-array-space', '[[ '), ('object-space', '[{ '),
-            ('array-after-value', '[1'),
-            ('complete', '[1]'), ('string', '["a'), ('escape', '["\\'),
-            ('hex-1', '["\\u'), ('hex-2', '["\\uA'),
-            ('hex-3', '["\\uAB'), ('hex-4', '["\\uABC'),
-            ('minus', '[-'), ('zero', '[0'), ('integer', '[12'),
-            ('decimal-point', '[1.'), ('fraction', '[1.2'),
-            ('exponent', '[1e'), ('exponent-sign', '[1e+'),
-            ('exponent-digits', '[1e+2'),
-            ('object-start', '[{'), ('after-key', '[{"k"'),
-            ('after-colon', '[{"k":'), ('object-after-value', '[{"k":0'),
-            ('object-next-key', '[{"k":0,'), ('array-next-value', '[0,'),
-            ('true-1', '[t'), ('true-2', '[tr'), ('true-3', '[tru'),
-            ('false-1', '[f'), ('false-2', '[fa'), ('false-3', '[fal'),
-            ('false-4', '[fals'), ('null-1', '[n'), ('null-2', '[nu'),
-            ('null-3', '[nul'),
+        documents = (
+            '[[],{},[0],{"k":0,"j":1}]',
+            r'["\"x\\x\/x\bx\fx\nx\rx\tx\uabcdx\uABCDx"]',
+            '[true,false,null,-0,0,12,-1.5,1e5,1E+2,1.0e-3]',
         )
         # [LAW:behavior-not-structure] Completions ask the independent JSON decoder;
         # they contain no recognizer transitions or character-class tables.
@@ -705,6 +692,13 @@ class FixOne(unittest.TestCase):
                 return False
             return True
 
+        # [LAW:behavior-not-structure] Every cut of a valid document probes a prefix.
+        for document in documents:
+            self.assertTrue(is_json(document), repr(document))
+        states = enumerate(sorted({document[:end] for document in documents
+                                   for end in range(1, len(document))
+                                   if document[:end].startswith('[')
+                                   and not is_json(document[:end])}))
         prefix = journal(intent(4))
         for state, start in states:
             for codepoint in range(128):
