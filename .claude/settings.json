@@ -97,9 +97,5 @@
       "/Volumes/memit/llm-database-poc-mirror"
     ]
   },
-  "_comment": "v5 ICM v2 step 6a: Edit rules protect evidence/CORPUS/, evidence/manifests/, _system/memory/, code/memit/vendor/ and data/. A single leading slash anchors these rules at the project root. Edit rules also cover file creation. Write path rules are not used by file permission checks. Bash path denies cover legacy names, external cache names and the v2 layout until sync. Manifest redirect rules match relative and absolute paths. Broad Bash and Edit allows retain the operator's 'Protect paths, allow rest' policy. Deny rules take precedence. Bash patterns are best-effort and do not constrain arbitrary subprocess file access. Engine patching through Bash still requires the isolation discipline. Environment values remain unchanged until sync.",
-  "env": {
-    "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory",
-    "HF_HOME": "/Volumes/memit/llm-database-poc-mirror/hf_cache"
-  }
+  "_comment": "v5 ICM v2 step 6a: Edit rules protect evidence/CORPUS/, evidence/manifests/, _system/memory/, code/memit/vendor/ and data/. A single leading slash anchors these rules at the project root. Edit rules also cover file creation. Write path rules are not used by file permission checks. Bash path denies cover legacy names, external cache names and the v2 layout until sync. Manifest redirect rules match relative and absolute paths. Broad Bash and Edit allows retain the operator's 'Protect paths, allow rest' policy. Deny rules take precedence. Bash patterns are best-effort and do not constrain arbitrary subprocess file access. Engine patching through Bash still requires the isolation discipline. Environment values remain unchanged until sync."
 }
