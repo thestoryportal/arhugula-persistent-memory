@@ -24,7 +24,9 @@ import time
 import traceback
 
 REPO = Path(__file__).resolve().parents[3]
-SRC = Path('/Volumes/memit/llm-database-poc-mirror')
+sys.path.insert(0, str(REPO / 'code'))
+from ops.migrate import fdsafe
+
 DEFAULT_REMOTE = ['ssh', '-i', os.path.expanduser('~/.ssh/intel_mac_ed25519'), '-o', 'IdentitiesOnly=yes', '-o', 'BatchMode=yes', 'robertrhu_node2@192.168.10.2']
 CAP = 250_000_000_000
 FREE_FLOOR = 80_000_000_000 + 20 * 1024**3
@@ -174,13 +176,14 @@ def excluded(path, kind, patterns):
 
 
 class Controller:
-    def __init__(self, source, records, gen, remote=None, runner=None):
+    def __init__(self, source, records, gen, remote=None, runner=None, destination='memit_copy', excludes=None):
         if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,99}', gen):
             raise ValueError('invalid generation')
         self.source = Path(source).absolute()
         self.directory = Path(records).absolute() / gen
         self.gen = gen
         self.remote = DEFAULT_REMOTE if remote is None else list(remote)
+        self.destination = destination
         if len(self.remote) < 2:
             raise ValueError('--remote must contain an executable prefix and destination')
         self.phase = 'initialization'
@@ -194,7 +197,8 @@ class Controller:
         self.receipt_path = self.directory / 'receipt.json'
         self.log_path = self.directory / 'run.jsonl'
         self.runner = runner if runner is not None else NativeRunner(log=self.log)
-        self.patterns = [p.strip() for p in (REPO / 'code/ops/backup/backup_mirror.excludes').read_text().splitlines() if p.strip() and not p.startswith('#')]
+        excludes = REPO / 'code/ops/backup/backup_mirror.excludes' if excludes is None else excludes
+        self.patterns = [p.strip() for p in Path(excludes).read_text().splitlines() if p.strip() and not p.startswith('#')]
         self.manifest_info = None
 
     def record(self, path, value):
@@ -357,7 +361,8 @@ class Controller:
         self.manifest_info = info
 
     def remote_script(self, mode, *args):
-        command = '/usr/bin/python3 -I -B - ' + shlex.join([mode] + list(args))
+        root = shlex.quote(self.destination) if self.destination.startswith('/') else '"$HOME/"' + shlex.quote(self.destination)
+        command = '/usr/bin/python3 -I -B - ' + shlex.join([mode] + list(args)) + ' --root ' + root
         out = self.runner.run(self.remote + [command], stdin=(REPO / 'code/ops/intel/memit_intel_receive.py').read_bytes())
         if not out.strip():
             raise ValueError('empty Intel response')
@@ -426,8 +431,9 @@ class Controller:
         if not self.measured['budget']['ok']:
             raise ValueError('Intel budget refusal: %s' % json.dumps(self.measured['budget']))
         self.phase = 'metadata'
-        folder = 'memit_copy/incoming/' + self.gen
-        self.runner.run(self.remote + ['mkdir -p "$HOME/' + folder + '/data"'])
+        folder = self.destination + '/incoming/' + self.gen
+        target = shlex.quote(folder + '/data') if folder.startswith('/') else '"$HOME/"' + shlex.quote(folder + '/data')
+        self.runner.run(self.remote + ['mkdir -p ' + target])
         self.write_control()
         self.rsync([self.manifest_path, self.control_path], folder + '/')
         self.sent_objects = len(representatives)
@@ -453,11 +459,11 @@ class Controller:
             filelist = self.state / self.gen / 'paths.from0'
             filelist.write_bytes(b''.join(os.fsencode(path) + b'\x00' for path in representatives.values()))
             if representatives:
-                self.rsync([str(self.source) + '/'], 'memit_copy/incoming/' + self.gen + '/data/', filelist)
+                self.rsync([str(self.source) + '/'], self.destination + '/incoming/' + self.gen + '/data/', filelist)
             self.phase = 'source_recheck'
             self.control['changed_paths'] = self.changed_paths()
             self.write_control()
-            self.rsync([self.control_path], 'memit_copy/incoming/' + self.gen + '/')
+            self.rsync([self.control_path], self.destination + '/incoming/' + self.gen + '/')
             self.phase = 'verify'
             try:
                 receipt = self.remote_script('verify', self.gen, self.manifest_info['manifest_sha256'])
@@ -474,7 +480,7 @@ class Controller:
                     raise
                 self.control['changed_paths'] = changed
                 self.write_control()
-                self.rsync([self.control_path], 'memit_copy/incoming/' + self.gen + '/')
+                self.rsync([self.control_path], self.destination + '/incoming/' + self.gen + '/')
                 receipt = self.remote_script('verify', self.gen, self.manifest_info['manifest_sha256'])
             # Verification can be slow on Intel: re-stat after its reply too.
             # A single reconciliation records late source changes on Intel;
@@ -483,7 +489,7 @@ class Controller:
             if final_changed != self.control['changed_paths']:
                 self.control['changed_paths'] = final_changed
                 self.write_control()
-                self.rsync([self.control_path], 'memit_copy/incoming/' + self.gen + '/')
+                self.rsync([self.control_path], self.destination + '/incoming/' + self.gen + '/')
                 receipt = self.remote_script('verify', self.gen, self.manifest_info['manifest_sha256'])
                 if self.changed_paths() != final_changed:
                     raise ValueError('source changed again during final reconciliation')
@@ -505,16 +511,64 @@ class Controller:
             raise
 
 
-def main():
+def read_pairs(path):
+    # [LAW:effects-at-boundaries] The new table read uses the shared fd-bound reader.
+    path = Path(path).absolute()
+    with fdsafe.open_out_parent(str(path.parent)) as parent:
+        with fdsafe.fs(str(path)):
+            scanned = os.lstat(path.name, dir_fd=parent.fd)
+        raw = fdsafe.read_bytes(fdsafe.Entry(parent.fd, path.name, str(path), path.name, scanned))
+    lines = raw.decode('utf-8').splitlines()
+    if not lines or lines[0] != 'reader\tsource\tdestination\texcludes':
+        raise fdsafe.Refusal(str(path), 'invalid pairs header')
+    pairs = []
+    for number, line in enumerate(lines[1:], 2):
+        fields = line.split('\t')
+        if len(fields) != 4 or not all(fields):
+            raise fdsafe.Refusal(str(path), 'row %s: invalid pair' % number)
+        reader, source, destination, excludes = fields
+        if reader not in ('ssd', 'intel', 'gdrive'):
+            raise fdsafe.Refusal(str(path), 'row %s: unknown reader' % number)
+        if reader != 'intel':
+            continue
+        if destination == 'HOLD':
+            raise fdsafe.Refusal(str(path), 'row %s (%s): HOLD; Q6: operator must choose the Intel destination' % (number, source))
+        host, separator, folder = destination.partition(':')
+        if not host or not separator or not folder or '/' in excludes:
+            raise fdsafe.Refusal(str(path), 'row %s: invalid destination or excludes' % number)
+        pairs.append((source, host, folder, path.parent / excludes, number))
+    return pairs
+
+
+def main(runner=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('subcommand', choices=['manifest', 'run'])
-    parser.add_argument('--source', type=Path, default=SRC)
+    parser.add_argument('--source', type=Path)
     parser.add_argument('--gen', default=time.strftime('%Y%m%dT%H%M%SZ', time.gmtime()))
     parser.add_argument('--paths-from', type=Path)
-    parser.add_argument('--remote', default=shlex.join(DEFAULT_REMOTE), help='quoted remote argv prefix, including destination')
+    parser.add_argument('--remote', help='quoted remote argv prefix, including destination')
+    parser.add_argument('--records', type=Path, default=REPO / 'projects/drive-activate/receipts/intel_memit_copy')
     args = parser.parse_args()
     # Copy receipts belong to the open drive-activate project (where the v2 map put the earlier ones).
-    controller = Controller(args.source, REPO / 'projects/drive-activate/receipts/intel_memit_copy', args.gen, shlex.split(args.remote))
+    try:
+        pairs = read_pairs(os.environ.get('BACKUP_PAIRS') or REPO / 'code/ops/backup/backup_pairs.tsv')
+    except fdsafe.Refusal as exc:
+        print(str(exc), file=sys.stderr)
+        return 3
+    # [LAW:one-source-of-truth] All rows are admitted before an explicit one-run source override.
+    if args.source is not None:
+        pairs = [(args.source, host, folder, excludes, number) for _, host, folder, excludes, number in pairs[:1]]
+    for source, host, folder, excludes, number in pairs:
+        remote = shlex.split(args.remote) if args.remote is not None else DEFAULT_REMOTE[:-1] + [host]
+        gen = args.gen if len(pairs) == 1 else args.gen + '-row' + str(number)
+        controller = Controller(source, args.records, gen, remote, runner, folder, excludes)
+        status = run_controller(controller, args)
+        if status:
+            return status
+    return 0
+
+
+def run_controller(controller, args):
     try:
         if args.subcommand == 'run':
             result = controller.run(args.paths_from)

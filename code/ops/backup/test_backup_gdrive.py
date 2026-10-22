@@ -286,15 +286,26 @@ def drive_selftest():
             assert next(x["Size"] for x in uploaded if x["Path"] == "upload_rate.bin") == size
             result.update(upload_bytes=size, upload_wall_s=elapsed, measured_bytes_per_s=size / elapsed)
             changes = out / "dry_run_changes.txt"
-            source = "/Volumes/memit/llm-database-poc-mirror/"
-            excludes = str(ROOT / "code/ops/backup/backup_mirror.excludes")
-            filters = ["--exclude-from", excludes]
-            for pattern in GIT_TMP_EXCLUDES:
-                filters.extend(["--exclude", pattern])
-            rc("sync", source, "gdrive:memit-backup/llm-database-poc-mirror/", "--dry-run", "--links",
-               *filters,
-               "--backup-dir", "gdrive:memit-backup/.deleted/DRY-RUN/", "--combined", str(changes))
-            local = json.loads(rc("lsjson", source, "--recursive", "--files-only", "--links", *filters))
+            import csv
+            pairs_path = Path(os.environ.get("BACKUP_PAIRS") or ROOT / "code/ops/backup/backup_pairs.tsv")
+            with pairs_path.open() as table:
+                pairs = [row for row in csv.DictReader(table, delimiter="\t") if row["reader"] == "gdrive"]
+            for number, row in enumerate(pairs):
+                if row["destination"] == "HOLD":
+                    raise RuntimeError(f"gdrive row {number}: HOLD; Q5: operator must choose the Drive destination")
+            local, combined = [], []
+            for number, row in enumerate(pairs):
+                source, destination = row["source"].rstrip("/") + "/", row["destination"].rstrip("/")
+                filters = ["--exclude-from", str(pairs_path.parent / row["excludes"])]
+                for pattern in GIT_TMP_EXCLUDES:
+                    filters.extend(["--exclude", pattern])
+                pair_changes = out / f"dry_run_changes_{number}.txt"
+                rc("sync", source, destination + "/", "--dry-run", "--links", *filters,
+                   "--backup-dir", destination.rsplit("/", 1)[0] + "/.deleted/DRY-RUN/", "--combined", str(pair_changes))
+                local.extend(dict(item, Path=f"{number}/" + item["Path"]) for item in
+                             json.loads(rc("lsjson", source, "--recursive", "--files-only", "--links", *filters)))
+                combined.extend(line[:2] + f"{number}/" + line[2:] for line in pair_changes.read_text().splitlines())
+            changes.write_text("\n".join(combined) + "\n")
             sizes = {x["Path"]: x["Size"] for x in local}
             planned = [line[2:] for line in changes.read_text().splitlines() if line.startswith(("+ ", "* "))]
             total = sum(sizes[name] for name in planned)

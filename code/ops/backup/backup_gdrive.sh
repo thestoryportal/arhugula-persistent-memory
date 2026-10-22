@@ -3,18 +3,45 @@
 # Stale locks are never expired by age: the first upload can take many hours.
 set -euo pipefail
 
-SRC="${BACKUP_SRC:-/Volumes/memit/llm-database-poc-mirror}"
-DEST="${BACKUP_DEST:-gdrive:memit-backup/llm-database-poc-mirror}"
-DEST="${DEST%/}"
-EXCLUDES="${BACKUP_EXCLUDES:-$(/usr/bin/dirname "$0")/backup_mirror.excludes}"
+PAIRS="${BACKUP_PAIRS:-$(/usr/bin/dirname "$0")/backup_pairs.tsv}"
+pair_die() { printf 'backup_gdrive: %s\n' "$*" >&2; exit 1; }
+[ -f "$PAIRS" ] || pair_die "pairs table missing: $PAIRS"
+SOURCES=(); DESTINATIONS=(); RULES=()
+ROW=0
+# [LAW:parse-dont-validate] Retain admitted rows before any sync can start.
+while IFS= read -r LINE || [ -n "$LINE" ]; do
+  ROW=$((ROW + 1))
+  if [ "$ROW" = 1 ]; then
+    [ "$LINE" = $'reader\tsource\tdestination\texcludes' ] || pair_die "row $ROW: invalid header: $PAIRS"
+    continue
+  fi
+  IFS=$'\t' read -r READER SRC DEST EXCLUDES EXTRA <<< "$LINE"
+  [ "$LINE" = "$READER"$'\t'"$SRC"$'\t'"$DEST"$'\t'"$EXCLUDES" ] &&
+    [ -n "$SRC" ] && [ -n "$DEST" ] && [ -n "$EXCLUDES" ] || pair_die "row $ROW: invalid pair: $PAIRS"
+  case "$READER" in gdrive) ;; ssd|intel) continue ;; *) pair_die "row $ROW: unknown reader: $READER" ;; esac
+  [ "$DEST" != HOLD ] || pair_die "row $ROW ($SRC): HOLD; Q5: operator must choose the Drive destination"
+  case "$EXCLUDES" in
+    */*) pair_die "row $ROW: excludes must be next to table: $EXCLUDES" ;;
+    *) EXCLUDES="$(/usr/bin/dirname "$PAIRS")/$EXCLUDES" ;;
+  esac
+  # [LAW:one-source-of-truth] An explicit table owns pairs; default-table overrides remain legacy inputs.
+  if [ -z "${BACKUP_PAIRS:-}" ]; then
+    SRC="${BACKUP_SRC:-$SRC}"
+    DEST="${BACKUP_DEST:-$DEST}"
+    EXCLUDES="${BACKUP_EXCLUDES:-$EXCLUDES}"
+  fi
+  SOURCES+=("$SRC"); DESTINATIONS+=("$DEST"); RULES+=("$EXCLUDES")
+done < "$PAIRS"
+[ "$ROW" -gt 0 ] || pair_die "empty pairs table: $PAIRS"
+
 RCLONE="${BACKUP_RCLONE:-/opt/homebrew/bin/rclone}"
 PYTHON="${BACKUP_PYTHON:-/usr/bin/python3}"
 STATUS_TOOL="$(/usr/bin/dirname "$0")/backup_gdrive_status.py"
 MOUNT_POINT="${BACKUP_MOUNT_POINT:-/Volumes/memit}"
+MOUNT="${BACKUP_MOUNT:-/sbin/mount}"
 LOG="${BACKUP_LOG:-$HOME/Library/Logs/memit-gdrive-backup.log}"
 LOCK="${BACKUP_LOCK_DIR:-$HOME/Library/Logs/memit-gdrive-backup.lock}"
 STAMP="$(/bin/date -u +%Y%m%dT%H%M%SZ)-$$"
-DELETED_DIR="${DEST%/*}/.deleted/$STAMP"
 HEARTBEAT="${BACKUP_HEARTBEAT:-$HOME/Library/Logs/memit-gdrive-backup/last_run.json}"
 START="$(/bin/date -u +%Y-%m-%dT%H:%M:%SZ)"
 LAUNCH_GENERATION="${BACKUP_LAUNCH_GENERATION:-}"
@@ -86,6 +113,16 @@ if ! write_heartbeat start; then
   exit 1
 fi
 [ -x "$RCLONE" ] || die "rclone missing: $RCLONE"
+for ((PAIR=0; PAIR<${#SOURCES[@]}; PAIR++)); do
+SRC="${SOURCES[PAIR]}"
+DEST="${DESTINATIONS[PAIR]%/}"
+EXCLUDES="${RULES[PAIR]}"
+DELETED_DIR="${DEST%/*}/.deleted/$STAMP"
+if [ "${#SOURCES[@]}" -gt 1 ]; then
+  RUN_LOG="$(/usr/bin/dirname "$HEARTBEAT")/runs/$STAMP-pair$PAIR.jsonl"
+fi
+RCLONE_EXIT_CODE=0
+SYNC_OUTCOME=""
 if ! "$PYTHON" "$STATUS_TOOL" preflight --rclone "$RCLONE" --source "$SRC" --destination "$DEST"; then
   die "unsafe or unverified rclone configuration; no sync dispatched"
 fi
@@ -96,7 +133,7 @@ else
 fi
 
 [ -f "$EXCLUDES" ] || die "exclude list missing: $EXCLUDES"
-MOUNTS=$(/sbin/mount) || die "cannot inspect mounted volumes"
+MOUNTS=$("$MOUNT") || die "cannot inspect mounted volumes"
 case "$MOUNTS" in
   *" on $MOUNT_POINT ("*) ;;
   *) die "source volume $MOUNT_POINT is not mounted" ;;
@@ -162,3 +199,4 @@ else
   [ "$STATUS" != 0 ] || STATUS=1
   exit "$STATUS"
 fi
+done
