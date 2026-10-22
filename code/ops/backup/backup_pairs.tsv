@@ -1,0 +1,4 @@
+reader	source	destination	excludes
+ssd	/Volumes/memit/llm-database-poc-mirror	/Users/robertrhu/Backups/memit/llm-database-poc-mirror	backup_mirror.excludes
+intel	/Volumes/memit/llm-database-poc-mirror	robertrhu_node2@192.168.10.2:memit_copy	backup_mirror.excludes
+gdrive	/Volumes/memit/llm-database-poc-mirror	gdrive:memit-backup/llm-database-poc-mirror	backup_mirror.excludes
