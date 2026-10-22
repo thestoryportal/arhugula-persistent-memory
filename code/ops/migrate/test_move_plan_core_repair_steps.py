@@ -27,6 +27,15 @@ class RepairSteps(unittest.TestCase):
                                  f"'/m/program/repairs.tsv:2': repair step {step} "
                                  "is not one of 261-269, 387")
 
+    def test_every_disallowed_step_in_range_has_exact_refusal(self):
+        for step in sorted(set(range(0, 1000)) - {*range(261, 270), 387}):
+            with self.subTest(step=step):
+                with self.assertRaises(fdsafe.Refusal) as caught:
+                    check_step(step)
+                self.assertEqual(str(caught.exception),
+                                 f"'/m/program/repairs.tsv:2': repair step {step} "
+                                 "is not one of 261-269, 387")
+
     def test_refusal_is_derived_from_current_set(self):
         # [LAW:behavior-not-structure] Observe the public refusal after changing its authority.
         with mock.patch.object(core, "REPAIR_STEPS", frozenset({1, 2, 3, 7, 9, 10})):
