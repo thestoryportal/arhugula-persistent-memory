@@ -7,7 +7,7 @@ bind (an old path's parent followed by a partial name, as in f"{P}/autoresearch_
 and every binary file are recorded UNVERIFIED (SPEC.md:545-546, :788-791).
 
   --check --paths F... --relocations MAP        Steps 261-265
-  --check --untracked --units DIR --report FILE  Step 266
+  --check --untracked --units DIR --plans FILE --report FILE  Step 266
 Exit 0 clean, 1 a reader still names an old path or the report differs, 2 refused.
 Without --check it lists readers to stdout, or writes a new --report (never overwrites).
 """
@@ -57,6 +57,45 @@ def parse_rows(path: Path, data: bytes) -> dict[str, str]:
         if row[0] in mapping:
             raise Refused(f'{path}:{number}: repeated old path {row[0]}')
         mapping[row[0]] = row[1]
+    return mapping
+
+
+def read_plans(path: Path) -> dict[str, str]:
+    with fdsafe.hold_root(str(path.parent)) as parent:
+        data = fdsafe.read_named(parent, path.name)
+    return parse_plans(path, data)
+
+
+def parse_plans(path: Path, data: bytes) -> dict[str, str]:
+    """Every move source, exactly as the plan spells it (absolute), maps to its target.
+    A source inside the root is not made relative: a one-name relative old such as
+    `docs` would match the word in any text (R266a)."""
+    try:
+        plans = json.loads(data.decode('utf-8'))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        raise Refused(f'{path}: expected UTF-8 JSON')
+    if not isinstance(plans, dict) or not isinstance(plans.get('entries'), list):
+        raise Refused(f'{path}: expected list entries')
+    mapping = {}
+    for entry in plans['entries']:
+        if not isinstance(entry, dict) or not isinstance(entry.get('moves'), list):
+            raise Refused(f'{path}: expected entry with list moves')
+        for move in entry['moves']:
+            if (not isinstance(move, dict)
+                    or not isinstance(move.get('source'), str)
+                    or not isinstance(move.get('target'), str)
+                    or not move['source'].startswith('/')
+                    or not move['target'].startswith('/')):
+                raise Refused(f'{path}: expected move with absolute source and target strings')
+            source, target = move['source'], move['target']
+            for value in (source, target):
+                if any(ord(char) < 32 or ord(char) == 127 for char in value):
+                    raise Refused(f'{path}: control character in move {value!r}')
+            if source == target:
+                raise Refused(f'{path}: identity move {source}')
+            if source in mapping:
+                raise Refused(f'{path}: repeated source {source}')
+            mapping[source] = target
     return mapping
 
 
@@ -218,6 +257,14 @@ def run(args) -> int:
         inputs += files
     for old in args.old or ():
         olds[old] = ''
+    if args.plans:
+        path = Path(args.plans)
+        plans = read_plans(path)
+        for source in plans:
+            if source in olds:
+                raise Refused(f'{path}: source already an old path {source}')
+        olds.update(plans)
+        inputs.append(path)
     if not (args.paths or args.tracked or args.untracked):
         raise Refused('name a scope: --paths, --tracked or --untracked')
     listed = []
@@ -263,6 +310,11 @@ def run(args) -> int:
     return code
 
 
+def refusal_message(message: str) -> str:
+    return ''.join(repr(char)[1:-1] if ord(char) < 32 or ord(char) == 127 else char
+                   for char in message)
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument('--check', action='store_true')
@@ -271,13 +323,14 @@ def main(argv=None) -> int:
     parser.add_argument('--untracked', action='store_true')
     parser.add_argument('--relocations')
     parser.add_argument('--units')
+    parser.add_argument('--plans')
     parser.add_argument('--old', nargs='+', help='old source paths of one unit, before its map exists')
     parser.add_argument('--report')
     args = parser.parse_args(argv)
     try:
         return run(args)
     except (Refused, fdsafe.Refusal, OSError, UnicodeDecodeError, csv.Error) as exc:
-        print(f'reader_find: refused: {exc}', file=sys.stderr)
+        print(f'reader_find: refused: {refusal_message(str(exc))}', file=sys.stderr)
         return 2
 
 
