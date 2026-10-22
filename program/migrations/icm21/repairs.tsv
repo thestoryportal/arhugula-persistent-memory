@@ -16,3 +16,4 @@ code/memit/patches/replay_provenance.sh	7	/Volumes/memit/llm-database-poc-mirror
 code/memit/patches/replay_provenance.sh	9	/Volumes/memit/llm-database-poc-mirror/stage_1_sect	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/stage_1_sect	263
 code/research/connected_papers_fetch.py	10	/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/connected-papers-knowledge-graphs	264
 code/research/connected_papers_fetch.py	27	/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/connected-papers-knowledge-graphs	264
+code/lab/track_c/autoresearch_c10/sandbox_settings.py	82	/Volumes/memit/llm-database-project-artifacts	/Volumes/memit/llmdb-preserved/icm21-20261013/external/llm-database-project-artifacts	387
