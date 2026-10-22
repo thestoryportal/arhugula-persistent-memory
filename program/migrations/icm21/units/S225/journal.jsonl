@@ -1,0 +1,7 @@
+{"action":"mkdir","operation_id":"MV-053","source":null,"target":"/Volumes/memit/llmdb-preserved/icm21-20261013/scientific-notebook-versions"}
+{"action":"mv","operation_id":"MV-053","source":"/Volumes/memit/llm-database-poc-mirror/.ipynb_checkpoints","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/scientific-notebook-versions/.ipynb_checkpoints"}
+{"action":"mv","operation_id":"MV-081","source":"/Volumes/memit/llm-database-poc-mirror/llm-as-database-agent-context-smoke-test.ipynb","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/llm-as-database-agent-context-smoke-test.ipynb"}
+{"action":"mv","operation_id":"MV-085","source":"/Volumes/memit/llm-database-poc-mirror/pre_s2_6_fork_work.ipynb","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/pre_s2_6_fork_work.ipynb"}
+{"action":"mv","operation_id":"MV-089","source":"/Volumes/memit/llm-database-poc-mirror/s226_t1_alpha_memit_akd.ipynb","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/s226_t1_alpha_memit_akd.ipynb"}
+{"action":"mv","operation_id":"MV-090","source":"/Volumes/memit/llm-database-poc-mirror/s227_t1_beta_band.ipynb","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/s227_t1_beta_band.ipynb"}
+{"action":"mv","operation_id":"MV-105","source":"/Volumes/memit/llm-database-poc-mirror/t1_alpha_memit_s224.ipynb","target":"/Volumes/memit/llmdb-preserved/icm21-20261013/parent/t1_alpha_memit_s224.ipynb"}
