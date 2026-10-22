@@ -621,6 +621,21 @@ sys.exit(result)
                 self.assertIn(errno.errorcode[err], result[2])
                 self.assertFalse(self.report.exists())
 
+    def test_report_file_moved_into_root_during_write_refuses(self):
+        moved = self.root / 'moved-report'
+        self.addCleanup(moved.unlink, missing_ok=True)
+        def move(fault, original, args, kwargs):
+            os.rename(self.report, moved)
+            return original(*args, **kwargs)
+        # [LAW:behavior-not-structure] Refuse the moved file and leave it in place.
+        with FK._at_call('write', 1, move, None):
+            result = self.call()
+        self.refused(result, str(moved))
+        self.assertIn('was written inside root', result[2])
+        self.assertIn('left in place', result[2])
+        self.assertFalse(self.report.exists())
+        self.assertTrue(moved.exists())
+
     def test_report_unlink_oserror_names_moved_report(self):
         for err in (errno.EIO, errno.ENOSPC):
             with self.subTest(errno=err):
