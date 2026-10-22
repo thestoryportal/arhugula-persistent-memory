@@ -129,6 +129,25 @@ class Registry(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'dependency failure'):
                 core.parse_registry('input')
 
+    def test_constructor_value_error_propagates_unchanged(self):
+        error = ValueError('dependency failure')
+
+        class BrokenText(str):
+            def startswith(self, *args):
+                raise error
+
+        class Reader:
+            line_num = 1
+
+            def __iter__(self):
+                return iter([['RENAME', BrokenText('a'), 'b']])
+
+        with mock.patch('csv.reader', return_value=Reader()):
+            with self.assertRaises(ValueError) as ctx:
+                core.parse_registry('input')
+        # [LAW:behavior-not-structure] Refusal is also a ValueError; preserve identity.
+        self.assertIs(ctx.exception, error)
+
 
 class Classification(unittest.TestCase):
     def setUp(self):
