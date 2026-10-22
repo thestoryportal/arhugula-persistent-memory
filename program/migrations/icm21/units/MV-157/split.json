@@ -1,0 +1,637 @@
+{
+ "leaves": [
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": ".DS_Store",
+   "sha256": "7ffd19b3bdb6ed22a655acc57d2bf0a60da755daedc0b5284abb5f9243b4905b",
+   "size": 6148
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "_manifest.md",
+   "sha256": "8d95224b8811a70063ea7d18a23195e317011ff00b29be2c05cff28de37cac58",
+   "size": 9309
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "corpora/.DS_Store",
+   "sha256": "8db5075bfd03416b2a8fc0b5c9643aa5ce8e1859951baf6da71e5f08b2d27444",
+   "size": 10244
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "corpora/configs/reproducibility_manifest.json",
+   "sha256": "73530c8d30a01152ce8b90fb28fc4167a05d2cddc7bc659a134593764f205c78",
+   "size": 22843
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "meta/.DS_Store",
+   "sha256": "d73c71a9f571c5a8516c2e5e72cc074464f30f32aede6523d07a020eca06aa5d",
+   "size": 6148
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "meta/scripts/capture_token_ids.py",
+   "sha256": "d161e65859b79d73a95120746e62a1ec365b9333a77410d61cd047e4f38eb379",
+   "size": 20823
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/.DS_Store",
+   "sha256": "654b73d53f2e48ee8cde68b0b31d7c3729f9732432c83b38b2748d86c6522a22",
+   "size": 6148
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/.ipynb_checkpoints/pre_s2_6_fork_work_execution_v2-checkpoint.ipynb",
+   "sha256": "d40d239019e40d6b0076834349a9d0027e087de135595dc277e4751885e2d614",
+   "size": 14282
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/.ipynb_checkpoints/pre_s2_6_fork_work_execution_v3-checkpoint.ipynb",
+   "sha256": "1c8b42f81813e88f24ee2002823e5b4d84b36469d8b646c066456d8ca8c44e7a",
+   "size": 86227
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/.ipynb_checkpoints/session_2_5b_4_3_operator_runbook_execution-checkpoint.ipynb",
+   "sha256": "af394e6e4be76028746758d28271dea44ffba9a4f9e20fefaf95e9a5101b6216",
+   "size": 15800
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/.ipynb_checkpoints/session_2_8-checkpoint.ipynb",
+   "sha256": "19a43bae93e45b3b4019ce685cbb9901b824405a1523079140f53ebf93623326",
+   "size": 195724
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/.ipynb_checkpoints/stage_1_sect_runbook-checkpoint.ipynb",
+   "sha256": "26d8f4e8437f488862f0f8b32c864f9bf353d477f5f2f3ef7843e8a40331c55a",
+   "size": 165252
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/.DS_Store",
+   "sha256": "538e5f0abe3d97c06bcf9d8af8bd25d43cfe4edcc5dda0f1d66474b8583628f3",
+   "size": 6148
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_cache_verdict.json",
+   "sha256": "8adad4d92d15210a34c0e23b105c8ccb81e953f2b16d356e3a33096a04e9cd11",
+   "size": 3505
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_environment_fingerprint.json",
+   "sha256": "e9690e572ac89fef32d4fb29fe4c291883e415f7eb0fde057007096fb141f54d",
+   "size": 1143
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_fork_work_execution_v2.ipynb",
+   "sha256": "d40d239019e40d6b0076834349a9d0027e087de135595dc277e4751885e2d614",
+   "size": 14282
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_fork_work_execution_v3.ipynb",
+   "sha256": "1c8b42f81813e88f24ee2002823e5b4d84b36469d8b646c066456d8ca8c44e7a",
+   "size": 86227
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_fork_work_scratch.ipynb",
+   "sha256": "8dbbe8df2c4cdc8e0dece56f8cab18418519e07f0e9fc16cf8665e01b897af0a",
+   "size": 71844
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_globals_fingerprint.json",
+   "sha256": "043a507d50567c9bc92afca23fe820dccfc8311e56d932930881fe9cc3b797c1",
+   "size": 563
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_layer_stats_log.json",
+   "sha256": "e362192decd1b148953eab5660b52af8aac2fde613b970a26b84685db255624e",
+   "size": 2138
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_patch_state.json",
+   "sha256": "94c916c937947e91896e40cb4930e43a727da4f34daf41c764156185a0cc03c5",
+   "size": 605
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_revision_record.json",
+   "sha256": "4de8e7369b156d362d43939694aac97174c90d9ca8eda0de1313f8a99854a721",
+   "size": 565
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/pre_s26_fork_work/pre_s2_6_smoke_log.json",
+   "sha256": "c1216e777d0cc57782e2f2aa892dddb1283088f673e61ac78979dbc3faed3fdb",
+   "size": 658
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s23/session_2_3_block_2_verdict.json",
+   "sha256": "df9ccfc792655f1990958f4ed863f0327e755392941b61a508ce3439298b3132",
+   "size": 2655
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s23/session_2_3_summary_block.md",
+   "sha256": "3b253b0aa5c2861de7207bc89dfe2291c060501148dac7880d54e99ae5345ce0",
+   "size": 12150
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s24/session_2_4_summary_block.md",
+   "sha256": "bb286e02bff02a549c9afbd3afd1d0356fd3b5b59d01151a87dc54a74812d042",
+   "size": 17530
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s24/token-id-capture-results-delta.json",
+   "sha256": "bbdf39814440ff6bf264eac1888f8dfd8867573d28589edabb8bf3c44ba4d427",
+   "size": 13686
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s24/token-id-capture-results.json",
+   "sha256": "81e2eee52cd7fe622d1ee5f9802cce4d4c9ff0245f6eae63be3f1e59151efb98",
+   "size": 20640
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25/session_2_5_summary_block.md",
+   "sha256": "aaee68bbe5eb6ee0e5a3b114f197e1971b78ed2e1ad9006258464ea35eeca16e",
+   "size": 26907
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25a/llama_smoke_test_verdict.json",
+   "sha256": "1665c104c8d6b37d8f3de75dc769608cd71ecc368515e1d84827968165c727d6",
+   "size": 2668
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25a/stage_1_compat_assessment.md",
+   "sha256": "f580aa3baf1879796ee1f3b8edc983181223cf73b040860dd5a11aeb98490651",
+   "size": 24271
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/session_2_5b_4_3_operator_runbook_execution.ipynb",
+   "sha256": "af394e6e4be76028746758d28271dea44ffba9a4f9e20fefaf95e9a5101b6216",
+   "size": 15800
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/session_2_5b_starter_package.md",
+   "sha256": "67d619b7c9cdb6bc8ae2f07c68d26fca439f6eda0f527f0a36750c038d33bd26",
+   "size": 23929
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_0_summary.md",
+   "sha256": "f0911e2965b6f131093920646416aaa5b4b3f7ecb8e97e7b7ee240676630a93c",
+   "size": 30908
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_1_summary.md",
+   "sha256": "20277367a15b3e85d5c0497c446e895343a6774715805d818d25c11c13bfb266",
+   "size": 7594
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_2_summary.md",
+   "sha256": "cf35380aa08bea790eba6b4f2a3b5b9d508dc8bb2308410568af040bf5b01a0b",
+   "size": 8036
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_3_summary.md",
+   "sha256": "ae6b8f7ccceb730bf7109051c15ba12626a05e3641420554e1e39bf5611af55d",
+   "size": 8081
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_5_summary.md",
+   "sha256": "6b323a657a8e892863cc0d9c4be9d5ead963560ef40c4d084717ac71793547e7",
+   "size": 16869
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_6_summary.md",
+   "sha256": "a80036ac7be09a654647c6ffbdc5c95d365acc6b68fe53e2179bc62a28034415",
+   "size": 13272
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_7_summary.md",
+   "sha256": "38fba332c1ef5ac40d88292914bfbfde9837d12d7baebd8a84d3e87309bf2ffa",
+   "size": 20840
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s25b/sub_steps/session_2_5b_step_4_8_summary.md",
+   "sha256": "ee04fa902bc5fc32d016c24435b043a92fd0e81c81d5bf6077ab862c11cd8a05",
+   "size": 23077
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_cache_state.json",
+   "sha256": "5e8b836a98b1edc7bb09c2c9b9cbe2016978178bab438976216e8da4e9b4cd8a",
+   "size": 2941
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_environment_fingerprint.json",
+   "sha256": "6134c17620652c0609be0c2976f3963ebb32f3c921268dc1f2b2ac4693ccad01",
+   "size": 840
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_llama_baselines.json",
+   "sha256": "1617bea38246f1ff745236618366a04d5ec2f94d8eca2c2c59e39e1b4d925354",
+   "size": 21749
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_patch_state.json",
+   "sha256": "a53fc20eb7a92426fa1dda758e76c96ac6917b8932b8b94372d6252ade0169f7",
+   "size": 880
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_sect_runbook.ipynb",
+   "sha256": "26d8f4e8437f488862f0f8b32c864f9bf353d477f5f2f3ef7843e8a40331c55a",
+   "size": 165252
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/stage_1_token_verification.json",
+   "sha256": "94cfb21dddcd5ca1cfad04889350971d7e2ae84f3589726342a451e0ae15ad6e",
+   "size": 1927
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/s26_halted/trial_matrix.json",
+   "sha256": "fcb0987528d80a2372d511b97c745c4323534393cb156f97e23bd2a34e60f664",
+   "size": 7637
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/archive/session_2_7_summary_block.md",
+   "sha256": "a22ff09cd71ad322ee6e607d6fc0cef724ed82000d9e3edf9652320c2e119f37",
+   "size": 15636
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "session_logs/session_2_8.ipynb",
+   "sha256": "19a43bae93e45b3b4019ce685cbb9901b824405a1523079140f53ebf93623326",
+   "size": 195724
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/.DS_Store",
+   "sha256": "889dee24e716b79355aa2ecfce13e1ea8fa8937c0a6f58db45b2271720b85b54",
+   "size": 6148
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/phase_2_archive/.DS_Store",
+   "sha256": "e304d4e5e2be2fa11e3552ace11ed7c516ce472e8b4158dbb34064bac557852f",
+   "size": 6148
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/phase_2_archive/council/framework-council-SKILL-v2.md",
+   "sha256": "ec7e8e5002fc9d28c10e2ab74e606d348ef953d3df1865b15dea9a5bac7c3db0",
+   "size": 19150
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/.DS_Store",
+   "sha256": "f6acf339dec850dcebb70debd63f374259243394d7330fa94273ae294e32b2a2",
+   "size": 6148
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/_ancillary/session_2_5b_starter_package.md",
+   "sha256": "67d619b7c9cdb6bc8ae2f07c68d26fca439f6eda0f527f0a36750c038d33bd26",
+   "size": 23929
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/_substep/session_2_5b_step_4_0_summary.md",
+   "sha256": "f0911e2965b6f131093920646416aaa5b4b3f7ecb8e97e7b7ee240676630a93c",
+   "size": 30908
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/_substep/session_2_5b_step_4_1_summary.md",
+   "sha256": "20277367a15b3e85d5c0497c446e895343a6774715805d818d25c11c13bfb266",
+   "size": 7594
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/_substep/session_2_5b_step_4_2_summary.md",
+   "sha256": "cf35380aa08bea790eba6b4f2a3b5b9d508dc8bb2308410568af040bf5b01a0b",
+   "size": 8036
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/_substep/session_2_5b_step_4_3_summary.md",
+   "sha256": "ae6b8f7ccceb730bf7109051c15ba12626a05e3641420554e1e39bf5611af55d",
+   "size": 8081
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/_substep/session_2_5b_step_4_5_summary.md",
+   "sha256": "6b323a657a8e892863cc0d9c4be9d5ead963560ef40c4d084717ac71793547e7",
+   "size": 16869
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/_substep/session_2_5b_step_4_6_summary.md",
+   "sha256": "a80036ac7be09a654647c6ffbdc5c95d365acc6b68fe53e2179bc62a28034415",
+   "size": 13272
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/_substep/session_2_5b_step_4_7_summary.md",
+   "sha256": "38fba332c1ef5ac40d88292914bfbfde9837d12d7baebd8a84d3e87309bf2ffa",
+   "size": 20840
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/_substep/session_2_5b_step_4_8_summary.md",
+   "sha256": "ee04fa902bc5fc32d016c24435b043a92fd0e81c81d5bf6077ab862c11cd8a05",
+   "size": 23077
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/session_2_3_summary_block.md",
+   "sha256": "3b253b0aa5c2861de7207bc89dfe2291c060501148dac7880d54e99ae5345ce0",
+   "size": 12150
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/session_2_4_summary_block.md",
+   "sha256": "bb286e02bff02a549c9afbd3afd1d0356fd3b5b59d01151a87dc54a74812d042",
+   "size": 17530
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/session_2_5_summary_block.md",
+   "sha256": "aaee68bbe5eb6ee0e5a3b114f197e1971b78ed2e1ad9006258464ea35eeca16e",
+   "size": 26907
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "sessions/workstream_1/session_2_7_summary_block.md",
+   "sha256": "a22ff09cd71ad322ee6e607d6fc0cef724ed82000d9e3edf9652320c2e119f37",
+   "size": 15636
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "skills/.DS_Store",
+   "sha256": "8eef0a2c57ea05271e82263dc8f735e6ae45afde9bec32b9e4382acf1b8ef768",
+   "size": 6148
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "skills/aisecops-specialist.md",
+   "sha256": "d8afb03f110f64003eece324980131b161ada038b2ef87f2b9ef46c3a506e351",
+   "size": 23722
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "skills/graph-data-architect.md",
+   "sha256": "19084338145c575b41056a811cec1479b4ae8acfa9eca91e47abbae3ac948ab3",
+   "size": 18080
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "skills/memit-specialist.md",
+   "sha256": "c656e1e3fe4d65266a79860f7d626c6bd15b46e4ba1f75dcfc1b942173d2adec",
+   "size": 12278
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "skills/state-consistency-theorist.md",
+   "sha256": "5917058b956e9db16b5a90ea09476294ee2a45989645a062618147b62f38c7a3",
+   "size": 25317
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "skills/validation-contract-architect.md",
+   "sha256": "f7696bdecb740d11228045c3089618dd3d2348243a7d260ccf6b9e73fcdf4057",
+   "size": 21644
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "spec/.DS_Store",
+   "sha256": "5b46dff374e3a5b41f7a53c7bd24e612046bbb5b8a24ccbe5eff6c8bea43ccb9",
+   "size": 8196
+  },
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": "spec/calibration/stage_1_compat_assessment.md",
+   "sha256": "f580aa3baf1879796ee1f3b8edc983181223cf73b040860dd5a11aeb98490651",
+   "size": 24271
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "spec/integrated/.DS_Store",
+   "sha256": "5caf3b393d88a979b4035dc78d1942860fd6085656e21509839a3660c9448daf",
+   "size": 6148
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "spec/memit-patches-canonical/.DS_Store",
+   "sha256": "3702fc37f7c16f2dba54694fdd21d0c44afb9d5b4098be0b412f245bc141acc4",
+   "size": 6148
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "spec/memit-patches-canonical/_archive/.DS_Store",
+   "sha256": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3",
+   "size": 6148
+  },
+  {
+   "class": "governed-payload",
+   "kind": "file",
+   "link": null,
+   "path": "spec/runbooks/.DS_Store",
+   "sha256": "e6db5c450799fb32c316e16e0369a3acc8e6e8c6906994bb0b1f02a3dba72311",
+   "size": 6148
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-project-artifacts"
+}
