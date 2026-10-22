@@ -15,6 +15,26 @@ HERE = Path(__file__).resolve().parent
 HEADER = "reader\tsource\tdestination\texcludes\n"
 
 
+def real_rsync3():
+    # [LAW:single-enforcer] both test paths use the same rsync 3 requirement.
+    diagnostics = []
+    for candidate in (shutil.which("rsync"), "/opt/homebrew/bin/rsync"):
+        if candidate is None:
+            diagnostics.append("rsync not found on PATH")
+            continue
+        try:
+            version = subprocess.run([candidate, "--version"], capture_output=True,
+                                     text=True, timeout=10)
+        except (OSError, subprocess.TimeoutExpired) as error:
+            diagnostics.append(f"{candidate}: {error}")
+            continue
+        if version.returncode == 0 and "version 3" in version.stdout:
+            return candidate
+        diagnostics.append(f"{candidate}: exit {version.returncode}: "
+                           f"{version.stdout}{version.stderr}")
+    raise AssertionError("real rsync version 3 is required; " + "; ".join(diagnostics))
+
+
 class BackupPairsTest(unittest.TestCase):
     def setUp(self):
         self.base = Path(tempfile.mkdtemp(prefix="backup_pairs_", dir="/tmp"))
@@ -37,7 +57,7 @@ class BackupPairsTest(unittest.TestCase):
         mount.write_text(f"#!/bin/bash\nprintf 'fixture on {self.base} (test)\\n'\n")
         mount.chmod(0o755)
         self.rsync = self.bin / "rsync"
-        self.rsync.write_text(f"#!{sys.executable}\n" + '''import json, os, pathlib, shutil, sys
+        self.rsync.write_text(f"#!{sys.executable}\n" + '''import json, os, pathlib, sys
 args = sys.argv[1:]
 base = pathlib.Path(os.environ["PAIR_BASE"]).resolve()
 consumption_log = pathlib.Path(os.environ["PAIR_CALLS"]).with_suffix(".excludes.jsonl")
@@ -58,8 +78,9 @@ src, dest = map(pathlib.Path, args[-2:])
 if str(src) == os.environ.get("PAIR_FAIL"):
     print("Number of files: 0")
     sys.exit(23)
-shutil.copytree(src, dest, dirs_exist_ok=True, symlinks=True)
-print("Number of files: 1")
+# [LAW:one-source-of-truth] rsync owns all copying semantics.
+real = os.environ["PAIR_REAL_RSYNC"]
+os.execv(real, [real] + args)
 ''')
         self.rsync.chmod(0o755)
         self.env = {k: v for k, v in os.environ.items()
@@ -70,6 +91,7 @@ print("Number of files: 1")
                         BACKUP_SRC=str(self.sources[0]), BACKUP_DEST=str(self.dests[0]),
                         BACKUP_EXCLUDES=str(self.excludes),
                         PATH=str(self.bin) + os.pathsep + os.defpath)
+        self.env["PAIR_REAL_RSYNC"] = real_rsync3()
 
     def run_backup(self, table_text=None, **changes):
         self.table.write_text(table_text if table_text is not None else
@@ -217,6 +239,8 @@ print("Number of files: 1")
         self.assertFalse(any((d / ".last_success").exists() for d in self.dests))
 
     def test_dash_excludes_and_unterminated_last_row(self):
+        # [LAW:behavior-not-structure] without excludes, --delete removes dest-only dirs.
+        (self.sources[1] / ".deleted").mkdir()
         self.rows[1][3] = "-"
         text = HEADER + "\n".join("\t".join(r) for r in self.rows)
         result = self.run_backup(table_text=text)
@@ -296,13 +320,7 @@ print("Number of files: 1")
     def test_r_excludes_block_worktrees_and_graft_but_copy_keep(self):
         # [LAW:behavior-not-structure] destination sentinels prove consumed rules act.
         # [LAW:no-silent-failure] this behavior requires rsync 3, never a skip.
-        rsync = shutil.which("rsync")
-        self.assertIsNotNone(rsync, "real rsync version 3 is required on PATH")
-        version = subprocess.run([rsync, "--version"], capture_output=True,
-                                 text=True, timeout=10)
-        self.assertEqual(version.returncode, 0, version.stdout + version.stderr)
-        self.assertIn("version 3", version.stdout,
-                      f"real rsync version 3 is required: {rsync}: {version.stdout}")
+        rsync = real_rsync3()
         source = self.base / "R source"
         for folder in (".claude/worktrees/x", "graft/x", "keep/x",
                        "nested/graft/x", "nested/.claude/worktrees/x", "graftish/x"):
@@ -338,6 +356,21 @@ print("Number of files: 1")
                 path = Path(directory) / name
                 if not path.is_symlink():
                     self.assertNotIn(b"OUTSIDE FIXTURE BYTES", path.read_bytes())
+
+    def test_fake_replaces_destination_child_symlink_without_changing_external_bytes(self):
+        # [LAW:behavior-not-structure] archive mode replaces the link, not its target.
+        outside = Path(tempfile.mkdtemp(prefix="backup_pairs_outside_", dir="/tmp"))
+        self.addCleanup(shutil.rmtree, outside)
+        sentinel = outside / "sentinel"
+        sentinel.write_bytes(b"OUTSIDE ORIGINAL")
+        self.dests[0].mkdir()
+        child = self.dests[0] / "keep"
+        child.symlink_to(sentinel)
+        result = self.run_backup()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(sentinel.read_bytes(), b"OUTSIDE ORIGINAL")
+        self.assertFalse(child.is_symlink())
+        self.assertEqual(child.read_text(), "payload 0")
 
     def test_other_readers_do_not_run(self):
         self.rows += [["intel", "unavailable", "remote:data", "-"],
