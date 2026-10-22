@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".",
+   "sha256": "d3ed1f928dc6daa2c13162dd111d7652515fe539b8e9391652d5923884bd4fce",
+   "size": 1268
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/s229_verdict_surface.json"
+}
