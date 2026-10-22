@@ -12,6 +12,8 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / 'code'))
+from ops.migrate import fdsafe
 SCRIPT = ROOT / "code/ops/backup/backup_gdrive.sh"
 GIT_TMP_EXCLUDES = ("**/.git/objects/**/tmp_obj_*", "**/.git/objects/tmp_obj_*",
                     "/.git/objects/**/tmp_obj_*", "/.git/objects/tmp_obj_*")
@@ -198,11 +200,68 @@ class BackupTest(unittest.TestCase):
         self.assertEqual(heartbeat.read_bytes(), before, "no live child may write after timeout")
 
 
+def read_pair_file(parent, name):
+    # [LAW:no-ambient-temporal-coupling] Settle after the bytes, before they can drive a command.
+    data = fdsafe.read_named(parent, name)
+    fdsafe._settled(parent)
+    return data
+
+
+def create_out_file(out_held, name, data, roots):
+    # [LAW:single-enforcer] Settle the held name before nominal-path consumers run.
+    live = fdsafe.create_file(out_held, name, data, roots)
+    fdsafe._settled(out_held)
+    return live
+
+
+def drive_pairs(path, out, out_held, table_parent_held):
+    # [LAW:parse-dont-validate] Admit all rows and rule bytes before any remote call.
+    path = Path(path).absolute()
+    parent = table_parent_held
+    lines = read_pair_file(parent, path.name).decode('utf-8').splitlines()
+    if not lines or lines[0] != 'reader\tsource\tdestination\texcludes':
+        raise RuntimeError('invalid pairs header')
+    pairs = []
+    for number, line in enumerate(lines[1:], 2):
+        fields = line.split('\t')
+        if len(fields) != 4 or not all(fields):
+            raise RuntimeError(f'row {number}: invalid pair')
+        reader, source, destination, excludes = fields
+        if reader not in ('ssd', 'intel', 'gdrive'):
+            raise RuntimeError(f'row {number}: unknown reader')
+        if reader != 'gdrive':
+            continue
+        if '/' in excludes:
+            raise RuntimeError(f'row {number}: excludes must be next to table')
+        pairs.append(dict(source=source, destination=destination, excludes=excludes))
+    rules = []
+    for row in pairs:
+        try:
+            rules.append(None if row['excludes'] == '-' else read_pair_file(parent, row['excludes']))
+        except fdsafe.Refusal as exc:
+            raise RuntimeError(f'exclude list missing or unsafe: {exc}') from exc
+    for number, (row, data) in enumerate(zip(pairs, rules)):
+        # [LAW:effects-at-boundaries] rclone reopens only the admitted evidence copy.
+        row['filters'] = []
+        if data is not None:
+            target = out / f'excludes_{number}.txt'
+            create_out_file(out_held, target.name, data, roots=[table_parent_held])
+            row['filters'] = ['--exclude-from', str(target)]
+    return pairs
+
+
 def drive_selftest():
     """Explicit opt-in: three tiny Drive syncs, one upload, real-source DRY RUN only."""
     remote = "gdrive:memit-backup/_selftest"
     out = ROOT / "results" / ("backup_gdrive_drive_" + datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ"))
-    out.mkdir(exist_ok=False)
+    from contextlib import ExitStack
+    held = ExitStack()
+    try:
+        results_held = held.enter_context(fdsafe.hold_root(str(ROOT / "results")))
+        out_held = held.enter_context(fdsafe.mkdir(results_held, out.name))
+    except BaseException:
+        held.close()
+        raise
     rclone = "/opt/homebrew/bin/rclone"
     commands = []
     touched = False
@@ -221,6 +280,9 @@ def drive_selftest():
         return call([rclone, *args, "--contimeout", "10s", "--timeout", "60s", "--retries", "1", "--low-level-retries", "1"])
 
     try:
+        pairs_path = Path(os.environ.get("BACKUP_PAIRS") or ROOT / "code/ops/backup/backup_pairs.tsv")
+        table_parent_held = held.enter_context(fdsafe.hold_root(str(pairs_path.absolute().parent)))
+        pairs = drive_pairs(pairs_path, out, out_held, table_parent_held)
         rc("lsd", "gdrive:memit-backup")  # No effect before genuine remote admission.
         with tempfile.TemporaryDirectory(prefix="backup_gdrive_drive_", dir="/private/tmp") as d:
             base = Path(d)
@@ -231,10 +293,21 @@ def drive_selftest():
             (src / ".cache").mkdir()
             (src / ".cache/ignored").write_text("excluded")
             dest = remote + "/mirror"
-            env = dict(os.environ, BACKUP_SRC=str(src), BACKUP_DEST=dest,
+            rules_path = ROOT / "code/ops/backup/backup_mirror.excludes"
+            with fdsafe.hold_root(str(rules_path.parent)) as parent:
+                rules = read_pair_file(parent, rules_path.name)
+            (base / "selftest.excludes").write_bytes(rules)
+            def selftest_table(source, name):
+                table = base / name
+                table.write_text('reader\tsource\tdestination\texcludes\n' +
+                                 f'gdrive\t{source}\t{dest}\tselftest.excludes\n')
+                return str(table)
+            # [LAW:one-source-of-truth] The self-test owns a table, independent of caller overrides.
+            env = {key: value for key, value in os.environ.items()
+                   if key not in ('BACKUP_PAIRS', 'BACKUP_SRC', 'BACKUP_DEST', 'BACKUP_EXCLUDES')}
+            env.update(BACKUP_PAIRS=selftest_table(src, 'selftest.tsv'),
                        BACKUP_LOG=str(out / "selftest.log"), BACKUP_LOCK_DIR=str(base / "lock"),
-                       BACKUP_HEARTBEAT=str(out / "last_run.json"),
-                       BACKUP_MOUNT_POINT="/", BACKUP_EXCLUDES=str(ROOT / "code/ops/backup/backup_mirror.excludes"))
+                       BACKUP_HEARTBEAT=str(out / "last_run.json"), BACKUP_MOUNT_POINT="/")
             def sync(failure_reason=None, **changes):
                 proc = run_process(["/bin/bash", str(SCRIPT)], env=dict(env, **changes), timeout=180)
                 commands.append({"args": ["/bin/bash", str(SCRIPT)], "exit_code": proc.returncode,
@@ -268,7 +341,7 @@ def drive_selftest():
             sync(failure_reason="mounted", BACKUP_MOUNT_POINT="/Volumes/backup-selftest-not-mounted")
             empty = base / "empty"
             empty.mkdir()
-            sync(failure_reason="empty", BACKUP_SRC=str(empty))
+            sync(failure_reason="empty", BACKUP_PAIRS=selftest_table(empty, 'empty.tsv'))
             assert rc("cat", dest + "/keep.txt") == "modified contents"
             result["held_lock_unmounted_empty_refusal"] = "PASS"
             payload = base / "upload_rate.bin"
@@ -286,15 +359,23 @@ def drive_selftest():
             assert next(x["Size"] for x in uploaded if x["Path"] == "upload_rate.bin") == size
             result.update(upload_bytes=size, upload_wall_s=elapsed, measured_bytes_per_s=size / elapsed)
             changes = out / "dry_run_changes.txt"
-            source = "/Volumes/memit/llm-database-poc-mirror/"
-            excludes = str(ROOT / "code/ops/backup/backup_mirror.excludes")
-            filters = ["--exclude-from", excludes]
-            for pattern in GIT_TMP_EXCLUDES:
-                filters.extend(["--exclude", pattern])
-            rc("sync", source, "gdrive:memit-backup/llm-database-poc-mirror/", "--dry-run", "--links",
-               *filters,
-               "--backup-dir", "gdrive:memit-backup/.deleted/DRY-RUN/", "--combined", str(changes))
-            local = json.loads(rc("lsjson", source, "--recursive", "--files-only", "--links", *filters))
+            for number, row in enumerate(pairs):
+                if row["destination"] == "HOLD":
+                    raise RuntimeError(f"gdrive row {number}: HOLD; Q5: operator must choose the Drive destination")
+            local, combined = [], []
+            for number, row in enumerate(pairs):
+                source, destination = row["source"].rstrip("/") + "/", row["destination"].rstrip("/")
+                # [LAW:dataflow-not-control-flow] No excludes is an empty argv contribution.
+                filters = list(row["filters"])
+                for pattern in GIT_TMP_EXCLUDES:
+                    filters.extend(["--exclude", pattern])
+                pair_changes = out / f"dry_run_changes_{number}.txt"
+                rc("sync", source, destination + "/", "--dry-run", "--links", *filters,
+                   "--backup-dir", destination.rsplit("/", 1)[0] + "/.deleted/DRY-RUN/", "--combined", str(pair_changes))
+                local.extend(dict(item, Path=f"{number}/" + item["Path"]) for item in
+                             json.loads(rc("lsjson", source, "--recursive", "--files-only", "--links", *filters)))
+                combined.extend(line[:2] + f"{number}/" + line[2:] for line in pair_changes.read_text().splitlines())
+            create_out_file(out_held, changes.name, ("\n".join(combined) + "\n").encode(), roots=[table_parent_held])
             sizes = {x["Path"]: x["Size"] for x in local}
             planned = [line[2:] for line in changes.read_text().splitlines() if line.startswith(("+ ", "* "))]
             total = sum(sizes[name] for name in planned)
@@ -312,6 +393,7 @@ def drive_selftest():
                 result.update(status="FAILED", cleanup="FAILED", cleanup_error=str(exc))
         else:
             result["cleanup"] = "NOT NEEDED: no remote writes attempted"
+        held.close()
         (out / "summary.json").write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))
     return 0 if result["status"] == "PASS" else 1
