@@ -19,8 +19,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dashboard_live as live
 from ops.backup import backup_gdrive_status as backup_status  # dashboard_live has put code/ on the path
 
-MAIN_ROOT = Path("/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory")
-MIRROR_ROOT = MAIN_ROOT.parent
+# [LAW:one-source-of-truth] The checkout follows its launcher; the mirror stays at P.
+MAIN_ROOT = Path(os.environ.get("LLMDB_ROOT") or Path(__file__).resolve().parents[3])
+MIRROR_ROOT = Path("/Volumes/memit/llm-database-poc-mirror")
 SCAN_INTERVAL = 15 * 60
 
 
