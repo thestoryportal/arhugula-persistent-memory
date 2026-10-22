@@ -77,6 +77,88 @@ class Plans(unittest.TestCase):
         git('config', 'core.fsmonitor', str(hook))
         self.addCleanup(lambda: self.assertFalse(sentinel.exists(), 'fsmonitor ran'))
 
+    def test_control_character_cli_refusals(self):
+        for field, value in (('source', '/source/old\nforged diagnostic'),
+                             ('target', '/target\x7f')):
+            with self.subTest(field=field):
+                move = {'source': SOURCE, 'target': TARGET}
+                move[field] = value
+                if field == 'source':
+                    move['target'] = value
+                self.plan([move])
+                result = self.scan()
+                self.assertEqual((result.returncode, result.stdout, result.stderr),
+                                 (2, '', f'reader_find: refused: {self.plans}: '
+                                  f'control character in move {value!r}\n'))
+                self.assertEqual(len(result.stderr.splitlines()), 1)
+
+    def test_control_character_range_in_both_fields(self):
+        for field in ('source', 'target'):
+            for number in (*range(32), 127):
+                with self.subTest(field=field, number=number):
+                    move = {'source': '/source', 'target': '/target'}
+                    value = move[field] + chr(number)
+                    move[field] = value
+                    data = json.dumps({'entries': [{'moves': [move]}]}).encode()
+                    with self.assertRaises(reader_find.Refused) as caught:
+                        reader_find.parse_plans(self.plans, data)
+                    self.assertEqual(str(caught.exception),
+                                     f'{self.plans}: control character in move {value!r}')
+
+    def test_symlinked_plans_file(self):
+        self.report(self.scan(), [self.row()])
+        regular = self.plans.with_name('regular.json')
+        self.plans.rename(regular)
+        self.plans.symlink_to(regular)
+        result = self.scan()
+        self.assertEqual((result.returncode, result.stdout), (2, ''))
+        self.assertEqual(len(result.stderr.splitlines()), 1)
+        self.assertTrue(result.stderr.startswith('reader_find: refused: '), result.stderr)
+        self.assertIn(str(self.plans), result.stderr)
+
+    def test_symlinked_plans_parent(self):
+        regular = self.base / 'regular'
+        regular.mkdir()
+        (regular / 'nested').mkdir()
+        link = self.base / 'linked'
+        link.symlink_to(regular, target_is_directory=True)
+        for relative in (Path('plans.json'), Path('nested/plans.json')):
+            with self.subTest(relative=relative):
+                self.plans = regular / relative
+                self.plan([{'source': SOURCE, 'target': TARGET}])
+                self.report(self.scan(), [self.row()])
+                self.plans = link / relative
+                result = self.scan()
+                self.assertEqual((result.returncode, result.stdout), (2, ''))
+                self.assertEqual(len(result.stderr.splitlines()), 1)
+                self.assertTrue(result.stderr.startswith('reader_find: refused: '), result.stderr)
+                self.assertIn(str(link), result.stderr)
+
+    def test_fifo_plans_file(self):
+        self.report(self.scan(), [self.row()])
+        self.plans.rename(self.plans.with_name('regular.json'))
+        os.mkfifo(self.plans)
+        env = dict(os.environ, LLMDB_ROOT=str(self.root), PYTHONPATH=str(TOOL.parents[2]))
+        result = subprocess.run([sys.executable, '-B', str(TOOL), '--check', '--paths',
+                                 'note.txt', '--plans', str(self.plans)], cwd=self.root,
+                                env=env, capture_output=True, text=True, timeout=5)
+        self.assertEqual((result.returncode, result.stdout), (2, ''))
+        self.assertEqual(len(result.stderr.splitlines()), 1)
+        self.assertTrue(result.stderr.startswith('reader_find: refused: '), result.stderr)
+        self.assertIn(str(self.plans), result.stderr)
+
+    def test_parse_plans_exact_mapping(self):
+        data = json.dumps({'entries': [
+            {'moves': [{'source': '/first', 'target': '/target1'},
+                       {'source': '/second', 'target': '/target2'}]},
+            {'moves': [{'source': '/third', 'target': '/target3'}]}]}).encode()
+        self.assertEqual(reader_find.parse_plans(self.plans, data),
+                         {'/first': '/target1', '/second': '/target2', '/third': '/target3'})
+
+    def test_docstring_plans_line(self):
+        self.assertIn('  --check --untracked --units DIR --plans FILE --report FILE  Step 266',
+                      reader_find.__doc__.splitlines())
+
     def test_untracked_positive_and_units_negative_control(self):
         self.init_git()
         self.report(self.cli('--check', '--untracked', '--plans', self.plans), [self.row()])

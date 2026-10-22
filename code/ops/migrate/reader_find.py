@@ -88,6 +88,9 @@ def parse_plans(path: Path, data: bytes) -> dict[str, str]:
                     or not move['target'].startswith('/')):
                 raise Refused(f'{path}: expected move with absolute source and target strings')
             source, target = move['source'], move['target']
+            for value in (source, target):
+                if any(ord(char) < 32 or ord(char) == 127 for char in value):
+                    raise Refused(f'{path}: control character in move {value!r}')
             if source == target:
                 raise Refused(f'{path}: identity move {source}')
             if source in mapping:
