@@ -1,0 +1,4 @@
+requirement_id	source	target	kind	observed_bytes	action	lane	scientific_role
+MV-084	/Volumes/memit/llm-database-poc-mirror/overlay_checksums.sha256	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/overlay_checksums.sha256	file	12068	MOVE	legacy-preservation	tracked-record
+MV-086	/Volumes/memit/llm-database-poc-mirror/reproducibility_manifest.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/reproducibility_manifest.json	file	60533	MOVE	legacy-preservation	tracked-record
+MV-096	/Volumes/memit/llm-database-poc-mirror/s28_v2_4_1_amendment_section_3_8_9.md	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/s28_v2_4_1_amendment_section_3_8_9.md	file	9539	MOVE	legacy-preservation	tracked-record
