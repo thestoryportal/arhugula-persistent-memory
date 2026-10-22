@@ -303,16 +303,21 @@ def run(args) -> int:
                 raise
             recorded = None
         if recorded != text:
-            print(f'reader_find: {target} differs from this scan', file=sys.stderr)
+            say(f'{target} differs from this scan')
             code = 1
     for row in report['stale']:
-        print(f"reader_find: {row['file']}:{row['line']} names {row['old_text']}", file=sys.stderr)
+        say(f"{row['file']}:{row['line']} names {row['old_text']}")
     return code
 
 
 def refusal_message(message: str) -> str:
     return ''.join(repr(char)[1:-1] if ord(char) < 32 or ord(char) == 127 else char
                    for char in message)
+
+
+def say(text: str) -> None:
+    # [LAW:single-enforcer] Every diagnostic shares the existing control-character policy.
+    print('reader_find: ' + refusal_message(text), file=sys.stderr)
 
 
 def main(argv=None) -> int:
@@ -330,7 +335,7 @@ def main(argv=None) -> int:
     try:
         return run(args)
     except (Refused, fdsafe.Refusal, OSError, UnicodeDecodeError, csv.Error) as exc:
-        print(f'reader_find: refused: {refusal_message(str(exc))}', file=sys.stderr)
+        say(f'refused: {exc}')
         return 2
 
 
