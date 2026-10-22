@@ -130,8 +130,12 @@ print("Number of files: 1")
         self.assertFalse(self.dests[1].exists())
         calls = self.recorded()
         self.assertEqual(len(calls), 1)
-        self.assertEqual(calls[0][-2:], [f"{self.sources[0]}/", f"{self.dests[0]}/"])
-        self.assertIn(f"--exclude-from={self.excludes}", calls[0])
+        stamp = (self.dests[0] / ".last_success").read_text().strip()
+        self.assertEqual(calls[0], ["-a", "--delete", "--backup",
+                                    f"--backup-dir={self.dests[0]}/.deleted/{stamp}",
+                                    f"--exclude-from={self.excludes}", "--stats",
+                                    "--human-readable", f"{self.sources[0]}/",
+                                    f"{self.dests[0]}/"])
 
     def test_explicit_pairs_ignore_legacy_overrides(self):
         source = self.base / "legacy source"
@@ -211,7 +215,11 @@ print("Number of files: 1")
         result = self.run_backup(table_text=text)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(len(self.recorded()), 2)
-        self.assertFalse(any(a.startswith("--exclude-from") for a in self.recorded()[1]))
+        stamp = (self.dests[1] / ".last_success").read_text().strip()
+        self.assertEqual(self.recorded()[1], ["-a", "--delete", "--backup",
+                                            f"--backup-dir={self.dests[1]}/.deleted/{stamp}",
+                                            "--stats", "--human-readable",
+                                            f"{self.sources[1]}/", f"{self.dests[1]}/"])
         self.assertTrue((self.dests[1] / ".last_success").exists())
 
     def test_invalid_table_refuses_before_copy(self):
@@ -259,7 +267,12 @@ print("Number of files: 1")
         self.rows[1][3] = "R.rules"
         result = self.run_backup()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn(f"--exclude-from={self.base / 'R.rules'}", self.recorded()[1])
+        stamp = (self.dests[1] / ".last_success").read_text().strip()
+        self.assertEqual(self.recorded()[1], ["-a", "--delete", "--backup",
+                                            f"--backup-dir={self.dests[1]}/.deleted/{stamp}",
+                                            f"--exclude-from={self.base / 'R.rules'}",
+                                            "--stats", "--human-readable",
+                                            f"{self.sources[1]}/", f"{self.dests[1]}/"])
 
     def test_other_readers_do_not_run(self):
         self.rows += [["intel", "unavailable", "remote:data", "-"],
