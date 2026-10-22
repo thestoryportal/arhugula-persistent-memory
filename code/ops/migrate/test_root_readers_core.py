@@ -287,6 +287,49 @@ class Classification(unittest.TestCase):
             self.run_scan(measured_counts={0: 2})
 
 
+    def test_empty_registry_never_allows_hits(self):
+        # [LAW:behavior-not-structure] Folder names confer no registry authority.
+        paths = ('/history/x', '/history', 'history/x', 'code/x', 'program/x',
+                 'knowledge/x', 'experiments/x', 'data/x', '_archive/x',
+                 '_system/x', '_index/x', '.claude/x', '.venv/x', '/Users/x/y',
+                 'bare', 'evidence/x', 'plans/x', 'audits/x', '_templates/x',
+                 'projects/x', 'map/x', '.codex/x', '.github/x')
+        for stage in ('pre', 'post'):
+            for path in paths:
+                with self.subTest(stage=stage, path=path):
+                    result = self.run_scan(stage, rows=(), counts={},
+                                           hits={path: 1}, old_root_exists=False)
+                    self.assertEqual(result.classifications, ((path, 'unregistered'),))
+                    self.assertEqual(result.findings, (f'{path}: unregistered',))
+                    self.assertEqual(result.exit_status, 1)
+
+    def test_mixed_registry_allows_only_covered_hits(self):
+        # [LAW:behavior-not-structure] Assert the complete partition at each stage.
+        rows = core.parse_registry('RECORD\t/history\nREPLACE\tconfig\t/M\t/R\t2')
+        uncovered = ('/history-old/x', '/history-old', 'history/x', 'code/x',
+                     'program/x', 'knowledge/x', 'experiments/x', 'data/x',
+                     '_archive/x', '_system/x', '_index/x', '.claude/x', '.venv/x',
+                     '/Users/x/y', 'bare', 'config-old', 'config/x', 'evidence/x',
+                     'plans/x', 'audits/x', '_templates/x', 'projects/x', 'map/x',
+                     '.codex/x', '.github/x')
+        hits = {'/history': 1, '/history/x': 1, 'config': 2,
+                **dict.fromkeys(uncovered, 1)}
+        for stage, old_count, new_count, replace_kind in (
+                ('pre', 2, 0, 'LIVE'), ('post', 0, 2, 'unregistered')):
+            with self.subTest(stage=stage):
+                result = self.run_scan(
+                    stage, rows=rows, hits=hits, old_root_exists=False,
+                    counts={('config', '/M'): old_count, ('config', '/R'): new_count})
+                expected = (('/history', 'RECORD'), ('/history/x', 'RECORD'),
+                            ('config', replace_kind)) + tuple(
+                                (path, 'unregistered') for path in uncovered)
+                self.assertEqual(result.classifications, expected)
+                self.assertEqual(result.findings, tuple(
+                    f'{path}: unregistered' for path, kind in expected
+                    if kind == 'unregistered'))
+                self.assertEqual(result.exit_status, 1)
+
+
 class Purity(unittest.TestCase):
     def assert_pure(self, source):
         tree = ast.parse(source)
