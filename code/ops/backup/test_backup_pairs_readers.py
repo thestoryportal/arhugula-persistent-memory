@@ -998,6 +998,80 @@ class DriveMode(unittest.TestCase):
     def test_output_control_copies_exact_bytes(self):
         self.output_create_case('excludes_0.txt', 'control')
 
+    def aggregate_drive_case(self, payloads, listings):
+        # [LAW:effects-at-boundaries] Supply rclone evidence through its fake command seam.
+        observed = {}
+        selftest = drive_checks.drive_selftest
+
+        @contextlib.contextmanager
+        def prepare(table):
+            sources = [str(table.parent.parent / name) + '/' for name in ('one', 'two')]
+
+            def run():
+                process = drive_checks.run_process
+
+                def evidence(args, **options):
+                    if args[1] == 'sync':
+                        self.assertIn('--dry-run', args)
+                        number = sources.index(args[2])
+                        target = Path(args[args.index('--combined') + 1])
+                        self.assertEqual(target.parent.parent, table.parent.parent / 'results')
+                        target.write_bytes(payloads[number])
+                        return subprocess.CompletedProcess(args, 0, '', '')
+                    if args[1] == 'lsjson' and args[2] in sources:
+                        return subprocess.CompletedProcess(args, 0,
+                            json.dumps(listings[sources.index(args[2])]), '')
+                    return process(args, **options)
+
+                # [LAW:no-ambient-temporal-coupling] A fixed upload interval pins the projection.
+                with mock.patch.object(drive_checks, 'run_process', side_effect=evidence), \
+                        mock.patch.object(drive_checks.time, 'monotonic', side_effect=[100.0, 104.0]):
+                    status = selftest()
+                out = next((table.parent.parent / 'results').iterdir())
+                observed['combined'] = (out / 'dry_run_changes.txt').read_bytes()
+                observed['commands'] = json.loads((out / 'commands.json').read_text())
+                return status
+
+            with mock.patch.object(drive_checks, 'drive_selftest', side_effect=run):
+                yield
+
+        status, summary, dry, table = self.run_drive_table(prepare)
+        self.assertEqual(status, 0, summary)
+        self.assertEqual(summary['status'], 'PASS')
+        calls = [entry['args'] for entry in observed['commands'] if entry['args'][1] == 'sync']
+        out = Path(summary['evidence_dir'])
+        self.assertEqual([call[call.index('--combined') + 1] for call in calls],
+                         [str(out / 'dry_run_changes_0.txt'), str(out / 'dry_run_changes_1.txt')])
+        self.assertEqual([call[2:4] for call in calls],
+                         [[str(Path(table).parent.parent / 'one') + '/', 'fixture:first/'],
+                          [str(Path(table).parent.parent / 'two') + '/', 'fixture:second/']])
+        self.assertEqual(summary['measured_bytes_per_s'], 50_000_000)
+        self.assertEqual(summary['estimate_scope'],
+                         'Payload-rate projection; small-file/API overhead and source churn not measured')
+        return summary, observed['combined']
+
+    def test_drive_aggregate_duplicate_names_exact(self):
+        # [LAW:behavior-not-structure] Distinct row sizes must survive identical basenames.
+        summary, combined = self.aggregate_drive_case(
+            (b'+ a.txt\n', b'+ a.txt\n'),
+            ([{'Path': 'a.txt', 'Size': 5}], [{'Path': 'a.txt', 'Size': 9}]))
+        self.assertEqual(combined, b'+ 0/a.txt\n+ 1/a.txt\n')
+        self.assertEqual(summary['dry_run_transfer_files'], 2)
+        self.assertEqual(summary['dry_run_transfer_bytes'], 14)
+        self.assertEqual(summary['payload_rate_estimate_s'], 0.00000028)
+
+    def test_drive_aggregate_mixed_markers_exact(self):
+        summary, combined = self.aggregate_drive_case(
+            (b'+ a.txt\n- gone.txt\n* edit.txt\n', b'* a.txt\n= same.txt\n'),
+            ([{'Path': 'a.txt', 'Size': 5}, {'Path': 'gone.txt', 'Size': 101},
+              {'Path': 'edit.txt', 'Size': 11}],
+             [{'Path': 'a.txt', 'Size': 19}, {'Path': 'same.txt', 'Size': 103}]))
+        self.assertEqual(combined,
+                         b'+ 0/a.txt\n- 0/gone.txt\n* 0/edit.txt\n* 1/a.txt\n= 1/same.txt\n')
+        self.assertEqual(summary['dry_run_transfer_files'], 3)
+        self.assertEqual(summary['dry_run_transfer_bytes'], 35)
+        self.assertEqual(summary['payload_rate_estimate_s'], 0.0000007)
+
     def check_drive_mode(self, hold):
         with tempfile.TemporaryDirectory(dir='/private/tmp') as name:
             root = Path(name)
