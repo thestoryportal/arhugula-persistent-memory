@@ -46,7 +46,7 @@ paths += [a.split("=", 1)[1] for a in args if a.startswith(("--backup-dir=", "--
 for path in paths:
     if not pathlib.Path(path).resolve().is_relative_to(base):
         sys.exit("fake rsync refuses path outside fixture: " + path)
-# [LAW:one-source-of-truth] capture the bytes once for both evidence and filtering.
+# [LAW:one-source-of-truth] record consumed bytes; real rsync owns rule behavior.
 consumed = {a.split("=", 1)[1]: pathlib.Path(a.split("=", 1)[1]).read_bytes()
             for a in args if a.startswith("--exclude-from=")}
 with consumption_log.open("a") as stream:
@@ -58,14 +58,7 @@ src, dest = map(pathlib.Path, args[-2:])
 if str(src) == os.environ.get("PAIR_FAIL"):
     print("Number of files: 0")
     sys.exit(23)
-excluded_dirs = {rule[1:-1] for data in consumed.values()
-                 for rule in data.decode().splitlines()
-                 if rule.startswith("/") and rule.endswith("/")}
-def ignore(directory, names):
-    return [name for name in names
-            if (pathlib.Path(directory) / name).is_dir()
-            and (pathlib.Path(directory) / name).relative_to(src).as_posix() in excluded_dirs]
-shutil.copytree(src, dest, dirs_exist_ok=True, ignore=ignore)
+shutil.copytree(src, dest, dirs_exist_ok=True, symlinks=True)
 print("Number of files: 1")
 ''')
         self.rsync.chmod(0o755)
@@ -302,6 +295,14 @@ print("Number of files: 1")
 
     def test_r_excludes_block_worktrees_and_graft_but_copy_keep(self):
         # [LAW:behavior-not-structure] destination sentinels prove consumed rules act.
+        # [LAW:no-silent-failure] this behavior requires rsync 3, never a skip.
+        rsync = shutil.which("rsync")
+        self.assertIsNotNone(rsync, "real rsync version 3 is required on PATH")
+        version = subprocess.run([rsync, "--version"], capture_output=True,
+                                 text=True, timeout=10)
+        self.assertEqual(version.returncode, 0, version.stdout + version.stderr)
+        self.assertIn("version 3", version.stdout,
+                      f"real rsync version 3 is required: {rsync}: {version.stdout}")
         source = self.base / "R source"
         for folder in (".claude/worktrees/x", "graft/x", "keep/x",
                        "nested/graft/x", "nested/.claude/worktrees/x", "graftish/x"):
@@ -312,12 +313,31 @@ print("Number of files: 1")
         rules = self.base / "R.rules"
         rules.write_bytes((HERE / "backup_mirror.R.excludes").read_bytes())
         self.rows[1][3] = rules.name
+        result = self.run_backup(BACKUP_RSYNC=rsync)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        for folder in (".claude/worktrees", "graft", "nested/graft"):
+            self.assertFalse((self.dests[1] / folder).exists(), folder)
+        for folder in ("keep/x", "nested/.claude/worktrees/x", "graftish/x"):
+            self.assertEqual((self.dests[1] / folder / "sentinel").read_text(), folder)
+
+    def test_fake_preserves_child_symlink_without_copying_external_bytes(self):
+        # [LAW:behavior-not-structure] archive mode preserves links, not target bytes.
+        outside = Path(tempfile.mkdtemp(prefix="backup_pairs_outside_", dir="/tmp"))
+        self.addCleanup(shutil.rmtree, outside)
+        sentinel = outside / "sentinel"
+        sentinel.write_bytes(b"OUTSIDE FIXTURE BYTES")
+        link = self.sources[0] / "external"
+        link.symlink_to(sentinel)
         result = self.run_backup()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        for folder in (".claude/worktrees", "graft"):
-            self.assertFalse((self.dests[1] / folder).exists(), folder)
-        for folder in ("keep/x", "nested/graft/x", "nested/.claude/worktrees/x", "graftish/x"):
-            self.assertEqual((self.dests[1] / folder / "sentinel").read_text(), folder)
+        copied = self.dests[0] / "external"
+        self.assertTrue(copied.is_symlink(), "external target bytes copied instead of link")
+        self.assertEqual(os.readlink(copied), os.readlink(link))
+        for directory, _, files in os.walk(self.dests[0], followlinks=False):
+            for name in files:
+                path = Path(directory) / name
+                if not path.is_symlink():
+                    self.assertNotIn(b"OUTSIDE FIXTURE BYTES", path.read_bytes())
 
     def test_other_readers_do_not_run(self):
         self.rows += [["intel", "unavailable", "remote:data", "-"],
