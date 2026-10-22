@@ -5,7 +5,9 @@ import tempfile
 import unittest
 from unittest import mock
 
-from ops.migrate.test_move_unit_run import FIXTURE_COMMIT_DATE, Fixture, git
+from ops.migrate.test_move_unit_run import Fixture, git
+
+EXPECTED_DATE = datetime.fromisoformat("2026-01-01T00:00:00+00:00")
 
 
 class FixtureDates(unittest.TestCase):
@@ -15,11 +17,10 @@ class FixtureDates(unittest.TestCase):
         fixture = Fixture(tmp.name)
         dates = git(fixture.m, "log", "--all", "--format=%aI%x09%cI").decode().splitlines()
         self.assertTrue(dates)
-        expected = datetime.fromisoformat(FIXTURE_COMMIT_DATE)
         # [LAW:behavior-not-structure] Check recorded dates, independent of Git's offset spelling.
         for line in dates:
             self.assertEqual(tuple(datetime.fromisoformat(value) for value in line.split("\t")),
-                             (expected, expected))
+                             (EXPECTED_DATE, EXPECTED_DATE))
 
     def test_head_is_identical_across_timezones(self):
         heads = []
