@@ -1,0 +1,50 @@
+[
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-053/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-053/readers.json",
+  "registry": "program/migrations/icm21/units/MV-053/registry.json",
+  "requirement_id": "MV-053"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-081/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-081/readers.json",
+  "registry": "program/migrations/icm21/units/MV-081/registry.json",
+  "requirement_id": "MV-081"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-085/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-085/readers.json",
+  "registry": "program/migrations/icm21/units/MV-085/registry.json",
+  "requirement_id": "MV-085"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-089/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-089/readers.json",
+  "registry": "program/migrations/icm21/units/MV-089/registry.json",
+  "requirement_id": "MV-089"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-090/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-090/readers.json",
+  "registry": "program/migrations/icm21/units/MV-090/registry.json",
+  "requirement_id": "MV-090"
+ },
+ {
+  "candidate": null,
+  "comparison": null,
+  "manifest": "program/migrations/icm21/units/MV-105/manifest.json",
+  "readers": "program/migrations/icm21/units/MV-105/readers.json",
+  "registry": "program/migrations/icm21/units/MV-105/registry.json",
+  "requirement_id": "MV-105"
+ }
+]
