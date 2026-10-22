@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".",
+   "sha256": "c5b1c2d4321fda01507e1aaf0c1978a254e4e9e85b05bcf0ad5049ca1fcee96c",
+   "size": 50600
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/s227_t1_beta_band.ipynb"
+}

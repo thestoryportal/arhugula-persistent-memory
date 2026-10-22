@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".",
+   "sha256": "8c5750df07721bf2b8e14cd6d4b94cf9d5c413a0127020baaac93e31221c8355",
+   "size": 47027
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/llm-as-database-agent-context-smoke-test.ipynb"
+}

@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".",
+   "sha256": "eccfc15961309ca4a83dbfd7050f995224a49b148242e4cb41480bb07b778511",
+   "size": 54300
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/pre_s2_6_fork_work.ipynb"
+}
