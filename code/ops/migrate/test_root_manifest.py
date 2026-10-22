@@ -354,5 +354,223 @@ class RootManifest(unittest.TestCase):
         self.assertFalse(self.out.exists())
 
 
+    def assert_invalid_text_refused(self, path):
+        run = subprocess.run([sys.executable, "-B", "-m", "ops.migrate.root_manifest",
+                              "--root", str(self.root), "--out", str(self.out)],
+                             capture_output=True, text=True)
+        self.assertEqual(run.returncode, 1, run.stdout + run.stderr)
+        self.assertEqual(run.stderr, "")
+        self.assertEqual(len(run.stdout.splitlines()), 1)
+        result = json.loads(run.stdout)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertIn(repr(str(path)), result["reason"])
+        self.assertFalse(self.out.exists())
+
+    def test_non_utf8_link_text(self):
+        path = self.root / "link"
+        os.symlink(b"/unresolvable-\xff", os.fsencode(path))
+        self.assert_invalid_text_refused(path)
+        self.assertEqual(os.readlink(os.fsencode(path)), b"/unresolvable-\xff")
+
+    def assert_non_utf8_name_refused(self, backing):
+        # APFS rejects byte names at creation; expose one through the filesystem seam.
+        invalid = os.fsdecode(b"byte-\xff")
+        real_lstat, real_open = os.lstat, os.open
+        real_scandir, real_live = os.scandir, root_manifest.fdsafe.live_path
+
+        def actual(value):
+            return value.replace(invalid, "byte-name") if isinstance(value, str) else value
+
+        @contextlib.contextmanager
+        def scandir(fd):
+            with real_scandir(fd) as entries:
+                names = []
+                for entry in entries:
+                    item = mock.Mock()
+                    item.name = entry.name.replace("byte-name", invalid)
+                    names.append(item)
+                yield iter(names)
+
+        path = str(backing).replace("byte-name", invalid)
+        self.root = Path(str(self.root).replace("byte-name", invalid))
+        with mock.patch.object(os, "scandir", side_effect=scandir), \
+                mock.patch.object(os, "lstat", side_effect=lambda p, *a, **k: real_lstat(actual(p), *a, **k)), \
+                mock.patch.object(os, "open", side_effect=lambda p, *a, **k: real_open(actual(p), *a, **k)), \
+                mock.patch.object(root_manifest.fdsafe, "live_path", side_effect=lambda *a:
+                                  real_live(*a).replace("byte-name", invalid)):
+            code, stdout, stderr = self.run_tool()
+        self.assertEqual(code, 1, stdout + stderr)
+        self.assertEqual(stderr, "")
+        self.assertEqual(len(stdout.splitlines()), 1)
+        result = json.loads(stdout)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertIn(repr(path), result["reason"])
+        self.assertFalse(self.out.exists())
+
+    def test_non_utf8_file_name(self):
+        path = self.root / "byte-name"
+        path.write_bytes(b"keep")
+        self.assert_non_utf8_name_refused(path)
+        self.assertEqual(path.read_bytes(), b"keep")
+
+    def test_non_utf8_empty_folder_name(self):
+        path = self.root / "byte-name"
+        path.mkdir()
+        self.assert_non_utf8_name_refused(path)
+        self.assertEqual(list(path.iterdir()), [])
+
+    def test_non_utf8_folder_component(self):
+        path = self.root / "byte-name"
+        path.mkdir()
+        (path / "file").write_bytes(b"keep")
+        self.assert_non_utf8_name_refused(path)
+        self.assertEqual((path / "file").read_bytes(), b"keep")
+
+    def test_non_utf8_directory_root(self):
+        self.root = self.top / "byte-name"
+        self.root.mkdir()
+        self.assert_non_utf8_name_refused(self.root)
+
+    def test_non_utf8_file_root(self):
+        self.root = self.top / "byte-name"
+        self.root.write_bytes(b"keep")
+        self.assert_non_utf8_name_refused(self.root)
+
+    def assert_output_move_refused(self, destination):
+        real_write = os.write
+        written_fds = []
+
+        def write(fd, body):
+            count = real_write(fd, body)
+            if not written_fds:
+                self.out.rename(destination)
+                written_fds.append(fd)
+            return count
+
+        with mock.patch.object(os, "write", side_effect=write):
+            code, stdout, stderr = self.run_tool()
+        self.assertEqual(len(written_fds), 1)
+        self.assertEqual(code, 1, stdout + stderr)
+        self.assertEqual(stderr, "")
+        self.assertEqual(len(stdout.splitlines()), 1)
+        result = json.loads(stdout)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertIn(str(destination), result["reason"])
+        self.assertIn("left in place", result["reason"])
+        self.assertFalse(self.out.exists())
+        self.assertEqual(json.loads(destination.read_bytes())["root"], str(self.root))
+        with self.assertRaises(OSError) as caught:
+            os.fstat(written_fds[0])
+        self.assertEqual(caught.exception.errno, errno.EBADF)
+
+    def test_output_moves_inside_during_write(self):
+        self.assert_output_move_refused(self.root / "moved.json")
+
+    def test_output_renamed_during_write(self):
+        self.assert_output_move_refused(self.top / "renamed.json")
+
+
+    def test_file_parent_path_error_refuses_before_read(self):
+        self.root = self.root / "file"
+        with fault_kit.inject_oserror(fault_kit.GETPATH, 3, errno.EIO), \
+                mock.patch.object(os, "read", side_effect=AssertionError("read after path error")):
+            code, stdout, stderr = self.run_tool()
+        self.assertEqual(code, 1, stdout + stderr)
+        self.assertEqual(stderr, "")
+        self.assertIn(repr(str(self.root.parent)), json.loads(stdout)["reason"])
+        self.assertIn("EIO", stdout)
+        self.assertFalse(self.out.exists())
+
+    def test_file_root_descriptors_closed(self):
+        self.root = self.root / "file"
+        real_open = os.open
+        opened = set()
+
+        def record(*args, **kwargs):
+            fd = real_open(*args, **kwargs)
+            opened.add(fd)
+            return fd
+
+        with mock.patch.object(os, "open", side_effect=record):
+            self.assertEqual(self.run_tool()[0], 0)
+        for fd in opened:
+            with self.assertRaises(OSError) as caught:
+                os.fstat(fd)
+            self.assertEqual(caught.exception.errno, errno.EBADF)
+
+    def test_output_linked_ancestor_inside_refuses_before_read(self):
+        (self.root / "inside").mkdir()
+        alias = self.top / "alias"
+        alias.symlink_to(self.root)
+        self.out = alias / "inside" / "manifest"
+        with mock.patch.object(os, "read", side_effect=AssertionError("read with output inside")):
+            code, stdout, stderr = self.run_tool()
+        self.assertEqual(code, 2, stdout + stderr)
+        self.assertEqual(stdout, "")
+        self.assertIn("inside", stderr)
+        self.assertFalse(self.out.exists())
+
+    def test_root_and_output_parent_move_after_inventory(self):
+        parent = self.top / "output"
+        parent.mkdir()
+        self.out = parent / "manifest"
+        moved = self.top / "moved"
+        canonical = root_manifest.unit_manifest.canonical
+
+        def encode(manifest):
+            body = canonical(manifest)
+            self.root.rename(moved)
+            parent.rename(moved / "output")
+            return body
+
+        with mock.patch.object(root_manifest.unit_manifest, "canonical", side_effect=encode):
+            code, stdout, stderr = self.run_tool()
+        self.assertEqual(code, 1, stdout + stderr)
+        self.assertEqual(stderr, "")
+        self.assertIn("output directory moved inside root", json.loads(stdout)["reason"])
+        self.assertFalse((moved / "output" / "manifest").exists())
+
+
+    def test_utf8_names_and_link_text_pass(self):
+        folder = self.root / "枝"
+        folder.mkdir()
+        (folder / "葉").write_bytes(b"keep")
+        link = folder / "連"
+        link.symlink_to("外")
+        self.assertEqual(self.run_tool()[0], 0)
+        leaves = {row["source"]: row for row in json.loads(self.out.read_bytes())["leaves"]}
+        self.assertEqual(leaves[str(link)]["link_text"], "外")
+        self.assertEqual(leaves[str(folder / "葉")]["sha256"], hashlib.sha256(b"keep").hexdigest())
+
+
+    def test_required_arguments_exit_2_without_traceback(self):
+        for args in ([], ["--root", str(self.root)], ["--out", str(self.out)]):
+            with self.subTest(args=args):
+                run = subprocess.run([sys.executable, "-B", "-m", "ops.migrate.root_manifest", *args],
+                                     capture_output=True, text=True)
+                self.assertEqual(run.returncode, 2, run.stdout + run.stderr)
+                self.assertEqual(run.stdout, "")
+                self.assertIn("required", run.stderr)
+                self.assertNotIn("Traceback", run.stderr)
+                self.assertFalse(self.out.exists())
+
+
+    def test_unexpected_text_encoding_error_propagates(self):
+        (self.root / "link").symlink_to("outside")
+        real_decode = os.fsdecode
+        for error in (*fault_kit.UNEXPECTED, MemoryError):
+            with self.subTest(error=error):
+                class Text(str):
+                    def encode(self, *args, **kwargs):
+                        raise error("unexpected encoder failure")
+
+                def decode(value):
+                    return Text("outside") if value == b"outside" else real_decode(value)
+
+                with mock.patch.object(os, "fsdecode", side_effect=decode), self.assertRaises(error):
+                    self.run_tool()
+                self.assertFalse(self.out.exists())
+
+
 if __name__ == "__main__":
     unittest.main()

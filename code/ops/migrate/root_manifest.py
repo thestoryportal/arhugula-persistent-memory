@@ -15,8 +15,17 @@ import sys
 from ops.migrate import fdsafe, unit_manifest
 
 
+def _check_utf8(text, path):
+    # [LAW:single-enforcer] POSIX text must fit the canonical UTF-8 manifest before creation.
+    try:
+        text.encode("utf-8")
+    except UnicodeEncodeError as exc:
+        raise fdsafe.Refusal(path, f"not UTF-8: {exc}") from exc
+
+
 def _content_policy(name, path, st, in_git):
     """Git metadata is ordinary content here, never input to a Git process."""
+    _check_utf8(path, path)
 
 
 def _leaf(dir_fd, name, path, st):
@@ -31,6 +40,7 @@ def _leaf(dir_fd, name, path, st):
         text = fdsafe.read_link(entry)
         digest.update(text)
         link = os.fsdecode(text)
+        _check_utf8(link, path)
     elif stat.S_ISSOCK(st.st_mode):
         kind = "socket"
     else:
@@ -41,6 +51,7 @@ def _leaf(dir_fd, name, path, st):
 
 
 def build_manifest(root, root_fd):
+    _check_utf8(root, root)
     held = fdsafe.Dir(root_fd, root)
     if held.live() != root:
         raise fdsafe.Refusal(root, "root path has a symlink component")
