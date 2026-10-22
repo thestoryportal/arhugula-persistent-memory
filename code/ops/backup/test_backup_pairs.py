@@ -40,18 +40,32 @@ class BackupPairsTest(unittest.TestCase):
         self.rsync.write_text(f"#!{sys.executable}\n" + '''import json, os, pathlib, shutil, sys
 args = sys.argv[1:]
 base = pathlib.Path(os.environ["PAIR_BASE"]).resolve()
-paths = args[-2:] + [os.environ["PAIR_CALLS"]]
+consumption_log = pathlib.Path(os.environ["PAIR_CALLS"]).with_suffix(".excludes.jsonl")
+paths = args[-2:] + [os.environ["PAIR_CALLS"], str(consumption_log)]
 paths += [a.split("=", 1)[1] for a in args if a.startswith(("--backup-dir=", "--exclude-from="))]
 for path in paths:
     if not pathlib.Path(path).resolve().is_relative_to(base):
         sys.exit("fake rsync refuses path outside fixture: " + path)
+# [LAW:one-source-of-truth] capture the bytes once for both evidence and filtering.
+consumed = {a.split("=", 1)[1]: pathlib.Path(a.split("=", 1)[1]).read_bytes()
+            for a in args if a.startswith("--exclude-from=")}
+with consumption_log.open("a") as stream:
+    stream.write(json.dumps({"args": args, "excludes": {
+        path: data.hex() for path, data in consumed.items()}}) + "\\n")
 with open(os.environ["PAIR_CALLS"], "a") as stream:
     stream.write(json.dumps(args) + "\\n")
 src, dest = map(pathlib.Path, args[-2:])
 if str(src) == os.environ.get("PAIR_FAIL"):
     print("Number of files: 0")
     sys.exit(23)
-shutil.copytree(src, dest, dirs_exist_ok=True)
+excluded_dirs = {rule[1:-1] for data in consumed.values()
+                 for rule in data.decode().splitlines()
+                 if rule.startswith("/") and rule.endswith("/")}
+def ignore(directory, names):
+    return [name for name in names
+            if (pathlib.Path(directory) / name).is_dir()
+            and (pathlib.Path(directory) / name).relative_to(src).as_posix() in excluded_dirs]
+shutil.copytree(src, dest, dirs_exist_ok=True, ignore=ignore)
 print("Number of files: 1")
 ''')
         self.rsync.chmod(0o755)
@@ -273,6 +287,37 @@ print("Number of files: 1")
                                             f"--exclude-from={self.base / 'R.rules'}",
                                             "--stats", "--human-readable",
                                             f"{self.sources[1]}/", f"{self.dests[1]}/"])
+
+    def test_r_rsync_consumes_complete_excludes_bytes(self):
+        expected = (HERE / "backup_mirror.R.excludes").read_bytes()
+        rules = self.base / "R.rules"
+        rules.write_bytes(expected)
+        self.rows[1][3] = rules.name
+        result = self.run_backup()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        records = [json.loads(line) for line in
+                   self.calls.with_suffix(".excludes.jsonl").read_text().splitlines()]
+        self.assertEqual([record["args"] for record in records], self.recorded())
+        self.assertEqual(records[1]["excludes"], {str(rules): expected.hex()})
+
+    def test_r_excludes_block_worktrees_and_graft_but_copy_keep(self):
+        # [LAW:behavior-not-structure] destination sentinels prove consumed rules act.
+        source = self.base / "R source"
+        for folder in (".claude/worktrees/x", "graft/x", "keep/x",
+                       "nested/graft/x", "nested/.claude/worktrees/x", "graftish/x"):
+            sentinel = source / folder / "sentinel"
+            sentinel.parent.mkdir(parents=True)
+            sentinel.write_text(folder)
+        self.rows[1][1] = str(source)
+        rules = self.base / "R.rules"
+        rules.write_bytes((HERE / "backup_mirror.R.excludes").read_bytes())
+        self.rows[1][3] = rules.name
+        result = self.run_backup()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        for folder in (".claude/worktrees", "graft"):
+            self.assertFalse((self.dests[1] / folder).exists(), folder)
+        for folder in ("keep/x", "nested/graft/x", "nested/.claude/worktrees/x", "graftish/x"):
+            self.assertEqual((self.dests[1] / folder / "sentinel").read_text(), folder)
 
     def test_other_readers_do_not_run(self):
         self.rows += [["intel", "unavailable", "remote:data", "-"],
