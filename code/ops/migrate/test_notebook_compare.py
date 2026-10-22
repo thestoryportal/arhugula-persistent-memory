@@ -122,6 +122,27 @@ class NotebookCompare(unittest.TestCase):
         self.assertEqual(self.call(), (0, "3 pairs: 1 exact, 1 differing, 1 unmatched; 2 unique cells\n", ""))
         self.outputs()
 
+    def test_compare_calls_and_tsv_rows_follow_file_order(self):
+        for name in ("b", "c"):
+            cp = os.path.join(os.path.dirname(self.cp), name + "-checkpoint.ipynb")
+            live = os.path.join(os.path.dirname(self.live), name + ".ipynb")
+            data = self.notebook(name)
+            self.put(cp, data)
+            self.put(live, self.data)
+            self.rows.append((cp, data, live, self.data))
+        self.rows = [self.rows[2], self.rows[0], self.rows[1]]
+        self.write_pairs()
+        expected = [row[0] for row in self.rows]
+        with mock.patch.object(core, "compare", wraps=core.compare) as compare:
+            self.assertEqual(self.call(), (
+                0, "3 pairs: 1 exact, 2 differing, 0 unmatched; 2 unique cells\n", ""))
+        self.assertEqual([call.args[0] for call in compare.call_args_list], expected)
+        for name in ("pairs.tsv", "cells.tsv"):
+            with self.subTest(output=name):
+                lines = self.read(os.path.join(self.out, name)).decode().splitlines()
+                self.assertEqual([line.split("\t")[0] for line in lines[1:]], expected)
+        self.outputs()
+
     def test_invalid_pairs(self):
         header = b"checkpoint\tlive\n"
         good = f"{self.cp}\t{self.live}\n".encode()
