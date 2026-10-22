@@ -15,10 +15,12 @@ HERE = Path(__file__).resolve().parent
 HEADER = "reader\tsource\tdestination\texcludes\n"
 
 
-def real_rsync3():
+def real_rsync3(candidates=None):
     # [LAW:single-enforcer] both test paths use the same rsync 3 requirement.
     diagnostics = []
-    for candidate in (shutil.which("rsync"), "/opt/homebrew/bin/rsync"):
+    if candidates is None:
+        candidates = (shutil.which("rsync"), "/opt/homebrew/bin/rsync")
+    for candidate in candidates:
         if candidate is None:
             diagnostics.append("rsync not found on PATH")
             continue
@@ -123,6 +125,151 @@ os.execv(real, [real] + args)
         self.assertIn(reason, result.stderr)
         self.assertFalse(self.calls.exists(), result.stdout)
         self.assertFalse(any(d.exists() for d in self.dests))
+
+    def test_setup_isolates_fixture_and_inherited_overrides(self):
+        from unittest.mock import patch
+        alternate = self.base / "ambient-tmp"
+        alternate.mkdir()
+        harness = BackupPairsTest()
+        self.addCleanup(harness.doCleanups)
+        with patch.object(tempfile, "tempdir", str(alternate)), patch.dict(
+                os.environ, BACKUP_AMBIENT="unsafe", PAIR_FAIL="unsafe"):
+            harness.setUp()
+        self.assertEqual(harness.base.resolve().parent, Path("/tmp").resolve())
+        self.assertNotIn("BACKUP_AMBIENT", harness.env)
+        self.assertNotIn("PAIR_FAIL", harness.env)
+        harness.doCleanups()
+        self.assertFalse(harness.base.exists())
+
+    def test_proxy_refuses_each_outside_path_before_writing(self):
+        # [LAW:behavior-not-structure] exercise the executable boundary directly.
+        outside = Path(tempfile.mkdtemp(prefix="backup_pairs_escape_", dir="/tmp"))
+        self.addCleanup(shutil.rmtree, outside)
+        (outside / "keep").write_text("outside sentinel")
+        for operand in ("source", "destination", "calls", "backup", "excludes"):
+            with self.subTest(operand=operand):
+                args = [str(self.rsync), "-a", "--stats",
+                        str(self.sources[0]) + "/", str(self.dests[0]) + "/"]
+                env = dict(self.env)
+                path = outside / "escape"
+                if operand == "source":
+                    path = outside
+                    args[-2] = str(path) + "/"
+                elif operand == "destination":
+                    args[-1] = str(path) + "/"
+                elif operand == "calls":
+                    env["PAIR_CALLS"] = str(path)
+                elif operand == "backup":
+                    args.insert(1, "--backup-dir=" + str(path))
+                else:
+                    path = outside / "keep"
+                    args.insert(1, "--exclude-from=" + str(path))
+                result = subprocess.run(args, env=env, capture_output=True,
+                                        text=True, timeout=10)
+                self.assertNotEqual(result.returncode, 0, result.stdout)
+                self.assertIn(str(path), result.stderr)
+                self.assertEqual(sorted(p.name for p in outside.iterdir()), ["keep"])
+                self.assertEqual((outside / "keep").read_text(), "outside sentinel")
+                self.assertFalse(self.calls.exists())
+                self.assertFalse(self.calls.with_suffix(".excludes.jsonl").exists())
+                self.assertFalse(any(d.exists() for d in self.dests))
+
+    def test_proxy_refuses_symlinked_paths_and_logs(self):
+        outside = Path(tempfile.mkdtemp(prefix="backup_pairs_escape_", dir="/tmp"))
+        self.addCleanup(shutil.rmtree, outside)
+        sentinel = outside / "sentinel"
+        sentinel.write_text("outside sentinel")
+        for operand in ("source", "calls", "consumption"):
+            with self.subTest(operand=operand):
+                calls = self.base / (operand + ".jsonl")
+                link = {"source": self.base / "source-link", "calls": calls,
+                        "consumption": calls.with_suffix(".excludes.jsonl")}[operand]
+                link.symlink_to(outside if operand == "source" else sentinel)
+                source = link if operand == "source" else self.sources[0]
+                result = subprocess.run(
+                    [str(self.rsync), "-a", "--stats", str(source) + "/", str(self.dests[0]) + "/"],
+                    env=dict(self.env, PAIR_CALLS=str(calls)), capture_output=True,
+                    text=True, timeout=10)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(str(link), result.stderr)
+                self.assertEqual(sentinel.read_text(), "outside sentinel")
+                self.assertEqual(list(outside.iterdir()), [sentinel])
+                self.assertFalse(self.dests[0].exists())
+
+    def test_resolver_requires_zero_exit_and_version_three(self):
+        candidate = self.base / "candidate"
+        for text, status in (("rsync  version 3.5.0", 23),
+                             ("rsync  version 2.6.9", 0),
+                             ("rsync  version 3.5.0", 0)):
+            with self.subTest(text=text, status=status):
+                candidate.write_text(f"#!/bin/sh\nprintf '{text}\\n'\nexit {status}\n")
+                candidate.chmod(0o755)
+                if status == 0 and "version 3" in text:
+                    self.assertEqual(real_rsync3([str(candidate)]), str(candidate))
+                else:
+                    with self.assertRaisesRegex(AssertionError, "required"):
+                        real_rsync3([str(candidate)])
+
+    def test_resolver_missing_and_failed_candidates_are_diagnostic(self):
+        from unittest.mock import patch
+        for error in (OSError("cannot execute"), subprocess.TimeoutExpired("rsync", 10)):
+            with self.subTest(error=type(error).__name__):
+                with patch.object(subprocess, "run", side_effect=error):
+                    with self.assertRaisesRegex(AssertionError, "required") as caught:
+                        real_rsync3([None, "failed candidate"])
+                self.assertIn("rsync not found on PATH", str(caught.exception))
+                self.assertIn("failed candidate", str(caught.exception))
+                self.assertIn(str(error), str(caught.exception))
+        with self.assertRaisesRegex(AssertionError, "required"):
+            real_rsync3([])
+
+    def test_missing_each_seam_refuses_before_popen(self):
+        from unittest.mock import patch
+        original = self.script.read_text()
+        self.script = self.base / "missing-seam.sh"
+        for seam in ("BACKUP_SRC", "BACKUP_DEST", "BACKUP_EXCLUDES", "BACKUP_PAIRS",
+                     "BACKUP_RSYNC", "BACKUP_MOUNT_POINT", "BACKUP_MOUNT"):
+            with self.subTest(seam=seam):
+                self.script.write_text(original.replace(seam, "REMOVED_SEAM"))
+                with patch.object(subprocess, "Popen", side_effect=AssertionError("launch attempted")) as launch:
+                    with self.assertRaisesRegex(AssertionError, "W7:.*" + seam):
+                        self.run_backup()
+                    self.assertEqual(launch.call_count, 0)
+
+    def test_cleanup_kills_only_live_process_group(self):
+        from unittest.mock import Mock, patch
+        for status in (None, 0):
+            with self.subTest(status=status):
+                proc = Mock(args=["fixture"], returncode=0, pid=12345)
+                proc.poll.return_value = status
+                proc.communicate.side_effect = [subprocess.TimeoutExpired("fixture", 10), ("", "")]
+                with patch.object(subprocess, "Popen", return_value=proc), patch.object(os, "killpg") as kill:
+                    with self.assertRaises(subprocess.TimeoutExpired):
+                        self.run_backup()
+                    cleanup, args, kwargs = self._cleanups.pop()
+                    cleanup(*args, **kwargs)
+                    self.assertEqual(kill.call_args_list,
+                                     [((12345, signal.SIGKILL), {})] if status is None else [])
+                    self.assertEqual(proc.communicate.call_count, 2 if status is None else 1)
+
+    def test_refusal_oracle_rejects_each_broken_contract(self):
+        good = "backup_mirror: FATAL: row 3: expected reason\n"
+        cases = [(0, good), (1, good + "extra\n"),
+                 (1, good.replace("backup_mirror: FATAL:", "wrong:")),
+                 (1, good.replace("row 3", "row 2")),
+                 (1, good.replace("expected reason", "wrong reason"))]
+        self.assert_refused(subprocess.CompletedProcess([], 1, "", good), "expected reason")
+        for status, stderr in cases:
+            with self.subTest(status=status, stderr=stderr):
+                with self.assertRaises(AssertionError):
+                    self.assert_refused(subprocess.CompletedProcess([], status, "", stderr), "expected reason")
+        self.calls.touch()
+        with self.assertRaises(AssertionError):
+            self.assert_refused(subprocess.CompletedProcess([], 1, "", good), "expected reason")
+        self.calls = self.base / "absent-calls"
+        self.dests[0].mkdir()
+        with self.assertRaises(AssertionError):
+            self.assert_refused(subprocess.CompletedProcess([], 1, "", good), "expected reason")
 
     def test_two_rows_copy_with_custody_flags(self):
         result = self.run_backup()
