@@ -1,0 +1,6 @@
+requirement_id	source	target	kind	observed_bytes	action	lane	scientific_role
+MV-091	/Volumes/memit/llm-database-poc-mirror/s229_fact_verdicts.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/s229_fact_verdicts.json	file	1579	MOVE	legacy-preservation	tracked-record
+MV-092	/Volumes/memit/llm-database-poc-mirror/s229_pre_edit_panel.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/s229_pre_edit_panel.json	file	10484	MOVE	legacy-preservation	tracked-record
+MV-093	/Volumes/memit/llm-database-poc-mirror/s229_t3_mistral_memit.ipynb	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/s229_t3_mistral_memit.ipynb	file	100170	MOVE	legacy-preservation	tracked-record
+MV-094	/Volumes/memit/llm-database-poc-mirror/s229_trial0_record.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/s229_trial0_record.json	file	2132	MOVE	legacy-preservation	tracked-record
+MV-095	/Volumes/memit/llm-database-poc-mirror/s229_verdict_surface.json	/Volumes/memit/llmdb-preserved/icm21-20261013/parent/s229_verdict_surface.json	file	1268	MOVE	legacy-preservation	tracked-record
