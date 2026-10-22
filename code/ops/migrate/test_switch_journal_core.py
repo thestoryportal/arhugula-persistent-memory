@@ -610,6 +610,9 @@ class FixOne(unittest.TestCase):
     def test_proper_json_prefixes(self):
         prefix = journal(intent(4))
         for tail in (
+                '["valid space ',  # M179: legal string-space boundary
+                '["\\uAB',  # M183: uppercase Unicode hex
+                '[1E',  # M185: uppercase exponent
                 '["done",1,"ab',
                 '["a\\',
                 '["\\u00',
@@ -638,6 +641,9 @@ class FixOne(unittest.TestCase):
     def test_irreparable_json_tails(self):
         prefix = journal(intent(4))
         for tail in (
+                '["bad\x1f',  # M178: forbidden string-control boundary
+                '[1]\x0b',  # M180: forbidden trailing whitespace
+                '[+1',  # M186: forbidden leading plus
                 '["done",1,]',
                 '["done",1,["none"]]junk',
                 'trux',
@@ -662,6 +668,58 @@ class FixOne(unittest.TestCase):
         ):
             with self.subTest(tail=tail), self.assertRaisesRegex(Refusal, 'line 2.*malformed JSON'):
                 c.parse(prefix + tail)
+
+
+    def test_prefix_recognizer_matches_json_oracle(self):
+        states = (
+            ('value', '['), ('nested-array-start', '[['),
+            ('nested-array-space', '[[ '), ('object-space', '[{ '),
+            ('array-after-value', '[1'),
+            ('complete', '[1]'), ('string', '["a'), ('escape', '["\\'),
+            ('hex-1', '["\\u'), ('hex-2', '["\\uA'),
+            ('hex-3', '["\\uAB'), ('hex-4', '["\\uABC'),
+            ('minus', '[-'), ('zero', '[0'), ('integer', '[12'),
+            ('decimal-point', '[1.'), ('fraction', '[1.2'),
+            ('exponent', '[1e'), ('exponent-sign', '[1e+'),
+            ('exponent-digits', '[1e+2'),
+            ('object-start', '[{'), ('after-key', '[{"k"'),
+            ('after-colon', '[{"k":'), ('object-after-value', '[{"k":0'),
+            ('object-next-key', '[{"k":0,'), ('array-next-value', '[0,'),
+            ('true-1', '[t'), ('true-2', '[tr'), ('true-3', '[tru'),
+            ('false-1', '[f'), ('false-2', '[fa'), ('false-3', '[fal'),
+            ('false-4', '[fals'), ('null-1', '[n'), ('null-2', '[nu'),
+            ('null-3', '[nul'),
+        )
+        # [LAW:behavior-not-structure] Completions ask the independent JSON decoder;
+        # they contain no recognizer transitions or character-class tables.
+        completions = tuple(head + close for head in (
+            '', '0', '1', 'true', 'rue', 'ue', 'e', 'false', 'alse', 'lse',
+            'se', 'null', 'ull', 'll', 'l', '"', '0"', '00"', '000"',
+            '0000"', '""', '":0', ':0', '"":0',
+        ) for close in ('', ']', ']]', ']]]', '}]', '}]]', ']}]', '}}]'))
+
+        def is_json(text):
+            try:
+                json.loads(text)
+            except json.JSONDecodeError:
+                return False
+            return True
+
+        prefix = journal(intent(4))
+        for state, start in states:
+            for codepoint in range(128):
+                tail = start + chr(codepoint)
+                with self.subTest(state=state, character=codepoint):
+                    completable = any(is_json(tail + end) for end in completions)
+                    # LF terminates a journal line; complete JSON here is schema-invalid.
+                    expected = completable and not is_json(tail) and '\n' not in tail
+                    try:
+                        c.parse(prefix + tail)
+                    except Refusal:
+                        accepted = False
+                    else:
+                        accepted = True
+                    self.assertEqual(accepted, expected, repr(tail))
 
 
 if __name__ == '__main__':
