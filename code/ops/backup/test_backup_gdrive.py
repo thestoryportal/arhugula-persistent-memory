@@ -207,38 +207,45 @@ def read_pair_file(parent, name):
     return data
 
 
-def drive_pairs(path, out):
+def create_out_file(out_held, name, data, roots):
+    # [LAW:single-enforcer] Settle the held name before nominal-path consumers run.
+    live = fdsafe.create_file(out_held, name, data, roots)
+    fdsafe._settled(out_held)
+    return live
+
+
+def drive_pairs(path, out, out_held, table_parent_held):
     # [LAW:parse-dont-validate] Admit all rows and rule bytes before any remote call.
     path = Path(path).absolute()
-    with fdsafe.hold_root(str(path.parent)) as parent:
-        lines = read_pair_file(parent, path.name).decode('utf-8').splitlines()
-        if not lines or lines[0] != 'reader\tsource\tdestination\texcludes':
-            raise RuntimeError('invalid pairs header')
-        pairs = []
-        for number, line in enumerate(lines[1:], 2):
-            fields = line.split('\t')
-            if len(fields) != 4 or not all(fields):
-                raise RuntimeError(f'row {number}: invalid pair')
-            reader, source, destination, excludes = fields
-            if reader not in ('ssd', 'intel', 'gdrive'):
-                raise RuntimeError(f'row {number}: unknown reader')
-            if reader != 'gdrive':
-                continue
-            if '/' in excludes:
-                raise RuntimeError(f'row {number}: excludes must be next to table')
-            pairs.append(dict(source=source, destination=destination, excludes=excludes))
-        rules = []
-        for row in pairs:
-            try:
-                rules.append(None if row['excludes'] == '-' else read_pair_file(parent, row['excludes']))
-            except fdsafe.Refusal as exc:
-                raise RuntimeError(f'exclude list missing or unsafe: {exc}') from exc
+    parent = table_parent_held
+    lines = read_pair_file(parent, path.name).decode('utf-8').splitlines()
+    if not lines or lines[0] != 'reader\tsource\tdestination\texcludes':
+        raise RuntimeError('invalid pairs header')
+    pairs = []
+    for number, line in enumerate(lines[1:], 2):
+        fields = line.split('\t')
+        if len(fields) != 4 or not all(fields):
+            raise RuntimeError(f'row {number}: invalid pair')
+        reader, source, destination, excludes = fields
+        if reader not in ('ssd', 'intel', 'gdrive'):
+            raise RuntimeError(f'row {number}: unknown reader')
+        if reader != 'gdrive':
+            continue
+        if '/' in excludes:
+            raise RuntimeError(f'row {number}: excludes must be next to table')
+        pairs.append(dict(source=source, destination=destination, excludes=excludes))
+    rules = []
+    for row in pairs:
+        try:
+            rules.append(None if row['excludes'] == '-' else read_pair_file(parent, row['excludes']))
+        except fdsafe.Refusal as exc:
+            raise RuntimeError(f'exclude list missing or unsafe: {exc}') from exc
     for number, (row, data) in enumerate(zip(pairs, rules)):
         # [LAW:effects-at-boundaries] rclone reopens only the admitted evidence copy.
         row['filters'] = []
         if data is not None:
             target = out / f'excludes_{number}.txt'
-            target.write_bytes(data)
+            create_out_file(out_held, target.name, data, roots=[table_parent_held])
             row['filters'] = ['--exclude-from', str(target)]
     return pairs
 
@@ -247,7 +254,14 @@ def drive_selftest():
     """Explicit opt-in: three tiny Drive syncs, one upload, real-source DRY RUN only."""
     remote = "gdrive:memit-backup/_selftest"
     out = ROOT / "results" / ("backup_gdrive_drive_" + datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ"))
-    out.mkdir(exist_ok=False)
+    from contextlib import ExitStack
+    held = ExitStack()
+    try:
+        results_held = held.enter_context(fdsafe.hold_root(str(ROOT / "results")))
+        out_held = held.enter_context(fdsafe.mkdir(results_held, out.name))
+    except BaseException:
+        held.close()
+        raise
     rclone = "/opt/homebrew/bin/rclone"
     commands = []
     touched = False
@@ -267,7 +281,8 @@ def drive_selftest():
 
     try:
         pairs_path = Path(os.environ.get("BACKUP_PAIRS") or ROOT / "code/ops/backup/backup_pairs.tsv")
-        pairs = drive_pairs(pairs_path, out)
+        table_parent_held = held.enter_context(fdsafe.hold_root(str(pairs_path.absolute().parent)))
+        pairs = drive_pairs(pairs_path, out, out_held, table_parent_held)
         rc("lsd", "gdrive:memit-backup")  # No effect before genuine remote admission.
         with tempfile.TemporaryDirectory(prefix="backup_gdrive_drive_", dir="/private/tmp") as d:
             base = Path(d)
@@ -360,7 +375,7 @@ def drive_selftest():
                 local.extend(dict(item, Path=f"{number}/" + item["Path"]) for item in
                              json.loads(rc("lsjson", source, "--recursive", "--files-only", "--links", *filters)))
                 combined.extend(line[:2] + f"{number}/" + line[2:] for line in pair_changes.read_text().splitlines())
-            changes.write_text("\n".join(combined) + "\n")
+            create_out_file(out_held, changes.name, ("\n".join(combined) + "\n").encode(), roots=[table_parent_held])
             sizes = {x["Path"]: x["Size"] for x in local}
             planned = [line[2:] for line in changes.read_text().splitlines() if line.startswith(("+ ", "* "))]
             total = sum(sizes[name] for name in planned)
@@ -378,6 +393,7 @@ def drive_selftest():
                 result.update(status="FAILED", cleanup="FAILED", cleanup_error=str(exc))
         else:
             result["cleanup"] = "NOT NEEDED: no remote writes attempted"
+        held.close()
         (out / "summary.json").write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))
     return 0 if result["status"] == "PASS" else 1
