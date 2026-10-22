@@ -7,7 +7,7 @@ Run without installing anything:
 
 Paper ids: a Semantic Scholar sha id (40 hex chars), or arXiv:<id> / DOI:<doi> / CorpusId:<n>, resolved through the public
 Semantic Scholar API. Each graph is written as JSON to the Connected Papers collection (default
-/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs/api/), beside the exported .bib graphs.
+/Volumes/memit/llmdb-preserved/icm21-20261013/parent/connected-papers-knowledge-graphs/api/), beside the exported .bib graphs.
 
 API key: the CONNECTED_PAPERS_API_KEY environment variable, else the macOS keychain item "connectedpapers-api-key"
 (store it once: security add-generic-password -a "$USER" -s connectedpapers-api-key -w <key>). No key -> refuse
@@ -24,7 +24,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-DEFAULT_OUT = "/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs/api"
+DEFAULT_OUT = "/Volumes/memit/llmdb-preserved/icm21-20261013/parent/connected-papers-knowledge-graphs/api"
 KEYCHAIN_SERVICE = "connectedpapers-api-key"
 SHA = re.compile(r"^[0-9a-f]{40}$")
 
