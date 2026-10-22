@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".",
+   "sha256": "21b688248b8e7788ff62b438f857145606870cf7e2cd15f1a14a5ac8fca94818",
+   "size": 60533
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/reproducibility_manifest.json"
+}

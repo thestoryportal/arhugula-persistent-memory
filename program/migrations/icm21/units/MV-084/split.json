@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".",
+   "sha256": "b32a18afcbdb213b3af9c87fe58606df358ef96c60f8d139b8b361e485adb467",
+   "size": 12068
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/overlay_checksums.sha256"
+}

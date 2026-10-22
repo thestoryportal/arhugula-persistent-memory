@@ -1,0 +1,13 @@
+{
+ "leaves": [
+  {
+   "class": "tracked-record",
+   "kind": "file",
+   "link": null,
+   "path": ".",
+   "sha256": "c6887448dc09e431cf0e7f24b78566d4318a305cad1933136bf5c97453f9bf96",
+   "size": 9539
+  }
+ ],
+ "root": "/Volumes/memit/llm-database-poc-mirror/s28_v2_4_1_amendment_section_3_8_9.md"
+}
