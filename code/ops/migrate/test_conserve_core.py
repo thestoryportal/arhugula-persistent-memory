@@ -2,6 +2,8 @@
 import ast
 import copy
 import unittest
+from collections import ChainMap, Counter, OrderedDict, UserDict, defaultdict
+from types import MappingProxyType
 
 from ops.migrate import conserve_core as core
 
@@ -74,6 +76,34 @@ class Conservation(unittest.TestCase):
                                      {"work": row(bytes=9, sha256="b" * 64, inode=9, nlink=9)},
                                      [("work", "a" * 64, "b" * 64)]), ())
 
+    def test_replace_container_types(self):
+        for outer in (list, tuple):
+            for inner in (list, tuple):
+                with self.subTest(outer=outer.__name__, inner=inner.__name__):
+                    actions = outer([inner(("work", "a" * 64, "b" * 64))])
+                    self.assertEqual(core.compare({"work": row()},
+                                                 {"work": row(sha256="b" * 64)}, actions), ())
+
+    def test_mapping_types(self):
+        # [LAW:behavior-not-structure] Both mapping boundaries accept non-dict mappings.
+        factories = (dict, OrderedDict, Counter, ChainMap, UserDict, MappingProxyType,
+                     lambda value: defaultdict(dict, value))
+        for factory in factories:
+            for side in (0, 1):
+                for boundary in ("manifest", "leaf"):
+                    with self.subTest(factory=factory, side=side, boundary=boundary):
+                        manifests = [{"work": row()}, {"work": row(sha256="b" * 64)}]
+                        if boundary == "manifest":
+                            manifests[side] = factory(manifests[side])
+                        else:
+                            manifests[side]["work"] = factory(manifests[side]["work"])
+                        self.assertEqual(core.compare(*manifests,
+                                                     [("work", "a" * 64, "b" * 64)]), ())
+
+    def test_terminal_newline_in_posix_names(self):
+        value = row(source="/M/link\n", kind="symlink", link_text="target\n")
+        self.assertEqual(core.compare({"link\n": value}, {"link\n": value}, []), ())
+
     def test_replace_pre_and_post_hashes(self):
         for before, after, field in (("c", "b", "replace-pre-sha256"),
                                      ("a", "c", "replace-post-sha256")):
@@ -103,6 +133,21 @@ class Malformed(unittest.TestCase):
         with self.assertRaises(core.Refusal) as caught:
             core.compare(pre, post, actions)
         self.assertIn(path, str(caught.exception))
+
+    def test_manifest_terminal_newline_hashes(self):
+        for side in (0, 1):
+            with self.subTest(side=side):
+                manifests = [{"work": row()}, {"work": row()}]
+                manifests[side]["work"]["sha256"] += "\n"
+                self.refuses(*manifests, [], "work")
+
+    def test_action_terminal_newline_hashes(self):
+        for index in (1, 2):
+            with self.subTest(index=index):
+                action = ["work", "a" * 64, "b" * 64]
+                action[index] += "\n"
+                self.refuses({"work": row()}, {"work": row(sha256="b" * 64)},
+                             [action], "actions")
 
     def test_manifest_shape(self):
         for bad in (None, [], 1, "x"):
@@ -167,6 +212,33 @@ class Malformed(unittest.TestCase):
 
 
 class Purity(unittest.TestCase):
+    def test_call_and_module_attribute_allowlist(self):
+        with open(core.__file__, encoding="utf-8") as stream:
+            tree = ast.parse(stream.read())
+        # [LAW:effects-at-boundaries] Imports alone cannot exclude hidden I/O.
+        calls = {"isinstance", "any", "type", "len", "getattr", "tuple", "sorted",
+                 "dataclass", "Refusal", "Leaf", "_path", "_sha", "_manifest", "_actions"}
+        attributes = {"fdsafe": {"Refusal"}, "re": {"fullmatch"}}
+        imported = {}
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                imported.update((alias.asname or alias.name.split(".")[0], alias.name)
+                                for alias in node.names)
+            elif isinstance(node, ast.ImportFrom):
+                imported.update((alias.asname or alias.name, alias.name) for alias in node.names)
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+                self.assertIn(node.func.id, calls, f"call at line {node.lineno}")
+            if isinstance(node, ast.Attribute):
+                root = node.value
+                while isinstance(root, ast.Attribute):
+                    root = root.value
+                if isinstance(root, ast.Name) and root.id in imported:
+                    self.assertIsInstance(node.value, ast.Name,
+                                          f"chained module attribute at line {node.lineno}")
+                    self.assertIn(node.attr, attributes.get(imported[root.id], set()),
+                                  f"module attribute at line {node.lineno}")
+
     def test_import_allowlist(self):
         with open(core.__file__, encoding="utf-8") as stream:
             tree = ast.parse(stream.read())
