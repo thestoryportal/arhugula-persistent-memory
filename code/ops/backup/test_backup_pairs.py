@@ -2,6 +2,7 @@
 import csv
 import json
 import os
+import re
 import signal
 import shutil
 from pathlib import Path
@@ -30,7 +31,7 @@ def real_rsync3(candidates=None):
         except (OSError, subprocess.TimeoutExpired) as error:
             diagnostics.append(f"{candidate}: {error}")
             continue
-        if version.returncode == 0 and "version 3" in version.stdout:
+        if version.returncode == 0 and re.search(r"^rsync\s+version 3\.\d+\.\d+(?=\s|$)", version.stdout):
             return candidate
         diagnostics.append(f"{candidate}: exit {version.returncode}: "
                            f"{version.stdout}{version.stderr}")
@@ -102,7 +103,7 @@ os.execv(real, [real] + args)
         text = script.read_text()
         for seam in ("BACKUP_SRC", "BACKUP_DEST", "BACKUP_EXCLUDES", "BACKUP_PAIRS",
                      "BACKUP_RSYNC", "BACKUP_MOUNT_POINT", "BACKUP_MOUNT"):
-            self.assertIn(seam, text, f"W7: refusing to start backup: missing seam {seam}")
+            self.assertRegex(text, r"(?<![A-Za-z0-9_])" + seam + r"(?![A-Za-z0-9_])", f"W7: refusing to start backup: missing seam {seam}")
         proc = subprocess.Popen(["/bin/bash", str(script)], env=dict(self.env, **changes),
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                 text=True, start_new_session=True)
@@ -118,13 +119,14 @@ os.execv(real, [real] + args)
         return [json.loads(line) for line in self.calls.read_text().splitlines()]
 
     def assert_refused(self, result, reason, row="3"):
+        # [LAW:parse-dont-validate] delimiters distinguish a refusal from a lookalike.
         self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
         self.assertEqual(len(result.stderr.splitlines()), 1, result.stderr)
-        self.assertIn("backup_mirror: FATAL:", result.stderr)
-        self.assertIn("row " + row, result.stderr)
-        self.assertIn(reason, result.stderr)
-        self.assertFalse(self.calls.exists(), result.stdout)
-        self.assertFalse(any(d.exists() for d in self.dests))
+        self.assertTrue(result.stderr.startswith("backup_mirror: FATAL: "), result.stderr)
+        self.assertEqual(result.stderr.split(": ", 3)[2:3], ["row " + row], result.stderr)
+        self.assertRegex(result.stderr, r"(?<![A-Za-z0-9_])" + re.escape(reason) + r"(?![A-Za-z0-9_])")
+        self.assertFalse(os.path.lexists(self.calls), result.stdout)
+        self.assertFalse(any(os.path.lexists(d) for d in self.dests))
 
     def test_setup_isolates_fixture_and_inherited_overrides(self):
         from unittest.mock import patch
@@ -230,7 +232,7 @@ os.execv(real, [real] + args)
         for seam in ("BACKUP_SRC", "BACKUP_DEST", "BACKUP_EXCLUDES", "BACKUP_PAIRS",
                      "BACKUP_RSYNC", "BACKUP_MOUNT_POINT", "BACKUP_MOUNT"):
             with self.subTest(seam=seam):
-                self.script.write_text(original.replace(seam, "REMOVED_SEAM"))
+                self.script.write_text(re.sub(r"(?<![A-Za-z0-9_])" + seam + r"(?![A-Za-z0-9_])", "REMOVED_SEAM", original))
                 with patch.object(subprocess, "Popen", side_effect=AssertionError("launch attempted")) as launch:
                     with self.assertRaisesRegex(AssertionError, "W7:.*" + seam):
                         self.run_backup()
@@ -270,6 +272,188 @@ os.execv(real, [real] + args)
         self.dests[0].mkdir()
         with self.assertRaises(AssertionError):
             self.assert_refused(subprocess.CompletedProcess([], 1, "", good), "expected reason")
+
+    def test_resolver_missing_candidate_uses_real_fallback(self):
+        # [LAW:behavior-not-structure] None must never reach the real process API.
+        candidate = self.base / "valid-rsync"
+        candidate.write_text("#!/bin/sh\nprintf 'rsync  version 3.5.0\\n'\n")
+        candidate.chmod(0o755)
+        self.assertEqual(real_rsync3((None, str(candidate))), str(candidate))
+
+    def test_resolver_refuses_version_lookalikes(self):
+        candidate = self.base / "version-candidate"
+        for version in ("rsync  version 30.0.0", "rsync  version 3x",
+                        "rsync  conversion 3.5.0", "other version 3.5.0"):
+            with self.subTest(version=version):
+                candidate.write_text(f"#!/bin/sh\nprintf '{version}\\n'\n")
+                candidate.chmod(0o755)
+                with self.assertRaisesRegex(AssertionError, "required"):
+                    real_rsync3((str(candidate),))
+
+    def test_resolver_real_oserror_and_timeout_recover(self):
+        candidate = self.base / "valid-rsync"
+        candidate.write_text("#!/bin/sh\nprintf 'rsync  version 3.5.0\\n'\n")
+        candidate.chmod(0o755)
+        slow = self.base / "slow-rsync"
+        slow.write_text("#!/bin/sh\nexec /bin/sleep 11\n")
+        slow.chmod(0o755)
+        for failed in (self.base / "missing-rsync", slow):
+            with self.subTest(failed=failed.name):
+                self.assertEqual(real_rsync3((str(failed), str(candidate))), str(candidate))
+
+    def test_seam_name_boundaries_refuse_before_popen(self):
+        from unittest.mock import patch
+        original = self.script.read_text()
+        self.script = self.base / "lookalike-seam.sh"
+        for seam in ("BACKUP_SRC", "BACKUP_DEST", "BACKUP_EXCLUDES", "BACKUP_PAIRS",
+                     "BACKUP_RSYNC", "BACKUP_MOUNT_POINT", "BACKUP_MOUNT"):
+            for replacement in ("X" + seam, seam + "_POINT", "0" + seam, seam + "0"):
+                with self.subTest(seam=seam, replacement=replacement):
+                    text = re.sub(r"(?<![A-Za-z0-9_])" + seam + r"(?![A-Za-z0-9_])",
+                                  replacement, original)
+                    self.script.write_text(text)
+                    with patch.object(subprocess, "Popen", side_effect=AssertionError("launch attempted")) as launch:
+                        with self.assertRaisesRegex(AssertionError, "W7:.*" + seam + r"$"):
+                            self.run_backup()
+                        launch.assert_not_called()
+
+    def test_missing_seams_refuse_unmocked_inert_script(self):
+        # [LAW:effects-at-boundaries] a missed refusal can only touch this marker.
+        marker = self.base / "launched"
+        seams = ("BACKUP_SRC", "BACKUP_DEST", "BACKUP_EXCLUDES", "BACKUP_PAIRS",
+                 "BACKUP_RSYNC", "BACKUP_MOUNT_POINT", "BACKUP_MOUNT")
+        self.script = self.base / "inert.sh"
+        original = "#!/bin/bash\n# " + " ".join(seams) + f"\nprintf launched > '{marker}'\n"
+        for seam in seams:
+            with self.subTest(seam=seam):
+                self.script.write_text(re.sub(r"(?<![A-Za-z0-9_])" + seam + r"(?![A-Za-z0-9_])",
+                                              "REMOVED_SEAM", original))
+                with self.assertRaisesRegex(AssertionError, "W7:.*" + seam + r"$"):
+                    self.run_backup()
+                self.assertFalse(marker.exists())
+        self.script.write_text(original)
+        self.assertEqual(self.run_backup().returncode, 0)
+        self.assertEqual(marker.read_text(), "launched")
+
+    def test_refusal_oracle_rejects_near_match_text(self):
+        good = "backup_mirror: FATAL: row 3: expected reason\n"
+        for stderr in ("not_" + good, good.replace("row 3:", "row 30:"),
+                       good.replace("row 3:", "borrow 3:"),
+                       good.replace("expected reason", "unexpected reason"),
+                       good.replace("expected reason", "expected reasoning")):
+            with self.subTest(stderr=stderr):
+                with self.assertRaises(AssertionError):
+                    self.assert_refused(subprocess.CompletedProcess([], 1, "", stderr), "expected reason")
+
+    def test_refusal_oracle_rejects_dangling_output_links(self):
+        for operand in ("calls", "destination"):
+            with self.subTest(operand=operand):
+                harness = BackupPairsTest()
+                self.addCleanup(harness.doCleanups)
+                harness.setUp()
+                path = harness.calls if operand == "calls" else harness.dests[0]
+                path.symlink_to(harness.base / "missing")
+                with self.assertRaises(AssertionError):
+                    harness.assert_refused(subprocess.CompletedProcess(
+                        [], 1, "", "backup_mirror: FATAL: row 3: expected reason\n"), "expected reason")
+                harness.doCleanups()
+
+    def test_proxy_refuses_prefix_siblings_and_symlinked_operands(self):
+        outside = self.base.with_name(self.base.name + "-sibling")
+        outside.mkdir()
+        self.addCleanup(shutil.rmtree, outside)
+        sentinel = outside / "sentinel"
+        sentinel.write_text("unchanged")
+        for kind in ("sibling", "symlink"):
+            for operand in ("source", "destination", "calls", "consumption", "backup", "excludes"):
+                with self.subTest(kind=kind, operand=operand):
+                    path = outside if operand in ("source", "destination", "backup") else sentinel
+                    if kind == "symlink":
+                        link = self.base / (operand + "-link")
+                        link.symlink_to(path)
+                        path = link
+                    args = [str(self.rsync), "-a", str(self.sources[0]) + "/", str(self.dests[0]) + "/"]
+                    env = dict(self.env)
+                    if operand == "source":
+                        args[-2] = str(path) + "/"
+                    elif operand == "destination":
+                        args[-1] = str(path) + "/"
+                    elif operand == "calls":
+                        env["PAIR_CALLS"] = str(path)
+                    elif operand == "consumption":
+                        calls = self.base / (kind + "-calls")
+                        calls.with_suffix(".excludes.jsonl").symlink_to(sentinel)
+                        env["PAIR_CALLS"] = str(calls)
+                        path = calls.with_suffix(".excludes.jsonl")
+                    else:
+                        args.insert(1, {"backup": "--backup-dir=", "excludes": "--exclude-from="}[operand] + str(path))
+                    result = subprocess.run(args, env=env, capture_output=True, text=True, timeout=10)
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertIn("fake rsync refuses path outside fixture: " + str(path), result.stderr)
+                    self.assertEqual(sentinel.read_text(), "unchanged")
+                    self.assertEqual(list(outside.iterdir()), [sentinel])
+                    self.assertFalse(self.calls.exists())
+                    self.assertFalse(self.dests[0].exists())
+
+    def test_proxy_option_names_refuse_longer_lookalikes(self):
+        for option in ("--backup-dir-extra=", "--exclude-from-extra="):
+            with self.subTest(option=option):
+                result = subprocess.run([str(self.rsync), "-a", option + str(self.excludes),
+                                         str(self.sources[0]) + "/", str(self.dests[0]) + "/"],
+                                        env=self.env, capture_output=True, text=True, timeout=10)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("unknown option", result.stderr)
+                records = [json.loads(line) for line in
+                           self.calls.with_suffix(".excludes.jsonl").read_text().splitlines()]
+                self.assertEqual(records[-1]["excludes"], {})
+                self.assertFalse(self.dests[0].exists())
+
+    def test_proxy_failure_name_does_not_match_prefix(self):
+        result = self.run_backup(PAIR_FAIL=str(self.sources[0]) + "-sibling")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(len(self.recorded()), 2)
+
+    def test_setup_env_prefix_boundary(self):
+        from unittest.mock import patch
+        with patch.dict(os.environ, BACKUP="keep", PAIR="keep", XBACKUP_FLAG="keep",
+                        XPAIR_FLAG="keep", BACKUP_EXTRA="drop", PAIR_EXTRA="drop"):
+            harness = BackupPairsTest()
+            self.addCleanup(harness.doCleanups)
+            harness.setUp()
+        for name in ("BACKUP", "PAIR", "XBACKUP_FLAG", "XPAIR_FLAG"):
+            self.assertEqual(harness.env[name], "keep")
+        for name in ("BACKUP_EXTRA", "PAIR_EXTRA"):
+            self.assertNotIn(name, harness.env)
+
+    def test_cleanup_reaps_real_timed_out_process(self):
+        self.script = self.base / "sleep.sh"
+        pidfile = self.base / "pid"
+        natural_exit = self.base / "natural-exit"
+        sleeper = self.base / "sleeper.py"
+        sleeper.write_text("import time\nfrom pathlib import Path\ntime.sleep(11)\n"
+                           f"Path({str(natural_exit)!r}).write_text(\"finished\")\n")
+        self.script.write_text("#!/bin/bash\n# BACKUP_SRC BACKUP_DEST BACKUP_EXCLUDES BACKUP_PAIRS "
+                               "BACKUP_RSYNC BACKUP_MOUNT_POINT BACKUP_MOUNT\n"
+                               f"echo $$ > '{pidfile}'\nexec '{sys.executable}' '{sleeper}'\n")
+        with self.assertRaises(subprocess.TimeoutExpired):
+            self.run_backup()
+        pid = int(pidfile.read_text())
+        cleanup, args, kwargs = self._cleanups.pop()
+        try:
+            cleanup(*args, **kwargs)
+            self.assertFalse(natural_exit.exists(), "cleanup waited for natural exit instead of killing")
+            with self.assertRaises(ProcessLookupError):
+                os.killpg(pid, 0)
+        finally:
+            # [LAW:no-ambient-temporal-coupling] even a cleanup mutant owns its child.
+            try:
+                os.killpg(pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            try:
+                os.waitpid(pid, 0)
+            except ChildProcessError:
+                pass
 
     def test_two_rows_copy_with_custody_flags(self):
         result = self.run_backup()
