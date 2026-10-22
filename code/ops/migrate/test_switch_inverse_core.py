@@ -313,6 +313,57 @@ class Inverses(unittest.TestCase):
                 core.plan(self.backup_state(pairs), self.run)
 
 
+    # [LAW:behavior-not-structure] Parsed witnesses pin public refusal and rollback behavior.
+    def parsed_completed_state(self, items):
+        records = tuple(record for item in items
+                        for record in (item, j.Done(item.seq, j._post(item))))
+        state = j.recover(j.parse(''.join(j.encode(record) for record in records)), None,
+                          {self.pre.preimage: self.pre.sha256})
+        self.assertEqual(state.status, 0)
+        return state
+
+    def test_nonfirst_loaded_to_loaded_refuses(self):
+        items = self.intents[:10] + (self.intent(11, a.Launchd('loaded', 'loaded')),)
+        state = self.parsed_completed_state(items)
+        with self.assertRaisesRegex(Refusal, 'op-11.*expected RESUME'):
+            core.plan(state, self.run)
+
+    def test_nonfirst_unloaded_to_unloaded_refuses(self):
+        items = self.intents[:10] + (self.intent(11, a.Launchd('unloaded', 'unloaded')),)
+        state = self.parsed_completed_state(items)
+        with self.assertRaisesRegex(Refusal, 'op-11.*expected RESUME'):
+            core.plan(state, self.run)
+
+    def test_alien_source_sharing_parent_destination_refuses(self):
+        child = replace(self.pair, src='/parent/repo', dst='/backup/parent/repo')
+        alien = replace(self.pair, src='/alien')
+        state = self.parsed_completed_state((
+            self.intent(1, a.BackupRun((self.pair, child, alien))),))
+        with self.assertRaisesRegex(Refusal, 'BACKUP_RUN.*no unique covering P pair'):
+            core.plan(state, self.run)
+
+    def test_composed_renames_restore_backup_source_and_excludes(self):
+        state = self.parsed_completed_state((
+            self.intent(1, a.Launchd('loaded', 'unloaded')),
+            self.intent(2, a.Rename('/a', '/b')),
+            self.intent(3, a.Rename('/b', '/c')),
+            self.intent(4, a.BackupRun((
+                a.BackupPair('ssd', '/c', '/backup', '/c/excludes'),)))))
+        restored = a.BackupPair('ssd', '/a', '/backup', '/a/excludes')
+        self.assertEqual(core.plan(state, self.run),
+                         (a.Quiesce(), a.Rename('/c', '/b'), a.Rename('/b', '/a'),
+                          j.ResyncP((restored,)), j.BackupCompare((restored,)),
+                          a.Launchd('unloaded', 'loaded')))
+
+
+    def test_inverse_done_tuple_subclass_refuses(self):
+        class CompletedKeys(tuple):
+            pass
+        state = replace(self.state(0), inverse_done=CompletedKeys())
+        with self.assertRaisesRegex(Refusal, 'state.*expected frozen sequences'):
+            core.plan(state, self.run)
+
+
 def effects():
     names = {'open', 'fdopen', 'stat', 'lstat', 'fstat', 'scandir', 'listdir', 'walk',
              'readlink', 'statvfs', 'getcwd', 'getenv', 'access', 'system', 'popen'}
