@@ -197,6 +197,122 @@ class Inverses(unittest.TestCase):
             core.plan(bad, self.run)
 
 
+    def recovery_retry(self, completed, compared=False):
+        records = []
+        preimages = {self.pre.preimage: self.pre.sha256}
+        for item in self.intents[:9]:
+            records.extend((item, j.Done(item.seq, j._post(item))))
+        records.extend((self.intents[9], j.Done(10, j.NoIdentity(), 'uncertain')))
+        keys = ('quiesce:retry', 'undo:8', 'undo:7', 'undo:6', 'undo:5', 'undo:4', 'undo:3')
+        for seq, (key, action) in enumerate(zip(keys, self.expected(9)[:-1]), 11):
+            item = self.intent(seq, action, 'inverse', key)
+            if type(action) in (a.Replace, a.Install):
+                preimages[action.pre.preimage] = action.pre.sha256
+            records.extend((item, j.Done(seq, j._post(item))))
+        if compared:
+            compare = self.intent(18, j.BackupCompare((self.pair,)), 'inverse', 'compare:10')
+            records.extend((compare, j.Done(18, j.NoIdentity())))
+        resync = self.intent(19, j.ResyncP((self.pair,)), 'inverse', 'resync:10')
+        records.append(resync)
+        observation = j.NoIdentity()
+        if completed:
+            records.append(j.Done(19, j.NoIdentity(), 'uncertain'))
+            retry = self.intent(20, resync.action, 'inverse', resync.key)
+            records.extend((retry, j.Done(20, j.NoIdentity())))
+            observation = None
+        state = j.recover(j.parse(''.join(j.encode(r) for r in records)), observation, preimages)
+        self.assertEqual(state.status, 0)
+        self.assertNotIn(self.intents[9], state.done)
+        self.assertEqual(state.pending, None if completed else resync)
+        return state
+
+    def test_superseded_backup_pending_resync(self):
+        self.assertEqual(core.plan(self.recovery_retry(False), self.run),
+                         (a.Quiesce(), j.ResyncP((self.pair,)),
+                          j.BackupCompare((self.pair,)), a.Launchd('unloaded', 'loaded')))
+
+    def test_superseded_backup_completed_resync(self):
+        self.assertEqual(core.plan(self.recovery_retry(True), self.run),
+                         (a.Quiesce(), j.BackupCompare((self.pair,)),
+                          a.Launchd('unloaded', 'loaded')))
+
+    def test_superseded_backup_pending_resync_compared(self):
+        self.assertEqual(core.plan(self.recovery_retry(False, True), self.run),
+                         (a.Quiesce(), j.ResyncP((self.pair,)), a.Launchd('unloaded', 'loaded')))
+
+    def test_superseded_backup_completed_resync_compared(self):
+        self.assertEqual(core.plan(self.recovery_retry(True, True), self.run),
+                         (a.Quiesce(), a.Launchd('unloaded', 'loaded')))
+
+    def test_bad_resync_key_refuses(self):
+        for key in ('wrong::10', 'resync:', 'resync:0', 'resync:-1', 'resync:1x', 'resync:01'):
+            for completed in (False, True):
+                item = self.intent(20, j.ResyncP((self.pair,)), 'inverse', key)
+                state = (self.state(0, inverses=(item,)) if completed
+                         else self.state(0, item, j.NoIdentity()))
+                with self.subTest(key=key, completed=completed), self.assertRaises(Refusal) as caught:
+                    core.plan(state, self.run)
+                self.assertIn(repr(key), str(caught.exception))
+
+    def test_completed_resync_must_match_backup(self):
+        item = self.intent(20, j.ResyncP((self.rpair,)), 'inverse', 'resync:10')
+        with self.assertRaisesRegex(Refusal, 'resync:10.*pending RESYNC_P differs from backup'):
+            core.plan(self.state(10, inverses=(item,)), self.run)
+
+    def test_backup_obligations_reverse_order(self):
+        other = replace(self.pair, dst='/other-backup')
+        records = []
+        for seq, pair in ((1, self.pair), (2, other)):
+            item = self.intent(seq, a.BackupRun((pair,)))
+            records.extend((item, j.Done(seq, j.NoIdentity())))
+        state = j.recover(j.parse(''.join(j.encode(r) for r in records)), None, {})
+        self.assertEqual(core.plan(state, self.run),
+                         (a.Quiesce(), j.ResyncP((other,)), j.BackupCompare((other,)),
+                          j.ResyncP((self.pair,)), j.BackupCompare((self.pair,))))
+
+    def test_stopped_boundary_values_refuse(self):
+        state = self.state(0)
+        for bad in (replace(state, stopped=[]), replace(state, status=False),
+                    replace(state, status=3), replace(state, stopped=('stopped item',))):
+            with self.subTest(state=bad), self.assertRaises(Refusal):
+                core.plan(bad, self.run)
+
+    def test_completed_compare_is_not_repeated(self):
+        resync = self.intent(20, j.ResyncP((self.pair,)), 'inverse', 'resync:10')
+        compare = self.intent(21, j.BackupCompare((self.pair,)), 'inverse', 'compare:10')
+        self.assertEqual(core.plan(self.state(10, inverses=(resync, compare)), self.run),
+                         self.expected(9))
+
+    def backup_state(self, pairs):
+        records = []
+        for item in self.intents[:10]:
+            if type(item.action) is a.BackupRun:
+                item = replace(item, action=a.BackupRun(pairs))
+            records.extend((item, j.Done(item.seq, j._post(item))))
+        return j.recover(j.parse(''.join(j.encode(r) for r in records)), None,
+                         {self.pre.preimage: self.pre.sha256})
+
+    def test_restored_excludes_and_prefix_boundary(self):
+        for before, after in (('/root/excludes', '/parent/repo/excludes'),
+                              ('/root-other/excludes', '/root-other/excludes')):
+            pair = replace(self.pair, excludes=before)
+            restored = replace(pair, excludes=after)
+            state = self.backup_state((pair, self.rpair))
+            with self.subTest(excludes=before):
+                self.assertEqual(core.plan(state, self.run), self.expected(9)[:-1] +
+                                 (j.ResyncP((restored,)), j.BackupCompare((restored,)),
+                                  a.Launchd('unloaded', 'loaded')))
+
+    def test_covering_pair_destination_and_boundary(self):
+        for pairs in ((self.pair, replace(self.pair, dst='/wrong'), self.rpair),
+                      (self.pair, replace(self.rpair, dst='/wrong/root')),
+                      (self.pair, a.BackupPair('ssd', '/parent-other', '/backup/parent-other',
+                                              '/outside/excludes'))):
+            with self.subTest(pairs=pairs), self.assertRaisesRegex(
+                    Refusal, 'BACKUP_RUN.*no unique covering P pair'):
+                core.plan(self.backup_state(pairs), self.run)
+
+
 def effects():
     names = {'open', 'fdopen', 'stat', 'lstat', 'fstat', 'scandir', 'listdir', 'walk',
              'readlink', 'statvfs', 'getcwd', 'getenv', 'access', 'system', 'popen'}

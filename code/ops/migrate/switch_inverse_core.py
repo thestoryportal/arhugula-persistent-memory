@@ -3,6 +3,8 @@
 The shell journals ordinary inverses as undo:<forward seq>, backup recovery as
 resync:<BACKUP_RUN seq> and compare:<BACKUP_RUN seq>. QUIESCE is a fresh barrier
 on every invocation, with a fresh shell-owned key. Completed keys are omitted.
+Backup obligations come from forward BACKUP_RUN and inverse resync:<seq> intents
+in done or pending; their restored forward pairs and inverse pairs must agree.
 The inverse file preimage is a description of a new copy the executor must save,
 beside the original preimage as .inverse-<forward seq>; it never reuses that copy.
 Only absent INSTALL destinations depend on the supplied run folder (W14).
@@ -92,16 +94,28 @@ def plan(state: RecoveryState, run: str) -> tuple[Action, ...]:
     forwards = tuple(i for i in state.done if i.direction == 'forward')
     if state.pending is not None and type(state.pending.action) is BackupRun:
         forwards += (state.pending,)
+    # [LAW:one-source-of-truth] Superseded backups survive through their RESYNC_P records.
+    obligations = {f'{i.seq}': _pairs(i.action, forwards)
+                   for i in reversed(forwards) if type(i.action) is BackupRun}
+    for item in state.done + (() if state.pending is None else (state.pending,)):
+        if type(item.action) is ResyncP:
+            seq = item.key[7:]
+            _require(item.direction == 'inverse', item.key, 'RESYNC_P must be inverse')
+            _require(item.key.startswith('resync:') and seq[:1] in '123456789' and seq
+                     and all(c in '0123456789' for c in seq), item.key, 'invalid RESYNC_P key')
+            _require(seq not in obligations or obligations[seq] == item.action.pairs,
+                     item.key, 'pending RESYNC_P differs from backup')
+            obligations[seq] = item.action.pairs
     head, middle, backup, tail = [], [], [], []
+    for seq in obligations:
+        pairs = obligations[seq]
+        if f'resync:{seq}' not in state.inverse_done:
+            backup.append(ResyncP(pairs))
+        if f'compare:{seq}' not in state.inverse_done:
+            backup.append(BackupCompare(pairs))
     for index, item in reversed(tuple(enumerate(forwards))):
         action = item.action
-        if type(action) is BackupRun:
-            pairs = _pairs(action, forwards)
-            if f'resync:{item.seq}' not in state.inverse_done:
-                backup.append(ResyncP(pairs))
-            if f'compare:{item.seq}' not in state.inverse_done:
-                backup.append(BackupCompare(pairs))
-        elif type(action) in (Check, Quiesce):
+        if type(action) in (BackupRun, Check, Quiesce):
             continue
         elif f'undo:{item.seq}' not in state.inverse_done:
             if type(action) is Launchd:
@@ -115,8 +129,4 @@ def plan(state: RecoveryState, run: str) -> tuple[Action, ...]:
                 middle.append(Rename(action.dst, run + f'/undone/{item.seq}'))
             else:
                 middle.append(_inverse(item))
-    if state.pending is not None and type(state.pending.action) is ResyncP:
-        pending = state.pending
-        _require(pending.direction == 'inverse', pending.key, 'RESYNC_P must be inverse')
-        _require(pending.action in backup, pending.key, 'pending RESYNC_P differs from backup')
     return tuple(head) + (Quiesce(),) + tuple(middle) + tuple(backup) + tuple(tail)
