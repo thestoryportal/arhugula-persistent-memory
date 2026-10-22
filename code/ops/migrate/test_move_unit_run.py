@@ -46,6 +46,7 @@ CUSTODY = ("leaves.json", "routes.tsv", "repairs.json", "journal.jsonl", "execut
 GIT_ALLOWED = {"config", "rev-parse", "ls-files", "update-index", "hash-object", "cat-file"}
 # [LAW:one-source-of-truth] both command audits share the required Git boundary options.
 GIT_PREFIX = ["git", "--no-optional-locks", "-c", "core.fsmonitor=false", "-c", "core.hooksPath=/dev/null"]
+FIXTURE_COMMIT_DATE = "2026-01-01T00:00:00+0000"
 
 
 def sha(data: bytes) -> str:
@@ -57,8 +58,10 @@ def clean_env() -> dict:
 
 
 def git(repo: str, *args: str) -> bytes:
+    # [LAW:no-ambient-temporal-coupling] Fixture object identities must not depend on the host clock.
     return subprocess.run(["git", "-C", repo, "-c", "user.name=t", "-c", "user.email=t@example.invalid", *args],
-                          env=clean_env(), check=True, capture_output=True).stdout
+                          env={**clean_env(), "GIT_AUTHOR_DATE": FIXTURE_COMMIT_DATE,
+                               "GIT_COMMITTER_DATE": FIXTURE_COMMIT_DATE}, check=True, capture_output=True).stdout
 
 
 def named(path):
