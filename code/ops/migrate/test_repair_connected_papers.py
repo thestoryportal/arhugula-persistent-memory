@@ -19,6 +19,7 @@ BASE_BLOBS = {
     "code/research/connected_papers_fetch.py":
         "3063234ec349cea5b9078c5dcfcc1c24e9951bbe",
 }
+INTERMEDIATE_PATH = "knowledge/papers/connected-papers-knowledge-graphs"
 
 
 def read_file(path):
@@ -80,6 +81,7 @@ class RepairConnectedPapersTests(unittest.TestCase):
             with self.subTest(file=row["file"], line=row["line"]):
                 first = [r for r in path_map if r["old"] == row["old_text"]]
                 self.assertEqual(len(first), 1)
+                self.assertEqual(first[0]["new"], INTERMEDIATE_PATH)
                 second = [r for r in relocations if r["old"] == first[0]["new"]]
                 self.assertEqual(len(second), 1)
                 self.assertEqual(second[0]["new"], row["new_text"])
