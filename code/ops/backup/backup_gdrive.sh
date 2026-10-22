@@ -118,7 +118,7 @@ for ((PAIR=0; PAIR<${#SOURCES[@]}; PAIR++)); do
 SRC="${SOURCES[PAIR]}"
 DEST="${DESTINATIONS[PAIR]%/}"
 EXCLUDES="${RULES[PAIR]}"
-DELETED_DIR="${DEST%/*}/.deleted/$STAMP"
+DELETED_DIR="${DEST%/*}/.deleted/$STAMP-${DEST##*/}"
 if [ "${#SOURCES[@]}" -gt 1 ]; then
   RUN_LOG="$(/usr/bin/dirname "$HEARTBEAT")/runs/$STAMP-pair$PAIR.jsonl"
 fi
