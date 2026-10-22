@@ -104,6 +104,108 @@ class Readers(unittest.TestCase):
             result = intel.main(runner=runner)
         return result, output.getvalue()
 
+    def test_drive_fifth_field_refuses(self):
+        self.pairs('gdrive')
+        header, body = self.table.read_text().split('\n', 1)
+        self.table.write_text(header + '\n' + body.replace('\texcludes\n', '\texcludes\tEXTRA\n'))
+        status, output = self.drive()
+        self.assertNotEqual(status, 0, output)
+        self.assertIn('row 2: invalid pair', output)
+        self.assertEqual(self.recorded(), [])
+
+    def late_intel_move(self, leaf):
+        self.pairs('intel')
+        folder = self.base / 'unit'
+        folder.mkdir()
+        table = folder / 'pairs.tsv'
+        header, body = self.table.read_text().split('\n', 1)
+        table.write_text(header + '\n' + (body.replace('excludes\n', '-\n')
+                                         if leaf == 'pairs.tsv' else body))
+        (folder / 'excludes').write_text('# fixture\n')
+        self.env['BACKUP_PAIRS'] = str(table)
+        read = intel.fdsafe.read_named
+        fired = []
+        reads = []
+        def moved(parent, name):
+            data = read(parent, name)
+            reads.append(name)
+            if name == leaf and reads.count(leaf) == (2 if leaf == 'excludes' else 1):
+                with fault_kit.rename_and_rebind('open', 1, folder) as fault:
+                    fd = os.open(self.excludes, os.O_RDONLY)
+                    os.close(fd)
+                fired.append(fault.fired)
+            return data
+        with mock.patch.object(intel.fdsafe, 'read_named', moved):
+            status, output = self.copy()
+        self.assertEqual(fired, [1])
+        self.assertNotEqual(status, 0, output)
+        self.assertIn('is held at', output)
+        self.assertEqual(self.recorded(), [])
+
+    def test_intel_table_after_read_move_refuses(self):
+        self.late_intel_move('pairs.tsv')
+
+    def test_intel_excludes_after_read_move_refuses(self):
+        self.late_intel_move('excludes')
+
+    def test_intel_default_excludes_after_read_move_refuses(self):
+        read = intel.fdsafe.read_named
+        fired = []
+        def moved(parent, name):
+            data = read(parent, name)
+            with fault_kit.rename_and_rebind('open', 1, Path(parent.path)) as fault:
+                fd = os.open(self.excludes, os.O_RDONLY)
+                os.close(fd)
+            fired.append(fault.fired)
+            return data
+        runner = mock.Mock()
+        with mock.patch.object(intel, 'REPO', self.repo), \
+                mock.patch.object(intel.fdsafe, 'read_named', moved):
+            with self.assertRaisesRegex(intel.fdsafe.Refusal, 'is held at'):
+                intel.Controller(self.sources[0], self.base / 'records', 'legacy',
+                                 ['fake', 'host'], runner)
+        self.assertEqual(fired, [1])
+        runner.run.assert_not_called()
+
+    def test_selftest_owns_wrapper_table(self):
+        self.pairs('gdrive')
+        (self.repo / 'results').mkdir()
+        tool = self.base / 'selftest-native'
+        tool.write_text('#!' + sys.executable + '\n' + SELFTEST_NATIVE)
+        tool.chmod(0o700)
+        wrapper_envs = []
+        def process(args, *, env=None, timeout=None):
+            if args[0] == '/bin/bash':
+                overrides = {k: self.env[k] for k in ('BACKUP_PYTHON', 'BACKUP_MOUNT',
+                             'RCLONE_CONFIG', 'HOME', 'FIXTURE_ROOT')}
+                overrides.update(BACKUP_RCLONE=str(tool), BACKUP_MOUNT_POINT='/fixture')
+                actual = dict(env, **overrides)
+                self.preflight(Path(args[1]), [k for k in actual if k.startswith('BACKUP_')])
+                wrapper_envs.append(dict(env))
+                return subprocess.run(args, env=actual, capture_output=True, text=True, timeout=10)
+            if args[1] == 'cat':
+                raise RuntimeError('fixture stops after first wrapper sync')
+            self.assertIn(args[1], ('lsd', 'purge'))
+            return subprocess.CompletedProcess(args, 0, '', '')
+        temporary = tempfile.TemporaryDirectory
+        def confined_temp(*args, **kwargs):
+            return temporary(*args, **dict(kwargs, dir=self.base))
+        with mock.patch.object(drive_checks, 'ROOT', self.repo), \
+                mock.patch.object(drive_checks, 'run_process', side_effect=process), \
+                mock.patch.object(tempfile, 'TemporaryDirectory', side_effect=confined_temp), \
+                mock.patch.dict(os.environ, self.env, clear=True), contextlib.redirect_stdout(io.StringIO()):
+            status = drive_checks.drive_selftest()
+        self.assertEqual(status, 1)  # deliberate stop, after the real wrapper
+        calls = self.recorded()
+        self.assertEqual(len(calls), 1, calls)
+        self.assertTrue(calls[0][1].startswith(str(self.base) + '/backup_gdrive_drive_'), calls)
+        self.assertEqual(calls[0][2], 'gdrive:memit-backup/_selftest/mirror/')
+        self.assertEqual(len(wrapper_envs), 1)
+        self.assertNotEqual(wrapper_envs[0]['BACKUP_PAIRS'], str(self.table))
+        for key in ('BACKUP_SRC', 'BACKUP_DEST', 'BACKUP_EXCLUDES'):
+            self.assertNotIn(key, wrapper_envs[0])
+        self.assertTrue(all(str(p) not in str(calls) for p in self.sources + self.dests))
+
     def test_drive_dash_runs_both_without_exclude_file(self):
         self.pairs('gdrive')
         header, body = self.table.read_text().split('\n', 1)
@@ -534,6 +636,17 @@ class Readers(unittest.TestCase):
             self.copy()
         self.assertEqual(self.recorded(), [])
 
+    def test_intel_invalid_utf8_default_excludes_is_not_hidden(self):
+        (self.repo / 'code/ops/backup/backup_mirror.excludes').write_bytes(b'*.tmp\n\xff\n')
+        runner = mock.Mock()
+        # [LAW:no-silent-failure] Bad default excludes bytes must stop dispatch.
+        with mock.patch.object(intel, 'REPO', self.repo):
+            with self.assertRaises(UnicodeDecodeError):
+                intel.Controller(self.sources[0], self.base / 'records', 'legacy',
+                                 ['fake', 'host'], runner)
+        runner.run.assert_not_called()
+        self.assertEqual(self.recorded(), [])
+
     def test_intel_valid_utf8_replacement_character_excludes_runs(self):
         self.table.write_text('reader\tsource\tdestination\texcludes\n' +
                               f'intel\t{self.sources[0]}\tfixture:{self.dests[0]}\texcludes\n')
@@ -588,14 +701,155 @@ class Readers(unittest.TestCase):
 class DriveMode(unittest.TestCase):
     """Exercise the real --drive entry point with every external call intercepted."""
 
+    def admission(self, prepare):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as name:
+            root = Path(name)
+            (root / 'results').mkdir()
+            unit = root / 'unit'
+            unit.mkdir()
+            table = unit / 'pairs.tsv'
+            table.write_text('reader\tsource\tdestination\texcludes\n'
+                             'gdrive\t/source\tfixture:dest\trules\n')
+            (unit / 'rules').write_bytes(b'payload\n')
+            calls = []
+            def process(args, **kwargs):
+                calls.append(args)
+                raise RuntimeError('fixture reached dispatch')
+            with prepare(table), mock.patch.object(drive_checks, 'ROOT', root), \
+                    mock.patch.object(drive_checks, 'run_process', side_effect=process), \
+                    mock.patch.dict(os.environ, BACKUP_PAIRS=str(table)), \
+                    contextlib.redirect_stdout(io.StringIO()):
+                status = drive_checks.drive_selftest()
+            summary = json.loads(next((root / 'results').glob('*/summary.json')).read_text())
+            self.assertNotEqual(status, 0, summary)
+            self.assertEqual(summary['status'], 'FAILED')
+            self.assertEqual(calls, [], summary)
+            return summary
+
+    def bad_table(self, change, message):
+        def prepare(table):
+            table.write_text(change(table.read_text()))
+            return contextlib.nullcontext()
+        self.assertIn(message, self.admission(prepare)['error'])
+
+    def test_drive_mode_parent_symlink_refuses(self):
+        def prepare(table):
+            actual = table.parent.parent / 'actual'
+            table.parent.rename(actual)
+            table.parent.symlink_to(actual, target_is_directory=True)
+            return contextlib.nullcontext()
+        self.assertIn('unit', self.admission(prepare)['error'])
+
+    def test_drive_mode_other_readers_do_not_dispatch_or_hold(self):
+        def prepare(table):
+            table.write_text(table.read_text().replace('gdrive', 'ssd', 1)
+                             .replace('gdrive', 'intel', 1).replace('fixture:second', 'HOLD'))
+            return contextlib.nullcontext()
+        status, summary, dry, table = self.run_drive_table(prepare)
+        self.assertEqual(status, 0, summary)
+        self.assertEqual(dry, [])
+
+    def test_selftest_excludes_after_read_move_refuses(self):
+        fired = []
+        @contextlib.contextmanager
+        def prepare(table):
+            read = drive_checks.fdsafe.read_named
+            def moved(parent, name):
+                data = read(parent, name)
+                if name == 'backup_mirror.excludes':
+                    with fault_kit.rename_and_rebind('open', 1, Path(parent.path)) as fault:
+                        fd = os.open(table, os.O_RDONLY)
+                        os.close(fd)
+                    fired.append(fault.fired)
+                return data
+            with mock.patch.object(drive_checks.fdsafe, 'read_named', moved):
+                yield
+        status, summary, dry, table = self.run_drive_table(prepare)
+        self.assertEqual(fired, [1])
+        self.assertNotEqual(status, 0, summary)
+        self.assertIn('is held at', summary['error'])
+        self.assertEqual(dry, [])
+
+    def test_drive_mode_wrong_header_refuses(self):
+        self.bad_table(lambda text: text.replace('reader', 'wrong', 1), 'header')
+
+    def test_drive_mode_empty_table_refuses(self):
+        self.bad_table(lambda text: '', 'header')
+
+    def test_drive_mode_fifth_field_refuses(self):
+        self.bad_table(lambda text: text.replace('rules\n', 'rules\textra\n'), 'invalid pair')
+
+    def test_drive_mode_empty_field_refuses(self):
+        self.bad_table(lambda text: text.replace('/source', ''), 'invalid pair')
+
+    def test_drive_mode_unknown_reader_refuses(self):
+        self.bad_table(lambda text: text.replace('gdrive', 'unknown'), 'unknown reader')
+
+    def test_drive_mode_absolute_excludes_refuses(self):
+        self.bad_table(lambda text: text.replace('rules\n', '/outside.rules\n'), 'excludes must be next to table')
+
+    def test_drive_mode_quoted_row_refuses(self):
+        self.bad_table(lambda text: text.replace('gdrive', '"gdrive"'), 'unknown reader')
+
+    def test_drive_mode_invalid_utf8_refuses(self):
+        def prepare(table):
+            table.write_bytes(table.read_bytes().replace(b'/source', b'/bad\xff'))
+            return contextlib.nullcontext()
+        self.assertIn('utf-8', self.admission(prepare)['error'])
+
+    def test_drive_mode_excludes_symlink_refuses(self):
+        fired = []
+        @contextlib.contextmanager
+        def prepare(table):
+            outside = table.parent.parent / 'outside'
+            outside.write_bytes(b'outside\n')
+            with fault_kit.swap_for_symlink('open', 1, table.parent / 'rules', outside) as fault:
+                fd = os.open(table, os.O_RDONLY)
+                os.close(fd)
+                yield
+            fired.append(fault.fired)
+        self.assertIn('rules', self.admission(prepare)['error'])
+        self.assertEqual(fired, [1])
+
+    def late_drive_move(self, leaf):
+        fired = []
+        @contextlib.contextmanager
+        def prepare(table):
+            if leaf == 'pairs.tsv':
+                table.write_text(table.read_text().replace('rules\n', '-\n'))
+            read = drive_checks.fdsafe.read_named
+            def moved(parent, name):
+                data = read(parent, name)
+                if name == leaf and not fired:
+                    with fault_kit.rename_and_rebind('open', 1, table.parent) as fault:
+                        fd = os.open(table.parent.parent, os.O_RDONLY)
+                        os.close(fd)
+                    fired.append(fault.fired)
+                return data
+            with mock.patch.object(drive_checks.fdsafe, 'read_named', moved):
+                yield
+        self.assertIn('is held at', self.admission(prepare)['error'])
+        self.assertEqual(fired, [1])
+
+    def test_drive_mode_table_after_read_move_refuses(self):
+        self.late_drive_move('pairs.tsv')
+
+    def test_drive_mode_excludes_after_read_move_refuses(self):
+        self.late_drive_move('rules')
+
     def check_drive_mode(self, hold):
         with tempfile.TemporaryDirectory(dir='/private/tmp') as name:
             root = Path(name)
             (root / 'results').mkdir()
+            defaults = root / 'code/ops/backup'
+            defaults.mkdir(parents=True)
+            (defaults / 'backup_mirror.excludes').write_text('.cache/\n')
             table = root / 'pairs.tsv'
             table.write_text('reader\tsource\tdestination\texcludes\n' +
                              f'gdrive\t{root}/one\tfixture:first\tone.rules\n' +
                              f'gdrive\t{root}/two\t' + ('HOLD' if hold else 'fixture:second') + '\ttwo.rules\n')
+            (root / 'one.rules').write_bytes(b'first rules\n')
+            (root / 'two.rules').write_bytes(b'second rules\n')
             calls, dry = [], []
             syncs = 0
 
@@ -604,7 +858,7 @@ class DriveMode(unittest.TestCase):
                 calls.append(args)
                 output, error, status = '', '', 0
                 if args[0] == '/bin/bash':
-                    source = Path(env['BACKUP_SRC'])
+                    source = Path(Path(env['BACKUP_PAIRS']).read_text().splitlines()[1].split('\t')[1])
                     self.assertTrue(str(source).startswith('/private/tmp/'))
                     if Path(env['BACKUP_LOCK_DIR']).exists():
                         status, error = 1, 'lock'
@@ -666,13 +920,19 @@ class DriveMode(unittest.TestCase):
                 self.assertEqual([call[2:4] for call in dry],
                                  [[str(root / 'one') + '/', 'fixture:first/'],
                                   [str(root / 'two') + '/', 'fixture:second/']])
-                self.assertEqual([call[call.index('--exclude-from') + 1] for call in dry],
-                                 [str(root / 'one.rules'), str(root / 'two.rules')])
+                self.assertTrue(all('--exclude-from' in call for call in dry))
+                copies = [Path(call[call.index('--exclude-from') + 1]) for call in dry]
+                self.assertEqual([p.read_bytes() for p in copies],
+                                 [(root / 'one.rules').read_bytes(), (root / 'two.rules').read_bytes()])
+                self.assertTrue(all(p.parent == Path(summary['evidence_dir']) for p in copies))
 
     def run_drive_table(self, prepare):
         with tempfile.TemporaryDirectory(dir='/private/tmp') as name:
             root = Path(name)
             (root / 'results').mkdir()
+            defaults = root / 'code/ops/backup'
+            defaults.mkdir(parents=True)
+            (defaults / 'backup_mirror.excludes').write_text('.cache/\n')
             table = root / 'pairs.tsv'
             table.write_text('reader\tsource\tdestination\texcludes\n' +
                              f'gdrive\t{root}/one\tfixture:first\tone.rules\n' +
@@ -688,7 +948,7 @@ class DriveMode(unittest.TestCase):
                 calls.append(args)
                 output, error, status = '', '', 0
                 if args[0] == '/bin/bash':
-                    source = Path(env['BACKUP_SRC'])
+                    source = Path(Path(env['BACKUP_PAIRS']).read_text().splitlines()[1].split('\t')[1])
                     self.assertTrue(str(source).startswith('/private/tmp/'))
                     if Path(env['BACKUP_LOCK_DIR']).exists():
                         status, error = 1, 'lock'
@@ -897,6 +1157,34 @@ elif args[0] == str(root / 'native'):
             control = json.loads((manifest.parent / 'control.json').read_text())
             status = 'INCOMPLETE' if control['changed_paths'] else 'COMPLETE'
             print(json.dumps({'gen': gen, 'manifest_sha256': digest, 'status': status, 'manifest_paths': len(rows), 'paths': len(rows)}))
+else:
+    raise SystemExit('fixture refuses unknown command: ' + repr(args))
+'''
+
+
+SELFTEST_NATIVE = r'''
+import json, os, pathlib, sys
+root = pathlib.Path(os.environ['FIXTURE_ROOT']).resolve()
+args = sys.argv[1:]
+def local(value):
+    path = pathlib.Path(value).resolve()
+    if not path.is_relative_to(root):
+        raise SystemExit('fixture refuses outside path: ' + value)
+    return path
+if args[0] == 'config':
+    print('{}')
+elif args[0] == 'version':
+    print('confined fixture')
+elif args[0] == 'sync':
+    local(args[1])
+    for value in (args[2], args[args.index('--backup-dir') + 1]):
+        if not value.startswith('gdrive:memit-backup/_selftest/'):
+            local(value)
+    local(args[args.index('--exclude-from') + 1])
+    log = local(args[args.index('--log-file') + 1])
+    with (root / 'calls.jsonl').open('a') as f:
+        f.write(json.dumps(args) + '\n')
+    log.write_text(json.dumps({'level': 'notice', 'stats': {'bytes': 1, 'errors': 0, 'fatalError': False}}) + '\n')
 else:
     raise SystemExit('fixture refuses unknown command: ' + repr(args))
 '''

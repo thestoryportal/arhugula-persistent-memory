@@ -198,7 +198,7 @@ class Controller:
         self.log_path = self.directory / 'run.jsonl'
         self.runner = runner if runner is not None else NativeRunner(log=self.log)
         # [LAW:effects-at-boundaries] Table rows carry admitted bytes, never a path to reopen.
-        self.patterns = (parse_patterns((REPO / 'code/ops/backup/backup_mirror.excludes').read_text())
+        self.patterns = (read_patterns(REPO / 'code/ops/backup/backup_mirror.excludes')
                          if patterns is None else patterns)
         self.manifest_info = None
 
@@ -516,6 +516,15 @@ def parse_patterns(text):
     return tuple(p.strip() for p in text.splitlines() if p.strip() and not p.startswith('#'))
 
 
+def read_patterns(path):
+    # [LAW:effects-at-boundaries] Legacy defaults obey the same held-parent read contract.
+    path = Path(path).absolute()
+    with fdsafe.hold_root(str(path.parent)) as parent:
+        raw = fdsafe.read_named(parent, path.name)
+        fdsafe._settled(parent)
+    return parse_patterns(raw.decode('utf-8'))
+
+
 def read_pairs(path):
     # [LAW:effects-at-boundaries] Hold the table's root through every row's excludes read.
     path = Path(path).absolute()
@@ -541,6 +550,8 @@ def read_pairs(path):
                 raise fdsafe.Refusal(str(path), 'row %s: invalid destination or excludes' % number)
             patterns = () if excludes == '-' else parse_patterns(fdsafe.read_named(parent, excludes).decode('utf-8'))
             pairs.append((source, host, folder, patterns, number))
+        # [LAW:no-ambient-temporal-coupling] Admit the batch only after its last read settles.
+        fdsafe._settled(parent)
         return pairs
 
 
