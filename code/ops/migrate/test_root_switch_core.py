@@ -1,7 +1,12 @@
 """Step 411: value fixtures, including malformed observations and atomic refusal."""
 import ast
+import _io
 import builtins
 import copy
+from contextlib import ExitStack
+import io
+from pathlib import Path
+import subprocess
 from dataclasses import replace
 from hashlib import sha256
 import os
@@ -219,6 +224,43 @@ class Malformed(unittest.TestCase):
             core.plan(registry, replace(state, pairs=state.pairs +
                       (core.BackupPair('', '/a', '/b', '/e'),)))
 
+    def test_nonempty_pairs_without_ssd_refuse(self):
+        registry, state = fixture()
+        changed = replace(state, pairs=(state.pairs[1],))
+        with self.assertRaisesRegex(fdsafe.Refusal, 'missing ssd pairs'):
+            core.plan(registry, changed)
+
+    def test_pid_type_independently_refuses(self):
+        registry, state = fixture()
+        for pid in (True, 1.5, '1'):
+            changed = replace(state, processes={**state.processes, 'unrelated': (pid,)})
+            with self.subTest(pid=pid), self.assertRaisesRegex(fdsafe.Refusal, 'invalid pid'):
+                core.plan(registry, changed)
+
+    def test_preimages_in_each_moving_root_refuse(self):
+        registry, state = fixture()
+        for root in (state.m, state.r):
+            for preimage in (root, root + '/pre/1'):
+                changed = copy.deepcopy(state)
+                changed.targets['bin/tool'] = file(preimage=preimage)
+                with self.subTest(preimage=preimage), self.assertRaisesRegex(
+                        fdsafe.Refusal, 'preimage must be outside moving roots'):
+                    core.plan(registry, changed)
+        for preimage in (state.m + 'ish/pre/1', state.r + 'ish/pre/1'):
+            changed = copy.deepcopy(state)
+            changed.targets['bin/tool'] = file(preimage=preimage)
+            self.assertTrue(core.plan(registry, changed).batches)
+
+    def test_mixed_writers_in_each_order_refuse(self):
+        _, state = fixture()
+        state.targets['/deploy/tool'] = file(b'old old', preimage='/run/pre/2')
+        registry = (rows.Replace('/deploy/tool', 'old', 'new', 2),
+                    rows.Install('bin/tool', '/deploy/tool'))
+        for ordered in (registry, registry[::-1]):
+            with self.subTest(order=ordered), self.assertRaisesRegex(
+                    fdsafe.Refusal, 'ambiguous writers'):
+                core.plan(ordered, state)
+
     def test_bad_state_fields(self):
         registry, state = fixture()
         bads = {'m': ('relative', '/', '/x/../y', None), 'r': ('relative', '/', None),
@@ -297,6 +339,7 @@ class Purity(unittest.TestCase):
             'all', 'any', 'dataclass', 'enumerate', 'field', 'getattr',
             'isinstance', 'len', 'set', 'sha256', 'tuple', 'type', 'zip',
         }
+        parents = {child: node for node in ast.walk(tree) for child in ast.iter_child_nodes(node)}
         names = set()
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
@@ -311,7 +354,17 @@ class Purity(unittest.TestCase):
                                      imports[node.module][alias.name])
             elif isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
                 self.assertIn(node.func.id, calls, ast.unparse(node))
+                if node.func.id == 'getattr':
+                    # [LAW:effects-at-boundaries] Reflection is for supplied state only.
+                    self.assertEqual(len(node.args), 2, ast.unparse(node))
+                    self.assertEqual(ast.dump(node.args[0]), ast.dump(ast.Name(id='state', ctx=ast.Load())))
+                    self.assertEqual(ast.dump(node.args[1]), ast.dump(ast.Name(id='name', ctx=ast.Load())))
+            elif isinstance(node, ast.Name) and node.id in ('fdsafe', 'registry'):
+                parent = parents[node]
+                self.assertIsInstance(parent, ast.Attribute, ast.unparse(parent))
+                self.assertIs(parent.value, node)
             elif isinstance(node, ast.Attribute):
+                self.assertFalse(node.attr.startswith('__'), ast.unparse(node))
                 root = node.value
                 while isinstance(root, ast.Attribute):
                     root = root.value
@@ -324,9 +377,18 @@ class Purity(unittest.TestCase):
         registry, state = fixture()
         def forbidden(*args, **kwargs):
             raise AssertionError('planner performed IO')
-        names = ('open', 'stat', 'lstat', 'fstat', 'scandir', 'listdir', 'walk',
-                 'readlink', 'statvfs', 'getcwd', 'getenv', 'access')
-        with mock.patch.object(builtins, 'open', forbidden), \
-                mock.patch.multiple(os, **{n: forbidden for n in names}), \
-                mock.patch('time.time', forbidden), mock.patch('time.monotonic', forbidden):
+        # [LAW:effects-at-boundaries] Trap effects even through reflected module access.
+        names = {'open', 'fdopen', 'stat', 'lstat', 'fstat', 'scandir', 'listdir', 'walk',
+                 'readlink', 'statvfs', 'getcwd', 'getenv', 'access', 'system', 'popen'}
+        names.update(n for n in dir(os) if n.startswith(('exec', 'spawn', 'posix_spawn', 'open')))
+        effects = [(os, n) for n in sorted(names)]
+        effects += [(builtins, 'open'), (Path, 'open')]
+        effects += [(module, n) for module in (io, _io) for n in ('open', 'open_code', 'FileIO')]
+        effects += [(subprocess, n) for n in
+                    ('Popen', 'run', 'call', 'check_call', 'check_output', 'getoutput', 'getstatusoutput')]
+        with ExitStack() as stack:
+            for owner, name in effects:
+                stack.enter_context(mock.patch.object(owner, name, forbidden))
+            stack.enter_context(mock.patch('time.time', forbidden))
+            stack.enter_context(mock.patch('time.monotonic', forbidden))
             self.assertTrue(core.plan(registry, state).batches)
