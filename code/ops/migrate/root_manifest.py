@@ -6,6 +6,7 @@ Exit 0 writes a new manifest; 1 refuses an unsafe inventory or failed write;
 """
 import argparse
 import errno
+from functools import partial
 import hashlib
 import json
 import os
@@ -23,9 +24,11 @@ def _check_utf8(text, path):
         raise fdsafe.Refusal(path, f"not UTF-8: {exc}") from exc
 
 
-def _content_policy(name, path, st, in_git):
+def _content_policy(directories, name, path, st, in_git):
     """Git metadata is ordinary content here, never input to a Git process."""
     _check_utf8(path, path)
+    if stat.S_ISDIR(st.st_mode):
+        directories.append((path, st.st_dev, st.st_ino))
 
 
 def _leaf(dir_fd, name, path, st):
@@ -58,11 +61,12 @@ def build_manifest(root, root_fd):
     with fdsafe.fs(root):
         st = os.fstat(root_fd)
     leaves = []
+    directories = []
     if stat.S_ISDIR(st.st_mode):
         try:
             # [LAW:one-source-of-truth] Both inventories use the same traversal.
             unit_manifest.walk(root_fd, root, leaves, [], False, leaf_reader=_leaf,
-                               git_policy=_content_policy, boundary=fdsafe.fs)
+                               git_policy=partial(_content_policy, directories), boundary=fdsafe.fs)
         except unit_manifest.Refusal as exc:
             raise fdsafe.Refusal(root, str(exc)) from exc
     else:
@@ -70,6 +74,12 @@ def build_manifest(root, root_fd):
             leaves.append(_leaf(parent.fd, os.path.basename(root), root, st))
     if held.live() != root:
         raise fdsafe.Refusal(root, "root moved during inventory")
+    # [LAW:no-ambient-temporal-coupling] Held children must still occupy their scanned paths.
+    for path, device, inode in directories:
+        with fdsafe.fs(path):
+            current = os.lstat(path)
+        if (current.st_dev, current.st_ino) != (device, inode):
+            raise fdsafe.Refusal(path, "directory moved during inventory")
     leaves.sort(key=lambda leaf: os.fsencode(os.path.relpath(leaf["source"], root)))
     return dict(schema_version=1, root=root, leaves=leaves, git_roots=[])
 

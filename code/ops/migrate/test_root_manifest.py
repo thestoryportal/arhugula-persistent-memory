@@ -572,5 +572,129 @@ class RootManifest(unittest.TestCase):
                 self.assertFalse(self.out.exists())
 
 
+    def assert_child_rebind_refused(self, replacement):
+        sub = self.root / "sub"
+        sub.mkdir()
+        leaf = sub / "leaf"
+        leaf.write_bytes(b"original")
+        real_read = os.read
+        original = sub.stat()
+        leaf_inode = leaf.stat().st_ino
+
+        def read(fd, size):
+            if replacement and not leaf.exists():
+                leaf.write_bytes(b"NEW CONTENT")
+            return real_read(fd, size)
+
+        # [LAW:behavior-not-structure] Rebind an entered directory during its leaf read.
+        with mock.patch.object(os, "read", side_effect=read), \
+                fault_kit.rename_and_rebind("read", 1, sub,
+                    match=lambda fd, size: os.fstat(fd).st_ino == leaf_inode) as attack:
+            code, stdout, stderr = self.run_tool()
+        self.assertEqual(attack.fired, 1)
+        self.assertNotEqual(sub.stat().st_ino, original.st_ino)
+        self.assertEqual(code, 1, stdout + stderr)
+        self.assertEqual(stderr, "")
+        self.assertEqual(len(stdout.splitlines()), 1)
+        result = json.loads(stdout)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertIn(repr(str(sub)), result["reason"])
+        self.assertFalse(self.out.exists())
+
+    def test_child_rebind_during_read(self):
+        self.assert_child_rebind_refused(False)
+
+    def test_child_rebind_with_replacement_leaf(self):
+        self.assert_child_rebind_refused(True)
+
+    def test_nested_leaf_error_names_leaf(self):
+        leaf = self.root / "sub" / "deep" / "leaf"
+        leaf.parent.mkdir(parents=True)
+        leaf.write_bytes(b"keep")
+        # The kit dispatches os targets by name; register lstat for this scoped attack.
+        with mock.patch.object(fault_kit, "TARGETS", (*fault_kit.TARGETS, "lstat")), \
+                fault_kit.inject_oserror("lstat", 1, errno.EIO,
+                match=lambda path, *a, **k: path == str(leaf)) as attack:
+            code, stdout, stderr = self.run_tool()
+        self.assertEqual(attack.fired, 1)
+        self.assertEqual(code, 1, stdout + stderr)
+        self.assertEqual(stderr, "")
+        self.assertEqual(len(stdout.splitlines()), 1)
+        result = json.loads(stdout)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertIn(repr(str(leaf)), result["reason"])
+        self.assertIn("EIO", result["reason"])
+        self.assertFalse(self.out.exists())
+
+    def test_public_walk_collects_nested_git_directories(self):
+        gitdir = self.root / "sub" / "deep" / ".git"
+        gitdir.mkdir(parents=True)
+        leaf = gitdir / "HEAD"
+        leaf.write_bytes(b"ref: refs/heads/main\n")
+        leaves, gitdirs = [], []
+        with root_manifest.fdsafe.hold_root(str(self.root)) as held:
+            root_manifest.unit_manifest.walk(held.fd, str(self.root), leaves, gitdirs, False)
+        self.assertEqual(gitdirs, [str(gitdir)])
+        self.assertEqual([row["source"] for row in leaves],
+                         [str(self.root / "file"), str(leaf)])
+
+
+    def assert_empty_child_relocated(self, replacement):
+        child = self.root / "a" / "empty"
+        child.mkdir(parents=True)
+        real_read = os.read
+        moved = []
+
+        def read(fd, size):
+            if not moved:
+                child.rename(self.top / "parked")
+                if replacement == "symlink":
+                    child.symlink_to(self.top / "parked")
+                moved.append(child)
+            return real_read(fd, size)
+
+        with mock.patch.object(os, "read", side_effect=read):
+            code, stdout, stderr = self.run_tool()
+        self.assertEqual(moved, [child])
+        self.assertEqual(code, 1, stdout + stderr)
+        self.assertEqual(stderr, "")
+        self.assertEqual(len(stdout.splitlines()), 1)
+        result = json.loads(stdout)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertIn(repr(str(child)), result["reason"])
+        self.assertFalse(self.out.exists())
+
+    def test_empty_descendant_absent_after_walk(self):
+        self.assert_empty_child_relocated("absent")
+
+    def test_empty_descendant_replaced_by_symlink(self):
+        self.assert_empty_child_relocated("symlink")
+
+    def test_directory_recheck_device_change(self):
+        child = self.root / "empty"
+        child.mkdir()
+        real_lstat = os.lstat
+        calls = []
+
+        def lstat(path, *args, **kwargs):
+            result = real_lstat(path, *args, **kwargs)
+            if path == str(child):
+                calls.append(path)
+                if len(calls) == 2:
+                    values = list(result)
+                    values[stat.ST_DEV] += 1
+                    return os.stat_result(values)
+            return result
+
+        with mock.patch.object(os, "lstat", side_effect=lstat):
+            code, stdout, stderr = self.run_tool()
+        self.assertEqual(code, 1, stdout + stderr)
+        self.assertEqual(stderr, "")
+        self.assertEqual(len(stdout.splitlines()), 1)
+        self.assertEqual(json.loads(stdout)["status"], "FAIL")
+        self.assertIn(repr(str(child)), json.loads(stdout)["reason"])
+        self.assertFalse(self.out.exists())
+
+
 if __name__ == "__main__":
     unittest.main()
