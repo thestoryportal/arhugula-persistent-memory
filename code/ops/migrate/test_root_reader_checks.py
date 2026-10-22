@@ -282,7 +282,7 @@ class Readers(unittest.TestCase):
         p = self.file('test_train.sh', '#!/bin/bash\nROOT=${ROOT:-/old}\n')
         self.run_rows([['CHECK', p, 'test-train']])
         self.assertEqual(dict(self.calls[0].env)['ROOT'], str(self.root))
-        self.assertEqual(self.calls[0].argv, ('bash', p))
+        self.assertEqual(self.calls[0].argv, ('bash', '-c', '#!/bin/bash\nROOT=${ROOT:-/old}\n', p))
 
     def test_ship_rootish_not_override(self):
         self.single('test-ship', '#!/bin/bash\nROOTISH=1\n# ROOT\n', 'UNAVAILABLE')
@@ -576,6 +576,101 @@ class Readers(unittest.TestCase):
     def test_bad_utf8_in_registry_comment(self):
         self.registry.write_bytes(b'#\xff\nCHECK\tx\tfuture\n')
         self.assertIn('EINVAL', self.refusal())
+
+
+    def test_shell_with_argument(self):
+        self.assertEqual(self.shell('#!/bin/bash -e\ntrue\n')[0][2], 'PASS')
+
+    def test_root_expansion_in_comment_is_not_override(self):
+        self.single('test-ship', '#!/bin/bash\n# ${ROOT}\ntrue\n', 'UNAVAILABLE')
+        self.assertEqual(self.calls, [])
+
+    def test_root_override_followed_by_command(self):
+        self.single('test-train', '#!/bin/bash\nROOT=${ROOT:-/old}\necho "$ROOT"\n')
+        self.assertEqual(len(self.calls), 1)
+
+    def test_stop_row_is_not_a_reader(self):
+        p = self.file('teamdash', '#!/bin/bash\n', 0o755)
+        self.run_rows([['CHECK', 'executables', 'exec-bit'], ['STOP', 'claude'],
+                       ['REPLACE', p, 'old', 'new', '1']])
+
+    def test_lane_status_excludes_non_git_repairs(self):
+        p = self.file(self.base/'lane/.git', 'gitdir: unused\n')
+        q = self.file('code/x.txt', 'old')
+        self.run_rows([['REPLACE', p, 'old', 'new', '1'], ['REPLACE', q, 'old', 'new', '1'],
+                       ['CHECK', 'lane-worktrees', 'lane-status']])
+        self.assertEqual(len(self.calls), 1)
+        self.assertEqual(self.calls[0].argv[3], str(Path(p).parent))
+
+    def test_cli_entrypoint_refuses_bad_arguments(self):
+        import sys
+        result = subprocess.run([sys.executable, '-B', checks.__file__, '--bogus'],
+                                env=dict(os.environ, HOME=str(self.home)),
+                                capture_output=True, text=True, timeout=5)
+        self.assertEqual(result.returncode, 2, result.stderr)
+        self.assertEqual(result.stdout, '')
+        self.assertIn('arguments', result.stderr)
+        self.assertIn('EINVAL', result.stderr)
+
+    def bounded_workflow_runner(self, command):
+        result = subprocess.run(command.argv, input=command.stdin,
+                                env=dict(os.environ, **dict(command.env)),
+                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=2)
+        return checks.Output(result.returncode, result.stdout)
+
+    def workflow_attack(self, kind, attack):
+        # [LAW:behavior-not-structure] The shell must execute the bytes the reader saw.
+        script = self.file(kind+'.sh', '#!/bin/bash\nROOT=${ROOT:?}\nprintf "checked-safe\\n"\n')
+        target = self.file(self.base/(kind+'-outside.sh'),
+                           '#!/bin/bash\nprintf "outside-ran\\n"\n'
+                           'printf "changed\\n" > "$ROOT/attack-marker"\n')
+
+        def script_fd(fd):
+            try:
+                return checks.fdsafe.live_path(fd, script) == script
+            except checks.fdsafe.Refusal as exc:
+                if exc.errno == errno.EBADF:
+                    return False
+                raise
+
+        fault = (fault_kit.swap_for_symlink('close', 1, script, target, match=script_fd)
+                 if attack == 'swap' else
+                 fault_kit.fifo_in_place(script, name='close', n=1, match=script_fd, timeout=5))
+        with fault as fired:
+            result = checks.perform(checks.Probe(kind, script), checks.Effects(self.bounded_workflow_runner),
+                                    str(self.root), self.old, str(self.home))
+        self.assertEqual(fired.fired, 1)
+        self.assertFalse((self.root/'attack-marker').exists())
+        self.assertEqual(result, checks.Result('PASS', 'exit 0: checked-safe\n'))
+
+    def test_workflow_symlink_swap_uses_checked_bytes(self):
+        for kind in ('test-ship', 'test-train'):
+            with self.subTest(kind=kind):
+                self.workflow_attack(kind, 'swap')
+
+    def test_workflow_fifo_swap_uses_checked_bytes(self):
+        for kind in ('test-ship', 'test-train'):
+            with self.subTest(kind=kind):
+                self.workflow_attack(kind, 'fifo')
+
+    def test_workflow_zero_is_script_path(self):
+        for kind in ('test-ship', 'test-train'):
+            with self.subTest(kind=kind):
+                script = self.file(kind+'.sh', '#!/bin/bash\nROOT=${ROOT:?}\nprintf "%s" "$0"\n')
+                result = checks.perform(checks.Probe(kind, script), checks.Effects(self.bounded_workflow_runner),
+                                        str(self.root), self.old, str(self.home))
+                self.assertEqual(result, checks.Result('PASS', 'exit 0: '+script))
+
+    def test_workflow_nul_fails_with_path_without_running(self):
+        for kind in ('test-ship', 'test-train'):
+            with self.subTest(kind=kind):
+                script = self.file(kind+'.sh', '#!/bin/bash\nROOT=${ROOT:?}\n#\0\n')
+                result = checks.perform(checks.Probe(kind, script), checks.Effects(self.runner),
+                                        str(self.root), self.old, str(self.home))
+                self.assertEqual(result.status, 'FAIL')
+                self.assertIn(script, result.detail)
+                self.assertIn('NUL', result.detail)
+                self.assertEqual(self.calls, [])
 
 
 if __name__ == '__main__':

@@ -208,7 +208,12 @@ def advance(probe, observations, root, old, home):
             if kind == 'shell-syntax' and PurePosixPath(path).suffix not in ('.sh', '.zsh'):
                 return Result('PASS', path+': not a bash/zsh script')
             return Result('UNAVAILABLE', 'unsupported shell shebang in '+path)
-        return Command((shell, '-n'), env, last.data) if kind == 'shell-syntax' else Command((shell, path), env)
+        if kind == 'shell-syntax':
+            return Command((shell, '-n'), env, last.data)
+        if '\0' in text:
+            return Result('FAIL', 'NUL byte in '+path)
+        # [LAW:no-ambient-temporal-coupling] Execute held text; the path is only $0.
+        return Command((shell, '-c', text, path), env)
     return schema_result(probe, text, root, old)
 
 
