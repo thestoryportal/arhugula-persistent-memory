@@ -11,6 +11,35 @@ from ops.migrate import root_readers_core as core
 
 
 class Registry(unittest.TestCase):
+    def test_row_constructors_reject_kind_keyword(self):
+        # [LAW:behavior-not-structure] The discriminator is not caller input.
+        cases = ((core.Replace, ('p', 'old', 'new', 1), 'REPLACE'),
+                 (core.Rename, ('a', 'b'), 'RENAME'),
+                 (core.Install, ('a', '/b'), 'INSTALL'),
+                 (core.Check, ('reader', 'check-id'), 'CHECK'),
+                 (core.Stop, ('worker',), 'STOP'),
+                 (core.Record, ('history',), 'RECORD'))
+        for constructor, args, own_kind in cases:
+            for kind in (own_kind, 'BROKEN'):
+                with self.subTest(row=constructor.__name__, kind=kind):
+                    with self.assertRaises(TypeError):
+                        constructor(*args, kind=kind)
+
+    def test_row_fields_are_frozen_and_unchanged(self):
+        # [LAW:behavior-not-structure] Failed writes must preserve the value.
+        cases = ((core.Replace('p', 'old', 'new', 1), 'path', 'q'),
+                 (core.Rename('a', 'b'), 'src', 'c'),
+                 (core.Install('a', '/b'), 'dst', '/c'),
+                 (core.Check('reader', 'check-id'), 'check_id', 'other-id'),
+                 (core.Stop('worker'), 'process_class', 'other-worker'),
+                 (core.Record('history'), 'prefix', 'other-history'))
+        for row, field, replacement in cases:
+            with self.subTest(row=type(row).__name__, field=field):
+                before = copy.deepcopy(row)
+                with self.assertRaises(FrozenInstanceError):
+                    setattr(row, field, replacement)
+                self.assertEqual(row, before)
+
     def test_all_kinds_and_fields(self):
         rows = core.parse_registry(
             '# registry\n\nREPLACE\tconfig\t/M\t/R\t2\n'
@@ -150,6 +179,19 @@ class Registry(unittest.TestCase):
 
 
 class Classification(unittest.TestCase):
+    def test_scan_result_fields_are_frozen_and_unchanged(self):
+        # [LAW:behavior-not-structure] Exercise the value returned to callers.
+        result = self.run_scan()
+        for field, replacement in (
+                ('classifications', (('other', 'unregistered'),)),
+                ('findings', ('other: unregistered',)),
+                ('measured_counts', ((0, 99),))):
+            with self.subTest(field=field):
+                before = copy.deepcopy(result)
+                with self.assertRaises(FrozenInstanceError):
+                    setattr(result, field, replacement)
+                self.assertEqual(result, before)
+
     def setUp(self):
         self.rows = core.parse_registry('REPLACE\tconfig\t/M\t/R\t2\nRECORD\t/history')
 
@@ -285,6 +327,49 @@ class Classification(unittest.TestCase):
                 self.run_scan(rows=rows, counts={('p', 'o'): 2}, hits={}, measured_counts=snapshot)
         with self.assertRaises(fdsafe.Refusal):
             self.run_scan(measured_counts={0: 2})
+
+
+    def test_empty_registry_never_allows_hits(self):
+        # [LAW:behavior-not-structure] Folder names confer no registry authority.
+        paths = ('/history/x', '/history', 'history/x', 'code/x', 'program/x',
+                 'knowledge/x', 'experiments/x', 'data/x', '_archive/x',
+                 '_system/x', '_index/x', '.claude/x', '.venv/x', '/Users/x/y',
+                 'bare', 'evidence/x', 'plans/x', 'audits/x', '_templates/x',
+                 'projects/x', 'map/x', '.codex/x', '.github/x')
+        for stage in ('pre', 'post'):
+            for path in paths:
+                with self.subTest(stage=stage, path=path):
+                    result = self.run_scan(stage, rows=(), counts={},
+                                           hits={path: 1}, old_root_exists=False)
+                    self.assertEqual(result.classifications, ((path, 'unregistered'),))
+                    self.assertEqual(result.findings, (f'{path}: unregistered',))
+                    self.assertEqual(result.exit_status, 1)
+
+    def test_mixed_registry_allows_only_covered_hits(self):
+        # [LAW:behavior-not-structure] Assert the complete partition at each stage.
+        rows = core.parse_registry('RECORD\t/history\nREPLACE\tconfig\t/M\t/R\t2')
+        uncovered = ('/history-old/x', '/history-old', 'history/x', 'code/x',
+                     'program/x', 'knowledge/x', 'experiments/x', 'data/x',
+                     '_archive/x', '_system/x', '_index/x', '.claude/x', '.venv/x',
+                     '/Users/x/y', 'bare', 'config-old', 'config/x', 'evidence/x',
+                     'plans/x', 'audits/x', '_templates/x', 'projects/x', 'map/x',
+                     '.codex/x', '.github/x')
+        hits = {'/history': 1, '/history/x': 1, 'config': 2,
+                **dict.fromkeys(uncovered, 1)}
+        for stage, old_count, new_count, replace_kind in (
+                ('pre', 2, 0, 'LIVE'), ('post', 0, 2, 'unregistered')):
+            with self.subTest(stage=stage):
+                result = self.run_scan(
+                    stage, rows=rows, hits=hits, old_root_exists=False,
+                    counts={('config', '/M'): old_count, ('config', '/R'): new_count})
+                expected = (('/history', 'RECORD'), ('/history/x', 'RECORD'),
+                            ('config', replace_kind)) + tuple(
+                                (path, 'unregistered') for path in uncovered)
+                self.assertEqual(result.classifications, expected)
+                self.assertEqual(result.findings, tuple(
+                    f'{path}: unregistered' for path, kind in expected
+                    if kind == 'unregistered'))
+                self.assertEqual(result.exit_status, 1)
 
 
 class Purity(unittest.TestCase):

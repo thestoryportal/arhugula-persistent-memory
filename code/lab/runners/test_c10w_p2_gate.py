@@ -1,5 +1,9 @@
 """Model-free tests of code/lab/runners/c10w_p2_gate.py's GPU-exclusivity decision (P2 pre-run review, Astra B1)."""
 import unittest
+import os
+import runpy
+import tempfile
+from pathlib import Path
 from unittest import mock
 from lab.runners import c10w_p2_gate as G
 
@@ -27,11 +31,20 @@ BENIGN = "\n".join([
 
 class BlockingProcesses(unittest.TestCase):
     def test_intel_copy_exact_controller(self):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        root = Path(folder.name) / "repo"
+        with mock.patch.dict(os.environ, LLMDB_ROOT=str(root)):
+            gate = runpy.run_path(G.__file__)
+        with mock.patch.dict(os.environ, LLMDB_ROOT=str(root.parent / "other")):
+            other_gate = runpy.run_path(G.__file__)
         for exe in (CLT, "/Library/Developer/CommandLineTools/usr/bin/python3"):
-            for path in ("tools/memit_intel_copy.py", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/memit_intel_copy.py",
-                         "code/ops/intel/memit_intel_copy.py", "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/code/ops/intel/memit_intel_copy.py"):
+            for path in ("tools/memit_intel_copy.py", str(root / "tools/memit_intel_copy.py"),
+                         "code/ops/intel/memit_intel_copy.py", str(root / "code/ops/intel/memit_intel_copy.py")):
                 line = "510 %s %s run --gen sample" % (exe, path)
-                self.assertEqual(G.blocking_processes(line, own_pid=1), [])
+                self.assertEqual(gate["blocking_processes"](line, own_pid=1), [])
+                self.assertEqual(other_gate["blocking_processes"](line, own_pid=1),
+                                 [line] if Path(path).is_absolute() else [])
 
     def test_intel_copy_near_misses_block(self):
         for exe, path, args in (
