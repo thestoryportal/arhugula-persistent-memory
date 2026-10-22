@@ -1096,6 +1096,230 @@ if point == 'rollback':
                     self.assertEqual((Path(path).read_bytes(), stat.S_IMODE(Path(path).stat().st_mode)), expected)
 
 
+    def _fix1_refusal(self, operation, path, reason, journal):
+        with self.assertRaises(fdsafe.Refusal) as caught:
+            operation()
+        self.assertEqual(str(caught.exception), repr(str(path)) + ': ' + reason)
+        self.assertEqual((self.run / 'journal').read_bytes(), journal)
+        self.assertEqual(self.file.read_bytes(), b'old\x00bytes\n')
+        self.assertEqual(stat.S_IMODE(self.file.stat().st_mode), 0o755)
+
+    def test_fix1_receipt_torn_suffix(self):
+        journal = b'["intent",1,"forward","k",["CHECK","reader"],["none"]]\n["done",'
+        (self.run / 'journal').write_bytes(journal)
+        self._fix1_refusal(lambda: executor.append_receipt(str(self.run), Done(1, NoIdentity())),
+                           self.run, 'EINVAL: no complete pending intent', journal)
+
+    def test_fix1_receipt_empty(self):
+        (self.run / 'journal').write_bytes(b'')
+        self._fix1_refusal(lambda: executor.append_receipt(str(self.run), Done(1, NoIdentity())),
+                           self.run, 'EINVAL: no complete pending intent', b'')
+
+    def test_fix1_receipt_already_done(self):
+        journal = b'["intent",1,"forward","k",["CHECK","reader"],["none"]]\n["done",1,["none"]]\n'
+        (self.run / 'journal').write_bytes(journal)
+        self._fix1_refusal(lambda: executor.append_receipt(str(self.run), Done(1, NoIdentity())),
+                           self.run, 'EINVAL: no complete pending intent', journal)
+
+    def test_fix1_receipt_wrong_type(self):
+        journal = b'["intent",1,"forward","k",["CHECK","reader"],["none"]]\n'
+        (self.run / 'journal').write_bytes(journal)
+        record = Intent(1, 'forward', 'k', Check('reader'), NoIdentity())
+        self._fix1_refusal(lambda: executor.append_receipt(str(self.run), record),
+                           self.run, 'EINVAL: receipt does not close pending intent', journal)
+
+    def test_fix1_receipt_wrong_sequence(self):
+        journal = b'["intent",1,"forward","k",["CHECK","reader"],["none"]]\n'
+        (self.run / 'journal').write_bytes(journal)
+        self._fix1_refusal(lambda: executor.append_receipt(str(self.run), Done(2, NoIdentity())),
+                           self.run, 'EINVAL: receipt does not close pending intent', journal)
+
+    def test_fix1_execute_pending(self):
+        journal = b'["intent",1,"forward","k",["CHECK","reader"],["none"]]\n'
+        (self.run / 'journal').write_bytes(journal)
+        self._fix1_refusal(lambda: self.execute((self.action(),)), self.run,
+                           'EINVAL: recover pending or truncated journal before append', journal)
+
+    def test_fix1_execute_torn(self):
+        journal = b'["intent",'
+        (self.run / 'journal').write_bytes(journal)
+        self._fix1_refusal(lambda: self.execute((self.action(),)), self.run,
+                           'EINVAL: recover pending or truncated journal before append', journal)
+
+    def test_fix1_rename_source_absent(self):
+        (self.run / 'journal').write_bytes(b'')
+        src, dst = self.target / 'missing', self.target / 'destination'
+        self._fix1_refusal(lambda: self.execute((Rename(str(src), str(dst)),)),
+                           str(src) + ' -> ' + str(dst),
+                           'EEXIST: expected source and absent destination', b'')
+        self.assertEqual(sorted(p.name for p in self.target.iterdir()), ['launcher'])
+
+    def test_fix1_rename_destination_present(self):
+        (self.run / 'journal').write_bytes(b'')
+        dst = self.target / 'destination'
+        dst.write_bytes(b'other owner')
+        dst.chmod(0o640)
+        self._fix1_refusal(lambda: self.execute((Rename(str(self.file), str(dst)),)),
+                           str(self.file) + ' -> ' + str(dst),
+                           'EEXIST: expected source and absent destination', b'')
+        self.assertEqual(dst.read_bytes(), b'other owner')
+        self.assertEqual(stat.S_IMODE(dst.stat().st_mode), 0o640)
+        self.assertEqual(sorted(p.name for p in self.target.iterdir()), ['destination', 'launcher'])
+
+    def _fix1_held_read(self, number, fault):
+        # [LAW:no-ambient-temporal-coupling] Faults occur at held-read boundaries.
+        action = self.action()
+        writer = os.open(self.file, os.O_RDWR)
+        self.addCleanup(os.close, writer)
+        real_seek, real_read = os.lseek, os.read
+        real_replace = os.replace
+        reads = 0
+        fired = False
+        journal = []
+        def seam(point, intent):
+            if point == 'intent':
+                journal.append((self.run / 'journal').read_bytes())
+                if number == 1 and fault == 'mode':
+                    os.fchmod(writer, 0o700)
+        def replacing(*args, **kwargs):
+            result = real_replace(*args, **kwargs)
+            if number == 2 and fault == 'mode':
+                os.fchmod(writer, 0o700)
+            return result
+        def seek(fd, offset, whence):
+            nonlocal reads
+            reads += 1
+            return real_seek(fd, offset, whence)
+        def read(fd, count):
+            nonlocal fired
+            data = real_read(fd, count)
+            if reads == number and fault == 'growth' and data == b'' and not fired:
+                fired = True
+                os.pwrite(writer, b'!', 10)
+            if reads == number and data == b'old\x00bytes\n' and fault != 'growth' and not fired:
+                fired = True
+                if fault == 'mode':
+                    os.fchmod(writer, 0o755)
+                elif fault == 'identity':
+                    os.utime(writer, ns=(1_000_000_000, 1_000_000_000))
+                else:
+                    return b'old\x00bytes'
+            return data
+        with patch('os.lseek', side_effect=seek), patch('os.read', side_effect=read), \
+                patch('os.replace', side_effect=replacing):
+            with self.assertRaises(fdsafe.Refusal) as caught:
+                self.execute((action,), seam=seam)
+        self.assertTrue(fired)
+        self.assertEqual(str(caught.exception),
+                         repr(str(self.file)) + ': ESTALE: target changed while read; kept')
+        self.assertEqual(len(journal), 1)
+        self.assertEqual((self.run / 'journal').read_bytes(), journal[0])
+        old = b'old\x00bytes\n!' if fault == 'growth' else b'old\x00bytes\n'
+        self.assertEqual(self.file.read_bytes(), {1: old, 2: b'new\x00bytes\n'}[number])
+        self.assertEqual(stat.S_IMODE(self.file.stat().st_mode), 0o755)
+        self.assertEqual(os.pread(writer, 100, 0), old)
+        self.assertEqual(sorted(p.name for p in self.target.iterdir()),
+                         {1: ['.switch-1', 'launcher'], 2: ['launcher']}[number])
+
+    def test_fix1_first_read_identity(self):
+        self._fix1_held_read(1, 'identity')
+
+    def test_fix1_second_read_identity(self):
+        self._fix1_held_read(2, 'identity')
+
+    def test_fix1_first_read_mode(self):
+        self._fix1_held_read(1, 'mode')
+
+    def test_fix1_second_read_mode(self):
+        self._fix1_held_read(2, 'mode')
+
+    def test_fix1_first_read_short(self):
+        self._fix1_held_read(1, 'short')
+
+    def test_fix1_second_read_short(self):
+        self._fix1_held_read(2, 'short')
+
+    def test_fix1_first_read_growth(self):
+        self._fix1_held_read(1, 'growth')
+
+    def test_fix1_second_read_growth(self):
+        self._fix1_held_read(2, 'growth')
+
+    def test_fix1_check_retry(self):
+        journal = b'["intent",1,"forward","retry",["CHECK","reader"],["none"]]\n["done",1,["none"],"not-applied"]\n'
+        (self.run / 'journal').write_bytes(journal)
+        receipts = self.execute((Check('reader'),), keys=('retry',), check=lambda _: True)
+        self.assertEqual(receipts, (Done(2, NoIdentity()),))
+        self.assertEqual((self.run / 'journal').read_bytes(), journal +
+                         b'["intent",2,"forward","retry",["CHECK","reader"],["none"]]\n["done",2,["none"]]\n')
+        self.assertEqual(self.file.read_bytes(), b'old\x00bytes\n')
+        self.assertEqual(stat.S_IMODE(self.file.stat().st_mode), 0o755)
+
+    def test_fix1_inverse_retry_same_forward_key(self):
+        self.execute((self.action(),), keys=('undo:1',))
+        class Stop(Exception):
+            pass
+        def stop(point, intent):
+            if point == 'intent' and intent.key == 'undo:1':
+                raise Stop()
+        with self.assertRaises(Stop):
+            recover_fixture(str(self.run), stop)
+        self.assertEqual(self.file.read_bytes(), b'new\x00bytes\n')
+        recover_fixture(str(self.run))
+        self.assertEqual(self.file.read_bytes(), b'old\x00bytes\n')
+        self.assertEqual(stat.S_IMODE(self.file.stat().st_mode), 0o755)
+        records = self.journal().records
+        retries = [r for r in records if isinstance(r, Intent) and r.key == 'undo:1']
+        self.assertEqual([r.direction for r in retries], ['forward', 'inverse', 'inverse'])
+        self.assertEqual([r.action.pre.preimage for r in retries],
+                         [str(self.run / 'pre' / '1'), str(self.run / 'pre' / '3'), str(self.run / 'pre' / '3')])
+        self.assertEqual((self.run / 'pre' / '1').read_bytes(), b'old\x00bytes\n')
+        self.assertEqual((self.run / 'pre' / '3').read_bytes(), b'new\x00bytes\n')
+        self.assertIsInstance(records[-1], Done)
+
+    def test_fix1_absent_install_retry(self):
+        dst = self.target / 'installed'
+        action = Install(str(dst), Absent(), b'installed', 0o751)
+        class Stop(Exception):
+            pass
+        def stop(point, intent):
+            if point == 'intent':
+                raise Stop()
+        with self.assertRaises(Stop):
+            self.execute((action,), keys=('retry',), seam=stop)
+        executor.append_receipt(str(self.run), Done(1, Absent(), 'not-applied'))
+        self.execute((action,), keys=('retry',))
+        self.assertEqual(dst.read_bytes(), b'installed')
+        self.assertEqual(stat.S_IMODE(dst.stat().st_mode), 0o751)
+        self.assertEqual(self.file.read_bytes(), b'old\x00bytes\n')
+        self.assertEqual(len(self.journal().records), 4)
+        self.assertEqual(self.journal().records[1], Done(1, Absent(), 'not-applied'))
+        self.assertIsInstance(self.journal().records[-1], Done)
+        self.assertEqual(sorted(p.name for p in self.run.iterdir()), ['journal'])
+
+    def test_fix1_forward_rename_no_undone(self):
+        dst = self.target / 'destination'
+        self.execute((Rename(str(self.file), str(dst)),))
+        self.assertEqual(sorted(p.name for p in self.run.iterdir()), ['journal'])
+        self.assertEqual(sorted(p.name for p in self.target.iterdir()), ['destination'])
+        self.assertEqual(dst.read_bytes(), b'old\x00bytes\n')
+        self.assertEqual(stat.S_IMODE(dst.stat().st_mode), 0o755)
+
+    def test_fix1_exact_preimage_seams(self):
+        src, dst, installed = (self.target / name for name in ('source', 'destination', 'installed'))
+        src.write_bytes(b'move')
+        calls = []
+        self.execute((Rename(str(src), str(dst)), Install(str(installed), Absent(), b'install', 0o640),
+                      self.action()), seam=lambda point, intent: calls.append((point, intent.seq)))
+        self.assertEqual(calls, [('intent', 1), ('mutation', 1), ('done', 1),
+                                 ('intent', 2), ('mutation', 2), ('done', 2),
+                                 ('preimage', 3), ('intent', 3), ('mutation', 3), ('done', 3)])
+        self.assertEqual(dst.read_bytes(), b'move')
+        self.assertEqual(installed.read_bytes(), b'install')
+        self.assertEqual(self.file.read_bytes(), b'new\x00bytes\n')
+
+
+
 class EffectJournalTest(unittest.TestCase):
     """Reuse Step 423's exact fakes; exercise the executor around real effects."""
     config = effects_test.EffectsTest.config
