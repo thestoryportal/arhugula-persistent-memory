@@ -35,6 +35,7 @@ Exit 2: malformed invocation (root neither a real directory nor a regular file,
 from __future__ import annotations
 
 import argparse
+from contextlib import nullcontext
 import fcntl
 import hashlib
 import json
@@ -116,31 +117,38 @@ def _leaf(dir_fd: int, name: str, path: str, st: os.stat_result) -> dict:
             "device": st.st_dev, "inode": st.st_ino, "nlink": st.st_nlink}
 
 
-def _walk(dir_fd: int, directory: str, leaves: list, git_dirs: list, in_git: bool) -> None:
+def _git_policy(name, path, st, in_git):
+    if name == ".git" and not stat.S_ISDIR(st.st_mode):
+        raise Refusal(f"nested .git is not a directory (link to another git dir): {path}")
+    if in_git and not (stat.S_ISDIR(st.st_mode) or stat.S_ISREG(st.st_mode)):
+        raise Refusal(f"nested repo has a link or special file inside .git; Git would follow it: {path}")
+
+
+def walk(dir_fd: int, directory: str, leaves: list, git_dirs: list, in_git: bool,
+         *, leaf_reader=_leaf, git_policy=_git_policy, boundary=nullcontext) -> None:
     """Walk the directory open on dir_fd. The path lstat is the scan reference; each object is then
     reached only through dir_fd and must be that same object, so a swapped path refuses."""
-    with os.scandir(dir_fd) as it:
+    with boundary(directory), os.scandir(dir_fd) as it:
         names = sorted((entry.name for entry in it), key=os.fsencode)
     for name in names:
         path = os.path.join(directory, name)
-        st = os.lstat(path)
-        if name == ".git" and not stat.S_ISDIR(st.st_mode):
-            raise Refusal(f"nested .git is not a directory (link to another git dir): {path}")
-        if in_git and not (stat.S_ISDIR(st.st_mode) or stat.S_ISREG(st.st_mode)):
-            raise Refusal(f"nested repo has a link or special file inside .git; Git would follow it: {path}")
-        if stat.S_ISDIR(st.st_mode):
-            fd = os.open(name, DIR_FLAGS, dir_fd=dir_fd)
-            try:
-                opened = os.fstat(fd)
-                if (opened.st_dev, opened.st_ino) != (st.st_dev, st.st_ino):
-                    raise Refusal(f"directory changed during walk: {path}")
-                if name == ".git":
-                    git_dirs.append(path)
-                _walk(fd, path, leaves, git_dirs, in_git or name == ".git")
-            finally:
-                os.close(fd)
-        else:
-            leaves.append(_leaf(dir_fd, name, path, st))
+        with boundary(path):
+            st = os.lstat(path)
+            git_policy(name, path, st, in_git)
+            if stat.S_ISDIR(st.st_mode):
+                fd = os.open(name, DIR_FLAGS, dir_fd=dir_fd)
+                try:
+                    opened = os.fstat(fd)
+                    if (opened.st_dev, opened.st_ino) != (st.st_dev, st.st_ino):
+                        raise Refusal(f"directory changed during walk: {path}")
+                    if name == ".git":
+                        git_dirs.append(path)
+                    walk(fd, path, leaves, git_dirs, in_git or name == ".git",
+                         leaf_reader=leaf_reader, git_policy=git_policy, boundary=boundary)
+                finally:
+                    os.close(fd)
+            else:
+                leaves.append(leaf_reader(dir_fd, name, path, st))
 
 
 def _git(worktree: str, *args: str) -> subprocess.CompletedProcess:
@@ -265,7 +273,7 @@ def _file_root(root: str, root_fd: int, leaves: list) -> list:
 
 def _directory_root(root: str, root_fd: int, leaves: list) -> list:
     git_dirs: list = []
-    _walk(root_fd, root, leaves, git_dirs, False)
+    walk(root_fd, root, leaves, git_dirs, False)
     return git_dirs
 
 
