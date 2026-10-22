@@ -33,6 +33,8 @@ def _pairs(path: str, data: bytes) -> list[tuple[str, str]]:
         if len(fields) != 2:
             raise fdsafe.Refusal(path, f"line {number}: expected two fields")
         for field in fields:
+            if "\0" in field:
+                raise fdsafe.Refusal(path, f"line {number}: NUL byte in a path")
             if not os.path.isabs(field) or field != os.path.normpath(field):
                 raise fdsafe.Refusal(path, f"line {number}: expected absolute normalized paths")
         checkpoint, live = fields

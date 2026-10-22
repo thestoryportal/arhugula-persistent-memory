@@ -1,4 +1,4 @@
-"""T383: exercise the CLI in process against real files and fd attacks."""
+"""T383: exercise the CLI against real files, processes and fd attacks."""
 import contextlib
 import errno
 import importlib
@@ -6,6 +6,8 @@ import io
 import json
 import os
 import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 from unittest import mock
@@ -134,6 +136,93 @@ class NotebookCompare(unittest.TestCase):
             with self.subTest(data=data):
                 self.write_pairs(data)
                 self.assertIn(f"line {line}", self.refused(self.pairs))
+
+    def nul_path_refused(self, column, position):
+        original = (self.cp, self.live)[column]
+        parent, name = os.path.split(original)
+        values = {
+            "start": "\0" + original,
+            "middle": original[:len(original) // 2] + "\0" + original[len(original) // 2:],
+            "end": original + "\0",
+            "parent": parent + "\0/" + name,
+            "name": parent + "/\0" + name,
+        }
+        for line in (2, 3):
+            with self.subTest(line=line):
+                fields = [self.cp, self.live]
+                fields[column] = values[position]
+                prefix = f"{self.cp}\t{self.live}\n" if line == 3 else ""
+                self.write_pairs(("checkpoint\tlive\n" + prefix +
+                                  "\t".join(fields) + "\n").encode())
+                message = self.refused(self.pairs)
+                self.assertEqual(message, str(fdsafe.Refusal(
+                    self.pairs, f"line {line}: NUL byte in a path")) + "\n")
+                self.assertNotIn("Traceback", message)
+
+    def test_nul_checkpoint_start(self):
+        self.nul_path_refused(0, "start")
+
+    def test_nul_checkpoint_middle(self):
+        self.nul_path_refused(0, "middle")
+
+    def test_nul_checkpoint_end(self):
+        self.nul_path_refused(0, "end")
+
+    def test_nul_checkpoint_parent(self):
+        self.nul_path_refused(0, "parent")
+
+    def test_nul_checkpoint_name(self):
+        self.nul_path_refused(0, "name")
+
+    def test_nul_live_start(self):
+        self.nul_path_refused(1, "start")
+
+    def test_nul_live_middle(self):
+        self.nul_path_refused(1, "middle")
+
+    def test_nul_live_end(self):
+        self.nul_path_refused(1, "end")
+
+    def test_nul_live_parent(self):
+        self.nul_path_refused(1, "parent")
+
+    def test_nul_live_name(self):
+        self.nul_path_refused(1, "name")
+
+    def process(self, argv):
+        worktree = os.path.dirname(os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__)))))
+        script = os.path.join(worktree, "code", "ops", "migrate", "notebook_compare.py")
+        env = dict(os.environ, PYTHONPATH="code/tests:code")
+        return subprocess.run([sys.executable, "-B", script, *argv], cwd=worktree,
+                              env=env, capture_output=True, text=True, timeout=15)
+
+    def test_cli_success(self):
+        result = self.process(["--pairs", self.pairs, "--out", self.out])
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout,
+                         "1 pairs: 1 exact, 0 differing, 0 unmatched; 0 unique cells\n")
+        self.assertEqual(result.stderr, "")
+        self.outputs()
+
+    def test_cli_refusal(self):
+        self.write_pairs(b"checkpoint\tlive\n")
+        result = self.process(["--pairs", self.pairs, "--out", self.out])
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(result.stdout, "")
+        self.assertEqual(result.stderr, str(fdsafe.Refusal(
+            self.pairs, "line 2: expected at least one pair")) + "\n")
+        self.assertNotIn("Traceback", result.stderr)
+        self.assertFalse(self.exists(self.out))
+
+    def test_cli_missing_out(self):
+        result = self.process(["--pairs", self.pairs])
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(result.stdout, "")
+        self.assertIn("usage:", result.stderr)
+        self.assertIn("required: --out", result.stderr)
+        self.assertNotIn("Traceback", result.stderr)
+        self.assertFalse(self.exists(self.out))
 
     def test_pairs_header_is_exact(self):
         for header in ("checkpoint-extra\tlive", "CHECKPOINT\tLIVE"):
