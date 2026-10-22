@@ -38,11 +38,11 @@ class RepairC10LaunchTests(unittest.TestCase):
     def setUp(self):
         self.root = Path(os.environ["LLMDB_ROOT"])
         # [LAW:one-source-of-truth] Approved rows own the replacement spellings.
-        self.rows = [row for row in read_tsv(
-            self.root / "program/migrations/icm21/repairs.tsv")
-            if row["step"] == "261"]
+        rows = read_tsv(self.root / "program/migrations/icm21/repairs.tsv")
+        self.rows = [row for row in rows if row["step"] == "261"]
+        self.rows387 = [row for row in rows if row["step"] == "387"]
         self.assertTrue(self.rows, "T261 must have approved repairs")
-        for row in self.rows:
+        for row in self.rows + self.rows387:
             self.assertIn(row["file"], BASE_BLOBS)
             # [LAW:parse-dont-validate] Reject malformed paths at the TSV boundary.
             for field in ("file", "old_text", "new_text"):
@@ -63,7 +63,7 @@ class RepairC10LaunchTests(unittest.TestCase):
             with self.subTest(file=name):
                 current = read_file(self.root / name)
                 lines = current.splitlines(keepends=True)
-                for row in self.rows:
+                for row in self.rows + self.rows387:
                     if row["file"] != name:
                         continue
                     index = row["line"] - 1

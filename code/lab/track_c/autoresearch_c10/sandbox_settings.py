@@ -79,7 +79,7 @@ def settings(config):
               config['program'], config['repo'], config['old_sandbox'], str(Path(fence) / 'sealed'),
               config['scorer_results'], config['editor_tmp'], config['scorer_tmp'], str(Path(sandbox) / 'graft'),
               '/private/tmp', '/tmp/claude-501', home,
-              '/Volumes/memit/llm-database-project-artifacts', '/Volumes/backups', '/Volumes/Development']
+              '/Volumes/memit/llmdb-preserved/icm21-20261013/external/llm-database-project-artifacts', '/Volumes/backups', '/Volumes/Development']
     # Native CLI 2.1.292 falls back to /tmp/claude-UID above 44 bytes. A fresh,
     # short private capture child is the §4(a) fallback; probes must verify it.
     tool_deny = [config['program'], config['repo'], config['old_sandbox'],
