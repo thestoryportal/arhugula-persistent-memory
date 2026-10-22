@@ -296,6 +296,83 @@ class Readers(unittest.TestCase):
             self.refused(self.call(), 'created, left in place')
         self.assertEqual(self.doc()['findings'], [])
 
+    def folder_close_error(self, folder, *extra):
+        real = os.close
+        def failing(fd):
+            path = fdsafe.live_path(fd, 'test')
+            real(fd)
+            if path == str(folder):
+                raise OSError(errno.EIO, os.strerror(errno.EIO))
+        with mock.patch.object(os, 'close', failing):
+            result = self.call(*extra)
+        self.refused(result, str(folder))
+        self.assertIn('EIO', result[2])
+        return result
+
+    def test_metadata_parent_close_error_refuses(self):
+        parent = self.base / 'metadata'
+        parent.mkdir()
+        registry = parent / 'registry.tsv'
+        registry.write_text('')
+        self.folder_close_error(parent, '--registry', str(registry))
+        self.assertFalse(self.report.exists())
+
+    def test_old_root_parent_close_error_refuses(self):
+        parent = self.base / 'old-parent'
+        parent.mkdir()
+        self.folder_close_error(parent, '--old-root', str(parent / 'old'))
+        self.assertFalse(self.report.exists())
+
+    def test_scan_root_close_error_names_kept_report(self):
+        result = self.folder_close_error(self.root)
+        self.assertIn(str(self.report), result[2])
+        self.assertIn('left in place', result[2])
+        self.assertEqual(self.doc()['findings'], [])
+
+    def test_output_parent_close_error_names_kept_report(self):
+        parent = self.base / 'output'
+        parent.mkdir()
+        report = parent / 'report.json'
+        result = self.folder_close_error(parent, '--report', str(report))
+        self.assertIn(str(report), result[2])
+        self.assertIn('left in place', result[2])
+        self.assertEqual(json.loads(report.read_bytes())['findings'], [])
+
+    def test_output_parent_unexpected_close_error_propagates_unchanged(self):
+        import argparse
+
+        parent = self.base / 'output'
+        parent.mkdir()
+        report = parent / 'report.json'
+        error = RuntimeError('probe')
+        real = os.close
+
+        def failing(fd):
+            path = fdsafe.live_path(fd, 'test')
+            real(fd)
+            if path == str(parent):
+                self.assertTrue(report.is_file())
+                raise error
+
+        args = argparse.Namespace(root=str(self.root), scan_root=[],
+                                  old_root=str(self.old), registry=str(self.registry),
+                                  stage='pre', pre_report=None, report=str(report))
+        with mock.patch.object(os, 'close', failing):
+            with self.assertRaises(Exception) as ctx:
+                root_readers.run(args)
+        # [LAW:no-silent-failure] Report retention must not replace unexpected errors.
+        self.assertIs(ctx.exception, error)
+        self.assertNotIsInstance(ctx.exception, fdsafe.Refusal)
+        self.assertTrue(report.is_file())
+
+    def test_pass_and_refusal_leave_no_open_fds(self):
+        # [LAW:behavior-not-structure] Ownership is observed at the OS boundary.
+        before = len(os.listdir('/dev/fd'))
+        self.assertEqual(self.call(), (0, '', ''))
+        self.assertEqual(len(os.listdir('/dev/fd')), before)
+        self.refused(self.call(), 'EEXIST')
+        self.assertEqual(len(os.listdir('/dev/fd')), before)
+
     def test_byte_hit_across_read_boundary(self):
         data = b'x' * (fdsafe.CHUNK - 2) + str(self.old).encode() + b'\xff'
         self.leaf.write_bytes(data)

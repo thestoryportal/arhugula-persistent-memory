@@ -10,7 +10,7 @@ Sockets and FIFOs are counted without opening them. All other unknown kinds refu
 --report creates one JSON file outside all scanned roots, exclusively. Stdout is
 empty. Exit 0/1 is the core verdict; exit 2 is a one-line refusal on stderr.
 """
-from contextlib import ExitStack
+from contextlib import ExitStack, contextmanager
 from dataclasses import asdict
 import argparse
 import errno
@@ -104,6 +104,15 @@ def exists(path):
     return True
 
 
+@contextmanager
+def report_refusals(path):
+    # [LAW:single-enforcer] Retained output belongs to every later close refusal.
+    try:
+        yield
+    except fdsafe.Refusal as exc:
+        raise fdsafe.Refusal(path, f'left in place; {exc}', exc.errno) from exc
+
+
 def run(args):
     try:
         rows = core.parse_registry(read_text(args.registry))
@@ -119,7 +128,7 @@ def run(args):
     for row in rows:
         if isinstance(row, core.Replace):
             replacements.setdefault(row.path, set()).update((row.old, row.new))
-    with ExitStack() as stack:
+    with ExitStack() as report_errors, ExitStack() as stack:
         roots = [stack.enter_context(fdsafe.hold_root(path))
                  for path in [args.root, *args.scan_root]]
         repo = roots[0].path
@@ -161,7 +170,8 @@ def run(args):
             parent, name = os.path.split(os.path.abspath(args.report))
         with fdsafe.hold_root(parent) as held:
             # [LAW:single-enforcer] The inherited create owns output settlement.
-            fdsafe.create_file(held, name, data, roots)
+            report = fdsafe.create_file(held, name, data, roots)
+            report_errors.enter_context(report_refusals(report))
     return result.exit_status
 
 
