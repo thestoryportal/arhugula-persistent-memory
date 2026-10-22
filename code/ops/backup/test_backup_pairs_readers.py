@@ -1072,6 +1072,78 @@ class DriveMode(unittest.TestCase):
         self.assertEqual(summary['dry_run_transfer_bytes'], 35)
         self.assertEqual(summary['payload_rate_estimate_s'], 0.0000007)
 
+    def test_drive_nested_rows_complete_argv(self):
+        # [LAW:behavior-not-structure] Pin the whole command contract for both row shapes.
+        observed = {}
+        selftest = drive_checks.drive_selftest
+
+        @contextlib.contextmanager
+        def prepare(table):
+            root = table.parent.parent
+            table.write_text('reader\tsource\tdestination\texcludes\n' +
+                             f'gdrive\t{root}/one\tfixture:a/first\tone.rules\n' +
+                             f'gdrive\t{root}/two/\tfixture:b/c/second/\t-\n')
+            (table.parent / 'one.rules').write_bytes(b'*.cache\nprivate/**\n')
+
+            def run():
+                process = drive_checks.run_process
+
+                def evidence(args, **options):
+                    if args[1] == 'sync':
+                        target = Path(args[args.index('--combined') + 1])
+                        self.assertEqual(target.parent.parent, root / 'results')
+                        target.write_text('+ payload\n')
+                        return subprocess.CompletedProcess(args, 0, '', '')
+                    return process(args, **options)
+
+                # [LAW:no-ambient-temporal-coupling] Rate checks use a fixed interval.
+                with mock.patch.object(drive_checks, 'run_process', side_effect=evidence), \
+                        mock.patch.object(drive_checks.time, 'monotonic', side_effect=[100.0, 104.0]):
+                    status = selftest()
+                out = next((root / 'results').iterdir())
+                observed['commands'] = json.loads((out / 'commands.json').read_text())
+                observed['rules'] = (out / 'excludes_0.txt').read_bytes()
+                return status
+
+            with mock.patch.object(drive_checks, 'drive_selftest', side_effect=run):
+                yield
+
+        status, summary, dry, table = self.run_drive_table(prepare)
+        self.assertEqual(status, 0, summary)
+        self.assertEqual(summary['status'], 'PASS')
+        self.assertEqual(observed['rules'], b'*.cache\nprivate/**\n')
+        root = Path(table).parent.parent
+        out = Path(summary['evidence_dir'])
+        calls = [entry['args'] for entry in observed['commands']
+                 if entry['args'][1] == 'sync' or
+                 (entry['args'][1] == 'lsjson' and entry['args'][2].startswith(str(root) + '/'))]
+        self.assertEqual(calls, [
+            ['/opt/homebrew/bin/rclone', 'sync', str(root / 'one') + '/', 'fixture:a/first/',
+             '--dry-run', '--links', '--exclude-from', str(out / 'excludes_0.txt'),
+             '--exclude', '**/.git/objects/**/tmp_obj_*', '--exclude', '**/.git/objects/tmp_obj_*',
+             '--exclude', '/.git/objects/**/tmp_obj_*', '--exclude', '/.git/objects/tmp_obj_*',
+             '--backup-dir', 'fixture:a/.deleted/DRY-RUN/',
+             '--combined', str(out / 'dry_run_changes_0.txt'),
+             '--contimeout', '10s', '--timeout', '60s', '--retries', '1', '--low-level-retries', '1'],
+            ['/opt/homebrew/bin/rclone', 'lsjson', str(root / 'one') + '/',
+             '--recursive', '--files-only', '--links', '--exclude-from', str(out / 'excludes_0.txt'),
+             '--exclude', '**/.git/objects/**/tmp_obj_*', '--exclude', '**/.git/objects/tmp_obj_*',
+             '--exclude', '/.git/objects/**/tmp_obj_*', '--exclude', '/.git/objects/tmp_obj_*',
+             '--contimeout', '10s', '--timeout', '60s', '--retries', '1', '--low-level-retries', '1'],
+            ['/opt/homebrew/bin/rclone', 'sync', str(root / 'two') + '/', 'fixture:b/c/second/',
+             '--dry-run', '--links',
+             '--exclude', '**/.git/objects/**/tmp_obj_*', '--exclude', '**/.git/objects/tmp_obj_*',
+             '--exclude', '/.git/objects/**/tmp_obj_*', '--exclude', '/.git/objects/tmp_obj_*',
+             '--backup-dir', 'fixture:b/c/.deleted/DRY-RUN/',
+             '--combined', str(out / 'dry_run_changes_1.txt'),
+             '--contimeout', '10s', '--timeout', '60s', '--retries', '1', '--low-level-retries', '1'],
+            ['/opt/homebrew/bin/rclone', 'lsjson', str(root / 'two') + '/',
+             '--recursive', '--files-only', '--links',
+             '--exclude', '**/.git/objects/**/tmp_obj_*', '--exclude', '**/.git/objects/tmp_obj_*',
+             '--exclude', '/.git/objects/**/tmp_obj_*', '--exclude', '/.git/objects/tmp_obj_*',
+             '--contimeout', '10s', '--timeout', '60s', '--retries', '1', '--low-level-retries', '1'],
+        ])
+
     def check_drive_mode(self, hold):
         with tempfile.TemporaryDirectory(dir='/private/tmp') as name:
             root = Path(name)
