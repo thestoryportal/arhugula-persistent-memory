@@ -125,3 +125,106 @@ else:
     raise SystemExit('fixture refuses command: ' + repr(args))
 os.execv(os.environ['REAL_RCLONE'], [os.environ['REAL_RCLONE'], *args])
 '''
+
+
+class ConfinedRcloneTest(unittest.TestCase):
+    def setUp(self):
+        # [LAW:effects-at-boundaries] The exec target only records argv, even in mutants.
+        self.base = Path(tempfile.mkdtemp(dir='/tmp')).resolve()
+        self.addCleanup(shutil.rmtree, self.base)
+        self.outside = Path(tempfile.mkdtemp(dir='/tmp')).resolve()
+        self.addCleanup(shutil.rmtree, self.outside)
+        self.tool = self.base / 'rclone'
+        self.tool.write_text('#!' + sys.executable + '\n' + CONFINED_RCLONE)
+        self.tool.chmod(0o700)
+        sentinel = self.base / 'sentinel'
+        sentinel.write_text('#!' + sys.executable + '\n'
+                            'import json, pathlib, sys\n'
+                            "pathlib.Path('sentinel.json').write_text(json.dumps(sys.argv[1:]))\n")
+        sentinel.chmod(0o700)
+        (self.base / 'rclone.conf').write_text('')
+        (self.base / 'source').mkdir()
+        (self.base / 'destination').mkdir()
+        (self.base / 'archive').mkdir()
+        (self.base / 'excludes').write_text('')
+        (self.base / 'log').write_text('')
+        self.env = dict(FIXTURE_ROOT=str(self.base),
+                        RCLONE_CONFIG=str(self.base / 'rclone.conf'),
+                        REAL_RCLONE=str(sentinel), HOME=str(self.base),
+                        TMPDIR=str(self.base), PYTHONDONTWRITEBYTECODE='1')
+
+    def sync_args(self):
+        return ['sync', 'source', 'destination', '--backup-dir', 'archive',
+                '--exclude-from', 'excludes', '--log-file', 'log']
+
+    def run_fake(self, args):
+        return subprocess.run([str(self.tool), *args], cwd=self.base, env=self.env,
+                              capture_output=True, text=True, timeout=10)
+
+    def assert_refused(self, args, message):
+        # [LAW:behavior-not-structure] Refusal must precede both logging and exec.
+        result = self.run_fake(args)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(result.stderr, message + '\n')
+        self.assertFalse((self.base / 'sentinel.json').exists())
+        self.assertFalse((self.base / 'calls.jsonl').exists())
+
+    def test_refuses_outside_config(self):
+        self.env['RCLONE_CONFIG'] = str(self.outside / 'rclone.conf')
+        self.assert_refused(self.sync_args(),
+                            f'fixture refuses outside path: {self.outside}/rclone.conf')
+
+    def test_refuses_outside_source(self):
+        args = self.sync_args()
+        args[1] = str(self.outside / 'source')
+        self.assert_refused(args, f'fixture refuses outside path: {self.outside}/source')
+
+    def test_refuses_outside_destination(self):
+        args = self.sync_args()
+        args[2] = str(self.outside / 'destination')
+        self.assert_refused(args, f'fixture refuses outside path: {self.outside}/destination')
+
+    def test_refuses_outside_backup_dir(self):
+        args = self.sync_args()
+        args[4] = str(self.outside / 'archive')
+        self.assert_refused(args, f'fixture refuses outside path: {self.outside}/archive')
+
+    def test_refuses_outside_exclude_from(self):
+        args = self.sync_args()
+        args[6] = str(self.outside / 'excludes')
+        self.assert_refused(args, f'fixture refuses outside path: {self.outside}/excludes')
+
+    def test_refuses_outside_log_file(self):
+        args = self.sync_args()
+        args[8] = str(self.outside / 'log')
+        self.assert_refused(args, f'fixture refuses outside path: {self.outside}/log')
+
+    def test_refuses_lsjson(self):
+        self.assert_refused(['lsjson', 'source'],
+                            "fixture refuses command: ['lsjson', 'source']")
+
+    def test_refuses_delete(self):
+        self.assert_refused(['delete', 'source'],
+                            "fixture refuses command: ['delete', 'source']")
+
+    def test_refuses_symlink_destination(self):
+        (self.base / 'escape').symlink_to(self.outside, target_is_directory=True)
+        args = self.sync_args()
+        args[2] = 'escape'
+        self.assert_refused(args, 'fixture refuses outside path: escape')
+
+    def test_accepts_sync(self):
+        result = self.run_fake(self.sync_args())
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        expected = ['sync', 'source', 'destination', '--backup-dir', 'archive',
+                    '--exclude-from', 'excludes', '--log-file', 'log']
+        self.assertEqual(json.loads((self.base / 'sentinel.json').read_text()), expected)
+        self.assertTrue((self.base / 'calls.jsonl').is_file())
+        self.assertEqual([json.loads(line) for line in
+                          (self.base / 'calls.jsonl').read_text().splitlines()], [expected])
+
+    def test_accepts_version(self):
+        result = self.run_fake(['version'])
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(json.loads((self.base / 'sentinel.json').read_text()), ['version'])
+        self.assertFalse((self.base / 'calls.jsonl').exists())
