@@ -18,8 +18,8 @@ BACKUP_RUN(pairs), BACKUP_COMPARE(pairs), RESYNC_P(pairs). Each pair is
 ["rename",src_inode,dst_inode], ["agent",state], ["none"]. An inode is
 [st_dev,st_ino] or null for observed absence. Missing observations are not absence.
 
-A nonparseable final non-LF line is retained as truncated; schema-invalid JSON
-always refuses. The shell resolves the torn suffix before appending. It closes
+A final non-LF line that is a proper prefix of valid JSON is retained as truncated;
+any other malformed line refuses. Schema-invalid JSON always refuses. The shell resolves the torn suffix before appending. It closes
 intents with applied, not-applied or uncertain receipts before appending other
 actions. Unclosed intents may only be last; a missing classification refuses.
 Recovery consumers exclude inverse_done keys; pending RESYNC_P restarts in full.
@@ -328,7 +328,71 @@ def parse(text: str) -> Journal:
         try:
             value = loads(line, parse_int=_json_integer)
         except JSONDecodeError as exc:
-            if last:
+            # [LAW:parse-dont-validate] Only extendible JSON grammar states are torn writes.
+            # Stack entries describe the remaining grammar; no error-message heuristics.
+            digits = {ch: (ch, 'digits') for ch in '0123456789'}
+            integer = {'0': ('0', 'fraction'),
+                       **{ch: (ch, 'digits', 'fraction') for ch in '123456789'}}
+            rules = {
+                'value': {'"': ('"', 'string'), '[': ('[', 'array-first'),
+                          '{': ('{', 'object-first'), 't': tuple('true'),
+                          'f': tuple('false'), 'n': tuple('null'),
+                          '-': ('-', 'integer'), **integer},
+                'integer': integer,
+                'digits': digits,
+                'fraction': {'.': ('.', 'digit', 'exponent')},
+                'digit': digits,
+                'exponent': {ch: (ch, 'sign') for ch in 'eE'},
+                'sign': {'+': ('+', 'digit'), '-': ('-', 'digit'), **digits},
+                'array-first': {']': (']',)},
+                'array-end': {']': (']',), ',': (',', 'value', 'array-end')},
+                'object-first': {'}': ('}',)},
+                'object-end': {'}': ('}',), ',': (',', 'key', ':', 'value', 'object-end')},
+                'key': {'"': ('"', 'string')},
+            }
+            empty = {'digits': (), 'fraction': ('exponent',), 'exponent': (),
+                     'array-first': ('value', 'array-end'),
+                     'object-first': ('key', ':', 'value', 'object-end')}
+            pending = ('value',)
+            extendible = last
+            for char in line:
+                if not extendible:
+                    break
+                while True:
+                    if not pending:
+                        extendible = char in ' \t\r'
+                        break
+                    symbol = pending[0]
+                    if symbol in ('value', 'array-first', 'array-end', 'object-first',
+                                  'object-end', 'key', ':') and char in ' \t\r':
+                        break
+                    if symbol in rules:
+                        if char in rules[symbol]:
+                            pending = rules[symbol][char] + pending[1:]
+                        elif symbol in empty:
+                            pending = empty[symbol] + pending[1:]
+                        else:
+                            extendible = False
+                            break
+                        continue
+                    if symbol == 'string':
+                        if char == '"':
+                            pending = pending[1:]
+                        elif char == '\\':
+                            pending = ('escape',) + pending
+                        else:
+                            extendible = ord(char) >= 32
+                    elif symbol == 'escape':
+                        extendible = char in '"\\/bfnrtu'
+                        pending = (('hex',) * 4 if char == 'u' else ()) + pending[1:]
+                    elif symbol == 'hex':
+                        extendible = char in '0123456789abcdefABCDEF'
+                        pending = pending[1:]
+                    else:
+                        extendible = char == symbol
+                        pending = pending[1:]
+                    break
+            if extendible:
                 truncated = line
                 break
             raise Refusal(where, 'EINVAL: malformed JSON') from exc

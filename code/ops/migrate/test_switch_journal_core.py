@@ -547,5 +547,122 @@ class Purity(unittest.TestCase):
                     getattr(owner, name)()
 
 
+# [LAW:behavior-not-structure] Recovery witnesses exercise the public wire boundary.
+def rename(seq, key, src, dst, direction='forward', inode=None):
+    return c.Intent(seq, direction, key, a.Rename(src, dst), c.RenameIdentity(c.Inode(1, seq if inode is None else inode), None))
+
+def complete(item):
+    return (item, c.Done(item.seq, c.RenameIdentity(None, item.pre.src)))
+
+def run_history(moves, pairs, resync_pair, inverses=()):
+    records = []
+    for move in moves:
+        records.extend(complete(move))
+    seq = len(moves) + 1
+    backup = c.Intent(seq, 'forward', 'backup', a.BackupRun(tuple(pairs)), c.NoIdentity())
+    records.extend((backup, c.Done(seq, c.NoIdentity(), 'uncertain')))
+    for inverse in inverses:
+        records.extend(complete(inverse))
+    resync = c.Intent(seq + len(inverses) + 1, 'inverse', 'resync', c.ResyncP((resync_pair,)), c.NoIdentity())
+    records.append(resync)
+    text = ''.join(c.encode(record) for record in records)
+    return c.recover(c.parse(text), c.NoIdentity(), {})
+
+def witness(name):
+    pair = lambda src, dst='/backup', excludes='/excludes': a.BackupPair('ssd', src, dst, excludes)
+    if name == 'M70':
+        return run_history([rename(1, 'one', '/m', '/stage'), rename(2, 'two', '/stage', '/r', inode=1)], [pair('/r')], pair('/stage'),
+                           [rename(4, 'undo-two', '/r', '/stage', 'inverse', inode=1), rename(5, 'undo-one', '/stage', '/m', 'inverse', inode=1)])
+    if name == 'M71':
+        return run_history([rename(1, 'one', '/a', '/tmp'), rename(2, 'two', '/b', '/a'), rename(3, 'three', '/tmp', '/b', inode=1)],
+                           [pair('/b')], pair('/b'),
+                           [rename(5, 'undo-three', '/b', '/tmp', 'inverse', inode=1), rename(6, 'undo-two', '/a', '/b', 'inverse', inode=2), rename(7, 'undo-one', '/tmp', '/a', 'inverse', inode=1)])
+    if name == 'M72':
+        return run_history([rename(1, 'move', '/m', '/p')], [pair('/pish')], pair('/mish'), [rename(3, 'undo-move', '/p', '/m', 'inverse', inode=1)])
+    if name == 'M74':
+        return run_history([], [pair('/p', '/b'), pair('/p', '/other')], pair('/p', '/b'))
+    if name == 'M75':
+        return run_history([], [pair('/p', '/b'), pair('/pish', '/bish')], pair('/p', '/b'))
+    raise ValueError(name)
+
+
+class FixOne(unittest.TestCase):
+    def test_chained_renames(self):
+        with self.assertRaisesRegex(Refusal, 'resync.*RESYNC_P backup coverage differs'):
+            witness('M70')
+
+    def test_completed_inverse_renames(self):
+        with self.assertRaisesRegex(Refusal, 'resync.*RESYNC_P backup coverage differs'):
+            witness('M71')
+
+    def test_rename_sibling_path(self):
+        with self.assertRaisesRegex(Refusal, 'resync.*RESYNC_P backup coverage differs'):
+            witness('M72')
+
+    def test_same_source_two_destinations(self):
+        with self.assertRaisesRegex(Refusal, 'resync.*RESYNC_P backup coverage differs'):
+            witness('M74')
+
+    def test_parent_does_not_cover_sibling(self):
+        with self.assertRaisesRegex(Refusal, 'resync.*RESYNC_P backup coverage differs'):
+            witness('M75')
+
+    def test_proper_json_prefixes(self):
+        prefix = journal(intent(4))
+        for tail in (
+                '["done",1,"ab',
+                '["a\\',
+                '["\\u00',
+                '-',
+                '1.',
+                '1e',
+                '1e+',
+                'tru',
+                '["done",1,',
+                '{',
+                '{"a":',
+                '[',
+                ' \t',
+                '["\\u123',
+                '["\\"',
+                '[false, null, -1.2e-',
+                '{"a',
+                '{"a": [true],',
+                '[1, {"a": [',
+        ):
+            with self.subTest(tail=tail):
+                parsed = c.parse(prefix + tail)
+                self.assertEqual(parsed.records, (intent(4),))
+                self.assertEqual(parsed.truncated, tail)
+
+    def test_irreparable_json_tails(self):
+        prefix = journal(intent(4))
+        for tail in (
+                '["done",1,]',
+                '["done",1,["none"]]junk',
+                'trux',
+                '}',
+                '["\\x',
+                '["\\u0x',
+                '["bad\t',
+                '[01',
+                '[1.e',
+                '[1e+]',
+                '[true false',
+                '{"a",',
+                '{"a":1,}',
+                '[1]x',
+                'true x',
+                '1e x',
+                '--1',
+                'garbage',
+                '[}',
+                '{1',
+                '[[,',
+        ):
+            with self.subTest(tail=tail), self.assertRaisesRegex(Refusal, 'line 2.*malformed JSON'):
+                c.parse(prefix + tail)
+
+
 if __name__ == '__main__':
     unittest.main()
