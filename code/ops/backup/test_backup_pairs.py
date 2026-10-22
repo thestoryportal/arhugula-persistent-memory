@@ -3,6 +3,7 @@ import csv
 import json
 import os
 import signal
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -16,9 +17,9 @@ HEADER = "reader\tsource\tdestination\texcludes\n"
 
 class BackupPairsTest(unittest.TestCase):
     def setUp(self):
-        tmp = tempfile.TemporaryDirectory(prefix="backup_pairs_")
-        self.addCleanup(tmp.cleanup)
-        self.base = Path(tmp.name)
+        self.base = Path(tempfile.mkdtemp(prefix="backup_pairs_", dir="/tmp"))
+        self.addCleanup(shutil.rmtree, self.base)
+        self.script = HERE / "backup_mirror.sh"
         self.table = self.base / "pairs.tsv"
         self.calls = self.base / "calls.jsonl"
         self.excludes = self.base / "rules"
@@ -66,7 +67,7 @@ print("Number of files: 1")
     def run_backup(self, table_text=None, **changes):
         self.table.write_text(table_text if table_text is not None else
                               HEADER + "".join("\t".join(r) + "\n" for r in self.rows))
-        script = HERE / "backup_mirror.sh"
+        script = self.script
         text = script.read_text()
         for seam in ("BACKUP_SRC", "BACKUP_DEST", "BACKUP_EXCLUDES", "BACKUP_PAIRS",
                      "BACKUP_RSYNC", "BACKUP_MOUNT_POINT", "BACKUP_MOUNT"):
@@ -113,6 +114,52 @@ print("Number of files: 1")
         self.rows[1][1] = str(self.base / "missing")
         self.assert_refused(self.run_backup(), "source dir missing")
 
+    def test_legacy_overrides_control_copy(self):
+        # [LAW:behavior-not-structure] distinct defaults expose ignored overrides.
+        tool = self.base / "tool"
+        tool.mkdir()
+        self.script = tool / "backup_mirror.sh"
+        shutil.copyfile(HERE / "backup_mirror.sh", self.script)
+        (tool / "rules").write_text("alternate rules\n")
+        (tool / "backup_pairs.tsv").write_text(
+            HEADER + "\t".join(self.rows[1]) + "\n")
+        del self.env["BACKUP_PAIRS"]
+        result = self.run_backup()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual((self.dests[0] / "keep").read_text(), "payload 0")
+        self.assertFalse(self.dests[1].exists())
+        calls = self.recorded()
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0][-2:], [f"{self.sources[0]}/", f"{self.dests[0]}/"])
+        self.assertIn(f"--exclude-from={self.excludes}", calls[0])
+
+    def test_explicit_pairs_ignore_legacy_overrides(self):
+        source = self.base / "legacy source"
+        source.mkdir()
+        (source / "keep").write_text("legacy bytes")
+        dest = self.base / "legacy dest"
+        rules = self.base / "legacy rules"
+        rules.write_text("legacy excludes\n")
+        self.env.update(BACKUP_SRC=str(source), BACKUP_DEST=str(dest),
+                        BACKUP_EXCLUDES=str(rules))
+        self.test_two_rows_copy_with_custody_flags()
+        self.assertFalse(dest.exists())
+
+    def test_unreadable_second_source_names_cause_and_row(self):
+        self.sources[1].chmod(0)
+        self.addCleanup(self.sources[1].chmod, 0o755)
+        result = self.run_backup()
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn("backup_mirror: FATAL: row 3: cannot read source directory:",
+                      result.stderr)
+        self.assertIn(str(self.sources[1]), result.stderr)
+        self.assertFalse(self.calls.exists())
+        self.assertFalse(any(d.exists() for d in self.dests))
+
+    def test_empty_excludes_names_invalid_pair_and_row(self):
+        self.rows[1][3] = ""
+        self.assert_refused(self.run_backup(), "invalid pair")
+
     def test_empty_second_source_stops_all(self):
         empty = self.base / "empty"
         empty.mkdir()
@@ -127,6 +174,12 @@ print("Number of files: 1")
         for disk in ("memit", "Development", "backups"):
             with self.subTest(disk=disk):
                 self.rows[1][2] = f"/Volumes/{disk}/unsafe"
+                self.assert_refused(self.run_backup(), "same physical disk")
+
+    def test_bare_volume_second_destination_stops_all(self):
+        for disk in ("memit", "Development", "backups"):
+            with self.subTest(disk=disk):
+                self.rows[1][2] = f"/Volumes/{disk}"
                 self.assert_refused(self.run_backup(), "same physical disk")
 
     def test_missing_rsync(self):
