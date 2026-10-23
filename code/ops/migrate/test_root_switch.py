@@ -116,6 +116,7 @@ elif mode == 'process':
 elif mode == 'reader':
     print('fixture-version')
 elif mode == 'backup':
+    stamp = os.environ['BACKUP_STAMP'] if 'BACKUP_STAMP' in os.environ else __import__('time').strftime('%Y%m%dT%H%M%S')
     table = Path(os.environ['BACKUP_PAIRS'])
     rows = [line.split('\\t') for line in table.read_text().splitlines()[1:]]
     for i, (backend, source, destination, excludes) in enumerate(rows):
@@ -161,7 +162,7 @@ elif mode == 'backup':
             if p.is_dir() and not p.is_symlink():
                 continue
             if rel not in sources or content(p) != content(sources[rel]):
-                archive = dst / '.deleted' / options['stamp'] / rel
+                archive = dst / '.deleted' / stamp / rel
                 archive.parent.mkdir(parents=True, exist_ok=True)
                 if archive.exists() or archive.is_symlink():
                     raise RuntimeError('archive collision: ' + str(archive))
@@ -180,7 +181,7 @@ elif mode == 'backup':
         for rel, p in reversed(tuple(sources.items())):
             if p.is_dir() and not p.is_symlink():
                 shutil.copystat(p, dst / rel)
-        (dst / '.last_success').write_text(options['stamp'])
+        (dst / '.last_success').write_text(stamp + '\\n')
         if options['backup_fail'] and len(rows) == 2 and i == 0:
             sys.exit(7)
 else:
@@ -253,7 +254,7 @@ class RootSwitchTests(unittest.TestCase):
         self.put(self.base / 'agent', b'loaded', 0o644, authoritative=False)
         self.put(self.base / 'launch.py', FAKE.encode(), 0o644, authoritative=False)
         self.put(self.base / 'command.py', COMMAND.encode(), 0o644, authoritative=False)
-        self.options = dict(head='a' * 40, dirty=False, busy=False, backup_fail=False, stamp='fixture-stamp')
+        self.options = dict(head='a' * 40, dirty=False, busy=False, backup_fail=False, stamp='20261023T120000')
         self.save_options()
         def command(mode):
             return [sys.executable, str(self.base / 'command.py'), str(self.base), mode]
@@ -271,7 +272,7 @@ class RootSwitchTests(unittest.TestCase):
                            backup=dict(command=command('backup'), table=str(self.table), env={}, timeout=10),
                            pairs=[['ssd', str(self.r), str(self.rdest), str(self.excludes)],
                                   ['ssd', str(self.m.parent), str(self.pdest), str(self.excludes)]],
-                           stamp='fixture-stamp', parent_backup=str(self.pdest),
+                           stamp='20261023T120000', parent_backup=str(self.pdest),
                            scan_roots=[str(self.home / name) for name in ()],
                            reader_commands={key: command('reader') for key in ('plutil', 'bash', 'zsh', 'git')})
         # Disjoint scans include home configuration, the renamed project folder,
@@ -324,7 +325,7 @@ class RootSwitchTests(unittest.TestCase):
 
     def fake_backup(self, table=None):
         return subprocess.run(self.config['backup']['command'],
-                              env=dict(os.environ, BACKUP_PAIRS=str(table or self.table)),
+                              env=dict(os.environ, BACKUP_PAIRS=str(table or self.table), BACKUP_STAMP='20261023T120000'),
                               capture_output=True, text=True, timeout=10)
 
     def test_fake_resync_archives_nested_metadata_and_preserves_anchored_metadata(self):
@@ -349,7 +350,7 @@ class RootSwitchTests(unittest.TestCase):
         table.write_text(f'reader\tsource\tdestination\texcludes\nssd\t{src}\t{dst}\texclude\n')
         result = self.fake_backup(table)
         self.assertEqual(result.returncode, 0, result.stderr)
-        archive = dst / '.deleted/fixture-stamp'
+        archive = dst / '.deleted/20261023T120000'
         for rel, (data, mode) in nested.items():
             self.assertEqual((archive / rel).read_bytes(), data)
             self.assertEqual((archive / rel).stat().st_mode & 0o7777, mode)
@@ -358,7 +359,7 @@ class RootSwitchTests(unittest.TestCase):
         self.assertEqual((dst / '.deleted/old/keep').read_bytes(), b'keep archive')
         self.assertFalse((dst / '.deleted/no-copy').exists())
         self.assertFalse((archive / '.last_success').exists())
-        self.assertEqual((dst / '.last_success').read_text(), 'fixture-stamp')
+        self.assertEqual((dst / '.last_success').read_text(), '20261023T120000\n')
         self.assertEqual((dst / '.last_success').stat().st_mode & 0o7777, 0o600)
         self.assertEqual((dst / 'changed').read_bytes(), b'new')
         self.assertEqual((dst / 'changed').stat().st_mode & 0o7777, 0o755)
@@ -466,8 +467,10 @@ class RootSwitchTests(unittest.TestCase):
         self.assertIn('explicit reader command unavailable', (self.run / 'checks.tsv').read_text())
 
     def test_changed_success_stamp_rolls_back(self):
-        self.config['stamp'] = 'different-stamp'
-        code, text = self.call()
+        def seam(point, item):
+            if point == 'done' and item.action.kind == 'BACKUP_RUN':
+                (self.pdest / '.last_success').write_bytes(b'different-stamp\n')
+        code, text = self.call(seam=seam)
         self.assert_restored(code, text)
         self.assertIn('differs from run stamp', text)
 
@@ -588,7 +591,7 @@ class RootSwitchTests(unittest.TestCase):
             self.assertEqual(Path(new).read_bytes(), expected, new)
             self.assertEqual(Path(new).stat().st_mode & 0o7777, mode, new)
         for dst in (self.pdest, self.rdest):
-            self.assertEqual((dst / '.last_success').read_text(), 'fixture-stamp')
+            self.assertEqual((dst / '.last_success').read_text(), '20261023T120000\n')
         self.assertFalse(any(self.m.name in p.parts for p in (self.pdest / '.deleted').rglob('*')))
 
     def test_unloaded_start_stops_at_pause_with_service_and_no_later_stage(self):
@@ -626,8 +629,8 @@ class RootSwitchTests(unittest.TestCase):
         code, text = self.call(seam=seam)
         self.assert_restored(code, text)
         self.assertEqual((self.pdest / self.m.name / 'payload').read_bytes(), (self.m / 'payload').read_bytes())
-        self.assertEqual((self.pdest / '.deleted' / 'fixture-stamp' / 'other').read_bytes(), b'old parent bytes')
-        self.assertEqual((self.pdest / '.deleted' / 'fixture-stamp' / 'obsolete').read_bytes(), b'archive me')
+        self.assertEqual((self.pdest / '.deleted' / '20261023T120000' / 'other').read_bytes(), b'old parent bytes')
+        self.assertEqual((self.pdest / '.deleted' / '20261023T120000' / 'obsolete').read_bytes(), b'archive me')
 
     def test_backup_failure_after_first_pair_restores_and_resyncs(self):
         self.options['backup_fail'] = True
@@ -636,8 +639,8 @@ class RootSwitchTests(unittest.TestCase):
         self.assert_restored(code, text)
         self.assertIn('BACKUP_RUN', text)
         self.assertEqual((self.pdest / 'other').read_bytes(), b'parent bytes')
-        self.assertEqual((self.pdest / '.deleted' / 'fixture-stamp' / 'obsolete').read_bytes(), b'archive me')
-        self.assertEqual((self.pdest / '.deleted' / 'fixture-stamp' / 'other').read_bytes(), b'old parent bytes')
+        self.assertEqual((self.pdest / '.deleted' / (self.pdest / '.last_success').read_text().removesuffix('\n') / 'obsolete').read_bytes(), b'archive me')
+        self.assertEqual((self.pdest / '.deleted' / (self.pdest / '.last_success').read_text().removesuffix('\n') / 'other').read_bytes(), b'old parent bytes')
 
     def test_newer_work_is_kept_and_recovery_exits_three(self):
         def seam(point, item):
