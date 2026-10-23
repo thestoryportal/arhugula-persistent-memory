@@ -4,9 +4,9 @@ set -e
 cd "$LLMDB_ROOT"   # 2026-10-04: was the pod's /workspace
 SRC=$LLMDB_ROOT/code/vendor/llama_cpp_src
 BIN=$SRC/build/bin
-ED=$LLMDB_ROOT/experiments/b3/runs/b3_edit/bulk/b3_edited_qwen3b
-F16=$LLMDB_ROOT/experiments/b3/runs/b3_edit/bulk/b3_edited_f16.gguf
-Q4=$LLMDB_ROOT/experiments/b3/runs/b3_edit/bulk/b3_edited_q4km.gguf
+ED=$LLMDB_ROOT/models/Qwen_Qwen2.5-3B/variants/b3/safetensors-f16
+F16=$LLMDB_ROOT/models/Qwen_Qwen2.5-3B/variants/b3/gguf-f16/b3_edited_f16.gguf
+Q4=$LLMDB_ROOT/models/Qwen_Qwen2.5-3B/variants/b3/gguf-q4km/b3_edited_q4km.gguf
 
 echo "=== [1/5] convert HF -> fp16 GGUF ==="
 python $SRC/convert_hf_to_gguf.py $ED --outfile $F16 --outtype f16

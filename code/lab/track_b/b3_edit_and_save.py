@@ -27,7 +27,7 @@ TMPL={"capital":"The capital of {} is the city of","currency":"The official curr
 GLOBAL_PROBES=["The largest planet in the solar system is","Water is composed of hydrogen and",
  "The chemical symbol for gold is","The opposite of hot is",
  "The first president of the United States was","The speed of light is approximately"]
-SAVE_DIR=f"{LLMDB_ROOT}/experiments/b3/runs/b3_edit/bulk/b3_edited_qwen3b"
+SAVE_DIR=f"{LLMDB_ROOT}/models/Qwen_Qwen2.5-3B/variants/b3/safetensors-f16"
 
 tok=AutoTokenizer.from_pretrained(ID, revision=REV)
 if tok.pad_token is None: tok.pad_token=tok.eos_token
