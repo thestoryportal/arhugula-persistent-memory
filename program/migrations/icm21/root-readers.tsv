@@ -37,13 +37,12 @@ REPLACE	_system/memory/work-from-main-folder-on-master.md	/Volumes/memit/llm-dat
 REPLACE	_system/memory/work-queue-tab-keep-current.md	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
 REPLACE	_system/memory/memory-paths-and-mirror-discipline.md	-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory	-Volumes-memit-arhugula-persistent-memory	1
 REPLACE	.claude/settings.local.json	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
-REPLACE	code/ops/backup/backup_pairs.tsv	"ssd	/Volumes/memit/llm-database-poc-mirror	/Users/robertrhu/Backups/memit/llm-database-poc-mirror	backup_mirror.excludes
-intel	/Volumes/memit/llm-database-poc-mirror	robertrhu_node2@192.168.10.2:memit_copy	backup_mirror.excludes
-gdrive	/Volumes/memit/llm-database-poc-mirror	gdrive:memit-backup/llm-database-poc-mirror	backup_mirror.excludes
-"	"ssd	/Volumes/memit/arhugula-persistent-memory	/Users/robertrhu/Backups/memit/arhugula-persistent-memory	backup_mirror.R.excludes
+REPLACE	code/ops/backup/backup_pairs.tsv	"reader	source	destination	excludes
+ssd	/Volumes/memit/llm-database-poc-mirror	"	"reader	source	destination	excludes
+ssd	/Volumes/memit/arhugula-persistent-memory	/Users/robertrhu/Backups/memit/arhugula-persistent-memory	backup_mirror.R.excludes
 gdrive	/Volumes/memit/arhugula-persistent-memory	gdrive:memit-backup/arhugula-persistent-memory	backup_mirror.R.excludes
 intel	/Volumes/memit/arhugula-persistent-memory	HOLD	backup_mirror.R.excludes
-"	1
+ssd	/Volumes/memit/llm-database-poc-mirror	"	1
 REPLACE	.venv/bin/accelerate	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
 REPLACE	.venv/bin/accelerate-config	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
 REPLACE	.venv/bin/accelerate-estimate-memory	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
