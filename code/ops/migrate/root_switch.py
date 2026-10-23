@@ -212,7 +212,7 @@ def _run(c, rows, seam):
             if name not in c['reader_commands'] or not c['reader_commands'][name]:
                 raise fdsafe.Refusal(name, 'ENOTSUP: explicit reader command unavailable')
             result = _command((*c['reader_commands'][name], *command.argv[1:]),
-                              env=dict(os.environ, **dict(command.env)), data=command.stdin)
+                              env=dict(os.environ, **dict(command.env)), data=command.stdin, timeout=command.timeout)
             return root_reader_checks.Output(result.returncode, result.stdout + result.stderr)
         code = root_reader_checks.main(['--root', c['r'], '--old-root', c['m'], '--registry', c['registry'],
                                         '--out', c['run'] + '/checks.tsv'], home=c['home'], runner=runner)
