@@ -18,9 +18,14 @@ PAIRS="${BACKUP_PAIRS:-$(/usr/bin/dirname "$0")/backup_pairs.tsv}"
 RSYNC="${BACKUP_RSYNC:-/opt/homebrew/bin/rsync}"
 MOUNT="${BACKUP_MOUNT:-/sbin/mount}"
 MOUNT_POINT="${BACKUP_MOUNT_POINT:-/Volumes/memit}"
-STAMP=$(/bin/date +%Y%m%dT%H%M%S)
 
 die() { echo "backup_mirror: FATAL: $*" >&2; exit 1; }
+
+# [LAW:single-enforcer] refuse caller stamps before any backup effect.
+if [ "${BACKUP_STAMP+x}" = x ]; then
+  [[ "$BACKUP_STAMP" =~ ^[0-9]{8}T[0-9]{6}$ ]] || die "BACKUP_STAMP must be YYYYMMDDTHHMMSS"
+fi
+STAMP=${BACKUP_STAMP-$(/bin/date +%Y%m%dT%H%M%S)}
 
 [ -f "$PAIRS" ] || die "pairs table missing: $PAIRS"
 SOURCES=(); DESTINATIONS=(); RULES=(); ROWS=()
