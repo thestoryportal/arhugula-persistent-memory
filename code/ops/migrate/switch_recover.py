@@ -56,6 +56,7 @@ def _repair(run, parsed):
         held = switch_exec._create(parent, '.recovery-' + uuid4().hex, data, identity.mode)
         try:
             switch_exec._replace_existing(held, 'journal', identity)
+            return _inode(fdsafe._fstat(held.fd, run + '/journal'))
         finally:
             fdsafe.close(held.fd, run + '/journal')
 
@@ -97,6 +98,25 @@ def _keys(state, run, actions, sequence):
     return tuple(keys)
 
 
+def _inode(st):
+    return st.st_dev, st.st_ino
+
+
+def _bound(parent, journal_identity):
+    # [LAW:single-enforcer] Every by-path step crosses this identity boundary.
+    fdsafe._settled(parent)
+    entry = fdsafe._scan(parent, 'journal')
+    if _inode(entry.st) != journal_identity:
+        raise fdsafe.Refusal(parent.path, 'ESTALE: journal identity changed')
+
+
+def _parse(raw, run):
+    try:
+        return parse(raw.decode('ascii'))
+    except UnicodeDecodeError as exc:
+        raise fdsafe.Refusal(run, 'EILSEQ: non-ASCII journal') from exc
+
+
 def recover(journal_path, *, effect_arguments, seam=lambda *args: None):
     """Return 1 after verified inverses, or print stopped items and return 3."""
     try:
@@ -104,51 +124,76 @@ def recover(journal_path, *, effect_arguments, seam=lambda *args: None):
         run, name = os.path.split(journal_path)
         if name != 'journal':
             raise fdsafe.Refusal(journal_path, 'EINVAL: executor journal must be named journal')
-        # read_journal permits absence for a new transaction; recovery must not.
+        # [LAW:no-ambient-temporal-coupling] Retain the first folder through verification.
         with fdsafe.hold_root(run) as parent:
+            journal_identity = _inode(fdsafe._scan(parent, name).st)
             raw = fdsafe.read_named(parent, name)
-            fdsafe._settled(parent)
-        parsed = switch_exec.read_journal(run)
-        images = {}
-        for item in parsed.records:
-            if (isinstance(item, Intent) and isinstance(item.action, (Replace, Install))
-                    and isinstance(item.action.pre, FileState)):
-                path = item.action.pre.preimage
-                if not fdsafe.inside(run, path):
-                    raise fdsafe.Refusal(path, 'EINVAL: preimage outside run folder')
-                images[path] = switch_exec.preimage_hash(path)
-        pending = parsed.records[-1] if parsed.records and isinstance(parsed.records[-1], Intent) else None
-        observation = None
-        if pending is not None:
-            observation = (_agent(effect_arguments(pending.action))
-                           if isinstance(pending.action, Launchd) else switch_exec.observe(pending.action))
-        state = recover_state(parsed, observation, images)
-        if state.status:
-            for stopped in state.stopped:
-                print(stopped, file=sys.stderr)
-            for item in state.done:
-                if (isinstance(item.action, Launchd) and item.action.to_state == 'loaded'
-                        and f'undo:{item.seq}' not in state.inverse_done):
-                    print(f'{item.key}: agent loaded; pause not held; no inverse applied',
-                          file=sys.stderr)
-            return 3
-        if parsed.truncated or (raw and not raw.endswith(b'\n')):
-            _repair(run, parsed)
-        if pending is not None:
-            # [LAW:single-enforcer] Recovery's classified state decides the receipt.
-            outcome = ('applied' if pending in state.done else
-                       'uncertain' if pending == state.pending else 'not-applied')
-            switch_exec.append_receipt(run, Done(pending.seq, observation, outcome))
-        actions = switch_inverse_core.plan(state, run)
-        sequence = max((record.seq for record in parsed.records), default=0)
-        switch_exec.execute(actions, run, direction='inverse',
-                            keys=_keys(state, run, actions, sequence),
-                            effect_arguments=effect_arguments, seam=seam)
-        switch_exec._check_journal(switch_exec.read_journal(run))
-        return 1
+            _bound(parent, journal_identity)
+            return _recover(parent, journal_identity, raw, effect_arguments, seam)
     except fdsafe.Refusal as exc:
         print(str(exc), file=sys.stderr)
         return 3
+
+
+def _recover(parent, journal_identity, raw, effect_arguments, seam):
+    run = parent.path
+    parsed = _parse(raw, run)
+    images = {}
+    for item in parsed.records:
+        if (isinstance(item, Intent) and isinstance(item.action, (Replace, Install))
+                and isinstance(item.action.pre, FileState)):
+            path = item.action.pre.preimage
+            if not fdsafe.inside(run, path):
+                raise fdsafe.Refusal(path, 'EINVAL: preimage outside run folder')
+            _bound(parent, journal_identity)
+            images[path] = switch_exec.preimage_hash(path)
+            _bound(parent, journal_identity)
+    pending = parsed.records[-1] if parsed.records and isinstance(parsed.records[-1], Intent) else None
+    observation = None
+    if pending is not None:
+        _bound(parent, journal_identity)
+        observation = (_agent(effect_arguments(pending.action))
+                       if isinstance(pending.action, Launchd) else switch_exec.observe(pending.action))
+        _bound(parent, journal_identity)
+    state = recover_state(parsed, observation, images)
+    if state.status:
+        for stopped in state.stopped:
+            print(stopped, file=sys.stderr)
+        for item in state.done:
+            if (isinstance(item.action, Launchd) and item.action.to_state == 'loaded'
+                    and f'undo:{item.seq}' not in state.inverse_done):
+                print(f'{item.key}: agent loaded; pause not held; no inverse applied',
+                      file=sys.stderr)
+        return 3
+    if parsed.truncated or (raw and not raw.endswith(b'\n')):
+        _bound(parent, journal_identity)
+        journal_identity = _repair(run, parsed)
+        _bound(parent, journal_identity)
+    if pending is not None:
+        # [LAW:single-enforcer] Recovery's classified state decides the receipt.
+        outcome = ('applied' if pending in state.done else
+                   'uncertain' if pending == state.pending else 'not-applied')
+        _bound(parent, journal_identity)
+        switch_exec.append_receipt(run, Done(pending.seq, observation, outcome))
+        _bound(parent, journal_identity)
+    actions = switch_inverse_core.plan(state, run)
+    sequence = max((record.seq for record in parsed.records), default=0)
+    keys = _keys(state, run, actions, sequence)
+    _bound(parent, journal_identity)
+    switch_exec.execute(actions, run, direction='inverse', keys=keys,
+                        effect_arguments=effect_arguments, seam=seam)
+    _bound(parent, journal_identity)
+    final = _parse(fdsafe.read_named(parent, 'journal'), run)
+    switch_exec._check_journal(final)
+    # [LAW:verifiable-goals] A valid older prefix is not proof of this batch.
+    intents = {r.seq: r for r in final.records if isinstance(r, Intent)}
+    done = {r.seq for r in final.records if isinstance(r, Done) and r.outcome == 'applied'}
+    for seq, key in enumerate(keys, sequence + 1):
+        if (seq not in done or seq not in intents or intents[seq].direction != 'inverse'
+                or intents[seq].key != key):
+            raise fdsafe.Refusal(run, f'EIO: inverse {key} has no verified done record')
+    _bound(parent, journal_identity)
+    return 1
 
 
 def _argument(value, shape, where):
@@ -160,7 +205,11 @@ def _argument(value, shape, where):
     if isinstance(shape, frozenset):
         if type(value) not in shape:
             raise fdsafe.Refusal(where, 'EINVAL: wrong numeric value type')
-        if value is not None and not math.isfinite(value):
+        try:
+            finite = value is None or math.isfinite(value)
+        except OverflowError as exc:
+            raise fdsafe.Refusal(where, 'EINVAL: numeric conversion failed: ' + str(exc)) from exc
+        if not finite:
             raise fdsafe.Refusal(where, 'EINVAL: expected finite number')
         return value
     if isinstance(shape, dict):
@@ -214,11 +263,11 @@ def _configuration(config):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--journal', required=True)
-    args = parser.parse_args(argv)
-    run = os.path.dirname(args.journal)
     try:
+        parser = argparse.ArgumentParser(description=__doc__)
+        parser.add_argument('--journal', required=True)
+        args = parser.parse_args(argv)
+        run = os.path.dirname(args.journal)
         with fdsafe.hold_root(run) as parent:
             data = fdsafe.read_named(parent, 'recovery.json')
             fdsafe._settled(parent)
@@ -230,6 +279,11 @@ def main(argv=None):
         return recover(args.journal, effect_arguments=lambda action: arguments[action.kind])
     except fdsafe.Refusal as exc:
         print(str(exc), file=sys.stderr)
+        return 3
+    except Exception as exc:
+        # [LAW:no-silent-failure] Exit 1 belongs only to verified recovery.
+        message = str(exc).replace('\r', r'\r').replace('\n', r'\n')
+        print(f'switch_recover: unexpected {type(exc).__name__}: {message}', file=sys.stderr)
         return 3
 
 

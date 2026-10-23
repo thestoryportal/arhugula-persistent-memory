@@ -209,6 +209,415 @@ class RecoveryTests(unittest.TestCase):
             displaced=displaced)
         self.assertEqual(result.exit_code, 0, result.stopped)
 
+    def fix2_stderr(self, expected, *, journal_path=None):
+        output = io.StringIO()
+        with contextlib.redirect_stderr(output):
+            code = switch_recover.main(['--journal', str(
+                journal_path or self.root / 'run/journal')])
+        self.assertEqual(code, 3, output.getvalue())
+        self.assertEqual(output.getvalue(), expected + '\n')
+
+    def fix2_config(self, config, expected):
+        (self.root / 'run/recovery.json').write_text(json.dumps(config))
+        self.fix2_stderr(expected)
+
+    def test_fix2_nonascii_journal(self):
+        (self.root / 'run/journal').write_bytes(b'\xff')
+        self.fix2_config(self.config(),
+            f"{str(self.root / 'run')!r}: EILSEQ: non-ASCII journal")
+
+    def test_fix2_journal_name(self):
+        (self.root / 'run/recovery.json').write_text(json.dumps(self.config()))
+        other = self.root / 'run/other'
+        other.write_bytes(b'')
+        self.fix2_stderr(f'{str(other)!r}: EINVAL: executor journal must be named journal',
+                         journal_path=other)
+
+    def test_fix2_invalid_json(self):
+        path = self.root / 'run/recovery.json'
+        for raw in (b'{', b'\xff'):
+            path.write_bytes(raw)
+            self.fix2_stderr(f'{str(path)!r}: EINVAL: invalid effect configuration')
+
+    def test_fix2_missing_kind(self):
+        for kind in ('LAUNCHD', 'QUIESCE', 'RESYNC_P', 'BACKUP_COMPARE'):
+            config = self.config()
+            del config[kind]
+            self.fix2_config(config, f'{kind!r}: EINVAL: missing effect kind key')
+
+    def test_fix2_config_object(self):
+        self.fix2_config([], "'recovery.json': EINVAL: expected effect argument object")
+
+    def test_fix2_unknown_kind(self):
+        config = self.config()
+        config['UNKNOWN'] = {}
+        self.fix2_config(config, "'UNKNOWN': EINVAL: unknown effect kind key")
+
+    def test_fix2_kind_object(self):
+        config = self.config()
+        config['LAUNCHD'] = []
+        self.fix2_config(config, "'LAUNCHD': EINVAL: expected effect argument object")
+
+    def test_fix2_extra_key(self):
+        config = self.config()
+        config['LAUNCHD']['extra'] = 'no'
+        self.fix2_config(config, "'LAUNCHD.extra': EINVAL: extra key")
+
+    def test_fix2_missing_key(self):
+        config = self.config()
+        del config['LAUNCHD']['domain']
+        self.fix2_config(config, "'LAUNCHD.domain': EINVAL: missing key")
+
+    def test_fix2_empty_argv(self):
+        config = self.config()
+        config['LAUNCHD']['command'] = []
+        self.fix2_config(config, "'LAUNCHD.command': EINVAL: empty argv")
+
+    def test_fix2_string(self):
+        config = self.config()
+        config['LAUNCHD']['domain'] = 17
+        self.fix2_config(config, "'LAUNCHD.domain': EINVAL: expected string without NUL")
+
+    def test_fix2_numeric_type(self):
+        config = self.config()
+        config['QUIESCE']['timeout'] = True
+        self.fix2_config(config, "'QUIESCE.timeout': EINVAL: wrong numeric value type")
+
+    def test_fix2_numeric_conversion(self):
+        for kind, key in (('QUIESCE', 'timeout'), ('QUIESCE', 'interval'),
+                          ('RESYNC_P', 'timeout')):
+            config = self.config()
+            config[kind][key] = 10**400
+            self.fix2_config(config, f"'{kind}.{key}': EINVAL: numeric conversion failed: "
+                             'int too large to convert to float')
+
+    def test_fix2_finite(self):
+        config = self.config()
+        config['QUIESCE']['timeout'] = float('inf')
+        self.fix2_config(config, "'QUIESCE.timeout': EINVAL: expected finite number")
+
+    def test_fix2_environment(self):
+        config = self.config()
+        config['RESYNC_P']['env'] = []
+        self.fix2_config(config, "'RESYNC_P.env': EINVAL: expected environment object")
+
+    def test_fix2_array(self):
+        config = self.config()
+        config['LAUNCHD']['command'] = 'not argv'
+        self.fix2_config(config, "'LAUNCHD.command': EINVAL: expected array")
+
+    def test_fix2_array_length(self):
+        config = self.config()
+        config['BACKUP_COMPARE']['displaced'] = [['a', 'b']]
+        self.fix2_config(config, "'BACKUP_COMPARE.displaced': EINVAL: wrong array length")
+
+    def test_fix2_agent(self):
+        self.kill_forward('pause')
+        with patch.object(switch_effects, '_run', return_value=
+                subprocess.CompletedProcess((), 9, '', 'fixture-denied')):
+            self.fix2_config(self.config(),
+                "'fixture/agent': EIO: launchctl print: 9 fixture-denied")
+
+    def fix2_repair_change(self, suffix, expected):
+        self.kill_forward('pause')
+        path = self.root / 'run/journal'
+        with path.open('ab') as stream:
+            stream.write(b'[')
+        real = switch_recover.recover_state
+        def change(*args, **kwargs):
+            state = real(*args, **kwargs)
+            with path.open('ab') as stream:
+                stream.write(suffix)
+            return state
+        with patch.object(switch_recover, 'recover_state', side_effect=change):
+            self.fix2_config(self.config(), f'{str(path)!r}: {expected}')
+
+    def test_fix2_repair_nonascii(self):
+        self.fix2_repair_change(b'\xff', 'EILSEQ: non-ASCII journal')
+
+    def test_fix2_repair_changed(self):
+        self.fix2_repair_change(b'"', 'ESTALE: journal changed before repair')
+
+    def test_fix2_archive_collision(self):
+        self.kill_forward('pause')
+        path = self.root / 'run/journal'
+        with path.open('ab') as stream:
+            stream.write(b'[')
+        archive = path.parent / ('journal.torn-' + sha256(path.read_bytes()).hexdigest())
+        archive.write_bytes(b'other')
+        self.fix2_config(self.config(), f'{str(archive)!r}: ESTALE: torn-journal archive differs')
+
+    def test_fix2_journal_identity(self):
+        (self.root / 'run/journal').write_bytes(b'')
+        path = self.root / 'run/journal'
+        real = switch_exec.execute
+        def replace(*args, **kwargs):
+            result = real(*args, **kwargs)
+            path.rename(path.with_name('parked-journal'))
+            path.write_bytes(path.with_name('parked-journal').read_bytes())
+            return result
+        with patch.object(switch_exec, 'execute', side_effect=replace):
+            self.fix2_config(self.config(),
+                f'{str(path.parent)!r}: ESTALE: journal identity changed')
+
+    def test_fix2_done_record(self):
+        path = self.root / 'run/journal'
+        path.write_bytes(b'')
+        real = switch_exec.execute
+        def lose(*args, **kwargs):
+            result = real(*args, **kwargs)
+            path.write_bytes(b'')
+            return result
+        with patch.object(switch_exec, 'execute', side_effect=lose):
+            self.fix2_config(self.config(),
+                f'{str(path.parent)!r}: EIO: inverse quiesce:1 has no verified done record')
+
+    def test_fix2_preimage_outside(self):
+        from dataclasses import replace
+        self.kill_forward('backup1')
+        path = self.root / 'run/journal'
+        outside = self.root / 'outside'
+        outside.write_bytes(b'start')
+        records = switch_exec.read_journal(str(path.parent)).records
+        changed = tuple(replace(record, action=replace(record.action,
+            pre=replace(record.action.pre, preimage=str(outside))))
+            if isinstance(record, journal.Intent) and isinstance(record.action, Replace)
+            else record for record in records)
+        path.write_text(''.join(journal.encode(record) for record in changed))
+        self.fix2_config(self.config(), f'{str(outside)!r}: EINVAL: preimage outside run folder')
+
+    def test_fix2_inverse_key(self):
+        # [LAW:behavior-not-structure] Exercise the planner/key disagreement refusal
+        # at its boundary; ordinary planner output cannot produce this state.
+        state = journal.RecoveryState((), (), None, (), 0)
+        action = Rename(str(self.root / 'P'), str(self.root / 'other'))
+        def disagreement(*args, **kwargs):
+            return switch_recover._keys(state, str(self.root / 'run'), (action,), 0)
+        with patch.object(switch_recover, 'recover', side_effect=disagreement):
+            self.fix2_config(self.config(), "'RENAME': EINVAL: inverse has no journal key")
+
+    def test_fix2_malformed_journal(self):
+        (self.root / 'run/journal').write_bytes(b'not JSON\n')
+        self.fix2_config(self.config(), "'line 1': EINVAL: malformed JSON")
+
+    def test_fix1_rebind_review_probe(self):
+        self.kill_forward('backup1')
+        run = self.root / 'run'
+        output = io.StringIO()
+        with contextlib.redirect_stderr(output), fault_kit.rename_and_rebind('close', 2, run):
+            code = switch_recover.recover(str(run / 'journal'),
+                effect_arguments=lambda a: effects(self.root, a))
+        self.assertEqual(code, 3, output.getvalue())
+        self.assertIn(str(run), output.getvalue())
+        self.assertEqual(list(run.iterdir()), [])
+
+    def test_fix1_large_integer_review_probe(self):
+        self.bad_configuration('QUIESCE', 'timeout', lambda v: v.update(timeout=10**400))
+
+    def test_fix1_large_integer_interval(self):
+        self.bad_configuration('QUIESCE', 'interval', lambda v: v.update(interval=10**400))
+
+    def test_fix1_large_integer_resync_timeout(self):
+        self.bad_configuration('RESYNC_P', 'timeout', lambda v: v.update(timeout=10**400))
+
+    def test_fix1_keyboard_interrupt_propagates(self):
+        with patch.object(fdsafe, 'hold_root', side_effect=KeyboardInterrupt):
+            with self.assertRaises(KeyboardInterrupt):
+                switch_recover.main(['--journal', str(self.root / 'run/journal')])
+
+    def test_fix1_unexpected_effect_cli(self):
+        self.kill_forward('backup1')
+        (self.root / 'run/recovery.json').write_text(json.dumps(self.config()))
+        script = """import os, sys
+import fault_kit
+from ops.migrate import switch_effects, switch_recover
+real = switch_effects.execute
+def fail(*args, **kwargs):
+    with fault_kit.raise_unexpected('fstat', 1, RuntimeError):
+        os.fstat(2)
+    return real(*args, **kwargs)
+switch_effects.execute = fail
+sys.exit(switch_recover.main(sys.argv[1:]))
+"""
+        result = subprocess.run((sys.executable, '-B', '-c', script, '--journal',
+            str(self.root / 'run/journal')), capture_output=True, text=True, timeout=10)
+        self.assertEqual(result.returncode, 3, result.stderr)
+        self.assertEqual(result.stderr, 'switch_recover: unexpected RuntimeError: '
+                         'fault_kit: unexpected RuntimeError from fstat\n')
+
+    def rebound_step(self, module, name, *, torn=False, populated=False):
+        self.kill_forward('backup1')
+        run = self.root / 'run'
+        if torn:
+            with (run / 'journal').open('ab') as stream:
+                stream.write(b'[')
+        real = getattr(module, name)
+        fired = []
+        replacement = []
+        def contents():
+            return {str(p.relative_to(run)): (p.read_bytes(), p.stat().st_mode)
+                    for p in run.rglob('*') if p.is_file()}
+        def rebound(*args, **kwargs):
+            value = real(*args, **kwargs)
+            if not fired:
+                with fault_kit.rename_and_rebind('fstat', 1, run) as attack:
+                    os.fstat(2)
+                if populated:
+                    shutil.copytree(attack.parked, run, dirs_exist_ok=True)
+                replacement.append(contents())
+                fired.append(True)
+            return value
+        output = io.StringIO()
+        with contextlib.ExitStack() as stack:
+            stack.enter_context(patch.object(module, name, side_effect=rebound))
+            if name == 'parse':
+                stack.enter_context(patch.object(switch_exec, 'parse', side_effect=rebound))
+            stack.enter_context(contextlib.redirect_stderr(output))
+            code = switch_recover.recover(str(run / 'journal'),
+                effect_arguments=lambda a: effects(self.root, a))
+        self.assertEqual(fired, [True])
+        self.assertEqual(code, 3, output.getvalue())
+        self.assertIn(str(run), output.getvalue())
+        self.assertEqual(contents(), replacement[0])
+        if not populated:
+            self.assertEqual(list(run.iterdir()), [])
+
+    def test_fix1_populated_before_preimage(self):
+        self.rebound_step(switch_recover, 'parse', populated=True)
+
+    def test_fix1_populated_after_preimage(self):
+        self.rebound_step(switch_exec, 'preimage_hash', populated=True)
+
+    def test_fix1_populated_after_observation(self):
+        self.rebound_step(switch_exec, 'observe', populated=True)
+
+    def test_fix1_populated_before_repair(self):
+        self.rebound_step(switch_recover, 'recover_state', torn=True, populated=True)
+
+    def test_fix1_populated_before_receipt(self):
+        self.rebound_step(switch_recover, '_repair', torn=True, populated=True)
+
+    def test_fix1_populated_after_receipt(self):
+        self.rebound_step(switch_exec, 'append_receipt', populated=True)
+
+    def test_fix1_populated_before_execute(self):
+        self.rebound_step(switch_recover.switch_inverse_core, 'plan', populated=True)
+
+    def test_fix1_populated_before_final_verification(self):
+        self.rebound_step(switch_exec, 'execute', populated=True)
+
+    def test_fix1_populated_before_receipt_without_repair(self):
+        self.rebound_step(switch_recover, 'recover_state', populated=True)
+
+    def test_fix1_first_read_is_authoritative(self):
+        self.kill_forward('backup1')
+        path = self.root / 'run/journal'
+        real = fdsafe.read_named
+        fired = []
+        def truncate_after_read(parent, name):
+            raw = real(parent, name)
+            if name == 'journal' and not fired:
+                path.write_bytes(b'')
+                fired.append(True)
+            return raw
+        output = io.StringIO()
+        with patch.object(fdsafe, 'read_named', side_effect=truncate_after_read), \
+                contextlib.redirect_stderr(output):
+            code = switch_recover.recover(str(path), effect_arguments=lambda a: effects(self.root, a))
+        self.assertEqual(fired, [True])
+        self.assertEqual(code, 3, output.getvalue())
+        self.assertIn(str(path.parent), output.getvalue())
+        self.assertEqual(path.read_bytes(), b'')
+        self.assertEqual((self.root / 'P/repo/file').read_bytes(), b'changed')
+
+    def test_fix1_rebind_before_preimage(self):
+        self.rebound_step(switch_recover, 'parse')
+
+    def test_fix1_rebind_after_preimage(self):
+        self.rebound_step(switch_exec, 'preimage_hash')
+
+    def test_fix1_rebind_after_observation(self):
+        self.rebound_step(switch_exec, 'observe')
+
+    def test_fix1_rebind_before_repair(self):
+        self.rebound_step(switch_recover, 'recover_state', torn=True)
+
+    def test_fix1_rebind_before_receipt(self):
+        self.rebound_step(switch_recover, '_repair', torn=True)
+
+    def test_fix1_rebind_after_receipt(self):
+        self.rebound_step(switch_exec, 'append_receipt')
+
+    def test_fix1_rebind_before_execute(self):
+        self.rebound_step(switch_recover.switch_inverse_core, 'plan')
+
+    def test_fix1_rebind_before_final_verification(self):
+        self.rebound_step(switch_exec, 'execute')
+
+    def test_fix1_rebind_after_final_verification(self):
+        real = switch_exec._check_journal
+        finished = []
+        execute = switch_exec.execute
+        def finish(*args, **kwargs):
+            result = execute(*args, **kwargs)
+            finished.append(True)
+            return result
+        def check(parsed):
+            result = real(parsed)
+            if finished:
+                with fault_kit.rename_and_rebind('fstat', 1, self.root / 'run'):
+                    os.fstat(2)
+            return result
+        self.kill_forward('backup1')
+        output = io.StringIO()
+        with patch.object(switch_exec, 'execute', side_effect=finish), \
+                patch.object(switch_exec, '_check_journal', side_effect=check), \
+                contextlib.redirect_stderr(output):
+            code = switch_recover.recover(str(self.root / 'run/journal'),
+                effect_arguments=lambda a: effects(self.root, a))
+        self.assertEqual(code, 3, output.getvalue())
+        self.assertIn(str(self.root / 'run'), output.getvalue())
+        self.assertEqual(list((self.root / 'run').iterdir()), [])
+
+    def test_fix1_final_requires_executed_done_records(self):
+        self.kill_forward('backup1')
+        execute = switch_exec.execute
+        path = self.root / 'run/journal'
+        def lost_receipts(*args, **kwargs):
+            before = path.read_bytes()
+            result = execute(*args, **kwargs)
+            path.write_bytes(before)
+            return result
+        output = io.StringIO()
+        with patch.object(switch_exec, 'execute', side_effect=lost_receipts), \
+                contextlib.redirect_stderr(output):
+            code = switch_recover.recover(str(path), effect_arguments=lambda a: effects(self.root, a))
+        self.assertEqual(code, 3, output.getvalue())
+        self.assertIn(str(path.parent), output.getvalue())
+
+    def changed_journal(self, missing):
+        self.kill_forward('backup1')
+        path = self.root / 'run/journal'
+        real = switch_exec.execute
+        def change(*args, **kwargs):
+            result = real(*args, **kwargs)
+            path.rename(path.with_name('parked-journal'))
+            if not missing:
+                path.write_bytes(path.with_name('parked-journal').read_bytes())
+            return result
+        output = io.StringIO()
+        with patch.object(switch_exec, 'execute', side_effect=change), \
+                contextlib.redirect_stderr(output):
+            code = switch_recover.recover(str(path), effect_arguments=lambda a: effects(self.root, a))
+        self.assertEqual(code, 3, output.getvalue())
+        self.assertIn(str(path.parent), output.getvalue())
+
+    def test_fix1_missing_journal_after_execute(self):
+        self.changed_journal(True)
+
+    def test_fix1_replaced_journal_after_execute(self):
+        self.changed_journal(False)
+
     def test_kill_during_first_backup_pair(self):
         self.kill_forward('backup1')
         self.restored(True)
@@ -399,13 +808,17 @@ class RecoveryTests(unittest.TestCase):
     def test_main_unexpected_read_error_surfaces(self):
         (self.root / 'run/recovery.json').write_text('{}')
         with fault_kit.raise_unexpected('read', 1, RuntimeError):
-            with self.assertRaises(RuntimeError):
-                switch_recover.main(['--journal', str(self.root / 'run/journal')])
+            with contextlib.redirect_stderr(io.StringIO()) as output:
+                self.assertEqual(switch_recover.main(['--journal', str(self.root / 'run/journal')]), 3)
+            self.assertEqual(output.getvalue(), 'switch_recover: unexpected RuntimeError: '
+                             'fault_kit: unexpected RuntimeError from read\n')
 
     def test_main_json_recursion_error_surfaces(self):
         (self.root / 'run/recovery.json').write_text('[' * 2000 + '0' + ']' * 2000)
-        with self.assertRaises(RecursionError):
-            switch_recover.main(['--journal', str(self.root / 'run/journal')])
+        with contextlib.redirect_stderr(io.StringIO()) as output:
+            self.assertEqual(switch_recover.main(['--journal', str(self.root / 'run/journal')]), 3)
+        self.assertRegex(output.getvalue(), r'^switch_recover: unexpected RecursionError: '
+                         r'maximum recursion depth exceeded[^\n]*\n$')
 
     def test_preimage_outside_run_refuses_without_reading_it(self):
         from dataclasses import replace
