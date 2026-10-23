@@ -121,6 +121,34 @@ print("Number of files: 1")
         self.assertEqual(self.mount_calls.read_text().splitlines(), ['["mount"]'] * 2)
         self.assertNotEqual(self.manifest(), before)
 
+    def test_recording_clock_source_and_call_count(self):
+        text = self.script.read_text()
+        self.assertEqual(text.count("/bin/date"), 1)
+        clock_stamp = "20010203T040506"
+        clock_calls = self.base / "clock.jsonl"
+        clock = self.base / "clock"
+        # [LAW:effects-at-boundaries] observe the clock through its real argv interface.
+        clock.write_text(f"#!{sys.executable}\n"
+                         "import json, sys\n"
+                         f"with open({str(clock_calls)!r}, 'a') as stream:\n"
+                         "    stream.write(json.dumps(sys.argv[1:]) + '\\n')\n"
+                         f"print({clock_stamp!r})\n")
+        clock.chmod(0o755)
+        self.script = self.base / "backup_mirror.sh"
+        self.script.write_text(text.replace("/bin/date", str(clock)))
+        for supplied, expected, calls in (
+                (None, clock_stamp, [["+%Y%m%dT%H%M%S"]]),
+                ("20261023T104500", "20261023T104500", [])):
+            with self.subTest(supplied=supplied):
+                for log in (clock_calls, self.mount_calls, self.rsync_calls):
+                    log.write_bytes(b"")
+                self.assert_success(supplied)
+                self.assertEqual([json.loads(line) for line in
+                                  clock_calls.read_text().splitlines()], calls)
+                self.assertEqual([(dest / ".last_success").read_bytes()
+                                  for dest in self.dests],
+                                 [(expected + "\n").encode()] * 2)
+
     def test_unset_uses_one_clock_stamp_across_rows(self):
         self.assert_success(None)
 
