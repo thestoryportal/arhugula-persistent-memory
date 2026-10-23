@@ -193,9 +193,12 @@ def run(args):
             parent, name = os.path.split(os.path.abspath(args.report))
         with fdsafe.hold_root(parent) as held:
             # [LAW:single-enforcer] The inherited create owns output settlement.
-            # File roots cannot contain output; exclusive creation protects their names.
             report = fdsafe.create_file(held, name, data,
                                         [root for root in roots if isinstance(root, fdsafe.Dir)])
+            # Entry has no held leaf fd; compare its path with the settled output.
+            for root in roots:
+                if isinstance(root, fdsafe.Entry) and report == root.path:
+                    raise fdsafe.Refusal(report, f'was written inside root {root.path}; left in place')
             report_errors.enter_context(report_refusals(report))
     return result.exit_status
 

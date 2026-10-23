@@ -215,6 +215,55 @@ class FileRoots(unittest.TestCase):
         self.refused(self.call('--report', str(self.leaf)), 'EEXIST')
         self.assertEqual(self.leaf.read_bytes(), self.data)
 
+    def test_report_at_parked_file_root_refuses_and_stays_untouched(self):
+        self.report = self.leaf
+        self.registry.write_text(f'RECORD\t{self.leaf}\n')
+        parked = self.home / 'saved-reader'
+        written = []
+        real_write = fdsafe.write_held
+        def capture(held, data):
+            real_write(held, data)
+            written.append((self.leaf.read_bytes(), self.leaf.stat().st_ino))
+        def park(fault, original, args, kwargs):
+            self.leaf.rename(parked)
+            return original(*args, **kwargs)
+        with FK._at_call('open', 1, park,
+                         lambda name, flags, *a, **kw:
+                         name == self.leaf.name and bool(flags & os.O_CREAT)), \
+                mock.patch.object(fdsafe, 'write_held', capture), \
+                mock.patch.object(os, 'unlink', wraps=os.unlink) as unlink, \
+                mock.patch.object(os, 'remove', wraps=os.remove) as remove:
+            result = self.call()
+        self.assertEqual(result[:2], (2, ''), result)
+        self.assertEqual(result[2].splitlines(),
+                         [f"{str(self.leaf)!r}: was written inside root {self.leaf}; left in place"])
+        self.assertNotIn('PASS', ''.join(result[1:]))
+        self.assertEqual(len(written), 1)
+        self.assertEqual((self.leaf.read_bytes(), self.leaf.stat().st_ino), written[0])
+        self.assertEqual(json.loads(written[0][0])['hits'], {str(self.leaf): 2})
+        self.assertEqual(parked.read_bytes(), self.data)
+        unlink.assert_not_called()
+        remove.assert_not_called()
+
+    def test_parent_rebind_at_leaf_close_refuses(self):
+        self.registry.write_text(f'RECORD\t{self.leaf}\n')
+        with FK.rename_and_rebind('close', 1, self.home,
+                                 match=lambda fd, *a:
+                                 fdsafe.live_path(fd, 'test') == str(self.leaf)):
+            self.refused(self.call(), 'is held at')
+
+    def test_replacement_before_parent_open_keeps_scanned_identity(self):
+        self.registry.write_text(f'RECORD\t{self.leaf}\n')
+        replacement = self.base / 'replacement'
+        replacement.write_bytes(str(self.old).encode() * 7)
+        def swap(fault, original, args, kwargs):
+            self.leaf.rename(self.home / 'saved-reader')
+            replacement.rename(self.leaf)
+            return original(*args, **kwargs)
+        with FK._at_call('open', 1, swap,
+                         lambda name, *a, **kw: name == str(self.home)):
+            self.refused(self.call(), 'changed between scan and open/read')
+
     def test_file_root_fds_close_on_pass_and_refusal(self):
         before = len(os.listdir('/dev/fd'))
         self.assertEqual(self.call(), (1, '', ''))
