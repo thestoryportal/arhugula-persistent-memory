@@ -18,7 +18,7 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parents[2]
-RUN = ROOT / "results/c10y_precast_diag/20261009T225619Z"
+RUN = Path(__file__).resolve().parent / "bulk/c10y_precast_diag/20261009T225619Z"
 OFFLOAD = Path.home() / "Backups/memit_offload/c10y_precast_20261009T225619Z"
 DEFAULT_STEM = "controls_A7_coined_coined_L4_control_inputs"
 PACKET_NAME = re.compile(r"(?:controls_A7_coined_coined_L[4-8]_control_inputs|operands_A7_coined_coined_L[4-8]_A)")
