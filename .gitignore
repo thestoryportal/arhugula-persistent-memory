@@ -143,3 +143,5 @@ visualization/*.onnx
 
 # Git worktrees are git machinery, never content (ICM v2 phase 3).
 .claude/worktrees/
+# model payload trees (STORAGE.md § Models): weight bytes and their side files stay local; manifests and guides are tracked
+/models/*/variants/

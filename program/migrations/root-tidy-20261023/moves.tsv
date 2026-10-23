@@ -1,0 +1,136 @@
+n	src	dst	basis
+1	b3_edited_qwen3b	models/Qwen_Qwen2.5-3B/variants/b3/safetensors-f16	STORAGE.md:49 edited payload
+2	b3_edited_f16.gguf	models/Qwen_Qwen2.5-3B/variants/b3/gguf-f16/b3_edited_f16.gguf	STORAGE.md:49
+3	b3_edited_q4km.gguf	models/Qwen_Qwen2.5-3B/variants/b3/gguf-q4km/b3_edited_q4km.gguf	STORAGE.md:49
+4	c10l_mint_edited_qwen3b_N	models/Qwen_Qwen2.5-3B/variants/c10l-mint-n/safetensors-f16	STORAGE.md:49
+5	c10l_mint_N_f16.gguf	models/Qwen_Qwen2.5-3B/variants/c10l-mint-n/gguf-f16/c10l_mint_N_f16.gguf	STORAGE.md:49
+6	c10l_mint_N_q4km.gguf	models/Qwen_Qwen2.5-3B/variants/c10l-mint-n/gguf-q4km/c10l_mint_N_q4km.gguf	STORAGE.md:49
+7	results/c10w_oracle/p1_20261007T223707_598959Z/adapters	models/Qwen_Qwen2.5-3B/variants/c10w-oracle/lora-safetensors/p1_20261007T223707_598959Z	G4-G5-APPROVAL.md:47
+8	results/c10w_oracle/p2_20261008T034226_086980Z/adapters	models/Qwen_Qwen2.5-3B/variants/c10w-oracle/lora-safetensors/p2_20261008T034226_086980Z	G4-G5-APPROVAL.md:47
+9	results/c10w_oracle	experiments/c10w/runs/c10w_oracle/bulk/c10w_oracle	CONTEXT.md rule 2
+10	results/autoresearch_c10_equivalence.log	experiments/c10r/runs/autoresearch_c10_equivalence_run/bulk/autoresearch_c10_equivalence.log	CONTEXT.md rule 2
+11	results/autoresearch_c10_equivalence_rerun.log	experiments/c10r/runs/autoresearch_c10_equivalence_run/bulk/autoresearch_c10_equivalence_rerun.log	CONTEXT.md rule 2
+12	results/autoresearch_c10_setup_check.log	experiments/c10r/runs/autoresearch_c10_equivalence_run/bulk/autoresearch_c10_setup_check.log	CONTEXT.md rule 2
+13	results/autoresearch_reaim	projects/retest-plan/bulk/autoresearch_reaim	home of receipts/autoresearch_reaim
+14	results/backups_audit_20261011T084030Z	knowledge/analyses/backups-audit/bulk/backups_audit_20261011T084030Z	home of tracked sibling
+15	results/c10u_mint2_review_tokenizer_check_20261006-133250.json	experiments/c10u/runs/c10u_mint2/bulk/c10u_mint2_review_tokenizer_check_20261006-133250.json	CONTEXT.md rule 2
+16	results/compute_storage_brainstorm_20261011T054507Z	knowledge/analyses/compute-storage/bulk/compute_storage_brainstorm_20261011T054507Z	home of tracked sibling
+17	results/context_audit_20261012	projects/context-audit/bulk/context_audit_20261012	home of the audit
+18	results/infranodus_research_arc_2026-10-05	knowledge/analyses/infranodus/bulk/infranodus_research_arc_2026-10-05	home of tracked sibling
+19	results/intel_memit_copy_20261012	projects/drive-activate/bulk/intel_memit_copy_20261012	home of receipts/intel_memit_copy_20261012
+20	results/labviz	projects/labviz-spec-v3/receipts/bulk/labviz	build.py:487 and review.mjs:12 write here
+21	results/openresearch_archive	knowledge/research/openresearch_archive	its writer target; .gitignore:137
+22	results/research_engine_brainstorm_20261011T032049Z	projects/research-engine-phase1-brief/bulk/research_engine_brainstorm_20261011T032049Z	home of drafts/
+23	results/research_engine_phase1_20261011	projects/research-engine-phase1-brief/bulk/research_engine_phase1_20261011	home of receipts/
+24	results/mathlab_staging/runs/new1_20261010T235740.858576Z	experiments/new1/runs/new1_20261010T235740.858576Z/bulk/new1_20261010T235740.858576Z	CONTEXT.md rule 2
+25	results/mathlab_staging/runs/new1_20261010T053945.884468Z	experiments/new1/runs/new1_20261010T053945.884468Z/bulk/new1_20261010T053945.884468Z	CONTEXT.md rule 2
+26	results/mathlab_staging	_archive/projects/mathlab/mathlab_staging/bulk/mathlab_staging	path-map: mathlab_staging home
+27	logs/claude_c10k_keying_ablation_result_review_v2.md	experiments/c10k/reviews/claude_c10k_keying_ablation_result_review_v2.md	review record, tracked later
+28	logs/codex_c10k_keying_ablation_result_review_v2.md	experiments/c10k/reviews/codex_c10k_keying_ablation_result_review_v2.md	review record, tracked later
+29	logs/claude_c10k_keying_ablation_result_review_v2.err	experiments/c10k/reviews/bulk/claude_c10k_keying_ablation_result_review_v2.err	raw stderr
+30	logs/codex_c10k_keying_ablation_result_review.err	experiments/c10k/reviews/bulk/codex_c10k_keying_ablation_result_review.err	raw stderr
+31	logs/codex_c10k_keying_ablation_result_review_v2.err	experiments/c10k/reviews/bulk/codex_c10k_keying_ablation_result_review_v2.err	raw stderr
+32	logs/codex_c10k_route_a_result_review.err	experiments/c10k/reviews/bulk/codex_c10k_route_a_result_review.err	raw stderr
+33	logs/pending_findings	experiments/ml/reviews/pending_findings	AUTONOMY.md:63
+34	results/backup_gdrive_drive_20261010T071708Z	_archive/projects/backup-gdrive/bulk/backup_gdrive_drive_20261010T071708Z	home of tracked siblings
+35	results/backup_gdrive_host_20261010	_archive/projects/backup-gdrive/bulk/backup_gdrive_host_20261010	home of tracked siblings
+36	results/backup_gdrive_host_20261011	_archive/projects/backup-gdrive/bulk/backup_gdrive_host_20261011	home of tracked siblings
+37	results/backup_gdrive_mb14_20261010T095752Z	_archive/projects/backup-gdrive/bulk/backup_gdrive_mb14_20261010T095752Z	home of tracked siblings
+38	results/c10l_covgeom	experiments/c10l/runs/c10l_covgeom/bulk/c10l_covgeom	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+39	results/c10l_mint	experiments/c10l/runs/c10l_mint/bulk/c10l_mint	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+40	results/c10m_diag	experiments/c10m/runs/c10m_diag/bulk/c10m_diag	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+41	results/c10n_ztransport	experiments/c10n/runs/c10n_ztransport/bulk/c10n_ztransport	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+42	results/c10o_magnitude	experiments/c10o/runs/c10o_magnitude/bulk/c10o_magnitude	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+43	results/c10p_twopass	experiments/c10p/runs/c10p_twopass/bulk/c10p_twopass	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+44	results/c10u_mint2_logs	experiments/c10u/runs/c10u_mint2/bulk/c10u_mint2_logs	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+45	results/c10v_layerpick_logs	experiments/c10v/runs/c10v_layerpick/bulk/c10v_layerpick_logs	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+46	results/c10w_oracle_logs	experiments/c10w/runs/c10w_oracle/bulk/c10w_oracle_logs	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+47	results/c10x_enginepath	experiments/c10x/runs/c10x_enginepath/bulk/c10x_enginepath	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+48	results/c10x_enginepath_logs	experiments/c10x/runs/c10x_enginepath/bulk/c10x_enginepath_logs	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+49	results/c10x_enginepath_p1_launch.log	experiments/c10x/runs/c10x_enginepath/bulk/c10x_enginepath_p1_launch.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+50	results/c10x_enginepath_rerun1	experiments/c10x/runs/c10x_enginepath_rerun1/bulk/c10x_enginepath_rerun1	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+51	results/c10x_enginepath_rerun1_launch.log	experiments/c10x/runs/c10x_enginepath_rerun1/bulk/c10x_enginepath_rerun1_launch.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+52	results/c10x_enginepath_rerun1_logs	experiments/c10x/runs/c10x_enginepath_rerun1/bulk/c10x_enginepath_rerun1_logs	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+53	results/c10x_enginepath_rerun2_launch.log	experiments/c10x/runs/c10x_enginepath_rerun2/bulk/c10x_enginepath_rerun2_launch.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+54	results/c10x_enginepath_rerun2_logs	experiments/c10x/runs/c10x_enginepath_rerun2/bulk/c10x_enginepath_rerun2_logs	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+55	results/c10x_enginepath_rerun3	experiments/c10x/runs/c10x_enginepath_rerun3/bulk/c10x_enginepath_rerun3	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+56	results/c10x_enginepath_rerun3_launch.log	experiments/c10x/runs/c10x_enginepath_rerun3/bulk/c10x_enginepath_rerun3_launch.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+57	results/c10x_enginepath_rerun3_logs	experiments/c10x/runs/c10x_enginepath_rerun3/bulk/c10x_enginepath_rerun3_logs	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+58	results/c10x_x2_probe	experiments/c10x/runs/c10x_x2_probe/bulk/c10x_x2_probe	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+59	results/c10x_x2_probe_run.log	experiments/c10x/runs/c10x_x2_probe/bulk/c10x_x2_probe_run.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+60	results/c10x_x2_probe_run2.log	experiments/c10x/runs/c10x_x2_probe/bulk/c10x_x2_probe_run2.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+61	results/c10y_directdw_calib1	experiments/c10y/runs/c10y_directdw_calib1/bulk/c10y_directdw_calib1	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+62	results/c10y_directdw_calib1_launch.log	experiments/c10y/runs/c10y_directdw_calib1/bulk/c10y_directdw_calib1_launch.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+63	results/c10y_directdw_calib2	experiments/c10y/runs/c10y_directdw_calib2/bulk/c10y_directdw_calib2	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+64	results/c10y_directdw_calib2_launch.log	experiments/c10y/runs/c10y_directdw_calib2/bulk/c10y_directdw_calib2_launch.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+65	results/c10y_directdw_calib3	experiments/c10y/runs/c10y_directdw_calib3/bulk/c10y_directdw_calib3	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+66	results/c10y_directdw_calib3_launch.log	experiments/c10y/runs/c10y_directdw_calib3/bulk/c10y_directdw_calib3_launch.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+67	results/c10y_directdw_calib4	experiments/c10y/runs/c10y_directdw_calib4/bulk/c10y_directdw_calib4	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+68	results/c10y_directdw_calib4_launch.log	experiments/c10y/runs/c10y_directdw_calib4/bulk/c10y_directdw_calib4_launch.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+69	results/c10y_precast_diag	experiments/c10y/runs/c10y_precast_diag/bulk/c10y_precast_diag	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+70	results/c10z_astra	experiments/c10z/runs/c10z_astra/bulk/c10z_astra	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+71	results/c10z_astra_attempt2	experiments/c10z/runs/c10z_astra_attempt2/bulk/c10z_astra_attempt2	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+72	results/c10z_astra_attempt2_chain.log	experiments/c10z/runs/c10z_astra_attempt2/bulk/c10z_astra_attempt2_chain.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+73	results/c10z_astra_attempt3	experiments/c10z/runs/c10z_astra_attempt3/bulk/c10z_astra_attempt3	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+74	results/c10z_astra_attempt3_chain.log	experiments/c10z/runs/c10z_astra_attempt3/bulk/c10z_astra_attempt3_chain.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+75	results/c10z_astra_attempt4	experiments/c10z/runs/c10z_astra_attempt4/bulk/c10z_astra_attempt4	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+76	results/c10z_astra_attempt4_infrafail_20261009T234321Z	experiments/c10z/runs/c10z_astra_attempt4_infrafail_20261009T234321Z/bulk/c10z_astra_attempt4_infrafail_20261009T234321Z	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+77	results/c10z_astra_attempt4_infrafail_20261009T234321Z_chain.log	experiments/c10z/runs/c10z_astra_attempt4_infrafail_20261009T234321Z/bulk/c10z_astra_attempt4_infrafail_20261009T234321Z_chain.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+78	results/c10z_astra_benchmark	experiments/c10z/runs/c10z_astra_benchmark/bulk/c10z_astra_benchmark	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+79	results/c10z_astra_benchmark_20261008T104535Z.log	experiments/c10z/runs/c10z_astra_benchmark/bulk/c10z_astra_benchmark_20261008T104535Z.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+80	results/c10z_astra_benchmark_20261008T121345Z.log	experiments/c10z/runs/c10z_astra_benchmark/bulk/c10z_astra_benchmark_20261008T121345Z.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+81	results/c10z_astra_benchmark_20261009T012936Z.log	experiments/c10z/runs/c10z_astra_benchmark/bulk/c10z_astra_benchmark_20261009T012936Z.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+82	results/c10z_astra_chain.launchfail126.log	experiments/c10z/runs/c10z_astra/bulk/c10z_astra_chain.launchfail126.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+83	results/c10z_astra_chain.log	experiments/c10z/runs/c10z_astra/bulk/c10z_astra_chain.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+84	results/c10z_astra_z0_probe_run.log	experiments/c10z/runs/c10z_astra_z0_probe/bulk/c10z_astra_z0_probe_run.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+85	results/c10z_astra_z0_probe_run_mask.log	experiments/c10z/runs/c10z_astra_z0_probe/bulk/c10z_astra_z0_probe_run_mask.log	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+86	results/c10z_v7_diagnostic	experiments/c10z/runs/c10z_v7_diagnostic/bulk/c10z_v7_diagnostic	CONTEXT.md rule 2 (route table run, bulk/ not results/)
+87	results/dashboard_audit_20261010	_archive/projects/dashboard/bulk/dashboard_audit_20261010	home of tracked siblings
+88	results/dashboard_queue_build_20261011T014430Z	_archive/projects/dashboard/bulk/dashboard_queue_build_20261011T014430Z	home of tracked siblings
+89	results/git_automation_build_20261010T064202.457112Z	_archive/projects/git-automation/bulk/git_automation_build_20261010T064202.457112Z	home of tracked siblings
+90	results/git_automation_fix2_mb7_20261010T084957.416181Z	_archive/projects/git-automation/bulk/git_automation_fix2_mb7_20261010T084957.416181Z	home of tracked siblings
+91	results/git_automation_fix3_mb13_20261010T092614.133488Z	_archive/projects/git-automation/bulk/git_automation_fix3_mb13_20261010T092614.133488Z	home of tracked siblings
+92	results/git_automation_fix_mb7_20261010T082038.786164Z	_archive/projects/git-automation/bulk/git_automation_fix_mb7_20261010T082038.786164Z	home of tracked siblings
+93	results/mathlab/harvest2_launch_20261009T203407Z.log	experiments/ml/bulk/launch-logs/harvest2_launch_20261009T203407Z.log	CONTEXT.md rule 2
+94	results/mathlab/harvest_20261009T184950.056951Z	experiments/ml/runs/harvest_20261009T184950.056951Z/bulk/harvest_20261009T184950.056951Z	CONTEXT.md rule 2
+95	results/mathlab/harvest_20261009T203705.724371Z	experiments/ml/runs/harvest_20261009T203705.724371Z/bulk/harvest_20261009T203705.724371Z	CONTEXT.md rule 2
+96	results/mathlab/harvest_launch_20261009T184919Z.log	experiments/ml/bulk/launch-logs/harvest_launch_20261009T184919Z.log	CONTEXT.md rule 2
+97	results/mathlab/m2_20261009T192823.926873Z	experiments/ml/runs/m2_20261009T192823.926873Z/bulk/m2_20261009T192823.926873Z	CONTEXT.md rule 2
+98	results/mathlab/m2_20261009T211538.263001Z	experiments/ml/runs/m2_20261009T211538.263001Z/bulk/m2_20261009T211538.263001Z	CONTEXT.md rule 2
+99	results/mathlab/m2_h2_launch_20261009T211535Z.log	experiments/ml/bulk/launch-logs/m2_h2_launch_20261009T211535Z.log	CONTEXT.md rule 2
+100	results/mathlab/m2_launch_20261009T192821Z.log	experiments/ml/bulk/launch-logs/m2_launch_20261009T192821Z.log	CONTEXT.md rule 2
+101	results/mathlab/m3_h2_launch_20261009T225554Z.log	experiments/ml/bulk/launch-logs/m3_h2_launch_20261009T225554Z.log	CONTEXT.md rule 2
+102	logs/c10k_keying_ablation_N1_last_0.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_0.log	logs route table; .pt to bulk/ where readers look
+103	logs/c10k_keying_ablation_N1_last_1.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_1.log	logs route table; .pt to bulk/ where readers look
+104	logs/c10k_keying_ablation_N1_last_2.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_2.log	logs route table; .pt to bulk/ where readers look
+105	logs/c10k_keying_ablation_N1_last_3.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_3.log	logs route table; .pt to bulk/ where readers look
+106	logs/c10k_keying_ablation_N1_last_4.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_4.log	logs route table; .pt to bulk/ where readers look
+107	logs/c10k_keying_ablation_N1_last_5.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_last_5.log	logs route table; .pt to bulk/ where readers look
+108	logs/c10k_keying_ablation_N1_subject_0.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_0.log	logs route table; .pt to bulk/ where readers look
+109	logs/c10k_keying_ablation_N1_subject_1.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_1.log	logs route table; .pt to bulk/ where readers look
+110	logs/c10k_keying_ablation_N1_subject_2.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_2.log	logs route table; .pt to bulk/ where readers look
+111	logs/c10k_keying_ablation_N1_subject_3.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_3.log	logs route table; .pt to bulk/ where readers look
+112	logs/c10k_keying_ablation_N1_subject_4.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_4.log	logs route table; .pt to bulk/ where readers look
+113	logs/c10k_keying_ablation_N1_subject_5.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_N1_subject_5.log	logs route table; .pt to bulk/ where readers look
+114	logs/c10k_keying_ablation_framebleed.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_framebleed.log	logs route table; .pt to bulk/ where readers look
+115	logs/c10k_keying_ablation_framebleed_b.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_framebleed_b.log	logs route table; .pt to bulk/ where readers look
+116	logs/c10k_keying_ablation_n1_chain.log	experiments/c10k/runs/c10k_keying_ablation/logs/c10k_keying_ablation_n1_chain.log	logs route table; .pt to bulk/ where readers look
+117	logs/c10k_route_a_P_0.02.pt	experiments/c10k/runs/c10k_route_a/bulk/c10k_route_a_P_0.02.pt	logs route table; .pt to bulk/ where readers look
+118	logs/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt	experiments/c10k/runs/c10k_route_a/bulk/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt	logs route table; .pt to bulk/ where readers look
+119	logs/c10k_route_a_P_perlayer_0.02-0.02-0.02-0.02-0.03.pt	experiments/c10k/runs/c10k_route_a/bulk/c10k_route_a_P_perlayer_0.02-0.02-0.02-0.02-0.03.pt	logs route table; .pt to bulk/ where readers look
+120	logs/c10k_route_a_R0_baseline.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_R0_baseline.log	logs route table; .pt to bulk/ where readers look
+121	logs/c10k_route_a_R1_A7_DIAGNOSTIC_ONLY.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_R1_A7_DIAGNOSTIC_ONLY.log	logs route table; .pt to bulk/ where readers look
+122	logs/c10k_route_a_R1_controls.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_R1_controls.log	logs route table; .pt to bulk/ where readers look
+123	logs/c10k_route_a_R3_A1_DIAGNOSTIC_ONLY.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_R3_A1_DIAGNOSTIC_ONLY.log	logs route table; .pt to bulk/ where readers look
+124	logs/c10k_route_a_anchor.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_anchor.log	logs route table; .pt to bulk/ where readers look
+125	logs/c10k_route_a_diag_arms.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_diag_arms.log	logs route table; .pt to bulk/ where readers look
+126	logs/c10k_route_a_fp64_resolve_control.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_fp64_resolve_control.log	logs route table; .pt to bulk/ where readers look
+127	logs/c10k_route_a_gate_v2_controls.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_gate_v2_controls.log	logs route table; .pt to bulk/ where readers look
+128	logs/c10k_route_a_gate_v2_controls_fp32.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_gate_v2_controls_fp32.log	logs route table; .pt to bulk/ where readers look
+129	logs/c10k_route_a_gate_v2_fp32.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_gate_v2_fp32.log	logs route table; .pt to bulk/ where readers look
+130	logs/c10k_route_a_gate_v2_run2.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_gate_v2_run2.log	logs route table; .pt to bulk/ where readers look
+131	logs/c10k_route_a_memit_ridge_diag.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_memit_ridge_diag.log	logs route table; .pt to bulk/ where readers look
+132	logs/c10k_route_a_solve_backtest.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_solve_backtest.log	logs route table; .pt to bulk/ where readers look
+133	logs/c10k_route_a_solve_gain_diag.log	experiments/c10k/runs/c10k_route_a/logs/c10k_route_a_solve_gain_diag.log	logs route table; .pt to bulk/ where readers look
+134	logs/route_a_chain.log	experiments/c10k/runs/c10k_route_a/logs/route_a_chain.log	logs route table; .pt to bulk/ where readers look
+135	logs/route_a_chain_rerun_L2-0.01.log	experiments/c10k/runs/c10k_route_a/logs/route_a_chain_rerun_L2-0.01.log	logs route table; .pt to bulk/ where readers look

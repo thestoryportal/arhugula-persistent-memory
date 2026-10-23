@@ -1,0 +1,341 @@
+{
+  "model": "Qwen/Qwen2.5-3B",
+  "revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+  "license_source": "https://huggingface.co/Qwen/Qwen2.5-3B (model card)",
+  "move_record": "program/migrations/root-tidy-20261023",
+  "base": {
+    "locator": "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/",
+    "note": "Base stays in the HF cache layout (STORAGE.md:58); not copied.",
+    "files": [
+      {
+        "path": "config.json",
+        "bytes": 683,
+        "algorithm": "git-blob-sha1",
+        "digest": "acd0065677f7999d568f327c94188adbbcb6e158"
+      },
+      {
+        "path": "generation_config.json",
+        "bytes": 138,
+        "algorithm": "git-blob-sha1",
+        "digest": "cbbb3133034e192527e5321b4c679154e4819ab8"
+      },
+      {
+        "path": "merges.txt",
+        "bytes": 1671839,
+        "algorithm": "git-blob-sha1",
+        "digest": "20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0"
+      },
+      {
+        "path": "model-00001-of-00002.safetensors",
+        "bytes": 3968658944,
+        "algorithm": "sha256",
+        "digest": "f9558df91d3b89b4826e4db37439edb52f1d62a4fd602685013e7ca6b9f60f8f"
+      },
+      {
+        "path": "model-00002-of-00002.safetensors",
+        "bytes": 2203268048,
+        "algorithm": "sha256",
+        "digest": "51410930d5cf19a998fdb17ef0c46e4d9ace72c97a975a3331395a8a500f5edb"
+      },
+      {
+        "path": "model.safetensors.index.json",
+        "bytes": 35581,
+        "algorithm": "git-blob-sha1",
+        "digest": "38047c6284a25427043f0ab040f623a2a20dd093"
+      },
+      {
+        "path": "tokenizer.json",
+        "bytes": 7031645,
+        "algorithm": "git-blob-sha1",
+        "digest": "443909a61d429dff23010e5bddd28ff530edda00"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "bytes": 7228,
+        "algorithm": "git-blob-sha1",
+        "digest": "ba7e4c5637b9732dadcd66286ce48334e8b31e9e"
+      },
+      {
+        "path": "vocab.json",
+        "bytes": 2776833,
+        "algorithm": "git-blob-sha1",
+        "digest": "4783fe10ac3adce15ac8f358ef5462739852c569"
+      }
+    ]
+  },
+  "variants": {
+    "b3": {
+      "what": "Qwen2.5-3B fp16 with the A1-clean 100-edit AlphaEdit batch (50 entities x 2 fields, one joint solve)",
+      "experiment": "experiments/b3",
+      "evidence": [
+        "evidence/CORPUS/17_B3_QUANTIZATION_SURVIVAL.md",
+        "evidence/CORPUS/18_E1_DEPLOYMENT_SERVING.md"
+      ],
+      "produced_by": "code/lab/track_b/b3_edit_and_save.py (safetensors); code/lab/track_b/b3_run.sh (GGUF, llama.cpp b11382)",
+      "payloads": [
+        {
+          "old_path": "b3_edited_qwen3b",
+          "path": "models/Qwen_Qwen2.5-3B/variants/b3/safetensors-f16",
+          "files": [
+            {
+              "path": "added_tokens.json",
+              "bytes": 605,
+              "sha256": "58b54bbe36fc752f79a24a271ef66a0a0830054b4dfad94bde757d851968060b"
+            },
+            {
+              "path": "config.json",
+              "bytes": 706,
+              "sha256": "6d181af9a22d39f44a1b9b9807c38f6f19dc34880429b71efcbeba52d6424f84"
+            },
+            {
+              "path": "generation_config.json",
+              "bytes": 117,
+              "sha256": "48cb44e1826355c05f4669411c12ad4d4deefc240885fb5747f02b07ee07d602"
+            },
+            {
+              "path": "merges.txt",
+              "bytes": 1671853,
+              "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+            },
+            {
+              "path": "model-00001-of-00002.safetensors",
+              "bytes": 4957559960,
+              "sha256": "7c4b005a4ec735a87345150707c773c234d854bddd58a88f4923ff26db394219"
+            },
+            {
+              "path": "model-00002-of-00002.safetensors",
+              "bytes": 1214366608,
+              "sha256": "0f7bdad5c6a980c3bc1815fa567f616eb189bab857c71219fc1bbb22de7ef490"
+            },
+            {
+              "path": "model.safetensors.index.json",
+              "bytes": 35581,
+              "sha256": "7b85f79fd7612df2e5d7f03d7f92d65c8967f790a331146ca7f45658823060d3"
+            },
+            {
+              "path": "special_tokens_map.json",
+              "bytes": 616,
+              "sha256": "6676f091c8bc4d1b50146427cfde92073402866b87b6e39223227931b70083e9"
+            },
+            {
+              "path": "tokenizer.json",
+              "bytes": 11421896,
+              "sha256": "9c5ae00e602b8860cbd784ba82a8aa14e8feecec692e7076590d014d7b7fdafa"
+            },
+            {
+              "path": "tokenizer_config.json",
+              "bytes": 7259,
+              "sha256": "a5dae0102f342a3b6bc2a4d03f430ed83666dcab8879c9ee44c08a3d9095132d"
+            },
+            {
+              "path": "vocab.json",
+              "bytes": 2776833,
+              "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+            }
+          ]
+        },
+        {
+          "old_path": "b3_edited_f16.gguf",
+          "path": "models/Qwen_Qwen2.5-3B/variants/b3/gguf-f16/b3_edited_f16.gguf",
+          "files": [
+            {
+              "path": ".",
+              "bytes": 6178316512,
+              "sha256": "2d210f6248094111ec23c8642f27d8271ac28f17f1e29bbaf6b13f56d7f07729"
+            }
+          ]
+        },
+        {
+          "old_path": "b3_edited_q4km.gguf",
+          "path": "models/Qwen_Qwen2.5-3B/variants/b3/gguf-q4km/b3_edited_q4km.gguf",
+          "files": [
+            {
+              "path": ".",
+              "bytes": 1929902304,
+              "sha256": "eed04180c5159554216f33a303a0f435c80fe41670952c5e9543ab7db0d47147"
+            }
+          ]
+        }
+      ],
+      "base_revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
+    },
+    "c10l-mint-n": {
+      "what": "Qwen2.5-3B with 24 minted tokens (ids 151665-151688), init arm N (seed 0), edit written",
+      "experiment": "experiments/c10l",
+      "evidence": [
+        "evidence/CORPUS/45_C10L_MINT_TOKEN.md"
+      ],
+      "produced_by": "c10l_mint_arms.py with MINT_SAVE_DIR; _archive/code/closed-runners/c10l_mint_p4.sh (GGUF)",
+      "committed_digests": "experiments/c10l/runs/c10l_mint/p4_gguf_sha256.txt",
+      "payloads": [
+        {
+          "old_path": "c10l_mint_edited_qwen3b_N",
+          "path": "models/Qwen_Qwen2.5-3B/variants/c10l-mint-n/safetensors-f16",
+          "files": [
+            {
+              "path": "added_tokens.json",
+              "bytes": 1287,
+              "sha256": "5a662b439c7af69b80b37e47346c90479ea1945b8104bf8b989f98e2b21cd957"
+            },
+            {
+              "path": "config.json",
+              "bytes": 706,
+              "sha256": "6d181af9a22d39f44a1b9b9807c38f6f19dc34880429b71efcbeba52d6424f84"
+            },
+            {
+              "path": "generation_config.json",
+              "bytes": 117,
+              "sha256": "48cb44e1826355c05f4669411c12ad4d4deefc240885fb5747f02b07ee07d602"
+            },
+            {
+              "path": "hf_fp16_top1_ids.json",
+              "bytes": 8630,
+              "sha256": "162be35fd99774e780dddd68043fc10117b465d18a92a2486d8e3bf31ee2dc87"
+            },
+            {
+              "path": "merges.txt",
+              "bytes": 1671853,
+              "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+            },
+            {
+              "path": "model-00001-of-00002.safetensors",
+              "bytes": 4957559960,
+              "sha256": "f41fd485cc3dc53b32b6d3d8491e50b7579160d633233a846e992271d6a96c93"
+            },
+            {
+              "path": "model-00002-of-00002.safetensors",
+              "bytes": 1214366608,
+              "sha256": "0f7bdad5c6a980c3bc1815fa567f616eb189bab857c71219fc1bbb22de7ef490"
+            },
+            {
+              "path": "model.safetensors.index.json",
+              "bytes": 35581,
+              "sha256": "7b85f79fd7612df2e5d7f03d7f92d65c8967f790a331146ca7f45658823060d3"
+            },
+            {
+              "path": "special_tokens_map.json",
+              "bytes": 616,
+              "sha256": "6676f091c8bc4d1b50146427cfde92073402866b87b6e39223227931b70083e9"
+            },
+            {
+              "path": "tokenizer.json",
+              "bytes": 11426514,
+              "sha256": "655637b0f402b0b5b9fcc5b2717e1045eddebad06a09d3f476bf2a2ebeb8e36e"
+            },
+            {
+              "path": "tokenizer_config.json",
+              "bytes": 11637,
+              "sha256": "e0a439767f2d9290906f8eee1c3b57e19eacb9c78987f9721cf1ef501af1d2e7"
+            },
+            {
+              "path": "vocab.json",
+              "bytes": 2776833,
+              "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+            }
+          ]
+        },
+        {
+          "old_path": "c10l_mint_N_f16.gguf",
+          "path": "models/Qwen_Qwen2.5-3B/variants/c10l-mint-n/gguf-f16/c10l_mint_N_f16.gguf",
+          "files": [
+            {
+              "path": ".",
+              "bytes": 6178316608,
+              "sha256": "57f8484e039460d8a5bf423619c9020124199553e9de521bfcaed0b75250bc43"
+            }
+          ]
+        },
+        {
+          "old_path": "c10l_mint_N_q4km.gguf",
+          "path": "models/Qwen_Qwen2.5-3B/variants/c10l-mint-n/gguf-q4km/c10l_mint_N_q4km.gguf",
+          "files": [
+            {
+              "path": ".",
+              "bytes": 1929902400,
+              "sha256": "6b6b6d35a0e73251dfd2f2504cb292514f3b6685a6f5eb48cb4c54edc0d59915"
+            }
+          ]
+        }
+      ],
+      "base_revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
+    },
+    "c10w-oracle": {
+      "what": "11 rank-16 LoRA adapters of the C10W oracle runs p1 and p2 (G4-G5-APPROVAL.md:47: adapters go with the Qwen model)",
+      "experiment": "experiments/c10w",
+      "evidence": [
+        "evidence/CORPUS/57_C10W_ORACLE_FINAL.md"
+      ],
+      "produced_by": "C10W oracle runner; the rest of each run unit is at experiments/c10w/runs/c10w_oracle/bulk/c10w_oracle",
+      "payloads": [
+        {
+          "old_path": "results/c10w_oracle/p1_20261007T223707_598959Z/adapters",
+          "path": "models/Qwen_Qwen2.5-3B/variants/c10w-oracle/lora-safetensors/p1_20261007T223707_598959Z",
+          "files": [
+            {
+              "path": "A1_single_s0_r16.safetensors",
+              "bytes": 4179028,
+              "sha256": "23c199f91412da368d5e2c9204cbac06f2153dd8958da572d69c1ba7785cefe1"
+            },
+            {
+              "path": "A2_coherent2_s0_r16.safetensors",
+              "bytes": 4179028,
+              "sha256": "d5d9832620fb2db0c6f1ed984ef5e79b34361f61efb253ccc873c07885b35e90"
+            },
+            {
+              "path": "A7_canon_s0_r16.safetensors",
+              "bytes": 4179028,
+              "sha256": "869905010f81fd3c6e006b3a5cf0a809221ac7b5b315f7a3665ee2f58874cd53"
+            },
+            {
+              "path": "A7_coined_coined_s0_r16.safetensors",
+              "bytes": 4179028,
+              "sha256": "4e2ae47a450f7014b4d3b003c125796beeb9b37ac94a32f937a65f6187cd124f"
+            },
+            {
+              "path": "A7_shuf_s0_r16.safetensors",
+              "bytes": 4179028,
+              "sha256": "9ce29297d07622e47d5354bd769b26cc0ce89d07128769cfeea39e84a5df094b"
+            }
+          ]
+        },
+        {
+          "old_path": "results/c10w_oracle/p2_20261008T034226_086980Z/adapters",
+          "path": "models/Qwen_Qwen2.5-3B/variants/c10w-oracle/lora-safetensors/p2_20261008T034226_086980Z",
+          "files": [
+            {
+              "path": "A1_single_s1_r16.safetensors",
+              "bytes": 4179028,
+              "sha256": "64d0e2b0a156795356537a694e2a798262157d3fca2b0f6adc2aad617734fe1d"
+            },
+            {
+              "path": "A7_canon_s1_r16.safetensors",
+              "bytes": 4179028,
+              "sha256": "5975f010672163e8767836d2a34f523a72e7aa9769d7907f3593f088e7bdeef6"
+            },
+            {
+              "path": "A7_coined_coined_s0_r16_rt.safetensors",
+              "bytes": 4179028,
+              "sha256": "dbb91d570e162e05959eb5c66fb3f0a423897e1c27f4458066a26c4a5212f36a"
+            },
+            {
+              "path": "A7_coined_coined_s1_r16.safetensors",
+              "bytes": 4179028,
+              "sha256": "694522186f97e807777e97906ca5a75ab230c07453114698f0509a2d5b44caab"
+            },
+            {
+              "path": "A7_shuf_s0_r16_rt.safetensors",
+              "bytes": 4179028,
+              "sha256": "fbae5ce0ab0a8b0f23e43b9cd5c342d0d1a7aba98e5358255a8e44c8f322d670"
+            },
+            {
+              "path": "A7_shuf_s1_r16.safetensors",
+              "bytes": 4179028,
+              "sha256": "6a422241a9ec858aaf033ebbf06250c715840d97e3a1d14a373f5c925827a495"
+            }
+          ]
+        }
+      ],
+      "base_revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
+    }
+  }
+}

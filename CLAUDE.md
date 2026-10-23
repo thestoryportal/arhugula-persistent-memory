@@ -47,6 +47,9 @@ Read `CONTEXT.md` (the umbrella). Then read the `CONTEXT.md` of the one folder t
 | `code/CONTEXT.md` | All code, grouped by job |
 | `map/CONTEXT.md` | The system map of `code/`: catalog, noun index and inventory (cards, process records and an effects index come after v2) |
 | `data/CONTEXT.md` | External shared inputs (caches, covariance). They stay out of git. |
+| `models/CONTEXT.md` | Model payloads by model: edited variants, formats and manifests. Weight bytes stay out of git. |
+| `plans/` | ICM v2.1 migration specs (`plans/icm21/specs/`). Approved plans read them by digest; do not move them. |
+| `audits/` | The context-audit guide (`audits/context/CONTEXT.md`) and its reports. |
 | `_system/CONTEXT.md` | The governance rules and the agent memory mirror |
 | `_templates/CONTEXT.md` | The stamps for a new experiment or project |
 | `_index/CONTEXT.md` | Generated indexes, written by `code/state/build_index.py` |

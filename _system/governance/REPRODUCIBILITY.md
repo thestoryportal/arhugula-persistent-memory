@@ -38,7 +38,7 @@ sys.path.insert(0, ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 | **B1** size-density (7B) | `MODEL_ID=Qwen/Qwen2.5-7B HPARAMS=…/configs/hparams/qwen25_7b_memit_hparams.json SCREEN=…/configs/screens/g6_screen_qwen7b.json WRITE_MODE=batch RESULT_TAG=_qwen7b python code/lab/scale/g6_scale_n_param.py` | yes | `experiments/g6/runs/g6_scale_n_batch/g6_scale_n_batch_result_qwen7b.json` |
 | **B3** quant survival | `bash code/lab/track_b/b3_run.sh` (convert→Q4_K_M→probe→verdict) | yes (+CPU serve) | `experiments/b3/runs/b3_quant_survival/b3_quant_survival_result.json` |
 | **B3** verdict only | `python code/lab/track_b/b3_verdict.py` | no | recomputes the PASS from `results/b3_pred_*.json` |
-| **E1** LARQL serve | `larql convert gguf-to-vindex --level inference b3_edited_q4km.gguf …` then `larql lql 'USE …; INFER …'` (see `evidence/CORPUS/18`) | no (CPU) | `experiments/e1/runs/e1_larql_serve/e1_larql_serve_result.json` |
+| **E1** LARQL serve | `larql convert gguf-to-vindex --level inference models/Qwen_Qwen2.5-3B/variants/b3/gguf-q4km/b3_edited_q4km.gguf …` then `larql lql 'USE …; INFER …'` (see `evidence/CORPUS/18`) | no (CPU) | `experiments/e1/runs/e1_larql_serve/e1_larql_serve_result.json` |
 | **A7** bias ablation | `python code/lab/track_a/a7_bias_ablation.py` | yes | `logs/a7_bias_ablation.log` |
 | **C2** keying probe | `python code/lab/track_c/c2_key_collinearity.py` | yes | `experiments/c2/runs/c2/c2_result.json` |
 | **C2b** depth map | `python code/lab/track_c/c2b_depth_map.py` | yes | `experiments/c2b/runs/c2b_depth_map/c2b_depth_map_result.json` |
