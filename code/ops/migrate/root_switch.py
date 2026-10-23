@@ -70,12 +70,12 @@ def _config(path):
     return parsed
 
 
-def _command(argv, *, env=None, data=None):
+def _command(argv, *, env=None, data=None, timeout=10):
     with fdsafe.fs(str(argv)):
         try:
-            result = subprocess.run(argv, input=data, capture_output=True, env=env, timeout=10)
+            result = subprocess.run(argv, input=data, capture_output=True, env=env, timeout=timeout)
         except subprocess.TimeoutExpired as exc:
-            raise fdsafe.Refusal(str(argv), 'ETIMEDOUT: command exceeded 10 s') from exc
+            raise fdsafe.Refusal(str(argv), f'ETIMEDOUT: command exceeded {timeout} s') from exc
     return result
 
 
@@ -149,11 +149,11 @@ def _create(run, name, data):
 
 
 def _rollback(c):
-    # [LAW:single-enforcer] A fresh Step 422 process is the sole inverse path.
+    # [LAW:single-enforcer] A fresh Step 422 process is the sole inverse path; Step 422 owns its operation limits.
     code_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     result = _command((c['python'], '-B', '-m', 'ops.migrate.switch_recover',
                        '--journal', c['run'] + '/journal'),
-                      env=dict(os.environ, PYTHONPATH=code_root, PYTHONDONTWRITEBYTECODE='1'))
+                      env=dict(os.environ, PYTHONPATH=code_root, PYTHONDONTWRITEBYTECODE='1'), timeout=None)
     print(result.stderr.decode('utf-8', errors='replace'), end='', file=sys.stderr)
     return result.returncode
 

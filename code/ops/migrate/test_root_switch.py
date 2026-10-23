@@ -691,5 +691,231 @@ class RootSwitchTests(unittest.TestCase):
         self.assertIn('PASS', result.stdout)
 
 
+    def test_rollback_uses_recovery_operation_timeout(self):
+        recovery = self.config['recovery']['RESYNC_P']
+        original = recovery['command']
+        recovery['command'] = [sys.executable, '-c',
+            'import os,sys,time; time.sleep(11); os.execv(sys.argv[1],sys.argv[1:])', *original]
+        recovery['timeout'] = 20
+        def seam(point, item):
+            if (point, item) == ('stage', 'RESUME'):
+                raise fdsafe.Refusal('RESUME', 'EIO: force recovery after backup')
+        code, text = self.call(seam=seam)
+        self.assert_restored(code, text)
+
+    def test_copied_recovery_is_a_fresh_process(self):
+        import ast
+        import importlib.util
+        copied = self.run / 'code'
+        self.assertFalse(Path(sys.executable).is_relative_to(self.m))
+        pending = ['ops.migrate.root_switch']
+        seen = set()
+        while pending:
+            name = pending.pop()
+            if name in seen:
+                continue
+            seen.add(name)
+            origin = Path(importlib.util.find_spec(name).origin)
+            target = copied.joinpath(*name.split('.')).with_suffix('.py')
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(origin, target)
+            tree = ast.parse(origin.read_text())
+            for node in ast.walk(tree):
+                if isinstance(node, ast.ImportFrom) and node.module and node.module.startswith('ops.migrate'):
+                    if node.module == 'ops.migrate':
+                        pending.extend(node.module + '.' + alias.name for alias in node.names)
+                    else:
+                        pending.append(node.module)
+        # [LAW:behavior-not-structure] The fake observes the caller of each real command.
+        recorder = '''import json, os, sys
+from pathlib import Path
+with (Path(sys.argv[1]) / 'launch-calls').open('a') as stream:
+    stream.write(json.dumps([sys.argv, os.getppid(), os.environ['PYTHONPATH']]) + '\\n')
+'''
+        (self.base / 'launch.py').write_text(recorder + FAKE)
+        self.config['reader_commands']['plutil'] = []
+        self.config_path.write_text(json.dumps(self.config))
+        with subprocess.Popen([sys.executable, '-B', '-m', 'ops.migrate.root_switch', '--run',
+                               '--config', str(self.config_path)], cwd=self.run,
+                              env=dict(os.environ, PYTHONPATH=str(copied)),
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True) as process:
+            self.addCleanup(process.kill)
+            try:
+                stdout, stderr = process.communicate(timeout=10)
+            finally:
+                if process.poll() is None:
+                    process.kill()
+                process.wait()
+            switch_pid = process.pid
+        self.assert_restored(process.returncode, stdout + stderr)
+        calls = [json.loads(line) for line in (self.base / 'launch-calls').read_text().splitlines()]
+        loads = [call for call in calls if call[0][2] == 'bootstrap']
+        self.assertEqual(len(loads), 1, calls)
+        self.assertNotIn(loads[0][1], (switch_pid, os.getpid()))
+        self.assertEqual(loads[0][2], str(copied))
+
+    def test_forward_journal_contains_the_whole_transaction(self):
+        from ops.migrate.switch_journal_core import Intent
+        code, text = self.call()
+        self.assertEqual(code, 0, text)
+        kinds = [record.action.kind for record in switch_exec.read_journal(str(self.run)).records
+                 if isinstance(record, Intent) and record.direction == 'forward']
+        self.assertEqual(kinds, [
+            'LAUNCHD', 'QUIESCE', 'RENAME', 'RENAME', 'RENAME',
+            'REPLACE', 'REPLACE', 'REPLACE', 'REPLACE', 'REPLACE',
+            'REPLACE', 'REPLACE', 'REPLACE', 'REPLACE', 'INSTALL',
+            'REPLACE', 'BACKUP_RUN', 'LAUNCHD'])
+
+    def test_each_ssd_stamp_is_checked_independently(self):
+        for index in (0, 1):
+            with self.subTest(pair=index):
+                fixture = RootSwitchTests('test_run_order_and_authoritative_modes')
+                fixture.setUp()
+                try:
+                    def seam(point, item):
+                        if point == 'done' and item.action.kind == 'BACKUP_RUN':
+                            Path(fixture.config['pairs'][index][2], '.last_success').write_bytes(b'wrong-stamp')
+                    code, text = fixture.call(seam=seam)
+                    fixture.assert_restored(code, text)
+                    bad = fixture.config['pairs'][index][2] + '/.last_success: differs from run stamp'
+                    good = fixture.config['pairs'][1 - index][2] + '/.last_success'
+                    self.assertIn(bad, text)
+                    self.assertNotIn(good, text)
+                finally:
+                    fixture.doCleanups()
+
+
+    def test_configuration_container_types_are_refused(self):
+        original = self.config
+        for value, message in ((list(original), 'configuration keys'),
+                               (dict(original, backup=list(original['backup'])), 'expected command')):
+            with self.subTest(value=value):
+                self.config = value
+                try:
+                    code, text = self.call('--dry-run')
+                except TypeError as exc:
+                    self.fail('configuration must refuse without a traceback: ' + str(exc))
+                self.assertEqual(code, 2, text)
+                self.assertIn(message, text)
+                self.assertEqual(self.snapshot(), self.start)
+        self.config = original
+
+    def test_every_path_and_scan_position_is_validated(self):
+        original = self.config
+        cases = [(key, original[key] + '/') for key in
+                 ('m', 'r', 'home', 'run', 'registry', 'tools', 'ready', 'parent_backup', 'python')]
+        for index in range(len(original['scan_roots'])):
+            scans = list(original['scan_roots'])
+            scans[index] = 'relative'
+            cases.append(('scan_roots', scans))
+        for key, value in cases:
+            with self.subTest(key=key, value=value):
+                self.config = dict(original, **{key: value})
+                code, text = self.call('--dry-run')
+                self.assertEqual(code, 2, text)
+                self.assertIn('canonical absolute path', text)
+                self.assertEqual(self.snapshot(), self.start)
+        self.config = original
+
+    def test_each_pair_requires_ssd_backend(self):
+        original = self.config['pairs']
+        for index in (0, 1):
+            with self.subTest(pair=index):
+                pairs = [list(pair) for pair in original]
+                pairs[index][0] = 'gdrive'
+                self.config['pairs'] = pairs
+                code, text = self.call('--dry-run')
+                self.assertEqual(code, 2, text)
+                self.assertIn('both SSD pairs', text)
+                self.assertEqual(self.snapshot(), self.start)
+        self.config['pairs'] = original
+
+    def test_process_rows_validate_shape_and_decimal_pid(self):
+        for line in ('123', 'abc invalid'):
+            with self.subTest(line=line):
+                self.config['process'] = [sys.executable, '-c', 'print(' + repr(line) + ')']
+                try:
+                    code, text = self.call('--dry-run')
+                except (IndexError, ValueError) as exc:
+                    self.fail('malformed process must refuse without a traceback: ' + str(exc))
+                self.assertEqual(code, 2, text)
+                self.assertIn('malformed process line', text)
+
+    def test_process_caller_and_writer_can_occur_in_either_position(self):
+        self.config['process'] = [sys.executable, '-c',
+            'import os; print("987 unrelated"); print(str(os.getppid()) + " fixture-switch")']
+        code, text = self.call('--dry-run')
+        self.assertEqual(code, 0, text)
+        self.config['process'] = [sys.executable, '-c',
+            'import os; print("987 fixture-writer"); print(str(os.getppid()) + " fixture-switch")']
+        code, text = self.call('--dry-run')
+        self.assertEqual(code, 1, text)
+        self.assertIn('STOP fixture-writer: (987,)', text)
+
+    def test_missing_reader_command_key_rolls_back(self):
+        del self.config['reader_commands']['plutil']
+        try:
+            code, text = self.call()
+        except KeyError as exc:
+            self.fail('missing reader command must roll back: ' + str(exc))
+        self.assert_restored(code, text)
+        self.assertIn('explicit reader command unavailable', (self.run / 'checks.tsv').read_text())
+
+    def test_dry_run_reports_every_failed_precondition(self):
+        self.options.update(dirty=True, head='b' * 40, busy=True)
+        self.save_options()
+        code, text = self.call('--dry-run')
+        self.assertEqual(code, 1, text)
+        for message in ('tracked tree dirty', 'HEAD differs from pinned sha', 'STOP fixture-writer'):
+            self.assertIn(message, text)
+
+    def test_run_folder_is_refused_inside_an_outside_input_root(self):
+        self.config['run'] = str(self.home)
+        code, text = self.call('--dry-run')
+        self.assertEqual(code, 2, text)
+        self.assertIn('run folder lies inside an input root', text)
+        self.assertEqual(self.snapshot(), self.start)
+
+    def test_each_new_repo_archive_is_reported(self):
+        names = ['.deleted/extra/' + self.r.name + '/' + name for name in ('a', 'b', 'c')]
+        def seam(point, item):
+            if point == 'done' and item.action.kind == 'BACKUP_RUN':
+                for name in names:
+                    self.put(self.pdest / name, b'wrongly archived', 0o600, authoritative=False)
+        code, text = self.call(seam=seam)
+        self.assert_restored(code, text)
+        for name in names:
+            self.assertIn(name + ': repo archived under parent backup', text)
+
+    def test_new_parent_content_with_repo_component_is_not_an_archive(self):
+        self.put(self.m.parent / 'ordinary' / 'nested' / self.r.name / 'file', b'ordinary', 0o600, authoritative=False)
+        code, text = self.call()
+        self.assertEqual(code, 0, text)
+        self.assertIn('PASS', text)
+
+    def test_every_conservation_finding_is_reported(self):
+        def seam(point, item):
+            if (point, item) == ('stage', 'MANIFEST_R'):
+                for name in ('extra-a', 'extra-b'):
+                    (self.r / name).write_bytes(b'new')
+        code, text = self.call(seam=seam)
+        self.assertEqual(code, 1, text)
+        self.assertIn('extra-a', text)
+        self.assertIn('extra-b', text)
+        self.assertEqual(self.snapshot(), self.start)
+        self.assertEqual((self.base / 'agent').read_text(), 'loaded')
+
+    def test_measured_counts_include_each_repair_row(self):
+        self.rows = [(*row[:4], 'measured') if row[0] == 'REPLACE' else row for row in self.rows]
+        with self.registry.open('w', newline='') as stream:
+            csv.writer(stream, delimiter='\t', lineterminator='\n').writerows(self.rows)
+        expected = [[index, Path(row[1] if row[1].startswith('/') else self.m / row[1]).read_bytes().count(row[2].encode())]
+                    for index, row in enumerate(self.rows) if row[0] == 'REPLACE']
+        code, text = self.call()
+        self.assertEqual(code, 0, text)
+        report = json.loads((self.run / 'pre-readers.json').read_text())
+        self.assertEqual(report['measured_counts'], expected)
+
+
 if __name__ == '__main__':
     unittest.main()
