@@ -33,7 +33,7 @@ from pathlib import Path
 
 ROOT = Path(os.environ.get("LLMDB_ROOT", Path(__file__).resolve().parents[3]))
 LOGS = ROOT / "logs"
-STAGING = LOGS / "pending_findings"
+STAGING = ROOT / "experiments/ml/reviews/pending_findings"
 GATES = LOGS / "autonomy_gates.jsonl"
 # ---- cross-family review — advisory, never label-changing -------------------------------
 ADVISOR_PROMPT = ROOT / "code/agents/advisor_review_prompt.md"
