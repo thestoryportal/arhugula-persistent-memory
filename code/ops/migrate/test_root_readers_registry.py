@@ -98,21 +98,13 @@ EXPECTED_REPLACE = (
     Replace("" + H + "/.claude/skills/atomic-ticketizer/references/worker.md", M, R, 2),
     Replace("" + H + "/.codex/config.toml", M, R, 1),
     Replace("" + H + "/.local/bin/teamdash", M, R, 1),
-    Replace("" + L + "/land.sh", M, R, 1),
     Replace("" + L + "/board.py", M, R, 1),
     Replace("" + L + "/w1opt/brief-template.md", M, R, 3),
     Replace("" + L + "/w1opt/brief-template-fix.md", M, R, 1),
     Replace("" + L + "/part2/ship-chain.zsh", M, R, 1),
     Replace("" + L + "/part2/tickets/followup/T276.json", M, R, 1),
     Replace("" + L + "/w1opt/staged/tickets-doc/trace.py", M, R, 1),
-    Replace("" + L + "/tools/ship.sh", M, R, 1),
-    Replace("" + L + "/tools/train.sh", M, R, 1),
-    Replace("" + L + "/tools/mklane.sh", M, R, 1),
-    Replace("" + L + "/tools/astra.sh", M, R, 1),
-    Replace("" + L + "/tools/prereview.sh", M, R, 1),
-    Replace("" + L + "/tools/verify_ticket.sh", M, R, 2),
-    Replace("" + L + "/tools/combined.sh", M, R, 1),
-    Replace("" + L + "/tools/test_ship.sh", M, R, 1),
+    Replace("" + L + "/tools/ROOT", M, R, 1),
 )
 
 EXPECTED_RENAME = (
@@ -935,6 +927,17 @@ EXPECTED_RECORD = (
     Record("/Volumes/memit/llmdb-lanes/tk-T209-fold/program", "Outside-M row 53: frozen evidence operand; keeps original paths"),
     Record("/Volumes/memit/llmdb-lanes/tk-T209-fold/projects", "Outside-M row 53: frozen evidence operand; keeps original paths"),
     Record("" + L + "/part3", "Part 3 records; no Part 3 ticket is pending at the switch"),
+    Record("" + L + "/land.sh.bak-20261023-p3a1", "restore source only; a restore after the switch brings M back"),
+    Record("" + L + "/tools/ROOT.bak-20261023-p3a1", "restore source only; a restore after the switch brings M back"),
+    Record("" + L + "/tools/astra.sh.bak-20261023-p3a1", "restore source only; a restore after the switch brings M back"),
+    Record("" + L + "/tools/combined.sh.bak-20261023-p3a1", "restore source only; a restore after the switch brings M back"),
+    Record("" + L + "/tools/mklane.sh.bak-20261023-p3a1", "restore source only; a restore after the switch brings M back"),
+    Record("" + L + "/tools/prereview.sh.bak-20261023-p3a1", "restore source only; a restore after the switch brings M back"),
+    Record("" + L + "/tools/ship.sh.bak-20261023-p3a1", "restore source only; a restore after the switch brings M back"),
+    Record("" + L + "/tools/test_ship.sh.bak-20261023-p3a1", "restore source only; a restore after the switch brings M back"),
+    Record("" + L + "/tools/train.sh.bak-20261023-p3a1", "restore source only; a restore after the switch brings M back"),
+    Record("" + L + "/tools/verify_ticket.sh.bak-20261023-p3a1", "restore source only; a restore after the switch brings M back"),
+    Record("" + L + "/w1opt/staged/p3a1", "Outside-M row 51: frozen evidence operand; keeps original paths"),
 )
 
 
@@ -970,8 +973,8 @@ class RegistryContract(unittest.TestCase):
 
     def test_kind_counts(self):
         self.assertEqual(Counter(r.kind for r in self.rows if not is_growth(r)), {
-            "REPLACE": 82, "RENAME": 2, "INSTALL": 3,
-            "CHECK": 16, "STOP": 14, "RECORD": 783,
+            "REPLACE": 74, "RENAME": 2, "INSTALL": 3,
+            "CHECK": 16, "STOP": 14, "RECORD": 794,
         })
 
     def test_replace_edits_and_counts(self):

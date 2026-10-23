@@ -99,21 +99,12 @@ REPLACE	/Users/robertrhu/.claude/skills/atomic-ticketizer/references/prober.md	/
 REPLACE	/Users/robertrhu/.claude/skills/atomic-ticketizer/references/worker.md	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	2
 REPLACE	/Users/robertrhu/.codex/config.toml	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
 REPLACE	/Users/robertrhu/.local/bin/teamdash	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
-REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/land.sh	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
 REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/board.py	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
 REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/w1opt/brief-template.md	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	3
 REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/w1opt/brief-template-fix.md	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
 REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/part2/ship-chain.zsh	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
 REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/part2/tickets/followup/T276.json	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
 REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/w1opt/staged/tickets-doc/trace.py	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
-REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/ship.sh	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
-REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/train.sh	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
-REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/mklane.sh	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
-REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/astra.sh	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
-REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/prereview.sh	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
-REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/verify_ticket.sh	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	2
-REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/combined.sh	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
-REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/test_ship.sh	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
 RENAME	/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory	/Users/robertrhu/.claude/projects/-Volumes-memit-arhugula-persistent-memory
 RENAME	/Users/robertrhu/Backups/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Users/robertrhu/Backups/memit/arhugula-persistent-memory
 INSTALL	code/ops/backup/backup_mirror.sh	/Users/robertrhu/Backups/memit/bin/backup_mirror.sh
@@ -2267,3 +2258,23 @@ RECORD	code/memit/__pycache__	Inside-M U2: __pycache__ bytecode; co_filename tex
 RECORD	code/ops/git/__pycache__	Inside-M U2: __pycache__ bytecode; co_filename text only; regenerated
 RECORD	code/ops/migrate/__pycache__	Inside-M U2: __pycache__ bytecode; co_filename text only; regenerated
 RECORD	code/state/__pycache__	Inside-M U2: __pycache__ bytecode; co_filename text only; regenerated
+REPLACE	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/ROOT	/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory	/Volumes/memit/arhugula-persistent-memory	1
+RECORD	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/land.sh.bak-20261023-p3a1	restore source only; a restore after the switch brings M back
+RECORD	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/ROOT.bak-20261023-p3a1	restore source only; a restore after the switch brings M back
+RECORD	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/astra.sh.bak-20261023-p3a1	restore source only; a restore after the switch brings M back
+RECORD	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/combined.sh.bak-20261023-p3a1	restore source only; a restore after the switch brings M back
+RECORD	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/mklane.sh.bak-20261023-p3a1	restore source only; a restore after the switch brings M back
+RECORD	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/prereview.sh.bak-20261023-p3a1	restore source only; a restore after the switch brings M back
+RECORD	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/ship.sh.bak-20261023-p3a1	restore source only; a restore after the switch brings M back
+RECORD	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/test_ship.sh.bak-20261023-p3a1	restore source only; a restore after the switch brings M back
+RECORD	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/train.sh.bak-20261023-p3a1	restore source only; a restore after the switch brings M back
+RECORD	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/tools/verify_ticket.sh.bak-20261023-p3a1	restore source only; a restore after the switch brings M back
+RECORD	/Volumes/memit/corpus-consolidation-toolkit/workspace/runs/20261013-overnight/G-build/LEAN/w1opt/staged/p3a1	Outside-M row 51: frozen evidence operand; keeps original paths
+RECORD	/Users/robertrhu/.claude/projects/-Volumes-memit-arhugula-persistent-memory/b050f173-33b9-48d1-9119-7149793e747f.jsonl	Outside-M row 30: frozen evidence operand; keeps original paths
+RECORD	/Users/robertrhu/.claude/projects/-Volumes-memit-arhugula-persistent-memory/d28b2826-cfb2-465d-961d-2baa10f77c23	Outside-M row 30: frozen evidence operand; keeps original paths
+RECORD	/Users/robertrhu/.claude/projects/-Volumes-memit-arhugula-persistent-memory/d28b2826-cfb2-465d-961d-2baa10f77c23.jsonl	Outside-M row 30: frozen evidence operand; keeps original paths
+RECORD	/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/b050f173-33b9-48d1-9119-7149793e747f.jsonl	Outside-M row 30: frozen evidence operand; keeps original paths
+RECORD	/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/d28b2826-cfb2-465d-961d-2baa10f77c23	Outside-M row 30: frozen evidence operand; keeps original paths
+RECORD	/Users/robertrhu/.claude/projects/-Volumes-memit-llm-database-poc-mirror-arhugula-persistent-memory/d28b2826-cfb2-465d-961d-2baa10f77c23.jsonl	Outside-M row 30: frozen evidence operand; keeps original paths
+RECORD	.venv/lib/python3.11/site-packages/accelerate/test_utils/__pycache__	Inside-M U2: __pycache__ bytecode; co_filename text only; regenerated
+RECORD	.venv/lib/python3.11/site-packages/accelerate/test_utils/scripts/__pycache__	Inside-M U2: __pycache__ bytecode; co_filename text only; regenerated
