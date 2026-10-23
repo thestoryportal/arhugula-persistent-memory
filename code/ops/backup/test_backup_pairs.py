@@ -576,7 +576,7 @@ os.execv(real, [real] + args)
                 harness.setUp()
                 harness.script = harness.base / "bad-stamp.sh"
                 harness.script.write_text(original.replace(
-                    "STAMP=$(/bin/date +%Y%m%dT%H%M%S)", "STAMP=" + stamp))
+                    "STAMP=${BACKUP_STAMP-$(/bin/date +%Y%m%dT%H%M%S)}", "STAMP=" + stamp))
                 with self.assertRaises(AssertionError) as caught:
                     harness.test_two_rows_copy_with_custody_flags()
                 self.assertIn("Regex didn't match", str(caught.exception))
