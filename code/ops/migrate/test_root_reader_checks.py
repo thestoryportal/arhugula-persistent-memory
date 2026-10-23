@@ -203,7 +203,7 @@ class Readers(unittest.TestCase):
         self.assertEqual(rows[0][2], 'FAIL')
 
     def test_check_only_scripts_are_executable_members(self):
-        p = self.file('test_train.sh', '#!/bin/bash\nROOT=${ROOT:-/old}\n', 0o600)
+        self.file('ROOT', str(self.root)+'\n'); p = self.file('test_train.sh', "#!/bin/bash\n: '${0:A:h}/ROOT'\n", 0o600)
         rows = self.run_rows([['CHECK', p, 'test-train'], ['CHECK', 'executables', 'exec-bit']], 1)
         self.assertEqual(rows[1][2], 'FAIL')
 
@@ -279,10 +279,10 @@ class Readers(unittest.TestCase):
         self.assertEqual(self.calls, [])
 
     def test_train_root_override(self):
-        p = self.file('test_train.sh', '#!/bin/bash\nROOT=${ROOT:-/old}\n')
+        self.file('ROOT', str(self.root)+'\n'); p = self.file('test_train.sh', "#!/bin/bash\n: '${0:A:h}/ROOT'\n")
         self.run_rows([['CHECK', p, 'test-train']])
-        self.assertEqual(dict(self.calls[0].env)['ROOT'], str(self.root))
-        self.assertEqual(self.calls[0].argv, ('bash', '-c', '#!/bin/bash\nROOT=${ROOT:-/old}\n', p))
+        self.assertEqual(dict(self.calls[0].env)['L_ROOT_FILE'], str(self.root/'ROOT'))
+        self.assertEqual(self.calls[0].argv, ('bash', '-c', "#!/bin/bash\n: '${0:A:h}/ROOT'\n", p))
 
     def test_ship_rootish_not_override(self):
         self.single('test-ship', '#!/bin/bash\nROOTISH=1\n# ROOT\n', 'UNAVAILABLE')
@@ -582,11 +582,11 @@ class Readers(unittest.TestCase):
         self.assertEqual(self.shell('#!/bin/bash -e\ntrue\n')[0][2], 'PASS')
 
     def test_root_expansion_in_comment_is_not_override(self):
-        self.single('test-ship', '#!/bin/bash\n# ${ROOT}\ntrue\n', 'UNAVAILABLE')
+        self.file('ROOT', str(self.root)+'\n'); self.single('test-ship', '#!/bin/bash\n# ${0:A:h}/ROOT\ntrue\n', 'UNAVAILABLE')
         self.assertEqual(self.calls, [])
 
     def test_root_override_followed_by_command(self):
-        self.single('test-train', '#!/bin/bash\nROOT=${ROOT:-/old}\necho "$ROOT"\n')
+        self.file('ROOT', str(self.root)+'\n'); self.single('test-train', "#!/bin/bash\n: '${0:A:h}/ROOT'\necho checked\n")
         self.assertEqual(len(self.calls), 1)
 
     def test_stop_row_is_not_a_reader(self):
@@ -620,10 +620,10 @@ class Readers(unittest.TestCase):
 
     def workflow_attack(self, kind, attack):
         # [LAW:behavior-not-structure] The shell must execute the bytes the reader saw.
-        script = self.file(kind+'.sh', '#!/bin/bash\nROOT=${ROOT:?}\nprintf "checked-safe\\n"\n')
+        self.file('ROOT', str(self.root)+'\n'); script = self.file(kind+'.sh', "#!/bin/bash\n: '${0:A:h}/ROOT'\nprintf \"checked-safe\\n\"\n")
         target = self.file(self.base/(kind+'-outside.sh'),
                            '#!/bin/bash\nprintf "outside-ran\\n"\n'
-                           'printf "changed\\n" > "$ROOT/attack-marker"\n')
+                           'printf "changed\\n" > "'+str(self.root)+'/attack-marker"\n')
 
         def script_fd(fd):
             try:
@@ -656,7 +656,7 @@ class Readers(unittest.TestCase):
     def test_workflow_zero_is_script_path(self):
         for kind in ('test-ship', 'test-train'):
             with self.subTest(kind=kind):
-                script = self.file(kind+'.sh', '#!/bin/bash\nROOT=${ROOT:?}\nprintf "%s" "$0"\n')
+                self.file('ROOT', str(self.root)+'\n'); script = self.file(kind+'.sh', "#!/bin/bash\n: '${0:A:h}/ROOT'\nprintf \"%s\" \"$0\"\n")
                 result = checks.perform(checks.Probe(kind, script), checks.Effects(self.bounded_workflow_runner),
                                         str(self.root), self.old, str(self.home))
                 self.assertEqual(result, checks.Result('PASS', 'exit 0: '+script))
@@ -664,7 +664,7 @@ class Readers(unittest.TestCase):
     def test_workflow_nul_fails_with_path_without_running(self):
         for kind in ('test-ship', 'test-train'):
             with self.subTest(kind=kind):
-                script = self.file(kind+'.sh', '#!/bin/bash\nROOT=${ROOT:?}\n#\0\n')
+                self.file('ROOT', str(self.root)+'\n'); script = self.file(kind+'.sh', "#!/bin/bash\n: '${0:A:h}/ROOT'\n#\0\n")
                 result = checks.perform(checks.Probe(kind, script), checks.Effects(self.runner),
                                         str(self.root), self.old, str(self.home))
                 self.assertEqual(result.status, 'FAIL')

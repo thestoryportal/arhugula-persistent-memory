@@ -2,7 +2,7 @@
 
 Grouped checks derive their members from REPLACE/INSTALL rows. Activation
 files are sourced, not executable launchers. Shell parsing consumes held bytes
-on stdin; workflow tests require an explicit ROOT expansion before invocation.
+on stdin; workflow tests require a matching sibling ROOT file before invocation.
 """
 from __future__ import annotations
 
@@ -41,6 +41,8 @@ class Command:
     argv: tuple[str, ...]
     env: tuple[tuple[str, str], ...]
     stdin: bytes | None = None
+    # [LAW:dataflow-not-control-flow] Both runners consume the command's deadline.
+    timeout: int = 10
 
 
 @dataclass(frozen=True)
@@ -114,13 +116,8 @@ def shell_name(text):
 
 
 def has_root_override(text):
-    lines = tuple(line.strip().removeprefix('export ') for line in text.splitlines()
-                  if not line.lstrip().startswith('#'))
-    expansions = ('${ROOT}', '${ROOT:-', '${ROOT:?')
-    assignments = tuple(line.partition('=')[2].lstrip('"') for line in lines if line.startswith('ROOT='))
-    return all(value.startswith(expansions) for value in assignments) and any(
-        any(token in line for token in expansions) or '$ROOT/' in line or '$ROOT"' in line or '$ROOT ' in line
-        for line in lines)
+    return any('${0:A:h}/ROOT' in line for line in text.splitlines()
+               if not line.lstrip().startswith('#'))
 
 
 def verdict(ok, detail):
@@ -156,7 +153,7 @@ def schema_result(probe, text, root, old):
 def advance(probe, observations, root, old, home):
     """Pure state transition: observations -> next read/command or terminal result."""
     kind, path = probe.kind, probe.path
-    env = (('HOME', home), ('PYTHONDONTWRITEBYTECODE', '1'), ('GIT_OPTIONAL_LOCKS', '0'), ('ROOT', root))
+    env = (('HOME', home), ('PYTHONDONTWRITEBYTECODE', '1'), ('GIT_OPTIONAL_LOCKS', '0'))
     direct = {'venv-prefix': (path, '-B', '-c', 'import sys; print(sys.prefix)'),
               'console-version': (path, '--version'),
               'lane-status': ('git', '--no-optional-locks', '-C', path, 'status', '--porcelain')}
@@ -180,7 +177,7 @@ def advance(probe, observations, root, old, home):
     if kind == 'plist':
         return Command(('plutil', '-lint', '-'), env, last.data)
     try:
-        text = last.data.decode('utf-8')
+        text = observations[0].data.decode('utf-8') if kind in ('test-ship', 'test-train') else last.data.decode('utf-8')
     except UnicodeDecodeError as exc:
         return Result('FAIL', str(exc))
     if kind == 'gitdir':
@@ -212,8 +209,13 @@ def advance(probe, observations, root, old, home):
             return Command((shell, '-n'), env, last.data)
         if '\0' in text:
             return Result('FAIL', 'NUL byte in '+path)
+        root_file = str(PurePosixPath(path).parent / 'ROOT')
+        if len(observations) == 1:
+            return Read(root_file)
+        if last.data != (root+'\n').encode('utf-8'):
+            return Result('FAIL', root_file+': '+repr(last.data.decode('utf-8', errors='replace')[:200]))
         # [LAW:no-ambient-temporal-coupling] Execute held text; the path is only $0.
-        return Command((shell, '-c', text, path), env)
+        return Command((shell, '-c', text, path), env + (('L_ROOT_FILE', root_file),), timeout=600)
     return schema_result(probe, text, root, old)
 
 
@@ -245,8 +247,11 @@ import sys
 def run_command(command):
     env = {name: value for name, value in os.environ.items() if not name.startswith('GIT_')}
     env.update(command.env)
-    result = subprocess.run(command.argv, input=command.stdin, stdout=subprocess.PIPE,
-                            stderr=subprocess.STDOUT, env=env, check=False)
+    try:
+        result = subprocess.run(command.argv, input=command.stdin, stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT, env=env, check=False, timeout=command.timeout)
+    except subprocess.TimeoutExpired as exc:
+        raise fdsafe.Refusal(str(command.argv), f'ETIMEDOUT: command exceeded {command.timeout} s') from exc
     return Output(result.returncode, result.stdout)
 
 
@@ -267,7 +272,10 @@ class Effects:
                 if entry.name == name:
                     if parent.live() != parent.path:
                         raise fdsafe.Refusal(path, 'ESTALE: parent moved')
-                    found.append(File(fdsafe.read_bytes(entry), entry.st.st_mode))
+                    data = fdsafe.read_bytes(entry)
+                    if parent.live() != parent.path:
+                        raise fdsafe.Refusal(path, 'ESTALE: parent moved during read')
+                    found.append(File(data, entry.st.st_mode))
 
             fdsafe.walk(parent, visit, descend=lambda entry: False)
             if not found:
@@ -277,18 +285,20 @@ class Effects:
 
 def perform(probe, effects, root, old, home):
     observations = []
-    # Every protocol has at most two effects: read/read or read/command.
-    for _ in range(3):
+    # Every protocol has at most three effects: read script, read ROOT, run.
+    for _ in range(4):
         action = advance(probe, tuple(observations), root, old, home)
         if isinstance(action, Result):
             return action
+        if len(observations) == 3:
+            break
         try:
             observations.append(effects(action))
         except fdsafe.Refusal as exc:
             return Result('UNAVAILABLE', str(exc))
         except OSError as exc:
             return Result('UNAVAILABLE', probe.path+': '+errno.errorcode[exc.errno]+': '+str(exc))
-    raise RuntimeError('reader protocol exceeded two observations')
+    raise RuntimeError('reader protocol exceeded three observations')
 
 
 class Parser(argparse.ArgumentParser):
