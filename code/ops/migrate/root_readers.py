@@ -1,6 +1,6 @@
 """Read-only root reader scan (Step 408).
 
---root is the current repository directory; --scan-root adds outside directories.
+--root is the current repository directory; --scan-root adds outside directories or files.
 Roots must be disjoint. The registry has no SCAN row: these arguments define the
 observation scope, never an allow list. Repository keys remain relative after a
 move; outside keys are absolute. Links contribute their own text, not their target.
@@ -113,6 +113,24 @@ def report_refusals(path):
         raise fdsafe.Refusal(path, f'left in place; {exc}', exc.errno) from exc
 
 
+@contextmanager
+def hold_scan_root(path):
+    with fdsafe.fs(path):
+        given = os.path.abspath(path)
+        try:
+            scanned = os.lstat(given)
+        except FileNotFoundError:
+            scanned = None
+    if scanned is not None and stat.S_ISREG(scanned.st_mode):
+        parent, name = os.path.split(given)
+        with fdsafe.hold_root(parent) as held:
+            # [LAW:dataflow-not-control-flow] A file root supplies the same entry as the walk.
+            yield fdsafe.Entry(held.fd, name, given, name, scanned)
+    else:
+        with fdsafe.hold_root(path) as held:
+            yield held
+
+
 def run(args):
     try:
         rows = core.parse_registry(read_text(args.registry))
@@ -129,8 +147,8 @@ def run(args):
         if isinstance(row, core.Replace):
             replacements.setdefault(row.path, set()).update((row.old, row.new))
     with ExitStack() as report_errors, ExitStack() as stack:
-        roots = [stack.enter_context(fdsafe.hold_root(path))
-                 for path in [args.root, *args.scan_root]]
+        roots = [stack.enter_context(fdsafe.hold_root(args.root))]
+        roots.extend(stack.enter_context(hold_scan_root(path)) for path in args.scan_root)
         repo = roots[0].path
         for i, root in enumerate(roots):
             for previous in roots[:i]:
@@ -157,8 +175,13 @@ def run(args):
                 counts[key, text] = data.count(text.encode('utf-8'))
 
         for root in roots:
-            fdsafe.walk(root, visit)
-            fdsafe._settled(root)
+            if isinstance(root, fdsafe.Entry):
+                visit(root)
+                held = fdsafe.Dir(root.dir_fd, os.path.dirname(root.path))
+            else:
+                fdsafe.walk(root, visit)
+                held = root
+            fdsafe._settled(held)
         # [LAW:one-source-of-truth] The shell observes; only classify decides the verdict.
         result = core.classify(rows=rows, stage=args.stage, hits=hits, counts=counts,
                                old_root_exists=exists(args.old_root), measured_counts=measured)
@@ -170,7 +193,9 @@ def run(args):
             parent, name = os.path.split(os.path.abspath(args.report))
         with fdsafe.hold_root(parent) as held:
             # [LAW:single-enforcer] The inherited create owns output settlement.
-            report = fdsafe.create_file(held, name, data, roots)
+            # File roots cannot contain output; exclusive creation protects their names.
+            report = fdsafe.create_file(held, name, data,
+                                        [root for root in roots if isinstance(root, fdsafe.Dir)])
             report_errors.enter_context(report_refusals(report))
     return result.exit_status
 
