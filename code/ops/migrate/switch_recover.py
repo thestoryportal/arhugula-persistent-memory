@@ -200,6 +200,11 @@ def _recover(parent, journal_identity, raw, parsed, effect_arguments, seam):
     return 1
 
 
+def _one_line(text):
+    # [LAW:one-source-of-truth] fdsafe.Refusal owns the line-separator escapes of every stderr line.
+    return str(fdsafe.Refusal('', text)).removeprefix("'': ")
+
+
 def _argument(value, shape, where):
     """Parse JSON leaves and containers into immutable effect operands."""
     if shape is str:
@@ -286,8 +291,7 @@ def main(argv=None):
         return 3
     except Exception as exc:
         # [LAW:no-silent-failure] Exit 1 belongs only to verified recovery.
-        message = str(exc).replace('\r', r'\r').replace('\n', r'\n')
-        print(f'switch_recover: unexpected {type(exc).__name__}: {message}', file=sys.stderr)
+        print(f'switch_recover: unexpected {type(exc).__name__}: {_one_line(str(exc))}', file=sys.stderr)
         return 3
 
 

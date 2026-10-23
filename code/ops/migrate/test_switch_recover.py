@@ -1018,6 +1018,32 @@ sys.exit(switch_recover.main(sys.argv[1:]))
         with self.assertRaisesRegex(fdsafe.Refusal, 'EINVAL: malformed JSON'):
             self.repair(str(path.parent), parsed)
 
+    def assert_main_unexpected_message(self, message, expected):
+        (self.root / 'run/recovery.json').write_text('{}')
+        # [LAW:behavior-not-structure] Keep the read fault seam; supply literal error text.
+        def exception(_):
+            return RuntimeError(message)
+        exception.__name__ = 'RuntimeError'
+        with patch.object(fault_kit, 'UNEXPECTED', (exception,)):
+            with fault_kit.raise_unexpected('read', 1, exception):
+                with contextlib.redirect_stderr(io.StringIO()) as output:
+                    self.assertEqual(switch_recover.main(
+                        ['--journal', str(self.root / 'run/journal')]), 3)
+        stderr = output.getvalue()
+        self.assertEqual(stderr, 'switch_recover: unexpected RuntimeError: ' + expected + '\n')
+        self.assertEqual(len(stderr.splitlines()), 1)
+
+    def test_main_unexpected_cr_is_one_line(self):
+        self.assert_main_unexpected_message('first\rsecond', r'first\rsecond')
+
+    def test_main_unexpected_lf_is_one_line(self):
+        self.assert_main_unexpected_message('first\nsecond', r'first\nsecond')
+
+    def test_main_unexpected_other_separators_are_one_line(self):
+        self.assert_main_unexpected_message(
+            'a\vb\fc\x1cd\x1de\x1ef\x85g\u2028h\u2029i',
+            r'a\x0bb\x0cc\x1cd\x1de\x1ef\x85g\u2028h\u2029i')
+
     def test_main_unexpected_read_error_surfaces(self):
         (self.root / 'run/recovery.json').write_text('{}')
         with fault_kit.raise_unexpected('read', 1, RuntimeError):
