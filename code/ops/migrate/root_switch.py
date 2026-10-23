@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from hashlib import sha256
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -54,11 +55,17 @@ def _config(path):
         parsed['stamp'].encode('utf-8')
     except UnicodeEncodeError as exc:
         raise fdsafe.Refusal('stamp', 'EILSEQ: stamp is not UTF-8') from exc
+    if not re.fullmatch(r'[0-9]{8}T[0-9]{6}', parsed['stamp']):
+        raise fdsafe.Refusal('stamp', 'EINVAL: stamp is not YYYYMMDDTHHMMSS')
     backup = value['backup']
     shape = dict(command=(str,), table=str, env={str: str}, timeout=frozenset((int, float)))
     if type(backup) is not dict or set(backup) != set(shape):
         raise fdsafe.Refusal('backup', 'EINVAL: expected command, table, env, timeout')
     parsed['backup'] = {key: switch_recover._argument(backup[key], typ, key) for key, typ in shape.items()}
+    # [LAW:one-source-of-truth] The switch owns the stamp and the effective pairs table.
+    for key in ('BACKUP_STAMP', 'BACKUP_PAIRS'):
+        if key in parsed['backup']['env']:
+            raise fdsafe.Refusal('backup.env', 'EINVAL: reserved key ' + key)
     commands = value['reader_commands']
     if type(commands) is not dict:
         raise fdsafe.Refusal('reader_commands', 'EINVAL: expected object')
@@ -168,7 +175,8 @@ def _run(c, rows, seam):
         return StageResult(plan.failures)
 
     def effects(action):
-        return c['backup'] if action.kind == 'BACKUP_RUN' else c['effects'][action.kind]
+        return (dict(c['backup'], env=dict(c['backup']['env'], BACKUP_STAMP=c['stamp']))
+                if action.kind == 'BACKUP_RUN' else c['effects'][action.kind])
 
     def batch(name, start=None, stop=None) -> StageResult:
         selected = next(batch for batch in plan.batches if batch.name == name)
@@ -223,7 +231,7 @@ def _run(c, rows, seam):
         batch('BACKUP')
         failures = []
         for _, _, dst, _ in c['pairs']:
-            if switch_effects._read(dst + '/.last_success') != c['stamp'].encode():
+            if switch_effects._read(dst + '/.last_success') != c['stamp'].encode() + b'\n':
                 failures.append(dst + '/.last_success: differs from run stamp')
         after = _manifest(c['parent_backup'])
         for name in after.keys() - before.keys():
