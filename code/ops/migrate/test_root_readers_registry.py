@@ -42,7 +42,7 @@ EXPECTED_REPLACE = (
     Replace("_system/memory/work-queue-tab-keep-current.md", M, R, 1),
     Replace("_system/memory/memory-paths-and-mirror-discipline.md", MK, RK, 1),
     Replace(".claude/settings.local.json", M, R, 1),
-    Replace("code/ops/backup/backup_pairs.tsv", "ssd\t/Volumes/memit/llm-database-poc-mirror\t" + H + "/Backups/memit/llm-database-poc-mirror\tbackup_mirror.excludes\nintel\t/Volumes/memit/llm-database-poc-mirror\trobertrhu_node2@192.168.10.2:memit_copy\tbackup_mirror.excludes\ngdrive\t/Volumes/memit/llm-database-poc-mirror\tgdrive:memit-backup/llm-database-poc-mirror\tbackup_mirror.excludes\n", "ssd\t" + R + "\t" + H + "/Backups/memit/arhugula-persistent-memory\tbackup_mirror.R.excludes\ngdrive\t" + R + "\tgdrive:memit-backup/arhugula-persistent-memory\tbackup_mirror.R.excludes\nintel\t" + R + "\tHOLD\tbackup_mirror.R.excludes\n", 1),
+    Replace("code/ops/backup/backup_pairs.tsv", "reader\tsource\tdestination\texcludes\nssd\t/Volumes/memit/llm-database-poc-mirror\t", "reader\tsource\tdestination\texcludes\nssd\t" + R + "\t" + H + "/Backups/memit/arhugula-persistent-memory\tbackup_mirror.R.excludes\ngdrive\t" + R + "\tgdrive:memit-backup/arhugula-persistent-memory\tbackup_mirror.R.excludes\nintel\t" + R + "\tHOLD\tbackup_mirror.R.excludes\nssd\t/Volumes/memit/llm-database-poc-mirror\t", 1),
     Replace(".venv/bin/accelerate", M, R, 1),
     Replace(".venv/bin/accelerate-config", M, R, 1),
     Replace(".venv/bin/accelerate-estimate-memory", M, R, 1),
@@ -1065,20 +1065,60 @@ class RegistryContract(unittest.TestCase):
         row, = [r for r in self.rows if isinstance(r, Replace)
                 and r.path == "code/ops/backup/backup_pairs.tsv"]
         header = "reader\tsource\tdestination\texcludes\n"
-        fixture = header + row.old
+        fixture = (REGISTRY.parents[3] / row.path).read_bytes().decode()
         self.assertEqual(fixture.count(row.old), 1)
         repaired = fixture.replace(row.old, row.new)
         pairs = list(csv.DictReader(io.StringIO(repaired), delimiter="\t"))
-        self.assertEqual([p["reader"] for p in pairs], ["ssd", "gdrive", "intel"])
-        self.assertEqual({p["source"] for p in pairs}, {R})
-        self.assertEqual([p["destination"] for p in pairs], [
+        self.assertEqual([p["reader"] for p in pairs], ["ssd", "gdrive", "intel", "ssd", "intel", "gdrive"])
+        self.assertEqual([p["source"] for p in pairs], [R, R, R] + ["/Volumes/memit/llm-database-poc-mirror"] * 3)
+        self.assertEqual([p["destination"] for p in pairs[:3]], [
             H + "/Backups/memit/arhugula-persistent-memory",
             "gdrive:memit-backup/arhugula-persistent-memory", "HOLD",
         ])
-        self.assertEqual({p["excludes"] for p in pairs}, {"backup_mirror.R.excludes"})
+        self.assertEqual({p["excludes"] for p in pairs[:3]}, {"backup_mirror.R.excludes"})
+        self.assertEqual("".join(repaired.splitlines(keepends=True)[4:]).encode(), fixture.split("\n", 1)[1].encode())
         self.assertEqual(repaired.count(row.old), 0)
         self.assertEqual(repaired.count(row.new), 1)
         self.assertTrue(repaired.startswith(header))
+
+    def test_backup_table_appends_r_rows(self):
+        row, = [r for r in self.rows if isinstance(r, Replace)
+                and r.path == "code/ops/backup/backup_pairs.tsv"]
+        # [LAW:behavior-not-structure] Repair real table bytes, not a row-built fixture.
+        fixture = (REGISTRY.parents[3] / row.path).read_bytes()
+        header, p_rows = fixture.split(b"\n", 1)
+        old, new = row.old.encode(), row.new.encode()
+        before_count = fixture.count(old)
+        self.assertEqual(before_count, 1)
+        self.assertEqual(row.count, before_count)
+        repaired = fixture.replace(old, new)
+        lines = repaired.splitlines(keepends=True)
+        with self.subTest(check="P rows preserved"):
+            self.assertEqual(b"".join(lines[4:]), p_rows)
+        with self.subTest(check="header and prefix"):
+            self.assertEqual(old, header + b"\nssd\t/Volumes/memit/llm-database-poc-mirror\t")
+            self.assertTrue(new.endswith(b"ssd\t/Volumes/memit/llm-database-poc-mirror\t"))
+        pairs = list(csv.DictReader(io.StringIO(repaired.decode()), delimiter="\t"))
+        with self.subTest(check="SSD order"):
+            self.assertEqual([p["source"] for p in pairs if p["reader"] == "ssd"],
+                             [R, "/Volumes/memit/llm-database-poc-mirror"])
+        with self.subTest(check="six readers and HOLD"):
+            self.assertEqual([p["reader"] for p in pairs],
+                             ["ssd", "gdrive", "intel", "ssd", "intel", "gdrive"])
+            self.assertEqual(pairs[2]["destination"], "HOLD")
+        with self.subTest(check="post counts"):
+            self.assertEqual(repaired.count(old), 0)
+            self.assertEqual(repaired.count(new), 1)
+        pre = classify(rows=(row,), stage="pre", hits={row.path: before_count},
+                       counts={(row.path, row.old): before_count},
+                       old_root_exists=True, measured_counts={})
+        self.assertEqual(pre.findings, ())
+        post = classify(rows=(row,), stage="post", hits={},
+                        counts={(row.path, row.old): repaired.count(old),
+                                (row.path, row.new): repaired.count(new)},
+                        old_root_exists=False,
+                        measured_counts=dict(pre.measured_counts))
+        self.assertEqual(post.findings, ())
 
     def test_csv_multiline_round_trip_in_temporary_fixture(self):
         scratch = tempfile.TemporaryDirectory()
