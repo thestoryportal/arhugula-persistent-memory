@@ -3,6 +3,7 @@ from contextlib import ExitStack, redirect_stderr, redirect_stdout
 import io
 import json
 from pathlib import Path
+import time
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
@@ -110,7 +111,9 @@ if sys.argv[2] == 'backup':
                     self.assertEqual((dst / '.last_success').read_bytes(), b'19991231T235959\n')
                 self.assertEqual((f.pdest / '.deleted/19991231T235959/obsolete').read_bytes(), b'archive me')
                 raise fdsafe.Refusal('RESUME', 'EIO: exercise RESYNC_P')
+        before = time.strftime('%Y%m%dT%H%M%S')
         code, text = f.call(seam=seam)
+        after = time.strftime('%Y%m%dT%H%M%S')
         f.assert_restored(code, text)
         envs = [json.loads(line) for line in (f.base / 'backup-envs').read_text().splitlines()]
         self.assertEqual(len(envs), 2)
@@ -120,6 +123,7 @@ if sys.argv[2] == 'backup':
         self.assertNotIn('BACKUP_STAMP', envs[1])
         stamp = (f.pdest / '.last_success').read_bytes()
         self.assertRegex(stamp, rb'\A[0-9]{8}T[0-9]{6}\n\Z')
+        self.assertTrue(before <= stamp.decode().removesuffix('\n') <= after)
         self.assertNotEqual(stamp, b'20000101T000000\n')
         self.assertNotEqual(stamp, b'19991231T235959\n')
         self.assertTrue((f.pdest / '.deleted' / stamp.decode().removesuffix('\n')).is_dir())
