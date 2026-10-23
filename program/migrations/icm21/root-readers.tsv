@@ -140,6 +140,7 @@ STOP	browser_harness.daemon
 STOP	backup_mirror.sh
 STOP	rsync
 STOP	MemitBackup
+STOP	codex
 RECORD	code/memit/provenance/law5_inertness_p8_2026-10-03.log	Inside-M inventory: sealed records, history or scratch residue; keeps original paths
 RECORD	code/state/icm21/REGISTRIES.json	Inside-M inventory: sealed records, history or scratch residue; keeps original paths
 RECORD	code/state/icm21/brief.md	Inside-M inventory: sealed records, history or scratch residue; keeps original paths

@@ -152,6 +152,7 @@ EXPECTED_STOP = (
     Stop("backup_mirror.sh"),
     Stop("rsync"),
     Stop("MemitBackup"),
+    Stop("codex"),
 )
 
 from test_root_readers_registry_growth import is_growth
@@ -974,7 +975,7 @@ class RegistryContract(unittest.TestCase):
     def test_kind_counts(self):
         self.assertEqual(Counter(r.kind for r in self.rows if not is_growth(r)), {
             "REPLACE": 74, "RENAME": 2, "INSTALL": 3,
-            "CHECK": 16, "STOP": 14, "RECORD": 794,
+            "CHECK": 16, "STOP": 15, "RECORD": 794,
         })
 
     def test_replace_edits_and_counts(self):
