@@ -36,8 +36,10 @@ def _agent(arguments):
     raise fdsafe.Refusal(target, f'EIO: launchctl print: {result.returncode} {result.stderr}')
 
 
-def _repair(run, parsed):
-    identity, original = switch_exec._read(run + '/journal')
+def _repair(parent, journal_identity, parsed):
+    run = parent.path
+    identity, original = switch_exec._file(parent, 'journal')
+    _bound(parent, journal_identity)
     try:
         current = parse(original.decode('ascii'))
     except UnicodeDecodeError as exc:
@@ -45,20 +47,19 @@ def _repair(run, parsed):
     if current != parsed:
         raise fdsafe.Refusal(run + '/journal', 'ESTALE: journal changed before repair')
     archive = 'journal.torn-' + sha256(original).hexdigest()
-    with fdsafe.hold_root(run) as parent:
-        entry = switch_exec._entry(parent, archive)
-        if entry is None:
-            held = switch_exec._create(parent, archive, original, identity.mode)
-            fdsafe.close(held.fd, run + '/' + archive)
-        elif fdsafe.read_named(parent, archive) != original:
-            raise fdsafe.Refusal(run + '/' + archive, 'ESTALE: torn-journal archive differs')
-        data = ''.join(encode(record) for record in parsed.records).encode('ascii')
-        held = switch_exec._create(parent, '.recovery-' + uuid4().hex, data, identity.mode)
-        try:
-            switch_exec._replace_existing(held, 'journal', identity)
-            return _inode(fdsafe._fstat(held.fd, run + '/journal'))
-        finally:
-            fdsafe.close(held.fd, run + '/journal')
+    entry = switch_exec._entry(parent, archive)
+    if entry is None:
+        held = switch_exec._create(parent, archive, original, identity.mode)
+        fdsafe.close(held.fd, run + '/' + archive)
+    elif fdsafe.read_named(parent, archive) != original:
+        raise fdsafe.Refusal(run + '/' + archive, 'ESTALE: torn-journal archive differs')
+    data = ''.join(encode(record) for record in parsed.records).encode('ascii')
+    held = switch_exec._create(parent, '.recovery-' + uuid4().hex, data, identity.mode)
+    try:
+        switch_exec._replace_existing(held, 'journal', identity)
+        return _inode(fdsafe._fstat(held.fd, run + '/journal'))
+    finally:
+        fdsafe.close(held.fd, run + '/journal')
 
 
 def _keys(state, run, actions, sequence):
@@ -67,13 +68,11 @@ def _keys(state, run, actions, sequence):
     candidates = []
     forwards = tuple(item for item in state.done if item.direction == 'forward')
     for item in reversed(forwards):
-        if isinstance(item.action, (BackupRun, Quiesce)) or item.action.kind == 'CHECK':
+        if isinstance(item.action, (BackupRun, Quiesce)):
             continue
         key = f'undo:{item.seq}'
-        if key not in state.inverse_done:
-            single = RecoveryState((item,), (), None, (), 0)
-            candidates.extend((action, key) for action in switch_inverse_core.plan(single, run)
-                              if not isinstance(action, Quiesce))
+        single = RecoveryState((item,), (), None, (), 0)
+        candidates.extend((action, key) for action in switch_inverse_core.plan(single, run))
     obligations = {}
     for item in state.done + (() if state.pending is None else (state.pending,)):
         if item.direction == 'forward' and isinstance(item.action, BackupRun):
@@ -117,6 +116,24 @@ def _parse(raw, run):
         raise fdsafe.Refusal(run, 'EILSEQ: non-ASCII journal') from exc
 
 
+def _preimages(parsed):
+    # [LAW:one-source-of-truth] Containment and hashing share the preimage domain.
+    for item in parsed.records:
+        if (isinstance(item, Intent) and isinstance(item.action, (Replace, Install))
+                and isinstance(item.action.pre, FileState)):
+            yield item.action.pre.preimage
+
+
+def _journal(parent, journal_identity):
+    raw = fdsafe.read_named(parent, 'journal')
+    _bound(parent, journal_identity)
+    parsed = _parse(raw, parent.path)
+    for path in _preimages(parsed):
+        if not fdsafe.inside(parent.path, path):
+            raise fdsafe.Refusal(path, 'EINVAL: preimage outside run folder')
+    return raw, parsed
+
+
 def recover(journal_path, *, effect_arguments, seam=lambda *args: None):
     """Return 1 after verified inverses, or print stopped items and return 3."""
     try:
@@ -127,34 +144,24 @@ def recover(journal_path, *, effect_arguments, seam=lambda *args: None):
         # [LAW:no-ambient-temporal-coupling] Retain the first folder through verification.
         with fdsafe.hold_root(run) as parent:
             journal_identity = _inode(fdsafe._scan(parent, name).st)
-            raw = fdsafe.read_named(parent, name)
-            _bound(parent, journal_identity)
-            return _recover(parent, journal_identity, raw, effect_arguments, seam)
+            raw, parsed = _journal(parent, journal_identity)
+            return _recover(parent, journal_identity, raw, parsed, effect_arguments, seam)
     except fdsafe.Refusal as exc:
         print(str(exc), file=sys.stderr)
         return 3
 
 
-def _recover(parent, journal_identity, raw, effect_arguments, seam):
+def _recover(parent, journal_identity, raw, parsed, effect_arguments, seam):
     run = parent.path
-    parsed = _parse(raw, run)
     images = {}
-    for item in parsed.records:
-        if (isinstance(item, Intent) and isinstance(item.action, (Replace, Install))
-                and isinstance(item.action.pre, FileState)):
-            path = item.action.pre.preimage
-            if not fdsafe.inside(run, path):
-                raise fdsafe.Refusal(path, 'EINVAL: preimage outside run folder')
-            _bound(parent, journal_identity)
-            images[path] = switch_exec.preimage_hash(path)
-            _bound(parent, journal_identity)
+    for path in _preimages(parsed):
+        _bound(parent, journal_identity)
+        images[path] = switch_exec.preimage_hash(path)
     pending = parsed.records[-1] if parsed.records and isinstance(parsed.records[-1], Intent) else None
     observation = None
     if pending is not None:
-        _bound(parent, journal_identity)
         observation = (_agent(effect_arguments(pending.action))
                        if isinstance(pending.action, Launchd) else switch_exec.observe(pending.action))
-        _bound(parent, journal_identity)
     state = recover_state(parsed, observation, images)
     if state.status:
         for stopped in state.stopped:
@@ -165,31 +172,28 @@ def _recover(parent, journal_identity, raw, effect_arguments, seam):
                 print(f'{item.key}: agent loaded; pause not held; no inverse applied',
                       file=sys.stderr)
         return 3
-    if parsed.truncated or (raw and not raw.endswith(b'\n')):
+    if raw and not raw.endswith(b'\n'):
         _bound(parent, journal_identity)
-        journal_identity = _repair(run, parsed)
-        _bound(parent, journal_identity)
+        journal_identity = _repair(parent, journal_identity, parsed)
     if pending is not None:
         # [LAW:single-enforcer] Recovery's classified state decides the receipt.
         outcome = ('applied' if pending in state.done else
                    'uncertain' if pending == state.pending else 'not-applied')
         _bound(parent, journal_identity)
         switch_exec.append_receipt(run, Done(pending.seq, observation, outcome))
-        _bound(parent, journal_identity)
     actions = switch_inverse_core.plan(state, run)
     sequence = max((record.seq for record in parsed.records), default=0)
     keys = _keys(state, run, actions, sequence)
     _bound(parent, journal_identity)
     switch_exec.execute(actions, run, direction='inverse', keys=keys,
                         effect_arguments=effect_arguments, seam=seam)
-    _bound(parent, journal_identity)
-    final = _parse(fdsafe.read_named(parent, 'journal'), run)
+    _, final = _journal(parent, journal_identity)
     switch_exec._check_journal(final)
     # [LAW:verifiable-goals] A valid older prefix is not proof of this batch.
     intents = {r.seq: r for r in final.records if isinstance(r, Intent)}
     done = {r.seq for r in final.records if isinstance(r, Done) and r.outcome == 'applied'}
     for seq, key in enumerate(keys, sequence + 1):
-        if (seq not in done or seq not in intents or intents[seq].direction != 'inverse'
+        if (seq not in done or intents[seq].direction != 'inverse'
                 or intents[seq].key != key):
             raise fdsafe.Refusal(run, f'EIO: inverse {key} has no verified done record')
     _bound(parent, journal_identity)

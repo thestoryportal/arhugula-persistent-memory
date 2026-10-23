@@ -209,6 +209,214 @@ class RecoveryTests(unittest.TestCase):
             displaced=displaced)
         self.assertEqual(result.exit_code, 0, result.stopped)
 
+    def fix3_call(self, expected):
+        output = io.StringIO()
+        with contextlib.redirect_stderr(output):
+            code = switch_recover.recover(str(self.root / "run/journal"),
+                effect_arguments=lambda a: effects(self.root, a))
+        self.assertEqual(code, 3, output.getvalue())
+        self.assertEqual(output.getvalue(), expected + "\n")
+
+    def fix3_rebind(self):
+        run = self.root / "run"
+        parked = self.root / "parked-run"
+        run.rename(parked)
+        shutil.copytree(parked, run)
+        return f"{str(run)!r}: is held at {parked}, not at {run}"
+
+    def test_fix3_start_read_checks_before_parse(self):
+        path = self.root / "run/journal"
+        path.write_bytes(b"bad JSON\n")
+        real = fdsafe.read_named
+        expected = []
+        def read(parent, name):
+            data = real(parent, name)
+            expected.append(self.fix3_rebind())
+            return data
+        with patch.object(fdsafe, "read_named", side_effect=read), \
+                patch.object(switch_recover, "_parse", wraps=switch_recover._parse) as parse:
+            run = path.parent
+            self.fix3_call(f"{str(run)!r}: is held at {self.root / 'parked-run'}, not at {run}")
+        self.assertEqual(len(expected), 1)
+        parse.assert_not_called()
+        self.assertEqual(path.read_bytes(), b"bad JSON\n")
+        self.assertEqual((self.root / "P/repo/file").read_bytes(), b"start")
+
+    def test_fix3_second_preimage_checks_before_read(self):
+        run = self.root / "run"
+        targets = (self.root / "P/repo/file", self.root / "D/repo/file")
+        pre = FileState(b"start", sha256(b"start").hexdigest(), 0o755, str(run / "unused"))
+        switch_exec.execute(tuple(Replace(str(p), pre, b"changed", 0o755) for p in targets), str(run))
+        original = (run / "journal").read_bytes()
+        real = switch_exec.preimage_hash
+        reads = []
+        def read(path):
+            reads.append(path)
+            value = real(path)
+            if len(reads) == 1:
+                self.fix3_rebind()
+            return value
+        with patch.object(switch_exec, "preimage_hash", side_effect=read):
+            self.fix3_call(f"{str(run)!r}: is held at {self.root / 'parked-run'}, not at {run}")
+        self.assertEqual(reads, [str(run / "pre/1")])
+        self.assertEqual((run / "journal").read_bytes(), original)
+        self.assertEqual([p.read_bytes() for p in targets], [b"changed", b"changed"])
+
+    def test_fix3_repair_read_binds_identical_replacement(self):
+        self.kill_forward("backup1")
+        path = self.root / "run/journal"
+        with path.open("ab") as stream:
+            stream.write(b"[")
+        original = path.read_bytes()
+        inode = path.stat().st_ino
+        real = switch_exec._file
+        fired = []
+        def read(parent, name):
+            value = real(parent, name)
+            if parent.path == str(path.parent) and name == "journal" and not fired:
+                replacement = path.with_name("replacement")
+                replacement.write_bytes(original)
+                replacement.chmod(path.stat().st_mode & 0o7777)
+                replacement.replace(path)
+                fired.append(path.stat().st_ino)
+            return value
+        with patch.object(switch_exec, "_file", side_effect=read), \
+                patch.object(switch_exec, "_create", wraps=switch_exec._create) as create:
+            self.fix3_call(f"{str(path.parent)!r}: ESTALE: journal identity changed")
+        self.assertEqual(len(fired), 1)
+        self.assertNotEqual(fired[0], inode)
+        create.assert_not_called()
+        self.assertEqual(path.read_bytes(), original)
+        self.assertEqual((self.root / "P/repo/file").read_bytes(), b"changed")
+
+    def test_fix3_final_read_checks_before_parse(self):
+        path = self.root / "run/journal"
+        path.write_bytes(b"")
+        execute = switch_exec.execute
+        def changed(*args, **kwargs):
+            result = execute(*args, **kwargs)
+            replacement = path.with_name("replacement")
+            replacement.write_bytes(b"bad JSON\n")
+            replacement.replace(path)
+            return result
+        with patch.object(switch_exec, "execute", side_effect=changed), \
+                patch.object(switch_recover, "_parse", wraps=switch_recover._parse) as parse:
+            self.fix3_call(f"{str(path.parent)!r}: ESTALE: journal identity changed")
+        self.assertEqual(parse.call_count, 1)
+        self.assertEqual(path.read_bytes(), b"bad JSON\n")
+        self.assertEqual((self.root / "P/repo/file").read_bytes(), b"start")
+
+    def test_fix3_final_preimage_containment_before_read(self):
+        from dataclasses import replace
+        self.kill_forward("backup1")
+        path = self.root / "run/journal"
+        outside = self.root / "outside-run"
+        outside.write_bytes(b"start")
+        execute = switch_exec.execute
+        read = os.read
+        reads = []
+        def changed(*args, **kwargs):
+            result = execute(*args, **kwargs)
+            records = switch_exec.read_journal(str(path.parent)).records
+            records = tuple(replace(r, action=replace(r.action,
+                pre=replace(r.action.pre, preimage=str(outside))))
+                if isinstance(r, journal.Intent) and r.direction == "forward"
+                and isinstance(r.action, Replace) else r for r in records)
+            path.write_text("".join(journal.encode(r) for r in records))
+            return result
+        def tracked(fd, *args):
+            if os.fstat(fd).st_ino == outside.stat().st_ino:
+                reads.append(fd)
+            return read(fd, *args)
+        with patch.object(switch_exec, "execute", side_effect=changed), \
+                patch.object(os, "read", side_effect=tracked):
+            self.fix3_call(f"{str(outside)!r}: EINVAL: preimage outside run folder")
+        self.assertEqual(reads, [])
+        self.assertEqual(outside.read_bytes(), b"start")
+        self.assertEqual((self.root / "P/repo/file").read_bytes(), b"start")
+
+    def fix3_final_record(self, mode):
+        from dataclasses import replace
+        path = self.root / "run/journal"
+        path.write_bytes(b"")
+        execute = switch_exec.execute
+        saved = []
+        def changed(*args, **kwargs):
+            result = execute(*args, **kwargs)
+            records = switch_exec.read_journal(str(path.parent)).records
+            modified = []
+            for record in records:
+                if isinstance(record, journal.Intent):
+                    if mode == "direction":
+                        record = replace(record, direction="forward")
+                    elif mode == "key":
+                        record = replace(record, key="other-key")
+                elif mode in ("missing", "not-applied"):
+                    record = replace(record, outcome="not-applied")
+                modified.append(record)
+            data = "".join(journal.encode(r) for r in modified).encode("ascii")
+            path.write_bytes(data)
+            saved.append(data)
+            return result
+        with patch.object(switch_exec, "execute", side_effect=changed):
+            self.fix3_call(f"{str(path.parent)!r}: EIO: inverse quiesce:1 has no verified done record")
+        self.assertEqual(path.read_bytes(), saved[0])
+        self.assertEqual((self.root / "P/repo/file").read_bytes(), b"start")
+
+    def test_fix3_final_done_must_be_applied(self):
+        self.fix3_final_record("not-applied")
+
+    def test_fix3_final_done_must_exist(self):
+        self.fix3_final_record("missing")
+
+    def test_fix3_final_direction_must_be_inverse(self):
+        self.fix3_final_record("direction")
+
+    def test_fix3_final_key_must_match(self):
+        self.fix3_final_record("key")
+
+    def test_fix3_inverse_backup_creates_no_keys(self):
+        pair = BackupPair("ssd", "/P", "/D", "/exclude")
+        intent = journal.Intent(1, "inverse", "backup", BackupRun((pair,)), journal.NoIdentity())
+        parsed = journal.parse(journal.encode(intent) + journal.encode(journal.Done(1, journal.NoIdentity())))
+        state = journal.recover(parsed, None, {})
+        self.assertEqual(state.status, 0)
+        for action in (journal.ResyncP((pair,)), journal.BackupCompare((pair,))):
+            with self.subTest(kind=action.kind):
+                with self.assertRaises(fdsafe.Refusal) as caught:
+                    switch_recover._keys(state, "/run", (action,), 1)
+                self.assertEqual(str(caught.exception), f"{action.kind!r}: EINVAL: inverse has no journal key")
+
+    def test_fix3_before_repair_does_not_read_replacement(self):
+        self.kill_forward("backup1")
+        path = self.root / "run/journal"
+        with path.open("ab") as stream:
+            stream.write(b"[")
+        original = path.read_bytes()
+        recover_state = switch_recover.recover_state
+        read = os.read
+        replaced = []
+        reads = []
+        def changed(*args, **kwargs):
+            result = recover_state(*args, **kwargs)
+            replacement = path.with_name("replacement")
+            replacement.write_bytes(original)
+            replacement.chmod(path.stat().st_mode & 0o7777)
+            replacement.replace(path)
+            replaced.append(path.stat().st_ino)
+            return result
+        def tracked(fd, *args):
+            if replaced and os.fstat(fd).st_ino == replaced[0]:
+                reads.append(fd)
+            return read(fd, *args)
+        with patch.object(switch_recover, "recover_state", side_effect=changed), \
+                patch.object(os, "read", side_effect=tracked):
+            self.fix3_call(f"{str(path.parent)!r}: ESTALE: journal identity changed")
+        self.assertEqual(len(replaced), 1)
+        self.assertEqual(reads, [])
+        self.assertEqual(path.read_bytes(), original)
+        self.assertEqual((self.root / "P/repo/file").read_bytes(), b"changed")
+
     def fix2_stderr(self, expected, *, journal_path=None):
         output = io.StringIO()
         with contextlib.redirect_stderr(output):
@@ -701,9 +909,14 @@ sys.exit(switch_recover.main(sys.argv[1:]))
         changed = path.read_bytes() + b'"'
         path.write_bytes(changed)
         with self.assertRaises(fdsafe.Refusal) as caught:
-            switch_recover._repair(run, parsed)
+            self.repair(run, parsed)
         self.assertEqual(caught.exception.path, str(path))
         self.assertEqual(path.read_bytes(), changed)
+
+    def repair(self, run, parsed):
+        with fdsafe.hold_root(run) as parent:
+            identity = switch_recover._inode(fdsafe._scan(parent, 'journal').st)
+            return switch_recover._repair(parent, identity, parsed)
 
     def config(self):
         return {kind: values for kind, values in (
@@ -793,7 +1006,7 @@ sys.exit(switch_recover.main(sys.argv[1:]))
         with path.open('ab') as stream:
             stream.write(b'\xff')
         with self.assertRaisesRegex(fdsafe.Refusal, 'EILSEQ: non-ASCII journal') as caught:
-            switch_recover._repair(str(path.parent), parsed)
+            self.repair(str(path.parent), parsed)
         self.assertEqual(caught.exception.path, str(path))
 
     def test_malformed_repair_keeps_parser_refusal(self):
@@ -803,7 +1016,7 @@ sys.exit(switch_recover.main(sys.argv[1:]))
         with path.open('ab') as stream:
             stream.write(b'not JSON\n')
         with self.assertRaisesRegex(fdsafe.Refusal, 'EINVAL: malformed JSON'):
-            switch_recover._repair(str(path.parent), parsed)
+            self.repair(str(path.parent), parsed)
 
     def test_main_unexpected_read_error_surfaces(self):
         (self.root / 'run/recovery.json').write_text('{}')
@@ -1111,7 +1324,7 @@ sys.exit(switch_recover.main(sys.argv[1:]))
         parsed = switch_exec.read_journal(str(path.parent))
         with fault_kit.inject_oserror('close', 1, fault_kit.ERRNOS[0], match=matches):
             with self.assertRaises(fdsafe.Refusal) as caught:
-                switch_recover._repair(str(path.parent), parsed)
+                self.repair(str(path.parent), parsed)
         self.assertEqual(caught.exception.path, str(target))
         self.assertIn('[EIO]', str(caught.exception))
         self.assertEqual(archive.read_bytes(), original)
