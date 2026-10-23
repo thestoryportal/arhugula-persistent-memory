@@ -212,5 +212,88 @@ class LRootChecks(unittest.TestCase):
         self.assertEqual(plutil[0].kwargs.get('timeout'), 10)
 
 
+class MovedParentChecks(unittest.TestCase):
+    def attack(self, kind, filename):
+        import errno
+        import io
+        import json
+        import fault_kit
+
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        base = Path(temporary.name).resolve()
+        root = base / 'unit'
+        tools = root / 'tools'
+        tools.mkdir(parents=True)
+        marker = base / 'suite-ran'
+        script = tools / 'suite.sh'
+        script.write_text("#!/bin/bash\n: '${0:A:h}/ROOT'\nprintf ran > " + str(marker) + "\n")
+        (tools / 'ROOT').write_text(str(root) + '\n')
+        (tools / 'project.json').write_text(json.dumps({'projects': {str(root): {}}}))
+        lane = root / 'lane'
+        lane.mkdir()
+        (lane / '.git').write_text('gitdir: ' + str(tools) + '\n')
+        (tools / 'gitdir').write_text(str(lane / '.git') + '\n')
+        probe = script if kind in ('test-ship', 'test-train') else tools / filename
+        target = tools / filename
+        registry = base / 'registry'
+        registry.write_text('CHECK\t' + str(probe.relative_to(root)) + '\t' + kind + '\n')
+        out = base / 'receipt'
+        outside = base / 'displaced-tools'
+        real_read = os.read
+        live = checks.fdsafe.live_path
+        reads = []
+        fault = None
+
+        def match(fd, *args, **kwargs):
+            try:
+                return live(fd, str(target)) == str(target)
+            except checks.fdsafe.Refusal as exc:
+                if exc.errno == errno.EBADF:
+                    return False
+                raise
+
+        def observe_read(fd, count):
+            # [LAW:behavior-not-structure] Prove bytes came from outside the unit.
+            if fault is not None and fault.parked is not None and not reads:
+                os.rename(fault.parked, outside)
+                location = live(fd, str(target))
+                data = real_read(fd, count)
+                reads.append((location, data))
+                return data
+            return real_read(fd, count)
+
+        with patch.object(os, 'read', observe_read):
+            with fault_kit.rename_and_rebind('read', 1, tools, match=match) as fault:
+                code = checks.main(['--root', str(root), '--old-root', str(base / 'old'),
+                                    '--registry', str(registry), '--out', str(out)],
+                                   home=str(base), stderr=io.StringIO())
+        self.assertEqual(fault.fired, 1)
+        self.assertEqual(len(reads), 1)
+        self.assertFalse(checks.fdsafe.inside(str(root), reads[0][0]))
+        self.assertTrue(reads[0][1])
+        rows = list(csv.DictReader(io.StringIO(out.read_text()), delimiter='\t'))
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]['status'], 'UNAVAILABLE')
+        self.assertIn('ESTALE', rows[0]['detail'])
+        self.assertNotEqual(code, 0)
+        self.assertFalse(marker.exists())
+
+    def test_root_ship_moved_outside(self):
+        self.attack('test-ship', 'ROOT')
+
+    def test_root_train_moved_outside(self):
+        self.attack('test-train', 'ROOT')
+
+    def test_script_moved_outside(self):
+        self.attack('test-ship', 'suite.sh')
+
+    def test_claude_project_moved_outside(self):
+        self.attack('claude-project', 'project.json')
+
+    def test_gitdir_moved_outside(self):
+        self.attack('gitdir', 'gitdir')
+
+
 if __name__ == '__main__':
     unittest.main()

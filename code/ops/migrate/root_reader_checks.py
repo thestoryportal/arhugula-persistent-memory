@@ -272,7 +272,10 @@ class Effects:
                 if entry.name == name:
                     if parent.live() != parent.path:
                         raise fdsafe.Refusal(path, 'ESTALE: parent moved')
-                    found.append(File(fdsafe.read_bytes(entry), entry.st.st_mode))
+                    data = fdsafe.read_bytes(entry)
+                    if parent.live() != parent.path:
+                        raise fdsafe.Refusal(path, 'ESTALE: parent moved during read')
+                    found.append(File(data, entry.st.st_mode))
 
             fdsafe.walk(parent, visit, descend=lambda entry: False)
             if not found:
