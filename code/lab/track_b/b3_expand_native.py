@@ -11,7 +11,7 @@ import torch
 sys.path.insert(0, f"{LLMDB_ROOT}/code/memit/vendor"); from util.device import resolve_device  # P-8 harness side
 DEV = resolve_device()
 from transformers import AutoModelForCausalLM, AutoTokenizer
-SAVE_DIR=f"{LLMDB_ROOT}/experiments/b3/runs/b3_edit/bulk/b3_edited_qwen3b"
+SAVE_DIR=f"{LLMDB_ROOT}/models/Qwen_Qwen2.5-3B/variants/b3/safetensors-f16"
 TMPL={"capital":"The capital of {} is the city of","continent":"{} is located on the continent of",
       "language":"The official language of {} is"}
 GLOBAL_PROBES=["The largest planet in the solar system is","Water is composed of hydrogen and",
